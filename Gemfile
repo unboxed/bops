@@ -16,6 +16,7 @@ group :development, :test do
   gem "brakeman", require: false
   gem "bundle-audit", require: false
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
+  gem "capybara"
   gem "factory_bot_rails"
   gem "pry-byebug"
   gem "rspec-rails", "~> 4.0.0"
@@ -23,6 +24,7 @@ group :development, :test do
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
   gem "rubocop", require: false
+  gem "selenium-webdriver"
   gem "simplecov", require: false
 end
 
