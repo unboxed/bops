@@ -1,4 +1,3 @@
-
 <header class="govuk-header  with-proposition " role="banner" data-module="govuk-header">
   <div class="govuk-header__container govuk-width-container">
     <div class="govuk-header__logo">
@@ -21,9 +20,15 @@
       <a href="#" class="govuk-header__link govuk-header__link--service-name">
         Back-Office Planning System
       </a>
-      <% unless current_user.nil? %>
-        <%= link_to destroy_user_session_path, method: :delete, class: "govuk-header__link" do %>Log out<% end %>
-      <% end %>
+      <nav>
+        <ul id="navigation" class="govuk-header__navigation " aria-label="Top Level Navigation">
+          <li class="govuk-header__navigation-item govuk-header__navigation-item--active">
+            <% unless current_user.nil? %>
+                <%= link_to destroy_user_session_path, method: :delete, class: "govuk-header__link" do %>Log out<% end %>
+            <% end %>
+          </li>
+        </ul>
+      </nav>
       <button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="navigation" aria-label="Show or hide Top Level Navigation">Menu</button>
       <nav>
       </nav>
