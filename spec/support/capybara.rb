@@ -11,7 +11,13 @@ Capybara.register_driver :chrome_headless do |app|
   browser_options.args << "--disable-gpu" if Gem.win_platform?
   browser_options.args << "--host-rules=MAP * 127.0.0.1"
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options).tap { |d| d.browser.download_path = download_path }
+  Capybara::Screenshot.register_driver(:selenium_chrome_headless) do |driver, path|
+    driver.browser.save_screenshot(path)
+  end
 end
+
+# Add support for Headless Chrome screenshots.
+
 
 RSpec.configure do |config|
   config.before :all, type: :system do
@@ -24,6 +30,6 @@ RSpec.configure do |config|
   config.before type: :system do
     driven_by(ENV.fetch("JS_DRIVER", "chrome_headless").to_sym)
 
-    host! "http://localhost"
+    host! "http://localhost:3000"
   end
 end
