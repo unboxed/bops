@@ -1,8 +1,8 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-
   it "should create user with email and password" do
     assessor = create(:user, :assessor)
     expect(assessor).to be_valid
@@ -23,4 +23,3 @@ RSpec.describe User, type: :model do
     expect(user.role == "assessor").to be_truthy
   end
 end
-
