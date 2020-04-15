@@ -18,8 +18,10 @@ group :development, :test do
   gem "bundle-audit", require: false
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "capybara"
+  gem "capybara-screenshot"
   gem "factory_bot_rails"
   gem "pry-byebug"
+  gem "rails-controller-testing"
   gem "rspec-rails", "~> 4.0.0"
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
