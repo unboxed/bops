@@ -20,17 +20,17 @@ RSpec.describe User, type: :model do
 
   it "should save reviewer role correctly" do
     reviewer = create(:user, :reviewer)
-    expect(reviewer.role == "reviewer").to be_truthy
+    expect(reviewer.role).to eq "reviewer"
   end
 
   it "should save admin role correctly" do
     admin = create(:user, :admin)
-    expect(admin.role == "admin").to be_truthy
+    expect(admin.role).to eq "admin"
   end
 
   it "should create user with default assessor role if no role is provided" do
     user = create(:user)
-    expect(user.role == "assessor").to be_truthy
+    expect(user.role).to eq "assessor"
   end
 
   it "should create user with default assessor role if no role is provided" do

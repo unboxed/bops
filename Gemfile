@@ -18,7 +18,6 @@ group :development, :test do
   gem "bundle-audit", require: false
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "capybara"
-  gem "capybara-screenshot"
   gem "factory_bot_rails"
   gem "pry-byebug"
   gem "rails-controller-testing"
