@@ -1,0 +1,11 @@
+<div class="govuk-width-container ">
+  <h1 class="govuk-heading-l govuk-!-font-weight-bold" >Welcome</h1>
+  <% if current_user.admin? %>
+    <p class="govuk-body">You can only see this paragraph if you are logged in as an Admin </p>
+  <% elsif current_user.reviewer? %>
+    <p class="govuk-body">You can only see this paragraph if you are logged in as a Planning Manager </p>
+  <% else %>
+    <p class="govuk-body">Anyone who is logged in can see this content </p>
+  <% end %>
+  </p>
+</div>

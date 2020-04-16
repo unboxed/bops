@@ -1,0 +1,46 @@
+ <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">
+        Fast track applications
+      </h1>
+
+      <h2 class="govuk-tabs__title">
+        Log in
+      </h2>
+
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="govuk-form-group">
+          <div class="field">
+            <%= f.label :email, class: "govuk-label", for: "width-30"%>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "govuk-input govuk-input--width-30", type: "text" %>
+          </div>
+        </div>
+        <div class="govuk-form-group">
+          <div class="field">
+            <%= f.label :password, class: "govuk-label", for: "width-30"%>
+            <%= f.password_field :password, autocomplete: "current-password", class: "govuk-input govuk-input--width-30", type: "password" %>
+          </div>
+        </div>
+
+       <% if devise_mapping.rememberable? %>
+         <div class="field">
+           <p class="govuk-body">
+             <%= f.check_box :remember_me %>
+             <%= f.label :remember_me %>
+           </p>
+          </div>
+       <% end %>
+
+        <div class="actions">
+          <%= f.submit "Log in", class: "govuk-button" %>
+        </div>
+      <% end %>
+
+      <p class="govuk-body">
+        <%= render "devise/shared/links" %>
+      </p>
+    </div>
+ </div>
+
+
+
