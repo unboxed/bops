@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.feature "Home page renders correctly", type: :feature do
+require "rails_helper"
+
+RSpec.feature "Home page renders correctly", type: :system do
   scenario "Home page redirects to login" do
     visit "/"
     expect(page).to have_text("Email")
