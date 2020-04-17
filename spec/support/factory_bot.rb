@@ -14,3 +14,7 @@ helpers = Module.new do
 end
 
 FactoryBot::SyntaxRunner.include(helpers)
+
+RSpec.configure do |config|
+  config.include FactoryBot::Syntax::Methods
+end
