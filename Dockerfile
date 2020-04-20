@@ -13,11 +13,9 @@ RUN apt-get update && apt-get upgrade -y
 # Install curl
 RUN apt-get install -y curl
 
-# Install PostgreSQL client
-RUN apt-get install -y postgresql-client libpq-dev
-
-# Install Geo libraries
-RUN apt-get install -y libgeos-dev libproj-dev gdal-bin
+# Install PostgreSQL client and Geo libraries
+RUN apt-get install -y postgresql-client libpq-dev \
+                       libgeos-dev libproj-dev gdal-bin
 
 # Install NodeJS 12.x
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
