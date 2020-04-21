@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "./spec/helpers/log_in_helper_spec.rb"
-
 if ENV['RAILS_ENV'] == 'test'
   require 'simplecov'
   SimpleCov.start 'rails'
@@ -34,5 +32,5 @@ RSpec.configure do |config|
 
   config.filter_rails_from_backtrace!
 
-  config.include Helpers::Login
+  config.include AuthenticationHelper
 end
