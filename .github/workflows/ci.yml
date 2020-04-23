@@ -6,16 +6,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:11.5
-        ports: ["5432:5432"]
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -25,9 +15,10 @@ jobs:
       with:
         ruby-version: 2.6.5
 
-    - name: Install PostgreSQL 11 client
-      run: |
-        sudo apt-get -yqq install libpq-dev
+    - name: Enable postgis extension
+      uses: huaxk/postgis-action@v1
+      with:
+        postgresql version: '11'
 
     - name: Install Yarn
       uses: borales/actions-yarn@v2.0.0
