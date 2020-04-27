@@ -10,11 +10,45 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_17_163507) do
+ActiveRecord::Schema.define(version: 2020_04_19_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
+
+  create_table "decisions", force: :cascade do |t|
+    t.integer "status", default: 0, null: false
+    t.datetime "decided_at"
+    t.bigint "planning_application_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["planning_application_id"], name: "index_decisions_on_planning_application_id"
+    t.index ["user_id"], name: "index_decisions_on_user_id"
+  end
+
+  create_table "planning_applications", force: :cascade do |t|
+    t.date "submission_date", null: false
+    t.integer "application_type", default: 0, null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.text "description"
+    t.bigint "site_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["site_id"], name: "index_planning_applications_on_site_id"
+  end
+
+  create_table "sites", force: :cascade do |t|
+    t.string "address_1"
+    t.string "address_2"
+    t.string "town"
+    t.string "county"
+    t.string "postcode"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
