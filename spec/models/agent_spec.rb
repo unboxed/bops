@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe Agent, type: :model do
-
   subject { FactoryBot.create :agent }
 
   it "should create agent successfully" do

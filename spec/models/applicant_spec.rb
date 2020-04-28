@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe Applicant, type: :model do
-
   subject { FactoryBot.create :applicant }
 
   it "should create applicant successfully" do
