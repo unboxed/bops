@@ -78,8 +78,14 @@
       </h2>
     </div>
     <div id="accordion-default-content-3" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-3">
-      <p class='govuk-body'><strong>Agent:</strong><br>Trevor King<br>07824 693239<br><a href="">trevor.king@planningco.co.uk</a></p>
-      <p class='govuk-body'><strong>Applicant:</strong><br>Hannah Dogurga<br>07839 282839<br><a href="">hannah.dogurga@gmail.com</a></p>
+      <p class='govuk-body'>
+        <% if @planning_application.agent_id? %>
+          <strong>Agent:</strong><br><%= @planning_application.agent.name %><br><%= @planning_application.agent.phone %><br><a href=""><%= @planning_application.agent.email %></a></p>
+        <% end %>
+      <p class='govuk-body'>
+        <% if @planning_application.applicant_id? %>
+          <strong>Applicant:</strong><br><%= @planning_application.applicant.name %><br><%= @planning_application.applicant.phone %><br><a href=""><%= @planning_application.applicant.email %></a></p>
+        <% end %>
     </div>
   </div>
   <div class="govuk-accordion__section ">
