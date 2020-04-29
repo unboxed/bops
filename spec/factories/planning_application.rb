@@ -5,6 +5,7 @@ FactoryBot.define do
     site
     agent
     applicant
+    code { "AP/4571/2" }
     submission_date { Date.current }
     description { "description" }
     status { :pending }
