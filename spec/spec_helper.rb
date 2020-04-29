@@ -1,5 +1,11 @@
 # frozen_string_literal: true
 
+# Faker is in the default Gemfile group and since we don't want to
+
+# This means we need to explicitly require it here for it to be
+# available in our specs.
+require "faker"
+
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true

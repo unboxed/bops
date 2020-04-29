@@ -8,6 +8,7 @@ ruby "2.6.5"
 gem "activerecord-postgis-adapter"
 gem "bootsnap", ">= 1.4.2", require: false
 gem "devise"
+gem "faker", require: false
 gem "jbuilder", "~> 2.7"
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 4.1"
@@ -20,7 +21,6 @@ group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "capybara"
   gem "factory_bot_rails"
-  gem "faker"
   gem "pry-byebug"
   gem "rails-controller-testing"
   gem "rspec-rails", "~> 4.0.0"
