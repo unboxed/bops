@@ -27,7 +27,7 @@ RSpec.feature "Home page renders correctly", type: :system do
 
     scenario "Submission date is correct" do
       first('.govuk-accordion').click_button('Open all')
-      expect(page).to have_text(planning_application.submission_date.to_formatted_s(:long))
+      expect(page).to have_text(planning_application.created_at.to_formatted_s(:long))
     end
 
     scenario "Applicant name is correct" do

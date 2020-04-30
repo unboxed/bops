@@ -48,7 +48,6 @@ task create_sample_data: :environment do
     application_type: :lawfulness_certificate,
     site_id: stonehenge_site.id,
   ) do |pa|
-    pa.submission_date = Date.current - 1.week
     pa.description = "Extra stone on top"
   end
 
@@ -67,7 +66,6 @@ task create_sample_data: :environment do
     agent: jane_agent,
     applicant: jason_applicant
   ) do |pa|
-    pa.submission_date = Date.current - 1.week
     pa.description = "Extra moat"
     pa.reference = "AP/45/1880"
   end
@@ -90,7 +88,6 @@ task create_sample_data: :environment do
     application_type: :lawfulness_certificate,
     site: palace_site
   ) do |pa|
-    pa.submission_date = Date.current - 2.weeks
     pa.description = "Lean-to"
   end
 
@@ -119,7 +116,6 @@ task create_sample_data: :environment do
     application_type: :lawfulness_certificate,
     site: pier_site
   ) do |pa|
-    pa.submission_date = Date.current - 4.weeks
     pa.description = "Extend pier to reach France"
   end
 

@@ -6,7 +6,6 @@ FactoryBot.define do
     agent
     applicant
     reference { "AP/4571/2" }
-    submission_date { Date.current }
     description { "description" }
     status { :pending }
   end
@@ -21,9 +20,19 @@ FactoryBot.define do
 
   trait :started do
     status { :started }
+
+    after(:create) do |pa|
+      pa.target_date = Date.current + 7.weeks
+      pa.save!
+    end
   end
 
   trait :completed do
     status { :completed }
+
+    after(:create) do |pa|
+      pa.target_date = Date.current + 1.weeks
+      pa.save!
+    end
   end
 end

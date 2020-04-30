@@ -3,8 +3,8 @@
 <div class="govuk-grid-row">
   <div style="float: right; margin: 20px 0 30px 100px; ">
     <p class="govuk-body">
-      <strong class="govuk-tag govuk-tag--green">
-        Due: May 29<br>35 days remaining
+      <strong class="govuk-tag govuk-tag--<%= @planning_application.days_left > 7 ? 'green' : 'red' %>">
+        Due: <%= @planning_application.target_date.strftime("%B %d") %><br> <%= @planning_application.days_left %> days remaining
       </strong>
     </p>
   </div>

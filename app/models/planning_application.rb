@@ -22,4 +22,16 @@ class PlanningApplication < ApplicationRecord
   scope :pending, -> { where(status: :pending) }
   scope :started, -> { where(status: :started) }
   scope :completed, -> { where(status: :completed) }
+
+  before_create :set_target_date
+
+  def days_left
+    (target_date - Date.current).to_i
+  end
+
+  private
+
+  def set_target_date
+    self.target_date = created_at + 8.weeks
+  end
 end
