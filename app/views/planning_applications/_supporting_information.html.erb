@@ -2,7 +2,7 @@
   <span class="app-task-list__section-number">Supporting information</span>
 </h2>
 <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
-  <div class="govuk-accordion__section ">
+  <div class="govuk-accordion__section">
     <div class="govuk-accordion__section-header">
       <h3 class="govuk-accordion__section-heading">
         <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
@@ -27,7 +27,7 @@
       </ul>
     </div>
   </div>
-  <div class="govuk-accordion__section ">
+  <div class="govuk-accordion__section">
     <div class="govuk-accordion__section-header">
       <h3 class="govuk-accordion__section-heading">
         <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
@@ -46,7 +46,7 @@
       </ul>
     </div>
   </div>
-  <div class="govuk-accordion__section ">
+  <div class="govuk-accordion__section">
     <div class="govuk-accordion__section-header">
       <h3 class="govuk-accordion__section-heading">
         <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
@@ -68,7 +68,7 @@
       </ul>
     </div>
   </div>
-  <div class="govuk-accordion__section ">
+  <div class="govuk-accordion__section">
     <div class="govuk-accordion__section-header">
       <h2 class="govuk-accordion__section-heading">
         <span class="govuk-accordion__section-button" id="accordion-default-heading-3">
@@ -83,11 +83,11 @@
         <% end %>
         <p class='govuk-body'>
           <% if @applicant %>
-            <strong>Applicant:</strong><br><%= full_details(@applicant) %></a></p>
+            <strong>Applicant:</strong><br><%= h(full_details(@applicant)) %></a></p>
           <% end %>
           </div>
       </div>
-    <div class="govuk-accordion__section ">
+    <div class="govuk-accordion__section">
       <div class="govuk-accordion__section-header">
         <h2 class="govuk-accordion__section-heading">
           <span class="govuk-accordion__section-button" id="accordion-default-heading-4">

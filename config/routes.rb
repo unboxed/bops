@@ -6,5 +6,5 @@ Rails.application.routes.draw do
 
   root to: "home#index"
 
-  resources :planning_application, only: [:show, :index, :update]
+  resources :planning_applications, only: [:show, :index, :update]
 end

@@ -9,7 +9,7 @@ RSpec.feature "Home page renders correctly", type: :system do
   context "as an assessor" do
     before do
       sign_in(assessor)
-      visit "/planning_application/#{planning_application.id}"
+      visit "/planning_applications/#{planning_application.id}"
     end
 
     scenario "Site address is present" do
@@ -17,7 +17,7 @@ RSpec.feature "Home page renders correctly", type: :system do
     end
 
     scenario "Planning application code is correct" do
-      expect(page).to have_text(planning_application.code)
+      expect(page).to have_text(planning_application.reference)
     end
 
     scenario "Status is correct" do

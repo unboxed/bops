@@ -69,7 +69,7 @@ task create_sample_data: :environment do
   ) do |pa|
     pa.submission_date = Date.current - 1.week
     pa.description = "Extra moat"
-    pa.code = "AP/45/1880"
+    pa.reference = "AP/45/1880"
   end
 
   unless castle_planning_application.assessor_decision
