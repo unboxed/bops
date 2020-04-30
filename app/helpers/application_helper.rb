@@ -2,9 +2,6 @@
 
 module ApplicationHelper
   def full_details(user)
-    details = "#{user.name},<br/>
-               #{user.phone},<br/>
-               #{user.email}"
-    details.html_safe
+    "#{user.name}, #{user.phone}, #{user.email}"
   end
 end
