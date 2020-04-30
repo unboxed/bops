@@ -18,4 +18,12 @@ FactoryBot.define do
   trait :full do
     application_type { :full }
   end
+
+  trait :started do
+    status { :started }
+  end
+
+  trait :completed do
+    status { :completed }
+  end
 end

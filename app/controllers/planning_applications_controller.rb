@@ -2,6 +2,7 @@
 
 class PlanningApplicationsController < ApplicationController
   def index
+    @planning_applications = PlanningApplication.all
   end
 
   def show
