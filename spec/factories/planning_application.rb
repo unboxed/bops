@@ -3,6 +3,9 @@
 FactoryBot.define do
   factory :planning_application do
     site
+    agent
+    applicant
+    reference { "AP/4571/2" }
     submission_date { Date.current }
     description { "description" }
     status { :pending }

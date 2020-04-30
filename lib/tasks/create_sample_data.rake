@@ -22,6 +22,20 @@ task create_sample_data: :environment do
   assessor = User.find_by!(email: "assessor@example.com", role: :assessor)
   reviewer = User.find_by!(email: "reviewer@example.com", role: :reviewer)
 
+  # Agent
+  jane_agent = Agent.find_or_create_by!(
+    name: "Jane Agent",
+    email: "agent@example.com",
+    phone: "0759222222"
+  )
+
+  # Applicant
+  jason_applicant = Applicant.find_or_create_by!(
+    name: "Jason Applicant",
+    email: "applicant@example.com",
+    phone: "0759111111"
+  )
+
   # An application with no decisions
   stonehenge_site = Site.find_or_create_by!(
     address_1: "Stonehenge",
@@ -49,10 +63,13 @@ task create_sample_data: :environment do
 
   castle_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
-    site: castle_site
+    site: castle_site,
+    agent: jane_agent,
+    applicant: jason_applicant
   ) do |pa|
     pa.submission_date = Date.current - 1.week
     pa.description = "Extra moat"
+    pa.reference = "AP/45/1880"
   end
 
   unless castle_planning_application.assessor_decision
