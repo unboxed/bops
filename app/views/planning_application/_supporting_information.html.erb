@@ -2,13 +2,12 @@
   <span class="app-task-list__section-number">Supporting information</span>
 </h2>
 <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
-
   <div class="govuk-accordion__section ">
     <div class="govuk-accordion__section-header">
       <h3 class="govuk-accordion__section-heading">
-                <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
-                  Property details
-                </span>
+        <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+          Property details
+        </span>
       </h3>
     </div>
     <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
@@ -31,9 +30,9 @@
   <div class="govuk-accordion__section ">
     <div class="govuk-accordion__section-header">
       <h3 class="govuk-accordion__section-heading">
-                <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
-                  Property history
-                </span>
+        <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+          Property history
+        </span>
       </h3>
     </div>
     <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
@@ -50,9 +49,9 @@
   <div class="govuk-accordion__section ">
     <div class="govuk-accordion__section-header">
       <h3 class="govuk-accordion__section-heading">
-                <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
-                  Constraints
-                </span>
+        <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+           Constraints
+        </span>
       </h3>
     </div>
     <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
@@ -72,9 +71,9 @@
   <div class="govuk-accordion__section ">
     <div class="govuk-accordion__section-header">
       <h2 class="govuk-accordion__section-heading">
-                <span class="govuk-accordion__section-button" id="accordion-default-heading-3">
-                  Contact information
-                </span>
+        <span class="govuk-accordion__section-button" id="accordion-default-heading-3">
+          Contact information
+        </span>
       </h2>
     </div>
     <div id="accordion-default-content-3" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-3">
@@ -82,23 +81,23 @@
         <% if @agent %>
           <strong>Agent:</strong><br><%= full_details(@agent) %></a></p>
         <% end %>
-      <p class='govuk-body'>
-        <% if @applicant %>
-          <strong>Applicant:</strong><br><%= full_details(@applicant) %></a></p>
-        <% end %>
+        <p class='govuk-body'>
+          <% if @applicant %>
+            <strong>Applicant:</strong><br><%= full_details(@applicant) %></a></p>
+          <% end %>
+          </div>
+      </div>
+    <div class="govuk-accordion__section ">
+      <div class="govuk-accordion__section-header">
+        <h2 class="govuk-accordion__section-heading">
+          <span class="govuk-accordion__section-button" id="accordion-default-heading-4">
+            Consultation
+          </span>
+        </h2>
+      </div>
+      <div id="accordion-default-content-4" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-4">
+        <p class='govuk-body'>Consultation is not applicable for proposed permitted development.</p>
+      </div>
     </div>
   </div>
-  <div class="govuk-accordion__section ">
-    <div class="govuk-accordion__section-header">
-      <h2 class="govuk-accordion__section-heading">
-                <span class="govuk-accordion__section-button" id="accordion-default-heading-4">
-                  Consultation
-                </span>
-      </h2>
-    </div>
-    <div id="accordion-default-content-4" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-4">
-      <p class='govuk-body'>Consultation is not applicable for proposed permitted development.</p>
-    </div>
-  </div>
-</div>
 </div>
