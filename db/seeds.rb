@@ -21,5 +21,3 @@ Applicant.find_or_create_by!(email: "applicant@example.com") do |applicant|
 
   applicant.phone = "0794111111"
 end
-
-
