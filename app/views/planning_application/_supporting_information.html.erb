@@ -14,7 +14,7 @@
     <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
       <ul class="govuk-list govuk-list--bullet">
         <li>
-          <strong>Address: </strong>  <%= @planning_application.site.address_1 %>, <%= @planning_application.site.town %>, <%= @planning_application.site.postcode %>
+          <strong>Address: </strong>  <%= display_address(@site) %>
         </li>
         <li>
           <strong>Property type: </strong>Residential
@@ -79,12 +79,12 @@
     </div>
     <div id="accordion-default-content-3" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-3">
       <p class='govuk-body'>
-        <% if @planning_application.agent_id? %>
-          <strong>Agent:</strong><br><%= @planning_application.agent.name %><br><%= @planning_application.agent.phone %><br><a href=""><%= @planning_application.agent.email %></a></p>
+        <% if @agent %>
+          <strong>Agent:</strong><br><%= full_details(@agent) %></a></p>
         <% end %>
       <p class='govuk-body'>
-        <% if @planning_application.applicant_id? %>
-          <strong>Applicant:</strong><br><%= @planning_application.applicant.name %><br><%= @planning_application.applicant.phone %><br><a href=""><%= @planning_application.applicant.email %></a></p>
+        <% if @applicant %>
+          <strong>Applicant:</strong><br><%= full_details(@applicant) %></a></p>
         <% end %>
     </div>
   </div>
