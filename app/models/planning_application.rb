@@ -19,10 +19,6 @@ class PlanningApplication < ApplicationRecord
   belongs_to :agent
   belongs_to :applicant
 
-  scope :pending, -> { where(status: :pending) }
-  scope :started, -> { where(status: :started) }
-  scope :completed, -> { where(status: :completed) }
-
   before_create :set_target_date
 
   def days_left
