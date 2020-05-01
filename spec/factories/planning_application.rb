@@ -5,8 +5,8 @@ FactoryBot.define do
     site
     agent
     applicant
-    reference { "AP/4571/2" }
-    description { "description" }
+    sequence(:reference, 10) { |n| "AP/#{4500 + n * 2}/#{n}" }
+    description { Faker::Lorem.unique.sentence }
     status { :pending }
   end
 
@@ -31,7 +31,7 @@ FactoryBot.define do
     status { :completed }
 
     after(:create) do |pa|
-      pa.target_date = Date.current + 1.weeks
+      pa.target_date = Date.current + 1.week
       pa.save!
     end
   end
