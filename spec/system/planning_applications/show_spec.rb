@@ -18,7 +18,7 @@ RSpec.feature "Planning Application show page", type: :system do
   context "as an assessor" do
     before do
       sign_in users(:assessor)
-      visit "/planning_applications/#{planning_application.id}"
+      visit planning_application_path(planning_application.id)
     end
 
     scenario "Site address is present" do
@@ -146,7 +146,7 @@ RSpec.feature "Planning Application show page", type: :system do
 
     before do
       sign_in users(:assessor)
-      visit "/planning_applications/#{planning_application.id}"
+      visit planning_application_path(planning_application.id)
     end
 
     scenario "Target date is correct and label is red" do
