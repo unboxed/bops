@@ -16,7 +16,7 @@ RSpec.feature "Planning Application index page", type: :system do
     end
 
     scenario "Planning Application status bar is present" do
-      within("#planning_applications_statusTab") do
+      within(:planning_applications_status_tab) do
         expect(page).to have_link "Pending"
         expect(page).to have_link "Started"
         expect(page).to have_link "Completed"
