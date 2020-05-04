@@ -27,6 +27,7 @@ RSpec.configure do |config|
   config.file_fixture_path = "#{::Rails.root}/spec/fixtures/files"
 
   config.use_transactional_fixtures = true
+  config.global_fixtures = :users
 
   config.infer_spec_type_from_file_location!
 

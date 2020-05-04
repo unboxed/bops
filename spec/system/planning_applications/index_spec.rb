@@ -3,7 +3,6 @@
 require "rails_helper"
 
 RSpec.feature "Planning Application index page", type: :system do
-  let(:assessor) { create(:user, :assessor) }
   let!(:planning_application_1) { create(:planning_application) }
   let!(:planning_application_2) { create(:planning_application) }
   let!(:planning_application_started) { create(:planning_application, :started) }
@@ -11,8 +10,8 @@ RSpec.feature "Planning Application index page", type: :system do
 
   context "as an assessor" do
     before do
-      sign_in(assessor)
-      visit "/planning_applications/"
+      sign_in users(:assessor)
+      visit "/planning_applications"
     end
 
     scenario "Planning Application status bar is present" do

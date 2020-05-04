@@ -23,40 +23,38 @@ RSpec.feature "Sign in", type: :system do
 
   context "users with valid credentials" do
     context "as an assessor" do
-      let(:assessor) { create(:user, :assessor) }
       before do
-        sign_in(assessor)
+        sign_in users(:assessor)
         visit "/"
       end
 
       scenario "can see their name and role" do
-        expect(page).to have_text(assessor.name)
-        expect(page).to have_text(assessor.role.capitalize)
+        expect(page).to have_text("Lorrine Krajcik")
+        expect(page).to have_text("Assessor")
       end
     end
 
     context "as a reviewer" do
-      let(:reviewer) { create(:user, :reviewer) }
       before do
-        sign_in(reviewer)
+        sign_in users(:reviewer)
         visit "/"
       end
 
       scenario "can see their name and role" do
-        expect(page).to have_text(reviewer.name)
-        expect(page).to have_text(reviewer.role.capitalize)
+        expect(page).to have_text("Harley Dicki")
+        expect(page).to have_text("Reviewer")
       end
     end
 
     context "as an admin" do
       before do
-        sign_in(admin)
+        sign_in users(:admin)
         visit "/"
       end
 
       scenario "see can see their name and role" do
-        expect(page).to have_text(admin.name)
-        expect(page).to have_text(admin.role.capitalize)
+        expect(page).to have_text("Adrian Schimmel")
+        expect(page).to have_text("Admin")
       end
     end
   end

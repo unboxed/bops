@@ -3,12 +3,11 @@
 require "rails_helper"
 
 RSpec.feature "Planning Application show page", type: :system do
-  let(:assessor) { create(:user, :assessor) }
   let(:planning_application) { create(:planning_application) }
 
   context "as an assessor" do
     before do
-      sign_in(assessor)
+      sign_in users(:assessor)
       visit "/planning_applications/#{planning_application.id}"
     end
 
@@ -132,7 +131,7 @@ RSpec.feature "Planning Application show page", type: :system do
     let!(:planning_application) { create(:planning_application, :completed) }
 
     before do
-      sign_in(assessor)
+      sign_in users(:assessor)
       visit "/planning_applications/#{planning_application.id}"
     end
 

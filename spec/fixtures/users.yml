@@ -1,0 +1,14 @@
+assessor:
+  name: "Lorrine Krajcik"
+  email: "assessor@example.com"
+  role: "assessor"
+
+reviewer:
+  name: "Harley Dicki"
+  email: "reviewer@example.com"
+  role: "reviewer"
+
+admin:
+  name: "Adrian Schimmel"
+  email: "admin@example.com"
+  role: "admin"
