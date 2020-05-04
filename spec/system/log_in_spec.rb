@@ -5,6 +5,12 @@ require "rails_helper"
 RSpec.feature "Sign in", type: :system do
   let(:admin) { create(:user, :admin) }
 
+  scenario "ensure we can perform a healthcheck" do
+    visit healthcheck_path
+
+    expect(page.body).to have_content("OK")
+  end
+
   scenario "Home page redirects to login" do
     visit "/"
     expect(page).to have_text("Email")
