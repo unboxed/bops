@@ -13,11 +13,11 @@
         <tr class="govuk-table__row">
           <td class="govuk-table__cell"><b>Type: </b></td>
           <td class="govuk-table__cell">Proposed permitted
-            development: <%= @planning_application.application_type %>  </td>
+            development: <%= I18n.t(@planning_application.application_type) %>  </td>
         </tr>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell"><strong>Application status: </strong></td>
-          <td class="govuk-table__cell"><%= @planning_application.status %></td>
+          <td class="govuk-table__cell"><%= I18n.t(@planning_application.status) %></td>
         </tr>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell"><strong>Validation complete: </strong></td>
