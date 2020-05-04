@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+ postgres:
+  environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+  image: postgis/postgis:latest
+  restart: always
+  volumes:
+   - db_data:/var/lib/postgresql/data
+
+ web:
+  build: .
+  entrypoint: ./docker-entrypoint.sh
+  command: [
+    "rails", "server",
+    "-b", "0.0.0.0",
+    "-p", "3000"
+  ]
+  volumes:
+   - .:/app
+   - bundle:/bundle
+   - node_modules:/app/node_modules
+  ports:
+   - "3000:3000"
+  environment:
+    DATABASE_URL: postgis://postgres@postgres:5432
+  stdin_open: true
+  tty: true
+  depends_on:
+   - postgres
+
+volumes:
+  bundle:
+  db_data:
+  node_modules:
