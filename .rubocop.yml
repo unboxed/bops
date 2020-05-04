@@ -23,10 +23,6 @@ Performance:
 Rails:
   Enabled: true
 
-# private/protected/public
-Layout/AccessModifierIndentation:
-  EnforcedStyle: outdent
-
 # Align `when` with `case`.
 Layout/CaseIndentation:
   Enabled: true
@@ -75,10 +71,6 @@ Layout/FirstArgumentIndentation:
 Layout/IndentationConsistency:
   Enabled: true
   EnforcedStyle: indented_internal_methods
-
-# Two spaces, no tabs (for indentation).
-Layout/IndentationWidth:
-  Enabled: true
 
 Layout/LeadingCommentSpace:
   Enabled: true
