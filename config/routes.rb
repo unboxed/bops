@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  devise_for :users
-  get "home/index"
+  root to: redirect("/planning_applications")
 
-  root to: "home#index"
+  devise_for :users
 
   resources :planning_applications, only: [:show, :index, :update]
 end

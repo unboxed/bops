@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class PlanningApplicationsController < ApplicationController
+  def index
+    @planning_applications = PlanningApplication.all
+  end
+
   def show
     @planning_application = PlanningApplication.find(params[:id])
     @site = @planning_application.site

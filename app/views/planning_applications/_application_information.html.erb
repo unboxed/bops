@@ -21,7 +21,7 @@
         </tr>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell"><strong>Validation complete: </strong></td>
-          <td class="govuk-table__cell"><%= @planning_application.submission_date.to_formatted_s(:long) %></td>
+          <td class="govuk-table__cell"><%= @planning_application.created_at.to_formatted_s(:long) %></td>
         </tr>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell"><strong>Summary of proposal: </strong></td>

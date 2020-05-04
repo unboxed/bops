@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_30_131528) do
+ActiveRecord::Schema.define(version: 2020_04_30_165924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 2020_04_30_131528) do
   end
 
   create_table "planning_applications", force: :cascade do |t|
-    t.date "submission_date", null: false
+    t.date "target_date", null: false
     t.integer "application_type", default: 0, null: false
     t.integer "status", default: 0, null: false
     t.datetime "started_at"

@@ -2,13 +2,12 @@
 
 require "rails_helper"
 
-RSpec.feature "Home page renders correctly", type: :system do
+RSpec.feature "Planning Application show page", type: :system do
   let!(:assessor) { create(:user, :assessor) }
   let!(:site) { create(:site, address_1: "7 Elm Grove", town: "London", postcode: "SE15 6UT") }
   let!(:applicant) { create(:applicant, name: "James Applicant", phone: "07861637689", email: "james@example.com") }
   let!(:agent) { create(:agent, name: "Jennifer Agent", phone: "07861645689", email: "jennifer@example.com") }
   subject(:planning_application) { create(:planning_application, description: "Roof extension",
-                                       submission_date: "2020-04-28",
                                        application_type: "lawfulness_certificate",
                                        reference: "AP/453/880",
                                        status: 0,
@@ -18,7 +17,7 @@ RSpec.feature "Home page renders correctly", type: :system do
 
   context "as an assessor" do
     before do
-      sign_in(assessor)
+      sign_in users(:assessor)
       visit "/planning_applications/#{planning_application.id}"
     end
 
@@ -30,6 +29,12 @@ RSpec.feature "Home page renders correctly", type: :system do
       expect(page).to have_text("AP/453/880")
     end
 
+    scenario "Target date is correct and label is green" do
+      expect(page).to have_text("Due: #{planning_application.target_date.strftime("%B %d")}")
+      expect(page).to have_text("#{planning_application.days_left} days remaining")
+      expect(page).to have_css('.govuk-tag--green')
+    end
+
     scenario "Status is correct" do
       within(".govuk-grid-column-two-thirds.application") do
          first('.govuk-accordion').click_button('Open all')
@@ -39,9 +44,9 @@ RSpec.feature "Home page renders correctly", type: :system do
 
     scenario "Submission date is correct" do
       within(".govuk-grid-column-two-thirds.application") do
-        first('.govuk-accordion').click_button('Open all')
-        expect(page).to have_text("April 28, 2020")
-      end
+      first('.govuk-accordion').click_button('Open all')
+      expect(page).to have_text(Time.zone.today.to_formatted_s(:long))
+     end
     end
 
     scenario "Applicant name is correct" do
@@ -132,6 +137,22 @@ RSpec.feature "Home page renders correctly", type: :system do
         click_button('Open all')
       end
       expect(page).to have_text(planning_application.site.address_1)
+    end
+  end
+
+  context "as an assessor" do
+    let(:target_date) { 1.week.from_now }
+    let!(:planning_application) { create(:planning_application, :completed) }
+
+    before do
+      sign_in users(:assessor)
+      visit "/planning_applications/#{planning_application.id}"
+    end
+
+    scenario "Target date is correct and label is red" do
+      expect(page).to have_text("Due: #{planning_application.target_date.strftime("%B %d")}")
+      expect(page).to have_text("#{planning_application.days_left} days remaining")
+      expect(page).to have_css('.govuk-tag--red')
     end
   end
 end

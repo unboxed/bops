@@ -1,0 +1,23 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-breadcrumbs" style="margin-bottom: 20px;">
+      <ol class="govuk-breadcrumbs__list">
+        <li class="govuk-breadcrumbs__list-item" aria-current="page"></li>
+      </ol>
+    </div>
+    <h1 class="govuk-heading-l">
+      Your fast track applications
+    </h1>
+    <p class="govuk-body"><%= current_user.name %>, <%= current_user.role.capitalize %></p>
+  </div>
+</div>
+<div class="govuk-tabs" data-module="govuk-tabs">
+  <h2 class="govuk-tabs__title">
+    Contents
+  </h2>
+  <%= render "planning_application_tabs" %>
+
+  <%= render "planning_application_table", planning_applications: @planning_applications.pending.to_a, id: "pending", title: "Pending" %>
+  <%= render "planning_application_table", planning_applications: @planning_applications.started.to_a, id: "started", title: "Started" %>
+  <%= render "planning_application_table", planning_applications: @planning_applications.completed.to_a, id: "completed", title: "Completed" %>
+</div>
