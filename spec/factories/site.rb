@@ -2,10 +2,10 @@
 
 FactoryBot.define do
   factory :site do
-    address_1 { "address_1" }
-    address_2 { "address_2" }
-    town { "town" }
-    county { "county" }
-    postcode { "postcode" }
+    address_1 { Faker::Address.street_address }
+    address_2 { Faker::Address.secondary_address }
+    town { Faker::Address.city }
+    county { Faker::Address.state }
+    postcode { Faker::Address.postcode }
   end
 end

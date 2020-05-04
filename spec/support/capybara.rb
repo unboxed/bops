@@ -4,6 +4,10 @@ require 'capybara/rspec'
 
 download_path = Rails.root.join("tmp/downloads").to_s
 
+Capybara.add_selector(:planning_applications_status_tab) do
+  xpath { "//*[@id='planning_applications_statusTab']" }
+end
+
 Capybara.register_driver :chrome_headless do |app|
   Capybara::Selenium::Driver.load_selenium
   browser_options = ::Selenium::WebDriver::Chrome::Options.new

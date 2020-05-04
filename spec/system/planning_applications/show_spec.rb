@@ -2,13 +2,12 @@
 
 require "rails_helper"
 
-RSpec.feature "Home page renders correctly", type: :system do
-  let!(:assessor) { create(:user, :assessor) }
-  let!(:planning_application) { create(:planning_application) }
+RSpec.feature "Planning Application show page", type: :system do
+  let(:planning_application) { create(:planning_application) }
 
   context "as an assessor" do
     before do
-      sign_in(assessor)
+      sign_in users(:assessor)
       visit "/planning_applications/#{planning_application.id}"
     end
 
@@ -20,6 +19,12 @@ RSpec.feature "Home page renders correctly", type: :system do
       expect(page).to have_text(planning_application.reference)
     end
 
+    scenario "Target date is correct and label is green" do
+      expect(page).to have_text("Due: #{planning_application.target_date.strftime("%B %d")}")
+      expect(page).to have_text("#{planning_application.days_left} days remaining")
+      expect(page).to have_css('.govuk-tag--green')
+    end
+
     scenario "Status is correct" do
       first('.govuk-accordion').click_button('Open all')
       expect(page).to have_text(planning_application.status)
@@ -27,7 +32,7 @@ RSpec.feature "Home page renders correctly", type: :system do
 
     scenario "Submission date is correct" do
       first('.govuk-accordion').click_button('Open all')
-      expect(page).to have_text(planning_application.submission_date.to_formatted_s(:long))
+      expect(page).to have_text(planning_application.created_at.to_formatted_s(:long))
     end
 
     scenario "Applicant name is correct" do
@@ -118,6 +123,22 @@ RSpec.feature "Home page renders correctly", type: :system do
         click_button('Open all')
       end
       expect(page).to have_text(planning_application.site.address_1)
+    end
+  end
+
+  context "as an assessor" do
+    let(:target_date) { 1.week.from_now }
+    let!(:planning_application) { create(:planning_application, :completed) }
+
+    before do
+      sign_in users(:assessor)
+      visit "/planning_applications/#{planning_application.id}"
+    end
+
+    scenario "Target date is correct and label is red" do
+      expect(page).to have_text("Due: #{planning_application.target_date.strftime("%B %d")}")
+      expect(page).to have_text("#{planning_application.days_left} days remaining")
+      expect(page).to have_css('.govuk-tag--red')
     end
   end
 end

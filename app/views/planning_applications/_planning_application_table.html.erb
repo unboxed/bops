@@ -1,0 +1,31 @@
+<div class="govuk-tabs__panel" id="<%= id %>">
+  <h2 class="govuk-heading-l"><%= title %></h2>
+  <table class="govuk-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Application</th>
+        <th scope="col" class="govuk-table__header">Type</th>
+        <th scope="col" class="govuk-table__header">Description</th>
+        <th scope="col" class="govuk-table__header">Target date</th>
+        <th scope="col" class="govuk-table__header">Days left</th>
+        <th scope="col" class="govuk-table__header">Consultation end date</th>
+        <th scope="col" class="govuk-table__header">Responses</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% planning_applications.each do |planning_application| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <%= link_to planning_application.reference, planning_application %>
+          </td>
+          <td class="govuk-table__cell"><%= planning_application.application_type%></td>
+          <td class="govuk-table__cell"><%= planning_application.description%></td>
+          <td class="govuk-table__cell"><%= planning_application.target_date.strftime("%B %e")%></td>
+          <td class="govuk-table__cell"><%= planning_application.days_left%></td>
+          <td class="govuk-table__cell"> - </td>
+          <td class="govuk-table__cell"> - </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

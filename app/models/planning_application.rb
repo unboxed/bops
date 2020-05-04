@@ -18,4 +18,16 @@ class PlanningApplication < ApplicationRecord
   belongs_to :site
   belongs_to :agent
   belongs_to :applicant
+
+  before_create :set_target_date
+
+  def days_left
+    (target_date - Date.current).to_i
+  end
+
+  private
+
+  def set_target_date
+    self.target_date = created_at + 8.weeks
+  end
 end

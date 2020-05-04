@@ -24,16 +24,16 @@ task create_sample_data: :environment do
 
   # Agent
   jane_agent = Agent.find_or_create_by!(
-    name: "Jane Agent",
-    email: "agent@example.com",
-    phone: "0759222222"
+    name: Faker::Name.unique.name,
+    email: Faker::Internet.email,
+    phone: Faker::Base.numerify("+44 7### ######")
   )
 
   # Applicant
   jason_applicant = Applicant.find_or_create_by!(
-    name: "Jason Applicant",
-    email: "applicant@example.com",
-    phone: "0759111111"
+    name: Faker::Name.unique.name,
+    email: Faker::Internet.email,
+    phone: Faker::Base.numerify("+44 7### ######")
   )
 
   # An application with no decisions
@@ -47,10 +47,15 @@ task create_sample_data: :environment do
   stonehenge_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
     site_id: stonehenge_site.id,
+    agent: jane_agent,
+    applicant: jason_applicant
   ) do |pa|
-    pa.submission_date = Date.current - 1.week
+    pa.status = "started"
     pa.description = "Extra stone on top"
+    pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
   end
+
+  stonehenge_planning_application.update(target_date: 2.weeks.from_now)
 
   # An application with an assessor decision
   castle_site = Site.find_or_create_by!(
@@ -67,10 +72,12 @@ task create_sample_data: :environment do
     agent: jane_agent,
     applicant: jason_applicant
   ) do |pa|
-    pa.submission_date = Date.current - 1.week
+    pa.status = "completed"
     pa.description = "Extra moat"
-    pa.reference = "AP/45/1880"
+    pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
   end
+
+  castle_planning_application.update(target_date: 1.week.from_now)
 
   unless castle_planning_application.assessor_decision
     castle_assessor_decision = Decision.new(user: assessor)
@@ -88,11 +95,15 @@ task create_sample_data: :environment do
 
   palace_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
-    site: palace_site
+    site: palace_site,
+    agent: jane_agent,
+    applicant: jason_applicant
   ) do |pa|
-    pa.submission_date = Date.current - 2.weeks
     pa.description = "Lean-to"
+    pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
   end
+
+  palace_planning_application.update(target_date: 3.weeks.from_now)
 
   unless palace_planning_application.assessor_decision
     palace_assessor_decision = Decision.new(user: assessor)
@@ -117,10 +128,12 @@ task create_sample_data: :environment do
 
   pier_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
-    site: pier_site
+    site: pier_site,
+    agent: jane_agent,
+    applicant: jason_applicant
   ) do |pa|
-    pa.submission_date = Date.current - 4.weeks
     pa.description = "Extend pier to reach France"
+    pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
   end
 
   unless pier_planning_application.assessor_decision
