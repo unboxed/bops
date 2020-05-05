@@ -5,14 +5,22 @@ require "rails_helper"
 RSpec.feature "Sign in", type: :system do
   let(:admin) { create(:user, :admin) }
 
+  scenario "ensure we can perform a healthcheck" do
+    visit healthcheck_path
+
+    expect(page.body).to have_content("OK")
+  end
+
   scenario "Home page redirects to login" do
-    visit "/"
+    visit root_path
+
     expect(page).to have_text("Email")
     expect(page).not_to have_text("Your fast track applications")
   end
 
   scenario "User cannot log in with invalid credentials" do
-    visit "/"
+    visit root_path
+
     fill_in("user[email]", with: admin.email)
     fill_in("user[password]", with: "invalid_password")
     click_button('Log in')
@@ -25,7 +33,7 @@ RSpec.feature "Sign in", type: :system do
     context "as an assessor" do
       before do
         sign_in users(:assessor)
-        visit "/"
+        visit root_path
       end
 
       scenario "can see their name and role" do
@@ -37,7 +45,7 @@ RSpec.feature "Sign in", type: :system do
     context "as a reviewer" do
       before do
         sign_in users(:reviewer)
-        visit "/"
+        visit root_path
       end
 
       scenario "can see their name and role" do
@@ -49,7 +57,7 @@ RSpec.feature "Sign in", type: :system do
     context "as an admin" do
       before do
         sign_in users(:admin)
-        visit "/"
+        visit root_path
       end
 
       scenario "see can see their name and role" do

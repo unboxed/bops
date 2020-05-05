@@ -11,7 +11,7 @@ RSpec.feature "Planning Application index page", type: :system do
   context "as an assessor" do
     before do
       sign_in users(:assessor)
-      visit "/planning_applications"
+      visit planning_applications_path
     end
 
     scenario "Planning Application status bar is present" do

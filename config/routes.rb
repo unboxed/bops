@@ -6,4 +6,6 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :planning_applications, only: [:show, :index, :update]
+
+  get "/healthcheck", to: proc { [200, {}, %w[OK]] }
 end
