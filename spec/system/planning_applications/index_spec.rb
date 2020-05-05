@@ -16,9 +16,9 @@ RSpec.feature "Planning Application index page", type: :system do
 
     scenario "Planning Application status bar is present" do
       within(:planning_applications_status_tab) do
-        expect(page).to have_link "Pending"
-        expect(page).to have_link "Started"
-        expect(page).to have_link "Completed"
+        expect(page).to have_link "In assessment"
+        expect(page).to have_link "Awaiting manager's determination"
+        expect(page).to have_link "Determined"
       end
     end
 
@@ -32,7 +32,7 @@ RSpec.feature "Planning Application index page", type: :system do
     end
 
     scenario "Only Started Planning Applications are present at started tab" do
-      click_link "Started"
+      click_link "Awaiting manager's determination"
 
       within("#started") do
         expect(page).to have_link(planning_application_started.reference)
@@ -43,7 +43,7 @@ RSpec.feature "Planning Application index page", type: :system do
     end
 
     scenario "Only Completed Planning Applications are present at completed tab" do
-      click_link "Completed"
+      click_link "Determined"
 
       within("#completed") do
         expect(page).to have_link(planning_application_completed.reference)

@@ -38,7 +38,7 @@ RSpec.feature "Planning Application show page", type: :system do
     scenario "Status is correct" do
       within(".govuk-grid-column-two-thirds") do
          first('.govuk-accordion').click_button('Open all')
-         expect(page).to have_text("Ready For Assessment")
+         expect(page).to have_text("In assessment")
        end
     end
 
