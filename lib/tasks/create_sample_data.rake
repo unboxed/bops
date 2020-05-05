@@ -87,7 +87,7 @@ task create_sample_data: :environment do
 
   # An application with an assessor and reviewer decision
   palace_site = Site.find_or_create_by!(
-    address_1: "Buckhingham Palace",
+    address_1: "Buckingham Palace",
     town: "Westminster",
     county: "London",
     postcode: "SW1A 1AA"

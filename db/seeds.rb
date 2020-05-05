@@ -11,13 +11,11 @@ User.find_or_create_by!(email: "admin@example.com") do |user|
 end
 
 Agent.find_or_create_by!(email: "agent@example.com") do |agent|
-  agent.name = "Jane Agent"
-
-  agent.phone = "0794876987"
+  agent.name = Faker::Name.unique.name,
+  agent.phone = Faker::Base.numerify("+44 7### ######")
 end
 
 Applicant.find_or_create_by!(email: "applicant@example.com") do |applicant|
-  applicant.name = "Jason Agent"
-
-  applicant.phone = "0794111111"
+  applicant.name = Faker::Name.unique.name,
+  applicant.phone = Faker::Base.numerify("+44 7### ######")
 end
