@@ -1,6 +1,6 @@
 en:
-  pending: "In assessment"
-  started: "Awaiting manager's determination"
-  completed: "Determined"
+  in_assessment: "In assessment"
+  awaiting_determination: "Awaiting manager's determination"
+  determined: "Determined"
   full: "Full Householder Application"
   lawfulness_certificate: "Certificate of Lawfulness"

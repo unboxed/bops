@@ -7,7 +7,7 @@ FactoryBot.define do
     applicant
     sequence(:reference, 10) { |n| "AP/#{4500 + n * 2}/#{n}" }
     description { Faker::Lorem.unique.sentence }
-    status { :pending }
+    status { :in_assessment }
   end
 
   trait :lawfulness_certificate do
@@ -18,8 +18,8 @@ FactoryBot.define do
     application_type { :full }
   end
 
-  trait :started do
-    status { :started }
+  trait :awaiting_determination do
+    status { :awaiting_determination }
 
     after(:create) do |pa|
       pa.target_date = Date.current + 7.weeks
@@ -27,8 +27,8 @@ FactoryBot.define do
     end
   end
 
-  trait :completed do
-    status { :completed }
+  trait :determined do
+    status { :determined }
 
     after(:create) do |pa|
       pa.target_date = Date.current + 1.week

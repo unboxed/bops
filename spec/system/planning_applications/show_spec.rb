@@ -142,7 +142,7 @@ RSpec.feature "Planning Application show page", type: :system do
 
   context "as an assessor" do
     let(:target_date) { 1.week.from_now }
-    let!(:planning_application) { create(:planning_application, :completed) }
+    let!(:planning_application) { create(:planning_application, :determined) }
 
     before do
       sign_in users(:assessor)
