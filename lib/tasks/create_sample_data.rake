@@ -50,7 +50,7 @@ task create_sample_data: :environment do
     agent: jane_agent,
     applicant: jason_applicant
   ) do |pa|
-    pa.status = "started"
+    pa.status = :awaiting_determination
     pa.description = "Extra stone on top"
     pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
   end
@@ -72,7 +72,7 @@ task create_sample_data: :environment do
     agent: jane_agent,
     applicant: jason_applicant
   ) do |pa|
-    pa.status = "completed"
+    pa.status = :determined
     pa.description = "Extra moat"
     pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
   end

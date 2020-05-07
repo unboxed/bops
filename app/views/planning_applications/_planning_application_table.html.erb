@@ -4,6 +4,7 @@
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <th scope="col" class="govuk-table__header">Application</th>
+        <th scope="col" class="govuk-table__header">Site address</th>
         <th scope="col" class="govuk-table__header">Type</th>
         <th scope="col" class="govuk-table__header">Description</th>
         <th scope="col" class="govuk-table__header">Target date</th>
@@ -18,6 +19,7 @@
           <td class="govuk-table__cell">
             <%= link_to planning_application.reference, planning_application %>
           </td>
+          <td class="govuk-table__cell"><%= display_address(planning_application.site) %></td>
           <td class="govuk-table__cell"><%= I18n.t(planning_application.application_type) %></td>
           <td class="govuk-table__cell"><%= planning_application.description%></td>
           <td class="govuk-table__cell"><%= planning_application.target_date.strftime("%B %e")%></td>

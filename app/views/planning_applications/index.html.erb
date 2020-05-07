@@ -17,7 +17,7 @@
   </h2>
   <%= render "planning_application_tabs" %>
 
-  <%= render "planning_application_table", planning_applications: @planning_applications.pending.to_a, id: "pending", title: "Pending" %>
-  <%= render "planning_application_table", planning_applications: @planning_applications.started.to_a, id: "started", title: "Started" %>
-  <%= render "planning_application_table", planning_applications: @planning_applications.completed.to_a, id: "completed", title: "Completed" %>
+  <%= render "planning_application_table", planning_applications: @planning_applications.in_assessment, id: "in_assessment", title: "In assessment" %>
+  <%= render "planning_application_table", planning_applications: @planning_applications.awaiting_determination, id: "awaiting_determination", title: "Awaiting manager's determination" %>
+  <%= render "planning_application_table", planning_applications: @planning_applications.determined, id: "determined", title: "Determined" %>
 </div>

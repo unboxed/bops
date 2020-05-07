@@ -5,6 +5,14 @@ require "rails_helper"
 RSpec.describe PlanningApplication, type: :model do
   subject { create :planning_application }
 
+  describe "statuses" do
+    it "has a list of statuses" do
+      expect(described_class.statuses).to eq(
+        "in_assessment" => 0, "awaiting_determination" => 1, "determined" => 2
+      )
+    end
+  end
+
   describe "decisions" do
     let(:assessor)          { create :user, :assessor }
     let(:reviewer)          { create :user, :reviewer }
