@@ -42,3 +42,19 @@ module "rds" {
   vpc_id            = "${module.networking.vpc_id}"
   instance_class    = "db.t2.micro"
 }
+
+module "ecs" {
+  source              = "./modules/ecs"
+  environment         = "staging"
+  vpc_id              = "${module.networking.vpc_id}"
+  availability_zones  = "${local.staging_availability_zones}"
+  repository_name     = "bops/staging"
+  subnets_ids         = ["${module.networking.private_subnets_id}"]
+  public_subnet_ids   = ["${module.networking.public_subnets_id}"]
+  security_groups_ids = concat(module.networking.security_groups_ids, [module.rds.db_access_sg_id])
+  database_endpoint   = "${module.rds.rds_address}"
+  database_name       = "${var.staging_database_name}"
+  database_username   = "${var.staging_database_username}"
+  database_password   = "${var.staging_database_password}"
+  secret_key_base     = "${var.staging_secret_key_base}"
+}

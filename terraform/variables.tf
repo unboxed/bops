@@ -17,3 +17,7 @@ variable "staging_database_username" {
 variable "staging_database_password" {
   description = "The user password for the Staging database"
 }
+
+variable "staging_secret_key_base" {
+  description = "The Rails secret key for production"
+}
