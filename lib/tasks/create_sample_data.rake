@@ -24,16 +24,24 @@ task create_sample_data: :environment do
 
   # Agent
   jane_agent = Agent.find_or_create_by!(
-    name: Faker::Name.unique.name,
+    first_name: Faker::Name.unique.first_name,
+    last_name: Faker::Name.unique.last_name,
+    phone: Faker::Base.numerify("+44 7### ######"),
     email: Faker::Internet.email,
-    phone: Faker::Base.numerify("+44 7### ######")
+    postcode: Faker::Address.postcode,
+    address_1: Faker::Address.street_address,
+    town: "London"
   )
 
   # Applicant
   jason_applicant = Applicant.find_or_create_by!(
-    name: Faker::Name.unique.name,
+    first_name: Faker::Name.unique.first_name,
+    last_name: Faker::Name.unique.last_name,
+    phone: Faker::Base.numerify("+44 7### ######"),
     email: Faker::Internet.email,
-    phone: Faker::Base.numerify("+44 7### ######")
+    postcode: Faker::Address.postcode,
+    address_1: Faker::Address.street_address,
+    town: "London"
   )
 
   # An application with no decisions
@@ -47,6 +55,7 @@ task create_sample_data: :environment do
   stonehenge_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
     site_id: stonehenge_site.id,
+    ward: "Glastonbury",
     agent: jane_agent,
     applicant: jason_applicant
   ) do |pa|
@@ -97,7 +106,8 @@ task create_sample_data: :environment do
     application_type: :lawfulness_certificate,
     site: palace_site,
     agent: jane_agent,
-    applicant: jason_applicant
+    applicant: jason_applicant,
+    ward: "Victoria"
   ) do |pa|
     pa.description = "Lean-to"
     pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
