@@ -92,6 +92,15 @@ resource "aws_alb_target_group" "alb_target_group" {
     create_before_destroy = true
   }
 
+  health_check {
+    healthy_threshold   = 5
+    unhealthy_threshold = 2
+    timeout             = 5
+    interval            = 10
+    path                = var.target_group_path
+    port                = var.target_group_port
+  }
+
   depends_on = [aws_alb.alb_bops]
 }
 
