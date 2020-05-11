@@ -10,14 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_11_152647) do
+ActiveRecord::Schema.define(version: 2020_05_11_153704) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
 
   create_table "agents", force: :cascade do |t|
-    t.string "name"
     t.string "phone"
     t.string "email"
     t.datetime "created_at", precision: 6, null: false
@@ -36,7 +35,6 @@ ActiveRecord::Schema.define(version: 2020_05_11_152647) do
   end
 
   create_table "applicants", force: :cascade do |t|
-    t.string "name"
     t.string "phone"
     t.string "email"
     t.datetime "created_at", precision: 6, null: false
