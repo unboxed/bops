@@ -2,6 +2,6 @@
 
 module UserHelper
   def full_details(user)
-    "#{user.name}, #{user.phone}, #{user.email}"
+    "#{user.first_name} #{user.last_name}, #{user.phone}, #{user.email}"
   end
 end

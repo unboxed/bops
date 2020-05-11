@@ -5,8 +5,10 @@ require "rails_helper"
 RSpec.feature "Planning Application show page", type: :system do
   let!(:assessor) { create(:user, :assessor) }
   let!(:site) { create(:site, address_1: "7 Elm Grove", town: "London", postcode: "SE15 6UT") }
-  let!(:applicant) { create(:applicant, name: "James Applicant", phone: "07861637689", email: "james@example.com") }
-  let!(:agent) { create(:agent, name: "Jennifer Agent", phone: "07861645689", email: "jennifer@example.com") }
+  let!(:agent) { create(:agent, first_name: "Jennifer", last_name: "Agent", phone: "07861637689",
+                            email: "jennifer@example.com") }
+  let!(:applicant) { create(:applicant, first_name: "James", last_name: "Applicant", phone: "07861637689",
+                            email: "james@example.com") }
   subject(:planning_application) { create(:planning_application, description: "Roof extension",
                                        application_type: "lawfulness_certificate",
                                        reference: "AP/453/880",
@@ -49,11 +51,18 @@ RSpec.feature "Planning Application show page", type: :system do
      end
     end
 
-    scenario "Applicant name is correct" do
+    scenario "Applicant first name is correct" do
       within(".govuk-grid-column-one-third.supporting") do
         click_button("Open all")
       end
-      expect(page).to have_text(planning_application.applicant.name)
+      expect(page).to have_text(planning_application.applicant.first_name)
+    end
+
+    scenario "Applicant last name is correct" do
+      within(".govuk-grid-column-one-third.supporting") do
+        click_button("Open all")
+      end
+      expect(page).to have_text(planning_application.applicant.last_name)
     end
 
     scenario "Applicant phone is correct" do
@@ -70,11 +79,18 @@ RSpec.feature "Planning Application show page", type: :system do
       expect(page).to have_text(planning_application.applicant.email)
     end
 
-    scenario "Agent name is correct" do
+    scenario "Agent first name is correct" do
       within(".govuk-grid-column-one-third.supporting") do
         click_button('Open all')
       end
-      expect(page).to have_text(planning_application.agent.name)
+      expect(page).to have_text(planning_application.agent.first_name)
+    end
+
+    scenario "Agent last name is correct" do
+      within(".govuk-grid-column-one-third.supporting") do
+        click_button('Open all')
+      end
+      expect(page).to have_text(planning_application.agent.last_name)
     end
 
     scenario "Agent phone is correct" do

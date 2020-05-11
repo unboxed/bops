@@ -5,9 +5,11 @@ FactoryBot.define do
     site
     agent
     applicant
+    user
     sequence(:reference, 10) { |n| "AP/#{4500 + n * 2}/#{n}" }
     description { Faker::Lorem.unique.sentence }
     status { :in_assessment }
+    ward { Faker::Address.city }
   end
 
   trait :lawfulness_certificate do

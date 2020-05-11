@@ -9,8 +9,12 @@ RSpec.describe Agent, type: :model do
     expect(subject).to be_valid
   end
 
-  it "should create agent name as a string" do
-    expect(subject.name).to be_a(String)
+  it "should create agent first name as a string" do
+    expect(subject.first_name).to be_a(String)
+  end
+
+  it "should create agent last name as a string" do
+    expect(subject.last_name).to be_a(String)
   end
 
   it "should create agent phone number as a string" do
@@ -19,5 +23,13 @@ RSpec.describe Agent, type: :model do
 
   it "should create agent phone number as a string" do
     expect(subject.email).to be_a(String)
+  end
+
+  it "should create agent town as a string" do
+    expect(subject.town).to be_a(String)
+  end
+
+  it "should create agent postcode as a string" do
+    expect(subject.postcode).to be_a(String)
   end
 end
