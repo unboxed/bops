@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_30_165924) do
+ActiveRecord::Schema.define(version: 2020_05_11_152647) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,17 @@ ActiveRecord::Schema.define(version: 2020_04_30_165924) do
     t.string "email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "first_name"
+    t.string "last_name"
+    t.string "company_name"
+    t.string "company_number"
+    t.string "address_1"
+    t.string "address_2"
+    t.string "address_3"
+    t.string "town"
+    t.string "postcode"
+    t.string "country"
+    t.string "phone_2"
   end
 
   create_table "applicants", force: :cascade do |t|
@@ -30,6 +41,20 @@ ActiveRecord::Schema.define(version: 2020_04_30_165924) do
     t.string "email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "residence_status"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "company_name"
+    t.string "company_number"
+    t.string "address_1"
+    t.string "address_2"
+    t.string "address_3"
+    t.string "town"
+    t.string "postcode"
+    t.string "country"
+    t.string "phone_2"
+    t.bigint "agent_id", null: false
+    t.index ["agent_id"], name: "index_applicants_on_agent_id"
   end
 
   create_table "decisions", force: :cascade do |t|
@@ -56,9 +81,12 @@ ActiveRecord::Schema.define(version: 2020_04_30_165924) do
     t.bigint "agent_id"
     t.bigint "applicant_id"
     t.string "reference"
+    t.string "ward"
+    t.bigint "user_id", null: false
     t.index ["agent_id"], name: "index_planning_applications_on_agent_id"
     t.index ["applicant_id"], name: "index_planning_applications_on_applicant_id"
     t.index ["site_id"], name: "index_planning_applications_on_site_id"
+    t.index ["user_id"], name: "index_planning_applications_on_user_id"
   end
 
   create_table "sites", force: :cascade do |t|
@@ -85,4 +113,6 @@ ActiveRecord::Schema.define(version: 2020_04_30_165924) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "applicants", "agents"
+  add_foreign_key "planning_applications", "users"
 end
