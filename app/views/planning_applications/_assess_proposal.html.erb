@@ -5,7 +5,16 @@
     </h2>
     <ul class="app-task-list__items">
       <li class="app-task-list__item">
-        Evaluate permitted development policy requirements
+        <%=
+          link_to "Evaluate permitted development policy requirements",
+              @planning_application.policy_evaluation ?
+                edit_planning_application_policy_evaluation_path(@planning_application) :
+                  new_planning_application_policy_evaluation_path(@planning_application)
+        %>
+
+        <% if @planning_application.policy_evaluation %>
+          <strong class="govuk-tag app-task-list__task-completed">Completed</strong>
+        <% end%>
       </li>
       <li class="app-task-list__item">
         Confirm recommendation

@@ -5,6 +5,7 @@ class PlanningApplication < ApplicationRecord
 
   enum status: { in_assessment: 0, awaiting_determination: 1, determined: 2 }
 
+  has_one :policy_evaluation, dependent: :destroy
   has_many :decisions, dependent: :destroy
 
   has_one :assessor_decision, -> {
