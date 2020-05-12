@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class PolicyEvaluationsController < ApplicationController
+  include PlanningApplicationDashboardVariables
+
   before_action :set_planning_application
+  before_action :set_planning_application_dashboard_variables
 
   def new
     @policy_evaluation = @planning_application.build_policy_evaluation
-    @site = @planning_application.site
-    @agent = @planning_application.agent if @planning_application.agent
-    @applicant = @planning_application.applicant
   end
 
   def create
@@ -16,19 +16,12 @@ class PolicyEvaluationsController < ApplicationController
     if @policy_evaluation.save
       redirect_to @planning_application
     else
-      @site = @planning_application.site
-      @agent = @planning_application.agent if @planning_application.agent
-      @applicant = @planning_application.applicant
-
       render :new
     end
   end
 
   def edit
     @policy_evaluation = @planning_application.policy_evaluation
-    @site = @planning_application.site
-    @agent = @planning_application.agent if @planning_application.agent
-    @applicant = @planning_application.applicant
   end
 
   def update
@@ -37,10 +30,6 @@ class PolicyEvaluationsController < ApplicationController
     if @policy_evaluation.update(policy_evaluation_params)
       redirect_to @planning_application
     else
-      @site = @planning_application.site
-      @agent = @planning_application.agent if @planning_application.agent
-      @applicant = @planning_application.applicant
-
       render :edit
     end
   end
