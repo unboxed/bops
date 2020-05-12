@@ -20,4 +20,5 @@ Applicant.find_or_create_by!(email: "applicant@example.com") do |applicant|
   applicant.first_name = Faker::Name.unique.first_name,
   applicant.last_name = Faker::Name.unique.last_name,
   applicant.phone = Faker::Base.numerify("+44 7### ######")
+  applicant.residence_status = true
 end

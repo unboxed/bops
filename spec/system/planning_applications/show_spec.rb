@@ -152,7 +152,7 @@ RSpec.feature "Planning Application show page", type: :system do
       within(".govuk-grid-column-one-third.supporting") do
         click_button('Open all')
       end
-      expect(page).to have_text(planning_application.site.address_1)
+      expect(page).to have_text("7 Elm Grove")
     end
   end
 

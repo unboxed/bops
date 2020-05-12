@@ -10,5 +10,6 @@ FactoryBot.define do
     postcode { Faker::Address.postcode }
     address_1 { Faker::Address.street_address }
     town { "London" }
+    residence_status { false }
   end
 end
