@@ -1,0 +1,9 @@
+jason:
+  first_name: "Jason"
+  last_name: "Collins"
+  address_1: "4 College Road"
+  town: "London"
+  postcode: "SE15 6UT"
+  phone: "07814 222222"
+  email: "applicant@example.com"
+  residence_status: true

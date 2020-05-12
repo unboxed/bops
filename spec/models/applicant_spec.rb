@@ -9,8 +9,12 @@ RSpec.describe Applicant, type: :model do
     expect(subject).to be_valid
   end
 
-  it "should create applicant name as a string" do
-    expect(subject.name).to be_a(String)
+  it "should create applicant first name as a string" do
+    expect(subject.first_name).to be_a(String)
+  end
+
+  it "should create applicant first name as a string" do
+    expect(subject.last_name).to be_a(String)
   end
 
   it "should create applicant phone number as a string" do
@@ -19,5 +23,13 @@ RSpec.describe Applicant, type: :model do
 
   it "should create applicant phone number as a string" do
     expect(subject.email).to be_a(String)
+  end
+
+  it "should create applicant town as a string" do
+    expect(subject.town).to be_a(String)
+  end
+
+  it "should create applicant postcode as a string" do
+    expect(subject.postcode).to be_a(String)
   end
 end
