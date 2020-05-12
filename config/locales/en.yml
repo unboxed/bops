@@ -4,3 +4,4 @@ en:
   determined: "Determined"
   full: "Full Householder Application"
   lawfulness_certificate: "Certificate of Lawfulness"
+  user_not_authorized: "You are not authorized to perform this action."
