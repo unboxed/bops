@@ -11,7 +11,9 @@ class PolicyEvaluationsController < ApplicationController
   end
 
   def create
-    @policy_evaluation = @planning_application.build_policy_evaluation(policy_evaluation_params)
+    @policy_evaluation = @planning_application.build_policy_evaluation(
+      policy_evaluation_params
+    )
 
     if @policy_evaluation.save
       redirect_to @planning_application
@@ -37,7 +39,9 @@ class PolicyEvaluationsController < ApplicationController
   private
 
   def set_planning_application
-    @planning_application = PlanningApplication.find(params[:planning_application_id])
+    @planning_application = PlanningApplication.find(
+      params[:planning_application_id]
+    )
   end
 
   def policy_evaluation_params
