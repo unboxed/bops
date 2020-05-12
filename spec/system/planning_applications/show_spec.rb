@@ -3,10 +3,12 @@
 require "rails_helper"
 
 RSpec.feature "Planning Application show page", type: :system do
+  fixtures :agents, :applicants, :sites
+
   let!(:assessor) { create(:user, :assessor) }
-  let!(:site) { create(:site, address_1: "7 Elm Grove", town: "London", postcode: "SE15 6UT") }
-  let!(:agent) { create(:agent) }
-  let!(:applicant) { create(:applicant) }
+  let!(:site) { sites(:elm_grove) }
+  let!(:applicant) { applicants(:jason) }
+  let!(:agent) { agents(:jennifer) }
   subject(:planning_application) { create(:planning_application, description: "Roof extension",
                                        application_type: "lawfulness_certificate",
                                        reference: "AP/453/880",
@@ -53,56 +55,56 @@ RSpec.feature "Planning Application show page", type: :system do
       within(".govuk-grid-column-one-third.supporting") do
         click_button("Open all")
       end
-      expect(page).to have_text(planning_application.applicant.first_name)
+      expect(page).to have_text("Jason")
     end
 
     scenario "Applicant last name is correct" do
       within(".govuk-grid-column-one-third.supporting") do
         click_button("Open all")
       end
-      expect(page).to have_text(planning_application.applicant.last_name)
+      expect(page).to have_text("Collins")
     end
 
     scenario "Applicant phone is correct" do
       within(".govuk-grid-column-one-third.supporting") do
         click_button("Open all")
       end
-      expect(page).to have_text(planning_application.applicant.phone)
+      expect(page).to have_text("07814 222222")
     end
 
     scenario "Applicant email is correct" do
       within(".govuk-grid-column-one-third.supporting") do
         click_button('Open all')
       end
-      expect(page).to have_text(planning_application.applicant.email)
+      expect(page).to have_text("applicant@example.com")
     end
 
     scenario "Agent first name is correct" do
       within(".govuk-grid-column-one-third.supporting") do
         click_button('Open all')
       end
-      expect(page).to have_text(planning_application.agent.first_name)
+      expect(page).to have_text("Jennifer")
     end
 
     scenario "Agent last name is correct" do
       within(".govuk-grid-column-one-third.supporting") do
         click_button('Open all')
       end
-      expect(page).to have_text(planning_application.agent.last_name)
+      expect(page).to have_text("Harper")
     end
 
     scenario "Agent phone is correct" do
       within(".govuk-grid-column-one-third.supporting") do
         click_button('Open all')
       end
-      expect(page).to have_text(planning_application.agent.phone)
+      expect(page).to have_text("07532 1133333")
     end
 
     scenario "Agent email is correct" do
       within(".govuk-grid-column-one-third.supporting") do
         click_button('Open all')
       end
-      expect(page).to have_text(planning_application.agent.email)
+      expect(page).to have_text("agent@example.com")
     end
 
     scenario "Application information accordion is minimised by default" do
