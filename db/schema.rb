@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_11_170051) do
+ActiveRecord::Schema.define(version: 2020_05_12_092632) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 2020_05_11_170051) do
     t.bigint "applicant_id"
     t.string "reference"
     t.string "ward"
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.index ["agent_id"], name: "index_planning_applications_on_agent_id"
     t.index ["applicant_id"], name: "index_planning_applications_on_applicant_id"
     t.index ["site_id"], name: "index_planning_applications_on_site_id"

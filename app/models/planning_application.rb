@@ -18,7 +18,7 @@ class PlanningApplication < ApplicationRecord
   belongs_to :site
   belongs_to :agent
   belongs_to :applicant
-  belongs_to :user
+  belongs_to :user, optional: true
 
   before_create :set_target_date
 

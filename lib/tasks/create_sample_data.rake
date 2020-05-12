@@ -57,7 +57,8 @@ task create_sample_data: :environment do
     site_id: stonehenge_site.id,
     ward: "Glastonbury",
     agent: jane_agent,
-    applicant: jason_applicant
+    applicant: jason_applicant,
+    user: assessor
   ) do |pa|
     pa.status = :awaiting_determination
     pa.description = "Extra stone on top"
@@ -79,7 +80,8 @@ task create_sample_data: :environment do
     application_type: :lawfulness_certificate,
     site: castle_site,
     agent: jane_agent,
-    applicant: jason_applicant
+    applicant: jason_applicant,
+    user: assessor
   ) do |pa|
     pa.status = :determined
     pa.description = "Extra moat"
@@ -107,7 +109,8 @@ task create_sample_data: :environment do
     site: palace_site,
     agent: jane_agent,
     applicant: jason_applicant,
-    ward: "Victoria"
+    ward: "Victoria",
+    user: assessor
   ) do |pa|
     pa.description = "Lean-to"
     pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
