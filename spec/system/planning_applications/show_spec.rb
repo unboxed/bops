@@ -5,10 +5,8 @@ require "rails_helper"
 RSpec.feature "Planning Application show page", type: :system do
   let!(:assessor) { create(:user, :assessor) }
   let!(:site) { create(:site, address_1: "7 Elm Grove", town: "London", postcode: "SE15 6UT") }
-  let!(:agent) { create(:agent, first_name: "Jennifer", last_name: "Agent", phone: "07861637689",
-                            email: "jennifer@example.com") }
-  let!(:applicant) { create(:applicant, first_name: "James", last_name: "Applicant", phone: "07861637689",
-                            email: "james@example.com") }
+  let!(:agent) { create(:agent) }
+  let!(:applicant) { create(:applicant) }
   subject(:planning_application) { create(:planning_application, description: "Roof extension",
                                        application_type: "lawfulness_certificate",
                                        reference: "AP/453/880",

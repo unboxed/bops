@@ -30,7 +30,7 @@ task create_sample_data: :environment do
     email: Faker::Internet.email,
     postcode: Faker::Address.postcode,
     address_1: Faker::Address.street_address,
-    town: "London"
+    town: Faker::Address.city
   )
 
   # Applicant
@@ -41,7 +41,7 @@ task create_sample_data: :environment do
     email: Faker::Internet.email,
     postcode: Faker::Address.postcode,
     address_1: Faker::Address.street_address,
-    town: "London"
+    town: Faker::Address.city
   )
 
   # An application with no decisions

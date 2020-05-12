@@ -1,0 +1,8 @@
+agent:
+  first_name: "Jennifer"
+  last_name: "Agent"
+  address_1: "4 Crawley Road"
+  town: "London"
+  postcode: "SE21 4AU"
+  phone: "07532 1133333"
+  email: "agent@example.com"
