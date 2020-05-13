@@ -10,6 +10,6 @@
 </div>
 <div class="govuk-grid-column-one-third">
   <p class="govuk-breadcrumbs" style="float: right; margin: 20px 0 30px 100px;">
-    <%= link_to "Log out", destroy_user_session_path, method: :delete %>
+    <%= link_to_if(user_signed_in?, "Log out", destroy_user_session_path, method: :delete) %>
   </p>
 </div>

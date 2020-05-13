@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="govuk-template app-html-class">
-
+<%= render partial: "/layouts/head" %>
 <body class="govuk-template__body js-enabled" data-test="My value" data-other="report:details">
 <script>
     document.body.className = (
@@ -12,7 +12,6 @@
 
 <a href="#main-content" class="govuk-skip-link">Skip to main content</a>
 <%= render "flashes" %>
-<%= render partial: "/layouts/head" %>
 <%= render partial: "/layouts/header" %>
 
 <div class="govuk-width-container app-width-container--wide">
