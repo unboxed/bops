@@ -9,7 +9,8 @@ Capybara.add_selector(:planning_applications_status_tab) do
 end
 
 Capybara.add_selector(:assessment_step) do
-  xpath { |assessment_step_text| "//li[a[text()=\"#{assessment_step_text}\"]]" }
+  # Selects a task list item by its text regardless of whether it contains a link
+  xpath { |assessment_step_text| "//*[@class='app-task-list']//li[span[(a|.)[text()='#{assessment_step_text}']]]" }
 end
 
 Capybara.register_driver :chrome_headless do |app|

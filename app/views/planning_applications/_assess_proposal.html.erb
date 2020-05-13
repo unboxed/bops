@@ -4,20 +4,29 @@
       <span class="app-task-list__section-number">Assess the proposal</span>
     </h2>
     <ul class="app-task-list__items">
-      <li class="app-task-list__item">
-        <%=
-          link_to "Evaluate permitted development policy requirements",
-              @planning_application.policy_evaluation ?
-                edit_planning_application_policy_evaluation_path(@planning_application) :
-                  new_planning_application_policy_evaluation_path(@planning_application)
-        %>
+        <li class="app-task-list__item">
+          <% step_name = "Evaluate permitted development policy requirements" %>
 
-        <% if @planning_application.policy_evaluation %>
-          <strong class="govuk-tag app-task-list__task-completed">Completed</strong>
-        <% end%>
-      </li>
+          <% if current_user.reviewer? %>
+            <span class="app-task-list__task-name"><%= step_name %></span>
+          <% else %>
+            <span class="app-task-list__task-name">
+              <%=
+                link_to step_name,
+                    @planning_application.policy_evaluation ?
+                      edit_planning_application_policy_evaluation_path(@planning_application) :
+                        new_planning_application_policy_evaluation_path(@planning_application),
+                    aria: { described_by: "#{step_name}-completed" }
+              %>
+            </span>
+          <% end %>
+
+          <% if @planning_application.policy_evaluation %>
+            <strong class="govuk-tag app-task-list__task-completed">Completed</strong>
+          <% end %>
+        </li>
       <li class="app-task-list__item">
-        Confirm recommendation
+        <span class="app-task-list__task-name">Confirm recommendation</span>
       </li>
     </ul>
   </li>
@@ -27,7 +36,7 @@
     </h2>
     <ul class="app-task-list__items">
       <li class="app-task-list__item">
-        Review determination notice
+        <span class="app-task-list__task-name">Review determination notice</span>
       </li>
     </ul>
   </li>

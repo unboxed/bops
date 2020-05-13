@@ -37,4 +37,20 @@ FactoryBot.define do
       pa.save!
     end
   end
+
+  trait :with_policy_evaluation_requirements_unmet do
+    after(:create) do |pa|
+      create :policy_evaluation,
+        requirements_met: false,
+        planning_application: pa
+    end
+  end
+
+  trait :with_policy_evaluation_requirements_met do
+    after(:create) do |pa|
+      create :policy_evaluation,
+        requirements_met: true,
+        planning_application: pa
+    end
+  end
 end
