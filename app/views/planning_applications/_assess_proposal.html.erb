@@ -11,18 +11,20 @@
             <span class="app-task-list__task-name"><%= step_name %></span>
           <% else %>
             <span class="app-task-list__task-name">
-              <%=
-                link_to step_name,
-                    @planning_application.policy_evaluation ?
-                      edit_planning_application_policy_evaluation_path(@planning_application) :
-                        new_planning_application_policy_evaluation_path(@planning_application),
-                    aria: { described_by: "#{step_name}-completed" }
+              <%
+                form_path = @planning_application.policy_evaluation ?
+                  edit_planning_application_policy_evaluation_path(@planning_application) :
+                  new_planning_application_policy_evaluation_path(@planning_application)
               %>
+
+              <% aria_attributes = @planning_application.policy_evaluation ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
+
+              <%= link_to step_name, form_path, aria: aria_attributes %>
             </span>
           <% end %>
 
           <% if @planning_application.policy_evaluation %>
-            <strong class="govuk-tag app-task-list__task-completed">Completed</strong>
+            <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
           <% end %>
         </li>
       <li class="app-task-list__item">
