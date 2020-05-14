@@ -62,8 +62,7 @@ task create_sample_data: :environment do
     user: assessor
   ) do |pa|
     pa.status = :awaiting_determination
-    pa.description = "Installation of new external insulated render to be added to existing walls"
-    pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
+    pa.description = "Installation of new external insulated render to be added"
   end
 
   bowen_planning_application.update(target_date: 2.weeks.from_now)
@@ -84,7 +83,7 @@ task create_sample_data: :environment do
     user: assessor
   ) do |pa|
     pa.status = :determined
-    pa.description = "Construction of a single storey rear extension with 2 x rooflights"
+    pa.description = "Construction of a single storey rear extension"
     pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
   end
 
@@ -145,7 +144,7 @@ task create_sample_data: :environment do
     ward: "South Bermondsey",
     applicant: jason_applicant
   ) do |pa|
-    pa.description = "Single storey rear extension and rear dormer extension with juliette balcony and the addition of three roof lights to the front roof slope"
+    pa.description = "Single storey rear extension and rear dormer extension"
     pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
   end
 
