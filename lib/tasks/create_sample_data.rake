@@ -63,6 +63,7 @@ task create_sample_data: :environment do
   ) do |pa|
     pa.status = :awaiting_determination
     pa.description = "Installation of new external insulated render to be added"
+    pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
   end
 
   bowen_planning_application.update(target_date: 2.weeks.from_now)
