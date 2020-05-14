@@ -1,5 +1,3 @@
-
-
 <footer class="govuk-footer " role="contentinfo">
   <div class="govuk-width-container ">
     <div class="govuk-footer__meta">
@@ -7,24 +5,16 @@
         <h2 class="govuk-visually-hidden">Support links</h2>
         <ul class="govuk-footer__inline-list">
           <li class="govuk-footer__inline-list-item">
-            <a class="govuk-footer__link" href="#1">
-              Help
-            </a>
+            <%= link_to "Help", "#1", class: "govuk-footer__link" %>
           </li>
           <li class="govuk-footer__inline-list-item">
-            <a class="govuk-footer__link" href="#2">
-              Cookies
-            </a>
+            <%= link_to "Cookies", "#2", class: "govuk-footer__link" %>
           </li>
           <li class="govuk-footer__inline-list-item">
-            <a class="govuk-footer__link" href="#3">
-              Contact
-            </a>
+            <%= link_to "Contact", "#3", class: "govuk-footer__link" %>
           </li>
           <li class="govuk-footer__inline-list-item">
-            <a class="govuk-footer__link" href="#4">
-              Terms and conditions
-            </a>
+            <%= link_to "Terms and conditions", "#4", class: "govuk-footer__link" %>
           </li>
         </ul>
 
@@ -35,11 +25,12 @@
         </svg>
         <span class="govuk-footer__licence-description">
           All content is available under the
-          <a class="govuk-footer__link" href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Open Government Licence v3.0</a>, except where otherwise stated
+          <%= link_to "Open Government Licence v3.0", "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/", target: "_blank", class: "govuk-footer__link", rel: "license" %>
+          , except where otherwise stated
         </span>
       </div>
       <div class="govuk-footer__meta-item">
-        <a class="govuk-footer__link govuk-footer__copyright-logo" href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">© Crown copyright</a>
+        <%= link_to "© Crown copyright", "https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/", target: "_blank", class: "govuk-footer__link govuk-footer__copyright-logo" %>
       </div>
     </div>
   </div>
