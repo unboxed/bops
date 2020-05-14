@@ -46,119 +46,117 @@ task create_sample_data: :environment do
   )
 
   # An application with no decisions
-  stonehenge_site = Site.find_or_create_by!(
-    address_1: "Stonehenge",
-    town: "Amesbury",
-    county: "Wiltshire",
-    postcode: "SP4 7DE"
+  bowen_site = Site.find_or_create_by!(
+    address_1: "47 Bowen Drive",
+    town: "Southwark",
+    county: "London",
+    postcode: "SE21 8NS"
   )
 
-  stonehenge_planning_application = PlanningApplication.find_or_create_by(
+  bowen_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
-    site_id: stonehenge_site.id,
-    ward: "Glastonbury",
+    site_id: bowen_site.id,
+    ward: "Dulwich Wood",
     agent: jane_agent,
     applicant: jason_applicant,
     user: assessor
   ) do |pa|
     pa.status = :awaiting_determination
-    pa.description = "Extra stone on top"
-    pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
+    pa.description = "Installation of new external insulated render to be added"
   end
 
-  stonehenge_planning_application.update(target_date: 2.weeks.from_now)
+  bowen_planning_application.update(target_date: 2.weeks.from_now)
 
   # An application with an assessor decision
-  castle_site = Site.find_or_create_by!(
-    address_1: "Dover Castle",
-    address_2: "Castle Hill",
-    town: "Dover",
-    county: "Kent",
-    postcode: "CT16 1HU"
+  college_site = Site.find_or_create_by!(
+    address_1: "90A College Road",
+    town: "Southwark",
+    county: "London",
+    postcode: "SE21 7NA"
   )
 
-  castle_planning_application = PlanningApplication.find_or_create_by(
+  college_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
-    site: castle_site,
+    site: college_site,
     agent: jane_agent,
     applicant: jason_applicant,
     user: assessor
   ) do |pa|
     pa.status = :determined
-    pa.description = "Extra moat"
+    pa.description = "Construction of a single storey rear extension"
     pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
   end
 
-  castle_planning_application.update(target_date: 1.week.from_now)
+  college_planning_application.update(target_date: 1.week.from_now)
 
-  unless castle_planning_application.assessor_decision
-    castle_assessor_decision = Decision.new(user: assessor)
-    castle_assessor_decision.mark_granted
-    castle_planning_application.decisions << castle_assessor_decision
+  unless college_planning_application.assessor_decision
+    college_assessor_decision = Decision.new(user: assessor)
+    college_assessor_decision.mark_granted
+    college_planning_application.decisions << college_assessor_decision
   end
 
   # An application with an assessor and reviewer decision
-  palace_site = Site.find_or_create_by!(
-    address_1: "Buckingham Palace",
-    town: "Westminster",
+  bellenden_site = Site.find_or_create_by!(
+    address_1: "150 Bellenden Road",
+    town: "Southwark",
     county: "London",
-    postcode: "SW1A 1AA"
+    postcode: "SE15 4QY"
   )
 
-  palace_planning_application = PlanningApplication.find_or_create_by(
+  bellenden_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
-    site: palace_site,
+    site: bellenden_site,
     agent: jane_agent,
     applicant: jason_applicant,
-    ward: "Victoria",
+    ward: "Rye Lane",
     user: assessor
   ) do |pa|
-    pa.description = "Lean-to"
+    pa.description = "Construction of a single storey side extension"
     pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
   end
 
-  palace_planning_application.update(target_date: 3.weeks.from_now)
+  bellenden_planning_application.update(target_date: 3.weeks.from_now)
 
-  unless palace_planning_application.assessor_decision
-    palace_assessor_decision = Decision.new(user: assessor)
-    palace_assessor_decision.mark_granted
-    palace_planning_application.decisions << palace_assessor_decision
+  unless bellenden_planning_application.assessor_decision
+    bellenden_assessor_decision = Decision.new(user: assessor)
+    bellenden_assessor_decision.mark_granted
+    bellenden_planning_application.decisions << bellenden_assessor_decision
   end
 
-  unless palace_planning_application.reviewer_decision
-    palace_reviewer_decision = Decision.new(user: reviewer)
-    palace_reviewer_decision.mark_granted
-    palace_planning_application.decisions << palace_reviewer_decision
+  unless bellenden_planning_application.reviewer_decision
+    bellenden_reviewer_decision = Decision.new(user: reviewer)
+    bellenden_reviewer_decision.mark_granted
+    bellenden_planning_application.decisions << bellenden_reviewer_decision
   end
 
   # An application with an assessor and reviewer decision
-  pier_site = Site.find_or_create_by!(
-    address_1: "Brighton Palace Pier",
-    address_2: "Madeira Dr",
-    town: "Brighton",
-    county: "East Sussex",
-    postcode: "BN2 1TW"
+  james_site = Site.find_or_create_by!(
+    address_1: "186 St James Road",
+    town: "Southwark",
+    county: "London",
+    postcode: "SE1 5LN"
   )
 
-  pier_planning_application = PlanningApplication.find_or_create_by(
+  james_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
-    site: pier_site,
+    site: james_site,
     agent: jane_agent,
+    ward: "South Bermondsey",
     applicant: jason_applicant
   ) do |pa|
-    pa.description = "Extend pier to reach France"
+    pa.description = "Single storey rear extension and rear dormer extension"
     pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
   end
 
-  unless pier_planning_application.assessor_decision
-    pier_assessor_decision = Decision.new(user: assessor)
-    pier_assessor_decision.mark_refused
-    pier_planning_application.decisions << pier_assessor_decision
+  unless james_planning_application.assessor_decision
+    james_assessor_decision = Decision.new(user: assessor)
+    james_assessor_decision.mark_refused
+    james_planning_application.decisions << james_assessor_decision
   end
 
-  unless pier_planning_application.reviewer_decision
-    pier_reviewer_decision = Decision.new(user: reviewer)
-    pier_reviewer_decision.mark_granted
-    pier_planning_application.decisions << pier_reviewer_decision
+  unless james_planning_application.reviewer_decision
+    james_reviewer_decision = Decision.new(user: reviewer)
+    james_reviewer_decision.mark_granted
+    james_planning_application.decisions << james_reviewer_decision
   end
 end
