@@ -11,7 +11,7 @@ RSpec.describe PlanningApplicationPolicy, type: :policy do
       context "when signed in as a #{role}" do
         let(:user) { users(role) }
 
-        %i[show index update].each do |action|
+        %i[show index].each do |action|
           it "permits the '#{action}' action" do
             expect(policy).to permit_action(action)
           end

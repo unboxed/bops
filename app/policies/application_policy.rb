@@ -2,7 +2,10 @@
 
 class ApplicationPolicy
   class_attribute :viewers
+  class_attribute :editors
+
   self.viewers = []
+  self.editors = []
 
   attr_reader :user, :record
 
@@ -13,18 +16,17 @@ class ApplicationPolicy
     @record = record
   end
 
-  def viewer?
-    signed_in_viewer?
+  def editor?
+    signed_in_editor?
   end
 
-  # All of the primary actions by default to viewer
-  alias_method :index?, :viewer?
-  alias_method :show?, :viewer?
-  alias_method :create?, :viewer?
-  alias_method :new?, :viewer?
-  alias_method :update?, :viewer?
-  alias_method :edit?, :viewer?
-  alias_method :destroy?, :viewer?
+  alias_method :index?, :editor?
+  alias_method :show?, :editor?
+  alias_method :create?, :editor?
+  alias_method :new?, :editor?
+  alias_method :update?, :editor?
+  alias_method :edit?, :editor?
+  alias_method :destroy?, :editor?
 
   class Scope
     attr_reader :user, :scope
@@ -56,7 +58,7 @@ class ApplicationPolicy
     # are included so that any overriding method can call `is_viewer? rather
     # than having to re-implement the check of the array every time.
     #
-    %w[viewer].each do |type|
+    %w[viewer editor].each do |type|
       class_eval <<-RUBY
         def signed_in_#{type}?
           signed_in? && is_#{type}?

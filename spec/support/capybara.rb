@@ -8,6 +8,11 @@ Capybara.add_selector(:planning_applications_status_tab) do
   xpath { "//*[@id='planning_applications_statusTab']" }
 end
 
+Capybara.add_selector(:assessment_step) do
+  # Selects a task list item by its text regardless of whether it contains a link
+  xpath { |assessment_step_text| "//*[@class='app-task-list']//li[span[(a|.)[text()='#{assessment_step_text}']]]" }
+end
+
 Capybara.register_driver :chrome_headless do |app|
   Capybara::Selenium::Driver.load_selenium
   browser_options = ::Selenium::WebDriver::Chrome::Options.new
