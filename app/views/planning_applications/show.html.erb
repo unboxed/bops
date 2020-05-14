@@ -1,35 +1,34 @@
-<%= render "layouts/breadcrumb_navigation" %>
 <div class="govuk-grid-row">
-  <div style="float: right; margin: 20px 0 30px 100px; ">
-    <p class="govuk-body">
-      <strong class="govuk-tag govuk-tag--<%= @planning_application.days_left > 7 ? 'green' : 'red' %>">
-        Due: <%= @planning_application.target_date.strftime("%B %d") %><br> <%= @planning_application.days_left %> days
-        remaining
-      </strong>
-    </p>
-  </div>
-  <div class="govuk-grid-row">
+  <%= render "layouts/breadcrumb_navigation" %>
+  <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l" style="margin-bottom: 7px;">
       Fast track application: <%= @planning_application.reference %>
     </h1>
-    <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m" style="margin-bottom: 75px;">
-        <%= display_address(@site) %>
-      </h2>
-    </div>
-    <div class="govuk-grid-column-one-third">
-      <h2 class="govuk-heading-m">
-        <span class="app-task-list__section-number">Supporting information</span>
-      </h2>
-    </div>
+    <h2 class="govuk-heading-m" style="margin-bottom: 75px;">
+      <%= display_address(@site) %>
+    </h2>
   </div>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds application">
-      <%= render "application_information" %>
-      <%= render "assess_proposal" %>
+  <div class="govuk-grid-column-one-third">
+    <div style="float: right; margin: 20px 0 30px 100px; ">
+      <p class="govuk-body">
+        <strong class="govuk-tag govuk-tag--<%= @planning_application.days_left > 7 ? 'green' : 'red' %>">
+          Due: <%= @planning_application.target_date.strftime("%B %d") %><br> <%= @planning_application.days_left %>
+          days
+          remaining
+        </strong>
+      </p>
     </div>
-    <div class="govuk-grid-column-one-third supporting">
-      <%= render "supporting_information" %>
-    </div>
+    <h2 class="govuk-heading-m">
+      <span class="app-task-list__section-number">Supporting information</span>
+    </h2>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds application">
+    <%= render "application_information" %>
+    <%= render "assess_proposal" %>
+  </div>
+  <div class="govuk-grid-column-one-third supporting">
+    <%= render "supporting_information" %>
   </div>
 </div>
