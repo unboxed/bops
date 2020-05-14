@@ -16,17 +16,12 @@ class ApplicationPolicy
     @record = record
   end
 
-  def viewer?
-    signed_in_viewer?
-  end
-
   def editor?
     signed_in_editor?
   end
 
-  alias_method :index?, :viewer?
-  alias_method :show?, :viewer?
-
+  alias_method :index?, :editor?
+  alias_method :show?, :editor?
   alias_method :create?, :editor?
   alias_method :new?, :editor?
   alias_method :update?, :editor?
