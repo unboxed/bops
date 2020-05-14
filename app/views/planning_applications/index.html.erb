@@ -11,13 +11,17 @@
     <p class="govuk-body"><%= current_user.name %>, <%= current_user.role.capitalize %></p>
   </div>
 </div>
-<div class="govuk-tabs" data-module="govuk-tabs">
-  <h2 class="govuk-tabs__title">
-    Contents
-  </h2>
-  <%= render "planning_application_tabs" %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <div class="govuk-tabs" data-module="govuk-tabs">
+      <h2 class="govuk-tabs__title">
+        Contents
+      </h2>
+      <%= render "planning_application_tabs" %>
 
-  <%= render "planning_application_table", planning_applications: @planning_applications.in_assessment, id: "in_assessment", title: "In assessment" unless current_user.reviewer?%>
-  <%= render "planning_application_table", planning_applications: @planning_applications.awaiting_determination, id: "awaiting_determination", title: "Awaiting manager's determination" %>
-  <%= render "planning_application_table", planning_applications: @planning_applications.determined, id: "determined", title: "Determined" %>
+      <%= render "planning_application_table", planning_applications: @planning_applications.in_assessment, id: "in_assessment", title: "In assessment" unless current_user.reviewer?%>
+      <%= render "planning_application_table", planning_applications: @planning_applications.awaiting_determination, id: "awaiting_determination", title: "Awaiting manager's determination" %>
+      <%= render "planning_application_table", planning_applications: @planning_applications.determined, id: "determined", title: "Determined" %>
+    </div>
+  </div>
 </div>
