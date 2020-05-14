@@ -5,6 +5,40 @@ require "rails_helper"
 RSpec.describe PlanningApplication, type: :model do
   subject { create :planning_application }
 
+  describe "decision validations" do
+    let(:assessor)          { build :user, :assessor }
+    let(:reviewer)          { build :user, :reviewer }
+
+    let(:decision_associated_with_reviewer) { build :decision, user: reviewer }
+    let(:decision_associated_with_assessor) { build :decision, user: assessor }
+
+    it "is invalid when an assessor_decision is associated with a non-assessor" do
+      subject.assessor_decision = decision_associated_with_reviewer
+
+      expect(subject).to be_invalid
+      expect(subject.errors.full_messages).to include "Assessor decision cannot be associated with a non-assessor"
+    end
+
+    it "is valid when an assessor_decision is associated with an assessor" do
+      subject.assessor_decision = decision_associated_with_assessor
+
+      expect(subject).to be_valid
+    end
+
+    it "is invalid when a reviewer_decision is associated with a non-reviewer" do
+      subject.reviewer_decision = decision_associated_with_assessor
+
+      expect(subject).to be_invalid
+      expect(subject.errors.full_messages).to include "Reviewer decision cannot be associated with a non-reviewer"
+    end
+
+    it "is valid when an reviewer_decision is associated with an reviewer" do
+      subject.reviewer_decision = decision_associated_with_reviewer
+
+      expect(subject).to be_valid
+    end
+  end
+
   describe "statuses" do
     it "has a list of statuses" do
       expect(described_class.statuses).to eq(
@@ -26,13 +60,13 @@ RSpec.describe PlanningApplication, type: :model do
 
     describe "assessor_decision" do
       it "returns the assessor's decision" do
-        expect(subject.assessor_decision).to eq assessor_decision
+        expect(subject.reload.assessor_decision).to eq assessor_decision
       end
     end
 
     describe "reviewer_decision" do
       it "returns the reviewer's decision" do
-        expect(subject.reviewer_decision).to eq reviewer_decision
+        expect(subject.reload.reviewer_decision).to eq reviewer_decision
       end
     end
   end
