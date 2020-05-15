@@ -23,7 +23,7 @@ task create_sample_data: :environment do
   reviewer = User.find_by!(email: "reviewer@example.com", role: :reviewer)
 
   # Agent
-  jane_agent = Agent.find_or_create_by!(
+  agent = Agent.find_or_create_by!(
     first_name: Faker::Name.unique.first_name,
     last_name: Faker::Name.unique.last_name,
     phone: Faker::Base.numerify("+44 7### ######"),
@@ -34,7 +34,7 @@ task create_sample_data: :environment do
   )
 
   # Applicant
-  jason_applicant = Applicant.find_or_create_by!(
+  applicant = Applicant.find_or_create_by!(
     first_name: Faker::Name.unique.first_name,
     last_name: Faker::Name.unique.last_name,
     phone: Faker::Base.numerify("+44 7### ######"),
@@ -45,7 +45,7 @@ task create_sample_data: :environment do
     residence_status: true
   )
 
-  # An application with no decisions
+  # A planning application with application_type lawfulness_certificate
   bowen_site = Site.find_or_create_by!(
     address_1: "47 Bowen Drive",
     town: "Southwark",
@@ -57,18 +57,17 @@ task create_sample_data: :environment do
     application_type: :lawfulness_certificate,
     site_id: bowen_site.id,
     ward: "Dulwich Wood",
-    agent: jane_agent,
-    applicant: jason_applicant,
+    agent: agent,
+    applicant: applicant,
     user: assessor
   ) do |pa|
-    pa.status = :awaiting_determination
-    pa.description = "Installation of new external insulated render to be added"
     pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
+    pa.description = "Installation of new external insulated render to be added"
   end
 
   bowen_planning_application.update(target_date: 2.weeks.from_now)
 
-  # An application with an assessor decision
+  # A planning application with application_type lawfulness_certificate
   college_site = Site.find_or_create_by!(
     address_1: "90A College Road",
     town: "Southwark",
@@ -79,24 +78,17 @@ task create_sample_data: :environment do
   college_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
     site: college_site,
-    agent: jane_agent,
-    applicant: jason_applicant,
+    agent: agent,
+    applicant: applicant,
     user: assessor
   ) do |pa|
-    pa.status = :determined
     pa.description = "Construction of a single storey rear extension"
     pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
   end
 
   college_planning_application.update(target_date: 1.week.from_now)
 
-  unless college_planning_application.assessor_decision
-    college_assessor_decision = Decision.new(user: assessor)
-    college_assessor_decision.mark_granted
-    college_planning_application.decisions << college_assessor_decision
-  end
-
-  # An application with an assessor and reviewer decision
+  # A planning application with application_type lawfulness_certificate
   bellenden_site = Site.find_or_create_by!(
     address_1: "150 Bellenden Road",
     town: "Southwark",
@@ -107,8 +99,8 @@ task create_sample_data: :environment do
   bellenden_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
     site: bellenden_site,
-    agent: jane_agent,
-    applicant: jason_applicant,
+    agent: agent,
+    applicant: applicant,
     ward: "Rye Lane",
     user: assessor
   ) do |pa|
@@ -118,7 +110,7 @@ task create_sample_data: :environment do
 
   bellenden_planning_application.update(target_date: 3.weeks.from_now)
 
-  # An application with an assessor and reviewer decision
+  # A planning application with application_type lawfulness_certificate
   james_site = Site.find_or_create_by!(
     address_1: "186 St James Road",
     town: "Southwark",
@@ -129,15 +121,11 @@ task create_sample_data: :environment do
   james_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
     site: james_site,
-    agent: jane_agent,
+    agent: agent,
     ward: "South Bermondsey",
-    applicant: jason_applicant
+    applicant: applicant
   ) do |pa|
-    pa.description = "Single storey rear extension and rear dormer extension"
     pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
-  end
-
-  10.times do
-    FactoryBot.create(:planning_application)
+    pa.description = "Single storey rear extension and rear dormer extension"
   end
 end
