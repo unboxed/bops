@@ -22,6 +22,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
       # Ensure we're starting from a fresh "checklist"
       expect(page).not_to have_css(".app-task-list__task-completed")
 
+      # The second step is not yet a link
+      expect(page).not_to have_link("Confirm recommendation")
+
       click_link "Evaluate permitted development policy requirements"
       choose "Yes"
       click_button "Save"

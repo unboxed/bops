@@ -31,7 +31,7 @@
       <li class="app-task-list__item">
         <% step_name = "Confirm recommendation" %>
 
-        <% if (current_user.assessor? || current_user.admin?) && @planning_application.in_assessment? %>
+        <% if (current_user.assessor? || current_user.admin?) && (@planning_application.policy_evaluation && !@planning_application.assessor_decision) %>
           <span class="app-task-list__task-name">
             <% aria_attributes = @planning_application.assessor_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
 
