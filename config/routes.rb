@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   resources :planning_applications, only: [:show, :index] do
     resource :policy_evaluation, only: [:new, :create, :edit, :update]
+
+    resources :decisions, only: [:new, :create]
   end
 
   get :healthcheck, to: proc { [200, {}, %w[OK]] }

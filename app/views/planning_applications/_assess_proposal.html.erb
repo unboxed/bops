@@ -4,31 +4,46 @@
       <span class="app-task-list__section-number">Assess the proposal</span>
     </h2>
     <ul class="app-task-list__items">
-        <li class="app-task-list__item">
-          <% step_name = "Evaluate permitted development policy requirements" %>
-
-          <% if current_user.reviewer? %>
-            <span class="app-task-list__task-name"><%= step_name %></span>
-          <% else %>
-            <span class="app-task-list__task-name">
-              <%
-                form_path = @planning_application.policy_evaluation ?
-                  edit_planning_application_policy_evaluation_path(@planning_application) :
-                  new_planning_application_policy_evaluation_path(@planning_application)
-              %>
-
-              <% aria_attributes = @planning_application.policy_evaluation ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
-
-              <%= link_to step_name, form_path, aria: aria_attributes %>
-            </span>
-          <% end %>
-
-          <% if @planning_application.policy_evaluation %>
-            <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
-          <% end %>
-        </li>
       <li class="app-task-list__item">
-        <span class="app-task-list__task-name">Confirm recommendation</span>
+        <% step_name = "Evaluate permitted development policy requirements" %>
+
+        <% if (current_user.assessor? || current_user.admin?) && @planning_application.in_assessment? %>
+          <span class="app-task-list__task-name">
+            <%
+              form_path = @planning_application.policy_evaluation ?
+                edit_planning_application_policy_evaluation_path(@planning_application) :
+                new_planning_application_policy_evaluation_path(@planning_application)
+            %>
+
+            <% aria_attributes = @planning_application.policy_evaluation ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
+
+            <%= link_to step_name, form_path, aria: aria_attributes %>
+          </span>
+        <% else %>
+          <span class="app-task-list__task-name"><%= step_name %></span>
+        <% end %>
+
+        <% if @planning_application.policy_evaluation %>
+          <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
+        <% end %>
+      </li>
+
+      <li class="app-task-list__item">
+        <% step_name = "Confirm recommendation" %>
+
+        <% if (current_user.assessor? || current_user.admin?) && (@planning_application.policy_evaluation && !@planning_application.assessor_decision) %>
+          <span class="app-task-list__task-name">
+            <% aria_attributes = @planning_application.assessor_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
+
+            <%= link_to step_name, new_planning_application_decision_path(@planning_application), aria: aria_attributes %>
+          </span>
+        <% else %>
+          <span class="app-task-list__task-name"><%= step_name %></span>
+        <% end %>
+
+        <% if @planning_application.assessor_decision %>
+          <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
+        <% end %>
       </li>
     </ul>
   </li>

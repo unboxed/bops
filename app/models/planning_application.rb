@@ -23,6 +23,9 @@ class PlanningApplication < ApplicationRecord
 
   before_create :set_target_date
 
+  validate :assessor_decision_associated_with_assessor
+  validate :reviewer_decision_associated_with_reviewer
+
   def days_left
     (target_date - Date.current).to_i
   end
@@ -31,5 +34,17 @@ class PlanningApplication < ApplicationRecord
 
   def set_target_date
     self.target_date = created_at + 8.weeks
+  end
+
+  def assessor_decision_associated_with_assessor
+    if assessor_decision.present? && !assessor_decision.user.assessor?
+      errors.add(:assessor_decision, "cannot be associated with a non-assessor")
+    end
+  end
+
+  def reviewer_decision_associated_with_reviewer
+    if reviewer_decision.present? && !reviewer_decision.user.reviewer?
+      errors.add(:reviewer_decision, "cannot be associated with a non-reviewer")
+    end
   end
 end

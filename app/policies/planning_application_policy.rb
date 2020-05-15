@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PlanningApplicationPolicy < ApplicationPolicy
-  self.viewers = %w[assessor reviewer admin]
+  self.editors = %w[assessor reviewer admin]
 
   def show?
     super || signed_in_viewer?
