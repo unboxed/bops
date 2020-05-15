@@ -10,6 +10,7 @@ class DecisionsController < AuthenticationController
     @decision = @planning_application.decisions.build(user: current_user)
   end
 
+  # rubocop:disable Metrics/MethodLength
   def create
     if current_user.assessor?
       @planning_application.decisions.create(
@@ -34,6 +35,7 @@ class DecisionsController < AuthenticationController
       end
     end
   end
+  # rubocop:enable Metrics/MethodLength
 
   private
 
