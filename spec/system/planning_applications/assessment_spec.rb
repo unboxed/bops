@@ -81,8 +81,15 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "as a reviewer" do
     # Look at an application that has had some assessment work done by the assessor
+    let(:policy_evaluation) { create(:policy_evaluation) }
+    let(:assessor) { create :user, :assessor }
+    let(:assessor_decision) { create :decision, user: assessor }
     let!(:planning_application) do
-      create :planning_application, :awaiting_determination, reference: "19/AP/1880"
+      create :planning_application,
+       :awaiting_determination,
+       policy_evaluation: policy_evaluation,
+       assessor_decision: assessor_decision,
+       reference: "19/AP/1880"
     end
 
     before do
@@ -92,7 +99,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     scenario "Assessment reviewing" do
       # Check that the application is no longer in awaiting determination
-      # click_link "Awaiting manager's determination"
       within("#awaiting_determination") do
         click_link "19/AP/1880"
       end
@@ -110,7 +116,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       click_link "Review decision notice"
-      select "Yes"
+      choose "Yes"
       click_button "Save"
 
       expect(page).not_to have_link("Review decision notice")

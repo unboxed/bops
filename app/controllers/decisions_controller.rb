@@ -14,7 +14,7 @@ class DecisionsController < AuthenticationController
     if current_user.assessor?
       @planning_application.decisions.create(
         user: current_user,
-        status: :granted
+        granted: true
       )
       @planning_application.awaiting_determination!
 
@@ -22,7 +22,7 @@ class DecisionsController < AuthenticationController
     elsif current_user.reviewer?
       @decision = @planning_application.decisions.build(
         user: current_user,
-        status: decision_params[:status]
+        granted: decision_params[:granted]
       )
 
       if @decision.save
@@ -44,7 +44,6 @@ class DecisionsController < AuthenticationController
   end
 
   def decision_params
-    params.fetch(:decision, {}).permit(:status)
-    # params.require(:decision).permit(:status)
+    params.fetch(:decision, {}).permit(:granted)
   end
 end

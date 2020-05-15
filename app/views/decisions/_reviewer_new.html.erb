@@ -13,12 +13,12 @@
         </p>
       <div class="govuk-radios govuk-radios--small govuk-radios--conditional" data-module="govuk-radios">
         <div class="govuk-radios__item">
-          <%= form.radio_button :status, "granted", class: "govuk-radios__input" %>
-          <%= form.label :status_granted, "Yes", class: "govuk-radios__label" %>
+          <%= form.radio_button :granted, true, class: "govuk-radios__input" %>
+          <%= form.label :granted_true, "Yes", class: "govuk-radios__label" %>
         </div>
         <div class="govuk-radios__item">
-          <%= form.radio_button :status, "refused", class: "govuk-radios__input" %>
-          <%= form.label :status_refused, "No", class: "govuk-radios__label" %>
+          <%= form.radio_button :granted, false, class: "govuk-radios__input" %>
+          <%= form.label :granted_false, "No", class: "govuk-radios__label" %>
         </div>
       </div>
     </fieldset>
