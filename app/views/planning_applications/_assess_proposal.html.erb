@@ -31,11 +31,11 @@
       <li class="app-task-list__item">
         <% step_name = "Confirm recommendation" %>
 
-        <% if (current_user.assessor? || current_user.admin?) && (@planning_application.policy_evaluation && !@planning_application.assessor_decision) %>
+        <% if (current_user.assessor? || current_user.admin?) && @planning_application.in_assessment? %>
           <span class="app-task-list__task-name">
             <% aria_attributes = @planning_application.assessor_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
 
-            <%= link_to step_name, new_planning_application_decision_path(@planning_application), aria: aria_attributes %>
+            <%= link_to_if @planning_application.policy_evaluation, step_name, new_planning_application_decision_path(@planning_application), aria: aria_attributes %>
           </span>
         <% else %>
           <span class="app-task-list__task-name"><%= step_name %></span>
