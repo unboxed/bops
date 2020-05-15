@@ -118,18 +118,6 @@ task create_sample_data: :environment do
 
   bellenden_planning_application.update(target_date: 3.weeks.from_now)
 
-  unless bellenden_planning_application.assessor_decision
-    bellenden_assessor_decision = Decision.new(user: assessor)
-    bellenden_assessor_decision.mark_granted
-    bellenden_planning_application.decisions << bellenden_assessor_decision
-  end
-
-  unless bellenden_planning_application.reviewer_decision
-    bellenden_reviewer_decision = Decision.new(user: reviewer)
-    bellenden_reviewer_decision.mark_granted
-    bellenden_planning_application.decisions << bellenden_reviewer_decision
-  end
-
   # An application with an assessor and reviewer decision
   james_site = Site.find_or_create_by!(
     address_1: "186 St James Road",
@@ -149,15 +137,7 @@ task create_sample_data: :environment do
     pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
   end
 
-  unless james_planning_application.assessor_decision
-    james_assessor_decision = Decision.new(user: assessor)
-    james_assessor_decision.mark_refused
-    james_planning_application.decisions << james_assessor_decision
-  end
-
-  unless james_planning_application.reviewer_decision
-    james_reviewer_decision = Decision.new(user: reviewer)
-    james_reviewer_decision.mark_granted
-    james_planning_application.decisions << james_reviewer_decision
+  10.times do
+    FactoryBot.create(:planning_application)
   end
 end

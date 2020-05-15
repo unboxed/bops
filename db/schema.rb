@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_12_170000) do
+ActiveRecord::Schema.define(version: 2020_05_15_152917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,12 +56,12 @@ ActiveRecord::Schema.define(version: 2020_05_12_170000) do
   end
 
   create_table "decisions", force: :cascade do |t|
-    t.integer "status", default: 0, null: false
     t.datetime "decided_at"
     t.bigint "planning_application_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "granted", default: false, null: false
     t.index ["planning_application_id"], name: "index_decisions_on_planning_application_id"
     t.index ["user_id"], name: "index_decisions_on_user_id"
   end

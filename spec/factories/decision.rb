@@ -4,17 +4,10 @@ FactoryBot.define do
   factory :decision do
     planning_application
     user
-  end
-
-  trait :pending do
-    status { :pending }
-  end
-
-  trait :granted do
-    status { :granted }
+    granted { true }
   end
 
   trait :refused do
-    status { :refused }
+    granted { false }
   end
 end

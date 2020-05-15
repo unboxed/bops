@@ -1,7 +1,7 @@
 <%= render "planning_applications/assessment_dashboard" do %>
-  <h2 class="govuk-heading-m">Make Recommendation</h2>
-
-  <%= form_with model: @decision, url: planning_application_decisions_path(@planning_application), local: true do |form| %>
-    <%= form.submit "Complete assessment", class: "govuk-button", data: { module: "govuk-button" } %>
-  <% end %>
+  <% if current_user.assessor? %>
+    <%= render "assessor_new", planning_application: @planning_application%>
+  <% else %>
+    <%= render "reviewer_new", planning_application: @planning_application%>
+  <% end%>
 <% end%>

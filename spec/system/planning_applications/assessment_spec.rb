@@ -81,27 +81,63 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "as a reviewer" do
     # Look at an application that has had some assessment work done by the assessor
+    let(:policy_evaluation) { create(:policy_evaluation) }
+    let(:assessor) { create :user, :assessor }
+    let(:assessor_decision) { create :decision, user: assessor }
     let!(:planning_application) do
-      create :planning_application, :with_policy_evaluation_requirements_unmet, reference: "19/AP/1880"
+      create :planning_application,
+       :awaiting_determination,
+       policy_evaluation: policy_evaluation,
+       assessor_decision: assessor_decision,
+       reference: "19/AP/1880"
     end
 
     before do
       sign_in users(:reviewer)
-
       visit root_path
     end
 
     scenario "Assessment reviewing" do
-      # Visit the planning application URL directly, as it's not possible to navigate to it from the UI currently
-      visit planning_application_path(planning_application)
+      # Check that the application is no longer in awaiting determination
+      within("#awaiting_determination") do
+        click_link "19/AP/1880"
+      end
 
-      expect(page).not_to have_link "Evaluate permitted development policy requirements"
+      expect(page).not_to have_link("Evaluate permitted development policy requirements")
 
       within(:assessment_step, "Evaluate permitted development policy requirements") do
         expect(page).to have_completed_tag
       end
 
-      # TODO: Continue this spec to check that the reviewer cannot do other actions meant for an assessor
+      expect(page).not_to have_link("Confirm recommendation")
+
+      within(:assessment_step, "Confirm recommendation") do
+        expect(page).to have_completed_tag
+      end
+
+      click_link "Review decision notice"
+      choose "Yes"
+      click_button "Save"
+
+      expect(page).not_to have_link("Review decision notice")
+
+      within(:assessment_step, "Review decision notice") do
+        expect(page).to have_completed_tag
+      end
+
+      click_link "Home"
+
+      # Check that the application is no longer in awaiting determination
+      click_link "Awaiting manager's determination"
+      within("#awaiting_determination") do
+        expect(page).not_to have_link "19/AP/1880"
+      end
+
+      # Check that the application is now in determined
+      click_link "Determined"
+      within("#determined") do
+        expect(page).to have_link "19/AP/1880"
+      end
     end
   end
 
