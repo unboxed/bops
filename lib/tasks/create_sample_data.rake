@@ -136,4 +136,8 @@ task create_sample_data: :environment do
     pa.description = "Single storey rear extension and rear dormer extension"
     pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
   end
+
+  10.times do
+    FactoryBot.create(:planning_application)
+  end
 end
