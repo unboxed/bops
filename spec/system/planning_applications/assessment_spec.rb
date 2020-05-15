@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning Application Assessment" do
+RSpec.describe "Planning Application Assessment", type: :system do
   context "as an assessor" do
     # Work on a totally new application
     let!(:planning_application) do
@@ -46,6 +46,32 @@ RSpec.describe "Planning Application Assessment" do
         expect(page).to have_completed_tag
       end
 
+      click_link "Confirm recommendation"
+
+      click_button "Complete assessment"
+
+      within(:assessment_step, "Confirm recommendation") do
+        expect(page).to have_completed_tag
+      end
+
+      click_link "Home"
+
+      # Check that the application is no longer in assessment
+      click_link "In assessment"
+
+      within("#in_assessment") do
+        expect(page).not_to have_link "19/AP/1880"
+      end
+
+      # Check that the application is now in awaiting determination
+      click_link "Awaiting manager's determination"
+
+      within("#awaiting_determination") do
+        click_link "19/AP/1880"
+      end
+
+      expect(page).not_to have_link("Evaluate permitted development policy requirements")
+      expect(page).not_to have_link("Confirm recommendation")
       # TODO: Continue this spec until the assessor decision has been made and check that policy evaluations can no longer be made
     end
   end
