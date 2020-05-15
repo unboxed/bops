@@ -1,0 +1,28 @@
+<%= form_with model: @decision, url: planning_application_decisions_path(@planning_application), local: true do |form| %>
+  <div class="govuk-form-group">
+    <fieldset class="govuk-fieldset">
+      <h2 class="govuk-heading-m">Recommendation</h2>
+        <p class="govuk-body">
+          <strong>
+            The planning officer has recommended that a certificate of lawfullness for permitted development is granted.
+            <br><br>Do you agree with this recommendation?
+          </strong>
+        </p>
+        <p class="govuk-body">
+          By approving this recommendation, the applicant will receive the letter with their certificate of lawfulness.
+        </p>
+      <div class="govuk-radios govuk-radios--small govuk-radios--conditional" data-module="govuk-radios">
+        <div class="govuk-radios__item">
+          <%= form.radio_button :status, "granted", class: "govuk-radios__input" %>
+          <%= form.label :status_granted, "Yes", class: "govuk-radios__label" %>
+        </div>
+        <div class="govuk-radios__item">
+          <%= form.radio_button :status, "refused", class: "govuk-radios__input" %>
+          <%= form.label :status_refused, "No", class: "govuk-radios__label" %>
+        </div>
+      </div>
+    </fieldset>
+
+    <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+  </div>
+<% end%>

@@ -6,6 +6,8 @@ class Decision < ApplicationRecord
 
   enum status: { pending: 0, granted: 1, refused: 2 }
 
+  validates :status, inclusion: { in: ["granted", "refused"] }
+
   def mark_granted
     update(status: :granted, decided_at: Time.current)
   end

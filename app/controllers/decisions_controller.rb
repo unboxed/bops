@@ -4,20 +4,35 @@ class DecisionsController < AuthenticationController
   include PlanningApplicationDashboardVariables
 
   before_action :set_planning_application
-  before_action :set_planning_application_dashboard_variables, only: [ :new ]
+  before_action :set_planning_application_dashboard_variables
 
   def new
     @decision = @planning_application.decisions.build(user: current_user)
   end
 
   def create
-    @planning_application.decisions.create(
-      user: current_user,
-      status: :granted
-    )
-    @planning_application.awaiting_determination!
+    if current_user.assessor?
+      @planning_application.decisions.create(
+        user: current_user,
+        status: :granted
+      )
+      @planning_application.awaiting_determination!
 
-    redirect_to @planning_application
+      redirect_to @planning_application
+    elsif current_user.reviewer?
+      @decision = @planning_application.decisions.build(
+        user: current_user,
+        status: decision_params[:status]
+      )
+
+      if @decision.save
+        @planning_application.determined!
+
+        redirect_to @planning_application
+      else
+        render :new
+      end
+    end
   end
 
   private
@@ -26,5 +41,10 @@ class DecisionsController < AuthenticationController
     @planning_application = authorize(
       PlanningApplication.find(params[:planning_application_id])
     )
+  end
+
+  def decision_params
+    params.fetch(:decision, {}).permit(:status)
+    # params.require(:decision).permit(:status)
   end
 end
