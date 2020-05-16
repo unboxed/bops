@@ -1,15 +1,38 @@
-<div class="govuk-grid-column-two-thirds">
-  <div class="govuk-breadcrumbs">
-    <ol class="govuk-breadcrumbs__list">
-      <li class="govuk-breadcrumbs__list-item">
-        <%= link_to "Home", root_path, class: "govuk-breadcrumbs__link" %>
-      </li>
-      <li class="govuk-breadcrumbs__list-item" aria-current="page">Application</li>
-    </ol>
+<% if current_user %>
+  <div class="govuk-grid-row">
+    <% unless nav.length > 1 %>
+    <div class="govuk-grid-column-full">
+      <p class="govuk-breadcrumbs" style="float: right; margin: 20px 0 30px 100px;">
+        <%= link_to "Log out", destroy_user_session_path, method: :delete %>
+      </p>
+    </div>
   </div>
-</div>
-<div class="govuk-grid-column-one-third">
-  <p class="govuk-breadcrumbs" style="float: right; margin: 20px 0 30px 100px;">
-    <%= link_to_if(user_signed_in?, "Log out", destroy_user_session_path, method: :delete) %>
-  </p>
-</div>
+<% else %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="govuk-breadcrumbs">
+        <ol class="govuk-breadcrumbs__list">
+          <li class="govuk-breadcrumbs__list-item">
+            <% nav.each do |n| %>
+              <% unless n.equal? nav.last %>
+                <div class="govuk-breadcrumbs__list-item" aria-current="page">
+                  <%= link_to n[:title], n[:path] %>
+                </div>
+              <% else %>
+                <div class="govuk-breadcrumbs__list-item" aria-current="page">
+                  <%= n[:title] %>
+                </div>
+              <% end %>
+            <% end %>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div class="govuk-grid-column-one-third">
+      <p class="govuk-breadcrumbs" style="float: right; margin: 20px 0 30px 100px;">
+        <%= link_to_if(user_signed_in?, "Log out", destroy_user_session_path, method: :delete) %>
+      </p>
+    </div>
+  </div>
+<% end %>
+<% end %>
