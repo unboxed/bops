@@ -55,6 +55,18 @@ RSpec.feature "Planning Application index page", type: :system do
         expect(page).not_to have_link(planning_application_started.reference)
       end
     end
+
+    scenario "Breadcrumbs are not displayed" do
+      within(find(".govuk-breadcrumbs__list", match: :first)) do
+        expect(page).to have_no_text "Home"
+        expect(page).to have_no_text "Application"
+      end
+    end
+
+    scenario "User can log out from index page" do
+      click_link "Log out"
+      expect(page).to have_current_path(/sign_in/)
+    end
   end
 
   context "as an reviewer" do
@@ -93,6 +105,18 @@ RSpec.feature "Planning Application index page", type: :system do
         expect(page).not_to have_link(planning_application_2.reference)
         expect(page).not_to have_link(planning_application_started.reference)
       end
+    end
+
+    scenario "Breadcrumbs are not displayed" do
+      within(find(".govuk-breadcrumbs__list", match: :first)) do
+        expect(page).to have_no_text "Home"
+        expect(page).to have_no_text "Application"
+      end
+    end
+
+    scenario "User can log out from index page" do
+      click_link "Log out"
+      expect(page).to have_current_path(/sign_in/)
     end
   end
 end

@@ -164,5 +164,22 @@ RSpec.feature "Planning Application show page", type: :system do
       expect(page).to have_text("#{planning_application.days_left} days remaining")
       expect(page).to have_css('.govuk-tag--red')
     end
+
+    scenario "Breadcrumbs contain reference to Application overview which is not linked" do
+      within(find(".govuk-breadcrumbs__list", match: :first)) do
+        expect(page).to have_text "Application"
+        expect(page).to have_no_link "Application"
+      end
+    end
+
+    scenario "Breadcrumbs contain link to applications index" do
+      expect(page).to have_text "Home"
+      expect(page).to have_link "Home"
+    end
+
+    scenario "User can log out from application page" do
+      click_link "Log out"
+      expect(page).to have_current_path(/sign_in/)
+    end
   end
 end

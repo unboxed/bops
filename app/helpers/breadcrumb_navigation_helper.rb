@@ -11,13 +11,31 @@ module BreadcrumbNavigationHelper
 
   def navigation_add(title, path)
     if path.match?(PLANNING_APPLICATION_REGEX)
-      ensure_navigation << ensure_planning_application_path(params[:planning_application_id]) << { title: title, path: path }
+      ensure_navigation <<
+          ensure_planning_application_path(params[:planning_application_id]) <<
+          { title: title, path: path}
     else
-      ensure_navigation << { title: title, path: path }
+      ensure_navigation << {title: "Application", path: nil}
     end
   end
 
-  def render_navigation
-    render partial: "breadcrumb_navigation", locals: { nav: ensure_navigation }
+  def concatenate_nav_elements(nav)
+    nav.each do |page|
+      if page == ensure_navigation.last
+        concat content_tag(:a, page[:title])
+      else
+        concat content_tag(:a, page[:title], href: page[:path])
+        concat " > "
+      end
+    end
+  end
+
+  def create_breadcrumbs
+    breadcrumbs = content_tag(:li, class: '"govuk-breadcrumbs__list-item"') do
+      unless ensure_navigation.length == 1
+        concatenate_nav_elements(ensure_navigation)
+      end
+    end
+    breadcrumbs
   end
 end
