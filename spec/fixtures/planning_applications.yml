@@ -1,0 +1,10 @@
+planning_application_1:
+  description: "Roof extension"
+  application_type: "lawfulness_certificate"
+  reference: "AP/453/880"
+  status: :in_assessment
+  ward: "Dulwich Wood"
+  agent: jennifer
+  applicant: jason
+  site: elm_grove
+  target_date: <%= Date.current + 14.days %>
