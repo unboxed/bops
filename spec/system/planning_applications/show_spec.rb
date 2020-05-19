@@ -3,19 +3,13 @@
 require "rails_helper"
 
 RSpec.feature "Planning Application show page", type: :system do
-  fixtures :agents, :applicants, :sites
+  fixtures :agents, :applicants, :sites, :planning_applications
 
   let!(:assessor) { create(:user, :assessor) }
   let!(:site) { sites(:elm_grove) }
   let!(:applicant) { applicants(:jason) }
   let!(:agent) { agents(:jennifer) }
-  subject(:planning_application) { create(:planning_application, description: "Roof extension",
-                                       application_type: "lawfulness_certificate",
-                                       reference: "AP/453/880",
-                                       status: 0,
-                                       site: site,
-                                       applicant: applicant,
-                                       agent: agent) }
+  let!(:planning_application) { planning_applications(:planning_application_1) }
 
   context "as an assessor" do
     before do
