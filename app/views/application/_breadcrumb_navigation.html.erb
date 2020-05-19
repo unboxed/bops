@@ -1,14 +1,26 @@
-<div class="govuk-grid-column-two-thirds">
-  <div class="govuk-grid-row">
-    <div class="govuk-breadcrumbs">
-      <ol class="govuk-breadcrumbs__list">
-        <%= create_breadcrumbs %>
-      </ol>
+<% if current_user %>
+  <% unless nav.length > 1 %>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <p class="govuk-breadcrumbs" style="float: right; margin: 20px 0 30px 100px;">
+          <%= link_to "Log out", destroy_user_session_path, method: :delete %>
+        </p>
+      </div>
     </div>
-  </div>
-</div>
-<div class="govuk-grid-column-one-third">
-  <p class="govuk-breadcrumbs" style="float: right; margin: 20px 0 30px 100px;">
-    <%= link_to_if(user_signed_in?, "Log out", destroy_user_session_path, method: :delete) %>
-  </p>
-</div>
+  <% else %>
+      <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-grid-row">
+          <div class="govuk-breadcrumbs">
+            <ol class="govuk-breadcrumbs__list">
+              <%= render "create_breadcrumb_navigation", nav: nav %>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <p class="govuk-breadcrumbs" style="float: right; margin: 20px 0 30px 100px;">
+          <%= link_to_if(user_signed_in?, "Log out", destroy_user_session_path, method: :delete) %>
+        </p>
+      </div>
+  <% end %>
+<% end %>
