@@ -1,0 +1,24 @@
+@mixin button {
+  @include govuk-font($size: 19, $line-height: 19px);
+}
+
+.govuk-button_link {
+  background: none!important;
+  border: none;
+  padding: 0!important !important;
+  /*optional*/
+  font-family: "GDS Transport", Arial, sans-serif;
+  /*input has OS specific font-family*/
+  color: #0b0c0c;
+  text-decoration: underline;
+  cursor: pointer;
+  float: right;
+  margin: 20px 0 30px 100px;
+  font-size: 1rem;
+  line-height: 1.25;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  padding-inline-start: 40px;
+}

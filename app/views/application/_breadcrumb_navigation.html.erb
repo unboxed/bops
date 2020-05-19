@@ -2,25 +2,23 @@
   <% unless nav.length > 1 %>
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
-        <p class="govuk-breadcrumbs" style="float: right; margin: 20px 0 30px 100px;">
-          <%= link_to "Log out", destroy_user_session_path, method: :delete %>
-        </p>
+        <%= button_to 'Log out', destroy_user_session_path, method: :delete, class: "govuk-button_link", dataModule:"govuk-button" %>
       </div>
     </div>
   <% else %>
+    <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        <div class="govuk-grid-row">
-          <div class="govuk-breadcrumbs">
-            <ol class="govuk-breadcrumbs__list">
-              <%= render "create_breadcrumb_navigation", nav: nav %>
-            </ol>
-          </div>
+        <div class="govuk-breadcrumbs">
+          <ol class="govuk-breadcrumbs__list">
+            <%= render "create_breadcrumb_navigation", nav: nav %>
+          </ol>
         </div>
       </div>
       <div class="govuk-grid-column-one-third">
-        <p class="govuk-breadcrumbs" style="float: right; margin: 20px 0 30px 100px;">
-          <%= link_to_if(user_signed_in?, "Log out", destroy_user_session_path, method: :delete) %>
-        </p>
+        <% if user_signed_in? %>
+          <%= button_to 'Log out', destroy_user_session_path, method: :delete, class: "govuk-button_link", dataModule:"govuk-button" %>
+        <% end %>
       </div>
+    </div>
   <% end %>
 <% end %>

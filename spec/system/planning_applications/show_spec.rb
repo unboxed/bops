@@ -178,7 +178,10 @@ RSpec.feature "Planning Application show page", type: :system do
     end
 
     scenario "User can log out from application page" do
-      click_link "Log out"
+      click_button "Log out"
+
+      expect(page).to have_current_path(/sign_in/)
+      expect(page).to have_content("You need to sign in or sign up before continuing.")
     end
   end
 end
