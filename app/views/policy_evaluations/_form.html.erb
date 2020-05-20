@@ -2,7 +2,13 @@
   <div class="govuk-form-group">
     <fieldset class="govuk-fieldset">
       <h2 class="govuk-heading-m">Permitted development requirements</h2>
-      <p class="govuk-body"> Does it meet policy requirements?</p>
+      <p class="govuk-body">
+        The applicant has submitted the following application. Please review each answer to determine whether what they say and their plans align with the policy questions.
+      </p>
+      <%= render "policy_consideration_list", policy_considerations: @policy_considerations %>
+      <p class="govuk-body">
+        <br><strong>Have permitted development requirements been met?</strong>
+      </p>
       <div class="govuk-radios govuk-radios--inline">
         <div class="govuk-radios govuk-radios--small">
           <div class="govuk-radios__item">
@@ -15,8 +21,7 @@
           </div>
         </div>
       </div>
-    </fieldset>
-
-    <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+  </fieldset>
+  <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
   </div>
 <% end%>
