@@ -56,7 +56,7 @@ module "ecs" {
   database_name       = "${var.staging_database_name}"
   database_username   = "${var.staging_database_username}"
   database_password   = "${var.staging_database_password}"
-  target_group_path   = "/users/sign_in"
+  target_group_path   = "/healthcheck"
   target_group_port   = "traffic-port"
   secret_key_base     = "${var.staging_secret_key_base}"
 }

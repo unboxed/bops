@@ -2,10 +2,12 @@
   {
     "name": "web",
     "image": "${image}",
+    "command": ["bundle", "exec", "rails", "server"],
     "portMappings": [
       {
-        "containerPort": 80,
-        "hostPort": 80
+        "containerPort": 3000,
+        "protocol": "tcp",
+        "hostPort": 3000
       }
     ],
     "memory": 300,
@@ -14,7 +16,7 @@
       "logDriver": "awslogs",
       "options": {
         "awslogs-group": "${log_group}",
-        "awslogs-region": "us-east-1",
+        "awslogs-region": "eu-west-2",
         "awslogs-stream-prefix": "web"
       }
     },
@@ -22,6 +24,14 @@
       {
         "name": "RAILS_ENV",
         "value": "production"
+      },
+      {
+          "name": "RACK_ENV",
+          "value": "production"
+      },
+      {
+          "name": "NODE_ENV",
+          "value": "production"
       },
       {
         "name": "DATABASE_URL",
@@ -33,7 +43,7 @@
       },
       {
         "name": "PORT",
-        "value": "80"
+        "value": "3000"
       },
       {
         "name": "RAILS_LOG_TO_STDOUT",

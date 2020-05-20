@@ -33,9 +33,9 @@ data "template_file" "web_task" {
   template = "${file("${path.module}/tasks/web_task_definition.json")}"
 
   vars = {
-    image           = aws_ecr_repository.bops_app.repository_url
+    image           = "${aws_ecr_repository.bops_app.repository_url}:latest"
     secret_key_base = var.secret_key_base
-    database_url    = "postgresql://${var.database_username}:${var.database_password}@${var.database_endpoint}:5432/${var.database_name}"
+    database_url    = "postgis://${var.database_username}:${var.database_password}@${var.database_endpoint}:5432/${var.database_name}"
     log_group       = aws_cloudwatch_log_group.bops.name
   }
 }
@@ -56,9 +56,9 @@ data "template_file" "db_migrate_task" {
   template = "${file("${path.module}/tasks/db_migrate_task_definition.json")}"
 
   vars = {
-    image           = aws_ecr_repository.bops_app.repository_url
+    image           = "${aws_ecr_repository.bops_app.repository_url}:latest"
     secret_key_base = var.secret_key_base
-    database_url    = "postgresql://${var.database_username}:${var.database_password}@${var.database_endpoint}:5432/${var.database_name}?encoding=utf8&pool=40"
+    database_url    = "postgis://${var.database_username}:${var.database_password}@${var.database_endpoint}:5432/${var.database_name}?encoding=utf8&pool=40"
     log_group       = "bops"
   }
 }
@@ -262,7 +262,7 @@ resource "aws_ecs_service" "web" {
   load_balancer {
     target_group_arn = aws_alb_target_group.alb_target_group.arn
     container_name   = "web"
-    container_port   = "80"
+    container_port   = "3000"
   }
 
   depends_on = [aws_iam_role_policy.ecs_service_role_policy,

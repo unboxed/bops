@@ -2,13 +2,13 @@
   {
     "name": "db-migrate",
     "image": "${image}",
-    "command": ["bundle", "exec", "rake", "db:migrate"],
+    "entryPoint": ["/app/startup.sh"],
     "memory": 300,
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
         "awslogs-group": "${log_group}",
-        "awslogs-region": "us-east-1",
+        "awslogs-region": "eu-west-2",
         "awslogs-stream-prefix": "db_migrate"
       }
     },
@@ -16,6 +16,14 @@
       {
         "name": "RAILS_ENV",
         "value": "production"
+      },
+      {
+          "name": "RACK_ENV",
+          "value": "production"
+      },
+      {
+          "name": "NODE_ENV",
+          "value": "production"
       },
       {
         "name": "DATABASE_URL",
@@ -26,7 +34,15 @@
         "value": "${secret_key_base}"
       },
       {
+        "name": "PORT",
+        "value": "3000"
+      },
+      {
         "name": "RAILS_LOG_TO_STDOUT",
+        "value": "true"
+      },
+      {
+        "name": "RAILS_SERVE_STATIC_FILES",
         "value": "true"
       }
     ]
