@@ -34,5 +34,8 @@ module Bops
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # Remove the error wrapper from around the form element
+    config.action_view.field_error_proc = -> (html_tag, instance) { html_tag }
   end
 end
