@@ -81,7 +81,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "as a reviewer" do
     # Look at an application that has had some assessment work done by the assessor
-    let(:policy_evaluation) { create(:policy_evaluation) }
+    let(:policy_evaluation) { create(:policy_evaluation, :met) }
     let(:assessor) { create :user, :assessor }
     let(:assessor_decision) { create :decision, user: assessor }
     let!(:planning_application) do

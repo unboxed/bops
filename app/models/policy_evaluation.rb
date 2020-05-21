@@ -4,4 +4,6 @@ class PolicyEvaluation < ApplicationRecord
   belongs_to :planning_application
 
   enum status: { pending: 0, met: 1, unmet: 2 }
+
+  validates :status, inclusion: { in: ["met", "unmet"] }, on: :update
 end
