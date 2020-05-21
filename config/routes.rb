@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   end
 
   resources :planning_applications, only: [:show, :index] do
-    resource :policy_evaluation, only: [:new, :create, :edit, :update]
+    resource :policy_evaluation, only: [:show, :update]
 
     resources :decisions, only: [:new, :create]
   end

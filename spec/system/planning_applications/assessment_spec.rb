@@ -7,7 +7,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     # Work on a totally new application
     let!(:planning_application) do
       create :planning_application,
-             application_type: :lawfulness_certificate,
+             :lawfulness_certificate,
              reference: "19/AP/1880"
     end
 
