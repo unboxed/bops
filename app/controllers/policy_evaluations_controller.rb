@@ -6,23 +6,7 @@ class PolicyEvaluationsController < ApplicationController
   before_action :set_planning_application
   before_action :set_planning_application_dashboard_variables
 
-  def new
-    @policy_evaluation = @planning_application.build_policy_evaluation
-  end
-
-  def create
-    @policy_evaluation = @planning_application.build_policy_evaluation(
-      policy_evaluation_params
-    )
-
-    if @policy_evaluation.save
-      redirect_to @planning_application
-    else
-      render :new
-    end
-  end
-
-  def edit
+  def show
     @policy_evaluation = @planning_application.policy_evaluation
   end
 
@@ -32,7 +16,7 @@ class PolicyEvaluationsController < ApplicationController
     if @policy_evaluation.update(policy_evaluation_params)
       redirect_to @planning_application
     else
-      render :edit
+      render :show
     end
   end
 
@@ -42,6 +26,10 @@ class PolicyEvaluationsController < ApplicationController
     @planning_application = PlanningApplication.find(
       params[:planning_application_id]
     )
+
+    unless @planning_application.policy_evaluation
+      @planning_application.create_policy_evaluation
+    end
   end
 
   def policy_evaluation_params
