@@ -4,6 +4,15 @@ desc "Create sample data for testing"
 task create_sample_data: :environment do
   require "faker"
 
+  # For now, each application will have the same set of policy considerations
+  path = Rails.root.join("spec/fixtures/files/permitted_development.json")
+  permitted_development_json = File.read(path)
+  pcb = Ripa::PolicyConsiderationBuilder.new(permitted_development_json)
+  pc1 = pcb.build_policy_considerations
+  pc2 = pcb.build_policy_considerations
+  pc3 = pcb.build_policy_considerations
+  pc4 = pcb.build_policy_considerations
+
   admin_user = User.find_by!(email: "admin@example.com")
 
   admin_roles = %i[assessor reviewer]
@@ -128,4 +137,21 @@ task create_sample_data: :environment do
     pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
     pa.description = "Single storey rear extension and rear dormer extension"
   end
+
+
+  bowen_pe = bowen_planning_application.create_policy_evaluation
+  bowen_pe.policy_considerations << pc1
+  bowen_planning_application.policy_evaluation = bowen_pe
+
+  college_pe = college_planning_application.create_policy_evaluation
+  college_pe.policy_considerations << pc2
+  college_planning_application.policy_evaluation = college_pe
+
+  bellenden_pe = bellenden_planning_application.create_policy_evaluation
+  bellenden_pe.policy_considerations << pc3
+  bellenden_planning_application.policy_evaluation = bellenden_pe
+
+  james_pe = james_planning_application.create_policy_evaluation
+  james_pe.policy_considerations << pc4
+  james_planning_application.policy_evaluation = james_pe
 end
