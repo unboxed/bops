@@ -3,7 +3,14 @@
 FactoryBot.define do
   factory :policy_evaluation do
     planning_application
+    status { :pending }
+  end
 
-    requirements_met { false }
+  trait :met do
+    status { :met }
+  end
+
+  trait :unmet do
+    status { :unmet }
   end
 end

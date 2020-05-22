@@ -6,12 +6,12 @@
       <div class="govuk-radios govuk-radios--inline">
         <div class="govuk-radios govuk-radios--small">
           <div class="govuk-radios__item">
-            <%= form.radio_button :requirements_met, true, class: "govuk-radios__input" %>
-            <%= form.label :requirements_met_true, "Yes", class: "govuk-radios__label" %>
+            <%= form.radio_button :status, "met", class: "govuk-radios__input" %>
+            <%= form.label :status_met, "Yes", class: "govuk-radios__label" %>
           </div>
           <div class="govuk-radios__item">
-            <%= form.radio_button :requirements_met, false, class: "govuk-radios__input" %>
-            <%= form.label :requirements_met_false, "No", class: "govuk-radios__label" %>
+            <%= form.radio_button :status, "unmet", class: "govuk-radios__input" %>
+            <%= form.label :status_unmet, "No", class: "govuk-radios__label" %>
           </div>
         </div>
       </div>
