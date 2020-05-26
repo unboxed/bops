@@ -4,11 +4,28 @@ require "rails_helper"
 
 RSpec.describe "Planning Application Assessment", type: :system do
   context "as an assessor" do
-    # Work on a totally new application
     let!(:planning_application) do
       create :planning_application,
              :lawfulness_certificate,
              reference: "19/AP/1880"
+    end
+
+    let(:policy_consideration_1) do
+      create :policy_consideration,
+            policy_question: "The property is",
+            applicant_answer: "a semi detached house"
+    end
+
+    let(:policy_consideration_2) do
+      create :policy_consideration,
+            policy_question: "I want to",
+            applicant_answer: "build new"
+    end
+
+    let!(:policy_evaluation) do
+      create :policy_evaluation,
+            planning_application: planning_application,
+            policy_considerations: [policy_consideration_1, policy_consideration_2]
     end
 
     before do
@@ -26,6 +43,13 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).not_to have_link("Confirm recommendation")
 
       click_link "Evaluate permitted development policy requirements"
+
+      expect(page).to have_content("The property is")
+      expect(page).to have_content("a semi detached house")
+
+      expect(page).to have_content("I want to")
+      expect(page).to have_content("build new")
+
       choose "Yes"
       click_button "Save"
 

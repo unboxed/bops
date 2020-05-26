@@ -1,0 +1,14 @@
+<ol class="govuk-body" style="line-height: 2;">
+  <% policy_considerations.each do |policy_consideration| %>
+    <% if policy_consideration.policy_question.include?('____')  %>
+      <li>
+        <%= policy_consideration.policy_question.gsub!('____',policy_consideration.applicant_answer) %>
+      </li>
+    <% else %>
+      <li>
+        <%= policy_consideration.policy_question%>
+        <strong><%= policy_consideration.applicant_answer%></strong>
+      </li>
+    <% end %>
+  <% end %>
+</ol>

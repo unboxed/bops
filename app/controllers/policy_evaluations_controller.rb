@@ -27,6 +27,8 @@ class PolicyEvaluationsController < ApplicationController
       params[:planning_application_id]
     )
 
+    # TODO: this is temporary, should move to Ripa::PolicyConsiderationBuilder,
+    # once we have more knowledge
     unless @planning_application.policy_evaluation
       @planning_application.create_policy_evaluation
     end
