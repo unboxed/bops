@@ -7,7 +7,8 @@
       </p>
       <%= render "policy_consideration_list", policy_considerations: @policy_evaluation.policy_considerations %>
       <p class="govuk-body">
-        <br><strong>Have permitted development requirements been met?</strong>
+        <br>
+        <strong>Have permitted development requirements been met?</strong>
       </p>
       <div class="govuk-radios govuk-radios--small">
         <div class="govuk-radios__item">
@@ -19,7 +20,9 @@
           <%= form.label :status_unmet, "No", class: "govuk-radios__label" %>
         </div>
       </div>
-  </fieldset>
-  <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+    </fieldset>
+    <p>
+      <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+    </p>
   </div>
 <% end%>
