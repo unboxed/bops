@@ -117,8 +117,8 @@ RSpec.feature "Planning Application show page", type: :system do
       expect(page).to have_text("Assess the proposal")
     end
 
-    scenario "Review tasks are visible" do
-      expect(page).to have_text("Determine the proposal")
+    scenario "Review tasks are not visible" do
+      expect(page).not_to have_text("Determine the proposal")
     end
 
     scenario "Constraints section is visible" do

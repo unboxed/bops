@@ -1,68 +1,72 @@
 <ol class="app-task-list">
-  <li>
-    <h2 class="app-task-list__section">
-      <span class="app-task-list__section-number">Assess the proposal</span>
-    </h2>
-    <ul class="app-task-list__items">
-      <li class="app-task-list__item">
-        <% step_name = "Evaluate permitted development policy requirements" %>
+  <% if (current_user.assessor? || current_user.admin?)%>
+    <li>
+      <h2 class="app-task-list__section">
+        <span class="app-task-list__section-number">Assess the proposal</span>
+      </h2>
+      <ul class="app-task-list__items">
+        <li class="app-task-list__item">
+          <% step_name = "Evaluate permitted development policy requirements" %>
 
-        <% if (current_user.assessor? || current_user.admin?) && @planning_application.in_assessment? %>
-          <span class="app-task-list__task-name">
-            <% aria_attributes = @planning_application.policy_evaluation ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
+          <% if (current_user.assessor? || current_user.admin?) && @planning_application.in_assessment? %>
+            <span class="app-task-list__task-name">
+              <% aria_attributes = @planning_application.policy_evaluation ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
 
-            <%= link_to step_name, planning_application_policy_evaluation_path(@planning_application), aria: aria_attributes %>
-          </span>
-        <% else %>
-          <span class="app-task-list__task-name"><%= step_name %></span>
-        <% end %>
+              <%= link_to step_name, planning_application_policy_evaluation_path(@planning_application), aria: aria_attributes %>
+            </span>
+          <% else %>
+            <span class="app-task-list__task-name"><%= step_name %></span>
+          <% end %>
 
-        <% if @planning_application.policy_evaluation && !@planning_application.policy_evaluation.pending? %>
-          <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
-        <% end %>
-      </li>
+          <% if @planning_application.policy_evaluation && !@planning_application.policy_evaluation.pending? %>
+            <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
+          <% end %>
+        </li>
 
-      <li class="app-task-list__item">
-        <% step_name = "Confirm recommendation" %>
+        <li class="app-task-list__item">
+          <% step_name = "Confirm recommendation" %>
 
-        <% if (current_user.assessor? || current_user.admin?) && @planning_application.in_assessment? %>
-          <span class="app-task-list__task-name">
-            <% aria_attributes = @planning_application.assessor_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
+          <% if (current_user.assessor? || current_user.admin?) && @planning_application.in_assessment? %>
+            <span class="app-task-list__task-name">
+              <% aria_attributes = @planning_application.assessor_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
 
-            <%= link_to_if @planning_application.policy_evaluation && !@planning_application.policy_evaluation.pending?, step_name, new_planning_application_decision_path(@planning_application), aria: aria_attributes %>
-          </span>
-        <% else %>
-          <span class="app-task-list__task-name"><%= step_name %></span>
-        <% end %>
+              <%= link_to_if @planning_application.policy_evaluation && !@planning_application.policy_evaluation.pending?, step_name, new_planning_application_decision_path(@planning_application), aria: aria_attributes %>
+            </span>
+          <% else %>
+            <span class="app-task-list__task-name"><%= step_name %></span>
+          <% end %>
 
-        <% if @planning_application.assessor_decision %>
-          <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
-        <% end %>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <h2 class="app-task-list__section">
-      <span class="app-task-list__section-number">Determine the proposal</span>
-    </h2>
-    <ul class="app-task-list__items">
-      <li class="app-task-list__item">
-        <% step_name = "Review decision notice" %>
+          <% if @planning_application.assessor_decision %>
+            <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
+          <% end %>
+        </li>
+      </ul>
+    </li>
+  <% end %>
+  <% if (current_user.reviewer? || current_user.admin?)%>
+    <li>
+      <h2 class="app-task-list__section">
+        <span class="app-task-list__section-number">Determine the proposal</span>
+      </h2>
+      <ul class="app-task-list__items">
+        <li class="app-task-list__item">
+          <% step_name = "Review decision notice" %>
 
-        <% if current_user.reviewer? && @planning_application.awaiting_determination? %>
-          <span class="app-task-list__task-name">
-            <% aria_attributes = @planning_application.reviewer_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
+          <% if current_user.reviewer? && @planning_application.awaiting_determination? %>
+            <span class="app-task-list__task-name">
+              <% aria_attributes = @planning_application.reviewer_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
 
-            <%= link_to step_name, new_planning_application_decision_path(@planning_application), aria: aria_attributes %>
-          </span>
-        <% else %>
-          <span class="app-task-list__task-name"><%= step_name %></span>
-        <% end %>
+              <%= link_to step_name, new_planning_application_decision_path(@planning_application), aria: aria_attributes %>
+            </span>
+          <% else %>
+            <span class="app-task-list__task-name"><%= step_name %></span>
+          <% end %>
 
-        <% if @planning_application.reviewer_decision %>
-          <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
-        <% end %>
-      </li>
-    </ul>
-  </li>
+          <% if @planning_application.reviewer_decision %>
+            <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
+          <% end %>
+        </li>
+      </ul>
+    </li>
+  <% end %>
 </ol>
