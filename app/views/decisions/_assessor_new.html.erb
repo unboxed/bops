@@ -1,5 +1,18 @@
-<h2 class="govuk-heading-m">Make Recommendation</h2>
+<%# TODO update met and unmet partial to use interpolated variables %>
+<% if @decision.planning_application.policy_evaluation.met? %>
+  <%= render "met", planning_application: @planning_application%>
+<% else %>
+  <%= render "unmet", planning_application: @planning_application%>
+<% end %>
+
+<p class="govuk-body">
+  <br>
+  <strong>
+    If you agree with the decision notice, please submit it to your manager.
+  </strong>
+  Once submitted, you will not be able to change your recommendation, or decision.
+</p>
 
 <%= form_with model: @decision, url: planning_application_decisions_path(planning_application), local: true do |form| %>
-  <%= form.submit "Complete assessment", class: "govuk-button", data: { module: "govuk-button" } %>
+  <%= form.submit "Submit to manager", class: "govuk-button", data: { module: "govuk-button" } %>
 <% end %>
