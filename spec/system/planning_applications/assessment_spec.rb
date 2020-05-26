@@ -75,7 +75,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_link "Confirm recommendation"
 
-      click_button "Complete assessment"
+      click_button "Submit to manager"
 
       within(:assessment_step, "Confirm recommendation") do
         expect(page).to have_completed_tag
