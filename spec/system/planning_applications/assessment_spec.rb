@@ -129,15 +129,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       expect(page).not_to have_link("Evaluate permitted development policy requirements")
 
-      within(:assessment_step, "Evaluate permitted development policy requirements") do
-        expect(page).to have_completed_tag
-      end
-
       expect(page).not_to have_link("Confirm recommendation")
-
-      within(:assessment_step, "Confirm recommendation") do
-        expect(page).to have_completed_tag
-      end
 
       click_link "Review decision notice"
       choose "Yes"
