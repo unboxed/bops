@@ -8,18 +8,10 @@ class PolicyEvaluationsController < ApplicationController
 
   def show
     @policy_evaluation = @planning_application.policy_evaluation
-
-    if @policy_evaluation.policy_considerations
-      @policy_considerations = @policy_evaluation.policy_considerations
-    end
   end
 
   def update
     @policy_evaluation = @planning_application.policy_evaluation
-
-    if @policy_evaluation.policy_considerations
-      @policy_considerations = @policy_evaluation.policy_considerations
-    end
 
     if @policy_evaluation.update(policy_evaluation_params)
       redirect_to @planning_application
@@ -35,6 +27,8 @@ class PolicyEvaluationsController < ApplicationController
       params[:planning_application_id]
     )
 
+    # TODO: this is temporary, should move to Ripa::PolicyConsiderationBuilder,
+    # once we have more knowledge
     unless @planning_application.policy_evaluation
       @planning_application.create_policy_evaluation
     end
