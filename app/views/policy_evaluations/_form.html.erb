@@ -9,16 +9,14 @@
       <p class="govuk-body">
         <br><strong>Have permitted development requirements been met?</strong>
       </p>
-      <div class="govuk-radios govuk-radios--inline">
-        <div class="govuk-radios govuk-radios--small">
-          <div class="govuk-radios__item">
-            <%= form.radio_button :status, "met", class: "govuk-radios__input" %>
-            <%= form.label :status_met, "Yes", class: "govuk-radios__label" %>
-          </div>
-          <div class="govuk-radios__item">
-            <%= form.radio_button :status, "unmet", class: "govuk-radios__input" %>
-            <%= form.label :status_unmet, "No", class: "govuk-radios__label" %>
-          </div>
+      <div class="govuk-radios govuk-radios--small">
+        <div class="govuk-radios__item">
+          <%= form.radio_button :status, "met", class: "govuk-radios__input" %>
+          <%= form.label :status_met, "Yes", class: "govuk-radios__label" %>
+        </div>
+        <div class="govuk-radios__item">
+          <%= form.radio_button :status, "unmet", class: "govuk-radios__input" %>
+          <%= form.label :status_unmet, "No", class: "govuk-radios__label" %>
         </div>
       </div>
   </fieldset>
