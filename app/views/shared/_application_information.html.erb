@@ -55,38 +55,30 @@
       </h3>
     </div>
     <div id="accordion-default-content-2" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
-      <div style="float: none; clear: both">
-        <div style="float: left; margin-left: 20px;">
-          <p class='govuk-body'>Existing floorplan</p>
-          <%= image_tag "placeholder/floorplan_1.png", width: "200px" %>
-          <p class='govuk-body'>
-            <%= link_to "Download" %>
-          </p>
-        </div>
-        <div style="float: left; margin-left: 20px;">
-          <p class='govuk-body'>Proposed floorplan</p>
-          <%= image_tag "placeholder/floorplan_2.png", width: "200px" %>
-          <p class='govuk-body'>
-            <%= link_to "Download" %>
-          </p>
-        </div>
-      </div>
-      <div style="float: none; clear: both">
-        <div style="float: left; margin-left: 20px;">
-          <p class='govuk-body'><br>Existing section</p>
-          <%= image_tag "placeholder/section_1.png", width: "200px" %>
-          <p class='govuk-body'>
-            <%= link_to "Download" %>
-          </p>
-        </div>
-        <div style="float: left; margin-left: 20px;">
-          <p class='govuk-body'><br>Proposed section</p>
-          <%= image_tag "placeholder/section_2.png", width: "200px" %>
-          <p class='govuk-body'>
-            <%= link_to "Download" %>
-          </p>
-        </div>
-      </div>
+      <table class="govuk-table">
+        <tr class="govuk-table__row">
+          <% @planning_application.documents.each_cons(2) do |doc_1, doc_2| %>
+            <td class="govuk-table__cell"><p class='govuk-body'>
+              <p class='govuk-body'>
+                <%= doc_1.name %>
+              </p>
+              <%= image_tag doc_1.plan, style: "height:180px;width:200px;" %>
+              <p class='govuk-body'>
+                <%= link_to "Download", rails_blob_path(doc_2.plan, disposition: 'attachment') %>
+              </p>
+            </td>
+            <td class="govuk-table__cell"><p class='govuk-body'>
+              <p class='govuk-body'>
+                <%= doc_2.name %>
+              </p>
+              <%= image_tag doc_2.plan, style: "height:180px;width:200px;" %>
+              <p class='govuk-body'>
+                <%= link_to "Download", rails_blob_path(doc_2.plan, disposition: 'attachment') %>
+              </p>
+            </td>
+            </tr>
+          <% end %>
+       </table>
     </div>
   </div>
 </div>
