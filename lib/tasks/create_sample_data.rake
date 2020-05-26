@@ -8,10 +8,10 @@ task create_sample_data: :environment do
   path = Rails.root.join("spec/fixtures/files/permitted_development.json")
   permitted_development_json = File.read(path)
   pcb = Ripa::PolicyConsiderationBuilder.new(permitted_development_json)
-  pc1 = pcb.import_policy_considerations
-  pc2 = pcb.import_policy_considerations
-  pc3 = pcb.import_policy_considerations
-  pc4 = pcb.import_policy_considerations
+  pc1 = pcb.import
+  pc2 = pcb.import
+  pc3 = pcb.import
+  pc4 = pcb.import
 
   admin_user = User.find_by!(email: "admin@example.com")
 

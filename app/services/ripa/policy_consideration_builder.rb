@@ -5,7 +5,7 @@ class Ripa::PolicyConsiderationBuilder
     @consideration_hash = JSON.parse(consideration_json)
   end
 
-  def import_policy_considerations
+  def import
     consideration_hash.fetch("flow", []).map do |consideration|
       policy_question = consideration["text"]
 
