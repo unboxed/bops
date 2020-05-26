@@ -7,17 +7,7 @@ class Ripa::PolicyConsiderationBuilder
 
   def import
     consideration_hash.fetch("flow", []).map do |consideration|
-      policy_question = consideration["text"]
-
-      chosen_option_id = consideration.dig("choice", "id")
-
-      chosen_option = consideration.fetch("options", []).find(-> { {} }) do |o|
-        o["id"] == chosen_option_id
-      end
-
-      applicant_answer_text = chosen_option["text"]
-
-      build_policy_considerations(policy_question, applicant_answer_text)
+      parse_and_build_policy_consideration(consideration)
     end.compact
   end
 
@@ -25,11 +15,25 @@ class Ripa::PolicyConsiderationBuilder
 
   attr_reader :consideration_hash
 
-  def build_policy_considerations(policy_question, applicant_answer_text)
-    if policy_question && applicant_answer_text
+  def parse_and_build_policy_consideration(consideration)
+    policy_question = consideration["text"]
+
+    chosen_option_id = consideration.dig("choice", "id")
+
+    chosen_option = consideration.fetch("options", []).find(-> { {} }) do |o|
+      o["id"] == chosen_option_id
+    end
+
+    applicant_answer_text = chosen_option["text"]
+
+    build_policy_consideration(policy_question, applicant_answer_text)
+  end
+
+  def build_policy_consideration(policy_question, applicant_answer)
+    if policy_question && applicant_answer
       PolicyConsideration.new(
         policy_question: policy_question,
-        applicant_answer: applicant_answer_text
+        applicant_answer: applicant_answer
       )
     end
   end
