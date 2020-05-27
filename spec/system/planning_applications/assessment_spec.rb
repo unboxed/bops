@@ -51,6 +51,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).to have_content("build new")
 
       choose "Yes"
+      page.find("textarea", visible: true).fill_in with: "This has been granted"
+
       click_button "Save"
 
       # Expect the 'completed' label to be present for the evaluation step
