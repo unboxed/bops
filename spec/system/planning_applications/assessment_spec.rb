@@ -51,7 +51,12 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).to have_content("build new")
 
       choose "Yes"
+      fill_in "comment_met", with: "This has been granted"
+
       click_button "Save"
+
+      # TODO remove this line when we validate the comment_met in the decision notice
+      expect(policy_evaluation.reload.comment_met).to eq("This has been granted")
 
       # Expect the 'completed' label to be present for the evaluation step
       within(:assessment_step, "Evaluate permitted development policy requirements") do

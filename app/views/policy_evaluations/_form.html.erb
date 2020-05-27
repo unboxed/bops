@@ -7,21 +7,41 @@
       </p>
       <%= render "policy_consideration_list", policy_considerations: @policy_evaluation.policy_considerations %>
       <p class="govuk-body">
-        <br><strong>Have permitted development requirements been met?</strong>
+        <br>
+        <strong>Have permitted development requirements been met?</strong>
       </p>
-      <div class="govuk-radios govuk-radios--inline">
+      <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios" style="margin-bottom: 20px;">
         <div class="govuk-radios govuk-radios--small">
           <div class="govuk-radios__item">
-            <%= form.radio_button :status, "met", class: "govuk-radios__input" %>
-            <%= form.label :status_met, "Yes", class: "govuk-radios__label" %>
+            <%= form.radio_button :status, "met", class: "govuk-radios__input", id:"status-met-conditional", "aria-controls":"conditional-status-met-conditional", "aria-expanded":"false" %>
+            <%= form.label :status_met, "Yes", class: "govuk-label govuk-radios__label",  for: "status-met-conditional" %>
+          </div>
+          <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-status-met-conditional">
+            <div class="govuk-form-group">
+              <p class="govuk-body">
+                Please add any comments that can be inserted into the decision notice.
+              </p>
+                <%= form.label :comment_met %>
+                <%= form.text_area :comment_met, class: "govuk-textarea", id: "comment_met", rows: "3", "aria-describedby": "comment-met-hint" %>
+            </div>
           </div>
           <div class="govuk-radios__item">
-            <%= form.radio_button :status, "unmet", class: "govuk-radios__input" %>
-            <%= form.label :status_unmet, "No", class: "govuk-radios__label" %>
+            <%= form.radio_button :status, "unmet", class: "govuk-radios__input", id: "status-unmet-conditional", "aria-controls": "conditional-status-unmet-conditional", "aria-expanded": "false" %>
+            <%= form.label :status_unmet, "No", class: "govuk-label govuk-radios__label", for: "status-unmet-conditional" %>
+          </div>
+          <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-status-unmet-conditional">
+            <div class="govuk-form-group">
+              <p class="govuk-body">
+                Please add any comments that can be inserted into the decision notice.
+              </p>
+              <%= form.text_area :comment_unmet, class: "govuk-textarea", id: "comment_unmet", rows: "3", "aria-describedby": "comment-unmet-hint" %>
+            </div>
           </div>
         </div>
       </div>
-  </fieldset>
-  <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+    </fieldset>
+    <p>
+      <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+    </p>
   </div>
 <% end%>

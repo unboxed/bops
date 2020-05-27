@@ -35,6 +35,8 @@ class PolicyEvaluationsController < ApplicationController
   end
 
   def policy_evaluation_params
-    params.fetch(:policy_evaluation, {}).permit(:status)
+    params.fetch(:policy_evaluation, {}).permit(
+      :status, :comment_met, :comment_unmet
+    )
   end
 end
