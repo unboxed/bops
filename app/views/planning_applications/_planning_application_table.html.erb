@@ -2,32 +2,42 @@
   <h2 class="govuk-heading-l"><%= title %></h2>
   <table class="govuk-table">
     <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header">Application</th>
-        <th scope="col" class="govuk-table__header">Site address</th>
-        <th scope="col" class="govuk-table__header">Type</th>
-        <th scope="col" class="govuk-table__header">Description</th>
-        <th scope="col" class="govuk-table__header">Target date</th>
-        <th scope="col" class="govuk-table__header">Days left</th>
-        <th scope="col" class="govuk-table__header">Consultation end date</th>
-        <th scope="col" class="govuk-table__header">Responses</th>
-      </tr>
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Application</th>
+      <th scope="col" class="govuk-table__header">Site address</th>
+      <th scope="col" class="govuk-table__header">Application type</th>
+      <th scope="col" class="govuk-table__header">Target date</th>
+      <th scope="col" class="govuk-table__header">Working days left</th>
+      <th scope="col" class="govuk-table__header">Consultation end date</th>
+      <th scope="col" class="govuk-table__header">Consultation responses</th>
+      <th scope="col" class="govuk-table__header">Planning officer</th>
+    </tr>
     </thead>
     <tbody class="govuk-table__body">
-      <% planning_applications.each do |planning_application| %>
-        <tr class="govuk-table__row">
-          <td class="govuk-table__cell">
-            <%= link_to planning_application.reference, planning_application %>
-          </td>
-          <td class="govuk-table__cell"><%= display_address(planning_application.site) %></td>
-          <td class="govuk-table__cell"><%= I18n.t(planning_application.application_type) %></td>
-          <td class="govuk-table__cell"><%= planning_application.description%></td>
-          <td class="govuk-table__cell"><%= planning_application.target_date.strftime("%B %e")%></td>
-          <td class="govuk-table__cell"><%= planning_application.days_left%></td>
-          <td class="govuk-table__cell"> - </td>
-          <td class="govuk-table__cell"> - </td>
-        </tr>
-      <% end %>
+    <% planning_applications.each do |planning_application| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          <%= link_to planning_application.reference, planning_application %>
+        </td>
+        <td class="govuk-table__cell"><%= display_address(planning_application.site) %></td>
+        <td class="govuk-table__cell"><%= I18n.t(planning_application.application_type) %></td>
+        <td class="govuk-table__cell"><%= planning_application.target_date.strftime("%B %e") %></td>
+        <td class="govuk-table__cell">
+          <strong class="govuk-tag govuk-tag--<%= days_color(planning_application.days_left) %>">
+            <%= planning_application.days_left %>
+          </strong>
+        </td>
+        <td class="govuk-table__cell"> -</td>
+        <td class="govuk-table__cell"> -</td>
+        <td class="govuk-table__cell">
+          <% if planning_application.user %>
+            <%= planning_application.user.name %>
+          <% else %>
+            <strong class="govuk-tag govuk-tag--purple">Not started</strong>
+          <% end %>
+        </td>
+    <% end %>
+    </tr>
     </tbody>
   </table>
 </div>
