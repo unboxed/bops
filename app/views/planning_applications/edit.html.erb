@@ -2,12 +2,7 @@
   <% if current_user.assessor? %>
     <% navigation_add 'Make recommendation', edit_planning_application_path %>
 
-    <%# TODO update met and unmet partial to use interpolated variables %>
-    <% if @planning_application.assessor_decision.granted? %>
-      <%= render "met", planning_application: @planning_application%>
-    <% else %>
-      <%= render "unmet", planning_application: @planning_application%>
-    <% end %>
+    <%= render "decision_notice", planning_application: @planning_application %>
 
     <p class="govuk-body">
       <br>
@@ -23,10 +18,6 @@
     <% end %>
   <% else %>
     <% navigation_add 'Approve recommendation', edit_planning_application_path %>
-    <% if @planning_application.assessor_decision.granted? %>
-      <%= render "met", planning_application: @planning_application%>
-    <% else %>
-      <%= render "unmet", planning_application: @planning_application%>
-    <% end %>
+    <%= render "decision_notice", planning_application: @planning_application %>
   <% end%>
 <% end%>
