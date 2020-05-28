@@ -18,8 +18,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     let(:policy_consideration_2) do
       create :policy_consideration,
-            policy_question: "I want to",
-            applicant_answer: "build new"
+            policy_question: "The project will ___ the internal floor area of the building",
+            applicant_answer: "not alter"
     end
 
     let!(:policy_evaluation) do
@@ -44,11 +44,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_link "Evaluate permitted development policy requirements"
 
-      expect(page).to have_content("The property is")
-      expect(page).to have_content("a semi detached house")
-
-      expect(page).to have_content("I want to")
-      expect(page).to have_content("build new")
+      expect(page).to have_content("The property is a semi detached house")
+      expect(page).to have_content("The project will not alter the internal floor area of the building")
 
       choose "Yes"
       fill_in "comment_met", with: "This has been granted"
