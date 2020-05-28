@@ -40,7 +40,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).not_to have_css(".app-task-list__task-completed")
 
       # The second step is not yet a link
-      expect(page).not_to have_link("Confirm recommendation")
+      expect(page).not_to have_link("Confirm decision notice")
 
       click_link "Evaluate permitted development policy requirements"
 
@@ -75,11 +75,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
         expect(page).to have_completed_tag
       end
 
-      click_link "Confirm recommendation"
+      click_link "Confirm decision notice"
 
       click_button "Submit to manager"
 
-      within(:assessment_step, "Confirm recommendation") do
+      within(:assessment_step, "Confirm decision notice") do
         expect(page).to have_completed_tag
       end
 
@@ -100,7 +100,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       expect(page).not_to have_link("Evaluate permitted development policy requirements")
-      expect(page).not_to have_link("Confirm recommendation")
+      expect(page).not_to have_link("Confirm decision notice")
       # TODO: Continue this spec until the assessor decision has been made and check that policy evaluations can no longer be made
     end
   end
@@ -131,7 +131,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       expect(page).not_to have_link("Evaluate permitted development policy requirements")
 
-      expect(page).not_to have_link("Confirm recommendation")
+      expect(page).not_to have_link("Confirm decision notice")
 
       click_link "Review decision notice"
       choose "Yes"
