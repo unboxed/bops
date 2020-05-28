@@ -136,6 +136,7 @@ COPY --chown=app:app ./yarn.lock /app/yarn.lock
 COPY --chown=app:app ./babel.config.js /app/babel.config.js
 COPY --chown=app:app ./postcss.config.js /app/postcss.config.js
 COPY --chown=app:app ./startup.sh /app/startup.sh
+COPY --chown=app:app ./spec/fixtures/files/permitted_development.json /app/spec/fixtures/files/permitted_development.json
 
 RUN chmod +x /app/startup.sh
 
