@@ -65,16 +65,16 @@
               </p>
               <%= image_tag doc_1.plan, style: "height:180px;width:200px;" %>
               <p class='govuk-body'>
-                <%= link_to "Download", rails_blob_path(doc_2.plan, disposition: 'attachment') %>
+                <%= link_to "Download", rails_blob_path(doc_1.plan, disposition: 'attachment') %>
               </p>
             </td>
             <td class="govuk-table__cell"><p class='govuk-body'>
               <p class='govuk-body'>
-                <%= doc_2.name %>
+                <%= doc_2.name if doc_2 %>
               </p>
-              <%= image_tag doc_2.plan, style: "height:180px;width:200px;" %>
+              <%= image_tag doc_2.plan, style: "height:180px;width:200px;" if doc_2 %>
               <p class='govuk-body'>
-                <%= link_to "Download", rails_blob_path(doc_2.plan, disposition: 'attachment') %>
+                <%= link_to "Download", rails_blob_path(doc_2.plan, disposition: 'attachment') if doc_2 %>
               </p>
             </td>
           <% end %>
