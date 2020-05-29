@@ -8,8 +8,6 @@ Rails.application.routes.draw do
   end
 
   resources :planning_applications, only: [:show, :index, :edit, :update] do
-    resource :policy_evaluation, only: [:show, :update]
-
     resources :decisions, only: [:new, :create, :edit, :update]
   end
 
