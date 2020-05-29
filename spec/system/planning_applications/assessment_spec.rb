@@ -63,7 +63,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "Evaluate permitted development policy requirements"
 
       # Expect the saved state to be shown in the form
-      within(find("form.policy_evaluation")) do
+      within(find("form.decision")) do
         expect(page.find_field("Yes")).to be_checked
       end
 
@@ -143,7 +143,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "Review permitted development policy requirements"
 
       # Expect the saved state to be shown in the form
-      within(find("form.policy_evaluation")) do
+      within(find("form.decision")) do
         expect(page.find_field("Yes")).to be_checked
       end
 
