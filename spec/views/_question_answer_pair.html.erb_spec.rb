@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "policy_evaluations/_question_answer_pair.html.erb" do
+RSpec.describe "decisions/_question_answer_pair.html.erb" do
   context "with a sequential question and answer" do
     let(:policy_consideration) do
       build :policy_consideration,
