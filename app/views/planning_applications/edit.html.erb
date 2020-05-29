@@ -2,7 +2,7 @@
   <% if current_user.assessor? %>
     <% navigation_add 'Make recommendation', edit_planning_application_path %>
 
-    <%= render "decision_notice", planning_application: @planning_application %>
+    <%= render "decision_notice", planning_application: @planning_application, decision: @planning_application.assessor_decision  %>
 
     <p class="govuk-body">
       <br>
@@ -18,6 +18,6 @@
     <% end %>
   <% else %>
     <% navigation_add 'Approve recommendation', edit_planning_application_path %>
-    <%= render "decision_notice", planning_application: @planning_application %>
+    <%= render "decision_notice", planning_application: @planning_application, decision: @planning_application.reviewer_decision %>
   <% end%>
 <% end%>
