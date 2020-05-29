@@ -1,6 +1,6 @@
 <%= render "planning_applications/assessment_dashboard" do %>
   <% if current_user.assessor? %>
-    <%# navigation_add 'Make recommendation', edit_planning_application_path %>
+    <% navigation_add 'Make recommendation', edit_planning_application_path %>
 
     <%# TODO update met and unmet partial to use interpolated variables %>
     <% if @planning_application.assessor_decision.granted? %>
@@ -22,7 +22,7 @@
       <%= form.submit "Submit to manager", class: "govuk-button", data: { module: "govuk-button" } %>
     <% end %>
   <% else %>
-    <% navigation_add 'Approve recommendation', edit_planning_application_path(@planning_application) %>
+    <% navigation_add 'Approve recommendation', edit_planning_application_path %>
     <% if @planning_application.assessor_decision.granted? %>
       <%= render "met", planning_application: @planning_application%>
     <% else %>

@@ -5,8 +5,10 @@ module BreadcrumbNavigationHelper
 
   def navigation_add(title, path)
     if path.match?(PLANNING_APPLICATION_REGEX)
+      id = params[:planning_application_id] || params[:id]
+
       ensure_navigation <<
-          ensure_planning_application_path(params[:planning_application_id]) <<
+          ensure_planning_application_path(id) <<
           { title: title, path: path }
     else
       ensure_navigation << { title: "Application", path: nil }
