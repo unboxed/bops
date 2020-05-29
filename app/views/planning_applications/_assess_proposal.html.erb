@@ -56,11 +56,16 @@
           <% step_name = "Review permitted development policy requirements" %>
 
           <% if current_user.reviewer? && @planning_application.awaiting_determination? %>
-            <span class="app-task-list__task-name">
-              <% aria_attributes = @planning_application.reviewer_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
+            <% aria_attributes = @planning_application.reviewer_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
 
-              <%= link_to step_name, new_planning_application_decision_path(@planning_application), aria: aria_attributes %>
-            </span>
+            <%# TODO: Make a helper for this %>
+            <%
+              path = @planning_application.reviewer_decision ?
+                edit_planning_application_decision_path(@planning_application) :
+                  new_planning_application_decision_path(@planning_application)
+            %>
+
+            <span class="app-task-list__task-name"><%= link_to step_name, path, aria: aria_attributes %></span>
           <% else %>
             <span class="app-task-list__task-name"><%= step_name %></span>
           <% end %>

@@ -140,6 +140,13 @@ RSpec.describe "Planning Application Assessment", type: :system do
         expect(page).to have_completed_tag
       end
 
+      click_link "Review permitted development policy requirements"
+
+      # Expect the saved state to be shown in the form
+      within(find("form.policy_evaluation")) do
+        expect(page.find_field("Yes")).to be_checked
+      end
+
       # TODO: Submit manager's final confirmation to move application into determined
 
       # click_link "Home"

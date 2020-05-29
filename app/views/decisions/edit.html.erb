@@ -4,6 +4,6 @@
     <%= render "assessor_new", planning_application: @planning_application, decision: @decision %>
   <% else %>
     <% navigation_add 'Approve recommendation', edit_planning_application_decision_path %>
-    <%= render "reviewer_new", planning_application: @planning_application%>
+    <%= render "reviewer_new", planning_application: @planning_application, decision: @decision %>
   <% end%>
 <% end%>
