@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "policy_evaluations/_question_answer_pair.html.erb" do
+RSpec.describe "decisions/_question_answer_pair.html.erb" do
   context "with a sequential question and answer" do
     let(:policy_consideration) do
       build :policy_consideration,
@@ -11,7 +11,7 @@ RSpec.describe "policy_evaluations/_question_answer_pair.html.erb" do
     end
 
     it "displays a sequential pair" do
-      render "policy_evaluations/question_answer_pair", policy_consideration: policy_consideration
+      render "decisions/question_answer_pair", policy_consideration: policy_consideration
 
       expect(rendered).to include "What is your favourite ice cream? <strong>Cornetto</strong>"
     end
@@ -25,7 +25,7 @@ RSpec.describe "policy_evaluations/_question_answer_pair.html.erb" do
     end
 
     it "displays a question with an interpolated answer" do
-      render "policy_evaluations/question_answer_pair", policy_consideration: policy_consideration
+      render "decisions/question_answer_pair", policy_consideration: policy_consideration
 
       expect(rendered).to include "Your dessert <strong>does</strong> melt in the sun"
     end
