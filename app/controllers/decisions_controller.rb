@@ -10,32 +10,39 @@ class DecisionsController < AuthenticationController
     @decision = @planning_application.decisions.build(user: current_user)
   end
 
-  # rubocop:disable Metrics/MethodLength
   def create
-    if current_user.assessor?
-      @planning_application.decisions.create(
-        user: current_user,
-        granted: true
-      )
-      @planning_application.awaiting_determination!
+    @decision = @planning_application.decisions.build(
+      decision_params.merge(user: current_user)
+    )
 
+    if @decision.save
       redirect_to @planning_application
-    elsif current_user.reviewer?
-      @decision = @planning_application.decisions.build(
-        user: current_user,
-        granted: decision_params[:granted]
-      )
-
-      if @decision.save
-        @planning_application.determined!
-
-        redirect_to @planning_application
-      else
-        render :new
-      end
+    else
+      render :new
     end
   end
-  # rubocop:enable Metrics/MethodLength
+
+  def edit
+    if current_user.assessor?
+      @decision = @planning_application.assessor_decision
+    else
+      @decision = @planning_application.reviewer_decision
+    end
+  end
+
+  def update
+    if current_user.assessor?
+      @decision = @planning_application.assessor_decision
+    else
+      @decision = @planning_application.reviewer_decision
+    end
+
+    if @decision.update(decision_params.merge(user: current_user))
+      redirect_to @planning_application
+    else
+      render :edit
+    end
+  end
 
   private
 
@@ -46,6 +53,6 @@ class DecisionsController < AuthenticationController
   end
 
   def decision_params
-    params.fetch(:decision, {}).permit(:granted)
+    params.fetch(:decision, {}).permit(:status, :comment_met, :comment_unmet)
   end
 end

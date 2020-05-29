@@ -1,0 +1,32 @@
+<%= render "planning_applications/assessment_dashboard" do %>
+  <% if current_user.assessor? %>
+    <%# navigation_add 'Make recommendation', edit_planning_application_path %>
+
+    <%# TODO update met and unmet partial to use interpolated variables %>
+    <% if @planning_application.assessor_decision.granted? %>
+      <%= render "met", planning_application: @planning_application%>
+    <% else %>
+      <%= render "unmet", planning_application: @planning_application%>
+    <% end %>
+
+    <p class="govuk-body">
+      <br>
+      <strong>
+        If you agree with the decision notice, please submit it to your manager.
+      </strong>
+      Once submitted, you will not be able to change your recommendation, or decision.
+    </p>
+
+    <%= form_with model: @planning_application, local: true do |form| %>
+      <%= form.hidden_field :status, value: :awaiting_determination %>
+      <%= form.submit "Submit to manager", class: "govuk-button", data: { module: "govuk-button" } %>
+    <% end %>
+  <% else %>
+    <% navigation_add 'Approve recommendation', edit_planning_application_path(@planning_application) %>
+    <% if @planning_application.assessor_decision.granted? %>
+      <%= render "met", planning_application: @planning_application%>
+    <% else %>
+      <%= render "unmet", planning_application: @planning_application%>
+    <% end %>
+  <% end%>
+<% end%>

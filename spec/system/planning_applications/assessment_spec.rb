@@ -53,7 +53,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_button "Save"
 
       # TODO remove this line when we validate the comment_met in the decision notice
-      expect(policy_evaluation.reload.comment_met).to eq("This has been granted")
+      expect(planning_application.reload.assessor_decision.comment_met).to eq("This has been granted")
 
       # Expect the 'completed' label to be present for the evaluation step
       within(:assessment_step, "Evaluate permitted development policy requirements") do
@@ -68,6 +68,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       choose "No"
+
       click_button "Save"
 
       # Expect the 'completed' label to still be present for the evaluation step
@@ -129,39 +130,40 @@ RSpec.describe "Planning Application Assessment", type: :system do
         click_link "19/AP/1880"
       end
 
-      expect(page).not_to have_link("Evaluate permitted development policy requirements")
-
       expect(page).not_to have_link("Confirm decision notice")
 
-      click_link "Review decision notice"
+      click_link "Review permitted development policy requirements"
       choose "Yes"
       click_button "Save"
 
-      expect(page).not_to have_link("Review decision notice")
-
-      within(:assessment_step, "Review decision notice") do
+      within(:assessment_step, "Review permitted development policy requirements") do
         expect(page).to have_completed_tag
       end
 
-      click_link "Home"
+      # TODO: Submit manager's final confirmation to move application into determined
+
+      # click_link "Home"
 
       # Check that the application is no longer in awaiting determination
-      click_link "Awaiting manager's determination"
-      within("#awaiting_determination") do
-        expect(page).not_to have_link "19/AP/1880"
-      end
+      # click_link "Awaiting manager's determination"
+      # within("#awaiting_determination") do
+      #   expect(page).not_to have_link "19/AP/1880"
+      # end
 
       # Check that the application is now in determined
-      click_link "Determined"
-      within("#determined") do
-        expect(page).to have_link "19/AP/1880"
-      end
+      # click_link "Determined"
+      # within("#determined") do
+      #   expect(page).to have_link "19/AP/1880"
+      # end
     end
   end
 
   context "as an admin" do
+    let(:assessor) { create :user, :assessor }
+    let(:assessor_decision) { create :decision, user: assessor }
+
     let!(:planning_application) do
-      create :planning_application, :with_policy_evaluation_requirements_unmet, reference: "19/AP/1880"
+      create :planning_application, reference: "19/AP/1880", assessor_decision: assessor_decision
     end
 
     before do

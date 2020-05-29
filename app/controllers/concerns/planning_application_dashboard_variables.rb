@@ -7,5 +7,6 @@ module PlanningApplicationDashboardVariables
     @site = @planning_application.site
     @agent = @planning_application.agent if @planning_application.agent
     @applicant = @planning_application.applicant
+    @policy_evaluation = @planning_application.policy_evaluation
   end
 end

@@ -10,4 +10,12 @@ class PlanningApplicationPolicy < ApplicationPolicy
   def index?
     super || signed_in_viewer?
   end
+
+  def edit?
+    super || signed_in_editor?
+  end
+
+  def update?
+    super || signed_in_editor?
+  end
 end
