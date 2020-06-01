@@ -2,7 +2,7 @@
   Submit Recommendation
 </h2>
 <p class="govuk-body">Based on your answers given with the Permitted Development Policy Requirements, Permited Development should be <%= "#{decision.status}." %>
-  <% if planning_application.assessor_decision.comment_met.present? || planning_application.assessor_decision.comment_unmet.present? %>
+  <% if planning_application.assessor_decision.comment_made? %>
     <%= "Your comments have been added to the decision notice." %>
   <% end %>
 </p>

@@ -5,4 +5,8 @@ class Decision < ApplicationRecord
 
   belongs_to :planning_application
   belongs_to :user
+
+  def comment_made?
+    comment_met.present? || comment_unmet.present?
+  end
 end
