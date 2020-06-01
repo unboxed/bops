@@ -27,16 +27,29 @@
         Do you agree with this recommendation?
       </strong>
     </p>
-    <div class="govuk-radios govuk-radios--small govuk-radios--conditional" data-module="govuk-radios">
-      <div class="govuk-radios__item">
-        <%= form.radio_button :status, :granted, class: "govuk-radios__input" %>
-        <%= form.label :status_granted, "Yes", class: "govuk-radios__label" %>
+    <% if planning_application.assessor_decision.granted? %>
+      <div class="govuk-radios govuk-radios--small govuk-radios--conditional" data-module="govuk-radios">
+        <div class="govuk-radios__item">
+          <%= form.radio_button :status, :granted, class: "govuk-radios__input" %>
+          <%= form.label :status_granted, "Yes", class: "govuk-radios__label" %>
+        </div>
+        <div class="govuk-radios__item">
+          <%= form.radio_button :status, :refused, class: "govuk-radios__input" %>
+          <%= form.label :status_refused, "No", class: "govuk-radios__label" %>
+        </div>
       </div>
-      <div class="govuk-radios__item">
-        <%= form.radio_button :status, :refused, class: "govuk-radios__input" %>
-        <%= form.label :status_refused, "No", class: "govuk-radios__label" %>
+    <% elsif planning_application.assessor_decision.refused? %>
+      <div class="govuk-radios govuk-radios--small govuk-radios--conditional" data-module="govuk-radios">
+        <div class="govuk-radios__item">
+          <%= form.radio_button :status, :refused, class: "govuk-radios__input" %>
+          <%= form.label :status_refused, "Yes", class: "govuk-radios__label" %>
+        </div>
+        <div class="govuk-radios__item">
+          <%= form.radio_button :status, :granted, class: "govuk-radios__input" %>
+          <%= form.label :status_granted, "No", class: "govuk-radios__label" %>
+        </div>
       </div>
-    </div>
+    <% end %>
   </fieldset>
   <p>
     <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>

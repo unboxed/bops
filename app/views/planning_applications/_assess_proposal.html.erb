@@ -74,6 +74,22 @@
             <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
           <% end %>
         </li>
+
+        <li class="app-task-list__item">
+          <% step_name = "Publish and send decision notice" %>
+
+          <% if current_user.reviewer? && @planning_application.awaiting_determination? %>
+            <% aria_attributes = @planning_application.awaiting_determination? ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
+
+            <span class="app-task-list__task-name"><%= link_to_if @planning_application.reviewer_decision, step_name, edit_planning_application_path(@planning_application), aria: aria_attributes %></span>
+          <% else %>
+            <span class="app-task-list__task-name"><%= step_name %></span>
+          <% end %>
+
+          <% if @planning_application.determined? %>
+            <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
+          <% end %>
+        </li>
       </ul>
     </li>
   <% end %>
