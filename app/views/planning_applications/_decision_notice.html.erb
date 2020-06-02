@@ -7,29 +7,29 @@
   <% end %>
 </p>
 <div style="background-color: #f3f2f1; border: solid 1px; padding: 30px; clear: both; margin-top: 10px;">
-  <span class="govuk-caption-xl">[Council Name]</span>
+  <span class="govuk-caption-xl">Southwark Council</span>
   <h2 class="govuk-heading-m">Town and country planning act 1990 (as amended)</h2>
   <p class="govuk-body"> <strong>Decision notice</strong> </p>
   <p class="govuk-body">Certificate of lawfulness of proposed use or development: <strong><%= "#{decision.status}." %></strong></p>
   <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
   <p class="govuk-body">
-    <strong>Applicant:</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;[<%= planning_application.applicant.full_name %>]<br>
+    <strong>Applicant:</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<%= planning_application.applicant.full_name %><br>
     <strong>Date of Issue of this decision:</strong>
     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<%= planning_application&.reviewer_decision&.decided_at || "TBD" %><br>
-    <strong>Application received:</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;[<%= planning_application.created_at.strftime("%d/%m/%Y") %>]
+    <strong>Application received:</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<%= planning_application.created_at.strftime("%d/%m/%Y") %>
     <br>
     <strong>Address:</strong>
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;[<%= display_address(planning_application.site) %>]<br>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<%= display_address(planning_application.site) %><br>
     <strong>Application number:</strong>
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;[<%= planning_application.reference %>]<br>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<%= planning_application.reference %><br>
   </p>
   <p class="govuk-body">Proposed use or development:<br>
-    Certificate of lawful development (proposed) for the construction of [<%= planning_application.description %>]
+    Certificate of lawful development (proposed) for the construction of <%= planning_application.description %>
   </p>
   <% if decision.granted? %>
     <p class="govuk-body">
       IT IS HEREBY CERTIFIED that the use or operations described below are
-      <strong>lawful</strong>for the purposes of S.192 of the Town and Country Planning Act 1990 in accordance with the valid application received on [<%= planning_application.created_at.strftime("%d/%m/%Y") %>] and supporting documents listed below. Full application is available on the planning register.
+      <strong>lawful</strong> for the purposes of S.192 of the Town and Country Planning Act 1990 in accordance with the valid application received on <%= planning_application.created_at.strftime("%d/%m/%Y") %> and supporting documents listed below. Full application is available on the planning register.
     </p>
     <p class="govuk-body">
       <strong>CONDITIONS<br>

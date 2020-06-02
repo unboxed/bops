@@ -7,6 +7,6 @@ class Decision < ApplicationRecord
   belongs_to :user
 
   def comment_made?
-    comment_met.present? || comment_unmet.present?
+    granted? && comment_met.present? || refused? && comment_unmet.present?
   end
 end
