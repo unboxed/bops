@@ -67,7 +67,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         expect(page.find_field("Yes")).to be_checked
       end
 
-      choose "No"
+      choose "Yes"
 
       click_button "Save"
 
@@ -81,7 +81,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).to have_content("Submit Recommendation")
       expect(page).to have_content("Based on your answers given with the Permitted Development Policy Requirements, Permited Development should be #{planning_application.reload.assessor_decision.status}")
 
-      expect(planning_application.reload.assessor_decision.comment_met.present?).to be(true)
+      expect(planning_application.reload.assessor_decision.comment_made?).to be(true)
       expect(page).to have_content("Your comments have been added to the decision notice.")
 
       expect(page).to have_content("Certificate of lawfulness of proposed use or development: #{planning_application.reload.assessor_decision.status}")
