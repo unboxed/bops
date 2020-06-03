@@ -5,6 +5,7 @@ class DecisionsController < AuthenticationController
 
   before_action :set_planning_application
   before_action :set_planning_application_dashboard_variables
+  before_action :attach_officer
 
   def new
     @decision = @planning_application.decisions.build(user: current_user)
@@ -50,6 +51,12 @@ class DecisionsController < AuthenticationController
     @planning_application = authorize(
       PlanningApplication.find(params[:planning_application_id])
     )
+  end
+
+  def attach_officer
+    if current_user.assessor? && @planning_application.user.nil?
+      @planning_application.update(user_id: current_user[:id])
+    end
   end
 
   def decision_params

@@ -40,12 +40,20 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).not_to have_css(".app-task-list__task-completed")
 
       # The second step is not yet a link
-      expect(page).not_to have_link("Confirm decision notice")
+      within(".govuk-grid-column-two-thirds.application") do
+        first('.govuk-accordion').click_button('Open all')
+        expect(page).not_to have_text(users(:assessor).name)
+      end
+
+      # The assessor's name is not yet attached to the application
+      expect(page).not_to have_text(users(:assessor).name)
 
       click_link "Evaluate permitted development policy requirements"
 
       expect(page).to have_content("The property is a semi detached house")
       expect(page).to have_content("The project will not alter the internal floor area of the building")
+
+      expect(page).to have_text(users(:assessor).name)
 
       choose "Yes"
       fill_in "comment_met", with: "This has been granted"

@@ -10,30 +10,40 @@
     <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
       <table class="govuk-table">
         <tbody class="govuk-table__body">
-          <tr class="govuk-table__row">
-            <td class="govuk-table__cell"><b>Type:</b></td>
-            <td class="govuk-table__cell">Proposed permitted development:
-              <%= I18n.t(@planning_application.application_type) %>
-            </td>
-          </tr>
-          <tr class="govuk-table__row">
-            <td class="govuk-table__cell"><strong>Application status: </strong></td>
-            <td class="govuk-table__cell"><%= I18n.t(@planning_application.status) %></td>
-          </tr>
-          <tr class="govuk-table__row">
-            <td class="govuk-table__cell"><strong>Validation complete: </strong></td>
-            <td class="govuk-table__cell"><%= @planning_application.created_at.to_formatted_s(:long) %></td>
-          </tr>
-          <tr class="govuk-table__row">
-            <td class="govuk-table__cell"><strong>Summary of proposal: </strong></td>
-            <td class="govuk-table__cell">
-              <ul class="govuk-list govuk-list--bullet">
-                <li>
-                  <%= @planning_application.description %>
-                </li>
-              </ul>
-            </td>
-          </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell"><b>Type:</b></td>
+          <td class="govuk-table__cell">Proposed permitted development:
+            <%= I18n.t(@planning_application.application_type) %>
+          </td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell"><strong>Application status: </strong></td>
+          <td class="govuk-table__cell"><%= I18n.t(@planning_application.status) %></td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell"><strong>Validation complete: </strong></td>
+          <td class="govuk-table__cell"><%= @planning_application.created_at.to_formatted_s(:long) %></td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell"><strong>Summary of proposal: </strong></td>
+          <td class="govuk-table__cell">
+            <ul class="govuk-list govuk-list">
+              <li>
+                <%= @planning_application.description %>
+              </li>
+            </ul>
+          </td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell"><strong>Planning officer: </strong></td>
+          <td class="govuk-table__cell">
+            <ul class="govuk-list govuk-list">
+              <li>
+                <%= @planning_application.user.name if @planning_application.user %>
+              </li>
+            </ul>
+          </td>
+        </tr>
         </tbody>
       </table>
     </div>
