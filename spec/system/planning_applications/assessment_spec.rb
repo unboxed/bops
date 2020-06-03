@@ -154,10 +154,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
     let(:assessor_decision) { create :decision, user: assessor }
     let!(:planning_application) do
       create :planning_application,
-             :awaiting_determination,
-             policy_evaluation: policy_evaluation,
-             assessor_decision: assessor_decision,
-             reference: "19/AP/1880"
+       :awaiting_determination,
+       policy_evaluation: policy_evaluation,
+       assessor_decision: assessor_decision,
+       reference: "19/AP/1880"
     end
 
     before do
