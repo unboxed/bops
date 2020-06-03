@@ -161,9 +161,23 @@ RSpec.describe "Planning Application Assessment", type: :system do
        reference: "19/AP/1880"
     end
 
-    before do
+    before(:each) do
       sign_in users(:reviewer)
       visit root_path
+    end
+
+    scenario "Reviewer is not assigned to planning application" do
+      click_link "19/AP/1880"
+
+      click_link "Review permitted development policy requirements"
+
+      click_link "Home"
+
+      table_rows = all(".govuk-table__row").map(&:text)
+
+      table_rows.each do |row|
+        expect(row).not_to include(users(:reviewer).name) if row.include? "19/AP/1880"
+      end
     end
 
     scenario "Assessment reviewing" do
@@ -204,20 +218,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
       # within("#determined") do
       #   expect(page).to have_link "19/AP/1880"
       # end
-    end
-
-    scenario "Reviewer is not assigned to planning application" do
-      click_link "19/AP/1880"
-
-      click_link "Review permitted development policy requirements"
-
-      click_link "Home"
-
-      table_rows = all(".govuk-table__row").map(&:text)
-
-      table_rows.each do |row|
-        expect(row).not_to include(users(:reviewer).name) if row.include? "19/AP/1880"
-      end
     end
   end
 
