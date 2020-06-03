@@ -155,6 +155,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     let!(:planning_application) do
       create :planning_application,
        :awaiting_determination,
+       user: assessor,
        policy_evaluation: policy_evaluation,
        assessor_decision: assessor_decision,
        reference: "19/AP/1880"
@@ -206,19 +207,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     scenario "Reviewer is not assigned to planning application" do
-      table_rows = all(".govuk-table__row").map(&:text)
-
-      table_rows.each do |row|
-        expect(row).to include("Not started") if row.include? "19/AP/1880"
-      end
-
       click_link "19/AP/1880"
-
-      # Ensure officer name is not displayed on page when accordion is opened
-      within(".govuk-grid-column-two-thirds.application") do
-        first('.govuk-accordion').click_button('Open all')
-        expect(page).to have_text("Not started")
-      end
 
       click_link "Review permitted development policy requirements"
 
@@ -227,7 +216,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       table_rows = all(".govuk-table__row").map(&:text)
 
       table_rows.each do |row|
-        expect(row).to include("Not started") if row.include? "19/AP/1880"
+        expect(row).not_to include(users(:reviewer).name) if row.include? "19/AP/1880"
       end
     end
   end
