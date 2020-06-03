@@ -40,6 +40,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).not_to have_css(".app-task-list__task-completed")
 
       # The second step is not yet a link
+      expect(page).not_to have_link("Confirm decision notice")
+
       within(".govuk-grid-column-two-thirds.application") do
         first('.govuk-accordion').click_button('Open all')
         expect(page).not_to have_text(users(:assessor).name)
