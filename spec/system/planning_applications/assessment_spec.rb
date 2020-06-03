@@ -179,7 +179,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
        reference: "19/AP/1880"
     end
 
-    before(:each) do
+    before do
       sign_in users(:reviewer)
       visit root_path
     end
