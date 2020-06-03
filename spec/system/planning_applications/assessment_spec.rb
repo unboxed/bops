@@ -77,7 +77,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         expect(page.find_field("Yes")).to be_checked
       end
 
-      choose "No"
+      choose "Yes"
 
       click_button "Save"
 
@@ -87,6 +87,26 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       click_link "Confirm decision notice"
+
+      expect(page).to have_content("Submit Recommendation")
+      expect(page).to have_content("Based on your answers given with the Permitted Development Policy Requirements, Permited Development should be #{planning_application.reload.assessor_decision.status}")
+
+      expect(planning_application.reload.assessor_decision.comment_made?).to be(true)
+      expect(page).to have_content("Your comments have been added to the decision notice.")
+
+      expect(page).to have_content("Certificate of lawfulness of proposed use or development: #{planning_application.reload.assessor_decision.status}")
+
+      # Applicant
+      expect(page).to have_content("#{planning_application.applicant.full_name}")
+      # Date of Issue of this decision, TODO: implement to hold the decided_at
+      expect(page).to have_content("TBD")
+      # Application received
+      expect(page).to have_content("#{planning_application.created_at.strftime("%d/%m/%Y")}")
+      # Address, TODO: add a fixture test for this
+      # Application number
+      expect(page).to have_content("#{planning_application.reference}")
+
+      expect(page).to have_content("Certificate of lawful development (proposed) for the construction of #{planning_application.description}")
 
       click_button "Submit to manager"
 
@@ -151,11 +171,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
     # Look at an application that has had some assessment work done by the assessor
     let(:policy_evaluation) { create(:policy_evaluation, :met) }
     let(:assessor) { create :user, :assessor }
-    let(:assessor_decision) { create :decision, user: assessor }
     let!(:planning_application) do
       create :planning_application,
        :awaiting_determination,
-       user: assessor,
        policy_evaluation: policy_evaluation,
        assessor_decision: assessor_decision,
        reference: "19/AP/1880"
@@ -166,58 +184,506 @@ RSpec.describe "Planning Application Assessment", type: :system do
       visit root_path
     end
 
-    scenario "Reviewer is not assigned to planning application" do
-      click_link "19/AP/1880"
+    context "with a granted assessor_decision without a comment" do
+      let(:assessor_decision) { create :decision, :granted, user: assessor }
 
-      click_link "Review permitted development policy requirements"
+      scenario "Reviewer is not assigned to planning application" do
+        click_link "19/AP/1880"
 
-      click_link "Home"
+        click_link "Review permitted development policy requirements"
 
-      table_rows = all(".govuk-table__row").map(&:text)
+        click_link "Home"
 
-      table_rows.each do |row|
-        expect(row).not_to include(users(:reviewer).name) if row.include? "19/AP/1880"
+        table_rows = all(".govuk-table__row").map(&:text)
+
+        table_rows.each do |row|
+          expect(row).not_to include(users(:reviewer).name) if row.include? "19/AP/1880"
+        end
+      end
+
+      scenario "agrees with assessor's decision" do
+        # Check that the application is no longer in awaiting determination
+        within("#awaiting_determination") do
+          click_link "19/AP/1880"
+        end
+
+        expect(page).not_to have_link("Confirm decision notice")
+
+        click_link "Review permitted development policy requirements"
+
+        expect(page).not_to have_content("The officer has submitted this comment to the applicant:")
+        expect(page).not_to have_content("This has been granted.")
+        expect(page).not_to have_content("This has been refused.")
+
+        choose "Yes"
+        click_button "Save"
+
+        within(:assessment_step, "Review permitted development policy requirements") do
+          expect(page).to have_completed_tag
+        end
+
+        click_link "Review permitted development policy requirements"
+
+        # Expect the saved state to be shown in the form
+        within(find("form.decision")) do
+          expect(page.find_field("Yes")).to be_checked
+        end
+        click_button "Save"
+
+        click_link "Publish and send decision notice"
+
+        expect(page).not_to have_content("Your comments have been added to the decision notice.")
+        expect(page).to have_content("granted")
+        expect(page).not_to have_content("Reason for granting:")
+        expect(page).not_to have_content("This has been granted.")
+        expect(page).not_to have_content("Reason why use or operations would not have been LAWFUL:")
+        expect(page).not_to have_content("This has been refused.")
+
+        click_button "Determine application"
+
+        within(:assessment_step, "Publish and send decision notice") do
+          expect(page).to have_completed_tag
+        end
+
+        click_link "Home"
+
+        # Check that the application is no longer in awaiting determination
+        click_link "Awaiting manager's determination"
+        within("#awaiting_determination") do
+          expect(page).not_to have_link "19/AP/1880"
+        end
+
+        # Check that the application is now in determined
+        click_link "Determined"
+        within("#determined") do
+          expect(page).to have_link "19/AP/1880"
+        end
+      end
+
+      scenario "disagrees with assessor's decision" do
+        # Check that the application is no longer in awaiting determination
+        within("#awaiting_determination") do
+          click_link "19/AP/1880"
+        end
+
+        expect(page).not_to have_link("Confirm decision notice")
+
+        click_link "Review permitted development policy requirements"
+
+        expect(page).not_to have_content("The officer has submitted this comment to the applicant:")
+        expect(page).not_to have_content("This has been granted.")
+        expect(page).not_to have_content("This has been refused.")
+
+        choose "No"
+        click_button "Save"
+
+        within(:assessment_step, "Review permitted development policy requirements") do
+          expect(page).to have_completed_tag
+        end
+
+        click_link "Review permitted development policy requirements"
+
+        # Expect the saved state to be shown in the form
+        within(find("form.decision")) do
+          expect(page.find_field("No")).to be_checked
+        end
+        click_button "Save"
+
+        click_link "Publish and send decision notice"
+
+        expect(page).not_to have_content("Your comments have been added to the decision notice.")
+        expect(page).to have_content("refused")
+        expect(page).not_to have_content("Reason for granting:")
+        expect(page).not_to have_content("This has been granted.")
+        expect(page).not_to have_content("Reason why use or operations would not have been LAWFUL:")
+        expect(page).not_to have_content("This has been refused.")
+
+        click_button "Determine application"
+
+        within(:assessment_step, "Publish and send decision notice") do
+          expect(page).to have_completed_tag
+        end
+
+        click_link "Home"
+
+        # Check that the application is no longer in awaiting determination
+        click_link "Awaiting manager's determination"
+        within("#awaiting_determination") do
+          expect(page).not_to have_link "19/AP/1880"
+        end
+
+        # Check that the application is now in determined
+        click_link "Determined"
+        within("#determined") do
+          expect(page).to have_link "19/AP/1880"
+        end
       end
     end
 
-    scenario "Assessment reviewing" do
-      # Check that the application is no longer in awaiting determination
-      within("#awaiting_determination") do
-        click_link "19/AP/1880"
+    context "with a granted assessor_decision with a comment" do
+      let(:assessor_decision) { create :decision, :granted_with_comment, user: assessor }
+
+      scenario "agrees with assessor's decision" do
+        # Check that the application is no longer in awaiting determination
+        within("#awaiting_determination") do
+          click_link "19/AP/1880"
+        end
+
+        expect(page).not_to have_link("Confirm decision notice")
+
+        click_link "Review permitted development policy requirements"
+
+        expect(page).to have_content("The officer has submitted this comment to the applicant:")
+        expect(page).to have_content("This has been granted.")
+        expect(page).not_to have_content("This has been refused.")
+
+        choose "Yes"
+        click_button "Save"
+
+        within(:assessment_step, "Review permitted development policy requirements") do
+          expect(page).to have_completed_tag
+        end
+
+        click_link "Review permitted development policy requirements"
+
+        # Expect the saved state to be shown in the form
+        within(find("form.decision")) do
+          expect(page.find_field("Yes")).to be_checked
+        end
+        click_button "Save"
+
+        click_link "Publish and send decision notice"
+
+        expect(page).to have_content("Your comments have been added to the decision notice.")
+        expect(page).to have_content("granted")
+        expect(page).to have_content("Reason for granting:")
+        expect(page).to have_content("This has been granted.")
+        expect(page).not_to have_content("Reason why use or operations would not have been LAWFUL:")
+        expect(page).not_to have_content("This has been refused.")
+
+        click_button "Determine application"
+
+        within(:assessment_step, "Publish and send decision notice") do
+          expect(page).to have_completed_tag
+        end
+
+        click_link "Home"
+
+        # Check that the application is no longer in awaiting determination
+        click_link "Awaiting manager's determination"
+        within("#awaiting_determination") do
+          expect(page).not_to have_link "19/AP/1880"
+        end
+
+        # Check that the application is now in determined
+        click_link "Determined"
+        within("#determined") do
+          expect(page).to have_link "19/AP/1880"
+        end
       end
 
-      expect(page).not_to have_link("Confirm decision notice")
+      scenario "disagrees with assessor's decision" do
+        # Check that the application is no longer in awaiting determination
+        within("#awaiting_determination") do
+          click_link "19/AP/1880"
+        end
 
-      click_link "Review permitted development policy requirements"
-      choose "Yes"
-      click_button "Save"
+        expect(page).not_to have_link("Confirm decision notice")
 
-      within(:assessment_step, "Review permitted development policy requirements") do
-        expect(page).to have_completed_tag
+        click_link "Review permitted development policy requirements"
+
+        expect(page).to have_content("The officer has submitted this comment to the applicant:")
+        expect(page).to have_content("This has been granted.")
+        expect(page).not_to have_content("This has been refused.")
+
+        choose "No"
+        click_button "Save"
+
+        within(:assessment_step, "Review permitted development policy requirements") do
+          expect(page).to have_completed_tag
+        end
+
+        click_link "Review permitted development policy requirements"
+
+        # Expect the saved state to be shown in the form
+        within(find("form.decision")) do
+          expect(page.find_field("No")).to be_checked
+        end
+        click_button "Save"
+
+        click_link "Publish and send decision notice"
+
+        expect(page).not_to have_content("Your comments have been added to the decision notice.")
+        expect(page).to have_content("refused")
+        expect(page).not_to have_content("Reason for granting:")
+        expect(page).not_to have_content("This has been granted.")
+        expect(page).not_to have_content("Reason why use or operations would not have been LAWFUL:")
+        expect(page).not_to have_content("This has been refused.")
+
+        click_button "Determine application"
+
+        within(:assessment_step, "Publish and send decision notice") do
+          expect(page).to have_completed_tag
+        end
+
+        click_link "Home"
+
+        # Check that the application is no longer in awaiting determination
+        click_link "Awaiting manager's determination"
+        within("#awaiting_determination") do
+          expect(page).not_to have_link "19/AP/1880"
+        end
+
+        # Check that the application is now in determined
+        click_link "Determined"
+        within("#determined") do
+          expect(page).to have_link "19/AP/1880"
+        end
+      end
+    end
+
+    context "with a refused assessor_decision without a comment" do
+      let(:assessor_decision) { create :decision, :refused, user: assessor }
+
+      scenario "agrees with assessor's decision" do
+        # Check that the application is no longer in awaiting determination
+        within("#awaiting_determination") do
+          click_link "19/AP/1880"
+        end
+
+        expect(page).not_to have_link("Confirm decision notice")
+
+        click_link "Review permitted development policy requirements"
+
+        expect(page).not_to have_content("The officer has submitted this comment to the applicant:")
+        expect(page).not_to have_content("This has been granted.")
+        expect(page).not_to have_content("This has been refused.")
+
+        choose "Yes"
+        click_button "Save"
+
+        within(:assessment_step, "Review permitted development policy requirements") do
+          expect(page).to have_completed_tag
+        end
+
+        click_link "Review permitted development policy requirements"
+
+        # Expect the saved state to be shown in the form
+        within(find("form.decision")) do
+          expect(page.find_field("Yes")).to be_checked
+        end
+        click_button "Save"
+
+        click_link "Publish and send decision notice"
+
+        expect(page).not_to have_content("Your comments have been added to the decision notice.")
+        expect(page).to have_content("refused")
+        expect(page).not_to have_content("Reason for granting:")
+        expect(page).not_to have_content("This has been granted.")
+        expect(page).not_to have_content("Reason why use or operations would not have been LAWFUL:")
+        expect(page).not_to have_content("This has been refused.")
+
+        click_button "Determine application"
+
+        within(:assessment_step, "Publish and send decision notice") do
+          expect(page).to have_completed_tag
+        end
+
+        click_link "Home"
+
+        # Check that the application is no longer in awaiting determination
+        click_link "Awaiting manager's determination"
+        within("#awaiting_determination") do
+          expect(page).not_to have_link "19/AP/1880"
+        end
+
+        # Check that the application is now in determined
+        click_link "Determined"
+        within("#determined") do
+          expect(page).to have_link "19/AP/1880"
+        end
       end
 
-      click_link "Review permitted development policy requirements"
+      scenario "disagrees with assessor's decision" do
+        # Check that the application is no longer in awaiting determination
+        within("#awaiting_determination") do
+          click_link "19/AP/1880"
+        end
 
-      # Expect the saved state to be shown in the form
-      within(find("form.decision")) do
-        expect(page.find_field("Yes")).to be_checked
+        expect(page).not_to have_link("Confirm decision notice")
+
+        click_link "Review permitted development policy requirements"
+
+        expect(page).not_to have_content("The officer has submitted this comment to the applicant:")
+        expect(page).not_to have_content("This has been granted.")
+        expect(page).not_to have_content("This has been refused.")
+
+        choose "No"
+        click_button "Save"
+
+        within(:assessment_step, "Review permitted development policy requirements") do
+          expect(page).to have_completed_tag
+        end
+
+        click_link "Review permitted development policy requirements"
+
+        # Expect the saved state to be shown in the form
+        within(find("form.decision")) do
+          expect(page.find_field("No")).to be_checked
+        end
+        click_button "Save"
+
+        click_link "Publish and send decision notice"
+
+        expect(page).not_to have_content("Your comments have been added to the decision notice.")
+        expect(page).to have_content("granted")
+        expect(page).not_to have_content("Reason for granting:")
+        expect(page).not_to have_content("This has been granted.")
+        expect(page).not_to have_content("Reason why use or operations would not have been LAWFUL:")
+        expect(page).not_to have_content("This has been refused.")
+
+        click_button "Determine application"
+
+        within(:assessment_step, "Publish and send decision notice") do
+          expect(page).to have_completed_tag
+        end
+
+        click_link "Home"
+
+        # Check that the application is no longer in awaiting determination
+        click_link "Awaiting manager's determination"
+        within("#awaiting_determination") do
+          expect(page).not_to have_link "19/AP/1880"
+        end
+
+        # Check that the application is now in determined
+        click_link "Determined"
+        within("#determined") do
+          expect(page).to have_link "19/AP/1880"
+        end
+      end
+    end
+
+    context "with a refused assessor_decision with a comment" do
+      let(:assessor_decision) { create :decision, :refused_with_comment, user: assessor }
+
+      scenario "agrees with assessor's decision" do
+        # Check that the application is no longer in awaiting determination
+        within("#awaiting_determination") do
+          click_link "19/AP/1880"
+        end
+
+        expect(page).not_to have_link("Confirm decision notice")
+
+        click_link "Review permitted development policy requirements"
+
+        expect(page).to have_content("The officer has submitted this comment to the applicant:")
+        expect(page).not_to have_content("This has been granted.")
+        expect(page).to have_content("This has been refused.")
+
+        choose "Yes"
+        click_button "Save"
+
+        within(:assessment_step, "Review permitted development policy requirements") do
+          expect(page).to have_completed_tag
+        end
+
+        click_link "Review permitted development policy requirements"
+
+        # Expect the saved state to be shown in the form
+        within(find("form.decision")) do
+          expect(page.find_field("Yes")).to be_checked
+        end
+        click_button "Save"
+
+        click_link "Publish and send decision notice"
+
+        expect(page).to have_content("Your comments have been added to the decision notice.")
+        expect(page).to have_content("refused")
+        expect(page).not_to have_content("Reason for granting:")
+        expect(page).not_to have_content("This has been granted.")
+        expect(page).to have_content("Reason why use or operations would not have been LAWFUL:")
+        expect(page).to have_content("This has been refused.")
+
+        click_button "Determine application"
+
+        within(:assessment_step, "Publish and send decision notice") do
+          expect(page).to have_completed_tag
+        end
+
+        click_link "Home"
+
+        # Check that the application is no longer in awaiting determination
+        click_link "Awaiting manager's determination"
+        within("#awaiting_determination") do
+          expect(page).not_to have_link "19/AP/1880"
+        end
+
+        # Check that the application is now in determined
+        click_link "Determined"
+        within("#determined") do
+          expect(page).to have_link "19/AP/1880"
+        end
       end
 
-      # TODO: Submit manager's final confirmation to move application into determined
+      scenario "disagrees with assessor's decision" do
+        # Check that the application is no longer in awaiting determination
+        within("#awaiting_determination") do
+          click_link "19/AP/1880"
+        end
 
-      # click_link "Home"
+        expect(page).not_to have_link("Confirm decision notice")
 
-      # Check that the application is no longer in awaiting determination
-      # click_link "Awaiting manager's determination"
-      # within("#awaiting_determination") do
-      #   expect(page).not_to have_link "19/AP/1880"
-      # end
+        click_link "Review permitted development policy requirements"
 
-      # Check that the application is now in determined
-      # click_link "Determined"
-      # within("#determined") do
-      #   expect(page).to have_link "19/AP/1880"
-      # end
+        expect(page).to have_content("The officer has submitted this comment to the applicant:")
+        expect(page).not_to have_content("This has been granted.")
+        expect(page).to have_content("This has been refused.")
+
+        choose "No"
+        click_button "Save"
+
+        within(:assessment_step, "Review permitted development policy requirements") do
+          expect(page).to have_completed_tag
+        end
+
+        click_link "Review permitted development policy requirements"
+
+        # Expect the saved state to be shown in the form
+        within(find("form.decision")) do
+          expect(page.find_field("No")).to be_checked
+        end
+        click_button "Save"
+
+        click_link "Publish and send decision notice"
+
+        expect(page).not_to have_content("Your comments have been added to the decision notice.")
+        expect(page).to have_content("granted")
+        expect(page).not_to have_content("Reason for granting:")
+        expect(page).not_to have_content("This has been granted.")
+        expect(page).not_to have_content("Reason why use or operations would not have been LAWFUL:")
+        expect(page).not_to have_content("This has been refused.")
+
+        click_button "Determine application"
+
+        within(:assessment_step, "Publish and send decision notice") do
+          expect(page).to have_completed_tag
+        end
+
+        click_link "Home"
+
+        # Check that the application is no longer in awaiting determination
+        click_link "Awaiting manager's determination"
+        within("#awaiting_determination") do
+          expect(page).not_to have_link "19/AP/1880"
+        end
+
+        # Check that the application is now in determined
+        click_link "Determined"
+        within("#determined") do
+          expect(page).to have_link "19/AP/1880"
+        end
+      end
     end
   end
 

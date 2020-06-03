@@ -1,16 +1,33 @@
 <%= form_with model: [@planning_application, @decision], local: true, class: "decision" do |form| %>
-  <div class="govuk-form-group">
-    <fieldset class="govuk-fieldset">
-      <h2 class="govuk-heading-m">Recommendation</h2>
-        <p class="govuk-body">
-          <strong>
-            The planning officer has recommended that a certificate of lawfullness for permitted development is granted.
-            <br><br>Do you agree with this recommendation?
-          </strong>
-        </p>
-        <p class="govuk-body">
-          By approving this recommendation, the applicant will receive the letter with their certificate of lawfulness.
-        </p>
+<div class="govuk-form-group">
+  <fieldset class="govuk-fieldset">
+    <h2 class="govuk-heading-m">Permitted development requirements</h2>
+    <p class="govuk-body">
+      The applicant has submitted the following application
+    </p>
+    <%= render "policy_consideration_list", policy_considerations: @policy_evaluation.policy_considerations %>
+    <p class="govuk-body">
+      Based on the evidence given by applicant, the planning officer recommended that permitted development should be
+      <strong><%= "#{planning_application.assessor_decision.status}." %></strong>
+    </p>
+    <% if planning_application.assessor_decision.granted? && planning_application.assessor_decision.comment_made? %>
+      <p class="govuk-body">The officer has submitted this comment to the applicant:</p>
+      <div style="border: 1px solid; padding: 10px;">
+        <p class="govuk-body"><%= planning_application.assessor_decision.comment_met %></p>
+      </div>
+    <% elsif planning_application.assessor_decision.refused? && planning_application.assessor_decision.comment_made? %>
+      <p class="govuk-body">The officer has submitted this comment to the applicant:</p>
+      <div style="border: 1px solid; padding: 10px;">
+        <p class="govuk-body"><%= planning_application.assessor_decision.comment_unmet %></p>
+      </div>
+    <% end %>
+    <br>
+    <p class="govuk-body">
+      <strong>
+        Do you agree with this recommendation?
+      </strong>
+    </p>
+    <% if planning_application.assessor_decision.granted? %>
       <div class="govuk-radios govuk-radios--small govuk-radios--conditional" data-module="govuk-radios">
         <div class="govuk-radios__item">
           <%= form.radio_button :status, :granted, class: "govuk-radios__input" %>
@@ -21,8 +38,21 @@
           <%= form.label :status_refused, "No", class: "govuk-radios__label" %>
         </div>
       </div>
-    </fieldset>
-
+    <% elsif planning_application.assessor_decision.refused? %>
+      <div class="govuk-radios govuk-radios--small govuk-radios--conditional" data-module="govuk-radios">
+        <div class="govuk-radios__item">
+          <%= form.radio_button :status, :refused, class: "govuk-radios__input" %>
+          <%= form.label :status_refused, "Yes", class: "govuk-radios__label" %>
+        </div>
+        <div class="govuk-radios__item">
+          <%= form.radio_button :status, :granted, class: "govuk-radios__input" %>
+          <%= form.label :status_granted, "No", class: "govuk-radios__label" %>
+        </div>
+      </div>
+    <% end %>
+  </fieldset>
+  <p>
     <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
-  </div>
+  </p>
+</div>
 <% end%>
