@@ -39,7 +39,7 @@
             <td class="govuk-table__cell">
               <ul class="govuk-list govuk-list">
                 <li>
-                  <%= @planning_application.user.name if @planning_application.user %>
+                  <%= @planning_application.user ? @planning_application.user.name : "Not started" %>
                 </li>
               </ul>
             </td>
