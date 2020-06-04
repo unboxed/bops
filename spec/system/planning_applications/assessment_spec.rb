@@ -2,6 +2,22 @@
 
 require "rails_helper"
 
+RSpec.shared_examples 'Reviewer assignment' do
+  scenario "Reviewer is not assigned to planning application" do
+    click_link "19/AP/1880"
+
+    click_link "Review permitted development policy requirements"
+
+    click_link "Home"
+
+    table_rows = all(".govuk-table__row").map(&:text)
+
+    table_rows.each do |row|
+      expect(row).not_to include("Lorrine Krajcik") if row.include? "19/AP/1880"
+    end
+    end
+end
+
 RSpec.describe "Planning Application Assessment", type: :system do
   context "as an assessor" do
     let!(:planning_application) do
@@ -162,7 +178,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       table_rows = all(".govuk-table__row").map(&:text)
 
       table_rows.each do |row|
-        expect(row).to include(users(:assessor).name) if row.include? "19/AP/1880"
+        expect(row).to include("Lorrine Krajcik") if row.include? "19/AP/1880"
       end
     end
   end
@@ -186,20 +202,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     context "with a granted assessor_decision without a comment" do
       let(:assessor_decision) { create :decision, :granted, user: assessor }
-
-      scenario "Reviewer is not assigned to planning application" do
-        click_link "19/AP/1880"
-
-        click_link "Review permitted development policy requirements"
-
-        click_link "Home"
-
-        table_rows = all(".govuk-table__row").map(&:text)
-
-        table_rows.each do |row|
-          expect(row).not_to include(users(:reviewer).name) if row.include? "19/AP/1880"
-        end
-      end
 
       scenario "agrees with assessor's decision" do
         # Check that the application is no longer in awaiting determination
@@ -318,6 +320,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).to have_link "19/AP/1880"
         end
       end
+      include_examples("Reviewer assignment")
     end
 
     context "with a granted assessor_decision with a comment" do
@@ -440,6 +443,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).to have_link "19/AP/1880"
         end
       end
+      include_examples("Reviewer assignment")
     end
 
     context "with a refused assessor_decision without a comment" do
@@ -562,6 +566,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).to have_link "19/AP/1880"
         end
       end
+      include_examples("Reviewer assignment")
     end
 
     context "with a refused assessor_decision with a comment" do
@@ -684,6 +689,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).to have_link "19/AP/1880"
         end
       end
+      include_examples("Reviewer assignment")
     end
   end
 
