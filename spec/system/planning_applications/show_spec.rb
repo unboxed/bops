@@ -18,11 +18,11 @@ RSpec.feature "Planning Application show page", type: :system do
     end
 
     scenario "Site address is present" do
-      expect(page).to have_text("7 Elm Grove")
+      expect(page).to have_text("7 Elm Grove, London, SE15 6UT")
     end
 
     scenario "Planning application code is correct" do
-      expect(page).to have_text("AP/453/880")
+      expect(page).to have_text("Fast track application: AP/453/880")
     end
 
     scenario "Target date is correct and label is green" do
@@ -31,74 +31,51 @@ RSpec.feature "Planning Application show page", type: :system do
       expect(page).to have_css('.govuk-tag--green')
     end
 
-    scenario "Status is correct" do
-      within(".govuk-grid-column-two-thirds.application") do
-         first('.govuk-accordion').click_button('Open all')
-         expect(page).to have_text("In assessment")
-       end
+    scenario "Applicant information accordion" do
+      click_button 'Application information'
+
+      expect(page).to have_text("Address: 7 Elm Grove, London, SE15 6UT")
+      expect(page).to have_text("Ward: Dulwich Wood")
+      expect(page).to have_text("Building type: Residential")
+      expect(page).to have_text("Application type: Proposed permitted development: Certificate of Lawfulness")
+      expect(page).to have_text("Summary: Roof extension")
+      expect(page).to have_text("Case officer: Not started")
     end
 
-    scenario "Submission date is correct" do
-      within(".govuk-grid-column-two-thirds.application") do
-      first('.govuk-accordion').click_button('Open all')
-      expect(page).to have_text(Time.zone.today.to_formatted_s(:long))
-     end
+    scenario "Planning history accordion" do
+      click_button "Planning history"
+
+      expect(page).to have_text("Permitted development rights: Active")
+      expect(page).to have_text("Residential area")
     end
 
-    scenario "Applicant first name is correct" do
-      within(".govuk-grid-column-one-third.supporting") do
-        click_button("Open all")
-      end
-      expect(page).to have_text("Jason")
+    scenario "Constraints accordion" do
+      click_button "Constraints"
+
+      expect(page).to have_text("Conservation area")
     end
 
-    scenario "Applicant last name is correct" do
-      within(".govuk-grid-column-one-third.supporting") do
-        click_button("Open all")
-      end
-      expect(page).to have_text("Collins")
+    scenario "Key application dates accordion" do
+      click_button "Key application dates"
+
+      expect(page).to have_text("Application status: In assessment")
+      expect(page).to have_text("Application received: #{Time.current.strftime("%d/%m/%Y")}")
+      expect(page).to have_text("Validation complete: #{Time.current.strftime("%d/%m/%Y")}")
+      expect(page).to have_text("Target date: #{planning_application.target_date.strftime("%d/%m/%Y")}")
+      expect(page).to have_text("Statutory date: #{planning_application.target_date.strftime("%d/%m/%Y")}")
     end
 
-    scenario "Applicant phone is correct" do
-      within(".govuk-grid-column-one-third.supporting") do
-        click_button("Open all")
-      end
-      expect(page).to have_text("07814 222222")
+    scenario "Contact information accordion" do
+      click_button("Contact information")
+
+      expect(page).to have_content("Agent: Jennifer Harper, 07532 1133333, agent@example.com")
+      expect(page).to have_content("Applicant: Jason Collins, 07814 222222, applicant@example.com")
     end
 
-    scenario "Applicant email is correct" do
-      within(".govuk-grid-column-one-third.supporting") do
-        click_button('Open all')
-      end
-      expect(page).to have_text("applicant@example.com")
-    end
+    scenario "Consultation accordion" do
+      click_button("Consultation")
 
-    scenario "Agent first name is correct" do
-      within(".govuk-grid-column-one-third.supporting") do
-        click_button('Open all')
-      end
-      expect(page).to have_text("Jennifer")
-    end
-
-    scenario "Agent last name is correct" do
-      within(".govuk-grid-column-one-third.supporting") do
-        click_button('Open all')
-      end
-      expect(page).to have_text("Harper")
-    end
-
-    scenario "Agent phone is correct" do
-      within(".govuk-grid-column-one-third.supporting") do
-        click_button('Open all')
-      end
-      expect(page).to have_text("07532 1133333")
-    end
-
-    scenario "Agent email is correct" do
-      within(".govuk-grid-column-one-third.supporting") do
-        click_button('Open all')
-      end
-      expect(page).to have_text("agent@example.com")
+      expect(page).to have_text("Consultation is not applicable for proposed permitted development.")
     end
 
     scenario "Application information accordion is minimised by default" do
@@ -119,34 +96,6 @@ RSpec.feature "Planning Application show page", type: :system do
 
     scenario "Review tasks are not visible" do
       expect(page).not_to have_text("Determine the proposal")
-    end
-
-    scenario "Constraints section is visible" do
-      within(".govuk-grid-column-one-third.supporting") do
-        click_button('Open all')
-      end
-      expect(page).to have_text("Constraints")
-    end
-
-    scenario "Property history section is visible" do
-      within(".govuk-grid-column-one-third.supporting") do
-        click_button('Open all')
-      end
-      expect(page).to have_text("Property history")
-    end
-
-    scenario "Consultation section is visible" do
-      within(".govuk-grid-column-one-third.supporting") do
-        click_button('Open all')
-      end
-      expect(page).to have_text("Consultation")
-    end
-
-    scenario "Site address is visible in Supporting information accordion" do
-      within(".govuk-grid-column-one-third.supporting") do
-        click_button('Open all')
-      end
-      expect(page).to have_text("7 Elm Grove")
     end
   end
 
