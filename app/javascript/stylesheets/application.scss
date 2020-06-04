@@ -3,3 +3,7 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
 @import "components/buttons";
 @import "components/flashes";
 @import "components/task_list";
+
+.noborder {
+  border-bottom: none !important;
+}
