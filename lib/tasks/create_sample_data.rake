@@ -14,10 +14,10 @@ task create_sample_data: :environment do
   pc4 = pcb.import
 
   image_path = "spec/fixtures/images/"
-  plan_1 = Rails.root.join("#{image_path}proposed-section.png")
-  plan_2 = Rails.root.join("#{image_path}existing-section.png")
-  plan_3 = Rails.root.join("#{image_path}existing-floorplan.png")
-  plan_4 = Rails.root.join("#{image_path}proposed-floorplan.png")
+  plan_1 = Rails.root.join("#{image_path}proposed-section.pdf")
+  plan_2 = Rails.root.join("#{image_path}existing-section.pdf")
+  plan_3 = Rails.root.join("#{image_path}existing-floorplan.pdf")
+  plan_4 = Rails.root.join("#{image_path}proposed-floorplan.pdf")
 
   admin_user = User.find_by!(email: "admin@example.com")
 
