@@ -51,8 +51,8 @@ RSpec.describe PlanningApplication, type: :model do
     let(:assessor)          { create :user, :assessor }
     let(:reviewer)          { create :user, :reviewer }
 
-    let(:assessor_decision) { create(:decision, user: assessor) }
-    let(:reviewer_decision) { create(:decision, user: reviewer) }
+    let(:assessor_decision) { create(:decision, :granted, user: assessor) }
+    let(:reviewer_decision) { create(:decision, :granted, user: reviewer) }
 
     before do
       subject.decisions << assessor_decision << reviewer_decision

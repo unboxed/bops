@@ -162,6 +162,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
         expect(row).to include("Lorrine Krajcik") if row.include? "19/AP/1880"
       end
     end
+
+    include_examples "assessor decision error message"
   end
 
   context "as a reviewer" do
@@ -303,6 +305,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       include_examples "reviewer assignment"
+      include_examples "reviewer decision error message"
     end
 
     context "with a granted assessor_decision with a comment" do
@@ -427,6 +430,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       include_examples "reviewer assignment"
+      include_examples "reviewer decision error message"
     end
 
     context "with a refused assessor_decision without a comment" do
@@ -551,6 +555,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       include_examples "reviewer assignment"
+      include_examples "reviewer decision error message"
     end
 
     context "with a refused assessor_decision with a comment" do
@@ -675,12 +680,13 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       include_examples "reviewer assignment"
+      include_examples "reviewer decision error message"
     end
   end
 
   context "as an admin" do
     let(:assessor) { create :user, :assessor }
-    let(:assessor_decision) { create :decision, user: assessor }
+    let(:assessor_decision) { create :decision, :granted, user: assessor }
 
     let!(:planning_application) do
       create :planning_application, reference: "19/AP/1880", assessor_decision: assessor_decision
