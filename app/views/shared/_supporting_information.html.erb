@@ -2,34 +2,10 @@
   <div class="govuk-accordion__section">
     <div class="govuk-accordion__section-header">
       <h3 class="govuk-accordion__section-heading">
-        <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
-          Property details
-        </span>
-      </h3>
-    </div>
-    <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
-      <ul class="govuk-list govuk-list--bullet">
-        <li>
-          <strong>Address: </strong>  <%= display_address(@site) %>
-        </li>
-        <li>
-          <strong>Property type: </strong>Residential
-        </li>
-        <li>
-          <strong>Listed building: </strong> No
-        </li>
-        <li>
-          <strong>Conservation area: </strong> No
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div class="govuk-accordion__section">
-    <div class="govuk-accordion__section-header">
-      <h3 class="govuk-accordion__section-heading">
-        <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
-          Property history
-        </span>
+        <button type="button" id="accordion-default-heading-1" aria-controls="accordion-default-content-1" class="govuk-accordion__section-button" aria-expanded="false">
+          Planning history
+        </button>
+        <span class="govuk-accordion__icon" aria-hidden="true"></span>
       </h3>
     </div>
     <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
@@ -46,55 +22,85 @@
   <div class="govuk-accordion__section">
     <div class="govuk-accordion__section-header">
       <h3 class="govuk-accordion__section-heading">
-        <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
-           Constraints
-        </span>
+        <button type="button" id="accordion-default-heading-1" aria-controls="accordion-default-content-2" class="govuk-accordion__section-button" aria-expanded="false">
+          Constraints
+        </button>
+        <span class="govuk-accordion__icon" aria-hidden="true"></span>
       </h3>
     </div>
     <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
       <ul class="govuk-list govuk-list--bullet">
         <li>
-          Urban density zone
-        </li>
-        <li>
-          Controlled parking zone
-        </li>
-        <li>
-          Air quality management area
+          Conservation area
         </li>
       </ul>
     </div>
   </div>
   <div class="govuk-accordion__section">
     <div class="govuk-accordion__section-header">
+      <h3 class="govuk-accordion__section-heading">
+        <button type="button" id="accordion-default-heading-1" aria-controls="accordion-default-content-3" class="govuk-accordion__section-button" aria-expanded="false">
+          Key application dates
+        </button>
+        <span class="govuk-accordion__icon" aria-hidden="true"></span>
+      </h3>
+    </div>
+    <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
+      <p class="govuk-body">
+        <strong>Application status:</strong>
+        <%= I18n.t(@planning_application.status) %>
+      </p>
+      <p class="govuk-body">
+        <strong>Application received:</strong>
+        <%= @planning_application.created_at.strftime("%d/%m/%Y") %>
+      </p>
+      <p class="govuk-body">
+        <strong>Validation complete:</strong>
+        <%= @planning_application.created_at.strftime("%d/%m/%Y") %>
+      </p>
+      <p class="govuk-body">
+        <strong>Target date:</strong>
+        <%= @planning_application.target_date.strftime("%d/%m/%Y") %>
+      </p>
+      <p class="govuk-body">
+        <strong>Statutory date:</strong>
+        <%= @planning_application.target_date.strftime("%d/%m/%Y") %>
+      </p>
+    </div>
+  </div>
+  <div class="govuk-accordion__section">
+    <div class="govuk-accordion__section-header">
       <h2 class="govuk-accordion__section-heading">
-        <span class="govuk-accordion__section-button" id="accordion-default-heading-3">
+        <button type="button" id="accordion-default-heading-3" aria-controls="accordion-default-content-4" class="govuk-accordion__section-button" aria-expanded="true">
           Contact information
-        </span>
+        </button>
+        <span class="govuk-accordion__icon" aria-hidden="true"></span>
       </h2>
     </div>
     <div id="accordion-default-content-3" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-3">
-      <p class='govuk-body'>
-        <% if @agent %>
-          <strong>Agent:</strong><br><%= full_details(@agent) %></a></p>
-        <% end %>
+      <% if @agent %>
         <p class='govuk-body'>
-          <% if @applicant %>
-            <strong>Applicant:</strong><br><%= h(full_details(@applicant)) %></a></p>
-          <% end %>
-          </div>
-      </div>
-    <div class="govuk-accordion__section">
-      <div class="govuk-accordion__section-header">
-        <h2 class="govuk-accordion__section-heading">
-          <span class="govuk-accordion__section-button" id="accordion-default-heading-4">
-            Consultation
-          </span>
-        </h2>
-      </div>
-      <div id="accordion-default-content-4" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-4">
-        <p class='govuk-body'>Consultation is not applicable for proposed permitted development.</p>
-      </div>
+          <strong>Agent: </strong><br><%= h(full_details(@agent)) %>
+        </p>
+        <% end %>
+      <% if @applicant %>
+        <p class='govuk-body'>
+          <strong>Applicant: </strong><br><%= h(full_details(@applicant)) %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+  <div class="govuk-accordion__section">
+    <div class="govuk-accordion__section-header">
+      <h2 class="govuk-accordion__section-heading">
+        <button type="button" id="accordion-default-heading-4" aria-controls="accordion-default-content-5" class="govuk-accordion__section-button" aria-expanded="true">
+          Consultation
+        </button>
+        <span class="govuk-accordion__icon" aria-hidden="true"></span>
+      </h2>
+    </div>
+    <div id="accordion-default-content-4" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-4">
+      <p class='govuk-body'>Consultation is not applicable for proposed permitted development.</p>
     </div>
   </div>
 </div>
