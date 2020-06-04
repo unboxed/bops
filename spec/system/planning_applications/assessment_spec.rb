@@ -2,22 +2,6 @@
 
 require "rails_helper"
 
-RSpec.shared_examples 'Reviewer assignment' do
-  scenario "Reviewer is not assigned to planning application" do
-    click_link "19/AP/1880"
-
-    click_link "Review permitted development policy requirements"
-
-    click_link "Home"
-
-    table_rows = all(".govuk-table__row").map(&:text)
-
-    table_rows.each do |row|
-      expect(row).not_to include("Harley Dicki") if row.include? "19/AP/1880"
-    end
-    end
-end
-
 RSpec.describe "Planning Application Assessment", type: :system do
   context "as an assessor" do
     let!(:planning_application) do
@@ -317,7 +301,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).to have_link "19/AP/1880"
         end
       end
-      include_examples("Reviewer assignment")
+
+      include_examples "reviewer assignment"
     end
 
     context "with a granted assessor_decision with a comment" do
@@ -440,7 +425,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).to have_link "19/AP/1880"
         end
       end
-      include_examples("Reviewer assignment")
+
+      include_examples "reviewer assignment"
     end
 
     context "with a refused assessor_decision without a comment" do
@@ -563,7 +549,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).to have_link "19/AP/1880"
         end
       end
-      include_examples("Reviewer assignment")
+
+      include_examples "reviewer assignment"
     end
 
     context "with a refused assessor_decision with a comment" do
@@ -686,7 +673,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).to have_link "19/AP/1880"
         end
       end
-      include_examples("Reviewer assignment")
+
+      include_examples "reviewer assignment"
     end
   end
 
