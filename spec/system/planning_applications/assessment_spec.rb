@@ -192,7 +192,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           click_link "19/AP/1880"
         end
 
-        expect(page).not_to have_link("Confirm decision notice")
+        expect(page).not_to have_link("Publish and send decision notice")
 
         click_link "Review permitted development policy requirements"
 
@@ -251,7 +251,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           click_link "19/AP/1880"
         end
 
-        expect(page).not_to have_link("Confirm decision notice")
+        expect(page).not_to have_link("Publish and send decision notice")
 
         click_link "Review permitted development policy requirements"
 
@@ -317,7 +317,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           click_link "19/AP/1880"
         end
 
-        expect(page).not_to have_link("Confirm decision notice")
+        expect(page).not_to have_link("Publish and send decision notice")
 
         click_link "Review permitted development policy requirements"
 
@@ -376,7 +376,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           click_link "19/AP/1880"
         end
 
-        expect(page).not_to have_link("Confirm decision notice")
+        expect(page).not_to have_link("Publish and send decision notice")
 
         click_link "Review permitted development policy requirements"
 
@@ -442,7 +442,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           click_link "19/AP/1880"
         end
 
-        expect(page).not_to have_link("Confirm decision notice")
+        expect(page).not_to have_link("Publish and send decision notice")
 
         click_link "Review permitted development policy requirements"
 
@@ -501,7 +501,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           click_link "19/AP/1880"
         end
 
-        expect(page).not_to have_link("Confirm decision notice")
+        expect(page).not_to have_link("Publish and send decision notice")
 
         click_link "Review permitted development policy requirements"
 
@@ -567,7 +567,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           click_link "19/AP/1880"
         end
 
-        expect(page).not_to have_link("Confirm decision notice")
+        expect(page).not_to have_link("Publish and send decision notice")
 
         click_link "Review permitted development policy requirements"
 
@@ -626,7 +626,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           click_link "19/AP/1880"
         end
 
-        expect(page).not_to have_link("Confirm decision notice")
+        expect(page).not_to have_link("Publish and send decision notice")
 
         click_link "Review permitted development policy requirements"
 
