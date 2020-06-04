@@ -88,8 +88,7 @@ task create_sample_data: :environment do
     application_type: :lawfulness_certificate,
     site: college_site,
     agent: agent,
-    applicant: applicant,
-    user: assessor
+    applicant: applicant
   ) do |pa|
     pa.description = "Construction of a single storey rear extension"
     pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
@@ -111,7 +110,6 @@ task create_sample_data: :environment do
     agent: agent,
     applicant: applicant,
     ward: "Rye Lane",
-    user: assessor
   ) do |pa|
     pa.description = "Construction of a single storey side extension"
     pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"

@@ -2,6 +2,22 @@
 
 require "rails_helper"
 
+RSpec.shared_examples 'Reviewer assignment' do
+  scenario "Reviewer is not assigned to planning application" do
+    click_link "19/AP/1880"
+
+    click_link "Review permitted development policy requirements"
+
+    click_link "Home"
+
+    table_rows = all(".govuk-table__row").map(&:text)
+
+    table_rows.each do |row|
+      expect(row).not_to include("Lorrine Krajcik") if row.include? "19/AP/1880"
+    end
+    end
+end
+
 RSpec.describe "Planning Application Assessment", type: :system do
   context "as an assessor" do
     let!(:planning_application) do
@@ -12,20 +28,20 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     let(:policy_consideration_1) do
       create :policy_consideration,
-            policy_question: "The property is",
-            applicant_answer: "a semi detached house"
+             policy_question: "The property is",
+             applicant_answer: "a semi detached house"
     end
 
     let(:policy_consideration_2) do
       create :policy_consideration,
-            policy_question: "The project will ___ the internal floor area of the building",
-            applicant_answer: "not alter"
+             policy_question: "The project will ___ the internal floor area of the building",
+             applicant_answer: "not alter"
     end
 
     let!(:policy_evaluation) do
       create :policy_evaluation,
-            planning_application: planning_application,
-            policy_considerations: [policy_consideration_1, policy_consideration_2]
+             planning_application: planning_application,
+             policy_considerations: [policy_consideration_1, policy_consideration_2]
     end
 
     before do
@@ -42,10 +58,20 @@ RSpec.describe "Planning Application Assessment", type: :system do
       # The second step is not yet a link
       expect(page).not_to have_link("Confirm decision notice")
 
+      within(".govuk-grid-column-two-thirds.application") do
+        first('.govuk-accordion').click_button('Open all')
+        expect(page).not_to have_text(users(:assessor).name)
+      end
+
+      # The assessor's name is not yet attached to the application
+      expect(page).not_to have_text(users(:assessor).name)
+
       click_link "Evaluate permitted development policy requirements"
 
       expect(page).to have_content("The property is a semi detached house")
       expect(page).to have_content("The project will not alter the internal floor area of the building")
+
+      expect(page).to have_text(users(:assessor).name)
 
       choose "Yes"
       fill_in "comment_met", with: "This has been granted"
@@ -123,6 +149,37 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).not_to have_link("Evaluate permitted development policy requirements")
       expect(page).not_to have_link("Confirm decision notice")
       # TODO: Continue this spec until the assessor decision has been made and check that policy evaluations can no longer be made
+    end
+
+    scenario "Assessor is assigned to planning application" do
+      table_rows = all(".govuk-table__row").map(&:text)
+
+      table_rows.each do |row|
+        expect(row).to include("Not started") if row.include? "19/AP/1880"
+      end
+
+      click_link "19/AP/1880"
+
+      # Ensure officer name is not displayed on page when accordion is opened
+      within(".govuk-grid-column-two-thirds.application") do
+        first('.govuk-accordion').click_button('Open all')
+        expect(page).to have_text("Not started")
+      end
+
+      click_link "Evaluate permitted development policy requirements"
+
+      # Ensure officer name is now displayed
+      within(".govuk-grid-column-two-thirds.application") do
+        expect(page).to have_text(users(:assessor).name)
+      end
+
+      click_link "Home"
+
+      table_rows = all(".govuk-table__row").map(&:text)
+
+      table_rows.each do |row|
+        expect(row).to include("Lorrine Krajcik") if row.include? "19/AP/1880"
+      end
     end
   end
 
@@ -263,6 +320,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).to have_link "19/AP/1880"
         end
       end
+      include_examples("Reviewer assignment")
     end
 
     context "with a granted assessor_decision with a comment" do
@@ -385,6 +443,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).to have_link "19/AP/1880"
         end
       end
+      include_examples("Reviewer assignment")
     end
 
     context "with a refused assessor_decision without a comment" do
@@ -507,6 +566,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).to have_link "19/AP/1880"
         end
       end
+      include_examples("Reviewer assignment")
     end
 
     context "with a refused assessor_decision with a comment" do
@@ -629,6 +689,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).to have_link "19/AP/1880"
         end
       end
+      include_examples("Reviewer assignment")
     end
   end
 

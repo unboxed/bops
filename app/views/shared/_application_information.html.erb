@@ -27,9 +27,19 @@
           <tr class="govuk-table__row">
             <td class="govuk-table__cell"><strong>Summary of proposal: </strong></td>
             <td class="govuk-table__cell">
-              <ul class="govuk-list govuk-list--bullet">
+              <ul class="govuk-list govuk-list">
                 <li>
                   <%= @planning_application.description %>
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell"><strong>Planning officer: </strong></td>
+            <td class="govuk-table__cell">
+              <ul class="govuk-list govuk-list">
+                <li>
+                  <%= @planning_application.user ? @planning_application.user.name : "Not started" %>
                 </li>
               </ul>
             </td>
