@@ -19,7 +19,9 @@ task create_sample_data: :environment do
 
   admin_roles.each do |admin_role|
     User.find_or_create_by!(email: "#{admin_role}@example.com") do |user|
-      user.name = Faker::Name.unique.name
+      first_name = Faker::Name.unique.first_name
+      last_name = Faker::Name.unique.last_name
+      user.name = "#{first_name} #{last_name}"
 
       user.password = "password"
       user.password_confirmation = "password"
