@@ -3,9 +3,7 @@
 Rails.application.routes.draw do
   root to: redirect("/planning_applications")
 
-  devise_for :users do
-    get "/users/sign_out", to: "devise/sessions#destroy"
-  end
+  devise_for :users
 
   resources :planning_applications, only: [:show, :index, :edit, :update] do
     resources :decisions, only: [:new, :create, :edit, :update]
