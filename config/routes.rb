@@ -7,8 +7,8 @@ Rails.application.routes.draw do
     get "/users/sign_out", to: "devise/sessions#destroy"
   end
 
-  resources :planning_applications, only: [:show, :index, :edit, :update] do
-    resources :decisions, only: [:new, :create, :edit, :update]
+  resources :planning_applications, only: %i[show index edit update] do
+    resources :decisions, only: %i[new create edit update]
   end
 
   get :healthcheck, to: proc { [200, {}, %w[OK]] }
