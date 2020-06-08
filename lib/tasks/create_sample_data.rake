@@ -4,6 +4,13 @@ desc "Create sample data for testing"
 task create_sample_data: :environment do
   require "faker"
 
+  def create_thumbnail(original)
+    thumbnail = MiniMagick::Image.open(Rails.root.join("spec/fixtures/images/#{original}.pdf"))
+    thumbnail.resize "100x100"
+    thumbnail.format "png"
+    thumbnail.write Rails.root.join("spec/fixtures/images/#{original}")
+  end
+
   # For now, each application will have the same set of policy considerations
   path = Rails.root.join("spec/fixtures/files/permitted_development.json")
   permitted_development_json = File.read(path)
@@ -14,10 +21,17 @@ task create_sample_data: :environment do
   pc4 = pcb.import
 
   image_path = "spec/fixtures/images/"
-  plan_1 = Rails.root.join("#{image_path}proposed-section.pdf")
-  plan_2 = Rails.root.join("#{image_path}existing-section.pdf")
-  plan_3 = Rails.root.join("#{image_path}existing-floorplan.pdf")
-  plan_4 = Rails.root.join("#{image_path}proposed-floorplan.pdf")
+
+  plans = %w[
+  proposed-section
+  existing-section
+  existing-floorplan
+  proposed-floorplan
+  ]
+
+  plans.each do |pdf|
+    create_thumbnail(pdf)
+  end
 
   admin_user = User.find_by!(email: "admin@example.com")
 
@@ -173,24 +187,24 @@ task create_sample_data: :environment do
       name: "Side elevation",
       planning_application: application
     )
-    drawing_1.plan.attach(io: File.open(plan_1), filename: "side.png")
+    drawing_1.plan.attach(io: File.open(Rails.root.join("#{image_path}proposed-section.png")), filename: "side.png")
 
     drawing_2 = Drawing.find_or_create_by!(
       name: "Existing elevation",
       planning_application: application
     )
-    drawing_2.plan.attach(io: File.open(plan_2), filename: "side2.png")
+    drawing_1.plan.attach(io: File.open(Rails.root.join("#{image_path}existing-section.png")), filename: "side2.png")
 
     drawing_3 = Drawing.find_or_create_by!(
       name: "Floorplan",
       planning_application: application
     )
-    drawing_3.plan.attach(io: File.open(plan_3), filename: "floorplan.png")
+    drawing_3.plan.attach(io: File.open(Rails.root.join("#{image_path}proposed-floorplan.png")), filename: "floorplan.png")
 
     drawing_4 = Drawing.find_or_create_by!(
       name: "Existing floorplan",
       planning_application: application
     )
-    drawing_4.plan.attach(io: File.open(plan_4), filename: "floorplan2.png")
+    drawing_4.plan.attach(io: File.open(Rails.root.join("#{image_path}proposed-floorplan.png")), filename: "floorplan2.png")
   end
 end
