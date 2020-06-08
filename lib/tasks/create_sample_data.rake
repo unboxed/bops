@@ -4,7 +4,7 @@ desc "Create sample data for testing"
 task create_sample_data: :environment do
   require "faker"
 
- # For now, each application will have the same set of policy considerations
+  # For now, each application will have the same set of policy considerations
   path = Rails.root.join("spec/fixtures/files/permitted_development.json")
   permitted_development_json = File.read(path)
   pcb = Ripa::PolicyConsiderationBuilder.new(permitted_development_json)
@@ -170,26 +170,26 @@ task create_sample_data: :environment do
    james_planning_application,
    bellenden_planning_application].each do |application|
     drawing_1 = Drawing.find_or_create_by!(
-        name: "Side elevation",
-        planning_application: application
+      name: "Side elevation",
+      planning_application: application
     )
     drawing_1.plan.attach(io: File.open(plan_1), filename: "side.png")
 
     drawing_2 = Drawing.find_or_create_by!(
-        name: "Existing elevation",
-        planning_application: application
+      name: "Existing elevation",
+      planning_application: application
     )
     drawing_2.plan.attach(io: File.open(plan_2), filename: "side2.png")
 
     drawing_3 = Drawing.find_or_create_by!(
-        name: "Floorplan",
-        planning_application: application
+      name: "Floorplan",
+      planning_application: application
     )
     drawing_3.plan.attach(io: File.open(plan_3), filename: "floorplan.png")
 
     drawing_4 = Drawing.find_or_create_by!(
-        name: "Existing floorplan",
-        planning_application: application
+      name: "Existing floorplan",
+      planning_application: application
     )
     drawing_4.plan.attach(io: File.open(plan_4), filename: "floorplan2.png")
   end
