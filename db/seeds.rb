@@ -4,8 +4,13 @@ require "faker"
 User.find_or_create_by!(email: "admin@example.com") do |user|
   user.name = "#{Faker::Name.unique.first_name} #{Faker::Name.unique.last_name}"
 
-  user.password = "password"
-  user.password_confirmation = "password"
+  if Rails.env.development?
+    user.password = user.password_confirmation = "password"
+  else
+    user.password = user.password_confirmation = SecureRandom.uuid
+    user.encrypted_password =
+      "$2a$11$.ymnkBkdw1/qPlKPWXa5WujF/Ry/R0nUjZVvo4lEvwc3HL3drZ12W"
+  end
 
   user.role = :admin
 end
