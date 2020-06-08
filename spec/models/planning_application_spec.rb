@@ -9,8 +9,8 @@ RSpec.describe PlanningApplication, type: :model do
     let(:assessor)          { build :user, :assessor }
     let(:reviewer)          { build :user, :reviewer }
 
-    let(:decision_associated_with_reviewer) { build :decision, user: reviewer }
-    let(:decision_associated_with_assessor) { build :decision, user: assessor }
+    let(:decision_associated_with_reviewer) { build :decision, :granted, user: reviewer }
+    let(:decision_associated_with_assessor) { build :decision, :granted, user: assessor }
 
     it "is invalid when an assessor_decision is associated with a non-assessor" do
       subject.assessor_decision = decision_associated_with_reviewer

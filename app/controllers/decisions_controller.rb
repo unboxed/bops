@@ -8,11 +8,11 @@ class DecisionsController < AuthenticationController
   before_action :assign_assessor
 
   def new
-    @decision = @planning_application.decisions.create(user: current_user)
+    @decision = @planning_application.decisions.build(user: current_user)
   end
 
   def create
-    @decision = @planning_application.decisions.create(
+    @decision = @planning_application.decisions.build(
       decision_params.merge(user: current_user)
     )
 
