@@ -1,4 +1,4 @@
-# BOPS
+# BOPS ![CI](https://github.com/unboxed/bops/workflows/CI/badge.svg)
 
 Back Office Planning System (BOPS)
 
