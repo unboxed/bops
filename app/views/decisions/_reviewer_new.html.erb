@@ -22,15 +22,17 @@
       </div>
     <% end %>
     <br>
-    <div class="govuk-form-group <%= form.object.errors[:status].present? ? 'govuk-form-group--error' : '' %>">
+    <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
       <p class="govuk-body">
         <strong>
           Do you agree with this recommendation?
         </strong>
       </p>
-      <% if form.object.errors[:status].present? %>
-        <span id="status-error" class="govuk-error-message">
-          <span class="govuk-visually-hidden">Error:</span><%= form.object.errors[:status][0] %></span>
+      <% if form.object.errors.any? %>
+        <% form.object.errors.each do |attribute, error| %>
+          <span id="status-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span><%= error %></span>
+        <% end %>
       <% end %>
       <% if planning_application.assessor_decision.granted? %>
         <div class="govuk-radios govuk-radios--small govuk-radios--conditional" data-module="govuk-radios">

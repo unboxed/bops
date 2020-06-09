@@ -6,14 +6,16 @@
         The applicant has submitted the following application. Please review each answer to determine whether what they say and their plans align with the policy questions.
       </p>
       <%= render "policy_consideration_list", policy_considerations: @policy_evaluation.policy_considerations %>
-      <div class="govuk-form-group <%= form.object.errors[:status].present? ? 'govuk-form-group--error' : '' %>">
+      <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
         <p class="govuk-body">
           <br>
           <strong>Have permitted development requirements been met?</strong>
         </p>
-        <% if form.object.errors[:status].present? %>
-          <span id="status-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span><%= form.object.errors[:status][0] %></span>
+        <% if form.object.errors.any? %>
+          <% form.object.errors.each do |attribute, error| %>
+            <span id="status-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span><%= error %></span>
+          <% end %>
         <% end %>
         <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios" style="margin-bottom: 20px;">
           <div class="govuk-radios govuk-radios--small">
