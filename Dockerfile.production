@@ -26,6 +26,9 @@ RUN bash -c "export DEBIAN_FRONTEND=noninteractive && \
     echo 'deb https://dl.yarnpkg.com/debian/ stable main' | tee /etc/apt/sources.list.d/yarn.list && \
     apt-get update -qq && apt install yarn"
 
+# Install MuPdf for PDF previews
+RUN apt-get install mupdf mupdf-tools
+
 # Install Bundler
 RUN bash -c "gem update --system && gem install bundler -v 2.1.4"
 

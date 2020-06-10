@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   resources :planning_applications, only: %i[show index edit update] do
     resources :decisions, only: %i[new create edit update]
-    resources :drawings, only: %i[new update index]
+    resources :drawings, only: %i[index]
   end
 
   get :healthcheck, to: proc { [200, {}, %w[OK]] }

@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
-class DrawingsController < AuthenticationController
+class DrawingsController < ApplicationController
   include PlanningApplicationDashboardVariables
 
   before_action :set_planning_application
   before_action :set_planning_application_dashboard_variables
 
   def index
-    @drawings = policy_scope(Drawing.where("planning_application_id = ?",
-                                           params[:planning_application_id]))
+    @drawings = @planning_application.drawings
   end
 
   private
@@ -18,8 +17,8 @@ class DrawingsController < AuthenticationController
   end
 
   def set_planning_application
-    @planning_application = authorize(
-      PlanningApplication.find(params[:planning_application_id])
+    @planning_application = PlanningApplication.find(
+      params[:planning_application_id]
     )
   end
 end

@@ -39,9 +39,14 @@ RSpec.feature "Drawings index page", type: :system do
       expect(all("img").count).to eq(1)
     end
 
+    scenario "Document management page does not contain accordion" do
+      expect(page).not_to have_text("Application information")
+    end
+
     scenario "Plan image opens in new tab" do
       find(:css, 'a[href*="active"]').click
       page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
+
       expect(current_url).to include("/rails/active_storage/")
     end
 

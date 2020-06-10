@@ -16,10 +16,8 @@ task create_sample_data: :environment do
   image_path = "spec/fixtures/images/"
   plan_1 = Rails.root.join("#{image_path}proposed-section.jpg")
   plan_2 = Rails.root.join("#{image_path}existing-section.png")
-  plan_3 = Rails.root.join("#{image_path}existing-floorplan.png")
+  plan_3 = Rails.root.join("#{image_path}existing-floorplan.pdf")
   plan_4 = Rails.root.join("#{image_path}proposed-floorplan.png")
-
-  admin_user = User.find_by!(email: "admin@example.com")
 
   admin_roles = %i[assessor reviewer]
 
