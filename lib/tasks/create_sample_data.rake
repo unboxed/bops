@@ -23,7 +23,9 @@ task create_sample_data: :environment do
 
   admin_roles.each do |admin_role|
     User.find_or_create_by!(email: "#{admin_role}@example.com") do |user|
-      user.name = Faker::Name.unique.name
+      first_name = Faker::Name.unique.first_name
+      last_name = Faker::Name.unique.last_name
+      user.name = "#{first_name} #{last_name}"
 
       if Rails.env.development?
         user.password = user.password_confirmation = "password"
@@ -97,8 +99,7 @@ task create_sample_data: :environment do
     application_type: :lawfulness_certificate,
     site: college_site,
     agent: agent,
-    applicant: applicant,
-    user: assessor
+    applicant: applicant
   ) do |pa|
     pa.description = "Construction of a single storey rear extension"
     pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
@@ -119,8 +120,7 @@ task create_sample_data: :environment do
     site: bellenden_site,
     agent: agent,
     applicant: applicant,
-    ward: "Rye Lane",
-    user: assessor
+    ward: "Rye Lane"
   ) do |pa|
     pa.description = "Construction of a single storey side extension"
     pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"

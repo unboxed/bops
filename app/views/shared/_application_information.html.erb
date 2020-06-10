@@ -62,7 +62,7 @@
         <% @planning_application.drawings.each_slice(2) do |drawing| %>
           <tr class="govuk-table__row">
             <% drawing.each do |doc_1, doc_2| %>
-              <td class="govuk-table__cell"><p class='govuk-body'>
+              <td class="govuk-table__cell">
                 <p class='govuk-body'>
                   <%= doc_1.name %>
                 </p>
@@ -70,10 +70,8 @@
                   <%= link_to "View in new window", rails_blob_path(doc_1.plan) %>
                 </p>
                 <%= image_tag doc_1.plan.representation(resize: "300x212") %>
-                <p class='govuk-body'>
-                </p>
               </td>
-              <td class="govuk-table__cell"><p class='govuk-body'>
+              <td class="govuk-table__cell">
                 <p class='govuk-body'>
                   <%= doc_2.name if doc_2 %>
                 </p>
@@ -81,8 +79,6 @@
                   <%= link_to "View in new window", rails_blob_path(doc_2.plan) if doc_2 %>
                 </p>
                 <%= image_tag doc_2.plan.representation(resize: "300x212") if doc_2 %>
-                <p class='govuk-body'>
-                </p>
               </td>
             <% end %>
           </tr>
