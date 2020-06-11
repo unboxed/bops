@@ -1,0 +1,10 @@
+# frozen_string_literal: true
+
+json.id planning_application.id
+json.application_number planning_application.reference
+json.site_address planning_application.site.full_address
+json.application_type t(planning_application.application_type)
+json.summary_of_proposal planning_application.description
+json.received_date planning_application.created_at.iso8601
+json.decided_at planning_application.reviewer_decision.decided_at&.iso8601
+json.status planning_application.reviewer_decision.status
