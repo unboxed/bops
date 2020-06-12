@@ -8,6 +8,8 @@ class PlanningApplication < ApplicationRecord
   has_one :policy_evaluation, dependent: :destroy
   has_many :decisions, dependent: :destroy
 
+  has_many :drawings, dependent: :destroy
+
   has_one :assessor_decision, -> {
       joins(:user).where(users: { role: :assessor })
     }, class_name: "Decision", inverse_of: :planning_application

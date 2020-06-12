@@ -6,10 +6,13 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "2.6.5"
 
 gem "activerecord-postgis-adapter"
+gem "aws-sdk-s3", require: false
 gem "bootsnap", ">= 1.4.2", require: false
 gem "devise"
 gem "faker", require: false
+gem "image_processing", "~> 1.2"
 gem "jbuilder", "~> 2.7"
+gem "mini_magick"
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 4.1"
 gem "pundit"

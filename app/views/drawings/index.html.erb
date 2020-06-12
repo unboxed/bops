@@ -1,0 +1,39 @@
+<% navigation_add "Documents", planning_application_drawings_path(@planning_application) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-breadcrumbs" style="margin-bottom: 20px;">
+      <ol class="govuk-breadcrumbs__list">
+        <li class="govuk-breadcrumbs__list-item" aria-current="page"></li>
+      </ol>
+    </div>
+    <h1 class="govuk-heading-l" style="margin-bottom: 7px;">
+      Fast track application: <%= @planning_application.reference %>
+    </h1>
+    <h2 class="govuk-heading-m" style="margin-bottom: 75px;">
+      <%= display_address(@site) %>
+    </h2>
+    <h2 class="govuk-heading-m">
+      Proposal documents
+    </h2>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <table class="govuk-table">
+    <tbody class="govuk-table__body">
+      <% @drawings.each_slice(2) do |drawing| %>
+        <tr class="govuk-table__row noborder">
+          <td class="govuk-table__cell noborder">
+            <%= link_to image_tag(drawing[0].plan.representation(resize: "300x212")),
+                        rails_blob_path(drawing[0].plan), target: :_blank %>
+          </td>
+          <td class="govuk-table__cell noborder">
+            <%= link_to image_tag(drawing[1].plan.representation(resize: "300x212")),
+                        rails_blob_path(drawing[1].plan), target: :_blank if drawing[1] %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+

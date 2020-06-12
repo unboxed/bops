@@ -55,38 +55,35 @@
       </h3>
     </div>
     <div id="accordion-default-content-2" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
-      <div style="float: none; clear: both">
-        <div style="float: left; margin-left: 20px;">
-          <p class='govuk-body'>Existing floorplan</p>
-          <%= image_tag "placeholder/floorplan_1.png", width: "200px" %>
-          <p class='govuk-body'>
-            <%= link_to "Download" %>
-          </p>
-        </div>
-        <div style="float: left; margin-left: 20px;">
-          <p class='govuk-body'>Proposed floorplan</p>
-          <%= image_tag "placeholder/floorplan_2.png", width: "200px" %>
-          <p class='govuk-body'>
-            <%= link_to "Download" %>
-          </p>
-        </div>
-      </div>
-      <div style="float: none; clear: both">
-        <div style="float: left; margin-left: 20px;">
-          <p class='govuk-body'><br>Existing section</p>
-          <%= image_tag "placeholder/section_1.png", width: "200px" %>
-          <p class='govuk-body'>
-            <%= link_to "Download" %>
-          </p>
-        </div>
-        <div style="float: left; margin-left: 20px;">
-          <p class='govuk-body'><br>Proposed section</p>
-          <%= image_tag "placeholder/section_2.png", width: "200px" %>
-          <p class='govuk-body'>
-            <%= link_to "Download" %>
-          </p>
-        </div>
-      </div>
+      <p class="govuk-body">
+        <%= link_to "Manage documents", planning_application_drawings_path(@planning_application) %>
+      </p>
+      <table class="govuk-table">
+        <% @planning_application.drawings.each_slice(2) do |drawing| %>
+          <tr class="govuk-table__row">
+            <% drawing.each do |doc_1, doc_2| %>
+              <td class="govuk-table__cell">
+                <p class='govuk-body'>
+                  <%= doc_1.name %>
+                </p>
+                <p class='govuk-body'>
+                  <%= link_to "View in new window", rails_blob_path(doc_1.plan) %>
+                </p>
+                <%= image_tag doc_1.plan.representation(resize: "300x212") %>
+              </td>
+              <td class="govuk-table__cell">
+                <p class='govuk-body'>
+                  <%= doc_2.name if doc_2 %>
+                </p>
+                <p class='govuk-body'>
+                  <%= link_to "View in new window", rails_blob_path(doc_2.plan) if doc_2 %>
+                </p>
+                <%= image_tag doc_2.plan.representation(resize: "300x212") if doc_2 %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </table>
     </div>
   </div>
 </div>
