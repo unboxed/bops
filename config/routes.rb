@@ -10,5 +10,11 @@ Rails.application.routes.draw do
     resources :drawings, only: %i[index]
   end
 
+  namespace :api do
+    namespace :v1 do
+      resources :planning_applications, only: %i[index]
+    end
+  end
+
   get :healthcheck, to: proc { [200, {}, %w[OK]] }
 end
