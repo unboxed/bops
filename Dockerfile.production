@@ -26,8 +26,9 @@ RUN bash -c "export DEBIAN_FRONTEND=noninteractive && \
     echo 'deb https://dl.yarnpkg.com/debian/ stable main' | tee /etc/apt/sources.list.d/yarn.list && \
     apt-get update -qq && apt install yarn"
 
-# Install MuPdf for PDF previews
-RUN apt-get install mupdf mupdf-tools
+# Install file detection and previewing tools
+RUN bash -c "export DEBIAN_FRONTEND=noninteractive && \
+    apt-get install -y imagemagick ghostscript poppler-utils"
 
 # Install Bundler
 RUN bash -c "gem update --system && gem install bundler -v 2.1.4"
@@ -140,6 +141,7 @@ COPY --chown=app:app ./babel.config.js /app/babel.config.js
 COPY --chown=app:app ./postcss.config.js /app/postcss.config.js
 COPY --chown=app:app ./startup.sh /app/startup.sh
 COPY --chown=app:app ./spec/fixtures/files/permitted_development.json /app/spec/fixtures/files/permitted_development.json
+COPY --chown=app:app ./spec/fixtures/images/ /app/spec/fixtures/images/
 
 RUN chmod +x /app/startup.sh
 
@@ -149,6 +151,8 @@ USER app:app
 ARG RAILS_ENV=production
 ARG NODE_ENV=production
 ARG RACK_ENV=production
+ARG AWS_REGION=eu-west-2
+ARG S3_BUCKET=bops-drawings-staging
 ARG AWS_ACCESS_KEY_ID=notanaccesskeyid
 ARG AWS_SECRET_ACCESS_KEY=notasecretaccesskey
 ARG DATABASE_URL=postgis://localhost:5432/bops_web
