@@ -4,14 +4,7 @@ desc "Create sample data for testing"
 task create_sample_data: :environment do
   require "faker"
 
-  def create_thumbnail(original)
-    thumbnail = MiniMagick::Image.open(Rails.root.join("spec/fixtures/images/#{original}.pdf"))
-    thumbnail.resize "100x100"
-    thumbnail.format "png"
-    thumbnail.write Rails.root.join("spec/fixtures/images/#{original}")
-  end
-
-  # For now, each application will have the same set of policy considerations
+ # For now, each application will have the same set of policy considerations
   path = Rails.root.join("spec/fixtures/files/permitted_development.json")
   permitted_development_json = File.read(path)
   pcb = Ripa::PolicyConsiderationBuilder.new(permitted_development_json)
@@ -21,17 +14,10 @@ task create_sample_data: :environment do
   pc4 = pcb.import
 
   image_path = "spec/fixtures/images/"
-
-  plans = %w[
-  proposed-section
-  existing-section
-  existing-floorplan
-  proposed-floorplan
-  ]
-
-  plans.each do |pdf|
-    create_thumbnail(pdf)
-  end
+  plan_1 = Rails.root.join("#{image_path}proposed-section.jpg")
+  plan_2 = Rails.root.join("#{image_path}existing-section.png")
+  plan_3 = Rails.root.join("#{image_path}existing-floorplan.png")
+  plan_4 = Rails.root.join("#{image_path}proposed-floorplan.png")
 
   admin_user = User.find_by!(email: "admin@example.com")
 
@@ -39,9 +25,7 @@ task create_sample_data: :environment do
 
   admin_roles.each do |admin_role|
     User.find_or_create_by!(email: "#{admin_role}@example.com") do |user|
-      first_name = Faker::Name.unique.first_name
-      last_name = Faker::Name.unique.last_name
-      user.name = "#{first_name} #{last_name}"
+      user.name = Faker::Name.unique.name
 
       if Rails.env.development?
         user.password = user.password_confirmation = "password"
@@ -115,7 +99,8 @@ task create_sample_data: :environment do
     application_type: :lawfulness_certificate,
     site: college_site,
     agent: agent,
-    applicant: applicant
+    applicant: applicant,
+    user: assessor
   ) do |pa|
     pa.description = "Construction of a single storey rear extension"
     pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
@@ -137,6 +122,7 @@ task create_sample_data: :environment do
     agent: agent,
     applicant: applicant,
     ward: "Rye Lane",
+    user: assessor
   ) do |pa|
     pa.description = "Construction of a single storey side extension"
     pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
@@ -184,27 +170,27 @@ task create_sample_data: :environment do
    james_planning_application,
    bellenden_planning_application].each do |application|
     drawing_1 = Drawing.find_or_create_by!(
-      name: "Side elevation",
-      planning_application: application
+        name: "Side elevation",
+        planning_application: application
     )
-    drawing_1.plan.attach(io: File.open(Rails.root.join("#{image_path}proposed-section.png")), filename: "side.png")
+    drawing_1.plan.attach(io: File.open(plan_1), filename: "side.png")
 
     drawing_2 = Drawing.find_or_create_by!(
-      name: "Existing elevation",
-      planning_application: application
+        name: "Existing elevation",
+        planning_application: application
     )
-    drawing_1.plan.attach(io: File.open(Rails.root.join("#{image_path}existing-section.png")), filename: "side2.png")
+    drawing_2.plan.attach(io: File.open(plan_2), filename: "side2.png")
 
     drawing_3 = Drawing.find_or_create_by!(
-      name: "Floorplan",
-      planning_application: application
+        name: "Floorplan",
+        planning_application: application
     )
-    drawing_3.plan.attach(io: File.open(Rails.root.join("#{image_path}proposed-floorplan.png")), filename: "floorplan.png")
+    drawing_3.plan.attach(io: File.open(plan_3), filename: "floorplan.png")
 
     drawing_4 = Drawing.find_or_create_by!(
-      name: "Existing floorplan",
-      planning_application: application
+        name: "Existing floorplan",
+        planning_application: application
     )
-    drawing_4.plan.attach(io: File.open(Rails.root.join("#{image_path}proposed-floorplan.png")), filename: "floorplan2.png")
+    drawing_4.plan.attach(io: File.open(plan_4), filename: "floorplan2.png")
   end
 end
