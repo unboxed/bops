@@ -56,31 +56,31 @@
     </div>
     <div id="accordion-default-content-2" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
       <table class="govuk-table">
-        <% @planning_application.documents.each_slice(2) do |document| %>
-        <tr class="govuk-table__row">
-          <% document.each do |doc_1, doc_2 | %>
-            <td class="govuk-table__cell"><p class='govuk-body'>
-              <p class='govuk-body'>
-                <%= doc_1.name %>
-              </p>
-              <%= image_tag doc_1.plan, style: "height:180px;width:200px;" %>
-              <p class='govuk-body'>
-                <%= link_to "Download", rails_blob_path(doc_1.plan, disposition: 'attachment') %>
-              </p>
-            </td>
-            <td class="govuk-table__cell"><p class='govuk-body'>
-              <p class='govuk-body'>
-                <%= doc_2.name if doc_2 %>
-              </p>
-              <%= image_tag doc_2.plan, style: "height:180px;width:200px;" if doc_2 %>
-              <p class='govuk-body'>
-                <%= link_to "Download", rails_blob_path(doc_2.plan, disposition: 'attachment') if doc_2 %>
-              </p>
-            </td>
-          <% end %>
-            </tr>
-          <% end %>
-       </table>
+        <% @planning_application.drawings.each_slice(2) do |drawing| %>
+          <tr class="govuk-table__row">
+            <% drawing.each do |doc_1, doc_2| %>
+              <td class="govuk-table__cell"><p class='govuk-body'>
+                <p class='govuk-body'>
+                  <%= doc_1.name %>
+                </p>
+                <%= image_tag doc_1.plan, style: "height:180px;width:200px;" %>
+                <p class='govuk-body'>
+                  <%= link_to "Download", rails_blob_path(doc_1.plan, disposition: 'attachment') %>
+                </p>
+              </td>
+              <td class="govuk-table__cell"><p class='govuk-body'>
+                <p class='govuk-body'>
+                  <%= doc_2.name if doc_2 %>
+                </p>
+                <%= image_tag doc_2.plan, style: "height:180px;width:200px;" if doc_2 %>
+                <p class='govuk-body'>
+                  <%= link_to "Download", rails_blob_path(doc_2.plan, disposition: 'attachment') if doc_2 %>
+                </p>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </table>
     </div>
   </div>
 </div>

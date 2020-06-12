@@ -13,6 +13,12 @@ task create_sample_data: :environment do
   pc3 = pcb.import
   pc4 = pcb.import
 
+  image_path = "spec/fixtures/images/"
+  plan_1 = Rails.root.join("#{image_path}proposed-section.png")
+  plan_2 = Rails.root.join("#{image_path}existing-section.png")
+  plan_3 = Rails.root.join("#{image_path}existing-floorplan.png")
+  plan_4 = Rails.root.join("#{image_path}proposed-floorplan.png")
+
   admin_user = User.find_by!(email: "admin@example.com")
 
   admin_roles = %i[assessor reviewer]
@@ -143,7 +149,6 @@ task create_sample_data: :environment do
     pa.description = "Single storey rear extension and rear dormer extension"
   end
 
-
   bowen_pe = bowen_planning_application.create_policy_evaluation
   bowen_pe.policy_considerations << pc1
   bowen_planning_application.policy_evaluation = bowen_pe
@@ -159,4 +164,33 @@ task create_sample_data: :environment do
   james_pe = james_planning_application.create_policy_evaluation
   james_pe.policy_considerations << pc4
   james_planning_application.policy_evaluation = james_pe
+
+  [bowen_planning_application,
+   college_planning_application,
+   james_planning_application,
+   bellenden_planning_application].each do |application|
+    drawing_1 = Drawing.find_or_create_by!(
+      name: "Side elevation",
+      planning_application: application
+    )
+    drawing_1.plan.attach(io: File.open(plan_1), filename: "side.png")
+
+    drawing_2 = Drawing.find_or_create_by!(
+      name: "Existing elevation",
+      planning_application: application
+    )
+    drawing_2.plan.attach(io: File.open(plan_2), filename: "side2.png")
+
+    drawing_3 = Drawing.find_or_create_by!(
+      name: "Floorplan",
+      planning_application: application
+    )
+    drawing_3.plan.attach(io: File.open(plan_3), filename: "floorplan.png")
+
+    drawing_4 = Drawing.find_or_create_by!(
+      name: "Existing floorplan",
+      planning_application: application
+    )
+    drawing_4.plan.attach(io: File.open(plan_4), filename: "floorplan2.png")
+  end
 end

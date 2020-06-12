@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :document do
+  factory :drawing do
     name { 'Side elevation' }
     planning_application
   end
