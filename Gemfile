@@ -15,6 +15,7 @@ gem "puma", "~> 4.1"
 gem "pundit"
 gem "rails", "~> 6.0.2"
 gem "webpacker", "~> 4.0"
+gem "aws-sdk-s3", require: false
 
 group :development, :test do
   gem "brakeman", require: false

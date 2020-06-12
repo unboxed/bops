@@ -10,11 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_08_103746) do
+ActiveRecord::Schema.define(version: 2020_06_10_000001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
 
   create_table "agents", force: :cascade do |t|
     t.string "phone"
@@ -66,6 +87,14 @@ ActiveRecord::Schema.define(version: 2020_06_08_103746) do
     t.text "comment_unmet"
     t.index ["planning_application_id"], name: "index_decisions_on_planning_application_id"
     t.index ["user_id"], name: "index_decisions_on_user_id"
+  end
+
+  create_table "drawings", force: :cascade do |t|
+    t.string "name", default: "f", null: false
+    t.bigint "planning_application_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["planning_application_id"], name: "index_drawings_on_planning_application_id"
   end
 
   create_table "planning_applications", force: :cascade do |t|
@@ -130,6 +159,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_103746) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "applicants", "agents"
   add_foreign_key "planning_applications", "users"
 end
