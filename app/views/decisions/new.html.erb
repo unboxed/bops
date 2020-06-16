@@ -9,6 +9,12 @@
     %>
   <% else %>
     <% navigation_add 'Approve recommendation', new_planning_application_decision_path %>
-    <%= render "reviewer_decision_form", assessor_decision: @planning_application.assessor_decision %>
+    <%=
+      render "reviewer_decision_form",
+        planning_application: @planning_application,
+        decision: @decision,
+        policy_evaluation: @policy_evaluation,
+        assessor_decision: @planning_application.assessor_decision
+    %>
   <% end%>
 <% end%>

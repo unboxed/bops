@@ -1,11 +1,11 @@
-<%= form_with model: [@planning_application, @decision], local: true, class: "decision" do |form| %>
+<%= form_with model: [planning_application, decision], local: true, class: "decision" do |form| %>
 <div class="govuk-form-group">
   <fieldset class="govuk-fieldset">
     <h2 class="govuk-heading-m">Permitted development requirements</h2>
     <p class="govuk-body">
       The applicant has submitted the following application
     </p>
-    <%= render "policy_consideration_list", policy_considerations: @policy_evaluation.policy_considerations %>
+    <%= render "policy_consideration_list", policy_considerations: policy_evaluation.policy_considerations %>
     <p class="govuk-body">
       Based on the evidence given by applicant, the planning officer recommended that permitted development should be
       <strong><%= "#{assessor_decision.status}." %></strong>
