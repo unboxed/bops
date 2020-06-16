@@ -8,17 +8,17 @@
     <%= render "policy_consideration_list", policy_considerations: @policy_evaluation.policy_considerations %>
     <p class="govuk-body">
       Based on the evidence given by applicant, the planning officer recommended that permitted development should be
-      <strong><%= "#{planning_application.assessor_decision.status}." %></strong>
+      <strong><%= "#{assessor_decision.status}." %></strong>
     </p>
-    <% if planning_application.assessor_decision.granted? && planning_application.assessor_decision.comment_made? %>
+    <% if assessor_decision.granted? && assessor_decision.comment_made? %>
       <p class="govuk-body">The officer has submitted this comment to the applicant:</p>
       <div style="border: 1px solid; padding: 10px;">
-        <p class="govuk-body"><%= planning_application.assessor_decision.comment_met %></p>
+        <p class="govuk-body"><%= assessor_decision.comment_met %></p>
       </div>
-    <% elsif planning_application.assessor_decision.refused? && planning_application.assessor_decision.comment_made? %>
+    <% elsif assessor_decision.refused? && assessor_decision.comment_made? %>
       <p class="govuk-body">The officer has submitted this comment to the applicant:</p>
       <div style="border: 1px solid; padding: 10px;">
-        <p class="govuk-body"><%= planning_application.assessor_decision.comment_unmet %></p>
+        <p class="govuk-body"><%= assessor_decision.comment_unmet %></p>
       </div>
     <% end %>
     <br>
@@ -35,8 +35,8 @@
         <% end %>
       <% end %>
 
-      <% reviewer_agrees_status = planning_application.assessor_decision.status %>
-      <% reviewer_disagrees_status = Decision.statuses.keys.find { |s| s != planning_application.assessor_decision.status } %>
+      <% reviewer_agrees_status = assessor_decision.status %>
+      <% reviewer_disagrees_status = Decision.statuses.keys.find { |s| s != assessor_decision.status } %>
 
       <div class="govuk-radios govuk-radios--small govuk-radios--conditional" data-module="govuk-radios">
         <div class="govuk-radios__item">
