@@ -1,7 +1,12 @@
 <%= render "planning_applications/assessment_dashboard" do %>
   <% if current_user.assessor? %>
     <% navigation_add 'Make recommendation', edit_planning_application_decision_path %>
-    <%= render "assessor_decision_form" %>
+    <%=
+      render "assessor_decision_form",
+        planning_application: @planning_application,
+        decision: @decision,
+        policy_evaluation: @policy_evaluation
+    %>
   <% else %>
     <% navigation_add 'Approve recommendation', edit_planning_application_decision_path %>
     <%= render "reviewer_decision_form", assessor_decision: @planning_application.assessor_decision %>
