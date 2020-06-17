@@ -1,0 +1,57 @@
+<%= form_with model: [planning_application, decision], local: true, class: "decision" do |form| %>
+<div class="govuk-form-group">
+  <fieldset class="govuk-fieldset">
+    <h2 class="govuk-heading-m">Permitted development requirements</h2>
+    <p class="govuk-body">
+      The applicant has submitted the following application
+    </p>
+    <%= render "policy_consideration_list", policy_considerations: policy_evaluation.policy_considerations %>
+    <p class="govuk-body">
+      Based on the evidence given by applicant, the planning officer recommended that permitted development should be
+      <strong><%= "#{assessor_decision.status}." %></strong>
+    </p>
+    <% if assessor_decision.granted? && assessor_decision.comment_made? %>
+      <p class="govuk-body">The officer has submitted this comment to the applicant:</p>
+      <div style="border: 1px solid; padding: 10px;">
+        <p class="govuk-body"><%= assessor_decision.comment_met %></p>
+      </div>
+    <% elsif assessor_decision.refused? && assessor_decision.comment_made? %>
+      <p class="govuk-body">The officer has submitted this comment to the applicant:</p>
+      <div style="border: 1px solid; padding: 10px;">
+        <p class="govuk-body"><%= assessor_decision.comment_unmet %></p>
+      </div>
+    <% end %>
+    <br>
+    <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
+      <p class="govuk-body">
+        <strong>
+          Do you agree with this recommendation?
+        </strong>
+      </p>
+      <% if form.object.errors.any? %>
+        <% form.object.errors.each do |attribute, error| %>
+          <span id="status-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span><%= error %></span>
+        <% end %>
+      <% end %>
+
+      <% reviewer_agrees_status = assessor_decision.status %>
+      <% reviewer_disagrees_status = Decision.statuses.keys.find { |s| s != assessor_decision.status } %>
+
+      <div class="govuk-radios govuk-radios--small govuk-radios--conditional" data-module="govuk-radios">
+        <div class="govuk-radios__item">
+          <%= form.radio_button :status, reviewer_agrees_status, class: "govuk-radios__input" %>
+          <%= form.label :"status_#{reviewer_agrees_status}", "Yes", class: "govuk-radios__label" %>
+        </div>
+        <div class="govuk-radios__item">
+          <%= form.radio_button :status, reviewer_disagrees_status, class: "govuk-radios__input" %>
+          <%= form.label :"status_#{reviewer_disagrees_status}", "No", class: "govuk-radios__label" %>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  <p>
+    <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+  </p>
+</div>
+<% end%>
