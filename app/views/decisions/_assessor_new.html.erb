@@ -1,5 +1,5 @@
 <%= form_with model: [@planning_application, @decision], local: true, class: "decision" do |form| %>
-  <div class="govuk-form-group">
+  <div class="govuk-form-group" data-controller="comment">
     <fieldset class="govuk-fieldset">
       <h2 class="govuk-heading-m">Permitted development requirements</h2>
       <p class="govuk-body">
@@ -10,35 +10,28 @@
         <br>
         <strong>Have permitted development requirements been met?</strong>
       </p>
-      <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios" style="margin-bottom: 20px;">
+      <div class="govuk-radios" style="margin-bottom: 20px;">
         <div class="govuk-radios govuk-radios--small">
           <div class="govuk-radios__item">
-            <%= form.radio_button :status, "granted", class: "govuk-radios__input", id:"status-granted-conditional", "aria-controls": "conditional-status-granted-conditional", "aria-expanded": "false" %>
+            <%= form.radio_button :status, "granted", class: "govuk-radios__input", id:"status-granted-conditional", "data-action":"click->comment#addComment", "aria-controls": "conditional-status-granted-conditional", "aria-expanded": "false" %>
             <%= form.label :status_granted, "Yes", class: "govuk-label govuk-radios__label",  for: "status-granted-conditional" %>
           </div>
-          <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-status-granted-conditional">
-            <div class="govuk-form-group">
-              <p class="govuk-body">
-                Please add any comments that can be inserted into the decision notice.
-              </p>
-                <%= form.text_area :comment_met, class: "govuk-textarea", id: "comment_met", rows: "3", "aria-describedby": "comment-met-hint" %>
-            </div>
-          </div>
           <div class="govuk-radios__item">
-            <%= form.radio_button :status, "refused", class: "govuk-radios__input", id: "status-refused-conditional", "aria-controls": "conditional-status-refused-conditional", "aria-expanded": "false" %>
+            <%= form.radio_button :status, "refused", class: "govuk-radios__input", id: "status-refused-conditional", "data-action":"click->comment#addComment", "aria-controls": "conditional-status-refused-conditional", "aria-expanded": "false" %>
             <%= form.label :status_refused, "No", class: "govuk-label govuk-radios__label", for: "status-refused-conditional" %>
-          </div>
-          <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-status-refused-conditional">
-            <div class="govuk-form-group">
-              <p class="govuk-body">
-                Please add any comments that can be inserted into the decision notice.
-              </p>
-              <%= form.text_area :comment_unmet, class: "govuk-textarea", id: "comment_unmet", rows: "3", "aria-describedby": "comment-unmet-hint" %>
-            </div>
           </div>
         </div>
       </div>
+      <div>
+      </div>
     </fieldset>
+    <div class="add-comment"  data-target="comment.commentDiv">
+      <p class="govuk-body">
+        <br />
+        Please add any comments that can be inserted into the decision notice.
+      </p>
+      <%= form.text_area :comment_met, class: "govuk-textarea", "data-target":"comment.textArea", rows: "3" %>
+    </div>
     <p>
       <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
     </p>
