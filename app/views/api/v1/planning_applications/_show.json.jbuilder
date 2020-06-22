@@ -6,5 +6,5 @@ json.site_address planning_application.site.full_address
 json.application_type t(planning_application.application_type)
 json.summary_of_proposal planning_application.description
 json.received_date planning_application.created_at.iso8601
-json.decided_at planning_application.reviewer_decision.decided_at&.iso8601
+json.determined_at planning_application.reviewer_decision.determined_at&.iso8601
 json.status planning_application.reviewer_decision.status
