@@ -95,7 +95,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       # Applicant
       expect(page).to have_content("#{planning_application.applicant.full_name}")
-      # Date of Issue of this decision, TODO: implement to hold the determined_at
       expect(page).to have_content("TBD")
       # Application received
       expect(page).to have_content("#{planning_application.created_at.strftime("%d/%m/%Y")}")

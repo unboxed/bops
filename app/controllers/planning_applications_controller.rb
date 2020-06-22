@@ -6,6 +6,7 @@ class PlanningApplicationsController < AuthenticationController
   before_action :set_planning_application, only: [ :show, :edit, :update ]
   before_action :set_planning_application_dashboard_variables,
                 only: [ :show, :edit, :update ]
+  before_action :set_decision_determined_at, only: [ :update ]
 
   def index
     @planning_applications = policy_scope(PlanningApplication.all)
@@ -33,5 +34,14 @@ class PlanningApplicationsController < AuthenticationController
 
   def planning_application_params
     params.require(:planning_application).permit(:status)
+  end
+
+  def set_decision_determined_at
+    if current_user.reviewer? && @planning_application.
+        reviewer_decision.determined_at.nil?
+      @planning_application.reviewer_decision.update(
+        determined_at: Time.current
+      )
+    end
   end
 end
