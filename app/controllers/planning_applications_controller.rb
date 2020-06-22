@@ -20,6 +20,7 @@ class PlanningApplicationsController < AuthenticationController
 
   def update
     if @planning_application.update(planning_application_params)
+      decision_notice_mail if current_user.reviewer?
       redirect_to @planning_application
     else
       render :edit
@@ -43,5 +44,11 @@ class PlanningApplicationsController < AuthenticationController
         determined_at: Time.current
       )
     end
+  end
+
+  def decision_notice_mail
+    DecisionMailer.decision_notice_mail(
+      @planning_application.reviewer_decision
+    ).deliver_now
   end
 end
