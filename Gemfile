@@ -12,6 +12,7 @@ gem "devise"
 gem "faker", require: false
 gem "image_processing", "~> 1.2"
 gem "jbuilder", "~> 2.7"
+gem "mail-notify"
 gem "mini_magick"
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 4.1"
