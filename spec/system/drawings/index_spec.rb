@@ -19,6 +19,14 @@ RSpec.feature "Drawings index page", type: :system do
            planning_application: planning_application
   end
 
+  context "as a user who is not logged in" do
+    scenario "User is redirected to login page" do
+      visit planning_application_drawings_path(planning_application)
+      expect(page).to have_current_path(/sign_in/)
+      expect(page).to have_content("You need to sign in or sign up before continuing.")
+    end
+  end
+
   context "as an assessor" do
     before do
       sign_in users(:assessor)
@@ -28,7 +36,7 @@ RSpec.feature "Drawings index page", type: :system do
     end
 
     scenario "Application reference is displayed on page" do
-        expect(page).to have_text "19/AP/1880"
+      expect(page).to have_text "19/AP/1880"
     end
 
     scenario "Application address is displayed on page" do
