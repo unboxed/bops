@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-class DrawingsController < ApplicationController
+class DrawingsController < AuthenticationController
   include PlanningApplicationDashboardVariables
 
   before_action :set_planning_application
   before_action :set_planning_application_dashboard_variables
 
   def index
-    @drawings = @planning_application.drawings
+    @drawings = policy_scope(@planning_application.drawings)
   end
 
   private
