@@ -69,7 +69,8 @@
                 <p class='govuk-body'>
                   <%= link_to "View in new window", rails_blob_path(doc_1.plan) %>
                 </p>
-                <%= image_tag doc_1.plan.representation(resize: "300x212") %>
+                <%= link_to image_tag(doc_1.plan.representation(resize: "300x212")),
+                      rails_blob_path(doc_1.plan), target: :_blank %>
               </td>
               <td class="govuk-table__cell">
                 <p class='govuk-body'>
@@ -78,7 +79,10 @@
                 <p class='govuk-body'>
                   <%= link_to "View in new window", rails_blob_path(doc_2.plan) if doc_2 %>
                 </p>
-                <%= image_tag doc_2.plan.representation(resize: "300x212") if doc_2 %>
+                <%  if doc_2  %>
+                  <%= link_to image_tag(doc_2.plan.representation(resize: "300x212")),
+                    rails_blob_path(doc_2.plan), target: :_blank %>
+                <% end %>
               </td>
             <% end %>
           </tr>
