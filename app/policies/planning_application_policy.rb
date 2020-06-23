@@ -18,4 +18,18 @@ class PlanningApplicationPolicy < ApplicationPolicy
   def update?
     super || signed_in_editor?
   end
+
+  def unpermitted_statuses
+    PlanningApplication.statuses.keys - permitted_statuses
+  end
+
+  def permitted_statuses
+    if @user.assessor?
+      [ "awaiting_determination" ]
+    elsif @user.reviewer? || @user.admin?
+      [ "determined" ]
+    else
+      []
+    end
+  end
 end

@@ -18,7 +18,11 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def update
-    if @planning_application.update(planning_application_params)
+    status = authorize_user_can_update_status(
+      planning_application_params[:status]
+    )
+
+    if @planning_application.update_and_timestamp_status(status)
       redirect_to @planning_application
     else
       render :edit
@@ -33,5 +37,17 @@ class PlanningApplicationsController < AuthenticationController
 
   def planning_application_params
     params.require(:planning_application).permit(:status)
+  end
+
+  def authorize_user_can_update_status(status)
+    if status.present? && unpermitted_status_for_user?(status)
+      raise Pundit::NotAuthorizedError
+    end
+
+    status
+  end
+
+  def unpermitted_status_for_user?(status)
+    policy(@planning_application).unpermitted_statuses.include?(status)
   end
 end

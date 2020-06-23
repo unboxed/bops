@@ -95,7 +95,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       # Applicant
       expect(page).to have_content("#{planning_application.applicant.full_name}")
-      # Date of Issue of this decision, TODO: implement to hold the decided_at
       expect(page).to have_content("TBD")
       # Application received
       expect(page).to have_content("#{planning_application.created_at.strftime("%d/%m/%Y")}")
@@ -243,6 +242,12 @@ RSpec.describe "Planning Application Assessment", type: :system do
         within("#determined") do
           expect(page).to have_link "19/AP/1880"
         end
+
+        # TODO: Replace this with a check for state in the read-only determined decision
+        # notice when we implement it
+        planning_application = PlanningApplication.find_by(reference: "19/AP/1880")
+
+        expect(planning_application.determined_at).to be_within(5.seconds).of(Time.current)
       end
 
       scenario "disagrees with assessor's decision" do
