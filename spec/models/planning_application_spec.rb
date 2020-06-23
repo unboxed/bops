@@ -47,6 +47,27 @@ RSpec.describe PlanningApplication, type: :model do
     end
   end
 
+  describe "update_and_timestamp_status" do
+    described_class.statuses.keys.each do |status|
+      context "for the #{status} status" do
+        before do
+          # Set timestamp to differentiate from now
+          subject.update("#{status}_at": 1.hour.ago)
+
+          subject.update_and_timestamp_status(status)
+        end
+
+        it "sets the status to #{status}" do
+          expect(subject.status).to eq status
+        end
+
+        it "sets the timestamp for #{status}_at to now" do
+          expect(subject.send("#{status}_at")).to be_within(1.second).of(Time.current)
+        end
+      end
+    end
+  end
+
   describe "decisions" do
     let(:assessor)          { create :user, :assessor }
     let(:reviewer)          { create :user, :reviewer }
