@@ -58,7 +58,7 @@ RSpec.describe "API request to list planning applications", type: :request, show
             "application_type" => "Certificate of Lawfulness",
             "summary_of_proposal" => planning_application_1.description,
             "received_date" => planning_application_1.created_at.getutc.iso8601,
-            "decided_at" => nil,
+            "determined_at" => planning_application_1.determined_at.getutc.iso8601,
             "status" => "granted"
           ),
           a_hash_including(
@@ -68,7 +68,7 @@ RSpec.describe "API request to list planning applications", type: :request, show
             "application_type" => "Certificate of Lawfulness",
             "summary_of_proposal" => planning_application_2.description,
             "received_date" => planning_application_2.created_at.getutc.iso8601,
-            "decided_at" => nil,
+            "determined_at" => planning_application_1.determined_at.getutc.iso8601,
             "status" => "refused"
           )
         )
