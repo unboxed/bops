@@ -4,6 +4,7 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
 @import "components/flashes";
 @import "components/task_list";
 @import "proposal";
+@import "components/drawings";
 
 .noborder {
   border-bottom: none !important;
@@ -88,4 +89,3 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
   border-color: govuk-colour("red");
   color: govuk-colour("red");
 }
-

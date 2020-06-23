@@ -6,7 +6,7 @@ module DrawingHelper
   end
 
   def filter_current(drawings)
-    drawings.select { |plan| plan.archived? == false }.sort_by(&:archived_at)
+    drawings.select { |plan| plan.archived? == false }.sort_by(&:created_at)
   end
 
   def archive_reason_collection_for_radio_buttons

@@ -1,0 +1,44 @@
+<% add_parent_breadcrumb_link "Home", planning_applications_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Drawings", planning_application_drawings_path(@planning_application) %>
+
+<% content_for :title, "Upload document" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l" style="margin-bottom: 7px;">
+      Documents: <%= @planning_application.reference %>
+    </h1>
+
+    <h2 class="govuk-heading-m" style="margin-bottom: 75px;">
+      <%= display_address(@site) %>
+    </h2>
+
+    <%= form_with model: [ @planning_application, @drawing_form ], scope: :drawing_form, url: confirm_new_planning_application_drawings_path(@planning_application), local: true do |form| %>
+      <% if form.object.errors.any? %>
+        <% form.object.errors.each do |attribute, error| %>
+          <span id="status-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span><%= error %></span>
+        <% end %>
+      <% end %>
+
+      <%= form.label :plan, "Upload new document", class: "govuk-label govuk-!-font-weight-bold" %>
+      <%= form.file_field :plan, direct_upload: true, class: "govuk-file-upload" %>
+
+      <div class="govuk-form-group">
+        <div class="govuk-checkboxes govuk-checkboxes--small">
+          <%= form.collection_check_boxes :tags, Drawing::TAGS, :itself, :itself, include_hidden: false do |b| %>
+            <div class="govuk-checkboxes__item">
+              <%= b.check_box class: "govuk-checkboxes__input" %>
+              <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="govuk-form-group">
+        <%= form.submit "Continue", class: "govuk-button", data: { module: "govuk-button" } %>
+      </div>
+    <% end %>
+  </div>
+</div>

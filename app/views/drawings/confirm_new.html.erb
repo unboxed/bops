@@ -1,0 +1,65 @@
+<% add_parent_breadcrumb_link "Home", planning_applications_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Drawings", planning_application_drawings_path(@planning_application) %>
+
+<% content_for :title, "Upload document" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l" style="margin-bottom: 7px;">
+      Documents: <%= @planning_application.reference %>
+    </h1>
+
+    <h2 class="govuk-heading-m" style="margin-bottom: 75px;">
+      <%= display_address(@site) %>
+    </h2>
+
+    <h2 class="govuk-heading-m">Confirm document</h2>
+
+    <p class="govuk-body govuk-!-font-weight-bold">You have entered the following information:</p>
+
+    <p class="govuk-body govuk-!-font-weight-bold"><%= @blob.filename.to_s %></p>
+
+    <figure>
+      <%= image_tag(@blob.representation(resize: "300x212")) if @blob.representable? %>
+
+      <figcaption>
+        <ul class="govuk-list">
+          <% @drawing_form.tags.each do |tag| %>
+            <li><strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong></li>
+          <% end %>
+        </ul>
+      </figcaption>
+    </figure>
+
+    <%= form_with model: [ @planning_application, @drawing_form ], scope: :drawing_form, url: planning_application_drawings_path(@planning_application), local: true do |form| %>
+      <% @drawing_form.tags.each do |tag| %>
+        <%= form.hidden_field "tags", multiple: true, value: tag %>
+      <% end %>
+
+      <%= form.hidden_field :plan, value: @blob.signed_id %>
+
+      <p class="govuk-body govuk-!-font-weight-bold">Is this file and its tags correct?</p>
+
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset">
+          <div class="govuk-radios govuk-radios--small">
+            <div class="govuk-radios__item">
+              <%= form.radio_button :confirm_upload, true, class: "govuk-radios__input" %>
+              <%= form.label :confirm_upload, "Yes, upload this file", value: true, class: "govuk-label govuk-radios__label" %>
+            </div>
+
+            <div class="govuk-radios__item">
+              <%= form.radio_button :confirm_upload, false, class: "govuk-radios__input" %>
+              <%= form.label :confirm_upload, "No, I need to go back", value: false, class: "govuk-label govuk-radios__label" %>
+            </div>
+          </div>
+       </fieldset>
+      </div>
+
+      <div class="govuk-form-group">
+        <%= form.submit "Continue", class: "govuk-button", data: { module: "govuk-button" } %>
+      </div>
+    <% end %>
+  </div>
+</div>

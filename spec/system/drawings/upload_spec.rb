@@ -8,6 +8,8 @@ RSpec.describe "Document uploads", type: :system do
            :lawfulness_certificate
   end
 
+  let!(:drawing) { create :drawing, :with_plan, planning_application: planning_application }
+
   context "for an assessor" do
     before { sign_in users(:assessor) }
 
@@ -15,9 +17,93 @@ RSpec.describe "Document uploads", type: :system do
       scenario "can upload, tag and confirm documents" do
         visit planning_application_drawings_path(planning_application)
 
-        expect(page).to have_link("Upload documents")
+        click_link("Upload documents")
 
-        # TODO: Go though upload workflow.
+        attach_file("Upload new document", "spec/fixtures/images/existing-floorplan.pdf")
+
+        check("floor plan - existing")
+        check("section - proposed")
+
+        click_button("Continue")
+
+        expect(page).to have_css("img[src*=\"existing-floorplan.pdf\"]")
+
+        expect(page).to have_css(".govuk-tag", text: "floor plan - existing")
+        expect(page).to have_css(".govuk-tag", text: "section - proposed")
+
+        choose("No, I need to go back")
+
+        click_button("Continue")
+
+        expect(page).to have_checked_field("floor plan - existing")
+        expect(page).to have_checked_field("section - proposed")
+
+        attach_file("Upload new document", "spec/fixtures/images/proposed-section.pdf")
+
+        uncheck("floor plan - existing")
+
+        # section - proposed remains checked
+        check("section - existing")
+
+        click_button("Continue")
+
+        expect(page).to have_css("img[src*=\"proposed-section.pdf\"]")
+
+        expect(page).to have_css(".govuk-tag", text: "section - proposed")
+        expect(page).to have_css(".govuk-tag", text: "section - existing")
+
+        choose("Yes, upload this file")
+
+        click_button("Continue")
+
+        expect(page).to have_content("proposed-section.pdf has been uploaded.")
+
+        within(".current-drawings") do
+          expect(page).to have_css("[class*=\"thumbnail\"]", count: 2)
+
+          # The newly added document is last in the list
+          expect(page.find("[class*=\"thumbnail\"]:last-child")).to have_css("img[src*=\"proposed-section.pdf\"]")
+        end
+
+        find(".govuk-breadcrumbs").click_link("Application")
+
+        click_button("Proposal documents")
+
+        within(find(".scroll-docs")) do
+          expect(all("img").count).to eq 2
+          expect(all("img").last["src"]).to have_content("proposed-section.pdf")
+        end
+      end
+
+      scenario "cannot progress to confirmation without a tagged document" do
+        visit planning_application_drawings_path(planning_application)
+
+        click_link("Upload documents")
+
+        click_button("Continue")
+
+        expect(page).to have_content("Upload new document")
+
+        expect(page).to have_content("Please choose a file")
+        expect(page).to have_content("Please select one or more tags")
+      end
+
+      scenario "cannot upload a document in the wrong format" do
+        visit planning_application_drawings_path(planning_application)
+
+        click_link("Upload documents")
+
+        attach_file("Upload new document", "spec/fixtures/images/bmp.bmp")
+
+        check("floor plan - existing")
+
+        click_button("Continue")
+
+        choose("Yes, upload this file")
+
+        click_button("Continue")
+
+        expect(page).to have_content("Plan is not a supported file format")
       end
     end
 
