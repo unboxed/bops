@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe PlanningApplicationPolicy, type: :policy do
-  describe "Assessor, Reviewer and Admin roles" do
-    let(:record) { nil }
-    let(:policy) { described_class.new(user, record) }
+  let(:record) { nil }
+  let(:policy) { described_class.new(user, record) }
 
+  describe "Assessor, Reviewer and Admin roles" do
     %i[assessor reviewer admin].each do |role|
       context "when signed in as a #{role}" do
         let(:user) { users(role) }
@@ -16,6 +16,32 @@ RSpec.describe PlanningApplicationPolicy, type: :policy do
             expect(policy).to permit_action(action)
           end
         end
+      end
+    end
+  end
+
+  describe "#permitted_statuses" do
+    context "an assessor" do
+      let(:user) { users(:assessor) }
+
+      it "returns :awaiting_determination only" do
+        expect(policy.permitted_statuses).to eq %w[ awaiting_determination ]
+      end
+    end
+
+    context "a reviewer" do
+      let(:user) { users(:reviewer) }
+
+      it "returns :determined only" do
+        expect(policy.permitted_statuses).to eq %w[ determined ]
+      end
+    end
+
+    context "an admin" do
+      let(:user) { users(:admin) }
+
+      it "returns :determined only" do
+        expect(policy.permitted_statuses).to eq %w[ determined ]
       end
     end
   end

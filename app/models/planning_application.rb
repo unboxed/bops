@@ -32,6 +32,10 @@ class PlanningApplication < ApplicationRecord
     (target_date - Date.current).to_i
   end
 
+  def update_and_timestamp_status(status)
+    update(status: status, "#{status}_at": Time.current)
+  end
+
   private
 
   def set_target_date
