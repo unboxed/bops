@@ -7,6 +7,9 @@ class PlanningApplicationsController < AuthenticationController
   before_action :set_planning_application_dashboard_variables,
                 only: [ :show, :edit, :update ]
 
+  rescue_from Notifications::Client::NotFoundError,
+    with: :decision_notice_mail_error
+
   def index
     @planning_applications = policy_scope(PlanningApplication.all)
   end
@@ -17,17 +20,24 @@ class PlanningApplicationsController < AuthenticationController
   def edit
   end
 
+  # rubocop:disable Metrics/MethodLength
   def update
     status = authorize_user_can_update_status(
       planning_application_params[:status]
     )
 
     if @planning_application.update_and_timestamp_status(status)
+      if status == "determined"
+        decision_notice_mail
+        flash[:notice] = "Decision Notice sent to applicant"
+      end
+
       redirect_to @planning_application
     else
       render :edit
     end
   end
+  # rubocop:enable Metrics/MethodLength
 
   private
 
@@ -49,5 +59,17 @@ class PlanningApplicationsController < AuthenticationController
 
   def unpermitted_status_for_user?(status)
     policy(@planning_application).unpermitted_statuses.include?(status)
+  end
+
+  def decision_notice_mail
+    PlanningApplicationMailer.decision_notice_mail(
+      @planning_application
+    ).deliver_now
+  end
+
+  def decision_notice_mail_error
+    flash[:notice] =
+      "The Decision Notice cannot be sent. Please try again later."
+    render :edit
   end
 end

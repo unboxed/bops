@@ -62,6 +62,13 @@ RSpec.describe "PlanningApplications", type: :request do
       context "setting the status to \"determined\"" do
         let(:status) { :determined }
 
+        let(:mailer) { double }
+
+        before do
+          allow(PlanningApplicationMailer).to receive(:decision_notice_mail).and_return(mailer)
+          allow(mailer).to receive(:deliver_now)
+        end
+
         it "changes the status and redirects to the planning application"  do
           expect {
             subject
@@ -97,6 +104,13 @@ RSpec.describe "PlanningApplications", type: :request do
 
       context "setting the status to \"determined\"" do
         let(:status) { :determined }
+
+        let(:mailer) { double }
+
+        before do
+          allow(PlanningApplicationMailer).to receive(:decision_notice_mail).and_return(mailer)
+          allow(mailer).to receive(:deliver_now)
+        end
 
         it "changes the status and redirects to the planning application"  do
           expect {

@@ -1,0 +1,52 @@
+# Southwark Council
+
+# Town and country planning act 1990 (as amended)
+
+# Decision notice
+
+Certificate of lawfulness of proposed use or development: <%= "#{@decision.status}." %>
+
+Applicant: <%= @planning_application.applicant.full_name %>
+Date of Issue of this decision: <%= @planning_application.determined_at.strftime("%d/%m/%Y") %>
+Application received: <%= @planning_application.created_at.strftime("%d/%m/%Y") %>
+Address: <%= @planning_application.site.full_address %>
+Application number: <%= @planning_application.reference %>
+
+Proposed use or development:
+Certificate of lawful development (proposed) for the construction of <%= @planning_application.description %>
+
+<% if @decision.granted? %>
+  IT IS HEREBY CERTIFIED that the use or operations described below are lawful for the purposes of S.192 of the Town and Country Planning Act 1990 in accordance with the valid application received on <%= @planning_application.created_at.strftime("%d/%m/%Y") %> and supporting documents listed below. Full application is available on the planning register.
+
+  CONDITIONS
+  Permission is subject to the following Approved Plans Condition:
+
+  1 The development shall be carried out in accordance with the following approved plans:
+
+  Plan reference number	Plan description	Date received
+  [Plan reference number]	[Document name]	[ DD MONTH YYYY ]
+  [Plan reference number]	[Document name]	[ DD MONTH YYYY ]
+  <% if @decision.granted? && @planning_application.assessor_decision&.comment_met.present? %>
+    Reason for granting:
+
+    * <%= @planning_application.assessor_decision.comment_met %>
+  <% end %>
+<% elsif @decision.refused? %>
+  IT IS HEREBY CERTIFIED that the use or operations described below are not lawful for the purposes of S.192 of the Town and Country Planning Act 1990 on the date that the application for this Certificate was received.
+  <% if @decision.refused? && @planning_application.assessor_decision&.comment_unmet.present? %>
+    Reason why use or operations would not have been LAWFUL:
+
+    * <%= @planning_application.assessor_decision.comment_unmet %>
+  <% end %>
+<% end %>
+
+Signed: Simon Bevan
+Director of Planning
+
+Your attention is drawn to the notes accompanying this document
+
+Any enquiries regarding this document should quote the Application Number and be sent to the Director of Planning, Southwark Council, Chief executive's department, Planning division, Development management, PO Box 64529, London SE1 5LX, or by email to planning.applications@southwark.gov.uk
+
+<% if @decision.refused? %>
+  [1] APPEAL TO THE SECRETARY OF STATE. If the applicant is aggrieved by this decision of the council to refuse an application for a Certificate of Lawfulness of Existing Use or Development or to refuse it in part the applicant may appeal to the Secretary of State in accordance with Section 195 of the Town and Country Planning Act 1990 within six months of the receipt of this notice. The Secretary of State can allow a longer period for giving notice of an appeal but will not normally use this power unless there are special circumstances which excuse the delay in giving notice of appeal. If you do decide to appeal you can do so using The Planning Inspectorate’s online appeals service. You can find the service through the appeals area of the Planning Portal at www.planningportal.gov.uk/pcs. You can also appeal by completing the appropriate form which you can get from The Planning Inspectorate, Customer Support Unit, Temple Quay House, 2 The Square, Temple Quay, Bristol BS1 6PN [tel. 0117-3726372]. The form can also be downloaded from the Inspectorate's website at www.planning-inspectorate.gov.uk. The Planning Inspectorate will publish details of your appeal on the internet on the appeals area of the Planning Portal. This may include a copy of the original planning application from and relevant supporting documents supplied to the council by you or your agent, together with the completed appeal form and information you submit to The Planning Inspectorate. Please ensure that you only provide information, including personal information belonging to you, that you are happy will be made available to others in this way. If you supply information belonging to someone else please ensure you have their permission to do so. More detailed information about data protection and privacy matters is available on the Planning Portal.
+<% end %>

@@ -7,12 +7,14 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     # Look at an application that has had some assessment work done by the assessor
     let(:policy_evaluation) { create(:policy_evaluation, :met) }
     let(:assessor) { create :user, :assessor }
+    let(:applicant) { create :applicant, email: "bigplans@example.com" }
     let!(:planning_application) do
       create :planning_application,
        :awaiting_determination,
        policy_evaluation: policy_evaluation,
        assessor_decision: assessor_decision,
-       reference: "19/AP/1880"
+       reference: "19/AP/1880",
+       applicant: applicant
     end
 
     before do
@@ -62,6 +64,12 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         expect(page).not_to have_content("This has been refused.")
 
         click_button "Determine application"
+
+        mail = ActionMailer::Base.deliveries.first
+
+        expect(mail.to.first).to eq "bigplans@example.com"
+        expect(mail.subject).to eq("Certificate of Lawfulness: granted")
+        expect(mail.body.encoded).to match("Certificate of lawfulness of proposed use or development: granted.")
 
         within(:assessment_step, "Publish and send decision notice") do
           expect(page).to have_completed_tag
@@ -144,6 +152,46 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         click_link "Determined"
         within("#determined") do
           expect(page).to have_link "19/AP/1880"
+        end
+      end
+
+      context "when the applicant decision notice email can't be sent" do
+        let(:notify_url) do
+          "https://api.notifications.service.gov.uk/v2/notifications/email"
+        end
+
+        around do |example|
+          delivery_method = ActionMailer::Base.delivery_method
+          notify_settings = ActionMailer::Base.notify_settings
+
+          ActionMailer::Base.delivery_method = :notify
+          ActionMailer::Base.notify_settings = {
+            api_key: "fake__notarealkey-00000000-0000-0000-0000-000000000000-00000000-0000-0000-0000-000000000000"
+          }
+
+          example.run
+
+          ActionMailer::Base.delivery_method = delivery_method
+          ActionMailer::Base.notify_settings = notify_settings
+        end
+
+        scenario "it displays a flash message" do
+          stub_request(:post, notify_url).to_return(
+            status: 404
+          )
+
+          within("#awaiting_determination") do
+            click_link "19/AP/1880"
+          end
+
+          click_link "Review permitted development policy requirements"
+          choose "Yes"
+          click_button "Save"
+
+          click_link "Publish and send decision notice"
+          click_button "Determine application"
+
+          expect(page).to have_content("The Decision Notice cannot be sent. Please try again later.")
         end
       end
 
