@@ -11,3 +11,15 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
 .govuk-template {
   background-color: white;
 }
+
+.thumbnail-left {
+  float:left;
+  padding-bottom: 5%;
+  width: 40%;
+}
+
+.thumbnail-right {
+  float:right;
+  padding-bottom: 5%;
+  width: 40%;
+}

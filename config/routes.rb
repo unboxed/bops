@@ -7,7 +7,12 @@ Rails.application.routes.draw do
 
   resources :planning_applications, only: %i[show index edit update] do
     resources :decisions, only: %i[new create edit update]
-    resources :drawings, only: %i[index]
+    resources :drawings, only: %i[index] do
+      get :archive
+      get :confirm
+
+      post :validate_step
+    end
   end
 
   namespace :api do

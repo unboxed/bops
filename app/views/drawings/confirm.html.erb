@@ -1,0 +1,43 @@
+<% if current_user.assessor? %>
+  <% navigation_add "Archive document", planning_application_drawings_path(@planning_application) %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="govuk-breadcrumbs" style="margin-bottom: 20px;">
+        <ol class="govuk-breadcrumbs__list">
+          <li class="govuk-breadcrumbs__list-item" aria-current="page"></li>
+        </ol>
+      </div>
+      <h1 class="govuk-heading-l" style="margin-bottom: 7px;">
+        Documents: <%= @planning_application.reference %>
+      </h1>
+      <h2 class="govuk-heading-m" style="margin-bottom: 75px;">
+        Confirm archiving
+      </h2>
+      <h2 class="govuk-heading-s">
+        You want to archive the document because:
+      </h2>
+      <p class="govuk-body"><%= @drawing_form.archive_reason %></p>
+      <h2 class="govuk-heading-s">
+        Is this correct?
+      </h2>
+      <%= form_for(@drawing_form, as: :drawing_form, url: planning_application_drawing_validate_step_path) do |form| %>
+        <%= hidden_field_tag :current_step, 'confirm' %>
+        <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios" style="margin-bottom: 20px;">
+          <div class="govuk-radios govuk-radios--small">
+            <div class="govuk-radios__item">
+              <%= form.radio_button :updated_at, Time.zone.now, class: "govuk-radios__input", id:"status-granted-conditional", "aria-controls": "conditional-status-granted-conditional", "aria-expanded": "false" %>
+              <%= form.label :archive_reason, "Yes", class: "govuk-label govuk-radios__label", for: "status-granted-conditional" %>
+            </div>
+            <div class="govuk-radios__item">
+              <%= form.radio_button :updated_at, nil, class: "govuk-radios__input", id: "status-refused-conditional", "aria-controls": "conditional-status-refused-conditional", "aria-expanded": "false" %>
+              <%= form.label :archive_reason, "No", class: "govuk-label govuk-radios__label", for: "status-refused-conditional" %>
+            </div>
+          </div>
+        </div>
+        </div>
+        </div>
+<!--        <p>-->
+          <%= form.submit "Archive document", class: "govuk-button", data: { module: "govuk-button" } %>
+<!--        </p>-->
+      <% end %>
+<% end %>

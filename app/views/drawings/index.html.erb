@@ -19,21 +19,46 @@
   </div>
 </div>
 <div class="govuk-grid-row">
-  <table class="govuk-table">
-    <tbody class="govuk-table__body">
-      <% @drawings.each_slice(2) do |drawing| %>
-        <tr class="govuk-table__row noborder">
-          <td class="govuk-table__cell noborder">
-            <%= link_to image_tag(drawing[0].plan.representation(resize: "300x212")),
-                        rails_blob_path(drawing[0].plan), target: :_blank %>
-          </td>
-          <td class="govuk-table__cell noborder">
-            <%= link_to image_tag(drawing[1].plan.representation(resize: "300x212")),
-                        rails_blob_path(drawing[1].plan), target: :_blank if drawing[1] %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <% filter_current(@drawings).each_with_index do |doc, index| %>
+    <%  if index.odd? %>
+        <div class="thumbnail-right">
+          <p class="govuk-body">
+            <%= link_to "Archive document", planning_application_drawing_archive_path(drawing_id: doc.plan.id) %>
+          </p>
+          <%= link_to image_tag(doc.plan.representation(resize: "300x212")),
+                      rails_blob_path(doc.plan), target: :_blank %>
+        </div>
+    <% else %>
+        <div class="thumbnail-left">
+          <p class="govuk-body">
+            <%= link_to "Archive document", planning_application_drawing_archive_path(drawing_id: doc.plan.id) %>
+          </p>
+          <%= link_to image_tag(doc.plan.representation(resize: "300x212")),
+                      rails_blob_path(doc.plan), target: :_blank %>
+        </div>
+    <% end %>
+  <% end %>
 </div>
-
+<div class="govuk-grid-column-two-thirds">
+  <h2 class="govuk-heading-m">
+    Archived documents
+  </h2>
+  <% if filter_archived(@drawings).count > 0 %>
+    <% filter_archived(@drawings).each_with_index do |doc, index| %>
+      <%  if index % 2 == 1 %>
+        <span class="thumbnail-right">
+          <%= link_to image_tag(doc.plan.representation(resize: "300x212")),
+                      rails_blob_path(doc.plan), target: :_blank %>
+        </span>
+      <% else %>
+        <span class="thumbnail-left">
+          <%= link_to image_tag(doc.plan.representation(resize: "300x212")),
+                      rails_blob_path(doc.plan), target: :_blank %>
+        </span><br/>
+      <% end %>
+    <% end %>
+  <%else %>
+    <p class="govuk-body">No documents archived</p>
+  <% end %>
+  </div>
+</div>
