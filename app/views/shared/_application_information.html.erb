@@ -55,12 +55,12 @@
       </h3>
     </div>
     <div id="accordion-default-content-2" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
-      <div class="govuk-accordion__section-row">
         <p class="govuk-body">
           <%= link_to "Manage documents", planning_application_drawings_path(@planning_application) %>
         </p>
+      <div class="govuk-grid-row">
         <% @planning_application.drawings.each_with_index do |doc, index| %>
-          <% if index.odd? == 1 %>
+          <% if index.odd? %>
             <div class="thumbnail-right">
               <p class="govuk-body">
                 <%= link_to "View in new window", rails_blob_path(doc.plan), target: :_blank %>
@@ -82,4 +82,3 @@
     </div>
   </div>
 </div>
-
