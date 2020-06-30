@@ -35,7 +35,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_link "Review the recommendation"
 
-        expect(page).not_to have_content("The officer has submitted this comment to the applicant:")
+        expect(page).to have_content("The recommended by the planning officer is granted")
+        expect(page).not_to have_content("based on the following comment:")
         expect(page).not_to have_content("This has been granted.")
         expect(page).not_to have_content("This has been refused.")
 
@@ -56,7 +57,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_link "Publish the recommendation"
 
-        expect(page).not_to have_content("Your comments have been added to the decision notice.")
+        expect(page).to have_content("The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.")
         expect(page).to have_content("granted")
         expect(page).not_to have_content("Reason for granting:")
         expect(page).not_to have_content("This has been granted.")
@@ -106,7 +107,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_link "Review the recommendation"
 
-        expect(page).not_to have_content("The officer has submitted this comment to the applicant:")
+        expect(page).to have_content("The recommended by the planning officer is granted")
+        expect(page).not_to have_content("based on the following comment:")
         expect(page).not_to have_content("This has been granted.")
         expect(page).not_to have_content("This has been refused.")
 
@@ -127,7 +129,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_link "Publish the recommendation"
 
-        expect(page).not_to have_content("Your comments have been added to the decision notice.")
+        expect(page).to have_content("The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.")
         expect(page).to have_content("refused")
         expect(page).not_to have_content("Reason for granting:")
         expect(page).not_to have_content("This has been granted.")
@@ -212,7 +214,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_link "Review the recommendation"
 
-        expect(page).to have_content("The officer has submitted this comment to the applicant:")
+        expect(page).to have_content("The recommended by the planning officer is granted")
+        expect(page).to have_content("based on the following comment:")
         expect(page).to have_content("This has been granted.")
         expect(page).not_to have_content("This has been refused.")
 
@@ -233,7 +236,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_link "Publish the recommendation"
 
-        expect(page).to have_content("Your comments have been added to the decision notice.")
+        expect(page).to have_content("The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.")
         expect(page).to have_content("granted")
         expect(page).to have_content("Reason for granting:")
         expect(page).to have_content("This has been granted.")
@@ -271,7 +274,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_link "Review the recommendation"
 
-        expect(page).to have_content("The officer has submitted this comment to the applicant:")
+        expect(page).to have_content("The recommended by the planning officer is granted")
+        expect(page).to have_content("based on the following comment:")
         expect(page).to have_content("This has been granted.")
         expect(page).not_to have_content("This has been refused.")
 
@@ -292,7 +296,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_link "Publish the recommendation"
 
-        expect(page).not_to have_content("Your comments have been added to the decision notice.")
+        expect(page).to have_content("The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.")
         expect(page).to have_content("refused")
         expect(page).not_to have_content("Reason for granting:")
         expect(page).not_to have_content("This has been granted.")
@@ -337,7 +341,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_link "Review the recommendation"
 
-        expect(page).not_to have_content("The officer has submitted this comment to the applicant:")
+        expect(page).to have_content("The recommended by the planning officer is refused")
+        expect(page).not_to have_content("based on the following comment:")
         expect(page).not_to have_content("This has been granted.")
         expect(page).not_to have_content("This has been refused.")
 
@@ -358,7 +363,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_link "Publish the recommendation"
 
-        expect(page).not_to have_content("Your comments have been added to the decision notice.")
+        expect(page).to have_content("The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.")
         expect(page).to have_content("refused")
         expect(page).not_to have_content("Reason for granting:")
         expect(page).not_to have_content("This has been granted.")
@@ -396,7 +401,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_link "Review the recommendation"
 
-        expect(page).not_to have_content("The officer has submitted this comment to the applicant:")
+        expect(page).to have_content("The recommended by the planning officer is refused")
+        expect(page).not_to have_content("based on the following comment:")
         expect(page).not_to have_content("This has been granted.")
         expect(page).not_to have_content("This has been refused.")
 
@@ -417,7 +423,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_link "Publish the recommendation"
 
-        expect(page).not_to have_content("Your comments have been added to the decision notice.")
+        expect(page).to have_content("The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.")
         expect(page).to have_content("granted")
         expect(page).not_to have_content("Reason for granting:")
         expect(page).not_to have_content("This has been granted.")
@@ -462,7 +468,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_link "Review the recommendation"
 
-        expect(page).to have_content("The officer has submitted this comment to the applicant:")
+        expect(page).to have_content("The recommended by the planning officer is refused")
+        expect(page).to have_content("based on the following comment:")
         expect(page).not_to have_content("This has been granted.")
         expect(page).to have_content("This has been refused.")
 
@@ -483,7 +490,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_link "Publish the recommendation"
 
-        expect(page).to have_content("Your comments have been added to the decision notice.")
+        expect(page).to have_content("The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.")
         expect(page).to have_content("refused")
         expect(page).not_to have_content("Reason for granting:")
         expect(page).not_to have_content("This has been granted.")
@@ -521,7 +528,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_link "Review the recommendation"
 
-        expect(page).to have_content("The officer has submitted this comment to the applicant:")
+        expect(page).to have_content("The recommended by the planning officer is refused")
+        expect(page).to have_content("based on the following comment:")
         expect(page).not_to have_content("This has been granted.")
         expect(page).to have_content("This has been refused.")
 
@@ -542,7 +550,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_link "Publish the recommendation"
 
-        expect(page).not_to have_content("Your comments have been added to the decision notice.")
+        expect(page).to have_content("The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.")
         expect(page).to have_content("granted")
         expect(page).not_to have_content("Reason for granting:")
         expect(page).not_to have_content("This has been granted.")

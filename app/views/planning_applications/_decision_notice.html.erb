@@ -1,8 +1,3 @@
-<p class="govuk-body">Based on your answers given with the Permitted Development Policy Requirements, Permited Development should be <%= "#{decision.status}." %>
-  <% if (decision.granted? && planning_application.assessor_decision.comment_met.present?) || (decision.refused? && planning_application.assessor_decision.comment_unmet.present?) %>
-    <%= "Your comments have been added to the decision notice." %>
-  <% end %>
-</p>
 <div style="background-color: #f3f2f1; border: solid 1px; padding: 30px; clear: both; margin-top: 10px;">
   <span class="govuk-caption-xl">Southwark Council</span>
   <h2 class="govuk-heading-m">Town and country planning act 1990 (as amended)</h2>

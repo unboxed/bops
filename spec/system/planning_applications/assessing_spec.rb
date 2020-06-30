@@ -54,6 +54,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
     expect(page).to have_text("Lorrine Krajcik")
 
     choose "Yes"
+
+    expect(page).to have_content("By selecting yes, you are saying that this proposal complies with the GDPO.")
+    expect(page).to have_content("Please add any comments that you would like to share with your manager.")
+
     fill_in "comment_met", with: "This has been granted"
 
     click_button "Save"
@@ -85,10 +89,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     click_link "Submit the recommendation"
 
     expect(page).to have_content("Submit the recommendation")
-    expect(page).to have_content("Based on your answers given with the Permitted Development Policy Requirements, Permited Development should be #{planning_application.reload.assessor_decision.status}")
-
-    expect(planning_application.reload.assessor_decision.comment_made?).to be(true)
-    expect(page).to have_content("Your comments have been added to the decision notice.")
+    expect(page).to have_content("The following decision notice has been created based on your answers.")
 
     expect(page).to have_content("Certificate of lawfulness of proposed use or development: #{planning_application.reload.assessor_decision.status}")
 
@@ -102,6 +103,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
     expect(page).to have_content("#{planning_application.reference}")
 
     expect(page).to have_content("Certificate of lawful development (proposed) for the construction of #{planning_application.description}")
+
+    expect(page).to have_content("If you agree with the decision notice, please submit it to your manager. If your manager disagrees with your recommendation they will send it back to you to make changes.")
 
     click_button "Submit to manager"
 

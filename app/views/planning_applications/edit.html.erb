@@ -2,6 +2,7 @@
   <% if current_user.assessor? %>
     <% navigation_add 'Submit the recommendation', edit_planning_application_path %>
     <h2 class="govuk-heading-m">Submit the recommendation</h2>
+    <p class="govuk-body">The following decision notice has been created based on your answers.</p>
 
     <%= render "decision_notice", planning_application: @planning_application, decision: @planning_application.assessor_decision  %>
 
@@ -10,7 +11,7 @@
       <strong>
         If you agree with the decision notice, please submit it to your manager.
       </strong>
-      Once submitted, you will not be able to change your recommendation, or decision.
+      If your manager disagrees with your recommendation they will send it back to you to make changes.
     </p>
 
     <%= form_with model: @planning_application, local: true do |form| %>
@@ -20,6 +21,7 @@
   <% else %>
     <% navigation_add 'Publish the recommendation', edit_planning_application_path %>
     <h2 class="govuk-heading-m">Publish the recommendation</h2>
+    <p class="govuk-body">The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.</p>
 
     <%= render "decision_notice", planning_application: @planning_application, decision: @planning_application.reviewer_decision %>
 
