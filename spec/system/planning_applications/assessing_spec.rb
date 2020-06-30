@@ -128,8 +128,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "19/AP/1880"
     end
 
-    expect(page).not_to have_link("Assess the proposal")
-    expect(page).not_to have_link("Submit the recommendation")
     # TODO: Continue this spec until the assessor decision has been made and check that policy evaluations can no longer be made
   end
 
