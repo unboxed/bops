@@ -31,9 +31,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
           click_link "19/AP/1880"
         end
 
-        expect(page).not_to have_link("Publish and send decision notice")
+        expect(page).not_to have_link("Publish the recommendation")
 
-        click_link "Review permitted development policy requirements"
+        click_link "Review the recommendation"
 
         expect(page).not_to have_content("The officer has submitted this comment to the applicant:")
         expect(page).not_to have_content("This has been granted.")
@@ -42,11 +42,11 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         choose "Yes"
         click_button "Save"
 
-        within(:assessment_step, "Review permitted development policy requirements") do
+        within(:assessment_step, "Review the recommendation") do
           expect(page).to have_completed_tag
         end
 
-        click_link "Review permitted development policy requirements"
+        click_link "Review the recommendation"
 
         # Expect the saved state to be shown in the form
         within(find("form.decision")) do
@@ -54,7 +54,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         end
         click_button "Save"
 
-        click_link "Publish and send decision notice"
+        click_link "Publish the recommendation"
 
         expect(page).not_to have_content("Your comments have been added to the decision notice.")
         expect(page).to have_content("granted")
@@ -71,7 +71,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         expect(mail.subject).to eq("Certificate of Lawfulness: granted")
         expect(mail.body.encoded).to match("Certificate of lawfulness of proposed use or development: granted.")
 
-        within(:assessment_step, "Publish and send decision notice") do
+        within(:assessment_step, "Publish the recommendation") do
           expect(page).to have_completed_tag
         end
 
@@ -102,9 +102,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
           click_link "19/AP/1880"
         end
 
-        expect(page).not_to have_link("Publish and send decision notice")
+        expect(page).not_to have_link("Publish the recommendation")
 
-        click_link "Review permitted development policy requirements"
+        click_link "Review the recommendation"
 
         expect(page).not_to have_content("The officer has submitted this comment to the applicant:")
         expect(page).not_to have_content("This has been granted.")
@@ -113,11 +113,11 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         choose "No"
         click_button "Save"
 
-        within(:assessment_step, "Review permitted development policy requirements") do
+        within(:assessment_step, "Review the recommendation") do
           expect(page).to have_completed_tag
         end
 
-        click_link "Review permitted development policy requirements"
+        click_link "Review the recommendation"
 
         # Expect the saved state to be shown in the form
         within(find("form.decision")) do
@@ -125,7 +125,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         end
         click_button "Save"
 
-        click_link "Publish and send decision notice"
+        click_link "Publish the recommendation"
 
         expect(page).not_to have_content("Your comments have been added to the decision notice.")
         expect(page).to have_content("refused")
@@ -136,7 +136,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_button "Determine application"
 
-        within(:assessment_step, "Publish and send decision notice") do
+        within(:assessment_step, "Publish the recommendation") do
           expect(page).to have_completed_tag
         end
 
@@ -184,11 +184,11 @@ RSpec.describe "Planning Application Reviewing", type: :system do
             click_link "19/AP/1880"
           end
 
-          click_link "Review permitted development policy requirements"
+          click_link "Review the recommendation"
           choose "Yes"
           click_button "Save"
 
-          click_link "Publish and send decision notice"
+          click_link "Publish the recommendation"
           click_button "Determine application"
 
           expect(page).to have_content("The Decision Notice cannot be sent. Please try again later.")
@@ -208,9 +208,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
           click_link "19/AP/1880"
         end
 
-        expect(page).not_to have_link("Publish and send decision notice")
+        expect(page).not_to have_link("Publish the recommendation")
 
-        click_link "Review permitted development policy requirements"
+        click_link "Review the recommendation"
 
         expect(page).to have_content("The officer has submitted this comment to the applicant:")
         expect(page).to have_content("This has been granted.")
@@ -219,11 +219,11 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         choose "Yes"
         click_button "Save"
 
-        within(:assessment_step, "Review permitted development policy requirements") do
+        within(:assessment_step, "Review the recommendation") do
           expect(page).to have_completed_tag
         end
 
-        click_link "Review permitted development policy requirements"
+        click_link "Review the recommendation"
 
         # Expect the saved state to be shown in the form
         within(find("form.decision")) do
@@ -231,7 +231,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         end
         click_button "Save"
 
-        click_link "Publish and send decision notice"
+        click_link "Publish the recommendation"
 
         expect(page).to have_content("Your comments have been added to the decision notice.")
         expect(page).to have_content("granted")
@@ -242,7 +242,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_button "Determine application"
 
-        within(:assessment_step, "Publish and send decision notice") do
+        within(:assessment_step, "Publish the recommendation") do
           expect(page).to have_completed_tag
         end
 
@@ -267,9 +267,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
           click_link "19/AP/1880"
         end
 
-        expect(page).not_to have_link("Publish and send decision notice")
+        expect(page).not_to have_link("Publish the recommendation")
 
-        click_link "Review permitted development policy requirements"
+        click_link "Review the recommendation"
 
         expect(page).to have_content("The officer has submitted this comment to the applicant:")
         expect(page).to have_content("This has been granted.")
@@ -278,11 +278,11 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         choose "No"
         click_button "Save"
 
-        within(:assessment_step, "Review permitted development policy requirements") do
+        within(:assessment_step, "Review the recommendation") do
           expect(page).to have_completed_tag
         end
 
-        click_link "Review permitted development policy requirements"
+        click_link "Review the recommendation"
 
         # Expect the saved state to be shown in the form
         within(find("form.decision")) do
@@ -290,7 +290,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         end
         click_button "Save"
 
-        click_link "Publish and send decision notice"
+        click_link "Publish the recommendation"
 
         expect(page).not_to have_content("Your comments have been added to the decision notice.")
         expect(page).to have_content("refused")
@@ -301,7 +301,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_button "Determine application"
 
-        within(:assessment_step, "Publish and send decision notice") do
+        within(:assessment_step, "Publish the recommendation") do
           expect(page).to have_completed_tag
         end
 
@@ -333,9 +333,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
           click_link "19/AP/1880"
         end
 
-        expect(page).not_to have_link("Publish and send decision notice")
+        expect(page).not_to have_link("Publish the recommendation")
 
-        click_link "Review permitted development policy requirements"
+        click_link "Review the recommendation"
 
         expect(page).not_to have_content("The officer has submitted this comment to the applicant:")
         expect(page).not_to have_content("This has been granted.")
@@ -344,11 +344,11 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         choose "Yes"
         click_button "Save"
 
-        within(:assessment_step, "Review permitted development policy requirements") do
+        within(:assessment_step, "Review the recommendation") do
           expect(page).to have_completed_tag
         end
 
-        click_link "Review permitted development policy requirements"
+        click_link "Review the recommendation"
 
         # Expect the saved state to be shown in the form
         within(find("form.decision")) do
@@ -356,7 +356,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         end
         click_button "Save"
 
-        click_link "Publish and send decision notice"
+        click_link "Publish the recommendation"
 
         expect(page).not_to have_content("Your comments have been added to the decision notice.")
         expect(page).to have_content("refused")
@@ -367,7 +367,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_button "Determine application"
 
-        within(:assessment_step, "Publish and send decision notice") do
+        within(:assessment_step, "Publish the recommendation") do
           expect(page).to have_completed_tag
         end
 
@@ -392,9 +392,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
           click_link "19/AP/1880"
         end
 
-        expect(page).not_to have_link("Publish and send decision notice")
+        expect(page).not_to have_link("Publish the recommendation")
 
-        click_link "Review permitted development policy requirements"
+        click_link "Review the recommendation"
 
         expect(page).not_to have_content("The officer has submitted this comment to the applicant:")
         expect(page).not_to have_content("This has been granted.")
@@ -403,11 +403,11 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         choose "No"
         click_button "Save"
 
-        within(:assessment_step, "Review permitted development policy requirements") do
+        within(:assessment_step, "Review the recommendation") do
           expect(page).to have_completed_tag
         end
 
-        click_link "Review permitted development policy requirements"
+        click_link "Review the recommendation"
 
         # Expect the saved state to be shown in the form
         within(find("form.decision")) do
@@ -415,7 +415,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         end
         click_button "Save"
 
-        click_link "Publish and send decision notice"
+        click_link "Publish the recommendation"
 
         expect(page).not_to have_content("Your comments have been added to the decision notice.")
         expect(page).to have_content("granted")
@@ -426,7 +426,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_button "Determine application"
 
-        within(:assessment_step, "Publish and send decision notice") do
+        within(:assessment_step, "Publish the recommendation") do
           expect(page).to have_completed_tag
         end
 
@@ -458,9 +458,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
           click_link "19/AP/1880"
         end
 
-        expect(page).not_to have_link("Publish and send decision notice")
+        expect(page).not_to have_link("Publish the recommendation")
 
-        click_link "Review permitted development policy requirements"
+        click_link "Review the recommendation"
 
         expect(page).to have_content("The officer has submitted this comment to the applicant:")
         expect(page).not_to have_content("This has been granted.")
@@ -469,11 +469,11 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         choose "Yes"
         click_button "Save"
 
-        within(:assessment_step, "Review permitted development policy requirements") do
+        within(:assessment_step, "Review the recommendation") do
           expect(page).to have_completed_tag
         end
 
-        click_link "Review permitted development policy requirements"
+        click_link "Review the recommendation"
 
         # Expect the saved state to be shown in the form
         within(find("form.decision")) do
@@ -481,7 +481,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         end
         click_button "Save"
 
-        click_link "Publish and send decision notice"
+        click_link "Publish the recommendation"
 
         expect(page).to have_content("Your comments have been added to the decision notice.")
         expect(page).to have_content("refused")
@@ -492,7 +492,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_button "Determine application"
 
-        within(:assessment_step, "Publish and send decision notice") do
+        within(:assessment_step, "Publish the recommendation") do
           expect(page).to have_completed_tag
         end
 
@@ -517,9 +517,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
           click_link "19/AP/1880"
         end
 
-        expect(page).not_to have_link("Publish and send decision notice")
+        expect(page).not_to have_link("Publish the recommendation")
 
-        click_link "Review permitted development policy requirements"
+        click_link "Review the recommendation"
 
         expect(page).to have_content("The officer has submitted this comment to the applicant:")
         expect(page).not_to have_content("This has been granted.")
@@ -528,11 +528,11 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         choose "No"
         click_button "Save"
 
-        within(:assessment_step, "Review permitted development policy requirements") do
+        within(:assessment_step, "Review the recommendation") do
           expect(page).to have_completed_tag
         end
 
-        click_link "Review permitted development policy requirements"
+        click_link "Review the recommendation"
 
         # Expect the saved state to be shown in the form
         within(find("form.decision")) do
@@ -540,7 +540,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         end
         click_button "Save"
 
-        click_link "Publish and send decision notice"
+        click_link "Publish the recommendation"
 
         expect(page).not_to have_content("Your comments have been added to the decision notice.")
         expect(page).to have_content("granted")
@@ -551,7 +551,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_button "Determine application"
 
-        within(:assessment_step, "Publish and send decision notice") do
+        within(:assessment_step, "Publish the recommendation") do
           expect(page).to have_completed_tag
         end
 
@@ -594,9 +594,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
       click_link "19/AP/1880"
 
-      expect(page).to have_link "Evaluate permitted development policy requirements"
+      expect(page).to have_link "Assess the proposal"
 
-      within(:assessment_step, "Evaluate permitted development policy requirements") do
+      within(:assessment_step, "Assess the proposal") do
         expect(page).to have_completed_tag
       end
     end

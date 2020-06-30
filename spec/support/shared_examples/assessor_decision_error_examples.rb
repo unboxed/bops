@@ -6,9 +6,9 @@ RSpec.shared_examples 'assessor decision error message' do
       click_link "19/AP/1880"
     end
 
-    expect(page).not_to have_link("Confirm decision notice")
+    expect(page).not_to have_link("Submit the recommendation")
 
-    click_link "Evaluate permitted development policy requirements"
+    click_link "Assess the proposal"
 
     click_button "Save"
 

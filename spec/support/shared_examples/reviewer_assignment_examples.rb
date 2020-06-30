@@ -4,7 +4,7 @@ RSpec.shared_examples 'reviewer assignment' do
   scenario "reviewer is not assigned to planning application" do
     click_link "19/AP/1880"
 
-    click_link "Review permitted development policy requirements"
+    click_link "Review the recommendation"
 
     click_link "Home"
 

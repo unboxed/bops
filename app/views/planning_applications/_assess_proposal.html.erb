@@ -2,11 +2,11 @@
   <% if (current_user.assessor? || current_user.admin?)%>
     <li>
       <h2 class="app-task-list__section">
-        <span class="app-task-list__section-number">Assess the proposal</span>
+        <span class="app-task-list__section-number">Make recommendation</span>
       </h2>
       <ul class="app-task-list__items">
         <li class="app-task-list__item">
-          <% step_name = "Evaluate permitted development policy requirements" %>
+          <% step_name = "Assess the proposal" %>
 
           <% if (current_user.assessor? || current_user.admin?) && @planning_application.in_assessment? %>
             <% aria_attributes = @planning_application.assessor_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
@@ -29,7 +29,7 @@
         </li>
 
         <li class="app-task-list__item">
-          <% step_name = "Confirm decision notice" %>
+          <% step_name = "Submit the recommendation" %>
 
           <% if (current_user.assessor? || current_user.admin?) && @planning_application.assessor_decision %>
             <% aria_attributes = @planning_application.awaiting_determination? ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
@@ -53,7 +53,7 @@
       </h2>
       <ul class="app-task-list__items">
         <li class="app-task-list__item">
-          <% step_name = "Review permitted development policy requirements" %>
+          <% step_name = "Review the recommendation" %>
 
           <% if current_user.reviewer? && @planning_application.awaiting_determination? %>
             <% aria_attributes = @planning_application.reviewer_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
@@ -76,7 +76,7 @@
         </li>
 
         <li class="app-task-list__item">
-          <% step_name = "Publish and send decision notice" %>
+          <% step_name = "Publish the recommendation" %>
 
           <% if current_user.reviewer? && @planning_application.awaiting_determination? %>
             <% aria_attributes = @planning_application.awaiting_determination? ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
