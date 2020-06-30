@@ -20,8 +20,6 @@
         <%= link_to image_tag(@drawing.plan.representation(resize: "300x212")),
                     rails_blob_path(@drawing.plan), target: :_blank %>
       </p>
-    </div>
-    <div class="govuk-grid-column-two-thirds">
       <h2 class="govuk-heading-s">
         Why do you want to archive this document?
       </h2>
@@ -30,28 +28,25 @@
         <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios" style="margin-bottom: 20px;">
           <div class="govuk-radios govuk-radios--small">
             <div class="govuk-radios__item">
-              <%= form.radio_button :archive_reason, "scale", class: "govuk-radios__input" %>
+              <%= form.radio_button :archive_reason, "scale", class: "govuk-radios__input", id: "scale" %>
               <%= form.label :archive_reason, "Missing scale bar/north arrow", class: "govuk-label govuk-radios__label", for: "archive_reason_missing-scale" %>
             </div>
             <div class="govuk-radios__item">
-              <%= form.radio_button :archive_reason, "design", class: "govuk-radios__input" %>
+              <%= form.radio_button :archive_reason, "design", class: "govuk-radios__input", id: "revise-design" %>
               <%= form.label :archive_reason, "Revise design", class: "govuk-label govuk-radios__label", for: "archive_reason_revise_designs" %>
             </div>
             <div class="govuk-radios__item">
-              <%= form.radio_button :archive_reason, "dimensions", class: "govuk-radios__input" %>
+              <%= form.radio_button :archive_reason, "dimensions", class: "govuk-radios__input", id: "revise-dimensions" %>
               <%= form.label :archive_reason, "Revise dimensions", class: "govuk-label govuk-radios__label", for: "archive_reason_revise_dimensions" %>
             </div>
             <div class="govuk-radios__item">
-              <%= form.radio_button :archive_reason, "other", class: "govuk-radios__input" %>
+              <%= form.radio_button :archive_reason, "other", class: "govuk-radios__input", id: "other" %>
               <%= form.label :archive_reason, "Other", class: "govuk-label govuk-radios__label", for: "archive_reason_other" %>
             </div>
           </div>
         </div>
         </div>
-        </div>
-        <p>
-          <%= form.submit "Save", class: "govuk-button", data: {module: "govuk-button"} %>
-        </p>
-      <% end %>
+      </div>
+        <%= form.submit "Save", class: "govuk-button", data: {module: "govuk-button"} %>
+   <% end %>
 <% end %>
-

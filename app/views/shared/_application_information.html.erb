@@ -59,7 +59,7 @@
           <%= link_to "Manage documents", planning_application_drawings_path(@planning_application) %>
         </p>
       <div class="govuk-grid-row">
-        <% @planning_application.drawings.each_with_index do |doc, index| %>
+        <% filter_current(@planning_application.drawings).each_with_index do |doc, index| %>
           <% if index.odd? %>
             <div class="thumbnail-right">
               <p class="govuk-body">

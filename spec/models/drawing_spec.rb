@@ -8,4 +8,18 @@ RSpec.describe Drawing, type: :model do
   it "should create attached plan successfully" do
     expect(subject).to be_valid
   end
+
+  it "should create attached plan successfully" do
+    expect(subject).to be_valid
+  end
+
+  it "should be able to be archived with valid reason" do
+    subject.archive("scale")
+    expect(subject.archived_at).not_to be(nil)
+  end
+
+  it "should return true when archived? method called" do
+    subject.archive("scale")
+    expect(subject.is_archived?).to be true
+  end
 end
