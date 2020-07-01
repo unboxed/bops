@@ -91,7 +91,7 @@ RSpec.feature "Planning Application show page", type: :system do
     end
 
     scenario "Assessment tasks are visible" do
-      expect(page).to have_text("Assess the proposal")
+      expect(page).to have_text("Make recommendation")
     end
 
     scenario "Review tasks are not visible" do

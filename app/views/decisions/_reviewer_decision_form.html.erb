@@ -1,31 +1,29 @@
 <%= form_with model: [planning_application, decision], local: true, class: "decision" do |form| %>
 <div class="govuk-form-group">
   <fieldset class="govuk-fieldset">
-    <h2 class="govuk-heading-m">Permitted development requirements</h2>
+    <h2 class="govuk-heading-m">Review the recommendation</h2>
     <p class="govuk-body">
-      The applicant has submitted the following application
-    </p>
-    <%= render "policy_consideration_list", policy_considerations: policy_evaluation.policy_considerations %>
-    <p class="govuk-body">
-      Based on the evidence given by applicant, the planning officer recommended that permitted development should be
-      <strong><%= "#{assessor_decision.status}." %></strong>
+      The planning officer recommends that the application is
+      <strong><%= assessor_decision.status %></strong>
+      <%= "and added this comment:" if assessor_decision.comment_made? %>
     </p>
     <% if assessor_decision.granted? && assessor_decision.comment_made? %>
-      <p class="govuk-body">The officer has submitted this comment to the applicant:</p>
       <div style="border: 1px solid; padding: 10px;">
         <p class="govuk-body"><%= assessor_decision.comment_met %></p>
       </div>
+      <br>
     <% elsif assessor_decision.refused? && assessor_decision.comment_made? %>
-      <p class="govuk-body">The officer has submitted this comment to the applicant:</p>
       <div style="border: 1px solid; padding: 10px;">
         <p class="govuk-body"><%= assessor_decision.comment_unmet %></p>
       </div>
+      <br>
     <% end %>
-    <br>
+    <p class="govuk-body">Please review the applicant's answers:</p>
+    <%= render "policy_consideration_list", policy_considerations: policy_evaluation.policy_considerations %>
     <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
       <p class="govuk-body">
         <strong>
-          Do you agree with this recommendation?
+          Do you agree with the recommendation?
         </strong>
       </p>
       <% if form.object.errors.any? %>

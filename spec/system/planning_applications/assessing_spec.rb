@@ -39,14 +39,14 @@ RSpec.describe "Planning Application Assessment", type: :system do
     expect(page).not_to have_css(".app-task-list__task-completed")
 
     # The second step is not yet a link
-    expect(page).not_to have_link("Confirm decision notice")
+    expect(page).not_to have_link("Submit the recommendation")
 
     within(".govuk-grid-column-two-thirds.application") do
       first('.govuk-accordion').click_button('Open all')
       expect(page).not_to have_text("Lorrine Krajcik")
     end
 
-    click_link "Evaluate permitted development policy requirements"
+    click_link "Assess the proposal"
 
     expect(page).to have_content("The property is a semi detached house")
     expect(page).to have_content("The project will not alter the internal floor area of the building")
@@ -54,6 +54,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
     expect(page).to have_text("Lorrine Krajcik")
 
     choose "Yes"
+
+    expect(page).to have_content("By selecting yes, you are saying that this proposal complies with the GDPO.")
+    expect(page).to have_content("Please add any comments that you would like to share with your manager.")
+
     fill_in "comment_met", with: "This has been granted"
 
     click_button "Save"
@@ -62,11 +66,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
     expect(planning_application.reload.assessor_decision.comment_met).to eq("This has been granted")
 
     # Expect the 'completed' label to be present for the evaluation step
-    within(:assessment_step, "Evaluate permitted development policy requirements") do
+    within(:assessment_step, "Assess the proposal") do
       expect(page).to have_completed_tag
     end
 
-    click_link "Evaluate permitted development policy requirements"
+    click_link "Assess the proposal"
 
     # Expect the saved state to be shown in the form
     within(find("form.decision")) do
@@ -78,17 +82,14 @@ RSpec.describe "Planning Application Assessment", type: :system do
     click_button "Save"
 
     # Expect the 'completed' label to still be present for the evaluation step
-    within(:assessment_step, "Evaluate permitted development policy requirements") do
+    within(:assessment_step, "Assess the proposal") do
       expect(page).to have_completed_tag
     end
 
-    click_link "Confirm decision notice"
+    click_link "Submit the recommendation"
 
-    expect(page).to have_content("Submit Recommendation")
-    expect(page).to have_content("Based on your answers given with the Permitted Development Policy Requirements, Permited Development should be #{planning_application.reload.assessor_decision.status}")
-
-    expect(planning_application.reload.assessor_decision.comment_made?).to be(true)
-    expect(page).to have_content("Your comments have been added to the decision notice.")
+    expect(page).to have_content("Submit the recommendation")
+    expect(page).to have_content("The following decision notice has been created based on your answers.")
 
     expect(page).to have_content("Certificate of lawfulness of proposed use or development: #{planning_application.reload.assessor_decision.status}")
 
@@ -103,9 +104,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     expect(page).to have_content("Certificate of lawful development (proposed) for the construction of #{planning_application.description}")
 
+    expect(page).to have_content("If you agree with the decision notice, please submit it to your manager. If your manager disagrees with your recommendation they will send it back to you to make changes.")
+
     click_button "Submit to manager"
 
-    within(:assessment_step, "Confirm decision notice") do
+    within(:assessment_step, "Submit the recommendation") do
       expect(page).to have_completed_tag
     end
 
@@ -125,8 +128,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "19/AP/1880"
     end
 
-    expect(page).not_to have_link("Evaluate permitted development policy requirements")
-    expect(page).not_to have_link("Confirm decision notice")
     # TODO: Continue this spec until the assessor decision has been made and check that policy evaluations can no longer be made
   end
 
@@ -145,7 +146,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).to have_text("Not started")
     end
 
-    click_link "Evaluate permitted development policy requirements"
+    click_link "Assess the proposal"
 
     # Ensure officer name is now displayed
     within(".govuk-grid-column-two-thirds.application") do

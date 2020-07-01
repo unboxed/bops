@@ -1,9 +1,9 @@
 <%= form_with model: [planning_application, decision], local: true, class: "decision" do |form| %>
   <div class="govuk-form-group">
     <fieldset class="govuk-fieldset">
-      <h2 class="govuk-heading-m">Permitted development requirements</h2>
+      <h2 class="govuk-heading-m">Assess the proposal</h2>
       <p class="govuk-body">
-        The applicant has submitted the following application. Please review each answer to determine whether what they say and their plans align with the policy questions.
+        Please review the applicant's answers:
       </p>
       <%= render "policy_consideration_list", policy_considerations: policy_evaluation.policy_considerations %>
       <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
@@ -26,7 +26,10 @@
             <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-status-granted-conditional">
               <div class="govuk-form-group">
                 <p class="govuk-body">
-                  Please add any comments that can be inserted into the decision notice.
+                  By selecting yes, you are saying that this proposal complies with the GDPO.
+                  <br>
+                  <br>
+                  Please add any comments that you would like to share with your manager.
                 </p>
                 <%= form.text_area :comment_met, class: "govuk-textarea", id: "comment_met", rows: "3", "aria-describedby": "comment-met-hint" %>
               </div>
@@ -38,7 +41,8 @@
             <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-status-refused-conditional">
               <div class="govuk-form-group">
                 <p class="govuk-body">
-                  Please add any comments that can be inserted into the decision notice.
+                  Please add any comments for your manager to see.
+                  This will <strong>not</strong> appear on the decision notice.
                 </p>
                 <%= form.text_area :comment_unmet, class: "govuk-textarea", id: "comment_unmet", rows: "3", "aria-describedby": "comment-unmet-hint" %>
               </div>

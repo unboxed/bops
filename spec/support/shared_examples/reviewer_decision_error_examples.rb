@@ -6,9 +6,9 @@ RSpec.shared_examples 'reviewer decision error message' do
       click_link "19/AP/1880"
     end
 
-    expect(page).not_to have_link("Publish and send decision notice")
+    expect(page).not_to have_link("Publish the recommendation")
 
-    click_link "Review permitted development policy requirements"
+    click_link "Review the recommendation"
 
     click_button "Save"
 
