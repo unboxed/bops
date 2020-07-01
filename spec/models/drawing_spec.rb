@@ -13,6 +13,11 @@ RSpec.describe Drawing, type: :model do
     expect(subject).to be_valid
   end
 
+  it "archive reason should be correcly returned when assigned" do
+    subject.archive("scale")
+    expect(subject.archive_reason).to eql("scale")
+  end
+
   it "should be able to be archived with valid reason" do
     subject.archive("scale")
     expect(subject.archived_at).not_to be(nil)
@@ -20,6 +25,6 @@ RSpec.describe Drawing, type: :model do
 
   it "should return true when archived? method called" do
     subject.archive("scale")
-    expect(subject.is_archived?).to be true
+    expect(subject.archived?).to be true
   end
 end

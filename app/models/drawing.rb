@@ -8,11 +8,12 @@ class Drawing < ApplicationRecord
   enum archive_reason: { scale: 0, design: 1,
                          dimensions: 2, other: 3 }
 
-  def is_archived?
-     archived_at == nil ? false : true
+  def archived?
+     archived_at.present?
    end
 
   def archive(archive_reason)
-    self.update(archive_reason: archive_reason, archived_at: Time.zone.now)
+    update(archive_reason: archive_reason,
+           archived_at: Time.current) unless archived?
   end
 end

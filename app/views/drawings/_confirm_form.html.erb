@@ -1,16 +1,16 @@
-<%= form_for(@drawing_form, as: :drawing_form, url: planning_application_drawing_validate_step_path) do |form| %>
+<%= form_for(:confirmation, url: planning_application_drawing_validate_step_path) do |form| %>
   <%= hidden_field_tag :current_step, 'confirm' %>
   <fieldset class="govuk-fieldset">
   <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios" style="margin-bottom: 20px;">
     <div class="govuk-radios govuk-radios--small">
       <div class="govuk-radios__item">
         <%= hidden_field_tag :archive_reason, @drawing_form.archive_reason %>
-        <%= form.radio_button :updated_at, Time.zone.now, class: "govuk-radios__input", id:"archive-yes", "aria-controls":"archive-yes" %>
-        <%= form.label :updated_at, "Yes", class: "govuk-label govuk-radios__label", for: "archive-yes" %>
+        <%= form.radio_button :confirm, "yes", class: "govuk-radios__input", id:"archive-yes", "aria-controls":"archive-yes" %>
+        <%= form.label :confirm, "Yes", class: "govuk-label govuk-radios__label", for: "archive-yes" %>
       </div>
       <div class="govuk-radios__item">
-        <%= form.radio_button :updated_at, nil, checked: false, class: "govuk-radios__input", id: "archive-no", "aria-controls":"archive-no" %>
-        <%= form.label :archive_reason, "No", class: "govuk-label govuk-radios__label", for: "archive-no" %>
+        <%= form.radio_button :confirm, "no", class: "govuk-radios__input", id: "archive-no", "aria-controls":"archive-no" %>
+        <%= form.label :confirm, "No", class: "govuk-label govuk-radios__label", for: "archive-no" %>
       </div>
     </div>
   </div>

@@ -12,7 +12,7 @@
     </script>
 
     <%= link_to "Skip to main content", "#main-content", class: "govuk-skip-link" %>
-    <%= render "flashes" %>
+    <%= render "flashes" unless @disable_flash_header %>
     <%= render "header" %>
 
     <div class="govuk-width-container app-width-container--wide">

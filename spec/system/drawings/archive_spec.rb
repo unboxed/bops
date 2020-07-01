@@ -35,7 +35,11 @@ RSpec.feature "Drawings index page", type: :system do
       click_link "Manage documents"
     end
 
-    scenario "Assessor can see Archive links when application is in determination" do
+    scenario "Assessor can see Archive document links when application is in assessment" do
+      expect(page).to have_text("Archive document")
+    end
+
+    scenario "Assessor can see table of drawings on overview page" do
       expect(page).to have_css(".thumbnail-left")
     end
 
@@ -45,7 +49,7 @@ RSpec.feature "Drawings index page", type: :system do
     end
   end
 
-  context "archiving journey" do
+  context "Archiving journey" do
     before do
       sign_in users(:assessor)
       visit planning_application_path(planning_application)
@@ -83,33 +87,34 @@ RSpec.feature "Drawings index page", type: :system do
       expect(page).to have_content("You need to sign in or sign up before continuing.")
     end
 
-    scenario "Assessor sees flash warning if no radio button selected" do
-      click_button "Save"
-      expect(page).to have_text("Please select valid reason for archiving")
-    end
-
     scenario "Assessor can proceed to confirmation page" do
-      page.find(id: "revise-dimensions").click
+      choose "scale"
       click_button "Save"
       expect(page).to have_current_path(/validate_step/)
     end
 
     scenario "Correct reason is shown on confirmation page" do
-      page.find(id: "revise-dimensions").click
+      choose "scale"
       click_button "Save"
-      expect(page).to have_text("Revise dimensions")
+      expect(page).to have_text("Missing scale bar or north arrow")
     end
 
     scenario "Assessor is returned to archive page if radio button not selected" do
-      page.find(id: "revise-dimensions").click
+      choose "scale"
       click_button "Save"
       click_button "Archive document"
 
       expect(page).to have_text("Why do you want to archive this document?")
     end
 
+    scenario "Assessor sees error message if radio button not selected" do
+      click_button "Save"
+
+      expect(page).to have_text("Please select one of the below reasons")
+     end
+
     scenario "Assessor is returned to archive page if 'No' is selected" do
-      page.find(id: "revise-dimensions").click
+      choose "scale"
       click_button "Save"
       page.find(id: "archive-no").click
       click_button "Archive document"
@@ -118,7 +123,7 @@ RSpec.feature "Drawings index page", type: :system do
     end
 
     scenario "Assessor can archive a document" do
-      page.find(id: "revise-dimensions").click
+      choose "scale"
       click_button "Save"
 
       page.find(id: "archive-yes").click
@@ -127,20 +132,43 @@ RSpec.feature "Drawings index page", type: :system do
       expect(page).to have_current_path(/drawings/)
     end
 
+    scenario "Assessor can archive a document and sees message" do
+      choose "scale"
+      click_button "Save"
+
+      page.find(id: "archive-yes").click
+      click_button "Archive document"
+
+      expect(page).to have_text("Side elevation has been archived")
+    end
+
     scenario "Archived document appears in correct place on DMS page" do
-      page.find(id: "revise-dimensions").click
+      choose "scale"
       click_button "Save"
       page.find(id: "archive-yes").click
       click_button "Archive document"
 
       within(find(".archived-drawings")) do
-        expect(page).to have_text("Revise dimensions")
+        expect(page).to have_text("Missing scale bar")
         expect(page).to have_text("Side elevation")
       end
     end
 
     scenario "Archived document does not appear on overview page" do
       expect(page).not_to have_css(".thumbnail-left")
+    end
+  end
+
+  context "as a reviewer" do
+    before do
+      sign_in users(:reviewer)
+      visit planning_application_path(planning_application)
+      click_button "Proposal documents"
+      click_link "Manage documents"
+    end
+
+    scenario "Reviewer cannot see Archive links" do
+      expect(page).not_to have_link("Archive document")
     end
   end
 end

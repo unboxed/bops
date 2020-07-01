@@ -52,7 +52,7 @@ RSpec.feature "Drawings index page", type: :system do
     end
 
     scenario "Plan image opens in new tab" do
-      find(:css, 'a[href*="active"]').click
+      first(:css, 'a[href*="active"]').click
       page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
 
       expect(current_url).to include("/rails/active_storage/")
