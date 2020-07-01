@@ -12,9 +12,11 @@
     <h2 class="govuk-heading-m" style="margin-bottom: 75px;">
       <%= display_address(@site) %>
     </h2>
+    <%  if filter_current(@drawings).count > 0 %>
     <h2 class="govuk-heading-m">
       Proposal documents
     </h2>
+    <% end %>
   </div>
 </div>
 <div class="govuk-grid-row current-drawings">
@@ -22,7 +24,7 @@
     <%  if index.odd? %>
         <div class="thumbnail-right">
           <p class="govuk-body">
-            <%= link_to "Archive document", planning_application_drawing_archive_path(drawing_id: doc.id) if current_user.assessor? %>
+            <%= link_to "Archive document", planning_application_drawing_archive_path(drawing_id: doc.id) if current_user.assessor? && @planning_application.in_assessment? %>
           </p>
           <%= link_to image_tag(doc.plan.representation(resize: "300x212")),
                       rails_blob_path(doc.plan), target: :_blank %>
@@ -30,7 +32,7 @@
     <% else %>
         <div class="thumbnail-left">
           <p class="govuk-body">
-            <%= link_to "Archive document", planning_application_drawing_archive_path(drawing_id: doc.id) if current_user.assessor? %>
+            <%= link_to "Archive document", planning_application_drawing_archive_path(drawing_id: doc.id) if current_user.assessor? && @planning_application.in_assessment? %>
           </p>
           <%= link_to image_tag(doc.plan.representation(resize: "300x212")),
                       rails_blob_path(doc.plan), target: :_blank %>
@@ -55,7 +57,7 @@
         <% filter_archived(@drawings).each do |doc| %>
     <tbody class="govuk-table__body">
       <tr class="govuk-table__row">
-        <td class="govuk-table__cell archive-data"><%= doc.name %></td>
+        <td class="govuk-table__cell archive-data"><%= link_to doc.name, rails_blob_path(doc.plan), target: :_new %></td>
         <td class="govuk-table__cell archive-data">Placeholder</td>
         <td class="govuk-table__cell archive-data"><%= doc.created_at.strftime("%B %e %Y") %></td>
         <td class="govuk-table__cell archive-data"><%= I18n.t(doc.archive_reason) %></td>
