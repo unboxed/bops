@@ -3,9 +3,9 @@
   <fieldset class="govuk-fieldset">
     <h2 class="govuk-heading-m">Review the recommendation</h2>
     <p class="govuk-body">
-      The recommended by the planning officer is
+      The planning officer recommends that the application is
       <strong><%= assessor_decision.status %></strong>
-      <%= "based on the following comment:" if assessor_decision.comment_made? %>
+      <%= "and added this comment:" if assessor_decision.comment_made? %>
     </p>
     <% if assessor_decision.granted? && assessor_decision.comment_made? %>
       <div style="border: 1px solid; padding: 10px;">
