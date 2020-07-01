@@ -9,8 +9,8 @@ class Drawing < ApplicationRecord
                          dimensions: 2, other: 3 }
 
   def is_archived?
-    archived_at == nil ? false : true
-  end
+     archived_at == nil ? false : true
+   end
 
   def archive(archive_reason)
     self.update(archive_reason: archive_reason, archived_at: Time.zone.now)

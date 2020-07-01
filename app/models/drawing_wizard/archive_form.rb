@@ -6,8 +6,8 @@ module DrawingWizard
     validates :updated_at, presence: true
 
     validates :archive_reason,
-              inclusion: {in: %w(scale design dimensions other),
+              inclusion: { in: %w(scale design dimensions other),
                           on: :update,
-                          message: "Please select one of the above reasons"}
+                          message: "Please select one of the above reasons" }
   end
 end
