@@ -50,26 +50,12 @@
         </tr>
       </tbody>
     </table>
-    <% if decision.granted? && planning_application.assessor_decision.comment_met.present? %>
-      <p class="govuk-body">
-        <strong>Reason for granting:</strong>
-      </p>
-      <ul class="govuk-list govuk-list--bullet">
-        <li><%= planning_application.assessor_decision.comment_met %></li>
-      </ul>
-    <% end %>
   <% elsif decision.refused? %>
     <p class="govuk-body">
       IT IS HEREBY CERTIFIED that the use or operations described below are
       <strong>not lawful</strong>
       for the purposes of S.192 of the Town and Country Planning Act 1990 on the date that the application for this Certificate was received.
     </p>
-    <% if decision.refused? && planning_application.assessor_decision.comment_unmet.present? %>
-      <p class="govuk-body">Reason why use or operations would <strong>not</strong> have been LAWFUL:</p>
-      <ul class="govuk-list govuk-list--bullet">
-        <li><%= planning_application.assessor_decision.comment_unmet %></li>
-      </ul>
-    <% end %>
   <% end %>
   <p class="govuk-body">Signed: Simon Bevan
     <br>
