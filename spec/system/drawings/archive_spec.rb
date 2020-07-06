@@ -10,8 +10,7 @@ RSpec.feature "Drawings index page", type: :system do
   let!(:planning_application) do
     create :planning_application,
            :lawfulness_certificate,
-           site: site,
-           reference: "19/AP/1880"
+           site: site
   end
 
   let!(:drawing) do
@@ -68,7 +67,7 @@ RSpec.feature "Drawings index page", type: :system do
     end
 
     scenario "Archive page contains application reference" do
-      expect(page).to have_text "19/AP/1880"
+      expect(page).to have_text planning_application.reference
     end
 
     scenario "Breadcrumbs are correct on archive page" do

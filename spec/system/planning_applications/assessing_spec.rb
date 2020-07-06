@@ -5,8 +5,7 @@ require "rails_helper"
 RSpec.describe "Planning Application Assessment", type: :system do
   let!(:planning_application) do
     create :planning_application,
-            :lawfulness_certificate,
-            reference: "19/AP/1880"
+            :lawfulness_certificate
   end
 
   let(:policy_consideration_1) do
@@ -33,7 +32,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   scenario "Assessment completing and editing" do
-    click_link "19/AP/1880"
+    click_link planning_application.reference
 
     # Ensure we're starting from a fresh "checklist"
     expect(page).not_to have_css(".app-task-list__task-completed")
@@ -118,14 +117,14 @@ RSpec.describe "Planning Application Assessment", type: :system do
     click_link "In assessment"
 
     within("#in_assessment") do
-      expect(page).not_to have_link "19/AP/1880"
+      expect(page).not_to have_link planning_application.reference
     end
 
     # Check that the application is now in awaiting determination
     click_link "Awaiting manager's determination"
 
     within("#awaiting_determination") do
-      click_link "19/AP/1880"
+      click_link planning_application.reference
     end
 
     # TODO: Continue this spec until the assessor decision has been made and check that policy evaluations can no longer be made
@@ -135,10 +134,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
     table_rows = all(".govuk-table__row").map(&:text)
 
     table_rows.each do |row|
-      expect(row).to include("Not started") if row.include? "19/AP/1880"
+      expect(row).to include("Not started") if row.include? planning_application.reference
     end
 
-    click_link "19/AP/1880"
+    click_link planning_application.reference
 
     # Ensure officer name is not displayed on page when accordion is opened
     within(".govuk-grid-column-two-thirds.application") do
@@ -158,7 +157,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     table_rows = all(".govuk-table__row").map(&:text)
 
     table_rows.each do |row|
-      expect(row).to include("Lorrine Krajcik") if row.include? "19/AP/1880"
+      expect(row).to include("Lorrine Krajcik") if row.include? planning_application.reference
     end
   end
 

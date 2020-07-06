@@ -36,6 +36,10 @@ class PlanningApplication < ApplicationRecord
     update(status: status, "#{status}_at": Time.current)
   end
 
+  def reference
+    @_reference ||= id.to_s.rjust(8, "0")
+  end
+
   private
 
   def set_target_date

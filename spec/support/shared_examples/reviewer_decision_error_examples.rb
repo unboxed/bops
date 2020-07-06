@@ -3,7 +3,7 @@
 RSpec.shared_examples 'reviewer decision error message' do
   scenario "shows the error message" do
     within("#awaiting_determination") do
-      click_link "19/AP/1880"
+      click_link planning_application.reference
     end
 
     expect(page).not_to have_link("Publish the recommendation")

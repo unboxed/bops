@@ -91,4 +91,12 @@ RSpec.describe PlanningApplication, type: :model do
       end
     end
   end
+
+  subject { create :planning_application, id: 1000 }
+
+  describe "#reference" do
+    it "pads the ID correctly" do
+      expect(subject.reference).to eq "00001000"
+    end
+  end
 end
