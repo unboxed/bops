@@ -10,4 +10,8 @@ class ApplicationController < ActionController::Base
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = 100.years.ago
   end
+
+  def disable_flash_header
+    @disable_flash_header = true
+  end
 end

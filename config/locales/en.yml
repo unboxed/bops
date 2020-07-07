@@ -5,3 +5,7 @@ en:
   full: "Full Householder Application"
   lawfulness_certificate: "Certificate of Lawfulness"
   user_not_authorized: "You are not authorized to perform this action."
+  scale: "Missing scale bar or north arrow"
+  design: "Revise design"
+  dimensions: "Revise dimensions"
+  other: "Other"

@@ -55,39 +55,30 @@
       </h3>
     </div>
     <div id="accordion-default-content-2" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
-      <p class="govuk-body">
-        <%= link_to "Manage documents", planning_application_drawings_path(@planning_application) %>
-      </p>
-      <table class="govuk-table">
-        <% @planning_application.drawings.each_slice(2) do |drawing| %>
-          <tr class="govuk-table__row">
-            <% drawing.each do |doc_1, doc_2| %>
-              <td class="govuk-table__cell">
-                <p class='govuk-body'>
-                  <%= doc_1.name %>
-                </p>
-                <p class='govuk-body'>
-                  <%= link_to "View in new window", rails_blob_path(doc_1.plan) %>
-                </p>
-                <%= link_to image_tag(doc_1.plan.representation(resize: "300x212")),
-                      rails_blob_path(doc_1.plan), target: :_blank %>
-              </td>
-              <td class="govuk-table__cell">
-                <p class='govuk-body'>
-                  <%= doc_2.name if doc_2 %>
-                </p>
-                <p class='govuk-body'>
-                  <%= link_to "View in new window", rails_blob_path(doc_2.plan) if doc_2 %>
-                </p>
-                <%  if doc_2  %>
-                  <%= link_to image_tag(doc_2.plan.representation(resize: "300x212")),
-                    rails_blob_path(doc_2.plan), target: :_blank %>
-                <% end %>
-              </td>
-            <% end %>
-          </tr>
+        <p class="govuk-body">
+          <%= link_to "Manage documents", planning_application_drawings_path(@planning_application) %>
+        </p>
+      <div class="govuk-grid-row">
+        <% filter_current(@planning_application.drawings).each_with_index do |doc, index| %>
+          <% if index.odd? %>
+            <div class="thumbnail-right">
+              <p class="govuk-body">
+                <%= link_to "View in new window", rails_blob_path(doc.plan), target: :_blank %>
+              </p>
+              <%= link_to image_tag(doc.plan.representation(resize: "300x212")),
+                          rails_blob_path(doc.plan), target: :_blank %>
+            </div>
+          <% else %>
+            <div class="thumbnail-left">
+              <p class="govuk-body">
+                <%= link_to "View in new window", rails_blob_path(doc.plan, target: :_blank) %>
+              </p>
+              <%= link_to image_tag(doc.plan.representation(resize: "300x212")),
+                          rails_blob_path(doc.plan), target: :_blank %>
+            </div>
+          <% end %>
         <% end %>
-      </table>
+      </div>
     </div>
   </div>
 </div>

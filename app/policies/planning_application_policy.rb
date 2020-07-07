@@ -19,6 +19,18 @@ class PlanningApplicationPolicy < ApplicationPolicy
     super || signed_in_editor?
   end
 
+  def confirm?
+    signed_in_editor?
+  end
+
+  def validate_step?
+    signed_in_editor?
+  end
+
+  def archive?
+    signed_in_editor?
+  end
+
   def unpermitted_statuses
     PlanningApplication.statuses.keys - permitted_statuses
   end

@@ -1,0 +1,38 @@
+<%= form_for(@drawing_form, as: :drawing_form, url: planning_application_drawing_validate_step_path) do |form| %>
+  <div class="govuk-form-group">
+    <%= hidden_field_tag :current_step, 'archive' %>
+    <fieldset class="govuk-fieldset">
+      <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
+      <% if form.object.errors.any? %>
+        <% form.object.errors.each do |attribute, error| %>
+            <span id="status-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span><%= error %></span>
+        <% end %>
+      <% end %>
+      <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+        <div class="govuk-radios govuk-radios--small">
+          <div class="govuk-radios__item">
+            <%= form.radio_button :archive_reason, "scale", class: "govuk-radios__input", "aria-controls": "archive-reason-scale" %>
+            <%= form.label :archive_reason, "Missing scale bar/north arrow", class: "govuk-label govuk-radios__label", value: "scale" %>
+          </div>
+          <div class="govuk-radios__item">
+            <%= form.radio_button :archive_reason, "design", class: "govuk-radios__input", "aria-controls": "archive-reason-design" %>
+            <%= form.label :archive_reason, "Revise design", class: "govuk-label govuk-radios__label", value: "design" %>
+          </div>
+          <div class="govuk-radios__item">
+            <%= form.radio_button :archive_reason, "dimensions", class: "govuk-radios__input", "aria-controls": "archive-reason-dimensions" %>
+            <%= form.label :archive_reason, "Revise dimensions", class: "govuk-label govuk-radios__label", value: "dimensions" %>
+          </div>
+          <div class="govuk-radios__item">
+            <%= form.radio_button :archive_reason, "other", class: "govuk-radios__input", "aria-controls": "archive-reason-other" %>
+            <%= form.label :archive_reason, "Other", class: "govuk-label govuk-radios__label", value: "other" %>
+          </div>
+        </div>
+      </div>
+     </div>
+    </fieldset>
+    <p>
+      <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+    </p>
+  </div>
+<% end %>
