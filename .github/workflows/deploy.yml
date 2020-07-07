@@ -58,3 +58,18 @@ jobs:
         mkdir docker-cache
         split -b 5G bops.tar docker-cache/x
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+    - name: Generate task definition for web
+      id: task-def-web
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: .aws/task-definitions/web.json
+        container-name: bops
+        image: ${{ steps.build-image.outputs.image }}
+
+    - name: Deploy web
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.task-def-web.outputs.task-definition }}
+        service: bops-web-preview
+        cluster: bops-preview
