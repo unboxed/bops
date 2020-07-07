@@ -1,7 +1,8 @@
 <%= form_for(@drawing_form, as: :drawing_form, url: planning_application_drawing_validate_step_path) do |form| %>
-  <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
-  <%= hidden_field_tag :current_step, 'archive' %>
+  <div class="govuk-form-group">
+    <%= hidden_field_tag :current_step, 'archive' %>
     <fieldset class="govuk-fieldset">
+      <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
       <% if form.object.errors.any? %>
         <% form.object.errors.each do |attribute, error| %>
             <span id="status-error" class="govuk-error-message">
@@ -28,6 +29,7 @@
           </div>
         </div>
       </div>
+     </div>
     </fieldset>
     <p>
       <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
