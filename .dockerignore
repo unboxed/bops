@@ -1,8 +1,9 @@
 .dockerignore
 .git
-logs/*
+log/*
 tmp/*
 node_modules/*
 public/packs/*
 public/packs-test/*
 coverage/*
+storage/*
