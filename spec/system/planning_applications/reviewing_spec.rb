@@ -13,7 +13,6 @@ RSpec.describe "Planning Application Reviewing", type: :system do
        :awaiting_determination,
        policy_evaluation: policy_evaluation,
        assessor_decision: assessor_decision,
-       reference: "19/AP/1880",
        applicant: applicant
     end
 
@@ -28,7 +27,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
       scenario "agrees with assessor's decision" do
         # Check that the application is no longer in awaiting determination
         within("#awaiting_determination") do
-          click_link "19/AP/1880"
+          click_link planning_application.reference
         end
 
         expect(page).not_to have_link("Publish the recommendation")
@@ -81,18 +80,20 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         # Check that the application is no longer in awaiting determination
         click_link "Awaiting manager's determination"
         within("#awaiting_determination") do
-          expect(page).not_to have_link "19/AP/1880"
+          expect(page).not_to have_link planning_application.reference
         end
 
         # Check that the application is now in determined
         click_link "Determined"
         within("#determined") do
-          expect(page).to have_link "19/AP/1880"
+          expect(page).to have_link planning_application.reference
         end
+
+        id = planning_application.id
 
         # TODO: Replace this with a check for state in the read-only determined decision
         # notice when we implement it
-        planning_application = PlanningApplication.find_by(reference: "19/AP/1880")
+        planning_application = PlanningApplication.find_by(id: id)
 
         expect(planning_application.determined_at).to be_within(5.seconds).of(Time.current)
       end
@@ -100,7 +101,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
       scenario "disagrees with assessor's decision" do
         # Check that the application is no longer in awaiting determination
         within("#awaiting_determination") do
-          click_link "19/AP/1880"
+          click_link planning_application.reference
         end
 
         expect(page).not_to have_link("Publish the recommendation")
@@ -147,13 +148,13 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         # Check that the application is no longer in awaiting determination
         click_link "Awaiting manager's determination"
         within("#awaiting_determination") do
-          expect(page).not_to have_link "19/AP/1880"
+          expect(page).not_to have_link planning_application.reference
         end
 
         # Check that the application is now in determined
         click_link "Determined"
         within("#determined") do
-          expect(page).to have_link "19/AP/1880"
+          expect(page).to have_link planning_application.reference
         end
       end
 
@@ -183,7 +184,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
           )
 
           within("#awaiting_determination") do
-            click_link "19/AP/1880"
+            click_link planning_application.reference
           end
 
           click_link "Review the recommendation"
@@ -207,7 +208,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
       scenario "agrees with assessor's decision" do
         # Check that the application is no longer in awaiting determination
         within("#awaiting_determination") do
-          click_link "19/AP/1880"
+          click_link planning_application.reference
         end
 
         expect(page).not_to have_link("Publish the recommendation")
@@ -250,20 +251,20 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         # Check that the application is no longer in awaiting determination
         click_link "Awaiting manager's determination"
         within("#awaiting_determination") do
-          expect(page).not_to have_link "19/AP/1880"
+          expect(page).not_to have_link planning_application.reference
         end
 
         # Check that the application is now in determined
         click_link "Determined"
         within("#determined") do
-          expect(page).to have_link "19/AP/1880"
+          expect(page).to have_link planning_application.reference
         end
       end
 
       scenario "disagrees with assessor's decision" do
         # Check that the application is no longer in awaiting determination
         within("#awaiting_determination") do
-          click_link "19/AP/1880"
+          click_link planning_application.reference
         end
 
         expect(page).not_to have_link("Publish the recommendation")
@@ -304,13 +305,13 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         # Check that the application is no longer in awaiting determination
         click_link "Awaiting manager's determination"
         within("#awaiting_determination") do
-          expect(page).not_to have_link "19/AP/1880"
+          expect(page).not_to have_link planning_application.reference
         end
 
         # Check that the application is now in determined
         click_link "Determined"
         within("#determined") do
-          expect(page).to have_link "19/AP/1880"
+          expect(page).to have_link planning_application.reference
         end
       end
 
@@ -324,7 +325,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
       scenario "agrees with assessor's decision" do
         # Check that the application is no longer in awaiting determination
         within("#awaiting_determination") do
-          click_link "19/AP/1880"
+          click_link planning_application.reference
         end
 
         expect(page).not_to have_link("Publish the recommendation")
@@ -371,20 +372,20 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         # Check that the application is no longer in awaiting determination
         click_link "Awaiting manager's determination"
         within("#awaiting_determination") do
-          expect(page).not_to have_link "19/AP/1880"
+          expect(page).not_to have_link planning_application.reference
         end
 
         # Check that the application is now in determined
         click_link "Determined"
         within("#determined") do
-          expect(page).to have_link "19/AP/1880"
+          expect(page).to have_link planning_application.reference
         end
       end
 
       scenario "disagrees with assessor's decision" do
         # Check that the application is no longer in awaiting determination
         within("#awaiting_determination") do
-          click_link "19/AP/1880"
+          click_link planning_application.reference
         end
 
         expect(page).not_to have_link("Publish the recommendation")
@@ -431,13 +432,13 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         # Check that the application is no longer in awaiting determination
         click_link "Awaiting manager's determination"
         within("#awaiting_determination") do
-          expect(page).not_to have_link "19/AP/1880"
+          expect(page).not_to have_link planning_application.reference
         end
 
         # Check that the application is now in determined
         click_link "Determined"
         within("#determined") do
-          expect(page).to have_link "19/AP/1880"
+          expect(page).to have_link planning_application.reference
         end
       end
 
@@ -451,7 +452,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
       scenario "agrees with assessor's decision" do
         # Check that the application is no longer in awaiting determination
         within("#awaiting_determination") do
-          click_link "19/AP/1880"
+          click_link planning_application.reference
         end
 
         expect(page).not_to have_link("Publish the recommendation")
@@ -492,20 +493,20 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         # Check that the application is no longer in awaiting determination
         click_link "Awaiting manager's determination"
         within("#awaiting_determination") do
-          expect(page).not_to have_link "19/AP/1880"
+          expect(page).not_to have_link planning_application.reference
         end
 
         # Check that the application is now in determined
         click_link "Determined"
         within("#determined") do
-          expect(page).to have_link "19/AP/1880"
+          expect(page).to have_link planning_application.reference
         end
       end
 
       scenario "disagrees with assessor's decision" do
         # Check that the application is no longer in awaiting determination
         within("#awaiting_determination") do
-          click_link "19/AP/1880"
+          click_link planning_application.reference
         end
 
         expect(page).not_to have_link("Publish the recommendation")
@@ -552,13 +553,13 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         # Check that the application is no longer in awaiting determination
         click_link "Awaiting manager's determination"
         within("#awaiting_determination") do
-          expect(page).not_to have_link "19/AP/1880"
+          expect(page).not_to have_link planning_application.reference
         end
 
         # Check that the application is now in determined
         click_link "Determined"
         within("#determined") do
-          expect(page).to have_link "19/AP/1880"
+          expect(page).to have_link planning_application.reference
         end
       end
 
@@ -572,7 +573,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     let(:assessor_decision) { create :decision, :granted, user: assessor }
 
     let!(:planning_application) do
-      create :planning_application, reference: "19/AP/1880", assessor_decision: assessor_decision
+      create :planning_application, assessor_decision: assessor_decision
     end
 
     before do
@@ -584,7 +585,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     scenario "Assessment editing" do
       # TODO: Define admin actions on a planning application further and test them
 
-      click_link "19/AP/1880"
+      click_link planning_application.reference
 
       expect(page).to have_link "Assess the proposal"
 

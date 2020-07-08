@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_29_093307) do
+ActiveRecord::Schema.define(version: 2020_07_08_095601) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,7 +111,6 @@ ActiveRecord::Schema.define(version: 2020_06_29_093307) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "agent_id"
     t.bigint "applicant_id"
-    t.string "reference"
     t.string "ward"
     t.bigint "user_id"
     t.datetime "awaiting_determination_at"

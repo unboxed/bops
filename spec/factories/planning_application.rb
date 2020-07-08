@@ -5,7 +5,6 @@ FactoryBot.define do
     site
     agent
     applicant
-    sequence(:reference, 10) { |n| "AP/#{4500 + n * 2}/#{n}" }
     description      { Faker::Lorem.unique.sentence }
     status           { :in_assessment }
     in_assessment_at { Time.current }

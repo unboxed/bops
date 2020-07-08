@@ -22,7 +22,7 @@ RSpec.feature "Planning Application show page", type: :system do
     end
 
     scenario "Planning application code is correct" do
-      expect(page).to have_text("Fast track application: AP/453/880")
+      expect(page).to have_text("Fast track application: #{planning_application.reference}")
     end
 
     scenario "Target date is correct and label is green" do

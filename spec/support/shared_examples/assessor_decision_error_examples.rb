@@ -3,7 +3,7 @@
 RSpec.shared_examples 'assessor decision error message' do
   scenario "shows the error message" do
     within("#in_assessment") do
-      click_link "19/AP/1880"
+      click_link planning_application.reference
     end
 
     expect(page).not_to have_link("Submit the recommendation")

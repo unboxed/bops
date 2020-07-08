@@ -81,7 +81,6 @@ task create_sample_data: :environment do
     applicant: applicant,
     user: assessor
   ) do |pa|
-    pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
     pa.description = "Installation of new external insulated render to be added"
   end
 
@@ -102,7 +101,6 @@ task create_sample_data: :environment do
     applicant: applicant
   ) do |pa|
     pa.description = "Construction of a single storey rear extension"
-    pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
   end
 
   college_planning_application.update(target_date: 1.week.from_now)
@@ -123,7 +121,6 @@ task create_sample_data: :environment do
     ward: "Rye Lane"
   ) do |pa|
     pa.description = "Construction of a single storey side extension"
-    pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
   end
 
   bellenden_planning_application.update(target_date: 3.weeks.from_now)
@@ -143,7 +140,6 @@ task create_sample_data: :environment do
     ward: "South Bermondsey",
     applicant: applicant
   ) do |pa|
-    pa.reference = "AP/#{rand(-4500)}/#{rand(-100)}"
     pa.description = "Single storey rear extension and rear dormer extension"
   end
 

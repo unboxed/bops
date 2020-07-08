@@ -10,8 +10,7 @@ RSpec.feature "Drawings index page", type: :system do
   let!(:planning_application) do
     create :planning_application,
            :lawfulness_certificate,
-           site: site,
-           reference: "19/AP/1880"
+           site: site
   end
 
   let!(:drawing) do
@@ -36,7 +35,7 @@ RSpec.feature "Drawings index page", type: :system do
     end
 
     scenario "Application reference is displayed on page" do
-      expect(page).to have_text "19/AP/1880"
+      expect(page).to have_text planning_application.reference
     end
 
     scenario "Application address is displayed on page" do
