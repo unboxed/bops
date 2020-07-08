@@ -3,33 +3,25 @@
     <%= hidden_field_tag :current_step, 'archive' %>
     <fieldset class="govuk-fieldset">
       <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
-      <% if form.object.errors.any? %>
-        <% form.object.errors.each do |attribute, error| %>
-            <span id="status-error" class="govuk-error-message">
-              <span class="govuk-visually-hidden">Error:</span><%= error %></span>
-        <% end %>
-      <% end %>
-      <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-        <div class="govuk-radios govuk-radios--small">
-          <div class="govuk-radios__item">
-            <%= form.radio_button :archive_reason, "scale", class: "govuk-radios__input", "aria-controls": "archive-reason-scale" %>
-            <%= form.label :archive_reason, "Missing scale bar/north arrow", class: "govuk-label govuk-radios__label", value: "scale" %>
-          </div>
-          <div class="govuk-radios__item">
-            <%= form.radio_button :archive_reason, "design", class: "govuk-radios__input", "aria-controls": "archive-reason-design" %>
-            <%= form.label :archive_reason, "Revise design", class: "govuk-label govuk-radios__label", value: "design" %>
-          </div>
-          <div class="govuk-radios__item">
-            <%= form.radio_button :archive_reason, "dimensions", class: "govuk-radios__input", "aria-controls": "archive-reason-dimensions" %>
-            <%= form.label :archive_reason, "Revise dimensions", class: "govuk-label govuk-radios__label", value: "dimensions" %>
-          </div>
-          <div class="govuk-radios__item">
-            <%= form.radio_button :archive_reason, "other", class: "govuk-radios__input", "aria-controls": "archive-reason-other" %>
-            <%= form.label :archive_reason, "Other", class: "govuk-label govuk-radios__label", value: "other" %>
-          </div>
+       <% if form.object.errors.any? %>
+         <% form.object.errors.each do |attribute, error| %>
+           <span id="status-error" class="govuk-error-message">
+             <span class="govuk-visually-hidden">Error:</span><%= error %></span>
+         <% end %>
+       <% end %>
+        <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+          <%= form.collection_radio_buttons :archive_reason, archive_reason_collection_for_radio_buttons, :first, :last do |button| %>
+            <div class='govuk-radios govuk-radios--conditional'>
+              <div class="govuk-radios govuk-radios--small">
+                <div class="govuk-radios__item">
+                  <%= button.radio_button(class: "govuk-radios__input", "aria-controls": "archive-reason-#{button}") %>
+                  <%= button.label(class: "govuk-label govuk-radios__label") %>
+                </div>
+              </div>
+            </div>
+          <% end %>
         </div>
       </div>
-     </div>
     </fieldset>
     <p>
       <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
