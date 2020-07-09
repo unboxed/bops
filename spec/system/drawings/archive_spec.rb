@@ -58,7 +58,7 @@ RSpec.feature "Drawings index page", type: :system do
     end
 
     scenario "Archive page contains radio buttons and image" do
-      expect(page).to have_text "Missing scale bar/north arrow"
+      expect(page).to have_text "Missing scale bar or north arrow"
       expect(page).to have_css(".govuk-radios__item")
     end
 
@@ -115,7 +115,7 @@ RSpec.feature "Drawings index page", type: :system do
     scenario "Assessor is returned to archive page if 'No' is selected" do
       choose "scale"
       click_button "Save"
-      page.find(id: "archive-no").click
+      choose "No"
       click_button "Archive document"
 
       expect(page).to have_text("Why do you want to archive this document?")
@@ -125,7 +125,7 @@ RSpec.feature "Drawings index page", type: :system do
       choose "scale"
       click_button "Save"
 
-      page.find(id: "archive-yes").click
+      choose "Yes"
       click_button "Archive document"
 
       expect(page).to have_current_path(/drawings/)
@@ -135,7 +135,7 @@ RSpec.feature "Drawings index page", type: :system do
       choose "scale"
       click_button "Save"
 
-      page.find(id: "archive-yes").click
+      choose "Yes"
       click_button "Archive document"
 
       expect(page).to have_text("Side elevation has been archived")
@@ -144,7 +144,7 @@ RSpec.feature "Drawings index page", type: :system do
     scenario "Archived document appears in correct place on DMS page" do
       choose "scale"
       click_button "Save"
-      page.find(id: "archive-yes").click
+      choose "Yes"
       click_button "Archive document"
 
       within(find(".archived-drawings")) do

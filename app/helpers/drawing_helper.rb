@@ -8,4 +8,8 @@ module DrawingHelper
   def filter_current(drawings)
     drawings.select { |plan| plan.archived? == false }.sort_by(&:archived_at)
   end
+
+  def archive_reason_collection_for_radio_buttons
+    Drawing.archive_reasons.keys.map { |k| [k, I18n.t(k)] }
+  end
 end
