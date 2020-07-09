@@ -17,7 +17,7 @@ class AuthenticationController < ApplicationController
     request.referer || root_path
   end
 
-  def user_not_authorized(_e, message = I18n.t("user_not_authorized"))
+  def user_not_authorized(_e, message = t("user_not_authorized"))
     respond_to do |format|
       format.html { redirect_to pundit_redirect_url, alert: message }
       format.json { render json: [message], status: :unauthorized }

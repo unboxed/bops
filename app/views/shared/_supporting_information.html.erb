@@ -48,23 +48,23 @@
     <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
       <p class="govuk-body">
         <strong>Application status:</strong>
-        <%= I18n.t(@planning_application.status) %>
+        <%= t(@planning_application.status) %>
       </p>
       <p class="govuk-body">
         <strong>Application received:</strong>
-        <%= @planning_application.created_at.strftime("%d/%m/%Y") %>
+        <%= @planning_application.created_at.strftime("%e %B %Y") %>
       </p>
       <p class="govuk-body">
         <strong>Validation complete:</strong>
-        <%= @planning_application.created_at.strftime("%d/%m/%Y") %>
+        <%= @planning_application.created_at.strftime("%e %B %Y") %>
       </p>
       <p class="govuk-body">
         <strong>Target date:</strong>
-        <%= @planning_application.target_date.strftime("%d/%m/%Y") %>
+        <%= @planning_application.target_date.strftime("%e %B %Y") %>
       </p>
       <p class="govuk-body">
         <strong>Statutory date:</strong>
-        <%= @planning_application.target_date.strftime("%d/%m/%Y") %>
+        <%= @planning_application.target_date.strftime("%e %B %Y") %>
       </p>
     </div>
   </div>

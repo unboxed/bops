@@ -26,7 +26,7 @@
         <div class="thumbnail-right">
           <p class="govuk-body">
             <strong><%= doc.name %></strong><br/>
-            <%= doc.created_at.strftime("%B %e %Y") %><br/>
+            <%= doc.created_at.strftime("%e %B %Y") %><br/>
             <%= link_to "View in new window",
             rails_blob_path(doc.plan), target: :_new %><br/>
           </p>
@@ -40,7 +40,7 @@
         <div class="thumbnail-left">
           <p class="govuk-body">
             <strong><%= doc.name %></strong><br/>
-            <%= doc.created_at.strftime("%B %e %Y") %><br/>
+            <%= doc.created_at.strftime("%e %B %Y") %><br/>
             <%= link_to "View in new window",
                         rails_blob_path(doc.plan), target: :_new %><br/>
           </p>
@@ -54,7 +54,6 @@
   <% end %>
 </div>
 <div class="govuk-grid-row">
-
   <table class="govuk-table archived-drawings">
     <caption class="govuk-table__caption">Archived documents</caption>
     <thead class="govuk-table__head">
@@ -72,8 +71,8 @@
       <tr class="govuk-table__row">
         <td class="govuk-table__cell archive-data"><%= link_to doc.name, rails_blob_path(doc.plan), target: :_new %></td>
         <td class="govuk-table__cell archive-data">Placeholder</td>
-        <td class="govuk-table__cell archive-data"><%= doc.created_at.strftime("%B %e %Y") %></td>
-        <td class="govuk-table__cell archive-data"><%= I18n.t(doc.archive_reason) %></td>
+        <td class="govuk-table__cell archive-data"><%= doc.created_at.strftime("%e %b %Y") %></td>
+        <td class="govuk-table__cell archive-data"><%= t(doc.archive_reason) %></td>
       </tr>
         <% end %>
       <% end %>
