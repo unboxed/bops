@@ -75,6 +75,17 @@ jobs:
         container-name: bops
         image: ${{ steps.build-image.outputs.image }}
 
+    - name: Deploy db_migrate
+      env:
+        CLUSTER: bops-preview
+        TASK_DEFINITION: bops-db-migrate-preview
+        BOPS_SUBNETS: subnet-${{ secrets.BOPS_SUBNETS }}
+        BOPS_SG: sg-${{ secrets.BOPS_SG }}
+      run: |
+        aws ecs run-task --cluster $CLUSTER \
+          --task-definition $TASK_DEFINITION --launch-type FARGATE \
+          --network-configuration '{"awsvpcConfiguration": {"subnets": ["'$BOPS_SUBNETS'"],"securityGroups": ["'$BOPS_SG'"],"assignPublicIp": "ENABLED"}}'
+
     - name: Deploy web
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
