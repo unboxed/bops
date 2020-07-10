@@ -12,4 +12,13 @@ module DrawingHelper
   def archive_reason_collection_for_radio_buttons
     Drawing.archive_reasons.keys.map { |k| [k, I18n.t(k)] }
   end
+
+  def tag_collection_for_checkboxes
+    Drawing::TAGS.map do |tag|
+      [
+        tag,
+        tag.humanize
+      ]
+    end
+  end
 end
