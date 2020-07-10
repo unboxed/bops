@@ -58,7 +58,7 @@ task create_sample_data: :environment do
     first_name: Faker::Name.unique.first_name,
     last_name: Faker::Name.unique.last_name,
     phone: Faker::Base.numerify("+44 7### ######"),
-    email: Faker::Internet.email,
+    email: "bops-team@unboxedconsulting.com",
     postcode: Faker::Address.postcode,
     address_1: Faker::Address.street_address,
     town: Faker::Address.city,
