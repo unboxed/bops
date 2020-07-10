@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BreadcrumbNavigationHelper
-  def navigation_add(title, path)
+  def add_parent_breadcrumb_link(title, path)
     navigation << { title: title, path: path }
   end
 

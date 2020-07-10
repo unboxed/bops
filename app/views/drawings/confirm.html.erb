@@ -1,7 +1,7 @@
 <% if current_user.assessor? %>
-  <% navigation_add "Home", planning_applications_path %>
-  <% navigation_add "Application", planning_application_path(@planning_application) %>
-  <% navigation_add "Documents", planning_application_drawings_path(@planning_application) %>
+  <% add_parent_breadcrumb_link "Home", planning_applications_path %>
+  <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+  <% add_parent_breadcrumb_link "Documents", planning_application_drawings_path(@planning_application) %>
 
   <% content_for :title, "Archive document" %>
 
