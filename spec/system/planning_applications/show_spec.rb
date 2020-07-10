@@ -26,7 +26,7 @@ RSpec.feature "Planning Application show page", type: :system do
     end
 
     scenario "Target date is correct and label is green" do
-      expect(page).to have_text("Due: #{planning_application.target_date.strftime("%B %d")}")
+      expect(page).to have_text("Due: #{planning_application.target_date.strftime("%d %B")}")
       expect(page).to have_text("#{planning_application.days_left} days remaining")
       expect(page).to have_css('.govuk-tag--green')
     end
@@ -59,10 +59,10 @@ RSpec.feature "Planning Application show page", type: :system do
       click_button "Key application dates"
 
       expect(page).to have_text("Application status: In assessment")
-      expect(page).to have_text("Application received: #{Time.current.strftime("%d/%m/%Y")}")
-      expect(page).to have_text("Validation complete: #{Time.current.strftime("%d/%m/%Y")}")
-      expect(page).to have_text("Target date: #{planning_application.target_date.strftime("%d/%m/%Y")}")
-      expect(page).to have_text("Statutory date: #{planning_application.target_date.strftime("%d/%m/%Y")}")
+      expect(page).to have_text("Application received: #{Time.current.strftime("%e %B %Y").strip}")
+      expect(page).to have_text("Validation complete: #{Time.current.strftime("%e %B %Y").strip}")
+      expect(page).to have_text("Target date: #{planning_application.target_date.strftime("%d %B %Y")}")
+      expect(page).to have_text("Statutory date: #{planning_application.target_date.strftime("%d %B %Y")}")
     end
 
     scenario "Contact information accordion" do
@@ -109,7 +109,7 @@ RSpec.feature "Planning Application show page", type: :system do
     end
 
     scenario "Target date is correct and label is red" do
-      expect(page).to have_text("Due: #{planning_application.target_date.strftime("%B %d")}")
+      expect(page).to have_text("Due: #{planning_application.target_date.strftime("%d %B")}")
       expect(page).to have_text("#{planning_application.days_left} days remaining")
       expect(page).to have_css('.govuk-tag--red')
     end

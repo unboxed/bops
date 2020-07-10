@@ -25,8 +25,8 @@
           <%= link_to planning_application.reference, planning_application %>
         </td>
         <td class="govuk-table__cell"><%= display_address(planning_application.site) %></td>
-        <td class="govuk-table__cell"><%= I18n.t(planning_application.application_type) %></td>
-        <td class="govuk-table__cell"><%= planning_application.target_date.strftime("%B %e") %></td>
+        <td class="govuk-table__cell"><%= t(planning_application.application_type) %></td>
+        <td class="govuk-table__cell"><%= planning_application.target_date.strftime("%e %b") %></td>
         <td class="govuk-table__cell">
           <strong class="govuk-tag govuk-tag--<%= days_color(planning_application.days_left) %>">
             <%= planning_application.days_left %>
@@ -35,9 +35,9 @@
         <% if id == "in_assessment" %>
           <td class="govuk-table__cell">Not required</td>
         <% elsif id == "awaiting_determination" %>
-          <td class="govuk-table__cell"><%= planning_application.awaiting_determination_at.strftime("%B %e") %></td>
+          <td class="govuk-table__cell"><%= planning_application.awaiting_determination_at.strftime("%e %b") %></td>
         <% elsif id == "determined" %>
-          <td class="govuk-table__cell"><%= planning_application.determined_at.strftime("%B %e") %></td>
+          <td class="govuk-table__cell"><%= planning_application.determined_at.strftime("%e %b") %></td>
         <% end %>
         <td class="govuk-table__cell">
           <% if planning_application.user %>

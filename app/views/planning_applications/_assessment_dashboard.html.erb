@@ -11,7 +11,7 @@
     <div style="float: right; margin: 20px 0 30px 100px; ">
       <p class="govuk-body">
         <strong class="govuk-tag govuk-tag--<%= @planning_application.days_left > 7 ? 'green' : 'red' %>">
-          Due: <%= @planning_application.target_date.strftime("%B %d") %><br> <%= @planning_application.days_left %>
+          Due: <%= @planning_application.target_date.strftime("%d %B") %><br> <%= @planning_application.days_left %>
           days
           remaining
         </strong>
