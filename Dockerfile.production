@@ -139,11 +139,8 @@ COPY --chown=app:app ./Rakefile /app/Rakefile
 COPY --chown=app:app ./yarn.lock /app/yarn.lock
 COPY --chown=app:app ./babel.config.js /app/babel.config.js
 COPY --chown=app:app ./postcss.config.js /app/postcss.config.js
-COPY --chown=app:app ./startup.sh /app/startup.sh
 COPY --chown=app:app ./spec/fixtures/files/permitted_development.json /app/spec/fixtures/files/permitted_development.json
 COPY --chown=app:app ./spec/fixtures/images/ /app/spec/fixtures/images/
-
-RUN chmod +x /app/startup.sh
 
 USER app:app
 
@@ -158,6 +155,7 @@ ARG RAILS_LOG_TO_STDOUT=true
 ARG RAILS_SERVE_STATIC_FILES=true
 ARG PORT=80
 ARG SECRET_KEY_BASE=notasecret
+ARG FORCE_SAMPLE_DATA=no
 
 RUN bash -c "bundle install --without development test --deployment --no-cache && bundle clean --force"
 RUN bash -c "bundle exec rake assets:precompile"
