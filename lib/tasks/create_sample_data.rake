@@ -4,6 +4,13 @@ desc "Create sample data for testing"
 task create_sample_data: :environment do
   require "faker"
 
+  if Rails.env.production? && ENV["FORCE_SAMPLE_DATA"] != "yes"
+    raise <<-TEXT
+      You cannot create sample data in the production.
+      Set FORCE_SAMPLE_DATA=yes to override this check
+    TEXT
+  end
+
   # For now, each application will have the same set of policy considerations
   path = Rails.root.join("spec/fixtures/files/permitted_development.json")
   permitted_development_json = File.read(path)
@@ -58,7 +65,7 @@ task create_sample_data: :environment do
     first_name: Faker::Name.unique.first_name,
     last_name: Faker::Name.unique.last_name,
     phone: Faker::Base.numerify("+44 7### ######"),
-    email: Faker::Internet.email,
+    email: "bops-team@unboxedconsulting.com",
     postcode: Faker::Address.postcode,
     address_1: Faker::Address.street_address,
     town: Faker::Address.city,
