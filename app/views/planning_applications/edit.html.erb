@@ -1,6 +1,7 @@
 <%= render "planning_applications/assessment_dashboard" do %>
   <% if current_user.assessor? %>
-    <% navigation_add 'Submit the recommendation', edit_planning_application_path %>
+    <% content_for :title, "Submit the recommendation" %>
+
     <h2 class="govuk-heading-m">Submit the recommendation</h2>
     <p class="govuk-body">The following decision notice has been created based on your answers.</p>
 
@@ -19,7 +20,8 @@
       <%= form.submit "Submit to manager", class: "govuk-button", data: { module: "govuk-button" } %>
     <% end %>
   <% else %>
-    <% navigation_add 'Publish the recommendation', edit_planning_application_path %>
+    <% content_for :title, "Publish the recommendation" %>
+
     <h2 class="govuk-heading-m">Publish the recommendation</h2>
     <p class="govuk-body">The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.</p>
 

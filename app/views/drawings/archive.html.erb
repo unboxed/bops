@@ -1,5 +1,10 @@
 <% if current_user.assessor? %>
-  <% navigation_add "Archive document", planning_application_drawings_path(@planning_application) %>
+  <% navigation_add "Home", planning_applications_path %>
+  <% navigation_add "Application", planning_application_path(@planning_application) %>
+  <% navigation_add "Documents", planning_application_drawings_path(@planning_application) %>
+
+  <% content_for :title, "Archive document" %>
+
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <div class="govuk-breadcrumbs" style="margin-bottom: 20px;">
