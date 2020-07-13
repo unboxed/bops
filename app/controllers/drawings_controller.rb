@@ -36,16 +36,23 @@ class DrawingsController < AuthenticationController
   end
 
   def verify_selection
+    reason = params["archive_reason"]
     if form_params[:confirmation]
-      if form_params[:confirmation][:confirm] == "yes"
-        confirm_archived
-      else
-        render :archive
-      end
+      validate_confirmation
     else
+      @drawing_form.validate
+      @drawing_form.archive_reason = reason
+      render :confirm
+    end
+  end
+
+  def validate_confirmation
+    if form_params[:confirmation][:confirm] == "yes"
+      confirm_archived
+    elsif form_params[:confirmation][:confirm] == "no"
       render :archive
     end
-   end
+  end
 
   def validate_step
     assign_archive_reason_to_form
