@@ -98,18 +98,10 @@ RSpec.feature "Drawings index page", type: :system do
       expect(page).to have_text("Missing scale bar or north arrow")
     end
 
-    scenario "Assessor is returned to archive page if radio button not selected" do
-      choose "scale"
-      click_button "Save"
-      click_button "Archive document"
-
-      expect(page).to have_text("Why do you want to archive this document?")
-    end
-
     scenario "Assessor sees error message if radio button not selected" do
       click_button "Save"
 
-      expect(page).to have_text("Please select one of the below reasons")
+      expect(page).to have_text("Please select one of the below options")
      end
 
     scenario "Assessor is returned to archive page if 'No' is selected" do
@@ -139,6 +131,14 @@ RSpec.feature "Drawings index page", type: :system do
       click_button "Archive document"
 
       expect(page).to have_text("Side elevation has been archived")
+    end
+
+    scenario "Assessor sees error message if neither Yes nor No is selected" do
+      choose "scale"
+      click_button "Save"
+      click_button "Archive document"
+
+      expect(page).to have_text("Please select one of the below options")
     end
 
     scenario "Archived document appears in correct place on DMS page" do
