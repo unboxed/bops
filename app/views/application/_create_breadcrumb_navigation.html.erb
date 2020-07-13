@@ -1,11 +1,9 @@
 <% nav.each do |n| %>
-  <% unless n.equal? nav.last %>
-    <div class="govuk-breadcrumbs__list-item" aria-current="page">
-      <%= link_to n[:title], n[:path], class: "govuk-button__link" %>
-    </div>
-  <% else %>
-    <div class="govuk-breadcrumbs__list-item" aria-current="page">
-      <%= n[:title] %>
-    </div>
-  <% end %>
+  <div class="govuk-breadcrumbs__list-item" aria-current="page">
+    <%= link_to n[:title], n[:path], class: "govuk-button__link" %>
+  </div>
 <% end %>
+
+<div class="govuk-breadcrumbs__list-item" aria-current="page">
+  <%= yield :title %>
+</div>

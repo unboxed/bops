@@ -1,5 +1,5 @@
 <% if current_user %>
-  <% unless nav.length > 1 %>
+  <% if current_page?(planning_applications_path(@planning_application)) %>
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <%= button_to 'Log out', destroy_user_session_path, method: :delete, class: "govuk-button_link", dataModule:"govuk-button" %>
