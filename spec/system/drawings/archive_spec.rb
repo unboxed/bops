@@ -108,7 +108,7 @@ RSpec.feature "Drawings index page", type: :system do
       choose "scale"
       click_button "Save"
       choose "No"
-      click_button "Archive document"
+      click_button "Save"
 
       expect(page).to have_text("Why do you want to archive this document?")
     end
@@ -118,7 +118,7 @@ RSpec.feature "Drawings index page", type: :system do
       click_button "Save"
 
       choose "Yes"
-      click_button "Archive document"
+      click_button "Save"
 
       expect(page).to have_current_path(/drawings/)
     end
@@ -128,7 +128,7 @@ RSpec.feature "Drawings index page", type: :system do
       click_button "Save"
 
       choose "Yes"
-      click_button "Archive document"
+      click_button "Save"
 
       expect(page).to have_text("Side elevation has been archived")
     end
@@ -136,7 +136,7 @@ RSpec.feature "Drawings index page", type: :system do
     scenario "Assessor sees error message if neither Yes nor No is selected" do
       choose "scale"
       click_button "Save"
-      click_button "Archive document"
+      click_button "Save"
 
       expect(page).to have_text("Please select one of the below options")
     end
@@ -145,7 +145,7 @@ RSpec.feature "Drawings index page", type: :system do
       choose "scale"
       click_button "Save"
       choose "Yes"
-      click_button "Archive document"
+      click_button "Save"
 
       within(find(".archived-drawings")) do
         expect(page).to have_text("Missing scale bar")
