@@ -3,33 +3,9 @@
 class PlanningApplicationPolicy < ApplicationPolicy
   self.editors = %w[assessor reviewer admin]
 
-  def show?
-    super || signed_in_viewer?
-  end
-
-  def index?
-    super || signed_in_viewer?
-  end
-
-  def edit?
-    super || signed_in_editor?
-  end
-
-  def update?
-    super || signed_in_editor?
-  end
-
-  def confirm?
-    signed_in_editor?
-  end
-
-  def validate_step?
-    signed_in_editor?
-  end
-
-  def archive?
-    signed_in_editor?
-  end
+  alias_method :confirm?, :editor?
+  alias_method :validate_step?, :editor?
+  alias_method :archive?, :editor?
 
   def unpermitted_statuses
     PlanningApplication.statuses.keys - permitted_statuses
