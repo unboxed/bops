@@ -6,7 +6,15 @@
       </h2>
       <ul class="app-task-list__items">
         <li class="app-task-list__item">
-          <% step_name = "Assess the proposal" %>
+          <% if @planning_application.awaiting_determination? && @planning_application.reviewer_decision.present? %>
+            <% if @planning_application.reviewer_decision.correction.present? %>
+            <% step_name = "Reassess the proposal" %>
+            <% else %>
+              <% step_name = "Assess the proposal" %>
+              <% end %>
+          <% else %>
+            <% step_name = "Assess the proposal" %>
+          <% end %>
 
           <% if (current_user.assessor? || current_user.admin?) %>
             <% aria_attributes = @planning_application.assessor_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>

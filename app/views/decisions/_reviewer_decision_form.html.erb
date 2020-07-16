@@ -1,5 +1,5 @@
 <%= form_with model: [planning_application, decision], local: true, class: "decision" do |form| %>
-<div class="govuk-form-group">
+<div class="govuk-form-group" data-controller="correction">
   <fieldset class="govuk-fieldset">
     <h2 class="govuk-heading-m">Review the recommendation</h2>
     <p class="govuk-body">
@@ -20,7 +20,7 @@
     <% end %>
     <p class="govuk-body">Please review the applicant's answers:</p>
     <%= render "policy_consideration_list", policy_considerations: policy_evaluation.policy_considerations %>
-    <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
+    <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %> ">
       <p class="govuk-body">
         <strong>
           Do you agree with the recommendation?
@@ -42,12 +42,19 @@
           <%= form.label :"status_#{reviewer_agrees_status}", "Yes", class: "govuk-radios__label" %>
         </div>
         <div class="govuk-radios__item">
-          <%= form.radio_button :status, reviewer_disagrees_status, class: "govuk-radios__input" %>
-          <%= form.label :"status_#{reviewer_disagrees_status}", "No", class: "govuk-radios__label" %>
+          <%= form.radio_button :status, reviewer_disagrees_status, class: "govuk-radios__input", id: "reviewer-disagrees-conditional", "data-action":"click->correction#addCorrection", "aria-controls": "conditional-reviewer-disagrees-conditional", "aria-expanded": "false" %>
+          <%= form.label :"status_#{reviewer_disagrees_status}", "No", class: "govuk-radios__label", for: "reviewer-disagrees-conditional" %>
+        </div>
         </div>
       </div>
-    </div>
   </fieldset>
+  <div class="add-correction"  data-target="correction.correctionDiv">
+    <p class="govuk-body">
+      <br />
+      Please add any comments that can be inserted into the decision notice.
+    </p>
+    <%= form.text_area :correction, class: "govuk-textarea", "data-target":"correction.textArea", rows: "3" %>
+  </div>
   <p>
     <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
   </p>

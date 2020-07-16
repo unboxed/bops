@@ -27,6 +27,10 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
    margin-right: 10%;
  }
 
+.add-correction {
+  display: none;
+}
+
 .flash-archive {
   border: 5px solid govuk-colour("green");
   @include govuk-font($size: 19);
