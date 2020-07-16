@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_08_095601) do
+ActiveRecord::Schema.define(version: 2020_07_14_144908) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 2020_07_08_095601) do
     t.integer "status"
     t.text "comment_met"
     t.text "comment_unmet"
+    t.text "correction"
     t.index ["planning_application_id"], name: "index_decisions_on_planning_application_id"
     t.index ["user_id"], name: "index_decisions_on_user_id"
   end
