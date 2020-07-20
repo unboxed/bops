@@ -61,8 +61,8 @@ RSpec.feature "Planning Application show page", type: :system do
       expect(page).to have_text("Application status: In assessment")
       expect(page).to have_text("Application received: #{Time.current.strftime("%e %B %Y").strip}")
       expect(page).to have_text("Validation complete: #{Time.current.strftime("%e %B %Y").strip}")
-      expect(page).to have_text("Target date: #{planning_application.target_date.strftime("%d %B %Y")}")
-      expect(page).to have_text("Statutory date: #{planning_application.target_date.strftime("%d %B %Y")}")
+      expect(page).to have_text("Target date: #{planning_application.target_date.strftime("%e %B %Y").strip}")
+      expect(page).to have_text("Statutory date: #{planning_application.target_date.strftime("%e %B %Y").strip}")
     end
 
     scenario "Contact information accordion" do
