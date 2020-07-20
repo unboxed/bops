@@ -1,7 +1,21 @@
 <%= form_with model: [planning_application, decision], local: true, class: "decision" do |form| %>
 <div class="govuk-form-group" data-controller="correction">
   <fieldset class="govuk-fieldset">
-    <h2 class="govuk-heading-m">Review the recommendation</h2>
+    <% if @planning_application.correction_provided? %>
+      <h2 class="govuk-heading-m">Review the corrections</h2>
+      <p class="govuk-body">
+        <br>
+        You sent the following comment about the officer's recommendation.
+      </p>
+      <div style="border: 1px solid; padding: 10px;">
+        <p class="govuk-body"><%= @planning_application.reviewer_decision.correction %></p>
+        <br>
+      </div>
+      <br>
+      <p class="govuk-body">The planning officer has responded to your comment</p>
+    <% else %>
+      <h2 class="govuk-heading-m">Review the proposal</h2>
+    <% end %>
     <p class="govuk-body">
       The planning officer recommends that the application is
       <strong><%= assessor_decision.status %></strong>

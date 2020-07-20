@@ -1,7 +1,7 @@
 <%= form_with model: [planning_application, decision], local: true, class: "decision" do |form| %>
   <div class="govuk-form-group">
     <fieldset class="govuk-fieldset">
-      <% if @planning_application.correction_provided? %>
+      <% if @planning_application.correction_requested? %>
         <h2 class="govuk-heading-m">Reassess the proposal</h2>
         <p class="govuk-body">
           <br>
@@ -11,7 +11,6 @@
           <p class="govuk-body"><%= @planning_application.reviewer_decision.correction %></p>
           <br>
         </div>
-          <%# end %>
       <% else %>
         <h2 class="govuk-heading-m">Assess the proposal</h2>
       <% end %>

@@ -9,7 +9,11 @@
       <%= link_to "Awaiting manager's determination", "#awaiting_determination", class: "govuk-tabs__tab", role: "tab", "aria-controls":"awaiting-determination", "aria-selected": false, tabindex: 1 %>
     </li>
     <li class="govuk-tabs__list-item" role="presentation">
-      <%= link_to "Corrections requested", "#awaiting_correction", class: "govuk-tabs__tab", role: "tab", "aria-controls":"awaiting-determination", "aria-selected": false, tabindex: 2 %>
+      <% if current_user.assessor?%>
+        <%= link_to "Corrections requested (#{@planning_applications.select { |pa| pa.correction_requested? }.count})", "#awaiting_correction", class: "govuk-tabs__tab", role: "tab", "aria-controls":"awaiting-determination", "aria-selected": false, tabindex: 2 %>
+      <% else %>
+        <%= link_to "Corrections requested", "#awaiting_correction", class: "govuk-tabs__tab", role: "tab", "aria-controls":"awaiting-determination", "aria-selected": false, tabindex: 2 %>
+      <% end %>
     </li>
     <li class="govuk-tabs__list-item" role="presentation">
       <%= link_to "Determined", "#determined", class: "govuk-tabs__tab", role: "tab", "aria-controls":"determined", "aria-selected": false, tabindex: 3 %>

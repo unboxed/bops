@@ -99,4 +99,45 @@ RSpec.describe PlanningApplication, type: :model do
       expect(subject.reference).to eq "00001000"
     end
   end
+
+  describe "corrections" do
+    let(:assessor)          { create :user, :assessor }
+    let(:reviewer)          { create :user, :reviewer }
+
+    let(:assessor_decision) { create(:decision, :granted, user: assessor) }
+    let(:reviewer_decision) { create(:decision, :granted, user: reviewer) }
+
+    before do
+      subject.decisions << assessor_decision << reviewer_decision
+      subject.update_and_timestamp_status("awaiting_determination")
+    end
+
+  describe "#correction_requested?" do
+    it "sets the correct state when reviewer adds correction" do
+      subject.reload.reviewer_decision.update(correction: "I don't agree")
+      expect(subject.correction_requested?).to be true
+    end
+  end
+
+  describe "#correction_provided?" do
+    it "sets the correct state when assessor responds" do
+      subject.reload.reviewer_decision.update(correction: "I don't agree")
+      subject.reload.assessor_decision.update!(comment_met: "returned for review")
+      expect(subject.correction_provided?).to be true
+    end
+  end
+
+    describe "#correction?" do
+      it "sets the correct state when assessor responds" do
+        subject.reload.reviewer_decision.update(correction: "I don't agree")
+        expect(subject.correction?).to be true
+      end
+    end
+  end
+
+  describe "#reference" do
+    it "pads the ID correctly" do
+      expect(subject.reference).to eq "00001000"
+    end
+  end
 end

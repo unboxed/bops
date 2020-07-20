@@ -38,7 +38,7 @@
         </li>
 
         <li class="app-task-list__item">
-          <% if @planning_application.correction_requested? %>
+          <% if @planning_application.correction? %>
             <% step_name = "Resubmit the recommendation" %>
           <% else %>
             <% step_name = "Submit the recommendation" %>
@@ -66,8 +66,11 @@
       </h2>
       <ul class="app-task-list__items">
         <li class="app-task-list__item">
-          <% step_name = "Review the recommendation" %>
-
+          <% if @planning_application.correction? %>
+            <% step_name = "Review the corrections" %>
+          <% else %>
+            <% step_name = "Review the recommendation" %>
+          <% end %>
           <% if current_user.reviewer? %>
             <% aria_attributes = @planning_application.reviewer_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
 
@@ -84,7 +87,11 @@
           <% end %>
 
           <% if @planning_application.reviewer_decision&.valid? %>
-            <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
+            <% if @planning_application.correction_requested? %>
+              <%= tag.strong "Pending", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
+            <% else %>
+              <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
+            <% end %>
           <% end %>
         </li>
 

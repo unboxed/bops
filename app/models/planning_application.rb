@@ -52,6 +52,10 @@ class PlanningApplication < ApplicationRecord
         reviewer_decision.present?
   end
 
+  def correction?
+    correction_provided? || correction_requested?
+  end
+
   private
 
   def set_target_date
