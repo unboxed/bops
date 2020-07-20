@@ -40,6 +40,18 @@ class PlanningApplication < ApplicationRecord
     @_reference ||= id.to_s.rjust(8, "0")
   end
 
+  def correction_requested?
+    awaiting_determination? && reviewer_decision.correction.present? &&
+        reviewer_decision.updated_at > assessor_decision.updated_at if
+        reviewer_decision.present?
+  end
+
+  def correction_provided?
+    awaiting_determination? && reviewer_decision.correction.present? &&
+        assessor_decision.updated_at > reviewer_decision.updated_at if
+        reviewer_decision.present?
+  end
+
   private
 
   def set_target_date

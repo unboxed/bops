@@ -1,14 +1,13 @@
 <%= form_with model: [planning_application, decision], local: true, class: "decision" do |form| %>
   <div class="govuk-form-group">
     <fieldset class="govuk-fieldset">
-      <% if @planning_application.awaiting_determination? && @planning_application.reviewer_decision.present? %>
+      <% if @planning_application.correction_provided? %>
         <h2 class="govuk-heading-m">Reassess the proposal</h2>
         <p class="govuk-body">
           <br>
           Your manager sent the following comment about your recommendation below. Please take action based on their comment.
         </p>
         <div style="border: 1px solid; padding: 10px;">
-          <%# if @planning_application.reviewer_decision.present? %>
           <p class="govuk-body"><%= @planning_application.reviewer_decision.correction %></p>
           <br>
         </div>

@@ -2,16 +2,17 @@
   <% if (current_user.assessor? || current_user.admin?)%>
     <li>
       <h2 class="app-task-list__section">
-        <span class="app-task-list__section-number">Make recommendation</span>
+        <% if @planning_application.correction_requested? %>
+        <span class="app-task-list__section-number">Make corrections</span>
+          <% step_name = "Reassess the proposal" %>
+        <% else %>
+          <span class="app-task-list__section-number">Make recommendation</span>
+        <% end %>
       </h2>
       <ul class="app-task-list__items">
         <li class="app-task-list__item">
-          <% if @planning_application.awaiting_determination? && @planning_application.reviewer_decision.present? %>
-            <% if @planning_application.reviewer_decision.correction.present? %>
+          <% if @planning_application.correction_requested? %>
             <% step_name = "Reassess the proposal" %>
-            <% else %>
-              <% step_name = "Assess the proposal" %>
-              <% end %>
           <% else %>
             <% step_name = "Assess the proposal" %>
           <% end %>
@@ -37,7 +38,11 @@
         </li>
 
         <li class="app-task-list__item">
-          <% step_name = "Submit the recommendation" %>
+          <% if @planning_application.correction_requested? %>
+            <% step_name = "Resubmit the recommendation" %>
+          <% else %>
+            <% step_name = "Submit the recommendation" %>
+          <% end %>
 
           <% if (current_user.assessor? || current_user.admin?) && @planning_application.assessor_decision %>
             <% aria_attributes = @planning_application.awaiting_determination? ? { describedby: "#{step_name.parameterize}-completed" } : {} %>

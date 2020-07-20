@@ -24,7 +24,8 @@
       </h2>
       <%= render "planning_application_tabs" %>
       <%= render "planning_application_table", planning_applications: @planning_applications.in_assessment, id: "in_assessment", title: "In assessment" unless current_user.reviewer?%>
-      <%= render "planning_application_table", planning_applications: @planning_applications.awaiting_determination, id: "awaiting_determination", title: "Awaiting manager's determination" %>
+      <%= render "planning_application_table", planning_applications: @planning_applications.awaiting_determination.reject { |pa| pa.correction_requested? }, id: "awaiting_determination", title: "Awaiting manager's determination" %>
+      <%= render "planning_application_table", planning_applications: @planning_applications.select { |pa| pa.correction_requested? }, id: "awaiting_correction", title: "Awaiting correction" %>
       <%= render "planning_application_table", planning_applications: @planning_applications.determined, id: "determined", title: "Determined" %>
     </div>
   </div>
