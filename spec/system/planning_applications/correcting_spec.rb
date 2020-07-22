@@ -92,7 +92,7 @@ RSpec.describe "Planning Application correction journey", type: :system do
         planning_application_corrected.assessor_decision.update!(comment_met: "application should be granted ")
       end
 
-      scenario "Reviewer can leave comment for assessor", js: true do
+      scenario "Reviewer can leave comment for assessor" do
         sign_in reviewer
         visit root_path
 
@@ -117,6 +117,25 @@ RSpec.describe "Planning Application correction journey", type: :system do
         click_link "Corrections requested"
         expect(page).to have_text(planning_application_corrected.reference)
       end
+
+      scenario "Reviewer is unable to submit correction without reason" do
+        sign_in reviewer
+        visit root_path
+
+        click_link planning_application_corrected.reference
+
+        click_link "Review the recommendation"
+
+        expect(page).to have_text("application should be granted ")
+
+        choose "No"
+
+        expect(page).to have_text("Please provide comments on why you don't agree.")
+
+        click_on "commit"
+
+        expect(page).to have_text("Please enter a reason in the box")
+      end
     end
 
     context "Reviewer second stage" do
@@ -126,7 +145,7 @@ RSpec.describe "Planning Application correction journey", type: :system do
         planning_application_corrected.assessor_decision.update!(comment_met: "application should be granted. This is the second assessor comment")
       end
 
-      scenario "Reviewer can see corrections and publish recommendation" do
+      scenario "Reviewer can see corrections alert which disappears after determination" do
         sign_in reviewer
         visit root_path
 

@@ -112,20 +112,26 @@ RSpec.describe PlanningApplication, type: :model do
       subject.update_and_timestamp_status("awaiting_determination")
     end
 
-  describe "#correction_requested?" do
-    it "sets the correct state when reviewer adds correction" do
+    it "expects the correction to be valid" do
       subject.reload.reviewer_decision.update(correction: "I don't agree")
-      expect(subject.correction_requested?).to be true
-    end
-  end
 
-  describe "#correction_provided?" do
-    it "sets the correct state when assessor responds" do
-      subject.reload.reviewer_decision.update(correction: "I don't agree")
-      subject.reload.assessor_decision.update!(comment_met: "returned for review")
-      expect(subject.correction_provided?).to be true
+      expect(subject.reload.reviewer_decision).to be_valid
     end
-  end
+
+    describe "#correction_requested?" do
+      it "sets the correct state when reviewer adds correction" do
+        subject.reload.reviewer_decision.update(correction: "I don't agree")
+        expect(subject.correction_requested?).to be true
+      end
+    end
+
+    describe "#correction_provided?" do
+      it "sets the correct state when assessor responds" do
+        subject.reload.reviewer_decision.update(correction: "I don't agree")
+        subject.reload.assessor_decision.update!(comment_met: "returned for review")
+        expect(subject.correction_provided?).to be true
+      end
+    end
 
     describe "#correction?" do
       it "sets the correct state when assessor responds" do

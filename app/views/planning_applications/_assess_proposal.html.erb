@@ -59,7 +59,7 @@
       </ul>
     </li>
   <% end %>
-  <% if (current_user.reviewer? || current_user.admin?)%>
+  <% if (current_user.reviewer? || current_user.admin?) %>
     <li>
       <h2 class="app-task-list__section">
         <span class="app-task-list__section-number">Determine the proposal</span>
@@ -71,7 +71,7 @@
           <% else %>
             <% step_name = "Review the recommendation" %>
           <% end %>
-          <% if current_user.reviewer? %>
+          <% if current_user.reviewer? && !@planning_application.correction_requested? %>
             <% aria_attributes = @planning_application.reviewer_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
 
             <%# TODO: Make a helper for this %>
@@ -87,11 +87,7 @@
           <% end %>
 
           <% if @planning_application.reviewer_decision&.valid? %>
-            <% if @planning_application.correction_requested? %>
-              <%= tag.strong "Pending", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
-            <% else %>
               <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
-            <% end %>
           <% end %>
         </li>
 
