@@ -1,0 +1,37 @@
+<div class="govuk-accordion__section">
+  <div class="govuk-accordion__section-header">
+    <h3 class="govuk-accordion__section-heading">
+      <button type="button" id="accordion-default-heading-1" aria-controls="accordion-default-content-2" class="govuk-accordion__section-button" aria-expanded="false">
+        Proposal documents
+        <span class="govuk-accordion__icon" aria-hidden="true"></span></button>
+    </h3>
+  </div>
+  <div id="accordion-default-content-2" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
+    <div class="scroll-docs">
+      <p class="govuk-body govuk-!-margin-bottom-1">
+        <%= link_to "Manage documents", planning_application_drawings_path(@planning_application) %>
+      </p>
+      <div class="govuk-accordion__section-content">
+        <% filter_current(@planning_application.drawings).each_with_index do |doc, index| %>
+          <p class="govuk-body doc-names">
+            <%= doc.name %>
+          </p>
+          <p class="govuk-body">
+            <%= link_to "View in new window", rails_blob_path(doc.plan), target: :_blank %>
+          </p>
+          <%= link_to image_tag(doc.plan.representation(resize: "300x212")),
+                          rails_blob_path(doc.plan), target: :_blank %>
+          <br>
+          <br>
+          <p class="govuk-body">
+            <%= link_to "View in new window", rails_blob_path(doc.plan, target: :_blank) %>
+          </p>
+          <%= link_to image_tag(doc.plan.representation(resize: "300x212")),
+                          rails_blob_path(doc.plan), target: :_blank %>
+          <br>
+          <br>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
