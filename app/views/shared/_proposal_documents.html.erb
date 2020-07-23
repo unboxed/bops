@@ -13,18 +13,14 @@
       </p>
       <div class="govuk-accordion__section-content">
         <% filter_current(@planning_application.drawings).each_with_index do |doc, index| %>
-          <p class="govuk-body doc-names">
+          <p class="govuk-body doc-names govuk-!-margin-bottom-1">
             <%= doc.name %>
           </p>
           <p class="govuk-body">
-            <%= link_to "View in new window", rails_blob_path(doc.plan), target: :_blank %>
+            <%= doc.created_at.strftime('%d %b %Y') %>
           </p>
-          <%= link_to image_tag(doc.plan.representation(resize: "300x212")),
-                          rails_blob_path(doc.plan), target: :_blank %>
-          <br>
-          <br>
           <p class="govuk-body">
-            <%= link_to "View in new window", rails_blob_path(doc.plan, target: :_blank) %>
+            <%= link_to "View in new window", rails_blob_path(doc.plan), target: :_blank %>
           </p>
           <%= link_to image_tag(doc.plan.representation(resize: "300x212")),
                           rails_blob_path(doc.plan), target: :_blank %>
