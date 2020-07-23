@@ -15,6 +15,8 @@ RSpec.describe Decision, type: :model do
 
   describe "validations" do
     it "is invalid when status is nil" do
+      subject.status = nil
+
       expect(subject).to be_invalid
       expect(subject.errors.messages[:status][0]).to include "Please select Yes or No"
     end
