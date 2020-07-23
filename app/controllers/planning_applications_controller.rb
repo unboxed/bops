@@ -14,6 +14,10 @@ class PlanningApplicationsController < AuthenticationController
     @planning_applications = policy_scope(PlanningApplication.all)
   end
 
+  def show_all
+    @planning_applications = authorize(PlanningApplication.all)
+  end
+
   def show
   end
 

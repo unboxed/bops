@@ -9,9 +9,7 @@
       Your fast track applications
     </h1>
     <p class="govuk-body"><%= current_user.name %>, <%= current_user.role.capitalize %></p>
-    <% if current_user.assessor? %>
-    <%= link_to "View all applications", all_applications_path, class: "govuk-link" %>
-    <% end %>
+    <%= link_to "View my applications", root_path, class: "govuk-link" %>
   </div>
 </div>
 <div class="govuk-grid-row">

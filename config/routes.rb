@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   devise_for :users
 
+  get :all_applications, to: "planning_applications#show_all"
   resources :planning_applications, only: %i[show index edit update] do
     resources :decisions, only: %i[new create edit update]
     resources :drawings, only: %i[index] do

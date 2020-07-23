@@ -3,8 +3,10 @@
 require "rails_helper"
 
 RSpec.feature "Planning Application index page", type: :system do
+  let!(:second_assessor) { create(:user, :assessor) }
   let!(:planning_application_1) { create(:planning_application) }
   let!(:planning_application_2) { create(:planning_application) }
+  let!(:planning_application_3) { create(:planning_application, user_id: second_assessor.id) }
   let!(:planning_application_started) { create(:planning_application, :awaiting_determination) }
   let!(:planning_application_completed) { create(:planning_application, :determined) }
 
@@ -68,6 +70,26 @@ RSpec.feature "Planning Application index page", type: :system do
 
       expect(page).to have_current_path(/sign_in/)
       expect(page).to have_content("You need to sign in or sign up before continuing.")
+    end
+
+    scenario "On login, assessor gets redirected to a view with its own and unassigned Planning Applications" do
+      within("#in_assessment") do
+        expect(page).to have_text("In assessment")
+        expect(page).to have_link(planning_application_1.reference)
+        expect(page).to have_link(planning_application_2.reference)
+        expect(page).not_to have_link(planning_application_3.reference)
+      end
+    end
+
+    scenario "An assessor can toggle the view to access all applications, including those assigned to others" do
+      click_on "View all applications"
+
+      within("#in_assessment") do
+        expect(page).to have_text("In assessment")
+        expect(page).to have_link(planning_application_1.reference)
+        expect(page).to have_link(planning_application_2.reference)
+        expect(page).to have_link(planning_application_3.reference)
+      end
     end
   end
 
