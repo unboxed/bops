@@ -3,15 +3,14 @@
     <li>
       <h2 class="app-task-list__section">
         <% if @planning_application.correction_requested? %>
-        <span class="app-task-list__section-number">Make corrections</span>
-          <% step_name = "Reassess the proposal" %>
+          <span class="app-task-list__section-number">Make corrections</span>
         <% else %>
           <span class="app-task-list__section-number">Make recommendation</span>
         <% end %>
       </h2>
       <ul class="app-task-list__items">
         <li class="app-task-list__item">
-          <% if @planning_application.correction_requested? %>
+          <% if @planning_application.correction?  %>
             <% step_name = "Reassess the proposal" %>
           <% else %>
             <% step_name = "Assess the proposal" %>
@@ -23,8 +22,8 @@
             <%# TODO: Make a helper for this %>
             <%
               path = @planning_application.assessor_decision ?
-                edit_planning_application_decision_path(@planning_application) :
-                  new_planning_application_decision_path(@planning_application)
+                         edit_planning_application_decision_path(@planning_application) :
+                         new_planning_application_decision_path(@planning_application)
             %>
 
             <span class="app-task-list__task-name"><%= link_to step_name, path, aria: aria_attributes %></span>
@@ -32,7 +31,7 @@
             <span class="app-task-list__task-name"><%= step_name %></span>
           <% end %>
 
-          <% if @planning_application.assessor_decision&.valid? %>
+          <% if (@planning_application.assessor_decision&.valid? && mark_completed?(step_name, @planning_application)) %>
             <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
           <% end %>
         </li>
@@ -52,7 +51,7 @@
             <span class="app-task-list__task-name"><%= step_name %></span>
           <% end %>
 
-          <% if @planning_application.awaiting_determination? %>
+          <% if @planning_application.awaiting_determination? && mark_completed?(step_name, @planning_application) %>
             <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
           <% end %>
         </li>
@@ -77,8 +76,8 @@
             <%# TODO: Make a helper for this %>
             <%
               path = @planning_application.reviewer_decision ?
-                edit_planning_application_decision_path(@planning_application) :
-                  new_planning_application_decision_path(@planning_application)
+                         edit_planning_application_decision_path(@planning_application) :
+                         new_planning_application_decision_path(@planning_application)
             %>
 
             <span class="app-task-list__task-name"><%= link_to step_name, path, aria: aria_attributes %></span>
@@ -86,8 +85,8 @@
             <span class="app-task-list__task-name"><%= step_name %></span>
           <% end %>
 
-          <% if @planning_application.reviewer_decision&.valid? %>
-              <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
+          <% if @planning_application.reviewer_decision&.valid? && mark_completed?(step_name, @planning_application) %>
+            <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
           <% end %>
         </li>
 

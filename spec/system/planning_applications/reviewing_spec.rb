@@ -278,39 +278,6 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         within(:assessment_step, "Review the corrections") do
           expect(page).to have_completed_tag
         end
-        #
-        # click_link "Review the recommendation"
-        #
-        # # Expect the saved state to be shown in the form
-        # # within(find("form.decision")) do
-        # #   expect(page.find_field("No")).to be_checked
-        # # end
-        # click_button "Save"
-        #
-        # click_link "Publish the recommendation"
-        #
-        # expect(page).to have_content("The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.")
-        # expect(page).to have_content("refused")
-        #
-        # click_button "Determine application"
-        #
-        # within(:assessment_step, "Publish the recommendation") do
-        #   expect(page).to have_completed_tag
-        # end
-        #
-        # click_link "Home"
-        #
-        # # Check that the application is no longer in awaiting determination
-        # click_link "Awaiting manager's determination"
-        # within("#awaiting_determination") do
-        #   expect(page).not_to have_link planning_application.reference
-        # end
-        #
-        # # Check that the application is now in determined
-        # click_link "Determined"
-        # within("#determined") do
-        #   expect(page).to have_link planning_application.reference
-        # end
       end
 
       include_examples "reviewer assignment"
@@ -344,10 +311,6 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_link "Review the recommendation"
 
-        # Expect the saved state to be shown in the form
-        # within(find("form.decision")) do
-        #   expect(page.find_field("Yes")).to be_checked
-        # end
         click_button "Save"
 
         click_link "Publish the recommendation"
