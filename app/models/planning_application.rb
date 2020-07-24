@@ -52,6 +52,12 @@ class PlanningApplication < ApplicationRecord
         reviewer_decision.present?
   end
 
+  def reviewer_disagreed_with_assessor?
+    return false unless reviewer_decision && assessor_decision
+
+    reviewer_decision.status != assessor_decision.status
+  end
+
   def correction?
     correction_provided? || correction_requested?
   end

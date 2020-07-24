@@ -20,8 +20,7 @@ class Decision < ApplicationRecord
   def ensure_correction
     return unless planning_application.awaiting_determination?
     return unless user.reviewer?
-    return if planning_application.reviewer_decision.status ==
-        planning_application.assessor_decision.status
+    return unless planning_application.reviewer_disagreed_with_assessor?
 
     if correction.blank?
       errors.add(:correction, "Please enter a reason in the box")
