@@ -44,6 +44,21 @@ task create_sample_data: :environment do
 
       user.role = admin_role
     end
+
+    User.find_or_create_by!(email: "#{admin_role}2@example.com") do |user|
+      first_name = Faker::Name.unique.first_name
+      last_name = Faker::Name.unique.last_name
+      user.name = "#{first_name} #{last_name}"
+      if Rails.env.development?
+        user.password = user.password_confirmation = "password"
+      else
+        user.password = user.password_confirmation = SecureRandom.uuid
+        user.encrypted_password =
+          "$2a$11$uvtPXUB2CmO8WEYm7ajHf.XhZtBsclT/sT45ijLMIELShaZvceW5."
+      end
+
+      user.role = admin_role
+    end
   end
 
   assessor = User.find_by!(email: "assessor@example.com", role: :assessor)

@@ -11,7 +11,13 @@ class PlanningApplicationsController < AuthenticationController
     with: :decision_notice_mail_error
 
   def index
-    @planning_applications = policy_scope(PlanningApplication.all)
+    if helpers.exclude_others? && current_user.assessor?
+      @planning_applications = policy_scope(
+        PlanningApplication.where(user_id: current_user.id).or(
+          PlanningApplication.where(user_id: nil)))
+    else
+      @planning_applications = policy_scope(PlanningApplication.all)
+    end
   end
 
   def show
