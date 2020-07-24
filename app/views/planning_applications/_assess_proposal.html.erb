@@ -10,11 +10,7 @@
       </h2>
       <ul class="app-task-list__items">
         <li class="app-task-list__item">
-          <% if @planning_application.correction?  %>
-            <% step_name = "Reassess the proposal" %>
-          <% else %>
-            <% step_name = "Assess the proposal" %>
-          <% end %>
+          <% step_name = assess_proposal_step_name(@planning_application) %>
 
           <% if (current_user.assessor? || current_user.admin?) %>
             <% aria_attributes = @planning_application.assessor_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
@@ -37,11 +33,7 @@
         </li>
 
         <li class="app-task-list__item">
-          <% if @planning_application.correction? %>
-            <% step_name = "Resubmit the recommendation" %>
-          <% else %>
-            <% step_name = "Submit the recommendation" %>
-          <% end %>
+          <% step_name = submit_proposal_step_name(@planning_application) %>
 
           <% if (current_user.assessor? || current_user.admin?) && @planning_application.assessor_decision %>
             <% aria_attributes = @planning_application.awaiting_determination? ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
@@ -65,11 +57,8 @@
       </h2>
       <ul class="app-task-list__items">
         <li class="app-task-list__item">
-          <% if @planning_application.correction? %>
-            <% step_name = "Review the corrections" %>
-          <% else %>
-            <% step_name = "Review the recommendation" %>
-          <% end %>
+          <% step_name = review_proposal_step_name(@planning_application) %>
+
           <% if current_user.reviewer? && !@planning_application.correction_requested? %>
             <% aria_attributes = @planning_application.reviewer_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
 
