@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  root to: redirect("/planning_applications")
+  root to: "planning_applications#index", defaults: { q: "exclude_others" }
 
   devise_for :users
 

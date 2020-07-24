@@ -10,4 +10,8 @@ module PlanningApplicationHelper
       "red"
     end
   end
+
+  def exclude_others?
+    params[:q] == "exclude_others"
+  end
 end
