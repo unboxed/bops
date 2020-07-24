@@ -52,11 +52,11 @@
 
       <div class="govuk-radios govuk-radios--small govuk-radios--conditional" data-module="govuk-radios">
         <div class="govuk-radios__item">
-          <%= form.radio_button :status, reviewer_agrees_status, class: "govuk-radios__input", checked: false %>
+          <%= form.radio_button :status, reviewer_agrees_status, class: "govuk-radios__input", "data-action":"click->correction#toggleCorrection", checked: false %>
           <%= form.label :"status_#{reviewer_agrees_status}", "Yes", class: "govuk-radios__label" %>
         </div>
         <div class="govuk-radios__item">
-          <%= form.radio_button :status, reviewer_disagrees_status, class: "govuk-radios__input", checked: false, id: "reviewer-disagrees-conditional", "data-action":"click->correction#addCorrection", "aria-controls": "conditional-reviewer-disagrees-conditional", "aria-expanded": "false" %>
+          <%= form.radio_button :status, reviewer_disagrees_status, class: "govuk-radios__input", checked: false, id: "reviewer-disagrees-conditional", "data-action":"click->correction#toggleCorrection", "aria-controls": "conditional-reviewer-disagrees-conditional", "aria-expanded": "false" %>
           <%= form.label :"status_#{reviewer_disagrees_status}", "No", class: "govuk-radios__label", for: "reviewer-disagrees-conditional" %>
         </div>
         </div>
