@@ -12,7 +12,7 @@ FactoryBot.define do
 
   trait :granted_with_comment do
     status { :granted }
-    comment_met { "This has been granted." }
+    comment { "This has been granted." }
   end
 
   trait :refused do
@@ -21,6 +21,6 @@ FactoryBot.define do
 
   trait :refused_with_comment do
     status { :refused }
-    comment_unmet { "This has been refused." }
+    comment { "This has been refused." }
   end
 end

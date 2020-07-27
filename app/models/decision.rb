@@ -10,6 +10,6 @@ class Decision < ApplicationRecord
     message: "Please select Yes or No" }
 
   def comment_made?
-    granted? && comment_met.present? || refused? && comment_unmet.present?
+    granted? && comment.present? || refused? && comment.present?
   end
 end

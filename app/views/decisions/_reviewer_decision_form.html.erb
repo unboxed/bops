@@ -9,12 +9,12 @@
     </p>
     <% if assessor_decision.granted? && assessor_decision.comment_made? %>
       <div style="border: 1px solid; padding: 10px;">
-        <p class="govuk-body"><%= assessor_decision.comment_met %></p>
+        <p class="govuk-body"><%= assessor_decision.comment %></p>
       </div>
       <br>
     <% elsif assessor_decision.refused? && assessor_decision.comment_made? %>
       <div style="border: 1px solid; padding: 10px;">
-        <p class="govuk-body"><%= assessor_decision.comment_unmet %></p>
+        <p class="govuk-body"><%= assessor_decision.comment %></p>
       </div>
       <br>
     <% end %>
