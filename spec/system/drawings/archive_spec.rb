@@ -130,7 +130,7 @@ RSpec.feature "Drawings index page", type: :system do
       choose "Yes"
       click_button "Save"
 
-      expect(page).to have_text("Side elevation has been archived")
+      expect(page).to have_text("existing-floorplan.png has been archived")
     end
 
     scenario "Assessor sees error message if neither Yes nor No is selected" do
@@ -149,7 +149,7 @@ RSpec.feature "Drawings index page", type: :system do
 
       within(find(".archived-drawings")) do
         expect(page).to have_text("Missing scale bar")
-        expect(page).to have_text("Side elevation")
+        expect(page).to have_text("existing-floorplan.png")
       end
     end
 

@@ -21,6 +21,10 @@ class Drawing < ApplicationRecord
     [tags.first, tags.second].join(" - ")
   end.freeze
 
+  def name
+    plan.filename if plan.attached?
+  end
+
   def archived?
      archived_at.present?
    end
