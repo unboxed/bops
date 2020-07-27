@@ -61,9 +61,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     click_button "Save"
 
-    # TODO remove this line when we validate the comment in the decision notice
-    expect(planning_application.reload.assessor_decision.comment).to eq("This has been granted")
-
     # Expect the 'completed' label to be present for the evaluation step
     within(:assessment_step, "Assess the proposal") do
       expect(page).to have_completed_tag
@@ -74,6 +71,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     # Expect the saved state to be shown in the form
     within(find("form.decision")) do
       expect(page.find_field("Yes")).to be_checked
+      expect(page.find("#comment_granted")).to have_content("This has been granted")
     end
 
     choose "Yes"
