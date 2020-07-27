@@ -16,11 +16,19 @@
     <h2 class="govuk-heading-m" style="margin-bottom: 75px;">
       <%= display_address(@site) %>
     </h2>
+
+    <% if current_user.assessor? && @planning_application.in_assessment? %>
+      <%= link_to "Upload documents", "#", role: "button", class: "govuk-button", data: { module: "govuk-button" } %>
+    <% elsif current_user.assessor? %>
+      <%= tag.button "Upload documents", disabled: "disabled", "aria-disabled": true, class: "govuk-button govuk-button--disabled", data: { module: "govuk-button" } %>
+    <% end %>
+
     <%= render "success_flash" %>
+
     <%  if filter_current(@drawings).count > 0 %>
-    <h2 class="govuk-heading-m">
-      Proposal documents
-    </h2>
+      <h2 class="govuk-heading-m">
+        Proposal documents
+      </h2>
     <% end %>
   </div>
 </div>
