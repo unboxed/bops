@@ -9,7 +9,7 @@ class Decision < ApplicationRecord
   validates :status, inclusion: { in: ["granted", "refused"],
     message: "Please select Yes or No" }
 
-  def comment_made?
-    refused? && comment_unmet.present?
+  def refused_with_public_comment?
+    refused? && public_comment.present?
   end
 end

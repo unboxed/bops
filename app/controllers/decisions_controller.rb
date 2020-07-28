@@ -60,6 +60,6 @@ class DecisionsController < AuthenticationController
   end
 
   def decision_params
-    params.fetch(:decision, {}).permit(:status, :comment_unmet)
+    params.fetch(:decision, {}).permit(:status, :public_comment)
   end
 end

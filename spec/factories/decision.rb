@@ -16,6 +16,6 @@ FactoryBot.define do
 
   trait :refused_with_comment do
     status { :refused }
-    comment_unmet { "This has been refused." }
+    public_comment { "This has been refused." }
   end
 end

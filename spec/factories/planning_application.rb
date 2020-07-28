@@ -43,7 +43,6 @@ FactoryBot.define do
     after(:create) do |pa|
       create :policy_evaluation,
         status: :unmet,
-        comment_unmet: "this application is recommended for refusal",
         planning_application: pa
     end
   end
