@@ -1,7 +1,11 @@
 <%= form_with model: [planning_application, decision], local: true, class: "decision" do |form| %>
 <div class="govuk-form-group">
-  <fieldset class="govuk-fieldset">
+  <fieldset class="govuk-fieldset" data-controller="decision">
     <h2 class="govuk-heading-m">Review the recommendation</h2>
+
+    <p id="toggleMe">NEIL</p>
+    <button type="button" data-action="click->decision#toggleText">Toggling</button>
+
     <p class="govuk-body">
       The planning officer recommends that the application is
       <strong><%= "#{assessor_decision.status}. " %></strong>

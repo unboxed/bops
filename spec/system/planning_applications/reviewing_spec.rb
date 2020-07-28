@@ -115,6 +115,10 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         expect(page).not_to have_content("The officer has submitted the following comment for you:")
         expect(page).not_to have_content("This is a private comment")
 
+        expect(page.find("#toggleMe")).to have_content("NEIL")
+        click_button "Toggling"
+        expect(page.find("#toggleMe")).to have_content("WOO")
+
         choose "No"
         click_button "Save"
 
