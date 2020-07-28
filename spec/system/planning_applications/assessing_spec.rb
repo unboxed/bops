@@ -54,15 +54,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     choose "Yes"
 
-    expect(page).to have_content("By selecting yes, you are saying that this proposal complies with the GDPO.")
-    expect(page).to have_content("Please add any comments that you would like to share with your manager.")
-
-    fill_in "comment_met", with: "This has been granted"
-
     click_button "Save"
-
-    # TODO remove this line when we validate the comment_met in the decision notice
-    expect(planning_application.reload.assessor_decision.comment_met).to eq("This has been granted")
 
     # Expect the 'completed' label to be present for the evaluation step
     within(:assessment_step, "Assess the proposal") do

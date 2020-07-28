@@ -10,11 +10,6 @@ FactoryBot.define do
     status { :granted }
   end
 
-  trait :granted_with_comment do
-    status { :granted }
-    comment_met { "This has been granted." }
-  end
-
   trait :refused do
     status { :refused }
   end

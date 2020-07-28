@@ -23,17 +23,6 @@
               <%= form.radio_button :status, "granted", class: "govuk-radios__input", id:"status-granted-conditional", "aria-controls": "conditional-status-granted-conditional", "aria-expanded": "false" %>
               <%= form.label :status_granted, "Yes", class: "govuk-label govuk-radios__label", for: "status-granted-conditional" %>
             </div>
-            <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-status-granted-conditional">
-              <div class="govuk-form-group">
-                <p class="govuk-body">
-                  By selecting yes, you are saying that this proposal complies with the GDPO.
-                  <br>
-                  <br>
-                  Please add any comments that you would like to share with your manager.
-                </p>
-                <%= form.text_area :comment_met, class: "govuk-textarea", id: "comment_met", rows: "3", "aria-describedby": "comment-met-hint" %>
-              </div>
-            </div>
             <div class="govuk-radios__item">
               <%= form.radio_button :status, "refused", class: "govuk-radios__input", id: "status-refused-conditional", "aria-controls": "conditional-status-refused-conditional", "aria-expanded": "false" %>
               <%= form.label :status_refused, "No", class: "govuk-label govuk-radios__label", for: "status-refused-conditional" %>

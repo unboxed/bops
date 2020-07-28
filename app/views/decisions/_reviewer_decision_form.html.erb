@@ -5,14 +5,9 @@
     <p class="govuk-body">
       The planning officer recommends that the application is
       <strong><%= assessor_decision.status %></strong>
-      <%= "and added this comment:" if assessor_decision.comment_made? %>
+      <%= "and added this comment:" if assessor_decision.comment_unmet? %>
     </p>
-    <% if assessor_decision.granted? && assessor_decision.comment_made? %>
-      <div style="border: 1px solid; padding: 10px;">
-        <p class="govuk-body"><%= assessor_decision.comment_met %></p>
-      </div>
-      <br>
-    <% elsif assessor_decision.refused? && assessor_decision.comment_made? %>
+    <% if assessor_decision.comment_made? %>
       <div style="border: 1px solid; padding: 10px;">
         <p class="govuk-body"><%= assessor_decision.comment_unmet %></p>
       </div>

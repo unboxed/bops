@@ -26,11 +26,6 @@ Certificate of lawful development (proposed) for the construction of <%= @planni
   Plan reference number	Plan description	Date received
   [Plan reference number]	[Document name]	[ DD MONTH YYYY ]
   [Plan reference number]	[Document name]	[ DD MONTH YYYY ]
-  <% if @decision.granted? && @planning_application.assessor_decision&.comment_met.present? %>
-    Reason for granting:
-
-    * <%= @planning_application.assessor_decision.comment_met %>
-  <% end %>
 <% elsif @decision.refused? %>
   IT IS HEREBY CERTIFIED that the use or operations described below are not lawful for the purposes of S.192 of the Town and Country Planning Act 1990 on the date that the application for this Certificate was received.
   <% if @decision.refused? && @planning_application.assessor_decision&.comment_unmet.present? %>
