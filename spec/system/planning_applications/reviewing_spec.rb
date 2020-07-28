@@ -34,8 +34,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_link "Review the recommendation"
 
-        expect(page).to have_content("The planning officer recommends that the application is granted")
-        expect(page).not_to have_content("and added this comment:")
+        expect(page).to have_content("The planning officer recommends that the application is granted.")
+        expect(page).not_to have_content("The following policy requirement(s) have not been met:")
         expect(page).not_to have_content("This has been refused.")
 
         choose "Yes"
@@ -105,8 +105,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_link "Review the recommendation"
 
-        expect(page).to have_content("The planning officer recommends that the application is granted")
-        expect(page).not_to have_content("and added this comment:")
+        expect(page).to have_content("The planning officer recommends that the application is granted.")
+        expect(page).not_to have_content("The following policy requirement(s) have not been met:")
         expect(page).not_to have_content("This has been refused.")
 
         choose "No"
@@ -330,8 +330,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_link "Review the recommendation"
 
-        expect(page).to have_content("The planning officer recommends that the application is refused")
-        expect(page).to have_content("and added this comment:")
+        expect(page).to have_content("The planning officer recommends that the application is refused.")
+        expect(page).to have_content("The following policy requirement(s) have not been met:")
 
         choose "Yes"
         click_button "Save"
@@ -384,8 +384,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_link "Review the recommendation"
 
-        expect(page).to have_content("The planning officer recommends that the application is refused")
-        expect(page).to have_content("and added this comment:")
+        expect(page).to have_content("The planning officer recommends that the application is refused.")
+        expect(page).to have_content("The following policy requirement(s) have not been met:")
         expect(page).to have_content("This has been refused.")
 
         choose "No"

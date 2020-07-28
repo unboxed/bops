@@ -11,6 +11,9 @@
           <br>
           <strong>Have permitted development requirements been met?</strong>
         </p>
+        <p class="govuk-body">
+          You need to check that the applicant's answers and proposal documents meet the permitted development requirements.
+        </p>
         <% if form.object.errors.any? %>
           <% form.object.errors.each do |attribute, error| %>
             <span id="status-error" class="govuk-error-message">
@@ -30,8 +33,17 @@
             <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-status-refused-conditional">
               <div class="govuk-form-group">
                 <p class="govuk-body">
-                  Please add any comments for your manager to see.
-                  This will <strong>not</strong> appear on the decision notice.
+                  <br>
+                  <strong>Please provide which GDPO policy (or policies) have not been met. </strong>
+                  If there are multiple, please separate by a comma.
+                </p>
+                <p class="govuk-body">
+                  <span class="govuk-hint">
+                    For example, "GPDO 2015 S.2 P.1 A.1 (f)(i), GPDO 2015 S.2 P.1 A.1 (f)(ii)"
+                  </span>
+                </p>
+                <p class="govuk-body">
+                  This <strong>will</strong> appear on the decision notice.
                 </p>
                 <%= form.text_area :public_comment, class: "govuk-textarea", id: "public_comment", rows: "3", "aria-describedby": "public-comment-hint" %>
               </div>

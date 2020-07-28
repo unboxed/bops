@@ -4,23 +4,19 @@
     <h2 class="govuk-heading-m">Review the recommendation</h2>
     <p class="govuk-body">
       The planning officer recommends that the application is
-      <strong><%= assessor_decision.status %></strong>
-      <%= "and added this comment:" if assessor_decision.public_comment? %>
+      <strong><%= "#{assessor_decision.status}. " %></strong>
+      <%= "The following policy requirement(s) have not been met:" if assessor_decision.public_comment? %>
     </p>
     <% if assessor_decision.refused_with_public_comment? %>
-      <div style="border: 1px solid; padding: 10px;">
-        <p class="govuk-body"><%= assessor_decision.public_comment %></p>
-      </div>
-      <br>
+      <p class="govuk-body"><%= assessor_decision.public_comment %></p>
     <% end %>
-    <p class="govuk-body">Please review the applicant's answers:</p>
+    <p class="govuk-body">
+      The planning officer has made their recommendation after reviewing the information provided by the applicant and checking the proposal documents against the GDPO
+    </p>
+    <p class="govuk-body"><strong> Information provided by the applicant:</strong></p>
     <%= render "policy_consideration_list", policy_considerations: policy_evaluation.policy_considerations %>
     <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
-      <p class="govuk-body">
-        <strong>
-          Do you agree with the recommendation?
-        </strong>
-      </p>
+      <p class="govuk-body">Do you agree with the recommendation?</p>
       <% if form.object.errors.any? %>
         <% form.object.errors.each do |attribute, error| %>
           <span id="status-error" class="govuk-error-message">
