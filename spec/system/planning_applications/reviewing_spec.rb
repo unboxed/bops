@@ -57,7 +57,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         expect(page).to have_content("The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.")
         expect(page).to have_content("granted")
-        expect(page).not_to have_content("Reason why use or operations would not have been LAWFUL:")
+        expect(page).not_to have_content("The proposal does not comply with:")
         expect(page).not_to have_content("This has been refused.")
 
         click_button "Determine application"
@@ -128,7 +128,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         expect(page).to have_content("The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.")
         expect(page).to have_content("refused")
-        expect(page).not_to have_content("Reason why use or operations would not have been LAWFUL:")
+        expect(page).not_to have_content("The proposal does not comply with:")
         expect(page).not_to have_content("This has been refused.")
 
         click_button "Determine application"
@@ -352,6 +352,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         expect(page).to have_content("The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.")
         expect(page).to have_content("refused")
+        expect(page).to have_content("The proposal does not comply with:")
+        expect(page).to have_content("This has been refused.")
 
         click_button "Determine application"
 
@@ -407,7 +409,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         expect(page).to have_content("The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.")
         expect(page).to have_content("granted")
-        expect(page).not_to have_content("Reason why use or operations would not have been LAWFUL:")
+        expect(page).not_to have_content("The proposal does not comply with:")
         expect(page).not_to have_content("This has been refused.")
 
         click_button "Determine application"

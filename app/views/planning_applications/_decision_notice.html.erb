@@ -56,6 +56,10 @@
       <strong>not lawful</strong>
       for the purposes of S.192 of the Town and Country Planning Act 1990 on the date that the application for this Certificate was received.
     </p>
+    <% if planning_application.assessor_decision.refused_with_public_comment? %>
+      <p class="govuk-body">The proposal does not comply with:</p>
+      <p class="govuk-body"> <%= planning_application.assessor_decision.public_comment %> </p>
+    <% end %>
   <% end %>
   <p class="govuk-body">Signed: Simon Bevan
     <br>
