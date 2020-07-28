@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_28_150326) do
+ActiveRecord::Schema.define(version: 2020_07_28_151340) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 2020_07_28_150326) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "status"
-    t.text "comment_unmet"
+    t.text "public_comment"
     t.index ["planning_application_id"], name: "index_decisions_on_planning_application_id"
     t.index ["user_id"], name: "index_decisions_on_user_id"
   end
