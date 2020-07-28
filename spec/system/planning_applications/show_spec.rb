@@ -42,17 +42,12 @@ RSpec.feature "Planning Application show page", type: :system do
       expect(page).to have_text("Case officer: Not started")
     end
 
-    scenario "Planning history accordion" do
-      click_button "Planning history"
-
-      expect(page).to have_text("Permitted development rights: Active")
-      expect(page).to have_text("Residential area")
-    end
-
     scenario "Constraints accordion" do
       click_button "Constraints"
 
       expect(page).to have_text("Conservation area")
+      expect(page).to have_text("Permitted development rights: Active")
+      expect(page).to have_text("Residential area")
     end
 
     scenario "Key application dates accordion" do
