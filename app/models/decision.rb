@@ -9,7 +9,18 @@ class Decision < ApplicationRecord
   validates :status, inclusion: { in: ["granted", "refused"],
     message: "Please select Yes or No" }
 
+  validate :validate_public_comment
+
   def refused_with_public_comment?
     refused? && public_comment.present?
+  end
+
+  def validate_public_comment
+    if refused? && user.assessor? && public_comment.blank?
+      errors.add(
+        :public_comment,
+        "Please provide which GDPO policy (or policies) have not been met."
+      )
+    end
   end
 end
