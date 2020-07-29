@@ -60,6 +60,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         expect(page).not_to have_content("The proposal does not comply with:")
         expect(page).not_to have_content("This has been refused.")
 
+        expect(page).not_to have_content("The officer has submitted the following comment for you:")
+        expect(page).not_to have_content("This is a private comment")
+
         click_button "Determine application"
 
         mail = ActionMailer::Base.deliveries.first
@@ -108,6 +111,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         expect(page).to have_content("The planning officer recommends that the application is granted.")
         expect(page).not_to have_content("The following policy requirement(s) have not been met:")
         expect(page).not_to have_content("This has been refused.")
+
+        expect(page).not_to have_content("The officer has submitted the following comment for you:")
+        expect(page).not_to have_content("This is a private comment")
 
         choose "No"
         click_button "Save"
@@ -213,6 +219,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         expect(page).to have_content("The following policy requirement(s) have not been met:")
         expect(page).to have_content("This has been refused.")
 
+        expect(page).not_to have_content("The officer has submitted the following comment for you:")
+        expect(page).not_to have_content("This is a private comment")
+
         choose "Yes"
         click_button "Save"
 
@@ -234,6 +243,134 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         expect(page).to have_content("refused")
         expect(page).to have_content("The proposal does not comply with:")
         expect(page).to have_content("This has been refused.")
+        expect(page).not_to have_content("This is a private comment")
+
+        click_button "Determine application"
+
+        within(:assessment_step, "Publish the recommendation") do
+          expect(page).to have_completed_tag
+        end
+
+        click_link "Home"
+
+        # Check that the application is no longer in awaiting determination
+        click_link "Awaiting manager's determination"
+        within("#awaiting_determination") do
+          expect(page).not_to have_link planning_application.reference
+        end
+
+        # Check that the application is now in determined
+        click_link "Determined"
+        within("#determined") do
+          expect(page).to have_link planning_application.reference
+        end
+      end
+
+      scenario "disagrees with assessor's decision" do
+        # Check that the application is no longer in awaiting determination
+        within("#awaiting_determination") do
+          click_link planning_application.reference
+        end
+
+        expect(page).not_to have_link("Publish the recommendation")
+
+        click_link "Review the recommendation"
+
+        expect(page).to have_content("The planning officer recommends that the application is refused.")
+        expect(page).to have_content("The following policy requirement(s) have not been met:")
+        expect(page).to have_content("This has been refused.")
+
+        choose "No"
+        click_button "Save"
+
+        within(:assessment_step, "Review the recommendation") do
+          expect(page).to have_completed_tag
+        end
+
+        click_link "Review the recommendation"
+
+        # Expect the saved state to be shown in the form
+        within(find("form.decision")) do
+          expect(page.find_field("No")).to be_checked
+        end
+        click_button "Save"
+
+        click_link "Publish the recommendation"
+
+        expect(page).to have_content("The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.")
+        expect(page).to have_content("granted")
+        expect(page).not_to have_content("The proposal does not comply with:")
+        expect(page).not_to have_content("This has been refused.")
+        expect(page).not_to have_content("This is a private comment")
+
+        click_button "Determine application"
+
+        within(:assessment_step, "Publish the recommendation") do
+          expect(page).to have_completed_tag
+        end
+
+        click_link "Home"
+
+        # Check that the application is no longer in awaiting determination
+        click_link "Awaiting manager's determination"
+        within("#awaiting_determination") do
+          expect(page).not_to have_link planning_application.reference
+        end
+
+        # Check that the application is now in determined
+        click_link "Determined"
+        within("#determined") do
+          expect(page).to have_link planning_application.reference
+        end
+      end
+
+      include_examples "reviewer assignment"
+      include_examples "reviewer decision error message"
+    end
+
+    context "with a refused assessor_decision with private_comment" do
+      let(:assessor_decision) { create :decision, :refused_with_public_and_private_comment, user: assessor }
+
+      scenario "agrees with assessor's decision" do
+        # Check that the application is no longer in awaiting determination
+        within("#awaiting_determination") do
+          click_link planning_application.reference
+        end
+
+        expect(page).not_to have_link("Publish the recommendation")
+
+        click_link "Review the recommendation"
+
+        expect(page).to have_content("The planning officer recommends that the application is refused.")
+        expect(page).to have_content("The following policy requirement(s) have not been met:")
+
+        expect(page).to have_content("The officer has submitted the following comment for you:")
+        expect(page).to have_content("This is a private comment")
+
+        choose "Yes"
+        click_button "Save"
+
+        within(:assessment_step, "Review the recommendation") do
+          expect(page).to have_completed_tag
+        end
+
+        click_link "Review the recommendation"
+
+        # Expect the saved state to be shown in the form
+        within(find("form.decision")) do
+          expect(page.find_field("Yes")).to be_checked
+        end
+        click_button "Save"
+
+        click_link "Publish the recommendation"
+
+        expect(page).to have_content("The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.")
+        expect(page).to have_content("refused")
+        expect(page).to have_content("The proposal does not comply with:")
+        expect(page).to have_content("This has been refused.")
+
+        expect(page).not_to have_content("The officer has submitted the following comment for you:")
+        expect(page).not_to have_content("This is a private comment")
 
         click_button "Determine application"
 

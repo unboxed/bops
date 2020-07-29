@@ -18,4 +18,10 @@ FactoryBot.define do
     status { :refused }
     public_comment { "This has been refused." }
   end
+
+  trait :refused_with_public_and_private_comment do
+    status { :refused }
+    public_comment { "This has been refused." }
+    private_comment { "This is a private comment." }
+  end
 end

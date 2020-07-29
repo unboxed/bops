@@ -10,6 +10,15 @@
     <% if assessor_decision.refused_with_public_comment? %>
       <p class="govuk-body"><%= assessor_decision.public_comment %></p>
     <% end %>
+
+    <% if assessor_decision.private_comment.present? %>
+      <p class="govuk-body">The officer has submitted the following comment for you:</p>
+      <div style="border: 1px solid; padding: 10px;">
+        <p class="govuk-body"><%= assessor_decision.private_comment %></p>
+      </div>
+      <br>
+    <% end %>
+
     <p class="govuk-body">
       The planning officer has made their recommendation after reviewing the information provided by the applicant and checking the proposal documents against the GDPO
     </p>

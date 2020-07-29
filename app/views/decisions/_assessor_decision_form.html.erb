@@ -51,6 +51,14 @@
           </div>
         </div>
       </div>
+      <div class="govuk-form-group">
+        <p class="govuk-body">
+          <strong>Please provide supporting information for your manager.</strong> For example, you may want to add any details about the width, depth or height of the proposal.
+          <br><br>
+          Your comment will <strong>not</strong> appear on the decision notice.
+        </p>
+        <%= form.text_area :private_comment, class: "govuk-textarea", id: "private_comment", rows: "3", "aria-describedby": "private-comment-hint" %>
+      </div>
     </fieldset>
     <p>
       <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>

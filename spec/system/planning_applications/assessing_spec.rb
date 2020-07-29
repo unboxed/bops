@@ -54,6 +54,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     choose "Yes"
 
+    expect(page).to have_content("Please provide supporting information for your manager. For example, you may want to add any details about the width, depth or height of the proposal. Your comment will not appear on the decision notice.")
+
+    fill_in "private_comment", with: "This is a private comment"
+
     click_button "Save"
 
     # Expect the 'completed' label to be present for the evaluation step
@@ -69,6 +73,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     choose "Yes"
+
+    expect(page).to have_content("This is a private comment")
 
     click_button "Save"
 
