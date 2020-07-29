@@ -10,17 +10,18 @@ FactoryBot.define do
     status { :granted }
   end
 
-  trait :granted_with_comment do
-    status { :granted }
-    comment_met { "This has been granted." }
-  end
-
   trait :refused do
     status { :refused }
   end
 
   trait :refused_with_comment do
     status { :refused }
-    comment_unmet { "This has been refused." }
+    public_comment { "This has been refused." }
+  end
+
+  trait :refused_with_public_and_private_comment do
+    status { :refused }
+    public_comment { "This has been refused." }
+    private_comment { "This is a private comment." }
   end
 end

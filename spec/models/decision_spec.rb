@@ -25,10 +25,36 @@ RSpec.describe Decision, type: :model do
       expect(subject).to be_valid
     end
 
-    it "is valid when status is refused" do
-      subject.status = :refused
+    context "when user is assessor" do
+      before do
+        subject.user.role = :assessor
+      end
 
-      expect(subject).to be_valid
+      it "is valid when status is refused with public_comment" do
+        subject.status = :refused
+        subject.public_comment = "This is not granted."
+
+        expect(subject).to be_valid
+      end
+
+      it "is invalid when status is refused without public_comment" do
+        subject.status = :refused
+        subject.public_comment = " "
+
+        expect(subject).to be_invalid
+      end
+    end
+
+    context "when user is reviewer" do
+      before do
+        subject.user.role = :reviewer
+      end
+
+      it "is valid when status is refused" do
+        subject.status = :refused
+
+        expect(subject).to be_valid
+      end
     end
   end
 end

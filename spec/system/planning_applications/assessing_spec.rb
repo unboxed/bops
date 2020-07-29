@@ -54,15 +54,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     choose "Yes"
 
-    expect(page).to have_content("By selecting yes, you are saying that this proposal complies with the GDPO.")
-    expect(page).to have_content("Please add any comments that you would like to share with your manager.")
+    expect(page).to have_content("Please provide supporting information for your manager. For example, you may want to add any details about the width, depth or height of the proposal. Your comment will not appear on the decision notice.")
 
-    fill_in "comment_met", with: "This has been granted"
+    fill_in "private_comment", with: "This is a private comment"
 
     click_button "Save"
-
-    # TODO remove this line when we validate the comment_met in the decision notice
-    expect(planning_application.reload.assessor_decision.comment_met).to eq("This has been granted")
 
     # Expect the 'completed' label to be present for the evaluation step
     within(:assessment_step, "Assess the proposal") do
@@ -77,6 +73,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     choose "Yes"
+
+    expect(page).to have_content("This is a private comment")
 
     click_button "Save"
 
@@ -159,6 +157,28 @@ RSpec.describe "Planning Application Assessment", type: :system do
     table_rows.each do |row|
       expect(row).to include("Lorrine Krajcik") if row.include? planning_application.reference
     end
+  end
+
+  scenario "shows the public_comment error message" do
+    within("#in_assessment") do
+      click_link planning_application.reference
+    end
+
+    expect(page).not_to have_link("Submit the recommendation")
+
+    click_link "Assess the proposal"
+
+    choose "No"
+
+    click_button "Save"
+
+    within(".govuk-error-message") do
+      expect(page).to have_content("Please provide which GDPO policy (or policies) have not been met.")
+    end
+
+    click_link "Home"
+
+    expect(page).not_to have_css(".app-task-list__task-completed")
   end
 
   include_examples "assessor decision error message"
