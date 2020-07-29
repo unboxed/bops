@@ -21,6 +21,10 @@ class Drawing < ApplicationRecord
     [tags.first, tags.second].join(" - ")
   end.freeze
 
+  PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"]
+
+  validate :plan_content_type_permitted
+
   def name
     plan.filename if plan.attached?
   end
@@ -32,5 +36,15 @@ class Drawing < ApplicationRecord
   def archive(archive_reason)
     update(archive_reason: archive_reason,
            archived_at: Time.current) unless archived?
+  end
+
+  private
+
+  def plan_content_type_permitted
+    return unless plan.attached? && plan.blob&.content_type
+
+    unless PERMITTED_CONTENT_TYPES.include? plan.blob.content_type
+      errors.add(:plan, :unsupported_file_type)
+    end
   end
 end

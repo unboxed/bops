@@ -9,3 +9,11 @@ en:
   design: "Revise design"
   dimensions: "Revise dimensions"
   other: "Other"
+
+  activerecord:
+    errors:
+      models:
+        drawing:
+          attributes:
+            plan:
+              unsupported_file_type: "Plan is not a supported file format"
