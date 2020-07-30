@@ -37,6 +37,19 @@ RSpec.describe Drawing, type: :model do
 
       expect(subject).not_to be_valid
     end
+
+    it "is invalid with any unpermitted tags" do
+      subject.tags = [Drawing::TAGS.first, "not_a_tag"]
+
+      expect(subject).not_to be_valid
+      expect(subject.errors[:tags]).to eq ["Please choose valid tags"]
+    end
+
+    it "is valid with permitted tags" do
+      subject.tags = [Drawing::TAGS.first, Drawing::TAGS.last]
+
+      expect(subject).to be_valid
+    end
   end
 
   describe "#archive" do

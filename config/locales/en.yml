@@ -17,3 +17,5 @@ en:
           attributes:
             plan:
               unsupported_file_type: "Plan is not a supported file format"
+            tags:
+              unpermitted_tags: "Please choose valid tags"

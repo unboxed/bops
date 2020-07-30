@@ -23,6 +23,7 @@ class Drawing < ApplicationRecord
 
   PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"]
 
+  validate :tag_values_permitted
   validate :plan_content_type_permitted
 
   def name
@@ -39,6 +40,14 @@ class Drawing < ApplicationRecord
   end
 
   private
+
+  def tag_values_permitted
+    return if tags.empty?
+
+    unless (tags - Drawing::TAGS).empty?
+      errors.add(:tags, :unpermitted_tags)
+    end
+  end
 
   def plan_content_type_permitted
     return unless plan.attached? && plan.blob&.content_type
