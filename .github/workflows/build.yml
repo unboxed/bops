@@ -48,4 +48,4 @@ jobs:
         DATABASE_URL: postgres://postgres:@localhost:5432/test
         RAILS_ENV: test
       run: |
-        JS_DRIVER=chrome_headless bundle exec rspec spec/system/planning_applications/reviewing_spec.rb:101
+        JS_DRIVER=github_ci bundle exec rspec spec/system/planning_applications/reviewing_spec.rb:101

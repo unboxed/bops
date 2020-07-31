@@ -24,6 +24,29 @@ Capybara.register_driver :chrome_headless do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options).tap { |d| d.browser.download_path = download_path }
 end
 
+Capybara.register_driver :github_ci do |app|
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    chromeOptions: {
+      args: [
+        "headless",
+        "no-sandbox",
+        "disable-gpu",
+        "allow-insecure-localhost",
+        "window-size=1280,960",
+        "remote-debugging-port=9222",
+        "host-rules=MAP * 127.0.0.1"
+      ],
+      w3c: false
+    }
+  )
+
+  if ENV.key?("CHROME_BIN")
+    capabilities[:chromeOptions][:binary] = ENV.fetch("CHROME_BIN")
+  end
+
+  Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: capabilities).tap { |d| d.browser.download_path = download_path }
+end
+
 RSpec.configure do |config|
   config.before :all, type: :system do
     Capybara.automatic_label_click = true
