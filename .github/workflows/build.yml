@@ -48,4 +48,4 @@ jobs:
         DATABASE_URL: postgres://postgres:@localhost:5432/test
         RAILS_ENV: test
       run: |
-        bundle exec rake
+        bundle exec rspec spec/system/planning_applications/index_spec.rb:17

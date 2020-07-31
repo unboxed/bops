@@ -1,3 +1,6 @@
+<%= button_tag "ON", id: "the-button", style: "height: 100px; width: 400px;" %>
+
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <div class="govuk-breadcrumbs" style="margin-bottom: 20px;">
@@ -35,3 +38,15 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.querySelector('#the-button').addEventListener('click', (e) => {
+    const button = e.currentTarget;
+
+    if(button.innerText === "ON") {
+      button.innerText = "OFF"
+    } else {
+      button.innerText = "ON"
+    }
+  })
+</script>

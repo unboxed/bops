@@ -14,6 +14,16 @@ RSpec.feature "Planning Application index page", type: :system do
       visit root_path
     end
 
+    scenario "just testing something" do
+      expect(find("#the-button")).to have_content "ON"
+
+      click_button "ON"
+      expect(find("#the-button")).to have_content "OFF"
+
+      click_button "OFF"
+      expect(find("#the-button")).to have_content "ON"
+    end
+
     context "viewing tabs" do
       scenario "Planning Application status bar is present" do
         within(:planning_applications_status_tab) do

@@ -10,4 +10,9 @@ export default class extends Controller {
             this.correctionDivTarget.style.display = "none";
         }
     }
+
+
+  toggleText() {
+    document.querySelector('#toggleMe').textContent = "WOO"
+  }
 }
