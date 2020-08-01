@@ -1,5 +1,8 @@
-<%= button_tag "ON", id: "the-button", style: "height: 100px; width: 400px;" %>
+<%# <%= button_tag "ON", id: "the-button", style: "height: 100px; width: 400px;" %>
 
+<div data-controller="home">
+  <%= button_tag "ON", id: "the-button", data: { action: "click->home#toggle" }, style: "height: 100px; width: 400px;" %>
+</div>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -39,7 +42,7 @@
   </div>
 </div>
 
-<script>
+<%# <script>
   document.querySelector('#the-button').addEventListener('click', (e) => {
     const button = e.currentTarget;
 
@@ -49,4 +52,4 @@
       button.innerText = "ON"
     }
   })
-</script>
+</script> %>
