@@ -18,12 +18,12 @@
 
     <p class="govuk-body govuk-!-font-weight-bold">You have entered the following information:</p>
 
-    <p class="govuk-body govuk-!-font-weight-bold"><%= @blob.filename.to_s %></p>
-
-    <figure>
+    <figure class="confirm-preview">
       <%= image_tag(@blob.representation(resize: "300x212")) if @blob.representable? %>
 
       <figcaption>
+        <p class="govuk-body govuk-!-font-weight-bold"><%= @blob.filename.to_s %></p>
+
         <ul class="govuk-list">
           <% @drawing_form.tags.each do |tag| %>
             <li><strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong></li>
@@ -31,6 +31,7 @@
         </ul>
       </figcaption>
     </figure>
+
 
     <%= form_with model: [ @planning_application, @drawing_form ], scope: :drawing_form, url: planning_application_drawings_path(@planning_application), local: true do |form| %>
       <% @drawing_form.tags.each do |tag| %>

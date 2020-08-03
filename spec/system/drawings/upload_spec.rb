@@ -19,7 +19,7 @@ RSpec.describe "Document uploads", type: :system do
 
         click_link("Upload documents")
 
-        attach_file("Upload new document", "spec/fixtures/images/existing-floorplan.pdf")
+        attach_file("Upload a file", "spec/fixtures/images/existing-floorplan.pdf")
 
         check("floor plan - existing")
         check("section - proposed")
@@ -38,7 +38,7 @@ RSpec.describe "Document uploads", type: :system do
         expect(page).to have_checked_field("floor plan - existing")
         expect(page).to have_checked_field("section - proposed")
 
-        attach_file("Upload new document", "spec/fixtures/images/proposed-section.pdf")
+        attach_file("Upload a file", "spec/fixtures/images/proposed-section.pdf")
 
         uncheck("floor plan - existing")
 
@@ -99,7 +99,7 @@ RSpec.describe "Document uploads", type: :system do
 
         click_link("Upload documents")
 
-        attach_file("Upload new document", "spec/fixtures/images/bmp.bmp")
+        attach_file("Upload a file", "spec/fixtures/images/bmp.bmp")
 
         check("floor plan - existing")
 

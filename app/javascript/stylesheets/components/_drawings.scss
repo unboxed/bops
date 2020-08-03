@@ -2,6 +2,14 @@
   text-transform: uppercase;
 }
 
+.confirm-preview {
+  margin: 65px 0 0;
+
+  figcaption {
+    margin-top: 20px;
+  }
+}
+
 .current-drawings {
   .thumbnail {
     display: inline-block;
