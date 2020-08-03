@@ -75,6 +75,9 @@ RSpec.describe "Document uploads", type: :system do
         within(find(".scroll-docs")) do
           expect(all("img").count).to eq 2
           expect(all("img").last["src"]).to have_content("proposed-section.pdf")
+
+          expect(page).to have_css(".govuk-tag", text: "section - proposed")
+          expect(page).to have_css(".govuk-tag", text: "section - existing")
         end
       end
 

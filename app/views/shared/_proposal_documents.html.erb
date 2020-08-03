@@ -12,18 +12,23 @@
         <%= link_to "Manage documents", planning_application_drawings_path(@planning_application) %>
       </p>
       <div class="govuk-accordion__section-content">
-        <% filter_current(@planning_application.drawings).each_with_index do |doc, index| %>
+        <% filter_current(@planning_application.drawings).each do |drawing| %>
           <p class="govuk-body doc-names govuk-!-margin-bottom-1">
-            <%= doc.name %>
+            <%= drawing.name %>
           </p>
           <p class="govuk-body">
-            <%= doc.created_at.strftime('%d %b %Y') %>
+            <%= drawing.created_at.strftime('%d %b %Y') %>
           </p>
           <p class="govuk-body">
-            <%= link_to "View in new window", rails_blob_path(doc.plan), target: :_blank %>
+            <%= link_to "View in new window", rails_blob_path(drawing.plan), target: :_blank %>
           </p>
-          <%= link_to image_tag(doc.plan.representation(resize: "300x212")),
-                          rails_blob_path(doc.plan), target: :_blank %>
+          <ul class="govuk-list">
+            <% drawing.tags.each do |tag| %>
+              <li><strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong></li>
+            <% end %>
+          </ul>
+          <%= link_to image_tag(drawing.plan.representation(resize: "300x212")),
+                          rails_blob_path(drawing.plan), target: :_blank %>
           <br>
           <br>
         <% end %>
