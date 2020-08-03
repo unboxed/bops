@@ -21,19 +21,33 @@ class DrawingsController < AuthenticationController
     @drawing_form = DrawingWizard::UploadForm.new
   end
 
+  # rubocop: disable Metrics/MethodLength
   def create
-    @drawing = @planning_application.drawings.build(drawing_upload_params)
+    @drawing_form = DrawingWizard::ConfirmUploadForm.new(
+      drawing_upload_confirmation_params
+    )
 
-    if params[:drawing_form][:confirm_upload] == "true" && @drawing.save
-      flash[:notice] = "#{@drawing.plan.filename} has been uploaded."
-      redirect_to planning_application_drawings_path
-    else
+    if !@drawing_form.valid?
+      @blob = ActiveStorage::Blob.find_signed(@drawing_form.plan)
+      render :confirm_new
+    elsif !@drawing_form.confirmed?
       @drawing_form = DrawingWizard::UploadForm.new(drawing_upload_params)
-      @drawing_form.validate
-      @drawing_form.errors.merge!(@drawing.errors)
       render :new
+    else
+      drawing = @planning_application.drawings.build(drawing_upload_params)
+
+      if drawing.save
+        flash[:notice] = "#{drawing.plan.filename} has been uploaded."
+        redirect_to planning_application_drawings_path
+      else
+        @drawing_form = DrawingWizard::UploadForm.new(drawing_upload_params)
+        @drawing_form.validate
+        @drawing_form.errors.merge!(drawing.errors)
+        render :new
+      end
     end
   end
+  # rubocop: enable Metrics/MethodLength
 
   def confirm
     assign_archive_reason_to_form
@@ -101,6 +115,12 @@ class DrawingsController < AuthenticationController
 
   def drawing_upload_params
     params.fetch(:drawing_form, {}).permit(:plan, tags: [])
+  end
+
+  def drawing_upload_confirmation_params
+    drawing_upload_params.merge(
+      params.fetch(:drawing_form, {}).permit(:confirmation)
+    )
   end
 
   def drawing_form_params

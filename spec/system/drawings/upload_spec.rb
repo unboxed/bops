@@ -111,6 +111,23 @@ RSpec.describe "Document uploads", type: :system do
 
         expect(page).to have_content("Plan is not a supported file format")
       end
+
+      scenario "shows an error message when no action is selected on the confirmation page" do
+        visit planning_application_drawings_path(planning_application)
+
+        click_link("Upload documents")
+
+        attach_file("Upload a file", "spec/fixtures/images/proposed-section.pdf")
+
+        check("section - proposed")
+
+        click_button("Continue")
+
+        click_button("Continue")
+
+        expect(page).to have_content("Confirm document")
+        expect(page).to have_content("Please select one of the below options")
+      end
     end
 
     context "when the planning application has been submitted for review" do
