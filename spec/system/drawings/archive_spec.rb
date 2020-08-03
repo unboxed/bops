@@ -39,7 +39,7 @@ RSpec.feature "Drawings index page", type: :system do
     end
 
     scenario "Assessor can see table of drawings on overview page" do
-      expect(page).to have_css(".thumbnail-left")
+      expect(page).to have_css(".thumbnail", count: 1)
     end
 
     scenario "Archive table is initially empty" do

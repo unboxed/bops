@@ -59,10 +59,10 @@ RSpec.describe "Document uploads", type: :system do
         expect(page).to have_content("proposed-section.pdf has been uploaded.")
 
         within(".current-drawings") do
-          expect(page).to have_css("[class*=\"thumbnail\"]", count: 2)
+          expect(page).to have_css(".thumbnail", count: 2)
 
           # The newly added document is last in the list
-          expect(page.find("[class*=\"thumbnail\"]:last-child")).to have_css("img[src*=\"proposed-section.pdf\"]")
+          expect(find(".thumbnail:last-child")).to have_css("img[src*=\"proposed-section.pdf\"]")
         end
 
         find(".govuk-breadcrumbs").click_link("Application")
