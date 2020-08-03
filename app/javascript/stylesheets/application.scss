@@ -24,17 +24,18 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
   padding: govuk-spacing(2);
 }
 
-.moj-banner {
-  border-color: green;
-  color: govuk-colour("green");
-  font-size: 0; // Removes white space when using inline-block on child element.
+.corrections-banner {
+  border: 5px solid govuk-colour("red");
+  @include govuk-font($size: 19);
+  color: govuk-colour("black");
+  display: block;
+  overflow: hidden;
   margin-bottom: govuk-spacing(6);
   padding: govuk-spacing(2);
 }
 
-
-.moj-banner__icon {
-  fill: currentColor;
+.alert__icon {
+  fill: govuk-colour("red");
   float: left;
   margin-right: govuk-spacing(2);
 }
@@ -44,23 +45,19 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
   color: govuk-colour("black");
   display: block;
   overflow: hidden;
+
+  h2 {
+    margin-bottom: govuk-spacing(2);
+  }
+
+  h2:last-child, p:last-child {
+    margin-bottom: 0;
+  }
 }
-
-.moj-banner__message h2 {
-  margin-bottom: govuk-spacing(2);
-}
-
-
-.moj-banner__message h2:last-child,
-.moj-banner__message p:last-child {
-  margin-bottom: 0;
-}
-
 
 .moj-banner__assistive {
   @include govuk-visually-hidden;
 }
-
 
 /* Style variants
    ========================================================================== */
@@ -69,7 +66,6 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
   border-color: govuk-colour("green");
   color: govuk-colour("green");
 }
-
 
 .moj-banner--warning {
   border-color: govuk-colour("red");

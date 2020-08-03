@@ -11,6 +11,11 @@
     <% end %>
   </div>
 </div>
+<% if current_user.assessor? && @planning_applications.awaiting_correction.any? %>
+  <%= render "assessor_corrections_banner" %>
+<% elsif current_user.reviewer? && @planning_applications.select(&:correction_provided?).any? %>
+  <%= render "reviewer_corrections_banner" %>
+<% end %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <div class="govuk-tabs" data-module="govuk-tabs">
@@ -20,6 +25,7 @@
       <%= render "planning_application_tabs" %>
       <%= render "planning_application_table", planning_applications: @planning_applications.in_assessment, id: "in_assessment", title: "In assessment" unless exclude_others? && current_user.reviewer?  %>
       <%= render "planning_application_table", planning_applications: @planning_applications.awaiting_determination, id: "awaiting_determination", title: "Awaiting manager's determination" %>
+      <%= render "planning_application_table", planning_applications: @planning_applications.awaiting_correction, id: "awaiting_correction", title: "Corrections requested" %>
       <%= render "planning_application_table", planning_applications: @planning_applications.determined, id: "determined", title: "Determined" %>
     </div>
   </div>

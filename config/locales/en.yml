@@ -9,6 +9,11 @@ en:
     heading: "Determine the proposal"
     proposal_step: "Review the recommendation"
     recommendation_step: "Publish the recommendation"
+  awaiting_correction:
+    title: "Corrections requested"
+    heading: "Make corrections"
+    proposal_step: "Reassess the proposal"
+    recommendation_step: "Resubmit the recommendation"
   determined:
     title: "Determined"
     heading: "View the application"
