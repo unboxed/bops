@@ -13,9 +13,14 @@ RSpec.feature "Drawings index page", type: :system do
            site: site
   end
 
+  let(:drawing_tags) {
+    [ Drawing::TAGS.first, Drawing::TAGS.last ]
+  }
+
   let!(:drawing) do
     create :drawing, :with_plan,
-           planning_application: planning_application
+           planning_application: planning_application,
+           tags: drawing_tags
   end
 
   context "as a user who is not logged in" do
@@ -150,6 +155,10 @@ RSpec.feature "Drawings index page", type: :system do
       within(find(".archived-drawings")) do
         expect(page).to have_text("Missing scale bar")
         expect(page).to have_text("existing-floorplan.png")
+
+        drawing_tags.each do |tag|
+          expect(page).to have_text tag
+        end
       end
     end
 
