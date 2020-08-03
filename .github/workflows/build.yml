@@ -25,6 +25,9 @@ jobs:
       with:
         cmd: install
 
+    - name: Install file previewing tools
+      run: sudo apt-get install -y ghostscript poppler-utils
+
     - name: Cache Ruby Gems
       uses: actions/cache@v1
       with:
