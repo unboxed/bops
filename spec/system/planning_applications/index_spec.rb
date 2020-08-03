@@ -127,10 +127,28 @@ RSpec.feature "Planning Application index page", type: :system do
   context "as an reviewer" do
     before do
       sign_in users(:reviewer)
-      visit planning_applications_path
+      visit root_path
     end
 
-    scenario "Planning Application status bar is present" do
+    scenario "Planning Application status bar is present and does not show In Assessment by default" do
+      within(:planning_applications_status_tab) do
+        expect(page).to have_link "Awaiting manager's determination"
+        expect(page).to have_link "Determined"
+        expect(page).not_to have_link "In assessment"
+      end
+    end
+
+    scenario "Reviewer can see applications in assessment status by toggling link" do
+      click_link "View all applications"
+
+      within(:planning_applications_status_tab) do
+        expect(page).to have_link "Awaiting manager's determination"
+        expect(page).to have_link "Determined"
+        expect(page).to have_link "In assessment"
+      end
+
+      click_link "View assessed applications"
+
       within(:planning_applications_status_tab) do
         expect(page).to have_link "Awaiting manager's determination"
         expect(page).to have_link "Determined"
