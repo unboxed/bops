@@ -2,11 +2,11 @@
   <% if (current_user.assessor? || current_user.admin?)%>
     <li>
       <h2 class="app-task-list__section">
-        <span class="app-task-list__section-number">Make recommendation</span>
+        <span class="app-task-list__section-number"><%= t("#{@planning_application.status}.heading") %></span>
       </h2>
       <ul class="app-task-list__items">
         <li class="app-task-list__item">
-          <% step_name = "Assess the proposal" %>
+          <% step_name = t("#{@planning_application.status}.proposal_step") %>
 
           <% if (current_user.assessor? || current_user.admin?) %>
             <% aria_attributes = @planning_application.assessor_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
@@ -29,7 +29,7 @@
         </li>
 
         <li class="app-task-list__item">
-          <% step_name = "Submit the recommendation" %>
+          <% step_name = t("#{@planning_application.status}.recommendation_step") %>
 
           <% if (current_user.assessor? || current_user.admin?) && @planning_application.assessor_decision %>
             <% aria_attributes = @planning_application.awaiting_determination? ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
@@ -49,11 +49,11 @@
   <% if (current_user.reviewer? || current_user.admin?)%>
     <li>
       <h2 class="app-task-list__section">
-        <span class="app-task-list__section-number">Determine the proposal</span>
+        <span class="app-task-list__section-number"><%= t("#{@planning_application.status}.heading") %></span>
       </h2>
       <ul class="app-task-list__items">
         <li class="app-task-list__item">
-          <% step_name = "Review the recommendation" %>
+          <% step_name = t("#{@planning_application.status}.proposal_step") %>
 
           <% if current_user.reviewer? %>
             <% aria_attributes = @planning_application.reviewer_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
@@ -76,7 +76,7 @@
         </li>
 
         <li class="app-task-list__item">
-          <% step_name = "Publish the recommendation" %>
+          <% step_name = t("#{@planning_application.status}.recommendation_step") %>
 
           <% if current_user.reviewer? && @planning_application.reviewer_decision %>
             <% aria_attributes = @planning_application.awaiting_determination? ? { describedby: "#{step_name.parameterize}-completed" } : {} %>

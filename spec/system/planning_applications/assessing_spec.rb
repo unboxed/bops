@@ -34,11 +34,14 @@ RSpec.describe "Planning Application Assessment", type: :system do
   scenario "Assessment completing and editing" do
     click_link planning_application.reference
 
-    # Ensure we're starting from a fresh "checklist"
-    expect(page).not_to have_css(".app-task-list__task-completed")
+    expect(page).to have_content("Make recommendation")
+    expect(page).to have_link("Assess the proposal")
 
     # The second step is not yet a link
     expect(page).not_to have_link("Submit the recommendation")
+
+    # Ensure we're starting from a fresh "checklist"
+    expect(page).not_to have_css(".app-task-list__task-completed")
 
     within(".govuk-grid-column-two-thirds.application") do
       first('.govuk-accordion').click_button('Open all')
@@ -64,6 +67,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
     within(:assessment_step, "Assess the proposal") do
       expect(page).to have_completed_tag
     end
+
+    expect(page).to have_link("Submit the recommendation")
 
     click_link "Assess the proposal"
 
@@ -105,7 +110,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     click_button "Submit to manager"
 
-    within(:assessment_step, "Submit the recommendation") do
+    expect(page).to have_content("Determine the proposal")
+    expect(page).to have_link("Review the recommendation")
+    expect(page).to have_link("Publish the recommendation")
+
+    within(:assessment_step, "Publish the recommendation") do
       expect(page).to have_completed_tag
     end
 
@@ -136,6 +145,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     click_link planning_application.reference
+
+    expect(page).to have_content("Make recommendation")
+    expect(page).to have_link("Assess the proposal")
+    expect(page).not_to have_link("Submit the recommendation")
 
     # Ensure officer name is not displayed on page when accordion is opened
     within(".govuk-grid-column-two-thirds.application") do

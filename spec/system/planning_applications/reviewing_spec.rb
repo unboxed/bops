@@ -30,6 +30,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
           click_link planning_application.reference
         end
 
+        expect(page).to have_content("Determine the proposal")
+        expect(page).to have_link("Review the recommendation")
         expect(page).not_to have_link("Publish the recommendation")
 
         click_link "Review the recommendation"
@@ -53,6 +55,10 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         end
         click_button "Save"
 
+        expect(page).to have_content("Determine the proposal")
+        expect(page).to have_link("Review the recommendation")
+        expect(page).to have_link("Publish the recommendation")
+
         click_link "Publish the recommendation"
 
         expect(page).to have_content("The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.")
@@ -71,7 +77,11 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         expect(mail.subject).to eq("Certificate of Lawfulness: granted")
         expect(mail.body.encoded).to match("Certificate of lawfulness of proposed use or development: granted.")
 
-        within(:assessment_step, "Publish the recommendation") do
+        expect(page).to have_content("View the application")
+        expect(page).to have_link("View the assessment")
+        expect(page).to have_link("View the decision notice")
+
+        within(:assessment_step, "View the decision notice") do
           expect(page).to have_completed_tag
         end
 
@@ -139,7 +149,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_button "Determine application"
 
-        within(:assessment_step, "Publish the recommendation") do
+        within(:assessment_step, "View the decision notice") do
           expect(page).to have_completed_tag
         end
 
@@ -247,7 +257,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_button "Determine application"
 
-        within(:assessment_step, "Publish the recommendation") do
+        within(:assessment_step, "View the decision notice") do
           expect(page).to have_completed_tag
         end
 
@@ -305,7 +315,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_button "Determine application"
 
-        within(:assessment_step, "Publish the recommendation") do
+        within(:assessment_step, "View the decision notice") do
           expect(page).to have_completed_tag
         end
 
@@ -374,7 +384,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_button "Determine application"
 
-        within(:assessment_step, "Publish the recommendation") do
+        within(:assessment_step, "View the decision notice") do
           expect(page).to have_completed_tag
         end
 
@@ -431,7 +441,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_button "Determine application"
 
-        within(:assessment_step, "Publish the recommendation") do
+        within(:assessment_step, "View the decision notice") do
           expect(page).to have_completed_tag
         end
 
