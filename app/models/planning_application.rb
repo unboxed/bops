@@ -63,6 +63,14 @@ class PlanningApplication < ApplicationRecord
     reviewer_decision.updated_at > assessor_decision.updated_at
   end
 
+  def assessment_complete?
+    awaiting_determination? || determined?
+  end
+
+  def review_complete?
+    awaiting_correction? || determined?
+  end
+
   private
 
   def set_target_date

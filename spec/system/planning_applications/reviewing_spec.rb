@@ -85,6 +85,12 @@ RSpec.describe "Planning Application Reviewing", type: :system do
           expect(page).to have_completed_tag
         end
 
+        click_link "View the assessment"
+        click_link "Back"
+
+        click_link "View the decision notice"
+        click_link "Back"
+
         click_link "Home"
 
         # Check that the application is no longer in awaiting determination
@@ -137,6 +143,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         expect(page).to have_link("Reassess the proposal")
         expect(page).to have_text("Resubmit the recommendation")
+
+        click_link "Reassess the proposal"
+        click_link "Back"
 
         click_link "Home"
 
@@ -252,6 +261,15 @@ RSpec.describe "Planning Application Reviewing", type: :system do
           expect(page).to have_completed_tag
         end
 
+        expect(page).to have_link("View the assessment")
+        expect(page).to have_link("View the decision notice")
+
+        click_link "View the assessment"
+        click_link "Back"
+
+        click_link "View the decision notice"
+        click_link "Back"
+
         click_link "Home"
 
         # Check that the application is no longer in awaiting determination
@@ -293,6 +311,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         expect(page).to have_link("Reassess the proposal")
         expect(page).to have_text("Resubmit the recommendation")
+
+        click_link "Reassess the proposal"
+        click_link "Back"
 
         click_link "Home"
 
@@ -369,6 +390,15 @@ RSpec.describe "Planning Application Reviewing", type: :system do
           expect(page).to have_completed_tag
         end
 
+        expect(page).to have_link("View the assessment")
+        expect(page).to have_link("View the decision notice")
+
+        click_link "View the assessment"
+        click_link "Back"
+
+        click_link "View the decision notice"
+        click_link "Back"
+
         click_link "Home"
 
         # Check that the application is no longer in awaiting determination
@@ -410,6 +440,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         expect(page).to have_link("Reassess the proposal")
         expect(page).to have_text("Resubmit the recommendation")
+
+        click_link "Reassess the proposal"
+        click_link "Back"
 
         click_link "Home"
 

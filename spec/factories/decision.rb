@@ -24,4 +24,9 @@ FactoryBot.define do
     public_comment { "This has been refused." }
     private_comment { "This is a private comment." }
   end
+
+  trait :refused_private_comment do
+    status { :refused }
+    private_comment { "This is a private comment." }
+  end
 end

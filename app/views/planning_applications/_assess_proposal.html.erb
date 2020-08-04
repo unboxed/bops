@@ -9,25 +9,12 @@
 
         <% if (current_user.assessor? || current_user.admin?) %>
           <% aria_attributes = @planning_application.assessor_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
-
-          <%# TODO: Make a helper for this %>
-          <%
-            path = @planning_application.assessor_decision ?
-              edit_planning_application_decision_path(@planning_application) :
-                new_planning_application_decision_path(@planning_application)
-          %>
-
+          <% path = assessor_decision_path(@planning_application) %>
           <span class="app-task-list__task-name"><%= link_to step_name, path, aria: aria_attributes %></span>
         <% elsif !@planning_application.in_assessment? && (current_user.reviewer? || current_user.admin?) %>
           <% aria_attributes = @planning_application.reviewer_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
 
-          <%# TODO: Make a helper for this %>
-          <%
-            path = @planning_application.reviewer_decision ?
-              edit_planning_application_decision_path(@planning_application) :
-                new_planning_application_decision_path(@planning_application)
-          %>
-
+          <% path = reviewer_decision_path(@planning_application) %>
           <span class="app-task-list__task-name"><%= link_to step_name, path, aria: aria_attributes %></span>
         <% else %>
           <span class="app-task-list__task-name"><%= step_name %></span>
