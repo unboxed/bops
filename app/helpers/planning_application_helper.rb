@@ -14,4 +14,12 @@ module PlanningApplicationHelper
   def exclude_others?
     params[:q] == "exclude_others"
   end
+
+  def filter_text
+    if current_user.assessor?
+      "View my applications"
+    else
+      "View assessed applications"
+    end
+  end
 end

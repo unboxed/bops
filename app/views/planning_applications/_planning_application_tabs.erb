@@ -1,6 +1,6 @@
 <div>
   <ul class="govuk-tabs__list" id="planning_applications_statusTab" role="tablist">
-    <% unless current_user.reviewer?%>
+      <% unless exclude_others? && current_user.reviewer? %>
       <li class="govuk-tabs__list-item govuk-tabs__list-item--selected" role="presentation">
         <%= link_to "In assessment", "#in_assessment", class: "govuk-tabs__tab", role: "tab", "aria-controls":"in-assessment", "aria-selected": true, tabindex: 0 %>
       </li>

@@ -9,10 +9,10 @@
       Your fast track applications
     </h1>
     <p class="govuk-body"><%= current_user.name %>, <%= current_user.role.capitalize %></p>
-    <% if exclude_others? && current_user.assessor? %>
+    <% if exclude_others? %>
       <p class="govuk-body"><%= link_to "View all applications", planning_applications_path, class: "govuk-link" %></p>
-    <% elsif !exclude_others? && current_user.assessor? %>
-      <p class="govuk-body"><%= link_to "View my applications", planning_applications_path(q: "exclude_others"), class: "govuk-link" %></p>
+    <% else %>
+      <p class="govuk-body"><%= link_to filter_text, planning_applications_path(q: "exclude_others"), class: "govuk-link" %></p>
     <% end %>
   </div>
 </div>
@@ -23,7 +23,7 @@
         Contents
       </h2>
       <%= render "planning_application_tabs" %>
-      <%= render "planning_application_table", planning_applications: @planning_applications.in_assessment, id: "in_assessment", title: "In assessment" unless current_user.reviewer?%>
+      <%= render "planning_application_table", planning_applications: @planning_applications.in_assessment, id: "in_assessment", title: "In assessment" unless exclude_others? && current_user.reviewer?  %>
       <%= render "planning_application_table", planning_applications: @planning_applications.awaiting_determination, id: "awaiting_determination", title: "Awaiting manager's determination" %>
       <%= render "planning_application_table", planning_applications: @planning_applications.determined, id: "determined", title: "Determined" %>
     </div>
