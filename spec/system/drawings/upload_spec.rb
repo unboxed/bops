@@ -109,7 +109,7 @@ RSpec.describe "Document uploads", type: :system do
 
         click_button("Continue")
 
-        expect(page).to have_content("Plan is not a supported file format")
+        expect(page).to have_content("The selected file must be a PDF, JPG or PNG")
       end
 
       scenario "shows an error message when no action is selected on the confirmation page" do
