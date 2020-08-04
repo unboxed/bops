@@ -5,58 +5,56 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <div class="govuk-breadcrumbs" style="margin-bottom: 20px;">
-      <ol class="govuk-breadcrumbs__list">
-        <li class="govuk-breadcrumbs__list-item" aria-current="page"></li>
-      </ol>
-    </div>
     <h1 class="govuk-heading-l" style="margin-bottom: 7px;">
       Fast track application: <%= @planning_application.reference %>
     </h1>
     <h2 class="govuk-heading-m" style="margin-bottom: 75px;">
       <%= display_address(@site) %>
     </h2>
+
     <%= render "success_flash" %>
+
     <%  if filter_current(@drawings).count > 0 %>
-    <h2 class="govuk-heading-m">
-      Proposal documents
-    </h2>
+      <h2 class="govuk-heading-m">
+        Proposal documents
+      </h2>
+    <% end %>
+  </div>
+
+  <div class="govuk-grid-column-one-third upload-container">
+    <% if current_user.assessor? && @planning_application.in_assessment? %>
+      <%= link_to "Upload documents", new_planning_application_drawing_path(@planning_application), role: "button", class: "govuk-button", data: { module: "govuk-button" } %>
+    <% elsif current_user.assessor? %>
+      <%= tag.button "Upload documents", disabled: "disabled", "aria-disabled": true, class: "govuk-button govuk-button--disabled", data: { module: "govuk-button" } %>
     <% end %>
   </div>
 </div>
+
 <div class="govuk-grid-row current-drawings">
-  <% filter_current(@drawings).each_with_index do |doc, index| %>
-    <%  if index.odd? %>
-        <div class="thumbnail-right">
-          <p class="govuk-body">
-            <strong><%= doc.name %></strong><br/>
-            <%= doc.created_at.strftime("%e %B %Y") %><br/>
-            <%= link_to "View in new window",
-            rails_blob_path(doc.plan), target: :_new %><br/>
-          </p>
-          <%= link_to image_tag(doc.plan.representation(resize: "300x212")),
-                      rails_blob_path(doc.plan), target: :_blank %>
-          <p class="govuk-body">
-            <%= link_to "Archive document", planning_application_drawing_archive_path(drawing_id: doc.id) if current_user.assessor? && @planning_application.in_assessment? %>
-          </p>
-        </div>
-    <% else %>
-        <div class="thumbnail-left">
-          <p class="govuk-body">
-            <strong><%= doc.name %></strong><br/>
-            <%= doc.created_at.strftime("%e %B %Y") %><br/>
-            <%= link_to "View in new window",
-                        rails_blob_path(doc.plan), target: :_new %><br/>
-          </p>
-          <%= link_to image_tag(doc.plan.representation(resize: "300x212")),
-                      rails_blob_path(doc.plan), target: :_blank %>
-          <p class="govuk-body">
-            <%= link_to "Archive document", planning_application_drawing_archive_path(drawing_id: doc.id) if current_user.assessor? && @planning_application.in_assessment? %>
-          </p>
-        </div>
-    <% end %>
+  <% filter_current(@drawings).each do |drawing| %>
+    <div class="thumbnail">
+      <p class="govuk-body">
+        <strong><%= drawing.name %></strong><br/>
+        <%= drawing.created_at.strftime("%e %B %Y") %><br/>
+        <%= link_to "View in new window",
+        rails_blob_path(drawing.plan), target: :_new %><br/>
+      </p>
+
+      <ul class="govuk-list">
+        <% drawing.tags.each do |tag| %>
+          <li><strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong></li>
+        <% end %>
+      </ul>
+
+      <%= link_to image_tag(drawing.plan.representation(resize: "300x212")),
+                  rails_blob_path(drawing.plan), target: :_blank %>
+      <p class="govuk-body">
+        <%= link_to "Archive document", planning_application_drawing_archive_path(drawing_id: drawing.id) if current_user.assessor? && @planning_application.in_assessment? %>
+      </p>
+    </div>
   <% end %>
 </div>
+
 <div class="govuk-grid-row">
   <table class="govuk-table archived-drawings">
     <caption class="govuk-table__caption">Archived documents</caption>
@@ -70,13 +68,13 @@
         <th scope="col" class="govuk-table__header">Officer's comment</th>
       </tr>
     </thead>
-        <% filter_archived(@drawings).each do |doc| %>
+        <% filter_archived(@drawings).each do |drawing| %>
     <tbody class="govuk-table__body">
       <tr class="govuk-table__row">
-        <td class="govuk-table__cell archive-data"><%= link_to doc.name, rails_blob_path(doc.plan), target: :_new %></td>
-        <td class="govuk-table__cell archive-data">Placeholder</td>
-        <td class="govuk-table__cell archive-data"><%= doc.created_at.strftime("%e %b %Y") %></td>
-        <td class="govuk-table__cell archive-data"><%= t(doc.archive_reason) %></td>
+        <td class="govuk-table__cell archive-data"><%= link_to drawing.name, rails_blob_path(drawing.plan), target: :_new %></td>
+        <td class="govuk-table__cell archive-data tags"><%= drawing.tags.join(", ") %></td>
+        <td class="govuk-table__cell archive-data"><%= drawing.created_at.strftime("%e %b %Y") %></td>
+        <td class="govuk-table__cell archive-data"><%= t(drawing.archive_reason) %></td>
       </tr>
         <% end %>
       <% end %>

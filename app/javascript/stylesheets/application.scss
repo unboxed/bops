@@ -4,6 +4,7 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
 @import "components/flashes";
 @import "components/task_list";
 @import "proposal";
+@import "components/drawings";
 
 .noborder {
   border-bottom: none !important;
@@ -12,20 +13,6 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
 .govuk-template {
   background-color: white;
 }
-
-.thumbnail-left {
-  float:left;
-  padding-bottom: 5%;
-  width: 40%;
-  margin-left: 2%;
-}
-
-.thumbnail-right {
-   float:right;
-   padding-bottom: 5%;
-   width: 40%;
-   margin-right: 10%;
- }
 
 .flash-archive {
   border: 5px solid govuk-colour("green");
@@ -88,4 +75,3 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
   border-color: govuk-colour("red");
   color: govuk-colour("red");
 }
-

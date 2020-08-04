@@ -1,0 +1,64 @@
+<% add_parent_breadcrumb_link "Home", planning_applications_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Drawings", planning_application_drawings_path(@planning_application) %>
+
+<% content_for :title, "Upload document" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l" style="margin-bottom: 7px;">
+      Documents: <%= @planning_application.reference %>
+    </h1>
+
+    <h2 class="govuk-heading-m" style="margin-bottom: 75px;">
+      <%= display_address(@site) %>
+    </h2>
+
+    <h2 class="govuk-heading-m">Upload new document</h2>
+
+    <%= form_with model: [ @planning_application, @drawing_form ], scope: :drawing_form, url: confirm_new_planning_application_drawings_path(@planning_application), local: true do |form| %>
+      <div class="govuk-form-group <%= form.object.errors[:plan].any? ? 'govuk-form-group--error' : '' %>">
+        <%= form.label :plan, "Upload a file", class: "govuk-label" %>
+
+        <% if form.object.errors[:plan].any? %>
+          <% form.object.errors[:plan].each do |error| %>
+            <span id="status-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span><%= error %></span>
+          <% end %>
+        <% end %>
+
+        <%= form.file_field :plan, direct_upload: true, class: "govuk-file-upload" %>
+      </div>
+
+      <div class="govuk-form-group <%= form.object.errors[:tags].any? ? 'govuk-form-group--error' : '' %>">
+        <fieldset class="govuk-fieldset">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend">
+            <p class="govuk-fieldset__heading govuk-!-font-weight-bold">
+              Please select relevant tags for the plan you are uploading
+            </p>
+          </legend>
+
+          <% if form.object.errors[:tags].any? %>
+            <% form.object.errors[:tags].each do |error| %>
+              <span id="status-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span><%= error %></span>
+            <% end %>
+          <% end %>
+
+          <div class="govuk-checkboxes govuk-checkboxes--small">
+            <%= form.collection_check_boxes :tags, Drawing::TAGS, :itself, :itself, include_hidden: false do |b| %>
+              <div class="govuk-checkboxes__item">
+                <%= b.check_box class: "govuk-checkboxes__input" %>
+                <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+              </div>
+            <% end %>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="govuk-form-group">
+        <%= form.submit "Continue", class: "govuk-button", data: { module: "govuk-button" } %>
+      </div>
+    <% end %>
+  </div>
+</div>

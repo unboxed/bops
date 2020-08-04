@@ -1,0 +1,31 @@
+.tag_checkbox_label,
+.archive-data.tags {
+  text-transform: uppercase;
+}
+
+.confirm-preview {
+  margin: 65px 0 0;
+
+  figcaption {
+    margin-top: 20px;
+  }
+}
+
+.current-drawings {
+  .thumbnail {
+    display: inline-block;
+    padding-bottom: 5%;
+    width: 40%;
+    margin-left: 2%;
+  }
+
+  .thumbnail:nth-of-type(2n) {
+    float: right;
+  }
+}
+
+.upload-container {
+  a, button {
+    float: right;
+  }
+}

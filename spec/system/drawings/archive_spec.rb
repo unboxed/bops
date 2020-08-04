@@ -13,9 +13,14 @@ RSpec.feature "Drawings index page", type: :system do
            site: site
   end
 
+  let(:drawing_tags) {
+    [ Drawing::TAGS.first, Drawing::TAGS.last ]
+  }
+
   let!(:drawing) do
     create :drawing, :with_plan,
-           planning_application: planning_application
+           planning_application: planning_application,
+           tags: drawing_tags
   end
 
   context "as a user who is not logged in" do
@@ -39,7 +44,7 @@ RSpec.feature "Drawings index page", type: :system do
     end
 
     scenario "Assessor can see table of drawings on overview page" do
-      expect(page).to have_css(".thumbnail-left")
+      expect(page).to have_css(".thumbnail", count: 1)
     end
 
     scenario "Archive table is initially empty" do
@@ -130,7 +135,7 @@ RSpec.feature "Drawings index page", type: :system do
       choose "Yes"
       click_button "Save"
 
-      expect(page).to have_text("Side elevation has been archived")
+      expect(page).to have_text("existing-floorplan.png has been archived")
     end
 
     scenario "Assessor sees error message if neither Yes nor No is selected" do
@@ -149,7 +154,11 @@ RSpec.feature "Drawings index page", type: :system do
 
       within(find(".archived-drawings")) do
         expect(page).to have_text("Missing scale bar")
-        expect(page).to have_text("Side elevation")
+        expect(page).to have_text("existing-floorplan.png")
+
+        drawing_tags.each do |tag|
+          expect(page).to have_text tag
+        end
       end
     end
 

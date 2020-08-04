@@ -2,7 +2,6 @@
 
 FactoryBot.define do
   factory :drawing do
-    name { 'Side elevation' }
     planning_application
   end
 

@@ -185,28 +185,32 @@ task create_sample_data: :environment do
    college_planning_application,
    james_planning_application,
    bellenden_planning_application].each do |application|
-    drawing_1 = Drawing.find_or_create_by!(
-      name: "Side elevation",
-      planning_application: application
+    drawing_1 = application.drawings.create(
+      tags: Drawing::TAGS.sample(rand(1..3))
     )
-    drawing_1.plan.attach(io: File.open(plan_1), filename: "side.png")
+    drawing_1.plan.attach(io: File.open(plan_1),
+      filename: "proposed-section.jpg"
+    )
 
-    drawing_2 = Drawing.find_or_create_by!(
-      name: "Existing elevation",
-      planning_application: application
+    drawing_2 = application.drawings.create(
+      tags: Drawing::TAGS.sample(rand(1..3))
     )
-    drawing_2.plan.attach(io: File.open(plan_2), filename: "side2.png")
+    drawing_2.plan.attach(io: File.open(plan_2),
+      filename: "existing-section.png"
+    )
 
-    drawing_3 = Drawing.find_or_create_by!(
-      name: "Floorplan",
-      planning_application: application
+    drawing_3 = application.drawings.create(
+      tags: Drawing::TAGS.sample(rand(1..3))
     )
-    drawing_3.plan.attach(io: File.open(plan_3), filename: "floorplan.png")
+    drawing_3.plan.attach(io: File.open(plan_3),
+      filename: "existing-floorplan.pdf"
+    )
 
-    drawing_4 = Drawing.find_or_create_by!(
-      name: "Existing floorplan",
-      planning_application: application
+    drawing_4 = application.drawings.create(
+      tags: Drawing::TAGS.sample(rand(1..3))
     )
-    drawing_4.plan.attach(io: File.open(plan_4), filename: "floorplan2.png")
+    drawing_4.plan.attach(io: File.open(plan_4),
+      filename: "proposed-floorplan.png"
+    )
   end
 end

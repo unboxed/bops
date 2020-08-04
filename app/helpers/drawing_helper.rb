@@ -6,10 +6,19 @@ module DrawingHelper
   end
 
   def filter_current(drawings)
-    drawings.select { |plan| plan.archived? == false }.sort_by(&:archived_at)
+    drawings.select { |plan| plan.archived? == false }.sort_by(&:created_at)
   end
 
   def archive_reason_collection_for_radio_buttons
     Drawing.archive_reasons.keys.map { |k| [k, I18n.t(k)] }
+  end
+
+  def tag_collection_for_checkboxes
+    Drawing::TAGS.map do |tag|
+      [
+        tag,
+        tag.humanize
+      ]
+    end
   end
 end

@@ -25,6 +25,9 @@ jobs:
       with:
         cmd: install
 
+    - name: Install file previewing tools
+      run: sudo apt-get install -y ghostscript poppler-utils
+
     - name: Cache Ruby Gems
       uses: actions/cache@v1
       with:
@@ -41,6 +44,8 @@ jobs:
         gem install bundler
         bundle config path vendor/bundle
         bundle install --jobs 4 --retry 3
+        sudo npm --unsafe-perm rebuild node-sass
+        NODE_ENV=test bundle exec rails webpacker:compile
         bundle exec rails db:setup
 
     - name: Run Tests

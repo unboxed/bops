@@ -58,10 +58,7 @@ RSpec.feature "Planning Application index page", type: :system do
       end
 
       scenario "Breadcrumbs are not displayed" do
-        within(find(".govuk-breadcrumbs__list", match: :first)) do
-          expect(page).to have_no_text "Home"
-          expect(page).to have_no_text "Application"
-        end
+        expect(find(".govuk-breadcrumbs__list").text).to be_empty
       end
 
       scenario "User can log out from index page" do
@@ -181,10 +178,7 @@ RSpec.feature "Planning Application index page", type: :system do
     end
 
     scenario "Breadcrumbs are not displayed" do
-      within(find(".govuk-breadcrumbs__list", match: :first)) do
-        expect(page).to have_no_text "Home"
-        expect(page).to have_no_text "Application"
-      end
+      expect(find(".govuk-breadcrumbs__list").text).to be_empty
     end
 
     scenario "User can log out from index page" do

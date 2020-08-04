@@ -7,9 +7,13 @@ Rails.application.routes.draw do
 
   resources :planning_applications, only: %i[show index edit update] do
     resources :decisions, only: %i[new create edit update]
-    resources :drawings, only: %i[index] do
+
+
+    resources :drawings, only: %i[index new create] do
       get :archive
       get :confirm
+
+      post :confirm_new, on: :collection
 
       post :validate_step
     end
