@@ -6,6 +6,7 @@ class PlanningApplicationPolicy < ApplicationPolicy
   alias_method :confirm?, :editor?
   alias_method :validate_step?, :editor?
   alias_method :archive?, :editor?
+  alias_method :confirm_new?, :editor?
 
   def show?
     super || signed_in_viewer?
@@ -21,10 +22,6 @@ class PlanningApplicationPolicy < ApplicationPolicy
 
   def update?
     super || signed_in_editor?
-  end
-
-  def confirm_new?
-    signed_in_editor?
   end
 
   def unpermitted_statuses
