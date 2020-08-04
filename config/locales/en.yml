@@ -1,7 +1,12 @@
 en:
-  in_assessment: "In assessment"
-  awaiting_determination: "Awaiting manager's determination"
-  determined: "Determined"
+  in_assessment:
+    title: "In assessment"
+  awaiting_determination:
+    title: "Awaiting manager's determination"
+  awaiting_correction:
+    title: "Corrections requested"
+  determined:
+    title: "Determined"
   full: "Full Householder Application"
   lawfulness_certificate: "Certificate of Lawfulness"
   user_not_authorized: "You are not authorized to perform this action."
