@@ -30,27 +30,33 @@
   </div>
 </div>
 
-<div class="govuk-grid-row current-drawings">
-  <% filter_current(@drawings).each do |drawing| %>
-    <div class="thumbnail">
-      <p class="govuk-body">
-        <strong><%= drawing.name %></strong><br/>
-        <%= drawing.created_at.strftime("%e %B %Y") %><br/>
-        <%= link_to "View in new window",
-        rails_blob_path(drawing.plan), target: :_new %><br/>
-      </p>
+<div class="current-drawings">
+  <% filter_current(@drawings).each_slice(2) do |drawings| %>
+    <div class="govuk-grid-row">
+      <% drawings.each.with_index do |drawing, index| %>
+        <div class="govuk-grid-column-one-half">
+          <div class="drawing-card<%= " right" if index % 2 == 1 %>">
+            <p class="govuk-body">
+              <strong><%= drawing.name %></strong><br/>
+              <%= drawing.created_at.strftime("%e %B %Y") %><br/>
+              <%= link_to "View in new window",
+              rails_blob_path(drawing.plan), target: :_new %><br/>
+            </p>
 
-      <ul class="govuk-list">
-        <% drawing.tags.each do |tag| %>
-          <li><strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong></li>
-        <% end %>
-      </ul>
+            <ul class="govuk-list">
+              <% drawing.tags.each do |tag| %>
+                <li><strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong></li>
+              <% end %>
+            </ul>
 
-      <%= link_to image_tag(drawing.plan.representation(resize: "300x212")),
-                  rails_blob_path(drawing.plan), target: :_blank %>
-      <p class="govuk-body">
-        <%= link_to "Archive document", planning_application_drawing_archive_path(drawing_id: drawing.id) if current_user.assessor? && @planning_application.in_assessment? %>
-      </p>
+            <%= link_to image_tag(drawing.plan.representation(resize: "300x212")),
+                        rails_blob_path(drawing.plan), target: :_blank %>
+            <p class="govuk-body">
+              <%= link_to "Archive document", planning_application_drawing_archive_path(drawing_id: drawing.id) if current_user.assessor? && @planning_application.in_assessment? %>
+            </p>
+          </div>
+        </div>
+      <% end %>
     </div>
   <% end %>
 </div>
