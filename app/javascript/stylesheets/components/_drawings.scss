@@ -12,15 +12,18 @@
 }
 
 .current-drawings {
-  .thumbnail {
-    display: inline-block;
-    padding-bottom: 5%;
-    width: 40%;
-    margin-left: 2%;
+  @include govuk-media-query($from: desktop) {
+    .drawing-card.right {
+      padding-left: 90px;
+    }
   }
 
-  .thumbnail:nth-of-type(2n) {
-    float: right;
+  .govuk-grid-row {
+    margin-bottom: 26px;
+  }
+
+  a + .govuk-body {
+    margin-top: 16px;
   }
 }
 

@@ -44,7 +44,7 @@ RSpec.feature "Drawings index page", type: :system do
     end
 
     scenario "Assessor can see table of drawings on overview page" do
-      expect(page).to have_css(".thumbnail", count: 1)
+      expect(page).to have_css(".drawing-card", count: 1)
     end
 
     scenario "Archive table is initially empty" do
@@ -157,13 +157,13 @@ RSpec.feature "Drawings index page", type: :system do
         expect(page).to have_text("existing-floorplan.png")
 
         drawing_tags.each do |tag|
-          expect(page).to have_text tag
+          expect(page).to have_css(".govuk-tag", text: tag)
         end
       end
     end
 
     scenario "Archived document does not appear on overview page" do
-      expect(page).not_to have_css(".thumbnail-left")
+      expect(page).not_to have_css(".drawing-card")
     end
   end
 
