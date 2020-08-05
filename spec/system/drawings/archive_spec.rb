@@ -157,7 +157,7 @@ RSpec.feature "Drawings index page", type: :system do
         expect(page).to have_text("existing-floorplan.png")
 
         drawing_tags.each do |tag|
-          expect(page).to have_text tag
+          expect(page).to have_css(".govuk-tag", text: tag)
         end
       end
     end

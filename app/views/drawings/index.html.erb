@@ -72,7 +72,13 @@
     <tbody class="govuk-table__body">
       <tr class="govuk-table__row">
         <td class="govuk-table__cell archive-data"><%= link_to drawing.name, rails_blob_path(drawing.plan), target: :_new %></td>
-        <td class="govuk-table__cell archive-data tags"><%= drawing.tags.join(", ") %></td>
+        <td class="govuk-table__cell archive-data tags">
+          <ul class="govuk-list">
+            <% drawing.tags.each do |tag| %>
+              <li><strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong></li>
+            <% end %>
+          </ul>
+        </td>
         <td class="govuk-table__cell archive-data"><%= drawing.created_at.strftime("%e %b %Y") %></td>
         <td class="govuk-table__cell archive-data"><%= t(drawing.archive_reason) %></td>
       </tr>
