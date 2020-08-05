@@ -1,0 +1,14 @@
+<%= form_with url: update_numbers_planning_application_drawings_path, method: :put do %>
+  <% @drawings.each do |drawing| %>
+    <%= fields_for "drawings[]", drawing do |f| %>
+      <div class="drawing">
+        <%= link_to image_tag(drawing.plan.representation(resize: "300x212")),
+                          rails_blob_path(drawing.plan), target: :_blank %>
+
+        <%= f.text_area :numbers %>
+      </div>
+    <% end %>
+  <% end%>
+
+  <%= submit_tag "Cool" %>
+<% end %>

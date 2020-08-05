@@ -5,12 +5,22 @@ class DrawingsController < AuthenticationController
   include PlanningApplicationDashboardVariables
 
   before_action :set_planning_application
-  before_action :set_drawing, except: [ :index, :new, :confirm_new, :create ]
+  before_action :set_drawing, except: [ :index, :new, :edit_numbers, :update_numbers, :confirm_new, :create ]
   before_action :set_planning_application_dashboard_variables
   before_action :disable_flash_header, only: :index
 
   def index
     @drawings = policy_scope(@planning_application.drawings).order(:created_at)
+  end
+
+  def edit_numbers
+    @drawings = @planning_application.drawings # TODO: Scope this to proposed only
+  end
+
+  def update_numbers
+    things = { 1: {numbers: "one, two, three"}, 2: {numbers: "four, six"}}
+
+    Drawing.update_all(things)
   end
 
   def archive

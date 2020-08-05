@@ -49,6 +49,16 @@ class Drawing < ApplicationRecord
            archived_at: Time.current) unless archived?
   end
 
+  # "123, 234, 345" Drawing numbers
+
+  def numbers=(nums)
+    super(nums.split(",").map(&:strip))
+  end
+
+  def numbers
+    super.join(", ")
+  end
+
   private
 
   def tag_values_permitted
