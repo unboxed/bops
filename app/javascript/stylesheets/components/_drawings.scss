@@ -21,6 +21,10 @@
   .govuk-grid-row {
     margin-bottom: 26px;
   }
+
+  a + .govuk-body {
+    margin-top: 16px;
+  }
 }
 
 .upload-container {
