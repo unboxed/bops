@@ -114,9 +114,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     expect(page).to have_link("Review the recommendation")
     expect(page).to have_link("Publish the recommendation")
 
-    within(:assessment_step, "Publish the recommendation") do
-      expect(page).to have_completed_tag
-    end
+    expect(page).not_to have_css(".app-task-list__task-completed")
 
     click_link "Home"
 
