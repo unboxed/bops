@@ -1,7 +1,7 @@
 <%= form_with model: [planning_application, decision], local: true, class: "decision" do |form| %>
   <div class="govuk-form-group">
     <fieldset class="govuk-fieldset">
-      <h2 class="govuk-heading-m">Assess the proposal</h2>
+      <h2 class="govuk-heading-m"><%= t("#{planning_application.status}.heading") %></h2>
       <p class="govuk-body">
         Please review the applicant's answers:
       </p>

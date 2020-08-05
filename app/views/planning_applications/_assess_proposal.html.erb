@@ -1,96 +1,59 @@
 <ol class="app-task-list">
-  <% if (current_user.assessor? || current_user.admin?)%>
-    <li>
-      <h2 class="app-task-list__section">
-        <span class="app-task-list__section-number">Make recommendation</span>
-      </h2>
-      <ul class="app-task-list__items">
-        <li class="app-task-list__item">
-          <% step_name = "Assess the proposal" %>
+  <li>
+    <h2 class="app-task-list__section">
+      <span class="app-task-list__section-number"><%= t("#{@planning_application.status}.heading") %></span>
+    </h2>
+    <ul class="app-task-list__items">
+      <li class="app-task-list__item">
+        <% step_name = t("#{@planning_application.status}.proposal_step") %>
 
-          <% if (current_user.assessor? || current_user.admin?) %>
-            <% aria_attributes = @planning_application.assessor_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
+        <% if (current_user.assessor? || current_user.admin?) %>
+          <% aria_attributes = @planning_application.assessor_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
 
-            <%# TODO: Make a helper for this %>
-            <%
-              path = @planning_application.assessor_decision ?
-                edit_planning_application_decision_path(@planning_application) :
-                  new_planning_application_decision_path(@planning_application)
-            %>
+          <%# TODO: Make a helper for this %>
+          <%
+            path = @planning_application.assessor_decision ?
+              edit_planning_application_decision_path(@planning_application) :
+                new_planning_application_decision_path(@planning_application)
+          %>
 
-            <span class="app-task-list__task-name"><%= link_to step_name, path, aria: aria_attributes %></span>
-          <% else %>
-            <span class="app-task-list__task-name"><%= step_name %></span>
-          <% end %>
+          <span class="app-task-list__task-name"><%= link_to step_name, path, aria: aria_attributes %></span>
+        <% elsif !@planning_application.in_assessment? && (current_user.reviewer? || current_user.admin?) %>
+          <% aria_attributes = @planning_application.reviewer_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
 
-          <% if @planning_application.assessor_decision&.valid? %>
-            <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
-          <% end %>
-        </li>
+          <%# TODO: Make a helper for this %>
+          <%
+            path = @planning_application.reviewer_decision ?
+              edit_planning_application_decision_path(@planning_application) :
+                new_planning_application_decision_path(@planning_application)
+          %>
 
-        <li class="app-task-list__item">
-          <% step_name = "Submit the recommendation" %>
+          <span class="app-task-list__task-name"><%= link_to step_name, path, aria: aria_attributes %></span>
+        <% else %>
+          <span class="app-task-list__task-name"><%= step_name %></span>
+        <% end %>
 
-          <% if (current_user.assessor? || current_user.admin?) && @planning_application.assessor_decision %>
-            <% aria_attributes = @planning_application.awaiting_determination? ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
+        <% if proposal_step_mark_completed?(step_name, @planning_application) %>
+          <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
+        <% end %>
+      </li>
 
-            <span class="app-task-list__task-name"><%= link_to step_name, edit_planning_application_path(@planning_application), aria: aria_attributes %></span>
-          <% else %>
-            <span class="app-task-list__task-name"><%= step_name %></span>
-          <% end %>
+      <li class="app-task-list__item">
+        <% step_name = t("#{@planning_application.status}.recommendation_step") %>
+        <% aria_attributes = @planning_application.awaiting_determination? ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
 
-          <% if @planning_application.awaiting_determination? %>
-            <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
-          <% end %>
-        </li>
-      </ul>
-    </li>
-  <% end %>
-  <% if (current_user.reviewer? || current_user.admin?)%>
-    <li>
-      <h2 class="app-task-list__section">
-        <span class="app-task-list__section-number">Determine the proposal</span>
-      </h2>
-      <ul class="app-task-list__items">
-        <li class="app-task-list__item">
-          <% step_name = "Review the recommendation" %>
+        <% if (current_user.assessor? || current_user.admin?) && @planning_application.assessor_decision %>
+          <span class="app-task-list__task-name"><%= link_to step_name, edit_planning_application_path(@planning_application), aria: aria_attributes %></span>
+        <% elsif current_user.reviewer? && @planning_application.reviewer_decision %>
+          <span class="app-task-list__task-name"><%= link_to step_name, edit_planning_application_path(@planning_application), aria: aria_attributes %></span>
+        <% else %>
+          <span class="app-task-list__task-name"><%= step_name %></span>
+        <% end %>
 
-          <% if current_user.reviewer? %>
-            <% aria_attributes = @planning_application.reviewer_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
-
-            <%# TODO: Make a helper for this %>
-            <%
-              path = @planning_application.reviewer_decision ?
-                edit_planning_application_decision_path(@planning_application) :
-                  new_planning_application_decision_path(@planning_application)
-            %>
-
-            <span class="app-task-list__task-name"><%= link_to step_name, path, aria: aria_attributes %></span>
-          <% else %>
-            <span class="app-task-list__task-name"><%= step_name %></span>
-          <% end %>
-
-          <% if @planning_application.reviewer_decision&.valid? %>
-            <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
-          <% end %>
-        </li>
-
-        <li class="app-task-list__item">
-          <% step_name = "Publish the recommendation" %>
-
-          <% if current_user.reviewer? && @planning_application.reviewer_decision %>
-            <% aria_attributes = @planning_application.awaiting_determination? ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
-
-            <span class="app-task-list__task-name"><%= link_to step_name, edit_planning_application_path(@planning_application), aria: aria_attributes %></span>
-          <% else %>
-            <span class="app-task-list__task-name"><%= step_name %></span>
-          <% end %>
-
-          <% if @planning_application.determined? %>
-            <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
-          <% end %>
-        </li>
-      </ul>
-    </li>
-  <% end %>
+        <% if recommendation_step_mark_completed?(step_name, @planning_application) %>
+          <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
+        <% end %>
+      </li>
+    </ul>
+  </li>
 </ol>

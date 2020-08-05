@@ -1,7 +1,19 @@
 en:
-  in_assessment: "In assessment"
-  awaiting_determination: "Awaiting manager's determination"
-  determined: "Determined"
+  in_assessment:
+    title: "In assessment"
+    heading: "Make recommendation"
+    proposal_step: "Assess the proposal"
+    recommendation_step: "Submit the recommendation"
+  awaiting_determination:
+    title: "Awaiting manager's determination"
+    heading: "Determine the proposal"
+    proposal_step: "Review the recommendation"
+    recommendation_step: "Publish the recommendation"
+  determined:
+    title: "Determined"
+    heading: "View the application"
+    proposal_step: "View the assessment"
+    recommendation_step: "View the decision notice"
   full: "Full Householder Application"
   lawfulness_certificate: "Certificate of Lawfulness"
   user_not_authorized: "You are not authorized to perform this action."
