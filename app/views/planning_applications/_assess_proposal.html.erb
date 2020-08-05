@@ -33,11 +33,7 @@
           <span class="app-task-list__task-name"><%= step_name %></span>
         <% end %>
 
-        <% if @planning_application.in_assessment? && @planning_application.assessor_decision&.valid? %>
-          <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
-        <% elsif @planning_application.awaiting_determination? && @planning_application.reviewer_decision&.valid? %>
-          <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
-        <% elsif @planning_application.determined? %>
+        <% if proposal_step_mark_completed?(step_name, @planning_application) %>
           <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
         <% end %>
       </li>
@@ -54,9 +50,7 @@
           <span class="app-task-list__task-name"><%= step_name %></span>
         <% end %>
 
-        <% if @planning_application.awaiting_determination? && step_name == "Submit the recommendation" %>
-          <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
-        <% elsif @planning_application.determined? %>
+        <% if recommendation_step_mark_completed?(step_name, @planning_application) %>
           <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
         <% end %>
       </li>
