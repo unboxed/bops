@@ -44,7 +44,7 @@
 
         <% if (current_user.assessor? || current_user.admin?) && @planning_application.assessor_decision %>
           <span class="app-task-list__task-name"><%= link_to step_name, edit_planning_application_path(@planning_application), aria: aria_attributes %></span>
-        <% elsif current_user.reviewer? && @planning_application.reviewer_decision %>
+        <% elsif current_user.reviewer? && @planning_application.reviewer_decision  && !@planning_application.awaiting_correction? %>
           <span class="app-task-list__task-name"><%= link_to step_name, edit_planning_application_path(@planning_application), aria: aria_attributes %></span>
         <% else %>
           <span class="app-task-list__task-name"><%= step_name %></span>

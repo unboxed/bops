@@ -52,6 +52,7 @@ RSpec.describe Decision, type: :model do
 
       it "is valid when status is refused" do
         subject.status = :refused
+        subject.private_comment = "This is not granted."
 
         expect(subject).to be_valid
       end

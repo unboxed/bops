@@ -23,18 +23,23 @@ module PlanningApplicationHelper
     end
   end
 
+  # rubocop: disable Metrics/MethodLength
   def proposal_step_mark_completed?(step_name, application)
     case step_name
     when "Assess the proposal"
       application.assessor_decision&.valid?
+    when "Reassess the proposal"
+      application.assessor_decision_updated?
     when "Review the recommendation"
-      application.reviewer_decision&.valid?
+      application.reviewer_decision&.valid? &&
+        application.reviewer_decision_updated?
     when "View the assessment"
       application.determined?
     else
       false
     end
   end
+  # rubocop: enable Metrics/MethodLength
 
   def recommendation_step_mark_completed?(step_name, application)
     case step_name

@@ -2,6 +2,15 @@
   <div class="govuk-form-group">
     <fieldset class="govuk-fieldset">
       <h2 class="govuk-heading-m"><%= t("#{planning_application.status}.heading") %></h2>
+      <% if @planning_application.awaiting_correction? %>
+        <p class="govuk-body">
+          Your manager sent the following comment about your recommendation below. Please take action based on their comment.
+        </p>
+        <div style="border: 1px solid; padding: 10px;">
+          <p class="govuk-body"><%= @planning_application.reviewer_decision.private_comment %></p>
+        </div>
+        <br>
+      <% end %>
       <p class="govuk-body">
         Please review the applicant's answers:
       </p>

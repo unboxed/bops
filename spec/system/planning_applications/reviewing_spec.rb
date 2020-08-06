@@ -126,32 +126,17 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         expect(page).not_to have_content("This is a private comment")
 
         choose "No"
+        fill_in "private_comment", with: "I don't agree"
+
         click_button "Save"
 
-        within(:assessment_step, "Review the recommendation") do
-          expect(page).to have_completed_tag
-        end
+        expect(page).not_to have_css(".app-task-list__task-completed")
 
-        click_link "Review the recommendation"
+        expect(page).not_to have_link("Review the recommendation")
+        expect(page).not_to have_text("Review the recommendation")
 
-        # Expect the saved state to be shown in the form
-        within(find("form.decision")) do
-          expect(page.find_field("No")).to be_checked
-        end
-        click_button "Save"
-
-        click_link "Publish the recommendation"
-
-        expect(page).to have_content("The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.")
-        expect(page).to have_content("refused")
-        expect(page).not_to have_content("The proposal does not comply with:")
-        expect(page).not_to have_content("This has been refused.")
-
-        click_button "Determine application"
-
-        within(:assessment_step, "View the decision notice") do
-          expect(page).to have_completed_tag
-        end
+        expect(page).to have_link("Reassess the proposal")
+        expect(page).to have_text("Resubmit the recommendation")
 
         click_link "Home"
 
@@ -161,10 +146,16 @@ RSpec.describe "Planning Application Reviewing", type: :system do
           expect(page).not_to have_link planning_application.reference
         end
 
+        # Check that the application is now in corrections requested
+        click_link "Corrections requested"
+        within("#awaiting_correction") do
+          expect(page).to have_link planning_application.reference
+        end
+
         # Check that the application is now in determined
         click_link "Determined"
         within("#determined") do
-          expect(page).to have_link planning_application.reference
+          expect(page).not_to have_link planning_application.reference
         end
       end
 
@@ -291,33 +282,17 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         expect(page).to have_content("This has been refused.")
 
         choose "No"
+        fill_in "private_comment", with: "I don't agree"
+
         click_button "Save"
 
-        within(:assessment_step, "Review the recommendation") do
-          expect(page).to have_completed_tag
-        end
+        expect(page).not_to have_css(".app-task-list__task-completed")
 
-        click_link "Review the recommendation"
+        expect(page).not_to have_link("Review the recommendation")
+        expect(page).not_to have_text("Review the recommendation")
 
-        # Expect the saved state to be shown in the form
-        within(find("form.decision")) do
-          expect(page.find_field("No")).to be_checked
-        end
-        click_button "Save"
-
-        click_link "Publish the recommendation"
-
-        expect(page).to have_content("The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.")
-        expect(page).to have_content("granted")
-        expect(page).not_to have_content("The proposal does not comply with:")
-        expect(page).not_to have_content("This has been refused.")
-        expect(page).not_to have_content("This is a private comment")
-
-        click_button "Determine application"
-
-        within(:assessment_step, "View the decision notice") do
-          expect(page).to have_completed_tag
-        end
+        expect(page).to have_link("Reassess the proposal")
+        expect(page).to have_text("Resubmit the recommendation")
 
         click_link "Home"
 
@@ -327,10 +302,16 @@ RSpec.describe "Planning Application Reviewing", type: :system do
           expect(page).not_to have_link planning_application.reference
         end
 
+        # Check that the application is now in corrections requested
+        click_link "Corrections requested"
+        within("#awaiting_correction") do
+          expect(page).to have_link planning_application.reference
+        end
+
         # Check that the application is now in determined
         click_link "Determined"
         within("#determined") do
-          expect(page).to have_link planning_application.reference
+          expect(page).not_to have_link planning_application.reference
         end
       end
 
@@ -418,32 +399,17 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         expect(page).to have_content("This has been refused.")
 
         choose "No"
+        fill_in "private_comment", with: "I don't agree"
+
         click_button "Save"
 
-        within(:assessment_step, "Review the recommendation") do
-          expect(page).to have_completed_tag
-        end
+        expect(page).not_to have_css(".app-task-list__task-completed")
 
-        click_link "Review the recommendation"
+        expect(page).not_to have_link("Review the recommendation")
+        expect(page).not_to have_text("Review the recommendation")
 
-        # Expect the saved state to be shown in the form
-        within(find("form.decision")) do
-          expect(page.find_field("No")).to be_checked
-        end
-        click_button "Save"
-
-        click_link "Publish the recommendation"
-
-        expect(page).to have_content("The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.")
-        expect(page).to have_content("granted")
-        expect(page).not_to have_content("The proposal does not comply with:")
-        expect(page).not_to have_content("This has been refused.")
-
-        click_button "Determine application"
-
-        within(:assessment_step, "View the decision notice") do
-          expect(page).to have_completed_tag
-        end
+        expect(page).to have_link("Reassess the proposal")
+        expect(page).to have_text("Resubmit the recommendation")
 
         click_link "Home"
 
@@ -453,10 +419,16 @@ RSpec.describe "Planning Application Reviewing", type: :system do
           expect(page).not_to have_link planning_application.reference
         end
 
+        # Check that the application is now in corrections requested
+        click_link "Corrections requested"
+        within("#awaiting_correction") do
+          expect(page).to have_link planning_application.reference
+        end
+
         # Check that the application is now in determined
         click_link "Determined"
         within("#determined") do
-          expect(page).to have_link planning_application.reference
+          expect(page).not_to have_link planning_application.reference
         end
       end
 

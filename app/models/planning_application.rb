@@ -3,7 +3,8 @@
 class PlanningApplication < ApplicationRecord
   enum application_type: { lawfulness_certificate: 0, full: 1 }
 
-  enum status: { in_assessment: 0, awaiting_determination: 1, determined: 2 }
+  enum status: { in_assessment: 0, awaiting_determination: 1,
+                 awaiting_correction: 2, determined: 3 }
 
   has_one :policy_evaluation, dependent: :destroy
   has_many :decisions, dependent: :destroy
@@ -38,6 +39,28 @@ class PlanningApplication < ApplicationRecord
 
   def reference
     @_reference ||= id.to_s.rjust(8, "0")
+  end
+
+  def correction_provided?
+    awaiting_determination? && reviewer_decision&.private_comment.present?
+  end
+
+  def reviewer_disagrees_with_assessor?
+    return false unless reviewer_decision && assessor_decision
+
+    reviewer_decision.status != assessor_decision.status
+  end
+
+  def assessor_decision_updated?
+    return false unless assessor_decision && reviewer_decision
+
+    assessor_decision.updated_at > reviewer_decision.updated_at
+  end
+
+  def reviewer_decision_updated?
+    return false unless reviewer_decision && assessor_decision
+
+    reviewer_decision.updated_at > assessor_decision.updated_at
   end
 
   private

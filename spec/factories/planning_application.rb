@@ -29,6 +29,16 @@ FactoryBot.define do
     end
   end
 
+  trait :awaiting_correction do
+    status                    { :awaiting_correction }
+    awaiting_determination_at { Time.current }
+
+    after(:create) do |pa|
+      pa.target_date = Date.current + 7.weeks
+      pa.save!
+    end
+  end
+
   trait :determined do
     status        { :determined }
     determined_at { Time.current }
