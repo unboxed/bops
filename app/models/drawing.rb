@@ -15,6 +15,8 @@ class Drawing < ApplicationRecord
     "section"
   ].freeze
 
+  neil = "woo"
+
   PROPOSED_TAGS = ORIENTATION_TAGS.product(["proposed"]).map do |tags|
     [tags.first, tags.second].join(" - ")
   end.freeze

@@ -14,13 +14,18 @@ class DrawingsController < AuthenticationController
   end
 
   def edit_numbers
-    @drawings = @planning_application.drawings # TODO: Scope this to proposed only
+    @drawings_list = DrawingNumbersListForm.new(@planning_application.drawings) # TODO: Scope this to proposed only
   end
 
   def update_numbers
-    things = { 1: {numbers: "one, two, three"}, 2: {numbers: "four, six"}}
+    @drawings_list = DrawingNumbersListForm.new(@planning_application.drawings, drawings_list_params[:drawings])
 
-    Drawing.update_all(things)
+    if @drawings_list.update_all
+      flash[:notice] = "Updated #{@drawings_list.drawings.count} drawings with numbers"
+      redirect_to planning_application_drawings_path
+    else
+      render :edit_numbers
+    end
   end
 
   def archive
@@ -118,6 +123,10 @@ class DrawingsController < AuthenticationController
   end
 
   private
+
+  def drawings_list_params
+    params.require(:drawings_list).permit(drawings: [:id, :numbers])
+  end
 
   def drawing_params
     params.fetch(:drawing, {}).permit(:archive_reason, :name, :archived_at)

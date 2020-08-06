@@ -19,3 +19,11 @@ en:
               unsupported_file_type: "The selected file must be a PDF, JPG or PNG"
             tags:
               unpermitted_tags: "Please choose valid tags"
+
+  activemodel:
+    errors:
+      models:
+        drawing_numbers_list_form:
+          attributes:
+            base:
+              missing_numbers: "Supply at least one number for each drawing"

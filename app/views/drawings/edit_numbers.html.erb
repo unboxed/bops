@@ -1,7 +1,14 @@
-<%= form_with url: update_numbers_planning_application_drawings_path, method: :put do %>
-  <% @drawings.each do |drawing| %>
-    <%= fields_for "drawings[]", drawing do |f| %>
+<%= form_with model: @drawings_list, scope: "drawings_list", url: update_numbers_planning_application_drawings_path, method: :put, local: true do |f| %>
+  <% if f.object.errors.any? %>
+    <h1>You have errors <%= f.object.errors.full_messages.join("\n") %></h1>
+  <% end %>
+
+  <% @drawings_list.drawings.each do |drawing| %>
+    <%= f.fields_for "drawings[#{drawing.id}]", drawing do |f| %>
       <div class="drawing">
+        <p>Errors: <%= drawing.errors.full_messages %></p>
+        <p>Numbers:<%= drawing.numbers %></p>
+
         <%= link_to image_tag(drawing.plan.representation(resize: "300x212")),
                           rails_blob_path(drawing.plan), target: :_blank %>
 
