@@ -29,9 +29,10 @@ module PlanningApplicationHelper
     when "Assess the proposal"
       application.assessor_decision&.valid?
     when "Reassess the proposal"
-      application.awaiting_correction?
+      application.assessor_decision_updated?
     when "Review the recommendation"
-      application.reviewer_decision&.valid?
+      application.reviewer_decision&.valid? &&
+        application.reviewer_decision_updated?
     when "View the assessment"
       application.determined?
     else

@@ -65,13 +65,17 @@ RSpec.describe "Planning Application correction journey", type: :system do
         choose "Yes"
 
         click_button "Save"
-        expect(page).to have_css(".app-task-list__task-completed")
+
+        within(:assessment_step, "Reassess the proposal") do
+          expect(page).to have_completed_tag
+        end
 
         click_link "Resubmit the recommendation"
 
         click_button "Submit to manager"
 
-        expect(page).to have_css(".app-task-list__task-completed")
+        expect(page).to have_text("Review the recommendation")
+        expect(page).to have_text("Publish the recommendation")
 
         click_link "Home"
 
@@ -101,8 +105,6 @@ RSpec.describe "Planning Application correction journey", type: :system do
         fill_in "private_comment", with: "I don't agree"
 
         click_on "Save"
-
-        expect(page).to have_css(".app-task-list__task-completed")
 
         click_link "Home"
         expect(page).not_to have_css("corrections-banner")
@@ -157,7 +159,9 @@ RSpec.describe "Planning Application correction journey", type: :system do
 
         click_button "Save"
 
-        expect(page).to have_css(".app-task-list__task-completed")
+        within(:assessment_step, "Review the recommendation") do
+          expect(page).to have_completed_tag
+        end
 
         click_link "Publish the recommendation"
 

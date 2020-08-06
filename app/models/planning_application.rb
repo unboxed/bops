@@ -51,6 +51,18 @@ class PlanningApplication < ApplicationRecord
     reviewer_decision.status != assessor_decision.status
   end
 
+  def assessor_decision_updated?
+    return false unless assessor_decision && reviewer_decision
+
+    assessor_decision.updated_at > reviewer_decision.updated_at
+  end
+
+  def reviewer_decision_updated?
+    return false unless reviewer_decision && assessor_decision
+
+    reviewer_decision.updated_at > assessor_decision.updated_at
+  end
+
   private
 
   def set_target_date

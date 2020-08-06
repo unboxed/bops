@@ -130,22 +130,12 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_button "Save"
 
-        within(:assessment_step, "Reassess the proposal") do
-          expect(page).to have_completed_tag
-        end
+        expect(page).not_to have_css(".app-task-list__task-completed")
 
         expect(page).not_to have_link("Review the recommendation")
         expect(page).not_to have_text("Review the recommendation")
 
-        click_link "Reassess the proposal"
-
-        # Expect the saved state to be shown in the form
-        within(find("form.decision")) do
-          expect(page.find_field("No")).to be_checked
-          expect(page).to have_content("I don't agree")
-        end
-        click_button "Save"
-
+        expect(page).to have_link("Reassess the proposal")
         expect(page).to have_text("Resubmit the recommendation")
 
         click_link "Home"
@@ -296,22 +286,12 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_button "Save"
 
-        within(:assessment_step, "Reassess the proposal") do
-          expect(page).to have_completed_tag
-        end
+        expect(page).not_to have_css(".app-task-list__task-completed")
 
         expect(page).not_to have_link("Review the recommendation")
         expect(page).not_to have_text("Review the recommendation")
 
-        click_link "Reassess the proposal"
-
-        # Expect the saved state to be shown in the form
-        within(find("form.decision")) do
-          expect(page.find_field("No")).to be_checked
-          expect(page).to have_content("I don't agree")
-        end
-        click_button "Save"
-
+        expect(page).to have_link("Reassess the proposal")
         expect(page).to have_text("Resubmit the recommendation")
 
         click_link "Home"
@@ -423,22 +403,12 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_button "Save"
 
-        within(:assessment_step, "Reassess the proposal") do
-          expect(page).to have_completed_tag
-        end
+        expect(page).not_to have_css(".app-task-list__task-completed")
 
         expect(page).not_to have_link("Review the recommendation")
         expect(page).not_to have_text("Review the recommendation")
 
-        click_link "Reassess the proposal"
-
-        # Expect the saved state to be shown in the form
-        within(find("form.decision")) do
-          expect(page.find_field("No")).to be_checked
-          expect(page).to have_content("I don't agree")
-        end
-        click_button "Save"
-
+        expect(page).to have_link("Reassess the proposal")
         expect(page).to have_text("Resubmit the recommendation")
 
         click_link "Home"
