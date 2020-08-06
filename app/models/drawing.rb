@@ -34,6 +34,12 @@ class Drawing < ApplicationRecord
     where("tags ?| array[#{Drawing.proposed_tag_query}]")
   }
 
+  scope :active, -> { where(archived_at: nil) }
+
+  scope :for_publication, -> { active.has_proposed_tag }
+
+  scope :has_empty_numbers, -> { where("numbers = '[]'") }
+
   def self.proposed_tag_query
     Drawing::PROPOSED_TAGS.map { |tag| "'#{tag}'" }.join(",")
   end

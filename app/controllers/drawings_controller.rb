@@ -5,7 +5,8 @@ class DrawingsController < AuthenticationController
   include PlanningApplicationDashboardVariables
 
   before_action :set_planning_application
-  before_action :set_drawing, except: [ :index, :new, :edit_numbers, :update_numbers, :confirm_new, :create ]
+  before_action :set_drawing, except: [ :index, :new, :edit_numbers,
+                                        :update_numbers, :confirm_new, :create ]
   before_action :set_planning_application_dashboard_variables
   before_action :disable_flash_header, only: :index
 
@@ -14,14 +15,24 @@ class DrawingsController < AuthenticationController
   end
 
   def edit_numbers
-    @drawings = @planning_application.drawings # TODO: Scope this to proposed only
+    @drawings = @planning_application.drawings.has_proposed_tag
   end
 
   def update_numbers
-    things = { 1: {numbers: "one, two, three"}, 2: {numbers: "four, six"}}
+    Drawing.update(params[:drawings].keys, params[:drawings].values)
 
-    Drawing.update_all(things)
+    redirect_to @planning_application
   end
+
+  # def update
+  #   form = DrawingNumbersForm.new(@planning_application.drawings.has_proposed_tag, params)
+
+  #   if form.update_all
+  #     redirect_to planning_application_show_url
+  #   else
+  #     render :edit_numbers
+  #   end
+  # end
 
   def archive
     assign_archive_reason_to_form
@@ -135,6 +146,10 @@ class DrawingsController < AuthenticationController
 
   def drawing_form_params
     params.permit drawing_form: [:drawing_id, :archive_reason, :updated_at]
+  end
+
+  def drawing_numbers_params
+    params.permit drawing_form: [:drawing_id, :numbers]
   end
 
   def form_params

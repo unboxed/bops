@@ -24,10 +24,10 @@ Certificate of lawful development (proposed) for the construction of <%= @planni
   1 The development shall be carried out in accordance with the following approved plans:
 
   Plan reference number	Plan description	Date received
-  <% @planning_application.drawings.each do |drawing| %>
+  <% @drawings.each do |drawing| %>
     <% if drawing.numbers.present?  %>
       <% drawing.numbers.split(",").each do |number| %>
-        <%= number %> <%= drawing.name %> <%= drawing.created_at.strftime("%e %B %Y") %>
+        <%= number %> <%= drawing.created_at.strftime("%e %B %Y") %>
       <% end %>
     <% end %>
   <% end %>

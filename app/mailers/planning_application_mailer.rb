@@ -7,6 +7,7 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
     @planning_application = planning_application
     @decision = @planning_application.reviewer_decision
     @user = @planning_application.applicant
+    @drawings = @planning_application.drawings.for_publication
 
     view_mail(
       NOTIFY_TEMPLATE_ID,

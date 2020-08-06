@@ -50,30 +50,40 @@ RSpec.describe Drawing, type: :model do
 
       expect(subject).to be_valid
     end
+  end
+
+  describe ".active" do
+    let!(:active_drawing) { create :drawing }
+    let!(:archived_drawing) { create :drawing, :archived }
+
+    it "should return drawings that are not archived" do
+      expect(Drawing.active).to match_array([active_drawing])
+    end
+  end
+
+  describe ".has_proposed_tag" do
+    let!(:untagged_drawing) { create :drawing }
+    let!(:proposed_drawing) { create :drawing, :proposed_tags }
+    let!(:existing_drawing) { create :drawing, :existing_tags }
 
     it "scopes drawings with proposed tags correctly" do
-      expect(Drawing.has_proposed_tag.count).to eq(0)
-      subject.update(tags:  ["front elevation - proposed", "floor plan - proposed"])
-
-      expect(Drawing.has_proposed_tag.count).to eq(1)
+      expect(Drawing.has_proposed_tag).to match_array([proposed_drawing])
     end
+  end
 
-    it "does not include drawings in the proposed tags scope that are tagged existing" do
-      expect(Drawing.has_proposed_tag.count).to eq(0)
-      subject.update(tags:  ["front elevation - existing"])
-
-      expect(Drawing.has_proposed_tag.count).to eq(0)
-    end
+  describe ".proposed_tag_query" do
 
     it "returns the correct tags for the proposed tags query" do
-      expect(Drawing.proposed_tag_query).to eq("'front elevation - proposed','side elevation - proposed','floor plan - proposed','section - proposed'")
+      stub_const("Drawing::PROPOSED_TAGS",["string1", "string2"])
+      expected_string = "'string1','string2'"
+      expect(Drawing.proposed_tag_query).to eq(expected_string)
     end
   end
 
   describe "#archive" do
     before { subject.archive ("scale") }
 
-    it "archive reason should be correcly returned when assigned" do
+    it "archive reason should be correctly returned when assigned" do
       expect(subject.archive_reason).to eql("scale")
     end
 

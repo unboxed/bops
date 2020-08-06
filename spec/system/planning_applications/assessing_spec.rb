@@ -109,7 +109,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
     # Application number
     expect(page).to have_content("#{planning_application.reference}")
     # Drawings
-    expect(page).to have_text("proposed-floorplan.png")
     expect(page).to have_content("123")
     expect(page).to have_content("456")
     expect(page).to have_content("Certificate of lawful development (proposed) for the construction of #{planning_application.description}")
