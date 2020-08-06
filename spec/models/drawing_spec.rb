@@ -50,6 +50,24 @@ RSpec.describe Drawing, type: :model do
 
       expect(subject).to be_valid
     end
+
+    it "scopes drawings with proposed tags correctly" do
+      expect(Drawing.has_proposed_tag.count).to eq(0)
+      subject.update(tags:  ["front elevation - proposed", "floor plan - proposed"])
+
+      expect(Drawing.has_proposed_tag.count).to eq(1)
+    end
+
+    it "does not include drawings in the proposed tags scope that are tagged existing" do
+      expect(Drawing.has_proposed_tag.count).to eq(0)
+      subject.update(tags:  ["front elevation - existing"])
+
+      expect(Drawing.has_proposed_tag.count).to eq(0)
+    end
+
+    it "returns the correct tags for the proposed tags query" do
+      expect(Drawing.proposed_tag_query).to eq("'front elevation - proposed','side elevation - proposed','floor plan - proposed','section - proposed'")
+    end
   end
 
   describe "#archive" do

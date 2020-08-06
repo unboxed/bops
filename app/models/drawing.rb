@@ -30,7 +30,9 @@ class Drawing < ApplicationRecord
   validate :tag_values_permitted
   validate :plan_content_type_permitted
 
-  scope :has_proposed_tag, -> { where("tags ?| array[#{Drawing.proposed_tag_query}]") }
+  scope :has_proposed_tag, -> {
+    where("tags ?| array[#{Drawing.proposed_tag_query}]")
+  }
 
   def self.proposed_tag_query
     Drawing::PROPOSED_TAGS.map { |tag| "'#{tag}'" }.join(",")
@@ -48,8 +50,6 @@ class Drawing < ApplicationRecord
     update(archive_reason: archive_reason,
            archived_at: Time.current) unless archived?
   end
-
-  # "123, 234, 345" Drawing numbers
 
   def numbers=(nums)
     super(nums.split(",").map(&:strip))

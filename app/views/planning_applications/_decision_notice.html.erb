@@ -38,16 +38,17 @@
         </tr>
       </thead>
       <tbody class="govuk-table__body">
-        <tr class="govuk-table__row">
-          <td class="govuk-table__cell">[Plan reference number]</td>
-          <td class="govuk-table__cell">[Document name]</td>
-          <td class="govuk-table__cell">[ DD MONTH YYYY ]</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <td class="govuk-table__cell">[Plan reference number]</td>
-          <td class="govuk-table__cell">[Document name]</td>
-          <td class="govuk-table__cell">[ DD MONTH YYYY ]</td>
-        </tr>
+       <% @planning_application.drawings.each do |drawing| %>
+         <% if drawing.numbers.present?  %>
+          <% drawing.numbers.split(",").each do |number| %>
+            <tr class="govuk-table__row">
+            <td class="govuk-table__cell"><%= number %></td>
+            <td class="govuk-table__cell"><%= drawing.name %></td>
+            <td class="govuk-table__cell"><%= drawing.created_at.strftime("%e %B %Y") %></td>
+          </tr>
+         <% end %>
+        <% end %>
+       <% end %>
       </tbody>
     </table>
   <% elsif decision.refused? %>

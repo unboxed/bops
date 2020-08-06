@@ -16,9 +16,9 @@
     <p class="govuk-body">
       Attach drawing numbers to all proposed documents. These will be published in the decision notice.
     </p>
-    <%= form_with url: update_numbers_planning_application_drawings_path, method: :put do %>
+    <%= form_tag update_numbers_planning_application_drawings_path, method: :put do %>
       <fieldset class="govuk-fieldset">
-        <% filter_current(@drawings.has_proposed_tag).each do |drawing| %>
+        <% filter_current(@drawings).each do |drawing| %>
           <%= fields_for "drawings[]", drawing do |f| %>
             <div class="thumbnail">
               <p class="govuk-body doc-names govuk-!-margin-bottom-1">
