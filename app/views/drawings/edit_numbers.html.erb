@@ -37,7 +37,7 @@
               <%= link_to image_tag(drawing.plan.representation(resize: "300x212")),
                           rails_blob_path(drawing.plan), target: :_blank %>          <br/>
               <%= f.label :numbers, "Drawing number:", class: "govuk-label", for: "numbers" %>
-              <%= f.text_area :numbers %>
+              <%= f.text_area :numbers, id: "numbers" %>
               <br/>
               <br/>
             </div>

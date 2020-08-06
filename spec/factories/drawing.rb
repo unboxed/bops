@@ -6,6 +6,6 @@ FactoryBot.define do
   end
 
   trait :with_plan do
-    plan { fixture_file_upload(Rails.root.join("spec/fixtures/images/existing-floorplan.png"), "existing-floorplan/png") }
+    plan { fixture_file_upload(Rails.root.join("spec/fixtures/images/proposed-floorplan.png"), "proposed-floorplan/png") }
   end
 end

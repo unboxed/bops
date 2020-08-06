@@ -26,6 +26,17 @@ RSpec.describe "Planning Application Assessment", type: :system do
             policy_considerations: [policy_consideration_1, policy_consideration_2]
   end
 
+  let(:drawing_tags) {
+    [ "front elevation - proposed" ]
+  }
+
+  let!(:drawing) do
+    create :drawing, :with_plan,
+           planning_application: planning_application,
+           tags: drawing_tags,
+           numbers: "123, 456"
+  end
+
   before do
     sign_in users(:assessor)
     visit root_path
@@ -92,13 +103,15 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     # Applicant
     expect(page).to have_content("#{planning_application.applicant.full_name}")
-    expect(page).to have_content("TBD")
     # Application received
     expect(page).to have_content("#{planning_application.created_at.strftime("%d/%m/%Y")}")
     # Address, TODO: add a fixture test for this
     # Application number
     expect(page).to have_content("#{planning_application.reference}")
-
+    # Drawings
+    expect(page).to have_text("proposed-floorplan.png")
+    expect(page).to have_content("123")
+    expect(page).to have_content("456")
     expect(page).to have_content("Certificate of lawful development (proposed) for the construction of #{planning_application.description}")
 
     expect(page).to have_content("If you agree with the decision notice, please submit it to your manager. If your manager disagrees with your recommendation they will send it back to you to make changes.")

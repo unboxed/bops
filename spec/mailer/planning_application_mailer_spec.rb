@@ -8,6 +8,12 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     let!(:planning_application) { create(:planning_application, :determined) }
     let!(:decision) { create(:decision, :granted, user: reviewer, planning_application: planning_application) }
 
+    let!(:drawing) do
+      create :drawing, :with_plan,
+             planning_application: planning_application,
+             numbers: "123, 456"
+    end
+
     let(:mail) { PlanningApplicationMailer.decision_notice_mail(planning_application.reload) }
 
     it "renders the headers" do
@@ -22,6 +28,9 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(mail.body.encoded).to match("Application received: #{planning_application.created_at.strftime("%e %B %Y")}")
       expect(mail.body.encoded).to match("Address: #{planning_application.site.full_address}")
       expect(mail.body.encoded).to match("Application number: #{planning_application.reference}")
+      expect(mail.body.encoded).to match("proposed-floorplan.png")
+      expect(mail.body.encoded).to match("123")
+      expect(mail.body.encoded).to match("456")
     end
 
     context "for a rejected application" do
