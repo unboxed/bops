@@ -13,7 +13,7 @@ class DecisionsController < AuthenticationController
 
   def create
     @decision = @planning_application.decisions.build(
-      decision_params.merge(user: current_user)
+      decision_params.merge(user: current_user, decided_at: Time.current)
     )
 
     if @decision.save
@@ -31,7 +31,9 @@ class DecisionsController < AuthenticationController
   def update
     set_decision_to_current_user(current_user)
 
-    if @decision.update(decision_params.merge(user: current_user))
+    if @decision.update(
+      decision_params.merge(user: current_user, decided_at: Time.current)
+    )
       set_awaiting_correction
       redirect_to @planning_application
     else
