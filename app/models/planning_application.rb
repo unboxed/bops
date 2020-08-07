@@ -54,13 +54,13 @@ class PlanningApplication < ApplicationRecord
   def assessor_decision_updated?
     return false unless assessor_decision && reviewer_decision
 
-    assessor_decision.updated_at > reviewer_decision.updated_at
+    assessor_decision.decided_at > reviewer_decision.decided_at
   end
 
   def reviewer_decision_updated?
     return false unless reviewer_decision && assessor_decision
 
-    reviewer_decision.updated_at > assessor_decision.updated_at
+    reviewer_decision.decided_at > assessor_decision.decided_at
   end
 
   private
