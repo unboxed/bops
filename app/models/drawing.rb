@@ -15,16 +15,29 @@ class Drawing < ApplicationRecord
     "section"
   ].freeze
 
-  STATE_TAGS = [ "proposed", "existing" ].freeze
-
-  TAGS = ORIENTATION_TAGS.product(STATE_TAGS).map do |tags|
+  PROPOSED_TAGS = ORIENTATION_TAGS.product(["proposed"]).map do |tags|
     [tags.first, tags.second].join(" - ")
   end.freeze
+
+  EXISTING_TAGS = ORIENTATION_TAGS.product(["existing"]).map do |tags|
+    [tags.first, tags.second].join(" - ")
+  end.freeze
+
+  TAGS = (PROPOSED_TAGS + EXISTING_TAGS).freeze
 
   PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"]
 
   validate :tag_values_permitted
   validate :plan_content_type_permitted
+
+  scope :has_proposed_tag, -> {
+    where("tags ?| array[:proposed_tag_array]",
+      proposed_tag_array: Drawing::PROPOSED_TAGS)
+  }
+  scope :has_empty_numbers, -> { where("numbers = '[]'") }
+  scope :active, -> { where(archived_at: nil) }
+
+  scope :for_publication, -> { active.has_proposed_tag }
 
   def name
     plan.filename if plan.attached?
@@ -37,6 +50,14 @@ class Drawing < ApplicationRecord
   def archive(archive_reason)
     update(archive_reason: archive_reason,
            archived_at: Time.current) unless archived?
+  end
+
+  def numbers=(nums)
+    super(nums.split(",").select(&:present?).map(&:strip)) if nums
+  end
+
+  def numbers
+    super.join(", ")
   end
 
   private
