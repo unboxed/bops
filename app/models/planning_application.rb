@@ -71,6 +71,13 @@ class PlanningApplication < ApplicationRecord
     awaiting_correction? || determined?
   end
 
+  def drawings_ready_for_publication?
+    drawings_for_publication = drawings.for_publication
+
+    drawings_for_publication.present? &&
+      drawings_for_publication.has_empty_numbers.none?
+  end
+
   private
 
   def set_target_date
