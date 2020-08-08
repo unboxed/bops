@@ -63,6 +63,13 @@ class PlanningApplication < ApplicationRecord
     reviewer_decision.decided_at > assessor_decision.decided_at
   end
 
+  def drawings_ready_for_publication?
+    drawings_for_publication = drawings.for_publication
+
+    drawings_for_publication.present? &&
+      drawings_for_publication.has_empty_numbers.none?
+  end
+
   private
 
   def set_target_date
