@@ -5,13 +5,39 @@ class DrawingsController < AuthenticationController
   include PlanningApplicationDashboardVariables
 
   before_action :set_planning_application
-  before_action :set_drawing, except: [ :index, :new, :confirm_new, :create ]
+  before_action :set_drawing, except: [ :index, :new, :edit_numbers,
+                                        :update_numbers, :confirm_new, :create ]
   before_action :set_planning_application_dashboard_variables
   before_action :disable_flash_header, only: :index
 
   def index
     @drawings = policy_scope(@planning_application.drawings).order(:created_at)
   end
+
+  def edit_numbers
+    @drawings_list = DrawingNumbersListForm.new(
+      @planning_application.drawings.for_publication
+    )
+  end
+
+  # rubocop: disable Metrics/MethodLength
+  def update_numbers
+    @drawings_list = DrawingNumbersListForm.new(
+      @planning_application.drawings.for_publication,
+      drawings_list_params[:drawings]
+    )
+
+    if @drawings_list.update_all
+      count = @drawings_list.drawings.count
+      flash[:notice] = "Updated #{count} " \
+        "#{"drawing".pluralize(count)} with numbers"
+
+      redirect_to @planning_application
+    else
+      render :edit_numbers
+    end
+  end
+  # rubocop: enable Metrics/MethodLength
 
   def archive
     assign_archive_reason_to_form
@@ -109,6 +135,10 @@ class DrawingsController < AuthenticationController
 
   private
 
+  def drawings_list_params
+    params.require(:drawings_list).permit(drawings: [:id, :numbers])
+  end
+
   def drawing_params
     params.fetch(:drawing, {}).permit(:archive_reason, :name, :archived_at)
   end
@@ -125,6 +155,10 @@ class DrawingsController < AuthenticationController
 
   def drawing_form_params
     params.permit drawing_form: [:drawing_id, :archive_reason, :updated_at]
+  end
+
+  def drawing_numbers_params
+    params.permit drawing_form: [:drawing_id, :numbers]
   end
 
   def form_params

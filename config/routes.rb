@@ -8,8 +8,10 @@ Rails.application.routes.draw do
   resources :planning_applications, only: %i[show index edit update] do
     resources :decisions, only: %i[new create edit update show]
 
-
     resources :drawings, only: %i[index new create] do
+      get :edit_numbers, on: :collection
+      put :update_numbers, on: :collection
+
       get :archive
       get :confirm
 

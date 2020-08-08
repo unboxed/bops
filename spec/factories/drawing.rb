@@ -20,4 +20,8 @@ FactoryBot.define do
   trait :existing_tags do
     tags { [Drawing::EXISTING_TAGS.first] }
   end
+
+  trait :numbered do
+    numbers { "drawing_number" }
+  end
 end

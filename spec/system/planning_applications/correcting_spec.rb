@@ -6,38 +6,48 @@ RSpec.describe "Planning Application correction journey", type: :system do
     let(:assessor) { create :user, :assessor }
     let(:reviewer) { create :user, :reviewer }
 
-    let(:assessor_decision) { create(:decision, :granted, user: assessor) }
-    let(:reviewer_decision) { create(:decision, :granted, user: reviewer) }
-
     let!(:planning_application_corrected) do
       create :planning_application,
-             :lawfulness_certificate,
-             :awaiting_correction,
-             assessor_decision: assessor_decision,
-             reviewer_decision: reviewer_decision
+      :lawfulness_certificate,
+      :awaiting_correction
+    end
+
+    let!(:assessor_decision) do
+      create :decision,
+             :granted,
+             user: assessor,
+             planning_application: planning_application_corrected
+    end
+
+    let!(:reviewer_decision) do
+      create :decision,
+             :granted,
+             user: reviewer,
+             planning_application: planning_application_corrected
+    end
+
+    # Required for submitting decision
+    let!(:drawing) do
+      create :drawing,
+             :proposed_tags,
+             :numbered,
+             :with_plan,
+             planning_application: planning_application_corrected
     end
 
     let(:policy_consideration_1) do
-      create :policy_consideration,
-             policy_question: "The property is",
-             applicant_answer: "a semi detached house"
-    end
-
-    let(:policy_consideration_2) do
-      create :policy_consideration,
-             policy_question: "The project will ___ the internal floor area of the building",
-             applicant_answer: "not alter"
+      create :policy_consideration
     end
 
     let!(:policy_evaluation) do
       create :policy_evaluation,
              planning_application: planning_application_corrected,
-             policy_considerations: [policy_consideration_1, policy_consideration_2]
+             policy_considerations: [policy_consideration_1]
     end
 
     context "Assessor responding to reviewer" do
       before do
-        planning_application_corrected.reviewer_decision.update!(private_comment: "please amend this information")
+        planning_application_corrected.reload.reviewer_decision.update!(private_comment: "please amend this information")
       end
 
       scenario "Assessment can be corrected and resubmitted" do
@@ -144,6 +154,7 @@ RSpec.describe "Planning Application correction journey", type: :system do
 
     context "Reviewer second stage" do
       before do
+        planning_application_corrected.reload
         planning_application_corrected.awaiting_determination!
         planning_application_corrected.assessor_decision.update!(public_comment: "application should be granted ")
         planning_application_corrected.reviewer_decision.update!(private_comment: "please amend this information")
