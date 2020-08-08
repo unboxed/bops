@@ -5,6 +5,36 @@ require 'rails_helper'
 RSpec.describe Drawing, type: :model do
   subject { FactoryBot.build :drawing }
 
+  describe "scopes" do
+    describe ".active" do
+      let!(:active_drawing) { create :drawing }
+      let!(:archived_drawing) { create :drawing, :archived }
+
+      it "should return drawings that are not archived" do
+        expect(Drawing.active).to match_array([active_drawing])
+      end
+    end
+
+    describe ".has_proposed_tag" do
+      let!(:untagged_drawing) { create :drawing }
+      let!(:proposed_drawing) { create :drawing, :proposed_tags }
+      let!(:existing_drawing) { create :drawing, :existing_tags }
+
+      it "scopes drawings with proposed tags correctly" do
+        expect(Drawing.has_proposed_tag).to match_array([proposed_drawing])
+      end
+    end
+
+    describe ".has_empty_numbers" do
+      let!(:numbered_drawing)        { create :drawing, numbers: "one, two" }
+      let!(:drawing_without_numbers) { create :drawing }
+
+      it "scopes drawings with proposed tags correctly" do
+        expect(Drawing.has_empty_numbers).to match_array([drawing_without_numbers])
+      end
+    end
+  end
+
   describe "validations" do
     before { subject.save }
 
@@ -52,19 +82,42 @@ RSpec.describe Drawing, type: :model do
     end
   end
 
-  describe "#archive" do
-    before { subject.archive ("scale") }
+  describe "instance methods" do
+    describe "#archive" do
+      before { subject.archive ("scale") }
 
-    it "archive reason should be correcly returned when assigned" do
-      expect(subject.archive_reason).to eql("scale")
+      it "archive reason should be correctly returned when assigned" do
+        expect(subject.archive_reason).to eql("scale")
+      end
+
+      it "should be able to be archived with valid reason" do
+        expect(subject.archived_at).not_to be(nil)
+      end
+
+      it "should return true when archived? method called" do
+        expect(subject.archived?).to be true
+      end
     end
 
-    it "should be able to be archived with valid reason" do
-      expect(subject.archived_at).not_to be(nil)
+    describe "#numbers=" do
+      it "splits strings on commas, removing whitespace and superfluous commas" do
+        subject.numbers = ""
+        expect(subject[:numbers]).to eq([])
+
+        subject.numbers = "just_the_one"
+        expect(subject[:numbers]).to eq(["just_the_one"])
+
+        subject.numbers = " one , two,,three     "
+        expect(subject[:numbers]).to eq(["one", "two", "three"])
+      end
     end
 
-    it "should return true when archived? method called" do
-      expect(subject.archived?).to be true
+    describe "#numbers" do
+      it "returns underlying array as a single comma separated string" do
+        subject[:numbers] = ["one with space", "two"]
+
+        expect(subject.numbers).to eq "one with space, two"
+      end
     end
   end
 end
