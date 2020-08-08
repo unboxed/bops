@@ -7,6 +7,8 @@ class PlanningApplicationPolicy < ApplicationPolicy
   alias_method :validate_step?, :editor?
   alias_method :archive?, :editor?
   alias_method :confirm_new?, :editor?
+  alias_method :edit_numbers?, :editor?
+  alias_method :update_numbers?, :editor?
 
   def show?
     super || signed_in_viewer?

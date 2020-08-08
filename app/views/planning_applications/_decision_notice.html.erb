@@ -29,27 +29,6 @@
       </strong>
     </p>
     <p class="govuk-body">1 The development shall be carried out in accordance with the following approved plans:</p>
-    <table class="govuk-table">
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header app-custom-class">Plan reference number</th>
-          <th scope="col" class="govuk-table__header app-custom-class">Plan description</th>
-          <th scope="col" class="govuk-table__header app-custom-class">Date received</th>
-        </tr>
-      </thead>
-      <tbody class="govuk-table__body">
-        <tr class="govuk-table__row">
-          <td class="govuk-table__cell">[Plan reference number]</td>
-          <td class="govuk-table__cell">[Document name]</td>
-          <td class="govuk-table__cell">[ DD MONTH YYYY ]</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <td class="govuk-table__cell">[Plan reference number]</td>
-          <td class="govuk-table__cell">[Document name]</td>
-          <td class="govuk-table__cell">[ DD MONTH YYYY ]</td>
-        </tr>
-      </tbody>
-    </table>
   <% elsif decision.refused? %>
     <p class="govuk-body">
       IT IS HEREBY CERTIFIED that the use or operations described below are
@@ -60,7 +39,30 @@
       <p class="govuk-body">The proposal does not comply with:</p>
       <p class="govuk-body"> <%= planning_application.assessor_decision.public_comment %> </p>
     <% end %>
+    <p class="govuk-body">
+    The proposal was refused based on the following plans:
+    </p>
   <% end %>
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header app-custom-class">Plan reference number</th>
+          <th scope="col" class="govuk-table__header app-custom-class">Date received</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <% planning_application.drawings.for_publication.each do |drawing| %>
+         <% if drawing.numbers.present? %>
+          <% drawing.numbers.split(",").each do |number| %>
+            <tr class="govuk-table__row">
+            <td class="govuk-table__cell"><%= number %></td>
+            <td class="govuk-table__cell"><%= drawing.created_at.strftime("%e %B %Y") %></td>
+          </tr>
+         <% end %>
+        <% end %>
+       <% end %>
+      </tbody>
+    </table>
   <p class="govuk-body">Signed: Simon Bevan
     <br>
     Director of Planning

@@ -38,11 +38,29 @@
         <% end %>
       </li>
 
+      <% if (current_user.assessor?) %>
+        <li class="app-task-list__item">
+          <% step_name = "Attach drawing numbers" %>
+
+          <% if !(@planning_application.awaiting_determination? || @planning_application.determined?)  && !@planning_application.drawings_ready_for_publication? %>
+            <% aria_attributes = @planning_application.awaiting_determination? ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
+
+            <span class="app-task-list__task-name"><%= link_to step_name, edit_numbers_planning_application_drawings_path(@planning_application), aria: aria_attributes %></span>
+          <% else %>
+            <span class="app-task-list__task-name"><%= step_name %></span>
+          <% end %>
+
+          <% if @planning_application.drawings_ready_for_publication? %>
+            <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
+          <% end %>
+        </li>
+      <% end %>
+
       <li class="app-task-list__item">
         <% step_name = t("#{@planning_application.status}.recommendation_step") %>
         <% aria_attributes = @planning_application.awaiting_determination? ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
 
-        <% if (current_user.assessor? || current_user.admin?) && @planning_application.assessor_decision %>
+        <% if (current_user.assessor? || current_user.admin?) && @planning_application.assessor_decision && @planning_application.drawings_ready_for_publication? %>
           <span class="app-task-list__task-name"><%= link_to step_name, edit_planning_application_path(@planning_application), aria: aria_attributes %></span>
         <% elsif current_user.reviewer? && @planning_application.reviewer_decision  && !@planning_application.awaiting_correction? %>
           <span class="app-task-list__task-name"><%= link_to step_name, edit_planning_application_path(@planning_application), aria: aria_attributes %></span>
