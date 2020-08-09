@@ -18,6 +18,6 @@ RSpec.shared_examples 'reviewer decision error message' do
 
     click_link "Home"
 
-    expect(page).not_to have_css(".app-task-list__task-completed")
+    expect(page).not_to have_content ("Completed")
   end
 end

@@ -53,7 +53,7 @@
   }
 }
 
-.app-task-list__task-completed {
+.app-task-list__task-tag {
   margin-top: govuk-spacing(2);
   margin-bottom: govuk-spacing(1);
   @include govuk-media-query($from: 450px) {

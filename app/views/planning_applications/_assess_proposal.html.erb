@@ -21,7 +21,7 @@
         <% end %>
 
         <% if proposal_step_mark_completed?(step_name, @planning_application) %>
-          <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
+          <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-tag" %>
         <% end %>
       </li>
 
@@ -29,16 +29,28 @@
         <li class="app-task-list__item">
           <% step_name = "Attach drawing numbers" %>
 
-          <% if !(@planning_application.awaiting_determination? || @planning_application.determined?)  && !@planning_application.drawings_ready_for_publication? %>
-            <% aria_attributes = @planning_application.awaiting_determination? ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
-
-            <span class="app-task-list__task-name"><%= link_to step_name, edit_numbers_planning_application_drawings_path(@planning_application), aria: aria_attributes %></span>
-          <% else %>
+          <% if @planning_application.awaiting_determination? || @planning_application.determined? %>
             <span class="app-task-list__task-name"><%= step_name %></span>
-          <% end %>
 
-          <% if @planning_application.drawings_ready_for_publication? %>
-            <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
+            <% if @planning_application.drawings_ready_for_publication? %>
+              <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-tag" %>
+            <% end %>
+          <% else %>
+            <% if @planning_application.drawings_ready_for_publication? %>
+              <% aria_attributes = { describedby: "#{step_name.parameterize}-completed" } %>
+
+              <span class="app-task-list__task-name"><%= link_to step_name, edit_numbers_planning_application_drawings_path(@planning_application), aria: aria_attributes %></span>
+
+              <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-tag" %>
+            <% elsif !@planning_application.drawings.has_proposed_tag.numbered.count.zero? && (@planning_application.drawings.has_proposed_tag.numbered.count < @planning_application.drawings.has_proposed_tag.count) %>
+              <% aria_attributes = { describedby: "#{step_name.parameterize}-in-progress" } %>
+
+              <span class="app-task-list__task-name"><%= link_to step_name, edit_numbers_planning_application_drawings_path(@planning_application), aria: aria_attributes %></span>
+
+              <%= tag.strong "In Progress", id: "#{step_name.parameterize}-in-progress", class: "govuk-tag govuk-tag--grey app-task-list__task-tag" %>
+            <% else %>
+              <span class="app-task-list__task-name"><%= link_to step_name, edit_numbers_planning_application_drawings_path(@planning_application) %></span>
+            <% end %>
           <% end %>
         </li>
       <% end %>
@@ -56,7 +68,7 @@
         <% end %>
 
         <% if recommendation_step_mark_completed?(step_name, @planning_application) %>
-          <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-completed" %>
+          <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-tag" %>
         <% end %>
       </li>
     </ul>

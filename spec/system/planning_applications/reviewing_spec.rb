@@ -44,7 +44,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         click_button "Save"
 
         within(:assessment_step, "Review the recommendation") do
-          expect(page).to have_completed_tag
+          expect(page).to have_content("Completed")
         end
 
         click_link "Review the recommendation"
@@ -82,7 +82,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         expect(page).to have_link("View the decision notice")
 
         within(:assessment_step, "View the decision notice") do
-          expect(page).to have_completed_tag
+          expect(page).to have_content("Completed")
         end
 
         click_link "View the assessment"
@@ -136,7 +136,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_button "Save"
 
-        expect(page).not_to have_css(".app-task-list__task-completed")
+        expect(page).not_to have_content("Completed")
 
         expect(page).not_to have_link("Review the recommendation")
         expect(page).not_to have_text("Review the recommendation")
@@ -236,7 +236,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         click_button "Save"
 
         within(:assessment_step, "Review the recommendation") do
-          expect(page).to have_completed_tag
+          expect(page).to have_content("Completed")
         end
 
         click_link "Review the recommendation"
@@ -258,7 +258,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         click_button "Determine application"
 
         within(:assessment_step, "View the decision notice") do
-          expect(page).to have_completed_tag
+          expect(page).to have_content("Completed")
         end
 
         expect(page).to have_link("View the assessment")
@@ -304,7 +304,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_button "Save"
 
-        expect(page).not_to have_css(".app-task-list__task-completed")
+        expect(page).not_to have_content("Completed")
 
         expect(page).not_to have_link("Review the recommendation")
         expect(page).not_to have_text("Review the recommendation")
@@ -363,7 +363,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         click_button "Save"
 
         within(:assessment_step, "Review the recommendation") do
-          expect(page).to have_completed_tag
+          expect(page).to have_content("Completed")
         end
 
         click_link "Review the recommendation"
@@ -387,7 +387,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         click_button "Determine application"
 
         within(:assessment_step, "View the decision notice") do
-          expect(page).to have_completed_tag
+          expect(page).to have_content("Completed")
         end
 
         expect(page).to have_link("View the assessment")
@@ -433,7 +433,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_button "Save"
 
-        expect(page).not_to have_css(".app-task-list__task-completed")
+        expect(page).not_to have_content("Completed")
 
         expect(page).not_to have_link("Review the recommendation")
         expect(page).not_to have_text("Review the recommendation")
@@ -492,7 +492,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
       expect(page).to have_link "Assess the proposal"
 
       within(:assessment_step, "Assess the proposal") do
-        expect(page).to have_completed_tag
+        expect(page).to have_content("Completed")
       end
     end
   end
