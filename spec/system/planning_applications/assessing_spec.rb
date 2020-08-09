@@ -43,7 +43,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     expect(page).to have_link("Assess the proposal")
 
     # No steps have been completed
-    expect(page).not_to have_css(".app-task-list__task-completed")
+    expect(page).not_to have_content("Completed")
 
     # Cannot submit until preparation steps have been completed
     expect(page).not_to have_link("Submit the recommendation")
@@ -71,7 +71,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     click_button "Save"
 
     within(:assessment_step, "Assess the proposal") do
-      expect(page).to have_css(".app-task-list__task-completed")
+      expect(page).to have_content("Completed")
     end
 
     click_link "Assess the proposal"
@@ -89,7 +89,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     # Expect the 'completed' label to still be present for the evaluation step
     within(:assessment_step, "Assess the proposal") do
-      expect(page).to have_css(".app-task-list__task-completed")
+      expect(page).to have_content("Completed")
     end
 
     # Unable to submit yet because not all steps are complete
@@ -102,7 +102,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     click_button "Save"
 
     within(:assessment_step, "Attach drawing numbers") do
-      expect(page).to have_css(".app-task-list__task-completed")
+      expect(page).to have_content("Completed")
     end
 
     click_link "Submit the recommendation"
@@ -131,7 +131,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     expect(page).to have_link("Publish the recommendation")
 
     within(:assessment_step, "Review the recommendation") do
-      expect(page).not_to have_css(".app-task-list__task-completed")
+      expect(page).not_to have_content("Completed")
     end
 
     expect(page).not_to have_link "Attach drawing numbers"
@@ -188,6 +188,46 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
   end
 
+  context "when a drawing for publication is added after initial numbering" do
+    # Simulate a completed decision step
+    let!(:assessor_decision) { create :decision, :granted, user: users(:assessor), planning_application: planning_application }
+
+    # Number the current drawing
+    before { drawing.update(numbers: "a number") }
+
+    # Add a new drawing for publication which will require numbering
+    let!(:new_drawing_to_number) { create :drawing, :with_plan, :proposed_tags, planning_application: planning_application }
+
+    scenario "numbering needs to completed before submission" do
+      click_link planning_application.reference
+
+      expect(page).not_to have_link "Submit the recommendation"
+
+      within(:assessment_step, "Attach drawing numbers") do
+        expect(page).to have_content("In Progress")
+      end
+
+      click_link("Attach drawing numbers")
+
+      expect(page).to have_css(".thumbnail", count: 2)
+
+      within(all(".thumbnail").last) do
+        fill_in "Drawing number:", with: "new_drawing_number_1"
+      end
+
+      click_button "Save"
+
+      within(:assessment_step, "Attach drawing numbers") do
+        expect(page).to have_content("Completed")
+      end
+
+      click_link "Submit the recommendation"
+
+      expect(page).to have_content "a number"
+      expect(page).to have_content "new_drawing_number_1"
+    end
+  end
+
   scenario "shows the public_comment error message" do
     within("#in_assessment") do
       click_link planning_application.reference
@@ -207,7 +247,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     click_link "Home"
 
-    expect(page).not_to have_css(".app-task-list__task-completed")
+    expect(page).not_to have_content("Completed")
   end
 
   include_examples "assessor decision error message"

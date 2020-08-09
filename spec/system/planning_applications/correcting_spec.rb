@@ -77,7 +77,7 @@ RSpec.describe "Planning Application correction journey", type: :system do
         click_button "Save"
 
         within(:assessment_step, "Reassess the proposal") do
-          expect(page).to have_completed_tag
+          expect(page).to have_content("Completed")
         end
 
         click_link "Resubmit the recommendation"
@@ -171,7 +171,7 @@ RSpec.describe "Planning Application correction journey", type: :system do
         click_button "Save"
 
         within(:assessment_step, "Review the recommendation") do
-          expect(page).to have_completed_tag
+          expect(page).to have_content("Completed")
         end
 
         click_link "Publish the recommendation"
@@ -182,7 +182,7 @@ RSpec.describe "Planning Application correction journey", type: :system do
         click_button "Determine application"
 
         within(:assessment_step, "View the decision notice") do
-          expect(page).to have_completed_tag
+          expect(page).to have_content("Completed")
         end
 
         click_link "Home"

@@ -35,6 +35,7 @@ class Drawing < ApplicationRecord
       proposed_tag_array: Drawing::PROPOSED_TAGS)
   }
   scope :has_empty_numbers, -> { where("numbers = '[]'") }
+  scope :numbered, -> { where.not("numbers = '[]'") }
   scope :active, -> { where(archived_at: nil) }
 
   scope :for_publication, -> { active.has_proposed_tag }
