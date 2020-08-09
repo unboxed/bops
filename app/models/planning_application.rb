@@ -78,6 +78,14 @@ class PlanningApplication < ApplicationRecord
       drawings_for_publication.has_empty_numbers.none?
   end
 
+  def drawing_numbering_partially_completed?
+    numbered_count = drawings.has_proposed_tag.numbered.count
+
+    return false if numbered_count.zero?
+
+    numbered_count < drawings.has_proposed_tag.count
+  end
+
   private
 
   def set_target_date

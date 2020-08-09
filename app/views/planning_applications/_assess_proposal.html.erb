@@ -42,7 +42,7 @@
               <span class="app-task-list__task-name"><%= link_to step_name, edit_numbers_planning_application_drawings_path(@planning_application), aria: aria_attributes %></span>
 
               <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-tag" %>
-            <% elsif !@planning_application.drawings.has_proposed_tag.numbered.count.zero? && (@planning_application.drawings.has_proposed_tag.numbered.count < @planning_application.drawings.has_proposed_tag.count) %>
+            <% elsif @planning_application.drawing_numbering_partially_completed? %>
               <% aria_attributes = { describedby: "#{step_name.parameterize}-in-progress" } %>
 
               <span class="app-task-list__task-name"><%= link_to step_name, edit_numbers_planning_application_drawings_path(@planning_application), aria: aria_attributes %></span>
