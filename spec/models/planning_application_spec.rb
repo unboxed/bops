@@ -92,11 +92,92 @@ RSpec.describe PlanningApplication, type: :model do
     end
   end
 
-  subject { create :planning_application, id: 1000 }
-
   describe "#reference" do
     it "pads the ID correctly" do
+      subject.update(id: 1000)
+
       expect(subject.reference).to eq "00001000"
+    end
+  end
+
+  describe "#drawings_ready_for_publication?" do
+    let!(:proposed_drawing_1) do
+      create :drawing, :with_plan, :proposed_tags,
+            planning_application: subject,
+            numbers: "number"
+    end
+
+    let!(:existing_drawing) do
+      create :drawing, :with_plan, :existing_tags,
+            planning_application: subject
+    end
+
+    let!(:archived_drawing) do
+      create :drawing, :with_plan, :proposed_tags, :archived,
+            planning_application: subject,
+            numbers: "number"
+    end
+
+    context "when all proposed, non-archived drawings have numbers" do
+      it "returns true" do
+        expect(subject.drawings_ready_for_publication?).to eq true
+      end
+    end
+
+    context "when there is a proposed, non-archived drawing without numbers" do
+      let!(:proposed_drawing_2) do
+        create :drawing, :with_plan, :proposed_tags,
+              planning_application: subject
+      end
+
+      it "returns false" do
+        expect(subject.drawings_ready_for_publication?).to eq false
+      end
+    end
+
+    context "when there are no drawings" do
+      before do
+        subject.drawings.delete_all
+      end
+
+      it "returns false" do
+        expect(subject.drawings_ready_for_publication?).to eq false
+      end
+    end
+  end
+
+  describe "#drawing_numbering_partially_completed?" do
+    it "returns false when there are no drawings" do
+      expect(subject.drawing_numbering_partially_completed?).to eq false
+    end
+
+    context "when all relevant drawings are numbered" do
+      let!(:proposed_drawing_1) do
+        create :drawing, :proposed_tags,
+        planning_application: subject,
+        numbers: "number"
+      end
+
+      it "returns false" do
+        expect(subject.drawing_numbering_partially_completed?).to eq false
+      end
+    end
+
+    context "when one relevant drawing has a number and another does not" do
+      let!(:proposed_drawing_1) do
+        create :drawing, :proposed_tags,
+        planning_application: subject,
+        numbers: "number"
+      end
+
+      let!(:proposed_drawing_2) do
+        create :drawing, :proposed_tags,
+        planning_application: subject
+      end
+
+      it "returns true" do
+        expect(subject.drawing_numbering_partially_completed?).to eq true
+      end
     end
   end
 end

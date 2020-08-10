@@ -71,6 +71,21 @@ class PlanningApplication < ApplicationRecord
     awaiting_correction? || determined?
   end
 
+  def drawings_ready_for_publication?
+    drawings_for_publication = drawings.for_publication
+
+    drawings_for_publication.present? &&
+      drawings_for_publication.has_empty_numbers.none?
+  end
+
+  def drawing_numbering_partially_completed?
+    numbered_count = drawings.has_proposed_tag.numbered.count
+
+    return false if numbered_count.zero?
+
+    numbered_count < drawings.has_proposed_tag.count
+  end
+
   private
 
   def set_target_date
