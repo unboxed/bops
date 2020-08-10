@@ -1,0 +1,30 @@
+<div class="govuk-form-group">
+  <fieldset class="govuk-fieldset">
+    <p class="govuk-body">
+      The planning officer recommends that the application is
+      <strong><%= "#{assessor_decision.status}. " %></strong>
+      <%= "The following policy requirement(s) have not been met:" if assessor_decision.public_comment? %>
+    </p>
+    <% if assessor_decision.refused_with_public_comment? %>
+      <p class="govuk-body"><%= assessor_decision.public_comment %></p>
+    <% end %>
+
+    <% if reviewer_decision&.private_comment? %>
+      <p class="govuk-body">The manager sent following comment based on the officer's recommendation on <%= reviewer_decision.updated_at.strftime("%e %B %Y") %>:</p>
+      <div style="border: 1px solid; padding: 10px;">
+        <p class="govuk-body"><%= reviewer_decision.private_comment %></p>
+      </div>
+      <br>
+    <% end %>
+    <% if assessor_decision&.private_comment? %>
+      <p class="govuk-body">The officer sent following comment on <%= assessor_decision.updated_at.strftime("%e %B %Y") %>:</p>
+      <div style="border: 1px solid; padding: 10px;">
+        <p class="govuk-body"><%= assessor_decision.private_comment %></p>
+      </div>
+      <br>
+    <% end %>
+    <p class="govuk-body"><strong> Information provided by the applicant:</strong></p>
+    <%= render "policy_consideration_list", policy_considerations: policy_evaluation.policy_considerations %>
+  </fieldset>
+  <%= link_to "Back", planning_application_path(planning_application), class: "govuk-button" %>
+</div>

@@ -53,4 +53,28 @@ module PlanningApplicationHelper
       false
     end
   end
+
+  def assessor_decision_path(app)
+    if app.assessor_decision
+      if app.assessment_complete?
+        planning_application_decision_path(app, app.assessor_decision)
+      else
+        edit_planning_application_decision_path(app, app.assessor_decision)
+      end
+    else
+      new_planning_application_decision_path(app)
+    end
+  end
+
+  def reviewer_decision_path(app)
+    if app.reviewer_decision
+      if app.review_complete?
+        planning_application_decision_path(app, app.reviewer_decision)
+      else
+        edit_planning_application_decision_path(app, app.reviewer_decision)
+      end
+    else
+      new_planning_application_decision_path(app)
+    end
+  end
 end

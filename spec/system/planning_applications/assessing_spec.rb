@@ -116,6 +116,12 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     expect(page).not_to have_css(".app-task-list__task-completed")
 
+    click_link "Review the recommendation"
+    click_link "Back"
+
+    click_link "Publish the recommendation"
+    click_link "Back"
+
     click_link "Home"
 
     # Check that the application is no longer in assessment

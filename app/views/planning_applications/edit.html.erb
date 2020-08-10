@@ -3,21 +3,27 @@
     <% content_for :title, t("#{@planning_application.status}.recommendation_step") %>
 
     <h2 class="govuk-heading-m"><%= t("#{@planning_application.status}.recommendation_step") %></h2>
-    <p class="govuk-body">The following decision notice has been created based on your answers.</p>
+    <% if @planning_application.determined? %>
+      <p class="govuk-body">The following decision notice was sent to the applicant and published on <%= @planning_application.determined_at.strftime("%e %B %Y") %></p>
+    <% else %>
+      <p class="govuk-body">The following decision notice has been created based on your answers.</p>
+    <% end %>
 
     <%= render "decision_notice", planning_application: @planning_application, decision: @planning_application.assessor_decision  %>
-
-    <p class="govuk-body">
-      <br>
-      <strong>
-        If you agree with the decision notice, please submit it to your manager.
-      </strong>
-      If your manager disagrees with your recommendation they will send it back to you to make changes.
-    </p>
-
-    <%= form_with model: @planning_application, local: true do |form| %>
-      <%= form.hidden_field :status, value: :awaiting_determination %>
-      <%= form.submit "Submit to manager", class: "govuk-button", data: { module: "govuk-button" } %>
+    <% if @planning_application.in_assessment? || @planning_application.awaiting_correction?  %>
+      <p class="govuk-body">
+        <br>
+        <strong>
+          If you agree with the decision notice, please submit it to your manager.
+        </strong>
+       If your manager disagrees with your recommendation they will send it back to you to make changes.
+      </p>
+      <%= form_with model: @planning_application, local: true do |form| %>
+        <%= form.hidden_field :status, value: :awaiting_determination %>
+        <%= form.submit "Submit to manager", class: "govuk-button", data: { module: "govuk-button" } %>
+      <% end %>
+    <% else %>
+      <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button" %>
     <% end %>
   <% else %>
     <% content_for :title, t("#{@planning_application.status}.recommendation_step") %>
@@ -26,12 +32,15 @@
     <p class="govuk-body">The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.</p>
 
     <%= render "decision_notice", planning_application: @planning_application, decision: @planning_application.reviewer_decision %>
-
-    <p class="govuk-body">By determining the application, the applicant will receive this decision notice. The decision notice will also be available publicly. </p>
-
-    <%= form_with model: @planning_application, local: true do |form| %>
-      <%= form.hidden_field :status, value: :determined %>
-      <%= form.submit "Determine application", class: "govuk-button", data: { module: "govuk-button" } %>
+    <% if @planning_application.awaiting_determination? %>
+      <p class="govuk-body">By determining the application, the applicant will receive this decision notice. The decision notice will also be available publicly. </p>
+      
+      <%= form_with model: @planning_application, local: true do |form| %>
+        <%= form.hidden_field :status, value: :determined %>
+        <%= form.submit "Determine application", class: "govuk-button", data: { module: "govuk-button" } %>
+      <% end %>
+    <% else %>
+      <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button" %>
     <% end %>
   <% end%>
 <% end%>

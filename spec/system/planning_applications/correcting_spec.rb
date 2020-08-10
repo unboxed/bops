@@ -77,6 +77,12 @@ RSpec.describe "Planning Application correction journey", type: :system do
         expect(page).to have_text("Review the recommendation")
         expect(page).to have_text("Publish the recommendation")
 
+        click_link "Review the recommendation"
+        click_link "Back"
+
+        click_link "Publish the recommendation"
+        click_link "Back"
+
         click_link "Home"
 
         expect(page).not_to have_text("Your manager has requested corrections")
@@ -105,6 +111,12 @@ RSpec.describe "Planning Application correction journey", type: :system do
         fill_in "private_comment", with: "I don't agree"
 
         click_on "Save"
+
+        expect(page).to have_link("Reassess the proposal")
+        expect(page).not_to have_link("Resubmit the recommendation")
+
+        click_link "Reassess the proposal"
+        click_link "Back"
 
         click_link "Home"
         expect(page).not_to have_css("corrections-banner")
@@ -173,6 +185,15 @@ RSpec.describe "Planning Application correction journey", type: :system do
         within(:assessment_step, "View the decision notice") do
           expect(page).to have_completed_tag
         end
+
+        expect(page).to have_link("View the assessment")
+        expect(page).to have_link("View the decision notice")
+
+        click_link "View the assessment"
+        click_link "Back"
+
+        click_link "View the decision notice"
+        click_link "Back"
 
         click_link "Home"
 
