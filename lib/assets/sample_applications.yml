@@ -1,0 +1,100 @@
+elm_grove:
+  address_1: "7 Elm Grove"
+  town: "London"
+  postcode: "SE15 6UT"
+  application: elm_grove_application
+denmark_hill:
+  address_1: "15 Denmark Hill"
+  town: "London"
+  postcode: "SE5 8RZ"
+  application: denmark_hill_application
+grove_lane:
+  address_1: "4 Grove Lane"
+  town: "Camberwell"
+  postcode: "SE5 8SY"
+  application: grove_lane_applicatioan
+old_kent:
+  address_1: "504 Old Kent Road"
+  town: "London"
+  postcode: "SE1 5AG"
+  application: old_kent_application
+dunton_road:
+  address_1: "77 Dunton Road"
+  town: "London"
+  postcode: "SE1 5TW"
+  application: dunton_road_application
+reverdy_road:
+  address_1: "42 Reverdy Road"
+  town: "Bermondsey"
+  postcode: "SE1 5QE"
+  application: reverdy_road_application
+east_street:
+  address_1: "East Street"
+  town: "London"
+  postcode: "SE17 2AA"
+  application: east_street_application
+machell_road:
+  address_1: "5 Machell Road"
+  town: "Nunhead"
+  postcode: "SE15 3XQ"
+  application: machell_road_application
+queens_road:
+  address_1: "179 Queen's Rd"
+  town: "Peckham"
+  postcode: "SE15 2ND"
+  application: queens_road_application
+meeting_house:
+  address_1: "23 Meeting House Lane"
+  town: "Peckham"
+  postcode: "SE15 2UN"
+  application: meeting_house_application
+stevenson_cres:
+  address_1: "21 Stevenson Crescent"
+  town: "Southwark"
+  postcode: "SE16 3EN"
+  application: stevenson_cres_application
+warner_road:
+  address_1: "112 Warner Rd"
+  town: "Camberwell"
+  postcode: "SE5 9HQ"
+  application: warner_road_application
+bellenden_road:
+  address_1: "150 Bellenden Road"
+  town: "Southwark"
+  postcode: "SE15 4QY"
+  application: bellenden_road_application
+college_road:
+  address_1: "90A College Road"
+  town: "Southwark"
+  postcode: "SE21 7NA"
+  application: college_road_application
+james_road:
+  address_1: "186 St James Road"
+  town: "Southwark"
+  postcode: "SE1 5LN"
+  application: james_road_application
+bowen_drive:
+  address_1: "47 Bowen Drive"
+  town: "Southwark"
+  postcode: "SE21 8NS"
+  application: bowen_drive_application
+camberwell_green:
+  address_1: "48 Camberwell Green"
+  town: "Camberwell"
+  postcode: "SE5 7AL"
+  application: camberwell_green_application
+wyndham_road:
+  address_1: "88 Wyndham Road"
+  town: "Camberwell"
+  postcode: "SE5 0UB"
+  application: wyndham_road_application
+parkhouse_street:
+  address_1: "25 Parkhouse St"
+  town: "Camberwell"
+  postcode: "SE5 7TQ"
+  application: parkhouse_street_application
+bowen_close:
+  address_1: "2 Bowen Drive"
+  town: "Southwark"
+  postcode: "SE21 8NS"
+  application: bowen_close_application

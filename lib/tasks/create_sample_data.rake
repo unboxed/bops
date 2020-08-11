@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "yaml"
+
 desc "Create sample data for testing"
 task create_sample_data: :environment do
   require "faker"
@@ -87,130 +89,66 @@ task create_sample_data: :environment do
     residence_status: true
   )
 
-  # A planning application with application_type lawfulness_certificate
-  bowen_site = Site.find_or_create_by!(
-    address_1: "47 Bowen Drive",
-    town: "Southwark",
-    county: "London",
-    postcode: "SE21 8NS"
-  )
+  locations = YAML.load_file(
+    Rails.root.join("lib/assets/sample_applications.yml"))
 
-  bowen_planning_application = PlanningApplication.find_or_create_by(
-    application_type: :lawfulness_certificate,
-    site_id: bowen_site.id,
-    ward: "Dulwich Wood",
-    agent: agent,
-    applicant: applicant,
-    user: assessor
-  ) do |pa|
-    pa.description = "Installation of new external insulated render to be added"
-  end
+  DESCRIPTIONS = ["Installation of new external insulated render to be added",
+                  "Single storey rear extension and rear dormer extension",
+                  "Construction of a single storey rear extension"]
 
-  bowen_planning_application.update(target_date: 2.weeks.from_now)
+  POLICY_CONSIDERATIONS = [pc1, pc2, pc3, pc4]
 
-  # A planning application with application_type lawfulness_certificate
-  college_site = Site.find_or_create_by!(
-    address_1: "90A College Road",
-    town: "Southwark",
-    county: "London",
-    postcode: "SE21 7NA"
-  )
+  locations.each do |key, value|
+    key = Site.find_or_create_by!(
+      address_1: value["address_1"],
+      town: value["town"],
+      county: value["county"],
+      postcode: value["postcode"]
+    )
 
-  college_planning_application = PlanningApplication.find_or_create_by(
-    application_type: :lawfulness_certificate,
-    site: college_site,
-    agent: agent,
-    applicant: applicant
-  ) do |pa|
-    pa.description = "Construction of a single storey rear extension"
-  end
+    value["application"] = PlanningApplication.find_or_create_by(
+      application_type: :lawfulness_certificate,
+      site_id: key.id,
+      ward: "Dulwich Wood",
+      agent: agent,
+      applicant: applicant,
+      user: assessor
+    ) do |pa|
+      pa.description = DESCRIPTIONS.sample(rand(1..3))
+    end
 
-  college_planning_application.update(target_date: 1.week.from_now)
+    pc = POLICY_CONSIDERATIONS.sample(rand(1..3))
 
-  # A planning application with application_type lawfulness_certificate
-  bellenden_site = Site.find_or_create_by!(
-    address_1: "150 Bellenden Road",
-    town: "Southwark",
-    county: "London",
-    postcode: "SE15 4QY"
-  )
+    policy_evaluation = value["application"].create_policy_evaluation
+    policy_evaluation.policy_considerations << pc
+    value["application"].policy_evaluation = policy_evaluation
 
-  bellenden_planning_application = PlanningApplication.find_or_create_by(
-    application_type: :lawfulness_certificate,
-    site: bellenden_site,
-    agent: agent,
-    applicant: applicant,
-    ward: "Rye Lane"
-  ) do |pa|
-    pa.description = "Construction of a single storey side extension"
-  end
-
-  bellenden_planning_application.update(target_date: 3.weeks.from_now)
-
-  # A planning application with application_type lawfulness_certificate
-  james_site = Site.find_or_create_by!(
-    address_1: "186 St James Road",
-    town: "Southwark",
-    county: "London",
-    postcode: "SE1 5LN"
-  )
-
-  james_planning_application = PlanningApplication.find_or_create_by(
-    application_type: :lawfulness_certificate,
-    site: james_site,
-    agent: agent,
-    ward: "South Bermondsey",
-    applicant: applicant
-  ) do |pa|
-    pa.description = "Single storey rear extension and rear dormer extension"
-  end
-
-  bowen_pe = bowen_planning_application.create_policy_evaluation
-  bowen_pe.policy_considerations << pc1
-  bowen_planning_application.policy_evaluation = bowen_pe
-
-  college_pe = college_planning_application.create_policy_evaluation
-  college_pe.policy_considerations << pc2
-  college_planning_application.policy_evaluation = college_pe
-
-  bellenden_pe = bellenden_planning_application.create_policy_evaluation
-  bellenden_pe.policy_considerations << pc3
-  bellenden_planning_application.policy_evaluation = bellenden_pe
-
-  james_pe = james_planning_application.create_policy_evaluation
-  james_pe.policy_considerations << pc4
-  james_planning_application.policy_evaluation = james_pe
-
-  [bowen_planning_application,
-   college_planning_application,
-   james_planning_application,
-   bellenden_planning_application].each do |application|
-    drawing_1 = application.drawings.create(
+    drawing_1 = value["application"].drawings.create(
       tags: Drawing::TAGS.sample(rand(1..3))
     )
     drawing_1.plan.attach(io: File.open(plan_1),
-      filename: "proposed-section.jpg"
+                          filename: "proposed-section.jpg"
     )
 
-    drawing_2 = application.drawings.create(
+    drawing_2 = value["application"].drawings.create(
       tags: Drawing::TAGS.sample(rand(1..3))
     )
     drawing_2.plan.attach(io: File.open(plan_2),
-      filename: "existing-section.png"
+                          filename: "existing-section.png"
     )
 
-    drawing_3 = application.drawings.create(
+    drawing_3 = value["application"].drawings.create(
       tags: Drawing::TAGS.sample(rand(1..3))
     )
     drawing_3.plan.attach(io: File.open(plan_3),
-      filename: "existing-floorplan.pdf"
+                          filename: "existing-floorplan.pdf"
     )
 
-    drawing_4 = application.drawings.create(
+    drawing_4 = value["application"].drawings.create(
       tags: Drawing::TAGS.sample(rand(1..3))
     )
     drawing_4.plan.attach(io: File.open(plan_4),
-      filename: "proposed-floorplan.png"
+                          filename: "proposed-floorplan.png"
     )
   end
 end
