@@ -17,7 +17,7 @@ gem "mini_magick"
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 4.1"
 gem "pundit"
-gem "rails", "~> 6.0.2"
+gem "rails", "~> 6.0.3"
 gem "webpacker", "~> 4.0"
 
 group :development, :test do
