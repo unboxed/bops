@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/excid3/acts_as_tenant.git
+  revision: 89dc734e4442ae7f9063f36d7afb4171eb74d995
+  specs:
+    acts_as_tenant (0.4.6)
+      rails (>= 5.2)
+      request_store (>= 1.0.5)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -215,6 +223,8 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     regexp_parser (1.7.0)
+    request_store (1.5.0)
+      rack (>= 1.4)
     responders (3.0.0)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -308,6 +318,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-postgis-adapter
+  acts_as_tenant!
   aws-sdk-s3
   bootsnap (>= 1.4.2)
   brakeman
