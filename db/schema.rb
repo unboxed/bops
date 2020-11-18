@@ -130,6 +130,16 @@ ActiveRecord::Schema.define(version: 2020_11_30_135434) do
     t.datetime "in_assessment_at"
     t.datetime "awaiting_correction_at"
     t.bigint "local_authority_id"
+    t.jsonb "questions"
+    t.jsonb "audit_log"
+    t.string "agent_first_name"
+    t.string "agent_last_name"
+    t.string "agent_phone"
+    t.string "agent_email"
+    t.string "applicant_first_name"
+    t.string "applicant_last_name"
+    t.string "applicant_email"
+    t.string "applicant_phone"
     t.index ["agent_id"], name: "index_planning_applications_on_agent_id"
     t.index ["applicant_id"], name: "index_planning_applications_on_applicant_id"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
@@ -162,6 +172,7 @@ ActiveRecord::Schema.define(version: 2020_11_30_135434) do
     t.string "postcode"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "uprn"
   end
 
   create_table "users", force: :cascade do |t|
