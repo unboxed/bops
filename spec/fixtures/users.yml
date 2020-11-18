@@ -2,13 +2,16 @@ assessor:
   name: "Lorrine Krajcik"
   email: "assessor@example.com"
   role: "assessor"
+  local_planning_authority: southwark
 
 reviewer:
   name: "Harley Dicki"
   email: "reviewer@example.com"
   role: "reviewer"
+  local_planning_authority: southwark
 
 admin:
   name: "Adrian Schimmel"
   email: "admin@example.com"
   role: "admin"
+  local_planning_authority: southwark

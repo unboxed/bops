@@ -6,6 +6,8 @@ class PlanningApplication < ApplicationRecord
   enum status: { in_assessment: 0, awaiting_determination: 1,
                  awaiting_correction: 2, determined: 3 }
 
+  acts_as_tenant(:local_planning_authority)
+
   has_one :policy_evaluation, dependent: :destroy
   has_many :decisions, dependent: :destroy
 

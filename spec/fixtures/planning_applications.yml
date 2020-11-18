@@ -7,3 +7,4 @@ planning_application_1:
   applicant: jason
   site: elm_grove
   target_date: <%= Date.current + 14.days %>
+  local_planning_authority: southwark

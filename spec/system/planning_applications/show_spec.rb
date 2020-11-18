@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.feature "Planning Application show page", type: :system do
-  fixtures :agents, :applicants, :sites, :planning_applications
+  fixtures :agents, :applicants, :sites, :planning_applications, :local_planning_authorities
 
   let!(:assessor) { create(:user, :assessor) }
   let!(:site) { sites(:elm_grove) }
@@ -13,6 +13,7 @@ RSpec.feature "Planning Application show page", type: :system do
 
   context "as an assessor" do
     before do
+      ActsAsTenant.test_tenant = local_planning_authorities(:southwark)
       sign_in users(:assessor)
       visit planning_application_path(planning_application.id)
     end

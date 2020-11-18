@@ -8,6 +8,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :recoverable,
          :rememberable, :validatable
 
+  acts_as_tenant(:local_planning_authority)
+
   has_many :decisions, dependent: :restrict_with_exception
   has_many :planning_applications, through: :decisions
 end

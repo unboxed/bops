@@ -13,7 +13,6 @@ RSpec.feature "Sign in", type: :system do
 
   scenario "Home page redirects to login" do
     visit root_path
-
     expect(page).to have_text("Email")
     expect(page).not_to have_text("Your fast track applications")
   end

@@ -34,7 +34,5 @@ RSpec.configure do |config|
 
   config.before type: :system do
     driven_by(ENV.fetch("JS_DRIVER", "chrome_headless").to_sym)
-
-    host! "http://localhost"
   end
 end

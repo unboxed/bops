@@ -9,6 +9,7 @@ FactoryBot.define do
     status           { :in_assessment }
     in_assessment_at { Time.current }
     ward             { Faker::Address.city }
+    local_planning_authority { @local_planning_authority }
   end
 
   trait :lawfulness_certificate do

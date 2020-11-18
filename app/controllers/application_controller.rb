@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  set_current_tenant_by_subdomain(:local_planning_authority, :subdomain)
+
   before_action :prevent_caching
+
+  before_action do
+    debugger
+  end
 
   private
 
