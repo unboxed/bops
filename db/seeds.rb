@@ -27,3 +27,6 @@ Applicant.find_or_create_by!(email: "bops-team@unboxedconsulting.com") do |appli
   applicant.phone = Faker::Base.numerify("+44 7### ######")
   applicant.residence_status = true
 end
+
+Council.create! name: "Lambeth", subdomain: "lambeth-council"
+Council.create! name: "Southwark", subdomain: "southwark-council"

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  # this match is an example on how we could constraint access to subdomain X. It needs to be placed before root.
+  # match '', to: "planning_applications#index", :via => [:get, :post], defaults: { q: "exclude_others" }, constraints: lambda { |r| r.subdomain.present? && r.subdomain != 'www'}
   root to: "planning_applications#index", defaults: { q: "exclude_others" }
 
   devise_for :users
