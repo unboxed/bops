@@ -3,7 +3,9 @@
 require "rails_helper"
 
 RSpec.feature "Drawings index page", type: :system do
-  let!(:site) { create :site, address_1: "7 Elm Grove" }
+  fixtures :sites
+
+  let!(:site) { sites(:elm_grove) }
 
   let!(:planning_application) do
     create :planning_application,

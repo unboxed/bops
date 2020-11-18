@@ -3,11 +3,13 @@
 require "rails_helper"
 
 RSpec.feature "Planning Application show page", type: :system do
-  let!(:site) { create :site, address_1: "7 Elm Grove", town: "London", postcode: "SE15 6UT" }
+  fixtures :agents, :applicants, :sites, :planning_applications
+
   let!(:assessor) { create(:user, :assessor) }
-  let!(:applicant) { create :applicant, first_name: "Jason", last_name: "Collins", phone: "07814 222222", email: "applicant@example.com" }
-  let!(:agent) { create :agent, first_name: "Jennifer", last_name: "Harper", phone: "07532 1133333", email: "agent@example.com" }
-  let!(:planning_application) { create :planning_application, description: "Roof extension", application_type: "lawfulness_certificate", status: :in_assessment, ward: "Dulwich Wood", agent: agent, applicant: applicant, site: site, target_date: Date.current + 14.days }
+  let!(:site) { sites(:elm_grove) }
+  let!(:applicant) { applicants(:jason) }
+  let!(:agent) { agents(:jennifer) }
+  let!(:planning_application) { planning_applications(:planning_application_1) }
 
   context "as an assessor" do
     before do
