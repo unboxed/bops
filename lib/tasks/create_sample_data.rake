@@ -26,6 +26,15 @@ task create_sample_data: :environment do
   plan_3 = Rails.root.join("#{image_path}existing-floorplan.pdf")
   plan_4 = Rails.root.join("#{image_path}proposed-floorplan.png")
 
+  lambeth = LocalAuthority.find_or_create_by!(
+    name: "Lambeth",
+    subdomain: "lambeth"
+  )
+  southwark = LocalAuthority.find_or_create_by!(
+    name: "Southwark",
+    subdomain: "southwark"
+  )
+
   admin_roles = %i[assessor reviewer]
 
   admin_roles.each do |admin_role|
@@ -58,6 +67,46 @@ task create_sample_data: :environment do
       end
 
       user.role = admin_role
+    end
+  end
+
+  local_authorities = [southwark, lambeth]
+
+  # Add lambeth and southwark specific admins
+  local_authorities.each do |authority|
+    admin_roles.each do |admin_role|
+      User.find_or_create_by!(email: "#{authority.subdomain}_#{admin_role}@example.com") do |user|
+        first_name = Faker::Name.unique.first_name
+        last_name = Faker::Name.unique.last_name
+        user.name = "#{first_name} #{last_name}"
+        user.local_authority = authority
+        if Rails.env.development?
+          user.password = user.password_confirmation = "password"
+        else
+          user.password = user.password_confirmation = SecureRandom.uuid
+          user.encrypted_password =
+            "$2a$11$uvtPXUB2CmO8WEYm7ajHf.XhZtBsclT/sT45ijLMIELShaZvceW5."
+        end
+
+        user.role = admin_role
+      end
+
+      User.find_or_create_by!(email: "#{authority.subdomain}_#{admin_role}2@example.com") do |user|
+        first_name = Faker::Name.unique.first_name
+        last_name = Faker::Name.unique.last_name
+        user.name = "#{first_name} #{last_name}"
+        user.local_authority = authority
+
+        if Rails.env.development?
+          user.password = user.password_confirmation = "password"
+        else
+          user.password = user.password_confirmation = SecureRandom.uuid
+          user.encrypted_password =
+            "$2a$11$uvtPXUB2CmO8WEYm7ajHf.XhZtBsclT/sT45ijLMIELShaZvceW5."
+        end
+
+        user.role = admin_role
+      end
     end
   end
 
@@ -120,7 +169,8 @@ task create_sample_data: :environment do
     application_type: :lawfulness_certificate,
     site: college_site,
     agent: agent,
-    applicant: applicant
+    applicant: applicant,
+    local_authority: southwark
   ) do |pa|
     pa.description = "Construction of a single storey rear extension"
   end
@@ -140,7 +190,8 @@ task create_sample_data: :environment do
     site: bellenden_site,
     agent: agent,
     applicant: applicant,
-    ward: "Rye Lane"
+    ward: "Rye Lane",
+    local_authority: southwark
   ) do |pa|
     pa.description = "Construction of a single storey side extension"
   end
@@ -160,9 +211,29 @@ task create_sample_data: :environment do
     site: james_site,
     agent: agent,
     ward: "South Bermondsey",
-    applicant: applicant
+    applicant: applicant,
+    local_authority: southwark
   ) do |pa|
     pa.description = "Single storey rear extension and rear dormer extension"
+  end
+
+  # A planning application example for lambeth
+  lambeth_site = Site.find_or_create_by!(
+    address_1: "2 Streatham High Rd",
+    town: "Lambeth",
+    county: "London",
+    postcode: "SW16 1HT"
+  )
+
+  lambeth_planning_application = PlanningApplication.find_or_create_by(
+    application_type: :lawfulness_certificate,
+    site: lambeth_site,
+    agent: agent,
+    ward: "Lambeth",
+    applicant: applicant,
+    local_authority: lambeth
+  ) do |pa|
+    pa.description = "Bigger bakery because bigger cakes"
   end
 
   bowen_pe = bowen_planning_application.create_policy_evaluation
@@ -181,10 +252,15 @@ task create_sample_data: :environment do
   james_pe.policy_considerations << pc4
   james_planning_application.policy_evaluation = james_pe
 
+  lambeth_pe = lambeth_planning_application.create_policy_evaluation
+  lambeth_pe.policy_considerations << pc4
+  lambeth_planning_application.policy_evaluation = lambeth_pe
+
   [bowen_planning_application,
    college_planning_application,
    james_planning_application,
-   bellenden_planning_application].each do |application|
+   bellenden_planning_application,
+   lambeth_planning_application].each do |application|
     drawing_1 = application.drawings.create(
       tags: Drawing::TAGS.sample(rand(1..3))
     )

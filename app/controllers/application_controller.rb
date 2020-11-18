@@ -14,4 +14,13 @@ class ApplicationController < ActionController::Base
   def disable_flash_header
     @disable_flash_header = true
   end
+
+  def current_authority
+    if request.subdomains.any?
+      LocalAuthority.find_by! subdomain: request.subdomain
+    else
+      false
+    end
+  end
+  helper_method :current_authority
 end
