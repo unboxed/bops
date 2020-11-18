@@ -5,6 +5,7 @@ FactoryBot.define do
     site
     agent
     applicant
+    local_authority
     description      { Faker::Lorem.unique.sentence }
     status           { :in_assessment }
     in_assessment_at { Time.current }
