@@ -3,7 +3,9 @@
 require "rails_helper"
 
 RSpec.feature "Sign in", type: :system do
-  let(:admin) { create(:user, :admin) }
+  let(:admin) { create :user, :admin, name: "Adrian Schimmel" }
+  let(:assessor) { create :user, :assessor, name: "Lorrine Krajcik" }
+  let(:reviewer) { create :user, :reviewer, name: "Harley Dicki" }
 
   scenario "ensure we can perform a healthcheck" do
     visit healthcheck_path
@@ -32,7 +34,7 @@ RSpec.feature "Sign in", type: :system do
   context "users with valid credentials" do
     context "as an assessor" do
       before do
-        sign_in users(:assessor)
+        sign_in assessor
         visit root_path
       end
 
@@ -44,7 +46,7 @@ RSpec.feature "Sign in", type: :system do
 
     context "as a reviewer" do
       before do
-        sign_in users(:reviewer)
+        sign_in reviewer
         visit root_path
       end
 
@@ -56,7 +58,7 @@ RSpec.feature "Sign in", type: :system do
 
     context "as an admin" do
       before do
-        sign_in users(:admin)
+        sign_in admin
         visit root_path
       end
 

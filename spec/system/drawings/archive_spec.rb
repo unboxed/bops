@@ -3,9 +3,9 @@
 require "rails_helper"
 
 RSpec.feature "Drawings index page", type: :system do
-  fixtures :sites
-
-  let!(:site) { sites(:elm_grove) }
+  let(:site) { create :site, address_1: "Elm Grove" }
+  let(:assessor) { create :user, :assessor }
+  let(:reviewer) { create :user, :reviewer }
 
   let!(:planning_application) do
     create :planning_application,
@@ -33,7 +33,7 @@ RSpec.feature "Drawings index page", type: :system do
 
   context "as an assessor" do
     before do
-      sign_in users(:assessor)
+      sign_in assessor
       visit planning_application_path(planning_application)
       click_button "Proposal documents"
       click_link "Manage documents"
@@ -55,7 +55,7 @@ RSpec.feature "Drawings index page", type: :system do
 
   context "Archiving journey" do
     before do
-      sign_in users(:assessor)
+      sign_in assessor
       visit planning_application_path(planning_application)
       click_button "Proposal documents"
       click_link "Manage documents"
@@ -169,7 +169,7 @@ RSpec.feature "Drawings index page", type: :system do
 
   context "as a reviewer" do
     before do
-      sign_in users(:reviewer)
+      sign_in reviewer
       visit planning_application_path(planning_application)
       click_button "Proposal documents"
       click_link "Manage documents"

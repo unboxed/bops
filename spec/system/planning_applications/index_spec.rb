@@ -7,10 +7,13 @@ RSpec.feature "Planning Application index page", type: :system do
   let!(:planning_application_2) { create(:planning_application) }
   let!(:planning_application_started) { create(:planning_application, :awaiting_determination) }
   let!(:planning_application_completed) { create(:planning_application, :determined) }
+  let(:assessor) { create :user, :assessor }
+  let(:reviewer) { create :user, :reviewer }
+
 
   context "as an assessor" do
     before do
-      sign_in users(:assessor)
+      sign_in assessor
       visit root_path
     end
 
@@ -123,7 +126,7 @@ RSpec.feature "Planning Application index page", type: :system do
 
   context "as an reviewer" do
     before do
-      sign_in users(:reviewer)
+      sign_in reviewer
       visit root_path
     end
 

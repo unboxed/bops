@@ -9,7 +9,7 @@ RSpec.describe DrawingPolicy, type: :policy do
 
     %i[assessor reviewer admin].each do |role|
       context "when signed in as a #{role}" do
-        let(:user) { users(role) }
+        let(:user) { create :user, role }
 
         %i[index].each do |action|
           it "permits the '#{action}' action" do

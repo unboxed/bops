@@ -9,9 +9,11 @@ RSpec.describe "Document uploads", type: :system do
   end
 
   let!(:drawing) { create :drawing, :with_plan, planning_application: planning_application }
+  let(:assessor) { create :user, :assessor }
+  let(:reviewer) { create :user, :reviewer }
 
   context "for an assessor" do
-    before { sign_in users(:assessor) }
+    before { sign_in assessor }
 
     context "when the application is under assessment" do
       scenario "can upload, tag and confirm documents" do
@@ -145,7 +147,7 @@ RSpec.describe "Document uploads", type: :system do
   end
 
   context "for a reviewer" do
-    before { sign_in users(:reviewer) }
+    before { sign_in reviewer }
 
     scenario "no upload actions are visible at all" do
       visit planning_application_drawings_path(planning_application)

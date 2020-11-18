@@ -3,6 +3,9 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application Assessment", type: :system do
+  let!(:assessor) { create :user, :assessor, name: "Lorrine Krajcik" }
+  let!(:reviewer) { create :user, :reviewer, name: "Harley Dicki" }
+
   let!(:planning_application) do
     create :planning_application,
             :lawfulness_certificate
@@ -32,7 +35,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   before do
-    sign_in users(:assessor)
+    sign_in assessor
     visit root_path
   end
 
@@ -196,7 +199,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "when a drawing for publication is added after initial numbering" do
     # Simulate a completed decision step
-    let!(:assessor_decision) { create :decision, :granted, user: users(:assessor), planning_application: planning_application }
+    let!(:assessor_decision) { create :decision, :granted, user: assessor, planning_application: planning_application }
 
     # Number the current drawing
     before { drawing.update(numbers: "a number") }
