@@ -15,9 +15,12 @@ RSpec.describe "Planning Application Reviewing", type: :system do
        assessor_decision: assessor_decision,
        applicant: applicant
     end
+    let(:admin) { create :user, :admin }
+    let(:assessor) { create :user, :assessor }
+    let(:reviewer) { create :user, :reviewer }
 
     before do
-      sign_in users(:reviewer)
+      sign_in reviewer
       visit root_path
     end
 
@@ -472,6 +475,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
   context "as an admin" do
     let(:assessor) { create :user, :assessor }
+    let(:admin) { create :user, :admin }
     let(:assessor_decision) { create :decision, :granted, user: assessor }
 
     let!(:planning_application) do
@@ -479,7 +483,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     end
 
     before do
-      sign_in users(:admin)
+      sign_in admin
 
       visit root_path
     end

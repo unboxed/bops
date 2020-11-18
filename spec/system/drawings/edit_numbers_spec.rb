@@ -8,6 +8,9 @@ RSpec.feature "Edit drawing numbers page", type: :system do
            :lawfulness_certificate
   end
 
+  let!(:assessor) { create :user, :assessor }
+  let!(:reviewer) { create :user, :reviewer }
+
   context "as a user who is not logged in" do
     scenario "User cannot see edit_numbers page" do
       visit edit_numbers_planning_application_drawings_path(planning_application)
@@ -18,7 +21,7 @@ RSpec.feature "Edit drawing numbers page", type: :system do
 
   context "as an assessor" do
     before do
-      sign_in users(:assessor)
+      sign_in assessor
       visit planning_application_path(planning_application)
     end
 

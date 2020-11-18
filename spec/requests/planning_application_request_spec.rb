@@ -23,7 +23,7 @@ RSpec.describe "PlanningApplications", type: :request do
     end
 
     context "for an assessor" do
-      let(:user) { users(:assessor) }
+      let(:user) { create :user, :assessor }
 
       context "setting the status to \"awaiting_determination\"" do
         let(:status) { :awaiting_determination }
@@ -57,7 +57,7 @@ RSpec.describe "PlanningApplications", type: :request do
     end
 
     context "for a reviewer" do
-      let(:user) { users(:reviewer) }
+      let(:user) { create :user, :reviewer }
 
       context "setting the status to \"determined\"" do
         let(:status) { :determined }
@@ -100,7 +100,7 @@ RSpec.describe "PlanningApplications", type: :request do
     end
 
     context "for an admin" do
-      let(:user) { users(:admin) }
+      let(:user) { create :user, :admin }
 
       context "setting the status to \"determined\"" do
         let(:status) { :determined }

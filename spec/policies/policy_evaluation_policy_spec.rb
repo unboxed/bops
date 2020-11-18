@@ -9,7 +9,7 @@ RSpec.describe PolicyEvaluationPolicy, type: :policy do
 
     %i[assessor admin].each do |role|
       context "when signed in as a #{role}" do
-        let(:user) { users(role) }
+        let(:user) { create :user, role }
 
         %i[new create edit update].each do |action|
           it "permits the '#{action}' action" do
@@ -25,7 +25,7 @@ RSpec.describe PolicyEvaluationPolicy, type: :policy do
     let(:policy) { described_class.new(user, record) }
 
     context "when signed in as a reviewer" do
-      let(:user) { users(:reviewer) }
+      let(:user) { create :user, :reviewer }
 
       %i[new create edit update].each do |action|
         it "forbids the '#{action}' action" do

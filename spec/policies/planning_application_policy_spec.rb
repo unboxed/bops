@@ -9,7 +9,7 @@ RSpec.describe PlanningApplicationPolicy, type: :policy do
   describe "Assessor, Reviewer and Admin roles" do
     %i[assessor reviewer admin].each do |role|
       context "when signed in as a #{role}" do
-        let(:user) { users(role) }
+        let(:user) { create :user, role }
 
         %i[show index].each do |action|
           it "permits the '#{action}' action" do
@@ -22,7 +22,7 @@ RSpec.describe PlanningApplicationPolicy, type: :policy do
 
   describe "#permitted_statuses" do
     context "an assessor" do
-      let(:user) { users(:assessor) }
+      let(:user) {  create :user, :assessor }
 
       it "returns :awaiting_determination only" do
         expect(policy.permitted_statuses).to eq %w[ awaiting_determination ]
@@ -30,7 +30,7 @@ RSpec.describe PlanningApplicationPolicy, type: :policy do
     end
 
     context "a reviewer" do
-      let(:user) { users(:reviewer) }
+      let(:user) {  create :user, :reviewer }
 
       it "returns :determined only" do
         expect(policy.permitted_statuses).to eq %w[ determined ]
@@ -38,7 +38,7 @@ RSpec.describe PlanningApplicationPolicy, type: :policy do
     end
 
     context "an admin" do
-      let(:user) { users(:admin) }
+      let(:user) {  create :user, :admin }
 
       it "returns :determined only" do
         expect(policy.permitted_statuses).to eq %w[ determined ]
