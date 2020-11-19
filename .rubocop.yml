@@ -76,7 +76,7 @@ Layout/LeadingCommentSpace:
   Enabled: true
 
 Layout/LineLength:
-  Max: 80
+  Max: 120
   Exclude:
     - "spec/**/*"
 
