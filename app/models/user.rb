@@ -10,5 +10,5 @@ class User < ApplicationRecord
 
   has_many :decisions, dependent: :restrict_with_exception
   has_many :planning_applications, through: :decisions
-  belongs_to :local_authority, optional: true
+  belongs_to :local_authority
 end

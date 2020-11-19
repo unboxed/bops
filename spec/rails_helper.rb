@@ -34,4 +34,13 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
 
   config.include Devise::Test::IntegrationHelpers, type: :request
+
+  config.before(:each) do |example|
+    @default_local_authority = LocalAuthority.find_or_create_by!(name: 'Default Authority', subdomain: 'default')
+    if example.metadata[:type] == :request
+      host! "default.example.com"
+    elsif example.metadata[:type] == :system
+      host! "http://default.example.com"
+    end
+  end
 end
