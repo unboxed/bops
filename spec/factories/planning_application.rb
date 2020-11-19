@@ -3,13 +3,19 @@
 FactoryBot.define do
   factory :planning_application do
     site
-    agent
-    applicant
     local_authority
     description      { Faker::Lorem.unique.sentence }
     status           { :in_assessment }
     in_assessment_at { Time.current }
     ward             { Faker::Address.city }
+    agent_first_name { Faker::Name.first_name }
+    agent_last_name { Faker::Name.last_name }
+    agent_phone { Faker::Base.numerify("+44 7### ######") }
+    agent_email { Faker::Internet.email }
+    applicant_first_name { Faker::Name.first_name }
+    applicant_last_name { Faker::Name.last_name }
+    applicant_phone { Faker::Base.numerify("+44 7### ######") }
+    applicant_email { Faker::Internet.email }
   end
 
   trait :lawfulness_certificate do
@@ -23,6 +29,7 @@ FactoryBot.define do
   trait :awaiting_determination do
     status                    { :awaiting_determination }
     awaiting_determination_at { Time.current }
+    applicant_email { "bigplans@example.com" }
 
     after(:create) do |pa|
       pa.target_date = Date.current + 7.weeks

@@ -95,29 +95,6 @@ task create_sample_data: :environment do
 
   southwark_assessor = User.find_by!(email: "southwark_assessor@example.com", role: :assessor)
 
-  # Agent
-  agent = Agent.find_or_create_by!(
-    first_name: Faker::Name.unique.first_name,
-    last_name: Faker::Name.unique.last_name,
-    phone: Faker::Base.numerify("+44 7### ######"),
-    email: Faker::Internet.email,
-    postcode: Faker::Address.postcode,
-    address_1: Faker::Address.street_address,
-    town: Faker::Address.city
-  )
-
-  # Applicant
-  applicant = Applicant.find_or_create_by!(
-    first_name: Faker::Name.unique.first_name,
-    last_name: Faker::Name.unique.last_name,
-    phone: Faker::Base.numerify("+44 7### ######"),
-    email: "bops-team@unboxedconsulting.com",
-    postcode: Faker::Address.postcode,
-    address_1: Faker::Address.street_address,
-    town: Faker::Address.city,
-    residence_status: true
-  )
-
   # A planning application with application_type lawfulness_certificate
   bowen_site = Site.find_or_create_by!(
     address_1: "47 Bowen Drive",
@@ -130,10 +107,10 @@ task create_sample_data: :environment do
     application_type: :lawfulness_certificate,
     site_id: bowen_site.id,
     ward: "Dulwich Wood",
-    agent: agent,
     applicant: applicant,
     user: southwark_assessor,
-    local_authority: southwark
+    local_authority: southwark,
+    user: assessor
   ) do |pa|
     pa.description = "Installation of new external insulated render to be added"
   end
@@ -151,8 +128,6 @@ task create_sample_data: :environment do
   college_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
     site: college_site,
-    agent: agent,
-    applicant: applicant,
     local_authority: southwark
   ) do |pa|
     pa.description = "Construction of a single storey rear extension"
@@ -171,10 +146,9 @@ task create_sample_data: :environment do
   bellenden_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
     site: bellenden_site,
-    agent: agent,
-    applicant: applicant,
     ward: "Rye Lane",
-    local_authority: southwark
+    local_authority: southwark,
+    ward: "Rye Lane"
   ) do |pa|
     pa.description = "Construction of a single storey side extension"
   end
@@ -192,9 +166,7 @@ task create_sample_data: :environment do
   james_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
     site: james_site,
-    agent: agent,
     ward: "South Bermondsey",
-    applicant: applicant,
     local_authority: southwark
   ) do |pa|
     pa.description = "Single storey rear extension and rear dormer extension"
@@ -211,9 +183,7 @@ task create_sample_data: :environment do
   lambeth_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
     site: lambeth_site,
-    agent: agent,
     ward: "Lambeth",
-    applicant: applicant,
     local_authority: lambeth
   ) do |pa|
     pa.description = "Single storey rear extension and rear dormer extension"

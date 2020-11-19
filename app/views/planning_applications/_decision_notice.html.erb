@@ -5,7 +5,7 @@
   <p class="govuk-body">Certificate of lawfulness of proposed use or development: <strong><%= "#{decision.status}." %></strong></p>
   <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
   <p class="govuk-body">
-    <strong>Applicant:</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<%= planning_application.applicant.full_name %><br>
+    <strong>Applicant:</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<%= @planning_application.applicant_first_name %> <%= @planning_application.applicant_last_name %><br>
     <strong>Date of Issue of this decision:</strong>
     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<%= planning_application.determined_at&.strftime("%e %B %Y") || "TBD" %><br>
     <strong>Application received:</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<%= planning_application.created_at.strftime("%e %B %Y") %>

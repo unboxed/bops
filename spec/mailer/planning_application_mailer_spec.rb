@@ -39,12 +39,12 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "renders the headers" do
       expect(mail.subject).to eq("Certificate of Lawfulness: granted")
-      expect(mail.to).to eq([decision.planning_application.applicant.email])
+      expect(mail.to).to eq([decision.planning_application.applicant_email])
     end
 
     it "renders the body" do
       expect(mail.body.encoded).to match("Certificate of lawfulness of proposed use or development: granted.")
-      expect(mail.body.encoded).to match("Applicant: #{planning_application.applicant.full_name}")
+      expect(mail.body.encoded).to match("Applicant: #{planning_application.applicant_first_name} #{planning_application.applicant_last_name}")
       expect(mail.body.encoded).to match("Date of Issue of this decision: #{planning_application.determined_at.strftime("%e %B %Y")}")
       expect(mail.body.encoded).to match("Application received: #{planning_application.created_at.strftime("%e %B %Y")}")
       expect(mail.body.encoded).to match("Address: #{planning_application.site.full_address}")

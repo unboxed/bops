@@ -11,38 +11,31 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
   end
 
   def create
-    @planning_application = PlanningApplication.create(full_planning_application_params)
-    if @planning_application.save!
-      @planning_application.create_policy_evaluation
-      render json: {"id": "#{@planning_application.reference}",
-                    "message": "Application created: id was #{@planning_application.reference}"}, status: 200
+    @plan_app = PlanningApplication.create(full_planning_application_params)
+    if @plan_app.save!
+      @plan_app.create_policy_evaluation
+      render json: { "id": "#{@plan_app.reference}",
+                    "message": "Application created" }, status: 200
     else
-      render error: { error: "Unable to create planning application #{error}" }, status: 400
+      render error: { error: "Unable to create application" }, status: 400
     end
-
     respond_to(:json)
   end
 
   private
 
   def planning_application_params
-    permitted_keys = [:application_type,
-                      :description,
-                      :ward,
-                      :site_id]
+    permitted_keys = [:application_type, :description, :ward, :site_id,
+                      :applicant_first_name, :applicant_last_name,
+                      :applicant_phone, :applicant_email,
+                      :agent_first_name, :agent_last_name,
+                      :agent_phone, :agent_email]
 
     params.require(:planning_application).permit permitted_keys
   end
 
   def full_planning_application_params
-    planning_application_params.merge!({ agent_first_name: params[:agent][:first_name],
-                                         agent_last_name: params[:agent][:last_name],
-                                         agent_email: params[:agent][:email],
-                                         agent_phone: params[:agent][:phone],
-                                         applicant_first_name: params[:applicant][:first_name],
-                                         applicant_last_name: params[:applicant][:last_name],
-                                         applicant_email: params[:applicant][:email],
-                                         applicant_phone: params[:applicant][:phone],
+    planning_application_params.merge!({
                                          questions: params[:flow].to_json,
                                          audit_log: params.to_json
                                        })

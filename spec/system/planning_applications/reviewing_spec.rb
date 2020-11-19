@@ -8,14 +8,12 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     let(:local_authority) { create :local_authority }
     let(:policy_evaluation) { create(:policy_evaluation, :met) }
     let(:assessor) { create :user, :assessor }
-    let(:applicant) { create :applicant, email: "bigplans@example.com" }
     let!(:planning_application) do
       create :planning_application,
        :awaiting_determination,
        policy_evaluation: policy_evaluation,
-       assessor_decision: assessor_decision,
-       applicant: applicant,
-       local_authority: local_authority
+       local_authority: local_authority,
+       assessor_decision: assessor_decision
     end
     let(:admin) { create :user, :admin, local_authority: local_authority }
     let(:assessor) { create :user, :assessor, local_authority: local_authority }

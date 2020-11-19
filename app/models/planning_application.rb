@@ -20,8 +20,6 @@ class PlanningApplication < ApplicationRecord
     }, class_name: "Decision", inverse_of: :planning_application
 
   belongs_to :site
-  belongs_to :agent
-  belongs_to :applicant
   belongs_to :user, optional: true
   belongs_to :local_authority
 

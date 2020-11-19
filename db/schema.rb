@@ -37,45 +37,6 @@ ActiveRecord::Schema.define(version: 2020_11_30_135434) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "agents", force: :cascade do |t|
-    t.string "phone"
-    t.string "email"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "first_name"
-    t.string "last_name"
-    t.string "company_name"
-    t.string "company_number"
-    t.string "address_1"
-    t.string "address_2"
-    t.string "address_3"
-    t.string "town"
-    t.string "postcode"
-    t.string "country"
-    t.string "phone_2"
-  end
-
-  create_table "applicants", force: :cascade do |t|
-    t.string "phone"
-    t.string "email"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.boolean "residence_status", default: false, null: false
-    t.string "first_name"
-    t.string "last_name"
-    t.string "company_name"
-    t.string "company_number"
-    t.string "address_1"
-    t.string "address_2"
-    t.string "address_3"
-    t.string "town"
-    t.string "postcode"
-    t.string "country"
-    t.string "phone_2"
-    t.bigint "agent_id"
-    t.index ["agent_id"], name: "index_applicants_on_agent_id"
-  end
-
   create_table "decisions", force: :cascade do |t|
     t.datetime "decided_at"
     t.bigint "planning_application_id", null: false
@@ -129,7 +90,6 @@ ActiveRecord::Schema.define(version: 2020_11_30_135434) do
     t.datetime "awaiting_determination_at"
     t.datetime "in_assessment_at"
     t.datetime "awaiting_correction_at"
-    t.bigint "local_authority_id"
     t.jsonb "questions"
     t.jsonb "audit_log"
     t.string "agent_first_name"
@@ -140,6 +100,7 @@ ActiveRecord::Schema.define(version: 2020_11_30_135434) do
     t.string "applicant_last_name"
     t.string "applicant_email"
     t.string "applicant_phone"
+    t.bigint "local_authority_id"
     t.index ["agent_id"], name: "index_planning_applications_on_agent_id"
     t.index ["applicant_id"], name: "index_planning_applications_on_applicant_id"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
@@ -192,6 +153,5 @@ ActiveRecord::Schema.define(version: 2020_11_30_135434) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "applicants", "agents"
   add_foreign_key "planning_applications", "users"
 end
