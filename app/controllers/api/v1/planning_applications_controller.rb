@@ -13,9 +13,11 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
   def create
     @planning_application = PlanningApplication.create(full_planning_application_params)
     if @planning_application.save!
-      render json: {"message": "Application created: id was #{@planning_application.reference}"}, status: 200
+      @planning_application.create_policy_evaluation
+      render json: {"id": "#{@planning_application.reference}",
+                    "message": "Application created: id was #{@planning_application.reference}"}, status: 200
     else
-      render error: { error: "Unable to create planning application" }, status: 400
+      render error: { error: "Unable to create planning application #{error}" }, status: 400
     end
 
     respond_to(:json)
