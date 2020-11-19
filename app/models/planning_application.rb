@@ -23,7 +23,7 @@ class PlanningApplication < ApplicationRecord
   belongs_to :agent
   belongs_to :applicant
   belongs_to :user, optional: true
-  belongs_to :local_authority, optional: true
+  belongs_to :local_authority
 
   before_create :set_target_date
 
