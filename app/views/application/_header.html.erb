@@ -4,9 +4,7 @@
       <%= link_to "Back-office Planning System", root_path, class: "govuk-header__link govuk-header__link--service-name" %>
     </div>
 
-    <% if current_authority != false %>
-      <%= current_authority.name %>
-    <% end %>
+    <%= current_local_authority.name %>
 
   </div>
 </header>
