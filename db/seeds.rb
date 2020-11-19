@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 require "faker"
 
+lambeth = LocalAuthority.find_or_create_by!(name: "Lambeth Council", subdomain: "lambeth")
+
 User.find_or_create_by!(email: "admin@example.com") do |user|
   user.name = "#{Faker::Name.unique.first_name} #{Faker::Name.unique.last_name}"
+  user.local_authority = lambeth
 
   if Rails.env.development?
     user.password = user.password_confirmation = "password"
