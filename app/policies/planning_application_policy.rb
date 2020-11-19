@@ -11,19 +11,19 @@ class PlanningApplicationPolicy < ApplicationPolicy
   alias_method :update_numbers?, :editor?
 
   def show?
-    super || signed_in_viewer?
+    (super || signed_in_viewer?) && record.local_authority_id == user.local_authority_id
   end
 
   def index?
-    super || signed_in_viewer?
+    (super || signed_in_viewer?) && record.local_authority_id == user.local_authority_id
   end
 
   def edit?
-    super || signed_in_editor?
+    (super || signed_in_editor?) && record.local_authority_id == user.local_authority_id
   end
 
   def update?
-    super || signed_in_editor?
+    (super || signed_in_editor?) && record.local_authority_id == user.local_authority_id
   end
 
   def unpermitted_statuses
@@ -37,6 +37,19 @@ class PlanningApplicationPolicy < ApplicationPolicy
       [ "determined" ]
     else
       []
+    end
+  end
+
+  class Scope
+    attr_reader :user, :scope
+
+    def initialize(user, scope)
+      @user = user
+      @scope = scope
+    end
+
+    def resolve
+      scope.where(local_authority_id: user.local_authority_id)
     end
   end
 end

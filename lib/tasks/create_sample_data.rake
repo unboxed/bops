@@ -42,7 +42,7 @@ task create_sample_data: :environment do
       first_name = Faker::Name.unique.first_name
       last_name = Faker::Name.unique.last_name
       user.name = "#{first_name} #{last_name}"
-
+      user.local_authority = southwark
       if Rails.env.development?
         user.password = user.password_confirmation = "password"
       else
@@ -58,6 +58,7 @@ task create_sample_data: :environment do
       first_name = Faker::Name.unique.first_name
       last_name = Faker::Name.unique.last_name
       user.name = "#{first_name} #{last_name}"
+      user.local_authority = southwark
       if Rails.env.development?
         user.password = user.password_confirmation = "password"
       else
@@ -150,7 +151,8 @@ task create_sample_data: :environment do
     ward: "Dulwich Wood",
     agent: agent,
     applicant: applicant,
-    user: assessor
+    user: assessor,
+    local_authority: southwark
   ) do |pa|
     pa.description = "Installation of new external insulated render to be added"
   end
