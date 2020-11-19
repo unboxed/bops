@@ -1,0 +1,2 @@
+class LocalPlanningAuthority < ApplicationRecord
+end
