@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 2020_11_30_135434) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "uprn"
+    t.index ["uprn"], name: "index_sites_on_uprn", unique: true
   end
 
   create_table "users", force: :cascade do |t|
