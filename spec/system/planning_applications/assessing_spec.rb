@@ -3,12 +3,14 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application Assessment", type: :system do
-  let!(:assessor) { create :user, :assessor, name: "Lorrine Krajcik" }
-  let!(:reviewer) { create :user, :reviewer, name: "Harley Dicki" }
+  let(:local_authority) { create :local_authority }
+  let!(:assessor) { create :user, :assessor, name: "Lorrine Krajcik", local_authority: local_authority }
+  let!(:reviewer) { create :user, :reviewer, name: "Harley Dicki", local_authority: local_authority }
 
   let!(:planning_application) do
     create :planning_application,
-            :lawfulness_certificate
+            :lawfulness_certificate,
+            local_authority: local_authority
   end
 
   let(:policy_consideration_1) do

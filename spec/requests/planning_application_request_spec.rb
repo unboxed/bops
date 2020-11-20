@@ -11,7 +11,8 @@ RSpec.describe "PlanningApplications", type: :request do
   end
 
   describe "PATCH #update" do
-    let(:planning_application) { create :planning_application }
+    let(:local_authority) { create :local_authority }
+    let(:planning_application) { create :planning_application, local_authority: local_authority }
 
     subject {
       patch "/planning_applications/#{planning_application.id}",
@@ -23,7 +24,7 @@ RSpec.describe "PlanningApplications", type: :request do
     end
 
     context "for an assessor" do
-      let(:user) { create :user, :assessor }
+      let(:user) { create :user, :assessor, local_authority: local_authority }
 
       context "setting the status to \"awaiting_determination\"" do
         let(:status) { :awaiting_determination }
@@ -57,7 +58,7 @@ RSpec.describe "PlanningApplications", type: :request do
     end
 
     context "for a reviewer" do
-      let(:user) { create :user, :reviewer }
+      let(:user) { create :user, :reviewer, local_authority: local_authority }
 
       context "setting the status to \"determined\"" do
         let(:status) { :determined }
@@ -100,7 +101,7 @@ RSpec.describe "PlanningApplications", type: :request do
     end
 
     context "for an admin" do
-      let(:user) { create :user, :admin }
+      let(:user) { create :user, :admin, local_authority: local_authority }
 
       context "setting the status to \"determined\"" do
         let(:status) { :determined }

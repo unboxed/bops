@@ -27,11 +27,11 @@ task create_sample_data: :environment do
   plan_4 = Rails.root.join("#{image_path}proposed-floorplan.png")
 
   lambeth = LocalAuthority.find_or_create_by!(
-    name: "Lambeth",
+    name: "Lambeth Council",
     subdomain: "lambeth"
   )
   southwark = LocalAuthority.find_or_create_by!(
-    name: "Southwark",
+    name: "Southwark Council",
     subdomain: "southwark"
   )
 

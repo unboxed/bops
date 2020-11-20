@@ -4,8 +4,9 @@ require "rails_helper"
 
 RSpec.describe PlanningApplicationMailer, type: :mailer do
   describe "#decision_notice_mail" do
-    let!(:reviewer) { create :user, :reviewer }
-    let!(:planning_application) { create(:planning_application, :determined) }
+    let(:local_authority) { create :local_authority }
+    let!(:reviewer) { create :user, :reviewer, local_authority: local_authority }
+    let!(:planning_application) { create(:planning_application, :determined, local_authority: local_authority) }
     let!(:decision) { create(:decision, :granted, user: reviewer, planning_application: planning_application) }
 
     let!(:drawing_with_proposed_tags) do
@@ -40,6 +41,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(mail.body.encoded).to match("Application received: #{planning_application.created_at.strftime("%e %B %Y")}")
       expect(mail.body.encoded).to match("Address: #{planning_application.site.full_address}")
       expect(mail.body.encoded).to match("Application number: #{planning_application.reference}")
+      expect(mail.body.encoded).to match("Local authority: #{planning_application.local_authority.name}")
     end
 
     it "renders numbers for active drawings with proposed tags" do

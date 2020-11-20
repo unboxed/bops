@@ -3,13 +3,15 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application correction journey", type: :system do
-    let(:assessor) { create :user, :assessor }
-    let(:reviewer) { create :user, :reviewer }
+    let(:local_authority) { create :local_authority }
+    let(:assessor) { create :user, :assessor, local_authority: local_authority }
+    let(:reviewer) { create :user, :reviewer, local_authority: local_authority }
 
     let!(:planning_application_corrected) do
       create :planning_application,
       :lawfulness_certificate,
-      :awaiting_correction
+      :awaiting_correction,
+      local_authority: local_authority
     end
 
     let!(:assessor_decision) do
