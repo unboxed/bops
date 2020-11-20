@@ -35,7 +35,6 @@ RSpec.feature "Accessing correct local authority", type: :system do
 
     scenario "visit non existing path" do
       visit root_path
-
       expect(page).to have_content("No Local Authority Found")
     end
   end

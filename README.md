@@ -192,6 +192,14 @@ $ JS_DRIVER=selenium_chrome rspec spec/system/log_in_spec.rb
 $ rails server
 ```
 
+#### Because of the subdomain being enforced, your app will be available on:
+
+```
+http://southwark.lvh.me:3000/
+or
+http://lambeth.lvh.me:3000/
+```
+
 ## Building production docker
 
 ### Create production docker

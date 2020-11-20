@@ -2,6 +2,7 @@
 require "faker"
 
 lambeth = LocalAuthority.find_or_create_by!(name: "Lambeth Council", subdomain: "lambeth")
+southwark = LocalAuthority.find_or_create_by!(name: "Southwark Council", subdomain: "southwark")
 
 User.find_or_create_by!(email: "admin@example.com") do |user|
   user.name = "#{Faker::Name.unique.first_name} #{Faker::Name.unique.last_name}"

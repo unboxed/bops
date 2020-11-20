@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   private
 
   def find_current_local_authority_from_subdomain
-    unless @current_local_authority ||= LocalAuthority.find_by(subdomain: request.subdomain)
+    unless @current_local_authority ||= LocalAuthority.find_by(subdomain: request.subdomains.first)
       render plain: "No Local Authority Found", status: 404
     end
   end

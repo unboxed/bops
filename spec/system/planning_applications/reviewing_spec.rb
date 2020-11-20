@@ -5,6 +5,7 @@ require "rails_helper"
 RSpec.describe "Planning Application Reviewing", type: :system do
   context "as a reviewer" do
     # Look at an application that has had some assessment work done by the assessor
+    let(:local_authority) { create :local_authority }
     let(:policy_evaluation) { create(:policy_evaluation, :met) }
     let(:assessor) { create :user, :assessor }
     let(:applicant) { create :applicant, email: "bigplans@example.com" }
@@ -13,11 +14,12 @@ RSpec.describe "Planning Application Reviewing", type: :system do
        :awaiting_determination,
        policy_evaluation: policy_evaluation,
        assessor_decision: assessor_decision,
-       applicant: applicant
+       applicant: applicant,
+       local_authority: local_authority
     end
-    let(:admin) { create :user, :admin }
-    let(:assessor) { create :user, :assessor }
-    let(:reviewer) { create :user, :reviewer }
+    let(:admin) { create :user, :admin, local_authority: local_authority }
+    let(:assessor) { create :user, :assessor, local_authority: local_authority }
+    let(:reviewer) { create :user, :reviewer, local_authority: local_authority }
 
     before do
       sign_in reviewer
@@ -474,12 +476,15 @@ RSpec.describe "Planning Application Reviewing", type: :system do
   end
 
   context "as an admin" do
-    let(:assessor) { create :user, :assessor }
-    let(:admin) { create :user, :admin }
+    let(:local_authority) { create :local_authority }
+    let(:assessor) { create :user, :assessor, local_authority: local_authority }
+    let(:admin) { create :user, :admin, local_authority: local_authority }
     let(:assessor_decision) { create :decision, :granted, user: assessor }
 
     let!(:planning_application) do
-      create :planning_application, assessor_decision: assessor_decision
+      create :planning_application,
+      assessor_decision: assessor_decision,
+      local_authority: local_authority
     end
 
     before do

@@ -11,6 +11,7 @@ Date of Issue of this decision: <%= @planning_application.determined_at.strftime
 Application received: <%= @planning_application.created_at.strftime("%e %B %Y") %>
 Address: <%= @planning_application.site.full_address %>
 Application number: <%= @planning_application.reference %>
+Local authority: <%= @planning_application.local_authority.name %>
 
 Proposed use or development:
 Certificate of lawful development (proposed) for the construction of <%= @planning_application.description %>
