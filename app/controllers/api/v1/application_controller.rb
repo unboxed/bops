@@ -5,6 +5,10 @@ class Api::V1::ApplicationController < ApplicationController
   protect_from_forgery with: :null_session
   before_action :set_default_format
 
+  rescue_from ActionController::ParameterMissing do |e|
+    render json: { error: e.message }, status: :bad_request
+  end
+
   def set_default_format
     request.format = :json
   end
