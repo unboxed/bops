@@ -28,49 +28,22 @@ task create_sample_data: :environment do
 
   lambeth = LocalAuthority.find_or_create_by!(
     name: "Lambeth Council",
-    subdomain: "lambeth"
+    subdomain: "lambeth",
+    signatory_name: "Christina Thompson",
+    signatory_job_title: "Director of Finance & Property",
+    enquiries_paragraph: "Postal address: Planning London Borough of Lambeth PO Box 734 Winchester SO23 5DG.",
+    email_address: "planning@lambeth.gov.uk"
   )
   southwark = LocalAuthority.find_or_create_by!(
     name: "Southwark Council",
-    subdomain: "southwark"
+    subdomain: "southwark",
+    signatory_name: "Simon Bevan",
+    signatory_job_title: "Director of Planning",
+    enquiries_paragraph: "Postal address: Planning London Borough of Lambeth PO Box 734 Winchester SO23 5DG.",
+    email_address: "planning@lambeth.gov.uk"
   )
 
   admin_roles = %i[assessor reviewer]
-
-  admin_roles.each do |admin_role|
-    User.find_or_create_by!(email: "#{admin_role}@example.com") do |user|
-      first_name = Faker::Name.unique.first_name
-      last_name = Faker::Name.unique.last_name
-      user.name = "#{first_name} #{last_name}"
-      user.local_authority = southwark
-      if Rails.env.development?
-        user.password = user.password_confirmation = "password"
-      else
-        user.password = user.password_confirmation = SecureRandom.uuid
-        user.encrypted_password =
-          "$2a$11$uvtPXUB2CmO8WEYm7ajHf.XhZtBsclT/sT45ijLMIELShaZvceW5."
-      end
-
-      user.role = admin_role
-    end
-
-    User.find_or_create_by!(email: "#{admin_role}2@example.com") do |user|
-      first_name = Faker::Name.unique.first_name
-      last_name = Faker::Name.unique.last_name
-      user.name = "#{first_name} #{last_name}"
-      user.local_authority = southwark
-      if Rails.env.development?
-        user.password = user.password_confirmation = "password"
-      else
-        user.password = user.password_confirmation = SecureRandom.uuid
-        user.encrypted_password =
-          "$2a$11$uvtPXUB2CmO8WEYm7ajHf.XhZtBsclT/sT45ijLMIELShaZvceW5."
-      end
-
-      user.role = admin_role
-    end
-  end
-
   local_authorities = [southwark, lambeth]
 
   # Add lambeth and southwark specific admins
@@ -111,8 +84,7 @@ task create_sample_data: :environment do
     end
   end
 
-  assessor = User.find_by!(email: "assessor@example.com", role: :assessor)
-  reviewer = User.find_by!(email: "reviewer@example.com", role: :reviewer)
+  southwark_assessor = User.find_by!(email: "southwark_assessor@example.com", role: :assessor)
 
   # Agent
   agent = Agent.find_or_create_by!(
@@ -151,7 +123,7 @@ task create_sample_data: :environment do
     ward: "Dulwich Wood",
     agent: agent,
     applicant: applicant,
-    user: assessor,
+    user: southwark_assessor,
     local_authority: southwark
   ) do |pa|
     pa.description = "Installation of new external insulated render to be added"
