@@ -14,7 +14,6 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
     site_id = create_site
     full_planning_application(site_id)
     if @planning_application.valid? && @planning_application.save!
-      attach_question_flow(@planning_application.questions)
       send_success_response
     else
       send_failed_response
@@ -31,8 +30,10 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
   def attach_question_flow(questions)
     evaluation = @planning_application.create_policy_evaluation
     pcb = Ripa::PolicyConsiderationBuilder.new(questions)
-    questions = pcb.import
-    evaluation.policy_considerations << questions
+    unless questions.empty?
+      questions = pcb.import
+      evaluation.policy_considerations << questions
+    end
   end
 
   def send_success_response
@@ -41,7 +42,8 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
   end
 
   def send_failed_response
-    render json: { "message": "Unable to create application" }, status: 400
+    render json: { "message": "Unable to create application" },
+                   status: 400
   end
 
   def create_site

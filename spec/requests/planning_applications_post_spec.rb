@@ -42,7 +42,7 @@ RSpec.describe Api::V1::PlanningApplicationsController, type: :request, show_exc
       post "/api/v1/planning_applications", params: permitted_development_json,
            headers: { "CONTENT-TYPE": "application/json" }
       expect(response.body).to eq({ "id": "#{PlanningApplication.all[0].reference}",
-                                     "message": "Application created" }.to_json)
+                                    "message": "Application created" }.to_json)
     end
   end
 
@@ -66,7 +66,7 @@ RSpec.describe Api::V1::PlanningApplicationsController, type: :request, show_exc
       post "/api/v1/planning_applications", params: minimal_development_json,
            headers: { "CONTENT-TYPE": "application/json" }
       expect(response.body).to eq({ "id": "#{PlanningApplication.all[0].reference}",
-                                "message": "Application created" }.to_json)
+                                    "message": "Application created" }.to_json)
     end
   end
 
