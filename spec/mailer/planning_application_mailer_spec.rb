@@ -4,7 +4,15 @@ require "rails_helper"
 
 RSpec.describe PlanningApplicationMailer, type: :mailer do
   describe "#decision_notice_mail" do
-    let(:local_authority) { create :local_authority }
+    let(:local_authority) {
+      create :local_authority,
+      name: "Cookie authority",
+      signatory_name: "Mr. Biscuit",
+      signatory_job_title: "Lord of BiscuitTown",
+      enquiries_paragraph: "reach us on postcode SW50",
+      email_address: "biscuit@somuchbiscuit.com"
+      }
+
     let!(:reviewer) { create :user, :reviewer, local_authority: local_authority }
     let!(:planning_application) { create(:planning_application, :determined, local_authority: local_authority) }
     let!(:decision) { create(:decision, :granted, user: reviewer, planning_application: planning_application) }
@@ -47,6 +55,14 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     it "renders numbers for active drawings with proposed tags" do
       expect(mail.body.encoded).to match("proposed_number_1")
       expect(mail.body.encoded).to match("proposed_number_2")
+    end
+
+    it "renders the name of the correct local authority signatory" do
+      expect(mail.body.encoded).to match("Cookie authority")
+      expect(mail.body.encoded).to match("Mr. Biscuit")
+      expect(mail.body.encoded).to match("Lord of BiscuitTown")
+      expect(mail.body.encoded).to match("reach us on postcode SW50")
+      expect(mail.body.encoded).to match("biscuit@somuchbiscuit.com")
     end
 
     it "does not render numbers for archived drawings with proposed tags" do
