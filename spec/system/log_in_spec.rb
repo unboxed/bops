@@ -27,8 +27,8 @@ RSpec.feature "Sign in", type: :system do
     fill_in("user[password]", with: "invalid_password")
     click_button('Log in')
 
-    expect(page).to have_text("Email")
-    expect(page).not_to have_text("Welcome")
+    expect(page).to have_text("Invalid Email or password.")
+    expect(page).not_to have_text("Signed in successfully.")
   end
 
   context "users with valid credentials" do
@@ -65,6 +65,42 @@ RSpec.feature "Sign in", type: :system do
       scenario "see can see their name and role" do
         expect(page).to have_text("Adrian Schimmel")
         expect(page).to have_text("Admin")
+      end
+    end
+
+    context "a user belonging to a given subdomain" do
+      let!(:lambeth) { create :local_authority, subdomain: "lamb" }
+      let!(:southwark) { create :local_authority, subdomain: "south" }
+      let(:lambeth_assessor) { create :user, :assessor, name: "Lambertina Lamb", password: "Lambsrock18!", local_authority: lambeth }
+      let(:southwark_assessor) { create :user, :assessor, name: "Southwarkina Sully", password: "Southwark4ever!", local_authority: southwark }
+
+      before do
+        @previous_host = Capybara.app_host
+        host! "http://lamb.example.com"
+      end
+
+      after do
+        host! "http://#{@previous_host}"
+      end
+
+      scenario "is prevented from logging in to a different subdomain" do
+        visit root_path
+
+        fill_in("user[email]", with: southwark_assessor.email)
+        fill_in("user[password]", with: "Southwark4ever!")
+        click_button('Log in')
+        expect(page).to have_text("Email")
+        expect(page).not_to have_text("Welcome")
+      end
+
+      scenario "is able to login to its allocated subdomain" do
+        visit root_path
+
+        fill_in("user[email]", with: lambeth_assessor.email)
+        fill_in("user[password]", with: "Lambsrock18!")
+        click_button('Log in')
+
+        expect(page).to have_text("Signed in successfully.")
       end
     end
   end
