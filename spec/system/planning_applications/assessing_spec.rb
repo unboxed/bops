@@ -3,7 +3,14 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application Assessment", type: :system do
-  let(:local_authority) { create :local_authority }
+  let(:local_authority) {
+    create :local_authority,
+    name: "Cookie authority",
+    signatory_name: "Mr. Biscuit",
+    signatory_job_title: "Lord of BiscuitTown",
+    enquiries_paragraph: "reach us on postcode SW50",
+    email_address: "biscuit@somuchbiscuit.com"
+    }
   let!(:assessor) { create :user, :assessor, name: "Lorrine Krajcik", local_authority: local_authority }
   let!(:reviewer) { create :user, :reviewer, name: "Harley Dicki", local_authority: local_authority }
 
@@ -128,6 +135,13 @@ RSpec.describe "Planning Application Assessment", type: :system do
     expect(page).to have_content("proposed_drawing_number_1")
     expect(page).to have_content("proposed_drawing_number_2")
     expect(page).to have_content("Certificate of lawful development (proposed) for the construction of #{planning_application.description}")
+
+    # Local authority specific fields
+    expect(page).to have_content("Cookie authority")
+    expect(page).to have_content("Mr. Biscuit")
+    expect(page).to have_content("Lord of BiscuitTown")
+    expect(page).to have_content("reach us on postcode SW50")
+    expect(page).to have_content("biscuit@somuchbiscuit.com")
 
     click_button "Submit to manager"
 

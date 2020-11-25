@@ -1,5 +1,5 @@
 <div style="background-color: #f3f2f1; border: solid 1px; padding: 30px; clear: both; margin-top: 10px;">
-  <span class="govuk-caption-xl">Southwark Council</span>
+  <span class="govuk-caption-xl"><%= planning_application.local_authority.name %> </span>
   <h2 class="govuk-heading-m">Town and country planning act 1990 (as amended)</h2>
   <p class="govuk-body"> <strong>Decision notice</strong> </p>
   <p class="govuk-body">Certificate of lawfulness of proposed use or development: <strong><%= "#{decision.status}." %></strong></p>
@@ -63,17 +63,21 @@
        <% end %>
       </tbody>
     </table>
-  <p class="govuk-body">Signed: Simon Bevan
+  <p class="govuk-body">Signed: <%= planning_application.local_authority.signatory_name %>
     <br>
-    Director of Planning
+    <%= planning_application.local_authority.signatory_job_title %>
   </p>
   <p class="govuk-body">
     Your attention is drawn to the notes accompanying this document
   </p>
 
   <p class="govuk-body">
-    Any enquiries regarding this document should quote the Application Number and be sent to the Director of Planning, Southwark Council, Chief executive's department, Planning division, Development management, PO Box 64529, London SE1 5LX, or by email
-    to planning.applications@southwark.gov.uk
+    Any enquiries regarding this document should quote the Application Number and be sent to
+    the
+    <%= planning_application.local_authority.signatory_job_title %>,
+    <%= planning_application.local_authority.name %>,
+    <%= planning_application.local_authority.enquiries_paragraph %>
+    or by email to <%= planning_application.local_authority.email_address %>
   </p>
   <% if decision.refused? %>
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
