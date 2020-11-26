@@ -19,6 +19,7 @@ gem "puma", "~> 4.1"
 gem "pundit"
 gem "rails", "~> 6.0.3"
 gem "webpacker", "~> 4.0"
+gem "appsignal"
 
 group :development, :test do
   gem "brakeman", require: false
