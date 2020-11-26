@@ -61,6 +61,8 @@ GEM
       zeitwerk (~> 2.2, >= 2.2.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
+    appsignal (2.11.0)
+      rack
     ast (2.4.0)
     aws-eventstream (1.1.0)
     aws-partitions (1.326.0)
@@ -308,6 +310,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-postgis-adapter
+  appsignal
   aws-sdk-s3
   bootsnap (>= 1.4.2)
   brakeman

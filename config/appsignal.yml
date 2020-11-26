@@ -1,0 +1,8 @@
+default: &defaults
+  push_api_key: "<%= ENV['APPSIGNAL_PUSH_API_KEY'] %>"
+  name: "BOPS"
+  active: false
+
+production:
+  <<: *defaults
+  active: true
