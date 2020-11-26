@@ -84,14 +84,18 @@ RUN bash -c "bundle exec yarn install"
 # Build image for application
 FROM base_image AS application
 
-# Run security updates, install libpq5 libgeos-c1v5 libproj13 libgdal20
+# Run security updates, install libpq5 libgeos-c1v5 libproj13 libgdal20 openssh-server
 RUN bash -c "export DEBIAN_FRONTEND=noninteractive && \
     apt-get update -qq && \
     apt-get upgrade -y && \
     apt-get install -y libpq5 \
-      libgeos-c1v5 libproj13 libgdal20 && \
+      libgeos-c1v5 libproj13 libgdal20 openssh-server && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*"
+
+# Add public keys to authorized keys, and start SSH daemon
+echo $SSH_PUBLIC_KEYS > ~/.ssh/authorized_keys
+/usr/sbin/sshd -D
 
 # Create a directory for our application
 # and set it as the working directory
