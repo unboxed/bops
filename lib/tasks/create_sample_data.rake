@@ -43,8 +43,17 @@ task create_sample_data: :environment do
     email_address: "planning@lambeth.gov.uk"
   )
 
+  bucks = LocalAuthority.find_or_create_by!(
+    name: "Buckinghamshire",
+    subdomain: "bucks",
+    signatory_name: "Steve Bambick",
+    signatory_job_title: "Director of Planning",
+    enquiries_paragraph: "Postal address: Planning Buckinghamshire Council, Gatehouse Rd, Aylesbury HP19 8FF",
+    email_address: "planning@buckinghamshire.gov.uk"
+  )
+
   admin_roles = %i[assessor reviewer]
-  local_authorities = [southwark, lambeth]
+  local_authorities = [southwark, lambeth, bucks]
 
   # Add lambeth and southwark specific admins
   local_authorities.each do |authority|
@@ -210,6 +219,43 @@ task create_sample_data: :environment do
     pa.description = "Single storey rear extension and rear dormer extension"
   end
 
+  # Two planning application examples for bucks
+  bucks_site = Site.find_or_create_by!(
+    address_1: "4 Chenies Parade, Little Chalfont",
+    town: "Amersham",
+    county: "Buckinghamshire",
+    postcode: "HP7 9PH"
+  )
+
+  bucks_planning_application = PlanningApplication.find_or_create_by(
+    application_type: :lawfulness_certificate,
+    site: bucks_site,
+    agent: agent,
+    ward: "Buckinghamshire",
+    applicant: applicant,
+    local_authority: bucks
+  ) do |pa|
+    pa.description = "Construction of a single storey side extension"
+  end
+
+  bucks_second_site = Site.find_or_create_by!(
+    address_1: "29 Turners Pl, Holmer Green",
+    town: "High Wycombe",
+    county: "Buckinghamshire",
+    postcode: "HP15 6RJ"
+  )
+
+  bucks_second_planning_application = PlanningApplication.find_or_create_by(
+    application_type: :lawfulness_certificate,
+    site: bucks_second_site,
+    agent: agent,
+    ward: "Buckinghamshire",
+    applicant: applicant,
+    local_authority: bucks
+  ) do |pa|
+    pa.description = "Single storey rear extension and rear dormer extension"
+  end
+
   bowen_pe = bowen_planning_application.create_policy_evaluation
   bowen_pe.policy_considerations << pc1
   bowen_planning_application.policy_evaluation = bowen_pe
@@ -230,11 +276,21 @@ task create_sample_data: :environment do
   lambeth_pe.policy_considerations << pc4
   lambeth_planning_application.policy_evaluation = lambeth_pe
 
+  bucks_pe = bucks_planning_application.create_policy_evaluation
+  bucks_pe.policy_considerations << pc4
+  bucks_planning_application.policy_evaluation = bucks_pe
+
+  bucks_second_pe = bucks_second_planning_application.create_policy_evaluation
+  bucks_second_pe.policy_considerations << pc4
+  bucks_second_planning_application.policy_evaluation = bucks_second_pe
+
   [bowen_planning_application,
    college_planning_application,
    james_planning_application,
    bellenden_planning_application,
-   lambeth_planning_application].each do |application|
+   lambeth_planning_application,
+   bucks_planning_application,
+   bucks_second_planning_application].each do |application|
     drawing_1 = application.drawings.create(
       tags: Drawing::TAGS.sample(rand(1..3))
     )
