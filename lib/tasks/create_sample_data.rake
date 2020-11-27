@@ -21,10 +21,10 @@ task create_sample_data: :environment do
   pc4 = pcb.import
 
   image_path = "spec/fixtures/images/"
-  plan_1 = Rails.root.join("#{image_path}proposed-section.jpg")
-  plan_2 = Rails.root.join("#{image_path}existing-section.png")
-  plan_3 = Rails.root.join("#{image_path}existing-floorplan.pdf")
-  plan_4 = Rails.root.join("#{image_path}proposed-floorplan.png")
+  plan_1 = Rails.root.join("#{image_path}existing-first-floor-plan.pdf")
+  plan_2 = Rails.root.join("#{image_path}existing-roofplan.pdf")
+  plan_3 = Rails.root.join("#{image_path}proposed-first-floor-plan.pdf")
+  plan_4 = Rails.root.join("#{image_path}proposed-roofplan.pdf")
 
   lambeth = LocalAuthority.find_or_create_by!(
     name: "Lambeth Council",
@@ -295,28 +295,28 @@ task create_sample_data: :environment do
       tags: Drawing::TAGS.sample(rand(1..3))
     )
     drawing_1.plan.attach(io: File.open(plan_1),
-      filename: "proposed-section.jpg"
+      filename: "existing-first-floor-plan.pdf"
     )
 
     drawing_2 = application.drawings.create(
       tags: Drawing::TAGS.sample(rand(1..3))
     )
     drawing_2.plan.attach(io: File.open(plan_2),
-      filename: "existing-section.png"
+      filename: "existing-roofplan.pdf"
     )
 
     drawing_3 = application.drawings.create(
       tags: Drawing::TAGS.sample(rand(1..3))
     )
     drawing_3.plan.attach(io: File.open(plan_3),
-      filename: "existing-floorplan.pdf"
+      filename: "proposed-first-floor-plan.pdf"
     )
 
     drawing_4 = application.drawings.create(
       tags: Drawing::TAGS.sample(rand(1..3))
     )
     drawing_4.plan.attach(io: File.open(plan_4),
-      filename: "proposed-floorplan.png"
+      filename: "proposed-roofplan.pdf"
     )
   end
 end

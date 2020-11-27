@@ -40,8 +40,8 @@ RSpec.describe Drawing, type: :model do
 
     it "is valid for a png plan content type" do
       subject.plan.attach(
-        io: File.open(Rails.root.join("spec/fixtures/images/existing-floorplan.png")),
-        filename: "existing-floorplan.png",
+        io: File.open(Rails.root.join("spec/fixtures/images/existing-roofplan.pdf")),
+        filename: "existing-roofplan.png",
         content_type: "image/png"
       )
 
@@ -50,8 +50,8 @@ RSpec.describe Drawing, type: :model do
 
     it "is valid for a pdf plan content type" do
       subject.plan.attach(
-        io: File.open(Rails.root.join("spec/fixtures/images/existing-floorplan.pdf")),
-        filename: "existing-floorplan.pdf",
+        io: File.open(Rails.root.join("spec/fixtures/images/existing-roofplan.pdf")),
+        filename: "existing-roofplan.pdf",
         content_type: "application/pdf"
       )
 

@@ -23,14 +23,14 @@ RSpec.describe "Document uploads", type: :system do
 
         click_link("Upload documents")
 
-        attach_file("Upload a file", "spec/fixtures/images/existing-floorplan.pdf")
+        attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.pdf")
 
         check("floor plan - existing")
         check("section - proposed")
 
         click_button("Continue")
 
-        expect(page).to have_css("img[src*=\"existing-floorplan.pdf\"]")
+        expect(page).to have_css("img[src*=\"proposed-roofplan.pdf\"]")
 
         expect(page).to have_css(".govuk-tag", text: "floor plan - existing")
         expect(page).to have_css(".govuk-tag", text: "section - proposed")
@@ -42,7 +42,7 @@ RSpec.describe "Document uploads", type: :system do
         expect(page).to have_checked_field("floor plan - existing")
         expect(page).to have_checked_field("section - proposed")
 
-        attach_file("Upload a file", "spec/fixtures/images/proposed-section.pdf")
+        attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.pdf")
 
         uncheck("floor plan - existing")
 
@@ -51,7 +51,7 @@ RSpec.describe "Document uploads", type: :system do
 
         click_button("Continue")
 
-        expect(page).to have_css("img[src*=\"proposed-section.pdf\"]")
+        expect(page).to have_css("img[src*=\"proposed-roofplan.pdf\"]")
 
         expect(page).to have_css(".govuk-tag", text: "section - proposed")
         expect(page).to have_css(".govuk-tag", text: "section - existing")
@@ -60,13 +60,13 @@ RSpec.describe "Document uploads", type: :system do
 
         click_button("Continue")
 
-        expect(page).to have_content("proposed-section.pdf has been uploaded.")
+        expect(page).to have_content("proposed-roofplan.pdf has been uploaded.")
 
         expect(page).to have_css(".current-drawings .drawing-card", count: 2)
 
         within(all(".current-drawings .drawing-card").last) do
           # The newly added document is last in the list
-          expect(page).to have_css("img[src*=\"proposed-section.pdf\"]")
+          expect(page).to have_css("img[src*=\"proposed-roofplan.pdf\"]")
 
           expect(page).to have_css(".govuk-tag", text: "section - proposed")
           expect(page).to have_css(".govuk-tag", text: "section - existing")
@@ -78,7 +78,7 @@ RSpec.describe "Document uploads", type: :system do
 
         within(find(".scroll-docs")) do
           expect(all("img").count).to eq 2
-          expect(all("img").last["src"]).to have_content("proposed-section.pdf")
+          expect(all("img").last["src"]).to have_content("proposed-roofplan.pdf")
 
           expect(page).to have_css(".govuk-tag", text: "section - proposed")
           expect(page).to have_css(".govuk-tag", text: "section - existing")
@@ -121,7 +121,7 @@ RSpec.describe "Document uploads", type: :system do
 
         click_link("Upload documents")
 
-        attach_file("Upload a file", "spec/fixtures/images/proposed-section.pdf")
+        attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.pdf")
 
         check("section - proposed")
 
