@@ -1,6 +1,6 @@
 <% add_parent_breadcrumb_link "Home", planning_applications_path %>
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
-<% content_for :title, "Attach drawing numbers" %>
+<% content_for :title, "Check documents" %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -11,7 +11,7 @@
       <%= display_address(@site) %>
     </h2>
 
-    <h2 class="govuk-heading-m">Attach drawing numbers</h2>
+    <h2 class="govuk-heading-m">Check documents</h2>
 
     <% if @drawings_list.drawings.none? %>
       <div class="govuk-form-group govuk-form-group--error">
@@ -35,7 +35,7 @@
       <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button", data: { module: "govuk-button" } %>
     <% else %>
       <p class="govuk-body">
-        Attach drawing numbers to all proposed documents. These will be published in the decision notice.
+        Check documents to all proposed documents. These will be published in the decision notice.
       </p>
       <%= form_with model: @drawings_list, scope: "drawings_list", url: update_numbers_planning_application_drawings_path, method: :put, local: true do |f| %>
         <fieldset class="govuk-fieldset">

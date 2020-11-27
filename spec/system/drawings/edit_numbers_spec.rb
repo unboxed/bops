@@ -28,7 +28,7 @@ RSpec.feature "Edit drawing numbers page", type: :system do
 
     context "when there are no drawings that require numbers" do
       scenario "shows a message and links to the document upload page" do
-        click_link "Attach drawing numbers"
+        click_link "Check documents"
 
         expect(page).to have_content("No drawings are available")
         expect(page).to have_link("upload proposal documents", href: /drawings\/new/)
@@ -60,13 +60,13 @@ RSpec.feature "Edit drawing numbers page", type: :system do
       end
 
       before do
-        click_link "Attach drawing numbers"
+        click_link "Check documents"
       end
 
       scenario "Assessor can see content for the right application" do
         expect(page).to have_text(planning_application.reference)
         expect(page).to have_text(planning_application.site.full_address)
-        expect(page).to have_text("Attach drawing numbers")
+        expect(page).to have_text("Check documents")
         expect(page).to have_text("These will be published in the decision notice.")
       end
 
@@ -84,7 +84,7 @@ RSpec.feature "Edit drawing numbers page", type: :system do
 
         click_button "Save"
 
-        expect(page).to have_content "Attach drawing numbers"
+        expect(page).to have_content "Check documents"
 
         within(all(".thumbnail").first) do
           # the submitted values are re-presented in the form

@@ -27,7 +27,7 @@
 
       <% if (current_user.assessor?) %>
         <li class="app-task-list__item">
-          <% step_name = "Attach drawing numbers" %>
+          <% step_name = "Check documents" %>
 
           <% if @planning_application.awaiting_determination? || @planning_application.determined? %>
             <span class="app-task-list__task-name"><%= step_name %></span>

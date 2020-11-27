@@ -107,13 +107,13 @@ RSpec.describe "Planning Application Assessment", type: :system do
     # Unable to submit yet because not all steps are complete
     expect(page).not_to have_link("Submit the recommendation")
 
-    click_link "Attach drawing numbers"
+    click_link "Check documents"
 
     fill_in("Drawing number:", with: "proposed_drawing_number_1, proposed_drawing_number_2")
 
     click_button "Save"
 
-    within(:assessment_step, "Attach drawing numbers") do
+    within(:assessment_step, "Check documents") do
       expect(page).to have_content("Completed")
     end
 
@@ -153,7 +153,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).not_to have_content("Completed")
     end
 
-    expect(page).not_to have_link "Attach drawing numbers"
+    expect(page).not_to have_link "Check documents"
 
     click_link "Review the recommendation"
     click_link "Back"
@@ -228,11 +228,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       expect(page).not_to have_link "Submit the recommendation"
 
-      within(:assessment_step, "Attach drawing numbers") do
+      within(:assessment_step, "Check documents") do
         expect(page).to have_content("In Progress")
       end
 
-      click_link("Attach drawing numbers")
+      click_link("Check documents")
 
       expect(page).to have_css(".thumbnail", count: 2)
 
@@ -242,7 +242,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_button "Save"
 
-      within(:assessment_step, "Attach drawing numbers") do
+      within(:assessment_step, "Check documents") do
         expect(page).to have_content("Completed")
       end
 
