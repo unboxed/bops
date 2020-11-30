@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_30_105930) do
+ActiveRecord::Schema.define(version: 2020_11_30_153208) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,8 +90,6 @@ ActiveRecord::Schema.define(version: 2020_11_30_105930) do
     t.bigint "site_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "agent_id"
-    t.bigint "applicant_id"
     t.string "ward"
     t.bigint "user_id"
     t.datetime "awaiting_determination_at"
@@ -108,8 +106,7 @@ ActiveRecord::Schema.define(version: 2020_11_30_105930) do
     t.string "applicant_email"
     t.string "applicant_phone"
     t.bigint "local_authority_id"
-    t.index ["agent_id"], name: "index_planning_applications_on_agent_id"
-    t.index ["applicant_id"], name: "index_planning_applications_on_applicant_id"
+    t.jsonb "constraints"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
     t.index ["site_id"], name: "index_planning_applications_on_site_id"
     t.index ["user_id"], name: "index_planning_applications_on_user_id"

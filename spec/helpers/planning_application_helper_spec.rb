@@ -26,6 +26,30 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
       end
     end
 
+  describe "#list_constraints" do
+    let(:application_with_constraints) { create :planning_application,
+                                                constraints: '{"conservation_area": false,"article4_area": true,"scheduled_monument": false }'
+                                        }
+
+    let(:application_with_false_constraints) { create :planning_application,
+                                                      constraints: '{"conservation_area": false,"article4_area": false,"scheduled_monument": false }'
+    }
+
+    let(:application_without_constraints) { create :planning_application, constraints: '{}' }
+
+      it "creates constraints list correctly" do
+        expect(list_constraints(application_with_constraints.constraints)).to eq(%w[article4_area])
+      end
+
+    it "can handle an empty constraints list" do
+      expect(list_constraints(application_without_constraints.constraints)).to be_empty
+    end
+
+    it "returns an empty array if all constraints are false" do
+      expect(list_constraints(application_without_constraints.constraints)).to be_empty
+    end
+    end
+
     context "with decision" do
       let(:assessor) { create :user, :assessor }
       let(:assessor_decision) { create(:decision, :granted, user: assessor) }

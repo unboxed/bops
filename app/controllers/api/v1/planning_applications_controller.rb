@@ -79,6 +79,7 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
   def full_planning_params
     planning_application_params.merge!({
                                          questions: params[:questions].to_json,
+                                         constraints: params[:constraints].to_json,
                                          audit_log: params.to_json
                                        })
   end

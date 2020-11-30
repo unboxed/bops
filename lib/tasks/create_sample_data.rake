@@ -26,6 +26,8 @@ task create_sample_data: :environment do
   plan_3 = Rails.root.join("#{image_path}proposed-first-floor-plan.pdf")
   plan_4 = Rails.root.join("#{image_path}proposed-roofplan.pdf")
 
+  sample_constraints = '{"conservation_area": false,"article4_area": true,"scheduled_monument": false }'
+
   lambeth = LocalAuthority.find_or_create_by!(
     name: "Lambeth Council",
     subdomain: "lambeth",
@@ -127,7 +129,8 @@ task create_sample_data: :environment do
   college_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
     site: college_site,
-    local_authority: southwark
+    local_authority: southwark,
+    constraints: sample_constraints
   ) do |pa|
     pa.description = "Construction of a single storey rear extension"
   end
@@ -147,7 +150,8 @@ task create_sample_data: :environment do
     site: bellenden_site,
     ward: "Rye Lane",
     local_authority: southwark,
-    ward: "Rye Lane"
+    ward: "Rye Lane",
+    constraints: sample_constraints
   ) do |pa|
     pa.description = "Construction of a single storey side extension"
   end
@@ -159,14 +163,15 @@ task create_sample_data: :environment do
     address_1: "186 St James Road",
     town: "Southwark",
     county: "London",
-    postcode: "SE1 5LN"
+    postcode: "SE1 5LN",
   ).find_or_create_by!(uprn: "3455678643")
 
   james_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
     site: james_site,
     ward: "South Bermondsey",
-    local_authority: southwark
+    local_authority: southwark,
+    constraints: sample_constraints
   ) do |pa|
     pa.description = "Single storey rear extension and rear dormer extension"
   end
@@ -183,7 +188,8 @@ task create_sample_data: :environment do
     application_type: :lawfulness_certificate,
     site: lambeth_site,
     ward: "Lambeth",
-    local_authority: lambeth
+    local_authority: lambeth,
+    constraints: sample_constraints
   ) do |pa|
     pa.description = "Single storey rear extension and rear dormer extension"
   end
@@ -200,7 +206,8 @@ task create_sample_data: :environment do
     application_type: :lawfulness_certificate,
     site: bucks_site,
     ward: "Buckinghamshire",
-    local_authority: bucks
+    local_authority: bucks,
+    constraints: sample_constraints
   ) do |pa|
     pa.description = "Construction of a single storey side extension"
   end
@@ -216,7 +223,8 @@ task create_sample_data: :environment do
     application_type: :lawfulness_certificate,
     site: bucks_second_site,
     ward: "Buckinghamshire",
-    local_authority: bucks
+    local_authority: bucks,
+    constraints: sample_constraints
   ) do |pa|
     pa.description = "Single storey rear extension and rear dormer extension"
   end

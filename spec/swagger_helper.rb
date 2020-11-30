@@ -14,7 +14,6 @@ RSpec.configure do |config|
           securityDefinitions: {
               Token: {
                   description: "...",
-                  type: :bearer,
                   name: 'Authorization',
                   in: :header
               }

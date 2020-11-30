@@ -5,7 +5,11 @@ require "rails_helper"
 RSpec.feature "Planning Application show page", type: :system do
   let(:local_authority) { create :local_authority }
   let!(:site) { create :site, address_1: "7 Elm Grove", town: "London", postcode: "SE15 6UT" }
-  let!(:planning_application) { create :planning_application, description: "Roof extension", application_type: "lawfulness_certificate", status: :in_assessment, ward: "Dulwich Wood", site: site, target_date: Date.current + 14.days, local_authority: local_authority }
+  let!(:planning_application) { create :planning_application, description: "Roof extension",
+                                       application_type: "lawfulness_certificate", status: :in_assessment,
+                                       ward: "Dulwich Wood", site: site,
+                                       target_date: Date.current + 14.days, local_authority: local_authority,
+                                       constraints:  '{"conservation_area": true, "article4_area": false, "scheduled_monument": false }'}
   let(:assessor) { create :user, :assessor, local_authority: local_authority }
   let(:reviewer) { create :user, :reviewer, local_authority: local_authority }
 
@@ -43,9 +47,7 @@ RSpec.feature "Planning Application show page", type: :system do
     scenario "Constraints accordion" do
       click_button "Constraints"
 
-      expect(page).to have_text("Conservation area")
-      expect(page).to have_text("Permitted development rights: Active")
-      expect(page).to have_text("Residential area")
+      expect(page).to have_text("Conservation Area")
     end
 
     scenario "Key application dates accordion" do

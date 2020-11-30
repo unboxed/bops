@@ -10,15 +10,11 @@
     </div>
     <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
       <ul class="govuk-list govuk-list--bullet">
-        <li>
-          Conservation area
-        </li>
-        <li>
-          Permitted development rights: Active
-        </li>
-        <li>
-          Residential area
-        </li>
+        <% if @planning_application.constraints %>
+        <% list_constraints(@planning_application.constraints).each do |constraint| %>
+          <li> <%= t("#{constraint}") %></li>
+          <% end %>
+        <% end %>
       </ul>
     </div>
   </div>

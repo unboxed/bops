@@ -7,7 +7,6 @@
   "securityDefinitions": {
     "Token": {
       "description": "...",
-      "type": "bearer",
       "name": "Authorization",
       "in": "header"
     }
