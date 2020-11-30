@@ -96,21 +96,20 @@ task create_sample_data: :environment do
   southwark_assessor = User.find_by!(email: "southwark_assessor@example.com", role: :assessor)
 
   # A planning application with application_type lawfulness_certificate
-  bowen_site = Site.find_or_create_by!(
+  bowen_site = Site.create_with(
     address_1: "47 Bowen Drive",
     town: "Southwark",
     county: "London",
     postcode: "SE21 8NS"
-  )
+  ).find_or_create_by!(uprn: "465789879")
 
   bowen_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
     site_id: bowen_site.id,
     ward: "Dulwich Wood",
-    applicant: applicant,
     user: southwark_assessor,
     local_authority: southwark,
-    user: assessor
+    user: southwark_assessor
   ) do |pa|
     pa.description = "Installation of new external insulated render to be added"
   end
@@ -118,12 +117,12 @@ task create_sample_data: :environment do
   bowen_planning_application.update(target_date: 2.weeks.from_now)
 
   # A planning application with application_type lawfulness_certificate
-  college_site = Site.find_or_create_by!(
+  college_site = Site.create_with(
     address_1: "90A College Road",
     town: "Southwark",
     county: "London",
     postcode: "SE21 7NA"
-  )
+  ).find_or_create_by!(uprn: "0765675")
 
   college_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
@@ -136,12 +135,12 @@ task create_sample_data: :environment do
   college_planning_application.update(target_date: 1.week.from_now)
 
   # A planning application with application_type lawfulness_certificate
-  bellenden_site = Site.find_or_create_by!(
+  bellenden_site = Site.create_with(
     address_1: "150 Bellenden Road",
     town: "Southwark",
     county: "London",
     postcode: "SE15 4QY"
-  )
+  ).find_or_create_by!(uprn: "0765675")
 
   bellenden_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
@@ -156,12 +155,12 @@ task create_sample_data: :environment do
   bellenden_planning_application.update(target_date: 3.weeks.from_now)
 
   # A planning application with application_type lawfulness_certificate
-  james_site = Site.find_or_create_by!(
+  james_site = Site.create_with(
     address_1: "186 St James Road",
     town: "Southwark",
     county: "London",
     postcode: "SE1 5LN"
-  )
+  ).find_or_create_by!(uprn: "3455678643")
 
   james_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
@@ -173,12 +172,12 @@ task create_sample_data: :environment do
   end
 
   # A planning application example for lambeth
-  lambeth_site = Site.find_or_create_by!(
+  lambeth_site = Site.create_with(
     address_1: "2 Streatham High Rd",
     town: "Lambeth",
     county: "London",
     postcode: "SW16 1HT"
-  )
+  ).find_or_create_by!(uprn: "3453543")
 
   lambeth_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
@@ -190,37 +189,33 @@ task create_sample_data: :environment do
   end
 
   # Two planning application examples for bucks
-  bucks_site = Site.find_or_create_by!(
+  bucks_site = Site.create_with(
     address_1: "4 Chenies Parade, Little Chalfont",
     town: "Amersham",
     county: "Buckinghamshire",
     postcode: "HP7 9PH"
-  )
+  ).find_or_create_by!(uprn: "45435435")
 
   bucks_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
     site: bucks_site,
-    agent: agent,
     ward: "Buckinghamshire",
-    applicant: applicant,
     local_authority: bucks
   ) do |pa|
     pa.description = "Construction of a single storey side extension"
   end
 
-  bucks_second_site = Site.find_or_create_by!(
+  bucks_second_site = Site.create_with(
     address_1: "29 Turners Pl, Holmer Green",
     town: "High Wycombe",
     county: "Buckinghamshire",
     postcode: "HP15 6RJ"
-  )
+  ).find_or_create_by!(uprn: "980900909")
 
   bucks_second_planning_application = PlanningApplication.find_or_create_by(
     application_type: :lawfulness_certificate,
     site: bucks_second_site,
-    agent: agent,
     ward: "Buckinghamshire",
-    applicant: applicant,
     local_authority: bucks
   ) do |pa|
     pa.description = "Single storey rear extension and rear dormer extension"

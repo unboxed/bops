@@ -12,7 +12,7 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
 
   def create
     site_id = create_site
-    full_planning_application(site_id)
+    full_planning_application(site_id, @current_local_authority.id)
     if @planning_application.valid? && @planning_application.save!
       send_success_response
     else
@@ -21,9 +21,9 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
     respond_to(:json)
   end
 
-  def full_planning_application(site_id)
+  def full_planning_application(site_id, council_id)
     @planning_application = PlanningApplication.create(
-      full_planning_params.merge!(site_id: site_id)
+      full_planning_params.merge!(site_id: site_id, local_authority_id: council_id)
     )
   end
 
