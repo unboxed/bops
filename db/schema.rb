@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_25_150405) do
+ActiveRecord::Schema.define(version: 2020_11_30_135434) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(version: 2020_11_25_150405) do
     t.string "signatory_job_title"
     t.text "enquiries_paragraph"
     t.string "email_address"
+    t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 
   create_table "planning_applications", force: :cascade do |t|
