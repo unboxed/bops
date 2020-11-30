@@ -42,7 +42,11 @@ RSpec.describe PlanningApplication, type: :model do
   describe "statuses" do
     it "has a list of statuses" do
       expect(described_class.statuses).to eq(
-        "in_assessment" => 0, "awaiting_determination" => 1, "awaiting_correction" => 2, "determined" => 3
+        "not_started" => 0,
+        "in_assessment"=> 1,
+        "awaiting_determination" => 2,
+        "awaiting_correction" => 3,
+        "determined" => 4
       )
     end
   end
