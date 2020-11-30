@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
-  skip_before_action :verify_authenticity_token
   before_action :set_cors_headers, only: %i[index create], if: :json_request?
 
   def index

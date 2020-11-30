@@ -4,6 +4,15 @@
     "title": "Back-office Planning System",
     "version": "v1"
   },
+  "securityDefinitions": {
+    "Token": {
+      "description": "...",
+      "type": "bearer",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "host": "southwark.lvh.me:3000",
   "paths": {
     "/api/v1/planning_applications": {
       "get": {
@@ -21,6 +30,13 @@
         "summary": "Create new planning application",
         "consumes": [
           "application/json"
+        ],
+        "security": [
+          {
+            "Token": [
+
+            ]
+          }
         ],
         "parameters": [
           {
@@ -106,6 +122,9 @@
           },
           "400": {
             "description": "invalid_request"
+          },
+          "401": {
+            "description": "unauthorized_user"
           }
         }
       }

@@ -4,17 +4,23 @@ require "rails_helper"
 require "swagger_helper"
 
 RSpec.describe 'Planning Applications', swagger_doc: 'api/swagger_doc.json', type: :request, show_exceptions: true do
+
   path '/api/v1/planning_applications' do
+    # it "should return a 200 response" do
       get 'Retrieves all determined planning applications' do
         produces 'application/json'
 
         response '200', 'All determined planning applications' do
           run_test!
         end
-      end
+      # end
+    end
 
+    # it "should return valid responses when new application is created" do
+    #   api_user = create(:api_user)
       post 'Create new planning application' do
         consumes 'application/json'
+        security [ Token: [] ]
         parameter name: :planning_application, in: :body, schema: {
             type: :object,
             properties: {
@@ -47,13 +53,25 @@ RSpec.describe 'Planning Applications', swagger_doc: 'api/swagger_doc.json', typ
 
         response '200', :valid_request do
           let(:planning_application) { { application_type: 1, status: 0, site: { uprn: "12343243" }, description: 'Add chimnney stack' } }
+          let(:api_user) { create(:api_user) }
+          let(:Authorization) { "Bearer #{api_user.token}" }
           run_test!
         end
 
         response '400', :invalid_request do
           let(:planning_application) { '{"dfsdafsad": "dsfdsf"}' }
+          let(:api_user) { create(:api_user) }
+          let(:Authorization) { "Bearer #{api_user.token}" }
+          run_test!
+        end
+
+        response '401', :unauthorized_user do
+          let(:planning_application) { { application_type: 1, status: 0, site: { uprn: "12343243" }, description: 'Add chimnney stack' } }
+          let(:api_user) { create(:api_user) }
+          let(:Authorization) { "Bearer 343erdsfqwerf" }
           run_test!
         end
       end
+    # end
   end
 end

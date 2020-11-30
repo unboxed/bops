@@ -11,6 +11,15 @@ RSpec.configure do |config|
               title: 'Back-office Planning System',
               version: 'v1'
           },
+          securityDefinitions: {
+              Token: {
+                  description: "...",
+                  type: :bearer,
+                  name: 'Authorization',
+                  in: :header
+              }
+          },
+          host: "southwark.lvh.me:3000",
           paths: {}
       }
   }
