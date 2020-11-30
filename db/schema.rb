@@ -97,7 +97,6 @@ ActiveRecord::Schema.define(version: 2020_11_30_154433) do
     t.integer "archive_reason"
     t.jsonb "tags", default: [], null: false
     t.jsonb "numbers", default: [], null: false
-    t.integer "document_status", default: 0
     t.index ["planning_application_id"], name: "index_drawings_on_planning_application_id"
   end
 
@@ -132,6 +131,7 @@ ActiveRecord::Schema.define(version: 2020_11_30_154433) do
     t.datetime "awaiting_correction_at"
     t.bigint "local_authority_id"
     t.datetime "not_started_at"
+    t.integer "document_status", default: 0
     t.index ["agent_id"], name: "index_planning_applications_on_agent_id"
     t.index ["applicant_id"], name: "index_planning_applications_on_applicant_id"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"

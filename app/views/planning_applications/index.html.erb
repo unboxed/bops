@@ -23,7 +23,7 @@
         Contents
       </h2>
       <%= render "planning_application_tabs" %>
-      <%= render "planning_application_table", planning_applications: @planning_applications.in_assessment, id: "in_assessment", title: "In assessment" unless exclude_others? && current_user.reviewer?  %>
+      <%= render "planning_application_table", planning_applications: @planning_applications.not_started || @planning_applications.in_assessment, id: "in_assessment", title: "In assessment" unless exclude_others? && current_user.reviewer?  %>
       <%= render "planning_application_table", planning_applications: @planning_applications.awaiting_determination, id: "awaiting_determination", title: "Awaiting manager's determination" %>
       <%= render "planning_application_table", planning_applications: @planning_applications.awaiting_correction, id: "awaiting_correction", title: "Corrections requested" %>
       <%= render "planning_application_table", planning_applications: @planning_applications.determined, id: "determined", title: "Determined" %>

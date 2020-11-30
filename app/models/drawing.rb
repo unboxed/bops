@@ -8,9 +8,6 @@ class Drawing < ApplicationRecord
   enum archive_reason: { scale: 0, design: 1,
                          dimensions: 2, other: 3 }
 
-  enum document_status: { not_yet_checked: 0, new_documents_requested: 1,
-                         is_valid: 2 }
-
   ORIENTATION_TAGS = [
     "front elevation",
     "side elevation",

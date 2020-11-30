@@ -6,6 +6,9 @@ class PlanningApplication < ApplicationRecord
   enum status: { not_started: 0, in_assessment: 1, awaiting_determination: 2,
                  awaiting_correction: 3, determined: 4 }
 
+  enum document_status: { not_yet_checked: 0, awaiting_validation: 1,
+    new_documents_requested: 2, is_valid: 3 }
+
   has_one :policy_evaluation, dependent: :destroy
   has_many :decisions, dependent: :destroy
 

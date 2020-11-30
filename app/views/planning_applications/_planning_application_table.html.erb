@@ -32,18 +32,14 @@
             <%= planning_application.days_left %>
           </strong>
         </td>
-        <% if id == "in_assessment" %>
-          <td class="govuk-table__cell">Not required</td>
-        <% elsif id == "awaiting_determination" %>
-          <td class="govuk-table__cell"><%= planning_application.awaiting_determination_at.strftime("%e %b") %></td>
-        <% elsif id == "determined" %>
-          <td class="govuk-table__cell"><%= planning_application.determined_at.strftime("%e %b") %></td>
-        <% end %>
+        <td class="govuk-table__cell">
+          <strong class="govuk-tag govuk-tag--purple">
+            <%= drawing_documents_status(planning_application) %>
+          </strong>
+        </td>
         <td class="govuk-table__cell">
           <% if planning_application.user %>
             <%= planning_application.user.name %>
-          <% else %>
-            <strong class="govuk-tag govuk-tag--purple">Not started</strong>
           <% end %>
         </td>
     <% end %>

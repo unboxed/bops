@@ -23,6 +23,19 @@ module PlanningApplicationHelper
     end
   end
 
+  def drawing_documents_status(application)
+    case application.document_status
+    when "not_yet_checked"
+      "Not started"
+    when "awaiting_validation"
+      "Awaiting validation"
+    when "new_documents_requested"
+      "Awaiting documents"
+    when "is_valid"
+      "In assessment"
+    end
+  end
+
   # rubocop: disable Metrics/MethodLength
   def proposal_step_mark_completed?(step_name, application)
     case step_name
