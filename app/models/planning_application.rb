@@ -3,8 +3,8 @@
 class PlanningApplication < ApplicationRecord
   enum application_type: { lawfulness_certificate: 0, full: 1 }
 
-  enum status: { in_assessment: 0, awaiting_determination: 1,
-                 awaiting_correction: 2, determined: 3 }
+  enum status: { not_started: 0, in_assessment: 1, awaiting_determination: 2,
+                 awaiting_correction: 3, determined: 4 }
 
   has_one :policy_evaluation, dependent: :destroy
   has_many :decisions, dependent: :destroy
