@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_30_135434) do
+ActiveRecord::Schema.define(version: 2020_11_30_153208) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,43 +37,11 @@ ActiveRecord::Schema.define(version: 2020_11_30_135434) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "agents", force: :cascade do |t|
-    t.string "phone"
-    t.string "email"
+  create_table "api_users", force: :cascade do |t|
+    t.string "name"
+    t.string "token"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "first_name"
-    t.string "last_name"
-    t.string "company_name"
-    t.string "company_number"
-    t.string "address_1"
-    t.string "address_2"
-    t.string "address_3"
-    t.string "town"
-    t.string "postcode"
-    t.string "country"
-    t.string "phone_2"
-  end
-
-  create_table "applicants", force: :cascade do |t|
-    t.string "phone"
-    t.string "email"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.boolean "residence_status", default: false, null: false
-    t.string "first_name"
-    t.string "last_name"
-    t.string "company_name"
-    t.string "company_number"
-    t.string "address_1"
-    t.string "address_2"
-    t.string "address_3"
-    t.string "town"
-    t.string "postcode"
-    t.string "country"
-    t.string "phone_2"
-    t.bigint "agent_id"
-    t.index ["agent_id"], name: "index_applicants_on_agent_id"
   end
 
   create_table "decisions", force: :cascade do |t|
@@ -122,16 +90,23 @@ ActiveRecord::Schema.define(version: 2020_11_30_135434) do
     t.bigint "site_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "agent_id"
-    t.bigint "applicant_id"
     t.string "ward"
     t.bigint "user_id"
     t.datetime "awaiting_determination_at"
     t.datetime "in_assessment_at"
     t.datetime "awaiting_correction_at"
+    t.jsonb "questions"
+    t.jsonb "audit_log"
+    t.string "agent_first_name"
+    t.string "agent_last_name"
+    t.string "agent_phone"
+    t.string "agent_email"
+    t.string "applicant_first_name"
+    t.string "applicant_last_name"
+    t.string "applicant_email"
+    t.string "applicant_phone"
     t.bigint "local_authority_id"
-    t.index ["agent_id"], name: "index_planning_applications_on_agent_id"
-    t.index ["applicant_id"], name: "index_planning_applications_on_applicant_id"
+    t.jsonb "constraints"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
     t.index ["site_id"], name: "index_planning_applications_on_site_id"
     t.index ["user_id"], name: "index_planning_applications_on_user_id"
@@ -162,6 +137,8 @@ ActiveRecord::Schema.define(version: 2020_11_30_135434) do
     t.string "postcode"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "uprn"
+    t.index ["uprn"], name: "index_sites_on_uprn", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -181,6 +158,5 @@ ActiveRecord::Schema.define(version: 2020_11_30_135434) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "applicants", "agents"
   add_foreign_key "planning_applications", "users"
 end

@@ -1,0 +1,132 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Back-office Planning System",
+    "version": "v1"
+  },
+  "securityDefinitions": {
+    "Token": {
+      "description": "...",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "host": "southwark.lvh.me:3000",
+  "paths": {
+    "/api/v1/planning_applications": {
+      "get": {
+        "summary": "Retrieves all determined planning applications",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "All determined planning applications"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create new planning application",
+        "consumes": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Token": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "planning_application",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "application_type": {
+                  "type": "integer"
+                },
+                "status": {
+                  "type": "integer"
+                },
+                "site": {
+                  "type": "object",
+                  "properties": {
+                    "uprn": {
+                      "type": "string"
+                    },
+                    "address_1": {
+                      "type": "string"
+                    },
+                    "address_2": {
+                      "type": "string"
+                    },
+                    "town": {
+                      "type": "string"
+                    },
+                    "postcode": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "description": {
+                  "type": "string"
+                },
+                "ward": {
+                  "type": "string"
+                },
+                "user_id": {
+                  "type": "integer"
+                },
+                "questions": {
+                  "type": "string"
+                },
+                "agent_first_name": {
+                  "type": "string"
+                },
+                "agent_last_name": {
+                  "type": "string"
+                },
+                "agent_phone": {
+                  "type": "string"
+                },
+                "agent_email": {
+                  "type": "string"
+                },
+                "applicant_first_name": {
+                  "type": "string"
+                },
+                "applicant_last_name": {
+                  "type": "string"
+                },
+                "applicant_phone": {
+                  "type": "string"
+                },
+                "applicant_email": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "site",
+              "application_type",
+              "status"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "valid_request"
+          },
+          "400": {
+            "description": "invalid_request"
+          },
+          "401": {
+            "description": "unauthorized_user"
+          }
+        }
+      }
+    }
+  }
+}

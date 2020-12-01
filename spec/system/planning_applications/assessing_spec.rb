@@ -125,7 +125,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
     expect(page).to have_content("Certificate of lawfulness of proposed use or development: #{planning_application.reload.assessor_decision.status}")
 
     # Applicant
-    expect(page).to have_content("#{planning_application.applicant.full_name}")
+    expect(page).to have_content("#{planning_application.applicant_first_name}")
+    expect(page).to have_content("#{planning_application.applicant_last_name}")
     # Application received
     expect(page).to have_content("#{planning_application.created_at.strftime("%d/%m/%Y")}")
     # Address, TODO: add a fixture test for this

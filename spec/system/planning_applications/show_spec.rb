@@ -5,9 +5,11 @@ require "rails_helper"
 RSpec.feature "Planning Application show page", type: :system do
   let(:local_authority) { create :local_authority }
   let!(:site) { create :site, address_1: "7 Elm Grove", town: "London", postcode: "SE15 6UT" }
-  let!(:applicant) { create :applicant, first_name: "Jason", last_name: "Collins", phone: "07814 222222", email: "applicant@example.com" }
-  let!(:agent) { create :agent, first_name: "Jennifer", last_name: "Harper", phone: "07532 1133333", email: "agent@example.com" }
-  let!(:planning_application) { create :planning_application, description: "Roof extension", application_type: "lawfulness_certificate", status: :in_assessment, ward: "Dulwich Wood", agent: agent, applicant: applicant, site: site, target_date: Date.current + 14.days, local_authority: local_authority }
+  let!(:planning_application) { create :planning_application, description: "Roof extension",
+                                       application_type: "lawfulness_certificate", status: :in_assessment,
+                                       ward: "Dulwich Wood", site: site,
+                                       target_date: Date.current + 14.days, local_authority: local_authority,
+                                       constraints:  '{"conservation_area": true, "article4_area": false, "scheduled_monument": false }'}
   let(:assessor) { create :user, :assessor, local_authority: local_authority }
   let(:reviewer) { create :user, :reviewer, local_authority: local_authority }
 
@@ -45,9 +47,7 @@ RSpec.feature "Planning Application show page", type: :system do
     scenario "Constraints accordion" do
       click_button "Constraints"
 
-      expect(page).to have_text("Conservation area")
-      expect(page).to have_text("Permitted development rights: Active")
-      expect(page).to have_text("Residential area")
+      expect(page).to have_text("Conservation Area")
     end
 
     scenario "Key application dates accordion" do
@@ -63,8 +63,15 @@ RSpec.feature "Planning Application show page", type: :system do
     scenario "Contact information accordion" do
       click_button("Contact information")
 
-      expect(page).to have_content("Agent: Jennifer Harper, 07532 1133333, agent@example.com")
-      expect(page).to have_content("Applicant: Jason Collins, 07814 222222, applicant@example.com")
+      expect(page).to have_content(planning_application.agent_first_name)
+      expect(page).to have_content(planning_application.agent_last_name)
+      expect(page).to have_content(planning_application.agent_phone)
+      expect(page).to have_content(planning_application.agent_email)
+
+      expect(page).to have_content(planning_application.applicant_first_name)
+      expect(page).to have_content(planning_application.applicant_last_name)
+      expect(page).to have_content(planning_application.applicant_phone)
+      expect(page).to have_content(planning_application.applicant_email)
     end
 
     scenario "Consultation accordion" do

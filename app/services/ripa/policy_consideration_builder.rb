@@ -6,9 +6,11 @@ class Ripa::PolicyConsiderationBuilder
   end
 
   def import
-    consideration_hash.fetch("flow", []).map do |consideration|
-      parse_and_build_policy_consideration(consideration)
-    end.compact
+    if consideration_hash
+      consideration_hash.fetch("flow", []).map do |consideration|
+        parse_and_build_policy_consideration(consideration)
+      end.compact
+    end
   end
 
   private

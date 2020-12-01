@@ -1,7 +1,12 @@
 # frozen_string_literal: true
 
 class Api::V1::ApplicationController < ApplicationController
-  before_action :set_default_format
+  before_action :authenticate, :set_default_format
+  protect_from_forgery with: :null_session
+
+  rescue_from ActionController::ParameterMissing do |e|
+    render json: { error: e.message }, status: :bad_request
+  end
 
   def set_default_format
     request.format = :json
@@ -19,5 +24,17 @@ class Api::V1::ApplicationController < ApplicationController
       "Origin, X-Requested-With, Content-Type, Accept"
     )
     response.charset = "utf-8"
+  end
+
+  private
+
+  def authenticate
+    authenticate_or_request_with_http_token do |token, _options|
+      ApiUser.find_by(token: token)
+    end
+  end
+
+  def current_api_user
+    @current_api_user ||= authenticate
   end
 end

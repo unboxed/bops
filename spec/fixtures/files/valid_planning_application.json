@@ -1,0 +1,491 @@
+{
+  "id": "e4c94a81-4169-42df-8ad0-32c4690f4005",
+  "reference": "20/AP/2161",
+  "local_authority": 0,
+  "related_cases": "20/AP/0135",
+  "ownership_type": 0,
+  "owner_first_name": "Mantas",
+  "owner_second_name": "Prikockas",
+  "applicant_first_name": "Mantas",
+  "applicant_last_name": "Prikockas",
+  "applicant_phone": "23432325435",
+  "applicant_email": "applicant@example.com",
+  "agent_first_name": "Jennifer",
+  "agent_last_name": "Harper",
+  "agent_phone": "237878889",
+  "agent_email": "agent@example.com",
+  "owner_company": null,
+  "owner_shares": 100,
+  "owner_types": 0,
+  "owners_notified": 0,
+  "nonnotification_reason": "Unaware of responsibility to notify",
+  "visit_contact_name": "Mantas Prikockas",
+  "visit_contact_phone": 7971111111,
+  "visit_contact_email": "applicant@example.com",
+  "pre_app_advice": false,
+  "pre_app_reference": null,
+  "pre_app_officer": null,
+  "advice_date": null,
+  "advice_summary": null,
+  "fee": 100,
+  "disability_exemption": false,
+  "fee_paid": true,
+  "refund_requested": false,
+  "fee_refunded": false,
+  "description": "The proposed work will involve a loft conversion of the space above the existing first floor in the rear part of the existing roof into a rear dormer. The proposed work will involve also the extension of the ground floor in the rear garden",
+  "recommendation": 0,
+  "started": false,
+  "start_date": "2020-06-03T23:00:00.000Z",
+  "completed": false,
+  "completion_date": null,
+  "footprint_removed": 0,
+  "new_footprint": 410,
+  "net_footprint": 10,
+  "internal_area_removed": 0,
+  "new_internal_area": 10,
+  "net_internal_area": 310,
+  "uses": null,
+  "uses_areas": null,
+  "uses_percentages": null,
+  "new_home": null,
+  "case_officer": "Abrar Sharif",
+  "community_council": "Dulwich",
+  "ward": "Dulwich Wood",
+  "last_advert_date": "2020-04-19T23:00:00.000Z",
+  "advert_expiry_date": "2020-05-19T23:00:00.000Z",
+  "last_posted_date": "2020-04-19T23:00:00.000Z",
+  "site_expiry_date": "2020-05-19T23:00:00.000Z",
+  "site": {
+    "uprn": "100081043511",
+    "property_name": null,
+    "address_1": "11 Abbey Gardens",
+    "address_2": "Southwark",
+    "address_3": null,
+    "town": "London",
+    "postcode": "SE16 3RQ",
+    "easting": 533565,
+    "northing": 172305,
+    "property_boundary": "TQ335723",
+    "property_area": 300,
+    "boundary": null,
+    "area": 400,
+    "description": "Terraced house",
+    "number_buildings": 1,
+    "property_type": "CE02",
+    "building_type": 0,
+    "storeys": 2,
+    "uses": "Residential",
+    "uses_areas": 300,
+    "uses_percentages": 100,
+    "uses_status": 0,
+    "uses_evidence": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg",
+    "photographs": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg"
+  },
+  "applicant": {
+    "type": 0,
+    "title": "Mr",
+    "first_name": "Adrian",
+    "last_name": "Sinclair-Smith",
+    "company_name": null,
+    "company_number": null,
+    "resident_status": true,
+    "address_1": "47 Bowen Drive",
+    "address_2": "Southwark",
+    "address_3": null,
+    "town": "London",
+    "postcode": "SE21 8NS",
+    "country": "United Kingdom",
+    "phone": 203458997,
+    "phone_2": 7971111111,
+    "email": "applicant@example.com"
+  },
+  "agent": {
+    "first_name": "Calum",
+    "last_name": "Boyce",
+    "type": 0,
+    "company_name": "Lee Evans Partnership",
+    "company_number": 3452353252325,
+    "address_1": "31-35 Kirby Street",
+    "address_2": null,
+    "address_3": null,
+    "town": "London",
+    "postcode": "EC1N 8TE",
+    "country": "United Kingdom",
+    "phone": 203458997,
+    "phone_2": 7971111111,
+    "email": "applicant@example.com"
+  },
+  "plans": {
+    "existing_plan": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg",
+    "existing_roof": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg",
+    "existing_sections": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg",
+    "proposed_elevation": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg",
+    "proposed_plan": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg",
+    "proposed_roof": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg",
+    "proposed_section": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg"
+  },
+  "constraints": {
+    "conservation_area": 443,
+    "article4_area": 221,
+    "scheduled_monument": false,
+    "AONB": false,
+    "national_park": false,
+    "broads": false,
+    "world_heritage": false,
+    "tpo": 2013.004,
+    "protected_trees": 2013.004,
+    "ssi": 477
+  },
+  "declarations": {
+    "employee_relationship_status": true,
+    "employee_name": "Jane Doe",
+    "employee_relationship": "sister",
+    "councillor_status": true,
+    "councillor_relationship_status": true,
+    "councillor_name": "Ben Councillor",
+    "councillor_relationship": "cousin",
+    "accuracy_declared": true
+  },
+  "questions": {
+    "id": "e4c94a81-4169-42df-8ad0-32c4690f4005",
+    "submitted_at": "2020-05-14T05:20:25.540Z",
+    "flag_id": "NO_APP_REQUIRED",
+    "flow": [{
+      "id": "-LsXty7cOZycK0rqv8B2",
+      "text": "The property is",
+      "val": "property.buildingType",
+      "options": [{
+        "id": "-LsXty7cOZycK0rqv8B3",
+        "text": "a detached house",
+        "val": "residential.dwelling.house.detached"
+      },
+        {
+          "id": "-LsXty7cOZycK0rqv8B5",
+          "text": "a semi detached house",
+          "val": "residential.dwelling.house.semiDetached"
+        },
+        {
+          "id": "-LsXty7cOZycK0rqv8B6",
+          "text": "a terraced house",
+          "val": "residential.dwelling.house.terrace"
+        },
+        {
+          "id": "-LsXty7cOZycK0rqv8B7",
+          "text": "a flat",
+          "val": "residential.dwelling.flat"
+        },
+        {
+          "id": "-LsXty7cOZycK0rqv8BD",
+          "text": "an office",
+          "val": "commercial.office",
+          "flag": "EDGE_CASE"
+        },
+        {
+          "id": "-LsXty7cOZycK0rqv8BK",
+          "text": "a shop",
+          "val": "commercial.retail.shop",
+          "flag": "EDGE_CASE"
+        },
+        {
+          "id": "-LsXty7cOZycK0rqv8BR",
+          "text": "a financial or professional service",
+          "val": "commercial.retail.service",
+          "flag": "EDGE_CASE"
+        },
+        {
+          "id": "-LsXty7cOZycK0rqv8BY",
+          "text": "an industrial unit or warehouse",
+          "val": "commercial.industrial",
+          "flag": "EDGE_CASE"
+        },
+        {
+          "id": "-LsXty7cOZycK0rqv8Bg",
+          "text": "a school, college or university",
+          "val": "commercial.education",
+          "flag": "EDGE_CASE"
+        },
+        {
+          "id": "-LsXty7cOZycK0rqv8Bn",
+          "text": "something else",
+          "flag": "EDGE_CASE"
+        }
+      ],
+      "choice": {
+        "id": "-LsXty7cOZycK0rqv8B7",
+        "idx": 3,
+        "recorded_at": "2020-05-14T05:18:17.540Z",
+        "auto": true
+      }
+    },
+      {
+        "id": "-LsXty7d1LoJpIqQbEsL",
+        "text": "Is any part of the property listed?",
+        "val": "property.buildingListed",
+        "info": "If any part of the property is listed, Listed Building Consent will be required.",
+        "options": [{
+          "id": "-LsXty7d1LoJpIqQbEsM",
+          "text": "Yes",
+          "val": true,
+          "flag": "LB-ADVICE_RECOMMENDED"
+        },
+          {
+            "id": "-LsXty7d1LoJpIqQbEsN",
+            "text": "No",
+            "val": false
+          }
+        ],
+        "choice": {
+          "id": "-LsXty7d1LoJpIqQbEsN",
+          "idx": 1,
+          "recorded_at": "2020-05-14T05:18:32.540Z",
+          "auto": true
+        }
+      },
+      {
+        "id": "-LsXty7cOZycK0rqv8B0",
+        "text": "I want to",
+        "options": [{
+          "id": "-LsXty7cOZycK0rqv8B1",
+          "text": "modify or extend"
+        },
+          {
+            "id": "-LsXty7cOZycK0rqv8Bo",
+            "text": "build new ",
+            "flag": "EDGE_CASE"
+          },
+          {
+            "id": "-LsXty7d1LoJpIqQbEsA",
+            "text": "change the use "
+          },
+          {
+            "id": "-LsXty7d1LoJpIqQbEsF",
+            "text": "subdivide "
+          },
+          {
+            "id": "-LsXty7d1LoJpIqQbEsI",
+            "text": "demolish "
+          }
+        ],
+        "choice": {
+          "id": "-LsXty7cOZycK0rqv8B1",
+          "idx": 0,
+          "recorded_at": "2020-05-14T05:18:38.540Z",
+          "auto": false
+        }
+      },
+      {
+        "id": "-LsXty7cOZycK0rqv8B8",
+        "text": "I want to",
+        "info": "Adding an extension or an outbuilding to a flat (even if it is located on the ground floor, or has a roof terrace) will require planning permission.",
+        "options": [{
+          "id": "-LsXty7cOZycK0rqv8B9",
+          "text": "extend",
+          "flag": "EDGE_CASE"
+        },
+          {
+            "id": "-LsXty7cOZycK0rqv8BA",
+            "text": "build an outbuilding",
+            "flag": "EDGE_CASE"
+          },
+          {
+            "id": "-LsXty7cOZycK0rqv8BB",
+            "text": "make alterations"
+          }
+        ],
+        "choice": {
+          "id": "-LsXty7cOZycK0rqv8BB",
+          "idx": 2,
+          "recorded_at": "2020-05-14T05:18:52.540Z",
+          "auto": false
+        }
+      },
+      {
+        "id": "-LsXty7d1LoJpIqQbEtE",
+        "text": "I want to _____",
+        "val": "proposal.projectType",
+        "options": [{
+          "id": "-LsXty7d1LoJpIqQbEtF",
+          "text": "replace windows",
+          "val": "modifyReplaceWindows"
+        },
+          {
+            "id": "-LsXty7d1LoJpIqQbEtI",
+            "text": "add or alter window or door openings"
+          },
+          {
+            "id": "-LsXty7d1LoJpIqQbEtS",
+            "text": "alter the external walls"
+          },
+          {
+            "id": "-LsXty7d1LoJpIqQbEta",
+            "text": "alter the interior layout",
+            "val": "modifyInterior"
+          },
+          {
+            "id": "-LsXty7d1LoJpIqQbEtd",
+            "text": "install equipment"
+          },
+          {
+            "id": "-LsXty7d1LoJpIqQbEu7",
+            "text": "alter drains",
+            "val": "modifyDrains"
+          },
+          {
+            "id": "-LsXty7d1LoJpIqQbEuA",
+            "text": "add or remove trees or hedges",
+            "val": "modifyTrees"
+          },
+          {
+            "id": "-LsXty7d1LoJpIqQbEuE",
+            "text": "alter driveways or patios",
+            "val": "modifySurface"
+          },
+          {
+            "id": "-LsXty7d1LoJpIqQbEuH",
+            "text": "alter gates, fences or boundary walls",
+            "val": "modifyBoundary"
+          },
+          {
+            "id": "-LsXty7d1LoJpIqQbEuK",
+            "text": "add a chimney or flue",
+            "val": "modifyChimney"
+          },
+          {
+            "id": "-LsXty7d1LoJpIqQbEuN",
+            "text": "make alterations to the roof",
+            "val": "modifyRoof"
+          },
+          {
+            "id": "-LsXty7d1LoJpIqQbEuQ",
+            "text": "build a deck",
+            "val": "modifyDeck"
+          },
+          {
+            "id": "-LsXty7d1LoJpIqQbEuS",
+            "text": "alter a public highway",
+            "val": "modifyHighway",
+            "flag": "EDGE_CASE"
+          },
+          {
+            "id": "-LsXty7d1LoJpIqQbEuW",
+            "text": "add a soil pipe",
+            "val": "modifySoilPipe"
+          },
+          {
+            "id": "-LsXty7d1LoJpIqQbEuZ",
+            "text": "add a swimming pool"
+          },
+          {
+            "id": "-LsXty7d1LoJpIqQbEuc",
+            "text": "add advertising or signage",
+            "val": "modifySign"
+          }
+        ],
+        "choice": {
+          "id": "-LsXty7d1LoJpIqQbEta",
+          "idx": 3,
+          "recorded_at": "2020-05-14T05:19:07.540Z",
+          "auto": false
+        }
+      },
+      {
+        "id": "-LsXty7gFS3aZ7pYDzX7",
+        "text": "The property will",
+        "info": "If you wish to divide up your property into two (for example creating self-contained living accommodation or a self-contained office for business use) then a planning application may be required.",
+        "policy_ref": "Town and Country Planning Act 1990, Section 55 (2B)",
+        "options": [{
+          "id": "-LsXty7gFS3aZ7pYDzX8",
+          "text": "remain one property"
+        },
+          {
+            "id": "-LsXty7gFS3aZ7pYDzX9",
+            "text": "be subdivided into more than one property"
+          }
+        ],
+        "choice": {
+          "id": "-LsXty7gFS3aZ7pYDzX8",
+          "idx": 0,
+          "recorded_at": "2020-05-14T05:19:25.540Z",
+          "auto": false
+        }
+      },
+      {
+        "id": "-LsXty7gFS3aZ7pYDzXC",
+        "text": "The project _____ alter the external appearance of the building",
+        "info": "Any works that will materially alter the external appearance of the building will require planning permission, unless they fall under a form of permitted development.",
+        "policy_ref": "Town and Country Planning Act 1990 Section 55",
+        "options": [{
+          "id": "-LsXty7gFS3aZ7pYDzXD",
+          "text": "will",
+          "flag": "EDGE_CASE"
+        },
+          {
+            "id": "-LsXty7gFS3aZ7pYDzXE",
+            "text": "will not",
+            "flag": "NO_APP_REQUIRED"
+          }
+        ],
+        "choice": {
+          "id": "-LsXty7gFS3aZ7pYDzXE",
+          "idx": 1,
+          "recorded_at": "2020-05-14T05:19:50.540Z",
+          "auto": false
+        }
+      },
+      {
+        "id": "-LsXty7gFS3aZ7pYDzXF",
+        "text": "The project will ____ the internal floor area of the building",
+        "how_measured": "This might be done by, for example, adding or removing additional floors.",
+        "options": [{
+          "id": "-LsXty7gFS3aZ7pYDzXG",
+          "text": "increase"
+        },
+          {
+            "id": "-LsXty7gFS3aZ7pYDzXY",
+            "text": "decrease",
+            "flag": "NO_APP_REQUIRED"
+          },
+          {
+            "id": "-LsXty7gFS3aZ7pYDzXZ",
+            "text": "not alter",
+            "flag": "NO_APP_REQUIRED"
+          }
+        ],
+        "choice": {
+          "id": "-LsXty7gFS3aZ7pYDzXZ",
+          "idx": 2,
+          "recorded_at": "2020-05-14T05:20:02.540Z",
+          "auto": false
+        }
+      },
+      {
+        "id": "-LsXty7d1LoJpIqQbEsO",
+        "text": "Are there any protected trees on the property?",
+        "val": "property.landTPO",
+        "options": [{
+          "id": "-LsXty7d1LoJpIqQbEsP",
+          "text": "No",
+          "val": false
+        },
+          {
+            "id": "-LsXty7d1LoJpIqQbEsQ",
+            "text": "Yes",
+            "val": true
+          }
+        ],
+        "choice": {
+          "id": "-LsXty7d1LoJpIqQbEsP",
+          "idx": 0,
+          "recorded_at": "2020-05-14T05:20:13.540Z",
+          "auto": true
+        }
+      }
+    ],
+    "flag": {
+      "id": "NO_APP_REQUIRED",
+      "name": "Permitted development",
+      "description": "Based on the information you have provided your project appears to fall under ‘permitted development’. This means it is unlikely that planning permission would be required. However, you are strongly advised to apply for a certificate of lawful development before proceeding with any works, to provide you and future buyers with legal certainty.",
+      "priority": 1
+    }
+  }
+}

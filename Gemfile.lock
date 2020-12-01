@@ -133,6 +133,8 @@ GEM
     jbuilder (2.10.0)
       activesupport (>= 5.0.0)
     jmespath (1.4.0)
+    json-schema (2.8.1)
+      addressable (>= 2.4)
     jwt (2.2.1)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -242,6 +244,19 @@ GEM
       rspec-mocks (~> 3.9)
       rspec-support (~> 3.9)
     rspec-support (3.9.2)
+    rswag (2.3.1)
+      rswag-api (= 2.3.1)
+      rswag-specs (= 2.3.1)
+      rswag-ui (= 2.3.1)
+    rswag-api (2.3.1)
+      railties (>= 3.1, < 7.0)
+    rswag-specs (2.3.1)
+      activesupport (>= 3.1, < 7.0)
+      json-schema (~> 2.2)
+      railties (>= 3.1, < 7.0)
+    rswag-ui (2.3.1)
+      actionpack (>= 3.1, < 7.0)
+      railties (>= 3.1, < 7.0)
     rubocop (0.81.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
@@ -332,6 +347,10 @@ DEPENDENCIES
   rails (~> 6.0.3)
   rails-controller-testing
   rspec-rails (~> 4.0.0)
+  rswag
+  rswag-api
+  rswag-specs
+  rswag-ui
   rubocop
   rubocop-performance
   rubocop-rails

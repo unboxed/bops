@@ -18,6 +18,9 @@ gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 4.1"
 gem "pundit"
 gem "rails", "~> 6.0.3"
+gem "rswag"
+gem "rswag-api"
+gem "rswag-ui"
 gem "webpacker", "~> 4.0"
 gem "appsignal"
 
@@ -30,6 +33,7 @@ group :development, :test do
   gem "pry-byebug"
   gem "rails-controller-testing"
   gem "rspec-rails", "~> 4.0.0"
+  gem "rswag-specs"
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false

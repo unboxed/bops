@@ -6,7 +6,7 @@
 
 Certificate of lawfulness of proposed use or development: <%= "#{@decision.status}." %>
 
-Applicant: <%= @planning_application.applicant.full_name %>
+Applicant: <%= @planning_application.applicant_first_name %> <%= @planning_application.applicant_last_name %>
 Date of Issue of this decision: <%= @planning_application.determined_at.strftime("%e %B %Y") %>
 Application received: <%= @planning_application.created_at.strftime("%e %B %Y") %>
 Address: <%= @planning_application.site.full_address %>

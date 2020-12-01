@@ -20,8 +20,6 @@ class PlanningApplication < ApplicationRecord
     }, class_name: "Decision", inverse_of: :planning_application
 
   belongs_to :site
-  belongs_to :agent
-  belongs_to :applicant
   belongs_to :user, optional: true
   belongs_to :local_authority
 
@@ -66,6 +64,14 @@ class PlanningApplication < ApplicationRecord
 
   def assessment_complete?
     awaiting_determination? || determined?
+  end
+
+  def agent?
+    agent_first_name? && agent_last_name? && (agent_phone? || agent_email?)
+  end
+
+  def applicant?
+    applicant_first_name? && applicant_last_name? && (applicant_phone? || applicant_email?)
   end
 
   def review_complete?

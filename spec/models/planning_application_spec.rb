@@ -100,6 +100,64 @@ RSpec.describe PlanningApplication, type: :model do
     end
   end
 
+  describe "#agent?" do
+    it "returns false if no values are given" do
+      subject.update(agent_first_name: "", agent_last_name: "", agent_phone: "", agent_email: "")
+
+      expect(subject.reload.agent?).to eq false
+    end
+
+    it "returns false if email or phone is not given" do
+      subject.update(agent_first_name: "first", agent_last_name: "last", agent_phone: "", agent_email: "")
+
+      expect(subject.agent?).to eq false
+    end
+
+    it "returns true if name and email are given" do
+      subject.update(agent_first_name: "first", agent_last_name: "last",
+                     agent_phone: "", agent_email: "agent@example.com")
+
+      expect(subject.agent?).to eq true
+    end
+
+    it "returns true if name and phone are given" do
+      subject.update(agent_first_name: "first", agent_last_name: "last",
+                     agent_phone: "34433454", agent_email: "")
+
+      expect(subject.agent?).to eq true
+    end
+  end
+
+  describe "#applicant?" do
+    it "returns false if no values are given" do
+      subject.update(applicant_first_name: "", applicant_last_name: "",
+                     applicant_phone: "", applicant_email: "")
+
+      expect(subject.applicant?).to eq false
+    end
+
+    it "returns false if email or phone is not given" do
+      subject.update(applicant_first_name: "first", applicant_last_name: "last",
+                     applicant_phone: "", applicant_email: "")
+
+      expect(subject.applicant?).to eq false
+    end
+
+    it "returns true if name and email are given" do
+      subject.update(applicant_first_name: "first", applicant_last_name: "last",
+                     applicant_phone: "", applicant_email: "applicant@example.com")
+
+      expect(subject.applicant?).to eq true
+    end
+
+    it "returns true if name and phone are given" do
+      subject.update(applicant_first_name: "first", applicant_last_name: "last",
+                     applicant_phone: "34433454", applicant_email: "")
+
+      expect(subject.applicant?).to eq true
+    end
+  end
+
   describe "#drawings_ready_for_publication?" do
     let!(:proposed_drawing_1) do
       create :drawing, :with_plan, :proposed_tags,

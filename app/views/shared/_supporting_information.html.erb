@@ -10,15 +10,11 @@
     </div>
     <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
       <ul class="govuk-list govuk-list--bullet">
-        <li>
-          Conservation area
-        </li>
-        <li>
-          Permitted development rights: Active
-        </li>
-        <li>
-          Residential area
-        </li>
+        <% if @planning_application.constraints %>
+        <% list_constraints(@planning_application.constraints).each do |constraint| %>
+          <li> <%= t("#{constraint}") %></li>
+          <% end %>
+        <% end %>
       </ul>
     </div>
   </div>
@@ -65,16 +61,22 @@
       </h2>
     </div>
     <div id="accordion-default-content-3" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-3">
-      <% if @agent %>
+      <% if @planning_application.agent? %>
         <p class='govuk-body'>
           <strong>Agent: </strong><br>
-          <%= h(full_details(@agent)) %>
+          <%= @planning_application.agent_first_name %>
+          <%= @planning_application.agent_last_name %><br>
+          <%= @planning_application.agent_phone %><br>
+          <%= @planning_application.agent_email %>
         </p>
       <% end %>
-      <% if @applicant %>
+      <% if @planning_application.applicant? %>
         <p class='govuk-body'>
-          <strong>Applicant: </strong><br>
-          <%= h(full_details(@applicant)) %>
+          <strong>Agent: </strong><br>
+          <%= @planning_application.applicant_first_name %>
+          <%= @planning_application.applicant_last_name %><br>
+          <%= @planning_application.applicant_phone %><br>
+          <%= @planning_application.applicant_email %>
         </p>
       <% end %>
     </div>
