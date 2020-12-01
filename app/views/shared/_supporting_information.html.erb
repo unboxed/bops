@@ -61,7 +61,7 @@
       </h2>
     </div>
     <div id="accordion-default-content-3" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-3">
-      <% if @planning_application.agent_first_name %>
+      <% if @planning_application.agent? %>
         <p class='govuk-body'>
           <strong>Agent: </strong><br>
           <%= @planning_application.agent_first_name %>
@@ -70,7 +70,7 @@
           <%= @planning_application.agent_email %>
         </p>
       <% end %>
-      <% if @planning_application.applicant_first_name %>
+      <% if @planning_application.applicant? %>
         <p class='govuk-body'>
           <strong>Agent: </strong><br>
           <%= @planning_application.applicant_first_name %>
