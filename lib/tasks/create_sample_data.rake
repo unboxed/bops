@@ -54,6 +54,8 @@ task create_sample_data: :environment do
     email_address: "planning@buckinghamshire.gov.uk"
   )
 
+  ApiUser.find_or_create_by!(name: "api_user", token: ENV["API_TOKEN"]) if ENV["API_TOKEN"]
+
   admin_roles = %i[assessor reviewer]
   local_authorities = [southwark, lambeth, bucks]
 

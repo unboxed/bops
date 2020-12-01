@@ -24,7 +24,7 @@ module PlanningApplicationHelper
   end
 
   def list_constraints(constraints)
-    JSON.parse(constraints).select {|category, value| value == true }.keys unless constraints.empty?
+    JSON.parse(constraints).select { |category, value| value == true }.keys unless constraints.empty?
   end
 
   # rubocop: disable Metrics/MethodLength

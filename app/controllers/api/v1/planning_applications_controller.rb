@@ -2,6 +2,7 @@
 
 class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
   before_action :set_cors_headers, only: %i[index create], if: :json_request?
+  skip_before_action :authenticate, only: [:index]
 
   def index
     @planning_applications = PlanningApplication.determined

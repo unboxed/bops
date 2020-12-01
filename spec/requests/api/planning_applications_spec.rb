@@ -4,9 +4,8 @@ require "rails_helper"
 require "swagger_helper"
 
 RSpec.describe 'Planning Applications', swagger_doc: 'api/swagger_doc.json', type: :request, show_exceptions: true do
-
   path '/api/v1/planning_applications' do
-    # it "should return a 200 response" do
+      # it "should return a 200 response" do
       get 'Retrieves all determined planning applications' do
         produces 'application/json'
 
@@ -16,8 +15,8 @@ RSpec.describe 'Planning Applications', swagger_doc: 'api/swagger_doc.json', typ
       # end
     end
 
-    # it "should return valid responses when new application is created" do
-    #   api_user = create(:api_user)
+      # it "should return valid responses when new application is created" do
+      #   api_user = create(:api_user)
       post 'Create new planning application' do
         consumes 'application/json'
         security [ Token: [] ]

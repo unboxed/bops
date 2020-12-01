@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApiUser < ApplicationRecord
-  validates_presence_of :name, :token
+  validates :name, :token, presence: true
 end

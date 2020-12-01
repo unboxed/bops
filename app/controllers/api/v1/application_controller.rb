@@ -3,7 +3,6 @@
 class Api::V1::ApplicationController < ApplicationController
   before_action :authenticate, :set_default_format
   protect_from_forgery with: :null_session
-  skip_before_action :authenticate, only: [:index]
 
   rescue_from ActionController::ParameterMissing do |e|
     render json: { error: e.message }, status: :bad_request
