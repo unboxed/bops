@@ -2,7 +2,7 @@
 
 # /config/initializer/rswag-ui.rb
 #
-require "rswag"
+require "rswag/ui"
 
 Rswag::Ui.configure do |c|
   c.swagger_endpoint "api/swagger_doc.json", "Docs"
