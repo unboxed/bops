@@ -7,7 +7,7 @@ FactoryBot.define do
     applicant
     local_authority
     description      { Faker::Lorem.unique.sentence }
-    status           { :in_assessment }
+    status           { :not_started }
     in_assessment_at { Time.current }
     ward             { Faker::Address.city }
   end

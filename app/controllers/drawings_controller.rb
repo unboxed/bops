@@ -22,6 +22,9 @@ class DrawingsController < AuthenticationController
 
   # rubocop: disable Metrics/MethodLength
   def update_numbers
+    byebug
+    @planning_application.update(status: params[:status])
+
     @drawings_list = DrawingNumbersListForm.new(
       @planning_application.drawings.for_publication,
       drawings_list_params[:drawings]
@@ -134,6 +137,10 @@ class DrawingsController < AuthenticationController
   end
 
   private
+
+  def document_validation_params
+    drawing_params.permit(:status)
+  end
 
   def drawings_list_params
     params.require(:drawings_list).permit(drawings: [:id, :numbers])

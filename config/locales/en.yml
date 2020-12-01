@@ -1,4 +1,9 @@
 en:
+  not_started:
+    title: "Not started"
+    heading: "Review documents"
+    proposal_step: "Assess the proposal"
+    recommendation_step: "Submit the recommendation"
   in_assessment:
     title: "In assessment"
     heading: "Make recommendation"

@@ -74,7 +74,53 @@
               </div>
             <% end %>
           <% end%>
-        </fieldset>
+            </fieldset>
+
+            <div class="govuk-form-group">
+              <fieldset class="govuk-fieldset">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                  <p class="govuk-body govuk-!-font-weight-bold">
+                    Proposal documents status
+                  </p>
+                </legend>
+                <div class="govuk-radios">
+                  <div class="govuk-radios__item">
+                    <input class="govuk-radios__input"
+                    id="status_1"
+                    name="status"
+                    type="radio"
+                    value="awaiting_validation"
+                    >
+                    <label class="govuk-label govuk-radios__label">
+                      Not yet checked
+                    </label>
+                  </div>
+                  <div class="govuk-radios__item">
+                    <input class="govuk-radios__input"
+                    id="status_2"
+                    name="status"
+                    type="radio"
+                    value="new_documents_requested"
+                    >
+                    <label class="govuk-label govuk-radios__label">
+                      New documents requested
+                    </label>
+                  </div>
+                  <div class="govuk-radios__item">
+                    <input class="govuk-radios__input"
+                    id="status_3"
+                    name="status"
+                    type="radio"
+                    value="in_assessment"
+                    >
+                    <label class="govuk-label govuk-radios__label">
+                      Valid
+                    </label>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+
         <div class="govuk-form-group">
           <%= submit_tag "Save", class: "govuk-button", data: { module: "govuk-button" } %>
         </div>
@@ -82,3 +128,4 @@
     <% end%>
   </div>
 </div>
+

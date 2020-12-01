@@ -43,12 +43,19 @@ RSpec.describe PlanningApplication, type: :model do
     it "has a list of statuses" do
       expect(described_class.statuses).to eq(
         "not_started" => 0,
-        "in_assessment"=> 1,
+        "in_assessment" => 1,
         "awaiting_determination" => 2,
         "awaiting_correction" => 3,
         "determined" => 4
       )
     end
+  end
+
+  context "an application cannot be moved into in_assessment unless its has valid proposal documents" do
+    it "does not move to in_assessment until its documents are validated" do
+    end
+
+
   end
 
   describe "update_and_timestamp_status" do

@@ -23,16 +23,22 @@ module PlanningApplicationHelper
     end
   end
 
-  def drawing_documents_status(application)
-    case application.document_status
-    when "not_yet_checked"
+  def application_status(application)
+    case application.status
+    when "not_started"
       "Not started"
     when "awaiting_validation"
       "Awaiting validation"
     when "new_documents_requested"
       "Awaiting documents"
-    when "is_valid"
+    when "in_assessment"
       "In assessment"
+    when "awaiting_determination"
+      "Awaiting determination"
+    when "awaiting_correction"
+      "Awaiting correction"
+    when "determined"
+      "Determined"
     end
   end
 
