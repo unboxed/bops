@@ -20,12 +20,11 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
     else
       send_failed_response
     end
-    respond_to(:json)
   end
 
   def full_planning_application(site_id, council_id)
     @planning_application = PlanningApplication.create(
-        full_planning_params.merge!(site_id: site_id, local_authority_id: council_id)
+      full_planning_params.merge!(site_id: site_id, local_authority_id: council_id)
     )
   end
 
@@ -50,10 +49,6 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
         end
       end
     end
-  end
-
-  def new_plan_filename(name)
-    name.split("/")[-1]
   end
 
   def new_plan_filename(name)
@@ -87,7 +82,6 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
                       :applicant_phone, :applicant_email,
                       :agent_first_name, :agent_last_name,
                       :agent_phone, :agent_email, :questions, :plans]
-
     params.permit permitted_keys
   end
 
