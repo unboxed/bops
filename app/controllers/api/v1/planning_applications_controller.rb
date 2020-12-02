@@ -15,6 +15,7 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
     full_planning_application(site_id, @current_local_authority.id)
     if @planning_application.valid? && @planning_application.save!
       attach_question_flow(@planning_application.questions)
+      upload_drawings(params[:plans])
       send_success_response
     else
       send_failed_response
@@ -24,7 +25,7 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
 
   def full_planning_application(site_id, council_id)
     @planning_application = PlanningApplication.create(
-      full_planning_params.merge!(site_id: site_id, local_authority_id: council_id)
+        full_planning_params.merge!(site_id: site_id, local_authority_id: council_id)
     )
   end
 
@@ -39,6 +40,26 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
     end
   end
 
+  def upload_drawings(drawing_params)
+    unless drawing_params.nil?
+      begin
+        drawing_params.each do |param|
+          drawing = @planning_application.drawings.create(tags: Array(param[:tags]))
+          drawing.plan.attach(io: File.open(open(param[:filename])), filename: "#{new_plan_filename(param[:filename])}")
+        rescue
+        end
+      end
+    end
+  end
+
+  def new_plan_filename(name)
+    name.split("/")[-1]
+  end
+
+  def new_plan_filename(name)
+    name.split("/")[-1]
+  end
+
   def send_success_response
     render json: { "id": "#{@planning_application.reference}",
                    "message": "Application created" }, status: 200
@@ -46,7 +67,7 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
 
   def send_failed_response
     render json: { "message": "Unable to create application" },
-                   status: 400
+           status: 400
   end
 
   def create_site
@@ -65,7 +86,7 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
                       :applicant_first_name, :applicant_last_name,
                       :applicant_phone, :applicant_email,
                       :agent_first_name, :agent_last_name,
-                      :agent_phone, :agent_email, :questions]
+                      :agent_phone, :agent_email, :questions, :plans]
 
     params.permit permitted_keys
   end
@@ -82,9 +103,9 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
 
   def full_planning_params
     planning_application_params.merge!({
-                                         questions: params[:questions].to_json,
-                                         constraints: params[:constraints].to_json,
-                                         audit_log: params.to_json
+                                           questions: params[:questions].to_json,
+                                           constraints: params[:constraints].to_json,
+                                           audit_log: params.to_json
                                        })
   end
 end
