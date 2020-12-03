@@ -51,7 +51,8 @@ RSpec.describe 'Planning Applications', swagger_doc: 'api/swagger_doc.json', typ
             required: %w[site application_type status]
 
         response '200', :valid_request do
-          let(:planning_application) { { application_type: 1, status: 0, site: { uprn: "12343243" }, description: 'Add chimnney stack' } }
+          let(:planning_application) { { application_type: 1, status: 0, site: { uprn: "12343243" },
+                                         description: 'Add chimnney stack', questions: { flow: [] } } }
           let(:api_user) { create(:api_user) }
           let(:Authorization) { "Bearer #{api_user.token}" }
           run_test!

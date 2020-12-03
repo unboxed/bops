@@ -14,6 +14,7 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
     site_id = create_site
     full_planning_application(site_id, @current_local_authority.id)
     if @planning_application.valid? && @planning_application.save!
+      attach_question_flow(@planning_application.questions)
       send_success_response
     else
       send_failed_response
@@ -30,7 +31,9 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
   def attach_question_flow(questions)
     evaluation = @planning_application.create_policy_evaluation
     pcb = Ripa::PolicyConsiderationBuilder.new(questions)
-    unless questions.empty?
+    if questions.empty?
+      evaluation
+    else
       questions = pcb.import
       evaluation.policy_considerations << questions
     end
