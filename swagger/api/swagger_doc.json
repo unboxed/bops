@@ -105,7 +105,20 @@
                 },
                 "applicant_email": {
                   "type": "string"
-                }
+                },
+                "constraints": {
+                  "type": "string"
+                },
+                "plans": [
+                  {
+                    "filename": {
+                      "type": "string"
+                    },
+                    "tags": {
+                      "type": "string"
+                    }
+                  }
+                ]
               }
             },
             "required": [
