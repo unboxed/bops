@@ -41,12 +41,9 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
 
   def upload_drawings(drawing_params)
     unless drawing_params.nil?
-      begin
-        drawing_params.each do |param|
-          drawing = @planning_application.drawings.create(tags: Array(param[:tags]))
-          drawing.plan.attach(io: File.open(open(param[:filename])), filename: "#{new_plan_filename(param[:filename])}")
-        rescue
-        end
+      drawing_params.each do |param|
+        drawing = @planning_application.drawings.create(tags: Array(param[:tags]))
+        drawing.plan.attach(io: File.open(open(param[:filename])), filename: "#{new_plan_filename(param[:filename])}")
       end
     end
   end
