@@ -18,7 +18,6 @@ RSpec.configure do |config|
                   in: :header
               }
           },
-          host: "southwark.lvh.me:3000",
           paths: {}
       }
   }

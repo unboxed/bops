@@ -11,7 +11,6 @@
       "in": "header"
     }
   },
-  "host": "southwark.lvh.me:3000",
   "paths": {
     "/api/v1/planning_applications": {
       "get": {
