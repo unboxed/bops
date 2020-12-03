@@ -1,5 +1,10 @@
 {
   "id": "e4c94a81-4169-42df-8ad0-32c4690f4005",
+  "reference": "20/AP/2161",
+  "related_cases": "20/AP/0135",
+  "ownership_type": 0,
+  "owner_first_name": "Mantas",
+  "owner_second_name": "Prikockas",
   "applicant_first_name": "Mantas",
   "applicant_last_name": "Prikockas",
   "applicant_phone": "23432325435",
@@ -17,26 +22,25 @@
     "town": "London",
     "postcode": "SE16 3RQ"
   },
-  "plans": {
-    "existing_plan": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg",
-    "existing_roof": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg",
-    "existing_sections": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg",
-    "proposed_elevation": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg",
-    "proposed_plan": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg",
-    "proposed_roof": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg",
-    "proposed_section": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg"
+  "plans": [{
+    "filename": "https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
+    "tags": "front elevation - proposed"
   },
+    {
+      "filename": "https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
+      "tags": "front elevation - existing"
+    }],
   "constraints": {
-    "conservation_area": 443,
-    "article4_area": 221,
+    "conservation_area": true,
+    "article4_area": true,
     "scheduled_monument": false,
     "AONB": false,
     "national_park": false,
     "broads": false,
     "world_heritage": false,
-    "tpo": 2013.004,
-    "protected_trees": 2013.004,
-    "ssi": 477
+    "tpo": false,
+    "protected_trees": false,
+    "ssi": false
   },
   "questions": {
     "id": "e4c94a81-4169-42df-8ad0-32c4690f4005",

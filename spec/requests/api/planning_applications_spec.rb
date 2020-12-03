@@ -46,13 +46,19 @@ RSpec.describe 'Planning Applications', swagger_doc: 'api/swagger_doc.json', typ
                 applicant_last_name: { type: :string },
                 applicant_phone: { type: :string },
                 applicant_email: { type: :string },
+                constraints: { type: :string },
+                plans: [{
+                            filename: { type: :string },
+                            tags: { type: :string },
+                        }],
                 }
             },
             required: %w[site application_type status]
 
         response '200', :valid_request do
           let(:planning_application) { { application_type: 1, status: 0, site: { uprn: "12343243" },
-                                         description: 'Add chimnney stack', questions: { flow: [] } } }
+                                         description: 'Add chimnney stack',
+                                         questions: JSON.parse(File.read(Rails.root.join("spec/fixtures/files/permitted_development.json"))) }}
           let(:api_user) { create(:api_user) }
           let(:Authorization) { "Bearer #{api_user.token}" }
           run_test!
