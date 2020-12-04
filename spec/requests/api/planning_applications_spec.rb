@@ -3,7 +3,7 @@
 require "rails_helper"
 require "swagger_helper"
 
-RSpec.describe 'Planning Applications', swagger_doc: 'api/swagger_doc.json', type: :request, show_exceptions: true do
+RSpec.describe 'Planning Applications', swagger_doc: '/api-docs/swagger_doc.json', type: :request, show_exceptions: true do
   path '/api/v1/planning_applications' do
       # it "should return a 200 response" do
       get 'Retrieves all determined planning applications' do
