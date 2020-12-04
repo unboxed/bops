@@ -11,12 +11,13 @@ RSpec.configure do |config|
               title: 'Back-office Planning System',
               version: 'v1'
           },
-          securityDefinitions: {
-              Token: {
-                  description: "...",
-                  name: 'Authorization',
-                  in: :header
-              }
+          components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                }
+            }
           },
           paths: {}
       }

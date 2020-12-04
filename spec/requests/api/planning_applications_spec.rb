@@ -19,7 +19,7 @@ RSpec.describe 'Planning Applications', swagger_doc: '/v1/swagger_doc.json', typ
       #   api_user = create(:api_user)
       post 'Create new planning application' do
         consumes 'application/json'
-        security [ Token: [] ]
+        security [ bearerAuth: [] ]
         parameter name: :planning_application, in: :body, schema: {
             type: :object,
             properties: {
