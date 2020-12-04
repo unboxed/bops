@@ -1,0 +1,144 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Back-office Planning System",
+    "version": "v1"
+  },
+  "securityDefinitions": {
+    "Token": {
+      "description": "...",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "paths": {
+    "/api/v1/planning_applications": {
+      "get": {
+        "summary": "Retrieves all determined planning applications",
+        "responses": {
+          "200": {
+            "description": "All determined planning applications",
+            "content": {
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create new planning application",
+        "security": [
+          {
+            "Token": [
+
+            ]
+          }
+        ],
+        "parameters": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "valid_request",
+            "content": {
+            }
+          },
+          "400": {
+            "description": "invalid_request",
+            "content": {
+            }
+          },
+          "401": {
+            "description": "unauthorized_user",
+            "content": {
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "application_type": {
+                    "type": "integer"
+                  },
+                  "status": {
+                    "type": "integer"
+                  },
+                  "site": {
+                    "type": "object",
+                    "properties": {
+                      "uprn": {
+                        "type": "string"
+                      },
+                      "address_1": {
+                        "type": "string"
+                      },
+                      "address_2": {
+                        "type": "string"
+                      },
+                      "town": {
+                        "type": "string"
+                      },
+                      "postcode": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "ward": {
+                    "type": "string"
+                  },
+                  "user_id": {
+                    "type": "integer"
+                  },
+                  "questions": {
+                    "type": "string"
+                  },
+                  "agent_first_name": {
+                    "type": "string"
+                  },
+                  "agent_last_name": {
+                    "type": "string"
+                  },
+                  "agent_phone": {
+                    "type": "string"
+                  },
+                  "agent_email": {
+                    "type": "string"
+                  },
+                  "applicant_first_name": {
+                    "type": "string"
+                  },
+                  "applicant_last_name": {
+                    "type": "string"
+                  },
+                  "applicant_phone": {
+                    "type": "string"
+                  },
+                  "applicant_email": {
+                    "type": "string"
+                  },
+                  "constraints": {
+                    "type": "string"
+                  },
+                  "plans": [
+                    {
+                      "filename": {
+                        "type": "string"
+                      },
+                      "tags": {
+                        "type": "string"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

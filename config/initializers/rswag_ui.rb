@@ -5,6 +5,5 @@
 require "rswag/ui"
 
 Rswag::Ui.configure do |c|
-  c.swagger_endpoint "/api-docs/swagger_doc.json", "Docs"
-  c.swagger_endpoint "/api-docs/swagger_admin_doc.json", "Admin Docs Internal"
+  c.swagger_endpoint "/api-docs/v1/swagger_doc.json", "Docs"
 end
