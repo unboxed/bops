@@ -18,7 +18,7 @@ class Api::V1::ApplicationController < ApplicationController
 
   def set_cors_headers
     response.set_header("Access-Control-Allow-Origin", "*")
-    response.set_header("Access-Control-Allow-Methods", "GET")
+    response.set_header("Access-Control-Allow-Methods", "*")
     response.set_header(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content-Type, Accept"
