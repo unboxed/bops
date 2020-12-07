@@ -25,7 +25,7 @@ RSpec.describe "API request to list planning applications", type: :request, show
 
       expect(response).to be_successful
       expect(access_control_allow_origin).to eq('*')
-      expect(access_control_allow_methods).to eq('GET')
+      expect(access_control_allow_methods).to eq('*')
       expect(access_control_allow_headers).to eq('Origin, X-Requested-With, Content-Type, Accept')
     end
   end
