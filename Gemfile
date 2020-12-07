@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
 source "https://rubygems.org"
-git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.6.5"
+# Load environment variables
+gem "dotenv-rails", require: "dotenv/rails-now"
 
 gem "activerecord-postgis-adapter"
+gem "aws-sdk-codedeploy", require: false
 gem "aws-sdk-s3", require: false
 gem "bootsnap", ">= 1.4.2", require: false
 gem "devise"
 gem "faker", require: false
+gem "faraday", require: false
 gem "image_processing", "~> 1.2"
 gem "jbuilder", "~> 2.7"
 gem "mail-notify"
@@ -49,5 +51,3 @@ end
 group :test do
   gem "webmock"
 end
-
-gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
