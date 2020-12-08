@@ -10,10 +10,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Setup Ruby 2.6.5
+    - name: Setup Ruby 2.6.6
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.5
+        ruby-version: 2.6.6
 
     - name: Enable postgis extension
       uses: huaxk/postgis-action@v1

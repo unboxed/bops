@@ -32,3 +32,6 @@ yarn-debug.log*
 
 # Ignore simplecov coverage results
 coverage
+
+# Ignore build packages
+/pkg
