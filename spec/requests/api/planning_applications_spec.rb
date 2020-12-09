@@ -37,7 +37,18 @@ RSpec.describe 'Planning Applications', swagger_doc: '/v1/swagger_doc.json', typ
                 description: { type: :string },
                 ward: { type: :string },
                 user_id: { type: :integer },
-                questions: { type: :string },
+                questions: { type: :object,
+                             properties: {
+                                 flow: { type: :object,
+                                         properties: {
+                                             id: { type: :string },
+                                             text: { type: :string },
+                                             val: { type: :string },
+                                             options: [{ type: :object }]
+                                         }
+                                 }
+                             }
+                },
                 agent_first_name: { type: :string },
                 agent_last_name: { type: :string },
                 agent_phone: { type: :string },
@@ -46,7 +57,7 @@ RSpec.describe 'Planning Applications', swagger_doc: '/v1/swagger_doc.json', typ
                 applicant_last_name: { type: :string },
                 applicant_phone: { type: :string },
                 applicant_email: { type: :string },
-                constraints: { type: :string },
+                constraints: [{ type: :object }],
                 plans: [{
                             filename: { type: :string },
                             tags: { type: :string },

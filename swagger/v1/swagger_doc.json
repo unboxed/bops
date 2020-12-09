@@ -95,7 +95,28 @@
                     "type": "integer"
                   },
                   "questions": {
-                    "type": "string"
+                    "type": "object",
+                    "properties": {
+                      "flow": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "text": {
+                            "type": "string"
+                          },
+                          "val": {
+                            "type": "string"
+                          },
+                          "options": [
+                            {
+                              "type": "object"
+                            }
+                          ]
+                        }
+                      }
+                    }
                   },
                   "agent_first_name": {
                     "type": "string"
@@ -121,9 +142,11 @@
                   "applicant_email": {
                     "type": "string"
                   },
-                  "constraints": {
-                    "type": "string"
-                  },
+                  "constraints": [
+                    {
+                      "type": "object"
+                    }
+                  ],
                   "plans": [
                     {
                       "filename": {
