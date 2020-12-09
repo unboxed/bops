@@ -56,7 +56,7 @@ task create_sample_data: :environment do
 
   ApiUser.find_or_create_by!(name: "api_user", token: ENV["API_TOKEN"]) if ENV["API_TOKEN"]
 
-  admin_roles = %i[assessor reviewer]
+  admin_roles = %i[assessor reviewer admin]
   local_authorities = [southwark, lambeth, bucks]
 
   # Add lambeth and southwark specific admins

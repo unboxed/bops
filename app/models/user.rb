@@ -10,7 +10,7 @@ class User < ApplicationRecord
 
   has_many :decisions, dependent: :restrict_with_exception
   has_many :planning_applications, through: :decisions
-  belongs_to :local_authority
+  belongs_to :local_authority, optional: false
 
   def self.find_first_by_auth_conditions(conditions)
     local_authority = LocalAuthority.find_by(subdomain: conditions[:subdomains].first)

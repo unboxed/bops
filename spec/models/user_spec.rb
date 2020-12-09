@@ -48,6 +48,11 @@ RSpec.describe User, type: :model do
     expect(email).to_not be_valid
   end
 
+  it "should not be created without a local authority" do
+    user_without_local_authority = build(:user, local_authority: nil)
+    expect(user_without_local_authority).to_not be_valid
+  end
+
   it "does not allow for duplicate users within the same domain" do
     domain = create(:local_authority)
     user_one = create(:user, email: "pompom@pom.com", local_authority: domain)
