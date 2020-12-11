@@ -33,7 +33,7 @@ class PlanningApplicationPolicy < ApplicationPolicy
   def permitted_statuses
     if @user.assessor?
       [ "awaiting_determination" ]
-    elsif @user.reviewer? || @user.admin?
+    elsif @user.reviewer?
       [ "determined" ]
     else
       []

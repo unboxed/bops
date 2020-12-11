@@ -13,19 +13,9 @@ RSpec.describe User, type: :model do
     expect(reviewer).to be_valid
   end
 
-  it "should create user with admin role" do
-    admin = create(:user, :admin)
-    expect(admin).to be_valid
-  end
-
   it "should save reviewer role correctly" do
     reviewer = create(:user, :reviewer)
     expect(reviewer.role).to eq "reviewer"
-  end
-
-  it "should save admin role correctly" do
-    admin = create(:user, :admin)
-    expect(admin.role).to eq "admin"
   end
 
   it "should create user with default assessor role if no role is provided" do
@@ -46,6 +36,11 @@ RSpec.describe User, type: :model do
   it "should not be created without an email" do
     email = build(:user, email: nil)
     expect(email).to_not be_valid
+  end
+
+  it "should not be created without a local authority" do
+    user_without_local_authority = build(:user, local_authority: nil)
+    expect(user_without_local_authority).to_not be_valid
   end
 
   it "does not allow for duplicate users within the same domain" do

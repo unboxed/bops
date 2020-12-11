@@ -99,48 +99,5 @@ RSpec.describe "PlanningApplications", type: :request do
         end
       end
     end
-
-    context "for an admin" do
-      let(:user) { create :user, :admin, local_authority: local_authority }
-
-      context "setting the status to \"determined\"" do
-        let(:status) { :determined }
-
-        let(:mailer) { double }
-
-        before do
-          allow(PlanningApplicationMailer).to receive(:decision_notice_mail).and_return(mailer)
-          allow(mailer).to receive(:deliver_now)
-        end
-
-        it "changes the status and redirects to the planning application"  do
-          expect {
-            subject
-          }.to change {
-            planning_application.reload.status
-          }.to(
-            "determined"
-          )
-
-          expect(response.code).to eq "302"
-          expect(response).to redirect_to planning_application_path(planning_application)
-        end
-      end
-
-      context "setting the status to \"awaiting_determination\"" do
-        let(:status) { :awaiting_determination }
-
-        it "does not change the status and redirects to the root"  do
-          expect {
-            subject
-          }.not_to change {
-            planning_application.reload.status
-          }
-
-          expect(response.code).to eq "302"
-          expect(response).to redirect_to root_path
-        end
-      end
-    end
   end
 end

@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe DrawingPolicy, type: :policy do
-  describe "Assessor, Reviewer and Admin roles" do
+  describe "Assessor and Reviewer roles" do
     let(:record) { nil }
     let(:policy) { described_class.new(user, record) }
 
-    %i[assessor reviewer admin].each do |role|
+    %i[assessor reviewer].each do |role|
       context "when signed in as a #{role}" do
         let(:user) { create :user, role }
 
