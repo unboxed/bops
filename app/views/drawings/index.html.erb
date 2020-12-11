@@ -71,32 +71,35 @@
   <table class="govuk-table archived-drawings">
     <caption class="govuk-table__caption">Archived documents</caption>
     <thead class="govuk-table__head">
-      <% if filter_archived(@drawings).count < 1 %>
-        <th scope="row" class="govuk-table__cell" style="font-weight: 100">No documents archived</th>
-      <% else %>
-        <th scope="col" class="govuk-table__header">Document name</th>
-        <th scope="col" class="govuk-table__header">Tags </th>
-        <th scope="col" class="govuk-table__header">Date uploaded</th>
-        <th scope="col" class="govuk-table__header">Officer's comment</th>
+      <tr>
+        <% if filter_archived(@drawings).present? %>
+          <th scope="col" class="govuk-table__header">Document name</th>
+          <th scope="col" class="govuk-table__header">Tags </th>
+          <th scope="col" class="govuk-table__header">Date uploaded</th>
+          <th scope="col" class="govuk-table__header">Officer's comment</th>
+        <% else %>
+          <th scope="row" class="govuk-table__cell" style="font-weight: 100">No documents archived</th>
+        <% end %>
       </tr>
     </thead>
+    <% if filter_archived(@drawings).present? %>
+      <tbody class="govuk-table__body">
         <% filter_archived(@drawings).each do |drawing| %>
-    <tbody class="govuk-table__body">
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell archive-data"><%= link_to drawing.name, rails_blob_path(drawing.plan), target: :_new %></td>
-        <td class="govuk-table__cell archive-data tags">
-          <ul class="govuk-list">
-            <% drawing.tags.each do |tag| %>
-              <li><strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong></li>
-            <% end %>
-          </ul>
-        </td>
-        <td class="govuk-table__cell archive-data"><%= drawing.created_at.strftime("%e %b %Y") %></td>
-        <td class="govuk-table__cell archive-data"><%= t(drawing.archive_reason) %></td>
-      </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell archive-data"><%= link_to drawing.name, rails_blob_path(drawing.plan), target: :_new %></td>
+            <td class="govuk-table__cell archive-data tags">
+              <ul class="govuk-list">
+                <% drawing.tags.each do |tag| %>
+                  <li><strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong></li>
+                <% end %>
+              </ul>
+            </td>
+            <td class="govuk-table__cell archive-data"><%= drawing.created_at.strftime("%e %b %Y") %></td>
+            <td class="govuk-table__cell archive-data"><%= t(drawing.archive_reason) %></td>
+          </tr>
         <% end %>
-      <% end %>
-    </tbody>
+      </tbody>
+    <% end %>
   </table>
   </div>
 </div>
