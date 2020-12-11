@@ -16,7 +16,6 @@ RSpec.describe "Planning Application Reviewing", type: :system do
        assessor_decision: assessor_decision,
        applicant_email: "bigplans@example.com"
     end
-    let(:admin) { create :user, :admin, local_authority: local_authority }
     let(:assessor) { create :user, :assessor, local_authority: local_authority }
     let(:reviewer) { create :user, :reviewer, local_authority: local_authority }
 
@@ -471,37 +470,6 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
       include_examples "reviewer assignment"
       include_examples "reviewer decision error message"
-    end
-  end
-
-  context "as an admin" do
-    let(:local_authority) { create :local_authority }
-    let(:assessor) { create :user, :assessor, local_authority: local_authority }
-    let(:admin) { create :user, :admin, local_authority: local_authority }
-    let(:assessor_decision) { create :decision, :granted, user: assessor }
-
-    let!(:planning_application) do
-      create :planning_application,
-      assessor_decision: assessor_decision,
-      local_authority: local_authority
-    end
-
-    before do
-      sign_in admin
-
-      visit root_path
-    end
-
-    scenario "Assessment editing" do
-      # TODO: Define admin actions on a planning application further and test them
-
-      click_link planning_application.reference
-
-      expect(page).to have_link "Assess the proposal"
-
-      within(:assessment_step, "Assess the proposal") do
-        expect(page).to have_content("Completed")
-      end
     end
   end
 end

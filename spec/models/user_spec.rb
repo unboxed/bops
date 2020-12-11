@@ -13,19 +13,9 @@ RSpec.describe User, type: :model do
     expect(reviewer).to be_valid
   end
 
-  it "should create user with admin role" do
-    admin = create(:user, :admin)
-    expect(admin).to be_valid
-  end
-
   it "should save reviewer role correctly" do
     reviewer = create(:user, :reviewer)
     expect(reviewer.role).to eq "reviewer"
-  end
-
-  it "should save admin role correctly" do
-    admin = create(:user, :admin)
-    expect(admin.role).to eq "admin"
   end
 
   it "should create user with default assessor role if no role is provided" do

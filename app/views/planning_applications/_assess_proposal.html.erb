@@ -7,11 +7,11 @@
       <li class="app-task-list__item">
         <% step_name = t("#{@planning_application.status}.proposal_step") %>
 
-        <% if (current_user.assessor? || current_user.admin?) %>
+        <% if current_user.assessor? %>
           <% aria_attributes = @planning_application.assessor_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
           <% path = assessor_decision_path(@planning_application) %>
           <span class="app-task-list__task-name"><%= link_to step_name, path, aria: aria_attributes %></span>
-        <% elsif !@planning_application.in_assessment? && (current_user.reviewer? || current_user.admin?) %>
+        <% elsif !@planning_application.in_assessment? && current_user.reviewer? %>
           <% aria_attributes = @planning_application.reviewer_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
 
           <% path = reviewer_decision_path(@planning_application) %>
@@ -59,7 +59,7 @@
         <% step_name = t("#{@planning_application.status}.recommendation_step") %>
         <% aria_attributes = @planning_application.awaiting_determination? ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
 
-        <% if (current_user.assessor? || current_user.admin?) && @planning_application.assessor_decision && @planning_application.drawings_ready_for_publication? %>
+        <% if current_user.assessor? && @planning_application.assessor_decision && @planning_application.drawings_ready_for_publication? %>
           <span class="app-task-list__task-name"><%= link_to step_name, edit_planning_application_path(@planning_application), aria: aria_attributes %></span>
         <% elsif current_user.reviewer? && @planning_application.reviewer_decision  && !@planning_application.awaiting_correction? %>
           <span class="app-task-list__task-name"><%= link_to step_name, edit_planning_application_path(@planning_application), aria: aria_attributes %></span>

@@ -3,7 +3,6 @@
 require "rails_helper"
 
 RSpec.feature "Sign in", type: :system do
-  let(:admin) { create :user, :admin, name: "Adrian Schimmel" }
   let(:assessor) { create :user, :assessor, name: "Lorrine Krajcik" }
   let(:reviewer) { create :user, :reviewer, name: "Harley Dicki" }
 
@@ -23,7 +22,7 @@ RSpec.feature "Sign in", type: :system do
   scenario "User cannot log in with invalid credentials" do
     visit root_path
 
-    fill_in("user[email]", with: admin.email)
+    fill_in("user[email]", with: reviewer.email)
     fill_in("user[password]", with: "invalid_password")
     click_button('Log in')
 
@@ -53,18 +52,6 @@ RSpec.feature "Sign in", type: :system do
       scenario "can see their name and role" do
         expect(page).to have_text("Harley Dicki")
         expect(page).to have_text("Reviewer")
-      end
-    end
-
-    context "as an admin" do
-      before do
-        sign_in admin
-        visit root_path
-      end
-
-      scenario "see can see their name and role" do
-        expect(page).to have_text("Adrian Schimmel")
-        expect(page).to have_text("Admin")
       end
     end
 

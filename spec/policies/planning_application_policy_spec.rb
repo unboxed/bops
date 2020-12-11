@@ -9,8 +9,8 @@ RSpec.describe PlanningApplicationPolicy, type: :policy do
   let(:policy) { described_class.new(user, record) }
   let(:policy_two) { described_class.new(user_two_forbidden, record) }
 
-  describe "Assessor, Reviewer and Admin roles" do
-    %i[assessor reviewer admin].each do |role|
+  describe "Assessor and Reviewer roles" do
+    %i[assessor reviewer].each do |role|
       context "when signed in to the domain as #{role}" do
         let(:user) { create :user, role, local_authority: local_authority }
 
@@ -44,14 +44,6 @@ RSpec.describe PlanningApplicationPolicy, type: :policy do
 
     context "a reviewer" do
       let(:user) {  create :user, :reviewer, local_authority: local_authority }
-
-      it "returns :determined only" do
-        expect(policy.permitted_statuses).to eq %w[ determined ]
-      end
-    end
-
-    context "an admin" do
-      let(:user) {  create :user, :admin, local_authority: local_authority }
 
       it "returns :determined only" do
         expect(policy.permitted_statuses).to eq %w[ determined ]
