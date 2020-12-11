@@ -29,7 +29,6 @@ FactoryBot.define do
   trait :awaiting_determination do
     status                    { :awaiting_determination }
     awaiting_determination_at { Time.current }
-    # applicant_email { "bigplans@example.com" }
 
     after(:create) do |pa|
       pa.target_date = Date.current + 7.weeks

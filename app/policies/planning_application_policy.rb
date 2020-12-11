@@ -27,7 +27,7 @@ class PlanningApplicationPolicy < ApplicationPolicy
   end
 
   def unpermitted_statuses
-    PlanningApplication.statuses.keys - permitted_statuses
+    PlanningApplication::STATUSES - permitted_statuses
   end
 
   def permitted_statuses

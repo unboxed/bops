@@ -39,16 +39,9 @@ RSpec.describe PlanningApplication, type: :model do
     end
   end
 
-  describe "statuses" do
-    it "has a list of statuses" do
-      expect(described_class.statuses).to eq(
-        "in_assessment" => 0, "awaiting_determination" => 1, "awaiting_correction" => 2, "determined" => 3
-      )
-    end
-  end
-
   describe "update_and_timestamp_status" do
-    described_class.statuses.keys.each do |status|
+    statuses = [:in_assessment, :awaiting_determination, :awaiting_correction, :determined]
+    described_class::STATUSES.each do |status|
       context "for the #{status} status" do
         before do
           # Set timestamp to differentiate from now

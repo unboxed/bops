@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 2020_12_18_151758) do
   create_table "planning_applications", force: :cascade do |t|
     t.date "target_date", null: false
     t.integer "application_type", default: 0, null: false
-    t.integer "status", default: 0, null: false
+    t.string "status", default: "in_assessment", null: false
     t.datetime "started_at"
     t.datetime "determined_at"
     t.text "description"

@@ -3,9 +3,6 @@
 class PlanningApplication < ApplicationRecord
   enum application_type: { lawfulness_certificate: 0, full: 1 }
 
-  enum status: { in_assessment: 0, awaiting_determination: 1,
-                 awaiting_correction: 2, determined: 3 }
-
   has_one :policy_evaluation, dependent: :destroy
   has_many :decisions, dependent: :destroy
 
@@ -27,6 +24,22 @@ class PlanningApplication < ApplicationRecord
 
   validate :assessor_decision_associated_with_assessor
   validate :reviewer_decision_associated_with_reviewer
+
+  STATUSES = %w[in_assessment awaiting_determination awaiting_correction determined]
+
+  validates :status, inclusion: STATUSES
+
+  STATUSES.each do |status_string|
+    define_method "#{status_string}?" do
+      status == status_string
+    end
+
+    define_method "#{status_string}!" do
+      update(status: status_string)
+    end
+
+    scope status_string.to_sym, -> { where(status: status_string) }
+  end
 
   def days_left
     (target_date - Date.current).to_i

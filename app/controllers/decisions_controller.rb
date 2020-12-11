@@ -59,7 +59,7 @@ class DecisionsController < AuthenticationController
     if @planning_application.awaiting_determination? &&
         @planning_application.reviewer_disagrees_with_assessor?
 
-      @planning_application.update_and_timestamp_status(:awaiting_correction)
+      @planning_application.update_and_timestamp_status("awaiting_correction")
     end
   end
 
