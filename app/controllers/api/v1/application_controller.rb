@@ -37,4 +37,11 @@ class Api::V1::ApplicationController < ApplicationController
   def current_api_user
     @current_api_user ||= authenticate
   end
+
+  protected
+
+  def request_http_token_authentication(realm = "Application", message = nil)
+    self.headers["WWW-Authenticate"] = %(Token realm="#{realm.gsub(/"/, "")}")
+    render json: { error: "HTTP Token: Access denied." }, status: :unauthorized
+  end
 end
