@@ -1,6 +1,9 @@
 # frozen_string_literal: true
+require "aasm"
 
 class PlanningApplication < ApplicationRecord
+  include AASM
+
   enum application_type: { lawfulness_certificate: 0, full: 1 }
 
   has_one :policy_evaluation, dependent: :destroy
@@ -39,6 +42,37 @@ class PlanningApplication < ApplicationRecord
     end
 
     scope status_string.to_sym, -> { where(status: status_string) }
+  end
+
+  aasm.attribute_name :status
+
+  aasm do
+    state :in_assessment, initial: true
+    state :awaiting_determination
+    state :awaiting_correction
+    state :determined
+
+    event :assess do
+      transitions from: :in_assessment, to: :awaiting_determination, guard: :drawings_ready_for_publication?
+    end
+
+    event :determine do
+      transitions from: :awaiting_determination, to: :determined, guard: :reviewer_decision_updated?
+    end
+
+    event :request_correction do
+      transitions from: :awaiting_determination, to: :awaiting_correction
+    end
+
+    event :provide_correction do
+      transitions from: :awaiting_correction, to: :awaiting_determination
+    end
+
+    def timestamp_status_change
+      update("#{aasm.to_state}_at": Time.current)
+    end
+
+    after_all_transitions :timestamp_status_change
   end
 
   def days_left

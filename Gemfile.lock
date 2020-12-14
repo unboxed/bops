@@ -1,6 +1,8 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    aasm (5.1.1)
+      concurrent-ruby (~> 1.0)
     actioncable (6.0.3.4)
       actionpack (= 6.0.3.4)
       nio4r (~> 2.0)
@@ -61,6 +63,8 @@ GEM
       zeitwerk (~> 2.2, >= 2.2.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
+    after_commit_everywhere (0.1.5)
+      activerecord (>= 4.2)
     appsignal (2.11.0)
       rack
     ast (2.4.0)
@@ -332,7 +336,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aasm
   activerecord-postgis-adapter
+  after_commit_everywhere
   appsignal
   aws-sdk-codedeploy
   aws-sdk-s3
