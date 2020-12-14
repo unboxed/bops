@@ -61,6 +61,89 @@ RSpec.describe PlanningApplication, type: :model do
     end
   end
 
+  describe "state transitions" do
+    let!(:proposed_drawing_1) do
+      create :drawing, :with_plan, :proposed_tags,
+             planning_application: subject,
+             numbers: "number"
+    end
+
+    context "assess the application" do
+      before do
+        # Set timestamp to differentiate from now
+        # Question from Rhian - we are doing this for test purposes, but maybe we should prevent this behaviour?
+        subject.update("awaiting_determination_at": 1.hour.ago)
+
+        subject.assess
+      end
+
+      it "sets the status to awaiting_determination" do
+        expect(subject.status).to eq "awaiting_determination"
+      end
+
+      it "sets the timestamp for awaiting_determination_at to now" do
+        expect(subject.send("awaiting_determination_at")).to be_within(1.second).of(Time.current)
+      end
+    end
+
+    context "sets application to awaiting_correction when request_correction is called" do
+      subject { create :planning_application, :awaiting_determination }
+
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("awaiting_correction_at": 1.hour.ago)
+
+        subject.request_correction
+      end
+
+      it "sets the status to awaiting_correction" do
+        expect(subject.status).to eq "awaiting_correction"
+      end
+
+      it "sets the timestamp for awaiting_correction to now" do
+        expect(subject.send("awaiting_correction_at")).to be_within(1.second).of(Time.current)
+      end
+    end
+
+    context "sets application to awaiting_determination when provide_correction is called" do
+      subject { create :planning_application, :awaiting_correction }
+
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("awaiting_determination_at": 1.hour.ago)
+
+        subject.provide_correction
+      end
+
+      it "sets the status to awaiting_determination" do
+        expect(subject.status).to eq "awaiting_determination"
+      end
+
+      it "sets the timestamp for awaiting_determination to now" do
+        expect(subject.send("awaiting_determination_at")).to be_within(1.second).of(Time.current)
+      end
+    end
+
+    context "determine the application" do
+      subject { create :planning_application, :awaiting_determination }
+
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("determined_at": 1.hour.ago)
+
+        subject.determine
+      end
+
+      it "sets the status to determined" do
+        expect(subject.status).to eq "determined"
+      end
+
+      it "sets the timestamp for determined_at to now" do
+        expect(subject.send("determined_at")).to be_within(1.second).of(Time.current)
+      end
+    end
+  end
+
   describe "decisions" do
     let(:assessor)          { create :user, :assessor }
     let(:reviewer)          { create :user, :reviewer }

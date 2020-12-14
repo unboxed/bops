@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "aasm"
 
 class PlanningApplication < ApplicationRecord
@@ -57,7 +58,7 @@ class PlanningApplication < ApplicationRecord
     end
 
     event :determine do
-      transitions from: :awaiting_determination, to: :determined, guard: :reviewer_decision_updated?
+      transitions from: :awaiting_determination, to: :determined
     end
 
     event :request_correction do
@@ -68,11 +69,11 @@ class PlanningApplication < ApplicationRecord
       transitions from: :awaiting_correction, to: :awaiting_determination
     end
 
-    def timestamp_status_change
-      update("#{aasm.to_state}_at": Time.current)
-    end
-
     after_all_transitions :timestamp_status_change
+  end
+
+  def timestamp_status_change
+    update("#{aasm.to_state}_at": Time.current)
   end
 
   def days_left
