@@ -46,7 +46,7 @@ RSpec.feature "Drawings index page", type: :system do
     end
 
     scenario "Assessor can see table of drawings on overview page" do
-      expect(page).to have_css(".drawing-card", count: 1)
+      expect(page).to have_css(".current-drawings > li", count: 1)
     end
 
     scenario "Archive table is initially empty" do

@@ -11,22 +11,6 @@
   }
 }
 
-.current-drawings {
-  @include govuk-media-query($from: desktop) {
-    .drawing-card.right {
-      padding-left: 90px;
-    }
-  }
-
-  .govuk-grid-row {
-    margin-bottom: 26px;
-  }
-
-  a + .govuk-body {
-    margin-top: 16px;
-  }
-}
-
 .upload-container {
   a, button {
     float: right;
