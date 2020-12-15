@@ -39,28 +39,6 @@ RSpec.describe PlanningApplication, type: :model do
     end
   end
 
-  describe "update_and_timestamp_status" do
-    statuses = [:in_assessment, :awaiting_determination, :awaiting_correction, :determined]
-    described_class::STATUSES.each do |status|
-      context "for the #{status} status" do
-        before do
-          # Set timestamp to differentiate from now
-          subject.update("#{status}_at": 1.hour.ago)
-
-          subject.update_and_timestamp_status(status)
-        end
-
-        it "sets the status to #{status}" do
-          expect(subject.status).to eq status
-        end
-
-        it "sets the timestamp for #{status}_at to now" do
-          expect(subject.send("#{status}_at")).to be_within(1.second).of(Time.current)
-        end
-      end
-    end
-  end
-
   describe "state transitions" do
     let!(:proposed_drawing_1) do
       create :drawing, :with_plan, :proposed_tags,
@@ -102,25 +80,6 @@ RSpec.describe PlanningApplication, type: :model do
 
       it "sets the timestamp for awaiting_correction to now" do
         expect(subject.send("awaiting_correction_at")).to be_within(1.second).of(Time.current)
-      end
-    end
-
-    context "sets application to awaiting_determination when provide_correction is called" do
-      subject { create :planning_application, :awaiting_correction }
-
-      before do
-        # Set timestamp to differentiate from now
-        subject.update("awaiting_determination_at": 1.hour.ago)
-
-        subject.provide_correction
-      end
-
-      it "sets the status to awaiting_determination" do
-        expect(subject.status).to eq "awaiting_determination"
-      end
-
-      it "sets the timestamp for awaiting_determination to now" do
-        expect(subject.send("awaiting_determination_at")).to be_within(1.second).of(Time.current)
       end
     end
 

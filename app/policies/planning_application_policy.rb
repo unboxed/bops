@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
 class PlanningApplicationPolicy < ApplicationPolicy
-  self.editors = %w[assessor reviewer admin]
+  self.editors = %w[assessor reviewer]
 
   alias_method :confirm?, :editor?
   alias_method :validate_step?, :editor?
   alias_method :archive?, :editor?
   alias_method :confirm_new?, :editor?
   alias_method :edit_numbers?, :editor?
+  alias_method :assess?, :editor?
+  alias_method :determine?, :editor?
+  alias_method :request_correction?, :editor?
   alias_method :update_numbers?, :editor?
 
   def show?

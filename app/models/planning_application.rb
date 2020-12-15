@@ -54,7 +54,7 @@ class PlanningApplication < ApplicationRecord
     state :determined
 
     event :assess do
-      transitions from: :in_assessment, to: :awaiting_determination, guard: :drawings_ready_for_publication?
+      transitions from: [:in_assessment, :awaiting_correction], to: :awaiting_determination, guard: :drawings_ready_for_publication?
     end
 
     event :determine do
@@ -63,10 +63,6 @@ class PlanningApplication < ApplicationRecord
 
     event :request_correction do
       transitions from: :awaiting_determination, to: :awaiting_correction
-    end
-
-    event :provide_correction do
-      transitions from: :awaiting_correction, to: :awaiting_determination
     end
 
     after_all_transitions :timestamp_status_change
@@ -78,10 +74,6 @@ class PlanningApplication < ApplicationRecord
 
   def days_left
     (target_date - Date.current).to_i
-  end
-
-  def update_and_timestamp_status(status)
-    update(status: status, "#{status}_at": Time.current)
   end
 
   def reference
