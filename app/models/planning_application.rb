@@ -29,7 +29,7 @@ class PlanningApplication < ApplicationRecord
   validate :assessor_decision_associated_with_assessor
   validate :reviewer_decision_associated_with_reviewer
 
-  STATUSES = %w[in_assessment awaiting_determination awaiting_correction determined]
+  STATUSES = %w[not_started invalidated in_assessment awaiting_determination awaiting_correction determined returned withdrawn]
 
   validates :status, inclusion: STATUSES
 
@@ -48,13 +48,25 @@ class PlanningApplication < ApplicationRecord
   aasm.attribute_name :status
 
   aasm do
-    state :in_assessment, initial: true
+    state :not_started, initial: true
+    state :invalidated
+    state :in_assessment
     state :awaiting_determination
     state :awaiting_correction
     state :determined
+    state :returned
+    state :withdrawn
+
+    event :start do
+      transitions from: [:not_started, :invalidated], to: :in_assessment
+    end
 
     event :assess do
-      transitions from: [:in_assessment, :awaiting_correction], to: :awaiting_determination, guard: :drawings_ready_for_publication?
+      transitions from: [:in_assessment, :awaiting_correction], to: :awaiting_determination
+    end
+
+    event :invalidate do
+      transitions from: [:not_started, :in_assessment, :awaiting_determination, :awaiting_correction], to: :invalidated
     end
 
     event :determine do
@@ -63,6 +75,14 @@ class PlanningApplication < ApplicationRecord
 
     event :request_correction do
       transitions from: :awaiting_determination, to: :awaiting_correction
+    end
+
+    event :return do
+      transitions from: :invalidated, to: :returned
+    end
+
+    event :withdraw do
+      transitions from: [:not_started, :in_assessment, :invalidated, :awaiting_determination, :awaiting_correction, :returned], to: :withdrawn
     end
 
     after_all_transitions :timestamp_status_change

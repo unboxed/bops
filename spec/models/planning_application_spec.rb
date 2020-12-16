@@ -46,10 +46,46 @@ RSpec.describe PlanningApplication, type: :model do
              numbers: "number"
     end
 
-    context "assess the application" do
+    context "start the application" do
+      subject { create :planning_application, :not_started }
+
       before do
         # Set timestamp to differentiate from now
-        # Question from Rhian - we are doing this for test purposes, but maybe we should prevent this behaviour?
+        subject.update("in_assessment_at": 1.hour.ago)
+
+        subject.start
+      end
+
+      it "sets the status to in_assessment" do
+        expect(subject.status).to eq "in_assessment"
+      end
+
+      it "sets the timestamp for in_assessment_at to now" do
+        expect(subject.send("in_assessment_at")).to be_within(1.second).of(Time.current)
+      end
+    end
+
+    context "return the application from invalidated" do
+      subject { create :planning_application, :invalidated }
+
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("returned_at": 1.hour.ago)
+
+        subject.return
+      end
+
+      it "sets the status to returned" do
+        expect(subject.status).to eq "returned"
+      end
+
+      it "sets the timestamp for returned_at to now" do
+        expect(subject.send("returned_at")).to be_within(1.second).of(Time.current)
+      end
+    end
+
+    context "assess the application" do
+      before do
         subject.update("awaiting_determination_at": 1.hour.ago)
 
         subject.assess
@@ -61,6 +97,63 @@ RSpec.describe PlanningApplication, type: :model do
 
       it "sets the timestamp for awaiting_determination_at to now" do
         expect(subject.send("awaiting_determination_at")).to be_within(1.second).of(Time.current)
+      end
+    end
+
+    context "invalidate the application from not_started" do
+      subject { create :planning_application, :not_started }
+
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("invalidated_at": 1.hour.ago)
+
+        subject.invalidate
+      end
+
+      it "sets the status to invalidated" do
+        expect(subject.status).to eq "invalidated"
+      end
+
+      it "sets the timestamp for invalidated_at to now" do
+        expect(subject.send("invalidated_at")).to be_within(1.second).of(Time.current)
+      end
+    end
+
+    context "invalidate the application from in_assessment" do
+      subject { create :planning_application }
+
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("invalidated_at": 1.hour.ago)
+
+        subject.invalidate
+      end
+
+      it "sets the status to invalidated" do
+        expect(subject.status).to eq "invalidated"
+      end
+
+      it "sets the timestamp for invalidated_at to now" do
+        expect(subject.send("invalidated_at")).to be_within(1.second).of(Time.current)
+      end
+    end
+
+    context "invalidate the application from awaiting_determination" do
+      subject { create :planning_application, :awaiting_determination }
+
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("invalidated_at": 1.hour.ago)
+
+        subject.invalidate
+      end
+
+      it "sets the status to invalidated" do
+        expect(subject.status).to eq "invalidated"
+      end
+
+      it "sets the timestamp for invalidated_at to now" do
+        expect(subject.send("invalidated_at")).to be_within(1.second).of(Time.current)
       end
     end
 
@@ -99,6 +192,82 @@ RSpec.describe PlanningApplication, type: :model do
 
       it "sets the timestamp for determined_at to now" do
         expect(subject.send("determined_at")).to be_within(1.second).of(Time.current)
+      end
+    end
+
+    context "withdraw the application from not_started" do
+      subject { create :planning_application, :not_started }
+
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("withdrawn_at": 1.hour.ago)
+
+        subject.withdraw
+      end
+
+      it "sets the status to withdrawn" do
+        expect(subject.status).to eq "withdrawn"
+      end
+
+      it "sets the timestamp for withdrawn_at to now" do
+        expect(subject.send("withdrawn_at")).to be_within(1.second).of(Time.current)
+      end
+    end
+
+    context "withdraw the application from in_assessment" do
+      subject { create :planning_application }
+
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("withdrawn_at": 1.hour.ago)
+
+        subject.withdraw
+      end
+
+      it "sets the status to withdrawn" do
+        expect(subject.status).to eq "withdrawn"
+      end
+
+      it "sets the timestamp for withdrawn_at to now" do
+        expect(subject.send("withdrawn_at")).to be_within(1.second).of(Time.current)
+      end
+    end
+
+    context "withdraw the application from awaiting_determination" do
+      subject { create :planning_application, :awaiting_determination }
+
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("withdrawn_at": 1.hour.ago)
+
+        subject.withdraw
+      end
+
+      it "sets the status to withdrawn" do
+        expect(subject.status).to eq "withdrawn"
+      end
+
+      it "sets the timestamp for withdrawn_at to now" do
+        expect(subject.send("withdrawn_at")).to be_within(1.second).of(Time.current)
+      end
+    end
+
+    context "withdraw the application from awaiting_correction" do
+      subject { create :planning_application, :awaiting_correction }
+
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("withdrawn_at": 1.hour.ago)
+
+        subject.withdraw
+      end
+
+      it "sets the status to withdrawn" do
+        expect(subject.status).to eq "withdrawn"
+      end
+
+      it "sets the timestamp for withdrawn_at to now" do
+        expect(subject.send("withdrawn_at")).to be_within(1.second).of(Time.current)
       end
     end
   end

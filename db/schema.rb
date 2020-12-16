@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 2020_12_18_151758) do
   create_table "planning_applications", force: :cascade do |t|
     t.date "target_date", null: false
     t.integer "application_type", default: 0, null: false
-    t.string "status", default: "in_assessment", null: false
+    t.string "status", default: "not_started", null: false
     t.datetime "started_at"
     t.datetime "determined_at"
     t.text "description"
@@ -108,6 +108,9 @@ ActiveRecord::Schema.define(version: 2020_12_18_151758) do
     t.bigint "local_authority_id"
     t.jsonb "constraints"
     t.string "payment_reference"
+    t.datetime "invalidated_at"
+    t.datetime "withdrawn_at"
+    t.datetime "returned_at"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
     t.index ["site_id"], name: "index_planning_applications_on_site_id"
     t.index ["user_id"], name: "index_planning_applications_on_user_id"

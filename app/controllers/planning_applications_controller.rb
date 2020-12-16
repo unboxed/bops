@@ -29,6 +29,24 @@ class PlanningApplicationsController < AuthenticationController
   def update
   end
 
+  def start
+    @planning_application.start!
+
+    redirect_to @planning_application
+  end
+
+  def return
+    @planning_application.return!
+
+    redirect_to @planning_application
+  end
+
+  def invalidate
+    @planning_application.invalidate!
+
+    redirect_to @planning_application
+  end
+
   def assess
     @planning_application.assess!
 
@@ -46,6 +64,12 @@ class PlanningApplicationsController < AuthenticationController
 
   def request_correction
     @planning_application.request_correction!
+
+    redirect_to @planning_application
+  end
+
+  def withdraw
+    @planning_application.withdraw!
 
     redirect_to @planning_application
   end

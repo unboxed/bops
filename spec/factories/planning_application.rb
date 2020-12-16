@@ -36,6 +36,15 @@ FactoryBot.define do
     end
   end
 
+  trait :not_started do
+    status                    { :not_started }
+
+    after(:create) do |pa|
+      pa.target_date = Date.current + 7.weeks
+      pa.save!
+    end
+  end
+
   trait :awaiting_correction do
     status                    { :awaiting_correction }
     awaiting_determination_at { Time.current }
@@ -54,6 +63,11 @@ FactoryBot.define do
       pa.target_date = Date.current + 1.week
       pa.save!
     end
+  end
+
+  trait :invalidated do
+    status        { :invalidated }
+    determined_at { Time.current }
   end
 
   trait :with_policy_evaluation_requirements_unmet do
