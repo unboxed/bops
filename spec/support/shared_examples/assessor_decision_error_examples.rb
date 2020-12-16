@@ -2,6 +2,7 @@
 
 RSpec.shared_examples 'assessor decision error message' do
   scenario "shows the error message" do
+    click_link "In assessment"
     within("#in_assessment") do
       click_link planning_application.reference
     end

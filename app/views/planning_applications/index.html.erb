@@ -23,10 +23,11 @@
         Contents
       </h2>
       <%= render "planning_application_tabs" %>
-      <%= render "planning_application_table", planning_applications: @planning_applications.in_assessment, id: "in_assessment", title: "In assessment" unless exclude_others? && current_user.reviewer?  %>
+      <%= render "planning_application_table", planning_applications: @planning_applications.not_started_and_invalid, id: "not_started_and_invalid", title: "Not started" unless current_user.reviewer?  %>
+      <%= render "planning_application_table", planning_applications: @planning_applications.in_assessment, id: "in_assessment", title: "In assessment" unless current_user.reviewer?  %>
       <%= render "planning_application_table", planning_applications: @planning_applications.awaiting_determination, id: "awaiting_determination", title: "Awaiting manager's determination" %>
-      <%= render "planning_application_table", planning_applications: @planning_applications.awaiting_correction, id: "awaiting_correction", title: "Corrections requested" %>
-      <%= render "planning_application_table", planning_applications: @planning_applications.determined, id: "determined", title: "Determined" %>
+      <%= render "planning_application_table", planning_applications: @planning_applications.awaiting_correction, id: "awaiting_correction", title: "Corrections requested" unless current_user.assessor?%>
+      <%= render "planning_application_table", planning_applications: @planning_applications.closed, id: "closed", title: "Closed" %>
     </div>
   </div>
 </div>

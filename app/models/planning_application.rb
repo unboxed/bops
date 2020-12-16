@@ -45,6 +45,10 @@ class PlanningApplication < ApplicationRecord
     scope status_string.to_sym, -> { where(status: status_string) }
   end
 
+  scope :not_started_and_invalid, -> { where(status: "not_started" || "invalid") }
+  scope :under_assessment, -> { where(status: "in_assessment" || "awaiting_correction") }
+  scope :closed, -> { where(status: "determined" || "returned" || "withdrawn") }
+
   aasm.attribute_name :status
 
   aasm do

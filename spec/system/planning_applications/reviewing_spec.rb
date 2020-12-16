@@ -103,8 +103,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         end
 
         # Check that the application is now in determined
-        click_link "Determined"
-        within("#determined") do
+        click_link "Closed"
+        within("#closed") do
           expect(page).to have_link planning_application.reference
         end
 
@@ -165,8 +165,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         end
 
         # Check that the application is now in determined
-        click_link "Determined"
-        within("#determined") do
+        click_link "Closed"
+        within("#closed") do
           expect(page).not_to have_link planning_application.reference
         end
       end
@@ -282,8 +282,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         end
 
         # Check that the application is now in determined
-        click_link "Determined"
-        within("#determined") do
+        click_link "Closed"
+        within("#closed") do
           expect(page).to have_link planning_application.reference
         end
       end
@@ -333,8 +333,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         end
 
         # Check that the application is now in determined
-        click_link "Determined"
-        within("#determined") do
+        click_link "Closed"
+        within("#closed") do
           expect(page).not_to have_link planning_application.reference
         end
       end
@@ -411,8 +411,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         end
 
         # Check that the application is now in determined
-        click_link "Determined"
-        within("#determined") do
+        click_link "Closed"
+        within("#closed") do
           expect(page).to have_link planning_application.reference
         end
       end
@@ -462,8 +462,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         end
 
         # Check that the application is now in determined
-        click_link "Determined"
-        within("#determined") do
+        click_link "Closed"
+        within("#closed") do
           expect(page).not_to have_link planning_application.reference
         end
       end

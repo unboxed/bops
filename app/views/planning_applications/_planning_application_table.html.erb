@@ -12,7 +12,7 @@
         <th scope="col" class="govuk-table__header">Consultation status</th>
       <% elsif id == "awaiting_determination" %>
         <th scope="col" class="govuk-table__header">Recommendation date</th>
-      <% elsif id == "determined" %>
+      <% elsif id == "closed" %>
         <th scope="col" class="govuk-table__header">Determination date</th>
       <% end %>
       <th scope="col" class="govuk-table__header">Planning officer</th>
@@ -36,14 +36,14 @@
           <td class="govuk-table__cell">Not required</td>
         <% elsif id == "awaiting_determination" %>
           <td class="govuk-table__cell"><%= planning_application.awaiting_determination_at.strftime("%e %b") %></td>
-        <% elsif id == "determined" %>
+        <% elsif id == "closed" %>
           <td class="govuk-table__cell"><%= planning_application.determined_at.strftime("%e %b") %></td>
         <% end %>
         <td class="govuk-table__cell">
           <% if planning_application.user %>
             <%= planning_application.user.name %>
           <% else %>
-            <strong class="govuk-tag govuk-tag--purple">Not started</strong>
+            <strong class="govuk-tag govuk-tag--purple">Not assigned</strong>
           <% end %>
         </td>
     <% end %>

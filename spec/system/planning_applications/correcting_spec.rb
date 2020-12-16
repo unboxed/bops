@@ -59,7 +59,7 @@ RSpec.describe "Planning Application correction journey", type: :system do
         expect(page).to have_text("Your manager has requested corrections on 1 application")
         expect(page).to have_css(".corrections-banner")
 
-        click_link("Corrections requested (1)")
+        click_link("In assessment")
         click_link planning_application_corrected.reference
 
         # Verify the task list wording is correct
