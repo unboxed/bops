@@ -11,8 +11,8 @@ Rails.application.routes.draw do
 
   resources :planning_applications, only: %i[show index edit update] do
     member do
-      put :assess
-      put :determine
+      patch :assess
+      patch :determine
     end
     resources :decisions, only: %i[new create edit update show]
 

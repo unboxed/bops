@@ -168,7 +168,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     # Check that the application is no longer in assessment
     click_link "In assessment"
 
-    within("#in_assessment") do
+    within("#under_assessment") do
       expect(page).not_to have_link planning_application.reference
     end
 
@@ -259,7 +259,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   scenario "shows the public_comment error message" do
     click_link "In assessment"
-    within("#in_assessment") do
+    within("#under_assessment") do
       click_link planning_application.reference
     end
 

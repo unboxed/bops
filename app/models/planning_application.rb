@@ -29,7 +29,9 @@ class PlanningApplication < ApplicationRecord
   validate :assessor_decision_associated_with_assessor
   validate :reviewer_decision_associated_with_reviewer
 
-  STATUSES = %w[not_started invalidated in_assessment awaiting_determination awaiting_correction determined returned withdrawn]
+  STATUSES = %w[not_started invalidated in_assessment
+                awaiting_determination awaiting_correction
+                determined returned withdrawn]
 
   validates :status, inclusion: STATUSES
 
@@ -45,9 +47,9 @@ class PlanningApplication < ApplicationRecord
     scope status_string.to_sym, -> { where(status: status_string) }
   end
 
-  scope :not_started_and_invalid, -> { where(status: "not_started" || "invalid") }
-  scope :under_assessment, -> { where(status: "in_assessment" || "awaiting_correction") }
-  scope :closed, -> { where(status: "determined" || "returned" || "withdrawn") }
+  scope :not_started_and_invalid, -> { where("status = 'not_started' OR status = 'invalidated'") }
+  scope :under_assessment, -> { where("status = 'in_assessment' OR status = 'awaiting_correction'") }
+  scope :closed, -> { where("status = 'determined' OR status = 'withdrawn' OR status = 'returned'") }
 
   aasm.attribute_name :status
 
@@ -86,7 +88,8 @@ class PlanningApplication < ApplicationRecord
     end
 
     event :withdraw do
-      transitions from: [:not_started, :in_assessment, :invalidated, :awaiting_determination, :awaiting_correction, :returned], to: :withdrawn
+      transitions from: [:not_started, :in_assessment, :invalidated, :awaiting_determination, :awaiting_correction,
+                         :returned], to: :withdrawn
     end
 
     after_all_transitions :timestamp_status_change

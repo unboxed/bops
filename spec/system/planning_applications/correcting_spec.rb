@@ -98,7 +98,6 @@ RSpec.describe "Planning Application correction journey", type: :system do
         click_link "Home"
 
         expect(page).not_to have_text("Your manager has requested corrections")
-        expect(page).to have_text("Corrections requested (0)")
         expect(page).not_to have_css(".corrections-banner")
       end
     end
