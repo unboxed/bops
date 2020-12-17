@@ -60,6 +60,7 @@
 
       <div class="govuk-grid-column-one-quarter">
         <p style="text-align: right" class="govuk-body">
+          <%= link_to "Edit", edit_planning_application_drawing_path(@planning_application, drawing) %><br />
           <%= link_to "Archive document", planning_application_drawing_archive_path(drawing_id: drawing.id) if current_user.assessor? && @planning_application.in_assessment? %>
         </p>
       </div>

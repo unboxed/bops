@@ -6,12 +6,27 @@ class DrawingsController < AuthenticationController
 
   before_action :set_planning_application
   before_action :set_drawing, except: [ :index, :new, :edit_numbers,
-                                        :update_numbers, :confirm_new, :create ]
+                                        :update_numbers, :confirm_new, :create,
+                                        :edit, :update ]
   before_action :set_planning_application_dashboard_variables
   before_action :disable_flash_header, only: :index
 
   def index
     @drawings = policy_scope(@planning_application.drawings).order(:created_at)
+  end
+
+  def edit
+    @drawing = @planning_application.drawings.find(params[:id])
+  end
+
+  def update
+    @drawing = @planning_application.drawings.find(params[:id])
+    if @drawing.update(drawing_params)
+      flash[:notice] = "Document has been updated"
+      redirect_to action: :index
+    else
+      render :edit
+    end
   end
 
   def edit_numbers
@@ -140,7 +155,7 @@ class DrawingsController < AuthenticationController
   end
 
   def drawing_params
-    params.fetch(:drawing, {}).permit(:archive_reason, :name, :archived_at)
+    params.fetch(:drawing, {}).permit(:archive_reason, :name, :archived_at, :numbers, :plan, tags: [])
   end
 
   def drawing_upload_params
