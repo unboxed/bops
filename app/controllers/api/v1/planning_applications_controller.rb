@@ -78,7 +78,8 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
                       :applicant_first_name, :applicant_last_name,
                       :applicant_phone, :applicant_email,
                       :agent_first_name, :agent_last_name,
-                      :agent_phone, :agent_email, :questions, :plans]
+                      :agent_phone, :agent_email, :questions, :plans,
+                      :payment_reference]
     params.permit permitted_keys
   end
 

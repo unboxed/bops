@@ -35,6 +35,7 @@ RSpec.describe 'Planning Applications', swagger_doc: '/v1/swagger_doc.json', typ
                           }
                         },
                 description: { type: :string },
+                payment_reference: { type: :string },
                 ward: { type: :string },
                 user_id: { type: :integer },
                 questions: { type: :object,
@@ -68,7 +69,7 @@ RSpec.describe 'Planning Applications', swagger_doc: '/v1/swagger_doc.json', typ
 
         response '200', :valid_request do
           let(:planning_application) { { application_type: 1, status: 0, site: { uprn: "12343243" },
-                                         description: 'Add chimnney stack',
+                                         payment_reference: 'PAY1', description: 'Add chimnney stack',
                                          questions: JSON.parse(File.read(Rails.root.join("spec/fixtures/files/permitted_development.json"))) }}
           let(:api_user) { create(:api_user) }
           let(:Authorization) { "Bearer #{api_user.token}" }

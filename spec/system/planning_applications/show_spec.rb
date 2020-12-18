@@ -9,6 +9,7 @@ RSpec.feature "Planning Application show page", type: :system do
                                        application_type: "lawfulness_certificate", status: :in_assessment,
                                        ward: "Dulwich Wood", site: site,
                                        target_date: Date.current + 14.days, local_authority: local_authority,
+                                       payment_reference: 'PAY123',
                                        constraints:  '{"conservation_area": true, "article4_area": false, "scheduled_monument": false }'}
   let(:assessor) { create :user, :assessor, local_authority: local_authority }
   let(:reviewer) { create :user, :reviewer, local_authority: local_authority }
@@ -41,6 +42,7 @@ RSpec.feature "Planning Application show page", type: :system do
       expect(page).to have_text("Building type: Residential")
       expect(page).to have_text("Application type: Proposed permitted development: Certificate of Lawfulness")
       expect(page).to have_text("Summary: Roof extension")
+      expect(page).to have_text("PAY123")
       expect(page).to have_text("Case officer: Not started")
     end
 
