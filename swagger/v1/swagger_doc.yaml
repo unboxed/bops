@@ -125,3 +125,6 @@ paths:
                       tags:
                         type: string
                         example: front elevation - proposed
+              required:
+              - site
+              - application_type

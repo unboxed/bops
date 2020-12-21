@@ -73,9 +73,9 @@ RSpec.describe 'Planning Applications', swagger_doc: '/v1/swagger_doc.yaml', typ
                     }
                   }
                 }
-              }
-            },
-            required: %w[site application_type]
+              },
+              required: %w[site application_type]
+            }
 
         response '200', :valid_request do
           let(:planning_application) { { application_type: 1, status: 0, site: { uprn: "12343243" },
