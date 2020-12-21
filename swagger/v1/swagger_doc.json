@@ -106,11 +106,12 @@
                           "val": {
                             "type": "string"
                           },
-                          "options": [
-                            {
+                          "options": {
+                            "type": "array",
+                            "items": {
                               "type": "object"
                             }
-                          ]
+                          }
                         }
                       }
                     }
@@ -139,21 +140,26 @@
                   "applicant_email": {
                     "type": "string"
                   },
-                  "constraints": [
-                    {
+                  "constraints": {
+                    "type": "array",
+                    "items": {
                       "type": "object"
                     }
-                  ],
-                  "plans": [
-                    {
-                      "filename": {
-                        "type": "string"
-                      },
-                      "tags": {
-                        "type": "string"
+                  },
+                  "plans": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "filename": {
+                          "type": "string"
+                        },
+                        "tags": {
+                          "type": "string"
+                        }
                       }
                     }
-                  ]
+                  }
                 }
               }
             }

@@ -44,7 +44,10 @@ RSpec.describe 'Planning Applications', swagger_doc: '/v1/swagger_doc.json', typ
                                              id: { type: :string },
                                              text: { type: :string },
                                              val: { type: :string },
-                                             options: [{ type: :object }]
+                                             options: {
+                                               type: :array,
+                                               items: { type: :object }
+                                             }
                                          }
                                  }
                              }
@@ -57,12 +60,21 @@ RSpec.describe 'Planning Applications', swagger_doc: '/v1/swagger_doc.json', typ
                 applicant_last_name: { type: :string },
                 applicant_phone: { type: :string },
                 applicant_email: { type: :string },
-                constraints: [{ type: :object }],
-                plans: [{
-                            filename: { type: :string },
-                            tags: { type: :string },
-                        }],
+                constraints: {
+                  type: :array,
+                  items: { type: :object }
+                },
+                plans: {
+                  type: :array,
+                  items: {
+                    type: :object,
+                    properties: {
+                      filename: { type: :string },
+                      tags: { type: :string }
+                    }
+                  }
                 }
+              }
             },
             required: %w[site application_type]
 
