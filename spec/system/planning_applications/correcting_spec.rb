@@ -104,7 +104,7 @@ RSpec.describe "Planning Application correction journey", type: :system do
 
     context "Reviewer first stage" do
       before do
-        planning_application_corrected.awaiting_determination!
+        planning_application_corrected.assess!
       end
 
       scenario "Reviewer can leave comment for assessor" do
@@ -156,7 +156,7 @@ RSpec.describe "Planning Application correction journey", type: :system do
     context "Reviewer second stage" do
       before do
         planning_application_corrected.reload
-        planning_application_corrected.awaiting_determination!
+        planning_application_corrected.assess!
         planning_application_corrected.assessor_decision.update!(public_comment: "application should be granted ")
         planning_application_corrected.reviewer_decision.update!(private_comment: "please amend this information")
       end

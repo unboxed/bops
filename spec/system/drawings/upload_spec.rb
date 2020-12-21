@@ -135,7 +135,7 @@ RSpec.describe "Document uploads", type: :system do
     end
 
     context "when the planning application has been submitted for review" do
-      before { planning_application.awaiting_determination! }
+      before { planning_application.assess! }
 
       scenario "the upload \"button\" is disabled" do
         visit planning_application_drawings_path(planning_application)

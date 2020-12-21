@@ -183,10 +183,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
   scenario "Assessor is assigned to planning application" do
     table_rows = all(".govuk-table__row").map(&:text)
 
-    table_rows.each do |row|
-      expect(row).to include("Not assigned") if row.include? planning_application.reference
-    end
-
     click_link "In assessment"
     click_link planning_application.reference
 
@@ -197,7 +193,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
     # Ensure officer name is not displayed on page when accordion is opened
     within(".govuk-grid-column-two-thirds.application") do
       first('.govuk-accordion').click_button('Open all')
-      expect(page).to have_text("Not assigned")
     end
 
     click_link "Assess the proposal"

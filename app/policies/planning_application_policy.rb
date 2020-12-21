@@ -25,14 +25,6 @@ class PlanningApplicationPolicy < ApplicationPolicy
     (super || signed_in_editor?) && record.local_authority_id == user.local_authority_id
   end
 
-  def update?
-    (super || signed_in_editor?) && record.local_authority_id == user.local_authority_id
-  end
-
-  def unpermitted_statuses
-    PlanningApplication::STATUSES - permitted_statuses
-  end
-
   def permitted_statuses
     if @user.assessor?
       [ "awaiting_determination" ]

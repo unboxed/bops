@@ -52,16 +52,18 @@ RSpec.describe PlanningApplication, type: :model do
       before do
         # Set timestamp to differentiate from now
         subject.update("in_assessment_at": 1.hour.ago)
-
-        subject.start
       end
 
       it "sets the status to in_assessment" do
+        subject.start
         expect(subject.status).to eq "in_assessment"
       end
 
       it "sets the timestamp for in_assessment_at to now" do
-        expect(subject.send("in_assessment_at")).to be_within(1.second).of(Time.current)
+        freeze_time do
+          subject.start
+          expect(subject.send("in_assessment_at")).to eql(Time.current)
+        end
       end
     end
 
@@ -71,32 +73,36 @@ RSpec.describe PlanningApplication, type: :model do
       before do
         # Set timestamp to differentiate from now
         subject.update("returned_at": 1.hour.ago)
-
-        subject.return
       end
 
       it "sets the status to returned" do
+        subject.return
         expect(subject.status).to eq "returned"
       end
 
       it "sets the timestamp for returned_at to now" do
-        expect(subject.send("returned_at")).to be_within(1.second).of(Time.current)
+        freeze_time do
+          subject.return
+          expect(subject.send("returned_at")).to eql(Time.current)
+        end
       end
     end
 
     context "assess the application" do
       before do
         subject.update("awaiting_determination_at": 1.hour.ago)
-
-        subject.assess
       end
 
       it "sets the status to awaiting_determination" do
+        subject.assess
         expect(subject.status).to eq "awaiting_determination"
       end
 
       it "sets the timestamp for awaiting_determination_at to now" do
-        expect(subject.send("awaiting_determination_at")).to be_within(1.second).of(Time.current)
+        freeze_time do
+          subject.assess
+          expect(subject.send("awaiting_determination_at")).to eql(Time.current)
+        end
       end
     end
 
@@ -106,16 +112,18 @@ RSpec.describe PlanningApplication, type: :model do
       before do
         # Set timestamp to differentiate from now
         subject.update("invalidated_at": 1.hour.ago)
-
-        subject.invalidate
       end
 
       it "sets the status to invalidated" do
+        subject.invalidate
         expect(subject.status).to eq "invalidated"
       end
 
       it "sets the timestamp for invalidated_at to now" do
-        expect(subject.send("invalidated_at")).to be_within(1.second).of(Time.current)
+        freeze_time do
+          subject.invalidate
+          expect(subject.send("invalidated_at")).to eql(Time.current)
+        end
       end
     end
 
@@ -125,16 +133,18 @@ RSpec.describe PlanningApplication, type: :model do
       before do
         # Set timestamp to differentiate from now
         subject.update("invalidated_at": 1.hour.ago)
-
-        subject.invalidate
       end
 
       it "sets the status to invalidated" do
+        subject.invalidate
         expect(subject.status).to eq "invalidated"
       end
 
       it "sets the timestamp for invalidated_at to now" do
-        expect(subject.send("invalidated_at")).to be_within(1.second).of(Time.current)
+        freeze_time do
+          subject.invalidate
+          expect(subject.send("invalidated_at")).to eql(Time.current)
+        end
       end
     end
 
@@ -144,16 +154,18 @@ RSpec.describe PlanningApplication, type: :model do
       before do
         # Set timestamp to differentiate from now
         subject.update("invalidated_at": 1.hour.ago)
-
-        subject.invalidate
       end
 
       it "sets the status to invalidated" do
+        subject.invalidate
         expect(subject.status).to eq "invalidated"
       end
 
       it "sets the timestamp for invalidated_at to now" do
-        expect(subject.send("invalidated_at")).to be_within(1.second).of(Time.current)
+        freeze_time do
+          subject.invalidate
+          expect(subject.send("invalidated_at")).to eql(Time.current)
+        end
       end
     end
 
@@ -163,16 +175,18 @@ RSpec.describe PlanningApplication, type: :model do
       before do
         # Set timestamp to differentiate from now
         subject.update("awaiting_correction_at": 1.hour.ago)
-
-        subject.request_correction
       end
 
       it "sets the status to awaiting_correction" do
+        subject.request_correction
         expect(subject.status).to eq "awaiting_correction"
       end
 
       it "sets the timestamp for awaiting_correction to now" do
-        expect(subject.send("awaiting_correction_at")).to be_within(1.second).of(Time.current)
+        freeze_time do
+          subject.request_correction
+          expect(subject.send("awaiting_correction_at")).to eql(Time.current)
+        end
       end
     end
 
@@ -182,16 +196,18 @@ RSpec.describe PlanningApplication, type: :model do
       before do
         # Set timestamp to differentiate from now
         subject.update("determined_at": 1.hour.ago)
-
-        subject.determine
       end
 
       it "sets the status to determined" do
+        subject.determine
         expect(subject.status).to eq "determined"
       end
 
       it "sets the timestamp for determined_at to now" do
-        expect(subject.send("determined_at")).to be_within(1.second).of(Time.current)
+        freeze_time do
+          subject.determine
+          expect(subject.send("determined_at")).to eql(Time.current)
+        end
       end
     end
 
@@ -201,16 +217,18 @@ RSpec.describe PlanningApplication, type: :model do
       before do
         # Set timestamp to differentiate from now
         subject.update("withdrawn_at": 1.hour.ago)
-
-        subject.withdraw
       end
 
       it "sets the status to withdrawn" do
+        subject.withdraw
         expect(subject.status).to eq "withdrawn"
       end
 
       it "sets the timestamp for withdrawn_at to now" do
-        expect(subject.send("withdrawn_at")).to be_within(1.second).of(Time.current)
+        freeze_time do
+          subject.withdraw
+          expect(subject.send("withdrawn_at")).to eql(Time.current)
+        end
       end
     end
 
@@ -220,16 +238,18 @@ RSpec.describe PlanningApplication, type: :model do
       before do
         # Set timestamp to differentiate from now
         subject.update("withdrawn_at": 1.hour.ago)
-
-        subject.withdraw
       end
 
       it "sets the status to withdrawn" do
+        subject.withdraw
         expect(subject.status).to eq "withdrawn"
       end
 
       it "sets the timestamp for withdrawn_at to now" do
-        expect(subject.send("withdrawn_at")).to be_within(1.second).of(Time.current)
+        freeze_time do
+          subject.withdraw
+          expect(subject.send("withdrawn_at")).to eql(Time.current)
+        end
       end
     end
 
@@ -239,16 +259,18 @@ RSpec.describe PlanningApplication, type: :model do
       before do
         # Set timestamp to differentiate from now
         subject.update("withdrawn_at": 1.hour.ago)
-
-        subject.withdraw
       end
 
       it "sets the status to withdrawn" do
+        subject.withdraw
         expect(subject.status).to eq "withdrawn"
       end
 
       it "sets the timestamp for withdrawn_at to now" do
-        expect(subject.send("withdrawn_at")).to be_within(1.second).of(Time.current)
+        freeze_time do
+          subject.withdraw
+          expect(subject.send("withdrawn_at")).to eql(Time.current)
+        end
       end
     end
 
@@ -258,16 +280,18 @@ RSpec.describe PlanningApplication, type: :model do
       before do
         # Set timestamp to differentiate from now
         subject.update("withdrawn_at": 1.hour.ago)
-
-        subject.withdraw
       end
 
       it "sets the status to withdrawn" do
+        subject.withdraw
         expect(subject.status).to eq "withdrawn"
       end
 
       it "sets the timestamp for withdrawn_at to now" do
-        expect(subject.send("withdrawn_at")).to be_within(1.second).of(Time.current)
+        freeze_time do
+          subject.withdraw
+          expect(subject.send("withdrawn_at")).to eql(Time.current)
+        end
       end
     end
   end

@@ -3,9 +3,9 @@
 class PlanningApplicationsController < AuthenticationController
   include PlanningApplicationDashboardVariables
 
-  before_action :set_planning_application, only: [ :show, :edit, :update, :assess, :determine, :request_correction ]
+  before_action :set_planning_application, only: [ :show, :edit, :assess, :determine, :request_correction ]
   before_action :set_planning_application_dashboard_variables,
-                only: [ :show, :edit, :update, :assess, :determine, :request_correction ]
+                only: [ :show, :edit, :assess, :determine, :request_correction ]
 
   rescue_from Notifications::Client::NotFoundError,
     with: :decision_notice_mail_error
@@ -24,9 +24,6 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def edit
-  end
-
-  def update
   end
 
   def start

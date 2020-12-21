@@ -35,18 +35,6 @@ class PlanningApplication < ApplicationRecord
 
   validates :status, inclusion: STATUSES
 
-  STATUSES.each do |status_string|
-    define_method "#{status_string}?" do
-      status == status_string
-    end
-
-    define_method "#{status_string}!" do
-      update(status: status_string)
-    end
-
-    scope status_string.to_sym, -> { where(status: status_string) }
-  end
-
   scope :not_started_and_invalid, -> { where("status = 'not_started' OR status = 'invalidated'") }
   scope :under_assessment, -> { where("status = 'in_assessment' OR status = 'awaiting_correction'") }
   scope :closed, -> { where("status = 'determined' OR status = 'withdrawn' OR status = 'returned'") }
