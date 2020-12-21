@@ -67,8 +67,6 @@ paths:
                 ward:
                   type: string
                   example: Dulwich Wood
-                user_id:
-                  type: integer
                 questions:
                   type: object
                   properties:

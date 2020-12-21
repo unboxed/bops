@@ -36,7 +36,6 @@ RSpec.describe 'Planning Applications', swagger_doc: '/v1/swagger_doc.yaml', typ
                 description: { type: :string, example: 'Add chimnney stack' },
                 payment_reference: { type: :string, example: 'PAY1' },
                 ward: { type: :string, example: 'Dulwich Wood' },
-                user_id: { type: :integer },
                 questions: { type: :object,
                              properties: {
                                  flow: { type: :object,
