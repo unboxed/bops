@@ -9,7 +9,11 @@ Rails.application.routes.draw do
   mount Rswag::Api::Engine => "/api-docs"
   mount Rswag::Ui::Engine => "api-docs"
 
-  resources :planning_applications, only: %i[show index edit update] do
+  resources :planning_applications, only: %i[show index edit] do
+    member do
+      patch :assess
+      patch :determine
+    end
     resources :decisions, only: %i[new create edit update show]
 
     resources :drawings, only: %i[index new create edit update] do

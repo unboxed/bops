@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
-class PlanningApplication < ApplicationRecord
-  enum application_type: { lawfulness_certificate: 0, full: 1 }
+require "aasm"
 
-  enum status: { in_assessment: 0, awaiting_determination: 1,
-                 awaiting_correction: 2, determined: 3 }
+class PlanningApplication < ApplicationRecord
+  include AASM
+
+  enum application_type: { lawfulness_certificate: 0, full: 1 }
 
   has_one :policy_evaluation, dependent: :destroy
   has_many :decisions, dependent: :destroy
@@ -28,12 +29,66 @@ class PlanningApplication < ApplicationRecord
   validate :assessor_decision_associated_with_assessor
   validate :reviewer_decision_associated_with_reviewer
 
-  def days_left
-    (target_date - Date.current).to_i
+  STATUSES = %w[not_started invalidated in_assessment
+                awaiting_determination awaiting_correction
+                determined returned withdrawn]
+
+  validates :status, inclusion: STATUSES
+
+  scope :not_started_and_invalid, -> { where("status = 'not_started' OR status = 'invalidated'") }
+  scope :under_assessment, -> { where("status = 'in_assessment' OR status = 'awaiting_correction'") }
+  scope :closed, -> { where("status = 'determined' OR status = 'withdrawn' OR status = 'returned'") }
+
+  aasm.attribute_name :status
+
+  aasm do
+    state :not_started, initial: true
+    state :invalidated
+    state :in_assessment
+    state :awaiting_determination
+    state :awaiting_correction
+    state :determined
+    state :returned
+    state :withdrawn
+
+    event :start do
+      transitions from: [:not_started, :invalidated], to: :in_assessment
+    end
+
+    event :assess do
+      transitions from: [:in_assessment, :awaiting_correction], to: :awaiting_determination
+    end
+
+    event :invalidate do
+      transitions from: [:not_started, :in_assessment, :awaiting_determination, :awaiting_correction], to: :invalidated
+    end
+
+    event :determine do
+      transitions from: :awaiting_determination, to: :determined
+    end
+
+    event :request_correction do
+      transitions from: :awaiting_determination, to: :awaiting_correction
+    end
+
+    event :return do
+      transitions from: :invalidated, to: :returned
+    end
+
+    event :withdraw do
+      transitions from: [:not_started, :in_assessment, :invalidated, :awaiting_determination, :awaiting_correction,
+                         :returned], to: :withdrawn
+    end
+
+    after_all_transitions :timestamp_status_change
   end
 
-  def update_and_timestamp_status(status)
-    update(status: status, "#{status}_at": Time.current)
+  def timestamp_status_change
+    update("#{aasm.to_state}_at": Time.current)
+  end
+
+  def days_left
+    (target_date - Date.current).to_i
   end
 
   def reference

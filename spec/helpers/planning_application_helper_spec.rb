@@ -66,22 +66,26 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
       end
 
       context "awaiting determination" do
-        before { subject.awaiting_determination! }
+        before { subject.assess }
         it "returns to show decision" do
           expect(assessor_decision_path(subject)).to eq(planning_application_decision_path(subject, subject.assessor_decision))
         end
       end
 
       context "awaiting correction" do
-        before { subject.awaiting_correction! }
+        before { subject.assess!
+                 subject.reload }
         it "returns to edit decision" do
+          subject.request_correction!
           expect(assessor_decision_path(subject)).to eq(edit_planning_application_decision_path(subject, subject.assessor_decision))
         end
       end
 
       context "determined" do
-        before { subject.determined! }
+        before { subject.assess!
+                 subject.reload }
         it "returns to show decision" do
+          subject.determine!
           expect(assessor_decision_path(subject)).to eq(planning_application_decision_path(subject, subject.assessor_decision))
         end
       end
@@ -113,14 +117,14 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
       end
 
       context "awaiting correction" do
-        before { subject.awaiting_correction! }
+        before { subject.request_correction }
         it "returns to edit decision" do
           expect(reviewer_decision_path(subject)).to eq(planning_application_decision_path(subject, subject.reviewer_decision))
         end
       end
 
       context "determined" do
-        before { subject.determined! }
+        before { subject.determine }
         it "returns to show decision" do
           expect(reviewer_decision_path(subject)).to eq(planning_application_decision_path(subject, subject.reviewer_decision))
         end

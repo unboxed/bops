@@ -18,8 +18,7 @@
         </strong>
        If your manager disagrees with your recommendation they will send it back to you to make changes.
       </p>
-      <%= form_with model: @planning_application, local: true do |form| %>
-        <%= form.hidden_field :status, value: :awaiting_determination %>
+      <%= form_with model: @planning_application, url: assess_planning_application_path(@planning_application), local: true do |form| %>
         <%= form.submit "Submit to manager", class: "govuk-button", data: { module: "govuk-button" } %>
       <% end %>
     <% else %>
@@ -35,8 +34,7 @@
     <% if @planning_application.awaiting_determination? %>
       <p class="govuk-body">By determining the application, the applicant will receive this decision notice. The decision notice will also be available publicly. </p>
       
-      <%= form_with model: @planning_application, local: true do |form| %>
-        <%= form.hidden_field :status, value: :determined %>
+      <%= form_with model: @planning_application, url: determine_planning_application_path(@planning_application), local: true do |form| %>
         <%= form.submit "Determine application", class: "govuk-button", data: { module: "govuk-button" } %>
       <% end %>
     <% else %>

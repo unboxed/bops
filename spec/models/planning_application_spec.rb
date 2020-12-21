@@ -39,30 +39,258 @@ RSpec.describe PlanningApplication, type: :model do
     end
   end
 
-  describe "statuses" do
-    it "has a list of statuses" do
-      expect(described_class.statuses).to eq(
-        "in_assessment" => 0, "awaiting_determination" => 1, "awaiting_correction" => 2, "determined" => 3
-      )
+  describe "state transitions" do
+    let!(:proposed_drawing_1) do
+      create :drawing, :with_plan, :proposed_tags,
+             planning_application: subject,
+             numbers: "number"
     end
-  end
 
-  describe "update_and_timestamp_status" do
-    described_class.statuses.keys.each do |status|
-      context "for the #{status} status" do
-        before do
-          # Set timestamp to differentiate from now
-          subject.update("#{status}_at": 1.hour.ago)
+    context "start the application" do
+      subject { create :planning_application, :not_started }
 
-          subject.update_and_timestamp_status(status)
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("in_assessment_at": 1.hour.ago)
+      end
+
+      it "sets the status to in_assessment" do
+        subject.start
+        expect(subject.status).to eq "in_assessment"
+      end
+
+      it "sets the timestamp for in_assessment_at to now" do
+        freeze_time do
+          subject.start
+          expect(subject.send("in_assessment_at")).to eql(Time.current)
         end
+      end
+    end
 
-        it "sets the status to #{status}" do
-          expect(subject.status).to eq status
+    context "return the application from invalidated" do
+      subject { create :planning_application, :invalidated }
+
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("returned_at": 1.hour.ago)
+      end
+
+      it "sets the status to returned" do
+        subject.return
+        expect(subject.status).to eq "returned"
+      end
+
+      it "sets the timestamp for returned_at to now" do
+        freeze_time do
+          subject.return
+          expect(subject.send("returned_at")).to eql(Time.current)
         end
+      end
+    end
 
-        it "sets the timestamp for #{status}_at to now" do
-          expect(subject.send("#{status}_at")).to be_within(1.second).of(Time.current)
+    context "assess the application" do
+      before do
+        subject.update("awaiting_determination_at": 1.hour.ago)
+      end
+
+      it "sets the status to awaiting_determination" do
+        subject.assess
+        expect(subject.status).to eq "awaiting_determination"
+      end
+
+      it "sets the timestamp for awaiting_determination_at to now" do
+        freeze_time do
+          subject.assess
+          expect(subject.send("awaiting_determination_at")).to eql(Time.current)
+        end
+      end
+    end
+
+    context "invalidate the application from not_started" do
+      subject { create :planning_application, :not_started }
+
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("invalidated_at": 1.hour.ago)
+      end
+
+      it "sets the status to invalidated" do
+        subject.invalidate
+        expect(subject.status).to eq "invalidated"
+      end
+
+      it "sets the timestamp for invalidated_at to now" do
+        freeze_time do
+          subject.invalidate
+          expect(subject.send("invalidated_at")).to eql(Time.current)
+        end
+      end
+    end
+
+    context "invalidate the application from in_assessment" do
+      subject { create :planning_application }
+
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("invalidated_at": 1.hour.ago)
+      end
+
+      it "sets the status to invalidated" do
+        subject.invalidate
+        expect(subject.status).to eq "invalidated"
+      end
+
+      it "sets the timestamp for invalidated_at to now" do
+        freeze_time do
+          subject.invalidate
+          expect(subject.send("invalidated_at")).to eql(Time.current)
+        end
+      end
+    end
+
+    context "invalidate the application from awaiting_determination" do
+      subject { create :planning_application, :awaiting_determination }
+
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("invalidated_at": 1.hour.ago)
+      end
+
+      it "sets the status to invalidated" do
+        subject.invalidate
+        expect(subject.status).to eq "invalidated"
+      end
+
+      it "sets the timestamp for invalidated_at to now" do
+        freeze_time do
+          subject.invalidate
+          expect(subject.send("invalidated_at")).to eql(Time.current)
+        end
+      end
+    end
+
+    context "sets application to awaiting_correction when request_correction is called" do
+      subject { create :planning_application, :awaiting_determination }
+
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("awaiting_correction_at": 1.hour.ago)
+      end
+
+      it "sets the status to awaiting_correction" do
+        subject.request_correction
+        expect(subject.status).to eq "awaiting_correction"
+      end
+
+      it "sets the timestamp for awaiting_correction to now" do
+        freeze_time do
+          subject.request_correction
+          expect(subject.send("awaiting_correction_at")).to eql(Time.current)
+        end
+      end
+    end
+
+    context "determine the application" do
+      subject { create :planning_application, :awaiting_determination }
+
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("determined_at": 1.hour.ago)
+      end
+
+      it "sets the status to determined" do
+        subject.determine
+        expect(subject.status).to eq "determined"
+      end
+
+      it "sets the timestamp for determined_at to now" do
+        freeze_time do
+          subject.determine
+          expect(subject.send("determined_at")).to eql(Time.current)
+        end
+      end
+    end
+
+    context "withdraw the application from not_started" do
+      subject { create :planning_application, :not_started }
+
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("withdrawn_at": 1.hour.ago)
+      end
+
+      it "sets the status to withdrawn" do
+        subject.withdraw
+        expect(subject.status).to eq "withdrawn"
+      end
+
+      it "sets the timestamp for withdrawn_at to now" do
+        freeze_time do
+          subject.withdraw
+          expect(subject.send("withdrawn_at")).to eql(Time.current)
+        end
+      end
+    end
+
+    context "withdraw the application from in_assessment" do
+      subject { create :planning_application }
+
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("withdrawn_at": 1.hour.ago)
+      end
+
+      it "sets the status to withdrawn" do
+        subject.withdraw
+        expect(subject.status).to eq "withdrawn"
+      end
+
+      it "sets the timestamp for withdrawn_at to now" do
+        freeze_time do
+          subject.withdraw
+          expect(subject.send("withdrawn_at")).to eql(Time.current)
+        end
+      end
+    end
+
+    context "withdraw the application from awaiting_determination" do
+      subject { create :planning_application, :awaiting_determination }
+
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("withdrawn_at": 1.hour.ago)
+      end
+
+      it "sets the status to withdrawn" do
+        subject.withdraw
+        expect(subject.status).to eq "withdrawn"
+      end
+
+      it "sets the timestamp for withdrawn_at to now" do
+        freeze_time do
+          subject.withdraw
+          expect(subject.send("withdrawn_at")).to eql(Time.current)
+        end
+      end
+    end
+
+    context "withdraw the application from awaiting_correction" do
+      subject { create :planning_application, :awaiting_correction }
+
+      before do
+        # Set timestamp to differentiate from now
+        subject.update("withdrawn_at": 1.hour.ago)
+      end
+
+      it "sets the status to withdrawn" do
+        subject.withdraw
+        expect(subject.status).to eq "withdrawn"
+      end
+
+      it "sets the timestamp for withdrawn_at to now" do
+        freeze_time do
+          subject.withdraw
+          expect(subject.send("withdrawn_at")).to eql(Time.current)
         end
       end
     end

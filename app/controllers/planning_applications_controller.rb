@@ -3,9 +3,9 @@
 class PlanningApplicationsController < AuthenticationController
   include PlanningApplicationDashboardVariables
 
-  before_action :set_planning_application, only: [ :show, :edit, :update ]
+  before_action :set_planning_application, only: [ :show, :edit, :assess, :determine, :request_correction ]
   before_action :set_planning_application_dashboard_variables,
-                only: [ :show, :edit, :update ]
+                only: [ :show, :edit, :assess, :determine, :request_correction ]
 
   rescue_from Notifications::Client::NotFoundError,
     with: :decision_notice_mail_error
@@ -26,24 +26,50 @@ class PlanningApplicationsController < AuthenticationController
   def edit
   end
 
-  # rubocop:disable Metrics/MethodLength
-  def update
-    status = authorize_user_can_update_status(
-      planning_application_params[:status]
-    )
+  def start
+    @planning_application.start!
 
-    if @planning_application.update_and_timestamp_status(status)
-      if status == "determined"
-        decision_notice_mail
-        flash[:notice] = "Decision Notice sent to applicant"
-      end
-
-      redirect_to @planning_application
-    else
-      render :edit
-    end
+    redirect_to @planning_application
   end
-  # rubocop:enable Metrics/MethodLength
+
+  def return
+    @planning_application.return!
+
+    redirect_to @planning_application
+  end
+
+  def invalidate
+    @planning_application.invalidate!
+
+    redirect_to @planning_application
+  end
+
+  def assess
+    @planning_application.assess!
+
+    redirect_to @planning_application
+  end
+
+  def determine
+    @planning_application.determine!
+
+    decision_notice_mail
+    flash[:notice] = "Decision Notice sent to applicant"
+
+    redirect_to @planning_application
+  end
+
+  def request_correction
+    @planning_application.request_correction!
+
+    redirect_to @planning_application
+  end
+
+  def withdraw
+    @planning_application.withdraw!
+
+    redirect_to @planning_application
+  end
 
   private
 

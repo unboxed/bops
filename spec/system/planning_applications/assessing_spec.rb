@@ -49,6 +49,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   scenario "Assessment completing and editing" do
+    click_link "In assessment"
     click_link planning_application.reference
 
     expect(page).to have_content("Make recommendation")
@@ -167,7 +168,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     # Check that the application is no longer in assessment
     click_link "In assessment"
 
-    within("#in_assessment") do
+    within("#under_assessment") do
       expect(page).not_to have_link planning_application.reference
     end
 
@@ -182,10 +183,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   scenario "Assessor is assigned to planning application" do
     table_rows = all(".govuk-table__row").map(&:text)
 
-    table_rows.each do |row|
-      expect(row).to include("Not started") if row.include? planning_application.reference
-    end
-
+    click_link "In assessment"
     click_link planning_application.reference
 
     expect(page).to have_content("Make recommendation")
@@ -195,7 +193,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
     # Ensure officer name is not displayed on page when accordion is opened
     within(".govuk-grid-column-two-thirds.application") do
       first('.govuk-accordion').click_button('Open all')
-      expect(page).to have_text("Not started")
     end
 
     click_link "Assess the proposal"
@@ -225,6 +222,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     let!(:new_drawing_to_number) { create :drawing, :with_plan, :proposed_tags, planning_application: planning_application }
 
     scenario "numbering needs to completed before submission" do
+      click_link "In assessment"
       click_link planning_application.reference
 
       expect(page).not_to have_link "Submit the recommendation"
@@ -255,7 +253,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   scenario "shows the public_comment error message" do
-    within("#in_assessment") do
+    click_link "In assessment"
+    within("#under_assessment") do
       click_link planning_application.reference
     end
 

@@ -104,6 +104,7 @@ RSpec.describe Api::V1::PlanningApplicationsController, type: :request, show_exc
         post "/api/v1/planning_applications", params: minimal_development_json,
              headers: { "CONTENT-TYPE": "application/json" }
         expect(response.status).to eq(401)
+        expect(response.body).to eq('{"error":"HTTP Token: Access denied."}')
       end
     end
 

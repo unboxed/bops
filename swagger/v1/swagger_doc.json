@@ -62,9 +62,6 @@
                   "application_type": {
                     "type": "integer"
                   },
-                  "status": {
-                    "type": "integer"
-                  },
                   "site": {
                     "type": "object",
                     "properties": {

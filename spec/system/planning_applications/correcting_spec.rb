@@ -59,7 +59,7 @@ RSpec.describe "Planning Application correction journey", type: :system do
         expect(page).to have_text("Your manager has requested corrections on 1 application")
         expect(page).to have_css(".corrections-banner")
 
-        click_link("Corrections requested (1)")
+        click_link("In assessment")
         click_link planning_application_corrected.reference
 
         # Verify the task list wording is correct
@@ -98,14 +98,13 @@ RSpec.describe "Planning Application correction journey", type: :system do
         click_link "Home"
 
         expect(page).not_to have_text("Your manager has requested corrections")
-        expect(page).to have_text("Corrections requested (0)")
         expect(page).not_to have_css(".corrections-banner")
       end
     end
 
     context "Reviewer first stage" do
       before do
-        planning_application_corrected.awaiting_determination!
+        planning_application_corrected.assess!
       end
 
       scenario "Reviewer can leave comment for assessor" do
@@ -157,7 +156,7 @@ RSpec.describe "Planning Application correction journey", type: :system do
     context "Reviewer second stage" do
       before do
         planning_application_corrected.reload
-        planning_application_corrected.awaiting_determination!
+        planning_application_corrected.assess!
         planning_application_corrected.assessor_decision.update!(public_comment: "application should be granted ")
         planning_application_corrected.reviewer_decision.update!(private_comment: "please amend this information")
       end

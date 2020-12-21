@@ -24,7 +24,6 @@ RSpec.describe 'Planning Applications', swagger_doc: '/v1/swagger_doc.json', typ
             type: :object,
             properties: {
                 application_type: { type: :integer },
-                status: { type: :integer },
                 site: { type: :object,
                         properties: {
                             uprn: { type: :string },
@@ -65,7 +64,7 @@ RSpec.describe 'Planning Applications', swagger_doc: '/v1/swagger_doc.json', typ
                         }],
                 }
             },
-            required: %w[site application_type status]
+            required: %w[site application_type]
 
         response '200', :valid_request do
           let(:planning_application) { { application_type: 1, status: 0, site: { uprn: "12343243" },

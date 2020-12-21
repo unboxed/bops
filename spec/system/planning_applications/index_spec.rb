@@ -23,12 +23,12 @@ RSpec.feature "Planning Application index page", type: :system do
         within(:planning_applications_status_tab) do
           expect(page).to have_link "In assessment"
           expect(page).to have_link "Awaiting manager's determination"
-          expect(page).to have_link "Determined"
+          expect(page).to have_link "Closed"
         end
       end
 
       scenario "Only Planning Applications that are in_assessment are present in this tab" do
-        within("#in_assessment") do
+        within("#under_assessment") do
           expect(page).to have_text("In assessment")
           expect(page).to have_link(planning_application_1.reference)
           expect(page).to have_link(planning_application_2.reference)
@@ -50,10 +50,10 @@ RSpec.feature "Planning Application index page", type: :system do
       end
 
       scenario "Only Planning Applications that are determined are present in this tab" do
-        click_link "Determined"
+        click_link "Closed"
 
-        within("#determined") do
-          expect(page).to have_text("Determined")
+        within("#closed") do
+          expect(page).to have_text("Closed")
           expect(page).to have_link(planning_application_completed.reference)
           expect(page).not_to have_link(planning_application_1.reference)
           expect(page).not_to have_link(planning_application_2.reference)
@@ -78,7 +78,7 @@ RSpec.feature "Planning Application index page", type: :system do
       let!(:other_assessor_planning_application) { create :planning_application, user_id: second_assessor.id, local_authority: local_authority }
 
       scenario "On login, assessor gets redirected to a view with its own and unassigned Planning Applications" do
-        within("#in_assessment") do
+        within("#under_assessment") do
           expect(page).to have_link(planning_application_1.reference)
           expect(page).to have_link(planning_application_2.reference)
           expect(page).not_to have_link(other_assessor_planning_application.reference)
@@ -88,7 +88,7 @@ RSpec.feature "Planning Application index page", type: :system do
       scenario "An assessor can click a button to view all applications" do
         click_on "View all applications"
 
-        within("#in_assessment") do
+        within("#under_assessment") do
           expect(page).to have_link(planning_application_1.reference)
           expect(page).to have_link(planning_application_2.reference)
           expect(page).to have_link(other_assessor_planning_application.reference)
@@ -100,7 +100,7 @@ RSpec.feature "Planning Application index page", type: :system do
 
         click_on "View my applications"
 
-        within("#in_assessment") do
+        within("#under_assessment") do
           expect(page).to have_link(planning_application_1.reference)
           expect(page).to have_link(planning_application_2.reference)
           expect(page).not_to have_link(other_assessor_planning_application.reference)
@@ -109,16 +109,16 @@ RSpec.feature "Planning Application index page", type: :system do
 
       scenario "Applications in a determined state belonging to other assessors are also not visible on login" do
         other_assessor_planning_application.update(status: "determined", determined_at: Time.current)
-        click_link "Determined"
+        click_link "Closed"
 
-        within("#determined") do
+        within("#closed") do
           expect(page).not_to have_link(other_assessor_planning_application.reference)
         end
 
         click_on "View all applications"
-        click_link "Determined"
+        click_link "Closed"
 
-        within("#determined") do
+        within("#closed") do
           expect(page).to have_link(other_assessor_planning_application.reference)
         end
       end
@@ -134,7 +134,7 @@ RSpec.feature "Planning Application index page", type: :system do
     scenario "Planning Application status bar is present and does not show In Assessment by default" do
       within(:planning_applications_status_tab) do
         expect(page).to have_link "Awaiting manager's determination"
-        expect(page).to have_link "Determined"
+        expect(page).to have_link "Closed"
         expect(page).not_to have_link "In assessment"
       end
     end
@@ -144,15 +144,15 @@ RSpec.feature "Planning Application index page", type: :system do
 
       within(:planning_applications_status_tab) do
         expect(page).to have_link "Awaiting manager's determination"
-        expect(page).to have_link "Determined"
-        expect(page).to have_link "In assessment"
+        expect(page).to have_link "Closed"
+        expect(page).to have_text "In assessment"
       end
 
       click_link "View assessed applications"
 
       within(:planning_applications_status_tab) do
         expect(page).to have_link "Awaiting manager's determination"
-        expect(page).to have_link "Determined"
+        expect(page).to have_link "Closed"
         expect(page).not_to have_link "In assessment"
       end
     end
@@ -170,10 +170,10 @@ RSpec.feature "Planning Application index page", type: :system do
     end
 
     scenario "Only Planning Applications that are determined are present in this tab" do
-      click_link "Determined"
+      click_link "Closed"
 
-      within("#determined") do
-        expect(page).to have_text("Determined")
+      within("#closed") do
+        expect(page).to have_text("Closed")
         expect(page).to have_link(planning_application_completed.reference)
         expect(page).not_to have_link(planning_application_1.reference)
         expect(page).not_to have_link(planning_application_2.reference)

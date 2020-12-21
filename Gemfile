@@ -5,7 +5,9 @@ source "https://rubygems.org"
 # Load environment variables
 gem "dotenv-rails", require: "dotenv/rails-now"
 
+gem "aasm"
 gem "activerecord-postgis-adapter"
+gem "after_commit_everywhere"
 gem "aws-sdk-codedeploy", require: false
 gem "aws-sdk-s3", require: false
 gem "bootsnap", ">= 1.4.2", require: false

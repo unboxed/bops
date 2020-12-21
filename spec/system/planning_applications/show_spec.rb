@@ -43,7 +43,6 @@ RSpec.feature "Planning Application show page", type: :system do
       expect(page).to have_text("Application type: Proposed permitted development: Certificate of Lawfulness")
       expect(page).to have_text("Summary: Roof extension")
       expect(page).to have_text("PAY123")
-      expect(page).to have_text("Case officer: Not started")
     end
 
     scenario "Constraints accordion" do
