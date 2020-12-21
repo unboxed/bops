@@ -23,27 +23,27 @@ RSpec.describe 'Planning Applications', swagger_doc: '/v1/swagger_doc.yaml', typ
         parameter name: :planning_application, in: :body, schema: {
             type: :object,
             properties: {
-                application_type: { type: :integer },
+                application_type: { type: :integer, example: 1 },
                 site: { type: :object,
                         properties: {
-                            uprn: { type: :string },
-                            address_1: { type: :string },
-                            address_2: { type: :string },
-                            town: { type: :string },
-                            postcode: { type: :string },
+                            uprn: { type: :string, example: '100081043511' },
+                            address_1: { type: :string, example: '11 Abbey Gardens' },
+                            address_2: { type: :string, example: 'Southwark' },
+                            town: { type: :string, example: 'London' },
+                            postcode: { type: :string, example: 'SE16 3RQ' },
                           }
                         },
-                description: { type: :string },
-                payment_reference: { type: :string },
-                ward: { type: :string },
+                description: { type: :string, example: 'Add chimnney stack' },
+                payment_reference: { type: :string, example: 'PAY1' },
+                ward: { type: :string, example: 'Dulwich Wood' },
                 user_id: { type: :integer },
                 questions: { type: :object,
                              properties: {
                                  flow: { type: :object,
                                          properties: {
-                                             id: { type: :string },
-                                             text: { type: :string },
-                                             val: { type: :string },
+                                             id: { type: :string, example: '-LsXty7cOZycK0rqv8B2' },
+                                             text: { type: :string, example: 'The property is' },
+                                             val: { type: :string, example: 'property.buildingType' },
                                              options: {
                                                type: :array,
                                                items: { type: :object }
@@ -52,14 +52,14 @@ RSpec.describe 'Planning Applications', swagger_doc: '/v1/swagger_doc.yaml', typ
                                  }
                              }
                 },
-                agent_first_name: { type: :string },
-                agent_last_name: { type: :string },
-                agent_phone: { type: :string },
-                agent_email: { type: :string },
-                applicant_first_name: { type: :string },
-                applicant_last_name: { type: :string },
-                applicant_phone: { type: :string },
-                applicant_email: { type: :string },
+                agent_first_name: { type: :string, example: 'Jennifer' },
+                agent_last_name: { type: :string, example: 'Harper' },
+                agent_phone: { type: :string, example: '237878889' },
+                agent_email: { type: :string, example: 'agent@example.com' },
+                applicant_first_name: { type: :string, example: 'Albert' },
+                applicant_last_name: { type: :string, example: 'Manteras' },
+                applicant_phone: { type: :string, example: '23432325435' },
+                applicant_email: { type: :string, example: 'applicant@example.com' },
                 constraints: {
                   type: :array,
                   items: { type: :object }
@@ -69,8 +69,8 @@ RSpec.describe 'Planning Applications', swagger_doc: '/v1/swagger_doc.yaml', typ
                   items: {
                     type: :object,
                     properties: {
-                      filename: { type: :string },
-                      tags: { type: :string }
+                      filename: { type: :string, example: 'https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf' },
+                      tags: { type: :string, example: 'front elevation - proposed' }
                     }
                   }
                 }
