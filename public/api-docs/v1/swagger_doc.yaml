@@ -138,13 +138,3 @@ paths:
                     address_2: Southwark
                     town: London
                     postcode: SE16 3RQ
-                  questions:
-                    flow:
-                      - id: '-LsXty7cOZycK0rqv8B2'
-                        text: The property is
-                        val: property.buildingType
-                        choice:
-                          id: '-LsXty7cOZycK0rqv8B7'
-                          idx: 3
-                          recorded_at: 2020-05-14T05:18:17.540Z
-                          auto: true

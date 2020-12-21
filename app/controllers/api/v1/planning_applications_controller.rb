@@ -30,10 +30,10 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
 
   def attach_question_flow(questions)
     evaluation = @planning_application.create_policy_evaluation
-    pcb = Ripa::PolicyConsiderationBuilder.new(questions)
-    if questions.empty?
+    if questions.blank?
       evaluation
     else
+      pcb = Ripa::PolicyConsiderationBuilder.new(questions)
       questions = pcb.import
       evaluation.policy_considerations << questions
     end
@@ -95,8 +95,8 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
 
   def full_planning_params
     planning_application_params.merge!({
-                                           questions: params[:questions].to_json,
-                                           constraints: params[:constraints].to_json,
+                                           questions: (params[:questions].to_json if params[:questions].present?),
+                                           constraints: (params[:constraints].to_json if params[:constraints].present?),
                                            audit_log: params.to_json
                                        })
   end
