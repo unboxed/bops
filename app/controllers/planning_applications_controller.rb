@@ -3,9 +3,9 @@
 class PlanningApplicationsController < AuthenticationController
   include PlanningApplicationDashboardVariables
 
-  before_action :set_planning_application, only: [ :show, :edit, :assess, :determine, :request_correction ]
+  before_action :set_planning_application, only: [ :show, :edit, :assess, :determine, :request_correction, :cancel_confirmation, :cancel ]
   before_action :set_planning_application_dashboard_variables,
-                only: [ :show, :edit, :assess, :determine, :request_correction ]
+                only: [ :show, :edit, :assess, :determine, :request_correction, :cancel_confirmation, :cancel ]
 
   rescue_from Notifications::Client::NotFoundError,
     with: :decision_notice_mail_error
@@ -71,6 +71,29 @@ class PlanningApplicationsController < AuthenticationController
     redirect_to @planning_application
   end
 
+  def cancel_confirmation
+    render :cancel_confirmation
+  end
+
+  def cancel
+    status = authorize_user_can_update_status(
+        planning_application_params[:status])
+    apply_cancellation(status)
+    @planning_application.update!(cancellation_comment: planning_application_params[:cancellation_comment])
+    if @planning_application.withdrawn? || @planning_application.returned?
+      flash[:notice] = "Application has been cancelled"
+    end
+    redirect_to @planning_application
+  end
+
+  def apply_cancellation(status)
+    if status == "withdrawn"
+      @planning_application.withdraw!
+    elsif status == "returned"
+      @planning_application.return!
+    end
+  end
+
   private
 
   def set_planning_application
@@ -78,7 +101,7 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def planning_application_params
-    params.require(:planning_application).permit(:status)
+    params.require(:planning_application).permit(:status, :cancellation_comment)
   end
 
   def authorize_user_can_update_status(status)
@@ -90,7 +113,7 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def unpermitted_status_for_user?(status)
-    policy(@planning_application).unpermitted_statuses.include?(status)
+    status == :awaiting_determination if current_user.assessor?
   end
 
   def decision_notice_mail

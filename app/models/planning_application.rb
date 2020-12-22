@@ -72,7 +72,8 @@ class PlanningApplication < ApplicationRecord
     end
 
     event :return do
-      transitions from: :invalidated, to: :returned
+      transitions from: [:not_started, :in_assessment, :invalidated, :awaiting_determination, :awaiting_correction,
+                         :returned], to: :returned
     end
 
     event :withdraw do

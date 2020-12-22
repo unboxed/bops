@@ -131,4 +131,58 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
       end
     end
   end
+
+  describe "#display_decision_status" do
+    subject { create :planning_application }
+
+    context "refused" do
+      let(:reviewer) { create :user, :reviewer }
+      let(:reviewer_decision) { create(:decision, :refused_private_comment, user: reviewer) }
+
+      before do
+        subject.decisions << reviewer_decision
+        subject.assess!
+        subject.reload
+        subject.determine!
+      end
+
+      it "returns correct values when application is refused" do
+        expect(display_status(subject)[:decision]).to eql("Refused")
+        expect(display_status(subject)[:color]).to eql("red")
+      end
+    end
+
+    context "granted" do
+      let(:reviewer) { create :user, :reviewer }
+      let(:reviewer_decision) { create(:decision, :granted, user: reviewer) }
+
+      before do
+        subject.decisions << reviewer_decision
+        subject.assess!
+        subject.reload
+        subject.determine!
+      end
+
+      it "returns correct values when application is granted" do
+        expect(display_status(subject)[:decision]).to eql("Granted")
+        expect(display_status(subject)[:color]).to eql("green")
+      end
+    end
+  end
+
+  describe "#display_status" do
+    subject { create :planning_application }
+
+    it "returns correct values when application is withdrawn" do
+      subject.withdraw!
+      expect(display_status(subject)[:decision]).to eql("Withdrawn")
+      expect(display_status(subject)[:color]).to eql("grey")
+    end
+
+    it "returns correct values when application is withdrawn" do
+      subject.return!
+      expect(display_status(subject)[:decision]).to eql("Returned")
+      expect(display_status(subject)[:color]).to eql("grey")
+    end
+  end
 end

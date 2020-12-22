@@ -59,6 +59,44 @@ task create_sample_data: :environment do
   admin_roles = %i[assessor reviewer]
   local_authorities = [southwark, lambeth, bucks]
 
+  # Add lambeth and southwark specific admins
+  local_authorities.each do |authority|
+    admin_roles.each do |admin_role|
+      User.find_or_create_by!(email: "#{authority.subdomain}_#{admin_role}@example.com") do |user|
+        first_name = Faker::Name.unique.first_name
+        last_name = Faker::Name.unique.last_name
+        user.name = "#{first_name} #{last_name}"
+        user.local_authority = authority
+        if Rails.env.development?
+          user.password = user.password_confirmation = "password"
+        else
+          user.password = user.password_confirmation = SecureRandom.uuid
+          user.encrypted_password =
+              "$2a$11$uvtPXUB2CmO8WEYm7ajHf.XhZtBsclT/sT45ijLMIELShaZvceW5."
+        end
+
+        user.role = admin_role
+      end
+
+      User.find_or_create_by!(email: "#{authority.subdomain}_#{admin_role}2@example.com") do |user|
+        first_name = Faker::Name.unique.first_name
+        last_name = Faker::Name.unique.last_name
+        user.name = "#{first_name} #{last_name}"
+        user.local_authority = authority
+
+        if Rails.env.development?
+          user.password = user.password_confirmation = "password"
+        else
+          user.password = user.password_confirmation = SecureRandom.uuid
+          user.encrypted_password =
+              "$2a$11$uvtPXUB2CmO8WEYm7ajHf.XhZtBsclT/sT45ijLMIELShaZvceW5."
+        end
+
+        user.role = admin_role
+      end
+    end
+  end
+
   southwark_assessor = User.find_by!(email: "southwark_assessor@example.com", role: :assessor)
 
   # A planning application with application_type lawfulness_certificate

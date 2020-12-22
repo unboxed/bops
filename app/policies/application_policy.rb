@@ -27,6 +27,7 @@ class ApplicationPolicy
   alias_method :update?, :editor?
   alias_method :edit?, :editor?
   alias_method :destroy?, :editor?
+  alias_method :cancel?, :editor?
 
   class Scope
     attr_reader :user, :scope
