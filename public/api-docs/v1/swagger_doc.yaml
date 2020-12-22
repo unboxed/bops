@@ -1,0 +1,140 @@
+---
+openapi: 3.0.1
+info:
+  title: Back-office Planning System
+  version: v1
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+paths:
+  "/api/v1/planning_applications":
+    get:
+      summary: Retrieves all determined planning applications
+      responses:
+        '200':
+          description: All determined planning applications
+          content: {}
+    post:
+      summary: Create new planning application
+      security:
+      - bearerAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: valid_request
+          content: {}
+        '400':
+          description: invalid_request
+          content: {}
+        '401':
+          description: unauthorized_user
+          content: {}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                application_type:
+                  type: integer
+                  example: 1
+                site:
+                  type: object
+                  properties:
+                    uprn:
+                      type: string
+                      example: '100081043511'
+                    address_1:
+                      type: string
+                      example: 11 Abbey Gardens
+                    address_2:
+                      type: string
+                      example: Southwark
+                    town:
+                      type: string
+                      example: London
+                    postcode:
+                      type: string
+                      example: SE16 3RQ
+                description:
+                  type: string
+                  example: Add chimnney stack
+                payment_reference:
+                  type: string
+                  example: PAY1
+                ward:
+                  type: string
+                  example: Dulwich Wood
+                questions:
+                  type: object
+                  properties:
+                    flow:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "-LsXty7cOZycK0rqv8B2"
+                        text:
+                          type: string
+                          example: The property is
+                        val:
+                          type: string
+                          example: property.buildingType
+                        options:
+                          type: array
+                          items:
+                            type: object
+                agent_first_name:
+                  type: string
+                  example: Jennifer
+                agent_last_name:
+                  type: string
+                  example: Harper
+                agent_phone:
+                  type: string
+                  example: '237878889'
+                agent_email:
+                  type: string
+                  example: agent@example.com
+                applicant_first_name:
+                  type: string
+                  example: Albert
+                applicant_last_name:
+                  type: string
+                  example: Manteras
+                applicant_phone:
+                  type: string
+                  example: '23432325435'
+                applicant_email:
+                  type: string
+                  example: applicant@example.com
+                constraints:
+                  type: array
+                  items:
+                    type: object
+                plans:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      filename:
+                        type: string
+                        example: https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf
+                      tags:
+                        type: string
+                        example: front elevation - proposed
+              required:
+              - site
+              - application_type
+            examples:
+              Minimum:
+                value:
+                  application_type: 1
+                  site:
+                    uprn: '100081043511'
+                    address_1: 11 Abbey Gardens
+                    address_2: Southwark
+                    town: London
+                    postcode: SE16 3RQ
