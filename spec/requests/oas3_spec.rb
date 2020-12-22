@@ -21,7 +21,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
         headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
     }.to change(PlanningApplication, :count).by(1)
     expect(response.code).to eq('200')
-    expect(PlanningApplication.last.application_type).to eq('full')
+    expect(PlanningApplication.last.application_type).to eq('lawfulness_certificate')
   end
 
   it "should successfully create the Full application as per the oas3 definition" do
@@ -33,7 +33,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
         headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
     }.to change(PlanningApplication, :count).by(1)
     expect(response.code).to eq('200')
-    expect(PlanningApplication.last.application_type).to eq('full')
+    expect(PlanningApplication.last.application_type).to eq('lawfulness_certificate')
     expect(PlanningApplication.last.description).to eq('Add a chimney stack')
     expect(PlanningApplication.last.payment_reference).to eq('PAY1')
     expect(PlanningApplication.last.ward).to eq('Dulwich Wood')

@@ -38,8 +38,10 @@ paths:
               type: object
               properties:
                 application_type:
-                  type: integer
-                  example: 1
+                  type: string
+                  enum:
+                    - lawfulness_certificate
+                  example: lawfulness_certificate
                 site:
                   type: object
                   properties:
@@ -157,7 +159,7 @@ paths:
             examples:
               Minimum:
                 value:
-                  application_type: 1
+                  application_type: lawfulness_certificate
                   site:
                     uprn: '100081043511'
                     address_1: 11 Abbey Gardens
@@ -166,7 +168,7 @@ paths:
                     postcode: SE16 3RQ
               Full:
                 value:
-                  application_type: 1
+                  application_type: lawfulness_certificate
                   site:
                     uprn: '100081043511'
                     address_1: 11 Abbey Gardens
