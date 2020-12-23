@@ -38,8 +38,10 @@ paths:
               type: object
               properties:
                 application_type:
-                  type: integer
-                  example: 1
+                  type: string
+                  enum:
+                    - lawfulness_certificate
+                  example: lawfulness_certificate
                 site:
                   type: object
                   properties:
@@ -71,21 +73,49 @@ paths:
                   type: object
                   properties:
                     flow:
-                      type: object
-                      properties:
-                        id:
-                          type: string
-                          example: "-LsXty7cOZycK0rqv8B2"
-                        text:
-                          type: string
-                          example: The property is
-                        val:
-                          type: string
-                          example: property.buildingType
-                        options:
-                          type: array
-                          items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: "-LsXty7cOZycK0rqv8B2"
+                          text:
+                            type: string
+                            example: The property is
+                          val:
+                            type: string
+                            example: property.buildingType
+                          options:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                  example: "-LsXty7cOZycK0rqv8B5"
+                                text:
+                                  type: string
+                                  example: a semi detached house
+                                val:
+                                  type: string
+                                  example: residential.dwelling.house.semiDetached
+                          choice:
                             type: object
+                            properties:
+                              id:
+                                type: string
+                                example: "-LsXty7cOZycK0rqv8B7"
+                              idx:
+                                type: integer
+                                example: 3
+                              recorded_at:
+                                type: string
+                                format: date-time
+                                example: "2020-05-14T05:18:17.540Z"
+                              auto:
+                                type: boolean
+                                example: true
                 agent_first_name:
                   type: string
                   example: Jennifer
@@ -111,9 +141,7 @@ paths:
                   type: string
                   example: applicant@example.com
                 constraints:
-                  type: array
-                  items:
-                    type: object
+                  type: object
                 plans:
                   type: array
                   items:
@@ -131,10 +159,46 @@ paths:
             examples:
               Minimum:
                 value:
-                  application_type: 1
+                  application_type: lawfulness_certificate
                   site:
                     uprn: '100081043511'
                     address_1: 11 Abbey Gardens
                     address_2: Southwark
                     town: London
                     postcode: SE16 3RQ
+              Full:
+                value:
+                  application_type: lawfulness_certificate
+                  site:
+                    uprn: '100081043511'
+                    address_1: 11 Abbey Gardens
+                    address_2: Southwark
+                    town: London
+                    postcode: SE16 3RQ
+                  description: Add a chimney stack
+                  payment_reference: PAY1
+                  ward: Dulwich Wood
+                  applicant_first_name: Albert
+                  applicant_last_name: Manteras
+                  applicant_phone: '23432325435'
+                  applicant_email: applicant@example.com
+                  agent_first_name: Jennifer
+                  agent_last_name: Harper
+                  agent_phone: '237878889'
+                  agent_email: agent@example.com
+                  questions:
+                    flow:
+                      - id: '-LsXty7cOZycK0rqv8B2'
+                        text: The property is
+                        val: property.buildingType
+                        choice:
+                          id: '-LsXty7cOZycK0rqv8B7'
+                          idx: 3
+                          recorded_at: '2020-05-14T05:18:17.540Z'
+                          auto: true
+                  constraints:
+                    conservation_area: true
+                    protected_trees: false
+                  plans:
+                    - filename: https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf
+                      tags: front elevation - proposed
