@@ -36,11 +36,11 @@
             <strong class="govuk-tag govuk-tag--<%= display_status(planning_application)[:color] %>">
               <%= display_status(planning_application)[:decision] %>
             </strong>
-            <% else %>
-              <strong class="govuk-tag govuk-tag--<%= days_color(planning_application.days_left) %>">
-                <%= planning_application.days_left %>
-              </strong>
-            <% end %>
+          <% else %>
+            <strong class="govuk-tag govuk-tag--<%= days_color(planning_application.days_left) %>">
+              <%= planning_application.days_left %>
+            </strong>
+          <% end %>
         </td>
         <% if id == "in_assessment" %>
           <td class="govuk-table__cell">Not required</td>

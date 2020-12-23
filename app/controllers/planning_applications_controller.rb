@@ -3,7 +3,8 @@
 class PlanningApplicationsController < AuthenticationController
   include PlanningApplicationDashboardVariables
 
-  before_action :set_planning_application, only: [ :show, :edit, :assess, :determine, :request_correction, :cancel_confirmation, :cancel ]
+  before_action :set_planning_application, only: [ :show, :edit, :assess, :determine, :request_correction,
+                                                   :cancel_confirmation, :cancel ]
   before_action :set_planning_application_dashboard_variables,
                 only: [ :show, :edit, :assess, :determine, :request_correction, :cancel_confirmation, :cancel ]
 
@@ -76,21 +77,17 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def cancel
-    status = authorize_user_can_update_status(
-        planning_application_params[:status])
+    status = authorize_user_can_update_status(params[:planning_application][:status])
     apply_cancellation(status)
-    @planning_application.update!(cancellation_comment: planning_application_params[:cancellation_comment])
-    if @planning_application.withdrawn? || @planning_application.returned?
-      flash[:notice] = "Application has been cancelled"
-    end
+    flash[:notice] = "Application has been cancelled"
     redirect_to @planning_application
   end
 
   def apply_cancellation(status)
     if status == "withdrawn"
-      @planning_application.withdraw!
+      @planning_application.withdraw!(:withdrawn, params[:planning_application][:cancellation_comment])
     elsif status == "returned"
-      @planning_application.return!
+      @planning_application.return!(:returned, params[:planning_application][:cancellation_comment])
     end
   end
 
@@ -98,10 +95,6 @@ class PlanningApplicationsController < AuthenticationController
 
   def set_planning_application
     @planning_application = authorize(PlanningApplication.find(params[:id]))
-  end
-
-  def planning_application_params
-    params.require(:planning_application).permit(:status, :cancellation_comment)
   end
 
   def authorize_user_can_update_status(status)

@@ -20,36 +20,12 @@ RSpec.describe "Planning Application Assessment", type: :system do
             local_authority: local_authority
   end
 
-  let(:policy_consideration_1) do
-    create :policy_consideration,
-            policy_question: "The property is",
-            applicant_answer: "a semi detached house"
-  end
-
-  let(:policy_consideration_2) do
-    create :policy_consideration,
-            policy_question: "The project will ___ the internal floor area of the building",
-            applicant_answer: "not alter"
-  end
-
-  let!(:policy_evaluation) do
-    create :policy_evaluation,
-            planning_application: planning_application,
-            policy_considerations: [policy_consideration_1, policy_consideration_2]
-  end
-
-  let!(:drawing) do
-    create :drawing, :with_plan, :proposed_tags,
-           planning_application: planning_application
-  end
-
   before do
     sign_in assessor
     visit root_path
   end
 
   context "Cancelling from Not Started status" do
-
     scenario "Withdraw from Not Started" do
       click_link planning_application.reference
       click_link "Cancel application"
@@ -110,7 +86,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     scenario "Withdraw from In Assessment" do
       click_link planning_application.reference
-      expect(planning_application.status).to eql("in_assessment")
       click_link "Cancel application"
 
       expect(page).to have_content("Why is this application being cancelled?")

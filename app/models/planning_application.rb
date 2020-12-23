@@ -73,12 +73,15 @@ class PlanningApplication < ApplicationRecord
 
     event :return do
       transitions from: [:not_started, :in_assessment, :invalidated, :awaiting_determination, :awaiting_correction,
-                         :returned], to: :returned
+                         :returned], to: :returned, after: Proc.new {
+          |comment| self.update!(cancellation_comment: comment)
+      }
     end
 
     event :withdraw do
       transitions from: [:not_started, :in_assessment, :invalidated, :awaiting_determination, :awaiting_correction,
-                         :returned], to: :withdrawn
+                         :returned], to: :withdrawn, after: Proc.new {
+          |comment| self.update!(cancellation_comment: comment)  }
     end
 
     after_all_transitions :timestamp_status_change
@@ -147,6 +150,10 @@ class PlanningApplication < ApplicationRecord
     return false if numbered_count.zero?
 
     numbered_count < drawings.has_proposed_tag.count
+  end
+
+  def cancellable?
+    true unless determined? || returned? || withdrawn?
   end
 
   private
