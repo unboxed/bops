@@ -3,12 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe "API request to list planning applications", type: :request, show_exceptions: true do
-  let(:reviewer) { create :user, :reviewer }
   let(:api_user) { create :api_user }
-
-  before do
-    create(:decision, :granted, user: reviewer)
-  end
+  let(:reviewer) { create :user, :reviewer }
 
   describe "format" do
     let(:access_control_allow_origin) { response.headers['Access-Control-Allow-Origin'] }
@@ -32,68 +28,99 @@ RSpec.describe "API request to list planning applications", type: :request, show
 
   describe "data" do
     let(:data) { json["data"] }
+    let(:planning_application_json) { data.first }
+
+    def json_time_format(time)
+      time.utc.iso8601(3) if time.present?
+    end
 
     it "returns an empty response if no planning application" do
       get "/api/v1/planning_applications.json"
-
       expect(response).to be_successful
       expect(data).to be_empty
     end
 
-    it "returns a list of serialized planning application" do
-      planning_application_1 = create(:planning_application, :determined)
-      planning_application_2 = create(:planning_application, :determined)
+    context "for a new planning application" do
+      let!(:planning_application) { create(:planning_application, :not_started) }
 
-      decision_granted = create(:decision, :granted, user: reviewer, planning_application: planning_application_1)
-      decision_refused = create(:decision, :refused, user: reviewer, planning_application: planning_application_2)
+      it "returns the accurate data" do
+        get "/api/v1/planning_applications.json"
+        expect(planning_application_json["status"]).to eq('not_started')
+        expect(planning_application_json["id"]).to eq(planning_application.id)
+        expect(planning_application_json["application_number"]).to eq(planning_application.reference)
+        expect(planning_application_json["application_type"]).to eq("Certificate of Lawfulness")
+        expect(planning_application_json["summary_of_proposal"]).to eq(planning_application.description)
+        expect(planning_application_json["received_date"]).to eq(json_time_format(planning_application.created_at))
+        expect(planning_application_json["determined_at"]).to eq(json_time_format(planning_application.determined_at))
+        expect(planning_application_json["decision"]).to eq(nil)
+        expect(planning_application_json["target_date"]).to eq(planning_application.target_date.to_s)
+        expect(planning_application_json["started_at"]).to eq(json_time_format(planning_application.started_at))
+        expect(planning_application_json["determined_at"]).to eq(json_time_format(planning_application.determined_at))
+        expect(planning_application_json["created_at"]).to eq(json_time_format(planning_application.created_at))
+        expect(planning_application_json["invalidated_at"]).to eq(json_time_format(planning_application.invalidated_at))
+        expect(planning_application_json["withdrawn_at"]).to eq(json_time_format(planning_application.withdrawn_at))
+        expect(planning_application_json["ward"]).to eq(planning_application.ward)
+        expect(planning_application_json["awaiting_determination_at"]).to eq(json_time_format(planning_application.awaiting_determination_at))
+        expect(planning_application_json["in_assessment_at"]).to eq(json_time_format(planning_application.in_assessment_at))
+        expect(planning_application_json["awaiting_correction_at"]).to eq(json_time_format(planning_application.awaiting_correction_at))
+        expect(planning_application_json["agent_first_name"]).to eq(planning_application.agent_first_name)
+        expect(planning_application_json["agent_last_name"]).to eq(planning_application.agent_last_name)
+        expect(planning_application_json["agent_email"]).to eq(planning_application.agent_email)
+        expect(planning_application_json["applicant_first_name"]).to eq(planning_application.applicant_first_name)
+        expect(planning_application_json["applicant_last_name"]).to eq(planning_application.applicant_last_name)
+        expect(planning_application_json["applicant_email"]).to eq(planning_application.applicant_email)
+        expect(planning_application_json["applicant_phone"]).to eq(planning_application.applicant_phone)
+        expect(planning_application_json["site"]["address_1"]).to eq(planning_application.site.address_1)
+        expect(planning_application_json["site"]["address_2"]).to eq(planning_application.site.address_2)
+        expect(planning_application_json["site"]["town"]).to eq(planning_application.site.town)
+        expect(planning_application_json["site"]["county"]).to eq(planning_application.site.county)
+        expect(planning_application_json["site"]["postcode"]).to eq(planning_application.site.postcode)
+        expect(planning_application_json["site"]["uprn"]).to eq(planning_application.site.uprn)
+        expect(planning_application_json["questions"]).to eq(JSON.parse(planning_application.questions))
+        expect(planning_application_json["constraints"]).to eq(JSON.parse(planning_application.constraints))
+      end
 
-      get "/api/v1/planning_applications.json"
-      expect(response).to be_successful
+      context "for a granted planning application" do
+        let!(:planning_application) { create(:planning_application, :determined) }
+        let!(:decision) { create(:decision, :granted, user: reviewer, planning_application: planning_application) }
 
-      expect(data).to match(
-        a_collection_containing_exactly(
-          a_hash_including(
-            "id" => planning_application_1.id,
-            "application_number" => planning_application_1.reference,
-            "site_address" => planning_application_1.site.full_address,
-            "application_type" => "Certificate of Lawfulness",
-            "summary_of_proposal" => planning_application_1.description,
-            "received_date" => planning_application_1.created_at.getutc.iso8601,
-            "determined_at" => planning_application_1.determined_at.getutc.iso8601,
-            "status" => "granted"
-          ),
-          a_hash_including(
-            "id" => planning_application_2.id,
-            "application_number" => planning_application_2.reference,
-            "site_address" => planning_application_2.site.full_address,
-            "application_type" => "Certificate of Lawfulness",
-            "summary_of_proposal" => planning_application_2.description,
-            "received_date" => planning_application_2.created_at.getutc.iso8601,
-            "determined_at" => planning_application_1.determined_at.getutc.iso8601,
-            "status" => "refused"
-          )
-        )
-      )
-    end
-
-    it "returns an empty response if the planning application is in assessment" do
-      planning_application_1 = create(:planning_application)
-      decision_granted = create(:decision, :granted, user: reviewer, planning_application: planning_application_1)
-
-      get "/api/v1/planning_applications.json"
-
-      expect(response).to be_successful
-      expect(data).to be_empty
-    end
-
-    it "returns an empty response if the planning application is in awaiting determination" do
-      planning_application_1 = create(:planning_application, :awaiting_determination)
-      decision_granted = create(:decision, :granted, user: reviewer, planning_application: planning_application_1)
-
-      get "/api/v1/planning_applications.json"
-
-      expect(response).to be_successful
-      expect(data).to be_empty
+        it "returns the accurate data" do
+          get "/api/v1/planning_applications.json"
+          expect(planning_application_json["status"]).to eq('determined')
+          expect(planning_application_json["id"]).to eq(planning_application.id)
+          expect(planning_application_json["application_number"]).to eq(planning_application.reference)
+          expect(planning_application_json["application_type"]).to eq("Certificate of Lawfulness")
+          expect(planning_application_json["summary_of_proposal"]).to eq(planning_application.description)
+          expect(planning_application_json["received_date"]).to eq(json_time_format(planning_application.created_at))
+          expect(planning_application_json["determined_at"]).to eq(json_time_format(planning_application.determined_at))
+          expect(planning_application_json["decision"]).to eq('granted')
+          expect(planning_application_json["target_date"]).to eq(planning_application.target_date.to_s)
+          expect(planning_application_json["started_at"]).to eq(json_time_format(planning_application.started_at))
+          expect(planning_application_json["determined_at"]).to eq(json_time_format(planning_application.determined_at))
+          expect(planning_application_json["created_at"]).to eq(json_time_format(planning_application.created_at))
+          expect(planning_application_json["invalidated_at"]).to eq(json_time_format(planning_application.invalidated_at))
+          expect(planning_application_json["withdrawn_at"]).to eq(json_time_format(planning_application.withdrawn_at))
+          expect(planning_application_json["ward"]).to eq(planning_application.ward)
+          expect(planning_application_json["awaiting_determination_at"]).to eq(json_time_format(planning_application.awaiting_determination_at))
+          expect(planning_application_json["in_assessment_at"]).to eq(json_time_format(planning_application.in_assessment_at))
+          expect(planning_application_json["awaiting_correction_at"]).to eq(json_time_format(planning_application.awaiting_correction_at))
+          expect(planning_application_json["agent_first_name"]).to eq(planning_application.agent_first_name)
+          expect(planning_application_json["agent_last_name"]).to eq(planning_application.agent_last_name)
+          expect(planning_application_json["agent_email"]).to eq(planning_application.agent_email)
+          expect(planning_application_json["applicant_first_name"]).to eq(planning_application.applicant_first_name)
+          expect(planning_application_json["applicant_last_name"]).to eq(planning_application.applicant_last_name)
+          expect(planning_application_json["applicant_email"]).to eq(planning_application.applicant_email)
+          expect(planning_application_json["applicant_phone"]).to eq(planning_application.applicant_phone)
+          expect(planning_application_json["site"]["address_1"]).to eq(planning_application.site.address_1)
+          expect(planning_application_json["site"]["address_2"]).to eq(planning_application.site.address_2)
+          expect(planning_application_json["site"]["town"]).to eq(planning_application.site.town)
+          expect(planning_application_json["site"]["county"]).to eq(planning_application.site.county)
+          expect(planning_application_json["site"]["postcode"]).to eq(planning_application.site.postcode)
+          expect(planning_application_json["site"]["uprn"]).to eq(planning_application.site.uprn)
+          expect(planning_application_json["questions"]).to eq(JSON.parse(planning_application.questions))
+          expect(planning_application_json["constraints"]).to eq(JSON.parse(planning_application.constraints))
+        end
+      end
     end
   end
 end

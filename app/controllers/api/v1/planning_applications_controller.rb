@@ -5,7 +5,7 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
   skip_before_action :authenticate, only: [:index]
 
   def index
-    @planning_applications = PlanningApplication.determined
+    @planning_applications = PlanningApplication.all
 
     respond_to(:json)
   end

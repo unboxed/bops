@@ -16,6 +16,29 @@ FactoryBot.define do
     applicant_last_name { Faker::Name.last_name }
     applicant_phone { Faker::Base.numerify("+44 7### ######") }
     applicant_email { Faker::Internet.email }
+    questions {
+      {
+        flow: [
+          {
+            id: "-LsXty7cOZycK0rqv8B2",
+            text: "The property is",
+            val: "property.buildingType",
+            choice: {
+              id: "-LsXty7cOZycK0rqv8B7",
+              idx: 3,
+              recorded_at: "2020-05-14T05:18:17.540Z",
+              auto: true
+            }
+          }
+        ]
+      }.to_json
+    }
+    constraints {
+      {
+        conservation_area: true,
+        protected_trees: false
+      }.to_json
+    }
   end
 
   trait :lawfulness_certificate do
