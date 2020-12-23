@@ -27,6 +27,24 @@ module PlanningApplicationHelper
     JSON.parse(constraints).select { |category, value| value == true }.keys unless constraints.empty?
   end
 
+  def display_status(planning_application)
+    if planning_application.determined? && planning_application.reviewer_decision
+      display_decision_status(planning_application)
+    elsif planning_application.status == "withdrawn"
+      { color: "grey", decision: "Withdrawn" }
+    else
+      { color: "grey", decision: "Returned" }
+    end
+  end
+
+  def display_decision_status(planning_application)
+    if planning_application.reviewer_decision.granted?
+      { color: "green", decision: "Granted" }
+    else
+      { color: "red", decision: "Refused" }
+    end
+  end
+
   # rubocop: disable Metrics/MethodLength
   def proposal_step_mark_completed?(step_name, application)
     case step_name
