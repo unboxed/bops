@@ -1,34 +1,35 @@
 # frozen_string_literal: true
 
-json.id planning_application.id
+json.extract! planning_application,
+              :id,
+              :status,
+              :application_type,
+              :description,
+              :determined_at,
+              :target_date,
+              :started_at,
+              :determined_at,
+              :created_at,
+              :invalidated_at,
+              :withdrawn_at,
+              :returned_at,
+              :ward,
+              :awaiting_determination_at,
+              :in_assessment_at,
+              :awaiting_correction_at,
+              :agent_first_name,
+              :agent_last_name,
+              :agent_phone,
+              :agent_email,
+              :applicant_first_name,
+              :applicant_last_name,
+              :applicant_email,
+              :applicant_phone
 json.application_number planning_application.reference
 json.site do |site_json|
   site_json.partial! "site.json.jbuilder", site: planning_application.site
 end
-json.status planning_application.status
-json.application_type planning_application.application_type
-json.description planning_application.description
 json.received_date planning_application.created_at
-json.determined_at planning_application.determined_at
 json.decision planning_application.reviewer_decision.status if planning_application.reviewer_decision
-json.target_date planning_application.target_date
-json.started_at planning_application.started_at
-json.determined_at planning_application.determined_at
-json.created_at planning_application.created_at
-json.invalidated_at planning_application.invalidated_at
-json.withdrawn_at planning_application.withdrawn_at
-json.returned_at planning_application.returned_at
-json.ward planning_application.ward
-json.awaiting_determination_at planning_application.awaiting_determination_at
-json.in_assessment_at planning_application.in_assessment_at
-json.awaiting_correction_at planning_application.awaiting_correction_at
 json.questions JSON.parse(planning_application.questions) if planning_application.questions
 json.constraints JSON.parse(planning_application.constraints) if planning_application.constraints
-json.agent_first_name planning_application.agent_first_name
-json.agent_last_name planning_application.agent_last_name
-json.agent_phone planning_application.agent_phone
-json.agent_email planning_application.agent_email
-json.applicant_first_name planning_application.applicant_first_name
-json.applicant_last_name planning_application.applicant_last_name
-json.applicant_email planning_application.applicant_email
-json.applicant_phone planning_application.applicant_phone
