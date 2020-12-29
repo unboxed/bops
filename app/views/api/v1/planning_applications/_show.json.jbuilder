@@ -1,10 +1,35 @@
 # frozen_string_literal: true
 
-json.id planning_application.id
+json.extract! planning_application,
+              :id,
+              :status,
+              :application_type,
+              :description,
+              :determined_at,
+              :target_date,
+              :started_at,
+              :determined_at,
+              :created_at,
+              :invalidated_at,
+              :withdrawn_at,
+              :returned_at,
+              :ward,
+              :awaiting_determination_at,
+              :in_assessment_at,
+              :awaiting_correction_at,
+              :agent_first_name,
+              :agent_last_name,
+              :agent_phone,
+              :agent_email,
+              :applicant_first_name,
+              :applicant_last_name,
+              :applicant_email,
+              :applicant_phone
 json.application_number planning_application.reference
-json.site_address planning_application.site.full_address
-json.application_type t(planning_application.application_type)
-json.summary_of_proposal planning_application.description
-json.received_date planning_application.created_at.iso8601
-json.determined_at planning_application.determined_at.iso8601
-json.status planning_application.reviewer_decision.status
+json.site do |site_json|
+  site_json.partial! "site.json.jbuilder", site: planning_application.site
+end
+json.received_date planning_application.created_at
+json.decision planning_application.reviewer_decision.status if planning_application.reviewer_decision
+json.questions JSON.parse(planning_application.questions) if planning_application.questions
+json.constraints JSON.parse(planning_application.constraints) if planning_application.constraints

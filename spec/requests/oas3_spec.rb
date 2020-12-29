@@ -6,8 +6,16 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
   let(:document) { Openapi3Parser.load_file(Rails.root.join('public/api-docs/v1/swagger_doc.yaml')) }
   let(:api_user) { create :api_user }
 
-  def example_at_in_json(path, http_method, example_name)
+  def example_request_json_for(path, http_method, example_name)
     document.paths[path][http_method].request_body.content['application/json'].examples[example_name].value.to_h.to_json
+  end
+
+  def example_response_json_for(path, http_method, response_code, example_name)
+    document.paths[path][http_method].responses[response_code.to_s].content['application/json'].examples[example_name].value.to_h.to_json
+  end
+
+  def example_response_hash_for(*attrs)
+    JSON.parse(example_response_json_for(*attrs))
   end
 
   it "should be a valid oas3 document" do
@@ -17,7 +25,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
   it "should successfully create the Minimum application as per the oas3 definition" do
     expect {
       post "/api/v1/planning_applications",
-        params: example_at_in_json('/api/v1/planning_applications', 'post', 'Minimum'),
+        params: example_request_json_for('/api/v1/planning_applications', 'post', 'Minimum'),
         headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
     }.to change(PlanningApplication, :count).by(1)
     expect(response.code).to eq('200')
@@ -29,7 +37,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
         to_return(status: 200, body: File.read(Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf")))
     expect {
       post "/api/v1/planning_applications",
-        params: example_at_in_json('/api/v1/planning_applications', 'post', 'Full'),
+        params: example_request_json_for('/api/v1/planning_applications', 'post', 'Full'),
         headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
     }.to change(PlanningApplication, :count).by(1)
     expect(response.code).to eq('200')
@@ -48,5 +56,25 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
     expect(JSON.parse(PlanningApplication.last.questions)['flow'].first['text']).to eq('The property is')
     expect(JSON.parse(PlanningApplication.last.constraints)['conservation_area']).to eq(true)
     expect(PlanningApplication.last.drawings.first.plan).to be_present
+  end
+
+  it "should successfully return the listing of applications as specified" do
+    planning_application_hash = example_response_hash_for('/api/v1/planning_applications', 'get', 200, 'Full')['data'].first
+    site = Site.create! planning_application_hash.fetch('site')
+    PlanningApplication.create! planning_application_hash.except('application_number', 'received_date').merge(site: site, local_authority: create(:local_authority))
+
+    get '/api/v1/planning_applications'
+
+    expect(JSON.parse(response.body)).to eq(example_response_hash_for('/api/v1/planning_applications', 'get', 200, 'Full'))
+  end
+
+  it "should successfully return an application as specified" do
+    planning_application_hash = example_response_hash_for('/api/v1/planning_applications/{id}', 'get', 200, 'Full')
+    site = Site.create! planning_application_hash.fetch('site')
+    PlanningApplication.create! planning_application_hash.except('application_number', 'received_date').merge(site: site, local_authority: create(:local_authority))
+
+    get "/api/v1/planning_applications/#{planning_application_hash['id']}"
+
+    expect(JSON.parse(response.body)).to eq(planning_application_hash)
   end
 end

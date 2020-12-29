@@ -32,7 +32,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :planning_applications, only: %i[index create]
+      resources :planning_applications, only: %i[index create show]
     end
   end
 

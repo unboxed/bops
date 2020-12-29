@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.describe "API request to list planning applications", type: :request, show_exceptions: true do
   let(:api_user) { create :api_user }
   let(:reviewer) { create :user, :reviewer }
+  let!(:planning_application) { create(:planning_application, :not_started) }
 
   describe "format" do
     let(:access_control_allow_origin) { response.headers['Access-Control-Allow-Origin'] }
@@ -12,12 +13,12 @@ RSpec.describe "API request to list planning applications", type: :request, show
     let(:access_control_allow_headers) { response.headers['Access-Control-Allow-Headers'] }
 
     it "responds to JSON" do
-      get "/api/v1/planning_applications"
+      get "/api/v1/planning_applications/#{planning_application.id}"
       expect(response).to be_successful
     end
 
     it "sets CORS headers" do
-      get "/api/v1/planning_applications"
+      get "/api/v1/planning_applications/#{planning_application.id}"
 
       expect(response).to be_successful
       expect(access_control_allow_origin).to eq('*')
@@ -27,24 +28,21 @@ RSpec.describe "API request to list planning applications", type: :request, show
   end
 
   describe "data" do
-    let(:data) { json["data"] }
-    let(:planning_application_json) { data.first }
+    let(:planning_application_json) { json }
 
     def json_time_format(time)
       time.utc.iso8601(3) if time.present?
     end
 
-    it "returns an empty response if no planning application" do
-      get "/api/v1/planning_applications.json"
-      expect(response).to be_successful
-      expect(data).to be_empty
+    it "returns a 404 if no planning application" do
+      get "/api/v1/planning_applications/xxx"
+      expect(response.code).to eq("404")
+      expect(planning_application_json).to eq({ "message" => "Unable to find record" })
     end
 
     context "for a new planning application" do
-      let!(:planning_application) { create(:planning_application, :not_started) }
-
       it "returns the accurate data" do
-        get "/api/v1/planning_applications.json"
+        get "/api/v1/planning_applications/#{planning_application.id}"
         expect(planning_application_json["status"]).to eq('not_started')
         expect(planning_application_json["id"]).to eq(planning_application.id)
         expect(planning_application_json["application_number"]).to eq(planning_application.reference)
@@ -85,7 +83,7 @@ RSpec.describe "API request to list planning applications", type: :request, show
         let!(:decision) { create(:decision, :granted, user: reviewer, planning_application: planning_application) }
 
         it "returns the accurate data" do
-          get "/api/v1/planning_applications.json"
+          get "/api/v1/planning_applications/#{planning_application.id}"
           expect(planning_application_json["status"]).to eq('determined')
           expect(planning_application_json["id"]).to eq(planning_application.id)
           expect(planning_application_json["application_number"]).to eq(planning_application.reference)
