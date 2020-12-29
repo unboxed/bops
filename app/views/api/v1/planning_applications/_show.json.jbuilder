@@ -6,8 +6,8 @@ json.site do |site_json|
   site_json.partial! "site.json.jbuilder", site: planning_application.site
 end
 json.status planning_application.status
-json.application_type t(planning_application.application_type)
-json.summary_of_proposal planning_application.description
+json.application_type planning_application.application_type
+json.description planning_application.description
 json.received_date planning_application.created_at
 json.determined_at planning_application.determined_at
 json.decision planning_application.reviewer_decision.status if planning_application.reviewer_decision
@@ -22,8 +22,8 @@ json.ward planning_application.ward
 json.awaiting_determination_at planning_application.awaiting_determination_at
 json.in_assessment_at planning_application.in_assessment_at
 json.awaiting_correction_at planning_application.awaiting_correction_at
-json.questions JSON.parse(planning_application.questions)
-json.constraints JSON.parse(planning_application.constraints)
+json.questions JSON.parse(planning_application.questions) if planning_application.questions
+json.constraints JSON.parse(planning_application.constraints) if planning_application.constraints
 json.agent_first_name planning_application.agent_first_name
 json.agent_last_name planning_application.agent_last_name
 json.agent_phone planning_application.agent_phone
