@@ -1,13 +1,22 @@
 # frozen_string_literal: true
 
 class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
-  before_action :set_cors_headers, only: %i[index create], if: :json_request?
-  skip_before_action :authenticate, only: [:index]
+  before_action :set_cors_headers, only: %i[index show create], if: :json_request?
+  skip_before_action :authenticate, only: %i[index show]
 
   def index
     @planning_applications = PlanningApplication.all
 
     respond_to(:json)
+  end
+
+  def show
+    @planning_application = PlanningApplication.where(id: params[:id]).first
+    if @planning_application
+      respond_to(:json)
+    else
+      send_not_found_response
+    end
   end
 
   def create
@@ -60,6 +69,11 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
   def send_failed_response
     render json: { "message": "Unable to create application" },
            status: 400
+  end
+
+  def send_not_found_response
+    render json: { "message": "Unable to find record" },
+           status: 404
   end
 
   def create_site
