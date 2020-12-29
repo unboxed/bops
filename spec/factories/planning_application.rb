@@ -39,6 +39,7 @@ FactoryBot.define do
         protected_trees: false
       }.to_json
     }
+    documents_validated_at { Time.zone.today }
   end
 
   trait :lawfulness_certificate do
@@ -61,6 +62,7 @@ FactoryBot.define do
 
   trait :not_started do
     status                    { :not_started }
+    documents_validated_at    { nil }
 
     after(:create) do |pa|
       pa.target_date = Date.current + 7.weeks

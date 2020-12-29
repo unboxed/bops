@@ -139,7 +139,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_button "Save"
 
-        expect(page).not_to have_content("Completed")
+        expect(page).not_to have_css("#determine-the-application-completed")
 
         expect(page).not_to have_link("Review the recommendation")
         expect(page).not_to have_text("Review the recommendation")
@@ -307,7 +307,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_button "Save"
 
-        expect(page).not_to have_content("Completed")
+        expect(page).not_to have_css("#determine-the-application-completed")
 
         expect(page).not_to have_link("Review the recommendation")
         expect(page).not_to have_text("Review the recommendation")
@@ -436,7 +436,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         click_button "Save"
 
-        expect(page).not_to have_content("Completed")
+        expect(page).not_to have_css("#determine-the-application-completed")
 
         expect(page).not_to have_link("Review the recommendation")
         expect(page).not_to have_text("Review the recommendation")

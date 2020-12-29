@@ -1,23 +1,42 @@
 en:
+  not_started:
+    title: "Not started"
+    status: "Not Started"
+    heading: "Validate documents"
+    proposal_step: "Read the proposal"
+    validation_step: "Check the documents"
+    recommendation_step: "Submit the recommendation at next stage"
+  invalidated:
+    title: "Invalidated"
+    status: "Invalid"
+    heading: "For information only"
+    proposal_step: "Read the proposal"
+    validation_step: "Check the documents"
+    recommendation_step: "Submit the recommendation"
   in_assessment:
     title: "In assessment"
     heading: "Make recommendation"
     proposal_step: "Assess the proposal"
+    validation_step: "Check the documents"
     recommendation_step: "Submit the recommendation"
   awaiting_determination:
     title: "Awaiting manager's determination"
+    status: "Awaiting detemrination"
     heading: "Determine the proposal"
     proposal_step: "Review the recommendation"
+    validation_step: "Check the documents"
     recommendation_step: "Publish the recommendation"
   awaiting_correction:
     title: "Corrections requested"
     heading: "Make corrections"
     proposal_step: "Reassess the proposal"
+    validation_step: "Check the documents"
     recommendation_step: "Resubmit the recommendation"
   determined:
     title: "Determined"
     heading: "View the application"
     proposal_step: "View the assessment"
+    validation_step: "Check the documents"
     recommendation_step: "View the decision notice"
   full: "Full Householder Application"
   lawfulness_certificate: "Certificate of Lawfulness"

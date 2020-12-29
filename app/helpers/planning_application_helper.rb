@@ -30,10 +30,12 @@ module PlanningApplicationHelper
   def display_status(planning_application)
     if planning_application.determined? && planning_application.reviewer_decision
       display_decision_status(planning_application)
-    elsif planning_application.status == "withdrawn"
-      { color: "grey", decision: "Withdrawn" }
+    elsif planning_application.status == "invalidated"
+      { color: "yellow", decision: "invalidated" }
+    elsif planning_application.status == "not_started"
+      { color: "grey", decision: "Not started" }
     else
-      { color: "grey", decision: "Returned" }
+      { color: "grey", decision: planning_application.status }
     end
   end
 
@@ -48,6 +50,8 @@ module PlanningApplicationHelper
   # rubocop: disable Metrics/MethodLength
   def proposal_step_mark_completed?(step_name, application)
     case step_name
+    when "Check documents"
+      application.not_started? == false
     when "Assess the proposal"
       application.assessor_decision&.valid?
     when "Reassess the proposal"

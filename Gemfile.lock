@@ -139,6 +139,12 @@ GEM
     ffi (1.12.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    gov_uk_date_fields (4.1.0)
+      rails (>= 5.0.7.2)
+    govuk_design_system_formbuilder (2.1.5)
+      actionview (>= 5.2)
+      activemodel (>= 5.2)
+      activesupport (>= 5.2)
     hashdiff (1.0.1)
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
@@ -352,6 +358,8 @@ DEPENDENCIES
   factory_bot_rails
   faker
   faraday
+  gov_uk_date_fields
+  govuk_design_system_formbuilder
   image_processing (~> 1.2)
   jbuilder (~> 2.7)
   listen (>= 3.0.5, < 3.2)

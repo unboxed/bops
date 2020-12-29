@@ -5,6 +5,7 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
 @import "components/task_list";
 @import "proposal";
 @import "components/drawings";
+@import 'govuk_date_fields';
 
 .noborder {
   border-bottom: none !important;

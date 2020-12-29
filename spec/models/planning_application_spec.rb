@@ -55,12 +55,14 @@ RSpec.describe PlanningApplication, type: :model do
       end
 
       it "sets the status to in_assessment" do
+        subject.update!(documents_validated_at: Time.zone.today)
         subject.start
         expect(subject.status).to eq "in_assessment"
       end
 
       it "sets the timestamp for in_assessment_at to now" do
         freeze_time do
+          subject.update!(documents_validated_at: Time.zone.today)
           subject.start
           expect(subject.send("in_assessment_at")).to eql(Time.current)
         end

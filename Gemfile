@@ -14,6 +14,7 @@ gem "bootsnap", ">= 1.4.2", require: false
 gem "devise"
 gem "faker", require: false
 gem "faraday", require: false
+gem "govuk_design_system_formbuilder"
 gem "image_processing", "~> 1.2"
 gem "jbuilder", "~> 2.7"
 gem "mail-notify"

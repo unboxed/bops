@@ -45,7 +45,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "Closed"
 
       within("#closed") do
-        expect(page).to have_content("Withdrawn")
+        expect(page).to have_content("withdrawn")
         click_link planning_application.reference
       end
 
@@ -71,7 +71,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "Closed"
 
       within("#closed") do
-        expect(page).to have_content("Returned")
+        expect(page).to have_content("returned")
         click_link planning_application.reference
       end
 
@@ -81,6 +81,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "Cancelling from In Assessment" do
     before do
+      planning_application.update!(documents_validated_at: Time.zone.today)
       planning_application.start!
     end
 
@@ -103,7 +104,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "Closed"
 
       within("#closed") do
-        expect(page).to have_content("Withdrawn")
+        expect(page).to have_content("withdrawn")
         click_link planning_application.reference
       end
 
@@ -130,7 +131,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "Closed"
 
       within("#closed") do
-        expect(page).to have_content("Returned")
+        expect(page).to have_content("returned")
         click_link planning_application.reference
       end
 
@@ -163,7 +164,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "Closed"
 
       within("#closed") do
-        expect(page).to have_content("Withdrawn")
+        expect(page).to have_content("withdrawn")
         click_link planning_application.reference
       end
 
@@ -190,7 +191,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "Closed"
 
       within("#closed") do
-        expect(page).to have_content("Returned")
+        expect(page).to have_content("returned")
         click_link planning_application.reference
       end
 
@@ -200,6 +201,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "Cancelling from Awaiting Determination" do
     before do
+      planning_application.update!(documents_validated_at: Time.zone.today)
       planning_application.start!
       planning_application.assess!
     end
@@ -224,7 +226,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "Closed"
 
       within("#closed") do
-        expect(page).to have_content("Withdrawn")
+        expect(page).to have_content("withdrawn")
         click_link planning_application.reference
       end
 
@@ -251,7 +253,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "Closed"
 
       within("#closed") do
-        expect(page).to have_content("Returned")
+        expect(page).to have_content("returned")
         click_link planning_application.reference
       end
 

@@ -39,7 +39,19 @@
       </p>
       <p class="govuk-body">
         <strong>Validation complete:</strong>
-        <%= @planning_application.created_at.strftime("%e %B %Y") %>
+        <% if @planning_application.in_assessment_at %>
+          <%= @planning_application.in_assessment_at.strftime("%e %B %Y") %>
+        <% else %>
+          Not yet started
+        <% end %>
+      </p>
+      <p class="govuk-body">
+        <strong>Documents valid from:</strong>
+        <% if @planning_application.documents_validated_at %>
+          <%= @planning_application.documents_validated_at.strftime("%e %B %Y") %>
+        <% else %>
+          Not yet validated
+        <% end %>
       </p>
       <p class="govuk-body">
         <strong>Target date:</strong>

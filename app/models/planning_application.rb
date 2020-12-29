@@ -33,7 +33,11 @@ class PlanningApplication < ApplicationRecord
                 awaiting_determination awaiting_correction
                 determined returned withdrawn]
 
-  validates :status, inclusion: STATUSES
+  validates :status,
+            inclusion: { in: STATUSES,
+                         message: "Please select one of the below options" }
+
+  validate :documents_validated_if_not_started
 
   scope :not_started_and_invalid, -> { where("status = 'not_started' OR status = 'invalidated'") }
   scope :under_assessment, -> { where("status = 'in_assessment' OR status = 'awaiting_correction'") }
@@ -52,7 +56,7 @@ class PlanningApplication < ApplicationRecord
     state :withdrawn
 
     event :start do
-      transitions from: [:not_started, :invalidated], to: :in_assessment
+      transitions from: [:not_started, :invalidated], to: :in_assessment, guard: :has_validation_date?
     end
 
     event :assess do
@@ -154,6 +158,16 @@ class PlanningApplication < ApplicationRecord
 
   def cancellable?
     true unless determined? || returned? || withdrawn?
+  end
+
+  def documents_validated_if_not_started
+    if in_assessment? && documents_validated_at.blank?
+      errors.add(:planning_application, "Please enter a valid date")
+    end
+  end
+
+  def has_validation_date?
+    !documents_validated_at.nil?
   end
 
   private
