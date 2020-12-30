@@ -39,7 +39,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   let!(:document) do
-    create :document, :with_plan, :proposed_tags,
+    create :document, :with_file, :proposed_tags,
            planning_application: planning_application
   end
 
@@ -220,7 +220,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     before { document.update(numbers: "a number") }
 
     # Add a new document for publication which will require numbering
-    let!(:new_document_to_number) { create :document, :with_plan, :proposed_tags, planning_application: planning_application }
+    let!(:new_document_to_number) { create :document, :with_file, :proposed_tags, planning_application: planning_application }
 
     scenario "numbering needs to completed before submission" do
       click_link "In assessment"

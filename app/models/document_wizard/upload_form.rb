@@ -2,15 +2,15 @@
 
 module DocumentWizard
   class UploadForm < BaseForm
-    attr_accessor :plan
+    attr_accessor :file
 
-    validates :plan, presence: { message: "Please choose a file" }
+    validates :file, presence: { message: "Please choose a file" }
     validates :tags, presence: { message: "Please select one or more tags" }
 
     def initialize(document_attributes = {})
       super
 
-      @plan = document_attributes[:plan]
+      @file = document_attributes[:file]
     end
   end
 end

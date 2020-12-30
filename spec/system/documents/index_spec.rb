@@ -16,7 +16,7 @@ RSpec.feature "Documents index page", type: :system do
   end
 
   let!(:document) do
-    create :document, :with_plan,
+    create :document, :with_file,
            planning_application: planning_application
   end
 
@@ -44,7 +44,7 @@ RSpec.feature "Documents index page", type: :system do
       expect(page).to have_text "7 Elm Grove"
     end
 
-    scenario "Plan image is the only one on the page" do
+    scenario "File image is the only one on the page" do
       expect(all("img").count).to eq(1)
     end
 
@@ -52,7 +52,7 @@ RSpec.feature "Documents index page", type: :system do
       expect(page).not_to have_text("Application information")
     end
 
-    scenario "Plan image opens in new tab" do
+    scenario "File image opens in new tab" do
       first(:css, 'a[href*="active"]').click
       page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
 

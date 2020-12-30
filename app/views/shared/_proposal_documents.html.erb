@@ -20,15 +20,15 @@
             <%= document.created_at.strftime('%d %b %Y') %>
           </p>
           <p class="govuk-body">
-            <%= link_to "View in new window", rails_blob_path(document.plan), target: :_blank %>
+            <%= link_to "View in new window", rails_blob_path(document.file), target: :_blank %>
           </p>
           <ul class="govuk-list">
             <% document.tags.each do |tag| %>
               <li><strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong></li>
             <% end %>
           </ul>
-          <%= link_to image_tag(document.plan.representation(resize: "300x212")),
-                          rails_blob_path(document.plan), target: :_blank %>
+          <%= link_to image_tag(document.file.representation(resize: "300x212")),
+                          rails_blob_path(document.file), target: :_blank %>
           <br>
           <br>
         <% end %>

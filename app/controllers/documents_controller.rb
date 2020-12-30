@@ -69,7 +69,7 @@ class DocumentsController < AuthenticationController
     )
 
     if !@document_form.valid?
-      @blob = ActiveStorage::Blob.find_signed(@document_form.plan)
+      @blob = ActiveStorage::Blob.find_signed(@document_form.file)
       render :confirm_new
     elsif !@document_form.confirmed?
       @document_form = DocumentWizard::UploadForm.new(document_upload_params)
@@ -78,7 +78,7 @@ class DocumentsController < AuthenticationController
       document = @planning_application.documents.build(document_upload_params)
 
       if document.save
-        flash[:notice] = "#{document.plan.filename} has been uploaded."
+        flash[:notice] = "#{document.file.filename} has been uploaded."
         redirect_to planning_application_documents_path
       else
         @document_form = DocumentWizard::UploadForm.new(document_upload_params)
@@ -99,7 +99,7 @@ class DocumentsController < AuthenticationController
 
     if @document_form.valid?
       # progress to the confirmation step
-      @blob = ActiveStorage::Blob.find_signed(@document_form.plan)
+      @blob = ActiveStorage::Blob.find_signed(@document_form.file)
     else
       render :new
     end
@@ -155,11 +155,11 @@ class DocumentsController < AuthenticationController
   end
 
   def document_params
-    params.fetch(:document, {}).permit(:archive_reason, :name, :archived_at, :numbers, :plan, tags: [])
+    params.fetch(:document, {}).permit(:archive_reason, :name, :archived_at, :numbers, :file, tags: [])
   end
 
   def document_upload_params
-    params.fetch(:document_form, {}).permit(:plan, tags: [])
+    params.fetch(:document_form, {}).permit(:file, tags: [])
   end
 
   def document_upload_confirmation_params

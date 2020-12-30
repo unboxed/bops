@@ -21,10 +21,10 @@ task create_sample_data: :environment do
   pc4 = pcb.import
 
   image_path = "spec/fixtures/images/"
-  plan_1 = Rails.root.join("#{image_path}existing-first-floor-plan.pdf")
-  plan_2 = Rails.root.join("#{image_path}existing-roofplan.pdf")
-  plan_3 = Rails.root.join("#{image_path}proposed-first-floor-plan.pdf")
-  plan_4 = Rails.root.join("#{image_path}proposed-roofplan.pdf")
+  file_1 = Rails.root.join("#{image_path}existing-first-floor-plan.pdf")
+  file_2 = Rails.root.join("#{image_path}existing-roofplan.pdf")
+  file_3 = Rails.root.join("#{image_path}proposed-first-floor-plan.pdf")
+  file_4 = Rails.root.join("#{image_path}proposed-roofplan.pdf")
 
   sample_constraints = '{"conservation_area": false,"article4_area": true,"scheduled_monument": false }'
 
@@ -269,28 +269,28 @@ task create_sample_data: :environment do
     document_1 = application.documents.create(
       tags: Document::TAGS.sample(rand(1..3))
     )
-    document_1.plan.attach(io: File.open(plan_1),
+    document_1.file.attach(io: File.open(file_1),
       filename: "existing-first-floor-plan.pdf"
     )
 
     document_2 = application.documents.create(
       tags: Document::TAGS.sample(rand(1..3))
     )
-    document_2.plan.attach(io: File.open(plan_2),
+    document_2.file.attach(io: File.open(file_2),
       filename: "existing-roofplan.pdf"
     )
 
     document_3 = application.documents.create(
       tags: Document::TAGS.sample(rand(1..3))
     )
-    document_3.plan.attach(io: File.open(plan_3),
+    document_3.file.attach(io: File.open(file_3),
       filename: "proposed-first-floor-plan.pdf"
     )
 
     document_4 = application.documents.create(
       tags: Document::TAGS.sample(rand(1..3))
     )
-    document_4.plan.attach(io: File.open(plan_4),
+    document_4.file.attach(io: File.open(file_4),
       filename: "proposed-roofplan.pdf"
     )
   end

@@ -3,7 +3,7 @@
 class Document < ApplicationRecord
   belongs_to :planning_application
 
-  has_one_attached :plan
+  has_one_attached :file
 
   enum archive_reason: { scale: 0, design: 1,
                          dimensions: 2, other: 3 }
@@ -28,7 +28,7 @@ class Document < ApplicationRecord
   PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"]
 
   validate :tag_values_permitted
-  validate :plan_content_type_permitted
+  validate :file_content_type_permitted
 
   scope :has_proposed_tag, -> {
     where("tags ?| array[:proposed_tag_array]",
@@ -41,7 +41,7 @@ class Document < ApplicationRecord
   scope :for_publication, -> { active.has_proposed_tag }
 
   def name
-    plan.filename if plan.attached?
+    file.filename if file.attached?
   end
 
   def archived?
@@ -71,11 +71,11 @@ class Document < ApplicationRecord
     end
   end
 
-  def plan_content_type_permitted
-    return unless plan.attached? && plan.blob&.content_type
+  def file_content_type_permitted
+    return unless file.attached? && file.blob&.content_type
 
-    unless PERMITTED_CONTENT_TYPES.include? plan.blob.content_type
-      errors.add(:plan, :unsupported_file_type)
+    unless PERMITTED_CONTENT_TYPES.include? file.blob.content_type
+      errors.add(:file, :unsupported_file_type)
     end
   end
 end

@@ -33,7 +33,7 @@ RSpec.describe "Planning Application correction journey", type: :system do
       create :document,
              :proposed_tags,
              :numbered,
-             :with_plan,
+             :with_file,
              planning_application: planning_application_corrected
     end
 

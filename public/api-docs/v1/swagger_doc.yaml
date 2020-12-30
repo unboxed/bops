@@ -200,7 +200,7 @@ paths:
                   example: applicant@example.com
                 constraints:
                   type: object
-                plans:
+                files:
                   type: array
                   items:
                     type: object
@@ -257,6 +257,6 @@ paths:
                   constraints:
                     conservation_area: true
                     protected_trees: false
-                  plans:
+                  files:
                     - filename: https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf
                       tags: front elevation - proposed

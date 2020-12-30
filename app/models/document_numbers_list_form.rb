@@ -46,8 +46,8 @@ class DocumentNumbersListForm
         @document = document
       end
 
-      def plan
-        document.plan
+      def file
+        document.file
       end
 
       def name

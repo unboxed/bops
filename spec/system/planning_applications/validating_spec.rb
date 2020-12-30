@@ -21,7 +21,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   let!(:document) do
-    create :document, :with_plan, :proposed_tags,
+    create :document, :with_file, :proposed_tags,
            planning_application: planning_application
   end
 

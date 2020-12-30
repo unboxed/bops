@@ -10,7 +10,7 @@ RSpec.describe "Document uploads", type: :system do
            local_authority: local_authority
   end
 
-  let!(:document) { create :document, :with_plan, planning_application: planning_application }
+  let!(:document) { create :document, :with_file, planning_application: planning_application }
   let(:assessor) { create :user, :assessor, local_authority: local_authority }
   let(:reviewer) { create :user, :reviewer, local_authority: local_authority }
 

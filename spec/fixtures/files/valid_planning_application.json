@@ -114,7 +114,7 @@
     "phone_2": 7971111111,
     "email": "applicant@example.com"
   },
-  "plans": [{
+  "files": [{
     "filename": "https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
     "tags": "front elevation - proposed"
   },

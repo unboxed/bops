@@ -62,7 +62,7 @@ en:
       models:
         document:
           attributes:
-            plan:
+            file:
               unsupported_file_type: "The selected file must be a PDF, JPG or PNG"
             tags:
               unpermitted_tags: "Please choose valid tags"

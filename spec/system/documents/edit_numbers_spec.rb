@@ -40,22 +40,22 @@ RSpec.feature "Edit document numbers page", type: :system do
       let!(:proposed_tag) { Document::PROPOSED_TAGS.first }
 
       let!(:proposed_document_1) do
-        create :document, :with_plan, tags: [ proposed_tag ],
+        create :document, :with_file, tags: [ proposed_tag ],
               planning_application: planning_application
       end
 
       let!(:proposed_document_2) do
-        create :document, :with_plan, tags: [ proposed_tag ],
+        create :document, :with_file, tags: [ proposed_tag ],
               planning_application: planning_application
       end
 
       let!(:existing_document) do
-        create :document, :with_plan, :existing_tags,
+        create :document, :with_file, :existing_tags,
               planning_application: planning_application
       end
 
       let!(:archived_document) do
-        create :document, :with_plan, :proposed_tags, :archived,
+        create :document, :with_file, :proposed_tags, :archived,
               planning_application: planning_application
       end
 
