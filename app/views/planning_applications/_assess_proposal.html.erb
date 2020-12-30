@@ -7,7 +7,7 @@
       <li class="app-task-list__item">
         <% step_name = t("#{@planning_application.status}.validation_step") %>
         <% aria_attributes = @planning_application.in_assessment? ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
-        <% path = planning_application_drawings_path(@planning_application) %>
+        <% path = planning_application_documents_path(@planning_application) %>
         <span class="app-task-list__task-name"><%= link_to step_name, path, aria: aria_attributes %></span>
 
         <% unless @planning_application.not_started? %>
@@ -37,29 +37,29 @@
 
       <% if (current_user.assessor?) %>
         <li class="app-task-list__item">
-          <% step_name = "Attach drawing numbers" %>
+          <% step_name = "Attach document numbers" %>
 
           <% if @planning_application.awaiting_determination? || @planning_application.determined? %>
             <span class="app-task-list__task-name"><%= step_name %></span>
 
-            <% if @planning_application.drawings_ready_for_publication? %>
+            <% if @planning_application.documents_ready_for_publication? %>
               <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-tag" %>
             <% end %>
           <% else %>
-            <% if @planning_application.drawings_ready_for_publication? %>
+            <% if @planning_application.documents_ready_for_publication? %>
               <% aria_attributes = { describedby: "#{step_name.parameterize}-completed" } %>
 
-              <span class="app-task-list__task-name"><%= link_to step_name, edit_numbers_planning_application_drawings_path(@planning_application), aria: aria_attributes %></span>
+              <span class="app-task-list__task-name"><%= link_to step_name, edit_numbers_planning_application_documents_path(@planning_application), aria: aria_attributes %></span>
 
               <%= tag.strong "Completed", id: "#{step_name.parameterize}-completed", class: "govuk-tag app-task-list__task-tag" %>
-            <% elsif @planning_application.drawing_numbering_partially_completed? %>
+            <% elsif @planning_application.document_numbering_partially_completed? %>
               <% aria_attributes = { describedby: "#{step_name.parameterize}-in-progress" } %>
 
-              <span class="app-task-list__task-name"><%= link_to step_name, edit_numbers_planning_application_drawings_path(@planning_application), aria: aria_attributes %></span>
+              <span class="app-task-list__task-name"><%= link_to step_name, edit_numbers_planning_application_documents_path(@planning_application), aria: aria_attributes %></span>
 
               <%= tag.strong "In Progress", id: "#{step_name.parameterize}-in-progress", class: "govuk-tag govuk-tag--grey app-task-list__task-tag" %>
             <% else %>
-              <span class="app-task-list__task-name"><%= link_to step_name, edit_numbers_planning_application_drawings_path(@planning_application) %></span>
+              <span class="app-task-list__task-name"><%= link_to step_name, edit_numbers_planning_application_documents_path(@planning_application) %></span>
             <% end %>
           <% end %>
         </li>
@@ -69,7 +69,7 @@
         <% step_name = t("#{@planning_application.status}.recommendation_step") %>
         <% aria_attributes = @planning_application.awaiting_determination? ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
 
-        <% if current_user.assessor? && @planning_application.assessor_decision && @planning_application.drawings_ready_for_publication? %>
+        <% if current_user.assessor? && @planning_application.assessor_decision && @planning_application.documents_ready_for_publication? %>
           <span class="app-task-list__task-name"><%= link_to step_name, edit_planning_application_path(@planning_application), aria: aria_attributes %></span>
         <% elsif current_user.reviewer? && @planning_application.reviewer_decision  && !@planning_application.awaiting_correction? %>
           <span class="app-task-list__task-name"><%= link_to step_name, edit_planning_application_path(@planning_application), aria: aria_attributes %></span>

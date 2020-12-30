@@ -48,7 +48,7 @@ RSpec.describe Api::V1::PlanningApplicationsController, type: :request, show_exc
       it "downloads and saves the plan against the planning application" do
         post "/api/v1/planning_applications", params: permitted_development_json,
              headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
-        expect(PlanningApplication.last.drawings.first.plan).to be_present
+        expect(PlanningApplication.last.documents.first.plan).to be_present
       end
 
       it "returns a 200 response" do

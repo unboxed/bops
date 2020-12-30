@@ -60,7 +60,7 @@ en:
   activerecord:
     errors:
       models:
-        drawing:
+        document:
           attributes:
             plan:
               unsupported_file_type: "The selected file must be a PDF, JPG or PNG"

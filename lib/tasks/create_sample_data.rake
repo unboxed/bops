@@ -266,31 +266,31 @@ task create_sample_data: :environment do
    lambeth_planning_application,
    bucks_planning_application,
    bucks_second_planning_application].each do |application|
-    drawing_1 = application.drawings.create(
-      tags: Drawing::TAGS.sample(rand(1..3))
+    document_1 = application.documents.create(
+      tags: Document::TAGS.sample(rand(1..3))
     )
-    drawing_1.plan.attach(io: File.open(plan_1),
+    document_1.plan.attach(io: File.open(plan_1),
       filename: "existing-first-floor-plan.pdf"
     )
 
-    drawing_2 = application.drawings.create(
-      tags: Drawing::TAGS.sample(rand(1..3))
+    document_2 = application.documents.create(
+      tags: Document::TAGS.sample(rand(1..3))
     )
-    drawing_2.plan.attach(io: File.open(plan_2),
+    document_2.plan.attach(io: File.open(plan_2),
       filename: "existing-roofplan.pdf"
     )
 
-    drawing_3 = application.drawings.create(
-      tags: Drawing::TAGS.sample(rand(1..3))
+    document_3 = application.documents.create(
+      tags: Document::TAGS.sample(rand(1..3))
     )
-    drawing_3.plan.attach(io: File.open(plan_3),
+    document_3.plan.attach(io: File.open(plan_3),
       filename: "proposed-first-floor-plan.pdf"
     )
 
-    drawing_4 = application.drawings.create(
-      tags: Drawing::TAGS.sample(rand(1..3))
+    document_4 = application.documents.create(
+      tags: Document::TAGS.sample(rand(1..3))
     )
-    drawing_4.plan.attach(io: File.open(plan_4),
+    document_4.plan.attach(io: File.open(plan_4),
       filename: "proposed-roofplan.pdf"
     )
   end

@@ -29,8 +29,8 @@ RSpec.describe "Planning Application correction journey", type: :system do
     end
 
     # Required for submitting decision
-    let!(:drawing) do
-      create :drawing,
+    let!(:document) do
+      create :document,
              :proposed_tags,
              :numbered,
              :with_plan,

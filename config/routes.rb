@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     end
     resources :decisions, only: %i[new create edit update show]
 
-    resources :drawings, only: %i[index new create edit update] do
+    resources :documents, only: %i[index new create edit update] do
       get :edit_numbers, on: :collection
       put :update_numbers, on: :collection
 

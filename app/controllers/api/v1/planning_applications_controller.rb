@@ -24,7 +24,7 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
     full_planning_application(site_id, @current_local_authority.id)
     if @planning_application.valid? && @planning_application.save!
       attach_question_flow(@planning_application.questions)
-      upload_drawings(params[:plans])
+      upload_documents(params[:plans])
       send_success_response
     else
       send_failed_response
@@ -48,11 +48,11 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
     end
   end
 
-  def upload_drawings(drawing_params)
-    unless drawing_params.nil?
-      drawing_params.each do |param|
-        drawing = @planning_application.drawings.create(tags: Array(param[:tags]))
-        drawing.plan.attach(io: File.open(open(param[:filename])), filename: "#{new_plan_filename(param[:filename])}")
+  def upload_documents(document_params)
+    unless document_params.nil?
+      document_params.each do |param|
+        document = @planning_application.documents.create(tags: Array(param[:tags]))
+        document.plan.attach(io: File.open(open(param[:filename])), filename: "#{new_plan_filename(param[:filename])}")
       end
     end
   end

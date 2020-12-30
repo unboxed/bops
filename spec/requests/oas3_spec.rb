@@ -55,7 +55,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
     expect(PlanningApplication.last.agent_email).to eq('agent@example.com')
     expect(JSON.parse(PlanningApplication.last.questions)['flow'].first['text']).to eq('The property is')
     expect(JSON.parse(PlanningApplication.last.constraints)['conservation_area']).to eq(true)
-    expect(PlanningApplication.last.drawings.first.plan).to be_present
+    expect(PlanningApplication.last.documents.first.plan).to be_present
   end
 
   it "should successfully return the listing of applications as specified" do
