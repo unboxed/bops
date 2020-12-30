@@ -20,7 +20,7 @@
             No documents are available
         </span>
 
-        <p class="govuk-body">This could be because the proposed plans:</p>
+        <p class="govuk-body">This could be because the proposed files:</p>
 
         <ul class="govuk-list govuk-list--bullet">
           <li>have not been submitted</li>
@@ -53,10 +53,10 @@
                 <p class="govuk-body">
                   <%= document.created_at.strftime("%e %B %Y") %>
                   <br/>
-                  <%= link_to "View in new window", rails_blob_path(document.plan), target: :_blank %>
+                  <%= link_to "View in new window", rails_blob_path(document.file), target: :_blank %>
                 </p>
-                <%= link_to image_tag(document.plan.representation(resize: "300x212")),
-                            rails_blob_path(document.plan), target: :_blank %>          <br/>
+                <%= link_to image_tag(document.file.representation(resize: "300x212")),
+                            rails_blob_path(document.file), target: :_blank %>          <br/>
 
                 <div class="govuk-form-group <%= document.errors[:numbers].any? ? 'govuk-form-group--error' : '' %>">
                   <% if document.errors[:numbers].any? %>

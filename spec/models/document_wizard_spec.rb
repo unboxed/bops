@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe DocumentWizard, type: :model do
-  subject { FactoryBot.create :document, :with_plan }
+  subject { FactoryBot.create :document, :with_file }
 
   it "should be valid when created" do
     form = DocumentWizard::ArchiveForm.new({ id: subject.id, archive_reason: "scale", updated_at: Time.current })

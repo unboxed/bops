@@ -38,7 +38,7 @@
         <%= form.hidden_field "tags", multiple: true, value: tag %>
       <% end %>
 
-      <%= form.hidden_field :plan, value: @blob.signed_id %>
+      <%= form.hidden_field :file, value: @blob.signed_id %>
 
       <p class="govuk-body govuk-!-font-weight-bold">Is this file and its tags correct?</p>
 

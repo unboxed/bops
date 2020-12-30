@@ -16,10 +16,10 @@
 
     <h2 class="govuk-heading-m"><%= @document.name %></h2>
 
-    <%= link_to image_tag(@document.plan.representation(resize: "500x500")),
-                rails_blob_path(@document.plan), target: :_blank %>
+    <%= link_to image_tag(@document.file.representation(resize: "500x500")),
+                rails_blob_path(@document.file), target: :_blank %>
     <p class="govuk-body">
-      <%= link_to "View in new window", rails_blob_path(@document.plan), target: :_new %>
+      <%= link_to "View in new window", rails_blob_path(@document.file), target: :_new %>
     </p>
 
     <%= form_with model: [ @planning_application, @document ], local: true do |form| %>

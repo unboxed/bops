@@ -1,12 +1,12 @@
-<div class="govuk-form-group <%= form.object.errors[:plan].any? ? 'govuk-form-group--error' : '' %>">
-  <%= form.label :plan, "Upload a file", class: "govuk-label" %>
+<div class="govuk-form-group <%= form.object.errors[:file].any? ? 'govuk-form-group--error' : '' %>">
+  <%= form.label :file, "Upload a file", class: "govuk-label" %>
 
-  <% if form.object.errors[:plan].any? %>
-    <% form.object.errors[:plan].each do |error| %>
+  <% if form.object.errors[:file].any? %>
+    <% form.object.errors[:file].each do |error| %>
       <span id="status-error" class="govuk-error-message">
         <span class="govuk-visually-hidden">Error:</span><%= error %></span>
     <% end %>
   <% end %>
 
-  <%= form.file_field :plan, direct_upload: true, class: "govuk-file-upload" %>
+  <%= form.file_field :file, direct_upload: true, class: "govuk-file-upload" %>
 </div>

@@ -24,7 +24,7 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
     full_planning_application(site_id, @current_local_authority.id)
     if @planning_application.valid? && @planning_application.save!
       attach_question_flow(@planning_application.questions)
-      upload_documents(params[:plans])
+      upload_documents(params[:files])
       send_success_response
     else
       send_failed_response
@@ -52,12 +52,12 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
     unless document_params.nil?
       document_params.each do |param|
         document = @planning_application.documents.create(tags: Array(param[:tags]))
-        document.plan.attach(io: File.open(open(param[:filename])), filename: "#{new_plan_filename(param[:filename])}")
+        document.file.attach(io: File.open(open(param[:filename])), filename: "#{new_filename(param[:filename])}")
       end
     end
   end
 
-  def new_plan_filename(name)
+  def new_filename(name)
     name.split("/")[-1]
   end
 
@@ -92,7 +92,7 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
                       :applicant_first_name, :applicant_last_name,
                       :applicant_phone, :applicant_email,
                       :agent_first_name, :agent_last_name,
-                      :agent_phone, :agent_email, :questions, :plans,
+                      :agent_phone, :agent_email, :questions, :files,
                       :payment_reference]
     params.permit permitted_keys
   end

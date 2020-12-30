@@ -20,7 +20,7 @@ RSpec.feature "Documents index page", type: :system do
   }
 
   let!(:document) do
-    create :document, :with_plan,
+    create :document, :with_file,
            planning_application: planning_application,
            tags: document_tags
   end

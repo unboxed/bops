@@ -41,7 +41,7 @@ RSpec.describe PlanningApplication, type: :model do
 
   describe "state transitions" do
     let!(:proposed_document_1) do
-      create :document, :with_plan, :proposed_tags,
+      create :document, :with_file, :proposed_tags,
              planning_application: subject,
              numbers: "number"
     end
@@ -390,18 +390,18 @@ RSpec.describe PlanningApplication, type: :model do
 
   describe "#documents_ready_for_publication?" do
     let!(:proposed_document_1) do
-      create :document, :with_plan, :proposed_tags,
+      create :document, :with_file, :proposed_tags,
             planning_application: subject,
             numbers: "number"
     end
 
     let!(:existing_document) do
-      create :document, :with_plan, :existing_tags,
+      create :document, :with_file, :existing_tags,
             planning_application: subject
     end
 
     let!(:archived_document) do
-      create :document, :with_plan, :proposed_tags, :archived,
+      create :document, :with_file, :proposed_tags, :archived,
             planning_application: subject,
             numbers: "number"
     end
@@ -414,7 +414,7 @@ RSpec.describe PlanningApplication, type: :model do
 
     context "when there is a proposed, non-archived document without numbers" do
       let!(:proposed_document_2) do
-        create :document, :with_plan, :proposed_tags,
+        create :document, :with_file, :proposed_tags,
               planning_application: subject
       end
 

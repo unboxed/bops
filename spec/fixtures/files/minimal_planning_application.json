@@ -22,7 +22,7 @@
     "town": "London",
     "postcode": "SE16 3RQ"
   },
-  "plans": [{
+  "files": [{
     "filename": "https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
     "tags": "front elevation - proposed"
   },

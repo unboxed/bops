@@ -38,8 +38,8 @@ RSpec.describe Document, type: :model do
   describe "validations" do
     before { subject.save }
 
-    it "is valid for a png plan content type" do
-      subject.plan.attach(
+    it "is valid for a png file content type" do
+      subject.file.attach(
         io: File.open(Rails.root.join("spec/fixtures/images/existing-roofplan.pdf")),
         filename: "existing-roofplan.png",
         content_type: "image/png"
@@ -48,8 +48,8 @@ RSpec.describe Document, type: :model do
       expect(subject).to be_valid
     end
 
-    it "is valid for a pdf plan content type" do
-      subject.plan.attach(
+    it "is valid for a pdf file content type" do
+      subject.file.attach(
         io: File.open(Rails.root.join("spec/fixtures/images/existing-roofplan.pdf")),
         filename: "existing-roofplan.pdf",
         content_type: "application/pdf"
@@ -58,8 +58,8 @@ RSpec.describe Document, type: :model do
       expect(subject).to be_valid
     end
 
-    it "is invalid for an unpermitted plan content type" do
-      subject.plan.attach(
+    it "is invalid for an unpermitted file content type" do
+      subject.file.attach(
         io: File.open(Rails.root.join("spec/fixtures/images/bmp.bmp")),
         filename: "bmp.bmp",
         content_type: "image/bmp"
