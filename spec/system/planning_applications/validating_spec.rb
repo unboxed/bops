@@ -20,8 +20,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
             local_authority: local_authority
   end
 
-  let!(:drawing) do
-    create :drawing, :with_plan, :proposed_tags,
+  let!(:document) do
+    create :document, :with_plan, :proposed_tags,
            planning_application: planning_application
   end
 

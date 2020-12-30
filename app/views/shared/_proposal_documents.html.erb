@@ -9,26 +9,26 @@
   <div id="accordion-default-content-2" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
     <div class="scroll-docs">
       <p class="govuk-body govuk-!-margin-bottom-1">
-        <%= link_to "Manage documents", planning_application_drawings_path(@planning_application) %>
+        <%= link_to "Manage documents", planning_application_documents_path(@planning_application) %>
       </p>
       <div class="govuk-accordion__section-content">
-        <% filter_current(@planning_application.drawings).each do |drawing| %>
+        <% filter_current(@planning_application.documents).each do |document| %>
           <p class="govuk-body doc-names govuk-!-margin-bottom-1">
-            <%= drawing.name %>
+            <%= document.name %>
           </p>
           <p class="govuk-body">
-            <%= drawing.created_at.strftime('%d %b %Y') %>
+            <%= document.created_at.strftime('%d %b %Y') %>
           </p>
           <p class="govuk-body">
-            <%= link_to "View in new window", rails_blob_path(drawing.plan), target: :_blank %>
+            <%= link_to "View in new window", rails_blob_path(document.plan), target: :_blank %>
           </p>
           <ul class="govuk-list">
-            <% drawing.tags.each do |tag| %>
+            <% document.tags.each do |tag| %>
               <li><strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong></li>
             <% end %>
           </ul>
-          <%= link_to image_tag(drawing.plan.representation(resize: "300x212")),
-                          rails_blob_path(drawing.plan), target: :_blank %>
+          <%= link_to image_tag(document.plan.representation(resize: "300x212")),
+                          rails_blob_path(document.plan), target: :_blank %>
           <br>
           <br>
         <% end %>

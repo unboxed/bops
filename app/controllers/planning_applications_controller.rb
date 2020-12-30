@@ -103,8 +103,8 @@ class PlanningApplicationsController < AuthenticationController
       flash[:notice] = "Application has been invalidated"
       redirect_to @planning_application
     else
-      render template: "drawings/index", planning_application: @planning_application,
-             drawings: @planning_application.drawings
+      render template: "documents/index", planning_application: @planning_application,
+             documents: @planning_application.documents
     end
   end
   # rubocop: enable Metrics/MethodLength
@@ -127,8 +127,8 @@ class PlanningApplicationsController < AuthenticationController
     if @planning_application.save
       @planning_application.start!
     else
-      render template: "drawings/index", planning_application: @planning_application,
-           drawings: @planning_application.drawings
+      render template: "documents/index", planning_application: @planning_application,
+           documents: @planning_application.documents
     end
   end
 

@@ -1,0 +1,30 @@
+<%= form_for(@document_form, as: :document_form, url: planning_application_document_validate_step_path) do |form| %>
+  <div class="govuk-form-group">
+    <%= hidden_field_tag :current_step, 'archive' %>
+    <fieldset class="govuk-fieldset">
+      <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
+       <% if form.object.errors.any? %>
+         <% form.object.errors.each do |attribute, error| %>
+           <span id="status-error" class="govuk-error-message">
+             <span class="govuk-visually-hidden">Error:</span><%= error %></span>
+         <% end %>
+       <% end %>
+        <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+          <%= form.collection_radio_buttons :archive_reason, archive_reason_collection_for_radio_buttons, :first, :last do |button| %>
+            <div class='govuk-radios govuk-radios--conditional'>
+              <div class="govuk-radios govuk-radios--small">
+                <div class="govuk-radios__item">
+                  <%= button.radio_button(class: "govuk-radios__input", "aria-controls": "archive-reason-#{button}") %>
+                  <%= button.label(class: "govuk-label govuk-radios__label") %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </fieldset>
+    <p>
+      <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+    </p>
+  </div>
+<% end %>

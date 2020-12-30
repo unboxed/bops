@@ -17,20 +17,20 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     let!(:planning_application) { create(:planning_application, :determined, local_authority: local_authority) }
     let!(:decision) { create(:decision, :granted, user: reviewer, planning_application: planning_application) }
 
-    let!(:drawing_with_proposed_tags) do
-      create :drawing, :proposed_tags,
+    let!(:document_with_proposed_tags) do
+      create :document, :proposed_tags,
              planning_application: planning_application,
              numbers: "proposed_number_1, proposed_number_2"
     end
 
-    let!(:archived_drawing_with_proposed_tags) do
-      create :drawing, :archived, :proposed_tags,
+    let!(:archived_document_with_proposed_tags) do
+      create :document, :archived, :proposed_tags,
              planning_application: planning_application,
              numbers: "archived_number"
     end
 
-    let!(:drawing_with_existing_tags) do
-      create :drawing, :existing_tags,
+    let!(:document_with_existing_tags) do
+      create :document, :existing_tags,
              planning_application: planning_application,
              numbers: "existing_number"
     end
@@ -52,7 +52,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(mail.body.encoded).to match("Local authority: #{planning_application.local_authority.name}")
     end
 
-    it "renders numbers for active drawings with proposed tags" do
+    it "renders numbers for active documents with proposed tags" do
       expect(mail.body.encoded).to match("proposed_number_1")
       expect(mail.body.encoded).to match("proposed_number_2")
     end
@@ -65,11 +65,11 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(mail.body.encoded).to match("biscuit@somuchbiscuit.com")
     end
 
-    it "does not render numbers for archived drawings with proposed tags" do
+    it "does not render numbers for archived documents with proposed tags" do
       expect(mail.body.encoded).not_to match("archived_number")
     end
 
-    it "does not render numbers for active drawings that have only existing tags" do
+    it "does not render numbers for active documents that have only existing tags" do
       expect(mail.body.encoded).not_to match("existing_number")
     end
 

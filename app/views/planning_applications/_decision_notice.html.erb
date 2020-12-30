@@ -51,12 +51,12 @@
         </tr>
       </thead>
       <tbody class="govuk-table__body">
-        <% planning_application.drawings.for_publication.each do |drawing| %>
-         <% if drawing.numbers.present? %>
-          <% drawing.numbers.split(",").each do |number| %>
+        <% planning_application.documents.for_publication.each do |document| %>
+         <% if document.numbers.present? %>
+          <% document.numbers.split(",").each do |number| %>
             <tr class="govuk-table__row">
             <td class="govuk-table__cell"><%= number %></td>
-            <td class="govuk-table__cell"><%= drawing.created_at.strftime("%e %B %Y") %></td>
+            <td class="govuk-table__cell"><%= document.created_at.strftime("%e %B %Y") %></td>
           </tr>
          <% end %>
         <% end %>

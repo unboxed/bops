@@ -1,0 +1,25 @@
+<div class="govuk-form-group <%= form.object.errors[:tags].any? ? 'govuk-form-group--error' : '' %>">
+  <fieldset class="govuk-fieldset">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend">
+      <p class="govuk-fieldset__heading govuk-!-font-weight-bold">
+        What does the document contain?
+      </p>
+    </legend>
+
+    <% if form.object.errors[:tags].any? %>
+      <% form.object.errors[:tags].each do |error| %>
+        <span id="status-error" class="govuk-error-message">
+          <span class="govuk-visually-hidden">Error:</span><%= error %></span>
+      <% end %>
+    <% end %>
+
+    <div class="govuk-checkboxes govuk-checkboxes--small">
+      <%= form.collection_check_boxes :tags, Document::TAGS, :itself, :itself, include_hidden: false do |b| %>
+        <div class="govuk-checkboxes__item">
+          <%= b.check_box class: "govuk-checkboxes__input" %>
+          <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+        </div>
+      <% end %>
+    </div>
+  </fieldset>
+</div>

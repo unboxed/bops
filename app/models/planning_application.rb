@@ -10,7 +10,7 @@ class PlanningApplication < ApplicationRecord
   has_one :policy_evaluation, dependent: :destroy
   has_many :decisions, dependent: :destroy
 
-  has_many :drawings, dependent: :destroy
+  has_many :documents, dependent: :destroy
 
   has_one :assessor_decision, -> {
       joins(:user).where(users: { role: :assessor })
@@ -141,19 +141,19 @@ class PlanningApplication < ApplicationRecord
     awaiting_correction? || determined?
   end
 
-  def drawings_ready_for_publication?
-    drawings_for_publication = drawings.for_publication
+  def documents_ready_for_publication?
+    documents_for_publication = documents.for_publication
 
-    drawings_for_publication.present? &&
-      drawings_for_publication.has_empty_numbers.none?
+    documents_for_publication.present? &&
+      documents_for_publication.has_empty_numbers.none?
   end
 
-  def drawing_numbering_partially_completed?
-    numbered_count = drawings.has_proposed_tag.numbered.count
+  def document_numbering_partially_completed?
+    numbered_count = documents.has_proposed_tag.numbered.count
 
     return false if numbered_count.zero?
 
-    numbered_count < drawings.has_proposed_tag.count
+    numbered_count < documents.has_proposed_tag.count
   end
 
   def cancellable?

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_23_164330) do
+ActiveRecord::Schema.define(version: 2020_12_30_150801) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 2020_12_23_164330) do
     t.index ["user_id"], name: "index_decisions_on_user_id"
   end
 
-  create_table "drawings", force: :cascade do |t|
+  create_table "documents", force: :cascade do |t|
     t.bigint "planning_application_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 2020_12_23_164330) do
     t.integer "archive_reason"
     t.jsonb "tags", default: [], null: false
     t.jsonb "numbers", default: [], null: false
-    t.index ["planning_application_id"], name: "index_drawings_on_planning_application_id"
+    t.index ["planning_application_id"], name: "index_documents_on_planning_application_id"
   end
 
   create_table "local_authorities", force: :cascade do |t|
@@ -107,13 +107,15 @@ ActiveRecord::Schema.define(version: 2020_12_23_164330) do
     t.string "applicant_phone"
     t.bigint "local_authority_id"
     t.jsonb "constraints"
+    t.string "payment_reference"
     t.datetime "invalidated_at"
     t.datetime "withdrawn_at"
     t.datetime "returned_at"
-    t.string "payment_reference"
     t.text "cancellation_comment"
+    t.string "reference"
     t.date "documents_validated_at"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
+    t.index ["reference"], name: "index_planning_applications_on_reference", unique: true
     t.index ["site_id"], name: "index_planning_applications_on_site_id"
     t.index ["user_id"], name: "index_planning_applications_on_user_id"
   end

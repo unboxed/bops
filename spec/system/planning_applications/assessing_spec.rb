@@ -38,8 +38,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
             policy_considerations: [policy_consideration_1, policy_consideration_2]
   end
 
-  let!(:drawing) do
-    create :drawing, :with_plan, :proposed_tags,
+  let!(:document) do
+    create :document, :with_plan, :proposed_tags,
            planning_application: planning_application
   end
 
@@ -109,13 +109,13 @@ RSpec.describe "Planning Application Assessment", type: :system do
     # Unable to submit yet because not all steps are complete
     expect(page).not_to have_link("Submit the recommendation")
 
-    click_link "Attach drawing numbers"
+    click_link "Attach document numbers"
 
-    fill_in("Drawing number:", with: "proposed_drawing_number_1, proposed_drawing_number_2")
+    fill_in("Document number:", with: "proposed_document_number_1, proposed_document_number_2")
 
     click_button "Save"
 
-    within(:assessment_step, "Attach drawing numbers") do
+    within(:assessment_step, "Attach document numbers") do
       expect(page).to have_content("Completed")
     end
 
@@ -134,9 +134,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
     # Address, TODO: add a fixture test for this
     # Application number
     expect(page).to have_content("#{planning_application.reference}")
-    # Drawings
-    expect(page).to have_content("proposed_drawing_number_1")
-    expect(page).to have_content("proposed_drawing_number_2")
+    # Documents
+    expect(page).to have_content("proposed_document_number_1")
+    expect(page).to have_content("proposed_document_number_2")
     expect(page).to have_content("Certificate of lawful development (proposed) for the construction of #{planning_application.description}")
 
     # Local authority specific fields
@@ -156,7 +156,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).not_to have_content("Completed")
     end
 
-    expect(page).not_to have_link "Attach drawing numbers"
+    expect(page).not_to have_link "Attach document numbers"
 
     click_link "Review the recommendation"
     click_link "Back"
@@ -212,15 +212,15 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
   end
 
-  context "when a drawing for publication is added after initial numbering" do
+  context "when a document for publication is added after initial numbering" do
     # Simulate a completed decision step
     let!(:assessor_decision) { create :decision, :granted, user: assessor, planning_application: planning_application }
 
-    # Number the current drawing
-    before { drawing.update(numbers: "a number") }
+    # Number the current document
+    before { document.update(numbers: "a number") }
 
-    # Add a new drawing for publication which will require numbering
-    let!(:new_drawing_to_number) { create :drawing, :with_plan, :proposed_tags, planning_application: planning_application }
+    # Add a new document for publication which will require numbering
+    let!(:new_document_to_number) { create :document, :with_plan, :proposed_tags, planning_application: planning_application }
 
     scenario "numbering needs to completed before submission" do
       click_link "In assessment"
@@ -228,28 +228,28 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       expect(page).not_to have_link "Submit the recommendation"
 
-      within(:assessment_step, "Attach drawing numbers") do
+      within(:assessment_step, "Attach document numbers") do
         expect(page).to have_content("In Progress")
       end
 
-      click_link("Attach drawing numbers")
+      click_link("Attach document numbers")
 
       expect(page).to have_css(".thumbnail", count: 2)
 
       within(all(".thumbnail").last) do
-        fill_in "Drawing number:", with: "new_drawing_number_1"
+        fill_in "Document number:", with: "new_document_number_1"
       end
 
       click_button "Save"
 
-      within(:assessment_step, "Attach drawing numbers") do
+      within(:assessment_step, "Attach document numbers") do
         expect(page).to have_content("Completed")
       end
 
       click_link "Submit the recommendation"
 
       expect(page).to have_content "a number"
-      expect(page).to have_content "new_drawing_number_1"
+      expect(page).to have_content "new_document_number_1"
     end
   end
 

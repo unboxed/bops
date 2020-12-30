@@ -6,7 +6,7 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
   def decision_notice_mail(planning_application)
     @planning_application = planning_application
     @decision = @planning_application.reviewer_decision
-    @drawings = @planning_application.drawings.for_publication
+    @documents = @planning_application.documents.for_publication
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
