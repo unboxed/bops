@@ -63,9 +63,9 @@
     <li class="app-task-list__item">
       <div class="govuk-grid-column-one-quarter">
         <%= link_to image_tag(document.file.representation(resize: "300x212"), class: "govuk-!-width-full"),
-                    rails_blob_path(document.file), target: :_blank %>
+                    api_v1_planning_application_document_url(@planning_application, document), target: :_blank %>
         <p class="govuk-body">
-          <%= link_to "View in new window", rails_blob_path(document.file), target: :_new %>
+          <%= link_to "View in new window", api_v1_planning_application_document_url(@planning_application, document), target: :_new %>
         </p>
       </div>
 
@@ -116,7 +116,7 @@
       <tbody class="govuk-table__body">
         <% filter_archived(@documents).each do |document| %>
           <tr class="govuk-table__row">
-            <td class="govuk-table__cell archive-data"><%= link_to document.name, rails_blob_path(document.file), target: :_new %></td>
+            <td class="govuk-table__cell archive-data"><%= link_to document.name, api_v1_planning_application_document_url(@planning_application, document), target: :_new %></td>
             <td class="govuk-table__cell archive-data tags">
               <ul class="govuk-list">
                 <% document.tags.each do |tag| %>

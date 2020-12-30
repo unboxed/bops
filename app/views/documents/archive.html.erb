@@ -23,7 +23,7 @@
       </h2>
       <p>
         <%= link_to image_tag(@document.file.representation(resize: "300x212")),
-                    rails_blob_path(@document.file), target: :_blank %>
+                    api_v1_planning_application_document_url(@planning_application, @document), target: :_blank %>
       </p>
       <h2 class="govuk-heading-s">
         Why do you want to archive this document?
