@@ -60,6 +60,14 @@ paths:
                     agent_last_name: Harper
                     agent_phone: '237878889'
                     agent_email: agent@example.com
+                    documents:
+                      - url: http://example.com/document_path.pdf
+                        created_at: '2020-05-16T05:18:17.540Z'
+                        archived_at: '2020-05-16T05:18:17.540Z'
+                        archive_reason: other
+                        tags:
+                          - front elevation - proposed
+                        numbers: PLAN01
   "/api/v1/planning_applications":
     get:
       summary: Retrieves all determined planning applications

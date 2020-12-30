@@ -61,20 +61,26 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
   it "should successfully return the listing of applications as specified" do
     planning_application_hash = example_response_hash_for('/api/v1/planning_applications', 'get', 200, 'Full')['data'].first
     site = Site.create! planning_application_hash.fetch('site')
-    PlanningApplication.create! planning_application_hash.except('application_number', 'received_date').merge(site: site, local_authority: create(:local_authority))
+    planning_application = PlanningApplication.create! planning_application_hash.except('application_number', 'received_date', 'documents').merge(site: site, local_authority: create(:local_authority))
+    planning_application_document = planning_application.documents.create!(planning_application_hash.fetch('documents').first.except('url'))
 
     get '/api/v1/planning_applications'
 
-    expect(JSON.parse(response.body)).to eq(example_response_hash_for('/api/v1/planning_applications', 'get', 200, 'Full'))
+    expected_reponse = example_response_hash_for('/api/v1/planning_applications', 'get', 200, 'Full')
+    expected_reponse["data"].first["documents"].first['url'] = api_v1_planning_application_document_url(planning_application, planning_application_document)
+    expect(JSON.parse(response.body)).to eq(expected_reponse)
   end
 
   it "should successfully return an application as specified" do
     planning_application_hash = example_response_hash_for('/api/v1/planning_applications/{id}', 'get', 200, 'Full')
     site = Site.create! planning_application_hash.fetch('site')
-    PlanningApplication.create! planning_application_hash.except('application_number', 'received_date').merge(site: site, local_authority: create(:local_authority))
+    planning_application = PlanningApplication.create! planning_application_hash.except('application_number', 'received_date', 'documents').merge(site: site, local_authority: create(:local_authority))
+    planning_application_document = planning_application.documents.create!(planning_application_hash.fetch('documents').first.except('url'))
 
     get "/api/v1/planning_applications/#{planning_application_hash['id']}"
 
-    expect(JSON.parse(response.body)).to eq(planning_application_hash)
+    expected_reponse = example_response_hash_for('/api/v1/planning_applications/{id}', 'get', 200, 'Full')
+    expected_reponse["documents"].first['url'] = api_v1_planning_application_document_url(planning_application, planning_application_document)
+    expect(JSON.parse(response.body)).to eq(expected_reponse)
   end
 end
