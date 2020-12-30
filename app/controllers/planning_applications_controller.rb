@@ -112,7 +112,7 @@ class PlanningApplicationsController < AuthenticationController
   def apply_validation(status)
     if status == "invalidated"
       @planning_application.invalidate!
-    elsif status == "in_assessment" && document_validation_params.values.join("-").match(/\d{2}-\d{2}-\d{4}/)
+    elsif status == "in_assessment"
       update_validation_and_start
     else
       @planning_application.errors.add(:planning_application, "Please choose Yes or No")
@@ -120,13 +120,24 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def update_validation_and_start
-    @planning_application.update!(documents_validated_at: document_validation_params.values.join("-"))
+    valid_at = date_string_from_params(params[:planning_application][:'documents_validated_at(3i)'],
+                                        params[:planning_application][:'documents_validated_at(2i)'],
+                                        params[:planning_application]["documents_validated_at(1i)"])
+    @planning_application.update!(documents_validated_at: valid_at)
     if @planning_application.save
       @planning_application.start!
     else
-      @planning_application.errors.add(:planning_application, "Please enter a valid date")
       render template: "drawings/index", planning_application: @planning_application,
            drawings: @planning_application.drawings
+    end
+  end
+
+  def date_string_from_params(year, month, day)
+    valid_date = [year, month, day].join("-")
+    if valid_date.match?(/\d{2}-\d{2}-\d{4}/)
+      valid_date
+    else
+      @planning_application.errors.add(:planning_application, "Please enter a valid date")
     end
   end
 
@@ -146,12 +157,6 @@ class PlanningApplicationsController < AuthenticationController
 
   def unpermitted_status_for_user?(status)
     status == :awaiting_determination if current_user.assessor?
-  end
-
-  def document_validation_params
-    params.require(:planning_application).permit(:status,  :'documents_validated_at(3i)',
-                                                 :'documents_validated_at(2i)',
-                                                 :'documents_validated_at(1i)')
   end
 
   def decision_notice_mail

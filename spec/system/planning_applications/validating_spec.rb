@@ -3,14 +3,14 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application Assessment", type: :system do
-  let(:local_authority) {
-    create :local_authority,
-    name: "Cookie authority",
-    signatory_name: "Mr. Biscuit",
-    signatory_job_title: "Lord of BiscuitTown",
-    enquiries_paragraph: "reach us on postcode SW50",
-    email_address: "biscuit@somuchbiscuit.com"
-    }
+  let(:local_authority) do
+      create :local_authority,
+      name: "Cookie authority",
+      signatory_name: "Mr. Biscuit",
+      signatory_job_title: "Lord of BiscuitTown",
+      enquiries_paragraph: "reach us on postcode SW50",
+      email_address: "biscuit@somuchbiscuit.com"
+    end
   let!(:assessor) { create :user, :assessor, name: "Lorrine Krajcik", local_authority: local_authority }
   let!(:reviewer) { create :user, :reviewer, name: "Harley Dicki", local_authority: local_authority }
 

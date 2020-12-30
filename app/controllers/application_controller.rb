@@ -7,8 +7,6 @@ class ApplicationController < ActionController::Base
   attr_reader :current_local_authority
   helper_method :current_local_authority
 
-  default_form_builder GOVUKDesignSystemFormBuilder::FormBuilder
-
   private
 
   def find_current_local_authority_from_subdomain
