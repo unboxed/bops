@@ -55,8 +55,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
     expect(page).to have_content("Make recommendation")
     expect(page).to have_link("Assess the proposal")
 
-    # No steps have been completed
-    expect(page).not_to have_content("Completed")
+    # No steps have been completed except for Check documents
+    expect(page).to have_css("#check-the-documents-completed")
+    expect(page).not_to have_css("#assess-the-proposal-completed")
 
     # Cannot submit until preparation steps have been completed
     expect(page).not_to have_link("Submit the recommendation")

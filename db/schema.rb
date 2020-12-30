@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_22_104230) do
+ActiveRecord::Schema.define(version: 2020_12_23_164330) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(version: 2020_12_22_104230) do
     t.datetime "returned_at"
     t.string "payment_reference"
     t.text "cancellation_comment"
+    t.date "documents_validated_at"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
     t.index ["site_id"], name: "index_planning_applications_on_site_id"
     t.index ["user_id"], name: "index_planning_applications_on_user_id"

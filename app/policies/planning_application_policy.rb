@@ -11,6 +11,7 @@ class PlanningApplicationPolicy < ApplicationPolicy
   alias_method :assess?, :editor?
   alias_method :cancel_confirmation?, :editor?
   alias_method :cancel?, :editor?
+  alias_method :validate_documents?, :editor?
   alias_method :determine?, :editor?
   alias_method :request_correction?, :editor?
   alias_method :update_numbers?, :editor?

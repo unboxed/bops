@@ -4,9 +4,10 @@ class PlanningApplicationsController < AuthenticationController
   include PlanningApplicationDashboardVariables
 
   before_action :set_planning_application, only: [ :show, :edit, :assess, :determine, :request_correction,
-                                                   :cancel_confirmation, :cancel ]
+                                                   :validate_documents, :cancel_confirmation, :cancel ]
   before_action :set_planning_application_dashboard_variables,
-                only: [ :show, :edit, :assess, :determine, :request_correction, :cancel_confirmation, :cancel ]
+                only: [ :show, :edit, :assess, :determine, :request_correction,
+                        :validate_documents, :cancel_confirmation, :cancel ]
 
   rescue_from Notifications::Client::NotFoundError,
     with: :decision_notice_mail_error
@@ -88,6 +89,55 @@ class PlanningApplicationsController < AuthenticationController
       @planning_application.withdraw!(:withdrawn, params[:planning_application][:cancellation_comment])
     elsif status == "returned"
       @planning_application.return!(:returned, params[:planning_application][:cancellation_comment])
+    end
+  end
+
+  # rubocop: disable Metrics/MethodLength
+  def validate_documents
+    status = authorize_user_can_update_status(params[:planning_application][:status])
+    apply_validation(status)
+    if @planning_application.in_assessment?
+      flash[:notice] = "Application is ready for assessment"
+      redirect_to @planning_application
+    elsif @planning_application.invalidated?
+      flash[:notice] = "Application has been invalidated"
+      redirect_to @planning_application
+    else
+      render template: "drawings/index", planning_application: @planning_application,
+             drawings: @planning_application.drawings
+    end
+  end
+  # rubocop: enable Metrics/MethodLength
+
+  def apply_validation(status)
+    if status == "invalidated"
+      @planning_application.invalidate!
+    elsif status == "in_assessment"
+      update_validation_and_start
+    else
+      @planning_application.errors.add(:planning_application, "Please choose Yes or No")
+    end
+  end
+
+  def update_validation_and_start
+    valid_at = date_string_from_params(params[:planning_application][:'documents_validated_at(3i)'],
+                                        params[:planning_application][:'documents_validated_at(2i)'],
+                                        params[:planning_application]["documents_validated_at(1i)"])
+    @planning_application.update!(documents_validated_at: valid_at)
+    if @planning_application.save
+      @planning_application.start!
+    else
+      render template: "drawings/index", planning_application: @planning_application,
+           drawings: @planning_application.drawings
+    end
+  end
+
+  def date_string_from_params(year, month, day)
+    valid_date = [year, month, day].join("-")
+    if valid_date.match?(/\d{2}-\d{2}-\d{4}/)
+      valid_date
+    else
+      @planning_application.errors.add(:planning_application, "Please enter a valid date")
     end
   end
 

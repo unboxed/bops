@@ -175,13 +175,13 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
 
     it "returns correct values when application is withdrawn" do
       subject.withdraw!
-      expect(display_status(subject)[:decision]).to eql("Withdrawn")
+      expect(display_status(subject)[:decision]).to eql("withdrawn")
       expect(display_status(subject)[:color]).to eql("grey")
     end
 
     it "returns correct values when application is withdrawn" do
       subject.return!
-      expect(display_status(subject)[:decision]).to eql("Returned")
+      expect(display_status(subject)[:decision]).to eql("returned")
       expect(display_status(subject)[:color]).to eql("grey")
     end
   end

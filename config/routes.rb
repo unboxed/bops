@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       patch :assess
       patch :determine
       patch :cancel
+      patch :validate_documents
       get :cancel_confirmation
     end
     resources :decisions, only: %i[new create edit update show]

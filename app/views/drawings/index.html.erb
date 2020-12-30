@@ -13,9 +13,35 @@
 <%= render "success_flash" %>
 
 <h2 class="govuk-heading-m">
-  Documents
+  Proposal documents
 </h2>
 
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <% if current_user.assessor? && @planning_application.not_started? %>
+      <%= form_with model: @planning_application, url: validate_documents_planning_application_path(@planning_application), local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+        <fieldset class="govuk-fieldset">
+          <% if form.object.errors[:planning_application].any? %>
+            <% form.object.errors[:planning_application].each do |error| %>
+              <span id="status-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span><%= error %></span>
+            <% end %>
+          <% end %>
+            <%= form.govuk_radio_buttons_fieldset(:status, legend: { size: 's', text: 'Are the documents valid?' }) do %>
+              <%= form.govuk_radio_button :status, 'in_assessment', label: { text: 'Yes', size: 's'} do %>
+                <%= form.govuk_date_field :documents_validated_at, legend: { text: 'Documents validated on:', size: 's', hint: 'For example, 31 03 2021', placeholder: true } %>
+                <% end %>
+              <%= form.govuk_radio_button :status, 'invalidated', label: { text: 'No' } %>
+            <% end %>
+          </fieldset>
+              <p>
+                <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+                <%= link_to 'Cancel', planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+              </p>
+           </div>
+      <% end%>
+    <% end %>
+  </div>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <p class="govuk-body" style="line-height: 1.6;">
@@ -23,7 +49,7 @@
     </p>
   </div>
   <div class="govuk-grid-column-one-third" style="text-align: right">
-    <% if current_user.assessor? && @planning_application.in_assessment? %>
+    <% if current_user.assessor? && @planning_application.in_assessment? || @planning_application.not_started? %>
       <%= link_to "Upload documents", new_planning_application_drawing_path(@planning_application), role: "button", class: "govuk-button", data: { module: "govuk-button" } %>
     <% elsif current_user.assessor? %>
       <%= tag.button "Upload documents", disabled: "disabled", "aria-disabled": true, class: "govuk-button govuk-button--disabled", data: { module: "govuk-button" } %>
@@ -32,6 +58,7 @@
 </div>
 
 <ul class="app-task-list current-drawings" style="margin-bottom: 2em;">
+  <% unless @drawings.nil? %>
   <% filter_current(@drawings).each do |drawing| %>
     <li class="app-task-list__item">
       <div class="govuk-grid-column-one-quarter">
@@ -65,10 +92,12 @@
         </p>
       </div>
     </li>
+    <% end %>
   <% end %>
 </ul>
 
-<div class="govuk-grid-row">
+<% unless @drawings.nil? %>
+  <div class="govuk-grid-row">
   <table class="govuk-table archived-drawings">
     <caption class="govuk-table__caption">Archived documents</caption>
     <thead class="govuk-table__head">
@@ -104,3 +133,4 @@
   </table>
   </div>
 </div>
+<% end %>

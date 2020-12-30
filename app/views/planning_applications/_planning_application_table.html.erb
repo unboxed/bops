@@ -12,8 +12,8 @@
       <% else %>
         <th scope="col" class="govuk-table__header">Days left</th>
       <% end %>
-      <% if id == "in_assessment" %>
-        <th scope="col" class="govuk-table__header">Consultation status</th>
+      <% if (id == "in_assessment" || id == "not_started_and_invalid") %>
+        <th scope="col" class="govuk-table__header">Status</th>
       <% elsif id == "awaiting_determination" %>
         <th scope="col" class="govuk-table__header">Recommendation date</th>
       <% elsif id == "closed" %>
@@ -44,6 +44,12 @@
         </td>
         <% if id == "in_assessment" %>
           <td class="govuk-table__cell">Not required</td>
+        <% elsif id == "not_started_and_invalid" %>
+            <td class="govuk-table__cell">
+              <strong class="govuk-tag govuk-tag--<%= display_status(planning_application)[:color] %>">
+                <%= display_status(planning_application)[:decision] %>
+              </strong>
+            </td>
         <% elsif id == "awaiting_determination" %>
           <td class="govuk-table__cell"><%= planning_application.awaiting_determination_at.strftime("%e %b") %></td>
         <% elsif id == "closed" %>
