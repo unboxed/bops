@@ -36,9 +36,9 @@ json.constraints JSON.parse(planning_application.constraints) if planning_applic
 json.documents planning_application.documents do |document|
   json.url api_v1_planning_application_document_url(planning_application, document)
   json.extract! document,
-    :created_at,
-    :archived_at,
-    :archive_reason,
-    :tags,
-    :numbers
+                :created_at,
+                :archived_at,
+                :archive_reason,
+                :tags,
+                :numbers
 end

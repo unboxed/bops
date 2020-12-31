@@ -6,7 +6,7 @@ FactoryBot.define do
     local_authority
     description      { Faker::Lorem.unique.sentence }
     status           { :in_assessment }
-    in_assessment_at { Time.current }
+    in_assessment_at { Time.zone.now }
     ward             { Faker::Address.city }
     agent_first_name { Faker::Name.first_name }
     agent_last_name { Faker::Name.last_name }
@@ -16,7 +16,7 @@ FactoryBot.define do
     applicant_last_name { Faker::Name.last_name }
     applicant_phone { Faker::Base.numerify("+44 7### ######") }
     applicant_email { Faker::Internet.email }
-    questions {
+    questions do
       {
         flow: [
           {
@@ -27,18 +27,18 @@ FactoryBot.define do
               id: "-LsXty7cOZycK0rqv8B7",
               idx: 3,
               recorded_at: "2020-05-14T05:18:17.540Z",
-              auto: true
-            }
-          }
-        ]
+              auto: true,
+            },
+          },
+        ],
       }.to_json
-    }
-    constraints {
+    end
+    constraints do
       {
         conservation_area: true,
-        protected_trees: false
+        protected_trees: false,
       }.to_json
-    }
+    end
     documents_validated_at { Time.zone.today }
     work_status { "proposed" }
   end
@@ -53,7 +53,7 @@ FactoryBot.define do
 
   trait :awaiting_determination do
     status                    { :awaiting_determination }
-    awaiting_determination_at { Time.current }
+    awaiting_determination_at { Time.zone.now }
 
     after(:create) do |pa|
       pa.target_date = Date.current + 7.weeks
@@ -72,8 +72,8 @@ FactoryBot.define do
   end
 
   trait :awaiting_correction do
-    status                    { :awaiting_correction }
-    awaiting_correction_at { Time.current }
+    status { :awaiting_correction }
+    awaiting_correction_at { Time.zone.now }
 
     after(:create) do |pa|
       pa.target_date = Date.current + 7.weeks
@@ -83,7 +83,7 @@ FactoryBot.define do
 
   trait :determined do
     status        { :determined }
-    determined_at { Time.current }
+    determined_at { Time.zone.now }
 
     after(:create) do |pa|
       pa.target_date = Date.current + 1.week
@@ -92,23 +92,23 @@ FactoryBot.define do
   end
 
   trait :invalidated do
-    status        { :invalidated }
-    invalidated_at { Time.current }
+    status { :invalidated }
+    invalidated_at { Time.zone.now }
   end
 
   trait :with_policy_evaluation_requirements_unmet do
     after(:create) do |pa|
       create :policy_evaluation,
-        status: :unmet,
-        planning_application: pa
+             status: :unmet,
+             planning_application: pa
     end
   end
 
   trait :with_policy_evaluation_requirements_met do
     after(:create) do |pa|
       create :policy_evaluation,
-        status: :met,
-        planning_application: pa
+             status: :met,
+             planning_application: pa
     end
   end
 end

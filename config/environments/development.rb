@@ -23,7 +23,7 @@ Rails.application.configure do
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      "Cache-Control" => "public, max-age=#{2.days.to_i}"
+      "Cache-Control" => "public, max-age=#{2.days.to_i}",
     }
   else
     config.action_controller.perform_caching = false
@@ -33,11 +33,11 @@ Rails.application.configure do
 
   # Store uploaded files on the local file system (see config/storage.yml
   # for options).
-  if ENV["AWS_PROFILE"].present?
-    config.active_storage.service = :amazon
-  else
-    config.active_storage.service = :local
-  end
+  config.active_storage.service = if ENV["AWS_PROFILE"].present?
+                                    :amazon
+                                  else
+                                    :local
+                                  end
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
@@ -58,7 +58,6 @@ Rails.application.configure do
 
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
-
 
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true

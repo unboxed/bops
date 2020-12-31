@@ -15,7 +15,7 @@ class DocumentNumbersListForm
     ActiveRecord::Base.transaction do
       documents.each do |document|
         document.numbers = documents_numbers_hash.dig(document.id.to_s, "numbers")
-        document.save
+        document.save!
       end
 
       raise ActiveRecord::Rollback if any_documents_errors?
@@ -24,50 +24,50 @@ class DocumentNumbersListForm
     !any_documents_errors?
   end
 
-  private
+private
 
-    attr_accessor :documents_numbers_hash
+  attr_accessor :documents_numbers_hash
 
-    def any_documents_errors?
-      documents.map(&:errors).any?(&:present?)
+  def any_documents_errors?
+    documents.map(&:errors).any?(&:present?)
+  end
+
+  class DocumentNumbersUpdateForm
+    include ActiveModel::Model
+    include ActiveModel::Validations
+
+    attr_accessor :document
+
+    validates :numbers, presence: { message: "Provide at least one number" }
+
+    delegate(*Document.attribute_names, to: :document)
+
+    def initialize(document)
+      @document = document
     end
 
-    class DocumentNumbersUpdateForm
-      include ActiveModel::Model
-      include ActiveModel::Validations
-
-      attr_accessor :document
-
-      validates :numbers, presence: { message: "Provide at least one number" }
-
-      delegate *Document.attribute_names, to: :document
-
-      def initialize(document)
-        @document = document
-      end
-
-      def file
-        document.file
-      end
-
-      def name
-        document.name
-      end
-
-      def numbers=(value)
-        document.numbers = value
-      end
-
-      def numbers
-        document.numbers
-      end
-
-      def save
-        if valid?
-          @document.update(numbers: numbers)
-        end
-
-        errors.none?
-      end
+    def file
+      document.file
     end
+
+    def name
+      document.name
+    end
+
+    def numbers=(value)
+      document.numbers = value
+    end
+
+    def numbers
+      document.numbers
+    end
+
+    def save
+      if valid?
+        @document.update!(numbers: numbers)
+      end
+
+      errors.none?
+    end
+  end
 end

@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.feature "Edit document", type: :system do
+RSpec.describe "Edit document", type: :system do
   let(:local_authority) { create :local_authority }
   let!(:planning_application) do
     create :planning_application,
@@ -14,7 +14,7 @@ RSpec.feature "Edit document", type: :system do
   let(:reviewer) { create :user, :reviewer, local_authority: local_authority }
 
   context "as a user who is not logged in" do
-    scenario "User cannot see edit_numbers page" do
+    it "User cannot see edit_numbers page" do
       visit edit_planning_application_document_path(planning_application, document)
       expect(page).to have_current_path(/sign_in/)
       expect(page).to have_content("You need to sign in or sign up before continuing.")
@@ -27,11 +27,11 @@ RSpec.feature "Edit document", type: :system do
       visit planning_application_documents_path(planning_application)
     end
 
-    scenario "with valid data" do
+    it "with valid data" do
       click_link "Edit"
 
       attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.pdf")
-      fill_in 'Document number(s)', with: 'DOC001'
+      fill_in "Document number(s)", with: "DOC001"
 
       check("floor plan - existing")
       check("section - proposed")
@@ -40,12 +40,12 @@ RSpec.feature "Edit document", type: :system do
 
       expect(page).to have_content("Document has been updated")
       expect(page).to have_content("proposed-roofplan.pdf")
-      expect(page).to have_content('DOC001')
+      expect(page).to have_content("DOC001")
       expect(page).to have_css(".govuk-tag", text: "floor plan - existing")
       expect(page).to have_css(".govuk-tag", text: "section - proposed")
     end
 
-    scenario "with wrong format document" do
+    it "with wrong format document" do
       visit edit_planning_application_document_path(planning_application, document)
 
       attach_file("Upload a file", "spec/fixtures/images/bmp.bmp")

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "API request to list planning applications", type: :request, show_exceptions: true do
   let!(:planning_application) { create(:planning_application, :not_started) }

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe PlanningApplicationHelper, type: :helper do
   describe "#days_color" do
@@ -27,15 +27,17 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
     end
 
     describe "#list_constraints" do
-      let(:application_with_constraints) { create :planning_application,
-                                                  constraints: '{"conservation_area": false,"article4_area": true,"scheduled_monument": false }'
-                                          }
+      let(:application_with_constraints) do
+        create :planning_application,
+               constraints: '{"conservation_area": false,"article4_area": true,"scheduled_monument": false }'
+      end
 
-      let(:application_with_false_constraints) { create :planning_application,
-                                                        constraints: '{"conservation_area": false,"article4_area": false,"scheduled_monument": false }'
-      }
+      let(:application_with_false_constraints) do
+        create :planning_application,
+               constraints: '{"conservation_area": false,"article4_area": false,"scheduled_monument": false }'
+      end
 
-      let(:application_without_constraints) { create :planning_application, constraints: '{}' }
+      let(:application_without_constraints) { create :planning_application, constraints: "{}" }
 
       it "creates constraints list correctly" do
         expect(list_constraints(application_with_constraints.constraints)).to eq(%w[article4_area])
@@ -48,7 +50,7 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
       it "returns an empty array if all constraints are false" do
         expect(list_constraints(application_without_constraints.constraints)).to be_empty
       end
-      end
+    end
 
     context "with decision" do
       let(:assessor) { create :user, :assessor }
@@ -67,14 +69,18 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
 
       context "awaiting determination" do
         before { subject.assess }
+
         it "returns to show decision" do
           expect(assessor_decision_path(subject)).to eq(planning_application_decision_path(subject, subject.assessor_decision))
         end
       end
 
       context "awaiting correction" do
-        before { subject.assess!
-                 subject.reload }
+        before do
+          subject.assess!
+          subject.reload
+        end
+
         it "returns to edit decision" do
           subject.request_correction!
           expect(assessor_decision_path(subject)).to eq(edit_planning_application_decision_path(subject, subject.assessor_decision))
@@ -82,8 +88,11 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
       end
 
       context "determined" do
-        before { subject.assess!
-                 subject.reload }
+        before do
+          subject.assess!
+          subject.reload
+        end
+
         it "returns to show decision" do
           subject.determine!
           expect(assessor_decision_path(subject)).to eq(planning_application_decision_path(subject, subject.assessor_decision))
@@ -118,6 +127,7 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
 
       context "awaiting correction" do
         before { subject.request_correction }
+
         it "returns to edit decision" do
           expect(reviewer_decision_path(subject)).to eq(planning_application_decision_path(subject, subject.reviewer_decision))
         end
@@ -125,6 +135,7 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
 
       context "determined" do
         before { subject.determine }
+
         it "returns to show decision" do
           expect(reviewer_decision_path(subject)).to eq(planning_application_decision_path(subject, subject.reviewer_decision))
         end

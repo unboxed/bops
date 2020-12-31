@@ -4,14 +4,14 @@ require "rails_helper"
 
 RSpec.describe PlanningApplicationMailer, type: :mailer do
   describe "#decision_notice_mail" do
-    let(:local_authority) {
+    let(:local_authority) do
       create :local_authority,
-      name: "Cookie authority",
-      signatory_name: "Mr. Biscuit",
-      signatory_job_title: "Lord of BiscuitTown",
-      enquiries_paragraph: "reach us on postcode SW50",
-      email_address: "biscuit@somuchbiscuit.com"
-      }
+             name: "Cookie authority",
+             signatory_name: "Mr. Biscuit",
+             signatory_job_title: "Lord of BiscuitTown",
+             enquiries_paragraph: "reach us on postcode SW50",
+             email_address: "biscuit@somuchbiscuit.com"
+    end
 
     let!(:reviewer) { create :user, :reviewer, local_authority: local_authority }
     let!(:planning_application) { create(:planning_application, :determined, local_authority: local_authority) }
@@ -35,7 +35,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
              numbers: "existing_number"
     end
 
-    let(:mail) { PlanningApplicationMailer.decision_notice_mail(planning_application.reload) }
+    let(:mail) { described_class.decision_notice_mail(planning_application.reload) }
 
     it "renders the headers" do
       expect(mail.subject).to eq("Certificate of Lawfulness: granted")
@@ -45,8 +45,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     it "renders the body" do
       expect(mail.body.encoded).to match("Certificate of lawfulness of proposed use or development: granted.")
       expect(mail.body.encoded).to match("Applicant: #{planning_application.applicant_first_name} #{planning_application.applicant_last_name}")
-      expect(mail.body.encoded).to match("Date of Issue of this decision: #{planning_application.determined_at.strftime("%e %B %Y")}")
-      expect(mail.body.encoded).to match("Application received: #{planning_application.created_at.strftime("%e %B %Y")}")
+      expect(mail.body.encoded).to match("Date of Issue of this decision: #{planning_application.determined_at.strftime('%e %B %Y')}")
+      expect(mail.body.encoded).to match("Application received: #{planning_application.created_at.strftime('%e %B %Y')}")
       expect(mail.body.encoded).to match("Address: #{planning_application.site.full_address}")
       expect(mail.body.encoded).to match("Application number: #{planning_application.reference}")
       expect(mail.body.encoded).to match("Local authority: #{planning_application.local_authority.name}")

@@ -12,13 +12,13 @@ class PlanningApplication < ApplicationRecord
 
   has_many :documents, dependent: :destroy
 
-  has_one :assessor_decision, -> {
-      joins(:user).where(users: { role: :assessor })
-    }, class_name: "Decision", inverse_of: :planning_application
+  has_one :assessor_decision, lambda {
+                                joins(:user).where(users: { role: :assessor })
+                              }, class_name: "Decision", inverse_of: :planning_application
 
-  has_one :reviewer_decision, -> {
-      joins(:user).where(users: { role: :reviewer })
-    }, class_name: "Decision", inverse_of: :planning_application
+  has_one :reviewer_decision, lambda {
+                                joins(:user).where(users: { role: :reviewer })
+                              }, class_name: "Decision", inverse_of: :planning_application
 
   belongs_to :site
   belongs_to :user, optional: true
@@ -29,9 +29,14 @@ class PlanningApplication < ApplicationRecord
   validate :assessor_decision_associated_with_assessor
   validate :reviewer_decision_associated_with_reviewer
 
-  STATUSES = %w[not_started invalidated in_assessment
-                awaiting_determination awaiting_correction
-                determined returned withdrawn]
+  STATUSES = %w[not_started
+                invalidated
+                in_assessment
+                awaiting_determination
+                awaiting_correction
+                determined
+                returned
+                withdrawn].freeze
 
   validates :status,
             inclusion: { in: STATUSES,
@@ -62,15 +67,15 @@ class PlanningApplication < ApplicationRecord
     state :withdrawn
 
     event :start do
-      transitions from: [:not_started, :invalidated], to: :in_assessment, guard: :has_validation_date?
+      transitions from: %i[not_started invalidated], to: :in_assessment, guard: :has_validation_date?
     end
 
     event :assess do
-      transitions from: [:in_assessment, :awaiting_correction], to: :awaiting_determination
+      transitions from: %i[in_assessment awaiting_correction], to: :awaiting_determination
     end
 
     event :invalidate do
-      transitions from: [:not_started, :in_assessment, :awaiting_determination, :awaiting_correction], to: :invalidated
+      transitions from: %i[not_started in_assessment awaiting_determination awaiting_correction], to: :invalidated
     end
 
     event :determine do
@@ -82,23 +87,32 @@ class PlanningApplication < ApplicationRecord
     end
 
     event :return do
-      transitions from: [:not_started, :in_assessment, :invalidated, :awaiting_determination, :awaiting_correction,
-                         :returned], to: :returned, after: Proc.new {
-          |comment| self.update!(cancellation_comment: comment)
-      }
+      transitions from: %i[not_started
+                           in_assessment
+                           invalidated
+                           awaiting_determination
+                           awaiting_correction
+                           returned], to: :returned, after: proc { |comment|
+                                                              update!(cancellation_comment: comment)
+                                                            }
     end
 
     event :withdraw do
-      transitions from: [:not_started, :in_assessment, :invalidated, :awaiting_determination, :awaiting_correction,
-                         :returned], to: :withdrawn, after: Proc.new {
-          |comment| self.update!(cancellation_comment: comment)  }
+      transitions from: %i[not_started
+                           in_assessment
+                           invalidated
+                           awaiting_determination
+                           awaiting_correction
+                           returned], to: :withdrawn, after: proc { |comment|
+                                                               update!(cancellation_comment: comment)
+                                                             }
     end
 
     after_all_transitions :timestamp_status_change
   end
 
   def timestamp_status_change
-    update("#{aasm.to_state}_at": Time.current)
+    update("#{aasm.to_state}_at": Time.zone.now)
   end
 
   def days_left
@@ -176,7 +190,7 @@ class PlanningApplication < ApplicationRecord
     !documents_validated_at.nil?
   end
 
-  private
+private
 
   def set_target_date
     self.target_date = created_at + 8.weeks

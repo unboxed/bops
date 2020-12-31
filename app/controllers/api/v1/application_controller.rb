@@ -21,12 +21,12 @@ class Api::V1::ApplicationController < ApplicationController
     response.set_header("Access-Control-Allow-Methods", "*")
     response.set_header(
       "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
+      "Origin, X-Requested-With, Content-Type, Accept",
     )
     response.charset = "utf-8"
   end
 
-  private
+private
 
   def authenticate
     authenticate_or_request_with_http_token do |token, _options|
@@ -38,10 +38,10 @@ class Api::V1::ApplicationController < ApplicationController
     @current_api_user ||= authenticate
   end
 
-  protected
+protected
 
-  def request_http_token_authentication(realm = "Application", message = nil)
-    self.headers["WWW-Authenticate"] = %(Token realm="#{realm.gsub(/"/, "")}")
+  def request_http_token_authentication(realm = "Application", _message = nil)
+    headers["WWW-Authenticate"] = %(Token realm="#{realm.gsub(/"/, '')}")
     render json: { error: "HTTP Token: Access denied." }, status: :unauthorized
   end
 end

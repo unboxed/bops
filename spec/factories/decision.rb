@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :decision do
     planning_application
     user
-    decided_at { Time.current }
+    decided_at { Time.zone.now }
   end
 
   trait :granted do

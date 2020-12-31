@@ -8,7 +8,7 @@ RSpec.describe Decision, type: :model do
   describe "statuses" do
     it "has a list of statuses" do
       expect(described_class.statuses).to eq(
-        "granted" => 0, "refused" => 1
+        "granted" => 0, "refused" => 1,
       )
     end
   end

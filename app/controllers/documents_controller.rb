@@ -5,9 +5,14 @@ class DocumentsController < AuthenticationController
   include PlanningApplicationDashboardVariables
 
   before_action :set_planning_application
-  before_action :set_document, except: [ :index, :new, :edit_numbers,
-                                        :update_numbers, :confirm_new, :create,
-                                        :edit, :update ]
+  before_action :set_document, except: %i[index
+                                          new
+                                          edit_numbers
+                                          update_numbers
+                                          confirm_new
+                                          create
+                                          edit
+                                          update]
   before_action :set_planning_application_dashboard_variables
   before_action :disable_flash_header, only: :index
 
@@ -31,28 +36,26 @@ class DocumentsController < AuthenticationController
 
   def edit_numbers
     @documents_list = DocumentNumbersListForm.new(
-      @planning_application.documents.for_publication
+      @planning_application.documents.for_publication,
     )
   end
 
-  # rubocop: disable Metrics/MethodLength
   def update_numbers
     @documents_list = DocumentNumbersListForm.new(
       @planning_application.documents.for_publication,
-      documents_list_params[:documents]
+      documents_list_params[:documents],
     )
 
     if @documents_list.update_all
       count = @documents_list.documents.count
       flash[:notice] = "Updated #{count} " \
-        "#{"document".pluralize(count)} with numbers"
+        "#{'document'.pluralize(count)} with numbers"
 
       redirect_to @planning_application
     else
       render :edit_numbers
     end
   end
-  # rubocop: enable Metrics/MethodLength
 
   def archive
     assign_archive_reason_to_form
@@ -62,10 +65,9 @@ class DocumentsController < AuthenticationController
     @document_form = DocumentWizard::UploadForm.new
   end
 
-  # rubocop: disable Metrics/MethodLength
   def create
     @document_form = DocumentWizard::ConfirmUploadForm.new(
-      document_upload_confirmation_params
+      document_upload_confirmation_params,
     )
 
     if !@document_form.valid?
@@ -88,7 +90,6 @@ class DocumentsController < AuthenticationController
       end
     end
   end
-  # rubocop: enable Metrics/MethodLength
 
   def confirm
     assign_archive_reason_to_form
@@ -132,26 +133,28 @@ class DocumentsController < AuthenticationController
   end
 
   def validate_confirmation
-    if form_params[:confirmation][:confirm] == "yes"
+    case form_params[:confirmation][:confirm]
+    when "yes"
       confirm_archived
-    elsif form_params[:confirmation][:confirm] == "no"
+    when "no"
       render :archive
     end
   end
 
   def validate_step
     assign_archive_reason_to_form
-    if params[:current_step] == "confirm"
+    case params[:current_step]
+    when "confirm"
       verify_selection
-    elsif params[:current_step] == "archive"
+    when "archive"
       validate_archive_reason
     end
   end
 
-  private
+private
 
   def documents_list_params
-    params.require(:documents_list).permit(documents: [:id, :numbers])
+    params.require(:documents_list).permit(documents: %i[id numbers])
   end
 
   def document_params
@@ -164,16 +167,16 @@ class DocumentsController < AuthenticationController
 
   def document_upload_confirmation_params
     document_upload_params.merge(
-      params.fetch(:document_form, {}).permit(:confirmation)
+      params.fetch(:document_form, {}).permit(:confirmation),
     )
   end
 
   def document_form_params
-    params.permit document_form: [:document_id, :archive_reason, :updated_at]
+    params.permit document_form: %i[document_id archive_reason updated_at]
   end
 
   def document_numbers_params
-    params.permit document_form: [:document_id, :numbers]
+    params.permit document_form: %i[document_id numbers]
   end
 
   def form_params
@@ -182,13 +185,14 @@ class DocumentsController < AuthenticationController
 
   def set_planning_application
     @planning_application = authorize(PlanningApplication.find(
-                                        params[:planning_application_id])
-    )
+                                        params[:planning_application_id],
+                                      ))
   end
 
   def set_document
     @document = @planning_application.documents.find(
-      params[:document_id])
+      params[:document_id],
+    )
   end
 
   def assign_archive_reason_to_form

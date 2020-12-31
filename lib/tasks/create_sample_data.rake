@@ -34,7 +34,7 @@ task create_sample_data: :environment do
     signatory_name: "Christina Thompson",
     signatory_job_title: "Director of Finance & Property",
     enquiries_paragraph: "Postal address: Planning London Borough of Lambeth PO Box 734 Winchester SO23 5DG.",
-    email_address: "planning@lambeth.gov.uk"
+    email_address: "planning@lambeth.gov.uk",
   )
   southwark = LocalAuthority.find_or_create_by!(
     name: "Southwark Council",
@@ -42,7 +42,7 @@ task create_sample_data: :environment do
     signatory_name: "Simon Bevan",
     signatory_job_title: "Director of Planning",
     enquiries_paragraph: "Postal address: Planning London Borough of Southwark PO Box 734 Winchester SO23 5DG.",
-    email_address: "planning@lambeth.gov.uk"
+    email_address: "planning@lambeth.gov.uk",
   )
 
   bucks = LocalAuthority.find_or_create_by!(
@@ -51,7 +51,7 @@ task create_sample_data: :environment do
     signatory_name: "Steve Bambick",
     signatory_job_title: "Director of Planning",
     enquiries_paragraph: "Postal address: Planning Buckinghamshire Council, Gatehouse Rd, Aylesbury HP19 8FF",
-    email_address: "planning@buckinghamshire.gov.uk"
+    email_address: "planning@buckinghamshire.gov.uk",
   )
 
   ApiUser.find_or_create_by!(name: "api_user", token: ENV["API_TOKEN"]) if ENV["API_TOKEN"]
@@ -104,62 +104,62 @@ task create_sample_data: :environment do
     address_1: "47 Bowen Drive",
     town: "Southwark",
     county: "London",
-    postcode: "SE21 8NS"
+    postcode: "SE21 8NS",
   ).find_or_create_by!(uprn: "465789879")
 
-  bowen_planning_application = PlanningApplication.find_or_create_by(
+  bowen_planning_application = PlanningApplication.find_or_create_by!(
     application_type: :lawfulness_certificate,
     site_id: bowen_site.id,
     ward: "Dulwich Wood",
     user: southwark_assessor,
     local_authority: southwark,
-    user: southwark_assessor
+    user: southwark_assessor,
   ) do |pa|
     pa.description = "Installation of new external insulated render to be added"
   end
 
-  bowen_planning_application.update(target_date: 2.weeks.from_now)
+  bowen_planning_application.update!(target_date: 2.weeks.from_now)
 
   # A planning application with application_type lawfulness_certificate
   college_site = Site.create_with(
     address_1: "90A College Road",
     town: "Southwark",
     county: "London",
-    postcode: "SE21 7NA"
+    postcode: "SE21 7NA",
   ).find_or_create_by!(uprn: "0765675")
 
-  college_planning_application = PlanningApplication.find_or_create_by(
+  college_planning_application = PlanningApplication.find_or_create_by!(
     application_type: :lawfulness_certificate,
     site: college_site,
     local_authority: southwark,
-    constraints: sample_constraints
+    constraints: sample_constraints,
   ) do |pa|
     pa.description = "Construction of a single storey rear extension"
   end
 
-  college_planning_application.update(target_date: 1.week.from_now)
+  college_planning_application.update!(target_date: 1.week.from_now)
 
   # A planning application with application_type lawfulness_certificate
   bellenden_site = Site.create_with(
     address_1: "150 Bellenden Road",
     town: "Southwark",
     county: "London",
-    postcode: "SE15 4QY"
+    postcode: "SE15 4QY",
   ).find_or_create_by!(uprn: "0765675")
 
-  bellenden_planning_application = PlanningApplication.find_or_create_by(
+  bellenden_planning_application = PlanningApplication.find_or_create_by!(
     application_type: :lawfulness_certificate,
     site: bellenden_site,
     ward: "Rye Lane",
     local_authority: southwark,
     ward: "Rye Lane",
+    constraints: sample_constraints,
     work_status: "existing",
-    constraints: sample_constraints
   ) do |pa|
     pa.description = "Construction of a single storey side extension"
   end
 
-  bellenden_planning_application.update(target_date: 3.weeks.from_now)
+  bellenden_planning_application.update!(target_date: 3.weeks.from_now)
 
   # A planning application with application_type lawfulness_certificate
   james_site = Site.create_with(
@@ -169,12 +169,12 @@ task create_sample_data: :environment do
     postcode: "SE1 5LN",
   ).find_or_create_by!(uprn: "3455678643")
 
-  james_planning_application = PlanningApplication.find_or_create_by(
+  james_planning_application = PlanningApplication.find_or_create_by!(
     application_type: :lawfulness_certificate,
     site: james_site,
     ward: "South Bermondsey",
     local_authority: southwark,
-    constraints: sample_constraints
+    constraints: sample_constraints,
   ) do |pa|
     pa.description = "Single storey rear extension and rear dormer extension"
   end
@@ -184,16 +184,16 @@ task create_sample_data: :environment do
     address_1: "2 Streatham High Rd",
     town: "Lambeth",
     county: "London",
-    postcode: "SW16 1HT"
+    postcode: "SW16 1HT",
   ).find_or_create_by!(uprn: "3453543")
 
-  lambeth_planning_application = PlanningApplication.find_or_create_by(
+  lambeth_planning_application = PlanningApplication.find_or_create_by!(
     application_type: :lawfulness_certificate,
     site: lambeth_site,
     ward: "Lambeth",
     work_status: "existing",
     local_authority: lambeth,
-    constraints: sample_constraints
+    constraints: sample_constraints,
   ) do |pa|
     pa.description = "Single storey rear extension and rear dormer extension"
   end
@@ -203,16 +203,16 @@ task create_sample_data: :environment do
     address_1: "4 Chenies Parade, Little Chalfont",
     town: "Amersham",
     county: "Buckinghamshire",
-    postcode: "HP7 9PH"
+    postcode: "HP7 9PH",
   ).find_or_create_by!(uprn: "45435435")
 
-  bucks_planning_application = PlanningApplication.find_or_create_by(
+  bucks_planning_application = PlanningApplication.find_or_create_by!(
     application_type: :lawfulness_certificate,
     site: bucks_site,
     ward: "Buckinghamshire",
     work_status: "existing",
     local_authority: bucks,
-    constraints: sample_constraints
+    constraints: sample_constraints,
   ) do |pa|
     pa.description = "Construction of a single storey side extension"
   end
@@ -221,15 +221,15 @@ task create_sample_data: :environment do
     address_1: "29 Turners Pl, Holmer Green",
     town: "High Wycombe",
     county: "Buckinghamshire",
-    postcode: "HP15 6RJ"
+    postcode: "HP15 6RJ",
   ).find_or_create_by!(uprn: "980900909")
 
-  bucks_second_planning_application = PlanningApplication.find_or_create_by(
+  bucks_second_planning_application = PlanningApplication.find_or_create_by!(
     application_type: :lawfulness_certificate,
     site: bucks_second_site,
     ward: "Buckinghamshire",
     local_authority: bucks,
-    constraints: sample_constraints
+    constraints: sample_constraints,
   ) do |pa|
     pa.description = "Single storey rear extension and rear dormer extension"
   end
@@ -269,32 +269,28 @@ task create_sample_data: :environment do
    lambeth_planning_application,
    bucks_planning_application,
    bucks_second_planning_application].each do |application|
-    document_1 = application.documents.create(
-      tags: Document::TAGS.sample(rand(1..3))
+    document_1 = application.documents.create!(
+      tags: Document::TAGS.sample(rand(1..3)),
     )
     document_1.file.attach(io: File.open(file_1),
-      filename: "existing-first-floor-plan.pdf"
-    )
+                           filename: "existing-first-floor-plan.pdf")
 
-    document_2 = application.documents.create(
-      tags: Document::TAGS.sample(rand(1..3))
+    document_2 = application.documents.create!(
+      tags: Document::TAGS.sample(rand(1..3)),
     )
     document_2.file.attach(io: File.open(file_2),
-      filename: "existing-roofplan.pdf"
-    )
+                           filename: "existing-roofplan.pdf")
 
-    document_3 = application.documents.create(
-      tags: Document::TAGS.sample(rand(1..3))
+    document_3 = application.documents.create!(
+      tags: Document::TAGS.sample(rand(1..3)),
     )
     document_3.file.attach(io: File.open(file_3),
-      filename: "proposed-first-floor-plan.pdf"
-    )
+                           filename: "proposed-first-floor-plan.pdf")
 
-    document_4 = application.documents.create(
-      tags: Document::TAGS.sample(rand(1..3))
+    document_4 = application.documents.create!(
+      tags: Document::TAGS.sample(rand(1..3)),
     )
     document_4.file.attach(io: File.open(file_4),
-      filename: "proposed-roofplan.pdf"
-    )
+                           filename: "proposed-roofplan.pdf")
   end
 end

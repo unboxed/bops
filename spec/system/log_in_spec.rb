@@ -2,29 +2,29 @@
 
 require "rails_helper"
 
-RSpec.feature "Sign in", type: :system do
+RSpec.describe "Sign in", type: :system do
   let(:assessor) { create :user, :assessor, name: "Lorrine Krajcik" }
   let(:reviewer) { create :user, :reviewer, name: "Harley Dicki" }
 
-  scenario "ensure we can perform a healthcheck" do
+  it "ensure we can perform a healthcheck" do
     visit healthcheck_path
 
     expect(page.body).to have_content("OK")
   end
 
-  scenario "Home page redirects to login" do
+  it "Home page redirects to login" do
     visit root_path
 
     expect(page).to have_text("Email")
     expect(page).not_to have_text("Your fast track applications")
   end
 
-  scenario "User cannot log in with invalid credentials" do
+  it "User cannot log in with invalid credentials" do
     visit root_path
 
     fill_in("user[email]", with: reviewer.email)
     fill_in("user[password]", with: "invalid_password")
-    click_button('Log in')
+    click_button("Log in")
 
     expect(page).to have_text("Invalid Email or password.")
     expect(page).not_to have_text("Signed in successfully.")
@@ -37,7 +37,7 @@ RSpec.feature "Sign in", type: :system do
         visit root_path
       end
 
-      scenario "can see their name and role" do
+      it "can see their name and role" do
         expect(page).to have_text("Lorrine Krajcik")
         expect(page).to have_text("Assessor")
       end
@@ -49,7 +49,7 @@ RSpec.feature "Sign in", type: :system do
         visit root_path
       end
 
-      scenario "can see their name and role" do
+      it "can see their name and role" do
         expect(page).to have_text("Harley Dicki")
         expect(page).to have_text("Reviewer")
       end
@@ -70,22 +70,22 @@ RSpec.feature "Sign in", type: :system do
         host! "http://#{@previous_host}"
       end
 
-      scenario "is prevented from logging in to a different subdomain" do
+      it "is prevented from logging in to a different subdomain" do
         visit root_path
 
         fill_in("user[email]", with: southwark_assessor.email)
         fill_in("user[password]", with: "Southwark4ever!")
-        click_button('Log in')
+        click_button("Log in")
         expect(page).to have_text("Email")
         expect(page).not_to have_text("Welcome")
       end
 
-      scenario "is able to login to its allocated subdomain" do
+      it "is able to login to its allocated subdomain" do
         visit root_path
 
         fill_in("user[email]", with: lambeth_assessor.email)
         fill_in("user[password]", with: "Lambsrock18!")
-        click_button('Log in')
+        click_button("Log in")
 
         expect(page).to have_text("Signed in successfully.")
       end

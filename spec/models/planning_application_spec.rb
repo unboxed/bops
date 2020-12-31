@@ -64,7 +64,7 @@ RSpec.describe PlanningApplication, type: :model do
         freeze_time do
           subject.update!(documents_validated_at: Time.zone.today)
           subject.start
-          expect(subject.send("in_assessment_at")).to eql(Time.current)
+          expect(subject.send("in_assessment_at")).to eql(Time.zone.now)
         end
       end
     end
@@ -104,7 +104,7 @@ RSpec.describe PlanningApplication, type: :model do
       it "sets the timestamp for returned_at to now" do
         freeze_time do
           subject.return
-          expect(subject.send("returned_at")).to eql(Time.current)
+          expect(subject.send("returned_at")).to eql(Time.zone.now)
         end
       end
     end
@@ -122,7 +122,7 @@ RSpec.describe PlanningApplication, type: :model do
       it "sets the timestamp for awaiting_determination_at to now" do
         freeze_time do
           subject.assess
-          expect(subject.send("awaiting_determination_at")).to eql(Time.current)
+          expect(subject.send("awaiting_determination_at")).to eql(Time.zone.now)
         end
       end
     end
@@ -143,7 +143,7 @@ RSpec.describe PlanningApplication, type: :model do
       it "sets the timestamp for invalidated_at to now" do
         freeze_time do
           subject.invalidate
-          expect(subject.send("invalidated_at")).to eql(Time.current)
+          expect(subject.send("invalidated_at")).to eql(Time.zone.now)
         end
       end
     end
@@ -164,7 +164,7 @@ RSpec.describe PlanningApplication, type: :model do
       it "sets the timestamp for invalidated_at to now" do
         freeze_time do
           subject.invalidate
-          expect(subject.send("invalidated_at")).to eql(Time.current)
+          expect(subject.send("invalidated_at")).to eql(Time.zone.now)
         end
       end
     end
@@ -185,7 +185,7 @@ RSpec.describe PlanningApplication, type: :model do
       it "sets the timestamp for invalidated_at to now" do
         freeze_time do
           subject.invalidate
-          expect(subject.send("invalidated_at")).to eql(Time.current)
+          expect(subject.send("invalidated_at")).to eql(Time.zone.now)
         end
       end
     end
@@ -206,7 +206,7 @@ RSpec.describe PlanningApplication, type: :model do
       it "sets the timestamp for awaiting_correction to now" do
         freeze_time do
           subject.request_correction
-          expect(subject.send("awaiting_correction_at")).to eql(Time.current)
+          expect(subject.send("awaiting_correction_at")).to eql(Time.zone.now)
         end
       end
     end
@@ -227,7 +227,7 @@ RSpec.describe PlanningApplication, type: :model do
       it "sets the timestamp for determined_at to now" do
         freeze_time do
           subject.determine
-          expect(subject.send("determined_at")).to eql(Time.current)
+          expect(subject.send("determined_at")).to eql(Time.zone.now)
         end
       end
     end
@@ -248,7 +248,7 @@ RSpec.describe PlanningApplication, type: :model do
       it "sets the timestamp for withdrawn_at to now" do
         freeze_time do
           subject.withdraw
-          expect(subject.send("withdrawn_at")).to eql(Time.current)
+          expect(subject.send("withdrawn_at")).to eql(Time.zone.now)
         end
       end
     end
@@ -269,7 +269,7 @@ RSpec.describe PlanningApplication, type: :model do
       it "sets the timestamp for withdrawn_at to now" do
         freeze_time do
           subject.withdraw
-          expect(subject.send("withdrawn_at")).to eql(Time.current)
+          expect(subject.send("withdrawn_at")).to eql(Time.zone.now)
         end
       end
     end
@@ -290,7 +290,7 @@ RSpec.describe PlanningApplication, type: :model do
       it "sets the timestamp for withdrawn_at to now" do
         freeze_time do
           subject.withdraw
-          expect(subject.send("withdrawn_at")).to eql(Time.current)
+          expect(subject.send("withdrawn_at")).to eql(Time.zone.now)
         end
       end
     end
@@ -311,7 +311,7 @@ RSpec.describe PlanningApplication, type: :model do
       it "sets the timestamp for withdrawn_at to now" do
         freeze_time do
           subject.withdraw
-          expect(subject.send("withdrawn_at")).to eql(Time.current)
+          expect(subject.send("withdrawn_at")).to eql(Time.zone.now)
         end
       end
     end
@@ -343,7 +343,7 @@ RSpec.describe PlanningApplication, type: :model do
 
   describe "#reference" do
     it "pads the ID correctly" do
-      subject.update(id: 1000)
+      subject.update!(id: 1000)
 
       expect(subject.reference).to eq "00001000"
     end
@@ -351,27 +351,27 @@ RSpec.describe PlanningApplication, type: :model do
 
   describe "#agent?" do
     it "returns false if no values are given" do
-      subject.update(agent_first_name: "", agent_last_name: "", agent_phone: "", agent_email: "")
+      subject.update!(agent_first_name: "", agent_last_name: "", agent_phone: "", agent_email: "")
 
       expect(subject.reload.agent?).to eq false
     end
 
     it "returns false if email or phone is not given" do
-      subject.update(agent_first_name: "first", agent_last_name: "last", agent_phone: "", agent_email: "")
+      subject.update!(agent_first_name: "first", agent_last_name: "last", agent_phone: "", agent_email: "")
 
       expect(subject.agent?).to eq false
     end
 
     it "returns true if name and email are given" do
-      subject.update(agent_first_name: "first", agent_last_name: "last",
-                     agent_phone: "", agent_email: "agent@example.com")
+      subject.update!(agent_first_name: "first", agent_last_name: "last",
+                      agent_phone: "", agent_email: "agent@example.com")
 
       expect(subject.agent?).to eq true
     end
 
     it "returns true if name and phone are given" do
-      subject.update(agent_first_name: "first", agent_last_name: "last",
-                     agent_phone: "34433454", agent_email: "")
+      subject.update!(agent_first_name: "first", agent_last_name: "last",
+                      agent_phone: "34433454", agent_email: "")
 
       expect(subject.agent?).to eq true
     end
@@ -379,29 +379,29 @@ RSpec.describe PlanningApplication, type: :model do
 
   describe "#applicant?" do
     it "returns false if no values are given" do
-      subject.update(applicant_first_name: "", applicant_last_name: "",
-                     applicant_phone: "", applicant_email: "")
+      subject.update!(applicant_first_name: "", applicant_last_name: "",
+                      applicant_phone: "", applicant_email: "")
 
       expect(subject.applicant?).to eq false
     end
 
     it "returns false if email or phone is not given" do
-      subject.update(applicant_first_name: "first", applicant_last_name: "last",
-                     applicant_phone: "", applicant_email: "")
+      subject.update!(applicant_first_name: "first", applicant_last_name: "last",
+                      applicant_phone: "", applicant_email: "")
 
       expect(subject.applicant?).to eq false
     end
 
     it "returns true if name and email are given" do
-      subject.update(applicant_first_name: "first", applicant_last_name: "last",
-                     applicant_phone: "", applicant_email: "applicant@example.com")
+      subject.update!(applicant_first_name: "first", applicant_last_name: "last",
+                      applicant_phone: "", applicant_email: "applicant@example.com")
 
       expect(subject.applicant?).to eq true
     end
 
     it "returns true if name and phone are given" do
-      subject.update(applicant_first_name: "first", applicant_last_name: "last",
-                     applicant_phone: "34433454", applicant_email: "")
+      subject.update!(applicant_first_name: "first", applicant_last_name: "last",
+                      applicant_phone: "34433454", applicant_email: "")
 
       expect(subject.applicant?).to eq true
     end
@@ -410,19 +410,19 @@ RSpec.describe PlanningApplication, type: :model do
   describe "#documents_ready_for_publication?" do
     let!(:proposed_document_1) do
       create :document, :with_file, :proposed_tags,
-            planning_application: subject,
-            numbers: "number"
+             planning_application: subject,
+             numbers: "number"
     end
 
     let!(:existing_document) do
       create :document, :with_file, :existing_tags,
-            planning_application: subject
+             planning_application: subject
     end
 
     let!(:archived_document) do
       create :document, :with_file, :proposed_tags, :archived,
-            planning_application: subject,
-            numbers: "number"
+             planning_application: subject,
+             numbers: "number"
     end
 
     context "when all proposed, non-archived documents have numbers" do
@@ -434,7 +434,7 @@ RSpec.describe PlanningApplication, type: :model do
     context "when there is a proposed, non-archived document without numbers" do
       let!(:proposed_document_2) do
         create :document, :with_file, :proposed_tags,
-              planning_application: subject
+               planning_application: subject
       end
 
       it "returns false" do
@@ -461,8 +461,8 @@ RSpec.describe PlanningApplication, type: :model do
     context "when all relevant documents are numbered" do
       let!(:proposed_document_1) do
         create :document, :proposed_tags,
-        planning_application: subject,
-        numbers: "number"
+               planning_application: subject,
+               numbers: "number"
       end
 
       it "returns false" do
@@ -473,13 +473,13 @@ RSpec.describe PlanningApplication, type: :model do
     context "when one relevant document has a number and another does not" do
       let!(:proposed_document_1) do
         create :document, :proposed_tags,
-        planning_application: subject,
-        numbers: "number"
+               planning_application: subject,
+               numbers: "number"
       end
 
       let!(:proposed_document_2) do
         create :document, :proposed_tags,
-        planning_application: subject
+               planning_application: subject
       end
 
       it "returns true" do

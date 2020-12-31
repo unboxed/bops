@@ -10,11 +10,11 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     let(:assessor) { create :user, :assessor }
     let!(:planning_application) do
       create :planning_application,
-       :awaiting_determination,
-       policy_evaluation: policy_evaluation,
-       local_authority: local_authority,
-       assessor_decision: assessor_decision,
-       applicant_email: "bigplans@example.com"
+             :awaiting_determination,
+             policy_evaluation: policy_evaluation,
+             local_authority: local_authority,
+             assessor_decision: assessor_decision,
+             applicant_email: "bigplans@example.com"
     end
     let(:assessor) { create :user, :assessor, local_authority: local_authority }
     let(:reviewer) { create :user, :reviewer, local_authority: local_authority }
@@ -27,7 +27,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     context "with a granted assessor_decision" do
       let(:assessor_decision) { create :decision, :granted, user: assessor }
 
-      scenario "agrees with assessor's decision" do
+      it "agrees with assessor's decision" do
         # Check that the application is no longer in awaiting determination
         within("#awaiting_determination") do
           click_link planning_application.reference
@@ -116,10 +116,10 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         # notice when we implement it
         planning_application = PlanningApplication.find_by(id: id)
 
-        expect(planning_application.determined_at).to be_within(5.seconds).of(Time.current)
+        expect(planning_application.determined_at).to be_within(5.seconds).of(Time.zone.now)
       end
 
-      scenario "agrees with assessor's decision when proposed work has been completed" do
+      it "agrees with assessor's decision when proposed work has been completed" do
         planning_application.update!(work_status: "existing")
 
         # Check that the application is no longer in awaiting determination
@@ -204,7 +204,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         end
         end
 
-      scenario "disagrees with assessor's decision" do
+      it "disagrees with assessor's decision" do
         # Check that the application is no longer in awaiting determination
         within("#awaiting_determination") do
           click_link planning_application.reference
@@ -269,7 +269,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
           ActionMailer::Base.delivery_method = :notify
           ActionMailer::Base.notify_settings = {
-            api_key: "fake__notarealkey-00000000-0000-0000-0000-000000000000-00000000-0000-0000-0000-000000000000"
+            api_key: "fake__notarealkey-00000000-0000-0000-0000-000000000000-00000000-0000-0000-0000-000000000000",
           }
 
           example.run
@@ -278,9 +278,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
           ActionMailer::Base.notify_settings = notify_settings
         end
 
-        scenario "it displays a flash message" do
+        it "displays a flash message" do
           stub_request(:post, notify_url).to_return(
-            status: 404
+            status: 404,
           )
 
           within("#awaiting_determination") do
@@ -305,7 +305,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     context "with a refused assessor_decision" do
       let(:assessor_decision) { create :decision, :refused_with_comment, user: assessor }
 
-      scenario "agrees with assessor's decision" do
+      it "agrees with assessor's decision" do
         # Check that the application is no longer in awaiting determination
         within("#awaiting_determination") do
           click_link planning_application.reference
@@ -375,7 +375,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         end
       end
 
-      scenario "disagrees with assessor's decision" do
+      it "disagrees with assessor's decision" do
         # Check that the application is no longer in awaiting determination
         within("#awaiting_determination") do
           click_link planning_application.reference
@@ -433,7 +433,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     context "with a refused assessor_decision with private_comment" do
       let(:assessor_decision) { create :decision, :refused_with_public_and_private_comment, user: assessor }
 
-      scenario "agrees with assessor's decision" do
+      it "agrees with assessor's decision" do
         # Check that the application is no longer in awaiting determination
         within("#awaiting_determination") do
           click_link planning_application.reference
@@ -504,7 +504,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         end
       end
 
-      scenario "disagrees with assessor's decision" do
+      it "disagrees with assessor's decision" do
         # Check that the application is no longer in awaiting determination
         within("#awaiting_determination") do
           click_link planning_application.reference

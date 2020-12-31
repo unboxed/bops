@@ -32,8 +32,8 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
   end
 
   def full_planning_application(site_id, council_id)
-    @planning_application = PlanningApplication.create(
-      full_planning_params.merge!(site_id: site_id, local_authority_id: council_id)
+    @planning_application = PlanningApplication.create!(
+      full_planning_params.merge!(site_id: site_id, local_authority_id: council_id),
     )
   end
 
@@ -51,8 +51,8 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
   def upload_documents(document_params)
     unless document_params.nil?
       document_params.each do |param|
-        document = @planning_application.documents.create(tags: Array(param[:tags]))
-        document.file.attach(io: File.open(open(param[:filename])), filename: "#{new_filename(param[:filename])}")
+        document = @planning_application.documents.create!(tags: Array(param[:tags]))
+        document.file.attach(io: File.open(open(param[:filename])), filename: new_filename(param[:filename]).to_s)
       end
     end
   end
@@ -62,38 +62,47 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
   end
 
   def send_success_response
-    render json: { "id": "#{@planning_application.reference}",
-                   "message": "Application created" }, status: 200
+    render json: { "id": @planning_application.reference.to_s,
+                   "message": "Application created" }, status: :ok
   end
 
   def send_failed_response
     render json: { "message": "Unable to create application" },
-           status: 400
+           status: :bad_request
   end
 
   def send_not_found_response
     render json: { "message": "Unable to find record" },
-           status: 404
+           status: :not_found
   end
 
   def create_site
     if site_params
-      site = Site.create_with(site_params).
-          find_or_create_by!(uprn: site_params[:uprn])
+      site = Site.create_with(site_params)
+          .find_or_create_by!(uprn: site_params[:uprn])
       site.id
-    else
     end
   end
 
-  private
+private
 
   def planning_application_params
-    permitted_keys = [:application_type, :description, :ward, :site_id,
-                      :applicant_first_name, :applicant_last_name,
-                      :applicant_phone, :applicant_email,
-                      :agent_first_name, :agent_last_name,
-                      :agent_phone, :agent_email, :questions, :files,
-                      :payment_reference, :work_status]
+    permitted_keys = %i[application_type
+                        description
+                        ward
+                        site_id
+                        applicant_first_name
+                        applicant_last_name
+                        applicant_phone
+                        applicant_email
+                        agent_first_name
+                        agent_last_name
+                        agent_phone
+                        agent_email
+                        questions
+                        files
+                        payment_reference
+                        work_status]
     params.permit permitted_keys
   end
 
@@ -102,16 +111,15 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
       { uprn: params[:site][:uprn],
         address_1: params[:site][:address_1],
         town: params[:site][:town],
-        postcode: params[:site][:postcode]
-      }
+        postcode: params[:site][:postcode] }
     end
   end
 
   def full_planning_params
     planning_application_params.merge!({
-                                           questions: (params[:questions].to_json if params[:questions].present?),
-                                           constraints: (params[:constraints].to_json if params[:constraints].present?),
-                                           audit_log: params.to_json
-                                       })
+      questions: (params[:questions].to_json if params[:questions].present?),
+      constraints: (params[:constraints].to_json if params[:constraints].present?),
+      audit_log: params.to_json,
+    })
   end
 end

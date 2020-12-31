@@ -3,21 +3,21 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application Assessment", type: :system do
-  let(:local_authority) {
+  let(:local_authority) do
     create :local_authority,
-    name: "Cookie authority",
-    signatory_name: "Mr. Biscuit",
-    signatory_job_title: "Lord of BiscuitTown",
-    enquiries_paragraph: "reach us on postcode SW50",
-    email_address: "biscuit@somuchbiscuit.com"
-    }
+           name: "Cookie authority",
+           signatory_name: "Mr. Biscuit",
+           signatory_job_title: "Lord of BiscuitTown",
+           enquiries_paragraph: "reach us on postcode SW50",
+           email_address: "biscuit@somuchbiscuit.com"
+  end
   let!(:assessor) { create :user, :assessor, name: "Lorrine Krajcik", local_authority: local_authority }
   let!(:reviewer) { create :user, :reviewer, name: "Harley Dicki", local_authority: local_authority }
 
   let!(:planning_application) do
     create :planning_application, :not_started,
-            :lawfulness_certificate,
-            local_authority: local_authority
+           :lawfulness_certificate,
+           local_authority: local_authority
   end
 
   before do
@@ -26,7 +26,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   context "Cancelling from Not Started status" do
-    scenario "Withdraw from Not Started" do
+    it "Withdraw from Not Started" do
       click_link planning_application.reference
       click_link "Cancel application"
 
@@ -52,7 +52,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).not_to have_content("Cancel application")
     end
 
-    scenario "Return from Not Started" do
+    it "Return from Not Started" do
       click_link planning_application.reference
       click_link "Cancel application"
 
@@ -85,7 +85,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       planning_application.start!
     end
 
-    scenario "Withdraw from In Assessment" do
+    it "Withdraw from In Assessment" do
       click_link planning_application.reference
       click_link "Cancel application"
 
@@ -111,7 +111,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).not_to have_content("Cancel application")
     end
 
-    scenario "Return from In Assessment" do
+    it "Return from In Assessment" do
       click_link planning_application.reference
       expect(planning_application.status).to eql("in_assessment")
       click_link "Cancel application"
@@ -144,7 +144,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       planning_application.invalidate!
     end
 
-    scenario "Withdraw from Invalidated" do
+    it "Withdraw from Invalidated" do
       click_link planning_application.reference
       expect(planning_application.status).to eql("invalidated")
       click_link "Cancel application"
@@ -171,7 +171,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).not_to have_content("Cancel application")
     end
 
-    scenario "Return from Invalidated" do
+    it "Return from Invalidated" do
       click_link planning_application.reference
       expect(planning_application.status).to eql("invalidated")
       click_link "Cancel application"
@@ -206,7 +206,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       planning_application.assess!
     end
 
-    scenario "Withdraw from Awaiting Determination" do
+    it "Withdraw from Awaiting Determination" do
       click_link planning_application.reference
       expect(planning_application.status).to eql("awaiting_determination")
       click_link "Cancel application"
@@ -233,7 +233,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).not_to have_content("Cancel application")
     end
 
-    scenario "Return from Awaiting Determination" do
+    it "Return from Awaiting Determination" do
       click_link planning_application.reference
       expect(planning_application.status).to eql("awaiting_determination")
       click_link "Cancel application"

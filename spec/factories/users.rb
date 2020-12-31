@@ -5,7 +5,7 @@ FactoryBot.define do
     local_authority
     name { Faker::Name.name }
     email { Faker::Internet.email }
-    password  { "password123" }
+    password { "password123" }
   end
 
   trait :assessor do

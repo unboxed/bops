@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.shared_examples 'assessor decision error message' do
+RSpec.shared_examples "assessor decision error message" do
   scenario "shows the error message" do
     click_link "In assessment"
     within("#under_assessment") do

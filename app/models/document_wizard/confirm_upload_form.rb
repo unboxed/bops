@@ -2,11 +2,10 @@
 
 module DocumentWizard
   class ConfirmUploadForm < BaseForm
-    attr_accessor :confirmation
-    attr_accessor :file
+    attr_accessor :confirmation, :file
 
     validates :confirmation, presence: {
-      message: "Please select one of the below options"
+      message: "Please select one of the below options",
     }
 
     def initialize(document_attributes = {})

@@ -3,39 +3,39 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application Assessment", type: :system do
-  let(:local_authority) {
+  let(:local_authority) do
     create :local_authority,
-    name: "Cookie authority",
-    signatory_name: "Mr. Biscuit",
-    signatory_job_title: "Lord of BiscuitTown",
-    enquiries_paragraph: "reach us on postcode SW50",
-    email_address: "biscuit@somuchbiscuit.com"
-    }
+           name: "Cookie authority",
+           signatory_name: "Mr. Biscuit",
+           signatory_job_title: "Lord of BiscuitTown",
+           enquiries_paragraph: "reach us on postcode SW50",
+           email_address: "biscuit@somuchbiscuit.com"
+  end
   let!(:assessor) { create :user, :assessor, name: "Lorrine Krajcik", local_authority: local_authority }
   let!(:reviewer) { create :user, :reviewer, name: "Harley Dicki", local_authority: local_authority }
 
   let!(:planning_application) do
     create :planning_application,
-            :lawfulness_certificate,
-            local_authority: local_authority
+           :lawfulness_certificate,
+           local_authority: local_authority
   end
 
   let(:policy_consideration_1) do
     create :policy_consideration,
-            policy_question: "The property is",
-            applicant_answer: "a semi detached house"
+           policy_question: "The property is",
+           applicant_answer: "a semi detached house"
   end
 
   let(:policy_consideration_2) do
     create :policy_consideration,
-            policy_question: "The project will ___ the internal floor area of the building",
-            applicant_answer: "not alter"
+           policy_question: "The project will ___ the internal floor area of the building",
+           applicant_answer: "not alter"
   end
 
   let!(:policy_evaluation) do
     create :policy_evaluation,
-            planning_application: planning_application,
-            policy_considerations: [policy_consideration_1, policy_consideration_2]
+           planning_application: planning_application,
+           policy_considerations: [policy_consideration_1, policy_consideration_2]
   end
 
   let!(:document) do
@@ -48,7 +48,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     visit root_path
   end
 
-  scenario "Assessment completing and editing" do
+  it "Assessment completing and editing" do
     click_link "In assessment"
     click_link planning_application.reference
 
@@ -64,7 +64,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     # Application not yet associated with the assessor
     within(".govuk-grid-column-two-thirds.application") do
-      first('.govuk-accordion').click_button('Open all')
+      first(".govuk-accordion").click_button("Open all")
       expect(page).not_to have_text("Lorrine Krajcik")
     end
 
@@ -127,13 +127,13 @@ RSpec.describe "Planning Application Assessment", type: :system do
     expect(page).to have_content("Certificate of lawfulness of proposed use or development: #{planning_application.reload.assessor_decision.status}")
 
     # Applicant
-    expect(page).to have_content("#{planning_application.applicant_first_name}")
-    expect(page).to have_content("#{planning_application.applicant_last_name}")
+    expect(page).to have_content(planning_application.applicant_first_name.to_s)
+    expect(page).to have_content(planning_application.applicant_last_name.to_s)
     # Application received
-    expect(page).to have_content("#{planning_application.created_at.strftime("%d/%m/%Y")}")
+    expect(page).to have_content(planning_application.created_at.strftime("%d/%m/%Y").to_s)
     # Address, TODO: add a fixture test for this
     # Application number
-    expect(page).to have_content("#{planning_application.reference}")
+    expect(page).to have_content(planning_application.reference.to_s)
     # Documents
     expect(page).to have_content("proposed_document_number_1")
     expect(page).to have_content("proposed_document_number_2")
@@ -181,7 +181,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
   end
 
-  scenario "Assessor is assigned to planning application" do
+  it "Assessor is assigned to planning application" do
     table_rows = all(".govuk-table__row").map(&:text)
 
     click_link "In assessment"
@@ -193,7 +193,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     # Ensure officer name is not displayed on page when accordion is opened
     within(".govuk-grid-column-two-thirds.application") do
-      first('.govuk-accordion').click_button('Open all')
+      first(".govuk-accordion").click_button("Open all")
     end
 
     click_link "Assess the proposal"
@@ -215,14 +215,14 @@ RSpec.describe "Planning Application Assessment", type: :system do
   context "when a document for publication is added after initial numbering" do
     # Simulate a completed decision step
     let!(:assessor_decision) { create :decision, :granted, user: assessor, planning_application: planning_application }
+    let!(:new_document_to_number) { create :document, :with_file, :proposed_tags, planning_application: planning_application }
 
     # Number the current document
     before { document.update(numbers: "a number") }
 
     # Add a new document for publication which will require numbering
-    let!(:new_document_to_number) { create :document, :with_file, :proposed_tags, planning_application: planning_application }
 
-    scenario "numbering needs to completed before submission" do
+    it "numbering needs to completed before submission" do
       click_link "In assessment"
       click_link planning_application.reference
 
@@ -253,7 +253,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
   end
 
-  scenario "shows the public_comment error message" do
+  it "shows the public_comment error message" do
     click_link "In assessment"
     within("#under_assessment") do
       click_link planning_application.reference

@@ -5,7 +5,7 @@
 # This means we need to explicitly require it here for it to be
 # available in our specs.
 require "faker"
-require 'webmock/rspec'
+require "webmock/rspec"
 
 WebMock.disable_net_connect!(allow_localhost: true)
 

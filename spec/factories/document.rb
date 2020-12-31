@@ -10,7 +10,7 @@ FactoryBot.define do
   end
 
   trait :archived do
-    archived_at { Time.current }
+    archived_at { Time.zone.now }
   end
 
   trait :proposed_tags do

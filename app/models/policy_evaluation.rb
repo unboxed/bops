@@ -7,5 +7,5 @@ class PolicyEvaluation < ApplicationRecord
 
   has_many :policy_considerations, dependent: :destroy
 
-  validates :status, inclusion: { in: ["met", "unmet"] }, on: :update
+  validates :status, inclusion: { in: %w[met unmet] }, on: :update
 end

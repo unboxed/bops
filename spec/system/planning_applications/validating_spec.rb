@@ -4,20 +4,20 @@ require "rails_helper"
 
 RSpec.describe "Planning Application Assessment", type: :system do
   let(:local_authority) do
-      create :local_authority,
-      name: "Cookie authority",
-      signatory_name: "Mr. Biscuit",
-      signatory_job_title: "Lord of BiscuitTown",
-      enquiries_paragraph: "reach us on postcode SW50",
-      email_address: "biscuit@somuchbiscuit.com"
-    end
+    create :local_authority,
+           name: "Cookie authority",
+           signatory_name: "Mr. Biscuit",
+           signatory_job_title: "Lord of BiscuitTown",
+           enquiries_paragraph: "reach us on postcode SW50",
+           email_address: "biscuit@somuchbiscuit.com"
+  end
   let!(:assessor) { create :user, :assessor, name: "Lorrine Krajcik", local_authority: local_authority }
   let!(:reviewer) { create :user, :reviewer, name: "Harley Dicki", local_authority: local_authority }
 
   let!(:planning_application) do
     create :planning_application, :not_started,
-            :lawfulness_certificate,
-            local_authority: local_authority
+           :lawfulness_certificate,
+           local_authority: local_authority
   end
 
   let!(:document) do
@@ -31,7 +31,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   context "Checking documents from Not Started status" do
-    scenario "Validate from Not Started" do
+    it "Validate from Not Started" do
       click_link planning_application.reference
       click_link "Check the documents"
 
@@ -58,7 +58,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).not_to have_link("Check documents")
     end
 
-    scenario "Invalidate from Not Started" do
+    it "Invalidate from Not Started" do
       click_link planning_application.reference
       click_link "Check the documents"
 
@@ -82,7 +82,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   context "Planning application does not transition when expected inputs are not sent" do
-    scenario "Error is shown when no radio button is selected" do
+    it "Error is shown when no radio button is selected" do
       click_link planning_application.reference
       click_link "Check the documents"
 
@@ -91,7 +91,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).to have_content("Please choose Yes or No")
     end
 
-    scenario "Application remains in not_started status if incorrect date is sent" do
+    it "Application remains in not_started status if incorrect date is sent" do
       click_link planning_application.reference
       click_link "Check the documents"
 

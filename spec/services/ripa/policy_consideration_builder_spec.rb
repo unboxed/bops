@@ -20,8 +20,8 @@ RSpec.describe Ripa::PolicyConsiderationBuilder do
           flow: [
             {
 
-            }
-          ]
+            },
+          ],
         }.to_json
       end
 
@@ -44,13 +44,13 @@ RSpec.describe Ripa::PolicyConsiderationBuilder do
                 {
                   id: "-LsXty7cOZycK0rqv8B5",
                   text: "a semi detached house",
-                }
+                },
               ],
               choice: {
-                id: "-LsXty7cOZycK0rqv8B5"
-              }
-            }
-          ]
+                id: "-LsXty7cOZycK0rqv8B5",
+              },
+            },
+          ],
         }.to_json
       end
 
@@ -80,11 +80,11 @@ RSpec.describe Ripa::PolicyConsiderationBuilder do
                 {
                   id: "-LsXty7cOZycK0rqv8B5",
                   text: "a semi detached house",
-                }
+                },
               ],
               choice: {
-                id: "-LsXty7cOZycK0rqv8B5"
-              }
+                id: "-LsXty7cOZycK0rqv8B5",
+              },
             },
             {
               text: "I want to",
@@ -96,13 +96,13 @@ RSpec.describe Ripa::PolicyConsiderationBuilder do
                 {
                   id: "-LsXty7cOZycK0rqv8Bo",
                   text: "build new",
-                }
+                },
               ],
               choice: {
-                id: "-LsXty7cOZycK0rqv8Bo"
-              }
+                id: "-LsXty7cOZycK0rqv8Bo",
+              },
             },
-          ]
+          ],
         }.to_json
       end
 
@@ -137,11 +137,11 @@ RSpec.describe Ripa::PolicyConsiderationBuilder do
                 {
                   id: "-LsXty7cOZycK0rqv8B5",
                   text: "a semi detached house",
-                }
+                },
               ],
               choice: {
                 # NO CHOICE HERE
-              }
+              },
             },
             {
               text: "I want to",
@@ -153,13 +153,13 @@ RSpec.describe Ripa::PolicyConsiderationBuilder do
                 {
                   id: "-LsXty7cOZycK0rqv8Bo",
                   text: "build new",
-                }
+                },
               ],
               choice: {
-                id: "-LsXty7cOZycK0rqv8Bo"
-              }
+                id: "-LsXty7cOZycK0rqv8Bo",
+              },
             },
-          ]
+          ],
         }.to_json
       end
 

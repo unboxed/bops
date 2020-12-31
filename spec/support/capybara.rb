@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'capybara/rspec'
+require "capybara/rspec"
 
 download_path = Rails.root.join("tmp/downloads").to_s
 

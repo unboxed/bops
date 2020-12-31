@@ -9,11 +9,9 @@ module BreadcrumbNavigationHelper
     render partial: "breadcrumb_navigation", locals: { nav: navigation }
   end
 
-  private
+private
 
-  # rubocop:disable Rails/HelperInstanceVariable
   def navigation
     @_navigation ||= []
   end
-  # rubocop:enable Rails/HelperInstanceVariable
 end

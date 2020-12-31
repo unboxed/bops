@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe SiteHelper, type: :helper do
   subject { build(:site, address_1: "5 Radnor Road", town: "London", postcode: "SE15 8UT") }

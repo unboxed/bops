@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Document, type: :model do
   subject { FactoryBot.build :document }
@@ -10,8 +10,8 @@ RSpec.describe Document, type: :model do
       let!(:active_document) { create :document }
       let!(:archived_document) { create :document, :archived }
 
-      it "should return documents that are not archived" do
-        expect(Document.active).to match_array([active_document])
+      it "returns documents that are not archived" do
+        expect(described_class.active).to match_array([active_document])
       end
     end
 
@@ -21,7 +21,7 @@ RSpec.describe Document, type: :model do
       let!(:existing_document) { create :document, :existing_tags }
 
       it "scopes documents with proposed tags correctly" do
-        expect(Document.has_proposed_tag).to match_array([proposed_document])
+        expect(described_class.has_proposed_tag).to match_array([proposed_document])
       end
     end
 
@@ -30,7 +30,7 @@ RSpec.describe Document, type: :model do
       let!(:document_without_numbers) { create :document }
 
       it "scopes documents with proposed tags correctly" do
-        expect(Document.has_empty_numbers).to match_array([document_without_numbers])
+        expect(described_class.has_empty_numbers).to match_array([document_without_numbers])
       end
     end
   end
@@ -42,7 +42,7 @@ RSpec.describe Document, type: :model do
       subject.file.attach(
         io: File.open(Rails.root.join("spec/fixtures/images/existing-roofplan.pdf")),
         filename: "existing-roofplan.png",
-        content_type: "image/png"
+        content_type: "image/png",
       )
 
       expect(subject).to be_valid
@@ -52,7 +52,7 @@ RSpec.describe Document, type: :model do
       subject.file.attach(
         io: File.open(Rails.root.join("spec/fixtures/images/existing-roofplan.pdf")),
         filename: "existing-roofplan.pdf",
-        content_type: "application/pdf"
+        content_type: "application/pdf",
       )
 
       expect(subject).to be_valid
@@ -62,7 +62,7 @@ RSpec.describe Document, type: :model do
       subject.file.attach(
         io: File.open(Rails.root.join("spec/fixtures/images/bmp.bmp")),
         filename: "bmp.bmp",
-        content_type: "image/bmp"
+        content_type: "image/bmp",
       )
 
       expect(subject).not_to be_valid
@@ -84,17 +84,17 @@ RSpec.describe Document, type: :model do
 
   describe "instance methods" do
     describe "#archive" do
-      before { subject.archive ("scale") }
+      before { subject.archive("scale") }
 
       it "archive reason should be correctly returned when assigned" do
         expect(subject.archive_reason).to eql("scale")
       end
 
-      it "should be able to be archived with valid reason" do
+      it "is able to be archived with valid reason" do
         expect(subject.archived_at).not_to be(nil)
       end
 
-      it "should return true when archived? method called" do
+      it "returns true when archived? method called" do
         expect(subject.archived?).to be true
       end
     end
@@ -105,10 +105,10 @@ RSpec.describe Document, type: :model do
         expect(subject[:numbers]).to eq([])
 
         subject.numbers = "just_the_one"
-        expect(subject[:numbers]).to eq(["just_the_one"])
+        expect(subject[:numbers]).to eq(%w[just_the_one])
 
         subject.numbers = " one , two,,three     "
-        expect(subject[:numbers]).to eq(["one", "two", "three"])
+        expect(subject[:numbers]).to eq(%w[one two three])
       end
     end
 

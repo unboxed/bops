@@ -3,30 +3,42 @@
 class PlanningApplicationsController < AuthenticationController
   include PlanningApplicationDashboardVariables
 
-  before_action :set_planning_application, only: [ :show, :edit, :assess, :determine, :request_correction,
-                                                   :validate_documents, :cancel_confirmation, :cancel ]
+  before_action :set_planning_application, only: %i[show
+                                                    edit
+                                                    assess
+                                                    determine
+                                                    request_correction
+                                                    validate_documents
+                                                    cancel_confirmation
+                                                    cancel]
   before_action :set_planning_application_dashboard_variables,
-                only: [ :show, :edit, :assess, :determine, :request_correction,
-                        :validate_documents, :cancel_confirmation, :cancel ]
+                only: %i[show
+                         edit
+                         assess
+                         determine
+                         request_correction
+                         validate_documents
+                         cancel_confirmation
+                         cancel]
 
   rescue_from Notifications::Client::NotFoundError,
-    with: :decision_notice_mail_error
+              with: :decision_notice_mail_error
 
   def index
-    if helpers.exclude_others? && current_user.assessor?
-      @planning_applications = policy_scope(
-        PlanningApplication.where(user_id: current_user.id).or(
-          PlanningApplication.where(user_id: nil)))
-    else
-      @planning_applications = policy_scope(PlanningApplication.all)
-    end
+    @planning_applications = if helpers.exclude_others? && current_user.assessor?
+                               policy_scope(
+                                 PlanningApplication.where(user_id: current_user.id).or(
+                                   PlanningApplication.where(user_id: nil),
+                                 ),
+                               )
+                             else
+                               policy_scope(PlanningApplication.all)
+                             end
   end
 
-  def show
-  end
+  def show; end
 
-  def edit
-  end
+  def edit; end
 
   def start
     @planning_application.start!
@@ -85,14 +97,14 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def apply_cancellation(status)
-    if status == "withdrawn"
+    case status
+    when "withdrawn"
       @planning_application.withdraw!(:withdrawn, params[:planning_application][:cancellation_comment])
-    elsif status == "returned"
+    when "returned"
       @planning_application.return!(:returned, params[:planning_application][:cancellation_comment])
     end
   end
 
-  # rubocop: disable Metrics/MethodLength
   def validate_documents
     status = authorize_user_can_update_status(params[:planning_application][:status])
     apply_validation(status)
@@ -107,12 +119,12 @@ class PlanningApplicationsController < AuthenticationController
              documents: @planning_application.documents
     end
   end
-  # rubocop: enable Metrics/MethodLength
 
   def apply_validation(status)
-    if status == "invalidated"
+    case status
+    when "invalidated"
       @planning_application.invalidate!
-    elsif status == "in_assessment"
+    when "in_assessment"
       update_validation_and_start
     else
       @planning_application.errors.add(:planning_application, "Please choose Yes or No")
@@ -121,14 +133,14 @@ class PlanningApplicationsController < AuthenticationController
 
   def update_validation_and_start
     valid_at = date_string_from_params(params[:planning_application][:'documents_validated_at(3i)'],
-                                        params[:planning_application][:'documents_validated_at(2i)'],
-                                        params[:planning_application]["documents_validated_at(1i)"])
+                                       params[:planning_application][:'documents_validated_at(2i)'],
+                                       params[:planning_application]["documents_validated_at(1i)"])
     @planning_application.update!(documents_validated_at: valid_at)
     if @planning_application.save
       @planning_application.start!
     else
       render template: "documents/index", planning_application: @planning_application,
-           documents: @planning_application.documents
+             documents: @planning_application.documents
     end
   end
 
@@ -141,7 +153,7 @@ class PlanningApplicationsController < AuthenticationController
     end
   end
 
-  private
+private
 
   def set_planning_application
     @planning_application = authorize(PlanningApplication.find(params[:id]))
@@ -161,7 +173,7 @@ class PlanningApplicationsController < AuthenticationController
 
   def decision_notice_mail
     PlanningApplicationMailer.decision_notice_mail(
-      @planning_application
+      @planning_application,
     ).deliver_now
   end
 
