@@ -109,7 +109,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
   end
 
-  context "as an assessor" do
+  context "as an assessor when target date is within a week" do
     let(:target_date) { 1.week.from_now }
     let!(:planning_application) { create :planning_application, :determined, local_authority: local_authority }
 

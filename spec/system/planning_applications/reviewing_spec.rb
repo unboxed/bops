@@ -7,7 +7,6 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     # Look at an application that has had some assessment work done by the assessor
     let(:local_authority) { create :local_authority }
     let(:policy_evaluation) { create(:policy_evaluation, :met) }
-    let(:assessor) { create :user, :assessor }
     let!(:planning_application) do
       create :planning_application,
              :awaiting_determination,

@@ -61,6 +61,7 @@ RSpec.describe "Sign in", type: :system do
       let(:lambeth_assessor) { create :user, :assessor, name: "Lambertina Lamb", password: "Lambsrock18!", local_authority: lambeth }
       let(:southwark_assessor) { create :user, :assessor, name: "Southwarkina Sully", password: "Southwark4ever!", local_authority: southwark }
 
+      # rubocop:disable RSpec/InstanceVariable
       before do
         @previous_host = Capybara.app_host
         host! "http://lamb.example.com"
@@ -69,6 +70,7 @@ RSpec.describe "Sign in", type: :system do
       after do
         host! "http://#{@previous_host}"
       end
+      # rubocop:enable RSpec/InstanceVariable
 
       it "is prevented from logging in to a different subdomain" do
         visit root_path

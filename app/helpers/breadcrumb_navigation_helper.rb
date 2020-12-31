@@ -12,6 +12,6 @@ module BreadcrumbNavigationHelper
 private
 
   def navigation
-    @_navigation ||= []
+    @navigation ||= []
   end
 end

@@ -120,7 +120,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def reference
-    @_reference ||= id.to_s.rjust(8, "0")
+    @reference ||= id.to_s.rjust(8, "0")
   end
 
   def correction_provided?

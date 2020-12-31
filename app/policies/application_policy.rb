@@ -60,7 +60,7 @@ private
   # than having to re-implement the check of the array every time.
   #
   %w[viewer editor].each do |type|
-    class_eval <<-RUBY
+    class_eval <<-RUBY, __FILE__, __LINE__ + 1
         def signed_in_#{type}?
           signed_in? && is_#{type}?
         end

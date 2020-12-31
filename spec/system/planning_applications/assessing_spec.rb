@@ -182,8 +182,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   it "Assessor is assigned to planning application" do
-    table_rows = all(".govuk-table__row").map(&:text)
-
     click_link "In assessment"
     click_link planning_application.reference
 

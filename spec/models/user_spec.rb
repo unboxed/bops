@@ -23,11 +23,6 @@ RSpec.describe User, type: :model do
     expect(user.role).to eq "assessor"
   end
 
-  it "creates user with default assessor role if no role is provided" do
-    user = create(:user)
-    expect(user.role == "assessor").to be_truthy
-  end
-
   it "is not created without a password" do
     user_without_password = build(:user, password: nil)
     expect(user_without_password).not_to be_valid
@@ -45,7 +40,7 @@ RSpec.describe User, type: :model do
 
   it "does not allow for duplicate users within the same domain" do
     domain = create(:local_authority)
-    user_one = create(:user, email: "pompom@pom.com", local_authority: domain)
+    create(:user, email: "pompom@pom.com", local_authority: domain)
     user_two = build(:user, email: "pompom@pom.com", local_authority: domain)
 
     expect(user_two.save).to be false
@@ -56,7 +51,7 @@ RSpec.describe User, type: :model do
     domain_one = create(:local_authority)
     domain_two = create(:local_authority)
 
-    user_one = create(:user, email: "gali@galileo.com", local_authority: domain_one)
+    create(:user, email: "gali@galileo.com", local_authority: domain_one)
     user_two = build(:user, email: "gali@galileo.com", local_authority: domain_two)
 
     expect(user_two.save).to be false

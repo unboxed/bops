@@ -15,3 +15,12 @@ AllCops:
     - "db/**/*"
     - "**/*.gemspec"
     - "node_modules/**/*"
+
+RSpec/ContextWording:
+  Enabled: false
+
+RSpec/LetSetup:
+  Enabled: false
+
+Naming/VariableNumber:
+  Enabled: false

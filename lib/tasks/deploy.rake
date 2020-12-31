@@ -14,6 +14,4 @@ namespace :deploy do
     PackageBuilder.deploy!(:preview)
   end
 end
-
-task deploy: "deploy:preview"
 # rubocop:enable Rails/RakeEnvironment

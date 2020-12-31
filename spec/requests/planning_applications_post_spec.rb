@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Api::V1::PlanningApplicationsController, type: :request, show_exceptions: true do
+RSpec.describe "Creating a planning application via the API", type: :request, show_exceptions: true do
   let(:api_user) { create :api_user }
 
   context "with success in downloading document" do
@@ -114,7 +114,7 @@ RSpec.describe Api::V1::PlanningApplicationsController, type: :request, show_exc
       permitted_development_json = File.read(valid_json)
 
       it "renders success message" do
-        site_1 = create(:site, uprn: "100081043511")
+        create(:site, uprn: "100081043511")
         post "/api/v1/planning_applications", params: permitted_development_json,
                                               headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
         expect(response.body).to eq({ "id": PlanningApplication.all[0].reference.to_s,
@@ -122,7 +122,7 @@ RSpec.describe Api::V1::PlanningApplicationsController, type: :request, show_exc
       end
 
       it "renders sucess message" do
-        site_1 = create(:site, uprn: "100081043511")
+        create(:site, uprn: "100081043511")
         post "/api/v1/planning_applications", params: permitted_development_json,
                                               headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
         expect(response.status).to eq(200)

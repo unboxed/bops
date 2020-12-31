@@ -7,6 +7,7 @@ RSpec.describe "Accessing correct local authority", type: :system do
   let!(:southwark) { create :local_authority, name: "Southwark Council", subdomain: "southwark" }
 
   context "Lambeth council" do
+    # rubocop:disable RSpec/InstanceVariable
     before do
       @previous_host = Capybara.app_host
       host! "http://lambeth.example.com"
@@ -15,6 +16,7 @@ RSpec.describe "Accessing correct local authority", type: :system do
     after do
       host! "http://#{@previous_host}"
     end
+    # rubocop:enable RSpec/InstanceVariable
 
     it "visit namespaced path" do
       visit root_path
@@ -25,6 +27,7 @@ RSpec.describe "Accessing correct local authority", type: :system do
   end
 
   context "Non existent council" do
+    # rubocop:disable RSpec/InstanceVariable
     before do
       @previous_host = Capybara.app_host
       host! "http://biscuits.example.com"
@@ -33,6 +36,7 @@ RSpec.describe "Accessing correct local authority", type: :system do
     after do
       host! "http://#{@previous_host}"
     end
+    # rubocop:enable RSpec/InstanceVariable
 
     it "visit non existing path" do
       visit root_path

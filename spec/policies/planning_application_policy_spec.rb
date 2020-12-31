@@ -21,7 +21,7 @@ RSpec.describe PlanningApplicationPolicy, type: :policy do
         end
       end
 
-      context "when signed in to the domain as #{role}" do
+      context "when signed in to the domain as #{role} from another domain" do
         let(:user_two_forbidden) { create :user, role, local_authority: local_authority_two }
 
         %i[show index].each do |action|

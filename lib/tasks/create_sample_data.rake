@@ -113,7 +113,6 @@ task create_sample_data: :environment do
     ward: "Dulwich Wood",
     user: southwark_assessor,
     local_authority: southwark,
-    user: southwark_assessor,
   ) do |pa|
     pa.description = "Installation of new external insulated render to be added"
   end
@@ -152,7 +151,6 @@ task create_sample_data: :environment do
     site: bellenden_site,
     ward: "Rye Lane",
     local_authority: southwark,
-    ward: "Rye Lane",
     constraints: sample_constraints,
     work_status: "existing",
   ) do |pa|

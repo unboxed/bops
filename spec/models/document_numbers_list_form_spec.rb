@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe DocumentNumbersListForm, type: :model do
-  subject do
+  subject(:form) do
     described_class.new(documents_to_update, document_numbers_hash)
   end
 
@@ -23,17 +23,17 @@ RSpec.describe DocumentNumbersListForm, type: :model do
       end
 
       it "returns false" do
-        expect(subject.update_all).to eq false
+        expect(form.update_all).to eq false
       end
 
       it "assigns errors to documents" do
-        subject.update_all
+        form.update_all
 
-        expect(subject.documents.last.errors).not_to be_empty
+        expect(form.documents.last.errors).not_to be_empty
       end
 
       it "does not persist any document numbers to the database" do
-        subject.update_all
+        form.update_all
 
         persisted_documents = Document.find(documents_to_update.map(&:id))
 
@@ -54,7 +54,7 @@ RSpec.describe DocumentNumbersListForm, type: :model do
       end
 
       it "returns false" do
-        expect(subject.update_all).to eq false
+        expect(form.update_all).to eq false
       end
     end
 
@@ -71,11 +71,11 @@ RSpec.describe DocumentNumbersListForm, type: :model do
       end
 
       it "returns true" do
-        expect(subject.update_all).to eq true
+        expect(form.update_all).to eq true
       end
 
       it "assigns the numbers to the relevant documents" do
-        subject.update_all
+        form.update_all
 
         expect(documents_to_update.first.numbers).to eq "one, two"
         expect(documents_to_update.last.numbers).to eq "three"
