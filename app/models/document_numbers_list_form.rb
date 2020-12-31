@@ -62,7 +62,7 @@ private
       document.numbers
     end
 
-    def save
+    def save!
       if valid?
         @document.update!(numbers: numbers)
       end
