@@ -114,6 +114,7 @@ ActiveRecord::Schema.define(version: 2020_12_30_150801) do
     t.text "cancellation_comment"
     t.string "reference"
     t.date "documents_validated_at"
+    t.string "work_status", default: "Proposed"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
     t.index ["reference"], name: "index_planning_applications_on_reference", unique: true
     t.index ["site_id"], name: "index_planning_applications_on_site_id"

@@ -66,6 +66,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         expect(page).to have_content("The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.")
         expect(page).to have_content("granted")
+        expect(page).to have_content("proposed")
+        expect(page).to have_content("Proposed")
         expect(page).not_to have_content("The proposal does not comply with:")
         expect(page).not_to have_content("This has been refused.")
 
@@ -116,6 +118,91 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         expect(planning_application.determined_at).to be_within(5.seconds).of(Time.current)
       end
+
+      scenario "agrees with assessor's decision when proposed work has been completed" do
+        planning_application.update!(work_status: "Existing")
+
+        # Check that the application is no longer in awaiting determination
+        within("#awaiting_determination") do
+          click_link planning_application.reference
+        end
+
+        expect(page).to have_content("Determine the proposal")
+        expect(page).to have_link("Review the recommendation")
+        expect(page).not_to have_link("Publish the recommendation")
+
+        click_link "Review the recommendation"
+
+        expect(page).to have_content("The planning officer recommends that the application is granted.")
+        expect(page).not_to have_content("The following policy requirement(s) have not been met:")
+        expect(page).not_to have_content("This has been refused.")
+
+        choose "Yes"
+        click_button "Save"
+
+        within(:assessment_step, "Review the recommendation") do
+          expect(page).to have_content("Completed")
+        end
+
+        click_link "Review the recommendation"
+
+        # Expect the saved state to be shown in the form
+        within(find("form.decision")) do
+          expect(page.find_field("Yes")).to be_checked
+        end
+        click_button "Save"
+
+        expect(page).to have_content("Determine the proposal")
+        expect(page).to have_link("Review the recommendation")
+        expect(page).to have_link("Publish the recommendation")
+
+        click_link "Publish the recommendation"
+
+        expect(page).to have_content("The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.")
+        expect(page).to have_content("granted")
+        expect(page).to have_content("existing")
+        expect(page).not_to have_content("The proposal does not comply with:")
+        expect(page).not_to have_content("This has been refused.")
+
+        expect(page).not_to have_content("The officer has submitted the following comment for you:")
+        expect(page).not_to have_content("This is a private comment")
+
+        click_button "Determine application"
+
+        mail = ActionMailer::Base.deliveries.first
+
+        expect(mail.to.first).to eq "bigplans@example.com"
+        expect(mail.subject).to eq("Certificate of Lawfulness: granted")
+        expect(mail.body.encoded).to match("Certificate of lawfulness of existing use or development: granted.")
+
+        expect(page).to have_content("View the application")
+        expect(page).to have_link("View the assessment")
+        expect(page).to have_link("View the decision notice")
+
+        within(:assessment_step, "View the decision notice") do
+          expect(page).to have_content("Completed")
+        end
+
+        click_link "View the assessment"
+        click_link "Back"
+
+        click_link "View the decision notice"
+        click_link "Back"
+
+        click_link "Home"
+
+        # Check that the application is no longer in awaiting determination
+        click_link "Awaiting manager's determination"
+        within("#awaiting_determination") do
+          expect(page).not_to have_link planning_application.reference
+        end
+
+        # Check that the application is now in determined
+        click_link "Closed"
+        within("#closed") do
+          expect(page).to have_link planning_application.reference
+        end
+        end
 
       scenario "disagrees with assessor's decision" do
         # Check that the application is no longer in awaiting determination

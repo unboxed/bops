@@ -2,7 +2,7 @@
   <span class="govuk-caption-xl"><%= planning_application.local_authority.name %> </span>
   <h2 class="govuk-heading-m">Town and country planning act 1990 (as amended)</h2>
   <p class="govuk-body"> <strong>Decision notice</strong> </p>
-  <p class="govuk-body">Certificate of lawfulness of proposed use or development: <strong><%= "#{decision.status}." %></strong></p>
+  <p class="govuk-body">Certificate of lawfulness of <%= t(@planning_application.work_status) %> use or development: <strong><%= "#{decision.status}." %></strong></p>
   <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
   <p class="govuk-body">
     <strong>Applicant:</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<%= @planning_application.applicant_first_name %> <%= @planning_application.applicant_last_name %><br>
@@ -15,8 +15,8 @@
     <strong>Application number:</strong>
     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<%= planning_application.reference %><br>
   </p>
-  <p class="govuk-body">Proposed use or development:<br>
-    Certificate of lawful development (proposed) for the construction of <%= planning_application.description %>
+  <p class="govuk-body"><%= t(@planning_application.work_status) %> use or development:<br>
+    Certificate of lawful development (<%= t(@planning_application.work_status) %>) for the construction of <%= planning_application.description %>
   </p>
   <% if decision.granted? %>
     <p class="govuk-body">

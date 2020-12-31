@@ -4,7 +4,7 @@
 
 # Decision notice
 
-Certificate of lawfulness of proposed use or development: <%= "#{@decision.status}." %>
+Certificate of lawfulness of <%= t(@planning_application.work_status) %> use or development: <%= "#{@decision.status}." %>
 
 Applicant: <%= @planning_application.applicant_first_name %> <%= @planning_application.applicant_last_name %>
 Date of Issue of this decision: <%= @planning_application.determined_at.strftime("%e %B %Y") %>
@@ -14,7 +14,7 @@ Application number: <%= @planning_application.reference %>
 Local authority: <%= @planning_application.local_authority.name %>
 
 Proposed use or development:
-Certificate of lawful development (proposed) for the construction of <%= @planning_application.description %>
+Certificate of lawful development (<%= t(@planning_application.work_status) %>) for the construction of <%= @planning_application.description %>
 
 <% if @decision.granted? %>
   IT IS HEREBY CERTIFIED that the use or operations described below are lawful for the purposes of S.192 of the Town and Country Planning Act 1990 in accordance with the valid application received on <%= @planning_application.created_at.strftime("%d/%m/%Y") %> and supporting documents listed below. Full application is available on the planning register.
