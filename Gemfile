@@ -8,6 +8,7 @@ gem "dotenv-rails", require: "dotenv/rails-now"
 gem "aasm"
 gem "activerecord-postgis-adapter"
 gem "after_commit_everywhere"
+gem "appsignal"
 gem "aws-sdk-codedeploy", require: false
 gem "aws-sdk-s3", require: false
 gem "bootsnap", ">= 1.4.2", require: false
@@ -25,21 +26,18 @@ gem "pundit"
 gem "rails", "~> 6.0.3"
 gem "rswag-ui"
 gem "webpacker", "~> 4.0"
-gem "appsignal"
 
 group :development, :test do
   gem "brakeman", require: false
   gem "bundler-audit", require: false
-  gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
+  gem "byebug", platforms: %i[mri mingw x64_mingw]
   gem "capybara"
   gem "factory_bot_rails"
   gem "pry-byebug"
   gem "rails-controller-testing"
   gem "rspec-rails", "~> 4.0.0"
-  gem "rubocop-performance", "1.5.2", require: false
-  gem "rubocop-rails", "2.5.2", require: false
-  gem "rubocop-rspec", "1.38.1", require: false
-  gem "rubocop", "0.81.0", require: false
+  gem "rubocop", require: false
+  gem "rubocop-govuk", "3.17.2"
   gem "selenium-webdriver"
   gem "simplecov", require: false
 end
@@ -50,6 +48,6 @@ group :development do
 end
 
 group :test do
-  gem "webmock"
   gem "openapi3_parser"
+  gem "webmock"
 end
