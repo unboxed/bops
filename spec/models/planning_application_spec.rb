@@ -70,21 +70,21 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     describe "work_status" do
+      subject(:planning_application) { create :planning_application, :not_started }
+
       let!(:proposed_drawing_1) do
         create :document, :with_file, :proposed_tags,
-               planning_application: subject,
+               planning_application: planning_application,
                numbers: "number"
       end
 
-      subject { create :planning_application, :not_started }
-
       it "sets work_status to proposed" do
-        expect(subject.work_status).to eq "proposed"
+        expect(planning_application.work_status).to eq "proposed"
       end
 
       it "allows the work status to be updated" do
-        subject.update!(work_status: "existing")
-        expect(subject.send("work_status")).to eql("existing")
+        planning_application.update!(work_status: "existing")
+        expect(planning_application.send("work_status")).to eql("existing")
       end
     end
 

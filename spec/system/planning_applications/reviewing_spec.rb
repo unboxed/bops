@@ -201,7 +201,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         within("#closed") do
           expect(page).to have_link planning_application.reference
         end
-        end
+      end
 
       it "disagrees with assessor's decision" do
         # Check that the application is no longer in awaiting determination

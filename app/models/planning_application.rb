@@ -42,7 +42,7 @@ class PlanningApplication < ApplicationRecord
             inclusion: { in: STATUSES,
                          message: "Please select one of the below options" }
 
-  WORK_STATUSES = %w[proposed existing]
+  WORK_STATUSES = %w[proposed existing].freeze
 
   validates :work_status,
             inclusion: { in: WORK_STATUSES,
