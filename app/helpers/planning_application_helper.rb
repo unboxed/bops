@@ -15,6 +15,10 @@ module PlanningApplicationHelper
     params[:q] == "exclude_others"
   end
 
+  def proposed_or_existing(planning_application)
+    planning_application.work_status == "proposed" ? "No" : "Yes"
+  end
+
   def filter_text
     if current_user.assessor?
       "View my applications"

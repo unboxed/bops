@@ -13,6 +13,7 @@
   "agent_last_name": "Harper",
   "agent_phone": "237878889",
   "agent_email": "agent@example.com",
+  "work_status": "proposed",
   "site": {
     "uprn": "100081043511",
     "property_name": null,

@@ -10,6 +10,7 @@ RSpec.feature "Planning Application show page", type: :system do
                                        ward: "Dulwich Wood", site: site,
                                        target_date: Date.current + 14.days, local_authority: local_authority,
                                        payment_reference: 'PAY123',
+                                       work_status: "proposed",
                                        constraints:  '{"conservation_area": true, "article4_area": false, "scheduled_monument": false }'}
   let(:assessor) { create :user, :assessor, local_authority: local_authority }
   let(:reviewer) { create :user, :reviewer, local_authority: local_authority }
@@ -22,6 +23,10 @@ RSpec.feature "Planning Application show page", type: :system do
 
     scenario "Site address is present" do
       expect(page).to have_text("7 Elm Grove, London, SE15 6UT")
+    end
+
+    scenario "Completed status is correct" do
+      expect(page).to have_text("Work already completed: No")
     end
 
     scenario "Planning application code is correct" do
