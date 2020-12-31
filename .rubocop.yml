@@ -10,11 +10,7 @@ inherit_mode:
 
 AllCops:
   Exclude:
-    - "**/vendor/**/*"
-    - "bin/**/*"
-    - "db/**/*"
-    - "**/*.gemspec"
-    - "node_modules/**/*"
+    - "db/migrate/*"
 
 RSpec/ContextWording:
   Enabled: false
