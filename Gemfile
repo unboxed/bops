@@ -26,6 +26,7 @@ gem "rails", "~> 6.0.3"
 gem "rswag-ui"
 gem "webpacker", "~> 4.0"
 gem "appsignal"
+gem "audited", "~> 4.9"
 
 group :development, :test do
   gem "brakeman", require: false

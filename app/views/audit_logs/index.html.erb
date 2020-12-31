@@ -1,0 +1,20 @@
+<table>
+  <tr>
+    <th>What</th>
+    <th>Action</th>
+    <th>Changes</th>
+    <th>By</th>
+    <th>When</th>
+  </tr>
+  <% @audit_logs.each do |audit_log| %>
+    <tr>
+      <td><%= audit_log.auditable_type %></td>
+      <td><%= audit_log.action %></td>
+      <td>
+        <%= audit_log.audited_changes %>
+      </td>
+      <td><%= audit_log.user.name if audit_log.user %></td>
+      <td><%= audit_log.created_at %></td>
+    </tr>
+  <% end %>
+</table>

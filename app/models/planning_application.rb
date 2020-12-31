@@ -49,6 +49,9 @@ class PlanningApplication < ApplicationRecord
   scope :under_assessment, -> { where("status = 'in_assessment' OR status = 'awaiting_correction'") }
   scope :closed, -> { where("status = 'determined' OR status = 'withdrawn' OR status = 'returned'") }
 
+  audited
+  has_associated_audits
+
   aasm.attribute_name :status
 
   aasm do
