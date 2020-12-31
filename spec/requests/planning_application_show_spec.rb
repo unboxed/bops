@@ -76,11 +76,13 @@ RSpec.describe "API request to list planning applications", type: :request, show
         expect(planning_application_json["site"]["uprn"]).to eq(planning_application.site.uprn)
         expect(planning_application_json["questions"]).to eq(JSON.parse(planning_application.questions))
         expect(planning_application_json["constraints"]).to eq(JSON.parse(planning_application.constraints))
+        expect(planning_application_json["documents"]).to eq([])
       end
 
       context "for a granted planning application" do
         let!(:planning_application) { create(:planning_application, :determined) }
         let!(:decision) { create(:decision, :granted, user: reviewer, planning_application: planning_application) }
+        let!(:document) { create(:document, :with_file, planning_application: planning_application) }
 
         it "returns the accurate data" do
           get "/api/v1/planning_applications/#{planning_application.id}"
@@ -117,6 +119,12 @@ RSpec.describe "API request to list planning applications", type: :request, show
           expect(planning_application_json["site"]["uprn"]).to eq(planning_application.site.uprn)
           expect(planning_application_json["questions"]).to eq(JSON.parse(planning_application.questions))
           expect(planning_application_json["constraints"]).to eq(JSON.parse(planning_application.constraints))
+          expect(planning_application_json["documents"].first["url"]).to eq(api_v1_planning_application_document_url(planning_application, document))
+          expect(planning_application_json["documents"].first["created_at"]).to eq(json_time_format(document.created_at))
+          expect(planning_application_json["documents"].first["archived_at"]).to eq(json_time_format(document.archived_at))
+          expect(planning_application_json["documents"].first["archive_reason"]).to eq(document.archive_reason)
+          expect(planning_application_json["documents"].first["tags"]).to eq(document.tags)
+          expect(planning_application_json["documents"].first["numbers"]).to eq(document.numbers)
         end
       end
     end

@@ -53,7 +53,7 @@ RSpec.feature "Documents index page", type: :system do
     end
 
     scenario "File image opens in new tab" do
-      first(:css, 'a[href*="active"]').click
+      click_link 'View in new window'
       page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
 
       expect(current_url).to include("/rails/active_storage/")

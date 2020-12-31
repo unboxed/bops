@@ -53,10 +53,10 @@
                 <p class="govuk-body">
                   <%= document.created_at.strftime("%e %B %Y") %>
                   <br/>
-                  <%= link_to "View in new window", rails_blob_path(document.file), target: :_blank %>
+                  <%= link_to "View in new window", api_v1_planning_application_document_url(@planning_application, document.id), target: :_blank %>
                 </p>
                 <%= link_to image_tag(document.file.representation(resize: "300x212")),
-                            rails_blob_path(document.file), target: :_blank %>          <br/>
+                            api_v1_planning_application_document_url(@planning_application, document.id), target: :_blank %>          <br/>
 
                 <div class="govuk-form-group <%= document.errors[:numbers].any? ? 'govuk-form-group--error' : '' %>">
                   <% if document.errors[:numbers].any? %>
