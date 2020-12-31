@@ -32,7 +32,7 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
   end
 
   def full_planning_application(site_id, council_id)
-    @planning_application = PlanningApplication.create!(
+    @planning_application = PlanningApplication.create(
       full_planning_params.merge!(site_id: site_id, local_authority_id: council_id),
     )
   end
