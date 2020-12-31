@@ -52,7 +52,7 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
     unless document_params.nil?
       document_params.each do |param|
         document = @planning_application.documents.create!(tags: Array(param[:tags]))
-        document.file.attach(io: File.open(open(param[:filename])), filename: new_filename(param[:filename]).to_s)
+        document.file.attach(io: URI.parse(param[:filename]).open, filename: new_filename(param[:filename]).to_s)
       end
     end
   end
