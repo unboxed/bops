@@ -153,6 +153,7 @@ task create_sample_data: :environment do
     ward: "Rye Lane",
     local_authority: southwark,
     ward: "Rye Lane",
+    work_status: "existing",
     constraints: sample_constraints
   ) do |pa|
     pa.description = "Construction of a single storey side extension"
@@ -190,6 +191,7 @@ task create_sample_data: :environment do
     application_type: :lawfulness_certificate,
     site: lambeth_site,
     ward: "Lambeth",
+    work_status: "existing",
     local_authority: lambeth,
     constraints: sample_constraints
   ) do |pa|
@@ -208,6 +210,7 @@ task create_sample_data: :environment do
     application_type: :lawfulness_certificate,
     site: bucks_site,
     ward: "Buckinghamshire",
+    work_status: "existing",
     local_authority: bucks,
     constraints: sample_constraints
   ) do |pa|
