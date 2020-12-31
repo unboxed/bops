@@ -37,11 +37,11 @@ class PlanningApplication < ApplicationRecord
             inclusion: { in: STATUSES,
                          message: "Please select one of the below options" }
 
-  WORK_STATUSES = %w[Proposed Existing]
+  WORK_STATUSES = %w[proposed existing]
 
   validates :work_status,
             inclusion: { in: WORK_STATUSES,
-                         message: "Work Status should be Proposed or Existing" }
+                         message: "Work Status should be proposed or existing" }
 
   validate :documents_validated_if_not_started
 

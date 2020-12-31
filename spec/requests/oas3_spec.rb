@@ -53,7 +53,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
     expect(PlanningApplication.last.agent_last_name).to eq('Harper')
     expect(PlanningApplication.last.agent_phone).to eq('237878889')
     expect(PlanningApplication.last.agent_email).to eq('agent@example.com')
-    expect(PlanningApplication.last.work_status).to eq('Proposed')
+    expect(PlanningApplication.last.work_status).to eq('proposed')
     expect(JSON.parse(PlanningApplication.last.questions)['flow'].first['text']).to eq('The property is')
     expect(JSON.parse(PlanningApplication.last.constraints)['conservation_area']).to eq(true)
     expect(PlanningApplication.last.documents.first.file).to be_present

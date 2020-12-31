@@ -16,7 +16,7 @@ module PlanningApplicationHelper
   end
 
   def proposed_or_existing(planning_application)
-    planning_application.work_status == "Proposed" ? "No" : "Yes"
+    planning_application.work_status == "proposed" ? "No" : "Yes"
   end
 
   def filter_text

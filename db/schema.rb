@@ -107,16 +107,14 @@ ActiveRecord::Schema.define(version: 2020_12_30_150801) do
     t.string "applicant_phone"
     t.bigint "local_authority_id"
     t.jsonb "constraints"
-    t.string "payment_reference"
     t.datetime "invalidated_at"
     t.datetime "withdrawn_at"
     t.datetime "returned_at"
+    t.string "payment_reference"
     t.text "cancellation_comment"
-    t.string "reference"
     t.date "documents_validated_at"
-    t.string "work_status", default: "Proposed"
+    t.string "work_status", default: "proposed"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
-    t.index ["reference"], name: "index_planning_applications_on_reference", unique: true
     t.index ["site_id"], name: "index_planning_applications_on_site_id"
     t.index ["user_id"], name: "index_planning_applications_on_user_id"
   end

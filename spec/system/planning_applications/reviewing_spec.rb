@@ -120,7 +120,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
       end
 
       scenario "agrees with assessor's decision when proposed work has been completed" do
-        planning_application.update!(work_status: "Existing")
+        planning_application.update!(work_status: "existing")
 
         # Check that the application is no longer in awaiting determination
         within("#awaiting_determination") do

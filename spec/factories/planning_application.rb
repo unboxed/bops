@@ -40,7 +40,7 @@ FactoryBot.define do
       }.to_json
     }
     documents_validated_at { Time.zone.today }
-    work_status { "Proposed" }
+    work_status { "proposed" }
   end
 
   trait :lawfulness_certificate do

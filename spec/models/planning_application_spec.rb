@@ -78,13 +78,13 @@ RSpec.describe PlanningApplication, type: :model do
 
       subject { create :planning_application, :not_started }
 
-      it "sets work_status to Proposed" do
-        expect(subject.work_status).to eq "Proposed"
+      it "sets work_status to proposed" do
+        expect(subject.work_status).to eq "proposed"
       end
 
       it "allows the work status to be updated" do
-        subject.update!(work_status: "Existing")
-        expect(subject.send("work_status")).to eql("Existing")
+        subject.update!(work_status: "existing")
+        expect(subject.send("work_status")).to eql("existing")
       end
     end
 

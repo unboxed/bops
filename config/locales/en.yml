@@ -40,8 +40,6 @@ en:
     recommendation_step: "View the decision notice"
   full: "Full Householder Application"
   lawfulness_certificate: "Certificate of Lawfulness"
-  Proposed: "proposed"
-  Existing: "existing"
   user_not_authorized: "You are not authorized to perform this action."
   scale: "Missing scale bar or north arrow"
   design: "Revise design"

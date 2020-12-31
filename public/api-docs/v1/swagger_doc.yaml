@@ -137,7 +137,7 @@ paths:
                   example: Dulwich Wood
                 work_status:
                   type: string
-                  example: Proposed
+                  example: proposed
                 questions:
                   type: object
                   properties:
@@ -255,7 +255,7 @@ paths:
                   agent_last_name: Harper
                   agent_phone: '237878889'
                   agent_email: agent@example.com
-                  work_status: 'Proposed'
+                  work_status: 'proposed'
                   questions:
                     flow:
                       - id: '-LsXty7cOZycK0rqv8B2'
