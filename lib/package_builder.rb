@@ -31,7 +31,8 @@ class PackageBuilder
     @completed   = false
   end
 
-  def build!     info "Building to #{tmpdir}"
+  def build!
+    info "Building to #{tmpdir}"
 
     create_archive
     extract_archive
@@ -169,7 +170,8 @@ private
     master_ref? || tag_ref?
   end
 
-  def deployment_config(deployment_group_name)     {
+  def deployment_config(deployment_group_name)
+    {
       application_name: application_name,
       deployment_group_name: deployment_group_name,
       revision: {
@@ -249,7 +251,8 @@ private
     ENV.fetch("RELEASE", "1").to_i.nonzero?
   end
 
-  def notify_appsignal     if appsignal_push_api_key
+  def notify_appsignal
+    if appsignal_push_api_key
       conn = Faraday.new(url: "https://push.appsignal.com")
 
       response = conn.post do |request|
@@ -338,7 +341,8 @@ private
     ENV.fetch("SKIP_GEMS", "0").to_i.nonzero?
   end
 
-  def track_progress(deployment_id, &block)     start_deployment
+  def track_progress(deployment_id, &block)
+    start_deployment
 
     until completed?
       deployment  = get_deployment(deployment_id)
@@ -376,7 +380,8 @@ private
     completed
   end
 
-  def deployment_complete(deployment)     id           = deployment.deployment_id
+  def deployment_complete(deployment)
+    id           = deployment.deployment_id
     created_at   = deployment.create_time
     completed_at = deployment.complete_time
     duration     = completed_at - created_at
