@@ -8,6 +8,8 @@ FactoryBot.define do
     status           { :in_assessment }
     in_assessment_at { Time.zone.now }
     ward             { Faker::Address.city }
+    documents_validated_at { Time.zone.today }
+    work_status { :proposed }
     agent_first_name { Faker::Name.first_name }
     agent_last_name { Faker::Name.last_name }
     agent_phone { Faker::Base.numerify("+44 7### ######") }
@@ -39,8 +41,6 @@ FactoryBot.define do
         protected_trees: false,
       }.to_json
     end
-    documents_validated_at { Time.zone.today }
-    work_status { "proposed" }
   end
 
   trait :lawfulness_certificate do
