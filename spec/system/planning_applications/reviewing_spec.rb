@@ -98,7 +98,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         click_link "Home"
 
         # Check that the application is no longer in awaiting determination
-        click_link "Awaiting manager's determination"
+        click_link "Awaiting determination"
         within("#awaiting_determination") do
           expect(page).not_to have_link planning_application.reference
         end
@@ -191,7 +191,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         click_link "Home"
 
         # Check that the application is no longer in awaiting determination
-        click_link "Awaiting manager's determination"
+        click_link "Awaiting determination"
         within("#awaiting_determination") do
           expect(page).not_to have_link planning_application.reference
         end
@@ -239,7 +239,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         click_link "Home"
 
         # Check that the application is no longer in awaiting determination
-        click_link "Awaiting manager's determination"
+        click_link "Awaiting determination"
         within("#awaiting_determination") do
           expect(page).not_to have_link planning_application.reference
         end
@@ -362,7 +362,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         click_link "Home"
 
         # Check that the application is no longer in awaiting determination
-        click_link "Awaiting manager's determination"
+        click_link "Awaiting determination"
         within("#awaiting_determination") do
           expect(page).not_to have_link planning_application.reference
         end
@@ -407,7 +407,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         click_link "Home"
 
         # Check that the application is no longer in awaiting determination
-        click_link "Awaiting manager's determination"
+        click_link "Awaiting determination"
         within("#awaiting_determination") do
           expect(page).not_to have_link planning_application.reference
         end
@@ -491,7 +491,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         click_link "Home"
 
         # Check that the application is no longer in awaiting determination
-        click_link "Awaiting manager's determination"
+        click_link "Awaiting determination"
         within("#awaiting_determination") do
           expect(page).not_to have_link planning_application.reference
         end
@@ -536,7 +536,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         click_link "Home"
 
         # Check that the application is no longer in awaiting determination
-        click_link "Awaiting manager's determination"
+        click_link "Awaiting determination"
         within("#awaiting_determination") do
           expect(page).not_to have_link planning_application.reference
         end
