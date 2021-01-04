@@ -12,6 +12,10 @@ AllCops:
   Exclude:
     - "db/migrate/*"
 
+Rails:
+  Exclude:
+    - "lib/package_builder.rb"
+
 RSpec/ContextWording:
   Enabled: false
 
