@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe PlanningApplicationPolicy, type: :policy do
   let(:local_authority) { create :local_authority }
@@ -21,7 +21,7 @@ RSpec.describe PlanningApplicationPolicy, type: :policy do
         end
       end
 
-      context "when signed in to the domain as #{role}" do
+      context "when signed in to the domain as #{role} from another domain" do
         let(:user_two_forbidden) { create :user, role, local_authority: local_authority_two }
 
         %i[show index].each do |action|
@@ -35,18 +35,18 @@ RSpec.describe PlanningApplicationPolicy, type: :policy do
 
   describe "#permitted_statuses" do
     context "an assessor" do
-      let(:user) {  create :user, :assessor, local_authority: local_authority }
+      let(:user) { create :user, :assessor, local_authority: local_authority }
 
       it "returns :awaiting_determination only" do
-        expect(policy.permitted_statuses).to eq %w[ awaiting_determination ]
+        expect(policy.permitted_statuses).to eq %w[awaiting_determination]
       end
     end
 
     context "a reviewer" do
-      let(:user) {  create :user, :reviewer, local_authority: local_authority }
+      let(:user) { create :user, :reviewer, local_authority: local_authority }
 
       it "returns :determined only" do
-        expect(policy.permitted_statuses).to eq %w[ determined ]
+        expect(policy.permitted_statuses).to eq %w[determined]
       end
     end
   end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe DocumentPolicy, type: :policy do
   describe "Assessor and Reviewer roles" do

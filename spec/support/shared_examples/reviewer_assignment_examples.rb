@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.shared_examples 'reviewer assignment' do
+RSpec.shared_examples "reviewer assignment" do
   scenario "reviewer is not assigned to planning application" do
     click_link planning_application.reference
 

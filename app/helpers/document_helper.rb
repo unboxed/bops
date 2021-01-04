@@ -17,7 +17,7 @@ module DocumentHelper
     Document::TAGS.map do |tag|
       [
         tag,
-        tag.humanize
+        tag.humanize,
       ]
     end
   end

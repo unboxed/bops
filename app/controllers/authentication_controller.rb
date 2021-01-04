@@ -17,17 +17,16 @@ class AuthenticationController < ApplicationController
     request.referer || root_path
   end
 
-  def user_not_authorized(_e, message = t("user_not_authorized"))
+  def user_not_authorized(_error, message = t("user_not_authorized"))
     respond_to do |format|
       format.html { redirect_to pundit_redirect_url, alert: message }
       format.json { render json: [message], status: :unauthorized }
     end
   end
 
-  private
+private
 
-
-  def please_retry(exception)
+  def please_retry(_exception)
     reset_session
 
     redirect_to request.referer

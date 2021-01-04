@@ -28,7 +28,7 @@ module PlanningApplicationHelper
   end
 
   def list_constraints(constraints)
-    JSON.parse(constraints).select { |category, value| value == true }.keys unless constraints.empty?
+    JSON.parse(constraints).select { |_category, value| value == true }.keys unless constraints.empty?
   end
 
   def display_status(planning_application)
@@ -51,7 +51,6 @@ module PlanningApplicationHelper
     end
   end
 
-  # rubocop: disable Metrics/MethodLength
   def proposal_step_mark_completed?(step_name, application)
     case step_name
     when "Check documents"
@@ -69,7 +68,6 @@ module PlanningApplicationHelper
       false
     end
   end
-  # rubocop: enable Metrics/MethodLength
 
   def recommendation_step_mark_completed?(step_name, application)
     case step_name

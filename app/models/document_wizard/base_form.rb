@@ -6,8 +6,8 @@ module DocumentWizard
 
     attr_accessor :document
 
-    delegate *Document.attribute_names.map { |attr| [attr, "#{attr}="] }.
-        flatten, to: :document
+    delegate(*Document.attribute_names.map { |attr| [attr, "#{attr}="] }
+        .flatten, to: :document)
 
     def initialize(document_attributes = {})
       @document = Document.new(document_attributes)

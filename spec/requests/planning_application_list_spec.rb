@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "API request to list planning applications", type: :request, show_exceptions: true do
   let(:api_user) { create :api_user }
   let(:reviewer) { create :user, :reviewer }
 
   describe "format" do
-    let(:access_control_allow_origin) { response.headers['Access-Control-Allow-Origin'] }
-    let(:access_control_allow_methods) { response.headers['Access-Control-Allow-Methods'] }
-    let(:access_control_allow_headers) { response.headers['Access-Control-Allow-Headers'] }
+    let(:access_control_allow_origin) { response.headers["Access-Control-Allow-Origin"] }
+    let(:access_control_allow_methods) { response.headers["Access-Control-Allow-Methods"] }
+    let(:access_control_allow_headers) { response.headers["Access-Control-Allow-Headers"] }
 
     it "responds to JSON" do
       get "/api/v1/planning_applications"
@@ -20,9 +20,9 @@ RSpec.describe "API request to list planning applications", type: :request, show
       get "/api/v1/planning_applications"
 
       expect(response).to be_successful
-      expect(access_control_allow_origin).to eq('*')
-      expect(access_control_allow_methods).to eq('*')
-      expect(access_control_allow_headers).to eq('Origin, X-Requested-With, Content-Type, Accept')
+      expect(access_control_allow_origin).to eq("*")
+      expect(access_control_allow_methods).to eq("*")
+      expect(access_control_allow_headers).to eq("Origin, X-Requested-With, Content-Type, Accept")
     end
   end
 
@@ -45,7 +45,7 @@ RSpec.describe "API request to list planning applications", type: :request, show
 
       it "returns the accurate data" do
         get "/api/v1/planning_applications.json"
-        expect(planning_application_json["status"]).to eq('not_started')
+        expect(planning_application_json["status"]).to eq("not_started")
         expect(planning_application_json["id"]).to eq(planning_application.id)
         expect(planning_application_json["application_number"]).to eq(planning_application.reference)
         expect(planning_application_json["application_type"]).to eq("lawfulness_certificate")
@@ -88,14 +88,14 @@ RSpec.describe "API request to list planning applications", type: :request, show
 
         it "returns the accurate data" do
           get "/api/v1/planning_applications.json"
-          expect(planning_application_json["status"]).to eq('determined')
+          expect(planning_application_json["status"]).to eq("determined")
           expect(planning_application_json["id"]).to eq(planning_application.id)
           expect(planning_application_json["application_number"]).to eq(planning_application.reference)
           expect(planning_application_json["application_type"]).to eq("lawfulness_certificate")
           expect(planning_application_json["description"]).to eq(planning_application.description)
           expect(planning_application_json["received_date"]).to eq(json_time_format(planning_application.created_at))
           expect(planning_application_json["determined_at"]).to eq(json_time_format(planning_application.determined_at))
-          expect(planning_application_json["decision"]).to eq('granted')
+          expect(planning_application_json["decision"]).to eq("granted")
           expect(planning_application_json["target_date"]).to eq(planning_application.target_date.to_s)
           expect(planning_application_json["started_at"]).to eq(json_time_format(planning_application.started_at))
           expect(planning_application_json["determined_at"]).to eq(json_time_format(planning_application.determined_at))

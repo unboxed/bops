@@ -4,13 +4,13 @@ require "rails_helper"
 
 RSpec.describe Ripa::PolicyConsiderationBuilder do
   describe ".import" do
-    subject { described_class.new(json) }
+    subject(:builder) { described_class.new(json) }
 
     context "when passed an empty hash" do
       let(:json) { {}.to_json }
 
       it "returns an empty array" do
-        expect(subject.import).to eq []
+        expect(builder.import).to eq []
       end
     end
 
@@ -20,13 +20,13 @@ RSpec.describe Ripa::PolicyConsiderationBuilder do
           flow: [
             {
 
-            }
-          ]
+            },
+          ],
         }.to_json
       end
 
       it "returns an empty array" do
-        expect(subject.import).to eq []
+        expect(builder.import).to eq []
       end
     end
 
@@ -44,18 +44,18 @@ RSpec.describe Ripa::PolicyConsiderationBuilder do
                 {
                   id: "-LsXty7cOZycK0rqv8B5",
                   text: "a semi detached house",
-                }
+                },
               ],
               choice: {
-                id: "-LsXty7cOZycK0rqv8B5"
-              }
-            }
-          ]
+                id: "-LsXty7cOZycK0rqv8B5",
+              },
+            },
+          ],
         }.to_json
       end
 
       it "returns an array containing a single PolicyConsideration instance" do
-        policy_considerations = subject.import
+        policy_considerations = builder.import
 
         expect(policy_considerations.count).to eq 1
 
@@ -80,11 +80,11 @@ RSpec.describe Ripa::PolicyConsiderationBuilder do
                 {
                   id: "-LsXty7cOZycK0rqv8B5",
                   text: "a semi detached house",
-                }
+                },
               ],
               choice: {
-                id: "-LsXty7cOZycK0rqv8B5"
-              }
+                id: "-LsXty7cOZycK0rqv8B5",
+              },
             },
             {
               text: "I want to",
@@ -96,18 +96,18 @@ RSpec.describe Ripa::PolicyConsiderationBuilder do
                 {
                   id: "-LsXty7cOZycK0rqv8Bo",
                   text: "build new",
-                }
+                },
               ],
               choice: {
-                id: "-LsXty7cOZycK0rqv8Bo"
-              }
+                id: "-LsXty7cOZycK0rqv8Bo",
+              },
             },
-          ]
+          ],
         }.to_json
       end
 
       it "returns an array containing multiple PolicyConsideration instances" do
-        policy_considerations = subject.import
+        policy_considerations = builder.import
 
         expect(policy_considerations.count).to eq 2
 
@@ -137,11 +137,11 @@ RSpec.describe Ripa::PolicyConsiderationBuilder do
                 {
                   id: "-LsXty7cOZycK0rqv8B5",
                   text: "a semi detached house",
-                }
+                },
               ],
               choice: {
                 # NO CHOICE HERE
-              }
+              },
             },
             {
               text: "I want to",
@@ -153,18 +153,18 @@ RSpec.describe Ripa::PolicyConsiderationBuilder do
                 {
                   id: "-LsXty7cOZycK0rqv8Bo",
                   text: "build new",
-                }
+                },
               ],
               choice: {
-                id: "-LsXty7cOZycK0rqv8Bo"
-              }
+                id: "-LsXty7cOZycK0rqv8Bo",
+              },
             },
-          ]
+          ],
         }.to_json
       end
 
       it "returns an array containing the only PolicyConsideration instance with an applicant choice" do
-        policy_considerations = subject.import
+        policy_considerations = builder.import
 
         expect(policy_considerations.count).to eq 1
 

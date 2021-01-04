@@ -13,7 +13,7 @@ class DecisionsController < AuthenticationController
 
   def create
     @decision = @planning_application.decisions.build(
-      decision_params.merge(user: current_user, decided_at: Time.current)
+      decision_params.merge(user: current_user, decided_at: Time.zone.now),
     )
 
     if @decision.save
@@ -32,7 +32,7 @@ class DecisionsController < AuthenticationController
     set_decision_to_current_user(current_user)
 
     if @decision.update(
-      decision_params.merge(user: current_user, decided_at: Time.current)
+      decision_params.merge(user: current_user, decided_at: Time.zone.now),
     )
       set_awaiting_correction
       redirect_to @planning_application
@@ -41,17 +41,17 @@ class DecisionsController < AuthenticationController
     end
   end
 
-  private
+private
 
   def set_planning_application
     @planning_application = authorize(
-      PlanningApplication.find(params[:planning_application_id])
+      PlanningApplication.find(params[:planning_application_id]),
     )
   end
 
   def assign_assessor
     if current_user.assessor? && @planning_application.user.nil?
-      @planning_application.update(user_id: current_user[:id])
+      @planning_application.update!(user_id: current_user[:id])
     end
   end
 
@@ -64,11 +64,11 @@ class DecisionsController < AuthenticationController
   end
 
   def set_decision_to_current_user(current_user)
-    if current_user.assessor?
-      @decision = @planning_application.assessor_decision
-    else
-      @decision = @planning_application.reviewer_decision
-    end
+    @decision = if current_user.assessor?
+                  @planning_application.assessor_decision
+                else
+                  @planning_application.reviewer_decision
+                end
   end
 
   def decision_params

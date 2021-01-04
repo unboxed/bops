@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe PlanningApplicationHelper, type: :helper do
   describe "#days_color" do
@@ -18,24 +18,26 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
   end
 
   describe "#assessor_decision_path" do
-    subject { create :planning_application }
+    let!(:planning_application) { create :planning_application }
 
     context "without decision" do
       it "returns to new decision" do
-        expect(assessor_decision_path(subject)).to eq(new_planning_application_decision_path(subject))
+        expect(assessor_decision_path(planning_application)).to eq(new_planning_application_decision_path(planning_application))
       end
     end
 
     describe "#list_constraints" do
-      let(:application_with_constraints) { create :planning_application,
-                                                  constraints: '{"conservation_area": false,"article4_area": true,"scheduled_monument": false }'
-                                          }
+      let(:application_with_constraints) do
+        create :planning_application,
+               constraints: '{"conservation_area": false,"article4_area": true,"scheduled_monument": false }'
+      end
 
-      let(:application_with_false_constraints) { create :planning_application,
-                                                        constraints: '{"conservation_area": false,"article4_area": false,"scheduled_monument": false }'
-      }
+      let(:application_with_false_constraints) do
+        create :planning_application,
+               constraints: '{"conservation_area": false,"article4_area": false,"scheduled_monument": false }'
+      end
 
-      let(:application_without_constraints) { create :planning_application, constraints: '{}' }
+      let(:application_without_constraints) { create :planning_application, constraints: "{}" }
 
       it "creates constraints list correctly" do
         expect(list_constraints(application_with_constraints.constraints)).to eq(%w[article4_area])
@@ -46,58 +48,65 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
       end
 
       it "returns an empty array if all constraints are false" do
-        expect(list_constraints(application_without_constraints.constraints)).to be_empty
+        expect(list_constraints(application_with_false_constraints.constraints)).to be_empty
       end
-      end
+    end
 
     context "with decision" do
       let(:assessor) { create :user, :assessor }
       let(:assessor_decision) { create(:decision, :granted, user: assessor) }
 
       before do
-        subject.decisions << assessor_decision
-        subject.reload
+        planning_application.decisions << assessor_decision
+        planning_application.reload
       end
 
       context "in assessment" do
         it "returns to edit decision" do
-          expect(assessor_decision_path(subject)).to eq(edit_planning_application_decision_path(subject, subject.assessor_decision))
+          expect(assessor_decision_path(planning_application)).to eq(edit_planning_application_decision_path(planning_application, planning_application.assessor_decision))
         end
       end
 
       context "awaiting determination" do
-        before { subject.assess }
+        before { planning_application.assess }
+
         it "returns to show decision" do
-          expect(assessor_decision_path(subject)).to eq(planning_application_decision_path(subject, subject.assessor_decision))
+          expect(assessor_decision_path(planning_application)).to eq(planning_application_decision_path(planning_application, planning_application.assessor_decision))
         end
       end
 
       context "awaiting correction" do
-        before { subject.assess!
-                 subject.reload }
+        before do
+          planning_application.assess!
+          planning_application.reload
+        end
+
         it "returns to edit decision" do
-          subject.request_correction!
-          expect(assessor_decision_path(subject)).to eq(edit_planning_application_decision_path(subject, subject.assessor_decision))
+          planning_application.request_correction!
+          expect(assessor_decision_path(planning_application)).to eq(edit_planning_application_decision_path(planning_application, planning_application.assessor_decision))
         end
       end
 
       context "determined" do
-        before { subject.assess!
-                 subject.reload }
+        before do
+          planning_application.assess!
+          planning_application.reload
+        end
+
         it "returns to show decision" do
-          subject.determine!
-          expect(assessor_decision_path(subject)).to eq(planning_application_decision_path(subject, subject.assessor_decision))
+          planning_application.determine!
+          expect(assessor_decision_path(planning_application)).to eq(planning_application_decision_path(planning_application, planning_application.assessor_decision))
         end
       end
     end
   end
 
   describe "#reviewer_decision_path" do
-    subject { create :planning_application, :awaiting_determination }
+    let!(:planning_application) { create :planning_application, :awaiting_determination }
 
     context "without decision" do
       it "returns to new decision" do
-        expect(reviewer_decision_path(subject)).to eq(new_planning_application_decision_path(subject))
+        expect(reviewer_decision_path(planning_application)).to eq(new_planning_application_decision_path(planning_application))
       end
     end
 
@@ -106,49 +115,51 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
       let(:reviewer_decision) { create(:decision, :refused_private_comment, user: reviewer) }
 
       before do
-        subject.decisions << reviewer_decision
-        subject.reload
+        planning_application.decisions << reviewer_decision
+        planning_application.reload
       end
 
       context "awaiting determination" do
         it "returns to show decision" do
-          expect(reviewer_decision_path(subject)).to eq(edit_planning_application_decision_path(subject, subject.reviewer_decision))
+          expect(reviewer_decision_path(planning_application)).to eq(edit_planning_application_decision_path(planning_application, planning_application.reviewer_decision))
         end
       end
 
       context "awaiting correction" do
-        before { subject.request_correction }
+        before { planning_application.request_correction }
+
         it "returns to edit decision" do
-          expect(reviewer_decision_path(subject)).to eq(planning_application_decision_path(subject, subject.reviewer_decision))
+          expect(reviewer_decision_path(planning_application)).to eq(planning_application_decision_path(planning_application, planning_application.reviewer_decision))
         end
       end
 
       context "determined" do
-        before { subject.determine }
+        before { planning_application.determine }
+
         it "returns to show decision" do
-          expect(reviewer_decision_path(subject)).to eq(planning_application_decision_path(subject, subject.reviewer_decision))
+          expect(reviewer_decision_path(planning_application)).to eq(planning_application_decision_path(planning_application, planning_application.reviewer_decision))
         end
       end
     end
   end
 
   describe "#display_decision_status" do
-    subject { create :planning_application }
+    let(:planning_application) { create :planning_application }
 
     context "refused" do
       let(:reviewer) { create :user, :reviewer }
       let(:reviewer_decision) { create(:decision, :refused_private_comment, user: reviewer) }
 
       before do
-        subject.decisions << reviewer_decision
-        subject.assess!
-        subject.reload
-        subject.determine!
+        planning_application.decisions << reviewer_decision
+        planning_application.assess!
+        planning_application.reload
+        planning_application.determine!
       end
 
       it "returns correct values when application is refused" do
-        expect(display_status(subject)[:decision]).to eql("Refused")
-        expect(display_status(subject)[:color]).to eql("red")
+        expect(display_status(planning_application)[:decision]).to eql("Refused")
+        expect(display_status(planning_application)[:color]).to eql("red")
       end
     end
 
@@ -157,32 +168,32 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
       let(:reviewer_decision) { create(:decision, :granted, user: reviewer) }
 
       before do
-        subject.decisions << reviewer_decision
-        subject.assess!
-        subject.reload
-        subject.determine!
+        planning_application.decisions << reviewer_decision
+        planning_application.assess!
+        planning_application.reload
+        planning_application.determine!
       end
 
       it "returns correct values when application is granted" do
-        expect(display_status(subject)[:decision]).to eql("Granted")
-        expect(display_status(subject)[:color]).to eql("green")
+        expect(display_status(planning_application)[:decision]).to eql("Granted")
+        expect(display_status(planning_application)[:color]).to eql("green")
       end
     end
   end
 
   describe "#display_status" do
-    subject { create :planning_application }
+    let(:planning_application) { create :planning_application }
 
     it "returns correct values when application is withdrawn" do
-      subject.withdraw!
-      expect(display_status(subject)[:decision]).to eql("withdrawn")
-      expect(display_status(subject)[:color]).to eql("grey")
+      planning_application.withdraw!
+      expect(display_status(planning_application)[:decision]).to eql("withdrawn")
+      expect(display_status(planning_application)[:color]).to eql("grey")
     end
 
-    it "returns correct values when application is withdrawn" do
-      subject.return!
-      expect(display_status(subject)[:decision]).to eql("returned")
-      expect(display_status(subject)[:color]).to eql("grey")
+    it "returns correct values when application is returned" do
+      planning_application.return!
+      expect(display_status(planning_application)[:decision]).to eql("returned")
+      expect(display_status(planning_application)[:color]).to eql("grey")
     end
   end
 end

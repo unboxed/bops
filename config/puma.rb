@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 if ENV["RAILS_ENV"] == "production"
-  pidfile "#{File.expand_path('../../tmp/pids/puma.pid', __FILE__)}"
-  bind "unix://#{File.expand_path('../../tmp/sockets/puma.sock', __FILE__)}"
+  pidfile File.expand_path("../tmp/pids/puma.pid", __dir__).to_s
+  bind "unix://#{File.expand_path('../tmp/sockets/puma.sock', __dir__)}"
 
   concurrency = {
-    workers: ENV.fetch("WEB_CONCURRENCY") { 4 }.to_i,
-    min_threads: ENV.fetch("WEB_CONCURRENCY_MIN_THREADS") { 8 }.to_i,
-    max_threads: ENV.fetch("WEB_CONCURRENCY_MAX_THREADS") { 32 }.to_i
+    workers: ENV.fetch("WEB_CONCURRENCY", 4).to_i,
+    min_threads: ENV.fetch("WEB_CONCURRENCY_MIN_THREADS", 8).to_i,
+    max_threads: ENV.fetch("WEB_CONCURRENCY_MAX_THREADS", 32).to_i,
   }
 
   workers(concurrency[:workers])

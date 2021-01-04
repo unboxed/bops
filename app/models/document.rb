@@ -5,34 +5,36 @@ class Document < ApplicationRecord
 
   has_one_attached :file
 
-  enum archive_reason: { scale: 0, design: 1,
-                         dimensions: 2, other: 3 }
+  enum archive_reason: { scale: 0,
+                         design: 1,
+                         dimensions: 2,
+                         other: 3 }
 
   ORIENTATION_TAGS = [
     "front elevation",
     "side elevation",
     "floor plan",
-    "section"
+    "section",
   ].freeze
 
-  PROPOSED_TAGS = ORIENTATION_TAGS.product(["proposed"]).map do |tags|
+  PROPOSED_TAGS = ORIENTATION_TAGS.product(%w[proposed]).map { |tags|
     [tags.first, tags.second].join(" - ")
-  end.freeze
+  }.freeze
 
-  EXISTING_TAGS = ORIENTATION_TAGS.product(["existing"]).map do |tags|
+  EXISTING_TAGS = ORIENTATION_TAGS.product(%w[existing]).map { |tags|
     [tags.first, tags.second].join(" - ")
-  end.freeze
+  }.freeze
 
   TAGS = (PROPOSED_TAGS + EXISTING_TAGS).freeze
 
-  PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"]
+  PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"].freeze
 
   validate :tag_values_permitted
   validate :file_content_type_permitted
 
-  scope :has_proposed_tag, -> {
+  scope :has_proposed_tag, lambda {
     where("tags ?| array[:proposed_tag_array]",
-      proposed_tag_array: Document::PROPOSED_TAGS)
+          proposed_tag_array: Document::PROPOSED_TAGS)
   }
   scope :has_empty_numbers, -> { where("numbers = '[]'") }
   scope :numbered, -> { where.not("numbers = '[]'") }
@@ -45,12 +47,14 @@ class Document < ApplicationRecord
   end
 
   def archived?
-     archived_at.present?
-   end
+    archived_at.present?
+  end
 
   def archive(archive_reason)
-    update(archive_reason: archive_reason,
-           archived_at: Time.current) unless archived?
+    unless archived?
+      update!(archive_reason: archive_reason,
+              archived_at: Time.zone.now)
+    end
   end
 
   def numbers=(nums)
@@ -61,7 +65,7 @@ class Document < ApplicationRecord
     super.join(", ")
   end
 
-  private
+private
 
   def tag_values_permitted
     return if tags.empty?

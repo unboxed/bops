@@ -4,9 +4,9 @@ require "spec_helper"
 ENV["RAILS_ENV"] ||= "test"
 require File.expand_path("../config/environment", __dir__)
 
-if ENV['RAILS_ENV'] == 'test'
-  require 'simplecov'
-  SimpleCov.start 'rails'
+if ENV["RAILS_ENV"] == "test"
+  require "simplecov"
+  SimpleCov.start "rails"
   puts "required simplecov"
 end
 
@@ -14,7 +14,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require "rspec/rails"
 require "webmock/rspec"
 
-Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+Dir[Rails.root.join("spec/support/**/*.rb")].sort.each { |f| require f }
 
 begin
   ActiveRecord::Migration.maintain_test_schema!
@@ -35,11 +35,12 @@ RSpec.configure do |config|
 
   config.include Devise::Test::IntegrationHelpers, type: :request
 
-  config.before(:each) do |example|
-    @default_local_authority = LocalAuthority.find_or_create_by!(name: 'Default Authority', subdomain: 'default')
-    if example.metadata[:type] == :request
+  config.before do |example|
+    @default_local_authority = LocalAuthority.find_or_create_by!(name: "Default Authority", subdomain: "default")
+    case example.metadata[:type]
+    when :request
       host! "default.example.com"
-    elsif example.metadata[:type] == :system
+    when :system
       host! "http://default.example.com"
     end
   end

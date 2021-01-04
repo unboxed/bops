@@ -18,7 +18,7 @@ RSpec.describe "Document uploads", type: :system do
     before { sign_in assessor }
 
     context "when the application is under assessment" do
-      scenario "can upload, tag and confirm documents" do
+      it "can upload, tag and confirm documents" do
         visit planning_application_documents_path(planning_application)
 
         click_link("Upload documents")
@@ -85,7 +85,7 @@ RSpec.describe "Document uploads", type: :system do
         end
       end
 
-      scenario "cannot progress to confirmation without a tagged document" do
+      it "cannot progress to confirmation without a tagged document" do
         visit planning_application_documents_path(planning_application)
 
         click_link("Upload documents")
@@ -98,7 +98,7 @@ RSpec.describe "Document uploads", type: :system do
         expect(page).to have_content("Please select one or more tags")
       end
 
-      scenario "cannot upload a document in the wrong format" do
+      it "cannot upload a document in the wrong format" do
         visit planning_application_documents_path(planning_application)
 
         click_link("Upload documents")
@@ -116,7 +116,7 @@ RSpec.describe "Document uploads", type: :system do
         expect(page).to have_content("The selected file must be a PDF, JPG or PNG")
       end
 
-      scenario "shows an error message when no action is selected on the confirmation page" do
+      it "shows an error message when no action is selected on the confirmation page" do
         visit planning_application_documents_path(planning_application)
 
         click_link("Upload documents")
@@ -137,7 +137,7 @@ RSpec.describe "Document uploads", type: :system do
     context "when the planning application has been submitted for review" do
       before { planning_application.assess! }
 
-      scenario "the upload \"button\" is disabled" do
+      it "the upload \"button\" is disabled" do
         visit planning_application_documents_path(planning_application)
 
         # The enabled call-to-action is a link, but to show it as disabled
@@ -151,7 +151,7 @@ RSpec.describe "Document uploads", type: :system do
   context "for a reviewer" do
     before { sign_in reviewer }
 
-    scenario "no upload actions are visible at all" do
+    it "no upload actions are visible at all" do
       visit planning_application_documents_path(planning_application)
 
       # Neither the enabled call-to-action or its disabled, button

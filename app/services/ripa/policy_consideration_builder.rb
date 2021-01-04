@@ -7,13 +7,13 @@ class Ripa::PolicyConsiderationBuilder
 
   def import
     if consideration_hash
-      consideration_hash.fetch("flow", []).map do |consideration|
+      consideration_hash.fetch("flow", []).map { |consideration|
         parse_and_build_policy_consideration(consideration)
-      end.compact
+      }.compact
     end
   end
 
-  private
+private
 
   attr_reader :consideration_hash
 
@@ -35,7 +35,7 @@ class Ripa::PolicyConsiderationBuilder
     if policy_question && applicant_answer
       PolicyConsideration.new(
         policy_question: policy_question,
-        applicant_answer: applicant_answer
+        applicant_answer: applicant_answer,
       )
     end
   end

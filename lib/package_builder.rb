@@ -19,20 +19,19 @@ class PackageBuilder
     end
   end
 
-  attr_reader :environment, :release, :revision, :tmpdir, :timestamp
-  attr_reader :client, :completed
+  attr_reader :environment, :release, :revision, :tmpdir, :timestamp, :client, :completed
 
   def initialize(environment)
     @environment = environment.to_s
     @revision    = current_revision
     @tmpdir      = Dir.mktmpdir
-    @timestamp   = Time.current.getutc
+    @timestamp   = Time.zone.now.getutc
     @release     = @timestamp.strftime("%Y%m%d%H%M%S")
     @client      = nil
     @completed   = false
   end
 
-  def build! # rubocop:disable Metrics/MethodLength
+  def build!
     info "Building to #{tmpdir}"
 
     create_archive
@@ -58,11 +57,11 @@ class PackageBuilder
     release_obj = bucket.object(release_key)
 
     info "Uploading package #{package_name} to S3 ..."
-    start_time = Time.current
+    start_time = Time.zone.now
 
     release_obj.upload_file(package_path)
 
-    duration = Time.current - start_time
+    duration = Time.zone.now - start_time
     info "Upload completed in #{duration} seconds."
   end
 
@@ -81,7 +80,7 @@ class PackageBuilder
     end
   end
 
-  private
+private
 
   def application_name
     "#{ENV.fetch('AWS_DEPLOYMENT_APP_NAME', 'bops-app')}-#{environment}"
@@ -155,7 +154,7 @@ class PackageBuilder
     if status.success?
       output.strip
     else
-      raise RuntimeError, error
+      raise error
     end
   end
 
@@ -171,7 +170,7 @@ class PackageBuilder
     master_ref? || tag_ref?
   end
 
-  def deployment_config(deployment_group_name) # rubocop:disable Metrics/MethodLength
+  def deployment_config(deployment_group_name)
     {
       application_name: application_name,
       deployment_group_name: deployment_group_name,
@@ -180,12 +179,12 @@ class PackageBuilder
         s3_location: {
           bucket: release_bucket,
           key: deployment_key,
-          bundle_type: "tgz"
+          bundle_type: "tgz",
         },
       },
       deployment_config_name: deployment_config_name,
       description: description,
-      ignore_application_stop_failures: true
+      ignore_application_stop_failures: true,
     }
   end
 
@@ -252,7 +251,7 @@ class PackageBuilder
     ENV.fetch("RELEASE", "1").to_i.nonzero?
   end
 
-  def notify_appsignal # rubocop:disable Metrics/MethodLength
+  def notify_appsignal
     if appsignal_push_api_key
       conn = Faraday.new(url: "https://push.appsignal.com")
 
@@ -264,7 +263,7 @@ class PackageBuilder
         request.params = {
           api_key: appsignal_push_api_key,
           name: appsignal_app_name,
-          environment: "production"
+          environment: "production",
         }
 
         request.body = <<-JSON.strip_heredoc
@@ -342,7 +341,7 @@ class PackageBuilder
     ENV.fetch("SKIP_GEMS", "0").to_i.nonzero?
   end
 
-  def track_progress(deployment_id, &block) # rubocop:disable Metrics/MethodLength
+  def track_progress(deployment_id, &block)
     start_deployment
 
     until completed?
@@ -381,14 +380,14 @@ class PackageBuilder
     completed
   end
 
-  def deployment_complete(deployment, &block) # rubocop:disable Metrics/MethodLength
+  def deployment_complete(deployment)
     id           = deployment.deployment_id
     created_at   = deployment.create_time
     completed_at = deployment.complete_time
     duration     = completed_at - created_at
     status       = deployment.status.downcase
 
-    info format("Deployment %s %s in %0.2f seconds", id, status, duration)
+    info sprintf("Deployment %s %s in %0.2f seconds", id, status, duration)
 
     if status == "succeeded"
       yield if block_given?
@@ -401,13 +400,13 @@ class PackageBuilder
   def deployment_progress(deployment)
     id         = deployment.deployment_id
     created_at = deployment.create_time
-    duration   = Time.current - created_at
+    duration   = Time.zone.now - created_at
     overview   = deployment.deployment_overview
     progress   = %w[Pending InProgress Succeeded Failed Skipped]
     progress   = progress.map { |status| "#{status}: %d" }.join(", ")
-    progress   = format(progress, *overview.values)
+    progress   = sprintf(progress, *overview.values)
 
-    info format("Deploying %s (%s) in %0.2f seconds", id, progress, duration)
+    info sprintf("Deploying %s (%s) in %0.2f seconds", id, progress, duration)
   end
 
   def treeish
@@ -427,7 +426,7 @@ class PackageBuilder
     write_script(after_install_script_file, after_install_script)
   end
 
-  def write_script(path, script, mode = 0755)
+  def write_script(path, script, mode = 0o755)
     File.write(path, script)
     File.new(path).chmod(mode)
   end

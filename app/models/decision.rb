@@ -6,8 +6,8 @@ class Decision < ApplicationRecord
   belongs_to :planning_application
   belongs_to :user
 
-  validates :status, inclusion: { in: ["granted", "refused"],
-    message: "Please select Yes or No" }
+  validates :status, inclusion: { in: %w[granted refused],
+                                  message: "Please select Yes or No" }
 
   validate :validate_public_comment, :validate_private_comment
 
@@ -19,7 +19,7 @@ class Decision < ApplicationRecord
     if refused? && user.assessor? && public_comment.blank?
       errors.add(
         :public_comment,
-        "Please provide which GDPO policy (or policies) have not been met."
+        "Please provide which GDPO policy (or policies) have not been met.",
       )
     end
   end
@@ -28,12 +28,12 @@ class Decision < ApplicationRecord
     if disagrees_with_assessor? && user.reviewer? && private_comment.blank?
       errors.add(
         :private_comment,
-        "Please enter a reason in the box."
+        "Please enter a reason in the box.",
       )
     end
   end
 
-  private
+private
 
   def disagrees_with_assessor?
     status != planning_application.assessor_decision&.status &&

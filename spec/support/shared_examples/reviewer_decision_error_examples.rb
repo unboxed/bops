@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.shared_examples 'reviewer decision error message' do
+RSpec.shared_examples "reviewer decision error message" do
   scenario "shows the error message" do
     within("#awaiting_determination") do
       click_link planning_application.reference
@@ -18,6 +18,6 @@ RSpec.shared_examples 'reviewer decision error message' do
 
     click_link "Home"
 
-    expect(page).not_to have_content ("Completed")
+    expect(page).not_to have_content("Completed")
   end
 end
