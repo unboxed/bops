@@ -135,22 +135,19 @@ class PlanningApplicationsController < AuthenticationController
     valid_at = date_string_from_params(params[:planning_application][:'documents_validated_at(3i)'],
                                        params[:planning_application][:'documents_validated_at(2i)'],
                                        params[:planning_application]["documents_validated_at(1i)"])
-    @planning_application.update!(documents_validated_at: valid_at)
-    if @planning_application.save
+    if date_string_valid?(valid_at) && @planning_application.update!(documents_validated_at: valid_at)
       @planning_application.start!
     else
-      render template: "documents/index", planning_application: @planning_application,
-             documents: @planning_application.documents
+      @planning_application.errors.add(:planning_application, "A validation date must be present")
     end
   end
 
   def date_string_from_params(year, month, day)
-    valid_date = [year, month, day].join("-")
-    if valid_date.match?(/\d{2}-\d{2}-\d{4}/)
-      valid_date
-    else
-      @planning_application.errors.add(:planning_application, "Please enter a valid date")
-    end
+    [year, month, day].join("-")
+  end
+
+  def date_string_valid?(valid_date)
+    valid_date.match?(/\d{2}-\d{2}-\d{4}/)
   end
 
 private
