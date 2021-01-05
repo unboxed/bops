@@ -20,7 +20,7 @@ en:
     validation_step: "Check the documents"
     recommendation_step: "Submit the recommendation"
   awaiting_determination:
-    title: "Awaiting manager's determination"
+    title: "Awaiting determination"
     status: "Awaiting detemrination"
     heading: "Determine the proposal"
     proposal_step: "Review the recommendation"

@@ -9,7 +9,7 @@
           </li>
       <% end %>
     <li class="govuk-tabs__list-item" role="presentation">
-      <%= link_to "Awaiting manager's determination", "#awaiting_determination", class: "govuk-tabs__tab", role: "tab", "aria-controls":"awaiting-determination", "aria-selected": false, tabindex: 2 %>
+      <%= link_to "Awaiting determination", "#awaiting_determination", class: "govuk-tabs__tab", role: "tab", "aria-controls":"awaiting-determination", "aria-selected": false, tabindex: 2 %>
     </li>
     <% if current_user.reviewer?%>
       <li class="govuk-tabs__list-item" role="presentation">

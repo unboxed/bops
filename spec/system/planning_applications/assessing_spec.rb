@@ -174,7 +174,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     # Check that the application is now in awaiting determination
-    click_link "Awaiting manager's determination"
+    click_link "Awaiting determination"
 
     within("#awaiting_determination") do
       click_link planning_application.reference

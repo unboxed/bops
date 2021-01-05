@@ -21,7 +21,7 @@ RSpec.describe "Planning Application index page", type: :system do
       it "Planning Application status bar is present" do
         within(:planning_applications_status_tab) do
           expect(page).to have_link "In assessment"
-          expect(page).to have_link "Awaiting manager's determination"
+          expect(page).to have_link "Awaiting determination"
           expect(page).to have_link "Closed"
         end
       end
@@ -37,10 +37,10 @@ RSpec.describe "Planning Application index page", type: :system do
       end
 
       it "Only Planning Applications that are awaiting_determination are present in this tab" do
-        click_link "Awaiting manager's determination"
+        click_link "Awaiting determination"
 
         within("#awaiting_determination") do
-          expect(page).to have_text("Awaiting manager's determination")
+          expect(page).to have_text("Awaiting determination")
           expect(page).to have_link(planning_application_started.reference)
           expect(page).not_to have_link(planning_application_1.reference)
           expect(page).not_to have_link(planning_application_2.reference)
@@ -132,7 +132,7 @@ RSpec.describe "Planning Application index page", type: :system do
 
     it "Planning Application status bar is present and does not show In Assessment by default" do
       within(:planning_applications_status_tab) do
-        expect(page).to have_link "Awaiting manager's determination"
+        expect(page).to have_link "Awaiting determination"
         expect(page).to have_link "Closed"
         expect(page).not_to have_link "In assessment"
       end
@@ -142,7 +142,7 @@ RSpec.describe "Planning Application index page", type: :system do
       click_link "View all applications"
 
       within(:planning_applications_status_tab) do
-        expect(page).to have_link "Awaiting manager's determination"
+        expect(page).to have_link "Awaiting determination"
         expect(page).to have_link "Closed"
         expect(page).to have_text "In assessment"
       end
@@ -150,17 +150,17 @@ RSpec.describe "Planning Application index page", type: :system do
       click_link "View assessed applications"
 
       within(:planning_applications_status_tab) do
-        expect(page).to have_link "Awaiting manager's determination"
+        expect(page).to have_link "Awaiting determination"
         expect(page).to have_link "Closed"
         expect(page).not_to have_link "In assessment"
       end
     end
 
     it "Only Planning Applications that are awaiting_determination are present in this tab" do
-      click_link "Awaiting manager's determination"
+      click_link "Awaiting determination"
 
       within("#awaiting_determination") do
-        expect(page).to have_text("Awaiting manager's determination")
+        expect(page).to have_text("Awaiting determination")
         expect(page).to have_link(planning_application_started.reference)
         expect(page).not_to have_link(planning_application_1.reference)
         expect(page).not_to have_link(planning_application_2.reference)
