@@ -176,6 +176,10 @@ class PlanningApplication < ApplicationRecord
     numbered_count < documents.has_proposed_tag.count
   end
 
+  def recommendable?
+    true unless determined? || returned? || withdrawn? || invalidated?
+  end
+
   def cancellable?
     true unless determined? || returned? || withdrawn?
   end

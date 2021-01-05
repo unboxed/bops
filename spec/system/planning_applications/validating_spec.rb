@@ -73,7 +73,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "Home"
 
       within("#not_started_and_invalid") do
-        expect(page).to have_content("invalidated")
+        expect(page).to have_content("invalid")
         click_link planning_application.reference
       end
 

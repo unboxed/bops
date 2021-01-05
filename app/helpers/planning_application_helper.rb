@@ -35,7 +35,7 @@ module PlanningApplicationHelper
     if planning_application.determined? && planning_application.reviewer_decision
       display_decision_status(planning_application)
     elsif planning_application.status == "invalidated"
-      { color: "yellow", decision: "invalidated" }
+      { color: "yellow", decision: "invalid" }
     elsif planning_application.status == "not_started"
       { color: "grey", decision: "Not started" }
     else
