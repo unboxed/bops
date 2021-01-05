@@ -49,6 +49,7 @@ paths:
                     withdrawn_at: null
                     returned_at: null
                     ward: Dulwich Wood
+                    work_status: proposed
                     awaiting_determination_at: '2020-05-16T05:18:17.540Z'
                     in_assessment_at: '2020-05-16T05:18:17.540Z'
                     awaiting_correction_at: null
@@ -247,6 +248,7 @@ paths:
                   description: Add a chimney stack
                   payment_reference: PAY1
                   ward: Dulwich Wood
+                  work_status: proposed
                   applicant_first_name: Albert
                   applicant_last_name: Manteras
                   applicant_phone: '23432325435'
@@ -255,7 +257,6 @@ paths:
                   agent_last_name: Harper
                   agent_phone: '237878889'
                   agent_email: agent@example.com
-                  work_status: 'proposed'
                   questions:
                     flow:
                       - id: '-LsXty7cOZycK0rqv8B2'
