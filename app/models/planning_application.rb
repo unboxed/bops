@@ -67,7 +67,7 @@ class PlanningApplication < ApplicationRecord
     state :withdrawn
 
     event :start do
-      transitions from: %i[not_started invalidated], to: :in_assessment, guard: :has_validation_date?
+      transitions from: %i[not_started invalidated in_assessment], to: :in_assessment, guard: :has_validation_date?
     end
 
     event :assess do
@@ -75,7 +75,7 @@ class PlanningApplication < ApplicationRecord
     end
 
     event :invalidate do
-      transitions from: %i[not_started in_assessment awaiting_determination awaiting_correction], to: :invalidated
+      transitions from: %i[not_started invalidated in_assessment awaiting_determination awaiting_correction], to: :invalidated
     end
 
     event :determine do
@@ -182,6 +182,10 @@ class PlanningApplication < ApplicationRecord
 
   def cancellable?
     true unless determined? || returned? || withdrawn?
+  end
+
+  def closed?
+    true if determined? || returned? || withdrawn?
   end
 
   def documents_validated_if_not_started

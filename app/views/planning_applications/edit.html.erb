@@ -1,5 +1,5 @@
 <%= render "planning_applications/assessment_dashboard" do %>
-  <% if current_user.assessor? %>
+  <% if current_user.assessor? && @planning_application.recommendable? %>
     <% content_for :title, t("#{@planning_application.status}.recommendation_step") %>
 
     <h2 class="govuk-heading-m"><%= t("#{@planning_application.status}.recommendation_step") %></h2>
@@ -33,7 +33,7 @@
     <%= render "decision_notice", planning_application: @planning_application, decision: @planning_application.reviewer_decision %>
     <% if @planning_application.awaiting_determination? %>
       <p class="govuk-body">By determining the application, the applicant will receive this decision notice. The decision notice will also be available publicly. </p>
-      
+
       <%= form_with model: @planning_application, url: determine_planning_application_path(@planning_application), local: true do |form| %>
         <%= form.submit "Determine application", class: "govuk-button", data: { module: "govuk-button" } %>
       <% end %>
