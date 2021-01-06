@@ -17,7 +17,7 @@
 
       <li class="app-task-list__item">
         <% step_name = t("#{@planning_application.status}.proposal_step") %>
-        <% if current_user.assessor? && @planning_application.recommendable? %>
+        <% if current_user.assessor? %>
           <% aria_attributes = @planning_application.assessor_decision ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
           <% path = assessor_decision_path(@planning_application) %>
           <span class="app-task-list__task-name"><%= link_to step_name, path, aria: aria_attributes %></span>

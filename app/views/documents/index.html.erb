@@ -18,7 +18,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <% if current_user.assessor? && (@planning_application.not_started? || @planning_application.invalidated?) %>
+    <% if current_user.assessor? && (!@planning_application.determined? || !@planning_application.withdrawn? || !@planning_application.returned?) %>
       <%= form_with model: @planning_application, url: validate_documents_planning_application_path(@planning_application), local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
         <fieldset class="govuk-fieldset">
           <% if form.object.errors[:planning_application].any? %>
@@ -28,7 +28,7 @@
             <% end %>
           <% end %>
             <%= form.govuk_radio_buttons_fieldset(:status, legend: { size: 's', text: 'Are the documents valid?' }) do %>
-              <%= form.govuk_radio_button :status, 'in_assessment', label: { text: 'Yes', size: 's'} do %>
+              <%= form.govuk_radio_button :status, 'in_assessment', label: { text: 'Yes'} do %>
                 <%= form.govuk_date_field :documents_validated_at, legend: { text: 'Valid date', size: 's' }, hint: { text: 'Date application should be considered valid, e.g. 28 12 2021' } %>
                 <% end %>
               <%= form.govuk_radio_button :status, 'invalidated', label: { text: 'No' } %>
@@ -49,7 +49,7 @@
     </p>
   </div>
   <div class="govuk-grid-column-one-third" style="text-align: right">
-    <% if current_user.assessor? && @planning_application.in_assessment? || @planning_application.not_started? %>
+    <% if current_user.assessor? && (@planning_application.in_assessment? || @planning_application.not_started? || @planning_application.invalidated?) %>
       <%= link_to "Upload documents", new_planning_application_document_path(@planning_application), role: "button", class: "govuk-button", data: { module: "govuk-button" } %>
     <% elsif current_user.assessor? %>
       <%= tag.button "Upload documents", disabled: "disabled", "aria-disabled": true, class: "govuk-button govuk-button--disabled", data: { module: "govuk-button" } %>

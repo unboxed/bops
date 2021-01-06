@@ -18,6 +18,7 @@ class DocumentsController < AuthenticationController
 
   def index
     @documents = policy_scope(@planning_application.documents).order(:created_at)
+    @planning_application.documents_validated_at ||= @planning_application.created_at
   end
 
   def edit
