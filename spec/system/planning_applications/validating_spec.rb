@@ -31,7 +31,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   context "Checking documents from Not Started status" do
-    it "Validate from Not Started" do
+    it "can be validated from Not Started" do
       click_link planning_application.reference
       click_link "Check the documents"
 
@@ -58,7 +58,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).not_to have_link("Check documents")
     end
 
-    it "Invalidate from Not Started" do
+    it "can be invalidated from Not Started" do
       click_link planning_application.reference
       click_link "Check the documents"
 
@@ -77,12 +77,75 @@ RSpec.describe "Planning Application Assessment", type: :system do
         click_link planning_application.reference
       end
 
+      expect(page).to have_link("Read the proposal")
+      expect(page).not_to have_button("Save")
+
+      click_link "Check the documents"
+      expect(page).to have_link("Upload documents")
+    end
+  end
+
+  context "Checking documents from Invalidated status" do
+    it "can be validated from Invalidated" do
+      planning_application.invalidate
+
+      click_link planning_application.reference
+      click_link "Check the documents"
+
+      expect(page).to have_content("Are the documents valid?")
+
+      choose "Yes"
+
+      fill_in "Day", with: "03"
+      fill_in "Month", with: "12"
+      fill_in "Year", with: "2021"
+
+      click_button "Save"
+
+      expect(page).to have_content("Application is ready for assessment")
+
+      click_link "Home"
+
+      click_link "In assessment"
+
+      within("#under_assessment") do
+        click_link planning_application.reference
+      end
+
       expect(page).not_to have_link("Check documents")
+    end
+
+    it "does not thrown an error when invalidated from Invalidated" do
+      planning_application.invalidate
+
+      click_link planning_application.reference
+      click_link "Check the documents"
+
+      expect(page).to have_content("Are the documents valid?")
+
+      choose "No"
+
+      click_button "Save"
+
+      expect(page).to have_content("Application has been invalidated")
+
+      click_link "Home"
+
+      within("#not_started_and_invalid") do
+        expect(page).to have_content("invalid")
+        click_link planning_application.reference
+      end
+
+      expect(page).to have_link("Read the proposal")
+      expect(page).not_to have_button("Save")
+
+      click_link "Check the documents"
+      expect(page).to have_link("Upload documents")
     end
   end
 
   context "Planning application does not transition when expected inputs are not sent" do
-    it "Error is shown when no radio button is selected" do
+    it "shows error when no radio button is selected" do
       click_link planning_application.reference
       click_link "Check the documents"
 
@@ -91,7 +154,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).to have_content("Please choose Yes or No")
     end
 
-    it "Application remains in not_started status if incorrect date is sent" do
+    it "remains in not_started status if incorrect date is sent" do
       click_link planning_application.reference
       click_link "Check the documents"
 
@@ -104,6 +167,30 @@ RSpec.describe "Planning Application Assessment", type: :system do
       fill_in "Year", with: "2022"
 
       click_button "Save"
+
+      expect(planning_application.status).to eql("not_started")
+      expect(planning_application.documents_validated_at).to be(nil)
+
+      click_link "Home"
+      expect(page).to have_content(planning_application.reference)
+      expect(page).to have_content("Not started")
+    end
+
+    it "remains in not_started status if prefilled date is overwritten" do
+      click_link planning_application.reference
+      click_link "Check the documents"
+
+      expect(page).to have_content("Are the documents valid?")
+
+      choose "Yes"
+
+      fill_in "Day", with: ""
+      fill_in "Month", with: ""
+      fill_in "Year", with: ""
+
+      click_button "Save"
+
+      expect(page).to have_content("A validation date must be present")
 
       expect(planning_application.status).to eql("not_started")
       expect(planning_application.documents_validated_at).to be(nil)
