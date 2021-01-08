@@ -5,13 +5,13 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
   skip_before_action :authenticate, only: %i[index show]
 
   def index
-    @planning_applications = PlanningApplication.all
+    @planning_applications = current_local_authority.planning_applications.all
 
     respond_to(:json)
   end
 
   def show
-    @planning_application = PlanningApplication.where(id: params[:id]).first
+    @planning_application = current_local_authority.planning_applications.where(id: params[:id]).first
     if @planning_application
       respond_to(:json)
     else
