@@ -201,6 +201,10 @@ RSpec.describe "Planning Application Reviewing", type: :system do
         within("#closed") do
           expect(page).to have_link planning_application.reference
         end
+
+        # Check that documents validation form is removed
+        click_link planning_application.reference
+        expect(page).not_to have_content("Are the documents valid?")
       end
 
       it "disagrees with assessor's decision" do
@@ -447,6 +451,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         expect(page).to have_content("The officer has submitted the following comment for you:")
         expect(page).to have_content("This is a private comment")
+
+        expect(page).not_to have_content("Are the documents valid?")
 
         choose "Yes"
         click_button "Save"
