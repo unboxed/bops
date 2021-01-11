@@ -210,4 +210,52 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).to have_content("Not started")
     end
   end
+
+  context "Planning application does not show validate documents form when withdrawn or returned" do
+    it "does not show validate form when in withdrawn status" do
+      click_link planning_application.reference
+      click_link "Cancel application"
+
+      expect(page).to have_content("Why is this application being cancelled?")
+
+      choose "Withdrawn by applicant"
+
+      fill_in "cancellation_comment", with: "This has been cancelled"
+
+      click_button "Save"
+
+      expect(page).to have_content("Application has been cancelled")
+
+      click_link "Home"
+
+      click_link "Closed"
+
+      click_link planning_application.reference
+
+      expect(page).not_to have_content("Are the documents valid?")
+    end
+
+    it "does not show validate form when in returned status" do
+      click_link planning_application.reference
+      click_link "Cancel application"
+
+      expect(page).to have_content("Why is this application being cancelled?")
+
+      choose "Returned as invalid"
+
+      fill_in "cancellation_comment", with: "This has been cancelled"
+
+      click_button "Save"
+
+      expect(page).to have_content("Application has been cancelled")
+
+      click_link "Home"
+
+      click_link "Closed"
+
+      click_link planning_application.reference
+
+      expect(page).not_to have_content("Are the documents valid?")
+    end
+  end
 end
