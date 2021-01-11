@@ -453,6 +453,19 @@ RSpec.describe PlanningApplication, type: :model do
     end
   end
 
+  describe "#target_date" do
+    it "is set as created_at + 8 weeks when new record created" do
+      planning_application = create(:planning_application)
+      expect(planning_application.target_date).to eq((planning_application.created_at + 8.weeks).to_date)
+    end
+
+    it "is set to documents_validated_at + 8 weeks when documents_validated_at added" do
+      planning_application = create(:planning_application)
+      planning_application.update!(documents_validated_at: 1.week.ago)
+      expect(planning_application.target_date).to eq((planning_application.documents_validated_at + 8.weeks).to_date)
+    end
+  end
+
   describe "#document_numbering_partially_completed?" do
     it "returns false when there are no documents" do
       expect(planning_application.document_numbering_partially_completed?).to eq false

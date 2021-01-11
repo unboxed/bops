@@ -25,6 +25,7 @@ class PlanningApplication < ApplicationRecord
   belongs_to :local_authority
 
   before_create :set_target_date
+  before_update :set_target_date
 
   validate :assessor_decision_associated_with_assessor
   validate :reviewer_decision_associated_with_reviewer
@@ -201,7 +202,7 @@ class PlanningApplication < ApplicationRecord
 private
 
   def set_target_date
-    self.target_date = created_at + 8.weeks
+    self.target_date = (documents_validated_at || created_at) + 8.weeks
   end
 
   def assessor_decision_associated_with_assessor
