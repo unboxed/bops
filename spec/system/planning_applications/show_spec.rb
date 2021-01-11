@@ -5,11 +5,14 @@ require "rails_helper"
 RSpec.describe "Planning Application show page", type: :system do
   let(:local_authority) { create :local_authority }
   let!(:site) { create :site, address_1: "7 Elm Grove", town: "London", postcode: "SE15 6UT" }
+  let(:documents_validated_at) { Date.current - 2.weeks }
   let!(:planning_application) do
     create :planning_application, description: "Roof extension",
-                                  application_type: "lawfulness_certificate", status: :in_assessment,
+                                  application_type: "lawfulness_certificate",
+                                  status: :in_assessment,
                                   ward: "Dulwich Wood", site: site,
-                                  target_date: Date.current + 14.days, local_authority: local_authority,
+                                  documents_validated_at: documents_validated_at,
+                                  local_authority: local_authority,
                                   payment_reference: "PAY123",
                                   work_status: "proposed",
                                   constraints: '{"conservation_area": true, "article4_area": false, "scheduled_monument": false }'
@@ -110,8 +113,7 @@ RSpec.describe "Planning Application show page", type: :system do
   end
 
   context "as an assessor when target date is within a week" do
-    let(:target_date) { 1.week.from_now }
-    let!(:planning_application) { create :planning_application, :determined, local_authority: local_authority }
+    let(:documents_validated_at) { Date.current - (7.weeks + 5.days) }
 
     before do
       sign_in assessor
