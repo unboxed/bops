@@ -10,6 +10,7 @@
     <% end %>
 
     <%= render "decision_notice", planning_application: @planning_application, decision: @planning_application.assessor_decision  %>
+    <%= link_to "Download as PDF", decision_notice_planning_application_path(@planning_application, format: 'pdf') %>
     <% if @planning_application.in_assessment? || @planning_application.awaiting_correction?  %>
       <p class="govuk-body">
         <br>

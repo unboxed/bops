@@ -28,6 +28,10 @@ class PlanningApplicationPolicy < ApplicationPolicy
     (super || signed_in_editor?) && record.local_authority_id == user.local_authority_id
   end
 
+  def decision_notice?
+    true
+  end
+
   def permitted_statuses
     if @user.assessor?
       %w[awaiting_determination]

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" class="govuk-template app-html-class">
+  <%= render "head" %>
+
+  <body class="govuk-template__body js-enabled" data-test="My value" data-other="report:details">
+    <script>
+      document.body.className = (
+        (document.body.className)
+          ? document.body.className + ' js-enabled'
+          : 'js-enabled'
+      );
+    </script>
+
+    <div class="govuk-width-container app-width-container--wide">
+      <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        <%= yield %>
+      </main>
+    </div>
+    <%= javascript_pack_tag 'govuk', 'data-turbolinks-track': 'reload' %>
+  </body>
+</html>

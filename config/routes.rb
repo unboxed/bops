@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       patch :cancel
       patch :validate_documents
       get :cancel_confirmation
+      get :decision_notice
     end
     resources :decisions, only: %i[new create edit update show]
 

@@ -192,6 +192,7 @@ GEM
     parallel (1.20.1)
     parser (3.0.0.0)
       ast (~> 2.4.1)
+    pdfkit (0.8.4.3.2)
     pg (1.2.3)
     pry (0.13.1)
       coderay (~> 1.1)
@@ -347,6 +348,7 @@ GEM
     websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    wkhtmltopdf-binary (0.12.6.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.4.2)
@@ -378,6 +380,7 @@ DEPENDENCIES
   mail-notify
   mini_magick
   openapi3_parser
+  pdfkit
   pg (>= 0.18, < 2.0)
   pry-byebug
   puma (~> 4.1)
@@ -393,6 +396,7 @@ DEPENDENCIES
   web-console (>= 3.3.0)
   webmock
   webpacker (~> 4.0)
+  wkhtmltopdf-binary
 
 BUNDLED WITH
    2.1.4

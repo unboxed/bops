@@ -4,6 +4,7 @@ class PlanningApplicationsController < AuthenticationController
   include PlanningApplicationDashboardVariables
 
   before_action :set_planning_application, only: %i[show
+                                                    decision_notice
                                                     edit
                                                     assess
                                                     determine
@@ -37,6 +38,10 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def show; end
+
+  def decision_notice;
+    render layout: 'decision_notice'
+  end
 
   def edit; end
 
