@@ -22,5 +22,8 @@ RSpec/ContextWording:
 RSpec/LetSetup:
   Enabled: false
 
+RSpec/InstanceVariable:
+  Enabled: false
+
 Naming/VariableNumber:
   Enabled: false
