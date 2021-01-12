@@ -19,7 +19,6 @@ Rails.application.routes.draw do
     resources :decisions, only: %i[new create edit update show]
 
     resources :documents, only: %i[index new create edit update] do
-
       get :archive
       get :confirm
 

@@ -7,8 +7,6 @@ class DocumentsController < AuthenticationController
   before_action :set_planning_application
   before_action :set_document, except: %i[index
                                           new
-                                          edit_numbers
-                                          update_numbers
                                           confirm_new
                                           create
                                           edit

@@ -24,15 +24,6 @@ RSpec.describe Document, type: :model do
         expect(described_class.has_proposed_tag).to match_array([proposed_document])
       end
     end
-
-    describe ".has_empty_numbers" do
-      let!(:numbered_document)        { create :document, numbers: "one, two" }
-      let!(:document_without_numbers) { create :document }
-
-      it "scopes documents with proposed tags correctly" do
-        expect(described_class.has_empty_numbers).to match_array([document_without_numbers])
-      end
-    end
   end
 
   describe "validations" do

@@ -70,7 +70,7 @@ RSpec.describe "Edit document numbers page", type: :system do
         within(all(".app-task-list__item").first) do
           click_link "Edit"
         end
-          # the submitted values are re-presented in the form
+        # the submitted values are re-presented in the form
         expect(find_field("numbers")).to have_content "new_number_1, new_number_2"
 
         click_link "Documents"

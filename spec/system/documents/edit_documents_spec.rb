@@ -30,6 +30,8 @@ RSpec.describe "Edit document", type: :system do
     it "with valid data" do
       click_link "Edit"
 
+      expect(page).to have_content("If you add one or more numbers to this document, it will be published in the decision notice")
+
       attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.pdf")
       fill_in "Document number(s)", with: "DOC001"
 
