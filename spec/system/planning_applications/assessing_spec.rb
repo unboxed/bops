@@ -106,16 +106,37 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).to have_content("Completed")
     end
 
-    # Unable to submit yet because not all steps are complete
-    expect(page).not_to have_link("Submit the recommendation")
+    click_link "Check the documents"
 
-    click_link "Attach document numbers"
+    within(all(".app-task-list__item").first) do
+      click_link "Edit"
+    end
 
-    fill_in("Document number:", with: "proposed_document_number_1, proposed_document_number_2")
+    fill_in("Document number(s)", with: "proposed_document_number_1, proposed_document_number_2")
+
+    click_button "Save and return"
+
+    expect(page).to have_content("Are the documents valid?")
+
+    choose "Yes"
+
+    fill_in "Day", with: "03"
+    fill_in "Month", with: "12"
+    fill_in "Year", with: "2021"
 
     click_button "Save"
 
-    within(:assessment_step, "Attach document numbers") do
+    expect(page).to have_content("Application is ready for assessment")
+
+    click_link "Home"
+
+    click_link "In assessment"
+
+    within("#under_assessment") do
+      click_link planning_application.reference
+    end
+
+    within(:assessment_step, "Check the documents") do
       expect(page).to have_content("Completed")
     end
 
@@ -155,8 +176,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
     within(:assessment_step, "Review the recommendation") do
       expect(page).not_to have_content("Completed")
     end
-
-    expect(page).not_to have_link "Attach document numbers"
 
     click_link "Review the recommendation"
     click_link "Back"
@@ -224,29 +243,28 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "In assessment"
       click_link planning_application.reference
 
-      expect(page).not_to have_link "Submit the recommendation"
+      click_link("Check the documents")
 
-      within(:assessment_step, "Attach document numbers") do
-        expect(page).to have_content("In Progress")
+      within(all(".app-task-list__item").first) do
+        click_link "Edit"
       end
 
-      click_link("Attach document numbers")
+      fill_in("Document number(s)", with: "new_document_number_1")
 
-      expect(page).to have_css(".thumbnail", count: 2)
+      click_button "Save and return"
 
-      within(all(".thumbnail").last) do
-        fill_in "Document number:", with: "new_document_number_1"
-      end
+      expect(page).to have_content("Are the documents valid?")
+
+      choose "Yes"
+
+      fill_in "Day", with: "03"
+      fill_in "Month", with: "12"
+      fill_in "Year", with: "2021"
 
       click_button "Save"
 
-      within(:assessment_step, "Attach document numbers") do
-        expect(page).to have_content("Completed")
-      end
-
       click_link "Submit the recommendation"
 
-      expect(page).to have_content "a number"
       expect(page).to have_content "new_document_number_1"
     end
   end

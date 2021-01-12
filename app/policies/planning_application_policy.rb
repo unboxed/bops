@@ -7,7 +7,6 @@ class PlanningApplicationPolicy < ApplicationPolicy
   alias_method :validate_step?, :editor?
   alias_method :archive?, :editor?
   alias_method :confirm_new?, :editor?
-  alias_method :edit_numbers?, :editor?
   alias_method :assess?, :editor?
   alias_method :cancel_confirmation?, :editor?
   alias_method :cancel?, :editor?

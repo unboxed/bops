@@ -35,29 +35,6 @@ class DocumentsController < AuthenticationController
     end
   end
 
-  def edit_numbers
-    @documents_list = DocumentNumbersListForm.new(
-      @planning_application.documents.for_publication,
-    )
-  end
-
-  def update_numbers
-    @documents_list = DocumentNumbersListForm.new(
-      @planning_application.documents.for_publication,
-      documents_list_params[:documents],
-    )
-
-    if @documents_list.update_all
-      count = @documents_list.documents.count
-      flash[:notice] = "Updated #{count} " \
-        "#{'document'.pluralize(count)} with numbers"
-
-      redirect_to @planning_application
-    else
-      render :edit_numbers
-    end
-  end
-
   def archive
     assign_archive_reason_to_form
   end
