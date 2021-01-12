@@ -52,9 +52,10 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(mail.body.encoded).to match("Local authority: #{planning_application.local_authority.name}")
     end
 
-    it "renders numbers for active documents with proposed tags" do
+    it "renders numbers for active documents tags" do
       expect(mail.body.encoded).to match("proposed_number_1")
       expect(mail.body.encoded).to match("proposed_number_2")
+      expect(mail.body.encoded).to match("existing_number")
     end
 
     it "renders the name of the correct local authority signatory" do
@@ -67,10 +68,6 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "does not render numbers for archived documents with proposed tags" do
       expect(mail.body.encoded).not_to match("archived_number")
-    end
-
-    it "does not render numbers for active documents that have only existing tags" do
-      expect(mail.body.encoded).not_to match("existing_number")
     end
 
     context "for a rejected application" do

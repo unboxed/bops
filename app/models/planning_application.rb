@@ -165,8 +165,7 @@ class PlanningApplication < ApplicationRecord
   def documents_ready_for_publication?
     documents_for_publication = documents.for_publication
 
-    documents_for_publication.present? &&
-      documents_for_publication.has_empty_numbers.none?
+    documents_for_publication.present?
   end
 
   def document_numbering_partially_completed?
@@ -178,7 +177,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def recommendable?
-    true unless determined? || returned? || withdrawn? || invalidated?
+    true unless determined? || returned? || withdrawn? || invalidated? || not_started?
   end
 
   def cancellable?

@@ -425,23 +425,6 @@ RSpec.describe PlanningApplication, type: :model do
              numbers: "number"
     end
 
-    context "when all proposed, non-archived documents have numbers" do
-      it "returns true" do
-        expect(planning_application.documents_ready_for_publication?).to eq true
-      end
-    end
-
-    context "when there is a proposed, non-archived document without numbers" do
-      let!(:proposed_document_2) do
-        create :document, :with_file, :proposed_tags,
-               planning_application: planning_application
-      end
-
-      it "returns false" do
-        expect(planning_application.documents_ready_for_publication?).to eq false
-      end
-    end
-
     context "when there are no documents" do
       before do
         planning_application.documents.delete_all

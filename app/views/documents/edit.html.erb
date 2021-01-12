@@ -16,6 +16,10 @@
 
     <h2 class="govuk-heading-m"><%= @document.name %></h2>
 
+    <p class="govuk-body" style="line-height: 1.6;">
+      If you add one or more numbers to this document, it will be published in the decision notice.
+    </p>
+
     <%= link_to image_tag(@document.file.representation(resize: "500x500")),
                 api_v1_planning_application_document_url(@planning_application, @document), target: :_blank %>
     <p class="govuk-body">
