@@ -3,6 +3,9 @@ GEM
   specs:
     aasm (5.1.1)
       concurrent-ruby (~> 1.0)
+    aasm-diagram (0.1.2)
+      aasm (~> 5.0, >= 4.12)
+      ruby-graphviz (~> 1.2)
     actioncable (6.0.3.4)
       actionpack (= 6.0.3.4)
       nio4r (~> 2.0)
@@ -302,6 +305,8 @@ GEM
       rubocop (>= 0.87.0)
     ruby-enum (0.8.0)
       i18n
+    ruby-graphviz (1.2.5)
+      rexml
     ruby-progressbar (1.11.0)
     ruby-vips (2.0.17)
       ffi (~> 1.9)
@@ -356,6 +361,7 @@ PLATFORMS
 
 DEPENDENCIES
   aasm
+  aasm-diagram
   activerecord-postgis-adapter
   after_commit_everywhere
   appsignal

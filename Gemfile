@@ -26,7 +26,7 @@ gem "pundit"
 gem "rails", "~> 6.0.3"
 gem "rswag-ui"
 gem "webpacker", "~> 4.0"
-
+gem 'aasm-diagram', require: false, group: :development
 group :development, :test do
   gem "brakeman", require: false
   gem "bundler-audit", require: false

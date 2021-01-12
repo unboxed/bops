@@ -87,27 +87,27 @@ class PlanningApplication < ApplicationRecord
       transitions from: :awaiting_determination, to: :awaiting_correction
     end
 
-    event :return do
-      transitions from: %i[not_started
-                           in_assessment
-                           invalidated
-                           awaiting_determination
-                           awaiting_correction
-                           returned], to: :returned, after: proc { |comment|
-                                                              update!(cancellation_comment: comment)
-                                                            }
-    end
-
-    event :withdraw do
-      transitions from: %i[not_started
-                           in_assessment
-                           invalidated
-                           awaiting_determination
-                           awaiting_correction
-                           returned], to: :withdrawn, after: proc { |comment|
-                                                               update!(cancellation_comment: comment)
-                                                             }
-    end
+    # event :return do
+    #   transitions from: %i[not_started
+    #                        in_assessment
+    #                        invalidated
+    #                        awaiting_determination
+    #                        awaiting_correction
+    #                        returned], to: :returned, after: proc { |comment|
+    #                                                           update!(cancellation_comment: comment)
+    #                                                         }
+    # end
+    #
+    # event :withdraw do
+    #   transitions from: %i[not_started
+    #                        in_assessment
+    #                        invalidated
+    #                        awaiting_determination
+    #                        awaiting_correction
+    #                        returned], to: :withdrawn, after: proc { |comment|
+    #                                                            update!(cancellation_comment: comment)
+    #                                                          }
+    # end
 
     after_all_transitions :timestamp_status_change
   end
