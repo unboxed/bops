@@ -49,7 +49,7 @@ class PlanningApplication < ApplicationRecord
             inclusion: { in: WORK_STATUSES,
                          message: "Work Status should be proposed or existing" }
 
-  validate :documents_validated_if_not_started
+  validate :documents_validated_at_date
 
   scope :not_started_and_invalid, -> { where("status = 'not_started' OR status = 'invalidated'") }
   scope :under_assessment, -> { where("status = 'in_assessment' OR status = 'awaiting_correction'") }
@@ -188,8 +188,8 @@ class PlanningApplication < ApplicationRecord
     true if determined? || returned? || withdrawn?
   end
 
-  def documents_validated_if_not_started
-    if in_assessment? && documents_validated_at.blank?
+  def documents_validated_at_date
+    if in_assessment? && !documents_validated_at.is_a?(Date)
       errors.add(:planning_application, "Please enter a valid date")
     end
   end

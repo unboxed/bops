@@ -21,10 +21,10 @@
     <% if @planning_application.cancellable? && current_user.assessor? %>
       <%= form_with model: @planning_application, url: validate_documents_planning_application_path(@planning_application), local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
         <fieldset class="govuk-fieldset">
-          <% if form.object.errors[:planning_application].any? %>
-            <% form.object.errors[:planning_application].each do |error| %>
-              <span id="status-error" class="govuk-error-message">
-              <span class="govuk-visually-hidden">Error:</span><%= error %></span>
+          <% if form.object.errors.any? %>
+            <% form.object.errors.each do |attribute, error| %>
+          <span id="status-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span><%= error %></span>
             <% end %>
           <% end %>
           <%= form.govuk_radio_buttons_fieldset(:status, legend: { size: 's', text: 'Are the documents valid?' }) do %>
