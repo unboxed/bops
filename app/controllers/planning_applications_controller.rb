@@ -107,25 +107,37 @@ class PlanningApplicationsController < AuthenticationController
 
   def validate_documents
     status = authorize_user_can_update_status(params[:planning_application][:status])
-    @planning_application.update(status: status, documents_validated_at: Time.zone.parse(date_string_from_params))
-    if @planning_application.save && @planning_application.in_assessment?
-      flash[:notice] = "Application is ready for assessment"
-      redirect_to @planning_application
-    elsif @planning_application.save && @planning_application.invalidated?
+    if status == "in_assessment"
+      if date_from_params.blank?
+        @planning_application.errors.add(:planning_application, "Please enter a valid date")
+        render "documents/index"
+      else
+        @planning_application.documents_validated_at = date_from_params
+        @planning_application.start!
+        flash[:notice] = "Application is ready for assessment"
+        redirect_to @planning_application
+      end
+    elsif status == "invalidated"
+      @planning_application.invalidate!
       flash[:notice] = "Application has been invalidated"
       redirect_to @planning_application
     else
+      @planning_application.errors.add(:status, "Please select one of the below options")
       render "documents/index"
     end
   end
 
-  def date_string_from_params
-    [params[:planning_application][:"documents_validated_at(3i)"],
-     params[:planning_application][:"documents_validated_at(2i)"],
-     params[:planning_application]["documents_validated_at(1i)"]].join("-")
-  end
-
 private
+
+  def date_from_params
+    Time.zone.parse(
+      [
+        params[:planning_application]["documents_validated_at(3i)"],
+        params[:planning_application]["documents_validated_at(2i)"],
+        params[:planning_application]["documents_validated_at(1i)"],
+      ].join("-"),
+    )
+  end
 
   def set_planning_application
     @planning_application = authorize(PlanningApplication.find(params[:id]))
