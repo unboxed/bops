@@ -297,7 +297,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
           click_link "Publish the recommendation"
           click_button "Determine application"
 
-          expect(page).to have_content("The Decision Notice cannot be sent. Please try again later.")
+          expect(page).to have_content("The email cannot be sent. Please try again later.")
         end
       end
 

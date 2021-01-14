@@ -1,0 +1,46 @@
+# <%= @planning_application.local_authority.name %>
+
+# Town and country planning act 1990 (as amended)
+
+Dear Sir/Madam,
+
+Reference No.: <%= @planning_application.reference %>
+Proposal: <%= @planning_application.description %>
+Site Address: <%= @planning_application.site.full_address %>
+
+Your application is now valid and has been started from <%= @planning_application.documents_validated_at.strftime("%e %B %Y") %>. The description of your development given in the title block above may be different from the one on your application form. Contact us if you would like the description to be amended.
+
+Please quote the planning reference number <%= @planning_application.reference %> when contacting us. The progress of your application can also be tracked using Southwark Council’s online planning register, accessible from the following link: www.southwark.gov.uk/planningregister.
+
+We may request additional information and/or revisions before deciding whether the application should be recommended for permission or refusal.
+
+Planning law requires your application be determined in accordance with the development plan unless material considerations indicate otherwise. The development plan is accessible from the following link:
+https://www.southwark.gov.uk/planning-and-building-control/planning-policy-and-transport-policy.
+
+All relevant parties are now being consulted regarding your application and the council aims to issue a decision by <%= @planning_application.target_date.strftime("%e %B %Y") %>. However, if your application has not been determined by <%= @planning_application.target_date %>, you have the right to appeal to the Secretary of State, either online at https://www.gov.uk/government/organisations/planning-inspectorate, or by post to Temple Quay House, 2 The Square, Temple Quay, Bristol BS1 6PN.
+
+An appeal in this situation assumes the refusal of the application, even if it had intended to be granted. It is therefore, recommended that you consult your case officer before taking such action.
+
+If you wish to appeal, use the Planning Inspectorate’s online appeals service. To find out more, follow the link below. The Planning Inspectorate will publish your appeal details on its website, including the documents you submitted as part of your planning application, along with your completed appeal form
+and any other information required. Ensure any personal information provided belongs to you and that its publication is not an issue. If you provide information belonging to someone else make sure you have their permission. Further information about data protection and privacy matters is available on the
+
+
+Signed: <%= @planning_application.local_authority.signatory_name %>
+ <%= @planning_application.local_authority.signatory_job_title %>
+
+Your attention is drawn to the notes accompanying this document
+
+Any enquiries regarding this document should quote the Application Number and be sent to
+the
+<%= @planning_application.local_authority.signatory_job_title %>,
+<%= @planning_application.local_authority.name %>,
+<%= @planning_application.local_authority.enquiries_paragraph %>
+or by email to <%= @planning_application.local_authority.email_address %>
+
+Please Note: In light of the COVID-19 situation, Southwark Council is following the current advice from the government to minimise travelling and non-essential contact.
+
+The council is fully committed to helping reduce the spread of the virus by following national guidance, whilst ensuring we continue to provide essential services in our business continuity plans. In accordance with government advice, we have to minimise non-essential contact with service users. Therefore if your application requires a site visit/meeting it may be necessary to delay this to an appropriate time. To avoid/minimise delay you can send us additional information, like site photographs, for us to review together with your application documents.
+
+We apologise for the inconvenience any delays in the determination of your application will cause you.
+
+Thank you for your understanding, support and patience during this period. I will keep you updated if anything changes.
