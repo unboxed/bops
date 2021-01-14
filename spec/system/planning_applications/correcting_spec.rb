@@ -62,6 +62,10 @@ RSpec.describe "Planning Application correction journey", type: :system do
       click_link("In assessment")
       click_link planning_application_corrected.reference
 
+      click_link("Check the documents")
+      expect(page).to have_link("Upload documents")
+      click_link("Application")
+
       # Verify the task list wording is correct
       expect(page).to have_text("Reassess the proposal")
       expect(page).to have_text("Resubmit the recommendation")

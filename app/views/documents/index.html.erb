@@ -49,7 +49,7 @@
     </p>
   </div>
   <div class="govuk-grid-column-one-third" style="text-align: right">
-    <% if current_user.assessor? && (@planning_application.in_assessment? || @planning_application.not_started? || @planning_application.invalidated?) %>
+    <% if current_user.assessor? && (@planning_application.cancellable? && !@planning_application.awaiting_determination?) %>
       <%= link_to "Upload documents", new_planning_application_document_path(@planning_application), role: "button", class: "govuk-button", data: { module: "govuk-button" } %>
     <% elsif current_user.assessor? %>
       <%= tag.button "Upload documents", disabled: "disabled", "aria-disabled": true, class: "govuk-button govuk-button--disabled", data: { module: "govuk-button" } %>
