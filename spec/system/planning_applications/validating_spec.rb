@@ -102,7 +102,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_button "Save"
 
-      expect(page).to have_content("A validation date must be present")
+      expect(page).to have_content("Please enter a valid date")
 
       choose "Yes"
 
@@ -161,7 +161,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_button "Save"
 
-      expect(page).to have_content("Please choose Yes or No")
+      expect(page).to have_content("Please select one of the below options")
     end
 
     it "remains in not_started status if incorrect date is sent" do
@@ -200,7 +200,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_button "Save"
 
-      expect(page).to have_content("A validation date must be present")
+      expect(page).to have_content("Please enter a valid date")
 
       expect(planning_application.status).to eql("not_started")
       expect(planning_application.documents_validated_at).to be(nil)
