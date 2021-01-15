@@ -112,6 +112,10 @@ class PlanningApplication < ApplicationRecord
     after_all_transitions :timestamp_status_change
   end
 
+  def applicant_name
+    "#{applicant_first_name} #{applicant_last_name}"
+  end
+
   def timestamp_status_change
     update("#{aasm.to_state}_at": Time.zone.now)
   end
