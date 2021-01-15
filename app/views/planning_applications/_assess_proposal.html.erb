@@ -39,7 +39,7 @@
         <% step_name = t("#{@planning_application.status}.recommendation_step") %>
         <% aria_attributes = @planning_application.awaiting_determination? ? { describedby: "#{step_name.parameterize}-completed" } : {} %>
 
-        <% if current_user.assessor? && @planning_application.assessor_decision && @planning_application.recommendable? %>
+        <% if current_user.assessor? && @planning_application.assessor_decision && (@planning_application.recommendable? ||@planning_application.determined? )  %>
           <span class="app-task-list__task-name"><%= link_to step_name, edit_planning_application_path(@planning_application), aria: aria_attributes %></span>
         <% elsif current_user.reviewer? && @planning_application.reviewer_decision  && !@planning_application.awaiting_correction? %>
           <span class="app-task-list__task-name"><%= link_to step_name, edit_planning_application_path(@planning_application), aria: aria_attributes %></span>
