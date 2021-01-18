@@ -20,12 +20,14 @@ gem "image_processing", "~> 1.2"
 gem "jbuilder", "~> 2.7"
 gem "mail-notify"
 gem "mini_magick"
+gem "pdfkit"
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 4.1"
 gem "pundit"
 gem "rails", "~> 6.0.3"
 gem "rswag-ui"
 gem "webpacker", "~> 4.0"
+gem "wkhtmltopdf-binary"
 
 group :development, :test do
   gem "brakeman", require: false
