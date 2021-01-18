@@ -2,7 +2,8 @@
 
 class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
   before_action :set_cors_headers, only: %i[index show create], if: :json_request?
-  skip_before_action :authenticate, only: %i[index show]
+  skip_before_action :authenticate, only: %i[index show decision_notice]
+  skip_before_action :set_default_format, only: %i[decision_notice]
 
   def index
     @planning_applications = current_local_authority.planning_applications.all
@@ -17,6 +18,11 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
     else
       send_not_found_response
     end
+  end
+
+  def decision_notice
+    @planning_application = current_local_authority.planning_applications.where(id: params[:id]).first
+    @blank_layout = true
   end
 
   def create
