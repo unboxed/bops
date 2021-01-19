@@ -8,5 +8,5 @@ rm -f /home/deploy/bops/current/log
 rm -f /home/deploy/bops/current/tmp
 rm -f /home/deploy/bops/current/vendor/bundle
 rm -f /home/deploy/bops/current/public/packs
-rm -f /home/deploy/bops/current/node_modules
+rm -rf /home/deploy/bops/current/node_modules
 EOF
