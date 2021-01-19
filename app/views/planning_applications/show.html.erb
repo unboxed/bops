@@ -1,3 +1,5 @@
 <%= render "assessment_dashboard" do %>
-  <%= render "assess_proposal" %>
+  <% unless @planning_application.withdrawn?  ||  @planning_application.returned?  %>
+    <%= render "assess_proposal" %>
+  <% end %>
 <% end %>
