@@ -128,6 +128,8 @@ class PlanningApplicationsController < AuthenticationController
     end
   end
 
+private
+
   def date_from_params
     Time.zone.parse(
       [
