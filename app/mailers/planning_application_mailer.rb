@@ -14,4 +14,14 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
       to: @planning_application.applicant_email,
     )
   end
+
+  def validation_notice_mail(planning_application)
+    @planning_application = planning_application
+
+    view_mail(
+      NOTIFY_TEMPLATE_ID,
+      subject: "Your planning application has been validated",
+      to: @planning_application.applicant_email,
+    )
+  end
 end

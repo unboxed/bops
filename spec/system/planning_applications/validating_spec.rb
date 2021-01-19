@@ -32,6 +32,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "Checking documents from Not Started status" do
     it "can be validated from Not Started" do
+      delivered_emails = ActionMailer::Base.deliveries.count
       click_link planning_application.reference
       click_link "Check the documents"
 
@@ -46,6 +47,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_button "Save"
 
       expect(page).to have_content("Application is ready for assessment")
+
+      expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 1)
 
       click_link "Home"
 

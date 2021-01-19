@@ -114,7 +114,8 @@ class PlanningApplicationsController < AuthenticationController
       else
         @planning_application.documents_validated_at = date_from_params
         @planning_application.start!
-        flash[:notice] = "Application is ready for assessment"
+        validation_notice_mail
+        flash[:notice] = "Application is ready for assessment and applicant has been notified"
         redirect_to @planning_application
       end
     elsif status == "invalidated"
@@ -161,9 +162,15 @@ private
     ).deliver_now
   end
 
+  def validation_notice_mail
+    PlanningApplicationMailer.validation_notice_mail(
+      @planning_application,
+    ).deliver_now
+  end
+
   def decision_notice_mail_error
     flash[:notice] =
-      "The Decision Notice cannot be sent. Please try again later."
-    render :edit
+      "The email cannot be sent. Please try again later."
+    render "documents/index"
   end
 end
