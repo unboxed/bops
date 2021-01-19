@@ -19,9 +19,6 @@
     <p class="govuk-body" style="line-height: 1.6;">
       If you add one or more numbers to this document, it will be published in the decision notice. Only documents with numbers will appear on the decision notice.
     </p>
-    <p class="govuk-body" style="line-height: 1.6;">
-      If there are multiple numbers, please provide a comma-separated list.
-    </p>
 
     <%= link_to image_tag(@document.file.representation(resize: "500x500")),
                 api_v1_planning_application_document_url(@planning_application, @document), target: :_blank %>
@@ -38,8 +35,10 @@
               <span class="govuk-visually-hidden">Error:</span><%= error %></span>
           <% end %>
         <% end %>
-
         <%= form.label :numbers, "Document number(s)", class: "govuk-label", for: "numbers" %>
+        <div id="event-name-hint" class="govuk-hint">
+          If there are multiple numbers, please provide a comma-separated list.
+        </div>
         <%= form.text_area :numbers, class: "govuk-input govuk-input--width-20", id: "numbers" %>
       </div>
 
