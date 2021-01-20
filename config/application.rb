@@ -13,6 +13,7 @@ require "action_mailer/railtie"
 require "action_mailbox/engine"
 require "action_text/engine"
 require "action_view/railtie"
+require "pdfkit"
 # require "action_cable/engine"
 # require "sprockets/railtie"
 # require "rails/test_unit/railtie"
@@ -37,5 +38,7 @@ module Bops
 
     # Remove the error wrapper from around the form element
     config.action_view.field_error_proc = ->(html_tag, _instance) { html_tag }
+
+    config.middleware.use PDFKit::Middleware, {}, except: ["/rails/active_storage"]
   end
 end

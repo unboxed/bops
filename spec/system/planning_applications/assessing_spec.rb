@@ -158,7 +158,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     # Documents
     expect(page).to have_content("proposed_document_number_1")
     expect(page).to have_content("proposed_document_number_2")
-    expect(page).to have_content("Certificate of lawful development (proposed) for the construction of #{planning_application.description}")
+    expect(page).to have_content("Proposed use or development")
 
     # Local authority specific fields
     expect(page).to have_content("Cookie authority")

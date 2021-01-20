@@ -11,13 +11,15 @@
       );
     </script>
 
-    <%= link_to "Skip to main content", "#main-content", class: "govuk-skip-link" %>
-    <%= render "flashes" unless @disable_flash_header %>
-    <%= render "header" %>
+    <% unless @blank_layout == true %>
+      <%= link_to "Skip to main content", "#main-content", class: "govuk-skip-link" %>
+      <%= render "flashes" unless @disable_flash_header %>
+      <%= render "header" %>
+    <% end %>
 
     <div class="govuk-width-container app-width-container--wide">
       <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-        <%= render_navigation %>
+        <%= render_navigation unless @blank_layout == true %>
         <%= yield %>
       </main>
     </div>
