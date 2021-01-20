@@ -39,6 +39,6 @@ module Bops
     # Remove the error wrapper from around the form element
     config.action_view.field_error_proc = ->(html_tag, _instance) { html_tag }
 
-    config.middleware.use PDFKit::Middleware
+    config.middleware.use PDFKit::Middleware, {}, except: ["/rails/active_storage"]
   end
 end
