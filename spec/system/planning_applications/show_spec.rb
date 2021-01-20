@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application show page", type: :system do
-  let(:local_authority) { create :local_authority }
+  let(:local_authority) { @default_local_authority }
   let!(:site) { create :site, address_1: "7 Elm Grove", town: "London", postcode: "SE15 6UT" }
   let(:documents_validated_at) { Date.current - 2.weeks }
   let!(:planning_application) do

@@ -36,11 +36,12 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :request
 
   config.before do |example|
-    @default_local_authority = LocalAuthority.find_or_create_by!(name: "Default Authority", subdomain: "default")
     case example.metadata[:type]
     when :request
+      @default_local_authority = LocalAuthority.find_or_create_by!(name: "Default Authority", subdomain: "default")
       host! "default.example.com"
     when :system
+      @default_local_authority = LocalAuthority.find_or_create_by!(name: "Default Authority", subdomain: "default")
       host! "http://default.example.com"
     end
   end

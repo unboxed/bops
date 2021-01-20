@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "Document uploads", type: :system do
-  let(:local_authority) { create :local_authority }
+  let(:local_authority) { @default_local_authority }
   let!(:planning_application) do
     create :planning_application,
            :lawfulness_certificate,

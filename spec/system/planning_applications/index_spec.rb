@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application index page", type: :system do
-  let(:local_authority) { create :local_authority }
+  let(:local_authority) { @default_local_authority }
   let!(:planning_application_1) { create :planning_application, local_authority: local_authority }
   let!(:planning_application_2) { create :planning_application, local_authority: local_authority }
   let!(:planning_application_started) { create :planning_application, :awaiting_determination, local_authority: local_authority }

@@ -44,9 +44,7 @@ class DecisionsController < AuthenticationController
 private
 
   def set_planning_application
-    @planning_application = authorize(
-      PlanningApplication.find(params[:planning_application_id]),
-    )
+    @planning_application = current_local_authority.planning_applications.find(params[:planning_application_id])
   end
 
   def assign_assessor

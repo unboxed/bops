@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe "Planning Application Reviewing", type: :system do
   context "as a reviewer" do
     # Look at an application that has had some assessment work done by the assessor
-    let(:local_authority) { create :local_authority }
+    let(:local_authority) { @default_local_authority }
     let(:policy_evaluation) { create(:policy_evaluation, :met) }
     let!(:planning_application) do
       create :planning_application,

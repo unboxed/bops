@@ -26,13 +26,11 @@ class PlanningApplicationsController < AuthenticationController
 
   def index
     @planning_applications = if helpers.exclude_others? && current_user.assessor?
-                               policy_scope(
-                                 PlanningApplication.where(user_id: current_user.id).or(
-                                   PlanningApplication.where(user_id: nil),
-                                 ),
+                               current_local_authority.planning_applications.where(user_id: current_user.id).or(
+                                 PlanningApplication.where(user_id: nil),
                                )
                              else
-                               policy_scope(PlanningApplication.all)
+                               current_local_authority.planning_applications.all
                              end
   end
 
@@ -90,23 +88,18 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def cancel
-    status = authorize_user_can_update_status(params[:planning_application][:status])
-    apply_cancellation(status)
-    flash[:notice] = "Application has been cancelled"
-    redirect_to @planning_application
-  end
-
-  def apply_cancellation(status)
-    case status
+    case params[:planning_application][:status]
     when "withdrawn"
       @planning_application.withdraw!(:withdrawn, params[:planning_application][:cancellation_comment])
     when "returned"
       @planning_application.return!(:returned, params[:planning_application][:cancellation_comment])
     end
+    flash[:notice] = "Application has been cancelled"
+    redirect_to @planning_application
   end
 
   def validate_documents
-    status = authorize_user_can_update_status(params[:planning_application][:status])
+    status = params[:planning_application][:status]
     if status == "in_assessment"
       if date_from_params.blank?
         @planning_application.errors.add(:planning_application, "Please enter a valid date")
@@ -141,19 +134,7 @@ private
   end
 
   def set_planning_application
-    @planning_application = authorize(PlanningApplication.find(params[:id]))
-  end
-
-  def authorize_user_can_update_status(status)
-    if status.present? && unpermitted_status_for_user?(status)
-      raise Pundit::NotAuthorizedError
-    end
-
-    status
-  end
-
-  def unpermitted_status_for_user?(status)
-    status == :awaiting_determination if current_user.assessor?
+    @planning_application = current_local_authority.planning_applications.find(params[:id])
   end
 
   def decision_notice_mail
