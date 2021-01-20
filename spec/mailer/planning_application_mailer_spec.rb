@@ -43,31 +43,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "renders the body" do
-      expect(mail.body.encoded).to match("Certificate of lawfulness of proposed use or development: granted.")
-      expect(mail.body.encoded).to match("Applicant: #{planning_application.applicant_first_name} #{planning_application.applicant_last_name}")
-      expect(mail.body.encoded).to match("Date of Issue of this decision: #{planning_application.determined_at.strftime('%e %B %Y')}")
-      expect(mail.body.encoded).to match("Application received: #{planning_application.created_at.strftime('%e %B %Y')}")
-      expect(mail.body.encoded).to match("Address: #{planning_application.site.full_address}")
-      expect(mail.body.encoded).to match("Application number: #{planning_application.reference}")
-      expect(mail.body.encoded).to match("Local authority: #{planning_application.local_authority.name}")
-    end
-
-    it "renders numbers for active documents tags" do
-      expect(mail.body.encoded).to match("proposed_number_1")
-      expect(mail.body.encoded).to match("proposed_number_2")
-      expect(mail.body.encoded).to match("existing_number")
-    end
-
-    it "renders the name of the correct local authority signatory" do
-      expect(mail.body.encoded).to match("Cookie authority")
-      expect(mail.body.encoded).to match("Mr. Biscuit")
-      expect(mail.body.encoded).to match("Lord of BiscuitTown")
-      expect(mail.body.encoded).to match("reach us on postcode SW50")
-      expect(mail.body.encoded).to match("biscuit@somuchbiscuit.com")
-    end
-
-    it "does not render numbers for archived documents with proposed tags" do
-      expect(mail.body.encoded).not_to match("archived_number")
+      expect(mail.body.encoded).to include("Your Certificate of lawful development (proposed) has been granted.")
+      expect(mail.body.encoded).to include(decision_notice_api_v1_planning_application_path(planning_application, format: "pdf"))
     end
 
     context "for a rejected application" do
@@ -80,7 +57,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       end
 
       it "includes the status in the body" do
-        expect(mail.body.encoded).to match("Certificate of lawfulness of proposed use or development: refused.")
+        expect(mail.body.encoded).to include("Your Certificate of lawful development (proposed) has been refused.")
+        expect(mail.body.encoded).to include(decision_notice_api_v1_planning_application_path(planning_application, format: "pdf"))
       end
     end
   end

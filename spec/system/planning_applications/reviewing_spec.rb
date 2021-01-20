@@ -79,7 +79,6 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         expect(mail.to.first).to eq "bigplans@example.com"
         expect(mail.subject).to eq("Certificate of Lawfulness: granted")
-        expect(mail.body.encoded).to match("Certificate of lawfulness of proposed use or development: granted.")
 
         expect(page).to have_content("View the application")
         expect(page).to have_link("View the assessment")
@@ -172,7 +171,6 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
         expect(mail.to.first).to eq "bigplans@example.com"
         expect(mail.subject).to eq("Certificate of Lawfulness: granted")
-        expect(mail.body.encoded).to match("Certificate of lawfulness of existing use or development: granted.")
 
         expect(page).to have_content("View the application")
         expect(page).to have_link("View the assessment")
