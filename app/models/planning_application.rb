@@ -30,19 +30,6 @@ class PlanningApplication < ApplicationRecord
   validate :assessor_decision_associated_with_assessor
   validate :reviewer_decision_associated_with_reviewer
 
-  STATUSES = %w[not_started
-                invalidated
-                in_assessment
-                awaiting_determination
-                awaiting_correction
-                determined
-                returned
-                withdrawn].freeze
-
-  validates :status,
-            inclusion: { in: STATUSES,
-                         message: "Please select one of the below options" }
-
   WORK_STATUSES = %w[proposed existing].freeze
 
   validates :work_status,
