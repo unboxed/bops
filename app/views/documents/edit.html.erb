@@ -11,7 +11,7 @@
     </h1>
 
     <p class="govuk-body">
-      <%= display_address(@planning_application.site) %>
+      <%= @planning_application.site.full_address %>
     </p>
 
     <h2 class="govuk-heading-m"><%= @document.name %></h2>
