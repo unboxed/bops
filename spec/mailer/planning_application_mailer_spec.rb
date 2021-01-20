@@ -16,22 +16,16 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   let!(:planning_application) { create(:planning_application, :determined, local_authority: local_authority) }
   let!(:decision) { create(:decision, :granted, user: reviewer, planning_application: planning_application) }
 
-  let!(:document_with_proposed_tags) do
-    create :document, :proposed_tags,
+  let!(:document_with_tags) do
+    create :document, :with_tags,
            planning_application: planning_application,
            numbers: "proposed_number_1, proposed_number_2"
   end
 
-  let!(:archived_document_with_proposed_tags) do
-    create :document, :archived, :proposed_tags,
+  let!(:archived_document_with_tags) do
+    create :document, :archived, :with_tags,
            planning_application: planning_application,
            numbers: "archived_number"
-  end
-
-  let!(:document_with_existing_tags) do
-    create :document, :existing_tags,
-           planning_application: planning_application,
-           numbers: "existing_number"
   end
 
   describe "#decision_notice_mail" do
@@ -55,7 +49,6 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     it "renders numbers for active documents tags" do
       expect(mail.body.encoded).to match("proposed_number_1")
       expect(mail.body.encoded).to match("proposed_number_2")
-      expect(mail.body.encoded).to match("existing_number")
     end
 
     it "renders the name of the correct local authority signatory" do
@@ -66,7 +59,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(mail.body.encoded).to match("biscuit@somuchbiscuit.com")
     end
 
-    it "does not render numbers for archived documents with proposed tags" do
+    it "does not render numbers for archived documents" do
       expect(mail.body.encoded).not_to match("archived_number")
     end
 

@@ -9,33 +9,26 @@ class Document < ApplicationRecord
                          design: 1,
                          dimensions: 2,
                          other: 3 }
-
-  ORIENTATION_TAGS = [
-    "front elevation",
-    "side elevation",
-    "floor plan",
-    "section",
+  TAGS = %w[
+    Front
+    Rear
+    Side
+    Roof
+    Garden
+    Floor
+    Site
+    Plan
+    Elevation
+    Section
+    Proposed
+    Existing
   ].freeze
-
-  PROPOSED_TAGS = ORIENTATION_TAGS.product(%w[proposed]).map { |tags|
-    [tags.first, tags.second].join(" - ")
-  }.freeze
-
-  EXISTING_TAGS = ORIENTATION_TAGS.product(%w[existing]).map { |tags|
-    [tags.first, tags.second].join(" - ")
-  }.freeze
-
-  TAGS = (PROPOSED_TAGS + EXISTING_TAGS).freeze
 
   PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"].freeze
 
   validate :tag_values_permitted
   validate :file_content_type_permitted
 
-  scope :has_proposed_tag, lambda {
-    where("tags ?| array[:proposed_tag_array]",
-          proposed_tag_array: Document::PROPOSED_TAGS)
-  }
   scope :numbered, -> { where.not("numbers = '[]'") }
   scope :active, -> { where(archived_at: nil) }
 
@@ -67,8 +60,6 @@ class Document < ApplicationRecord
 private
 
   def tag_values_permitted
-    return if tags.empty?
-
     unless (tags - Document::TAGS).empty?
       errors.add(:tags, :unpermitted_tags)
     end

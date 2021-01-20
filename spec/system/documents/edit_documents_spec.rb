@@ -33,16 +33,16 @@ RSpec.describe "Edit document", type: :system do
       attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.pdf")
       fill_in "Document number(s)", with: "DOC001"
 
-      check("floor plan - existing")
-      check("section - proposed")
+      check("Floor")
+      check("Side")
 
       click_button("Save and return")
 
       expect(page).to have_content("Document has been updated")
       expect(page).to have_content("proposed-roofplan.pdf")
       expect(page).to have_content("DOC001")
-      expect(page).to have_css(".govuk-tag", text: "floor plan - existing")
-      expect(page).to have_css(".govuk-tag", text: "section - proposed")
+      expect(page).to have_css(".govuk-tag", text: "Floor")
+      expect(page).to have_css(".govuk-tag", text: "Side")
     end
 
     it "with wrong format document" do

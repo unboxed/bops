@@ -25,11 +25,11 @@
   },
   "files": [{
     "filename": "https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
-    "tags": "front elevation - proposed"
+    "tags": ["Side", "Elevation", "Proposed", "Plan"]
   },
     {
       "filename": "https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
-      "tags": "front elevation - existing"
+      "tags": ["Front", "Section", "Existing"]
     }],
   "constraints": {
     "conservation_area": true,

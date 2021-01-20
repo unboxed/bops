@@ -31,7 +31,7 @@ RSpec.describe "Planning Application correction journey", type: :system do
   # Required for submitting decision
   let!(:document) do
     create :document,
-           :proposed_tags,
+           :with_tags,
            :numbered,
            :with_file,
            planning_application: planning_application_corrected

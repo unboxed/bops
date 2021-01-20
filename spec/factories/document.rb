@@ -13,12 +13,8 @@ FactoryBot.define do
     archived_at { Time.zone.now }
   end
 
-  trait :proposed_tags do
-    tags { [Document::PROPOSED_TAGS.first] }
-  end
-
-  trait :existing_tags do
-    tags { [Document::EXISTING_TAGS.first] }
+  trait :with_tags do
+    tags { %w[Side Elevation Proposed] }
   end
 
   trait :numbered do

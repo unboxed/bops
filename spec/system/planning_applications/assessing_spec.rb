@@ -39,7 +39,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   let!(:document) do
-    create :document, :with_file, :proposed_tags,
+    create :document, :with_file, :with_tags,
            planning_application: planning_application
   end
 
@@ -232,7 +232,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   context "when a document for publication is added after initial numbering" do
     # Simulate a completed decision step
     let!(:assessor_decision) { create :decision, :granted, user: assessor, planning_application: planning_application }
-    let!(:new_document_to_number) { create :document, :with_file, :proposed_tags, planning_application: planning_application }
+    let!(:new_document_to_number) { create :document, :with_file, :with_tags, planning_application: planning_application }
 
     # Number the current document
     before { document.update(numbers: "a number") }

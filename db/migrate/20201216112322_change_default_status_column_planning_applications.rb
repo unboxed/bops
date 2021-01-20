@@ -1,5 +1,5 @@
-class ChangeDefaultStatusColumnPlanningApplications < ActiveRecord::Migration[6.0]
+class ChangeTagsNull < ActiveRecord::Migration[6.0]
   def change
-    change_column :planning_applications, :status, :string, default: "not_started", null: false
+    change_column_null :documents, :tags, true
   end
 end
