@@ -10,7 +10,7 @@
     </h1>
 
     <p class="govuk-body">
-      <%= display_address(@site) %>
+      <%= display_address(@planning_application.site) %>
     </p>
 
     <%= form_with model: @planning_application, url: cancel_planning_application_path(@planning_application), local: true do |form| %>

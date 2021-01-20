@@ -5,7 +5,7 @@
       render "assessor_decision",
         planning_application: @planning_application,
         assessor_decision: @planning_application.assessor_decision,
-        policy_evaluation: @policy_evaluation,
+        policy_evaluation: @planning_application.policy_evaluation,
         reviewer_decision: @planning_application.reviewer_decision
     %>
   <% else %>
@@ -14,7 +14,7 @@
       render "reviewer_decision",
         planning_application: @planning_application,
         reviewer_decision: @planning_application.reviewer_decision,
-        policy_evaluation: @policy_evaluation,
+        policy_evaluation: @planning_application.policy_evaluation,
         assessor_decision: @planning_application.assessor_decision
     %>
   <% end%>

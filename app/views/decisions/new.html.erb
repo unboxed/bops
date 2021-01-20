@@ -5,7 +5,7 @@
       render "assessor_decision_form",
         planning_application: @planning_application,
         decision: @decision,
-        policy_evaluation: @policy_evaluation
+        policy_evaluation: @planning_application.policy_evaluation
     %>
   <% else %>
     <% content_for :title, t("#{@planning_application.status}.proposal_step") %>
@@ -13,7 +13,7 @@
       render "reviewer_decision_form",
         planning_application: @planning_application,
         decision: @decision,
-        policy_evaluation: @policy_evaluation,
+        policy_evaluation: @planning_application.policy_evaluation,
         assessor_decision: @planning_application.assessor_decision
     %>
   <% end%>
