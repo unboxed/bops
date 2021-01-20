@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class PlanningApplicationsController < AuthenticationController
-  include PlanningApplicationDashboardVariables
-
   before_action :set_planning_application, only: %i[show
                                                     edit
                                                     assess
@@ -11,15 +9,6 @@ class PlanningApplicationsController < AuthenticationController
                                                     validate_documents
                                                     cancel_confirmation
                                                     cancel]
-  before_action :set_planning_application_dashboard_variables,
-                only: %i[show
-                         edit
-                         assess
-                         determine
-                         request_correction
-                         validate_documents
-                         cancel_confirmation
-                         cancel]
 
   rescue_from Notifications::Client::NotFoundError,
               with: :decision_notice_mail_error

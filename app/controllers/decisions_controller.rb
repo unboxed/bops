@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
 class DecisionsController < AuthenticationController
-  include PlanningApplicationDashboardVariables
-
   before_action :set_planning_application
-  before_action :set_planning_application_dashboard_variables
   before_action :assign_assessor
 
   def new

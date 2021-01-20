@@ -7,7 +7,7 @@
   Fast track application: <%= @planning_application.reference %>
 </h1>
 <p class="govuk-body">
-  <%= display_address(@site) %>
+  <%= display_address(@planning_application.site) %>
 </p>
 
 <%= render "success_flash" %>

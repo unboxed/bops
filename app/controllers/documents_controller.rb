@@ -2,7 +2,6 @@
 
 class DocumentsController < AuthenticationController
   include ActiveStorage::SetCurrent
-  include PlanningApplicationDashboardVariables
 
   before_action :set_planning_application
   before_action :set_document, except: %i[index
@@ -11,7 +10,6 @@ class DocumentsController < AuthenticationController
                                           create
                                           edit
                                           update]
-  before_action :set_planning_application_dashboard_variables
   before_action :disable_flash_header, only: :index
 
   def index
