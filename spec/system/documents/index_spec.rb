@@ -10,7 +10,6 @@ RSpec.describe "Documents index page", type: :system do
 
   let!(:planning_application) do
     create :planning_application,
-           :lawfulness_certificate,
            site: site,
            local_authority: local_authority
   end

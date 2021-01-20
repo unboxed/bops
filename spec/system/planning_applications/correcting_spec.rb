@@ -9,7 +9,6 @@ RSpec.describe "Planning Application correction journey", type: :system do
 
   let!(:planning_application_corrected) do
     create :planning_application,
-           :lawfulness_certificate,
            :awaiting_correction,
            local_authority: local_authority
   end

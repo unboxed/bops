@@ -6,7 +6,6 @@ RSpec.describe "Edit document numbers page", type: :system do
   let(:local_authority) { create :local_authority }
   let!(:planning_application) do
     create :planning_application,
-           :lawfulness_certificate,
            local_authority: local_authority
   end
   let(:assessor) { create :user, :assessor, local_authority: local_authority }

@@ -16,7 +16,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   let!(:planning_application) do
     create :planning_application, :not_started,
-           :lawfulness_certificate,
            local_authority: local_authority
   end
 

@@ -18,6 +18,7 @@ FactoryBot.define do
     applicant_last_name { Faker::Name.last_name }
     applicant_phone { Faker::Base.numerify("+44 7### ######") }
     applicant_email { Faker::Internet.email }
+    application_type { :lawfulness_certificate }
     questions do
       {
         flow: [
@@ -41,14 +42,6 @@ FactoryBot.define do
         protected_trees: false,
       }.to_json
     end
-  end
-
-  trait :lawfulness_certificate do
-    application_type { :lawfulness_certificate }
-  end
-
-  trait :full do
-    application_type { :full }
   end
 
   trait :awaiting_determination do
@@ -94,21 +87,5 @@ FactoryBot.define do
   trait :invalidated do
     status { :invalidated }
     invalidated_at { Time.zone.now }
-  end
-
-  trait :with_policy_evaluation_requirements_unmet do
-    after(:create) do |pa|
-      create :policy_evaluation,
-             status: :unmet,
-             planning_application: pa
-    end
-  end
-
-  trait :with_policy_evaluation_requirements_met do
-    after(:create) do |pa|
-      create :policy_evaluation,
-             status: :met,
-             planning_application: pa
-    end
   end
 end
