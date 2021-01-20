@@ -407,30 +407,6 @@ RSpec.describe PlanningApplication, type: :model do
     end
   end
 
-  describe "#documents_ready_for_publication?" do
-    let!(:proposed_document_1) do
-      create :document, :with_tags,
-             planning_application: planning_application,
-             numbers: "number"
-    end
-
-    let!(:archived_document) do
-      create :document, :with_tags, :archived,
-             planning_application: planning_application,
-             numbers: "number"
-    end
-
-    context "when there are no documents" do
-      before do
-        planning_application.documents.delete_all
-      end
-
-      it "returns false" do
-        expect(planning_application.documents_ready_for_publication?).to eq false
-      end
-    end
-  end
-
   describe "#target_date" do
     it "is set as created_at + 8 weeks when new record created" do
       planning_application = create(:planning_application)
