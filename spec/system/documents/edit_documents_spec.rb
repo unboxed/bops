@@ -10,7 +10,6 @@ RSpec.describe "Edit document", type: :system do
   end
   let!(:document) { create :document, :with_file, planning_application: planning_application }
   let(:assessor) { create :user, :assessor, local_authority: local_authority }
-  let(:reviewer) { create :user, :reviewer, local_authority: local_authority }
 
   context "as a user who is not logged in" do
     it "User cannot see edit_numbers page" do

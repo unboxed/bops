@@ -18,7 +18,6 @@ RSpec.describe "Planning Application show page", type: :system do
                                   constraints: '{"conservation_area": true, "article4_area": false, "scheduled_monument": false }'
   end
   let(:assessor) { create :user, :assessor, local_authority: local_authority }
-  let(:reviewer) { create :user, :reviewer, local_authority: local_authority }
 
   context "as an assessor" do
     before do

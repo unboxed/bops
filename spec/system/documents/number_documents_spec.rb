@@ -9,7 +9,6 @@ RSpec.describe "Edit document numbers page", type: :system do
            local_authority: local_authority
   end
   let(:assessor) { create :user, :assessor, local_authority: local_authority }
-  let(:reviewer) { create :user, :reviewer, local_authority: local_authority }
 
   context "as an assessor" do
     before do

@@ -3,7 +3,6 @@
 require "rails_helper"
 
 RSpec.describe "API request to list planning applications", type: :request, show_exceptions: true do
-  let(:api_user) { create :api_user }
   let(:reviewer) { create :user, :reviewer }
 
   describe "format" do
