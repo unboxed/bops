@@ -91,7 +91,7 @@ RSpec.describe "API request to list planning applications", type: :request, show
       context "for a granted planning application" do
         let!(:planning_application) { create(:planning_application, :determined, local_authority: @default_local_authority) }
         let!(:decision) { create(:decision, :granted, user: reviewer, planning_application: planning_application) }
-        let!(:document) { create(:document, :with_file, planning_application: planning_application) }
+        let!(:document) { create(:document, planning_application: planning_application) }
 
         it "returns the accurate data" do
           get "/api/v1/planning_applications/#{planning_application.id}"

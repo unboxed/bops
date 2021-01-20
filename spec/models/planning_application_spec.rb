@@ -41,7 +41,7 @@ RSpec.describe PlanningApplication, type: :model do
 
   describe "state transitions" do
     let!(:proposed_document_1) do
-      create :document, :with_file, :with_tags,
+      create :document, :with_tags,
              planning_application: planning_application,
              numbers: "number"
     end
@@ -73,7 +73,7 @@ RSpec.describe PlanningApplication, type: :model do
       subject(:planning_application) { create :planning_application, :not_started }
 
       let!(:proposed_drawing_1) do
-        create :document, :with_file, :with_tags,
+        create :document, :with_tags,
                planning_application: planning_application,
                numbers: "number"
       end
@@ -409,13 +409,13 @@ RSpec.describe PlanningApplication, type: :model do
 
   describe "#documents_ready_for_publication?" do
     let!(:proposed_document_1) do
-      create :document, :with_file, :with_tags,
+      create :document, :with_tags,
              planning_application: planning_application,
              numbers: "number"
     end
 
     let!(:archived_document) do
-      create :document, :with_file, :with_tags, :archived,
+      create :document, :with_tags, :archived,
              planning_application: planning_application,
              numbers: "number"
     end
