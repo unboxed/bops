@@ -148,12 +148,14 @@ private
   def decision_notice_mail
     PlanningApplicationMailer.decision_notice_mail(
       @planning_application,
+      request.host,
     ).deliver_now
   end
 
   def validation_notice_mail
     PlanningApplicationMailer.validation_notice_mail(
       @planning_application,
+      request.host,
     ).deliver_now
   end
 
