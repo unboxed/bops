@@ -3,10 +3,11 @@
 class PlanningApplicationMailer < Mail::Notify::Mailer
   NOTIFY_TEMPLATE_ID = "7cb31359-e913-4590-a458-3d0cefd0d283"
 
-  def decision_notice_mail(planning_application)
+  def decision_notice_mail(planning_application, host)
     @planning_application = planning_application
     @decision = @planning_application.reviewer_decision
     @documents = @planning_application.documents.for_publication
+    @host = host
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
@@ -15,7 +16,8 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
     )
   end
 
-  def validation_notice_mail(planning_application)
+  def validation_notice_mail(planning_application, host)
+    @host = host
     @planning_application = planning_application
 
     view_mail(

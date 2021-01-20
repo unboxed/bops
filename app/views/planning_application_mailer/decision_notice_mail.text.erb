@@ -2,4 +2,4 @@
 
 Your Certificate of lawful development (<%= @planning_application.work_status %>) has been <%= @decision.status %>.
 
-To see the full decision notice visit <%= decision_notice_api_v1_planning_application_url(@planning_application, format: 'pdf') %>
+To see the full decision notice visit <%= decision_notice_api_v1_planning_application_url(@planning_application, format: 'pdf', host: @host) %>

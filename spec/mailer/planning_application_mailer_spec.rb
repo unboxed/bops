@@ -15,6 +15,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   let!(:reviewer) { create :user, :reviewer, local_authority: local_authority }
   let!(:planning_application) { create(:planning_application, :determined, local_authority: local_authority) }
   let!(:decision) { create(:decision, :granted, user: reviewer, planning_application: planning_application) }
+  let(:host) { "default.example.com" }
 
   let!(:document_with_proposed_tags) do
     create :document, :proposed_tags,
@@ -35,7 +36,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   describe "#decision_notice_mail" do
-    let(:mail) { described_class.decision_notice_mail(planning_application.reload) }
+    let(:mail) { described_class.decision_notice_mail(planning_application.reload, host) }
 
     it "renders the headers" do
       expect(mail.subject).to eq("Certificate of Lawfulness: granted")
@@ -64,7 +65,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   describe "#validation_notice_mail" do
-    let(:validation_mail) { described_class.validation_notice_mail(planning_application.reload) }
+    let(:validation_mail) { described_class.validation_notice_mail(planning_application.reload, host) }
 
     it "renders the headers" do
       expect(validation_mail.subject).to eq("Your planning application has been validated")
