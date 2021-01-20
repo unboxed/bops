@@ -19,25 +19,20 @@ RSpec.describe "Edit document numbers page", type: :system do
     end
 
     context "when there are documents that require numbers" do
-      let!(:proposed_tag) { Document::PROPOSED_TAGS.first }
+      let!(:tag) { Document::TAGS.first }
 
       let!(:proposed_document_1) do
-        create :document, :with_file, tags: [proposed_tag],
-                                      planning_application: planning_application
+        create :document, :with_file, :with_tags,
+               planning_application: planning_application
       end
 
       let!(:proposed_document_2) do
-        create :document, :with_file, tags: [proposed_tag],
-                                      planning_application: planning_application
-      end
-
-      let!(:existing_document) do
-        create :document, :with_file, :existing_tags,
+        create :document, :with_file,
                planning_application: planning_application
       end
 
       let!(:archived_document) do
-        create :document, :with_file, :proposed_tags, :archived,
+        create :document, :with_file, :archived,
                planning_application: planning_application
       end
 
@@ -55,7 +50,9 @@ RSpec.describe "Edit document numbers page", type: :system do
         within(all(".app-task-list__item").first) do
           click_link "Edit"
         end
-        expect(page).to have_text(proposed_tag)
+        expect(page).to have_text("Side")
+        expect(page).to have_text("Elevation")
+        expect(page).to have_text("Proposed")
         expect(page).to have_text("proposed-floorplan.png")
       end
 

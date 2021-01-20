@@ -17,22 +17,16 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   let!(:decision) { create(:decision, :granted, user: reviewer, planning_application: planning_application) }
   let(:host) { "default.example.com" }
 
-  let!(:document_with_proposed_tags) do
-    create :document, :proposed_tags,
+  let!(:document_with_tags) do
+    create :document, :with_tags,
            planning_application: planning_application,
            numbers: "proposed_number_1, proposed_number_2"
   end
 
-  let!(:archived_document_with_proposed_tags) do
-    create :document, :archived, :proposed_tags,
+  let!(:archived_document_with_tags) do
+    create :document, :archived, :with_tags,
            planning_application: planning_application,
            numbers: "archived_number"
-  end
-
-  let!(:document_with_existing_tags) do
-    create :document, :existing_tags,
-           planning_application: planning_application,
-           numbers: "existing_number"
   end
 
   describe "#decision_notice_mail" do

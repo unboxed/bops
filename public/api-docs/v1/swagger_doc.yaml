@@ -67,7 +67,7 @@ paths:
                         archived_at: '2020-05-16T05:18:17.540Z'
                         archive_reason: other
                         tags:
-                          - front elevation - proposed
+                          ["Side", "Elevation", "Proposed"]
                         numbers: PLAN01
   "/api/v1/planning_applications":
     get:
@@ -221,8 +221,10 @@ paths:
                         type: string
                         example: https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf
                       tags:
-                        type: string
-                        example: front elevation - proposed
+                        type: array
+                        items:
+                          type: string
+                          example: "Side"
               required:
               - site
               - application_type
@@ -272,4 +274,5 @@ paths:
                     protected_trees: false
                   files:
                     - filename: https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf
-                      tags: front elevation - proposed
+                      tags:
+                        - Side

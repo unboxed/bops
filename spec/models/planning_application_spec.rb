@@ -41,7 +41,7 @@ RSpec.describe PlanningApplication, type: :model do
 
   describe "state transitions" do
     let!(:proposed_document_1) do
-      create :document, :with_file, :proposed_tags,
+      create :document, :with_file, :with_tags,
              planning_application: planning_application,
              numbers: "number"
     end
@@ -73,7 +73,7 @@ RSpec.describe PlanningApplication, type: :model do
       subject(:planning_application) { create :planning_application, :not_started }
 
       let!(:proposed_drawing_1) do
-        create :document, :with_file, :proposed_tags,
+        create :document, :with_file, :with_tags,
                planning_application: planning_application,
                numbers: "number"
       end
@@ -409,18 +409,13 @@ RSpec.describe PlanningApplication, type: :model do
 
   describe "#documents_ready_for_publication?" do
     let!(:proposed_document_1) do
-      create :document, :with_file, :proposed_tags,
+      create :document, :with_file, :with_tags,
              planning_application: planning_application,
              numbers: "number"
     end
 
-    let!(:existing_document) do
-      create :document, :with_file, :existing_tags,
-             planning_application: planning_application
-    end
-
     let!(:archived_document) do
-      create :document, :with_file, :proposed_tags, :archived,
+      create :document, :with_file, :with_tags, :archived,
              planning_application: planning_application,
              numbers: "number"
     end
@@ -446,41 +441,6 @@ RSpec.describe PlanningApplication, type: :model do
       planning_application = create(:planning_application)
       planning_application.update!(documents_validated_at: 1.week.ago)
       expect(planning_application.target_date).to eq((planning_application.documents_validated_at + 8.weeks).to_date)
-    end
-  end
-
-  describe "#document_numbering_partially_completed?" do
-    it "returns false when there are no documents" do
-      expect(planning_application.document_numbering_partially_completed?).to eq false
-    end
-
-    context "when all relevant documents are numbered" do
-      let!(:proposed_document_1) do
-        create :document, :proposed_tags,
-               planning_application: planning_application,
-               numbers: "number"
-      end
-
-      it "returns false" do
-        expect(planning_application.document_numbering_partially_completed?).to eq false
-      end
-    end
-
-    context "when one relevant document has a number and another does not" do
-      let!(:proposed_document_1) do
-        create :document, :proposed_tags,
-               planning_application: planning_application,
-               numbers: "number"
-      end
-
-      let!(:proposed_document_2) do
-        create :document, :proposed_tags,
-               planning_application: planning_application
-      end
-
-      it "returns true" do
-        expect(planning_application.document_numbering_partially_completed?).to eq true
-      end
     end
   end
 end
