@@ -172,14 +172,6 @@ class PlanningApplication < ApplicationRecord
     documents_for_publication.present?
   end
 
-  def document_numbering_partially_completed?
-    numbered_count = documents.has_proposed_tag.numbered.count
-
-    return false if numbered_count.zero?
-
-    numbered_count < documents.has_proposed_tag.count
-  end
-
   def recommendable?
     true unless determined? || returned? || withdrawn? || invalidated? || not_started?
   end

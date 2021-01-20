@@ -14,16 +14,6 @@ RSpec.describe Document, type: :model do
         expect(described_class.active).to match_array([active_document])
       end
     end
-
-    describe ".has_proposed_tag" do
-      let!(:untagged_document) { create :document }
-      let!(:proposed_document) { create :document, :proposed_tags }
-      let!(:existing_document) { create :document, :existing_tags }
-
-      it "scopes documents with proposed tags correctly" do
-        expect(described_class.has_proposed_tag).to match_array([proposed_document])
-      end
-    end
   end
 
   describe "validations" do
