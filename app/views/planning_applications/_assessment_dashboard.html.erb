@@ -12,7 +12,7 @@
       Fast track application: <%= @planning_application.reference %>
     </h1>
     <h2 class="govuk-heading-m" style="margin-bottom: 75px;">
-      <%= display_address(@planning_application.site) %>
+      <%= @planning_application.site.full_address %>
     </h2>
   </div>
   <div class="govuk-grid-column-one-third">

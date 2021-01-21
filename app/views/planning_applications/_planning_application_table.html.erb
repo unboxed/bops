@@ -28,7 +28,7 @@
         <td class="govuk-table__cell">
           <%= link_to planning_application.reference, planning_application %>
         </td>
-        <td class="govuk-table__cell"><%= display_address(planning_application.site) %></td>
+        <td class="govuk-table__cell"><%= planning_application.site.full_address %></td>
         <td class="govuk-table__cell"><%= t(planning_application.application_type) %></td>
         <td class="govuk-table__cell"><%= planning_application.target_date.strftime("%e %b") %></td>
         <td class="govuk-table__cell">

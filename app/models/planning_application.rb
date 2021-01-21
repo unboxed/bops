@@ -30,19 +30,6 @@ class PlanningApplication < ApplicationRecord
   validate :assessor_decision_associated_with_assessor
   validate :reviewer_decision_associated_with_reviewer
 
-  STATUSES = %w[not_started
-                invalidated
-                in_assessment
-                awaiting_determination
-                awaiting_correction
-                determined
-                returned
-                withdrawn].freeze
-
-  validates :status,
-            inclusion: { in: STATUSES,
-                         message: "Please select one of the below options" }
-
   WORK_STATUSES = %w[proposed existing].freeze
 
   validates :work_status,
@@ -166,12 +153,6 @@ class PlanningApplication < ApplicationRecord
     awaiting_correction? || determined?
   end
 
-  def documents_ready_for_publication?
-    documents_for_publication = documents.for_publication
-
-    documents_for_publication.present?
-  end
-
   def recommendable?
     true unless determined? || returned? || withdrawn? || invalidated? || not_started?
   end
@@ -180,8 +161,10 @@ class PlanningApplication < ApplicationRecord
     true unless determined? || returned? || withdrawn?
   end
 
-  def closed?
-    true if determined? || returned? || withdrawn?
+private
+
+  def set_target_date
+    self.target_date = (documents_validated_at || created_at) + 8.weeks
   end
 
   def documents_validated_at_date
@@ -192,12 +175,6 @@ class PlanningApplication < ApplicationRecord
 
   def has_validation_date?
     !documents_validated_at.nil?
-  end
-
-private
-
-  def set_target_date
-    self.target_date = (documents_validated_at || created_at) + 8.weeks
   end
 
   def assessor_decision_associated_with_assessor

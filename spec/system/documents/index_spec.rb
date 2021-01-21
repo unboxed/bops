@@ -6,11 +6,9 @@ RSpec.describe "Documents index page", type: :system do
   let!(:site) { create :site, address_1: "7 Elm Grove" }
   let(:local_authority) { create :local_authority }
   let(:assessor) { create :user, :assessor, local_authority: local_authority }
-  let(:reviewer) { create :user, :reviewer, local_authority: local_authority }
 
   let!(:planning_application) do
     create :planning_application,
-           :lawfulness_certificate,
            site: site,
            local_authority: local_authority
   end
