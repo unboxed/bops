@@ -132,7 +132,9 @@ private
   end
 
   def document_params
-    params.fetch(:document, {}).permit(:archive_reason, :name, :archived_at, :numbers, :file, tags: [])
+    document_params = params.fetch(:document, {}).permit(:archive_reason, :name, :archived_at, :numbers, :file, tags: [])
+    document_params[:tags].reject! {|tag| tag.blank? }
+    document_params
   end
 
   def document_upload_params
@@ -147,10 +149,6 @@ private
 
   def document_form_params
     params.permit document_form: %i[document_id archive_reason updated_at]
-  end
-
-  def document_numbers_params
-    params.permit document_form: %i[document_id numbers]
   end
 
   def form_params
