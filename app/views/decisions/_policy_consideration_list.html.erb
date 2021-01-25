@@ -1,5 +1,5 @@
 <ol class="govuk-body" style="line-height: 2;">
-  <% policy_considerations.each do |policy_consideration| %>
+  <% policy_considerations.order(created_at: :asc).each do |policy_consideration| %>
     <%= render "question_answer_pair", policy_consideration: policy_consideration %>
   <% end %>
 </ol>
