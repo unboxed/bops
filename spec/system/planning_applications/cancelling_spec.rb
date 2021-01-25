@@ -49,6 +49,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       expect(page).not_to have_content("Cancel application")
+      expect(page).to have_content("This has been cancelled")
+      expect(page).to have_css(".govuk-tag--grey")
     end
 
     it "Return from Not Started" do
@@ -75,6 +77,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       expect(page).not_to have_content("Cancel application")
+      expect(page).to have_content("This has been cancelled")
+      expect(page).to have_css(".govuk-tag--grey")
     end
   end
 
@@ -135,6 +139,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       expect(page).not_to have_content("Cancel application")
+      expect(page).to have_content("This has been cancelled")
     end
   end
 
