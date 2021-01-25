@@ -1,0 +1,15 @@
+<p class="govuk-body">
+<!--  <strong class="govuk-tag govuk-tag--<%#= display_status(@planning_application)["color"] %>">-->
+    <% if @planning_application.cancellable? %>
+      <%= @planning_application.status %>
+      Due: <%= @planning_application.target_date.strftime("%d %B") %> - <%= @planning_application.days_left %>
+      days
+      remaining
+    <% elsif @planning_application.determined?%>
+      <%= @planning_application.status %> <%= @planning_application.determined_at.strftime("%d %B") %>
+    <% else %>
+      <%= @planning_application.status %>
+      <%= @planning_application.cancellation_comment %>
+    <% end %>
+<!--  </strong>-->
+</p>
