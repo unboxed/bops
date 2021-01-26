@@ -1,0 +1,19 @@
+<p class="govuk-body">
+  <% if @planning_application.in_progress? %>
+    <strong class="govuk-tag govuk-tag--<%= display_status(@planning_application)[:color] %>">
+    <%= display_status(@planning_application)[:decision] %>
+    </strong>
+    Due: <%= @planning_application.target_date.strftime("%d %B") %> - <%= @planning_application.days_left %>
+    days
+    remaining
+  <% elsif @planning_application.determined?%>
+    <strong class="govuk-tag govuk-tag--<%= display_status(@planning_application)[:color] %>">
+      <%= display_status(@planning_application)[:decision] %>
+    </strong> <%= @planning_application.determined_at.strftime("%d %B") %>
+  <% else %>
+    <strong class="govuk-tag govuk-tag--<%= display_status(@planning_application)[:color] %>">
+      <%= display_status(@planning_application)[:decision] %>
+    </strong>  <%= cancelled_at(@planning_application).strftime("%d %B") %><br/><br/>
+    <%= @planning_application.cancellation_comment %>
+  <% end %>
+</p>

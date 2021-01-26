@@ -183,6 +183,7 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
 
   describe "#display_status" do
     let(:planning_application) { create :planning_application }
+    let(:awaiting_planning_application) { create :planning_application, :awaiting_determination }
 
     it "returns correct values when application is withdrawn" do
       planning_application.withdraw!
@@ -194,6 +195,17 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
       planning_application.return!
       expect(display_status(planning_application)[:decision]).to eql("returned")
       expect(display_status(planning_application)[:color]).to eql("grey")
+    end
+
+    it "returns correct values when application is in assessment" do
+      planning_application.start!
+      expect(display_status(planning_application)[:decision]).to eql("In assessment")
+      expect(display_status(planning_application)[:color]).to eql("turquoise")
+    end
+
+    it "returns correct values when application is awaiting determination" do
+      expect(display_status(awaiting_planning_application)[:decision]).to eql("Awaiting determination")
+      expect(display_status(awaiting_planning_application)[:color]).to eql("purple")
     end
   end
 end

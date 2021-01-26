@@ -37,10 +37,11 @@ RSpec.describe "Planning Application show page", type: :system do
       expect(page).to have_text("Fast track application: #{planning_application.reference}")
     end
 
-    it "Target date is correct and label is green" do
+    it "Target date is correct and label is turquoise" do
       expect(page).to have_text("Due: #{planning_application.target_date.strftime('%d %B')}")
       expect(page).to have_text("#{planning_application.days_left} days remaining")
-      expect(page).to have_css(".govuk-tag--green")
+      expect(page).to have_css(".govuk-tag--turquoise")
+      expect(page).to have_content("In assessment")
     end
 
     it "Applicant information accordion" do
@@ -119,10 +120,9 @@ RSpec.describe "Planning Application show page", type: :system do
       visit planning_application_path(planning_application.id)
     end
 
-    it "Target date is correct and label is red" do
+    it "Target date is correct" do
       expect(page).to have_text("Due: #{planning_application.target_date.strftime('%d %B')}")
       expect(page).to have_text("#{planning_application.days_left} days remaining")
-      expect(page).to have_css(".govuk-tag--red")
     end
 
     it "Breadcrumbs contain reference to Application overview which is not linked" do

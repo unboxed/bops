@@ -176,6 +176,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).not_to have_content("Completed")
     end
 
+    expect(page).to have_css(".govuk-tag--purple")
+    expect(page).to have_content("Awaiting determination")
+
     click_link "Review the recommendation"
     click_link "Back"
 
