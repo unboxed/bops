@@ -19,7 +19,7 @@
 </div>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds application">
-    <% if @planning_application.cancellable? %>
+    <% if @planning_application.in_progress? %>
       <p class="govuk-body">
         <%= link_to "Cancel application", cancel_confirmation_planning_application_path(@planning_application) %>
       </p>

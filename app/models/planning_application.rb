@@ -157,7 +157,7 @@ class PlanningApplication < ApplicationRecord
     true unless determined? || returned? || withdrawn? || invalidated? || not_started?
   end
 
-  def cancellable?
+  def in_progress?
     true unless determined? || returned? || withdrawn?
   end
 

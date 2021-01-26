@@ -1,5 +1,5 @@
 <p class="govuk-body">
-  <% if @planning_application.cancellable? %>
+  <% if @planning_application.in_progress? %>
     <strong class="govuk-tag govuk-tag--<%= display_status(@planning_application)[:color] %>">
     <%= display_status(@planning_application)[:decision] %>
     </strong>
