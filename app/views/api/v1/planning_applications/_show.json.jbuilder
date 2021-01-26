@@ -34,12 +34,10 @@ json.received_date planning_application.created_at
 json.decision planning_application.reviewer_decision.status if planning_application.reviewer_decision
 json.questions JSON.parse(planning_application.questions) if planning_application.questions
 json.constraints JSON.parse(planning_application.constraints) if planning_application.constraints
-json.documents planning_application.documents do |document|
+json.documents planning_application.documents.for_publication do |document|
   json.url api_v1_planning_application_document_url(planning_application, document)
   json.extract! document,
                 :created_at,
-                :archived_at,
-                :archive_reason,
                 :tags,
                 :numbers
 end

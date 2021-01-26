@@ -90,7 +90,9 @@ RSpec.describe "API request to list planning applications", type: :request, show
       context "for a granted planning application" do
         let!(:planning_application) { create(:planning_application, :determined, local_authority: @default_local_authority) }
         let!(:decision) { create(:decision, :granted, user: reviewer, planning_application: planning_application) }
-        let!(:document) { create(:document, planning_application: planning_application) }
+        let!(:document_with_number) { create(:document, :numbered, planning_application: planning_application) }
+        let!(:document_without_number) { create(:document, planning_application: planning_application) }
+        let!(:document_archived) { create(:document, :numbered, :archived, planning_application: planning_application) }
 
         it "returns the accurate data" do
           get "/api/v1/planning_applications/#{planning_application.id}"
@@ -128,12 +130,13 @@ RSpec.describe "API request to list planning applications", type: :request, show
           expect(planning_application_json["site"]["uprn"]).to eq(planning_application.site.uprn)
           expect(planning_application_json["questions"]).to eq(JSON.parse(planning_application.questions))
           expect(planning_application_json["constraints"]).to eq(JSON.parse(planning_application.constraints))
-          expect(planning_application_json["documents"].first["url"]).to eq(api_v1_planning_application_document_url(planning_application, document))
-          expect(planning_application_json["documents"].first["created_at"]).to eq(json_time_format(document.created_at))
-          expect(planning_application_json["documents"].first["archived_at"]).to eq(json_time_format(document.archived_at))
-          expect(planning_application_json["documents"].first["archive_reason"]).to eq(document.archive_reason)
-          expect(planning_application_json["documents"].first["tags"]).to eq(document.tags)
-          expect(planning_application_json["documents"].first["numbers"]).to eq(document.numbers)
+          expect(planning_application_json["documents"].size).to eq(1)
+          expect(planning_application_json["documents"].first["url"]).to eq(api_v1_planning_application_document_url(planning_application, document_with_number))
+          expect(planning_application_json["documents"].first["created_at"]).to eq(json_time_format(document_with_number.created_at))
+          expect(planning_application_json["documents"].first["archived_at"]).to eq(json_time_format(document_with_number.archived_at))
+          expect(planning_application_json["documents"].first["archive_reason"]).to eq(document_with_number.archive_reason)
+          expect(planning_application_json["documents"].first["tags"]).to eq(document_with_number.tags)
+          expect(planning_application_json["documents"].first["numbers"]).to eq(document_with_number.numbers)
         end
       end
     end
