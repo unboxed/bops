@@ -136,6 +136,7 @@ RSpec.describe "Planning Application correction journey", type: :system do
       expect(page).not_to have_css("corrections-banner")
       click_link "Corrections requested"
       expect(page).to have_text(planning_application_corrected.reference)
+      expect(page).to have_css(".govuk-tag--green")
     end
 
     it "Reviewer is unable to submit correction without reason" do
