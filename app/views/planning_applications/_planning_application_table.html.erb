@@ -7,14 +7,11 @@
       <th scope="col" class="govuk-table__header">Site address</th>
       <th scope="col" class="govuk-table__header">Application type</th>
       <th scope="col" class="govuk-table__header">Target date</th>
-      <% if id == "closed" %>
-        <th scope="col" class="govuk-table__header">Decision</th>
-      <% else %>
+      <% if id != "closed" %>
         <th scope="col" class="govuk-table__header">Days left</th>
       <% end %>
-      <% if (id == "in_assessment" || id == "not_started_and_invalid") %>
-        <th scope="col" class="govuk-table__header">Status</th>
-      <% elsif id == "awaiting_determination" %>
+      <th scope="col" class="govuk-table__header">Status</th>
+      <% if id == "awaiting_determination" %>
         <th scope="col" class="govuk-table__header">Recommendation date</th>
       <% elsif id == "closed" %>
         <th scope="col" class="govuk-table__header">Determination date</th>
@@ -31,26 +28,19 @@
         <td class="govuk-table__cell"><%= planning_application.site.full_address %></td>
         <td class="govuk-table__cell"><%= t(planning_application.application_type) %></td>
         <td class="govuk-table__cell"><%= planning_application.target_date.strftime("%e %b") %></td>
-        <td class="govuk-table__cell">
-          <% if id == "closed" %>
-            <strong class="govuk-tag govuk-tag--<%= display_status(planning_application)[:color] %>">
-              <%= display_status(planning_application)[:decision] %>
-            </strong>
-          <% else %>
+        <% if id != "closed" %>
+          <td class="govuk-table__cell">
             <strong class="govuk-tag govuk-tag--<%= days_color(planning_application.days_left) %>">
               <%= planning_application.days_left %>
             </strong>
-          <% end %>
+          </td>
+        <% end %>
+        <td class="govuk-table__cell">
+          <strong class="govuk-tag govuk-tag--<%= display_status(planning_application)[:color] %>">
+            <%= display_status(planning_application)[:decision] %>
+          </strong>
         </td>
-        <% if id == "in_assessment" %>
-          <td class="govuk-table__cell">Not required</td>
-        <% elsif id == "not_started_and_invalid" %>
-            <td class="govuk-table__cell">
-              <strong class="govuk-tag govuk-tag--<%= display_status(planning_application)[:color] %>">
-                <%= display_status(planning_application)[:decision] %>
-              </strong>
-            </td>
-        <% elsif id == "awaiting_determination" %>
+        <% if id == "awaiting_determination" %>
           <td class="govuk-table__cell"><%= planning_application.awaiting_determination_at.strftime("%e %b") %></td>
         <% elsif id == "closed" %>
           <td class="govuk-table__cell"><%= planning_application.determined_at.strftime("%e %b") if planning_application.determined? %></td>

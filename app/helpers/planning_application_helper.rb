@@ -43,7 +43,7 @@ module PlanningApplicationHelper
     elsif planning_application.status == "awaiting_determination"
       { color: "purple", decision: "Awaiting determination" }
     elsif planning_application.status == "awaiting_correction"
-      { color: "purple", decision: "Awaiting correction" }
+      { color: "green", decision: "Awaiting correction" }
     else
       { color: "grey", decision: planning_application.status }
     end

@@ -49,6 +49,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   it "Assessment completing and editing" do
     click_link "In assessment"
+    expect(page).to have_css(".govuk-tag--turquoise")
     click_link planning_application.reference
 
     expect(page).to have_content("Make recommendation")
@@ -196,6 +197,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     # Check that the application is now in awaiting determination
     click_link "Awaiting determination"
+
+    expect(page).to have_css(".govuk-tag--purple")
 
     within("#awaiting_determination") do
       click_link planning_application.reference
