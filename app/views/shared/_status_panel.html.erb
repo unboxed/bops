@@ -3,17 +3,19 @@
     <strong class="govuk-tag govuk-tag--<%= display_status(@planning_application)[:color] %>">
     <%= display_status(@planning_application)[:decision] %>
     </strong>
-    Due: <%= @planning_application.target_date.strftime("%d %B") %> - <%= @planning_application.days_left %>
+    &nbsp;Due: <%= @planning_application.target_date.strftime("%d %B %Y") %> - <%= @planning_application.days_left %>
     days
     remaining
   <% elsif @planning_application.determined?%>
     <strong class="govuk-tag govuk-tag--<%= display_status(@planning_application)[:color] %>">
-      <%= display_status(@planning_application)[:decision] %>
-    </strong> <%= @planning_application.determined_at.strftime("%d %B") %>
+      <%= display_status(@planning_application)[:decision] %>&nbsp;
+    </strong>
+    &nbsp;<%= @planning_application.determined_at.strftime("%d %B %Y") %>
   <% else %>
     <strong class="govuk-tag govuk-tag--<%= display_status(@planning_application)[:color] %>">
-      <%= display_status(@planning_application)[:decision] %>
-    </strong>  <%= cancelled_at(@planning_application).strftime("%d %B") %><br/><br/>
-    <%= @planning_application.cancellation_comment %>
+      <%= display_status(@planning_application)[:decision] %>&nbsp;
+    </strong>
+    &nbsp;<%= cancelled_at(@planning_application).strftime("%d %B %Y") %><br/><br/>
+    <%= @planning_application.cancellation_comment %><br/><br/>
   <% end %>
 </p>
