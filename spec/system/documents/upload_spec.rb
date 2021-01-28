@@ -27,74 +27,24 @@ RSpec.describe "Document uploads", type: :system do
         check("Floor")
         check("Side")
 
-        click_button("Continue")
+        click_button("Save")
 
         expect(page).to have_css("img[src*=\"proposed-roofplan.pdf\"]")
 
         expect(page).to have_css(".govuk-tag", text: "Floor")
         expect(page).to have_css(".govuk-tag", text: "Side")
 
-        choose("No, I need to go back")
-
-        click_button("Continue")
-
-        expect(page).to have_checked_field("Floor")
-        expect(page).to have_checked_field("Side")
-
-        attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.pdf")
-
-        uncheck("Floor")
-
-        # tag remains checked
-        check("Roof")
-
-        click_button("Continue")
-
-        expect(page).to have_css("img[src*=\"proposed-roofplan.pdf\"]")
-
-        expect(page).to have_css(".govuk-tag", text: "Side")
-        expect(page).to have_css(".govuk-tag", text: "Roof")
-
-        choose("Yes, upload this file")
-
-        click_button("Continue")
-
-        expect(page).to have_content("proposed-roofplan.pdf has been uploaded.")
-
-        expect(page).to have_css(".current-documents > li", count: 2)
-
-        within(all(".current-documents > li").last) do
-          # The newly added document is last in the list
-          expect(page).to have_css("img[src*=\"proposed-roofplan.pdf\"]")
-
-          expect(page).to have_css(".govuk-tag", text: "Side")
-          expect(page).to have_css(".govuk-tag", text: "Roof")
-        end
-
         find(".govuk-breadcrumbs").click_link("Application")
 
         click_button("Proposal documents")
 
         within(find(".scroll-docs")) do
-          expect(all("img").count).to eq 2
+          expect(all("img").count).to eq 3
           expect(all("img").last["src"]).to have_content("proposed-roofplan.pdf")
 
           expect(page).to have_css(".govuk-tag", text: "Side")
-          expect(page).to have_css(".govuk-tag", text: "Roof")
+          expect(page).to have_css(".govuk-tag", text: "Floor")
         end
-      end
-
-      it "cannot progress to confirmation without a tagged document" do
-        visit planning_application_documents_path(planning_application)
-
-        click_link("Upload documents")
-
-        click_button("Continue")
-
-        expect(page).to have_content("Upload new document")
-
-        expect(page).to have_content("Please choose a file")
-        expect(page).to have_content("Please select one or more tags")
       end
 
       it "cannot upload a document in the wrong format" do
@@ -106,30 +56,33 @@ RSpec.describe "Document uploads", type: :system do
 
         check("Floor")
 
-        click_button("Continue")
-
-        choose("Yes, upload this file")
-
-        click_button("Continue")
+        click_button("Save")
 
         expect(page).to have_content("The selected file must be a PDF, JPG or PNG")
       end
 
-      it "shows an error message when no action is selected on the confirmation page" do
+      it "cannot save without a document being attached" do
+        visit planning_application_documents_path(planning_application)
+
+        click_link("Upload documents")
+
+        check("Floor")
+
+        click_button("Save")
+
+        expect(page).to have_content("Please choose a file")
+      end
+
+      it "saves document if no tags are selected" do
         visit planning_application_documents_path(planning_application)
 
         click_link("Upload documents")
 
         attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.pdf")
 
-        check("Side")
+        click_button("Save")
 
-        click_button("Continue")
-
-        click_button("Continue")
-
-        expect(page).to have_content("Confirm document")
-        expect(page).to have_content("Please select one of the below options")
+        expect(page).to have_content("proposed-roofplan.pdf has been uploaded")
       end
     end
 

@@ -6,7 +6,6 @@ class DocumentsController < AuthenticationController
   before_action :set_planning_application
   before_action :set_document, except: %i[index
                                           new
-                                          confirm_new
                                           create
                                           edit
                                           update]
@@ -36,48 +35,32 @@ class DocumentsController < AuthenticationController
   end
 
   def new
-    @document_form = DocumentWizard::UploadForm.new
+    @document = @planning_application.documents.build
   end
 
   def create
-    @document_form = DocumentWizard::ConfirmUploadForm.new(
-      document_upload_confirmation_params,
-    )
-
-    if !@document_form.valid?
-      @blob = ActiveStorage::Blob.find_signed(@document_form.file)
-      render :confirm_new
-    elsif !@document_form.confirmed?
-      @document_form = DocumentWizard::UploadForm.new(document_upload_params)
-      render :new
-    else
-      document = @planning_application.documents.build(document_upload_params)
-
-      if document.save
-        flash[:notice] = "#{document.file.filename} has been uploaded."
-        redirect_to planning_application_documents_path
-      else
-        @document_form = DocumentWizard::UploadForm.new(document_upload_params)
-        @document_form.validate
-        @document_form.errors.merge!(document.errors)
-        render :new
+    @document = @planning_application.documents.build
+    unless document_params[:file].nil?
+      document_params.each do |_param|
+        @blob = ActiveStorage::Blob.find_signed(document_params[:file])
+        # rubocop:disable Rails/SaveBang
+        @document = @planning_application.documents.create(tags: document_params[:tags], file: document_params[:file])
+        # rubocop:enable Rails/SaveBang
+        @document.file.attach(@blob)
       end
+    end
+
+    if !@blob.nil? && @document.save
+      flash[:notice] = "#{@document.file.filename} has been uploaded."
+      redirect_to planning_application_documents_path
+    else
+      @document.errors.add(:file, :missing_file)
+      render :new
     end
   end
 
   def confirm
     assign_archive_reason_to_form
-  end
-
-  def confirm_new
-    @document_form = DocumentWizard::UploadForm.new(document_upload_params)
-
-    if @document_form.valid?
-      # progress to the confirmation step
-      @blob = ActiveStorage::Blob.find_signed(@document_form.file)
-    else
-      render :new
-    end
   end
 
   def validate_archive_reason
@@ -133,18 +116,12 @@ private
 
   def document_params
     document_params = params.fetch(:document, {}).permit(:archive_reason, :name, :archived_at, :numbers, :file, tags: [])
-    document_params[:tags].reject! {|tag| tag.blank? }
+    document_params[:tags].reject!(&:blank?)
     document_params
   end
 
   def document_upload_params
-    params.fetch(:document_form, {}).permit(:file, tags: [])
-  end
-
-  def document_upload_confirmation_params
-    document_upload_params.merge(
-      params.fetch(:document_form, {}).permit(:confirmation),
-    )
+    params.fetch(:document, {}).permit(:file, tags: [])
   end
 
   def document_form_params
