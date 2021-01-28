@@ -41,7 +41,7 @@ RSpec.describe "Edit document numbers page", type: :system do
       it "Assessor can see content for the right application" do
         expect(page).to have_text(planning_application.reference)
 
-        expect(page).to have_text("These will be published in the decision notice.")
+        expect(page).to have_text("only documents with document numbers will be be listed on the decision notice")
       end
 
       it "Assessor can see information about the document" do
