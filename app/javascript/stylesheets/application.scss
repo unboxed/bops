@@ -56,6 +56,10 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
   }
 }
 
+.planning_application_status {
+  padding-left: 0.5em;
+}
+
 .moj-banner__assistive {
   @include govuk-visually-hidden;
 }
