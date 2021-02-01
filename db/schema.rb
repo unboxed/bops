@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_25_111704) do
+ActiveRecord::Schema.define(version: 2021_01_28_175210) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,6 +114,8 @@ ActiveRecord::Schema.define(version: 2021_01_25_111704) do
     t.text "cancellation_comment"
     t.date "documents_validated_at"
     t.string "work_status", default: "proposed"
+    t.string "decision"
+    t.text "public_comment"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
     t.index ["site_id"], name: "index_planning_applications_on_site_id"
     t.index ["user_id"], name: "index_planning_applications_on_user_id"
@@ -134,6 +136,20 @@ ActiveRecord::Schema.define(version: 2021_01_25_111704) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "status", default: 0, null: false
     t.index ["planning_application_id"], name: "index_policy_evaluations_on_planning_application_id"
+  end
+
+  create_table "recommendations", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.bigint "assessor_id", null: false
+    t.bigint "reviewer_id"
+    t.text "assessor_comment"
+    t.text "reviewer_comment"
+    t.datetime "reviewed_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["assessor_id"], name: "index_recommendations_on_assessor_id"
+    t.index ["planning_application_id"], name: "index_recommendations_on_planning_application_id"
+    t.index ["reviewer_id"], name: "index_recommendations_on_reviewer_id"
   end
 
   create_table "sites", force: :cascade do |t|
@@ -166,4 +182,7 @@ ActiveRecord::Schema.define(version: 2021_01_25_111704) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "planning_applications", "users"
+  add_foreign_key "recommendations", "planning_applications"
+  add_foreign_key "recommendations", "users", column: "assessor_id"
+  add_foreign_key "recommendations", "users", column: "reviewer_id"
 end
