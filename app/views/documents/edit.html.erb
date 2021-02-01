@@ -16,10 +16,6 @@
 
     <h2 class="govuk-heading-m"><%= @document.name %></h2>
 
-    <p class="govuk-body" style="line-height: 1.6;">
-      If you add one or more numbers to this document, it will be published in the decision notice. Only documents with numbers will appear on the decision notice.
-    </p>
-
     <%= link_to image_tag(@document.file.representation(resize: "500x500")),
                 api_v1_planning_application_document_url(@planning_application, @document), target: :_blank %>
     <p class="govuk-body">
@@ -37,7 +33,7 @@
         <% end %>
         <%= form.label :numbers, "Document number(s)", class: "govuk-label", for: "numbers" %>
         <div id="event-name-hint" class="govuk-hint">
-          If there are multiple numbers, please provide a comma-separated list.
+          Please enter numbers for all documents you wish to appear on the decision notice. Do not add numbers for documents that should not be publicly available. Where documents contain multiple drawings, enter multiple numbers separated by a comma (e.g. "25A-V2, 25B-V2").
         </div>
         <%= form.text_area :numbers, class: "govuk-input govuk-input--width-20", id: "numbers" %>
       </div>
