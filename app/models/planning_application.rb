@@ -117,29 +117,19 @@ class PlanningApplication < ApplicationRecord
   end
 
   def correction_provided?
-    awaiting_determination? && reviewer_decision&.private_comment.present?
+    awaiting_correction?
   end
 
   def reviewer_disagrees_with_assessor?
-    return false unless reviewer_decision && assessor_decision
-
-    reviewer_decision.status != assessor_decision.status
+    awaiting_correction?
   end
 
   def assessor_decision_updated?
-    return false unless assessor_decision && reviewer_decision
-
-    assessor_decision.decided_at > reviewer_decision.decided_at
+    awaiting_determination? && recommendations.count > 1
   end
 
   def reviewer_decision_updated?
-    return false unless reviewer_decision && assessor_decision
-
-    reviewer_decision.decided_at > assessor_decision.decided_at
-  end
-
-  def assessment_complete?
-    awaiting_determination? || determined?
+    awaiting_correction? && recommendations.count > 1
   end
 
   def agent?
@@ -160,6 +150,66 @@ class PlanningApplication < ApplicationRecord
 
   def in_progress?
     true unless determined? || returned? || withdrawn?
+  end
+
+  def refused?
+    decision == "refused"
+  end
+
+  def granted?
+    decision == "granted"
+  end
+
+  def can_validate?
+    true unless determined? || returned? || withdrawn?
+  end
+
+  def validation_complete?
+    !not_started?
+  end
+
+  def can_assess?
+    in_assessment? || awaiting_correction?
+  end
+
+  def assessment_complete?
+    (validation_complete? && pending_review?) || awaiting_determination? || determined?
+  end
+
+  def can_submit_recommendation?
+    assessment_complete? && (in_assessment? || awaiting_correction?)
+  end
+
+  def submit_recommendation_complete?
+    awaiting_determination? || determined?
+  end
+
+  def can_review_assessment?
+    awaiting_determination?
+  end
+
+  def review_assessment_complete?
+    (awaiting_determination? && !pending_review?) || determined?
+  end
+
+  def can_publish?
+    awaiting_determination? && !pending_review?
+  end
+
+  def publish_complete?
+    determined?
+  end
+
+  def refused_with_public_comment?
+    refused? && public_comment.present?
+  end
+
+  def pending_review?
+    recommendations.where(reviewed_at: nil).any?
+  end
+
+  def pending_recommendation?
+    may_assess? && !pending_review?
   end
 
 private
