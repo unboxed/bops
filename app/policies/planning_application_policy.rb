@@ -15,6 +15,12 @@ class PlanningApplicationPolicy < ApplicationPolicy
   alias_method :request_correction?, :editor?
   alias_method :update_numbers?, :editor?
   alias_method :assign?, :editor?
+  alias_method :recommendation_form?, :editor?
+  alias_method :recommend?, :editor?
+  alias_method :submit_recommendation?, :editor?
+  alias_method :review_form?, :editor?
+  alias_method :review?, :editor?
+  alias_method :publish?, :editor?
 
   def show?
     (super || signed_in_viewer?) && record.local_authority_id == user.local_authority_id

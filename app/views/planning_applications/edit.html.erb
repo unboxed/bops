@@ -22,7 +22,7 @@
         </strong>
        If your manager disagrees with your recommendation they will send it back to you to make changes.
       </p>
-      <%= form_with model: @planning_application, url: assess_planning_application_path(@planning_application), local: true do |form| %>
+      <%= form_with model: @planning_application, url: submit_recommendation_planning_application_path(@planning_application), local: true do |form| %>
         <%= form.submit "Submit to manager", class: "govuk-button", data: { module: "govuk-button" } %>
       <% end %>
     <% else %>

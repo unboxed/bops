@@ -11,6 +11,7 @@ class PlanningApplication < ApplicationRecord
   has_many :decisions, dependent: :destroy
 
   has_many :documents, dependent: :destroy
+  has_many :recommendations, dependent: :destroy
 
   has_one :assessor_decision, lambda {
                                 joins(:user).where(users: { role: :assessor })

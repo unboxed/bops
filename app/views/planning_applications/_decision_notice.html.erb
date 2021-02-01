@@ -10,7 +10,7 @@
   </h3>
   <p class="govuk-body">
     Certificate of lawfulness of <%= @planning_application.work_status %> use or development:
-    <strong><%= decision.status %>.</strong>
+    <strong><%= planning_application.decision %>.</strong>
   </p>
   <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
   <dl class="govuk-summary-list govuk-summary-list--no-border">
@@ -39,7 +39,7 @@
   <p class="govuk-body">
     <%= planning_application.description %>
   </p>
-  <% if decision.granted? %>
+  <% if planning_application.granted? %>
     <p class="govuk-body">
       IT IS HEREBY CERTIFIED that the use or operations described below are
       <strong>lawful</strong> for the purposes of S.192 of the Town and Country Planning Act 1990 in accordance with the valid application received on <%= planning_application.created_at.strftime("%d/%m/%Y") %> and supporting documents listed below. Full application is available on the planning register.
@@ -51,15 +51,15 @@
     <p class="govuk-body">
       The development shall be carried out in accordance with the following approved plans:
     </p>
-  <% elsif decision.refused? %>
+  <% elsif planning_application.refused? %>
     <p class="govuk-body">
       IT IS HEREBY CERTIFIED that the use or operations described below are
       <strong>not lawful</strong>
       for the purposes of S.192 of the Town and Country Planning Act 1990 on the date that the application for this Certificate was received.
     </p>
-    <% if planning_application.assessor_decision.refused_with_public_comment? %>
+    <% if planning_application.refused_with_public_comment? %>
       <p class="govuk-body">The proposal does not comply with:</p>
-      <p class="govuk-body"> <%= planning_application.assessor_decision.public_comment %> </p>
+      <p class="govuk-body"> <%= planning_application.public_comment %> </p>
     <% end %>
     <p class="govuk-body">
       The proposal was refused based on the following plans:
@@ -107,7 +107,7 @@
     <%= planning_application.local_authority.enquiries_paragraph %>
     or by email to <%= planning_application.local_authority.email_address %>
   </p>
-  <% if decision.refused? %>
+  <% if planning_application.refused? %>
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
     <p class="govuk-body">
       INFORMATIVE NOTES TO APPLICANT RELATING TO THE PROPOSED DEVELOPMENT

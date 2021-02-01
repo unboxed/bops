@@ -4,7 +4,13 @@ class PlanningApplicationsController < AuthenticationController
   before_action :set_planning_application, only: %i[show
                                                     assign
                                                     edit
+                                                    recommendation_form
+                                                    recommend
+                                                    submit_recommendation
                                                     assess
+                                                    review_form
+                                                    review
+                                                    publish
                                                     determine
                                                     request_correction
                                                     validate_documents
@@ -59,10 +65,43 @@ class PlanningApplicationsController < AuthenticationController
     redirect_to @planning_application
   end
 
+  def recommendation_form
+    @recommendation = @planning_application.recommendations.build
+  end
+
+  def recommend
+    @planning_application.assign_attributes(params.require(:planning_application).permit(:decision, :public_comment))
+    @recommendation = @planning_application.recommendations.build(params.require(:recommendation).permit(:assessor_comment).merge(assessor: current_user))
+    @planning_application.save! && @recommendation.save!
+
+    redirect_to @planning_application
+  end
+
+  def submit_recommendation
+
+  end
+
   def assess
     @planning_application.assess!
 
     redirect_to @planning_application
+  end
+
+  def review_form
+    @recommendation = @planning_application.recommendations.where(reviewed_at: nil).last
+  end
+
+  def review
+    @recommendation = @planning_application.recommendations.where(reviewed_at: nil).last
+    @recommendation.update!(reviewer_comment: params[:recommendation][:reviewer_comment], reviewed_at: Time.zone.now, reviewer: current_user)
+    if params[:recommendation][:agree] == "No"
+      @planning_application.request_correction!
+    end
+    redirect_to @planning_application
+  end
+
+  def publish
+
   end
 
   def determine

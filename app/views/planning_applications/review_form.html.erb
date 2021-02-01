@@ -1,0 +1,27 @@
+<%= render "planning_applications/assessment_dashboard" do %>
+  <%= form_for @recommendation, url: review_planning_application_path(@planning_application) do |form| %>
+    <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
+      <p class="govuk-body">Do you agree with the recommendation?</p>
+
+      <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios" style="margin-bottom: 20px;">
+        <div class="govuk-radios govuk-radios--small">
+          <div class="govuk-radios__item">
+            <%= form.radio_button :agree, "Yes", class: "govuk-radios__input" %>
+            <%= form.label :agree, "Yes", class: "govuk-label govuk-radios__label" %>
+          </div>
+          <div class="govuk-radios__item">
+            <%= form.radio_button :agree, "No", class: "govuk-radios__input" %>
+            <%= form.label :agree, "No", class: "govuk-label govuk-radios__label" %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="govuk-form-group">
+      <label class="govuk-label" for="reviewer_comment">
+        Please provide comments on why you don't agree.
+      </label>
+      <%= form.text_area :reviewer_comment, class: "govuk-textarea", id: "private_comment", rows: "3", "aria-describedby": "private-comment-hint" %>
+    </div>
+    <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+  <% end %>
+<% end %>

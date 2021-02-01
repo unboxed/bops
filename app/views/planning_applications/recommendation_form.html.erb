@@ -1,0 +1,62 @@
+<%= render "planning_applications/assessment_dashboard" do %>
+  <% form_for @planning_application, url: recommend_planning_application_path(@planning_application) do |form| %>
+    <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
+      <p class="govuk-body">
+        <br>
+        <strong>Have permitted development requirements been met?</strong>
+      </p>
+      <p class="govuk-body">
+        You need to check that the applicant's answers and proposal documents meet the permitted development requirements.
+      </p>
+      <% if form.object.errors.any? %>
+        <% form.object.errors.each do |attribute, error| %>
+          <span id="status-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span>
+            <%= error %>
+          </span>
+        <% end %>
+      <% end %>
+      <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios" style="margin-bottom: 20px;">
+        <div class="govuk-radios govuk-radios--small">
+          <div class="govuk-radios__item">
+            <%= form.radio_button :decision, "granted", class: "govuk-radios__input", id:"status-granted-conditional", "aria-controls": "conditional-status-granted-conditional", "aria-expanded": "false" %>
+            <%= form.label :decision_granted, "Yes", class: "govuk-label govuk-radios__label", for: "status-granted-conditional" %>
+          </div>
+          <div class="govuk-radios__item">
+            <%= form.radio_button :decision, "refused", class: "govuk-radios__input", id: "status-refused-conditional", "aria-controls": "conditional-status-refused-conditional", "aria-expanded": "false" %>
+            <%= form.label :decision_refused, "No", class: "govuk-label govuk-radios__label", for: "status-refused-conditional" %>
+          </div>
+          <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-status-refused-conditional">
+            <div class="govuk-form-group">
+              <p class="govuk-body">
+                <br>
+                <strong>Please provide which GDPO policy (or policies) have not been met. </strong>
+                If there are multiple, please separate by a comma.
+              </p>
+              <p class="govuk-body">
+                <span class="govuk-hint">
+                  For example, "GPDO 2015 S.2 P.1 A.1 (f)(i), GPDO 2015 S.2 P.1 A.1 (f)(ii)"
+                </span>
+              </p>
+              <p class="govuk-body">
+                This <strong>will</strong> appear on the decision notice.
+              </p>
+              <%= form.text_area :public_comment, class: "govuk-textarea", id: "public_comment", rows: "3", "aria-describedby": "public-comment-hint" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="govuk-form-group">
+      <p class="govuk-body">
+        <strong>Please provide supporting information for your manager.</strong> For example, you may want to add any details about the width, depth or height of the proposal.
+        <br><br>
+        Your comment will <strong>not</strong> appear on the decision notice.
+      </p>
+      <%= text_area_tag "recommendation[assessor_comment]", @recommendation.assessor_comment, class: "govuk-textarea", id: "assessor_comment", rows: "3", "aria-describedby": "private-comment-hint" %>
+    </div>
+    <p>
+      <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+    </p>
+  <% end %>
+<% end %>

@@ -12,7 +12,13 @@ Rails.application.routes.draw do
     member do
       get :assign
       patch :assign
+      get :recommendation_form
+      patch :recommend
+      get :submit_recommendation
       patch :assess
+      get :review_form
+      patch :review
+      get :publish
       patch :determine
       patch :cancel
       patch :validate_documents
