@@ -3,7 +3,7 @@
 class Document < ApplicationRecord
   belongs_to :planning_application
 
-  has_one_attached :file
+  has_one_attached :file, dependent: :destroy
 
   enum archive_reason: { scale: 0,
                          design: 1,
@@ -28,6 +28,7 @@ class Document < ApplicationRecord
 
   validate :tag_values_permitted
   validate :file_content_type_permitted
+  validate :file_attached
 
   scope :numbered, -> { where.not("numbers = '[]'") }
   scope :active, -> { where(archived_at: nil) }
@@ -70,6 +71,12 @@ private
 
     unless PERMITTED_CONTENT_TYPES.include? file.blob.content_type
       errors.add(:file, :unsupported_file_type)
+    end
+  end
+
+  def file_attached
+    unless file.attached?
+      errors.add(:file, :missing_file)
     end
   end
 end
