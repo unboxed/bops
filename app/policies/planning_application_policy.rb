@@ -14,6 +14,7 @@ class PlanningApplicationPolicy < ApplicationPolicy
   alias_method :determine?, :editor?
   alias_method :request_correction?, :editor?
   alias_method :update_numbers?, :editor?
+  alias_method :assign?, :editor?
 
   def show?
     (super || signed_in_viewer?) && record.local_authority_id == user.local_authority_id
