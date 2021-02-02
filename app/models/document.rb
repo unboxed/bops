@@ -58,6 +58,10 @@ class Document < ApplicationRecord
     super.join(", ")
   end
 
+  def published?
+    self.class.for_publication.where(id: id).any?
+  end
+
 private
 
   def tag_values_permitted
