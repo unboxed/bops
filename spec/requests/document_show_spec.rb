@@ -2,9 +2,9 @@
 
 require "rails_helper"
 
-RSpec.describe "API request to list planning applications", type: :request, show_exceptions: true do
+RSpec.describe "API request to show document file", type: :request, show_exceptions: true do
   let!(:planning_application) { create(:planning_application, :not_started) }
-  let!(:document) { create(:document, :with_file, planning_application: planning_application) }
+  let!(:document) { create(:document, :with_file, :numbered, planning_application: planning_application) }
 
   describe "data" do
     it "returns a 404 if no planning application" do
@@ -17,6 +17,26 @@ RSpec.describe "API request to list planning applications", type: :request, show
       expect {
         get "/api/v1/planning_applications/#{planning_application.id}/documents/xxx"
       }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    context "with a document that does not contain a number" do
+      let!(:document) { create(:document, :with_file, planning_application: planning_application) }
+
+      it "returns a 404" do
+        expect {
+          get "/api/v1/planning_applications/#{planning_application.id}/documents/#{document.id}"
+        }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context "with a document that has been archived" do
+      let!(:document) { create(:document, :with_file, :numbered, :archived, planning_application: planning_application) }
+
+      it "returns a 404" do
+        expect {
+          get "/api/v1/planning_applications/#{planning_application.id}/documents/#{document.id}"
+        }.to raise_error(ActiveRecord::RecordNotFound)
+      end
     end
 
     it "redirects to blob url" do
