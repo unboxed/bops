@@ -34,7 +34,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "Planning application code is correct" do
-      expect(page).to have_text("Fast track application: #{planning_application.reference}")
+      expect(page).to have_text(planning_application.reference)
     end
 
     it "Target date is correct and label is turquoise" do
