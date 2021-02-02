@@ -9,7 +9,7 @@ RSpec.describe "Document uploads", type: :system do
            local_authority: local_authority
   end
 
-  let!(:document) { create :document, :with_file, planning_application: planning_application }
+  let!(:document) { create :document, planning_application: planning_application }
   let(:assessor) { create :user, :assessor, local_authority: local_authority }
   let(:reviewer) { create :user, :reviewer, local_authority: local_authority }
 
@@ -39,7 +39,7 @@ RSpec.describe "Document uploads", type: :system do
         click_button("Proposal documents")
 
         within(find(".scroll-docs")) do
-          expect(all("img").count).to eq 3
+          expect(all("img").count).to eq 2
           expect(all("img").last["src"]).to have_content("proposed-roofplan.pdf")
 
           expect(page).to have_css(".govuk-tag", text: "Side")

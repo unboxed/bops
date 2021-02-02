@@ -63,7 +63,9 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
     planning_application_hash = example_response_hash_for("/api/v1/planning_applications", "get", 200, "Full")["data"].first
     site = Site.create! planning_application_hash.fetch("site")
     planning_application = PlanningApplication.create! planning_application_hash.except("application_number", "received_date", "documents").merge(site: site, local_authority: @default_local_authority)
-    planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url"))
+    planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url")) do |document|
+      document.file.attach(io: File.open(Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf")), filename: "roofplan")
+    end
 
     get "/api/v1/planning_applications"
 
@@ -76,7 +78,9 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
     planning_application_hash = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "Full")
     site = Site.create! planning_application_hash.fetch("site")
     planning_application = PlanningApplication.create! planning_application_hash.except("application_number", "received_date", "documents").merge(site: site, local_authority: @default_local_authority)
-    planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url"))
+    planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url")) do |document|
+      document.file.attach(io: File.open(Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf")), filename: "roofplan")
+    end
 
     get "/api/v1/planning_applications/#{planning_application_hash['id']}"
 

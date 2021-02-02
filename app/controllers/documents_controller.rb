@@ -39,22 +39,12 @@ class DocumentsController < AuthenticationController
   end
 
   def create
-    @document = @planning_application.documents.build
-    unless document_params[:file].nil?
-      document_params.each do |_param|
-        @blob = ActiveStorage::Blob.find_signed(document_params[:file])
-        # rubocop:disable Rails/SaveBang
-        @document = @planning_application.documents.create(tags: document_params[:tags], file: document_params[:file])
-        # rubocop:enable Rails/SaveBang
-        @document.file.attach(@blob)
-      end
-    end
+    @document = @planning_application.documents.build(tags: document_params[:tags], file: document_params[:file])
 
-    if !@blob.nil? && @document.save
+    if @document.save
       flash[:notice] = "#{@document.file.filename} has been uploaded."
       redirect_to planning_application_documents_path
     else
-      @document.errors.add(:file, :missing_file)
       render :new
     end
   end
