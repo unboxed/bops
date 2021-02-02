@@ -18,6 +18,7 @@
   "owner_types": 0,
   "owners_notified": 0,
   "work_status": "proposed",
+  "payment_reference": "PAY1",
   "nonnotification_reason": "Unaware of responsibility to notify",
   "visit_contact_name": "Mantas Prikockas",
   "visit_contact_phone": 7971111111,

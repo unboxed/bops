@@ -50,6 +50,7 @@ paths:
                     returned_at: null
                     ward: Dulwich Wood
                     work_status: proposed
+                    payment_reference: PAY1
                     awaiting_determination_at: '2020-05-16T05:18:17.540Z'
                     in_assessment_at: '2020-05-16T05:18:17.540Z'
                     awaiting_correction_at: null
