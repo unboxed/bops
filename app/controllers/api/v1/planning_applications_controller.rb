@@ -53,8 +53,9 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
   def upload_documents(document_params)
     unless document_params.nil?
       document_params.each do |param|
-        document = @planning_application.documents.create!(tags: Array(param[:tags]))
-        document.file.attach(io: URI.parse(param[:filename]).open, filename: new_filename(param[:filename]).to_s)
+        @planning_application.documents.create!(tags: Array(param[:tags])) do |document|
+          document.file.attach(io: URI.parse(param[:filename]).open, filename: new_filename(param[:filename]).to_s)
+        end
       end
     end
   end

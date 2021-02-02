@@ -22,8 +22,6 @@ Rails.application.routes.draw do
       get :archive
       get :confirm
 
-      post :confirm_new, on: :collection
-
       post :validate_step
     end
   end

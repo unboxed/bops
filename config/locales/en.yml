@@ -64,5 +64,6 @@ en:
           attributes:
             file:
               unsupported_file_type: "The selected file must be a PDF, JPG or PNG"
+              missing_file: "Please choose a file"
             tags:
               unpermitted_tags: "Please choose valid tags"

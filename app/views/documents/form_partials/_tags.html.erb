@@ -14,7 +14,7 @@
     <% end %>
 
     <div class="govuk-checkboxes govuk-checkboxes--small">
-      <%= form.collection_check_boxes :tags, Document::TAGS, :itself, :itself, include_hidden: false do |b| %>
+      <%= form.collection_check_boxes :tags, Document::TAGS, :itself, :itself do |b| %>
         <div class="govuk-checkboxes__item">
           <%= b.check_box class: "govuk-checkboxes__input" %>
           <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>

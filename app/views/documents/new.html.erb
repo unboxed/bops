@@ -16,12 +16,12 @@
 
     <h2 class="govuk-heading-m">Upload new document</h2>
 
-    <%= form_with model: [ @planning_application, @document_form ], scope: :document_form, url: confirm_new_planning_application_documents_path(@planning_application), local: true do |form| %>
+    <%= form_with model: [@planning_application, @document], local: true, class: "document" do |form| %>
       <%= render partial: 'documents/form_partials/upload.html.erb', locals: {form: form} %>
       <%= render partial: 'documents/form_partials/tags.html.erb', locals: {form: form} %>
 
       <div class="govuk-form-group">
-        <%= form.submit "Continue", class: "govuk-button", data: { module: "govuk-button" } %>
+        <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
       </div>
     <% end %>
   </div>
