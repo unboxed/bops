@@ -46,10 +46,8 @@
             </div>
           </div>
           <div class="govuk-form-group">
-            <p class="govuk-body">
-              <strong>Can you provide more detail?</strong>
-            </p>
-            <%= form.text_area :cancellation_comment, class: "govuk-textarea", id: "cancellation_comment", rows: "3", "aria-describedby": "cancellation-comment-hint" %>
+            <%= form.label :cancellation_comment, "Can you provide more detail?", class: 'govuk-label' %>
+            <%= form.text_area :cancellation_comment, class: "govuk-textarea", rows: "3", "aria-describedby": "cancellation-comment-hint" %>
           </div>
         </fieldset>
         <p>

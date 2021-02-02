@@ -77,9 +77,7 @@ class PlanningApplicationsController < AuthenticationController
     redirect_to @planning_application
   end
 
-  def submit_recommendation
-
-  end
+  def submit_recommendation; end
 
   def assess
     @planning_application.assess!
@@ -100,9 +98,7 @@ class PlanningApplicationsController < AuthenticationController
     redirect_to @planning_application
   end
 
-  def publish
-
-  end
+  def publish; end
 
   def determine
     @planning_application.determine!

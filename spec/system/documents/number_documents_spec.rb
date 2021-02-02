@@ -35,7 +35,7 @@ RSpec.describe "Edit document numbers page", type: :system do
       end
 
       before do
-        click_link "Check the documents"
+        click_link "Validate documents"
       end
 
       it "Assessor can see content for the right application" do

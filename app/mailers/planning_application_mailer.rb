@@ -10,7 +10,7 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "Certificate of Lawfulness: #{@planning_application.status}",
+      subject: "Certificate of Lawfulness: #{@planning_application.decision}",
       to: @planning_application.applicant_email,
     )
   end

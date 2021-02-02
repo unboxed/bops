@@ -3,265 +3,54 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application Assessment", type: :system do
-  let(:local_authority) do
-    create :local_authority,
-           name: "Cookie authority",
-           signatory_name: "Mr. Biscuit",
-           signatory_job_title: "Lord of BiscuitTown",
-           enquiries_paragraph: "reach us on postcode SW50",
-           email_address: "biscuit@somuchbiscuit.com"
-  end
-  let!(:assessor) { create :user, :assessor, name: "Lorrine Krajcik", local_authority: local_authority }
-  let!(:reviewer) { create :user, :reviewer, name: "Harley Dicki", local_authority: local_authority }
+  let!(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
 
   let!(:planning_application) do
-    create :planning_application, :not_started,
-           local_authority: local_authority
+    create :planning_application, :not_started, local_authority: @default_local_authority
   end
 
   before do
     sign_in assessor
-    visit root_path
+    visit planning_application_path(planning_application)
   end
 
-  context "Cancelling from Not Started status" do
-    it "Withdraw from Not Started" do
-      click_link planning_application.reference
+  context "for planning application that is not started" do
+    it "can withdraw an application" do
       click_link "Cancel application"
-
-      expect(page).to have_content("Why is this application being cancelled?")
-
       choose "Withdrawn by applicant"
-
-      fill_in "cancellation_comment", with: "This has been cancelled"
-
+      fill_in "Can you provide more detail?", with: "Withdrawn reason"
       click_button "Save"
 
       expect(page).to have_content("Application has been cancelled")
-
-      click_link "Home"
-
-      click_link "Closed"
-
-      within("#closed") do
-        expect(page).to have_content("withdrawn")
-        click_link planning_application.reference
-      end
-
-      expect(page).not_to have_content("Cancel application")
-      expect(page).to have_content("This has been cancelled")
-      expect(page).to have_css(".govuk-tag--grey")
+      planning_application.reload
+      expect(planning_application.status).to eq("withdrawn")
+      expect(planning_application.cancellation_comment).to eq("Withdrawn reason")
     end
 
-    it "Return from Not Started" do
-      click_link planning_application.reference
+    it "can return an application" do
       click_link "Cancel application"
-
-      expect(page).to have_content("Why is this application being cancelled?")
-
       choose "Returned as invalid"
-
-      fill_in "cancellation_comment", with: "This has been cancelled"
-
+      fill_in "Can you provide more detail?", with: "Returned reason"
       click_button "Save"
 
       expect(page).to have_content("Application has been cancelled")
-
-      click_link "Home"
-
-      click_link "Closed"
-
-      within("#closed") do
-        expect(page).to have_content("returned")
-        click_link planning_application.reference
-      end
-
-      expect(page).not_to have_content("Cancel application")
-      expect(page).to have_content("This has been cancelled")
-      expect(page).to have_css(".govuk-tag--grey")
+      planning_application.reload
+      expect(planning_application.status).to eq("returned")
+      expect(planning_application.cancellation_comment).to eq("Returned reason")
     end
+
+    it "errors if no option chosen"
   end
 
-  context "Cancelling from In Assessment" do
-    before do
-      planning_application.update!(documents_validated_at: Time.zone.today)
-      planning_application.start!
+  context "for planning application that has been determined" do
+    let!(:planning_application) do
+      create :planning_application, :determined, local_authority: @default_local_authority
     end
 
-    it "Withdraw from In Assessment" do
-      click_link planning_application.reference
-      click_link "Cancel application"
-
-      expect(page).to have_content("Why is this application being cancelled?")
-
-      choose "Withdrawn by applicant"
-
-      fill_in "cancellation_comment", with: "This has been cancelled"
-
-      click_button "Save"
-
-      expect(page).to have_content("Application has been cancelled")
-
-      click_link "Home"
-
-      click_link "Closed"
-
-      within("#closed") do
-        expect(page).to have_content("withdrawn")
-        click_link planning_application.reference
-      end
-
-      expect(page).not_to have_content("Cancel application")
-    end
-
-    it "Return from In Assessment" do
-      click_link planning_application.reference
-      expect(planning_application.status).to eql("in_assessment")
-      click_link "Cancel application"
-
-      expect(page).to have_content("Why is this application being cancelled?")
-
-      choose "Returned as invalid"
-
-      fill_in "cancellation_comment", with: "This has been cancelled"
-
-      click_button "Save"
-
-      expect(page).to have_content("Application has been cancelled")
-
-      click_link "Home"
-
-      click_link "Closed"
-
-      within("#closed") do
-        expect(page).to have_content("returned")
-        click_link planning_application.reference
-      end
-
-      expect(page).not_to have_content("Cancel application")
-      expect(page).to have_content("This has been cancelled")
-    end
-  end
-
-  context "Cancelling from Invalidated" do
-    before do
-      planning_application.invalidate!
-    end
-
-    it "Withdraw from Invalidated" do
-      click_link planning_application.reference
-      expect(planning_application.status).to eql("invalidated")
-      click_link "Cancel application"
-
-      expect(page).to have_content("Why is this application being cancelled?")
-
-      choose "Withdrawn by applicant"
-
-      fill_in "cancellation_comment", with: "This has been cancelled"
-
-      click_button "Save"
-
-      expect(page).to have_content("Application has been cancelled")
-
-      click_link "Home"
-
-      click_link "Closed"
-
-      within("#closed") do
-        expect(page).to have_content("withdrawn")
-        click_link planning_application.reference
-      end
-
-      expect(page).not_to have_content("Cancel application")
-    end
-
-    it "Return from Invalidated" do
-      click_link planning_application.reference
-      expect(planning_application.status).to eql("invalidated")
-      click_link "Cancel application"
-
-      expect(page).to have_content("Why is this application being cancelled?")
-
-      choose "Returned as invalid"
-
-      fill_in "cancellation_comment", with: "This has been cancelled"
-
-      click_button "Save"
-
-      expect(page).to have_content("Application has been cancelled")
-
-      click_link "Home"
-
-      click_link "Closed"
-
-      within("#closed") do
-        expect(page).to have_content("returned")
-        click_link planning_application.reference
-      end
-
-      expect(page).not_to have_content("Cancel application")
-    end
-  end
-
-  context "Cancelling from Awaiting Determination" do
-    before do
-      planning_application.update!(documents_validated_at: Time.zone.today)
-      planning_application.start!
-      planning_application.assess!
-    end
-
-    it "Withdraw from Awaiting Determination" do
-      click_link planning_application.reference
-      expect(planning_application.status).to eql("awaiting_determination")
-      click_link "Cancel application"
-
-      expect(page).to have_content("Why is this application being cancelled?")
-
-      choose "Withdrawn by applicant"
-
-      fill_in "cancellation_comment", with: "This has been cancelled"
-
-      click_button "Save"
-
-      expect(page).to have_content("Application has been cancelled")
-
-      click_link "Home"
-
-      click_link "Closed"
-
-      within("#closed") do
-        expect(page).to have_content("withdrawn")
-        click_link planning_application.reference
-      end
-
-      expect(page).not_to have_content("Cancel application")
-    end
-
-    it "Return from Awaiting Determination" do
-      click_link planning_application.reference
-      expect(planning_application.status).to eql("awaiting_determination")
-      click_link "Cancel application"
-
-      expect(page).to have_content("Why is this application being cancelled?")
-
-      choose "Returned as invalid"
-
-      fill_in "cancellation_comment", with: "This has been cancelled"
-
-      click_button "Save"
-
-      expect(page).to have_content("Application has been cancelled")
-
-      click_link "Home"
-
-      click_link "Closed"
-
-      within("#closed") do
-        expect(page).to have_content("returned")
-        click_link planning_application.reference
-      end
-
-      expect(page).not_to have_content("Cancel application")
+    it "prevents cancelling" do
+      expect(page).not_to have_link "Cancel application"
+      visit cancel_confirmation_planning_application_path(planning_application)
+      expect(page).to have_content("This application has been determined and cannot be cancelled")
     end
   end
 end

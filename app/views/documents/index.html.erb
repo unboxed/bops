@@ -18,7 +18,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <% if @planning_application.may_start? %>
+    <% if @planning_application.can_validate? %>
       <%= form_with model: @planning_application, url: validate_documents_planning_application_path(@planning_application), local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
         <fieldset class="govuk-fieldset">
           <% if form.object.errors.any? %>
