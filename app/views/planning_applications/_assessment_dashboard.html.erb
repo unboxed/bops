@@ -23,8 +23,10 @@
 </div>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds assigned_to">
-    <%= @planning_application.user ? @planning_application.user.name : "Unassigned" %>
-    <%= link_to "Change", assign_planning_application_path(@planning_application) %>
+    <p class="govuk-body">
+    <strong><%= @planning_application.user ? @planning_application.user.name : "Unassigned" %></strong>
+      <span class="assignment_cta"><%= link_to "Change", assign_planning_application_path(@planning_application) %></span>
+    </p>
   </div>
 </div>
 <div class="govuk-grid-row">

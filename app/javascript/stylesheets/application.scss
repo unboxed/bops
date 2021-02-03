@@ -60,6 +60,10 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
   padding-left: 0.5em;
 }
 
+.assignment_cta {
+  padding-left: 1em;
+}
+
 .moj-banner__assistive {
   @include govuk-visually-hidden;
 }
