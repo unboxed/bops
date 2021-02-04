@@ -19,7 +19,7 @@ RSpec.describe "Assigning a planning application", type: :system do
       click_link "Change"
     end
     choose "Assessor 2"
-    click_button "Assign"
+    click_button "Confirm"
     within ".assigned_to" do
       expect(page).to have_text("Assessor 2")
     end
@@ -31,7 +31,7 @@ RSpec.describe "Assigning a planning application", type: :system do
       click_link "Change"
     end
     choose "Unassigned"
-    click_button "Assign"
+    click_button "Confirm"
     within ".assigned_to" do
       expect(page).to have_text("Unassigned")
     end
