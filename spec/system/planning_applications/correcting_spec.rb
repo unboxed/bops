@@ -10,7 +10,8 @@ RSpec.describe "Planning Application correction journey", type: :system do
   let!(:planning_application_corrected) do
     create :planning_application,
            :awaiting_correction,
-           local_authority: local_authority
+           local_authority: local_authority,
+           user: assessor
   end
 
   let!(:assessor_decision) do

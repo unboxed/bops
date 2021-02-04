@@ -16,7 +16,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   let!(:planning_application) do
     create :planning_application,
-           local_authority: local_authority
+           local_authority: local_authority,
+           user: assessor
   end
 
   let(:policy_consideration_1) do
@@ -61,12 +62,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     # Cannot submit until preparation steps have been completed
     expect(page).not_to have_link("Submit the recommendation")
-
-    # Application not yet associated with the assessor
-    within(".govuk-grid-column-two-thirds.application") do
-      first(".govuk-accordion").click_button("Open all")
-      expect(page).not_to have_text("Lorrine Krajcik")
-    end
 
     click_link "Assess the proposal"
 

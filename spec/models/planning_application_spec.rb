@@ -3,7 +3,9 @@
 require "rails_helper"
 
 RSpec.describe PlanningApplication, type: :model do
-  subject(:planning_application) { create :planning_application }
+  subject(:planning_application) { create :planning_application, user: assessor }
+
+  let(:assessor) { create :user, :assessor }
 
   describe "decision validations" do
     let(:assessor)          { build :user, :assessor }
@@ -47,7 +49,7 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     context "start the application" do
-      subject(:planning_application) { create :planning_application, :not_started }
+      subject(:planning_application) { create :planning_application, :not_started, user: assessor }
 
       before do
         # Set timestamp to differentiate from now
@@ -70,7 +72,7 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     describe "work_status" do
-      subject(:planning_application) { create :planning_application, :not_started }
+      subject(:planning_application) { create :planning_application, :not_started, user: assessor }
 
       let!(:proposed_drawing_1) do
         create :document, :with_tags,
@@ -89,7 +91,7 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     context "return the application from invalidated" do
-      subject(:planning_application) { create :planning_application, :invalidated }
+      subject(:planning_application) { create :planning_application, :invalidated, user: assessor }
 
       before do
         # Set timestamp to differentiate from now
@@ -128,7 +130,7 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     context "invalidate the application from not_started" do
-      subject(:planning_application) { create :planning_application, :not_started }
+      subject(:planning_application) { create :planning_application, :not_started, user: assessor }
 
       before do
         # Set timestamp to differentiate from now
@@ -149,7 +151,7 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     context "invalidate the application from in_assessment" do
-      subject(:planning_application) { create :planning_application }
+      subject(:planning_application) { create :planning_application, user: assessor }
 
       before do
         # Set timestamp to differentiate from now
@@ -170,7 +172,7 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     context "invalidate the application from awaiting_determination" do
-      subject(:planning_application) { create :planning_application, :awaiting_determination }
+      subject(:planning_application) { create :planning_application, :awaiting_determination, user: assessor }
 
       before do
         # Set timestamp to differentiate from now
@@ -191,7 +193,7 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     context "sets application to awaiting_correction when request_correction is called" do
-      subject(:planning_application) { create :planning_application, :awaiting_determination }
+      subject(:planning_application) { create :planning_application, :awaiting_determination, user: assessor }
 
       before do
         # Set timestamp to differentiate from now
@@ -212,7 +214,7 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     context "determine the application" do
-      subject(:planning_application) { create :planning_application, :awaiting_determination }
+      subject(:planning_application) { create :planning_application, :awaiting_determination, user: assessor }
 
       before do
         # Set timestamp to differentiate from now
@@ -233,7 +235,7 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     context "withdraw the application from not_started" do
-      subject(:planning_application) { create :planning_application, :not_started }
+      subject(:planning_application) { create :planning_application, :not_started, user: assessor }
 
       before do
         # Set timestamp to differentiate from now
@@ -275,7 +277,7 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     context "withdraw the application from awaiting_determination" do
-      subject(:planning_application) { create :planning_application, :awaiting_determination }
+      subject(:planning_application) { create :planning_application, :awaiting_determination, user: assessor }
 
       before do
         # Set timestamp to differentiate from now
@@ -296,7 +298,7 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     context "withdraw the application from awaiting_correction" do
-      subject(:planning_application) { create :planning_application, :awaiting_correction }
+      subject(:planning_application) { create :planning_application, :awaiting_correction, user: assessor }
 
       before do
         # Set timestamp to differentiate from now

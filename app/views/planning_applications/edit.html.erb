@@ -22,8 +22,14 @@
         </strong>
        If your manager disagrees with your recommendation they will send it back to you to make changes.
       </p>
-      <%= form_with model: @planning_application, url: assess_planning_application_path(@planning_application), local: true do |form| %>
-        <%= form.submit "Submit to manager", class: "govuk-button", data: { module: "govuk-button" } %>
+      <% if @planning_application.user.nil?  %>
+        <p class="govuk-body">
+          <strong>Please assign this planning application before submitting for determination.</strong>
+        </p>
+      <% else %>
+        <%= form_with model: @planning_application, url: assess_planning_application_path(@planning_application), local: true do |form| %>
+          <%= form.submit "Submit to manager", class: "govuk-button", data: { module: "govuk-button" } %>
+        <% end %>
       <% end %>
     <% else %>
       <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button" %>

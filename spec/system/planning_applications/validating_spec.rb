@@ -16,7 +16,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   let!(:planning_application) do
     create :planning_application, :not_started,
-           local_authority: local_authority
+           local_authority: local_authority,
+           user: assessor
   end
 
   let!(:document) do

@@ -18,7 +18,8 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
   end
 
   describe "#assessor_decision_path" do
-    let!(:planning_application) { create :planning_application }
+    let(:assessor) { create :user, :assessor }
+    let!(:planning_application) { create :planning_application, user: assessor }
 
     context "without decision" do
       it "returns to new decision" do
@@ -27,17 +28,20 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
     end
 
     describe "#list_constraints" do
+      let(:assessor) { create :user, :assessor }
       let(:application_with_constraints) do
         create :planning_application,
-               constraints: '{"conservation_area": false,"article4_area": true,"scheduled_monument": false }'
+               constraints: '{"conservation_area": false,"article4_area": true,"scheduled_monument": false }',
+               user: assessor
       end
 
       let(:application_with_false_constraints) do
         create :planning_application,
-               constraints: '{"conservation_area": false,"article4_area": false,"scheduled_monument": false }'
+               constraints: '{"conservation_area": false,"article4_area": false,"scheduled_monument": false }',
+               user: assessor
       end
 
-      let(:application_without_constraints) { create :planning_application, constraints: "{}" }
+      let(:application_without_constraints) { create :planning_application, constraints: "{}", user: assessor }
 
       it "creates constraints list correctly" do
         expect(list_constraints(application_with_constraints.constraints)).to eq(%w[article4_area])
@@ -102,7 +106,8 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
   end
 
   describe "#reviewer_decision_path" do
-    let!(:planning_application) { create :planning_application, :awaiting_determination }
+    let(:assessor) { create :user, :assessor }
+    let!(:planning_application) { create :planning_application, :awaiting_determination, user: assessor }
 
     context "without decision" do
       it "returns to new decision" do
@@ -144,7 +149,8 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
   end
 
   describe "#display_decision_status" do
-    let(:planning_application) { create :planning_application }
+    let(:assessor) { create :user, :assessor }
+    let(:planning_application) { create :planning_application, user: assessor }
 
     context "refused" do
       let(:reviewer) { create :user, :reviewer }
@@ -182,8 +188,9 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
   end
 
   describe "#display_status" do
-    let(:planning_application) { create :planning_application }
-    let(:awaiting_planning_application) { create :planning_application, :awaiting_determination }
+    let(:assessor) { create :user, :assessor }
+    let(:planning_application) { create :planning_application, user: assessor }
+    let(:awaiting_planning_application) { create :planning_application, :awaiting_determination, user: assessor }
 
     it "returns correct values when application is withdrawn" do
       planning_application.withdraw!

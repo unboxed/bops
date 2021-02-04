@@ -59,7 +59,7 @@ class PlanningApplication < ApplicationRecord
     end
 
     event :assess do
-      transitions from: %i[in_assessment awaiting_correction], to: :awaiting_determination
+      transitions from: %i[in_assessment awaiting_correction], to: :awaiting_determination, guard: :assigned?
     end
 
     event :invalidate do
@@ -171,6 +171,10 @@ private
     if in_assessment? && !documents_validated_at.is_a?(Date)
       errors.add(:planning_application, "Please enter a valid date")
     end
+  end
+
+  def assigned?
+    !user.nil?
   end
 
   def has_validation_date?
