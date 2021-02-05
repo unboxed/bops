@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   resources :planning_applications, only: %i[show index edit] do
     member do
+      get :assign
+      patch :assign
       patch :assess
       patch :determine
       patch :cancel

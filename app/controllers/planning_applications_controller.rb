@@ -2,6 +2,7 @@
 
 class PlanningApplicationsController < AuthenticationController
   before_action :set_planning_application, only: %i[show
+                                                    assign
                                                     edit
                                                     assess
                                                     determine
@@ -26,6 +27,17 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def show; end
+
+  def assign
+    if request.patch?
+      @planning_application.user = if params[:planning_application][:user_id] == "0"
+                                     nil
+                                   else
+                                     current_local_authority.users.find(params[:planning_application][:user_id])
+                                   end
+      redirect_to @planning_application if @planning_application.save
+    end
+  end
 
   def edit; end
 

@@ -72,9 +72,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     expect(page).to have_content("Please review the applicant's answers")
 
-    # Application now associated with assessor
-    expect(page).to have_text("Lorrine Krajcik")
-
     expect(page).to have_content("The property is a semi detached house")
     expect(page).to have_content("The project will not alter the internal floor area of the building")
 
@@ -202,35 +199,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     within("#awaiting_determination") do
       click_link planning_application.reference
-    end
-  end
-
-  it "Assessor is assigned to planning application" do
-    click_link "In assessment"
-    click_link planning_application.reference
-
-    expect(page).to have_content("Make recommendation")
-    expect(page).to have_link("Assess the proposal")
-    expect(page).not_to have_link("Submit the recommendation")
-
-    # Ensure officer name is not displayed on page when accordion is opened
-    within(".govuk-grid-column-two-thirds.application") do
-      first(".govuk-accordion").click_button("Open all")
-    end
-
-    click_link "Assess the proposal"
-
-    # Ensure officer name is now displayed
-    within(".govuk-grid-column-two-thirds.application") do
-      expect(page).to have_text("Lorrine Krajcik")
-    end
-
-    click_link "Home"
-
-    table_rows = all(".govuk-table__row").map(&:text)
-
-    table_rows.each do |row|
-      expect(row).to include("Lorrine Krajcik") if row.include? planning_application.reference
     end
   end
 
