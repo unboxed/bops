@@ -32,7 +32,7 @@ module PlanningApplicationHelper
   end
 
   def display_status(planning_application)
-    if planning_application.determined? && planning_application.reviewer_decision
+    if planning_application.determined?
       display_decision_status(planning_application)
     elsif planning_application.status == "invalidated"
       { color: "yellow", decision: "invalid" }
@@ -50,7 +50,7 @@ module PlanningApplicationHelper
   end
 
   def display_decision_status(planning_application)
-    if planning_application.reviewer_decision.granted?
+    if planning_application.granted?
       { color: "green", decision: "Granted" }
     else
       { color: "red", decision: "Refused" }
@@ -93,30 +93,6 @@ module PlanningApplicationHelper
       application.determined?
     else
       false
-    end
-  end
-
-  def assessor_decision_path(app)
-    if app.assessor_decision
-      if app.assessment_complete?
-        planning_application_decision_path(app, app.assessor_decision)
-      else
-        edit_planning_application_decision_path(app, app.assessor_decision)
-      end
-    else
-      new_planning_application_decision_path(app)
-    end
-  end
-
-  def reviewer_decision_path(app)
-    if app.reviewer_decision
-      if app.review_complete?
-        planning_application_decision_path(app, app.reviewer_decision)
-      else
-        edit_planning_application_decision_path(app, app.reviewer_decision)
-      end
-    else
-      new_planning_application_decision_path(app)
     end
   end
 end
