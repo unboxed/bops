@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_28_175210) do
+ActiveRecord::Schema.define(version: 2021_02_08_180350) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,19 +42,6 @@ ActiveRecord::Schema.define(version: 2021_01_28_175210) do
     t.string "token"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "decisions", force: :cascade do |t|
-    t.datetime "decided_at"
-    t.bigint "planning_application_id", null: false
-    t.bigint "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.integer "status"
-    t.text "public_comment"
-    t.text "private_comment"
-    t.index ["planning_application_id"], name: "index_decisions_on_planning_application_id"
-    t.index ["user_id"], name: "index_decisions_on_user_id"
   end
 
   create_table "documents", force: :cascade do |t|

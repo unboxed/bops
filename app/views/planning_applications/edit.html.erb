@@ -34,7 +34,7 @@
     <h2 class="govuk-heading-m"><%= t("#{@planning_application.status}.recommendation_step")%></h2>
     <p class="govuk-body">The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.</p>
 
-    <%= render "decision_notice", planning_application: @planning_application, decision: @planning_application.reviewer_decision %>
+    <%= render "decision_notice", planning_application: @planning_application %>
     <p class="govuk-body">
       <%= link_to "Download as PDF", decision_notice_api_v1_planning_application_path(@planning_application, format: 'pdf') %>
     </p>

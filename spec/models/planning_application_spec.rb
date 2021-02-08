@@ -5,40 +5,6 @@ require "rails_helper"
 RSpec.describe PlanningApplication, type: :model do
   subject(:planning_application) { create :planning_application }
 
-  describe "decision validations" do
-    let(:assessor)          { build :user, :assessor }
-    let(:reviewer)          { build :user, :reviewer }
-
-    let(:decision_associated_with_reviewer) { build :decision, :granted, user: reviewer }
-    let(:decision_associated_with_assessor) { build :decision, :granted, user: assessor }
-
-    it "is invalid when an assessor_decision is associated with a non-assessor" do
-      planning_application.assessor_decision = decision_associated_with_reviewer
-
-      expect(planning_application).to be_invalid
-      expect(planning_application.errors.full_messages).to include "Assessor decision cannot be associated with a non-assessor"
-    end
-
-    it "is valid when an assessor_decision is associated with an assessor" do
-      planning_application.assessor_decision = decision_associated_with_assessor
-
-      expect(planning_application).to be_valid
-    end
-
-    it "is invalid when a reviewer_decision is associated with a non-reviewer" do
-      planning_application.reviewer_decision = decision_associated_with_assessor
-
-      expect(planning_application).to be_invalid
-      expect(planning_application.errors.full_messages).to include "Reviewer decision cannot be associated with a non-reviewer"
-    end
-
-    it "is valid when an reviewer_decision is associated with an reviewer" do
-      planning_application.reviewer_decision = decision_associated_with_reviewer
-
-      expect(planning_application).to be_valid
-    end
-  end
-
   describe "state transitions" do
     let!(:proposed_document_1) do
       create :document, :with_tags,
@@ -313,30 +279,6 @@ RSpec.describe PlanningApplication, type: :model do
           planning_application.withdraw
           expect(planning_application.send("withdrawn_at")).to eql(Time.zone.now)
         end
-      end
-    end
-  end
-
-  describe "decisions" do
-    let(:assessor)          { create :user, :assessor }
-    let(:reviewer)          { create :user, :reviewer }
-
-    let(:assessor_decision) { create(:decision, :granted, user: assessor) }
-    let(:reviewer_decision) { create(:decision, :granted, user: reviewer) }
-
-    before do
-      planning_application.decisions << assessor_decision << reviewer_decision
-    end
-
-    describe "assessor_decision" do
-      it "returns the assessor's decision" do
-        expect(planning_application.reload.assessor_decision).to eq assessor_decision
-      end
-    end
-
-    describe "reviewer_decision" do
-      it "returns the reviewer's decision" do
-        expect(planning_application.reload.reviewer_decision).to eq reviewer_decision
       end
     end
   end

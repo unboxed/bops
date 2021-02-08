@@ -32,7 +32,7 @@ json.site do |site_json|
   site_json.partial! "site.json.jbuilder", site: planning_application.site
 end
 json.received_date planning_application.created_at
-json.decision planning_application.reviewer_decision.status if planning_application.reviewer_decision
+json.decision planning_application.decision if planning_application.decision.present? # TODO: Hide if not determined
 json.questions JSON.parse(planning_application.questions) if planning_application.questions
 json.constraints JSON.parse(planning_application.constraints) if planning_application.constraints
 json.documents planning_application.documents.for_publication do |document|

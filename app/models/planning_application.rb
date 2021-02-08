@@ -8,18 +8,9 @@ class PlanningApplication < ApplicationRecord
   enum application_type: { lawfulness_certificate: 0, full: 1 }
 
   has_one :policy_evaluation, dependent: :destroy
-  has_many :decisions, dependent: :destroy
 
   has_many :documents, dependent: :destroy
   has_many :recommendations, dependent: :destroy
-
-  has_one :assessor_decision, lambda {
-                                joins(:user).where(users: { role: :assessor })
-                              }, class_name: "Decision", inverse_of: :planning_application
-
-  has_one :reviewer_decision, lambda {
-                                joins(:user).where(users: { role: :reviewer })
-                              }, class_name: "Decision", inverse_of: :planning_application
 
   belongs_to :site
   belongs_to :user, optional: true
@@ -27,9 +18,6 @@ class PlanningApplication < ApplicationRecord
 
   before_create :set_target_date
   before_update :set_target_date
-
-  validate :assessor_decision_associated_with_assessor
-  validate :reviewer_decision_associated_with_reviewer
 
   WORK_STATUSES = %w[proposed existing].freeze
 
@@ -226,17 +214,5 @@ private
 
   def has_validation_date?
     !documents_validated_at.nil?
-  end
-
-  def assessor_decision_associated_with_assessor
-    if assessor_decision.present? && !assessor_decision.user.assessor?
-      errors.add(:assessor_decision, "cannot be associated with a non-assessor")
-    end
-  end
-
-  def reviewer_decision_associated_with_reviewer
-    if reviewer_decision.present? && !reviewer_decision.user.reviewer?
-      errors.add(:reviewer_decision, "cannot be associated with a non-reviewer")
-    end
   end
 end
