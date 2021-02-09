@@ -85,11 +85,11 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def review_form
-    @recommendation = @planning_application.recommendations.where(reviewed_at: nil).last
+    @recommendation = @planning_application.recommendations.last
   end
 
   def review
-    @recommendation = @planning_application.recommendations.where(reviewed_at: nil).last
+    @recommendation = @planning_application.recommendations.last
     @recommendation.update!(reviewer_comment: params[:recommendation][:reviewer_comment], reviewed_at: Time.zone.now, reviewer: current_user)
     if params[:recommendation][:agree] == "No"
       @planning_application.request_correction!

@@ -24,8 +24,6 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     click_link "Publish"
     click_button "Determine application"
 
-    # TODO: edit
-
     planning_application.reload
     expect(planning_application.status).to eq("determined")
     expect(planning_application.recommendations.last.reviewer).to eq(reviewer)
@@ -47,6 +45,20 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     expect(planning_application.recommendations.last.reviewed_at).not_to be_nil
     expect(planning_application.recommendations.last.reviewer_comment).to eq("Reviewer private comment")
     expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails)
+  end
+
+  it "can edit an existing review of an assessment" do
+    recommendation = create :recommendation, :reviewed, planning_application: planning_application, reviewer_comment: "Reviewer private comment"
+    click_link "Review Assessment"
+
+    expect(page).to have_field("Please provide comments on why you don't agree.", with: "Reviewer private comment")
+
+    choose "No"
+    fill_in "Please provide comments on why you don't agree.", with: "Edited reviewer private comment"
+    click_button "Save"
+
+    recommendation.reload
+    expect(recommendation.reviewer_comment).to eq("Edited reviewer private comment")
   end
 
   it "raises error if no response given" do
