@@ -193,11 +193,15 @@ class PlanningApplication < ApplicationRecord
   end
 
   def pending_review?
-    recommendations.where(reviewed_at: nil).any?
+    recommendations.pending_review.any?
   end
 
   def pending_recommendation?
     may_assess? && !pending_review?
+  end
+
+  def pending_or_new_recommendation
+    recommendations.pending_review.last || recommendations.build
   end
 
 private

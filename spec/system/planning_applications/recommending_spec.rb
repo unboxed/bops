@@ -30,19 +30,18 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(planning_application.recommendations.first.assessor_comment).to eq("This is a private assessor comment")
       expect(planning_application.decision).to eq("granted")
 
-      # TODO: Allow editing of recommendation
-      # click_link "Assess Proposal"
-      # expect(page).to have_checked_field("Yes")
-      # expect(page).to have_field("assessor_comment", with: "This is a private assessor comment")
-      # choose "No"
-      # fill_in "public_comment", with: "This is a new public comment"
-      # fill_in "assessor_comment", with: "Edited private assessor comment"
-      # click_button "Save"
-      # planning_application.reload
-      # expect(planning_application.recommendations.count).to eq(1)
-      # expect(planning_application.recommendations.first.assessor_comment).to eq("Edited private assessor comment")
-      # expect(planning_application.decision).to eq('refused')
-      # expect(planning_application.public_comment).to eq('This is a new public comment')
+      click_link "Assess Proposal"
+      expect(page).to have_checked_field("Yes")
+      expect(page).to have_field("assessor_comment", with: "This is a private assessor comment")
+      choose "No"
+      fill_in "public_comment", with: "This is a new public comment"
+      fill_in "assessor_comment", with: "Edited private assessor comment"
+      click_button "Save"
+      planning_application.reload
+      expect(planning_application.recommendations.count).to eq(1)
+      expect(planning_application.recommendations.first.assessor_comment).to eq("Edited private assessor comment")
+      expect(planning_application.decision).to eq("refused")
+      expect(planning_application.public_comment).to eq("This is a new public comment")
 
       click_link "Submit Recommendation"
       click_button "Submit to manager"

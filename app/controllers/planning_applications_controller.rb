@@ -64,12 +64,13 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def recommendation_form
-    @recommendation = @planning_application.recommendations.build
+    @recommendation = @planning_application.pending_or_new_recommendation
   end
 
   def recommend
+    @recommendation = @planning_application.pending_or_new_recommendation
     @planning_application.assign_attributes(params.require(:planning_application).permit(:decision, :public_comment))
-    @recommendation = @planning_application.recommendations.build(params.require(:recommendation).permit(:assessor_comment).merge(assessor: current_user))
+    @recommendation.assign_attributes(params.require(:recommendation).permit(:assessor_comment).merge(assessor: current_user))
     @planning_application.save! && @recommendation.save!
 
     redirect_to @planning_application
