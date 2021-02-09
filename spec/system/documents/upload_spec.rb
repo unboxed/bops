@@ -3,15 +3,14 @@
 require "rails_helper"
 
 RSpec.describe "Document uploads", type: :system do
-  let(:local_authority) { create :local_authority }
   let!(:planning_application) do
     create :planning_application,
-           local_authority: local_authority
+           local_authority: @default_local_authority
   end
 
   let!(:document) { create :document, planning_application: planning_application }
-  let(:assessor) { create :user, :assessor, local_authority: local_authority }
-  let(:reviewer) { create :user, :reviewer, local_authority: local_authority }
+  let(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
+  let(:reviewer) { create :user, :reviewer, local_authority: @default_local_authority }
 
   context "for an assessor" do
     before { sign_in assessor }

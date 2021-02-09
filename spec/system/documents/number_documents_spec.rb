@@ -3,12 +3,11 @@
 require "rails_helper"
 
 RSpec.describe "Edit document numbers page", type: :system do
-  let(:local_authority) { create :local_authority }
   let!(:planning_application) do
     create :planning_application,
-           local_authority: local_authority
+           local_authority: @default_local_authority
   end
-  let(:assessor) { create :user, :assessor, local_authority: local_authority }
+  let(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
 
   context "as an assessor" do
     before do

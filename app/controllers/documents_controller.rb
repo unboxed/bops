@@ -12,7 +12,7 @@ class DocumentsController < AuthenticationController
   before_action :disable_flash_header, only: :index
 
   def index
-    @documents = policy_scope(@planning_application.documents).order(:created_at)
+    @documents = @planning_application.documents.order(:created_at)
     @planning_application.documents_validated_at ||= @planning_application.created_at
   end
 
@@ -123,9 +123,7 @@ private
   end
 
   def set_planning_application
-    @planning_application = authorize(PlanningApplication.find(
-                                        params[:planning_application_id],
-                                      ))
+    @planning_application = current_local_authority.planning_applications.find(params[:planning_application_id])
   end
 
   def set_document

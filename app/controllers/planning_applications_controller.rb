@@ -22,13 +22,11 @@ class PlanningApplicationsController < AuthenticationController
 
   def index
     @planning_applications = if helpers.exclude_others? && current_user.assessor?
-                               policy_scope(
-                                 PlanningApplication.where(user_id: current_user.id).or(
-                                   PlanningApplication.where(user_id: nil),
-                                 ),
+                               current_local_authority.planning_applications.where(user_id: current_user.id).or(
+                                 current_local_authority.planning_applications.where(user_id: nil),
                                )
                              else
-                               policy_scope(PlanningApplication.all)
+                               current_local_authority.planning_applications.all
                              end
   end
 
@@ -177,7 +175,7 @@ private
   end
 
   def set_planning_application
-    @planning_application = authorize(PlanningApplication.find(params[:id]))
+    @planning_application = current_local_authority.planning_applications.find(params[:id])
   end
 
   def authorize_user_can_update_status(status)
