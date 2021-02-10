@@ -65,7 +65,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   it "errors if no decision given" do
-    pending
     click_link "Assess Proposal"
     click_button "Save"
 

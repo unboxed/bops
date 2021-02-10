@@ -27,6 +27,7 @@ class PlanningApplication < ApplicationRecord
 
   validate :documents_validated_at_date
   validate :public_comment_present
+  validate :decision_with_recommendations
 
   scope :not_started_and_invalid, -> { where("status = 'not_started' OR status = 'invalidated'") }
   scope :under_assessment, -> { where("status = 'in_assessment' OR status = 'awaiting_correction'") }
@@ -231,8 +232,8 @@ private
     decision.present?
   end
 
-  def validate_decision
-    if assessment_complete? && decision_present?
+  def decision_with_recommendations
+    if decision.nil? && recommendations.any?
       errors.add(:planning_application, "Please select Yes or No")
     end
   end

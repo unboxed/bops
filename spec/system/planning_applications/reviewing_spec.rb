@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe "Planning Application Reviewing", type: :system do
   let!(:reviewer) { create :user, :reviewer, local_authority: @default_local_authority }
   let!(:planning_application) do
-    create :planning_application, :awaiting_determination, local_authority: @default_local_authority
+    create :planning_application, :awaiting_determination, local_authority: @default_local_authority, decision: "granted"
   end
   let!(:recommendation) { create :recommendation, planning_application: planning_application }
 
@@ -59,19 +59,6 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
     recommendation.reload
     expect(recommendation.reviewer_comment).to eq("Edited reviewer private comment")
-  end
-
-  it "raises error if no response given" do
-    pending
-    delivered_emails = ActionMailer::Base.deliveries.count
-    click_link "Review Assessment"
-    fill_in "Please provide comments on why you don't agree.", with: "Reviewer private comment"
-    click_button "Save"
-    expect(page).to have_content("Please select Yes or No")
-
-    planning_application.reload
-    expect(planning_application.status).to eq("awaiting_determination")
-    expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails)
   end
 
   it "raises error if rejection doesn't include private comment"
