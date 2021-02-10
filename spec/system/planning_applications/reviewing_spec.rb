@@ -10,7 +10,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
   let!(:recommendation) { create :recommendation, planning_application: planning_application }
 
   # TODO: have multiple previous recommendations, and check they are shown on page
-
+  #
   before do
     sign_in reviewer
     visit planning_application_path(planning_application)
@@ -67,7 +67,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     click_link "Review Assessment"
     fill_in "Please provide comments on why you don't agree.", with: "Reviewer private comment"
     click_button "Save"
-    expect(page).to have_content("Some error message")
+    expect(page).to have_content("Please select Yes or No")
 
     planning_application.reload
     expect(planning_application.status).to eq("awaiting_determination")
@@ -75,8 +75,4 @@ RSpec.describe "Planning Application Reviewing", type: :system do
   end
 
   it "raises error if rejection doesn't include private comment"
-
-  it "cannot be accessed by assessor"
-
-  it "cannot be accessed when planning application is not in awaiting_determination"
 end

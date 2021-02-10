@@ -53,14 +53,13 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   it "errors if no public comment is provided when providing rejection recommendation" do
-    pending
     click_link "Assess Proposal"
     choose "No"
     fill_in "assessor_comment", with: "This is a private assessor comment"
     fill_in "public_comment", with: ""
     click_button "Save"
 
-    expect(page).to have_content("Please provide which GDPO policy (or policies) have not been met.")
+    expect(page).to have_content("Please fill in the GDPO policies text box.")
 
     expect(planning_application.status).to eq("in_assessment")
   end

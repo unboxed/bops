@@ -77,7 +77,7 @@ RSpec.describe PlanningApplication, type: :model do
 
     context "assess the application" do
       before do
-        planning_application.update("awaiting_determination_at": 1.hour.ago)
+        planning_application.update("awaiting_determination_at": 1.hour.ago, decision: "granted")
       end
 
       it "sets the status to awaiting_determination" do
@@ -136,7 +136,7 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     context "invalidate the application from awaiting_determination" do
-      subject(:planning_application) { create :planning_application, :awaiting_determination }
+      subject(:planning_application) { create :planning_application, :awaiting_determination, decision: "granted" }
 
       before do
         # Set timestamp to differentiate from now
@@ -157,7 +157,7 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     context "sets application to awaiting_correction when request_correction is called" do
-      subject(:planning_application) { create :planning_application, :awaiting_determination }
+      subject(:planning_application) { create :planning_application, :awaiting_determination, decision: "granted" }
 
       before do
         # Set timestamp to differentiate from now
@@ -178,7 +178,7 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     context "determine the application" do
-      subject(:planning_application) { create :planning_application, :awaiting_determination }
+      subject(:planning_application) { create :planning_application, :awaiting_determination, decision: "granted" }
 
       before do
         # Set timestamp to differentiate from now
@@ -241,7 +241,7 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     context "withdraw the application from awaiting_determination" do
-      subject(:planning_application) { create :planning_application, :awaiting_determination }
+      subject(:planning_application) { create :planning_application, :awaiting_determination, decision: "granted" }
 
       before do
         # Set timestamp to differentiate from now
@@ -262,7 +262,7 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     context "withdraw the application from awaiting_correction" do
-      subject(:planning_application) { create :planning_application, :awaiting_correction }
+      subject(:planning_application) { create :planning_application, :awaiting_correction, decision: "granted" }
 
       before do
         # Set timestamp to differentiate from now

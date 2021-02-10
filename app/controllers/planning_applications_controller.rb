@@ -71,9 +71,12 @@ class PlanningApplicationsController < AuthenticationController
     @recommendation = @planning_application.pending_or_new_recommendation
     @planning_application.assign_attributes(params.require(:planning_application).permit(:decision, :public_comment))
     @recommendation.assign_attributes(params.require(:recommendation).permit(:assessor_comment).merge(assessor: current_user))
-    @planning_application.save! && @recommendation.save!
 
-    redirect_to @planning_application
+    if @planning_application.save && @recommendation.save
+      redirect_to @planning_application
+    else
+      render :recommendation_form
+    end
   end
 
   def submit_recommendation; end

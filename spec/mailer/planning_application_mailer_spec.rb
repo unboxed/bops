@@ -42,7 +42,10 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     context "for a rejected application" do
-      let!(:planning_application) { create(:planning_application, :determined, local_authority: local_authority, decision: "refused") }
+      let(:planning_application) do
+        create :planning_application, :determined, decision: "refused",
+                                                   public_comment: "not valid"
+      end
 
       it "includes the status in the subject" do
         expect(mail.subject).to eq("Certificate of Lawfulness: refused")

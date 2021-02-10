@@ -19,7 +19,10 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
 
   describe "#display_decision_status" do
     context "refused" do
-      let(:planning_application) { create :planning_application, :determined, decision: "refused" }
+      let(:planning_application) do
+        create :planning_application, :determined, decision: "refused",
+                                                   public_comment: "not valid"
+      end
 
       it "returns correct values when application is refused" do
         expect(display_status(planning_application)[:decision]).to eql("Refused")
@@ -39,7 +42,7 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
 
   describe "#display_status" do
     let(:planning_application) { create :planning_application }
-    let(:awaiting_planning_application) { create :planning_application, :awaiting_determination }
+    let(:awaiting_planning_application) { create :planning_application, :awaiting_determination, decision: "granted" }
 
     it "returns correct values when application is withdrawn" do
       planning_application.withdraw!

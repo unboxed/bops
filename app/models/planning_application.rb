@@ -26,6 +26,7 @@ class PlanningApplication < ApplicationRecord
                          message: "Work Status should be proposed or existing" }
 
   validate :documents_validated_at_date
+  validate :public_comment_present
 
   scope :not_started_and_invalid, -> { where("status = 'not_started' OR status = 'invalidated'") }
   scope :under_assessment, -> { where("status = 'in_assessment' OR status = 'awaiting_correction'") }
@@ -48,7 +49,7 @@ class PlanningApplication < ApplicationRecord
     end
 
     event :assess do
-      transitions from: %i[in_assessment awaiting_correction], to: :awaiting_determination
+      transitions from: %i[in_assessment awaiting_correction], to: :awaiting_determination, guard: :decision_present?
     end
 
     event :invalidate do
@@ -218,5 +219,21 @@ private
 
   def has_validation_date?
     !documents_validated_at.nil?
+  end
+
+  def public_comment_present
+    if decision == "refused" && public_comment.blank?
+      errors.add(:planning_application, "Please fill in the GDPO policies text box.")
+    end
+  end
+
+  def decision_present?
+    decision.present?
+  end
+
+  def validate_decision
+    if assessment_complete? && decision_present?
+      errors.add(:planning_application, "Please select Yes or No")
+    end
   end
 end
