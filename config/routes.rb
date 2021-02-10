@@ -3,6 +3,7 @@
 # require "rswag-api"
 
 Rails.application.routes.draw do
+  resources :site_visits
   root to: "planning_applications#index", defaults: { q: "exclude_others" }
 
   devise_for :users

@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @site_visit.notes %>
+</p>
+
+<p>
+  <strong>Photo:</strong>
+  <%= @site_visit.photo %>
+</p>
+
+<%= link_to 'Edit', edit_site_visit_path(@site_visit) %> |
+<%= link_to 'Back', site_visits_path %>

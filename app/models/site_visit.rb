@@ -1,0 +1,2 @@
+class SiteVisit < ApplicationRecord
+end

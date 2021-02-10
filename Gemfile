@@ -26,6 +26,7 @@ gem "puma", "~> 4.1"
 gem "pundit"
 gem "rails", "~> 6.0.3"
 gem "rswag-ui"
+gem 'turbo-rails'
 gem "webpacker", "~> 4.0"
 gem "wkhtmltopdf-binary"
 

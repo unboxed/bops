@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Site Visits</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Notes</th>
+      <th>Photo</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @site_visits.each do |site_visit| %>
+      <tr>
+        <td><%= site_visit.notes %></td>
+        <td><%= site_visit.photo %></td>
+        <td><%= link_to 'Show', site_visit %></td>
+        <td><%= link_to 'Edit', edit_site_visit_path(site_visit) %></td>
+        <td><%= link_to 'Destroy', site_visit, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Site Visit', new_site_visit_path %>
