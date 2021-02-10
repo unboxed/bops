@@ -59,7 +59,7 @@
 
           <li class="app-task-list__item">
             <span class="app-task-list__task-name">
-              <% if @planning_application.can_review_assessment? %>
+              <% if @planning_application.can_review_assessment? && current_user.reviewer? %>
                 <%= link_to "Review Assessment",
                             review_form_planning_application_path(@planning_application),
                             aria: { describedby: "review_assessment-completed" }
@@ -76,7 +76,7 @@
 
           <li class="app-task-list__item">
             <span class="app-task-list__task-name">
-              <% if @planning_application.can_publish? %>
+              <% if @planning_application.can_publish? && current_user.reviewer? %>
                 <%= link_to "Publish",
                             publish_planning_application_path(@planning_application),
                             aria: { describedby: "publish-completed" }

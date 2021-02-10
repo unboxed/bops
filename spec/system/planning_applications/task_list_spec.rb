@@ -4,6 +4,7 @@ require "rails_helper"
 
 RSpec.describe "Planning Application show page", type: :system do
   let(:reviewer) { create :user, :reviewer, local_authority: @default_local_authority }
+  let(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
 
   context "as a reviewer" do
     before do
@@ -94,6 +95,34 @@ RSpec.describe "Planning Application show page", type: :system do
       task_item_exists("Assess Proposal", linked: true, completed: true)
       task_item_exists("Submit Recommendation", linked: true, completed: false)
       task_item_exists("Review Assessment", linked: false, completed: false)
+      task_item_exists("Publish", linked: false, completed: false)
+    end
+  end
+
+  context "as an assessor" do
+    before do
+      sign_in assessor
+    end
+
+    it "makes valid task list for when it is awaiting determination" do
+      planning_application = create(:planning_application, :awaiting_determination, local_authority: @default_local_authority)
+      create(:recommendation, planning_application: planning_application)
+      visit planning_application_path(planning_application.id)
+      task_item_exists("Validate documents", linked: true, completed: true)
+      task_item_exists("Assess Proposal", linked: false, completed: true)
+      task_item_exists("Submit Recommendation", linked: false, completed: true)
+      task_item_exists("Review Assessment", linked: false, completed: false)
+      task_item_exists("Publish", linked: false, completed: false)
+    end
+
+    it "makes valid task list for when it is awaiting determination and recommendation has been reviewed" do
+      planning_application = create(:planning_application, :awaiting_determination, local_authority: @default_local_authority)
+      create(:recommendation, :reviewed, planning_application: planning_application)
+      visit planning_application_path(planning_application.id)
+      task_item_exists("Validate documents", linked: true, completed: true)
+      task_item_exists("Assess Proposal", linked: false, completed: true)
+      task_item_exists("Submit Recommendation", linked: false, completed: true)
+      task_item_exists("Review Assessment", linked: false, completed: true)
       task_item_exists("Publish", linked: false, completed: false)
     end
   end
