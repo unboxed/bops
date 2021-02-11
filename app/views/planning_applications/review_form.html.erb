@@ -1,4 +1,5 @@
 <%= render "planning_applications/assessment_dashboard" do %>
+  <%= render "recommendations", { recommendations: @planning_application.recommendations } %>
   <%= form_for @recommendation, url: review_planning_application_path(@planning_application) do |form| %>
     <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
       <p class="govuk-body">Do you agree with the recommendation?</p>

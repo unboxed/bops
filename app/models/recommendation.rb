@@ -7,4 +7,16 @@ class Recommendation < ApplicationRecord
   scope :reviewed, -> { where("reviewer_id IS NOT NULL") }
 
   attr_accessor :agree
+
+  def current_recommendation?
+    planning_application.recommendations.last == self
+  end
+
+  def reviewed?
+    if current_recommendation? && planning_application.awaiting_determination?
+      false
+    else
+      reviewer.present?
+    end
+  end
 end
