@@ -1,5 +1,30 @@
 <%= render "planning_applications/assessment_dashboard" do %>
-  <% form_for @planning_application, url: recommend_planning_application_path(@planning_application) do |form| %>
+  <div class="recommendations govuk-inset-text">
+    <% @planning_application.recommendations.reviewed.each do |recommendation| %>
+      <div class="recommendation">
+        <p class="govuk-body">
+          <strong>Submitted recommendation</strong> by <%= recommendation.assessor.name %><br />
+          <%= accessible_time recommendation.created_at %>
+        </p>
+
+        <p class="govuk-body comment">
+          <%= recommendation.assessor_comment %>
+        </p>
+      </div>
+
+      <div class="recommendation">
+        <p class="govuk-body">
+          <strong>Recommendation challenged</strong> by <%= recommendation.reviewer.name %> <br />
+          <%= accessible_time recommendation.reviewed_at %>
+        </p>
+
+        <p class="govuk-body comment">
+          <%= recommendation.reviewer_comment %>
+        </p>
+      </div>
+    <% end %>
+  </div>
+  <%= form_for @planning_application, url: recommend_planning_application_path(@planning_application) do |form| %>
     <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
       <p class="govuk-body">
         <br>

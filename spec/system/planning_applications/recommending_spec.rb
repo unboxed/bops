@@ -9,8 +9,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
     create :planning_application, local_authority: @default_local_authority
   end
 
-  # TODO: have multiple previous recommendations, and check they are shown on page
-
   before do
     sign_in assessor
     visit root_path
@@ -49,6 +47,46 @@ RSpec.describe "Planning Application Assessment", type: :system do
       # TODO: add a flash message here?
       planning_application.reload
       expect(planning_application.status).to eq("awaiting_determination")
+    end
+  end
+
+  context "with previous recommendations" do
+    let!(:planning_application) do
+      create :planning_application, :awaiting_correction, local_authority: @default_local_authority
+    end
+
+    let!(:recommendation) do
+      create :recommendation, :reviewed, planning_application: planning_application,
+                                         reviewer_comment: "I disagree", assessor_comment: "This looks good"
+    end
+
+    it "displays the previous recommendations" do
+      click_link "Assess Proposal"
+
+      within ".recommendations" do
+        expect(page).to have_content("I disagree")
+        expect(page).to have_content("This looks good")
+      end
+
+      choose "Yes"
+      fill_in "assessor_comment", with: "This is a private assessor comment"
+      click_button "Save"
+
+      planning_application.reload
+      expect(planning_application.recommendations.count).to eq(2)
+      expect(planning_application.recommendations.last.assessor_comment).to eq("This is a private assessor comment")
+      expect(planning_application.decision).to eq("granted")
+
+      click_link "Assess Proposal"
+
+      within ".recommendations" do
+        expect(page).to have_content("I disagree")
+        expect(page).to have_content("This looks good")
+        expect(page).not_to have_content("This is a private assessor comment")
+      end
+
+      expect(page).to have_checked_field("Yes")
+      expect(page).to have_field("assessor_comment", with: "This is a private assessor comment")
     end
   end
 
