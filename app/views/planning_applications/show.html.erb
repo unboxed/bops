@@ -10,7 +10,7 @@
             <span class="app-task-list__task-name">
               <% if @planning_application.can_validate? %>
                 <%= link_to "Validate documents",
-                            planning_application_documents_path(@planning_application),
+                            validate_documents_form_planning_application_path(@planning_application),
                             aria: { describedby: "validation-completed" }
                 %>
               <% else %>

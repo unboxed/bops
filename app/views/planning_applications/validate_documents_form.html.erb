@@ -1,0 +1,29 @@
+<%= render "planning_applications/assessment_dashboard" do %>
+
+  <h2 class="govuk-heading-m">1. Validate documents</h2>
+
+  <p class="govuk-body">Please check all the applicant's documents before proceeding</p>
+  
+  <p class="govuk-body"><%= link_to "Check documents", planning_application_documents_path(@planning_application) %></p>
+
+  <%= form_with model: @planning_application, url: validate_documents_planning_application_path(@planning_application), local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+    <fieldset class="govuk-fieldset">
+      <% if form.object.errors.any? %>
+        <% form.object.errors.each do |attribute, error| %>
+      <span id="status-error" class="govuk-error-message">
+        <span class="govuk-visually-hidden">Error:</span><%= error %></span>
+        <% end %>
+      <% end %>
+      <%= form.govuk_radio_buttons_fieldset(:status, legend: { size: 's', text: 'Are the documents valid?' }) do %>
+        <%= form.govuk_radio_button :status, 'in_assessment', label: { text: 'Yes'} do %>
+          <%= form.govuk_date_field :documents_validated_at, legend: { text: 'Valid date', size: 's' }, hint: { text: 'Date application should be considered valid, e.g. 28 12 2021' } %>
+        <% end %>
+        <%= form.govuk_radio_button :status, 'invalidated', label: { text: 'No' } %>
+      <% end %>
+    </fieldset>
+    <p>
+      <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+      <%= link_to 'Cancel', planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+    </p>
+  <% end%>
+<% end %>

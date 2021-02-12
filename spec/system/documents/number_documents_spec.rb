@@ -34,7 +34,8 @@ RSpec.describe "Edit document numbers page", type: :system do
       end
 
       before do
-        click_link "Validate documents"
+        click_button "Documents"
+        click_link "Manage documents"
       end
 
       it "Assessor can see content for the right application" do
@@ -75,16 +76,6 @@ RSpec.describe "Edit document numbers page", type: :system do
         fill_in "Document number(s)", with: "other_new_number_1"
 
         click_button "Save and return"
-
-        expect(page).to have_content("Are the documents valid?")
-
-        choose "Yes"
-
-        fill_in "Day", with: "03"
-        fill_in "Month", with: "12"
-        fill_in "Year", with: "2021"
-
-        click_button "Save"
       end
     end
   end

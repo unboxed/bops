@@ -13,6 +13,7 @@ class PlanningApplicationsController < AuthenticationController
                                                     publish
                                                     determine
                                                     request_correction
+                                                    validate_documents_form
                                                     validate_documents
                                                     cancel_confirmation
                                                     cancel]
@@ -145,12 +146,16 @@ class PlanningApplicationsController < AuthenticationController
     end
   end
 
+  def validate_documents_form
+    @planning_application.documents_validated_at ||= @planning_application.created_at
+  end
+
   def validate_documents
     status = params[:planning_application][:status]
     if status == "in_assessment"
       if date_from_params.blank?
         @planning_application.errors.add(:planning_application, "Please enter a valid date")
-        render "documents/index"
+        render "validate_documents_form"
       else
         @planning_application.documents_validated_at = date_from_params
         @planning_application.start!
@@ -164,7 +169,7 @@ class PlanningApplicationsController < AuthenticationController
       redirect_to @planning_application
     else
       @planning_application.errors.add(:status, "Please select one of the below options")
-      render "documents/index"
+      render "validate_documents_form"
     end
   end
 

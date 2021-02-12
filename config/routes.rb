@@ -12,6 +12,8 @@ Rails.application.routes.draw do
     member do
       get :assign
       patch :assign
+      get :validate_documents_form
+      patch :validate_documents
       get :recommendation_form
       patch :recommend
       get :submit_recommendation
@@ -21,7 +23,6 @@ Rails.application.routes.draw do
       get :publish
       patch :determine
       patch :cancel
-      patch :validate_documents
       get :cancel_confirmation
     end
 
