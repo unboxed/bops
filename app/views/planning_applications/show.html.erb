@@ -71,6 +71,8 @@
 
             <% if @planning_application.review_assessment_complete? %>
               <%= tag.strong "Completed", id: "review_assessment-completed", class: "govuk-tag app-task-list__task-tag" %>
+            <% elsif @planning_application.can_review_assessment? && current_user.assessor? %>
+              <%= tag.strong "Waiting", id: "review_assessment-waiting", class: "govuk-tag app-task-list__task-tag" %>
             <% end %>
           </li>
 
@@ -88,6 +90,8 @@
 
             <% if @planning_application.publish_complete?  %>
               <%= tag.strong "Completed", id: "publish-completed", class: "govuk-tag app-task-list__task-tag" %>
+            <% elsif @planning_application.can_publish? && current_user.assessor? %>
+              <%= tag.strong "Waiting", id: "review_assessment-waiting", class: "govuk-tag app-task-list__task-tag" %>
             <% end %>
           </li>
         </ul>

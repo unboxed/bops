@@ -111,7 +111,7 @@ RSpec.describe "Planning Application show page", type: :system do
       task_item_exists("Validate documents", linked: true, completed: true)
       task_item_exists("Assess Proposal", linked: false, completed: true)
       task_item_exists("Submit Recommendation", linked: false, completed: true)
-      task_item_exists("Review Assessment", linked: false, completed: false)
+      task_item_exists("Review Assessment", linked: false, completed: false, waiting: true)
       task_item_exists("Publish", linked: false, completed: false)
     end
 
@@ -123,7 +123,7 @@ RSpec.describe "Planning Application show page", type: :system do
       task_item_exists("Assess Proposal", linked: false, completed: true)
       task_item_exists("Submit Recommendation", linked: false, completed: true)
       task_item_exists("Review Assessment", linked: false, completed: true)
-      task_item_exists("Publish", linked: false, completed: false)
+      task_item_exists("Publish", linked: false, completed: false, waiting: true)
     end
   end
 
