@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "API request to list planning applications", type: :request, show_exceptions: true do
   let(:reviewer) { create :user, :reviewer }
-  let!(:planning_application) { create(:planning_application, :not_started, local_authority: @default_local_authority) }
+  let!(:planning_application) { create(:planning_application, :not_started, local_authority: @default_local_authority, decision: "granted") }
   let(:lambeth) { create :local_authority, subdomain: "lambeth" }
   let!(:planning_application_lambeth) { create(:planning_application, :not_started, local_authority: lambeth) }
 
