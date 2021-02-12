@@ -17,6 +17,8 @@ class PlanningApplicationsController < AuthenticationController
                                                     cancel_confirmation
                                                     cancel]
 
+  before_action :ensure_user_is_reviewer, only: %i[review review_form]
+
   rescue_from Notifications::Client::NotFoundError,
               with: :decision_notice_mail_error
 
@@ -212,5 +214,9 @@ private
     flash[:notice] =
       "The email cannot be sent. Please try again later."
     render "documents/index"
+  end
+
+  def ensure_user_is_reviewer
+    render plain: "forbidden", status: 403 and return unless current_user.reviewer?
   end
 end
