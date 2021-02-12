@@ -130,23 +130,23 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def cancel
-    status = authorize_user_can_update_status(params[:planning_application][:status])
-    apply_cancellation(status)
-    flash[:notice] = "Application has been cancelled"
-    redirect_to @planning_application
-  end
-
-  def apply_cancellation(status)
-    case status
+    case params[:planning_application][:status]
     when "withdrawn"
       @planning_application.withdraw!(:withdrawn, params[:planning_application][:cancellation_comment])
+      flash[:notice] = "Application has been withdrawn"
+      redirect_to @planning_application
     when "returned"
       @planning_application.return!(:returned, params[:planning_application][:cancellation_comment])
+      flash[:notice] = "Application has been returned"
+      redirect_to @planning_application
+    else
+      @planning_application.errors.add(:status, "Please select one of the below options")
+      render :cancel_confirmation
     end
   end
 
   def validate_documents
-    status = authorize_user_can_update_status(params[:planning_application][:status])
+    status = params[:planning_application][:status]
     if status == "in_assessment"
       if date_from_params.blank?
         @planning_application.errors.add(:planning_application, "Please enter a valid date")
@@ -182,18 +182,6 @@ private
 
   def set_planning_application
     @planning_application = current_local_authority.planning_applications.find(params[:id])
-  end
-
-  def authorize_user_can_update_status(status)
-    if status.present? && unpermitted_status_for_user?(status)
-      raise Pundit::NotAuthorizedError
-    end
-
-    status
-  end
-
-  def unpermitted_status_for_user?(status)
-    status == :awaiting_determination if current_user.assessor?
   end
 
   def decision_notice_mail

@@ -21,7 +21,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       fill_in "Can you provide more detail?", with: "Withdrawn reason"
       click_button "Save"
 
-      expect(page).to have_content("Application has been cancelled")
+      expect(page).to have_content("Application has been withdrawn")
       planning_application.reload
       expect(planning_application.status).to eq("withdrawn")
       expect(planning_application.cancellation_comment).to eq("Withdrawn reason")
@@ -33,13 +33,20 @@ RSpec.describe "Planning Application Assessment", type: :system do
       fill_in "Can you provide more detail?", with: "Returned reason"
       click_button "Save"
 
-      expect(page).to have_content("Application has been cancelled")
+      expect(page).to have_content("Application has been returned")
       planning_application.reload
       expect(planning_application.status).to eq("returned")
       expect(planning_application.cancellation_comment).to eq("Returned reason")
     end
 
-    it "errors if no option chosen"
+    it "errors if no option chosen" do
+      click_link "Cancel application"
+      click_button "Save"
+
+      expect(page).to have_content("Please select one of the below options")
+      planning_application.reload
+      expect(planning_application.status).to eq("not_started")
+    end
   end
 
   context "for planning application that has been determined" do
