@@ -35,7 +35,7 @@ RSpec.describe "Documents index page", type: :system do
     before do
       sign_in assessor
       visit planning_application_path(planning_application)
-      click_button "Proposal documents"
+      click_button "Documents"
       click_link "Manage documents"
     end
 
@@ -57,7 +57,7 @@ RSpec.describe "Documents index page", type: :system do
     before do
       sign_in assessor
       visit planning_application_path(planning_application)
-      click_button "Proposal documents"
+      click_button "Documents"
       click_link "Manage documents"
       click_link "Archive document"
     end
@@ -171,7 +171,7 @@ RSpec.describe "Documents index page", type: :system do
     before do
       sign_in reviewer
       visit planning_application_path(planning_application)
-      click_button "Proposal documents"
+      click_button "Documents"
       click_link "Manage documents"
     end
 

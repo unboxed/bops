@@ -36,7 +36,7 @@ RSpec.describe "Document uploads", type: :system do
 
         find(".govuk-breadcrumbs").click_link("Application")
 
-        click_button("Proposal documents")
+        click_button("Documents")
 
         within(find(".scroll-docs")) do
           expect(all("img").count).to eq 2
