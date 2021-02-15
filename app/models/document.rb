@@ -14,7 +14,6 @@ class Document < ApplicationRecord
     Rear
     Side
     Roof
-    Garden
     Floor
     Site
     Plan
