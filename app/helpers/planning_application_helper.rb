@@ -64,35 +64,4 @@ module PlanningApplicationHelper
       planning_application.returned_at
     end
   end
-
-  def proposal_step_mark_completed?(step_name, application)
-    case step_name
-    when "Check documents"
-      application.not_started? == false
-    when "Assess the proposal"
-      application.assessor_decision&.valid?
-    when "Reassess the proposal"
-      application.assessor_decision_updated?
-    when "Review the recommendation"
-      application.reviewer_decision&.valid? &&
-        application.reviewer_decision_updated?
-    when "View the assessment"
-      application.determined?
-    else
-      false
-    end
-  end
-
-  def recommendation_step_mark_completed?(step_name, application)
-    case step_name
-    when "Submit the recommendation"
-      application.awaiting_determination?
-    when "Publish the recommendation"
-      application.determined?
-    when "View the decision notice"
-      application.determined?
-    else
-      false
-    end
-  end
 end
