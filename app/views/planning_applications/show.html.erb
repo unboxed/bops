@@ -1,101 +1,124 @@
 <%= render "assessment_dashboard" do %>
-  <% unless @planning_application.withdrawn?  ||  @planning_application.returned?  %>
-    <ol class="app-task-list">
-      <li>
-        <h2 class="app-task-list__section">
-          <span class="app-task-list__section-number"><%= t("#{@planning_application.status}.heading") %></span>
-        </h2>
-        <ul class="app-task-list__items">
-          <li class="app-task-list__item">
+  <% unless @planning_application.withdrawn? || @planning_application.returned? %>
+    <h2 class="app-task-list__section">
+      <span class="app-task-list__section-number">Process Application</span>
+    </h2>
+    <div class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <p class="govuk-body task-list-subhead">
+          <strong>1. Validation</strong>
+        <p>
+      </div>
+      <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__value">
             <span class="app-task-list__task-name">
               <% if @planning_application.can_validate? %>
                 <%= link_to "Validate documents",
                             validate_documents_form_planning_application_path(@planning_application),
-                            aria: { describedby: "validation-completed" }
+                            aria: {describedby: "validation-completed"}
                 %>
               <% else %>
                 Validate documents
               <% end %>
             </span>
 
-            <% if @planning_application.validation_complete?  %>
-              <%= tag.strong "Completed", id: "validation-completed", class: "govuk-tag app-task-list__task-tag" %>
-            <% end %>
-          </li>
+          <% if @planning_application.validation_complete? %>
+            <%= tag.strong "Completed", id: "validation-completed", class: "govuk-tag app-task-list__task-tag" %>
+          <% end %>
+        </div>
+      </div>
 
-          <li class="app-task-list__item">
+      <div class="govuk-summary-list__row">
+        <p class="govuk-body task-list-subhead">
+          <strong>2. Assessment</strong>
+        <p>
+      </div>
+      <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__value">
             <span class="app-task-list__task-name">
               <% if @planning_application.can_assess? %>
                 <%= link_to "Assess Proposal",
                             recommendation_form_planning_application_path(@planning_application),
-                            aria: { describedby: "assessment-completed" }
+                            aria: {describedby: "assessment-completed"}
                 %>
               <% else %>
                 Assess Proposal
               <% end %>
             </span>
 
-            <% if @planning_application.assessment_complete?  %>
-              <%= tag.strong "Completed", id: "validation-completed", class: "govuk-tag app-task-list__task-tag" %>
-            <% end %>
-          </li>
+          <% if @planning_application.assessment_complete? %>
+            <%= tag.strong "Completed", id: "validation-completed", class: "govuk-tag app-task-list__task-tag" %>
+          <% end %>
+        </div>
+      </div>
 
-          <li class="app-task-list__item">
+      <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__value">
             <span class="app-task-list__task-name">
               <% if @planning_application.can_submit_recommendation? %>
                 <%= link_to "Submit Recommendation",
                             submit_recommendation_planning_application_path(@planning_application),
-                            aria: { describedby: "submit_recommendation-completed" }
+                            aria: {describedby: "submit_recommendation-completed"}
                 %>
               <% else %>
                 Submit Recommendation
               <% end %>
             </span>
 
-            <% if @planning_application.submit_recommendation_complete?  %>
-              <%= tag.strong "Completed", id: "submit_recommendation-completed", class: "govuk-tag app-task-list__task-tag" %>
-            <% end %>
-          </li>
+          <% if @planning_application.submit_recommendation_complete? %>
+            <%= tag.strong "Completed", id: "submit_recommendation-completed", class: "govuk-tag app-task-list__task-tag" %>
+          <% end %>
+        </div>
+      </div>
 
-          <li class="app-task-list__item">
+
+      <div class="govuk-summary-list__row">
+        <p class="govuk-body task-list-subhead">
+          <strong>3. Review</strong>
+        <p>
+      </div>
+      <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__value">
             <span class="app-task-list__task-name">
               <% if @planning_application.can_review_assessment? && current_user.reviewer? %>
                 <%= link_to "Review Assessment",
                             review_form_planning_application_path(@planning_application),
-                            aria: { describedby: "review_assessment-completed" }
+                            aria: {describedby: "review_assessment-completed"}
                 %>
               <% else %>
                 Review Assessment
               <% end %>
             </span>
 
-            <% if @planning_application.review_assessment_complete? %>
-              <%= tag.strong "Completed", id: "review_assessment-completed", class: "govuk-tag app-task-list__task-tag" %>
-            <% elsif @planning_application.can_review_assessment? && current_user.assessor? %>
-              <%= tag.strong "Waiting", id: "review_assessment-waiting", class: "govuk-tag app-task-list__task-tag" %>
-            <% end %>
-          </li>
+          <% if @planning_application.review_assessment_complete? %>
+            <%= tag.strong "Completed", id: "review_assessment-completed", class: "govuk-tag app-task-list__task-tag" %>
+          <% elsif @planning_application.can_review_assessment? && current_user.assessor? %>
+            <%= tag.strong "Waiting", id: "review_assessment-waiting", class: "govuk-tag app-task-list__task-tag" %>
+          <% end %>
 
-          <li class="app-task-list__item">
+        </div>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__value">
             <span class="app-task-list__task-name">
               <% if @planning_application.can_publish? && current_user.reviewer? %>
-                <%= link_to "Publish",
+                <%= link_to "Publish Determination",
                             publish_planning_application_path(@planning_application),
-                            aria: { describedby: "publish-completed" }
+                            aria: {describedby: "publish-completed"}
                 %>
               <% else %>
                 Publish
               <% end %>
             </span>
 
-            <% if @planning_application.publish_complete?  %>
-              <%= tag.strong "Completed", id: "publish-completed", class: "govuk-tag app-task-list__task-tag" %>
-            <% elsif @planning_application.can_publish? && current_user.assessor? %>
-              <%= tag.strong "Waiting", id: "review_assessment-waiting", class: "govuk-tag app-task-list__task-tag" %>
-            <% end %>
-          </li>
-        </ul>
-      </li>
-    </ol>
+          <% if @planning_application.publish_complete? %>
+            <%= tag.strong "Completed", id: "publish-completed", class: "govuk-tag app-task-list__task-tag" %>
+          <% elsif @planning_application.can_publish? && current_user.assessor? %>
+            <%= tag.strong "Waiting", id: "review_assessment-waiting", class: "govuk-tag app-task-list__task-tag" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
   <% end %>
 <% end %>

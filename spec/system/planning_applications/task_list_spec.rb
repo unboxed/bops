@@ -128,8 +128,8 @@ RSpec.describe "Planning Application show page", type: :system do
   end
 
   def task_item_exists(text, opts = { linked: false, completed: false })
-    within ".app-task-list__items" do
-      within :xpath, "//*[contains(text(),'#{text}')]/ancestor::li[@class='app-task-list__item']" do
+    within ".govuk-summary-list" do
+      within :xpath, "//*[contains(text(),'#{text}')]/ancestor::div[@class='govuk-summary-list__value']" do
         if opts[:linked]
           expect(page).to have_link(text)
         else

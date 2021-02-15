@@ -103,11 +103,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "Assessment tasks are visible" do
-      expect(page).to have_text("Make recommendation")
-    end
-
-    it "Review tasks are not visible" do
-      expect(page).not_to have_text("Determine the proposal")
+      expect(page).to have_text("Submit Recommendation")
     end
   end
 
