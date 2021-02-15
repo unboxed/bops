@@ -1,3 +1,4 @@
+<% content_for :title, "Review form" %>
 <%= render "planning_applications/assessment_dashboard" do %>
   <%= render "recommendations", { recommendations: @planning_application.recommendations } %>
   <%= form_for @recommendation, url: review_planning_application_path(@planning_application) do |form| %>
