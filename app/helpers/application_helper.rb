@@ -8,4 +8,8 @@ module ApplicationHelper
       rails_blob_url(document.file)
     end
   end
+
+  def accessible_time(datetime)
+    tag.time(datetime.strftime("%e %B %G at %R%P"), { datetime: datetime.iso8601 })
+  end
 end

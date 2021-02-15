@@ -8,17 +8,9 @@ class PlanningApplication < ApplicationRecord
   enum application_type: { lawfulness_certificate: 0, full: 1 }
 
   has_one :policy_evaluation, dependent: :destroy
-  has_many :decisions, dependent: :destroy
 
   has_many :documents, dependent: :destroy
-
-  has_one :assessor_decision, lambda {
-                                joins(:user).where(users: { role: :assessor })
-                              }, class_name: "Decision", inverse_of: :planning_application
-
-  has_one :reviewer_decision, lambda {
-                                joins(:user).where(users: { role: :reviewer })
-                              }, class_name: "Decision", inverse_of: :planning_application
+  has_many :recommendations, dependent: :destroy
 
   belongs_to :site
   belongs_to :user, optional: true
@@ -27,9 +19,6 @@ class PlanningApplication < ApplicationRecord
   before_create :set_target_date
   before_update :set_target_date
 
-  validate :assessor_decision_associated_with_assessor
-  validate :reviewer_decision_associated_with_reviewer
-
   WORK_STATUSES = %w[proposed existing].freeze
 
   validates :work_status,
@@ -37,6 +26,8 @@ class PlanningApplication < ApplicationRecord
                          message: "Work Status should be proposed or existing" }
 
   validate :documents_validated_at_date
+  validate :public_comment_present
+  validate :decision_with_recommendations
 
   scope :not_started_and_invalid, -> { where("status = 'not_started' OR status = 'invalidated'") }
   scope :under_assessment, -> { where("status = 'in_assessment' OR status = 'awaiting_correction'") }
@@ -59,7 +50,7 @@ class PlanningApplication < ApplicationRecord
     end
 
     event :assess do
-      transitions from: %i[in_assessment awaiting_correction], to: :awaiting_determination
+      transitions from: %i[in_assessment awaiting_correction], to: :awaiting_determination, guard: :decision_present?
     end
 
     event :invalidate do
@@ -116,29 +107,19 @@ class PlanningApplication < ApplicationRecord
   end
 
   def correction_provided?
-    awaiting_determination? && reviewer_decision&.private_comment.present?
+    awaiting_correction?
   end
 
   def reviewer_disagrees_with_assessor?
-    return false unless reviewer_decision && assessor_decision
-
-    reviewer_decision.status != assessor_decision.status
+    awaiting_correction?
   end
 
   def assessor_decision_updated?
-    return false unless assessor_decision && reviewer_decision
-
-    assessor_decision.decided_at > reviewer_decision.decided_at
+    awaiting_determination? && recommendations.count > 1
   end
 
   def reviewer_decision_updated?
-    return false unless reviewer_decision && assessor_decision
-
-    reviewer_decision.decided_at > assessor_decision.decided_at
-  end
-
-  def assessment_complete?
-    awaiting_determination? || determined?
+    awaiting_correction? && recommendations.count > 1
   end
 
   def agent?
@@ -161,6 +142,70 @@ class PlanningApplication < ApplicationRecord
     true unless determined? || returned? || withdrawn?
   end
 
+  def refused?
+    decision == "refused"
+  end
+
+  def granted?
+    decision == "granted"
+  end
+
+  def can_validate?
+    true unless determined? || returned? || withdrawn?
+  end
+
+  def validation_complete?
+    !not_started?
+  end
+
+  def can_assess?
+    in_assessment? || awaiting_correction?
+  end
+
+  def assessment_complete?
+    (validation_complete? && pending_review?) || awaiting_determination? || determined?
+  end
+
+  def can_submit_recommendation?
+    assessment_complete? && (in_assessment? || awaiting_correction?)
+  end
+
+  def submit_recommendation_complete?
+    awaiting_determination? || determined?
+  end
+
+  def can_review_assessment?
+    awaiting_determination?
+  end
+
+  def review_assessment_complete?
+    (awaiting_determination? && !pending_review?) || determined?
+  end
+
+  def can_publish?
+    awaiting_determination? && !pending_review?
+  end
+
+  def publish_complete?
+    determined?
+  end
+
+  def refused_with_public_comment?
+    refused? && public_comment.present?
+  end
+
+  def pending_review?
+    recommendations.pending_review.any?
+  end
+
+  def pending_recommendation?
+    may_assess? && !pending_review?
+  end
+
+  def pending_or_new_recommendation
+    recommendations.pending_review.last || recommendations.build
+  end
+
 private
 
   def set_target_date
@@ -177,15 +222,19 @@ private
     !documents_validated_at.nil?
   end
 
-  def assessor_decision_associated_with_assessor
-    if assessor_decision.present? && !assessor_decision.user.assessor?
-      errors.add(:assessor_decision, "cannot be associated with a non-assessor")
+  def public_comment_present
+    if decision == "refused" && public_comment.blank?
+      errors.add(:planning_application, "Please fill in the GDPO policies text box.")
     end
   end
 
-  def reviewer_decision_associated_with_reviewer
-    if reviewer_decision.present? && !reviewer_decision.user.reviewer?
-      errors.add(:reviewer_decision, "cannot be associated with a non-reviewer")
+  def decision_present?
+    decision.present?
+  end
+
+  def decision_with_recommendations
+    if decision.nil? && recommendations.any?
+      errors.add(:planning_application, "Please select Yes or No")
     end
   end
 end

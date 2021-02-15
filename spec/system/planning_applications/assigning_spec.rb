@@ -3,10 +3,9 @@
 require "rails_helper"
 
 RSpec.describe "Assigning a planning application", type: :system do
-  let(:local_authority) { @default_local_authority }
-  let!(:assessor1) { create :user, :assessor, local_authority: local_authority, name: "Assessor 1" }
-  let!(:assessor2) { create :user, :assessor, local_authority: local_authority, name: "Assessor 2" }
-  let!(:planning_application) { create :planning_application, local_authority: local_authority, user: assessor1 }
+  let!(:assessor1) { create :user, :assessor, local_authority: @default_local_authority, name: "Assessor 1" }
+  let!(:assessor2) { create :user, :assessor, local_authority: @default_local_authority, name: "Assessor 2" }
+  let!(:planning_application) { create :planning_application, local_authority: @default_local_authority, user: assessor1 }
 
   before do
     sign_in assessor1

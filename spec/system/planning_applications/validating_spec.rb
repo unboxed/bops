@@ -2,26 +2,56 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning Application Assessment", type: :system do
-  let(:local_authority) do
-    create :local_authority,
-           name: "Cookie authority",
-           signatory_name: "Mr. Biscuit",
-           signatory_job_title: "Lord of BiscuitTown",
-           enquiries_paragraph: "reach us on postcode SW50",
-           email_address: "biscuit@somuchbiscuit.com"
+RSpec.shared_examples "validate and invalidate" do
+  it "can be validated" do
+    delivered_emails = ActionMailer::Base.deliveries.count
+    click_link planning_application.reference
+    click_link "Validate documents"
+
+    choose "Yes"
+
+    fill_in "Day", with: "03"
+    fill_in "Month", with: "12"
+    fill_in "Year", with: "2021"
+
+    click_button "Save"
+
+    expect(page).to have_content("Application is ready for assessment")
+
+    planning_application.reload
+    expect(planning_application.status).to eq("in_assessment")
+    expect(planning_application.documents_validated_at).to eq(Date.new(2021, 12, 3))
+
+    expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 1)
   end
-  let!(:assessor) { create :user, :assessor, name: "Lorrine Krajcik", local_authority: local_authority }
-  let!(:reviewer) { create :user, :reviewer, name: "Harley Dicki", local_authority: local_authority }
+
+  it "can be invalidated" do
+    delivered_emails = ActionMailer::Base.deliveries.count
+    click_link planning_application.reference
+    click_link "Validate documents"
+
+    choose "No"
+
+    click_button "Save"
+
+    expect(page).to have_content("Application has been invalidated")
+
+    planning_application.reload
+    expect(planning_application.status).to eq("invalidated")
+
+    expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails)
+  end
+end
+
+RSpec.describe "Planning Application Assessment", type: :system do
+  let!(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
 
   let!(:planning_application) do
-    create :planning_application, :not_started,
-           local_authority: local_authority
+    create :planning_application, :not_started, local_authority: @default_local_authority
   end
 
   let!(:document) do
-    create :document, :with_file, :with_tags,
-           planning_application: planning_application
+    create :document, :with_file, :with_tags, planning_application: planning_application
   end
 
   before do
@@ -30,147 +60,32 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   context "Checking documents from Not Started status" do
-    it "can be validated from Not Started" do
-      delivered_emails = ActionMailer::Base.deliveries.count
-      click_link planning_application.reference
-      click_link "Check the documents"
-
-      expect(page).to have_content("Are the documents valid?")
-
-      choose "Yes"
-
-      fill_in "Day", with: "03"
-      fill_in "Month", with: "12"
-      fill_in "Year", with: "2021"
-
-      click_button "Save"
-
-      expect(page).to have_content("Application is ready for assessment")
-
-      expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 1)
-
-      click_link "Home"
-
-      click_link "In assessment"
-
-      within("#under_assessment") do
-        click_link planning_application.reference
-      end
-
-      expect(page).not_to have_link("Check documents")
-    end
-
-    it "can be invalidated from Not Started" do
-      click_link planning_application.reference
-      click_link "Check the documents"
-
-      expect(page).to have_content("Are the documents valid?")
-
-      choose "No"
-
-      click_button "Save"
-
-      expect(page).to have_content("Application has been invalidated")
-
-      click_link "Home"
-
-      within("#not_started_and_invalid") do
-        expect(page).to have_content("invalid")
-        click_link planning_application.reference
-      end
-
-      expect(page).to have_link("Read the proposal")
-      expect(page).not_to have_button("Save")
-
-      click_link "Check the documents"
-      expect(page).to have_link("Upload documents")
-    end
+    include_examples "validate and invalidate"
   end
 
   context "Checking documents from Invalidated status" do
-    it "can be validated from Invalidated" do
-      planning_application.invalidate
-
-      click_link planning_application.reference
-      click_link "Check the documents"
-
-      expect(page).to have_content("Are the documents valid?")
-
-      choose "Yes"
-
-      fill_in "Day", with: ""
-      fill_in "Month", with: ""
-      fill_in "Year", with: ""
-
-      click_button "Save"
-
-      expect(page).to have_content("Please enter a valid date")
-
-      choose "Yes"
-
-      fill_in "Day", with: "03"
-      fill_in "Month", with: "12"
-      fill_in "Year", with: "2021"
-
-      click_button "Save"
-
-      expect(page).to have_content("Application is ready for assessment")
-
-      click_link "Home"
-
-      click_link "In assessment"
-
-      within("#under_assessment") do
-        click_link planning_application.reference
-      end
-
-      expect(page).not_to have_link("Check documents")
+    let!(:planning_application) do
+      create :planning_application, :invalidated, local_authority: @default_local_authority
     end
 
-    it "does not thrown an error when invalidated from Invalidated" do
-      planning_application.invalidate
-
-      click_link planning_application.reference
-      click_link "Check the documents"
-
-      expect(page).to have_content("Are the documents valid?")
-
-      choose "No"
-
-      click_button "Save"
-
-      expect(page).to have_content("Application has been invalidated")
-
-      click_link "Home"
-
-      within("#not_started_and_invalid") do
-        expect(page).to have_content("invalid")
-        click_link planning_application.reference
-      end
-
-      expect(page).to have_link("Read the proposal")
-      expect(page).not_to have_button("Save")
-
-      click_link "Check the documents"
-      expect(page).to have_link("Upload documents")
-    end
+    include_examples "validate and invalidate"
   end
 
   context "Planning application does not transition when expected inputs are not sent" do
     it "shows error when no radio button is selected" do
       click_link planning_application.reference
-      click_link "Check the documents"
+      click_link "Validate documents"
 
       click_button "Save"
 
+      planning_application.reload
       expect(page).to have_content("Please select one of the below options")
+      expect(planning_application.status).to eql("not_started")
     end
 
-    it "remains in not_started status if incorrect date is sent" do
+    it "shows error if invalid date is sent" do
       click_link planning_application.reference
-      click_link "Check the documents"
-
-      expect(page).to have_content("Are the documents valid?")
+      click_link "Validate documents"
 
       choose "Yes"
 
@@ -180,19 +95,14 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_button "Save"
 
+      planning_application.reload
+      # This is stopped by HTML 5 validations, which are hard to test the UI for.
       expect(planning_application.status).to eql("not_started")
-      expect(planning_application.documents_validated_at).to be(nil)
-
-      click_link "Home"
-      expect(page).to have_content(planning_application.reference)
-      expect(page).to have_content("Not started")
     end
 
-    it "remains in not_started status if prefilled date is overwritten" do
+    it "shows error if date is empty" do
       click_link planning_application.reference
-      click_link "Check the documents"
-
-      expect(page).to have_content("Are the documents valid?")
+      click_link "Validate documents"
 
       choose "Yes"
 
@@ -202,62 +112,21 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_button "Save"
 
-      expect(page).to have_content("Please enter a valid date")
-
+      planning_application.reload
       expect(planning_application.status).to eql("not_started")
-      expect(planning_application.documents_validated_at).to be(nil)
-
-      click_link "Home"
-      expect(page).to have_content(planning_application.reference)
-      expect(page).to have_content("Not started")
+      expect(page).to have_content("Please enter a valid date")
     end
   end
 
-  context "Planning application does not show validate documents form when withdrawn or returned" do
-    it "does not show validate form when in withdrawn status" do
-      click_link planning_application.reference
-      click_link "Cancel application"
-
-      expect(page).to have_content("Why is this application being cancelled?")
-
-      choose "Withdrawn by applicant"
-
-      fill_in "cancellation_comment", with: "This has been cancelled"
-
-      click_button "Save"
-
-      expect(page).to have_content("Application has been cancelled")
-
-      click_link "Home"
-
-      click_link "Closed"
-
-      click_link planning_application.reference
-
-      expect(page).not_to have_content("Are the documents valid?")
+  context "Planning application is in determined state" do
+    let!(:planning_application) do
+      create :planning_application, :determined, local_authority: @default_local_authority
     end
 
-    it "does not show validate form when in returned status" do
-      click_link planning_application.reference
-      click_link "Cancel application"
+    it "does not show validate form" do
+      visit planning_application_documents_path(planning_application)
 
-      expect(page).to have_content("Why is this application being cancelled?")
-
-      choose "Returned as invalid"
-
-      fill_in "cancellation_comment", with: "This has been cancelled"
-
-      click_button "Save"
-
-      expect(page).to have_content("Application has been cancelled")
-
-      click_link "Home"
-
-      click_link "Closed"
-
-      click_link planning_application.reference
-
-      expect(page).not_to have_content("Are the documents valid?")
+      expect(page).not_to have_content("Save")
     end
   end
 end

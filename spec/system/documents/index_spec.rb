@@ -4,13 +4,12 @@ require "rails_helper"
 
 RSpec.describe "Documents index page", type: :system do
   let!(:site) { create :site, address_1: "7 Elm Grove" }
-  let(:local_authority) { create :local_authority }
-  let(:assessor) { create :user, :assessor, local_authority: local_authority }
+  let(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
 
   let!(:planning_application) do
     create :planning_application,
            site: site,
-           local_authority: local_authority
+           local_authority: @default_local_authority
   end
 
   let!(:document) do
@@ -30,7 +29,7 @@ RSpec.describe "Documents index page", type: :system do
     before do
       sign_in assessor
       visit planning_application_path(planning_application)
-      click_button "Proposal documents"
+      click_button "Documents"
       click_link "Manage documents"
     end
 

@@ -1,0 +1,18 @@
+<%= render "planning_applications/assessment_dashboard" do %>
+  <h2 class="govuk-heading-m">Submit Recommendation</h2>
+  <p class="govuk-body">The following decision notice has been created based on your answers.</p>
+  <%= render "decision_notice", planning_application: @planning_application %>
+  <p class="govuk-body">
+    <%= link_to "Download as PDF", decision_notice_api_v1_planning_application_path(@planning_application, format: 'pdf') %>
+  </p>
+  <p class="govuk-body">
+    <br>
+    <strong>
+      If you agree with the decision notice, please submit it to your manager.
+    </strong>
+   If your manager disagrees with your recommendation they will send it back to you to make changes.
+  </p>
+  <%= form_with model: @planning_application, url: assess_planning_application_path(@planning_application), local: true do |form| %>
+    <%= form.submit "Submit to manager", class: "govuk-button", data: { module: "govuk-button" } %>
+  <% end %>
+<% end %>

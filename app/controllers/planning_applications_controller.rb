@@ -4,25 +4,32 @@ class PlanningApplicationsController < AuthenticationController
   before_action :set_planning_application, only: %i[show
                                                     assign
                                                     edit
+                                                    recommendation_form
+                                                    recommend
+                                                    submit_recommendation
                                                     assess
+                                                    review_form
+                                                    review
+                                                    publish
                                                     determine
                                                     request_correction
+                                                    validate_documents_form
                                                     validate_documents
                                                     cancel_confirmation
                                                     cancel]
+
+  before_action :ensure_user_is_reviewer, only: %i[review review_form]
 
   rescue_from Notifications::Client::NotFoundError,
               with: :decision_notice_mail_error
 
   def index
     @planning_applications = if helpers.exclude_others? && current_user.assessor?
-                               policy_scope(
-                                 PlanningApplication.where(user_id: current_user.id).or(
-                                   PlanningApplication.where(user_id: nil),
-                                 ),
+                               current_local_authority.planning_applications.where(user_id: current_user.id).or(
+                                 current_local_authority.planning_applications.where(user_id: nil),
                                )
                              else
-                               policy_scope(PlanningApplication.all)
+                               current_local_authority.planning_applications.all
                              end
   end
 
@@ -59,11 +66,44 @@ class PlanningApplicationsController < AuthenticationController
     redirect_to @planning_application
   end
 
+  def recommendation_form
+    @recommendation = @planning_application.pending_or_new_recommendation
+  end
+
+  def recommend
+    @recommendation = @planning_application.pending_or_new_recommendation
+    @planning_application.assign_attributes(params.require(:planning_application).permit(:decision, :public_comment))
+    @recommendation.assign_attributes(params.require(:recommendation).permit(:assessor_comment).merge(assessor: current_user))
+
+    if @planning_application.save && @recommendation.save
+      redirect_to @planning_application
+    else
+      render :recommendation_form
+    end
+  end
+
+  def submit_recommendation; end
+
   def assess
     @planning_application.assess!
 
     redirect_to @planning_application
   end
+
+  def review_form
+    @recommendation = @planning_application.recommendations.last
+  end
+
+  def review
+    @recommendation = @planning_application.recommendations.last
+    @recommendation.update!(reviewer_comment: params[:recommendation][:reviewer_comment], reviewed_at: Time.zone.now, reviewer: current_user)
+    if params[:recommendation][:agree] == "No"
+      @planning_application.request_correction!
+    end
+    redirect_to @planning_application
+  end
+
+  def publish; end
 
   def determine
     @planning_application.determine!
@@ -91,27 +131,31 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def cancel
-    status = authorize_user_can_update_status(params[:planning_application][:status])
-    apply_cancellation(status)
-    flash[:notice] = "Application has been cancelled"
-    redirect_to @planning_application
-  end
-
-  def apply_cancellation(status)
-    case status
+    case params[:planning_application][:status]
     when "withdrawn"
       @planning_application.withdraw!(:withdrawn, params[:planning_application][:cancellation_comment])
+      flash[:notice] = "Application has been withdrawn"
+      redirect_to @planning_application
     when "returned"
       @planning_application.return!(:returned, params[:planning_application][:cancellation_comment])
+      flash[:notice] = "Application has been returned"
+      redirect_to @planning_application
+    else
+      @planning_application.errors.add(:status, "Please select one of the below options")
+      render :cancel_confirmation
     end
   end
 
+  def validate_documents_form
+    @planning_application.documents_validated_at ||= @planning_application.created_at
+  end
+
   def validate_documents
-    status = authorize_user_can_update_status(params[:planning_application][:status])
+    status = params[:planning_application][:status]
     if status == "in_assessment"
       if date_from_params.blank?
         @planning_application.errors.add(:planning_application, "Please enter a valid date")
-        render "documents/index"
+        render "validate_documents_form"
       else
         @planning_application.documents_validated_at = date_from_params
         @planning_application.start!
@@ -125,7 +169,7 @@ class PlanningApplicationsController < AuthenticationController
       redirect_to @planning_application
     else
       @planning_application.errors.add(:status, "Please select one of the below options")
-      render "documents/index"
+      render "validate_documents_form"
     end
   end
 
@@ -142,19 +186,7 @@ private
   end
 
   def set_planning_application
-    @planning_application = authorize(PlanningApplication.find(params[:id]))
-  end
-
-  def authorize_user_can_update_status(status)
-    if status.present? && unpermitted_status_for_user?(status)
-      raise Pundit::NotAuthorizedError
-    end
-
-    status
-  end
-
-  def unpermitted_status_for_user?(status)
-    status == :awaiting_determination if current_user.assessor?
+    @planning_application = current_local_authority.planning_applications.find(params[:id])
   end
 
   def decision_notice_mail
@@ -175,5 +207,9 @@ private
     flash[:notice] =
       "The email cannot be sent. Please try again later."
     render "documents/index"
+  end
+
+  def ensure_user_is_reviewer
+    render plain: "forbidden", status: 403 and return unless current_user.reviewer?
   end
 end

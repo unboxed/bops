@@ -3,13 +3,12 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application index page", type: :system do
-  let(:local_authority) { create :local_authority }
-  let!(:planning_application_1) { create :planning_application, local_authority: local_authority }
-  let!(:planning_application_2) { create :planning_application, local_authority: local_authority }
-  let!(:planning_application_started) { create :planning_application, :awaiting_determination, local_authority: local_authority }
-  let!(:planning_application_completed) { create :planning_application, :determined, local_authority: local_authority }
-  let(:assessor) { create :user, :assessor, local_authority: local_authority }
-  let(:reviewer) { create :user, :reviewer, local_authority: local_authority }
+  let!(:planning_application_1) { create :planning_application, local_authority: @default_local_authority }
+  let!(:planning_application_2) { create :planning_application, local_authority: @default_local_authority }
+  let!(:planning_application_started) { create :planning_application, :awaiting_determination, local_authority: @default_local_authority }
+  let!(:planning_application_completed) { create :planning_application, :determined, local_authority: @default_local_authority }
+  let(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
+  let(:reviewer) { create :user, :reviewer, local_authority: @default_local_authority }
 
   context "as an assessor" do
     before do
@@ -73,8 +72,8 @@ RSpec.describe "Planning Application index page", type: :system do
     end
 
     context "restricted views" do
-      let!(:second_assessor) { create :user, :assessor, local_authority: local_authority }
-      let!(:other_assessor_planning_application) { create :planning_application, user_id: second_assessor.id, local_authority: local_authority }
+      let!(:second_assessor) { create :user, :assessor, local_authority: @default_local_authority }
+      let!(:other_assessor_planning_application) { create :planning_application, user_id: second_assessor.id, local_authority: @default_local_authority }
 
       it "On login, assessor gets redirected to a view with its own and unassigned Planning Applications" do
         within("#under_assessment") do

@@ -5,13 +5,12 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
 
   def decision_notice_mail(planning_application, host)
     @planning_application = planning_application
-    @decision = @planning_application.reviewer_decision
     @documents = @planning_application.documents.for_publication
     @host = host
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "Certificate of Lawfulness: #{@decision.status}",
+      subject: "Certificate of Lawfulness: #{@planning_application.decision}",
       to: @planning_application.applicant_email,
     )
   end

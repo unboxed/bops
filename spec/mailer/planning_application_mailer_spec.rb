@@ -13,8 +13,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   let!(:reviewer) { create :user, :reviewer, local_authority: local_authority }
-  let!(:planning_application) { create(:planning_application, :determined, local_authority: local_authority) }
-  let!(:decision) { create(:decision, :granted, user: reviewer, planning_application: planning_application) }
+  let!(:planning_application) { create(:planning_application, :determined, local_authority: local_authority, decision: "granted") }
   let(:host) { "default.example.com" }
 
   let!(:document_with_tags) do
@@ -34,7 +33,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "renders the headers" do
       expect(mail.subject).to eq("Certificate of Lawfulness: granted")
-      expect(mail.to).to eq([decision.planning_application.applicant_email])
+      expect(mail.to).to eq([planning_application.applicant_email])
     end
 
     it "renders the body" do
@@ -43,8 +42,9 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     context "for a rejected application" do
-      before do
-        decision.refused!
+      let(:planning_application) do
+        create :planning_application, :determined, decision: "refused",
+                                                   public_comment: "not valid"
       end
 
       it "includes the status in the subject" do

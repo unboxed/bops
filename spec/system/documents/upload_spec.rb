@@ -3,15 +3,15 @@
 require "rails_helper"
 
 RSpec.describe "Document uploads", type: :system do
-  let(:local_authority) { create :local_authority }
   let!(:planning_application) do
     create :planning_application,
-           local_authority: local_authority
+           local_authority: @default_local_authority,
+           decision: "granted"
   end
 
   let!(:document) { create :document, planning_application: planning_application }
-  let(:assessor) { create :user, :assessor, local_authority: local_authority }
-  let(:reviewer) { create :user, :reviewer, local_authority: local_authority }
+  let(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
+  let(:reviewer) { create :user, :reviewer, local_authority: @default_local_authority }
 
   context "for an assessor" do
     before { sign_in assessor }
@@ -36,7 +36,7 @@ RSpec.describe "Document uploads", type: :system do
 
         find(".govuk-breadcrumbs").click_link("Application")
 
-        click_button("Proposal documents")
+        click_button("Documents")
 
         within(find(".scroll-docs")) do
           expect(all("img").count).to eq 2
