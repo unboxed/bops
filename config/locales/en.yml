@@ -1,11 +1,4 @@
 en:
-  full: "Full Householder Application"
-  lawfulness_certificate: "Certificate of Lawfulness"
-  user_not_authorized: "You are not authorized to perform this action."
-  scale: "Missing scale bar or north arrow"
-  design: "Revise design"
-  dimensions: "Revise dimensions"
-  other: "Other"
   statuses:
     not_started: "Not started"
     invalidated: "Invalidated"
@@ -15,6 +8,14 @@ en:
     returned: "Returned"
     withdrawn: "Withdrawn"
     determined: "Determined"
+  application_types:
+    full: "Full Householder Application"
+    lawfulness_certificate: "Certificate of Lawfulness"
+  archive_reasons:
+    scale: "Missing scale bar or north arrow"
+    design: "Revise design"
+    dimensions: "Revise dimensions"
+    other: "Other"
   constraints:
     conservation_area: "Conservation Area"
     article4_area: "Article 4 Area"
@@ -27,6 +28,7 @@ en:
     protected_trees: "Protected Trees"
     ssi: "Site of Special Scientific Interest"
 
+  user_not_authorized: "You are not authorized to perform this action."
   activerecord:
     errors:
       models:
