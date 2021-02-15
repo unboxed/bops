@@ -12,7 +12,7 @@
       <ul class="govuk-list govuk-list--bullet">
         <% if @planning_application.constraints %>
         <% list_constraints(@planning_application.constraints).each do |constraint| %>
-          <li> <%= t("#{constraint}") %></li>
+          <li> <%= t("constraints.#{constraint}") %></li>
           <% end %>
         <% end %>
       </ul>
