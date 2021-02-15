@@ -2,7 +2,7 @@ en:
   not_started:
     title: "Not started"
     status: "Not Started"
-    heading: "Validate documents"
+    heading: "Process application"
     proposal_step: "Read the proposal"
     validation_step: "Check the documents"
     recommendation_step: "Submit the recommendation at next stage"
@@ -15,7 +15,7 @@ en:
     recommendation_step: "Submit the recommendation"
   in_assessment:
     title: "In assessment"
-    heading: "Make recommendation"
+    heading: "Process application"
     proposal_step: "Assess the proposal"
     validation_step: "Check the documents"
     recommendation_step: "Submit the recommendation"
