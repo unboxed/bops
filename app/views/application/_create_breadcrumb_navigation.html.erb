@@ -1,9 +1,9 @@
 <% nav.each do |n| %>
-  <div class="govuk-breadcrumbs__list-item" aria-current="page">
+  <li class="govuk-breadcrumbs__list-item" aria-current="page">
     <%= link_to n[:title], n[:path], class: "govuk-button__link" %>
-  </div>
+  </li>
 <% end %>
 
-<div class="govuk-breadcrumbs__list-item" aria-current="page">
+<li class="govuk-breadcrumbs__list-item" aria-current="page">
   <%= yield :title %>
-</div>
+</li>

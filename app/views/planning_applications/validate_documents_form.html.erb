@@ -1,9 +1,11 @@
+<% content_for :title, "Validate documents" %>
+
 <%= render "planning_applications/assessment_dashboard" do %>
 
   <h2 class="govuk-heading-m">1. Validate documents</h2>
 
   <p class="govuk-body">Please check all the applicant's documents before proceeding</p>
-  
+
   <p class="govuk-body"><%= link_to "Check documents", planning_application_documents_path(@planning_application) %></p>
 
   <%= form_with model: @planning_application, url: validate_documents_planning_application_path(@planning_application), local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
