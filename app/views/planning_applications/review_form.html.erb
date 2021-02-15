@@ -1,4 +1,8 @@
 <%= render "planning_applications/assessment_dashboard" do %>
+  <h2 class="govuk-heading-m">Review the recommendation</h2>
+
+  <p class="govuk-body">The planning officer recommends that the application is <strong><%= @planning_application.decision %></strong>.</p>
+
   <%= render "recommendations", { recommendations: @planning_application.recommendations } %>
   <%= form_for @recommendation, url: review_planning_application_path(@planning_application) do |form| %>
     <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
