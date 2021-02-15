@@ -3,7 +3,6 @@
 class PlanningApplicationsController < AuthenticationController
   before_action :set_planning_application, only: %i[show
                                                     assign
-                                                    edit
                                                     recommendation_form
                                                     recommend
                                                     submit_recommendation
@@ -45,8 +44,6 @@ class PlanningApplicationsController < AuthenticationController
       redirect_to @planning_application if @planning_application.save
     end
   end
-
-  def edit; end
 
   def start
     @planning_application.start!
