@@ -1,50 +1,21 @@
 en:
-  not_started:
-    title: "Not started"
-    status: "Not Started"
-    heading: "Process application"
-    proposal_step: "Read the proposal"
-    validation_step: "Check the documents"
-    recommendation_step: "Submit the recommendation at next stage"
-  invalidated:
-    title: "Invalidated"
-    status: "Invalid"
-    heading: "For information only"
-    proposal_step: "Read the proposal"
-    validation_step: "Check the documents"
-    recommendation_step: "Submit the recommendation"
-  in_assessment:
-    title: "In assessment"
-    heading: "Process application"
-    proposal_step: "Assess the proposal"
-    validation_step: "Check the documents"
-    recommendation_step: "Submit the recommendation"
-  awaiting_determination:
-    title: "Awaiting determination"
-    status: "Awaiting detemrination"
-    heading: "Determine the proposal"
-    proposal_step: "Review the recommendation"
-    validation_step: "Check the documents"
-    recommendation_step: "Publish the recommendation"
-  awaiting_correction:
-    title: "Corrections requested"
-    heading: "Make corrections"
-    proposal_step: "Reassess the proposal"
-    validation_step: "Check the documents"
-    recommendation_step: "Resubmit the recommendation"
-  determined:
-    title: "Determined"
-    heading: "View the application"
-    proposal_step: "View the assessment"
-    validation_step: "Check the documents"
-    recommendation_step: "View the decision notice"
-  full: "Full Householder Application"
-  lawfulness_certificate: "Certificate of Lawfulness"
-  user_not_authorized: "You are not authorized to perform this action."
-  scale: "Missing scale bar or north arrow"
-  design: "Revise design"
-  dimensions: "Revise dimensions"
-  other: "Other"
+  statuses:
+    not_started: "Not started"
+    invalidated: "Invalidated"
+    in_assessment: "In assessment"
+    awaiting_determination: "Awaiting determination"
+    awaiting_correction: "Corrections requested"
+    returned: "Returned"
+    withdrawn: "Withdrawn"
+    determined: "Determined"
+  application_types:
+    full: "Full Householder Application"
+    lawfulness_certificate: "Certificate of Lawfulness"
+  archive_reasons:
+    scale: "Missing scale bar or north arrow"
+    design: "Revise design"
+    dimensions: "Revise dimensions"
+    other: "Other"
   constraints:
     conservation_area: "Conservation Area"
     article4_area: "Article 4 Area"
@@ -57,6 +28,7 @@ en:
     protected_trees: "Protected Trees"
     ssi: "Site of Special Scientific Interest"
 
+  user_not_authorized: "You are not authorized to perform this action."
   activerecord:
     errors:
       models:

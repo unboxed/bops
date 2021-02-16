@@ -10,6 +10,6 @@ module DocumentHelper
   end
 
   def archive_reason_collection_for_radio_buttons
-    Document.archive_reasons.keys.map { |k| [k, I18n.t(k)] }
+    Document.archive_reasons.keys.map { |k| [k, I18n.t("archive_reasons.#{k}")] }
   end
 end
