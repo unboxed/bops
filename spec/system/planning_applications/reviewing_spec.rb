@@ -41,6 +41,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     expect(planning_application.recommendations.last.reviewer).to eq(reviewer)
     expect(planning_application.recommendations.last.reviewed_at).not_to be_nil
     expect(planning_application.recommendations.last.reviewer_comment).to eq("Reviewer private comment")
+    expect(page).not_to have_content("Assigned to:")
     expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 1)
   end
 

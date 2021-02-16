@@ -25,6 +25,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       planning_application.reload
       expect(planning_application.status).to eq("withdrawn")
       expect(planning_application.cancellation_comment).to eq("Withdrawn reason")
+      expect(page).not_to have_content("Assigned to:")
     end
 
     it "can return an application" do
@@ -37,6 +38,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       planning_application.reload
       expect(planning_application.status).to eq("returned")
       expect(planning_application.cancellation_comment).to eq("Returned reason")
+      expect(page).not_to have_content("Assigned to:")
     end
 
     it "errors if no option chosen" do
