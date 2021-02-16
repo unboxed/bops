@@ -1,5 +1,5 @@
 <%= render "assessment_dashboard" do %>
-  <% unless @planning_application.withdrawn? || @planning_application.returned? %>
+  <% if @planning_application.in_progress? %>
     <h2 class="app-task-list__section">
       <span class="app-task-list__section-number">Process Application</span>
     </h2>

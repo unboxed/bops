@@ -42,7 +42,11 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     expect(planning_application.recommendations.last.reviewed_at).not_to be_nil
     expect(planning_application.recommendations.last.reviewer_comment).to eq("Reviewer private comment")
     expect(page).not_to have_content("Assigned to:")
+    expect(page).not_to have_content("Process Application")
+    expect(page).not_to have_content("Review Assessment")
     expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 1)
+    click_link("View decision notice")
+    expect(page).to have_content("IT IS HEREBY CERTIFIED")
   end
 
   it "can be rejected" do
