@@ -22,7 +22,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
   it "can be accepted" do
     delivered_emails = ActionMailer::Base.deliveries.count
-    click_link "Review Assessment"
+    click_link "Review assessment"
 
     within ".recommendations" do
       expect(page).to have_content("First assessor comment")
@@ -33,7 +33,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     choose "Yes"
     fill_in "Review comment", with: "Reviewer private comment"
     click_button "Save"
-    click_link "Publish"
+    click_link "Publish determination"
     click_button "Determine application"
 
     planning_application.reload
@@ -47,11 +47,11 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
   it "can be rejected" do
     delivered_emails = ActionMailer::Base.deliveries.count
-    click_link "Review Assessment"
+    click_link "Review assessment"
     choose "No"
     fill_in "Review comment", with: "Reviewer private comment"
     click_button "Save"
-    expect(page).not_to have_link("Publish")
+    expect(page).not_to have_link("Publish determination")
 
     planning_application.reload
     expect(planning_application.status).to eq("awaiting_correction")
@@ -63,7 +63,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
   it "can edit an existing review of an assessment" do
     recommendation = create :recommendation, :reviewed, planning_application: planning_application, reviewer_comment: "Reviewer private comment"
-    click_link "Review Assessment"
+    click_link "Review assessment"
 
     within ".recommendations" do
       expect(page).to have_content("First assessor comment")

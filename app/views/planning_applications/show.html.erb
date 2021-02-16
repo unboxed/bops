@@ -37,12 +37,12 @@
         <div class="govuk-summary-list__value">
             <span class="app-task-list__task-name">
               <% if @planning_application.can_assess? %>
-                <%= link_to "Assess Proposal",
+                <%= link_to "Assess proposal",
                             recommendation_form_planning_application_path(@planning_application),
                             aria: {describedby: "assessment-completed"}
                 %>
               <% else %>
-                Assess Proposal
+                Assess proposal
               <% end %>
             </span>
 
@@ -56,12 +56,12 @@
         <div class="govuk-summary-list__value">
             <span class="app-task-list__task-name">
               <% if @planning_application.can_submit_recommendation? %>
-                <%= link_to "Submit Recommendation",
+                <%= link_to "Submit recommendation",
                             submit_recommendation_planning_application_path(@planning_application),
                             aria: {describedby: "submit_recommendation-completed"}
                 %>
               <% else %>
-                Submit Recommendation
+                Submit recommendation
               <% end %>
             </span>
 
@@ -81,12 +81,12 @@
         <div class="govuk-summary-list__value">
             <span class="app-task-list__task-name">
               <% if @planning_application.can_review_assessment? && current_user.reviewer? %>
-                <%= link_to "Review Assessment",
+                <%= link_to "Review assessment",
                             review_form_planning_application_path(@planning_application),
                             aria: {describedby: "review_assessment-completed"}
                 %>
               <% else %>
-                Review Assessment
+                Review assessment
               <% end %>
             </span>
 
@@ -103,12 +103,12 @@
         <div class="govuk-summary-list__value">
             <span class="app-task-list__task-name">
               <% if @planning_application.can_publish? && current_user.reviewer? %>
-                <%= link_to "Publish Determination",
+                <%= link_to "Publish determination",
                             publish_planning_application_path(@planning_application),
                             aria: {describedby: "publish-completed"}
                 %>
               <% else %>
-                Publish
+                Publish determination
               <% end %>
             </span>
 
