@@ -18,7 +18,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "with no previous recommendations" do
     it "can create a new recommendation, edit it, and submit it" do
-      click_link "Assess Proposal"
+      click_link "Assess proposal"
       choose "Yes"
       fill_in "assessor_comment", with: "This is a private assessor comment"
       click_button "Save"
@@ -28,7 +28,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(planning_application.recommendations.first.assessor_comment).to eq("This is a private assessor comment")
       expect(planning_application.decision).to eq("granted")
 
-      click_link "Assess Proposal"
+      click_link "Assess proposal"
       expect(page).to have_checked_field("Yes")
       expect(page).to have_field("assessor_comment", with: "This is a private assessor comment")
       choose "No"
@@ -41,7 +41,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(planning_application.decision).to eq("refused")
       expect(planning_application.public_comment).to eq("This is a new public comment")
 
-      click_link "Submit Recommendation"
+      click_link "Submit recommendation"
       click_button "Submit to manager"
 
       # TODO: add a flash message here?
@@ -61,7 +61,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     it "displays the previous recommendations" do
-      click_link "Assess Proposal"
+      click_link "Assess proposal"
 
       within ".recommendations" do
         expect(page).to have_content("I disagree")
@@ -77,7 +77,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(planning_application.recommendations.last.assessor_comment).to eq("This is a private assessor comment")
       expect(planning_application.decision).to eq("granted")
 
-      click_link "Assess Proposal"
+      click_link "Assess proposal"
 
       within ".recommendations" do
         expect(page).to have_content("I disagree")
@@ -91,7 +91,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   it "errors if no public comment is provided when providing rejection recommendation" do
-    click_link "Assess Proposal"
+    click_link "Assess proposal"
     choose "No"
     fill_in "assessor_comment", with: "This is a private assessor comment"
     fill_in "public_comment", with: ""
@@ -103,7 +103,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   it "errors if no decision given" do
-    click_link "Assess Proposal"
+    click_link "Assess proposal"
     click_button "Save"
 
     expect(page).to have_content("Please select Yes or No")
