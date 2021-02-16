@@ -151,7 +151,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def can_validate?
-    true unless determined? || returned? || withdrawn?
+    true unless awaiting_determination? || determined? || returned? || withdrawn?
   end
 
   def validation_complete?
