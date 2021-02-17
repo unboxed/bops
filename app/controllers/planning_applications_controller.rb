@@ -15,7 +15,8 @@ class PlanningApplicationsController < AuthenticationController
                                                     validate_documents_form
                                                     validate_documents
                                                     cancel_confirmation
-                                                    cancel]
+                                                    cancel
+                                                    decision_notice]
 
   before_action :ensure_user_is_reviewer, only: %i[review review_form]
 
@@ -109,6 +110,10 @@ class PlanningApplicationsController < AuthenticationController
     flash[:notice] = "Decision Notice sent to applicant"
 
     redirect_to @planning_application
+  end
+
+  def decision_notice
+    render :decision_notice
   end
 
   def request_correction

@@ -64,17 +64,6 @@ RSpec.describe "Planning Application show page", type: :system do
       task_item_exists("Publish determination", linked: true, completed: false)
     end
 
-    it "makes valid task list for when it is determined" do
-      planning_application = create(:planning_application, :determined, local_authority: @default_local_authority)
-      create(:recommendation, :reviewed, planning_application: planning_application)
-      visit planning_application_path(planning_application.id)
-      task_item_exists("Validate documents", linked: false, completed: true)
-      task_item_exists("Assess proposal", linked: false, completed: true)
-      task_item_exists("Submit recommendation", linked: false, completed: true)
-      task_item_exists("Review assessment", linked: false, completed: true)
-      task_item_exists("Publish determination", linked: false, completed: true)
-    end
-
     it "makes valid task list for when it is awaiting correction and no re-proposal has been made" do
       planning_application = create(:planning_application, :awaiting_correction, local_authority: @default_local_authority)
       create(:recommendation, :reviewed, planning_application: planning_application)

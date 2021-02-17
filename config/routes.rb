@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       patch :determine
       patch :cancel
       get :cancel_confirmation
+      get :decision_notice
     end
 
     resources :documents, only: %i[index new create edit update] do
