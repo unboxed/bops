@@ -1,6 +1,7 @@
 <% content_for :title, "Assess proposal" %>
 
 <%= render "planning_applications/assessment_dashboard" do %>
+  <h2 class="govuk-heading-m">Assess proposal</h2>
   <%= render "recommendations", { recommendations: @planning_application.recommendations.reviewed } %>
   <%= form_for @planning_application, url: recommend_planning_application_path(@planning_application) do |form| %>
     <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
