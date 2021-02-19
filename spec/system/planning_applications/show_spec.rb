@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application show page", type: :system do
-  let!(:site) { create :site, address_1: "7 Elm Grove", town: "London", postcode: "SE15 6UT" }
+  let!(:site) { create :site, uprn: "00773377", address_1: "7 Elm Grove", town: "London", postcode: "SE15 6UT" }
   let(:documents_validated_at) { Date.current - 2.weeks }
   let!(:planning_application) do
     create :planning_application, description: "Roof extension",
@@ -47,6 +47,7 @@ RSpec.describe "Planning Application show page", type: :system do
       click_button "Application information"
 
       expect(page).to have_text("Address: 7 Elm Grove, London, SE15 6UT")
+      expect(page).to have_text("UPRN: 00773377")
       expect(page).to have_text("Ward: Dulwich Wood")
       expect(page).to have_text("Building type: Residential")
       expect(page).to have_text("Application type: Proposed permitted development: Certificate of Lawfulness")
