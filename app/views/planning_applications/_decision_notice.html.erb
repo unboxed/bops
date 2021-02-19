@@ -2,8 +2,9 @@
   <span class="govuk-caption-xl">
     <%= planning_application.local_authority.name %>
   </span>
-  <h2 class="govuk-heading-m">
-    Town and country planning act 1990 (as amended)
+  <h2 class="govuk-heading-s">
+    Town and country planning act 1990 (as amended) <br><br>
+    Town and Country Planning (Development Management Procedure) (England) Order 2015 (as amended)
   </h2>
   <h3 class="govuk-heading-s">
     Decision notice
@@ -19,7 +20,7 @@
         "Applicant" => @planning_application.applicant_name,
         "Date of Issue of this decision" => planning_application.determined_at&.strftime("%e %B %Y") || "TBD",
         "Application received" => planning_application.created_at.strftime("%e %B %Y"),
-        "Address" => planning_application.site.full_address,
+        "Site address" => planning_application.site.full_address,
         "Application number" => planning_application.reference,
       }.each do |key, value|
     %>
@@ -33,37 +34,42 @@
       </div>
     <% end %>
   </dl>
-  <h3 class="govuk-heading-s">
-    <%= @planning_application.work_status.humanize %> use or development:
-  </h3>
-  <p class="govuk-body">
-    <%= planning_application.description %>
-  </p>
   <% if planning_application.granted? %>
     <p class="govuk-body">
       IT IS HEREBY CERTIFIED that the use or operations described below are
-      <strong>lawful</strong> for the purposes of S.192 of the Town and Country Planning Act 1990 in accordance with the valid application received on <%= planning_application.created_at.strftime("%d/%m/%Y") %> and supporting documents listed below. Full application is available on the planning register.
+      <strong>lawful</strong> for the purposes of S.192 of the Town and Country Planning Act 1990
+      in accordance with the valid application received on <%= planning_application.created_at.strftime("%d/%m/%Y") %>
+      and supporting documents listed below. Full application is available on the planning register.
     </p>
-    <h3 class="govuk-heading-s">
-      CONDITIONS<br>
-      Permission is subject to the following Approved Plans Condition:
+    <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+      <%= @planning_application.work_status.humanize %> use or development:
     </h3>
     <p class="govuk-body">
-      The development shall be carried out in accordance with the following approved plans:
+      <%= planning_application.description %>
     </p>
+    <p class="govuk-body govuk-!-margin-bottom-1"><strong>The proposal complies due to the following reason(s):</strong></p>
+    <p class="govuk-body"> <%= planning_application.public_comment %> </p>
+    <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+      Permission is subject to the following approved plans:
+    </h3>
   <% elsif planning_application.refused? %>
     <p class="govuk-body">
       IT IS HEREBY CERTIFIED that the use or operations described below are
       <strong>not lawful</strong>
-      for the purposes of S.192 of the Town and Country Planning Act 1990 on the date that the application for this Certificate was received.
+      for the purposes of S.192 of the Town and Country Planning Act 1990
+      on the date that the application for this Certificate was received.
     </p>
-    <% if planning_application.refused_with_public_comment? %>
-      <p class="govuk-body">The proposal does not comply with:</p>
-      <p class="govuk-body"> <%= planning_application.public_comment %> </p>
-    <% end %>
+    <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+      <%= @planning_application.work_status.humanize %> use or development:
+    </h3>
     <p class="govuk-body">
-      The proposal was refused based on the following plans:
+      <%= planning_application.description %>
     </p>
+    <p class="govuk-body"> <strong>The proposal does not comply due to the following reason(s):</strong></p>
+    <p class="govuk-body"> <%= planning_application.public_comment %> </p>
+    <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+      The proposal was refused based on the following plans:
+    </h3>
   <% end %>
   <% if planning_application.documents.for_publication.present? %>
     <table class="govuk-table">

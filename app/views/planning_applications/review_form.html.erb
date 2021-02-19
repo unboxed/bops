@@ -2,7 +2,22 @@
 <%= render "planning_applications/assessment_dashboard" do %>
   <h2 class="govuk-heading-m">Review the recommendation</h2>
 
-  <p class="govuk-body">The planning officer recommends that the application is <strong><%= @planning_application.decision %></strong>.</p>
+  <p class="govuk-body">
+    The planning officer recommends that the application is
+    <strong>
+      <%= @planning_application.decision %>
+    </strong>.
+  </p>
+  <p class="govuk-body">
+    <strong>
+      This information will appear on the decision notice:
+    </strong>
+  </p>
+  <p class="govuk-body">
+    It adheres to the limitations and conditions of Part 1 Class A and F,
+    Schedule 2 of The Town and Country Planning (General Permitted Development)
+    Order 2015 (as amended).
+  </p>
 
   <%= render "recommendations", { recommendations: @planning_application.recommendations } %>
   <%= form_for @recommendation, url: review_planning_application_path(@planning_application) do |form| %>

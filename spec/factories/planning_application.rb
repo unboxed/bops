@@ -19,6 +19,7 @@ FactoryBot.define do
     applicant_phone { Faker::Base.numerify("+44 7### ######") }
     applicant_email { Faker::Internet.email }
     application_type { :lawfulness_certificate }
+    public_comment { "All GDPO compliant" }
     questions do
       {
         flow: [

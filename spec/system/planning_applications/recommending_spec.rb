@@ -20,20 +20,22 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "can create a new recommendation, edit it, and submit it" do
       click_link "Assess proposal"
       choose "Yes"
-      fill_in "assessor_comment", with: "This is a private assessor comment"
+      fill_in "Please provide supporting information to indicate which GDPO policy(s) have or have not been met.", with: "This is a public comment"
+      fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
       click_button "Save"
 
       planning_application.reload
       expect(planning_application.recommendations.count).to eq(1)
+      expect(planning_application.public_comment).to eq("This is a public comment")
       expect(planning_application.recommendations.first.assessor_comment).to eq("This is a private assessor comment")
       expect(planning_application.decision).to eq("granted")
 
       click_link "Assess proposal"
       expect(page).to have_checked_field("Yes")
-      expect(page).to have_field("assessor_comment", with: "This is a private assessor comment")
+      expect(page).to have_field("Please provide supporting information for your manager.", with: "This is a private assessor comment")
       choose "No"
-      fill_in "public_comment", with: "This is a new public comment"
-      fill_in "assessor_comment", with: "Edited private assessor comment"
+      fill_in "Please provide supporting information to indicate which GDPO policy(s) have or have not been met.", with: "This is a new public comment"
+      fill_in "Please provide supporting information for your manager.", with: "Edited private assessor comment"
       click_button "Save"
       planning_application.reload
       expect(planning_application.recommendations.count).to eq(1)
@@ -69,11 +71,13 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       choose "Yes"
-      fill_in "assessor_comment", with: "This is a private assessor comment"
+      fill_in "Please provide supporting information to indicate which GDPO policy(s) have or have not been met.", with: "This is so granted and GDPO everything"
+      fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
       click_button "Save"
 
       planning_application.reload
       expect(planning_application.recommendations.count).to eq(2)
+      expect(planning_application.public_comment).to eq("This is so granted and GDPO everything")
       expect(planning_application.recommendations.last.assessor_comment).to eq("This is a private assessor comment")
       expect(planning_application.decision).to eq("granted")
 
@@ -86,15 +90,15 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       expect(page).to have_checked_field("Yes")
-      expect(page).to have_field("assessor_comment", with: "This is a private assessor comment")
+      expect(page).to have_field("Please provide supporting information for your manager.", with: "This is a private assessor comment")
     end
   end
 
   it "errors if no public comment is provided when providing rejection recommendation" do
     click_link "Assess proposal"
     choose "No"
-    fill_in "assessor_comment", with: "This is a private assessor comment"
-    fill_in "public_comment", with: ""
+    fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
+    fill_in "Please provide supporting information to indicate which GDPO policy(s) have or have not been met.", with: ""
     click_button "Save"
 
     expect(page).to have_content("Please fill in the GDPO policies text box.")
