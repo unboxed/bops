@@ -138,53 +138,49 @@ paths:
                 work_status:
                   type: string
                   example: proposed
-                questions:
-                  type: object
-                  properties:
-                    flow:
-                      type: array
-                      items:
+                proposal_details:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      question:
+                        type: string
+                        example: what are you planning to do?
+                      responses:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            value:
+                              type: string
+                              example: demolish
+                      metadata:
                         type: object
                         properties:
-                          id:
+                          notes:
                             type: string
-                            example: "-LsXty7cOZycK0rqv8B2"
-                          text:
-                            type: string
-                            example: The property is
-                          val:
-                            type: string
-                            example: property.buildingType
-                          options:
+                            example: this will be done before rebuilding
+                          auto_answered:
+                            type: boolean
+                            example: true
+                          policy_refs:
                             type: array
                             items:
                               type: object
                               properties:
-                                id:
+                                url:
                                   type: string
-                                  example: "-LsXty7cOZycK0rqv8B5"
-                                text:
+                                  example: http://example.com/planning/policy/1/234/a.html
+                                value:
                                   type: string
-                                  example: a semi detached house
-                                val:
+                                  example: "GPDO 32.2342.223"
+                          flags:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                value:
                                   type: string
-                                  example: residential.dwelling.house.semiDetached
-                          choice:
-                            type: object
-                            properties:
-                              id:
-                                type: string
-                                example: "-LsXty7cOZycK0rqv8B7"
-                              idx:
-                                type: integer
-                                example: 3
-                              recorded_at:
-                                type: string
-                                format: date-time
-                                example: "2020-05-14T05:18:17.540Z"
-                              auto:
-                                type: boolean
-                                example: true
                 agent_first_name:
                   type: string
                   example: Jennifer
@@ -258,21 +254,16 @@ paths:
                   agent_last_name: Harper
                   agent_phone: '237878889'
                   agent_email: agent@example.com
-                  questions:
-                    flow:
-                      - id: '-LsXty7cOZycK0rqv8B2'
-                        text: The property is
-                        val: property.buildingType
-                        options:
-                          - id: '-LsXty7cOZycK0rqv8B3'
-                            text: a detached house
-                            val: residential.dwelling.house.detached
-                        choice:
-                          id: '-LsXty7cOZycK0rqv8B3'
-                          idx: 0
-                          text: a detached house
-                          recorded_at: '2020-05-14T05:18:17.540Z'
-                          auto: true
+                  proposal_details:
+                    - question: what are you planning to do?
+                      responses:
+                        - value: demolish
+                      metadata:
+                        notes: this will be done before rebuilding
+                        auto_answered: true
+                        policy_refs:
+                          - url: http://example.com/planning/policy/1/234/a.html
+                            text: "GPDO 32.2342.223"
                   constraints:
                     conservation_area: true
                     protected_trees: false

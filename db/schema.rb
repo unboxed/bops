@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 2021_02_08_180350) do
     t.datetime "awaiting_determination_at"
     t.datetime "in_assessment_at"
     t.datetime "awaiting_correction_at"
-    t.jsonb "questions"
+    t.jsonb "proposal_details"
     t.jsonb "audit_log"
     t.string "agent_first_name"
     t.string "agent_last_name"

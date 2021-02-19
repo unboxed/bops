@@ -20,22 +20,27 @@ FactoryBot.define do
     applicant_email { Faker::Internet.email }
     application_type { :lawfulness_certificate }
     public_comment { "All GDPO compliant" }
-    questions do
-      {
-        flow: [
-          {
-            id: "-LsXty7cOZycK0rqv8B2",
-            text: "The property is",
-            val: "property.buildingType",
-            choice: {
-              id: "-LsXty7cOZycK0rqv8B7",
-              idx: 3,
-              recorded_at: "2020-05-14T05:18:17.540Z",
-              auto: true,
+    proposal_details do
+      [
+        {
+          question: "what are you planning to do?",
+          responses: [
+            {
+              value: "demolish",
             },
+          ],
+          metadata: {
+            notes: "this will be done before rebuilding",
+            auto_answered: true,
+            policy_refs: [
+              {
+                url: "http://example.com/planning/policy/1/234/a.html",
+                text: "GPDO 32.2342.223",
+              },
+            ],
           },
-        ],
-      }.to_json
+        },
+      ].to_json
     end
     constraints do
       {

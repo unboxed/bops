@@ -206,6 +206,10 @@ class PlanningApplication < ApplicationRecord
     recommendations.pending_review.last || recommendations.build
   end
 
+  def parsed_proposal_details
+    proposal_details.present? ? JSON.parse(proposal_details) : []
+  end
+
 private
 
   def set_target_date

@@ -66,8 +66,6 @@
       </table>
     </div>
   </div>
-    <% if @planning_application.policy_evaluation %>
-      <%= render "planning_applications/policy_consideration_list", policy_considerations: @planning_application.policy_evaluation.policy_considerations %>
-    <% end %>
+    <%= render "planning_applications/policy_consideration_list" %>
     <%= render "shared/proposal_documents" %>
 </div>
