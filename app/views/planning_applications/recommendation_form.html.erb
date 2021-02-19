@@ -20,7 +20,8 @@
           </span>
         <% end %>
       <% end %>
-      <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios" style="margin-bottom: 20px;">
+     <div class="govuk-form-group">
+      <div class="govuk-radios" data-module="govuk-radios" style="margin-bottom: 20px;">
         <div class="govuk-radios govuk-radios--small">
           <div class="govuk-radios__item">
             <%= form.radio_button :decision, "granted", class: "govuk-radios__input", id:"status-granted-conditional", "aria-controls": "conditional-status-granted-conditional", "aria-expanded": "false" %>
@@ -28,39 +29,30 @@
           </div>
           <div class="govuk-radios__item">
             <%= form.radio_button :decision, "refused", class: "govuk-radios__input", id: "status-refused-conditional", "aria-controls": "conditional-status-refused-conditional", "aria-expanded": "false" %>
-            <%= form.label :decision_refused, "No", class: "govuk-label govuk-radios__label", for: "status-refused-conditional" %>
-          </div>
-          <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-status-refused-conditional">
-            <div class="govuk-form-group">
-              <p class="govuk-body">
-                <br>
-                <strong>Please provide which GDPO policy (or policies) have not been met. </strong>
-                If there are multiple, please separate by a comma.
-              </p>
-              <p class="govuk-body">
-                <span class="govuk-hint">
-                  For example, "GPDO 2015 S.2 P.1 A.1 (f)(i), GPDO 2015 S.2 P.1 A.1 (f)(ii)"
-                </span>
-              </p>
-              <p class="govuk-body">
-                This <strong>will</strong> appear on the decision notice.
-              </p>
-              <%= form.text_area :public_comment, class: "govuk-textarea", id: "public_comment", rows: "3", "aria-describedby": "public-comment-hint" %>
-            </div>
+            <%= form.label :decision_refused, "No", class: "govuk-label govuk-radios__label govuk-!-margin-bottom-8", for: "status-refused-conditional" %>
           </div>
         </div>
+      </div>
+     </div>
+      <div class="govuk-form-group">
+        <p class="govuk-body">
+          <%= form.label :public_comment, "Please provide supporting information to indicate which GDPO policy(s) have or have not been met.", class: "govuk-label govuk-!-font-weight-bold" %>
+        </p>
+        <p class="govuk-body">
+          This information <strong>will</strong> appear on the decision notice.
+        </p>
+        <%= form.text_area :public_comment, class: "govuk-textarea govuk-!-margin-bottom-9", rows: "3" %>
       </div>
     </div>
     <div class="govuk-form-group">
       <p class="govuk-body">
-        <strong>Please provide supporting information for your manager.</strong> For example, you may want to add any details about the width, depth or height of the proposal.
-        <br><br>
+        <%= label_tag :recommendation_assessor_comment, "Please provide supporting information for your manager.", class: "govuk-label govuk-!-font-weight-bold" %>
+      </p>
+      <p class="govuk-body">
         Your comment will <strong>not</strong> appear on the decision notice.
       </p>
-      <%= text_area_tag "recommendation[assessor_comment]", @recommendation.assessor_comment, class: "govuk-textarea", id: "assessor_comment", rows: "3", "aria-describedby": "private-comment-hint" %>
+      <%= text_area_tag "recommendation[assessor_comment]", @recommendation.assessor_comment, class: "govuk-textarea", rows: "3" %>
     </div>
-    <p>
-      <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
-    </p>
+    <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
   <% end %>
 <% end %>

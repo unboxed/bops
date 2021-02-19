@@ -223,7 +223,7 @@ private
   end
 
   def public_comment_present
-    if decision == "refused" && public_comment.blank?
+    if decision_present? && public_comment.blank?
       errors.add(:planning_application, "Please fill in the GDPO policies text box.")
     end
   end
