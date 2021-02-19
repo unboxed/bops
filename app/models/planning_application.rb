@@ -7,8 +7,6 @@ class PlanningApplication < ApplicationRecord
 
   enum application_type: { lawfulness_certificate: 0, full: 1 }
 
-  has_one :policy_evaluation, dependent: :destroy
-
   has_many :documents, dependent: :destroy
   has_many :recommendations, dependent: :destroy
 
