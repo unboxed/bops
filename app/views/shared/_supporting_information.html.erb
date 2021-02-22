@@ -66,6 +66,9 @@
         <strong>Statutory date:</strong>
         <%= @planning_application.target_date.strftime("%e %B %Y") %>
       </p>
+      <p class="govuk-body">
+        <%= link_to "Activity log", planning_application_audits_path(@planning_application) %>
+      </p>
     </div>
   </div>
   <div class="govuk-accordion__section">

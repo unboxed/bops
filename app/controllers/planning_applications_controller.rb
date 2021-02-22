@@ -42,24 +42,13 @@ class PlanningApplicationsController < AuthenticationController
                                    else
                                      current_local_authority.users.find(params[:planning_application][:user_id])
                                    end
+      audit("assigned", @planning_application.user)
       redirect_to @planning_application if @planning_application.save
     end
   end
 
-  def start
-    @planning_application.start!
-
-    redirect_to @planning_application
-  end
-
   def return
     @planning_application.return!
-
-    redirect_to @planning_application
-  end
-
-  def invalidate
-    @planning_application.invalidate!
 
     redirect_to @planning_application
   end
@@ -83,7 +72,9 @@ class PlanningApplicationsController < AuthenticationController
   def submit_recommendation; end
 
   def assess
+    byebug
     @planning_application.assess!
+    audit("assessed")
 
     redirect_to @planning_application
   end
@@ -161,12 +152,14 @@ class PlanningApplicationsController < AuthenticationController
       else
         @planning_application.documents_validated_at = date_from_params
         @planning_application.start!
+        audit("started")
         validation_notice_mail
         flash[:notice] = "Application is ready for assessment and applicant has been notified"
         redirect_to @planning_application
       end
     elsif status == "invalidated"
       @planning_application.invalidate!
+      audit("invalidated")
       flash[:notice] = "Application has been invalidated"
       redirect_to @planning_application
     else
@@ -176,6 +169,17 @@ class PlanningApplicationsController < AuthenticationController
   end
 
 private
+
+  # The activity information would be either the comment or the document, per the design
+  # maybe this could be abstracted into a helper or into the application controller?
+  # I gather we can use "public comment" in the activity information
+  def audit(activity_type, *activity_information)
+    Audit.create!(
+      planning_application_id: @planning_application.id,
+      user_id: current_user.id,
+      activity_information: activity_information,
+      activity_type: activity_type)
+  end
 
   def date_from_params
     Time.zone.parse(
