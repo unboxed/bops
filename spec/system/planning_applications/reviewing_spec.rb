@@ -47,6 +47,13 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 1)
     click_link("View decision notice")
     expect(page).to have_content("IT IS HEREBY CERTIFIED")
+
+    click_button "Key application dates"
+    click_link "Activity log"
+
+    expect(page).to have_text("Application determined")
+    expect(page).to have_text(reviewer.name)
+    expect(page).to have_text(Audit.all.last.created_at)
   end
 
   it "can be rejected" do
@@ -63,6 +70,14 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     expect(planning_application.recommendations.last.reviewed_at).not_to be_nil
     expect(planning_application.recommendations.last.reviewer_comment).to eq("Reviewer private comment")
     expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails)
+
+    click_button "Key application dates"
+    click_link "Activity log"
+
+    expect(page).to have_text("Application reassessment")
+    expect(page).to have_text(reviewer.name)
+    expect(page).to have_text("Reviewer private comment")
+    expect(page).to have_text(Audit.all.last.created_at)
   end
 
   it "can edit an existing review of an assessment" do

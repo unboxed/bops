@@ -23,6 +23,13 @@ RSpec.shared_examples "validate and invalidate" do
     expect(planning_application.documents_validated_at).to eq(Date.new(2021, 12, 3))
 
     expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 1)
+
+    click_button "Key application dates"
+    click_link "Activity log"
+
+    expect(page).to have_text("Application validated")
+    expect(page).to have_text(assessor.name)
+    expect(page).to have_text(Audit.all.last.created_at)
   end
 
   it "can be invalidated" do
@@ -40,6 +47,13 @@ RSpec.shared_examples "validate and invalidate" do
     expect(planning_application.status).to eq("invalidated")
 
     expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails)
+
+    click_button "Key application dates"
+    click_link "Activity log"
+
+    expect(page).to have_text("Application invalidated")
+    expect(page).to have_text(assessor.name)
+    expect(page).to have_text(Audit.all.last.created_at)
   end
 end
 

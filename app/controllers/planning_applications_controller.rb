@@ -42,15 +42,9 @@ class PlanningApplicationsController < AuthenticationController
                                    else
                                      current_local_authority.users.find(params[:planning_application][:user_id])
                                    end
-      audit("assigned", @planning_application.user)
+      @planning_application.user.nil? ? audit("assigned") : audit("assigned", @planning_application.user.name )
       redirect_to @planning_application if @planning_application.save
     end
-  end
-
-  def return
-    @planning_application.return!
-
-    redirect_to @planning_application
   end
 
   def recommendation_form
@@ -61,8 +55,8 @@ class PlanningApplicationsController < AuthenticationController
     @recommendation = @planning_application.pending_or_new_recommendation
     @planning_application.assign_attributes(params.require(:planning_application).permit(:decision, :public_comment))
     @recommendation.assign_attributes(params.require(:recommendation).permit(:assessor_comment).merge(assessor: current_user))
-
     if @planning_application.save && @recommendation.save
+      audit("assessed", { comment: @recommendation.assessor_comment }.to_json)
       redirect_to @planning_application
     else
       render :recommendation_form
@@ -70,14 +64,6 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def submit_recommendation; end
-
-  def assess
-    byebug
-    @planning_application.assess!
-    audit("assessed")
-
-    redirect_to @planning_application
-  end
 
   def review_form
     @recommendation = @planning_application.recommendations.last
@@ -87,6 +73,7 @@ class PlanningApplicationsController < AuthenticationController
     @recommendation = @planning_application.recommendations.last
     @recommendation.update!(reviewer_comment: params[:recommendation][:reviewer_comment], reviewed_at: Time.zone.now, reviewer: current_user)
     if params[:recommendation][:agree] == "No"
+      audit("challenged", @recommendation.reviewer_comment)
       @planning_application.request_correction!
     end
     redirect_to @planning_application
@@ -94,9 +81,15 @@ class PlanningApplicationsController < AuthenticationController
 
   def publish; end
 
+  def assess
+    @planning_application.assess!
+
+    redirect_to @planning_application
+  end
+
   def determine
     @planning_application.determine!
-
+    audit("determined")
     decision_notice_mail
     flash[:notice] = "Decision Notice sent to applicant"
 
@@ -109,12 +102,14 @@ class PlanningApplicationsController < AuthenticationController
 
   def request_correction
     @planning_application.request_correction!
+    audit("challenged", @recommendation.reviewer_comment)
 
     redirect_to @planning_application
   end
 
   def withdraw
     @planning_application.withdraw!
+    audit("withdrawn", @planning_application.cancellation_comment)
 
     redirect_to @planning_application
   end
@@ -128,10 +123,12 @@ class PlanningApplicationsController < AuthenticationController
     when "withdrawn"
       @planning_application.withdraw!(:withdrawn, params[:planning_application][:cancellation_comment])
       flash[:notice] = "Application has been withdrawn"
+      audit("withdrawn", @planning_application.cancellation_comment)
       redirect_to @planning_application
     when "returned"
       @planning_application.return!(:returned, params[:planning_application][:cancellation_comment])
       flash[:notice] = "Application has been returned"
+      audit("returned", @planning_application.cancellation_comment)
       redirect_to @planning_application
     else
       @planning_application.errors.add(:status, "Please select one of the below options")
@@ -170,14 +167,11 @@ class PlanningApplicationsController < AuthenticationController
 
 private
 
-  # The activity information would be either the comment or the document, per the design
-  # maybe this could be abstracted into a helper or into the application controller?
-  # I gather we can use "public comment" in the activity information
   def audit(activity_type, *activity_information)
     Audit.create!(
       planning_application_id: @planning_application.id,
       user_id: current_user.id,
-      activity_information: activity_information,
+      activity_information: JSON(activity_information),
       activity_type: activity_type)
   end
 
