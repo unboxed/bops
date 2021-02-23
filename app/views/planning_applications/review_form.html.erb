@@ -14,9 +14,7 @@
     </strong>
   </p>
   <p class="govuk-body">
-    It adheres to the limitations and conditions of Part 1 Class A and F,
-    Schedule 2 of The Town and Country Planning (General Permitted Development)
-    Order 2015 (as amended).
+    <%= @planning_application.public_comment %>
   </p>
 
   <%= render "recommendations", { recommendations: @planning_application.recommendations } %>
