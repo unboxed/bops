@@ -4,8 +4,8 @@ class Audit < ApplicationRecord
 
   enum activity: {
     assessed: 1,
-    archived: 2,
-    assigned: 3,
+    assigned: 2,
+    archived: 3,
     challenged: 4,
     created: 5,
     determined: 6,
@@ -13,7 +13,7 @@ class Audit < ApplicationRecord
     returned: 8,
     uploaded: 9,
     started: 10,
-    withdrawn: 9
+    withdrawn: 11
   }
 
   #Actions where audit needs to be saved

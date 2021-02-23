@@ -24,10 +24,12 @@
       <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__cell"><%= audit_item.created_at %></th>
         <td class="govuk-table__cell"><%= audit_item.user_id %></td>
-        <td class="govuk-table__cell"><%= audit_item.activity_type %></td>
+        <td colspan="3" class="govuk-table__cell">
+          <%= activity(audit_item.activity_type, audit_item.activity_information.to_json) %>
+           <%= audit_item.activity_information %>
+
+        </td>
       </tr>
     <% end %>
     </tbody>
 </table>
-
-

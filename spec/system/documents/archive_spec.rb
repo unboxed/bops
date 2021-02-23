@@ -84,6 +84,16 @@ RSpec.describe "Documents index page", type: :system do
       end
     end
 
+    it "renders audit log for archive action correctly" do
+      click_link "Application"
+      click_button "Key application dates"
+      click_link "Activity log"
+
+      expect(page).to have_text("Archived document proposed-floorplan/png")
+      expect(page).to have_text(assessor.name)
+      expect(page).to have_text(Audit.all.last.created_at)
+    end
+
     it "User can log out from archive page" do
       click_button "Log out"
 

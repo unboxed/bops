@@ -49,6 +49,14 @@ RSpec.describe "Planning Application Assessment", type: :system do
       # TODO: add a flash message here?
       planning_application.reload
       expect(planning_application.status).to eq("awaiting_determination")
+
+      click_button "Key application dates"
+      click_link "Activity log"
+
+      expect(page).to have_text("Application rejected")
+      expect(page).to have_text(assessor.name)
+      expect(page).to have_text("Edited private assessor comment")
+      expect(page).to have_text(Audit.all.last.created_at)
     end
   end
 
@@ -90,7 +98,15 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       expect(page).to have_checked_field("Yes")
-      expect(page).to have_field("Please provide supporting information for your manager.", with: "This is a private assessor comment")
+      expect(page).to have_field("assessor_comment", with: "This is a private assessor comment")
+
+      click_button "Key application dates"
+      click_link "Activity log"
+
+      expect(page).to have_text("Application approved")
+      expect(page).to have_text(assessor.name)
+      expect(page).to have_text("This is a private assessor comment")
+      expect(page).to have_text(Audit.all.last.created_at)
     end
   end
 

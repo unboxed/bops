@@ -22,6 +22,12 @@ RSpec.describe "Assigning a planning application", type: :system do
     within ".assigned_to" do
       expect(page).to have_text("Assessor 2")
     end
+    click_button "Key application dates"
+    click_link "Activity log"
+
+    expect(page).to have_text("Case assigned to Assessor 2")
+    expect(page).to have_text(assessor1.name)
+    expect(page).to have_text(Audit.all.last.created_at)
   end
 
   it "is possible to assign to nobody" do
@@ -34,5 +40,11 @@ RSpec.describe "Assigning a planning application", type: :system do
     within ".assigned_to" do
       expect(page).to have_text("Unassigned")
     end
+    click_button "Key application dates"
+    click_link "Activity log"
+
+    expect(page).to have_text("Case unassigned")
+    expect(page).to have_text(assessor1.name)
+    expect(page).to have_text(Audit.all.last.created_at)
   end
 end
