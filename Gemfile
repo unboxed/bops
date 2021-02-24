@@ -26,7 +26,6 @@ gem "puma", "~> 4.1"
 gem "rails", "~> 6.0.3"
 gem "rswag-ui"
 gem "webpacker", "~> 4.0"
-gem "wkhtmltopdf-binary"
 
 group :development, :test do
   gem "brakeman", require: false
