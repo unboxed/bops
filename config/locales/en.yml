@@ -16,18 +16,6 @@ en:
     design: "Revise design"
     dimensions: "Revise dimensions"
     other: "Other"
-  constraints:
-    conservation_area: "Conservation Area"
-    article4_area: "Article 4 Area"
-    scheduled_monument: "Scheduled Monument"
-    AONB: "Area of Outstanding National Beauty"
-    national_park: "National Park"
-    broads: "Norfolk Broads"
-    world_heritage: "World Heritage Site"
-    Tpo: "Tree Protection Order(s)"
-    protected_trees: "Protected Trees"
-    ssi: "Site of Special Scientific Interest"
-
   user_not_authorized: "You are not authorized to perform this action."
   activerecord:
     errors:
