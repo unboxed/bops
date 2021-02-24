@@ -255,15 +255,99 @@ paths:
                   agent_phone: '237878889'
                   agent_email: agent@example.com
                   proposal_details:
-                    - question: what are you planning to do?
+                    - question: What do you want to do?
                       responses:
-                        - value: demolish
+                        - value: "Modify or extend"
+                    - question: What is the dwelling used as?
+                      responses:
+                        - value: A family home
+                    - question: Is the property a house?
+                      responses:
+                        - value: "Yes"
+                    - question: How many storeys will the new structure have?
+                      responses:
+                        - value: "1"
+                    - question: Was the house always a house?
+                      responses:
+                        - value: "Yes"
+                    - question: Will the structure include a satellite dish or antenna?
+                      responses:
+                        - value: "No"
                       metadata:
-                        notes: this will be done before rebuilding
-                        auto_answered: true
                         policy_refs:
-                          - url: http://example.com/planning/policy/1/234/a.html
-                            text: "GPDO 32.2342.223"
+                        - url: http://example.com/planning/policy/1/234/a.html
+                          text: "GPDO 00.0000.000"
+                    - question: What will be the total footprint of all additions of the available area around the original house?
+                      responses:
+                        - value: 50% or less
+                    - question: How high will the eaves of the new structure be?
+                      responses:
+                        - value: "2.5m or lower"
+                    - question: What will the height of the new structure be?
+                      responses:
+                        - value: "2.5m or lower"
+                    - question: How close will the new structure be to the site boundary?
+                      responses:
+                        - value: "Within 2m"
+                    - question: Will any part of the new structure be forward of the front of the original house?
+                      responses:
+                        - value: "No"
+                    - question: How many storeys will the new structure have?
+                      responses:
+                        - value: "1"
+                    - question: Will any part of the pool be forward of the front of the original house?
+                      responses:
+                        - value: "No"
+                    - question: What is the addition to the property?
+                      responses:
+                        - value: An outdoor pool
+                        - value: An outbuilding
+                      metadata:
+                        policy_refs:
+                          - url: http://example.com/planning/policy/1/234/b.html
+                            text: "GPDO 00.0000.000"
+                          - url: http://example.com/planning/policy/1/234/c.html
+                            text: "GPDO 00.0000.000"
+                    - question: How many storeys will the new structure have?
+                      responses:
+                        - value: "1"
+                    - question: Is the property on designated land?
+                      responses:
+                        - value: "No"
+                          auto_answered: true
+                    - question: Is the property in an area of outstanding natural beauty?
+                      responses:
+                        - value: "No"
+                      metadata:
+                        auto_answered: true
+                    - question: Is the property in the broads?
+                      responses:
+                        - value: "No"
+                      metadata:
+                        auto_answered: true
+                    - question: Is the property in a world heritage site?
+                      responses:
+                        - value: "No"
+                      metadata:
+                        auto_answered: true
+                    - question: Is the property in a national park?
+                      responses:
+                        - value: "No"
+                      metadata:
+                        auto_answered: true
+                    - question: Is the house listed?
+                      responses:
+                        - value: "No"
+                    - question: Will the works affect a protected tree?
+                      responses:
+                        - value: "No"
+                      metadata:
+                        auto_answered: true
+                    - question: Will the new addition allow you to do an acitivity that most houses do not provide a dedicated space for?
+                      responses:
+                        - value: "Yes"
+                      metadata:
+                        notes: It will allow me to exercise on a regular basis and generate energy
                   constraints:
                     conservation_area: true
                     protected_trees: false
