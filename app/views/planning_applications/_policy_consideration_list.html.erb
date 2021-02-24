@@ -14,10 +14,27 @@
     <ol class="govuk-body" style="line-height: 2;">
       <% @planning_application.parsed_proposal_details.each do |proposal_detail| %>
         <li>
-          <%= proposal_detail['question'] %>
-          <strong>
-            <%= proposal_detail['responses'].collect {|response| response["value"] }.join(", ") %>
-          </strong>
+          <p>
+            <strong><%= proposal_detail['question'] %></strong>
+          </p>
+          <p><%= proposal_detail['responses'].collect {|response| response["value"] }.join(", ") %></p>
+          <% if proposal_detail["metadata"].present? %>
+            <% if proposal_detail["metadata"]["notes"].present? %>
+              <p><em><%= proposal_detail["metadata"]["notes"] %></em></p>
+            <% end %>
+            <% if proposal_detail["metadata"]["auto_answered"].present? %>
+              <p><em>Auto-answered by RIPA</em></p>
+            <% end %>
+            <% if proposal_detail["metadata"]["policy_refs"].present? %>
+              <%= proposal_detail["metadata"]["policy_refs"].collect {|policy_ref|
+                  if policy_ref["url"].present?
+                    link_to policy_ref["text"], policy_ref["url"]
+                  else
+                    policy_ref["text"]
+                  end
+                }.join(", ").html_safe %>
+            <% end %>
+          <% end %>
         </li>
       <% end %>
     </ol>
