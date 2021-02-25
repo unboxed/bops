@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :audit do
-    association :user_id, factory: :user
+    association :user
     planning_application
 
     activity_type { "approved" }
