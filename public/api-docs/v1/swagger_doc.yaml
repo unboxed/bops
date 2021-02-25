@@ -138,53 +138,49 @@ paths:
                 work_status:
                   type: string
                   example: proposed
-                questions:
-                  type: object
-                  properties:
-                    flow:
-                      type: array
-                      items:
+                proposal_details:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      question:
+                        type: string
+                        example: what are you planning to do?
+                      responses:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            value:
+                              type: string
+                              example: demolish
+                      metadata:
                         type: object
                         properties:
-                          id:
+                          notes:
                             type: string
-                            example: "-LsXty7cOZycK0rqv8B2"
-                          text:
-                            type: string
-                            example: The property is
-                          val:
-                            type: string
-                            example: property.buildingType
-                          options:
+                            example: this will be done before rebuilding
+                          auto_answered:
+                            type: boolean
+                            example: true
+                          policy_refs:
                             type: array
                             items:
                               type: object
                               properties:
-                                id:
+                                url:
                                   type: string
-                                  example: "-LsXty7cOZycK0rqv8B5"
-                                text:
+                                  example: http://example.com/planning/policy/1/234/a.html
+                                value:
                                   type: string
-                                  example: a semi detached house
-                                val:
+                                  example: "GPDO 32.2342.223"
+                          flags:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                value:
                                   type: string
-                                  example: residential.dwelling.house.semiDetached
-                          choice:
-                            type: object
-                            properties:
-                              id:
-                                type: string
-                                example: "-LsXty7cOZycK0rqv8B7"
-                              idx:
-                                type: integer
-                                example: 3
-                              recorded_at:
-                                type: string
-                                format: date-time
-                                example: "2020-05-14T05:18:17.540Z"
-                              auto:
-                                type: boolean
-                                example: true
                 agent_first_name:
                   type: string
                   example: Jennifer
@@ -258,21 +254,100 @@ paths:
                   agent_last_name: Harper
                   agent_phone: '237878889'
                   agent_email: agent@example.com
-                  questions:
-                    flow:
-                      - id: '-LsXty7cOZycK0rqv8B2'
-                        text: The property is
-                        val: property.buildingType
-                        options:
-                          - id: '-LsXty7cOZycK0rqv8B3'
-                            text: a detached house
-                            val: residential.dwelling.house.detached
-                        choice:
-                          id: '-LsXty7cOZycK0rqv8B3'
-                          idx: 0
-                          text: a detached house
-                          recorded_at: '2020-05-14T05:18:17.540Z'
-                          auto: true
+                  proposal_details:
+                    - question: What do you want to do?
+                      responses:
+                        - value: "Modify or extend"
+                    - question: What is the dwelling used as?
+                      responses:
+                        - value: A family home
+                    - question: Is the property a house?
+                      responses:
+                        - value: "Yes"
+                    - question: How many storeys will the new structure have?
+                      responses:
+                        - value: "1"
+                    - question: Was the house always a house?
+                      responses:
+                        - value: "Yes"
+                    - question: Will the structure include a satellite dish or antenna?
+                      responses:
+                        - value: "No"
+                      metadata:
+                        policy_refs:
+                        - url: http://example.com/planning/policy/1/234/a.html
+                          text: "GPDO 00.0000.000"
+                    - question: What will be the total footprint of all additions of the available area around the original house?
+                      responses:
+                        - value: 50% or less
+                    - question: How high will the eaves of the new structure be?
+                      responses:
+                        - value: "2.5m or lower"
+                    - question: What will the height of the new structure be?
+                      responses:
+                        - value: "2.5m or lower"
+                    - question: How close will the new structure be to the site boundary?
+                      responses:
+                        - value: "Within 2m"
+                    - question: Will any part of the new structure be forward of the front of the original house?
+                      responses:
+                        - value: "No"
+                    - question: How many storeys will the new structure have?
+                      responses:
+                        - value: "1"
+                    - question: Will any part of the pool be forward of the front of the original house?
+                      responses:
+                        - value: "No"
+                    - question: What is the addition to the property?
+                      responses:
+                        - value: An outdoor pool
+                        - value: An outbuilding
+                      metadata:
+                        policy_refs:
+                          - url: http://example.com/planning/policy/1/234/b.html
+                            text: "GPDO 00.0000.000"
+                          - url: http://example.com/planning/policy/1/234/c.html
+                            text: "GPDO 00.0000.000"
+                    - question: How many storeys will the new structure have?
+                      responses:
+                        - value: "1"
+                    - question: Is the property on designated land?
+                      responses:
+                        - value: "No"
+                          auto_answered: true
+                    - question: Is the property in an area of outstanding natural beauty?
+                      responses:
+                        - value: "No"
+                      metadata:
+                        auto_answered: true
+                    - question: Is the property in the broads?
+                      responses:
+                        - value: "No"
+                      metadata:
+                        auto_answered: true
+                    - question: Is the property in a world heritage site?
+                      responses:
+                        - value: "No"
+                      metadata:
+                        auto_answered: true
+                    - question: Is the property in a national park?
+                      responses:
+                        - value: "No"
+                      metadata:
+                        auto_answered: true
+                    - question: Is the house listed?
+                      responses:
+                        - value: "No"
+                    - question: Will the works affect a protected tree?
+                      responses:
+                        - value: "No"
+                      metadata:
+                        auto_answered: true
+                    - question: Will the new addition allow you to do an acitivity that most houses do not provide a dedicated space for?
+                      responses:
+                        - value: "Yes"
+                      metadata:
+                        notes: It will allow me to exercise on a regular basis and generate energy
                   constraints:
                     conservation_area: true
                     protected_trees: false

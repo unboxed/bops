@@ -31,22 +31,10 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
       full_planning_params.merge!(site_id: site_id, local_authority_id: @current_local_authority.id),
     )
     if @planning_application.valid? && @planning_application.save!
-      attach_question_flow(@planning_application.questions)
       upload_documents(params[:files])
       send_success_response
     else
       send_failed_response
-    end
-  end
-
-  def attach_question_flow(questions)
-    evaluation = @planning_application.create_policy_evaluation
-    if questions.blank?
-      evaluation
-    else
-      pcb = Ripa::PolicyConsiderationBuilder.new(questions)
-      questions = pcb.import
-      evaluation.policy_considerations << questions
     end
   end
 
@@ -102,7 +90,7 @@ private
                         agent_last_name
                         agent_phone
                         agent_email
-                        questions
+                        proposal_details
                         files
                         payment_reference
                         work_status]
@@ -120,7 +108,7 @@ private
 
   def full_planning_params
     planning_application_params.merge!({
-      questions: (params[:questions].to_json if params[:questions].present?),
+      proposal_details: (params[:proposal_details].to_json if params[:proposal_details].present?),
       constraints: (params[:constraints].to_json if params[:constraints].present?),
       audit_log: params.to_json,
     })

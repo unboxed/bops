@@ -58,7 +58,7 @@ RSpec.describe "Planning Application show page", type: :system do
     it "Constraints accordion" do
       click_button "Constraints"
 
-      expect(page).to have_text("Conservation Area")
+      expect(page).to have_text("conservation_area")
     end
 
     it "Key application dates accordion" do

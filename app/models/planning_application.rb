@@ -7,8 +7,6 @@ class PlanningApplication < ApplicationRecord
 
   enum application_type: { lawfulness_certificate: 0, full: 1 }
 
-  has_one :policy_evaluation, dependent: :destroy
-
   has_many :documents, dependent: :destroy
   has_many :recommendations, dependent: :destroy
 
@@ -204,6 +202,10 @@ class PlanningApplication < ApplicationRecord
 
   def pending_or_new_recommendation
     recommendations.pending_review.last || recommendations.build
+  end
+
+  def parsed_proposal_details
+    proposal_details.present? ? JSON.parse(proposal_details) : []
   end
 
 private
