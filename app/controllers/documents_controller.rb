@@ -42,6 +42,7 @@ class DocumentsController < AuthenticationController
 
     if @document.save
       flash[:notice] = "#{@document.file.filename} has been uploaded."
+      audit("uploaded", @document.file.filename)
       redirect_to planning_application_documents_path
     else
       render :new
@@ -63,6 +64,7 @@ class DocumentsController < AuthenticationController
 
   def confirm_archived
     @document.archive(params[:archive_reason])
+    audit("archived", @document.file.filename)
     flash[:notice] = "#{@document.name} has been archived"
     redirect_to planning_application_documents_path
   end

@@ -32,6 +32,18 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
     )
     if @planning_application.valid? && @planning_application.save!
       upload_documents(params[:files])
+
+      api_user = User.find_or_create_by!(
+        name: "API",
+        email: "api_user@bops.com",
+        local_authority: @current_local_authority,
+      ) { |user| user.password = SecureRandom.base64(12) }
+
+      Audit.create!(
+        planning_application_id: @planning_application.id,
+        user: api_user,
+        activity_type: "created",
+      )
       send_success_response
     else
       send_failed_response

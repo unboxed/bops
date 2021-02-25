@@ -13,10 +13,12 @@
         </div>
 
         <% current_local_authority.users.each do |user| %>
-          <div class="govuk-radios__item">
-            <%= form.radio_button :user_id, user.id, class: "govuk-radios__input" %>
-            <%= form.label :user_id, user.name, value: user.id, class: "govuk-label govuk-radios__label" %>
-          </div>
+          <% unless user.name == "API" %>
+            <div class="govuk-radios__item">
+              <%= form.radio_button :user_id, user.id, class: "govuk-radios__input" %>
+              <%= form.label :user_id, user.name, value: user.id, class: "govuk-label govuk-radios__label" %>
+            </div>
+          <% end %>
         <% end %>
       </div>
     </fieldset>

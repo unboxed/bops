@@ -34,7 +34,7 @@ Rails.application.routes.draw do
       post :validate_step
     end
 
-    resources :audits, :only => [:index]
+    resources :audits, only: :index
   end
 
   namespace :api do

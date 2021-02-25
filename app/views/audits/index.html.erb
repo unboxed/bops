@@ -10,24 +10,34 @@
   <%= @planning_application.site.full_address %>
 </p>
 
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "shared/status_panel" %>
+  </div>
+</div>
+<p class="govuk-body">
+  Assigned to: <strong><%= @planning_application.user ? @planning_application.user.name : "Unassigned" %></strong>
+</p>
+
 <table class="govuk-table">
-  <caption class="govuk-table__caption govuk-table__caption--m">Months and rates</caption>
+  <h2 class="govuk-heading-m">Activity Log</h2>
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Date</th>
-      <th scope="col" class="govuk-table__header">User</th>
-      <th scope="col" class="govuk-table__header">Activity</th>
+      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Date</th>
+      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">User</th>
+      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Activity</th>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
     <% @audits.each do |audit_item| %>
       <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__cell"><%= audit_item.created_at %></th>
-        <td class="govuk-table__cell"><%= audit_item.user_id %></td>
-        <td colspan="3" class="govuk-table__cell">
-          <%= activity(audit_item.activity_type, audit_item.activity_information.to_json) %>
-           <%= audit_item.activity_information %>
-
+        <td class="govuk-table__cell"><%= audit_item.created_at.strftime("%d-%m-%Y %H:%M") %></td>
+        <td class="govuk-table__cell"><%= audit_item.user.name %></td>
+        <td colspan="2" class="govuk-table__cell">
+          <%= activity(audit_item.activity_type, audit_item.activity_information) %> <br>
+          <% if audit_item.audit_comment.present? %>
+            <i><%= audit_item.audit_comment %></i>
+          <% end %>
         </td>
       </tr>
     <% end %>

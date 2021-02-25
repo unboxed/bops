@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_22_152739) do
+ActiveRecord::Schema.define(version: 2021_02_22_100817) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,10 +47,11 @@ ActiveRecord::Schema.define(version: 2021_02_22_152739) do
   create_table "audits", force: :cascade do |t|
     t.bigint "planning_application_id", null: false
     t.bigint "user_id"
+    t.jsonb "activity_type", default: [], null: false
     t.string "activity_information"
+    t.string "audit_comment"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.jsonb "activity_type", default: [], null: false
     t.index ["planning_application_id"], name: "index_audits_on_planning_application_id"
     t.index ["user_id"], name: "index_audits_on_user_id"
   end
