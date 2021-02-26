@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 module AuditHelper
-  def activity(type_of_activity, *args)
+  def activity(type_of_activity, user_name = nil)
     case type_of_activity
 
     when "assigned"
-      args[0].blank? ? "Application unassigned" : "Application assigned to #{args[0]}"
+      user_name.blank? ? "Application unassigned" : "Application assigned to #{user_name}"
     when "archived"
       "Document archived"
     when "approved"
