@@ -3,24 +3,10 @@
 
 <% content_for :title, "Audit log" %>
 
-<h1 class="govuk-heading-l" style="margin-bottom: 7px;">
-  <%= @planning_application.reference %>
-</h1>
-<p class="govuk-body">
-  <%= @planning_application.site.full_address %>
-</p>
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render "shared/status_panel" %>
-  </div>
-</div>
-<p class="govuk-body">
-  Assigned to: <strong><%= @planning_application.user ? @planning_application.user.name : "Unassigned" %></strong>
-</p>
+<%= render "planning_applications/proposal_header" %>
 
 <table class="govuk-table">
-  <h2 class="govuk-heading-m">Activity Log</h2>
+  <h2 class="govuk-heading-m govuk-!-margin-top-6">Activity Log</h2>
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Date</th>
@@ -29,15 +15,18 @@
     </tr>
   </thead>
   <tbody class="govuk-table__body">
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell"> <%= @planning_application.created_at.strftime("%d-%m-%Y %H:%M") %></td>
+      <td class="govuk-table__cell"> API </td>
+      <td class="govuk-table__cell"> Application created </td>
+    </tr>
     <% @audits.each do |audit_item| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell"><%= audit_item.created_at.strftime("%d-%m-%Y %H:%M") %></td>
         <td class="govuk-table__cell"><%= audit_item.user.name %></td>
         <td colspan="2" class="govuk-table__cell">
           <%= activity(audit_item.activity_type, audit_item.activity_information) %> <br>
-          <% if audit_item.audit_comment.present? %>
-            <i><%= audit_item.audit_comment %></i>
-          <% end %>
+          <i> <%= audit_item.audit_comment if audit_item.audit_comment.present? %> </i>
         </td>
       </tr>
     <% end %>

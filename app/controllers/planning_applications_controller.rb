@@ -11,7 +11,6 @@ class PlanningApplicationsController < AuthenticationController
                                                     review
                                                     publish
                                                     determine
-                                                    request_correction
                                                     validate_documents_form
                                                     validate_documents
                                                     cancel_confirmation
@@ -42,8 +41,37 @@ class PlanningApplicationsController < AuthenticationController
                                    else
                                      current_local_authority.users.find(params[:planning_application][:user_id])
                                    end
-      @planning_application.user.nil? ? audit("assigned") : audit("assigned", "", @planning_application.user.name)
+      audit("assigned", nil, @planning_application.user&.name)
       redirect_to @planning_application if @planning_application.save
+    end
+  end
+
+  def validate_documents_form
+    @planning_application.documents_validated_at ||= @planning_application.created_at
+  end
+
+  def validate_documents
+    status = params[:planning_application][:status]
+    if status == "in_assessment"
+      if date_from_params.blank?
+        @planning_application.errors.add(:planning_application, "Please enter a valid date")
+        render "validate_documents_form"
+      else
+        @planning_application.documents_validated_at = date_from_params
+        @planning_application.start!
+        audit("started")
+        validation_notice_mail
+        flash[:notice] = "Application is ready for assessment and applicant has been notified"
+        redirect_to @planning_application
+      end
+    elsif status == "invalidated"
+      @planning_application.invalidate!
+      audit("invalidated")
+      flash[:notice] = "Application has been invalidated"
+      redirect_to @planning_application
+    else
+      @planning_application.errors.add(:status, "Please select one of the below options")
+      render "validate_documents_form"
     end
   end
 
@@ -99,28 +127,6 @@ class PlanningApplicationsController < AuthenticationController
     redirect_to @planning_application
   end
 
-  def decision_notice
-    render :decision_notice
-  end
-
-  def request_correction
-    @planning_application.request_correction!
-    audit("challenged", @recommendation.reviewer_comment)
-
-    redirect_to @planning_application
-  end
-
-  def withdraw
-    @planning_application.withdraw!
-    audit("withdrawn", @planning_application.cancellation_comment)
-
-    redirect_to @planning_application
-  end
-
-  def cancel_confirmation
-    render :cancel_confirmation
-  end
-
   def cancel
     case params[:planning_application][:status]
     when "withdrawn"
@@ -139,33 +145,12 @@ class PlanningApplicationsController < AuthenticationController
     end
   end
 
-  def validate_documents_form
-    @planning_application.documents_validated_at ||= @planning_application.created_at
+  def cancel_confirmation
+    render :cancel_confirmation
   end
 
-  def validate_documents
-    status = params[:planning_application][:status]
-    if status == "in_assessment"
-      if date_from_params.blank?
-        @planning_application.errors.add(:planning_application, "Please enter a valid date")
-        render "validate_documents_form"
-      else
-        @planning_application.documents_validated_at = date_from_params
-        @planning_application.start!
-        audit("started")
-        validation_notice_mail
-        flash[:notice] = "Application is ready for assessment and applicant has been notified"
-        redirect_to @planning_application
-      end
-    elsif status == "invalidated"
-      @planning_application.invalidate!
-      audit("invalidated")
-      flash[:notice] = "Application has been invalidated"
-      redirect_to @planning_application
-    else
-      @planning_application.errors.add(:status, "Please select one of the below options")
-      render "validate_documents_form"
-    end
+  def decision_notice
+    render :decision_notice
   end
 
 private

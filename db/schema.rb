@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 2021_02_22_100817) do
   create_table "audits", force: :cascade do |t|
     t.bigint "planning_application_id", null: false
     t.bigint "user_id"
-    t.jsonb "activity_type", default: [], null: false
+    t.string "activity_type", null: false
     t.string "activity_information"
     t.string "audit_comment"
     t.datetime "created_at", precision: 6, null: false
