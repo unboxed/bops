@@ -88,7 +88,6 @@ ActiveRecord::Schema.define(version: 2021_03_01_131201) do
     t.datetime "started_at"
     t.datetime "determined_at"
     t.text "description"
-    t.bigint "site_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "ward"
@@ -117,8 +116,14 @@ ActiveRecord::Schema.define(version: 2021_03_01_131201) do
     t.string "work_status", default: "proposed"
     t.string "decision"
     t.text "public_comment"
+    t.string "address_1"
+    t.string "address_2"
+    t.string "town"
+    t.string "county"
+    t.string "postcode"
+    t.string "uprn"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
-    t.index ["site_id"], name: "index_planning_applications_on_site_id"
+    t.index ["uprn"], name: "index_planning_applications_on_uprn", unique: true
     t.index ["user_id"], name: "index_planning_applications_on_user_id"
   end
 
@@ -134,18 +139,6 @@ ActiveRecord::Schema.define(version: 2021_03_01_131201) do
     t.index ["assessor_id"], name: "index_recommendations_on_assessor_id"
     t.index ["planning_application_id"], name: "index_recommendations_on_planning_application_id"
     t.index ["reviewer_id"], name: "index_recommendations_on_reviewer_id"
-  end
-
-  create_table "sites", force: :cascade do |t|
-    t.string "address_1"
-    t.string "address_2"
-    t.string "town"
-    t.string "county"
-    t.string "postcode"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "uprn"
-    t.index ["uprn"], name: "index_sites_on_uprn", unique: true
   end
 
   create_table "users", force: :cascade do |t|

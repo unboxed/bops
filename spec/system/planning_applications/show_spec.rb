@@ -3,17 +3,20 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application show page", type: :system do
-  let!(:site) { create :site, uprn: "00773377", address_1: "7 Elm Grove", town: "London", postcode: "SE15 6UT" }
   let(:documents_validated_at) { Date.current - 2.weeks }
   let!(:planning_application) do
     create :planning_application, description: "Roof extension",
                                   application_type: "lawfulness_certificate",
                                   status: :in_assessment,
-                                  ward: "Dulwich Wood", site: site,
+                                  ward: "Dulwich Wood",
                                   documents_validated_at: documents_validated_at,
                                   local_authority: @default_local_authority,
                                   payment_reference: "PAY123",
                                   work_status: "proposed",
+                                  uprn: "00773377",
+                                  address_1: "7 Elm Grove",
+                                  town: "London",
+                                  postcode: "SE15 6UT",
                                   constraints: '{"conservation_area": true, "article4_area": false, "scheduled_monument": false }'
   end
   let(:assessor) { create :user, :assessor, local_authority: @default_local_authority }

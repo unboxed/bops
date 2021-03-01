@@ -6,7 +6,7 @@ Dear Sir/Madam,
 
 Reference No.: <%= @planning_application.reference %>
 Proposal: <%= @planning_application.description %>
-Site Address: <%= @planning_application.site.full_address %>
+Site Address: <%= @planning_application.full_address %>
 
 Your application is now valid and has been started from <%= @planning_application.documents_validated_at.strftime("%e %B %Y") %>. The description of your development given in the title block above may be different from the one on your application form. Contact us if you would like the description to be amended.
 

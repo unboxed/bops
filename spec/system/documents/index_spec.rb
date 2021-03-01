@@ -3,13 +3,12 @@
 require "rails_helper"
 
 RSpec.describe "Documents index page", type: :system do
-  let!(:site) { create :site, address_1: "7 Elm Grove" }
   let(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
 
   let!(:planning_application) do
     create :planning_application,
-           site: site,
-           local_authority: @default_local_authority
+           local_authority: @default_local_authority,
+           address_1: "7 Elm Grove"
   end
 
   let!(:document) do
