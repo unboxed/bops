@@ -2,7 +2,6 @@
 
 FactoryBot.define do
   factory :planning_application do
-    site
     local_authority
     description      { Faker::Lorem.unique.sentence }
     status           { :in_assessment }
@@ -20,6 +19,13 @@ FactoryBot.define do
     applicant_email { Faker::Internet.email }
     application_type { :lawfulness_certificate }
     public_comment { "All GDPO compliant" }
+    uprn { Faker::Base.numerify("00######") }
+    address_1 { Faker::Address.street_address }
+    address_2 { Faker::Address.secondary_address }
+    town { Faker::Address.city }
+    county { Faker::Address.state }
+    postcode { Faker::Address.postcode }
+
     proposal_details do
       [
         {

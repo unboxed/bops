@@ -71,7 +71,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(validation_mail.body.encoded).to match("started from #{planning_application.documents_validated_at.strftime('%e %B %Y')}")
       expect(validation_mail.body.encoded).to match("issue a decision by #{planning_application.target_date.strftime('%e %B %Y')}")
       expect(validation_mail.body.encoded).to match("issue a decision by #{planning_application.target_date.strftime('%e %B %Y')}")
-      expect(validation_mail.body.encoded).to match("Site Address: #{planning_application.site.full_address}")
+      expect(validation_mail.body.encoded).to match("Site Address: #{planning_application.full_address}")
       expect(validation_mail.body.encoded).to match("planning reference number #{planning_application.reference}")
       expect(validation_mail.body.encoded).to match("Proposal: #{planning_application.description}")
     end

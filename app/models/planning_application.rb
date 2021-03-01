@@ -10,7 +10,6 @@ class PlanningApplication < ApplicationRecord
   has_many :documents, dependent: :destroy
   has_many :recommendations, dependent: :destroy
 
-  belongs_to :site
   belongs_to :user, optional: true
   belongs_to :local_authority
 
@@ -26,6 +25,7 @@ class PlanningApplication < ApplicationRecord
   validate :documents_validated_at_date
   validate :public_comment_present
   validate :decision_with_recommendations
+  validates :uprn, uniqueness: true
 
   scope :not_started_and_invalid, -> { where("status = 'not_started' OR status = 'invalidated'") }
   scope :under_assessment, -> { where("status = 'in_assessment' OR status = 'awaiting_correction'") }
@@ -206,6 +206,10 @@ class PlanningApplication < ApplicationRecord
 
   def parsed_proposal_details
     proposal_details.present? ? JSON.parse(proposal_details) : []
+  end
+
+  def full_address
+    "#{address_1}, #{town}, #{postcode}"
   end
 
 private
