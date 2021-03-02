@@ -17,6 +17,12 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
     end
   end
 
+  describe "#map_link" do
+    it "returns the correct link for a valid address" do
+      expect(map_link("11 Abbey Gardens, London, SE16 3RQ")).to eq("https://google.co.uk/maps/place/11+Abbey+Gardens%2C+London%2C+SE16+3RQ")
+    end
+  end
+
   describe "#display_decision_status" do
     context "refused" do
       let(:planning_application) do
