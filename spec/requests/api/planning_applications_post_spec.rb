@@ -108,32 +108,6 @@ RSpec.describe "Creating a planning application via the API", type: :request, sh
         expect(response.body).to eq('{"error":"HTTP Token: Access denied."}')
       end
     end
-
-    context "when passed a request where site uprn exists" do
-      valid_json = Rails.root.join("spec/fixtures/files/minimal_planning_application.json")
-      permitted_development_json = File.read(valid_json)
-
-      it "renders success message" do
-        create(:site, uprn: "100081043511")
-        post "/api/v1/planning_applications", params: permitted_development_json,
-                                              headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
-        expect(response.body).to eq({ "id": PlanningApplication.all[0].reference.to_s,
-                                      "message": "Application created" }.to_json)
-      end
-
-      it "renders sucess message" do
-        create(:site, uprn: "100081043511")
-        post "/api/v1/planning_applications", params: permitted_development_json,
-                                              headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
-        expect(response.status).to eq(200)
-      end
-
-      it "returns 401 if user is not authenticated" do
-        post "/api/v1/planning_applications", params: permitted_development_json,
-                                              headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer dasfdsafdsaf" }
-        expect(response.status).to eq(401)
-      end
-    end
   end
 
   context "with error in downloading document" do

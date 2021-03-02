@@ -26,10 +26,16 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
   end
 
   def create
-    site_id = create_site
     @planning_application = PlanningApplication.new(
-      full_planning_params.merge!(site_id: site_id, local_authority_id: @current_local_authority.id),
+      planning_application_params.merge!(
+        local_authority_id: @current_local_authority.id,
+        proposal_details: (params[:proposal_details].to_json if params[:proposal_details].present?),
+        constraints: (params[:constraints].to_json if params[:constraints].present?),
+        audit_log: params.to_json,
+      ),
     )
+    @planning_application.assign_attributes(site_params) if site_params.present?
+
     if @planning_application.valid? && @planning_application.save!
       upload_documents(params[:files])
       send_success_response
@@ -67,21 +73,12 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
            status: :not_found
   end
 
-  def create_site
-    if site_params
-      site = Site.create_with(site_params)
-          .find_or_create_by!(uprn: site_params[:uprn])
-      site.id
-    end
-  end
-
 private
 
   def planning_application_params
     permitted_keys = %i[application_type
                         description
                         ward
-                        site_id
                         applicant_first_name
                         applicant_last_name
                         applicant_phone
@@ -101,16 +98,9 @@ private
     if params[:site]
       { uprn: params[:site][:uprn],
         address_1: params[:site][:address_1],
+        address_2: params[:site][:address_2],
         town: params[:site][:town],
         postcode: params[:site][:postcode] }
     end
-  end
-
-  def full_planning_params
-    planning_application_params.merge!({
-      proposal_details: (params[:proposal_details].to_json if params[:proposal_details].present?),
-      constraints: (params[:constraints].to_json if params[:constraints].present?),
-      audit_log: params.to_json,
-    })
   end
 end

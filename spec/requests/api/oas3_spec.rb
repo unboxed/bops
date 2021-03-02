@@ -22,7 +22,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
     expect(document.valid?).to eq(true)
   end
 
-  it "successfullies create the Minimum application as per the oas3 definition" do
+  it "successfully creates the Minimum application as per the oas3 definition" do
     expect {
       post "/api/v1/planning_applications",
            params: example_request_json_for("/api/v1/planning_applications", "post", "Minimum"),
@@ -32,7 +32,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
     expect(PlanningApplication.last.application_type).to eq("lawfulness_certificate")
   end
 
-  it "successfullies create the Full application as per the oas3 definition" do
+  it "successfully creates the Full application as per the oas3 definition" do
     stub_request(:get, "https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf")
         .to_return(status: 200, body: File.read(Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf")))
     expect {
@@ -53,16 +53,21 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
     expect(PlanningApplication.last.agent_last_name).to eq("Harper")
     expect(PlanningApplication.last.agent_phone).to eq("237878889")
     expect(PlanningApplication.last.agent_email).to eq("agent@example.com")
+    expect(PlanningApplication.last.address_1).to eq("11 Abbey Gardens")
+    expect(PlanningApplication.last.address_2).to eq("Southwark")
+    expect(PlanningApplication.last.uprn).to eq("100081043511")
+    expect(PlanningApplication.last.town).to eq("London")
+    expect(PlanningApplication.last.postcode).to eq("SE16 3RQ")
     expect(PlanningApplication.last.work_status).to eq("proposed")
     expect(JSON.parse(PlanningApplication.last.proposal_details).first["question"]).to eq("What do you want to do?")
     expect(JSON.parse(PlanningApplication.last.constraints)["conservation_area"]).to eq(true)
     expect(PlanningApplication.last.documents.first.file).to be_present
   end
 
-  it "successfullies return the listing of applications as specified" do
+  it "successfully returns the listing of applications as specified" do
     planning_application_hash = example_response_hash_for("/api/v1/planning_applications", "get", 200, "Full")["data"].first
-    site = Site.create! planning_application_hash.fetch("site")
-    planning_application = PlanningApplication.create! planning_application_hash.except("application_number", "received_date", "documents").merge(site: site, local_authority: @default_local_authority)
+    planning_application = PlanningApplication.create! planning_application_hash.except("application_number", "received_date", "documents", "site").merge(local_authority: @default_local_authority)
+    planning_application.update!(planning_application_hash["site"])
     planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url")) do |document|
       document.file.attach(io: File.open(Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf")), filename: "roofplan")
       document.publishable = true
@@ -70,15 +75,15 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
 
     get "/api/v1/planning_applications"
 
-    expected_reponse = example_response_hash_for("/api/v1/planning_applications", "get", 200, "Full")
-    expected_reponse["data"].first["documents"].first["url"] = api_v1_planning_application_document_url(planning_application, planning_application_document)
-    expect(JSON.parse(response.body)).to eq(expected_reponse)
+    expected_response = example_response_hash_for("/api/v1/planning_applications", "get", 200, "Full")
+    expected_response["data"].first["documents"].first["url"] = api_v1_planning_application_document_url(planning_application, planning_application_document)
+    expect(JSON.parse(response.body)).to eq(expected_response)
   end
 
-  it "successfullies return an application as specified" do
+  it "successfully returns an application as specified" do
     planning_application_hash = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "Full")
-    site = Site.create! planning_application_hash.fetch("site")
-    planning_application = PlanningApplication.create! planning_application_hash.except("application_number", "received_date", "documents").merge(site: site, local_authority: @default_local_authority)
+    planning_application = PlanningApplication.create! planning_application_hash.except("application_number", "received_date", "documents", "site").merge(local_authority: @default_local_authority)
+    planning_application.update!(planning_application_hash["site"])
     planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url")) do |document|
       document.file.attach(io: File.open(Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf")), filename: "roofplan")
       document.publishable = true
@@ -86,8 +91,8 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
 
     get "/api/v1/planning_applications/#{planning_application_hash['id']}"
 
-    expected_reponse = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "Full")
-    expected_reponse["documents"].first["url"] = api_v1_planning_application_document_url(planning_application, planning_application_document)
-    expect(JSON.parse(response.body)).to eq(expected_reponse)
+    expected_response = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "Full")
+    expected_response["documents"].first["url"] = api_v1_planning_application_document_url(planning_application, planning_application_document)
+    expect(JSON.parse(response.body)).to eq(expected_response)
   end
 end
