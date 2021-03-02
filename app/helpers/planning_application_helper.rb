@@ -27,6 +27,10 @@ module PlanningApplicationHelper
     end
   end
 
+  def map_link(address)
+    "https://google.co.uk/maps/place/#{CGI.escape(address)}"
+  end
+
   def list_constraints(constraints)
     JSON.parse(constraints).select { |_category, value| value == true }.keys unless constraints.empty?
   end
