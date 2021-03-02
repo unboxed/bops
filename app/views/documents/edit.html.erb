@@ -22,7 +22,7 @@
       <%= link_to "View in new window", url_for_document(@document), target: :_new %>
     </p>
 
-    <%= form_with model: [ @planning_application, @document ], local: true do |form| %>
+    <%= form_with model: [ @planning_application, @document ], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
       <%= render partial: 'documents/form_partials/upload.html.erb', locals: {form: form} %>
       <div class="govuk-form-group <%= @document.errors[:numbers].any? ? 'govuk-form-group--error' : '' %>">
         <% if @document.errors[:numbers].any? %>
@@ -33,12 +33,30 @@
         <% end %>
         <%= form.label :numbers, "Document number(s)", class: "govuk-label", for: "numbers" %>
         <div id="event-name-hint" class="govuk-hint">
-          Please enter numbers for all documents you wish to appear on the decision notice. Do not add numbers for documents that should not be publicly available. Where documents contain multiple drawings, enter multiple numbers separated by a comma (e.g. "25A-V2, 25B-V2").
+          Where documents contain multiple drawings, enter multiple numbers separated by a comma (e.g. "25A-V2, 25B-V2").
         </div>
-        <%= form.text_area :numbers, class: "govuk-input govuk-input--width-20", id: "numbers" %>
-      </div>
+        <div class="numbers">
+          <%= form.text_area :numbers, class: "govuk-input govuk-input--width-20", id: "numbers" %>
+        </div>
+        <%= render partial: 'documents/form_partials/tags.html.erb', locals: {form: form} %>
 
-      <%= render partial: 'documents/form_partials/tags.html.erb', locals: {form: form} %>
+        <div class="display">
+          <%= form.govuk_radio_buttons_fieldset(:status, legend: { size: 's', text: 'Do you want to list this document on the decision notice?' }) do %>
+            <%= form.govuk_radio_button :referenced_in_decision_notice, 'true', label: { text: 'Yes' } %>
+            <%= form.govuk_radio_button :referenced_in_decision_notice, 'false', label: { text: 'No' } %>
+          <% end %>
+        </div>
+
+        <div class="publish">
+          <%= form.govuk_radio_buttons_fieldset(:status, legend: { size: 's', text: 'Should this document be made publicly available?' }) do %>
+            <div id="event-name-hint" class="govuk-hint">
+              Please indicate whether this document should be made available for public viewing on the planning register or via the public API. Select "No" if the document contains any sensitive personal information
+            </div>
+            <%= form.govuk_radio_button :publishable, 'true', label: { text: 'Yes' } %>
+            <%= form.govuk_radio_button :publishable, 'false', label: { text: 'No' } %>
+          <% end %>
+        </div>
+      </div>
 
       <div class="govuk-form-group">
         <%= form.submit "Save and return", class: "govuk-button", data: { module: "govuk-button" } %>

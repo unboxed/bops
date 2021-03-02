@@ -106,7 +106,8 @@ private
   end
 
   def document_params
-    document_params = params.fetch(:document, {}).permit(:archive_reason, :name, :archived_at, :numbers, :file, tags: [])
+    document_params = params.fetch(:document, {}).permit(:archive_reason, :name, :archived_at,
+                                                         :numbers, :publishable, :referenced_in_decision_notice, :file, tags: [])
     document_params[:tags].reject!(&:blank?)
     document_params
   end

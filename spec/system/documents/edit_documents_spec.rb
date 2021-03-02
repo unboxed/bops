@@ -33,6 +33,14 @@ RSpec.describe "Edit document", type: :system do
       check("Floor")
       check("Side")
 
+      within(".display") do
+        choose "Yes"
+      end
+
+      within(".publish") do
+        choose "Yes"
+      end
+
       click_button("Save and return")
 
       expect(page).to have_content("Document has been updated")

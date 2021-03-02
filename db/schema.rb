@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_22_100817) do
+ActiveRecord::Schema.define(version: 2021_03_01_131201) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,8 @@ ActiveRecord::Schema.define(version: 2021_02_22_100817) do
     t.integer "archive_reason"
     t.jsonb "tags", default: []
     t.jsonb "numbers", default: [], null: false
+    t.boolean "publishable", default: false
+    t.boolean "referenced_in_decision_notice", default: false
     t.index ["planning_application_id"], name: "index_documents_on_planning_application_id"
   end
 

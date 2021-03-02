@@ -18,7 +18,12 @@ FactoryBot.define do
     tags { %w[Side Elevation Proposed] }
   end
 
-  trait :numbered do
+  trait :referenced do
     numbers { "document_number" }
+    referenced_in_decision_notice { true }
+  end
+
+  trait :public do
+    publishable { true }
   end
 end

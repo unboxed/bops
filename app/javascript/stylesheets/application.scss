@@ -69,6 +69,14 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
   padding-left: 1em;
 }
 
+.numbers {
+  margin-bottom: 1em;
+}
+
+.display {
+  margin-bottom: 1em;
+}
+
 .moj-banner__assistive {
   @include govuk-visually-hidden;
 }

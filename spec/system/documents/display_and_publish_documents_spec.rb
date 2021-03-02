@@ -40,8 +40,6 @@ RSpec.describe "Edit document numbers page", type: :system do
 
       it "Assessor can see content for the right application" do
         expect(page).to have_text(planning_application.reference)
-
-        expect(page).to have_text("only documents with document numbers will be be listed on the decision notice")
       end
 
       it "Assessor can see information about the document" do
@@ -76,6 +74,79 @@ RSpec.describe "Edit document numbers page", type: :system do
         fill_in "Document number(s)", with: "other_new_number_1"
 
         click_button "Save and return"
+      end
+
+      it "Assessor is able to add documents to decision notice without publishing" do
+        within(all(".app-task-list__item").first) do
+          click_link "Edit"
+        end
+        fill_in "Document number(s)", with: "new_number_1, new_number_2"
+
+        within(".display") do
+          choose "Yes"
+        end
+
+        within(".publish") do
+          choose "No"
+        end
+
+        click_button "Save and return"
+
+        within(all(".app-task-list__item").first) do
+          click_link "Edit"
+        end
+        # the submitted values are re-presented in the form
+        expect(find_field("numbers")).to have_content "new_number_1, new_number_2"
+
+        click_link "Documents"
+
+        within(all(".app-task-list__item").last) do
+          click_link "Edit"
+        end
+        fill_in "Document number(s)", with: "other_new_number_1"
+
+        click_button "Save and return"
+
+        expect(planning_application.documents.for_display.count).to eq(1)
+        expect(planning_application.documents.for_publication.count).to eq(0)
+      end
+
+      it "Assessor is able to publish documents without adding to the decision notice" do
+        within(all(".app-task-list__item").first) do
+          click_link "Edit"
+        end
+        fill_in "Document number(s)", with: "new_number_1, new_number_2"
+
+        within(".display") do
+          choose "No"
+        end
+
+        within(".publish") do
+          choose "Yes"
+        end
+
+        click_button "Save and return"
+
+        expect(planning_application.documents.for_display.count).to eq(0)
+        expect(planning_application.documents.for_publication.count).to eq(1)
+      end
+
+      it "Error message is shown if document referenced is true without document number" do
+        within(all(".app-task-list__item").first) do
+          click_link "Edit"
+        end
+
+        within(".display") do
+          choose "Yes"
+        end
+
+        within(".publish") do
+          choose "No"
+        end
+
+        click_button "Save and return"
+
+        expect(page).to have_content "All documents listed on the decision notice must have a document number"
       end
     end
   end
