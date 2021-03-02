@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_01_131201) do
+ActiveRecord::Schema.define(version: 2021_03_03_123132) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 2021_03_01_131201) do
 
   create_table "planning_applications", force: :cascade do |t|
     t.date "target_date", null: false
-    t.integer "application_type", default: 0, null: false
+    t.integer "application_type", null: false
     t.string "status", default: "not_started", null: false
     t.datetime "started_at"
     t.datetime "determined_at"
@@ -123,7 +123,6 @@ ActiveRecord::Schema.define(version: 2021_03_01_131201) do
     t.string "postcode"
     t.string "uprn"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
-    t.index ["uprn"], name: "index_planning_applications_on_uprn", unique: true
     t.index ["user_id"], name: "index_planning_applications_on_user_id"
   end
 

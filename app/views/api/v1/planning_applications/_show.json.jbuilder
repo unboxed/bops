@@ -1,24 +1,6 @@
 # frozen_string_literal: true
 
 json.extract! planning_application,
-              :id,
-              :status,
-              :application_type,
-              :description,
-              :determined_at,
-              :target_date,
-              :started_at,
-              :determined_at,
-              :created_at,
-              :invalidated_at,
-              :withdrawn_at,
-              :returned_at,
-              :ward,
-              :work_status,
-              :payment_reference,
-              :awaiting_determination_at,
-              :in_assessment_at,
-              :awaiting_correction_at,
               :agent_first_name,
               :agent_last_name,
               :agent_phone,
@@ -26,10 +8,32 @@ json.extract! planning_application,
               :applicant_first_name,
               :applicant_last_name,
               :applicant_email,
-              :applicant_phone
+              :applicant_phone,
+              :application_type,
+              :awaiting_determination_at,
+              :awaiting_correction_at,
+              :created_at,
+              :description,
+              :determined_at,
+              :id,
+              :invalidated_at,
+              :in_assessment_at,
+              :payment_reference,
+              :returned_at,
+              :started_at,
+              :status,
+              :target_date,
+              :ward,
+              :withdrawn_at,
+              :work_status
 json.application_number planning_application.reference
-json.site do |site_json|
-  site_json.partial! "site.json.jbuilder", site: planning_application.site
+json.site do
+  json.address_1 planning_application.address_1
+  json.address_2 planning_application.address_2
+  json.county planning_application.county
+  json.town planning_application.town
+  json.postcode planning_application.postcode
+  json.uprn planning_application.uprn
 end
 json.received_date planning_application.created_at
 json.decision planning_application.decision if planning_application.determined?

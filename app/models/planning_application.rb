@@ -21,11 +21,11 @@ class PlanningApplication < ApplicationRecord
   validates :work_status,
             inclusion: { in: WORK_STATUSES,
                          message: "Work Status should be proposed or existing" }
+  validates :application_type, presence: true
 
   validate :documents_validated_at_date
   validate :public_comment_present
   validate :decision_with_recommendations
-  validates :uprn, uniqueness: true
 
   scope :not_started_and_invalid, -> { where("status = 'not_started' OR status = 'invalidated'") }
   scope :under_assessment, -> { where("status = 'in_assessment' OR status = 'awaiting_correction'") }
