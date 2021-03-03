@@ -22,30 +22,7 @@
       <%= link_to "View in new window", url_for_document(@document), target: :_new %>
     </p>
 
-    <%= form_with model: [ @planning_application, @document ], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
-      <%= render partial: 'documents/form_partials/upload.html.erb', locals: {form: form} %>
-      <div class="govuk-form-group <%= @document.errors[:numbers].any? ? 'govuk-form-group--error' : '' %>">
-        <% if @document.errors[:numbers].any? %>
-          <% @document.errors[:numbers].each do |error| %>
-            <span id="status-error" class="govuk-error-message">
-              <span class="govuk-visually-hidden">Error:</span><%= error %></span>
-          <% end %>
-        <% end %>
-        <%= form.label :numbers, "Document number(s)", class: "govuk-label", for: "numbers" %>
-        <div id="event-name-hint" class="govuk-hint">
-          Where documents contain multiple drawings, enter multiple numbers separated by a comma (e.g. "25A-V2, 25B-V2").
-        </div>
-        <div class="numbers">
-          <%= form.text_area :numbers, class: "govuk-input govuk-input--width-20", id: "numbers" %>
-        </div>
-        <%= render partial: 'documents/form_partials/tags.html.erb', locals: {form: form} %>
-        <%= render partial: 'documents/form_partials/privacy.html.erb', locals: {form: form} %>
-      </div>
+    <%= render 'edit_and_upload' %>
 
-      <div class="govuk-form-group">
-        <%= form.submit "Save and return", class: "govuk-button", data: { module: "govuk-button" } %>
-        <%= link_to 'Cancel', planning_application_documents_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-      </div>
-    <% end %>
   </div>
 </div>

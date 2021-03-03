@@ -92,7 +92,7 @@ private
 
   def numbered
     if referenced_in_decision_notice? && numbers.empty?
-      errors.add(:numbers, :missing_number)
+      errors.add(:numbers, :missing_numbers)
     end
   end
 end

@@ -28,4 +28,4 @@ en:
             tags:
               unpermitted_tags: "Please choose valid tags"
             numbers:
-              missing_number: "All documents listed on the decision notice must have a document number"
+              missing_numbers: "All documents listed on the decision notice must have a document number"

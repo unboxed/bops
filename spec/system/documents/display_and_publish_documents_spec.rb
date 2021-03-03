@@ -58,7 +58,7 @@ RSpec.describe "Edit document numbers page", type: :system do
         end
         fill_in "Document number(s)", with: "new_number_1, new_number_2"
 
-        click_button "Save and return"
+        click_button "Save"
 
         within(all(".app-task-list__item").first) do
           click_link "Edit"
@@ -73,7 +73,7 @@ RSpec.describe "Edit document numbers page", type: :system do
         end
         fill_in "Document number(s)", with: "other_new_number_1"
 
-        click_button "Save and return"
+        click_button "Save"
       end
 
       it "Assessor is able to add documents to decision notice without publishing" do
@@ -90,7 +90,7 @@ RSpec.describe "Edit document numbers page", type: :system do
           choose "No"
         end
 
-        click_button "Save and return"
+        click_button "Save"
 
         within(all(".app-task-list__item").first) do
           click_link "Edit"
@@ -105,7 +105,7 @@ RSpec.describe "Edit document numbers page", type: :system do
         end
         fill_in "Document number(s)", with: "other_new_number_1"
 
-        click_button "Save and return"
+        click_button "Save"
 
         expect(planning_application.documents.for_display.count).to eq(1)
         expect(planning_application.documents.for_publication.count).to eq(0)
@@ -125,7 +125,7 @@ RSpec.describe "Edit document numbers page", type: :system do
           choose "Yes"
         end
 
-        click_button "Save and return"
+        click_button "Save"
 
         expect(planning_application.documents.for_display.count).to eq(0)
         expect(planning_application.documents.for_publication.count).to eq(1)
@@ -144,7 +144,7 @@ RSpec.describe "Edit document numbers page", type: :system do
           choose "No"
         end
 
-        click_button "Save and return"
+        click_button "Save"
 
         expect(page).to have_content "All documents listed on the decision notice must have a document number"
       end
