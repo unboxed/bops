@@ -27,3 +27,5 @@ en:
               missing_file: "Please choose a file"
             tags:
               unpermitted_tags: "Please choose valid tags"
+            numbers:
+              missing_numbers: "All documents listed on the decision notice must have a document number"

@@ -19,7 +19,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   let!(:document_with_tags) do
     create :document, :with_tags,
            planning_application: planning_application,
-           numbers: "proposed_number_1, proposed_number_2"
+           numbers: "proposed_number_1, proposed_number_2",
+           referenced_in_decision_notice: true
   end
 
   let!(:archived_document_with_tags) do

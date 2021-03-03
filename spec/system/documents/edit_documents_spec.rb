@@ -33,7 +33,15 @@ RSpec.describe "Edit document", type: :system do
       check("Floor")
       check("Side")
 
-      click_button("Save and return")
+      within(".display") do
+        choose "Yes"
+      end
+
+      within(".publish") do
+        choose "Yes"
+      end
+
+      click_button("Save")
 
       expect(page).to have_content("Document has been updated")
       expect(page).to have_content("proposed-roofplan.pdf")
@@ -47,7 +55,7 @@ RSpec.describe "Edit document", type: :system do
 
       attach_file("Upload a file", "spec/fixtures/images/bmp.bmp")
 
-      click_button("Save and return")
+      click_button("Save")
 
       expect(page).to have_content("The selected file must be a PDF, JPG or PNG")
     end

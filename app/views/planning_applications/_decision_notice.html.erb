@@ -71,7 +71,7 @@
       The proposal was refused based on the following plans:
     </h3>
   <% end %>
-  <% if planning_application.documents.for_publication.present? %>
+  <% if planning_application.documents.for_display.present? %>
     <table class="govuk-table">
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
@@ -80,15 +80,13 @@
         </tr>
       </thead>
       <tbody class="govuk-table__body">
-        <% planning_application.documents.for_publication.each do |document| %>
-         <% if document.numbers.present? %>
+        <% @planning_application.documents.for_display.each do |document| %>
           <% document.numbers.split(",").each do |number| %>
             <tr class="govuk-table__row">
             <td class="govuk-table__cell"><%= number %></td>
             <td class="govuk-table__cell"><%= document.created_at.strftime("%e %B %Y") %></td>
           </tr>
          <% end %>
-        <% end %>
        <% end %>
       </tbody>
     </table>

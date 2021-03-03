@@ -16,13 +16,7 @@
 
     <h2 class="govuk-heading-m">Upload new document</h2>
 
-    <%= form_with model: [@planning_application, @document], local: true, class: "document" do |form| %>
-      <%= render partial: 'documents/form_partials/upload.html.erb', locals: {form: form} %>
-      <%= render partial: 'documents/form_partials/tags.html.erb', locals: {form: form} %>
+    <%= render partial: 'edit_and_upload' %>
 
-      <div class="govuk-form-group">
-        <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
-      </div>
-    <% end %>
   </div>
 </div>

@@ -28,11 +28,14 @@ class Document < ApplicationRecord
   validate :tag_values_permitted
   validate :file_content_type_permitted
   validate :file_attached
+  validate :numbered
 
-  scope :numbered, -> { where.not("numbers = '[]'") }
   scope :active, -> { where(archived_at: nil) }
+  scope :referenced, -> { where(referenced_in_decision_notice: true) }
+  scope :publishable, -> { where(publishable: true) }
 
-  scope :for_publication, -> { active.numbered }
+  scope :for_publication, -> { active.publishable }
+  scope :for_display, -> { active.referenced }
 
   def name
     file.filename if file.attached?
@@ -40,6 +43,10 @@ class Document < ApplicationRecord
 
   def archived?
     archived_at.present?
+  end
+
+  def referenced_in_decision_notice?
+    referenced_in_decision_notice == true
   end
 
   def archive(archive_reason)
@@ -80,6 +87,12 @@ private
   def file_attached
     unless file.attached?
       errors.add(:file, :missing_file)
+    end
+  end
+
+  def numbered
+    if referenced_in_decision_notice? && numbers.empty?
+      errors.add(:numbers, :missing_numbers)
     end
   end
 end

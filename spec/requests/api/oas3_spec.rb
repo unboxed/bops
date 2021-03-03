@@ -65,6 +65,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
     planning_application = PlanningApplication.create! planning_application_hash.except("application_number", "received_date", "documents").merge(site: site, local_authority: @default_local_authority)
     planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url")) do |document|
       document.file.attach(io: File.open(Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf")), filename: "roofplan")
+      document.publishable = true
     end
 
     get "/api/v1/planning_applications"
@@ -80,6 +81,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
     planning_application = PlanningApplication.create! planning_application_hash.except("application_number", "received_date", "documents").merge(site: site, local_authority: @default_local_authority)
     planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url")) do |document|
       document.file.attach(io: File.open(Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf")), filename: "roofplan")
+      document.publishable = true
     end
 
     get "/api/v1/planning_applications/#{planning_application_hash['id']}"

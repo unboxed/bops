@@ -5,7 +5,7 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
 
   def decision_notice_mail(planning_application, host)
     @planning_application = planning_application
-    @documents = @planning_application.documents.for_publication
+    @documents = @planning_application.documents.for_display
     @host = host
 
     view_mail(

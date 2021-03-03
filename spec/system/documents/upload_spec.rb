@@ -27,6 +27,14 @@ RSpec.describe "Document uploads", type: :system do
         check("Floor")
         check("Side")
 
+        within(".display") do
+          choose "Yes"
+        end
+
+        within(".publish") do
+          choose "Yes"
+        end
+
         click_button("Save")
 
         expect(page).to have_css("img[src*=\"proposed-roofplan.pdf\"]")
