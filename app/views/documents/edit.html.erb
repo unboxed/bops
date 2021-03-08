@@ -14,15 +14,17 @@
       <%= @planning_application.full_address %>
     </p>
 
-    <h2 class="govuk-heading-m"><%= @document.name %></h2>
-
     <%= link_to image_tag(@document.file.representation(resize: "500x500")),
                 url_for_document(@document), target: :_blank %>
+
+    <p class="govuk-body">
+      File name: <%= @document.name %>
+    </p>
+
     <p class="govuk-body">
       <%= link_to "View in new window", url_for_document(@document), target: :_new %>
     </p>
 
     <%= render 'edit_and_upload' %>
-
   </div>
 </div>

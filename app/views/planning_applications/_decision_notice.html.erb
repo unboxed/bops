@@ -76,16 +76,22 @@
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
           <th scope="col" class="govuk-table__header app-custom-class">Plan reference number</th>
+          <th scope="col" class="govuk-table__header app-custom-class">Plan description</th>
           <th scope="col" class="govuk-table__header app-custom-class">Date received</th>
         </tr>
       </thead>
       <tbody class="govuk-table__body">
         <% @planning_application.documents.for_display.each do |document| %>
           <% document.numbers.split(",").each do |number| %>
-            <tr class="govuk-table__row">
-            <td class="govuk-table__cell"><%= number %></td>
-            <td class="govuk-table__cell"><%= document.created_at.strftime("%e %B %Y") %></td>
-          </tr>
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell"><%= number %></td>
+                <td class="govuk-table__cell">
+                  <% document.tags.each do |tag| %>
+                    <%= tag.upcase %>
+                  <% end %>
+                </td>
+                <td class="govuk-table__cell"><%= document.created_at.strftime("%e %B %Y") %></td>
+              </tr>
          <% end %>
        <% end %>
       </tbody>

@@ -45,16 +45,16 @@
 
       <div class="govuk-grid-column-one-half">
         <p class="govuk-body">
-          <strong><%= document.name %></strong><br/>
-          Date received: <%= document.created_at.strftime("%e %B %Y") %><br/>
-          <% if document.numbers.present? %>
-            Document number(s): <%= document.numbers %>
+          <% document.tags.each do |tag| %>
+            <strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong>
           <% end %>
         </p>
 
         <p class="govuk-body">
-          <% document.tags.each do |tag| %>
-            <strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong>
+          File name: <%= document.name %><br/>
+          Date received: <%= document.created_at.strftime("%e %B %Y") %><br/>
+          <% if document.numbers.present? %>
+            Document number(s): <%= document.numbers %>
           <% end %>
         </p>
       </div>
