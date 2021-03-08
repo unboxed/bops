@@ -34,31 +34,40 @@
 <ul class="app-task-list current-documents" style="margin-bottom: 2em;">
   <% unless @documents.nil? %>
   <% filter_current(@documents).each do |document| %>
-    <li class="app-task-list__item">
-      <div class="govuk-grid-column-one-quarter">
-        <%= link_to image_tag(document.file.representation(resize: "300x212"), class: "govuk-!-width-full"),
-                    url_for_document(document), target: :_blank %>
-        <p class="govuk-body">
-          <%= link_to "View in new window", url_for_document(document), target: :_new %>
-        </p>
-      </div>
-
-      <div class="govuk-grid-column-one-half">
-        <p class="govuk-body">
-          <% document.tags.each do |tag| %>
-            <strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong>
+    <li class="app-task-list__item govuk-!-padding-6">
+        <div class="govuk-grid-column-one-quarter">
+            <%= link_to image_tag(document.file.representation(resize: "300x212"), class: "govuk-!-width-full"),
+                        url_for_document(document), target: :_blank %>
+            <p class="govuk-body">
+              <%= link_to "View in new window", url_for_document(document), target: :_new %>
+            </p>
+        </div>
+        <div class="govuk-grid-column-one-half">
+          <% if document.tags.present? %>
+            <p class="govuk-body">
+              <% document.tags.each do |tag| %>
+                <strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong>
+              <% end %>
+            </p>
           <% end %>
-        </p>
-
-        <p class="govuk-body">
-          File name: <%= document.name %><br/>
-          Date received: <%= document.created_at.strftime("%e %B %Y") %><br/>
+          <p class="govuk-body govuk-!-margin-bottom-1">
+            File name: <%= document.name %>
+          </p>
+          <p class="govuk-body govuk-!-margin-bottom-1">
+            Date received: <%= document.created_at.strftime("%e %B %Y") %>
+          </p>
           <% if document.numbers.present? %>
-            Document number(s): <%= document.numbers %>
+            <p class="govuk-body govuk-!-margin-bottom-1">
+              Document reference(s): <%= document.numbers %>
+            </p>
+            <p class="govuk-body govuk-!-margin-bottom-1">
+              Included in decision notice: <%= document.referenced_in_decision_notice? ? "Yes" : "No" %>
+            </p>
+            <p class="govuk-body govuk-!-margin-bottom-1">
+              Public: <%= document.publishable? ? "Yes" : "No" %>
+            </p>
           <% end %>
-        </p>
-      </div>
-
+        </div>
       <div class="govuk-grid-column-one-quarter">
         <p style="text-align: right" class="govuk-body">
           <%= link_to "Edit", edit_planning_application_document_path(@planning_application, document) %><br />
