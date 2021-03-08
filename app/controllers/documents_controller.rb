@@ -38,7 +38,11 @@ class DocumentsController < AuthenticationController
   end
 
   def create
-    @document = @planning_application.documents.build(tags: document_params[:tags], file: document_params[:file])
+    @document = @planning_application.documents.build(tags: document_params[:tags], file: document_params[:file],
+                                                      numbers: document_params[:numbers],
+                                                      publishable: document_params[:publishable],
+                                                      referenced_in_decision_notice:
+                                                          document_params[:referenced_in_decision_notice])
 
     if @document.save
       flash[:notice] = "#{@document.file.filename} has been uploaded."
@@ -110,10 +114,6 @@ private
                                                          :numbers, :publishable, :referenced_in_decision_notice, :file, tags: [])
     document_params[:tags].reject!(&:blank?)
     document_params
-  end
-
-  def document_upload_params
-    params.fetch(:document, {}).permit(:file, tags: [])
   end
 
   def document_form_params

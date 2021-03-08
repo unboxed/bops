@@ -48,6 +48,8 @@ RSpec.describe "Edit document", type: :system do
       expect(page).to have_content("DOC001")
       expect(page).to have_css(".govuk-tag", text: "Floor")
       expect(page).to have_css(".govuk-tag", text: "Side")
+      expect(page).to have_content("Included on decision notice: Yes")
+      expect(page).to have_content("Public: Yes")
     end
 
     it "with wrong format document" do
