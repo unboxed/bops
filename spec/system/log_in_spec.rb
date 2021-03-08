@@ -63,11 +63,11 @@ RSpec.describe "Sign in", type: :system do
 
       before do
         @previous_host = Capybara.app_host
-        host! "http://lamb.example.com"
+        Capybara.app_host = "http://lamb.example.com"
       end
 
       after do
-        host! "http://#{@previous_host}"
+        Capybara.app_host = "http://#{@previous_host}"
       end
 
       it "is prevented from logging in to a different subdomain" do

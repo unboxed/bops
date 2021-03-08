@@ -9,11 +9,11 @@ RSpec.describe "Accessing correct local authority", type: :system do
   context "Lambeth council" do
     before do
       @previous_host = Capybara.app_host
-      host! "http://lambeth.example.com"
+      Capybara.app_host = "http://lambeth.example.com"
     end
 
     after do
-      host! "http://#{@previous_host}"
+      Capybara.app_host = "http://#{@previous_host}"
     end
 
     it "visit namespaced path" do
@@ -27,11 +27,11 @@ RSpec.describe "Accessing correct local authority", type: :system do
   context "Non existent council" do
     before do
       @previous_host = Capybara.app_host
-      host! "http://biscuits.example.com"
+      Capybara.app_host = "http://biscuits.example.com"
     end
 
     after do
-      host! "http://#{@previous_host}"
+      Capybara.app_host = "http://#{@previous_host}"
     end
 
     it "visit non existing path" do
