@@ -57,42 +57,42 @@ RSpec.describe "Document uploads", type: :system do
 
           expect(page).to have_css(".govuk-tag", text: "Side")
           expect(page).to have_css(".govuk-tag", text: "Floor")
-          end
         end
+      end
 
-        it "does not make an uploaded document public or referenced by default" do
-          visit planning_application_documents_path(planning_application)
+      it "does not make an uploaded document public or referenced by default" do
+        visit planning_application_documents_path(planning_application)
 
-          click_link("Upload documents")
+        click_link("Upload documents")
 
-          attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.pdf")
+        attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.pdf")
 
-          check("Floor")
-          check("Side")
+        check("Floor")
+        check("Side")
 
-          fill_in "Document number(s)", with: "DOC001"
+        fill_in "Document number(s)", with: "DOC001"
 
-          click_button("Save")
+        click_button("Save")
 
-          expect(page).to have_css("img[src*=\"proposed-roofplan.pdf\"]")
+        expect(page).to have_css("img[src*=\"proposed-roofplan.pdf\"]")
 
-          expect(page).to have_css(".govuk-tag", text: "Floor")
+        expect(page).to have_css(".govuk-tag", text: "Floor")
+        expect(page).to have_css(".govuk-tag", text: "Side")
+
+        expect(page).to have_content("Included on decision notice: No")
+        expect(page).to have_content("Public: No")
+
+        find(".govuk-breadcrumbs").click_link("Application")
+
+        click_button("Documents")
+
+        within(find(".scroll-docs")) do
+          expect(all("img").count).to eq 2
+          expect(all("img").last["src"]).to have_content("proposed-roofplan.pdf")
+
           expect(page).to have_css(".govuk-tag", text: "Side")
-
-          expect(page).to have_content("Included on decision notice: No")
-          expect(page).to have_content("Public: No")
-
-          find(".govuk-breadcrumbs").click_link("Application")
-
-          click_button("Documents")
-
-          within(find(".scroll-docs")) do
-            expect(all("img").count).to eq 2
-            expect(all("img").last["src"]).to have_content("proposed-roofplan.pdf")
-
-            expect(page).to have_css(".govuk-tag", text: "Side")
-            expect(page).to have_css(".govuk-tag", text: "Floor")
-          end
+          expect(page).to have_css(".govuk-tag", text: "Floor")
+        end
       end
 
       it "cannot upload a document in the wrong format" do
