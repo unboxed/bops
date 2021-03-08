@@ -6,6 +6,7 @@ class DocumentsController < AuthenticationController
   before_action :set_planning_application
   before_action :set_document, only: %i[archive confirm_archive]
   before_action :disable_flash_header, only: :index
+  before_action :ensure_document_edits_unlocked, only: %i[new edit update archive]
 
   def index
     @documents = @planning_application.documents.order(:created_at)
@@ -71,5 +72,9 @@ private
     @document = @planning_application.documents.find(
       params[:document_id],
     )
+  end
+
+  def ensure_document_edits_unlocked
+    render plain: "forbidden", status: 403 and return unless @planning_application.can_validate?
   end
 end

@@ -55,6 +55,19 @@ RSpec.shared_examples "validate and invalidate" do
     expect(page).to have_text(assessor.name)
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
   end
+
+  it "allows document edit, archive and upload after invalidation" do
+    click_link planning_application.reference
+    click_link "Validate documents"
+
+    choose "No"
+
+    click_button "Save"
+
+    expect(page).to have_content("Application has been invalidated")
+
+    planning_application.reload
+  end
 end
 
 RSpec.describe "Planning Application Assessment", type: :system do
@@ -129,6 +142,16 @@ RSpec.describe "Planning Application Assessment", type: :system do
       planning_application.reload
       expect(planning_application.status).to eql("not_started")
       expect(page).to have_content("Please enter a valid date")
+    end
+
+    it "shows edit, upload and archive links for documents" do
+      click_link planning_application.reference
+      click_button "Documents"
+      click_link "Manage documents"
+
+      expect(page).to have_link("Edit")
+      expect(page).to have_link("Upload documents")
+      expect(page).to have_link("Archive")
     end
   end
 
