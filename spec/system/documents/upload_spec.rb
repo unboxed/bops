@@ -17,7 +17,7 @@ RSpec.describe "Document uploads", type: :system do
     before { sign_in assessor }
 
     context "when the application is under assessment" do
-      it "can upload, tag and confirm documents" do
+      it "can upload, and tag documents" do
         visit planning_application_documents_path(planning_application)
 
         click_link("Upload documents")
@@ -35,12 +35,52 @@ RSpec.describe "Document uploads", type: :system do
           choose "Yes"
         end
 
+        fill_in "Document number(s)", with: "DOC001"
+
         click_button("Save")
 
         expect(page).to have_css("img[src*=\"proposed-roofplan.pdf\"]")
 
         expect(page).to have_css(".govuk-tag", text: "Floor")
         expect(page).to have_css(".govuk-tag", text: "Side")
+
+        expect(page).to have_content("Included in decision notice: Yes")
+        expect(page).to have_content("Public: Yes")
+
+        find(".govuk-breadcrumbs").click_link("Application")
+
+        click_button("Documents")
+
+        within(find(".scroll-docs")) do
+          expect(all("img").count).to eq 2
+          expect(all("img").last["src"]).to have_content("proposed-roofplan.pdf")
+
+          expect(page).to have_css(".govuk-tag", text: "Side")
+          expect(page).to have_css(".govuk-tag", text: "Floor")
+        end
+      end
+
+      it "does not make an uploaded document public or referenced by default" do
+        visit planning_application_documents_path(planning_application)
+
+        click_link("Upload documents")
+
+        attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.pdf")
+
+        check("Floor")
+        check("Side")
+
+        fill_in "Document number(s)", with: "DOC001"
+
+        click_button("Save")
+
+        expect(page).to have_css("img[src*=\"proposed-roofplan.pdf\"]")
+
+        expect(page).to have_css(".govuk-tag", text: "Floor")
+        expect(page).to have_css(".govuk-tag", text: "Side")
+
+        expect(page).to have_content("Included in decision notice: No")
+        expect(page).to have_content("Public: No")
 
         find(".govuk-breadcrumbs").click_link("Application")
 
@@ -91,6 +131,9 @@ RSpec.describe "Document uploads", type: :system do
         click_button("Save")
 
         expect(page).to have_content("proposed-roofplan.pdf has been uploaded")
+
+        expect(page).to have_content("Included in decision notice: No")
+        expect(page).to have_content("Public: No")
       end
     end
 

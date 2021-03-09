@@ -79,26 +79,5 @@ RSpec.describe Document, type: :model do
         expect(document.archived?).to be true
       end
     end
-
-    describe "#numbers=" do
-      it "splits strings on commas, removing whitespace and superfluous commas" do
-        document.numbers = ""
-        expect(document[:numbers]).to eq([])
-
-        document.numbers = "just_the_one"
-        expect(document[:numbers]).to eq(%w[just_the_one])
-
-        document.numbers = " one , two,,three     "
-        expect(document[:numbers]).to eq(%w[one two three])
-      end
-    end
-
-    describe "#numbers" do
-      it "returns underlying array as a single comma separated string" do
-        document[:numbers] = ["one with space", "two"]
-
-        expect(document.numbers).to eq "one with space, two"
-      end
-    end
   end
 end

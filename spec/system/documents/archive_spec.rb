@@ -61,9 +61,8 @@ RSpec.describe "Documents index page", type: :system do
       click_link "Archive document"
     end
 
-    it "Archive page contains radio buttons and image" do
-      expect(page).to have_text "Missing scale bar or north arrow"
-      expect(page).to have_css(".govuk-radios__item")
+    it "Archive page contains expected text" do
+      expect(page).to have_text "Why do you want to archive this document?"
     end
 
     it "Archive page contains site info" do
@@ -83,12 +82,9 @@ RSpec.describe "Documents index page", type: :system do
       end
     end
 
-    it "renders audit log for archive action correctly" do
-      choose "scale"
-      click_button "Save"
-
-      choose "Yes"
-      click_button "Save"
+    it "allows document to be archived with an optional comment" do
+      fill_in "Why do you want to archive this document?", with: "Scale was wrong"
+      click_button "Archive"
 
       click_link "Application"
       click_button "Key application dates"
@@ -107,69 +103,12 @@ RSpec.describe "Documents index page", type: :system do
       expect(page).to have_content("You need to sign in or sign up before continuing.")
     end
 
-    it "Assessor can proceed to confirmation page" do
-      choose "scale"
-      click_button "Save"
-      expect(page).to have_current_path(/validate_step/)
-    end
-
-    it "Correct reason is shown on confirmation page" do
-      choose "scale"
-      click_button "Save"
-      expect(page).to have_text("Missing scale bar or north arrow")
-    end
-
-    it "Assessor sees error message if radio button not selected" do
-      click_button "Save"
-
-      expect(page).to have_text("Please select one of the below options")
-    end
-
-    it "Assessor is returned to archive page if 'No' is selected" do
-      choose "scale"
-      click_button "Save"
-      choose "No"
-      click_button "Save"
-
-      expect(page).to have_text("Why do you want to archive this document?")
-    end
-
-    it "Assessor can archive a document" do
-      choose "scale"
-      click_button "Save"
-
-      choose "Yes"
-      click_button "Save"
-
-      expect(page).to have_current_path(/documents/)
-    end
-
-    it "Assessor can archive a document and sees message" do
-      choose "scale"
-      click_button "Save"
-
-      choose "Yes"
-      click_button "Save"
-
-      expect(page).to have_text("proposed-floorplan.png has been archived")
-    end
-
-    it "Assessor sees error message if neither Yes nor No is selected" do
-      choose "scale"
-      click_button "Save"
-      click_button "Save"
-
-      expect(page).to have_text("Please select one of the below options")
-    end
-
     it "Archived document appears in correct place on DMS page" do
-      choose "scale"
-      click_button "Save"
-      choose "Yes"
-      click_button "Save"
+      fill_in "Why do you want to archive this document?", with: "Scale was wrong"
+      click_button "Archive"
 
       within(find(".archived-documents")) do
-        expect(page).to have_text("Missing scale bar")
+        expect(page).to have_text("Scale was wrong")
         expect(page).to have_text("proposed-floorplan.png")
 
         document_tags.each do |tag|

@@ -15,10 +15,10 @@
     <p class="govuk-body">
       <%= link_to "Manage documents", planning_application_documents_path(@planning_application) %>
     </p>
-    <hr>
 
       <div class="scroll-docs">
         <% filter_current(@planning_application.documents).each do |document| %>
+          <hr>
         <div class="govuk-grid-row">
           <main class="govuk-main-wrapper">
           <div class="govuk-grid-column-one-third">
@@ -59,7 +59,6 @@
           </div>
         </main>
         </div>
-        <hr>
         <% end %>
       </div>
 
