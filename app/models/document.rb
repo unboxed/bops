@@ -5,10 +5,6 @@ class Document < ApplicationRecord
 
   has_one_attached :file, dependent: :destroy
 
-  enum archive_reason: { scale: 0,
-                         design: 1,
-                         dimensions: 2,
-                         other: 3 }
   TAGS = %w[
     Front
     Rear

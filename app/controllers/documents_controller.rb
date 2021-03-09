@@ -4,11 +4,7 @@ class DocumentsController < AuthenticationController
   include ActiveStorage::SetCurrent
 
   before_action :set_planning_application
-  before_action :set_document, except: %i[index
-                                          new
-                                          create
-                                          edit
-                                          update]
+  before_action :set_document, only: %i[archive confirm_archive]
   before_action :disable_flash_header, only: :index
 
   def index
@@ -30,7 +26,7 @@ class DocumentsController < AuthenticationController
   end
 
   def archive
-    assign_archive_reason_to_form
+    render :archive
   end
 
   def new
@@ -38,11 +34,7 @@ class DocumentsController < AuthenticationController
   end
 
   def create
-    @document = @planning_application.documents.build(tags: document_params[:tags], file: document_params[:file],
-                                                      numbers: document_params[:numbers],
-                                                      publishable: document_params[:publishable],
-                                                      referenced_in_decision_notice:
-                                                          document_params[:referenced_in_decision_notice])
+    @document = @planning_application.documents.build(document_params)
 
     if @document.save
       flash[:notice] = "#{@document.file.filename} has been uploaded."
@@ -53,75 +45,22 @@ class DocumentsController < AuthenticationController
     end
   end
 
-  def confirm
-    assign_archive_reason_to_form
-  end
-
-  def validate_archive_reason
-    if @document_form.archive_reason
-      render :confirm
-    else
-      @document_form.validate
-      render :archive
-    end
-  end
-
-  def confirm_archived
-    @document.archive(params[:archive_reason])
-    audit("archived", @document.file.filename)
-    flash[:notice] = "#{@document.name} has been archived"
-    redirect_to planning_application_documents_path
-  end
-
-  def verify_selection
-    reason = params["archive_reason"]
-    if form_params[:confirmation]
-      validate_confirmation
-    else
-      @document_form.validate
-      @document_form.archive_reason = reason
-      render :confirm
-    end
-  end
-
-  def validate_confirmation
-    case form_params[:confirmation][:confirm]
-    when "yes"
-      confirm_archived
-    when "no"
-      render :archive
-    end
-  end
-
-  def validate_step
-    assign_archive_reason_to_form
-    case params[:current_step]
-    when "confirm"
-      verify_selection
-    when "archive"
-      validate_archive_reason
+  def confirm_archive
+    @document.archive(document_params[:archive_reason])
+    if @document.save
+      audit("archived", @document.file.filename)
+      flash[:notice] = "#{@document.name} has been archived"
+      redirect_to planning_application_documents_path
     end
   end
 
 private
 
-  def documents_list_params
-    params.require(:documents_list).permit(documents: %i[id numbers])
-  end
-
   def document_params
     document_params = params.fetch(:document, {}).permit(:archive_reason, :name, :archived_at,
                                                          :numbers, :publishable, :referenced_in_decision_notice, :file, tags: [])
-    document_params[:tags].reject!(&:blank?)
+    document_params[:tags].reject!(&:blank?) if document_params[:tags]
     document_params
-  end
-
-  def document_form_params
-    params.permit document_form: %i[document_id archive_reason updated_at]
-  end
-
-  def form_params
-    params.permit confirmation: [:confirm]
   end
 
   def set_planning_application
@@ -132,10 +71,5 @@ private
     @document = @planning_application.documents.find(
       params[:document_id],
     )
-  end
-
-  def assign_archive_reason_to_form
-    archive_reason = document_form_params[:document_form]
-    @document_form = DocumentWizard::ArchiveForm.new(archive_reason)
   end
 end

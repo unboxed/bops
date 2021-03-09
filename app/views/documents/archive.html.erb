@@ -13,21 +13,21 @@
         </ol>
       </div>
       <h1 class="govuk-heading-l" style="margin-bottom: 7px;">
-        Documents: <%= @planning_application.reference %>
+        <%= @planning_application.reference %>
       </h1>
       <h2 class="govuk-heading-m" style="margin-bottom: 75px;">
         <%= @planning_application.full_address %>
       </h2>
       <h2 class="govuk-heading-m" style="margin-bottom: 75px;">
-        <%= @document.name %>
+        Archive document
       </h2>
+      <p class="govuk-body  govuk-!-padding-top-1" >
+        File name: <%= @document.name %>
+      </p>
       <p>
         <%= link_to image_tag(@document.file.representation(resize: "300x212")),
                     url_for_document(@document), target: :_blank %>
       </p>
-      <h2 class="govuk-heading-s">
-        Why do you want to archive this document?
-      </h2>
       <%= render "archive_form" %>
     </div>
   </div>

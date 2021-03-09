@@ -29,9 +29,8 @@ Rails.application.routes.draw do
 
     resources :documents, only: %i[index new create edit update] do
       get :archive
-      get :confirm
 
-      post :validate_step
+      patch :confirm_archive
     end
 
     resources :audits, only: :index
