@@ -5,7 +5,7 @@
        <% if form.object.errors.any? %>
          <% form.object.errors.each do |error| %>
            <span id="status-error" class="govuk-error-message">
-             <span class="govuk-visually-hidden">Error:</span><%= error %></span>
+             <span class="govuk-visually-hidden">Error:</span><%= error.message %></span>
          <% end %>
        <% end %>
         <p>

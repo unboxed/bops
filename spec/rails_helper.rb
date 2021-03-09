@@ -37,11 +37,9 @@ RSpec.configure do |config|
 
   config.before do |example|
     @default_local_authority = LocalAuthority.find_or_create_by!(name: "Default Authority", subdomain: "default")
-    subdomain = @default_local_authority.subdomain
-
     case example.metadata[:type]
     when :request
-      Capybara.app_host = "default.example.com"
+      host! "default.example.com"
     when :system
       Capybara.app_host = "http://default.example.com"
     end
