@@ -13,10 +13,10 @@
         You need to check that the applicant's answers and proposal documents meet the permitted development requirements.
       </p>
       <% if form.object.errors.any? %>
-        <% form.object.errors.each do |attribute, error| %>
+        <% form.object.errors.each do |error| %>
           <span id="status-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span>
-            <%= error %>
+            <%= error.type %>
           </span>
         <% end %>
       <% end %>

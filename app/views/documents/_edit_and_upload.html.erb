@@ -1,5 +1,5 @@
 <%= form_with model: [@planning_application, @document], local: true, class: "document", builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
-  <%= render partial: 'documents/form_partials/upload.html.erb', locals: {form: form} %>
+  <%= render partial: 'documents/form_partials/upload', locals: {form: form} %>
 
   <div class="govuk-form-group <%= @document.errors.any? ? 'govuk-form-group--error' : '' %>">
     <% if @document.errors[:numbers].any? %>
@@ -8,8 +8,8 @@
               <span class="govuk-visually-hidden">Error:</span><%= error %></span>
       <% end %>
     <% end %>
-    <%= render partial: 'documents/form_partials/tags.html.erb', locals: {form: form} %>
-    <%= render partial: 'documents/form_partials/privacy.html.erb', locals: {form: form} %>
+    <%= render partial: 'documents/form_partials/tags', locals: {form: form} %>
+    <%= render partial: 'documents/form_partials/privacy', locals: {form: form} %>
 
     <div class="govuk-form-group">
       <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
