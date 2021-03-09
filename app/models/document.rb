@@ -52,14 +52,6 @@ class Document < ApplicationRecord
     end
   end
 
-  def numbers=(nums)
-    super(nums.split(",").select(&:present?).map(&:strip)) if nums
-  end
-
-  def numbers
-    super.join(", ")
-  end
-
   def published?
     self.class.for_publication.where(id: id).any?
   end
@@ -87,7 +79,7 @@ private
   end
 
   def numbered
-    if referenced_in_decision_notice? && numbers.empty?
+    if referenced_in_decision_notice? && numbers.blank?
       errors.add(:numbers, :missing_numbers)
     end
   end

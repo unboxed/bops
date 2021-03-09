@@ -44,7 +44,7 @@ RSpec.describe "Document uploads", type: :system do
         expect(page).to have_css(".govuk-tag", text: "Floor")
         expect(page).to have_css(".govuk-tag", text: "Side")
 
-        expect(page).to have_content("Included on decision notice: Yes")
+        expect(page).to have_content("Included in decision notice: Yes")
         expect(page).to have_content("Public: Yes")
 
         find(".govuk-breadcrumbs").click_link("Application")
@@ -79,7 +79,7 @@ RSpec.describe "Document uploads", type: :system do
         expect(page).to have_css(".govuk-tag", text: "Floor")
         expect(page).to have_css(".govuk-tag", text: "Side")
 
-        expect(page).to have_content("Included on decision notice: No")
+        expect(page).to have_content("Included in decision notice: No")
         expect(page).to have_content("Public: No")
 
         find(".govuk-breadcrumbs").click_link("Application")
@@ -132,7 +132,7 @@ RSpec.describe "Document uploads", type: :system do
 
         expect(page).to have_content("proposed-roofplan.pdf has been uploaded")
 
-        expect(page).to have_content("Included on decision notice: No")
+        expect(page).to have_content("Included in decision notice: No")
         expect(page).to have_content("Public: No")
       end
     end

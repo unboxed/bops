@@ -56,17 +56,17 @@
           <p class="govuk-body govuk-!-margin-bottom-1">
             Date received: <%= document.created_at.strftime("%e %B %Y") %>
           </p>
-          <% if document.numbers.present? %>
+          <% unless document.numbers.blank? %>
             <p class="govuk-body govuk-!-margin-bottom-1">
               Document reference(s): <%= document.numbers %>
             </p>
+          <% end %>
             <p class="govuk-body govuk-!-margin-bottom-1">
               Included in decision notice: <%= document.referenced_in_decision_notice? ? "Yes" : "No" %>
             </p>
             <p class="govuk-body govuk-!-margin-bottom-1">
               Public: <%= document.publishable? ? "Yes" : "No" %>
             </p>
-          <% end %>
         </div>
       <div class="govuk-grid-column-one-quarter">
         <p style="text-align: right" class="govuk-body">

@@ -8,12 +8,4 @@ module DocumentHelper
   def filter_current(documents)
     documents.select { |file| file.archived? == false }.sort_by(&:created_at)
   end
-
-  def archive_reason_collection_for_radio_buttons
-    Document.archive_reasons.keys.map { |k| [k, I18n.t("archive_reasons.#{k}")] }
-  end
-
-  def override_numbers(document)
-    document.numbers.presence || ""
-  end
 end
