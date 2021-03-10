@@ -2,6 +2,8 @@
 
 class PlanningApplicationsController < AuthenticationController
   before_action :set_planning_application, only: %i[show
+                                                    edit
+                                                    update
                                                     assign
                                                     recommendation_form
                                                     recommend
@@ -38,20 +40,31 @@ class PlanningApplicationsController < AuthenticationController
     @planning_application = PlanningApplication.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @planning_application = PlanningApplication.new(planning_application_params)
     @planning_application.assign_attributes(created_at: created_date_from_params, local_authority: current_local_authority)
 
-    respond_to do |format|
-      if @planning_application.save
-        byebug
-        format.html { redirect_to planning_application_documents_path(@planning_application), notice: "Planning application was successfully created." }
-      else
-        format.html { render :new, status: :unprocessable_entity }
+    if @planning_application.save
+      flash[:notice] = "Planning application was successfully created."
+      redirect_to planning_application_documents_path(@planning_application)
+    else
+      render :new
+    end
+  end
+
+  def update
+    if @planning_application.update(planning_application_params)
+      planning_application_params.keys.map do |p|
+        if @planning_application.saved_change_to_attribute?(p)
+          audit("updated", "User updated #{p}")
+        end
       end
+      flash[:notice] = "Planning application was successfully updated."
+      redirect_to @planning_application
+    else
+      render :edit
     end
   end
 
@@ -177,8 +190,7 @@ class PlanningApplicationsController < AuthenticationController
 private
 
   def planning_application_params
-    permitted_keys = %i[
-                        address_1
+    permitted_keys = %i[address_1
                         address_2
                         application_type
                         applicant_first_name
