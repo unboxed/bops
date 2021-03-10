@@ -67,6 +67,15 @@ RSpec.shared_examples "validate and invalidate" do
     expect(page).to have_content("Application has been invalidated")
 
     planning_application.reload
+
+    click_button "Documents"
+    click_link "Manage documents"
+    click_link "Archive document"
+
+    fill_in "Why do you want to archive this document?", with: "Scale was wrong"
+    click_button "Archive"
+
+    expect(page).to have_text("proposed-floorplan.png has been archived")
   end
 end
 

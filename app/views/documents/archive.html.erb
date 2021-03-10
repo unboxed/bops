@@ -1,34 +1,32 @@
-<% if @planning_application.can_validate? %>
-  <% add_parent_breadcrumb_link "Home", planning_applications_path %>
-  <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
-  <% add_parent_breadcrumb_link "Documents", planning_application_documents_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Home", planning_applications_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Documents", planning_application_documents_path(@planning_application) %>
 
-  <% content_for :title, "Archive document" %>
+<% content_for :title, "Archive document" %>
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <div class="govuk-breadcrumbs" style="margin-bottom: 20px;">
-        <ol class="govuk-breadcrumbs__list">
-          <li class="govuk-breadcrumbs__list-item" aria-current="page"></li>
-        </ol>
-      </div>
-      <h1 class="govuk-heading-l" style="margin-bottom: 7px;">
-        <%= @planning_application.reference %>
-      </h1>
-      <h2 class="govuk-heading-m" style="margin-bottom: 75px;">
-        <%= @planning_application.full_address %>
-      </h2>
-      <h2 class="govuk-heading-m" style="margin-bottom: 75px;">
-        Archive document
-      </h2>
-      <p class="govuk-body  govuk-!-padding-top-1" >
-        File name: <%= @document.name %>
-      </p>
-      <p>
-        <%= link_to image_tag(@document.file.representation(resize: "300x212")),
-                    url_for_document(@document), target: :_blank %>
-      </p>
-      <%= render "archive_form" %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-breadcrumbs" style="margin-bottom: 20px;">
+      <ol class="govuk-breadcrumbs__list">
+        <li class="govuk-breadcrumbs__list-item" aria-current="page"></li>
+      </ol>
     </div>
+    <h1 class="govuk-heading-l" style="margin-bottom: 7px;">
+      <%= @planning_application.reference %>
+    </h1>
+    <h2 class="govuk-heading-m" style="margin-bottom: 75px;">
+      <%= @planning_application.full_address %>
+    </h2>
+    <h2 class="govuk-heading-m" style="margin-bottom: 75px;">
+      Archive document
+    </h2>
+    <p class="govuk-body  govuk-!-padding-top-1" >
+      File name: <%= @document.name %>
+    </p>
+    <p>
+      <%= link_to image_tag(@document.file.representation(resize: "300x212")),
+                  url_for_document(@document), target: :_blank %>
+    </p>
+    <%= render "archive_form" %>
   </div>
-<% end %>
+</div>

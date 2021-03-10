@@ -85,10 +85,6 @@ RSpec.describe "Documents index page", type: :system do
       click_link "Archive document"
     end
 
-    it "Archive page contains expected text" do
-      expect(page).to have_text "Why do you want to archive this document?"
-    end
-
     it "Archive page contains site info" do
       expect(page).to have_text "Elm Grove"
     end
@@ -156,11 +152,8 @@ RSpec.describe "Documents index page", type: :system do
     end
 
     it "Reviewer can archive document" do
-      choose "scale"
-      click_button "Save"
-
-      choose "Yes"
-      click_button "Save"
+      fill_in "Why do you want to archive this document?", with: "Scale was wrong"
+      click_button "Archive"
 
       expect(page).to have_text("proposed-floorplan.png has been archived")
     end
@@ -172,15 +165,12 @@ RSpec.describe "Documents index page", type: :system do
       visit planning_application_path(not_started_planning_application)
       click_button "Documents"
       click_link "Manage documents"
+      click_link "Archive document"
     end
 
     it "Document can be archived" do
-      click_link "Archive document"
-      choose "scale"
-      click_button "Save"
-
-      choose "Yes"
-      click_button "Save"
+      fill_in "Why do you want to archive this document?", with: "Scale was wrong"
+      click_button "Archive"
 
       expect(page).to have_text("proposed-floorplan.png has been archived")
     end
