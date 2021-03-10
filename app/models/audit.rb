@@ -12,6 +12,7 @@ class Audit < ApplicationRecord
     determined: "determined",
     invalidated: "invalidated",
     returned: "returned",
+    updated: "updated",
     uploaded: "uploaded",
     started: "started",
     withdrawn: "withdrawn",

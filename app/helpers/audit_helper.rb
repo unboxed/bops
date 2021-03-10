@@ -22,6 +22,8 @@ module AuditHelper
       "Application invalidated"
     when "returned"
       "Application returned"
+    when "updated"
+      "Application updated"
     when "uploaded"
       "Document uploaded"
     when "started"
