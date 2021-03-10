@@ -1,0 +1,12 @@
+<% add_parent_breadcrumb_link "Home", planning_applications_path %>
+
+<% content_for :title, "New application" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l govuk-!-margin-top-7">
+      New Application: Residential Lawful Development Certificate
+    </h1>
+    <%= render 'form', planning_application: @planning_application %>
+  </div>
+</div>
