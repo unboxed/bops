@@ -150,17 +150,4 @@ RSpec.describe "Document uploads", type: :system do
       end
     end
   end
-
-  context "for a reviewer" do
-    before { sign_in reviewer }
-
-    it "no upload actions are visible at all" do
-      visit planning_application_documents_path(planning_application)
-
-      # Neither the enabled call-to-action or its disabled, button
-      # equivalent are visible.
-      expect(page).not_to have_link("Upload documents")
-      expect(page).not_to have_button("Upload documents", disabled: true)
-    end
-  end
 end

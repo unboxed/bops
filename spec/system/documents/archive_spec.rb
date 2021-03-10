@@ -22,6 +22,30 @@ RSpec.describe "Documents index page", type: :system do
            tags: document_tags
   end
 
+  let!(:not_started_planning_application) do
+    create :planning_application, :not_started,
+           local_authority: @default_local_authority,
+           address_1: "Elm Grove"
+  end
+
+  let!(:not_started_document) do
+    create :document, :with_file,
+           planning_application: not_started_planning_application,
+           tags: document_tags
+  end
+
+  let!(:awaiting_determination_planning_application) do
+    create :planning_application, :awaiting_determination,
+           local_authority: @default_local_authority,
+           address_1: "Elm Grove"
+  end
+
+  let!(:awaiting_document) do
+    create :document, :with_file,
+           planning_application: awaiting_determination_planning_application,
+           tags: document_tags
+  end
+
   context "as a user who is not logged in" do
     it "User cannot see archive page" do
       visit planning_application_documents_path(planning_application)
@@ -59,10 +83,6 @@ RSpec.describe "Documents index page", type: :system do
       click_button "Documents"
       click_link "Manage documents"
       click_link "Archive document"
-    end
-
-    it "Archive page contains expected text" do
-      expect(page).to have_text "Why do you want to archive this document?"
     end
 
     it "Archive page contains site info" do
@@ -128,10 +148,44 @@ RSpec.describe "Documents index page", type: :system do
       visit planning_application_path(planning_application)
       click_button "Documents"
       click_link "Manage documents"
+      click_link "Archive document"
     end
 
-    it "Reviewer cannot see Archive links" do
-      expect(page).not_to have_link("Archive document")
+    it "Reviewer can archive document" do
+      fill_in "Why do you want to archive this document?", with: "Scale was wrong"
+      click_button "Archive"
+
+      expect(page).to have_text("proposed-floorplan.png has been archived")
+    end
+  end
+
+  context "Application that has not been started" do
+    before do
+      sign_in assessor
+      visit planning_application_path(not_started_planning_application)
+      click_button "Documents"
+      click_link "Manage documents"
+      click_link "Archive document"
+    end
+
+    it "Document can be archived" do
+      fill_in "Why do you want to archive this document?", with: "Scale was wrong"
+      click_button "Archive"
+
+      expect(page).to have_text("proposed-floorplan.png has been archived")
+    end
+  end
+
+  context "Application that is awaiting determination" do
+    before do
+      sign_in assessor
+      visit planning_application_path(awaiting_determination_planning_application)
+      click_button "Documents"
+      click_link "Manage documents"
+    end
+
+    it "Archive button is not visible" do
+      expect(page).to have_no_link("Archive document")
     end
   end
 end
