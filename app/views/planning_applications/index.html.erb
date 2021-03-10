@@ -1,13 +1,21 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">
+    <h1 class="govuk-heading-l govuk-!-margin-bottom-3">
       Your fast track applications
     </h1>
-    <p class="govuk-body"><%= current_user.name %>, <%= current_user.role.capitalize %></p>
+
+    <h2 class="govuk-heading-m">
+      <%= current_user.name %>, <%= current_user.role.capitalize %>
+    </h2>
+
+    <p class="govuk-body govuk-!-padding-top-2 govuk-!-padding-bottom-5">
+      <%= link_to "Add new application", new_planning_application_path %>
+    </p>
+
     <% if exclude_others? %>
-      <p class="govuk-body"><%= link_to "View all applications", planning_applications_path, class: "govuk-link" %></p>
+      <p class="govuk-body"><%= link_to "View all applications", planning_applications_path, class: "govuk-button" %></p>
     <% else %>
-      <p class="govuk-body"><%= link_to filter_text, planning_applications_path(q: "exclude_others"), class: "govuk-link" %></p>
+      <p class="govuk-body"><%= link_to filter_text, planning_applications_path(q: "exclude_others"), class: "govuk-button" %></p>
     <% end %>
   </div>
 </div>

@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   devise_for :users
   mount Rswag::Ui::Engine => "api-docs"
 
-  resources :planning_applications, only: %i[show index] do
+  resources :planning_applications, only: %i[index show new edit create] do
     member do
       get :assign
       patch :assign
