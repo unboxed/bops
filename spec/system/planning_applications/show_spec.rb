@@ -53,7 +53,6 @@ RSpec.describe "Planning Application show page", type: :system do
       expect(page).to have_text("UPRN: 00773377")
       expect(page).to have_text("Ward: Dulwich Wood")
       expect(page).to have_link("Map link")
-      expect(page).to have_text("Building type: Residential")
       expect(page).to have_text("Application type: Proposed permitted development: Certificate of Lawfulness")
       expect(page).to have_text("Summary: Roof extension")
       expect(page).to have_text("PAY123")
