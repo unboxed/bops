@@ -10,6 +10,7 @@ class User < ApplicationRecord
 
   has_many :decisions, dependent: :restrict_with_exception
   has_many :planning_applications, through: :decisions
+  has_many :audits, dependent: :nullify
   belongs_to :local_authority, optional: false
 
   def self.find_first_by_auth_conditions(conditions)

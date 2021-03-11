@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 module AuditHelper
-  def activity(type_of_activity, user_name = nil)
+  def activity(type_of_activity, args = nil)
     case type_of_activity
 
     when "assigned"
-      user_name.blank? ? "Application unassigned" : "Application assigned to #{user_name}"
+      args.blank? ? "Application unassigned" : "Application assigned to #{args}"
     when "archived"
       "Document archived"
     when "approved"
@@ -15,7 +15,7 @@ module AuditHelper
     when "challenged"
       "Recommendation challenged"
     when "created"
-      "Application created"
+      "Application created by #{args}"
     when "determined"
       "Decision Published"
     when "invalidated"
@@ -23,7 +23,7 @@ module AuditHelper
     when "returned"
       "Application returned"
     when "updated"
-      "Application updated"
+      "#{args} updated"
     when "uploaded"
       "Document uploaded"
     when "started"

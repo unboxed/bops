@@ -38,6 +38,12 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
 
     if @planning_application.valid? && @planning_application.save!
       upload_documents(params[:files])
+      Audit.create!(
+        planning_application: @planning_application,
+        api_user: current_api_user,
+        activity_type: "created",
+        activity_information: current_api_user.name,
+      )
       send_success_response
     else
       send_failed_response

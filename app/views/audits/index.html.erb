@@ -15,18 +15,19 @@
     </tr>
   </thead>
   <tbody class="govuk-table__body">
-    <tr class="govuk-table__row">
-      <td class="govuk-table__cell"> <%= @planning_application.created_at.strftime("%d-%m-%Y %H:%M") %></td>
-      <td class="govuk-table__cell"> API </td>
-      <td class="govuk-table__cell"> Application created </td>
-    </tr>
     <% @audits.each do |audit_item| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell"><%= audit_item.created_at.strftime("%d-%m-%Y %H:%M") %></td>
-        <td class="govuk-table__cell"><%= audit_item.user.name %></td>
+        <% if audit_item.user %>
+          <td class="govuk-table__cell"><%= audit_item.user.name %></td>
+        <% elsif audit_item.api_user %>
+          <td class="govuk-table__cell"><%= audit_item.api_user.name %></td>
+        <% else %>
+          <td class="govuk-table__cell"> User deleted </td>
+        <% end %>
         <td colspan="2" class="govuk-table__cell">
-          <%= activity(audit_item.activity_type, audit_item.activity_information) %> <br>
-          <i> <%= audit_item.audit_comment if audit_item.audit_comment.present? %> </i>
+          <%= activity(audit_item.activity_type, audit_item.activity_information) %>
+            <%= simple_format(audit_item.audit_comment, { class: "audit_details" }, wrapper_tag: "div",) if audit_item.audit_comment.present? %>
         </td>
       </tr>
     <% end %>
