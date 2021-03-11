@@ -1,6 +1,7 @@
 class Audit < ApplicationRecord
   belongs_to :planning_application
-  belongs_to :user
+  belongs_to :user, optional: true
+  belongs_to :api_user, optional: true
 
   enum activity: {
     approved: "approved",

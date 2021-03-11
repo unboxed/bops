@@ -44,9 +44,10 @@ class PlanningApplicationsController < AuthenticationController
 
   def create
     @planning_application = PlanningApplication.new(planning_application_params)
-    @planning_application.assign_attributes(created_at: created_date_from_params, local_authority: current_local_authority)
+    @planning_application.assign_attributes(local_authority: current_local_authority)
 
     if @planning_application.save
+      audit("created", nil, current_user.name)
       flash[:notice] = "Planning application was successfully created."
       redirect_to planning_application_documents_path(@planning_application)
     else
@@ -58,11 +59,11 @@ class PlanningApplicationsController < AuthenticationController
     if @planning_application.update(planning_application_params)
       planning_application_params.keys.map do |p|
         if @planning_application.saved_change_to_attribute?(p)
-          audit("updated", "User updated #{p}")
+          audit("updated", "Changed from: #{@planning_application.saved_changes[p][0]} \r\n Changed to: #{@planning_application.saved_changes[p][1]}", p.split("_").join(" ").capitalize)
         end
       end
       flash[:notice] = "Planning application was successfully updated."
-      redirect_to @planning_application
+      redirect_to planning_application_url
     else
       render :edit
     end
@@ -211,19 +212,8 @@ private
                         postcode
                         town
                         uprn
-                        ward
                         work_status]
-    params.fetch(:planning_application, {}).permit permitted_keys
-  end
-
-  def created_date_from_params
-    Time.zone.parse(
-      [
-        params[:planning_application]["created_at(3i)"],
-        params[:planning_application]["created_at(2i)"],
-        params[:planning_application]["created_at(1i)"],
-      ].join("-"),
-    )
+    params.require(:planning_application).permit permitted_keys
   end
 
   def date_from_params
