@@ -13,5 +13,10 @@ namespace :deploy do
   task :preview do
     PackageBuilder.deploy!(:preview)
   end
+
+  desc "Build and deploy the website to the production stack"
+  task :production do
+    PackageBuilder.deploy!(:production)
+  end
 end
 # rubocop:enable Rails/RakeEnvironment
