@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  rescue_from Notifications::Client::NotFoundError, with: :decision_notice_mail_error
+  rescue_from Notifications::Client::ServerError, with: :validation_notice_request_error
+  rescue_from Notifications::Client::RequestError, with: :validation_notice_request_error
+  rescue_from Notifications::Client::ClientError, with: :validation_notice_request_error
+  rescue_from Notifications::Client::BadRequestError, with: :validation_notice_request_error
+
   before_action :find_current_local_authority_from_subdomain
   before_action :prevent_caching
 
@@ -34,5 +40,16 @@ private
 
   def disable_flash_header
     @disable_flash_header = true
+  end
+
+  def decision_notice_mail_error
+    flash[:error] = "The email cannot be sent. Please try again later."
+    render "documents/index"
+  end
+
+  def validation_notice_request_error(exception)
+    flash[:error] = "#{exception}. Please modify details or try again later."
+    Appsignal.send_error(exception)
+    render "documents/index"
   end
 end
