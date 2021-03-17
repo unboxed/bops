@@ -23,7 +23,7 @@ RSpec.describe "Creating a planning application", type: :system do
 
     expect(page).to have_text("New Application: Residential Lawful Development Certificate")
 
-    fill_in "Summary of work", with: "Back shack"
+    fill_in "Description", with: "Back shack"
     click_button "Save"
     expect(page).to have_text("Planning application was successfully created.")
 
@@ -38,7 +38,7 @@ RSpec.describe "Creating a planning application", type: :system do
 
     click_link "Add new application"
 
-    fill_in "Summary of work", with: "Bird house"
+    fill_in "Description", with: "Bird house"
     click_button "Save"
     expect(page).to have_text("Planning application was successfully created.")
 
@@ -56,7 +56,7 @@ RSpec.describe "Creating a planning application", type: :system do
     before do
       click_link "Add new application"
 
-      fill_in "Summary of work", with: "Backyard bird hotel"
+      fill_in "Description", with: "Backyard bird hotel"
       fill_in "Day", with: "3"
       fill_in "Month", with: "3"
       fill_in "Year", with: "2021"
