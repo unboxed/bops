@@ -22,7 +22,7 @@ RSpec.describe "Updating a planning application", type: :system do
   end
 
   it "is possible to edit an application's summary" do
-    fill_in "Summary of work", with: "doing more than great things, doing wonderful things."
+    fill_in "Description", with: "doing more than great things, doing wonderful things."
 
     click_button "Save"
 
@@ -112,7 +112,7 @@ RSpec.describe "Updating a planning application", type: :system do
   end
 
   it "creates an audit entry for every update action" do
-    fill_in "Summary of work", with: "doing more than great things, doing wonderful things."
+    fill_in "Description", with: "doing more than great things, doing wonderful things."
     fill_in "Day", with: "3"
     fill_in "Month", with: "10"
     fill_in "Year", with: "2021"
