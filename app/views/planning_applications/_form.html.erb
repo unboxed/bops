@@ -16,7 +16,10 @@
   <% end %>
     <%= form.hidden_field :application_type, :value => "lawfulness_certificate" %>
   <div class="govuk-form-group govuk-!-margin-top-8">
-    <%= form.label :description, "Summary of work", class: "govuk-heading-m" %>
+    <%= form.label :description, "Description", class: "govuk-heading-m govuk-!-margin-bottom-1" %>
+    <div id="description-hint" class="govuk-hint">
+      Applicants must be notified of / approve changes to description
+    </div>
     <%= form.text_area :description, class: "govuk-textarea", rows: "5" %>
   </div>
   <div class="govuk-form-group govuk-!-margin-top-8">
