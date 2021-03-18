@@ -6,7 +6,6 @@ FactoryBot.define do
     description      { Faker::Lorem.unique.sentence }
     status           { :in_assessment }
     in_assessment_at { Time.zone.now }
-    ward             { Faker::Address.city }
     documents_validated_at { Time.zone.today }
     work_status { :proposed }
     agent_first_name { Faker::Name.first_name }

@@ -84,7 +84,6 @@ private
   def planning_application_params
     permitted_keys = %i[application_type
                         description
-                        ward
                         applicant_first_name
                         applicant_last_name
                         applicant_phone
