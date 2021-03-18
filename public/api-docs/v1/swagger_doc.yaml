@@ -48,7 +48,6 @@ paths:
                     invalidated_at: null
                     withdrawn_at: null
                     returned_at: null
-                    ward: Dulwich Wood
                     work_status: proposed
                     payment_reference: PAY1
                     awaiting_determination_at: '2020-05-16T05:18:17.540Z'
@@ -132,9 +131,6 @@ paths:
                 payment_reference:
                   type: string
                   example: PAY1
-                ward:
-                  type: string
-                  example: Dulwich Wood
                 work_status:
                   type: string
                   example: proposed
@@ -244,7 +240,6 @@ paths:
                     postcode: SE16 3RQ
                   description: Add a chimney stack
                   payment_reference: PAY1
-                  ward: Dulwich Wood
                   work_status: proposed
                   applicant_first_name: Albert
                   applicant_last_name: Manteras

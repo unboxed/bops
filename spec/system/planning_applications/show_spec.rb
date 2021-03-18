@@ -8,7 +8,6 @@ RSpec.describe "Planning Application show page", type: :system do
     create :planning_application, description: "Roof extension",
                                   application_type: "lawfulness_certificate",
                                   status: :in_assessment,
-                                  ward: "Dulwich Wood",
                                   documents_validated_at: documents_validated_at,
                                   local_authority: @default_local_authority,
                                   payment_reference: "PAY123",
@@ -51,7 +50,6 @@ RSpec.describe "Planning Application show page", type: :system do
 
       expect(page).to have_text("Address: 7 Elm Grove, London, SE15 6UT")
       expect(page).to have_text("UPRN: 00773377")
-      expect(page).to have_text("Ward: Dulwich Wood")
       expect(page).to have_link("Map link")
       expect(page).to have_text("Application type: Proposed permitted development: Certificate of Lawfulness")
       expect(page).to have_text("Summary: Roof extension")
