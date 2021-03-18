@@ -23,7 +23,6 @@ json.extract! planning_application,
               :started_at,
               :status,
               :target_date,
-              :ward,
               :withdrawn_at,
               :work_status
 json.application_number planning_application.reference
