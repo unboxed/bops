@@ -21,9 +21,6 @@ class PlanningApplicationsController < AuthenticationController
 
   before_action :ensure_user_is_reviewer, only: %i[review review_form]
 
-  rescue_from Notifications::Client::NotFoundError,
-              with: :decision_notice_mail_error
-
   def index
     @planning_applications = if helpers.exclude_others? && current_user.assessor?
                                current_local_authority.planning_applications.where(user_id: current_user.id).or(
@@ -242,12 +239,6 @@ private
       @planning_application,
       request.host,
     ).deliver_now
-  end
-
-  def decision_notice_mail_error
-    flash[:notice] =
-      "The email cannot be sent. Please try again later."
-    render "documents/index"
   end
 
   def ensure_user_is_reviewer
