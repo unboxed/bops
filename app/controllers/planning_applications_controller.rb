@@ -143,8 +143,13 @@ class PlanningApplicationsController < AuthenticationController
 
     if params[:recommendation][:agree] == "No"
       audit("challenged", @recommendation.reviewer_comment)
-      @planning_application.request_correction!
+      if @recommendation.update!(challenged: true)
+        @planning_application.request_correction!
+      else
+        render: review
+      end
     elsif params[:recommendation][:agree] == "Yes"
+      @recommendation.update!(challenged: false)
       audit("approved", @recommendation.reviewer_comment)
     end
 
