@@ -1,15 +1,5 @@
 <% flash.each do |name, msg| %>
-  <% if msg.include?("success") %>
-  <div class="flash-archive">
-    <div class="govuk-error-summary__body govuk-!-padding-2">
-      <svg class="moj-banner__icon" color="green" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 25 25" height="25" width="25">
-        <path d="M25,6.2L8.7,23.2L0,14.1l4-4.2l4.7,4.9L21,2L25,6.2z"></path>
-      </svg>
-      <%= msg %>
-    </div>
-  </div>
-  <% else %>
+  <% if msg.include?("unable") %>
   <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1">
     <svg class="alert__icon" fill="red" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 25 25" height="25" width="25">
@@ -21,6 +11,16 @@
           <%= msg %>
         </li>
       </ul>
+    </div>
+  </div>
+  <% else %>
+  <div class="flash-archive">
+    <div class="govuk-error-summary__body govuk-!-padding-2">
+      <svg class="moj-banner__icon" color="green" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 25 25" height="25" width="25">
+        <path d="M25,6.2L8.7,23.2L0,14.1l4-4.2l4.7,4.9L21,2L25,6.2z"></path>
+      </svg>
+      <%= msg %>
     </div>
   </div>
   <% end %>
