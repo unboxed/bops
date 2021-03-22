@@ -4,14 +4,15 @@
   "dependencies": {
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
-    "@rails/webpacker": "^4.2.2",
+    "@rails/webpacker": "5.2.1",
     "govuk-frontend": "^3.6.0",
     "stimulus": "^1.1.1",
     "toastr": "^2.1.4",
+    "webpack": "^4.0.0",
     "webpack-merge": "^5.4.0"
   },
   "version": "0.1.0",
   "devDependencies": {
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.11.2"
   }
 }
