@@ -1,0 +1,158 @@
+<% add_parent_breadcrumb_link "Home", planning_applications_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% content_for :title, "Edit constraints" %>
+
+<%= render "planning_applications/proposal_header" %>
+
+<h2 class="govuk-heading-m">Constraints</h2>
+
+<%= form_with model: @planning_application, url: edit_constraints_planning_application_path(@planning_application), local: true do |form| %>
+
+  <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-row">
+      <div class="form-group">
+        <h3 class="govuk-heading-s govuk-!-margin-top-6">General Policy</h3>
+        <div class="govuk-checkboxes govuk-checkboxes--small">
+          <% policy_constraints.each do |constraint, constraint_text |  %>
+            <div class="govuk-checkboxes__item">
+              <%= hidden_field_tag :constraints, "", class: "govuk-checkboxes__input" %>
+              <%= check_box_tag "constraint-#{constraint}", true, check_added?(@planning_application.constraints, constraint), class: "govuk-checkboxes__input" %>
+              <label class="govuk-label govuk-checkboxes__label">
+                <%= label_tag "constraint-#{constraint}", constraint_text %>
+              </label>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row govuk-!-margin-top-6">
+      <div class="form-group">
+        <h3 class="govuk-heading-s">Heritage & Conservation</h3>
+        <div class="govuk-checkboxes govuk-checkboxes--small">
+          <% heritage_constraints.each do |constraint, constraint_text |  %>
+            <div class="govuk-checkboxes__item">
+              <%= hidden_field_tag :constraints, "", class: "govuk-checkboxes__input" %>
+              <%= check_box_tag "constraint-#{constraint}", true, check_added?(@planning_application.constraints, constraint), class: "govuk-checkboxes__input" %>
+              <label class="govuk-label govuk-checkboxes__label">
+                <%= label_tag "constraint-#{constraint}", constraint_text %>
+              </label>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row govuk-!-margin-top-6">
+      <div class="form-group">
+      <h3 class="govuk-heading-s govuk-!-margin-top-6">Trees</h3>
+        <div class="govuk-checkboxes govuk-checkboxes--small">
+          <% tree_constraints.each do |constraint, constraint_text |  %>
+            <div class="govuk-checkboxes__item">
+              <%= hidden_field_tag :constraints, "", class: "govuk-checkboxes__input" %>
+              <%= check_box_tag "constraint-#{constraint}", true, check_added?(@planning_application.constraints, constraint), class: "govuk-checkboxes__input" %>
+              <label class="govuk-label govuk-checkboxes__label" for=constraint>
+                <%= label_tag "constraint-#{constraint}", constraint_text %>
+              </label>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row govuk-!-margin-top-6">
+      <div class="form-group">
+        <h3 class="govuk-heading-s govuk-!-margin-top-6">Ecology</h3>
+        <div class="govuk-checkboxes govuk-checkboxes--small">
+          <% ecology_constraints.each do |constraint, constraint_text |  %>
+            <div class="govuk-checkboxes__item">
+              <%= hidden_field_tag :constraints, "", class: "govuk-checkboxes__input" %>
+              <%= check_box_tag "constraint-#{constraint}", true, check_added?(@planning_application.constraints, constraint), class: "govuk-checkboxes__input" %>
+              <label class="govuk-label govuk-checkboxes__label">
+                <%= label_tag "constraint-#{constraint}", constraint_text %>
+              </label>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row govuk-!-margin-top-6">
+      <div class="form-group">
+        <h3 class="govuk-heading-s govuk-!-margin-top-6">Flooding</h3>
+        <div class="govuk-checkboxes govuk-checkboxes--small">
+          <% flooding_constraints.each do |constraint, constraint_text |  %>
+            <div class="govuk-checkboxes__item">
+              <%= hidden_field_tag :constraints, "", class: "govuk-checkboxes__input" %>
+              <%= check_box_tag "constraint-#{constraint}", true, check_added?(@planning_application.constraints, constraint), class: "govuk-checkboxes__input" %>
+              <label class="govuk-label govuk-checkboxes__label">
+                <%= label_tag "constraint-#{constraint}", constraint_text %>
+              </label>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row govuk-!-margin-top-6">
+      <div class="form-group">
+        <h3 class="govuk-heading-s govuk-!-margin-top-6">Military & Defence</h3>
+        <div class="govuk-checkboxes govuk-checkboxes--small">
+          <% military_constraints.each do |constraint, constraint_text |  %>
+            <div class="govuk-checkboxes__item">
+              <%= hidden_field_tag :constraints, "", class: "govuk-checkboxes__input" %>
+              <%= check_box_tag "constraint-#{constraint}", true, check_added?(@planning_application.constraints, constraint), class: "govuk-checkboxes__input" %>
+              <label class="govuk-label govuk-checkboxes__label">
+                <%= label_tag "constraint-#{constraint}", constraint_text %>
+              </label>
+              <hr>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row govuk-!-margin-top-6">
+      <div class="form-group">
+        <h3 class="govuk-heading-s govuk-!-margin-top-6">Other constraints</h3>
+        <div class="govuk-checkboxes govuk-checkboxes--small">
+          <% other_constraints.each do |constraint, constraint_text |  %>
+            <div class="govuk-checkboxes__item">
+              <%= hidden_field_tag :constraints, "", class: "govuk-checkboxes__input" %>
+              <%= check_box_tag "constraint-#{constraint}", true, check_added?(@planning_application.constraints, constraint), class: "govuk-checkboxes__input" %>
+              <label class="govuk-label govuk-checkboxes__label">
+                <%= label_tag "constraint-#{constraint}", constraint_text %>
+              </label>
+            </div>
+          <% end %>
+
+          <% unless original_constraints(@planning_application.constraints).blank? %>
+            <% original_constraints(@planning_application.constraints).each do |constraint, constraint_text |  %>
+              <div class="govuk-checkboxes__item">
+                <%= hidden_field_tag :constraints, "", class: "govuk-checkboxes__input" %>
+                <%= check_box_tag "constraint-#{constraint}", true, true, class: "govuk-checkboxes__input" %>
+                <label class="govuk-label govuk-checkboxes__label">
+                  <%= label_tag "constraint-#{constraint}", constraint_text %>
+                </label>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row govuk-!-margin-top-6">
+      <div class="form-group">
+        <h3 class="govuk-heading-s govuk-!-margin-top-6">Local constraints</h3>
+        <%= text_field_tag("local") %>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row govuk-!-margin-top-6">
+      <div class="form-group">
+        <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+        <%= link_to 'Cancel', planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

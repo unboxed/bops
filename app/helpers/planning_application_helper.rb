@@ -35,12 +35,91 @@ module PlanningApplicationHelper
     end
   end
 
+  def flooding_constraints
+    { flood_zone: "Flood zone", flood_zone_1: "Flood zone 1", flood_zone_2: "Flood zone 2", flood_zone_3: "Flood zone 3" }
+  end
+
+  def military_constraints
+    { explosives: "Explosives & ordnance storage", safeguarded: "Safeguarded land" }
+  end
+
+  def ecology_constraints
+    {  sac: "Special Area of Conservation (SAC)",
+       sssi: "Site of Special Scientific Interest (SSSI)",
+       asnw: "Ancient Semi-Natural Woodland (ASNW)",
+       local_wildlife_site: "Local Wildlife / Biological notification site",
+       priority_habitat: "Priority habitat" }
+  end
+
+  def heritage_constraints
+    { listed_building: "Listed building",
+      conservation_area: "Conservation Area",
+      aonb: "Area of Outstanding Natural Beauty",
+      national_park: "National Park",
+      world_heritage_site: "World Heritage Site",
+      broads: "Broads" }
+  end
+
+  def policy_constraints
+    { article_4: "Article 4 area",
+      green_belt: "Green belt" }
+  end
+
+  def tree_constraints
+    { tpo: "Tree Preservation Order" }
+  end
+
+  def other_constraints
+    {
+      safety_hazard: "Safety hazard area",
+      aerodrome: "Within 3km of the perimeter of an aerodrome",
+    }
+  end
+
+  def constraints_dictionary
+    [flooding_constraints,
+     military_constraints,
+     heritage_constraints,
+     ecology_constraints,
+     tree_constraints,
+     policy_constraints,
+     other_constraints].reduce(&:merge)
+  end
+
+  def original_constraints(constraints)
+    filtered_constraints = JSON.parse(constraints)
+                               .reject { |k, v| constraints_dictionary.keys.include?(k.to_sym) || v == false }
+                               .reject { |k, _v| k.include?("constraint") }
+    filtered_constraints.invert unless filtered_constraints.nil?
+  end
+
+  def check_added?(constraints, text)
+    valid_constraints = filtered_constraints(constraints)
+    correct = valid_constraints.map { |element| element.gsub("constraint-", "") }
+    correct.include?(text.to_s) ? true : false
+  end
+
+  def filtered_constraints(constraints)
+    unless constraints.empty?
+      parsed_constraints = JSON.parse(constraints)
+                               .reject { |_k, v| v == false }
+    end
+    parsed_constraints.keys
+  end
+
   def map_link(address)
     "https://google.co.uk/maps/place/#{CGI.escape(address)}"
   end
 
-  def list_constraints(constraints)
-    JSON.parse(constraints).select { |_category, value| value == true }.keys unless constraints.empty?
+  def constraints_list(constraints)
+    valid_constraints = filtered_constraints(constraints)
+    valid_constraints.map do |item|
+      if constraints_dictionary.keys.include?(item.gsub("constraint-", "").to_sym)
+        constraints_dictionary[item.gsub("constraint-", "").to_sym]
+      else
+        item
+      end
+    end
   end
 
   def display_status(planning_application)
