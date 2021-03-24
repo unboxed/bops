@@ -5,6 +5,10 @@ Devise.setup do |config|
 
   config.mailer = "DeviseMailer"
 
+  config.mailer.class_eval do
+    helper :subdomain
+  end
+
   require "devise/orm/active_record"
 
   config.case_insensitive_keys = [:email]
