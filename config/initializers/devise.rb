@@ -3,6 +3,8 @@
 Devise.setup do |config|
   config.mailer_sender = "support@unboxed.co"
 
+  config.mailer = "DeviseMailer"
+
   require "devise/orm/active_record"
 
   config.case_insensitive_keys = [:email]
