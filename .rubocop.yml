@@ -16,6 +16,10 @@ Rails:
   Exclude:
     - "lib/package_builder.rb"
 
+Lint/UnusedMethodArgument:
+ Exclude:
+    - "app/mailers/devise_mailer.rb"
+
 RSpec/ContextWording:
   Enabled: false
 
