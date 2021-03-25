@@ -14,7 +14,7 @@
     <div class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
       <ul class="govuk-list govuk-list--bullet">
         <% if @planning_application.constraints %>
-          <% constraints_list(@planning_application.constraints).each do |constraint| %>
+        <% JSON.parse(@planning_application.constraints).each do |constraint| %>
             <li><%= constraint %></li>
           <% end %>
         <% end %>

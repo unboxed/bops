@@ -171,9 +171,7 @@ class PlanningApplicationsController < AuthenticationController
   def edit_constraints_form; end
 
   def edit_constraints
-    constraint = params.reject! { |k, v| v.blank? || k.include?("-true") }.select { |k, _v| k.include?("constraint") }
-    constraint[params[:local].to_s] = true if params[:local]
-    if @planning_application.update(constraints: constraint.to_json)
+    if @planning_application.update!(constraints: params[:planning_application][:constraints].to_json)
       flash[:notice] = "Constraints have been updated"
       redirect_to @planning_application
     else
