@@ -9,8 +9,8 @@
 
       <div class="govuk-form-group">
         <div class="field">
-          <%= f.label :email, class: "govuk-label", for: "width-30"%>
-          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "govuk-input govuk-input--width-30", type: "text" %>
+          <%= f.label :email, class: "govuk-label govuk-!-margin-top-8", for: "width-30"%>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "govuk-input govuk-input--width-30", value: params[:email] %>
         </div>
       </div>
 
@@ -19,7 +19,9 @@
       </div>
     <% end %>
 
-    <%= render "devise/shared/links" %>
+    <p class="govuk-body govuk-!-margin-top-8">
+      <%= render "devise/shared/links" %>
+    </p>
 
   </div>
 </div>

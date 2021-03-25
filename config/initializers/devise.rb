@@ -5,6 +5,8 @@ Devise.setup do |config|
 
   config.mailer = "DeviseMailer"
 
+  config.parent_mailer = "ApplicationMailer"
+
   config.mailer.class_eval do
     helper :subdomain
   end
