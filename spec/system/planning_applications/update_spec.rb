@@ -30,7 +30,7 @@ RSpec.describe "Updating a planning application", type: :system do
 
     click_button "Application information"
 
-    expect(page).to have_text("Summary: doing more than great things, doing wonderful things.")
+    expect(page).to have_text("Description: doing more than great things, doing wonderful things.")
   end
 
   it "is possible to edit the date received in" do
@@ -41,7 +41,7 @@ RSpec.describe "Updating a planning application", type: :system do
     click_button "Save"
     planning_application.reload
 
-    expect(page).to have_text("Due: 28 November 1989")
+    expect(page).to have_text("Target date: 28 November 1989")
   end
 
   it "is possible to edit site details" do
