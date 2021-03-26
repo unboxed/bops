@@ -24,7 +24,8 @@ json.extract! planning_application,
               :status,
               :target_date,
               :withdrawn_at,
-              :work_status
+              :work_status,
+              :boundary_geojson
 json.application_number planning_application.reference
 json.site do
   json.address_1 planning_application.address_1

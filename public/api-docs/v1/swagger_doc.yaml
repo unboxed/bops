@@ -61,6 +61,16 @@ paths:
                     agent_last_name: Harper
                     agent_phone: '237878889'
                     agent_email: agent@example.com
+                    boundary_geojson: 
+                      type: Feature
+                      geometry:
+                        type: Polygon
+                        coordinates:
+                          -
+                            - [-0.07716178894042969, 51.50094238217541]
+                            - [-0.07645905017852783, 51.50053497847238]
+                            - [-0.07615327835083008, 51.50115276135022]
+                            - [-0.07716178894042969, 51.50094238217541]
                     documents:
                       - url: http://example.com/document_path.pdf
                         created_at: '2020-05-16T05:18:17.540Z'
@@ -216,6 +226,8 @@ paths:
                         items:
                           type: string
                           example: "Side"
+                boundary_geojson: 
+                  type: object
               required:
               - site
               - application_type
@@ -350,3 +362,14 @@ paths:
                     - filename: https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf
                       tags:
                         - Side
+                  boundary_geojson: 
+                    type: Feature
+                    geometry:
+                      type: Polygon
+                      coordinates:
+                        -
+                          - [-0.07716178894042969, 51.50094238217541]
+                          - [-0.07645905017852783, 51.50053497847238]
+                          - [-0.07615327835083008, 51.50115276135022]
+                          - [-0.07716178894042969, 51.50094238217541]
+      

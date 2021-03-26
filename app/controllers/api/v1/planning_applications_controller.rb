@@ -29,6 +29,7 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
     @planning_application = PlanningApplication.new(
       planning_application_params.merge!(
         local_authority_id: @current_local_authority.id,
+        boundary_geojson: (params[:boundary_geojson].to_json if params[:boundary_geojson].present?),
         proposal_details: (params[:proposal_details].to_json if params[:proposal_details].present?),
         constraints: (params[:constraints].to_json if params[:constraints].present?),
         audit_log: params.to_json,
