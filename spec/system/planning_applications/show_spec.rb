@@ -39,8 +39,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "Target date is correct and label is turquoise" do
-      expect(page).to have_text("Due: #{planning_application.target_date.strftime('%d %B')}")
-      expect(page).to have_text("#{planning_application.days_left} days remaining")
+      expect(page).to have_text("Target date: #{planning_application.target_date.strftime('%d %B')}")
       expect(page).to have_css(".govuk-tag--turquoise")
       expect(page).to have_content("In assessment")
     end
@@ -52,7 +51,7 @@ RSpec.describe "Planning Application show page", type: :system do
       expect(page).to have_text("UPRN: 00773377")
       expect(page).to have_link("Map link")
       expect(page).to have_text("Application type: Proposed permitted development: Certificate of Lawfulness")
-      expect(page).to have_text("Summary: Roof extension")
+      expect(page).to have_text("Description: Roof extension")
       expect(page).to have_text("PAY123")
     end
 
@@ -118,8 +117,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "Target date is correct" do
-      expect(page).to have_text("Due: #{planning_application.target_date.strftime('%d %B')}")
-      expect(page).to have_text("#{planning_application.days_left} days remaining")
+      expect(page).to have_text("Target date: #{planning_application.target_date.strftime('%d %B')}")
     end
 
     it "Breadcrumbs contain reference to Application overview which is not linked" do

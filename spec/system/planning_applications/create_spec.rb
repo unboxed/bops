@@ -28,7 +28,7 @@ RSpec.describe "Creating a planning application", type: :system do
     expect(page).to have_text("Planning application was successfully created.")
 
     visit planning_application_path(PlanningApplication.last.id)
-    expect(page).to have_text("Summary: Back shack")
+    expect(page).to have_text("Description: Back shack")
   end
 
   it "allows for an application to be created by a reviewer, using minimum details" do
@@ -43,7 +43,7 @@ RSpec.describe "Creating a planning application", type: :system do
     expect(page).to have_text("Planning application was successfully created.")
 
     visit planning_application_path(PlanningApplication.last.id)
-    expect(page).to have_text("Summary: Bird house")
+    expect(page).to have_text("Description: Bird house")
 
     visit planning_application_path(PlanningApplication.last.id)
     click_button "Key application dates"
@@ -95,7 +95,7 @@ RSpec.describe "Creating a planning application", type: :system do
       expect(page).to have_text("UPRN: 19284783939")
       expect(page).to have_text("Proposed permitted development: Certificate of Lawfulness")
       expect(page).to have_text("Work already completed: No")
-      expect(page).to have_text("Summary: Backyard bird hotel")
+      expect(page).to have_text("Description: Backyard bird hotel")
       expect(page).to have_text("Payment Reference: 232432544")
       expect(page).to have_text("Agentina Agentino")
       expect(page).to have_text("agentina@agentino.com")
