@@ -82,39 +82,75 @@
 </ul>
 
 <% if @documents.present? %>
-  <div class="govuk-grid-row govuk-!-padding-left-6">
-    <table class="govuk-table archived-documents">
-      <caption class="govuk-table__caption">Archived documents</caption>
-      <thead class="govuk-table__head">
-        <tr>
-          <% if filter_archived(@documents).present? %>
-            <th scope="col" class="govuk-table__header">Document name</th>
-            <th scope="col" class="govuk-table__header">Tags </th>
-            <th scope="col" class="govuk-table__header">Date uploaded</th>
-            <th scope="col" class="govuk-table__header">Officer's comment</th>
-          <% else %>
-            <th scope="row" class="govuk-table__cell" style="font-weight: 100">No documents archived</th>
-          <% end %>
-        </tr>
-      </thead>
-      <% if filter_archived(@documents).present? %>
-        <tbody class="govuk-table__body">
-          <% filter_archived(@documents).each do |document| %>
-            <tr class="govuk-table__row">
-              <td class="govuk-table__cell archive-data"><%= link_to document.name, url_for_document(document), target: :_new %></td>
-              <td class="govuk-table__cell archive-data tags">
-                <p class="govuk-body">
-                  <% document.tags.each do |tag| %>
-                    <strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong>
-                  <% end %>
-                </p>
-              </td>
-              <td class="govuk-table__cell archive-data"><%= document.created_at.strftime("%e %b %Y") %></td>
-              <td class="govuk-table__cell archive-data"><%= document.archive_reason %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      <% end %>
-    </table>
+  <div class="govuk-grid-row govuk">
+    <h2 class="govuk-heading-m govuk-!-padding-left-3 govuk-!-padding-top-3 govuk-!-padding-bottom-3">Archived documents</h2>
   </div>
+    <div class="govuk-grid-row govuk govuk-!-padding-left-7 govuk-!-padding-right-7">
+          <% if filter_archived(@documents).present? %>
+            <div class="govuk-grid-column-one-quarter">
+              <p class="govuk-body govuk"><strong>
+                Document name</strong>
+              </p>
+            </div>
+            <div class="govuk-grid-column-one-quarter">
+              <p class="govuk-body govuk">
+                <strong>Tags</strong>
+              </p>
+            </div>
+            <div class="govuk-grid-column-one-quarter">
+              <p class="govuk-body govuk">
+                <strong>Date uploaded</strong>
+              </p>
+            </div>
+            <div class="govuk-grid-column-one-quarter">
+              <p class="govuk-body govuk">
+                <strong>Officer's comment</strong>
+              </p>
+            </div>
+          <% else %>
+            <div class="govuk-grid-column-one-quarter"><p class="govuk-body govuk">
+              No documents archived</p>
+            </div>
+          <% end %>
+      </div>
+      <% if filter_archived(@documents).present? %>
+      <% filter_archived(@documents).each do |document| %>
+      <ul class="app-task-list current-documents" style="margin-bottom: 2em;">
+        <li class="app-task-list__item govuk-!-padding-6">
+          <div class="govuk-grid-column-one-quarter">
+            <p class="govuk-body">
+              <%= link_to image_tag(document.file.representation(resize: "150x100"), class: "govuk-!-width-full"),
+                          url_for_document(document), target: :_blank %>
+              <%= link_to document.name, url_for_document(document), target: :_new %>
+            </p>
+          </div>
+          <div class="govuk-grid-column-one-quarter">
+            <% if document.tags.present? %>
+              <% document.tags.each do |tag| %>
+                <strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong>
+              <% end %>
+            <% else %>
+              <p class="govuk-body govuk">
+                <em>No tags added</em>
+              </p>
+            <% end %>
+          </div>
+          <div class="govuk-grid-column-one-quarter">
+            <p class="govuk-body govuk">
+              <%= document.created_at.strftime("%e %b %Y") %>
+            </p>
+          </div>
+          <div class="govuk-grid-column-one-quarter">
+            <p class="govuk-body govuk">
+              <% if document.archive_reason.present? %>
+                <%= document.archive_reason %>
+              <% else %>
+                <em>No reason provided</em>
+              <% end %>
+            </p>
+          </div>
+        </li>
+     <% end %>
+    </ul>
+    <% end %>
 <% end %>
