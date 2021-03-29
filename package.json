@@ -7,6 +7,8 @@
     "@rails/webpacker": "5.2.1",
     "govuk-frontend": "^3.6.0",
     "is-svg": "^4.2.2",
+    "leaflet": "^1.7.1",
+    "leaflet-defaulticon-compatibility": "^0.1.1",
     "stimulus": "^1.1.1",
     "toastr": "^2.1.4",
     "webpack": "^4.0.0",
