@@ -127,7 +127,7 @@ RSpec.describe "Documents index page", type: :system do
       fill_in "Why do you want to archive this document?", with: "Scale was wrong"
       click_button "Archive"
 
-      within(find(".archived-documents")) do
+      within(all(".archived-documents").last) do
         expect(page).to have_text("Scale was wrong")
         expect(page).to have_text("proposed-floorplan.png")
 

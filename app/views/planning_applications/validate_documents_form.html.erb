@@ -2,9 +2,7 @@
 
 <%= render "planning_applications/assessment_dashboard" do %>
 
-  <h2 class="govuk-heading-m">Validate documents</h2>
-
-  <p class="govuk-body">Please check all the applicant's documents before proceeding</p>
+  <h2 class="govuk-heading-m govuk-!-padding-top-3">Validate application</h2>
 
   <p class="govuk-body"><%= link_to "Check documents", planning_application_documents_path(@planning_application) %></p>
 
@@ -16,9 +14,12 @@
         <span class="govuk-visually-hidden">Error:</span><%= error.message %></span>
         <% end %>
       <% end %>
-      <%= form.govuk_radio_buttons_fieldset(:status, legend: { size: 's', text: 'Are the documents valid?' }) do %>
+      <%= form.govuk_radio_buttons_fieldset(:status, legend: { size: 's', text: 'Is the application valid?' }) do %>
+        <span class="govuk-hint">
+          If the application is invalid, please contact the applicant via email.
+        </span>
         <%= form.govuk_radio_button :status, 'in_assessment', label: { text: 'Yes'} do %>
-          <%= form.govuk_date_field :documents_validated_at, legend: { text: 'Valid date', size: 's' }, hint: { text: 'Date application should be considered valid, e.g. 28 12 2021' } %>
+          <%= form.govuk_date_field :documents_validated_at, legend: { text: '', size: 's' }, hint: { text: 'Enter valid date, e.g. 28 12 2021' } %>
         <% end %>
         <%= form.govuk_radio_button :status, 'invalidated', label: { text: 'No' } %>
       <% end %>

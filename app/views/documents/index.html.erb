@@ -13,7 +13,7 @@
 <%= render "flash_content" %>
 
 <h2 class="govuk-heading-m">
-  Proposal documents
+  Documents
 </h2>
 
 <div class="govuk-grid-row">
@@ -33,14 +33,14 @@
 
 <ul class="app-task-list current-documents" style="margin-bottom: 2em;">
   <% unless @documents.nil? %>
-  <% filter_current(@documents).each do |document| %>
-    <li class="app-task-list__item govuk-!-padding-6">
+    <% filter_current(@documents).each do |document| %>
+      <li class="app-task-list__item current govuk-!-padding-6">
         <div class="govuk-grid-column-one-quarter">
-            <%= link_to image_tag(document.file.representation(resize: "300x212"), class: "govuk-!-width-full"),
-                        url_for_document(document), target: :_blank %>
-            <p class="govuk-body">
-              <%= link_to "View in new window", url_for_document(document), target: :_new %>
-            </p>
+          <%= link_to image_tag(document.file.representation(resize: "300x212"), class: "govuk-!-width-full"),
+                      url_for_document(document), target: :_blank %>
+          <p class="govuk-body">
+            <%= link_to "View in new window", url_for_document(document), target: :_new %>
+          </p>
         </div>
         <div class="govuk-grid-column-one-half">
           <% if document.tags.present? %>
@@ -61,64 +61,68 @@
               Document reference(s): <%= document.numbers %>
             </p>
           <% end %>
-            <p class="govuk-body govuk-!-margin-bottom-1">
-              Included in decision notice: <%= document.referenced_in_decision_notice? ? "Yes" : "No" %>
-            </p>
-            <p class="govuk-body govuk-!-margin-bottom-1">
-              Public: <%= document.publishable? ? "Yes" : "No" %>
-            </p>
-        </div>
-      <% if @planning_application.can_validate? %>
-        <div class="govuk-grid-column-one-quarter">
-          <p style="text-align: right" class="govuk-body">
-            <%= link_to "Edit", edit_planning_application_document_path(@planning_application, document) %><br />
-            <%= link_to "Archive document", planning_application_document_archive_path(document_id: document.id) %>
+          <p class="govuk-body govuk-!-margin-bottom-1">
+            Included in decision notice: <%= document.referenced_in_decision_notice? ? "Yes" : "No" %>
+          </p>
+          <p class="govuk-body govuk-!-margin-bottom-1">
+            Public: <%= document.publishable? ? "Yes" : "No" %>
           </p>
         </div>
-      <% end %>
-    </li>
+        <% if @planning_application.can_validate? %>
+          <div class="govuk-grid-column-one-quarter">
+            <p style="text-align: right" class="govuk-body">
+              <%= link_to "Edit", edit_planning_application_document_path(@planning_application, document) %><br />
+              <%= link_to "Archive document", planning_application_document_archive_path(document_id: document.id) %>
+            </p>
+          </div>
+        <% end %>
+      </li>
     <% end %>
   <% end %>
 </ul>
 
 <% if @documents.present? %>
-  <div class="govuk-grid-row govuk">
-    <h2 class="govuk-heading-m govuk-!-padding-left-3 govuk-!-padding-top-3 govuk-!-padding-bottom-3">Archived documents</h2>
-  </div>
-    <div class="govuk-grid-row govuk govuk-!-padding-left-7 govuk-!-padding-right-7">
-          <% if filter_archived(@documents).present? %>
-            <div class="govuk-grid-column-one-quarter">
-              <p class="govuk-body govuk"><strong>
-                Document name</strong>
-              </p>
-            </div>
-            <div class="govuk-grid-column-one-quarter">
-              <p class="govuk-body govuk">
-                <strong>Tags</strong>
-              </p>
-            </div>
-            <div class="govuk-grid-column-one-quarter">
-              <p class="govuk-body govuk">
-                <strong>Date uploaded</strong>
-              </p>
-            </div>
-            <div class="govuk-grid-column-one-quarter">
-              <p class="govuk-body govuk">
-                <strong>Officer's comment</strong>
-              </p>
-            </div>
-          <% else %>
-            <div class="govuk-grid-column-one-quarter"><p class="govuk-body govuk">
-              No documents archived</p>
-            </div>
-          <% end %>
+  <div class="govuk-grid-row govuk archived-documents">
+    <h2 class="govuk-heading-m govuk-!-padding-left-3 govuk-!-padding-top-3 govuk-!-padding-bottom-3">
+      Archived documents
+    </h2>
+   <div class="govuk-grid-row govuk-!-padding-left-7 govuk-!-padding-right-7">
+    <% if filter_archived(@documents).present? %>
+        <div class="govuk-grid-column-one-quarter">
+          <p class="govuk-body govuk">
+            <strong>Document name</strong>
+          </p>
+        </div>
+        <div class="govuk-grid-column-one-quarter">
+          <p class="govuk-body">
+            <strong>Tags</strong>
+          </p>
+        </div>
+        <div class="govuk-grid-column-one-quarter">
+          <p class="govuk-body govuk-!-margin-bottom-1">
+            <strong>Date uploaded</strong>
+          </p>
+        </div>
+        <div class="govuk-grid-column-one-quarter">
+          <p class="govuk-body">
+            <strong>Officer's comment</strong>
+          </p>
+        </div>
       </div>
-      <% if filter_archived(@documents).present? %>
+    <% else %>
+      <div class="govuk-grid-column-one-quarter">
+        <p class="govuk-body">
+          No documents archived
+        </p>
+      </div>
+    <% end %>
+  </div>
+  <% if filter_archived(@documents).present? %>
+    <ul class="app-task-list archived-documents">
       <% filter_archived(@documents).each do |document| %>
-      <ul class="app-task-list current-documents" style="margin-bottom: 2em;">
         <li class="app-task-list__item govuk-!-padding-6">
           <div class="govuk-grid-column-one-quarter">
-            <p class="govuk-body">
+            <p class="govuk-body govuk-!-margin-bottom-1">
               <%= link_to image_tag(document.file.representation(resize: "150x100"), class: "govuk-!-width-full"),
                           url_for_document(document), target: :_blank %>
               <%= link_to document.name, url_for_document(document), target: :_new %>
@@ -130,18 +134,18 @@
                 <strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong>
               <% end %>
             <% else %>
-              <p class="govuk-body govuk">
+              <p class="govuk-body govuk govuk-!-margin-bottom-1">
                 <em>No tags added</em>
               </p>
             <% end %>
           </div>
           <div class="govuk-grid-column-one-quarter">
-            <p class="govuk-body govuk">
+            <p class="govuk-body govuk govuk-!-margin-bottom-1">
               <%= document.created_at.strftime("%e %b %Y") %>
             </p>
           </div>
           <div class="govuk-grid-column-one-quarter">
-            <p class="govuk-body govuk">
+            <p class="govuk-body govuk govuk-!-margin-bottom-1">
               <% if document.archive_reason.present? %>
                 <%= document.archive_reason %>
               <% else %>
@@ -150,7 +154,8 @@
             </p>
           </div>
         </li>
-     <% end %>
-    </ul>
+      <% end %>
+      </ul>
     <% end %>
+  </div>
 <% end %>

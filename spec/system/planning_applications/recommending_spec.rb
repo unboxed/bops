@@ -20,7 +20,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "can create a new recommendation, edit it, and submit it" do
       click_link "Assess proposal"
       choose "Yes"
-      fill_in "Please provide supporting information to indicate which GDPO policy(s) have or have not been met.", with: "This is a public comment"
+      fill_in "State the reasons why this application is, or is not lawful.", with: "This is a public comment"
       fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
       click_button "Save"
 
@@ -34,7 +34,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).to have_checked_field("Yes")
       expect(page).to have_field("Please provide supporting information for your manager.", with: "This is a private assessor comment")
       choose "No"
-      fill_in "Please provide supporting information to indicate which GDPO policy(s) have or have not been met.", with: "This is a new public comment"
+      fill_in "State the reasons why this application is, or is not lawful.", with: "This is a new public comment"
       fill_in "Please provide supporting information for your manager.", with: "Edited private assessor comment"
       click_button "Save"
       planning_application.reload
@@ -79,7 +79,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       choose "Yes"
-      fill_in "Please provide supporting information to indicate which GDPO policy(s) have or have not been met.", with: "This is so granted and GDPO everything"
+      fill_in "State the reasons why this application is, or is not lawful.", with: "This is so granted and GDPO everything"
       fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
       click_button "Save"
 
@@ -106,7 +106,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     click_link "Assess proposal"
     choose "No"
     fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
-    fill_in "Please provide supporting information to indicate which GDPO policy(s) have or have not been met.", with: ""
+    fill_in "State the reasons why this application is, or is not lawful.", with: ""
     click_button "Save"
 
     expect(page).to have_content("Please fill in the GDPO policies text box.")

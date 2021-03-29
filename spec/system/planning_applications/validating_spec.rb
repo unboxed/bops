@@ -6,7 +6,7 @@ RSpec.shared_examples "validate and invalidate" do
   it "can be validated" do
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link planning_application.reference
-    click_link "Validate documents"
+    click_link "Validate application"
 
     choose "Yes"
 
@@ -35,7 +35,7 @@ RSpec.shared_examples "validate and invalidate" do
   it "can be invalidated" do
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link planning_application.reference
-    click_link "Validate documents"
+    click_link "Validate application"
 
     choose "No"
 
@@ -58,7 +58,7 @@ RSpec.shared_examples "validate and invalidate" do
 
   it "allows document edit, archive and upload after invalidation" do
     click_link planning_application.reference
-    click_link "Validate documents"
+    click_link "Validate application"
 
     choose "No"
 
@@ -110,7 +110,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   context "Planning application does not transition when expected inputs are not sent" do
     it "shows error when no radio button is selected" do
       click_link planning_application.reference
-      click_link "Validate documents"
+      click_link "Validate application"
 
       click_button "Save"
 
@@ -121,7 +121,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     it "shows error if invalid date is sent" do
       click_link planning_application.reference
-      click_link "Validate documents"
+      click_link "Validate application"
 
       choose "Yes"
 
@@ -138,7 +138,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     it "shows error if date is empty" do
       click_link planning_application.reference
-      click_link "Validate documents"
+      click_link "Validate application"
 
       choose "Yes"
 

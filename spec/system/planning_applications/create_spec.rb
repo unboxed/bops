@@ -91,7 +91,7 @@ RSpec.describe "Creating a planning application", type: :system do
 
       visit planning_application_path(PlanningApplication.last.id)
 
-      expect(page).to have_text("Address: Palace Road, Crystal Palace, SE19 2LX")
+      expect(page).to have_text("Site address: Palace Road, Crystal Palace, SE19 2LX")
       expect(page).to have_text("UPRN: 19284783939")
       expect(page).to have_text("Proposed permitted development: Certificate of Lawfulness")
       expect(page).to have_text("Work already completed: No")

@@ -47,9 +47,9 @@ RSpec.describe "Planning Application show page", type: :system do
     it "Applicant information accordion" do
       click_button "Application information"
 
-      expect(page).to have_text("Address: 7 Elm Grove, London, SE15 6UT")
+      expect(page).to have_text("Site address: 7 Elm Grove, London, SE15 6UT")
       expect(page).to have_text("UPRN: 00773377")
-      expect(page).to have_link("Map link")
+      expect(page).to have_link("View site on Google Maps")
       expect(page).to have_text("Application type: Proposed permitted development: Certificate of Lawfulness")
       expect(page).to have_text("Description: Roof extension")
       expect(page).to have_text("PAY123")

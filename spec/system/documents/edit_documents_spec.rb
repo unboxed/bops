@@ -27,8 +27,8 @@ RSpec.describe "Edit document", type: :system do
     it "with valid data" do
       click_link "Edit"
 
-      attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.pdf")
-      fill_in "Document number(s)", with: "DOC001"
+      attach_file("Upload a replacement file", "spec/fixtures/images/proposed-roofplan.pdf")
+      fill_in "Document reference(s)", with: "DOC001"
 
       check("Floor")
       check("Side")
@@ -55,7 +55,7 @@ RSpec.describe "Edit document", type: :system do
     it "with wrong format document" do
       visit edit_planning_application_document_path(planning_application, document)
 
-      attach_file("Upload a file", "spec/fixtures/images/bmp.bmp")
+      attach_file("Upload a replacement file", "spec/fixtures/images/bmp.bmp")
 
       click_button("Save")
 
