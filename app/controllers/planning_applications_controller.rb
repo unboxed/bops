@@ -86,7 +86,8 @@ class PlanningApplicationsController < AuthenticationController
     status = params[:planning_application][:status]
     if status == "in_assessment"
       if date_from_params.blank?
-        @planning_application.errors.add(:planning_application, "Please enter a valid date")
+        @planning_application.errors.add(:date, "Please enter a valid date")
+        @planning_application.status = "in_assessment"
         render "validate_documents_form"
       else
         @planning_application.documents_validated_at = date_from_params
