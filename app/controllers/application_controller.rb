@@ -46,6 +46,6 @@ private
     flash[:error] = "Notify was unable to send applicant email. Please contact the applicant directly."
     flash[:notice] = "Document validation successful. Application is ready for assessment."
     Appsignal.send_error(exception)
-    render "documents/index"
+    render "planning_applications/show"
   end
 end
