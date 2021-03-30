@@ -1,5 +1,5 @@
 <div class="govuk-form-group <%= form.object.errors[:file].any? ? 'govuk-form-group--error' : '' %>">
-  <% if current_page?(new_planning_application_document_path(@planning_application)) %>
+  <% if @document.new_record? %>
     <%= form.label :file, "Upload a file", class: "govuk-label" %>
   <% else %>
     <%= form.label :file, "Upload a replacement file", class: "govuk-label" %>

@@ -31,8 +31,8 @@
   </div>
 </div>
 
-<ul class="app-task-list current-documents" style="margin-bottom: 2em;">
-  <% unless @documents.nil? %>
+<% unless @documents.nil? %>
+  <ul class="app-task-list current-documents" style="margin-bottom: 2em;">
     <% filter_current(@documents).each do |document| %>
       <li class="app-task-list__item current govuk-!-padding-6">
         <div class="govuk-grid-column-one-quarter">
@@ -78,10 +78,8 @@
         <% end %>
       </li>
     <% end %>
-  <% end %>
-</ul>
+  </ul>
 
-<% if @documents.present? %>
   <div class="govuk-grid-row govuk archived-documents">
     <h2 class="govuk-heading-m govuk-!-padding-left-3 govuk-!-padding-top-3 govuk-!-padding-bottom-3">
       Archived documents
