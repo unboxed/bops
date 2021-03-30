@@ -18,16 +18,12 @@
       <table class="govuk-table">
         <tbody class="govuk-table__body">
           <tr class="govuk-table__row">
-            <td class="govuk-table__cell"><strong>Address:</strong></td>
-            <td class="govuk-table__cell"><%= @planning_application.full_address %></td>
-          </tr>
-          <tr class="govuk-table__row">
-            <td class="govuk-table__cell"><strong>Location:</strong></td>
-            <td class="govuk-table__cell"><%= link_to 'Map link', map_link(@planning_application.full_address), target: '_blank' %></td>
-          </tr>
-          <tr class="govuk-table__row">
-            <td class="govuk-table__cell"><strong>UPRN:</strong></td>
-            <td class="govuk-table__cell"><%= @planning_application.uprn %></td>
+            <td class="govuk-table__cell"><strong>Description:</strong></td>
+            <td class="govuk-table__cell">
+              <p class="govuk-body">
+                <%= @planning_application.description %>
+              </p>
+            </td>
           </tr>
           <tr class="govuk-table__row">
             <td class="govuk-table__cell"><strong>Application type:</strong></td>
@@ -36,16 +32,20 @@
             </td>
           </tr>
           <tr class="govuk-table__row">
-            <td class="govuk-table__cell"><strong>Work already completed:</strong></td>
-            <td class="govuk-table__cell"><%= proposed_or_existing(@planning_application) %>
-            </td>
+            <td class="govuk-table__cell"><strong>Site address:</strong></td>
+            <td class="govuk-table__cell"><%= @planning_application.full_address %></td>
           </tr>
           <tr class="govuk-table__row">
-            <td class="govuk-table__cell"><strong>Description:</strong></td>
-            <td class="govuk-table__cell">
-              <p class="govuk-body">
-                <%= @planning_application.description %>
-              </p>
+            <td class="govuk-table__cell"><strong>Location:</strong></td>
+            <td class="govuk-table__cell"><%= link_to 'View site on Google Maps', map_link(@planning_application.full_address), target: '_blank' %></td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell"><strong>UPRN:</strong></td>
+            <td class="govuk-table__cell"><%= @planning_application.uprn %></td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell"><strong>Work already completed:</strong></td>
+            <td class="govuk-table__cell"><%= proposed_or_existing(@planning_application) %>
             </td>
           </tr>
           <tr class="govuk-table__row">

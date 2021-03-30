@@ -15,6 +15,14 @@ module PlanningApplicationHelper
     params[:q] == "exclude_others"
   end
 
+  def role_name
+    if current_user.assessor?
+      t("user.officer_role")
+    else
+      t("user.manager_role")
+    end
+  end
+
   def proposed_or_existing(planning_application)
     planning_application.work_status == "proposed" ? "No" : "Yes"
   end

@@ -35,7 +35,7 @@ RSpec.describe "Document uploads", type: :system do
           choose "Yes"
         end
 
-        fill_in "Document number(s)", with: "DOC001"
+        fill_in "Document reference(s)", with: "DOC001"
 
         click_button("Save")
 
@@ -70,7 +70,7 @@ RSpec.describe "Document uploads", type: :system do
         check("Floor")
         check("Side")
 
-        fill_in "Document number(s)", with: "DOC001"
+        fill_in "Document reference(s)", with: "DOC001"
 
         click_button("Save")
 

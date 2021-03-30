@@ -56,7 +56,7 @@ RSpec.describe "Updating a planning application", type: :system do
     planning_application.reload
     click_button "Application information"
 
-    expect(page).to have_text("Address: 2 Streatham High Road, Crystal Palace, SW16 1DB")
+    expect(page).to have_text("Site address: 2 Streatham High Road, Crystal Palace, SW16 1DB")
     expect(page).to have_text("UPRN: 294884040")
   end
 
