@@ -61,6 +61,9 @@ paths:
                     agent_last_name: Harper
                     agent_phone: '237878889'
                     agent_email: agent@example.com
+                    constraints:
+                      - Conservation Area
+                      - Listed Building
                     boundary_geojson: 
                       type: Feature
                       geometry:
@@ -372,4 +375,3 @@ paths:
                           - [-0.07645905017852783, 51.50053497847238]
                           - [-0.07615327835083008, 51.50115276135022]
                           - [-0.07716178894042969, 51.50094238217541]
-      

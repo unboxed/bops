@@ -6,7 +6,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   let!(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
 
   let!(:planning_application) do
-    create :planning_application, :not_started, local_authority: @default_local_authority
+    create :planning_application, :not_started, local_authority: @default_local_authority, constraints: ["Conservation Area"]
   end
 
   before do
@@ -23,7 +23,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
       check("Broads")
       check("Flood zone 3")
       uncheck("Conservation Area")
-      # The factory provides Conservation Areaa as a pre-existing constraint, so checking it will remove it
 
       click_button("Save")
 
@@ -36,7 +35,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_link("Update")
 
-      expect(page).to have_field("Listed building", checked: true)
       expect(page).to have_field("Broads", checked: true)
       expect(page).to have_field("Flood zone 3", checked: true)
       expect(page).to have_field("Conservation Area", checked: false)
@@ -62,22 +60,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).to have_field("bat_habitat", checked: true)
     end
 
-    it "does not displays a constraint not in the approved list supplied by the API when set to false" do
-      new_constraints = { conservation_area: true, protected_trees: false, false_constraint: false }.to_json
-      planning_application.update!(constraints: new_constraints)
-      planning_application.reload
-      click_link("Update")
-
-      click_button("Save")
-
-      expect(page).to have_no_content("protected_trees")
-      expect(page).to have_no_content("false_constraint")
-    end
-
     it "correctly displays constraint not in the dictionary submitted via the input field" do
       click_link "Update"
 
-      fill_in "local", with: "Bats live here"
+      fill_in "Local constraints", with: "Bats live here"
 
       click_button("Save")
 

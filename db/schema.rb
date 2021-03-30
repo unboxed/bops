@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_25_131952) do
+ActiveRecord::Schema.define(version: 2021_03_30_100534) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,7 +114,6 @@ ActiveRecord::Schema.define(version: 2021_03_25_131952) do
     t.string "applicant_email"
     t.string "applicant_phone"
     t.bigint "local_authority_id"
-    t.jsonb "constraints"
     t.datetime "invalidated_at"
     t.datetime "withdrawn_at"
     t.datetime "returned_at"
@@ -131,6 +130,7 @@ ActiveRecord::Schema.define(version: 2021_03_25_131952) do
     t.string "postcode"
     t.string "uprn"
     t.json "boundary_geojson"
+    t.text "constraints", default: [], null: false, array: true
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
     t.index ["user_id"], name: "index_planning_applications_on_user_id"
   end

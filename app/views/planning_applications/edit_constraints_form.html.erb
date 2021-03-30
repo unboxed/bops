@@ -99,7 +99,7 @@
       <div class="form-group">
         <h3 class="govuk-heading-s govuk-!-margin-top-6">Other constraints</h3>
         <div class="govuk-checkboxes govuk-checkboxes--small">
-          <%= form.collection_check_boxes :constraints, other_constraints, :itself, :itself do |b| %>
+          <%= form.collection_check_boxes :constraints, [other_constraints, existing_constraints(@planning_application.constraints)].flatten, :itself, :itself do |b| %>
             <div class="govuk-checkboxes__item">
               <%= b.check_box class: "govuk-checkboxes__input" %>
               <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
@@ -109,12 +109,13 @@
       </div>
     </div>
 
-<!--    <div class="govuk-grid-row govuk-!-margin-top-6">-->
-<!--      <div class="form-group">-->
-<!--        <h3 class="govuk-heading-s govuk-!-margin-top-6">Local constraints</h3>-->
-        <%#= form.text_field("constraints") %>
-<!--      </div>-->
-<!--    </div>-->
+    <div class="govuk-grid-row govuk-!-margin-top-6">
+      <div class="form-group">
+        <%= form.label :constraints, "Local constraints", class: 'govuk-heading-s govuk-!-margin-top-6' %>
+        <%= form.text_area :constraints, class: "govuk-textarea", rows: "3", "aria-describedby": "constraints-hint", multiple: true, value: "" %>
+      </div>
+    </div>
+
 
     <div class="govuk-grid-row govuk-!-margin-top-6">
       <div class="form-group">

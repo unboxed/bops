@@ -16,7 +16,7 @@ RSpec.describe "Planning Application show page", type: :system do
                                   address_1: "7 Elm Grove",
                                   town: "London",
                                   postcode: "SE15 6UT",
-                                  constraints: '{"conservation_area": true, "article4_area": false, "scheduled_monument": false }'
+                                  constraints: ["Conservation Area", "Listed Building"]
   end
   let(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
 

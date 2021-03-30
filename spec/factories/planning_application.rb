@@ -24,6 +24,7 @@ FactoryBot.define do
     town { Faker::Address.city }
     county { Faker::Address.state }
     postcode { Faker::Address.postcode }
+    constraints { ["Conservation Area", "Listed Building"] }
 
     proposal_details do
       [
@@ -46,12 +47,6 @@ FactoryBot.define do
           },
         },
       ].to_json
-    end
-    constraints do
-      {
-        conservation_area: true,
-        protected_trees: false,
-      }.to_json
     end
   end
 

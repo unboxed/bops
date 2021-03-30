@@ -63,6 +63,10 @@ module PlanningApplicationHelper
     ["Safety hazard area", "Within 3km of the perimeter of an aerodrome"]
   end
 
+  def existing_constraints(constraints)
+    constraints - standard_constraints
+  end
+
   def standard_constraints
     [flooding_constraints, military_constraints, ecology_constraints, heritage_constraints, policy_constraints, tree_constraints, other_constraints].flatten
   end

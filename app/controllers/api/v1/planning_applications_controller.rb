@@ -31,7 +31,7 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
         local_authority_id: @current_local_authority.id,
         boundary_geojson: (params[:boundary_geojson].to_json if params[:boundary_geojson].present?),
         proposal_details: (params[:proposal_details].to_json if params[:proposal_details].present?),
-        constraints: (params[:constraints].to_json if params[:constraints].present?),
+        constraints: constraints_array_from_param(params[:constraints]),
         audit_log: params.to_json,
       ),
     )
@@ -98,6 +98,10 @@ private
                         payment_reference
                         work_status]
     params.permit permitted_keys
+  end
+
+  def constraints_array_from_param(constraints_params)
+    constraints_params.present? ? constraints_params.to_unsafe_hash.collect { |key, value| key if value }.compact : []
   end
 
   def site_params
