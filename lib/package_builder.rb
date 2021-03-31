@@ -162,12 +162,16 @@ private
     ENV.fetch("GITHUB_REF", "") == "refs/heads/master"
   end
 
+  def production_ref?
+    ENV.fetch("GITHUB_REF", "") == "refs/heads/production"
+  end
+
   def tag_ref?
     ENV.fetch("GITHUB_REF", "") =~ /\Arefs\/tags\/[0-9]+(?:\.[0-9]+){1,2}\z/
   end
 
   def deploy_build?
-    master_ref? || tag_ref?
+    master_ref? || production_ref? || tag_ref?
   end
 
   def deployment_config(deployment_group_name)
