@@ -23,6 +23,8 @@ Rails.application.routes.draw do
       get :publish
       patch :determine
       patch :cancel
+      get :edit_constraints_form
+      patch :edit_constraints
       get :cancel_confirmation
       get :decision_notice
     end

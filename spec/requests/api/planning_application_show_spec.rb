@@ -83,7 +83,7 @@ RSpec.describe "API request to list planning applications", type: :request, show
         expect(planning_application_json["site"]["postcode"]).to eq(planning_application.postcode)
         expect(planning_application_json["site"]["uprn"]).to eq(planning_application.uprn)
         expect(planning_application_json["proposal_details"]).to eq(JSON.parse(planning_application.proposal_details))
-        expect(planning_application_json["constraints"]).to eq(JSON.parse(planning_application.constraints))
+        expect(planning_application_json["constraints"]).to eq(planning_application.constraints)
         expect(planning_application_json["documents"]).to eq([])
       end
 
@@ -128,7 +128,7 @@ RSpec.describe "API request to list planning applications", type: :request, show
           expect(planning_application_json["site"]["postcode"]).to eq(planning_application.postcode)
           expect(planning_application_json["site"]["uprn"]).to eq(planning_application.uprn)
           expect(planning_application_json["proposal_details"]).to eq(JSON.parse(planning_application.proposal_details))
-          expect(planning_application_json["constraints"]).to eq(JSON.parse(planning_application.constraints))
+          expect(planning_application_json["constraints"]).to eq(planning_application.constraints)
           expect(planning_application_json["documents"].size).to eq(1)
           expect(planning_application_json["documents"].first["url"]).to eq(api_v1_planning_application_document_url(planning_application, document_with_number))
           expect(planning_application_json["documents"].first["created_at"]).to eq(json_time_format(document_with_number.created_at))

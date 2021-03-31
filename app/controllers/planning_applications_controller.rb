@@ -15,11 +15,14 @@ class PlanningApplicationsController < AuthenticationController
                                                     determine
                                                     validate_documents_form
                                                     validate_documents
+                                                    edit_constraints_form
+                                                    edit_constraints
                                                     cancel_confirmation
                                                     cancel
                                                     decision_notice]
 
   before_action :ensure_user_is_reviewer, only: %i[review review_form]
+  before_action :ensure_constraint_edits_unlocked, only: %i[edit_constraints_form edit_constraints]
 
   def index
     @planning_applications = if helpers.exclude_others? && current_user.assessor?
@@ -166,6 +169,18 @@ class PlanningApplicationsController < AuthenticationController
     redirect_to @planning_application
   end
 
+  def edit_constraints_form; end
+
+  def edit_constraints
+    @planning_application.constraints = params[:planning_application][:constraints].reject(&:blank?)
+    if @planning_application.save!
+      flash[:notice] = "Constraints have been updated"
+      redirect_to planning_application_url
+    else
+      render :edit_constraints_form
+    end
+  end
+
   def cancel
     case params[:planning_application][:status]
     when "withdrawn"
@@ -207,6 +222,7 @@ private
                         agent_phone
                         agent_email
                         county
+                        constraints
                         created_at(3i)
                         created_at(2i)
                         created_at(1i)
@@ -250,5 +266,9 @@ private
 
   def ensure_user_is_reviewer
     render plain: "forbidden", status: 403 and return unless current_user.reviewer?
+  end
+
+  def ensure_constraint_edits_unlocked
+    render plain: "forbidden", status: 403 and return unless @planning_application.can_validate?
   end
 end

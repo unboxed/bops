@@ -13,12 +13,13 @@
     </div>
     <div class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
       <ul class="govuk-list govuk-list--bullet">
-        <% if @planning_application.constraints %>
-          <% list_constraints(@planning_application.constraints).each do |constraint| %>
-            <li><%= constraint %></li>
-          <% end %>
+        <% @planning_application.constraints.each do |constraint| %>
+          <li><%= constraint %></li>
         <% end %>
       </ul>
+      <p class="govuk-body">
+        <%= link_to "Update", edit_constraints_form_planning_application_path(@planning_application) if @planning_application.can_validate? %>
+      </p>
     </div>
   </div>
   <div class="govuk-accordion__section">
