@@ -7,99 +7,30 @@
 <h2 class="govuk-heading-m">Constraints</h2>
 
 <%= form_with model: @planning_application, url: edit_constraints_planning_application_path(@planning_application), local: true do |form| %>
-
-
+  
   <div class="govuk-grid-column-two-thirds">
 
-    <div class="govuk-grid-row govuk-!-margin-top-6">
-      <h3 class="govuk-heading-s">General Policy</h3>
-      <div class="form-group">
-        <div class="govuk-checkboxes govuk-checkboxes--small">
-          <%= form.collection_check_boxes :constraints, policy_constraints, :itself, :itself do |b| %>
-            <div class="govuk-checkboxes__item">
-              <%= b.check_box class: "govuk-checkboxes__input" %>
-              <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
-            </div>
-          <% end %>
+    <% constraints_group.each do |constraint_title, constraints_array| %>
+      <div class="govuk-grid-row govuk-!-margin-top-6">
+        <h3 class="govuk-heading-s"><%= constraint_title %></h3>
+        <div class="form-group">
+          <div class="govuk-checkboxes govuk-checkboxes--small">
+            <%= form.collection_check_boxes :constraints, constraints_array, :itself, :itself do |b| %>
+              <div class="govuk-checkboxes__item">
+                <%= b.check_box class: "govuk-checkboxes__input" %>
+                <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+              </div>
+            <% end %>
+          </div>
         </div>
       </div>
-    </div>
-
-    <div class="govuk-grid-row govuk-!-margin-top-6">
-      <div class="form-group">
-        <h3 class="govuk-heading-s">Heritage & Conservation</h3>
-        <div class="govuk-checkboxes govuk-checkboxes--small">
-          <%= form.collection_check_boxes :constraints, heritage_constraints, :itself, :itself do |b| %>
-            <div class="govuk-checkboxes__item">
-              <%= b.check_box class: "govuk-checkboxes__input" %>
-              <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
-            </div>
-          <% end %>
-        </div>
-      </div>
-    </div>
-
-    <div class="govuk-grid-row govuk-!-margin-top-6">
-      <div class="form-group">
-      <h3 class="govuk-heading-s govuk-!-margin-top-6">Trees</h3>
-        <div class="govuk-checkboxes govuk-checkboxes--small">
-          <%= form.collection_check_boxes :constraints, tree_constraints, :itself, :itself do |b| %>
-            <div class="govuk-checkboxes__item">
-              <%= b.check_box class: "govuk-checkboxes__input" %>
-              <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
-            </div>
-          <% end %>
-        </div>
-      </div>
-    </div>
-
-    <div class="govuk-grid-row govuk-!-margin-top-6">
-      <div class="form-group">
-        <h3 class="govuk-heading-s govuk-!-margin-top-6">Ecology</h3>
-        <div class="govuk-checkboxes govuk-checkboxes--small">
-          <%= form.collection_check_boxes :constraints, ecology_constraints, :itself, :itself do |b| %>
-            <div class="govuk-checkboxes__item">
-              <%= b.check_box class: "govuk-checkboxes__input" %>
-              <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
-            </div>
-          <% end %>
-        </div>
-      </div>
-    </div>
-
-    <div class="govuk-grid-row govuk-!-margin-top-6">
-      <div class="form-group">
-        <h3 class="govuk-heading-s govuk-!-margin-top-6">Flooding</h3>
-        <div class="govuk-checkboxes govuk-checkboxes--small">
-          <%= form.collection_check_boxes :constraints, flooding_constraints, :itself, :itself do |b| %>
-            <div class="govuk-checkboxes__item">
-              <%= b.check_box class: "govuk-checkboxes__input" %>
-              <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
-            </div>
-          <% end %>
-        </div>
-      </div>
-    </div>
-
-    <div class="govuk-grid-row govuk-!-margin-top-6">
-      <div class="form-group">
-        <h3 class="govuk-heading-s govuk-!-margin-top-6">Military & Defence</h3>
-        <div class="govuk-checkboxes govuk-checkboxes--small">
-          <%= form.collection_check_boxes :constraints, military_constraints, :itself, :itself do |b| %>
-            <div class="govuk-checkboxes__item">
-              <%= b.check_box class: "govuk-checkboxes__input" %>
-              <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
-            </div>
-          <% end %>
-        </div>
-      </div>
-    </div>
+    <% end %>
 
     <div class="govuk-grid-row govuk-!-margin-top-6">
       <div class="form-group">
         <h3 class="govuk-heading-s govuk-!-margin-top-6">Other constraints</h3>
         <div class="govuk-checkboxes govuk-checkboxes--small">
-          <%= form.collection_check_boxes :constraints, [other_constraints, existing_constraints(@planning_application.constraints)].flatten, :itself, :itself do |b| %>
+          <%= form.collection_check_boxes :constraints, [other_constraints, custom_constraints(@planning_application.constraints)].flatten, :itself, :itself do |b| %>
             <div class="govuk-checkboxes__item">
               <%= b.check_box class: "govuk-checkboxes__input" %>
               <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
@@ -115,7 +46,6 @@
         <%= form.text_area :constraints, class: "govuk-textarea", rows: "3", "aria-describedby": "constraints-hint", multiple: true, value: "" %>
       </div>
     </div>
-
 
     <div class="govuk-grid-row govuk-!-margin-top-6">
       <div class="form-group">

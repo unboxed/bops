@@ -63,7 +63,7 @@ module PlanningApplicationHelper
     ["Safety hazard area", "Within 3km of the perimeter of an aerodrome"]
   end
 
-  def existing_constraints(constraints)
+  def custom_constraints(constraints)
     constraints - standard_constraints
   end
 
@@ -71,8 +71,13 @@ module PlanningApplicationHelper
     [flooding_constraints, military_constraints, ecology_constraints, heritage_constraints, policy_constraints, tree_constraints, other_constraints].flatten
   end
 
-  def check_added?(constraint, existing_constraints)
-    JSON.parse(existing_constraints).include?(constraint) ? true : false
+  def constraints_group
+    { "General Policy": policy_constraints,
+      "Heritage & Conservation": heritage_constraints,
+      "Flooding": flooding_constraints,
+      "Ecology": ecology_constraints,
+      "Trees": tree_constraints,
+      "Military & Defence": military_constraints }
   end
 
   def map_link(address)

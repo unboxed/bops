@@ -51,15 +51,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
     end
 
-    it "correctly displays a constraint not in the approved list supplied by the API" do
-      new_constraints = { conservation_area: true, protected_trees: false, bat_habitat: true }.to_json
-      planning_application.update!(constraints: new_constraints)
-      planning_application.reload
-      click_link("Update")
-
-      expect(page).to have_field("bat_habitat", checked: true)
-    end
-
     it "correctly displays constraint not in the dictionary submitted via the input field" do
       click_link "Update"
 
