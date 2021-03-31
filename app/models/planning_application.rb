@@ -230,7 +230,7 @@ private
 
   def public_comment_present
     if decision_present? && public_comment.blank?
-      errors.add(:planning_application, "Please fill in the GDPO policies text box.")
+      errors.add(:planning_application, "Please state the reasons why this application is, or is not lawful")
     end
   end
 

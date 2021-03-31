@@ -109,7 +109,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     fill_in "State the reasons why this application is, or is not lawful.", with: ""
     click_button "Save"
 
-    expect(page).to have_content("Please fill in the GDPO policies text box.")
+    expect(page).to have_content("Please state the reasons why this application is, or is not lawful")
 
     expect(planning_application.status).to eq("in_assessment")
   end
