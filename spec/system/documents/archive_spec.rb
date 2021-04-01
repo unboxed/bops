@@ -67,7 +67,9 @@ RSpec.describe "Documents index page", type: :system do
     end
 
     it "Assessor can see table of documents on overview page" do
-      expect(page).to have_css(".current-documents > li", count: 1)
+      within(".current-documents") do
+        expect(page).to have_css("tr", count: 1)
+      end
     end
 
     it "Archive table is initially empty" do
@@ -127,7 +129,7 @@ RSpec.describe "Documents index page", type: :system do
       fill_in "Why do you want to archive this document?", with: "Scale was wrong"
       click_button "Archive"
 
-      within(all(".archived-documents").last) do
+      within(".archived-documents") do
         expect(page).to have_text("Scale was wrong")
         expect(page).to have_text("proposed-floorplan.png")
 
