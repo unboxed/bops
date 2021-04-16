@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_30_100534) do
+ActiveRecord::Schema.define(version: 2021_04_16_094652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,8 @@ ActiveRecord::Schema.define(version: 2021_03_30_100534) do
     t.string "numbers", default: "", null: false
     t.boolean "publishable", default: false
     t.boolean "referenced_in_decision_notice", default: false
+    t.boolean "validated"
+    t.text "invalidated_document_reason"
     t.index ["planning_application_id"], name: "index_documents_on_planning_application_id"
   end
 

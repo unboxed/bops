@@ -25,8 +25,10 @@ class Document < ApplicationRecord
   validate :file_content_type_permitted
   validate :file_attached
   validate :numbered
+  validate :invalidated_comment_present?
 
   scope :active, -> { where(archived_at: nil) }
+  scope :invalidated, -> { where(validated: false) }
   scope :referenced, -> { where(referenced_in_decision_notice: true) }
   scope :publishable, -> { where(publishable: true) }
 
@@ -81,6 +83,12 @@ private
   def numbered
     if referenced_in_decision_notice? && numbers.blank?
       errors.add(:numbers, :missing_numbers)
+    end
+  end
+
+  def invalidated_comment_present?
+    if validated == false && invalidated_document_reason.blank?
+      errors.add(:document_validation, "Please fill in the comment box with the reason(s) this document is not valid.")
     end
   end
 end

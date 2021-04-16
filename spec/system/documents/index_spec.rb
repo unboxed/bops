@@ -62,4 +62,24 @@ RSpec.describe "Documents index page", type: :system do
       expect(page).to have_content("You need to sign in or sign up before continuing.")
     end
   end
+
+  context "handling invalid documents" do
+    let!(:invalid_document) do
+      create :document, :with_file,
+             planning_application: planning_application,
+             validated: false, invalidated_document_reason: "Missing a tikki bar"
+    end
+
+    before do
+      sign_in assessor
+      visit planning_application_path(planning_application)
+      click_button "Documents"
+      click_link "Manage documents"
+    end
+
+    it "displays the number of invalid documents at the top of the page" do
+      expect(page).to have_text("Invalid documents: 1")
+      expect(page).to have_text("Missing a tikki bar")
+    end
+  end
 end
