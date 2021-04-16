@@ -9,6 +9,7 @@ class DocumentsController < AuthenticationController
   before_action :ensure_document_edits_unlocked, only: %i[new edit update archive]
 
   def index
+    @invalid_documents = @planning_application.documents.active.invalidated
     @documents = @planning_application.documents.order(:created_at)
   end
 
@@ -19,6 +20,11 @@ class DocumentsController < AuthenticationController
   def update
     @document = @planning_application.documents.find(params[:id])
     if @document.update(document_params)
+      if @document.saved_change_to_attribute?(:validated, from: false, to: true)
+        audit("document_changed_to_validated", nil, @document.file.filename)
+      elsif @document.saved_change_to_attribute?(:validated, to: false)
+        audit("document_invalidated", @document.invalidated_document_reason, @document.file.filename)
+      end
       flash[:notice] = "Document has been updated"
       redirect_to action: :index
     else
@@ -59,7 +65,8 @@ private
 
   def document_params
     document_params = params.fetch(:document, {}).permit(:archive_reason, :name, :archived_at,
-                                                         :numbers, :publishable, :referenced_in_decision_notice, :file, tags: [])
+                                                         :numbers, :publishable, :referenced_in_decision_notice,
+                                                         :validated, :invalidated_document_reason, :file, tags: [])
     document_params[:tags].reject!(&:blank?) if document_params[:tags]
     document_params
   end

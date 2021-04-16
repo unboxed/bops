@@ -17,5 +17,7 @@ class Audit < ApplicationRecord
     uploaded: "uploaded",
     started: "started",
     withdrawn: "withdrawn",
+    document_invalidated: "document_invalidated",
+    document_changed_to_validated: "document_changed_to_validated",
   }
 end
