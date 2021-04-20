@@ -8,8 +8,8 @@
         </h2>
       </span>
       <ul>
-        <% @planning_application.errors.messages.each do |error| %>
-          <li><%= error %></li>
+        <% @planning_application.errors.map do |error| %>
+          <li><%= error.type %></li>
         <% end %>
       </ul>
     </span>

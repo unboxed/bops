@@ -64,7 +64,7 @@ paths:
                     constraints:
                       - Conservation Area
                       - Listed Building
-                    boundary_geojson: 
+                    boundary_geojson:
                       type: Feature
                       geometry:
                         type: Polygon
@@ -229,11 +229,12 @@ paths:
                         items:
                           type: string
                           example: "Side"
-                boundary_geojson: 
+                boundary_geojson:
                   type: object
               required:
               - site
               - application_type
+              - applicant_email
             examples:
               Minimum:
                 value:
@@ -244,6 +245,7 @@ paths:
                     address_2: Southwark
                     town: London
                     postcode: SE16 3RQ
+                  applicant_email: applicant@example.com
               Full:
                 value:
                   application_type: lawfulness_certificate
@@ -365,7 +367,7 @@ paths:
                     - filename: https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf
                       tags:
                         - Side
-                  boundary_geojson: 
+                  boundary_geojson:
                     type: Feature
                     geometry:
                       type: Polygon
