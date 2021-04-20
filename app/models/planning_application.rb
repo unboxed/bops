@@ -23,6 +23,7 @@ class PlanningApplication < ApplicationRecord
                          message: "Work Status should be proposed or existing" }
   validates :application_type, presence: true
 
+  validate :applicant_or_agent_email
   validate :documents_validated_at_date
   validate :public_comment_present
   validate :decision_with_recommendations
@@ -241,6 +242,12 @@ private
   def decision_with_recommendations
     if decision.nil? && recommendations.any?
       errors.add(:planning_application, "Please select Yes or No")
+    end
+  end
+
+  def applicant_or_agent_email
+    unless applicant_email? || agent_email?
+      errors.add(:base, "An applicant or agent email is required.")
     end
   end
 end
