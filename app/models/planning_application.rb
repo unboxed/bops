@@ -9,6 +9,7 @@ class PlanningApplication < ApplicationRecord
 
   has_many :documents, dependent: :destroy
   has_many :recommendations, dependent: :destroy
+  has_many :description_change_requests, dependent: :destroy
 
   belongs_to :user, optional: true
   belongs_to :local_authority
