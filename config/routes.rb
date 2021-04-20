@@ -36,6 +36,8 @@ Rails.application.routes.draw do
     end
 
     resources :audits, only: :index
+
+    resources :description_change_requests, only: %i[new create]
   end
 
   namespace :api do

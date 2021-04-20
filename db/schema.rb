@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_16_094652) do
+ActiveRecord::Schema.define(version: 2021_04_20_160121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,19 @@ ActiveRecord::Schema.define(version: 2021_04_16_094652) do
     t.index ["api_user_id"], name: "index_audits_on_api_user_id"
     t.index ["planning_application_id"], name: "index_audits_on_planning_application_id"
     t.index ["user_id"], name: "index_audits_on_user_id"
+  end
+
+  create_table "description_change_requests", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.bigint "user_id", null: false
+    t.string "state", default: "open", null: false
+    t.text "proposed_description"
+    t.boolean "approved"
+    t.string "rejection_reason"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["planning_application_id"], name: "index_description_change_requests_on_planning_application_id"
+    t.index ["user_id"], name: "index_description_change_requests_on_user_id"
   end
 
   create_table "documents", force: :cascade do |t|
@@ -172,6 +185,8 @@ ActiveRecord::Schema.define(version: 2021_04_16_094652) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "audits", "api_users"
   add_foreign_key "audits", "planning_applications"
+  add_foreign_key "description_change_requests", "planning_applications"
+  add_foreign_key "description_change_requests", "users"
   add_foreign_key "planning_applications", "users"
   add_foreign_key "recommendations", "planning_applications"
   add_foreign_key "recommendations", "users", column: "assessor_id"
