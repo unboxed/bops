@@ -1,0 +1,52 @@
+<% add_parent_breadcrumb_link "Home", planning_applications_path %>
+<% add_parent_breadcrumb_link "Application", validate_documents_form_planning_application_path(@planning_application) %>
+
+<% content_for :title, "Request changes to description" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-bottom-4">
+      Request for approval of changes to description
+    </h2>
+
+    <div class="govuk-!-margin-top-8">
+      <p class="govuk-body govuk-!-margin-bottom-1">
+        <strong>Application number:</strong> <%= @planning_application.reference  %>
+      </p>
+      <p class="govuk-body govuk-!-margin-bottom-1">
+        <strong>At:</strong> <%= @planning_application.full_address  %>
+      </p>
+      <p class="govuk-body govuk-!-margin-bottom-1">
+        <strong>Request sent:</strong> <%= @description_change_request.created_at.strftime("%e %B %Y") %>
+      </p>
+
+      <strong class="govuk-!-margin-top-4 govuk-tag govuk-tag--<%=display_request_status(@description_change_request) %>">
+        <% if @description_change_request.state == "open" %>
+          Open
+        <% else %>
+          <%= @description_change_request.approved? ? 'Approved' : 'Rejected' %>
+        <% end %>
+      </strong>
+
+      <div class="govuk-!-margin-top-6">
+        <p class="govuk-body"> <strong> Previous description:</strong><br>
+          <%= @planning_application.description  %>
+        </p>
+        <p class="govuk-body"> <strong> Suggested description:</strong><br>
+          <%= @description_change_request.proposed_description  %>
+        </p>
+      </div>
+    </div>
+
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    <% if @description_change_request.rejection_reason.present? %>
+      <p class="govuk-body">
+        <strong>Applicant objection to suggested changes:</strong><br>
+        <%= @description_change_request.rejection_reason %>
+      </p>
+    <% end %>
+
+    <%= link_to "Back", validate_documents_form_planning_application_path(@planning_application), class: "govuk-!-margin-top-8 govuk-button" %>
+  </div>
+</div>

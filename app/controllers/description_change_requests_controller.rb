@@ -1,11 +1,11 @@
 class DescriptionChangeRequestsController < ApplicationController
+  before_action :set_planning_application, only: %i[new create show]
+
   def new
-    @planning_application = PlanningApplication.find(params[:planning_application_id])
     @description_change_request = @planning_application.description_change_requests.new
   end
 
   def create
-    @planning_application = PlanningApplication.find(params[:planning_application_id])
     @description_change_request = @planning_application.description_change_requests.new(description_change_request_params)
     @description_change_request.user = current_user
 
@@ -17,9 +17,17 @@ class DescriptionChangeRequestsController < ApplicationController
     end
   end
 
+  def show
+    @description_change_request = DescriptionChangeRequest.find(params[:id])
+  end
+
 private
 
   def description_change_request_params
     params.require(:description_change_request).permit(:proposed_description)
+  end
+
+  def set_planning_application
+    @planning_application = PlanningApplication.find(params[:planning_application_id])
   end
 end

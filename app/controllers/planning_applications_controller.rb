@@ -92,6 +92,9 @@ class PlanningApplicationsController < AuthenticationController
         @planning_application.errors.add(:date, "Please enter a valid date")
         @planning_application.status = "in_assessment"
         render "validate_documents_form"
+      elsif @planning_application.description_change_requests.open.present?
+        @planning_application.errors.add(:status, "Planning application cannot be validated if open change requests exist.")
+        render "validate_documents_form"
       else
         @planning_application.documents_validated_at = date_from_params
         @planning_application.start!
@@ -104,7 +107,7 @@ class PlanningApplicationsController < AuthenticationController
       @planning_application.invalidate!
       audit("invalidated")
       flash[:notice] = "Application has been invalidated"
-      redirect_to @planning_application
+      render "validate_documents_form"
     else
       @planning_application.errors.add(:status, "Please select one of the below options")
       render "validate_documents_form"

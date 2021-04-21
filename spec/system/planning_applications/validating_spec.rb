@@ -86,6 +86,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
     create :planning_application, :not_started, local_authority: @default_local_authority
   end
 
+  let!(:description_change_request) do
+    create :description_change_request, planning_application: planning_application, state: "closed"
+  end
+
   let!(:document) do
     create :document, :with_file, :with_tags, planning_application: planning_application
   end
@@ -105,6 +109,22 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     include_examples "validate and invalidate"
+
+    it "shows error if trying to mark as valid when open change request exists on planning application" do
+      create :description_change_request, planning_application: planning_application, state: "open"
+      click_link planning_application.reference
+      click_link "Validate application"
+
+      choose "Yes"
+
+      fill_in "Day", with: "03"
+      fill_in "Month", with: "12"
+      fill_in "Year", with: "2021"
+
+      click_button "Save"
+
+      expect(page).to have_content("Planning application cannot be validated if open change requests exist")
+    end
   end
 
   context "Planning application does not transition when expected inputs are not sent" do
