@@ -4,6 +4,8 @@ class DescriptionChangeRequest < ApplicationRecord
 
   validates :proposed_description, presence: true
 
+  scope :open, -> { where(state: "open") }
+
   def response_due
     created_at + 15.days
   end
