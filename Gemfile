@@ -12,6 +12,7 @@ gem "appsignal"
 gem "aws-sdk-codedeploy", require: false
 gem "aws-sdk-s3", require: false
 gem "bootsnap", ">= 1.4.2", require: false
+gem "business_time"
 gem "devise"
 gem "faker", require: false
 gem "faraday", require: false
