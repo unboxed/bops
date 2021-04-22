@@ -377,3 +377,87 @@ paths:
                           - [-0.07645905017852783, 51.50053497847238]
                           - [-0.07615327835083008, 51.50115276135022]
                           - [-0.07716178894042969, 51.50094238217541]
+
+  "/api/v1/planning_applications/{planning_application_id}/change_requests":
+    get:
+      summary: Retrieves all determined planning applications
+      parameters:
+        - in: path
+          name: planning_application_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: query
+          name: change_access_id
+          schema:
+            type: string
+          required: true
+          description: A unique access code for this planning application
+
+      responses:
+        '200':
+          description: All change requests
+          content:
+            application/json:
+              examples:
+                Full:
+                  value:
+                    data:
+                      - id: 1
+                        type: description_change_request
+                        proposed_description: A proposed new description
+                        state: open
+                        response_due: '2020-05-14T05:18:17.540Z'
+                        approved: true
+                        rejection_reason: nil
+
+  "/api/v1/planning_applications/{planning_application_id}/description_change_requests/{id}":
+    put:
+      summary: Saves the response for a description change request
+      parameters:
+        - in: path
+          name: planning_application_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The change request ID
+        - in: query
+          name: change_access_id
+          schema:
+            type: string
+          required: true
+          description: A unique access code for this planning application
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                approved:
+                  type: boolean
+                  example: true
+                rejection_reason:
+                  type: string
+                  example: "Refusal reason"
+              required:
+              - approved
+            examples:
+              Accept:
+                value:
+                  data:
+                    approved: true
+              Reject:
+                value:
+                  data:
+                    approved: false
+                    rejection_reason: "Refusal reason"
