@@ -116,11 +116,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "Validate application"
 
       choose "Yes"
-
-      fill_in "Day", with: "03"
-      fill_in "Month", with: "12"
-      fill_in "Year", with: "2021"
-
       click_button "Save"
 
       expect(page).to have_content("Planning application cannot be validated if open change requests exist")
