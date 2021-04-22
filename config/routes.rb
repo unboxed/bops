@@ -46,6 +46,8 @@ Rails.application.routes.draw do
         member do
           get :decision_notice
         end
+        resources :change_requests, only: :index
+        resources :description_change_requests, only: :update
         resources :documents, only: %i[show]
       end
     end

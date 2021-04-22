@@ -1,4 +1,3 @@
----
 openapi: 3.0.1
 info:
   title: Back-office Planning System
@@ -9,7 +8,7 @@ components:
       type: http
       scheme: bearer
 paths:
-  "/api/v1/planning_applications/{id}":
+  '/api/v1/planning_applications/{id}':
     get:
       summary: Retrieves all determined planning applications
       parameters:
@@ -27,7 +26,7 @@ paths:
             application/json:
               examples:
                 Full:
-                  value: &planning_application
+                  value:
                     id: 10000
                     application_number: '00010000'
                     site:
@@ -69,18 +68,23 @@ paths:
                       geometry:
                         type: Polygon
                         coordinates:
-                          -
-                            - [-0.07716178894042969, 51.50094238217541]
-                            - [-0.07645905017852783, 51.50053497847238]
-                            - [-0.07615327835083008, 51.50115276135022]
-                            - [-0.07716178894042969, 51.50094238217541]
+                          - - - -0.07716178894042969
+                              - 51.50094238217541
+                            - - -0.07645905017852783
+                              - 51.50053497847238
+                            - - -0.07615327835083008
+                              - 51.50115276135022
+                            - - -0.07716178894042969
+                              - 51.50094238217541
                     documents:
-                      - url: http://example.com/document_path.pdf
+                      - url: 'http://example.com/document_path.pdf'
                         created_at: '2020-05-16T05:18:17.540Z'
                         tags:
-                          ["Side", "Elevation", "Proposed"]
+                          - Side
+                          - Elevation
+                          - Proposed
                         numbers: PLAN01
-  "/api/v1/planning_applications":
+  /api/v1/planning_applications:
     get:
       summary: Retrieves all determined planning applications
       responses:
@@ -92,12 +96,67 @@ paths:
                 Full:
                   value:
                     data:
-                      -   <<: *planning_application
-
+                      - id: 10000
+                        application_number: '00010000'
+                        site:
+                          address_1: 11 Abbey Gardens
+                          address_2: Southwark
+                          town: nil
+                          county: London
+                          postcode: SE16 3RQ
+                          uprn: '100081043511'
+                        status: not_started
+                        application_type: lawfulness_certificate
+                        description: Add chimnney stack
+                        created_at: '2020-05-14T05:18:17.540Z'
+                        received_date: '2020-05-14T05:18:17.540Z'
+                        determined_at: '2020-06-14T05:18:17.540Z'
+                        target_date: '2020-07-09'
+                        started_at: '2020-05-15T05:18:17.540Z'
+                        invalidated_at: null
+                        withdrawn_at: null
+                        returned_at: null
+                        work_status: proposed
+                        payment_reference: PAY1
+                        awaiting_determination_at: '2020-05-16T05:18:17.540Z'
+                        in_assessment_at: '2020-05-16T05:18:17.540Z'
+                        awaiting_correction_at: null
+                        applicant_first_name: Albert
+                        applicant_last_name: Manteras
+                        applicant_phone: '23432325435'
+                        applicant_email: applicant@example.com
+                        agent_first_name: Jennifer
+                        agent_last_name: Harper
+                        agent_phone: '237878889'
+                        agent_email: agent@example.com
+                        constraints:
+                          - Conservation Area
+                          - Listed Building
+                        boundary_geojson:
+                          type: Feature
+                          geometry:
+                            type: Polygon
+                            coordinates:
+                              - - - -0.07716178894042969
+                                  - 51.50094238217541
+                                - - -0.07645905017852783
+                                  - 51.50053497847238
+                                - - -0.07615327835083008
+                                  - 51.50115276135022
+                                - - -0.07716178894042969
+                                  - 51.50094238217541
+                        documents:
+                          - url: 'http://example.com/document_path.pdf'
+                            created_at: '2020-05-16T05:18:17.540Z'
+                            tags:
+                              - Side
+                              - Elevation
+                              - Proposed
+                            numbers: PLAN01
     post:
       summary: Create new planning application
       security:
-      - bearerAuth: []
+        - bearerAuth: []
       parameters: []
       responses:
         '200':
@@ -179,10 +238,10 @@ paths:
                               properties:
                                 url:
                                   type: string
-                                  example: http://example.com/planning/policy/1/234/a.html
+                                  example: 'http://example.com/planning/policy/1/234/a.html'
                                 value:
                                   type: string
-                                  example: "GPDO 32.2342.223"
+                                  example: GPDO 32.2342.223
                           flags:
                             type: array
                             items:
@@ -223,18 +282,18 @@ paths:
                     properties:
                       filename:
                         type: string
-                        example: https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf
+                        example: 'https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf'
                       tags:
                         type: array
                         items:
                           type: string
-                          example: "Side"
+                          example: Side
                 boundary_geojson:
                   type: object
               required:
-              - site
-              - application_type
-              - applicant_email
+                - site
+                - application_type
+                - applicant_email
             examples:
               Minimum:
                 value:
@@ -269,102 +328,102 @@ paths:
                   proposal_details:
                     - question: What do you want to do?
                       responses:
-                        - value: "Modify or extend"
+                        - value: Modify or extend
                     - question: What is the dwelling used as?
                       responses:
                         - value: A family home
                     - question: Is the property a house?
                       responses:
-                        - value: "Yes"
+                        - value: 'Yes'
                     - question: How many storeys will the new structure have?
                       responses:
-                        - value: "1"
+                        - value: '1'
                     - question: Was the house always a house?
                       responses:
-                        - value: "Yes"
+                        - value: 'Yes'
                     - question: Will the structure include a satellite dish or antenna?
                       responses:
-                        - value: "No"
+                        - value: 'No'
                       metadata:
                         policy_refs:
-                        - url: http://example.com/planning/policy/1/234/a.html
-                          text: "GPDO 00.0000.000"
+                          - url: 'http://example.com/planning/policy/1/234/a.html'
+                            text: GPDO 00.0000.000
                     - question: What will be the total footprint of all additions of the available area around the original house?
                       responses:
                         - value: 50% or less
                     - question: How high will the eaves of the new structure be?
                       responses:
-                        - value: "2.5m or lower"
+                        - value: 2.5m or lower
                     - question: What will the height of the new structure be?
                       responses:
-                        - value: "2.5m or lower"
+                        - value: 2.5m or lower
                     - question: How close will the new structure be to the site boundary?
                       responses:
-                        - value: "Within 2m"
+                        - value: Within 2m
                     - question: Will any part of the new structure be forward of the front of the original house?
                       responses:
-                        - value: "No"
+                        - value: 'No'
                     - question: How many storeys will the new structure have?
                       responses:
-                        - value: "1"
+                        - value: '1'
                     - question: Will any part of the pool be forward of the front of the original house?
                       responses:
-                        - value: "No"
+                        - value: 'No'
                     - question: What is the addition to the property?
                       responses:
                         - value: An outdoor pool
                         - value: An outbuilding
                       metadata:
                         policy_refs:
-                          - url: http://example.com/planning/policy/1/234/b.html
-                            text: "GPDO 00.0000.000"
-                          - url: http://example.com/planning/policy/1/234/c.html
-                            text: "GPDO 00.0000.000"
+                          - url: 'http://example.com/planning/policy/1/234/b.html'
+                            text: GPDO 00.0000.000
+                          - url: 'http://example.com/planning/policy/1/234/c.html'
+                            text: GPDO 00.0000.000
                     - question: How many storeys will the new structure have?
                       responses:
-                        - value: "1"
+                        - value: '1'
                     - question: Is the property on designated land?
                       responses:
-                        - value: "No"
+                        - value: 'No'
                           auto_answered: true
                     - question: Is the property in an area of outstanding natural beauty?
                       responses:
-                        - value: "No"
+                        - value: 'No'
                       metadata:
                         auto_answered: true
                     - question: Is the property in the broads?
                       responses:
-                        - value: "No"
+                        - value: 'No'
                       metadata:
                         auto_answered: true
                     - question: Is the property in a world heritage site?
                       responses:
-                        - value: "No"
+                        - value: 'No'
                       metadata:
                         auto_answered: true
                     - question: Is the property in a national park?
                       responses:
-                        - value: "No"
+                        - value: 'No'
                       metadata:
                         auto_answered: true
                     - question: Is the house listed?
                       responses:
-                        - value: "No"
+                        - value: 'No'
                     - question: Will the works affect a protected tree?
                       responses:
-                        - value: "No"
+                        - value: 'No'
                       metadata:
                         auto_answered: true
                     - question: Will the new addition allow you to do an acitivity that most houses do not provide a dedicated space for?
                       responses:
-                        - value: "Yes"
+                        - value: 'Yes'
                       metadata:
                         notes: It will allow me to exercise on a regular basis and generate energy
                   constraints:
                     conservation_area: true
                     protected_trees: false
                   files:
-                    - filename: https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf
+                    - filename: 'https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf'
                       tags:
                         - Side
                   boundary_geojson:
@@ -372,10 +431,106 @@ paths:
                     geometry:
                       type: Polygon
                       coordinates:
-                        -
-                          - [-0.07716178894042969, 51.50094238217541]
-                          - [-0.07645905017852783, 51.50053497847238]
-                          - [-0.07615327835083008, 51.50115276135022]
-                          - [-0.07716178894042969, 51.50094238217541]
-
-  $ref: "./change_requests.yaml"
+                        - - - -0.07716178894042969
+                            - 51.50094238217541
+                          - - -0.07645905017852783
+                            - 51.50053497847238
+                          - - -0.07615327835083008
+                            - 51.50115276135022
+                          - - -0.07716178894042969
+                            - 51.50094238217541
+  '/api/v1/planning_applications/{planning_application_id}/change_requests':
+    get:
+      summary: Retrieves all determined planning applications
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: planning_application_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: query
+          name: change_access_id
+          schema:
+            type: string
+          required: true
+          description: A unique access code for this planning application
+      responses:
+        '200':
+          description: All change requests
+          content:
+            application/json:
+              examples:
+                Full:
+                  value:
+                    data:
+                      - id: 1
+                        type: description_change_request
+                        proposed_description: A proposed new description
+                        state: open
+                        response_due: '2020-05-14T05:18:17.540Z'
+                        approved: true
+                        rejection_reason: nil
+  '/api/v1/planning_applications/{planning_application_id}/description_change_requests/{description_change_request_id}':
+    patch:
+      summary: Saves the response for a description change request
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: planning_application_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: path
+          name: description_change_request_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The change request ID
+        - in: query
+          name: change_access_id
+          schema:
+            type: string
+          required: true
+          description: A unique access code for this planning application
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                approved:
+                  type: boolean
+                  example: true
+                rejection_reason:
+                  type: string
+                  example: Refusal reason
+              required:
+                - approved
+            examples:
+              Accept:
+                value:
+                  data:
+                    approved: true
+              Reject:
+                value:
+                  data:
+                    approved: false
+                    rejection_reason: Refusal reason
+      responses:
+        '200':
+          description: Update change request
+          content:
+            application/json:
+              examples:
+                Accept:
+                  value:
+                    message:
+                      - Change request updated
