@@ -15,6 +15,7 @@ class PlanningApplication < ApplicationRecord
   belongs_to :local_authority
 
   before_create :set_target_date
+  before_create :set_change_access_id
   before_update :set_target_date
 
   WORK_STATUSES = %w[proposed existing].freeze
@@ -218,6 +219,10 @@ private
 
   def set_target_date
     self.target_date = (documents_validated_at || created_at) + 8.weeks
+  end
+
+  def set_change_access_id
+    self.change_access_id = SecureRandom.hex(15)
   end
 
   def documents_validated_at_date
