@@ -5,6 +5,7 @@ class DescriptionChangeRequest < ApplicationRecord
   belongs_to :user
 
   validates :proposed_description, presence: true
+  validate :rejected_reason_is_present?
 
   scope :open, -> { where(state: "open") }
   scope :order_by_latest, -> { order(created_at: :desc) }
@@ -18,6 +19,12 @@ class DescriptionChangeRequest < ApplicationRecord
       Time.zone.today.business_days_until(response_due)
     else
       -response_due.business_days_until(Time.zone.today)
+    end
+  end
+
+  def rejected_reason_is_present?
+    if approved == false
+      errors.add(:base, "Please include a comment for the case officer to indicate why the description change has been rejected.") if rejection_reason.blank?
     end
   end
 end

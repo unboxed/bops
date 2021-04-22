@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "The Open API Specification document", type: :request, show_exceptions: true do
-  let(:document) { Openapi3Parser.load_file(Rails.root.join("public/api-docs/v1/swagger_doc.yaml")) }
+  let(:document) { Openapi3Parser.load_file(Rails.root.join("public/api-docs/v1/_build/swagger_doc.yaml")) }
   let(:api_user) { create :api_user }
 
   def example_request_json_for(path, http_method, example_name)

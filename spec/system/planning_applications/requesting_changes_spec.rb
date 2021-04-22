@@ -42,7 +42,7 @@ RSpec.describe "Requesting changes to a planning application", type: :system do
   it "lists the current change requests and their statuses" do
     create :description_change_request, planning_application: planning_application, state: "open", created_at: 12.days.ago
     create :description_change_request, planning_application: planning_application, state: "closed", created_at: 12.days.ago, approved: true
-    create :description_change_request, planning_application: planning_application, state: "closed", created_at: 12.days.ago, approved: false
+    create :description_change_request, planning_application: planning_application, state: "closed", created_at: 12.days.ago, approved: false, rejection_reason: "No good"
     create :description_change_request, planning_application: planning_application, state: "open", created_at: 35.days.ago
 
     click_link "Validate application"
