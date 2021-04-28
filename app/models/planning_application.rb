@@ -215,6 +215,10 @@ class PlanningApplication < ApplicationRecord
     "#{address_1}, #{town}, #{postcode}"
   end
 
+  def secure_change_url(subdomain, application_id, secure_token)
+    "https://#{subdomain}#{change_url}/planning_applications/#{application_id}/change_requests?change_access_id=#{secure_token}"
+  end
+
 private
 
   def set_target_date
@@ -228,6 +232,16 @@ private
   def documents_validated_at_date
     if in_assessment? && !documents_validated_at.is_a?(Date)
       errors.add(:planning_application, "Please enter a valid date")
+    end
+  end
+
+  def change_url
+    if ENV["RAILS_ENV"] == "production"
+      "bops-applicants.services"
+    elsif ENV["RAILS_ENV"] == "staging"
+      "bops-applicants-staging.services"
+    else
+      ""
     end
   end
 
