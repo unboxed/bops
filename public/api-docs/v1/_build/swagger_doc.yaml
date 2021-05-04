@@ -472,6 +472,7 @@ paths:
                         proposed_description: A proposed new description
                         state: open
                         response_due: '2020-05-14T05:18:17.540Z'
+                        days_until_response_due: 10
                         approved: true
                         rejection_reason: nil
   '/api/v1/planning_applications/{planning_application_id}/description_change_requests/{description_change_request_id}':
