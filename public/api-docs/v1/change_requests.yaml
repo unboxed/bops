@@ -32,6 +32,7 @@
                       proposed_description: A proposed new description
                       state: open
                       response_due: "2020-05-14T05:18:17.540Z"
+                      days_until_response_due: 10
                       approved: true
                       rejection_reason: nil
 
