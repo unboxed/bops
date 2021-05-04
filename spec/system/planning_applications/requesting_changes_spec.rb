@@ -14,8 +14,13 @@ RSpec.describe "Requesting changes to a planning application", type: :system do
   end
 
   before do
+    travel_to Time.zone.local(2021, 1, 1)
     sign_in assessor
     visit planning_application_path(planning_application)
+  end
+
+  after do
+    travel_back
   end
 
   it "is possible to create a request to update description" do
@@ -53,7 +58,7 @@ RSpec.describe "Requesting changes to a planning application", type: :system do
       expect(page).to have_content("Closed")
       expect(page).to have_content("Approved")
 
-      expect(page).to have_content("7 days")
+      expect(page).to have_content("6 days")
       expect(page).to have_content("Open")
 
       expect(page).to have_content("-10 days")
