@@ -70,9 +70,6 @@
   <% end %>
 
   <%= form.govuk_radio_buttons_fieldset(:status, legend: {size: 's', text: 'Is the application valid?' }) do %>
-    <span class="govuk-hint">
-      If the application is invalid, please contact the applicant via email.
-    </span>
       <%= form.govuk_radio_button :status, 'in_assessment', label: { text: 'Yes'} do %>
         <%= form.govuk_date_field :documents_validated_at, legend: { text: '', size: 's' }, hint: { text: 'Enter valid date, e.g. 28 12 2021' } %>
       <% end %>

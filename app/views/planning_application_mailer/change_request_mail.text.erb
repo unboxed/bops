@@ -8,7 +8,7 @@ Dear <%= @planning_application.applicant_first_name %> <%= @planning_application
 
 To review the requested change please follow the link below:
 
-Review requested actions: <%= @planning_application.secure_change_url(@host, @planning_application.id,  @planning_application.change_access_id) %>
+Review requested actions: <%= @planning_application.secure_change_url(@planning_application.id, @planning_application.change_access_id) %>
 
 If we don't hear from you:
 

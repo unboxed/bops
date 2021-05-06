@@ -8,9 +8,10 @@ class DescriptionChangeRequestsController < ApplicationController
   def create
     @description_change_request = @planning_application.description_change_requests.new(description_change_request_params)
     @description_change_request.user = current_user
+    @current_local_authority = current_local_authority
 
     if @description_change_request.save
-      change_request_mail
+      send_change_request_email
       flash[:notice] = "Change request for description successfully sent."
       redirect_to validate_documents_form_planning_application_path(@planning_application)
     else
@@ -32,10 +33,9 @@ private
     @planning_application = PlanningApplication.find(params[:planning_application_id])
   end
 
-  def change_request_mail
+  def send_change_request_email
     PlanningApplicationMailer.change_request_mail(
       @planning_application,
-      request.host,
       @description_change_request,
     ).deliver_now
   end

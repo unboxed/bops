@@ -6,6 +6,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   let(:local_authority) do
     create :local_authority,
            name: "Cookie authority",
+           subdomain: "cookies",
            signatory_name: "Mr. Biscuit",
            signatory_job_title: "Lord of BiscuitTown",
            enquiries_paragraph: "reach us on postcode SW50",
@@ -64,6 +65,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   describe "#validation_notice_mail" do
     let(:validation_mail) { described_class.validation_notice_mail(planning_application, host) }
 
+    ENV["applicants_app_host"] = "example.com"
+
     it "renders the headers" do
       expect(validation_mail.subject).to eq("Your planning application has been validated")
       expect(validation_mail.to).to eq([planning_application.applicant_email])
@@ -80,7 +83,9 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   describe "#change_request_mail" do
-    let(:change_request_mail) { described_class.change_request_mail(planning_application.reload, host, change_request) }
+    let(:change_request_mail) { described_class.change_request_mail(planning_application.reload, change_request) }
+
+    ENV["applicants_app_host"] = "localhost"
 
     it "renders the headers" do
       expect(change_request_mail.subject).to eq("Change requested to your planning application")
@@ -92,7 +97,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(change_request_mail.body.encoded).to include(change_request.user.name)
       expect(change_request_mail.body.encoded).to include(change_request.response_due.strftime("%e %B %Y"))
       expect(change_request_mail.body.encoded).to include(planning_application.change_access_id)
-      expect(change_request_mail.body.encoded).to include("https://default.example.com/planning_applications/#{planning_application.id}/change_requests?change_access_id=#{planning_application.change_access_id}")
+      expect(change_request_mail.body.encoded).to include("http://cookies.localhost/change_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}")
       expect(change_request_mail.body.encoded).to include("Mr. Biscuit")
       expect(change_request_mail.body.encoded).to include("Cookie authority")
       expect(change_request_mail.body.encoded).to include("Lord of BiscuitTown")

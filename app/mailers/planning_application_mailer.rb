@@ -26,8 +26,7 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
     )
   end
 
-  def change_request_mail(planning_application, host, change_request)
-    @host = host
+  def change_request_mail(planning_application, change_request)
     @planning_application = planning_application
     @change_request = change_request
 
