@@ -56,7 +56,7 @@
   <p class="govuk-body govuk-!-font-weight-bold">
     Submit new change request to applicant
   </p>
-  <%= link_to "New request", new_planning_application_description_change_request_path(@planning_application), class: 'govuk-button govuk-button--secondary' %>
+  <%= link_to "New request", new_planning_application_change_request_path(@planning_application), class: 'govuk-button govuk-button--secondary' %>
 <% end %>
 
 <%= form_with model: @planning_application, url: validate_documents_planning_application_path(@planning_application), local:true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
