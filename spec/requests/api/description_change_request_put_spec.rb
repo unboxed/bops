@@ -3,7 +3,11 @@ require "rails_helper"
 RSpec.describe "API request to list change requests", type: :request, show_exceptions: true do
   let!(:api_user) { create :api_user }
   let!(:planning_application) { create(:planning_application, local_authority: @default_local_authority) }
-  let!(:description_change_request) { create(:description_change_request, planning_application: planning_application) }
+  let!(:description_change_request) do
+    create(:description_change_request,
+           planning_application: planning_application,
+           proposed_description: "new roof")
+  end
 
   approved_json = '{
     "data": {
@@ -33,8 +37,11 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
     expect(response).to be_successful
 
     description_change_request.reload
+    planning_application.reload
     expect(description_change_request.state).to eq("closed")
     expect(description_change_request.approved).to eq(true)
+    expect(description_change_request.approved).to eq(true)
+    expect(planning_application.description).to eq("new roof")
   end
 
   it "successfully accepts a rejection" do
