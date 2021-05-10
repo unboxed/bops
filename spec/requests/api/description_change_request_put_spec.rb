@@ -54,6 +54,7 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
     description_change_request.reload
     expect(description_change_request.state).to eq("closed")
     expect(description_change_request.approved).to eq(false)
+    expect(description_change_request.rejection_reason).to eq("The description is unclear")
   end
 
   it "returns a 400 if the rejection is missing a rejection reason" do
