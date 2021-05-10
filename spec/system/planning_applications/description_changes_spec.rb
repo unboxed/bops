@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Requesting changes to a planning application", type: :system do
+RSpec.describe "Requesting description changes to a planning application", type: :system do
   let!(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
 
   let!(:planning_application) do
@@ -26,6 +26,12 @@ RSpec.describe "Requesting changes to a planning application", type: :system do
   it "is possible to create a request to update description" do
     click_link "Validate application"
     click_link "New request"
+
+    within("fieldset", text: "Send a change request") do
+      choose "Request approval to a description change"
+    end
+    click_button "Next"
+
     fill_in "Please suggest a new application description", with: "New description"
     click_button "Send"
     within(".change-requests") do
@@ -38,6 +44,13 @@ RSpec.describe "Requesting changes to a planning application", type: :system do
   it "only accepts a request that contains a proposed description" do
     click_link "Validate application"
     click_link "New request"
+
+    within("fieldset", text: "Send a change request") do
+      choose "Request approval to a description change"
+    end
+
+    click_button "Next"
+
     fill_in "Please suggest a new application description", with: " "
     click_button "Send"
 
@@ -51,6 +64,7 @@ RSpec.describe "Requesting changes to a planning application", type: :system do
     create :description_change_request, planning_application: planning_application, state: "open", created_at: 35.days.ago
 
     click_link "Validate application"
+
     within(".change-requests") do
       expect(page).to have_content("Closed")
       expect(page).to have_content("Rejected")
@@ -71,7 +85,7 @@ RSpec.describe "Requesting changes to a planning application", type: :system do
 
     click_link "Validate application"
 
-    expect(page).not_to have_content("New request")
+    expect(page).not_to have_content("Request approval to a description change")
   end
 
   it "allows the user to access the request after its been created" do

@@ -1,0 +1,2 @@
+module DocumentChangeRequestsHelper
+end

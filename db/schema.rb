@@ -79,6 +79,20 @@ ActiveRecord::Schema.define(version: 2021_05_17_112516) do
     t.index ["user_id"], name: "index_description_change_requests_on_user_id"
   end
 
+  create_table "document_change_requests", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "document_id", null: false
+    t.string "state", default: "open", null: false
+    t.boolean "approved"
+    t.string "rejection_reason"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["document_id"], name: "index_document_change_requests_on_document_id"
+    t.index ["planning_application_id"], name: "index_document_change_requests_on_planning_application_id"
+    t.index ["user_id"], name: "index_document_change_requests_on_user_id"
+  end
+
   create_table "documents", force: :cascade do |t|
     t.bigint "planning_application_id"
     t.datetime "created_at", precision: 6, null: false
@@ -191,6 +205,9 @@ ActiveRecord::Schema.define(version: 2021_05_17_112516) do
   add_foreign_key "audits", "planning_applications"
   add_foreign_key "description_change_requests", "planning_applications"
   add_foreign_key "description_change_requests", "users"
+  add_foreign_key "document_change_requests", "documents"
+  add_foreign_key "document_change_requests", "planning_applications"
+  add_foreign_key "document_change_requests", "users"
   add_foreign_key "planning_applications", "users"
   add_foreign_key "recommendations", "planning_applications"
   add_foreign_key "recommendations", "users", column: "assessor_id"
