@@ -94,6 +94,12 @@
           <%= @planning_application.agent_email %>
         </p>
       <% end %>
+      <% if @planning_application.agent_email? && !@planning_application.agent? %>
+        <p class='govuk-body'>
+          <strong>Agent: </strong><br>
+          <%= @planning_application.agent_email %>
+        </p>
+      <% end %>
       <% if @planning_application.applicant? %>
         <p class='govuk-body'>
           <strong>Applicant: </strong><br>
@@ -102,6 +108,12 @@
           <%= @planning_application.applicant_phone %><br>
           <%= @planning_application.applicant_email %>
         </p>
+      <% end %>
+      <% if @planning_application.applicant_email? && !@planning_application.applicant? %>
+      <p class='govuk-body'>
+        <strong>Applicant: </strong><br>
+        <%= @planning_application.applicant_email %>
+      </p>
       <% end %>
     </div>
   </div>
