@@ -65,7 +65,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   describe "#validation_notice_mail" do
     let(:validation_mail) { described_class.validation_notice_mail(planning_application, host) }
 
-    ENV["applicants_app_host"] = "example.com"
+    ENV["APPLICANTS_APP_HOST"] = "example.com"
 
     it "renders the headers" do
       expect(validation_mail.subject).to eq("Your planning application has been validated")
@@ -85,7 +85,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   describe "#change_request_mail" do
     let(:change_request_mail) { described_class.change_request_mail(planning_application.reload, change_request) }
 
-    ENV["applicants_app_host"] = "localhost"
+    ENV["APPLICANTS_APP_HOST"] = "localhost"
 
     it "renders the headers" do
       expect(change_request_mail.subject).to eq("Change requested to your planning application")
