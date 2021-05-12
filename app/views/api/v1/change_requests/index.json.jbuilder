@@ -6,6 +6,7 @@ json.data @planning_application.description_change_requests.each do |description
                 :state,
                 :response_due,
                 :proposed_description,
+                :previous_description,
                 :rejection_reason,
                 :approved,
                 :days_until_response_due

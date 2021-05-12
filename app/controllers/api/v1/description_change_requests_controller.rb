@@ -8,6 +8,7 @@ class Api::V1::DescriptionChangeRequestsController < Api::V1::ApplicationControl
     if @description_change_request.update(description_change_params)
       @description_change_request.update!(state: "closed")
       @planning_application.update!(description: @description_change_request.proposed_description) if @description_change_request.approved?
+
       render json: { "message": "Change request updated" }, status: :ok
     else
       render json: { "message": "Unable to update request. Please ensure rejection_reason is present if approved is false." }, status: 400

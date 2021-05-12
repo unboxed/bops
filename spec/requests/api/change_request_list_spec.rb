@@ -16,6 +16,7 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
       "state" => "open",
       "response_due" => description_change_request.response_due.to_s,
       "proposed_description" => description_change_request.proposed_description,
+      "previous_description" => description_change_request.previous_description,
       "approved" => nil,
       "rejection_reason" => nil,
       "days_until_response_due" => description_change_request.days_until_response_due,

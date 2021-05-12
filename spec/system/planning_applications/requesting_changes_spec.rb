@@ -81,9 +81,32 @@ RSpec.describe "Requesting changes to a planning application", type: :system do
     expect(page).to have_content("Request for approval of changes to description")
     expect(page).to have_content("Application number: #{planning_application.reference}")
     expect(page).to have_content("At: #{planning_application.full_address}")
-    expect(page).to have_content("Request sent: #{description_change_request.created_at.strftime('%e %B %Y')}")
+    expect(page).to have_content("Request sent:#{description_change_request.created_at.strftime('%e %B %Y')}")
     expect(page).to have_content("Open")
     expect(page).to have_content("Previous description: #{planning_application.description}")
     expect(page).to have_content("Suggested description: #{description_change_request.proposed_description}")
+  end
+
+  context "testing description updates" do
+    let!(:planning_application_with_description) do
+      create :planning_application, :invalidated, description: "Old description", local_authority: @default_local_authority
+    end
+
+    let!(:closed_description_change_request) do
+      create :description_change_request, proposed_description: "New description", planning_application: planning_application_with_description, state: "closed", approved: true
+    end
+
+    it "displays both new and previous descriptions after the request is closed" do
+      planning_application_with_description.reload
+
+      visit planning_application_path(planning_application_with_description)
+
+      click_link "Validate application"
+      first(".change-request-list").click_link("Description")
+
+      expect(page).to have_content("Approved")
+      expect(page).to have_content("Previous description: #{closed_description_change_request.previous_description}")
+      expect(page).to have_content("Suggested description: #{closed_description_change_request.proposed_description}")
+    end
   end
 end

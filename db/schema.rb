@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_22_152427) do
+ActiveRecord::Schema.define(version: 2021_05_12_164502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 2021_04_22_152427) do
     t.string "rejection_reason"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "previous_description"
     t.index ["planning_application_id"], name: "index_description_change_requests_on_planning_application_id"
     t.index ["user_id"], name: "index_description_change_requests_on_user_id"
   end
@@ -147,6 +148,7 @@ ActiveRecord::Schema.define(version: 2021_04_22_152427) do
     t.json "boundary_geojson"
     t.text "constraints", default: [], null: false, array: true
     t.string "change_access_id"
+    t.string "previous_description"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
     t.index ["user_id"], name: "index_planning_applications_on_user_id"
   end
