@@ -29,12 +29,21 @@
       </strong>
 
       <div class="govuk-!-margin-top-6">
-        <p class="govuk-body"> <strong> Previous description:</strong><br>
+        <% if @description_change_request.state == "open" || @description_change_request.state == "closed" && @description_change_request.approved == false %>
+          <p class="govuk-body"> <strong> Previous description:</strong><br>
+            <%= @planning_application.description  %>
+          </p>
+          <p class="govuk-body"> <strong> Suggested description:</strong><br>
+            <%= @description_change_request.proposed_description  %>
+          </p>
+        <% elsif  @description_change_request.state == "closed" && @description_change_request.approved? %>
+          <p class="govuk-body"> <strong> Previous description:</strong><br>
+            <%= @planning_application.previous_description  %>
+          </p>
+        <p class="govuk-body"> <strong> Suggested description:</strong><br>
           <%= @planning_application.description  %>
         </p>
-        <p class="govuk-body"> <strong> Suggested description:</strong><br>
-          <%= @description_change_request.proposed_description  %>
-        </p>
+        <% end %>
       </div>
     </div>
 
