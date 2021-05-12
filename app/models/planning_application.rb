@@ -216,8 +216,10 @@ class PlanningApplication < ApplicationRecord
   end
 
   def secure_change_url(application_id, secure_token)
-    if ENV["RAILS_ENV"] == "production" || ENV["RAILS_ENV"] == "preview"
-      "https://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/change_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
+    if ENV["DOMAIN"] == "bops-staging.services"
+      "https://#{local_authority.subdomain}.bops-applicants-staging.services/change_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
+    elsif ENV["DOMAIN"] == "bops.services"
+      "https://#{local_authority.subdomain}.bops-applicants.services/change_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
     else
       "http://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/change_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
     end
