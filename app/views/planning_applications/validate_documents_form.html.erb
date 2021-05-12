@@ -25,7 +25,7 @@
     <tbody class="govuk-table__body">
       <% @planning_application.description_change_requests.order_by_latest.each do |description_change_request| %>
       <tr class="govuk-table__row">
-        <td class="govuk-table__cell">
+        <td class="govuk-table__cell change-request-list">
           <%= link_to "Description", planning_application_description_change_request_path(@planning_application, description_change_request), class: "govuk-link" %>
         </td>
         <td class="govuk-table__cell">

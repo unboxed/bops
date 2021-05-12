@@ -18,4 +18,8 @@ module DescriptionChangeRequestHelper
       "green"
     end
   end
+
+  def change_rejected?(description_change_request)
+    description_change_request.state == "closed" && description_change_request.approved == false
+  end
 end

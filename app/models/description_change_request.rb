@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class DescriptionChangeRequest < ApplicationRecord
+  before_create :set_previous_application_description
+
   belongs_to :planning_application
   belongs_to :user
 
@@ -26,5 +28,9 @@ class DescriptionChangeRequest < ApplicationRecord
     if approved == false
       errors.add(:base, "Please include a comment for the case officer to indicate why the description change has been rejected.") if rejection_reason.blank?
     end
+  end
+
+  def set_previous_application_description
+    self.previous_description = planning_application.description
   end
 end
