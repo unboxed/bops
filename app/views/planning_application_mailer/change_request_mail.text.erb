@@ -2,7 +2,7 @@ Application number: <%= @planning_application.reference %>
 Application received: <%= @planning_application.created_at.strftime("%e %B %Y") %>
 At: <%= @planning_application.full_address %>
 
-Dear <%= @planning_application.applicant_first_name %> <%= @planning_application.applicant_last_name %>
+Hi <%= @planning_application.applicant_first_name %> <%= @planning_application.applicant_last_name %>
 
 <%= @change_request.user.name %>, the case officer working on your planning application has requested change(s) on your application.
 
