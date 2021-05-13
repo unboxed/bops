@@ -27,6 +27,14 @@ module PlanningApplicationHelper
     planning_application.work_status == "proposed" ? "No" : "Yes"
   end
 
+  def status_and_type(planning_application)
+    if planning_application.work_status == "proposed" && planning_application.application_type == "lawfulness_certificate"
+      "Lawful ​Development ​Certificate (Proposed)"
+    elsif planning_application.work_status == "existing" && planning_application.application_type == "lawfulness_certificate"
+      "Lawful ​Development ​Certificate (Existing)"
+    end
+  end
+
   def filter_text
     if current_user.assessor?
       "View my applications"

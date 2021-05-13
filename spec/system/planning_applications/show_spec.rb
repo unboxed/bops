@@ -50,7 +50,7 @@ RSpec.describe "Planning Application show page", type: :system do
       expect(page).to have_text("Site address: 7 Elm Grove, London, SE15 6UT")
       expect(page).to have_text("UPRN: 00773377")
       expect(page).to have_link("View site on Google Maps")
-      expect(page).to have_text("Application type: Proposed permitted development: Certificate of Lawfulness")
+      expect(page).to have_text("Application type: Lawful Development Certificate (Proposed)")
       expect(page).to have_text("Description: Roof extension")
       expect(page).to have_text("PAY123")
     end
@@ -137,6 +137,18 @@ RSpec.describe "Planning Application show page", type: :system do
 
       expect(page).to have_current_path(/sign_in/)
       expect(page).to have_content("You need to sign in or sign up before continuing.")
+    end
+  end
+
+  context "when work status is existing" do
+    before do
+      sign_in assessor
+      planning_application.update!(work_status: "existing")
+      visit planning_application_path(planning_application.reload.id)
+    end
+
+    it "displays the correct application type" do
+      expect(page).to have_text("Application type: Lawful Development Certificate (Existing)")
     end
   end
 end

@@ -81,7 +81,7 @@ RSpec.describe "Requesting changes to a planning application", type: :system do
     expect(page).to have_content("Request for approval of changes to description")
     expect(page).to have_content("Application number: #{planning_application.reference}")
     expect(page).to have_content("At: #{planning_application.full_address}")
-    expect(page).to have_content("Request sent:#{description_change_request.created_at.strftime('%e %B %Y')}")
+    expect(page).to have_content("Request sent: #{description_change_request.created_at.strftime('%-e %B %Y')}")
     expect(page).to have_content("Open")
     expect(page).to have_content("Previous description: #{planning_application.description}")
     expect(page).to have_content("Suggested description: #{description_change_request.proposed_description}")
