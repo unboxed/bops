@@ -122,7 +122,7 @@ RSpec.describe "Creating a planning application", type: :system do
       expect(page).to have_text("Site address: Palace Road, Crystal Palace, SE19 2LX")
       expect(page).to have_text("UPRN: 19284783939")
       expect(page).to have_text("Application type: Lawful Development Certificate (Proposed)")
-      expect(page).to have_text("Work already completed: No")
+      expect(page).to have_text("Work already started: No")
       expect(page).to have_text("Description: Backyard bird hotel")
       expect(page).to have_text("Payment Reference: 232432544")
       expect(page).to have_text("Agentina Agentino")
@@ -134,7 +134,7 @@ RSpec.describe "Creating a planning application", type: :system do
     end
 
     it "with existing status" do
-      within "form", text: "Has the work been completed?" do
+      within "form", text: "Has the work been started?" do
         choose "Yes"
       end
 
@@ -142,7 +142,7 @@ RSpec.describe "Creating a planning application", type: :system do
 
       visit planning_application_path(PlanningApplication.last.id)
 
-      expect(page).to have_text("Work already completed: Yes")
+      expect(page).to have_text("Work already started: Yes")
     end
 
     it "with the create action being correctly audited" do

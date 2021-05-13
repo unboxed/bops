@@ -31,7 +31,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "Completed status is correct" do
-      expect(page).to have_text("Work already completed: No")
+      expect(page).to have_text("Work already started: No")
     end
 
     it "Planning application code is correct" do
