@@ -35,7 +35,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     travel_back
   end
 
-  it "only allows for a document change request to be created with all invalid documents" do
+  it "allows for a document change request to be created for invalid documents only" do
     valid_document.file.attach(
       io: File.open(Rails.root.join("spec/fixtures/images/existing-roofplan.pdf")),
       filename: "wowee-florzoplan.png",
@@ -43,7 +43,8 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     )
 
     click_link "Validate application"
-    click_link "New request"
+    click_link "Start new or view existing requests"
+    click_link "Add new request"
 
     within("fieldset", text: "Send a change request") do
       choose "Request replacement documents"
@@ -55,6 +56,19 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     expect(page).to have_content("The following documents have been marked as invalid.")
     expect(page).to have_content("#{invalid_document.name}")
     expect(page).not_to have_content("#{valid_document.name}")
+  end
+
+  it "sends a document change request email to the applicant when created" do
+    click_link "Validate application"
+    click_link "Start new or view existing requests"
+    click_link "Add new request"
+
+    within("fieldset", text: "Send a change request") do
+      choose "Request replacement documents"
+    end
+
+    click_button "Next"
+    click_button "Submit"
   end
 
 end

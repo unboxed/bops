@@ -9,7 +9,6 @@ class DocumentsController < AuthenticationController
   before_action :ensure_document_edits_unlocked, only: %i[new edit update archive]
 
   def index
-    @invalid_documents = @planning_application.documents.active.invalidated
     @documents = @planning_application.documents.order(:created_at)
   end
 

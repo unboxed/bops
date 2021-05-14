@@ -88,7 +88,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     ENV["APPLICANTS_APP_HOST"] = "localhost"
 
     it "renders the headers" do
-      expect(change_request_mail.subject).to eq("Change requested to your planning application")
+      expect(change_request_mail.subject).to eq("Your planning application at: #{planning_application.full_address}")
       expect(change_request_mail.to).to eq([planning_application.applicant_email])
     end
 

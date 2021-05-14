@@ -1,5 +1,6 @@
 <% add_parent_breadcrumb_link "Home", planning_applications_path %>
-<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Application", validate_documents_form_planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Requests for changes", planning_application_change_requests_path(@planning_application) %>
 <% add_parent_breadcrumb_link "New change request", new_planning_application_change_request_path(@planning_application) %>
 
 <% content_for :title, "Request for description change" %>

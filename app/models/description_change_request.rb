@@ -10,7 +10,6 @@ class DescriptionChangeRequest < ApplicationRecord
   validate :rejected_reason_is_present?
 
   scope :open, -> { where(state: "open") }
-  scope :order_by_latest, -> { order(created_at: :desc) }
 
   def response_due
     15.business_days.after(created_at.to_date)

@@ -1,75 +1,55 @@
 <% content_for :title, "Validate documents" %>
 <%= render "planning_applications/assessment_dashboard" do %>
 
-<h2 class="govuk-heading-m govuk-!-padding-top-3">Validate application</h2>
+<h2 class="govuk-heading-l govuk-!-padding-top-3">Validate application</h2>
+
+<% byebug %>
+<% if @document_change_request_errors.present? %>
+  <% @document_change_request_errors.each do |error| %>
+      <span id="status-error" class="govuk-error-message">
+        <span class="govuk-visually-hidden">Error:</span><%= error %></span>
+  <% end %>
+<% end %>
 
 <p class="govuk-body">
-  <%= link_to "Check documents", planning_application_documents_path(@planning_application) %>
+  <%= link_to "Check documents", planning_application_documents_path(@planning_application), class: "govuk-link" %>
 </p>
 
-<% if @planning_application.description_change_requests.present? %>
-  <table class="govuk-table change-requests">
-    <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
-          Request
-        </th>
-        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
-          Time remaining
-        </th>
-        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
-          Status
-        </th>
-      </tr>
-    </thead>
-    <tbody class="govuk-table__body">
-      <% @planning_application.description_change_requests.order_by_latest.each do |description_change_request| %>
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell change-request-list">
-          <%= link_to "Description", planning_application_description_change_request_path(@planning_application, description_change_request), class: "govuk-link" %>
-        </td>
-        <td class="govuk-table__cell">
-          <strong class="govuk-tag govuk-tag--<%=display_request_date_state(description_change_request) %>">
-            <% if description_change_request.state == "open" %>
-              <%= description_change_request.days_until_response_due %> days
-            <% else %>
-              Closed
-            <% end %>
-          </strong>
-        </td>
-        <td class="govuk-table__cell">
-          <strong class="govuk-tag govuk-tag--<%=display_request_status(description_change_request) %>">
-            <% if description_change_request.state == "open" %>
-              Open
-            <% else %>
-              <%= description_change_request.approved? ? 'Approved' : 'Rejected' %>
-            <% end %>
-          </strong>
-        </td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
+
+<% if invalid_documents(@planning_application).present? %>
+<div class="govuk-error-summary govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-labelledby="error-summary-title" role="alert" tabindex="-1">
+  <svg class="alert__icon" fill="red" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 25 25" height="25" width="25">
+    <path d="M13.6,15.4h-2.3v-4.5h2.3V15.4z M13.6,19.8h-2.3v-2.2h2.3V19.8z M0,23.2h25L12.5,2L0,23.2z"></path>
+  </svg>
+  <div class="govuk-error-summary__body">
+    <ul class="govuk-list govuk-error-summary__list">
+      <li>
+        Invalid documents:
+        <span class="govuk-!-font-weight-bold">
+          <%= invalid_documents(@planning_application).count %>
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>
 <% end %>
 
 <% if @planning_application.invalidated? %>
-  <p class="govuk-body govuk-!-font-weight-bold">
-    Submit new change request to applicant
+  <h2 class="govuk-heading-m">
+    Change requests
+  </h2>
+  <p class="govuk-body govuk-!-margin-top-2">
+    Request replacement or missing documents from applicant, or approve changes to the description.
   </p>
-  <%= link_to "New request", new_planning_application_change_request_path(@planning_application), class: 'govuk-button govuk-button--secondary' %>
+  <p class="govuk-body govuk-!-padding-bottom-6">
+    <%= link_to "Start new or view existing requests", planning_application_change_requests_path(@planning_application), class: "govuk-link" %>
+  </p>
 <% end %>
 
 <%= form_with model: @planning_application, url: validate_documents_planning_application_path(@planning_application), local:true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
 <fieldset class="govuk-fieldset">
-  <% if form.object.errors.any? %>
-    <% form.object.errors.each do |error| %>
-    <span id="status-error" class="govuk-error-message">
-      <span class="govuk-visually-hidden">Error:</span><%= error.message %>
-    </span>
-    <% end %>
-  <% end %>
-
-  <%= form.govuk_radio_buttons_fieldset(:status, legend: {size: 's', text: 'Is the application valid?' }) do %>
+  <%= form.govuk_radio_buttons_fieldset(:status, legend: {size: 'm', text: 'Is the application valid?' }) do %>
       <%= form.govuk_radio_button :status, 'in_assessment', label: { text: 'Yes'} do %>
         <%= form.govuk_date_field :documents_validated_at, legend: { text: '', size: 's' }, hint: { text: 'Enter valid date, e.g. 28 12 2021' } %>
       <% end %>
