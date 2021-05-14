@@ -32,7 +32,7 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "Change requested to your planning application",
+      subject: "Your planning application at: #{@planning_application.full_address}",
       to: @planning_application.applicant_email,
     )
   end

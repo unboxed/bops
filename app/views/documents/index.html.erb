@@ -7,7 +7,7 @@
 
 <%= render "flash_content" %>
 
-<% if @invalid_documents.present? %>
+<% if invalid_documents(@planning_application).present? %>
 <div class="govuk-error-summary govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-labelledby="error-summary-title" role="alert" tabindex="-1">
   <svg class="alert__icon" fill="red" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 25 25" height="25" width="25">
@@ -18,7 +18,7 @@
       <li>
         Invalid documents:
         <span class="govuk-!-font-weight-bold">
-          <%= @invalid_documents.count %>
+          <%= invalid_documents(@planning_application).count %>
         </span>
       </li>
     </ul>

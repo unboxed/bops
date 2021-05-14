@@ -25,7 +25,8 @@ RSpec.describe "Requesting description changes to a planning application", type:
 
   it "is possible to create a request to update description" do
     click_link "Validate application"
-    click_link "New request"
+    click_link "Start new or view existing requests"
+    click_link "Add new request"
 
     within("fieldset", text: "Send a change request") do
       choose "Request approval to a description change"
@@ -34,16 +35,19 @@ RSpec.describe "Requesting description changes to a planning application", type:
 
     fill_in "Please suggest a new application description", with: "New description"
     click_button "Send"
+
+    click_link "Start new or view existing requests"
+
     within(".change-requests") do
       expect(page).to have_content("Description")
       expect(page).to have_content("15 days")
-      expect(page).to have_content("Open")
     end
   end
 
   it "only accepts a request that contains a proposed description" do
     click_link "Validate application"
-    click_link "New request"
+    click_link "Start new or view existing requests"
+    click_link "Add new request"
 
     within("fieldset", text: "Send a change request") do
       choose "Request approval to a description change"
@@ -64,19 +68,17 @@ RSpec.describe "Requesting description changes to a planning application", type:
     create :description_change_request, planning_application: planning_application, state: "open", created_at: 35.days.ago
 
     click_link "Validate application"
+    click_link "Start new or view existing requests"
 
     within(".change-requests") do
-      expect(page).to have_content("Closed")
       expect(page).to have_content("Rejected")
+      expect(page).to have_content("No good")
 
-      expect(page).to have_content("Closed")
-      expect(page).to have_content("Approved")
+      expect(page).to have_content("Accepted")
+      expect(page).to have_content("Description change has been approved by the applicant")
 
       expect(page).to have_content("6 days")
-      expect(page).to have_content("Open")
-
       expect(page).to have_content("-10 days")
-      expect(page).to have_content("Open")
     end
   end
 
@@ -85,12 +87,13 @@ RSpec.describe "Requesting description changes to a planning application", type:
 
     click_link "Validate application"
 
-    expect(page).not_to have_content("Request approval to a description change")
+    expect(page).not_to have_content("Start new or view existing requests")
   end
 
   it "allows the user to access the request after its been created" do
     click_link "Validate application"
-    click_link "Description"
+    click_link "Start new or view existing requests"
+    click_link "Change of description"
 
     expect(page).to have_content("Request for approval of changes to description")
     expect(page).to have_content("Application number: #{planning_application.reference}")
@@ -116,7 +119,8 @@ RSpec.describe "Requesting description changes to a planning application", type:
       visit planning_application_path(planning_application_with_description)
 
       click_link "Validate application"
-      first(".change-request-list").click_link("Description")
+      click_link "Start new or view existing requests"
+      first(".change-request-list").click_link("Change of description")
 
       expect(page).to have_content("Approved")
       expect(page).to have_content("Previous description: #{closed_description_change_request.previous_description}")
