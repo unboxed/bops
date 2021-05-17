@@ -298,10 +298,10 @@ RSpec.describe PlanningApplication, type: :model do
       expect(planning_application.reload.agent?).to eq false
     end
 
-    it "returns false if email or phone is not given" do
+    it "returns true if only name is given" do
       planning_application.update!(agent_first_name: "first", agent_last_name: "last", agent_phone: "", agent_email: "")
 
-      expect(planning_application.agent?).to eq false
+      expect(planning_application.agent?).to eq true
     end
 
     it "returns true if name and email are given" do
@@ -327,11 +327,11 @@ RSpec.describe PlanningApplication, type: :model do
       expect(planning_application.applicant?).to eq false
     end
 
-    it "returns false if email or phone is not given" do
+    it "returns true if only name is given" do
       planning_application.update!(applicant_first_name: "first", applicant_last_name: "last",
                                    applicant_phone: "", applicant_email: "")
 
-      expect(planning_application.applicant?).to eq false
+      expect(planning_application.applicant?).to eq true
     end
 
     it "returns true if name and email are given" do
