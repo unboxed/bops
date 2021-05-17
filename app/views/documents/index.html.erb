@@ -3,12 +3,7 @@
 
 <% content_for :title, "Documents" %>
 
-<h1 class="govuk-heading-l" style="margin-bottom: 7px;">
-  <%= @planning_application.reference %>
-</h1>
-<p class="govuk-body">
-  <%= @planning_application.full_address %>
-</p>
+<%= render "planning_applications/proposal_header" %>
 
 <%= render "flash_content" %>
 
@@ -31,7 +26,7 @@
 </div>
 <% end %>
 
-<h2 class="govuk-heading-m">
+<h2 class="govuk-heading-m govuk-!-padding-top-6">
   Documents
 </h2>
 
@@ -43,14 +38,15 @@
   </div>
   <div class="govuk-grid-column-one-third" style="text-align: right">
     <% if @planning_application.can_validate? %>
-      <%= link_to "Upload documents", new_planning_application_document_path(@planning_application), role: "button", class: "govuk-button", data: { module: "govuk-button" } %>
+      <%= link_to "Upload document", new_planning_application_document_path(@planning_application), role: "button", class: "govuk-button", data: { module: "govuk-button" } %>
     <% else %>
-      <%= tag.button "Upload documents", disabled: "disabled", "aria-disabled": true, class: "govuk-button govuk-button--disabled", data: { module: "govuk-button" } %>
+      <%= tag.button "Upload document", disabled: "disabled", "aria-disabled": true, class: "govuk-button govuk-button--disabled", data: { module: "govuk-button" } %>
     <% end %>
   </div>
 </div>
 
 <% unless @documents.nil? %>
+  <hr/>
   <table class="govuk-table current-documents">
     <tbody class="govuk-table__body">
       <% filter_current(@documents).each do |document| %>
@@ -93,15 +89,13 @@
               Public: <%= document.publishable? ? "Yes" : "No" %>
             </p>
           </td>
-          <td class="govuk-table__cell govuk-!-width-one-half">
-            <div class="govuk-grid-column-one-quarter">
+          <td class="govuk-table__cell">
               <% if @planning_application.can_validate? %>
-                <p style="text-align: right" class="govuk-body">
+                <p class="govuk-body govuk-!-margin-right-2" style="text-align:right">
                   <%= link_to "Edit", edit_planning_application_document_path(@planning_application, document) %><br />
-                  <%= link_to "Archive document", planning_application_document_archive_path(document_id: document.id) %>
+                  <%= link_to "Archive", planning_application_document_archive_path(document_id: document.id) %>
                 </p>
               <% end %>
-            </div>
           </td>
         </tr>
       <% end %>

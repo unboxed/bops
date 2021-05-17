@@ -70,7 +70,7 @@ RSpec.shared_examples "validate and invalidate" do
 
     click_button "Documents"
     click_link "Manage documents"
-    click_link "Archive document"
+    click_link "Archive"
 
     fill_in "Why do you want to archive this document?", with: "Scale was wrong"
     click_button "Archive"
@@ -174,7 +174,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "Manage documents"
 
       expect(page).to have_link("Edit")
-      expect(page).to have_link("Upload documents")
+      expect(page).to have_link("Upload document")
       expect(page).to have_link("Archive")
     end
   end

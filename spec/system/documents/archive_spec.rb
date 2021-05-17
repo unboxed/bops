@@ -63,7 +63,7 @@ RSpec.describe "Documents index page", type: :system do
     end
 
     it "Assessor can see Archive document links when application is in assessment" do
-      expect(page).to have_text("Archive document")
+      expect(page).to have_text("Archive")
     end
 
     it "Assessor can see table of documents on overview page" do
@@ -84,7 +84,7 @@ RSpec.describe "Documents index page", type: :system do
       visit planning_application_path(planning_application)
       click_button "Documents"
       click_link "Manage documents"
-      click_link "Archive document"
+      click_link "Archive"
     end
 
     it "Archive page contains site info" do
@@ -99,8 +99,8 @@ RSpec.describe "Documents index page", type: :system do
       within(find(".govuk-breadcrumbs__list", match: :first)) do
         expect(page).to have_link "Application"
         expect(page).to have_link "Home"
-        expect(page).to have_text "Archive document"
-        expect(page).to have_no_link "Archive document"
+        expect(page).to have_text "Archive"
+        expect(page).to have_no_link "Archive"
       end
     end
 
@@ -150,7 +150,7 @@ RSpec.describe "Documents index page", type: :system do
       visit planning_application_path(planning_application)
       click_button "Documents"
       click_link "Manage documents"
-      click_link "Archive document"
+      click_link "Archive"
     end
 
     it "Reviewer can archive document" do
@@ -167,7 +167,7 @@ RSpec.describe "Documents index page", type: :system do
       visit planning_application_path(not_started_planning_application)
       click_button "Documents"
       click_link "Manage documents"
-      click_link "Archive document"
+      click_link "Archive"
     end
 
     it "Document can be archived" do
@@ -187,7 +187,7 @@ RSpec.describe "Documents index page", type: :system do
     end
 
     it "Archive button is not visible" do
-      expect(page).to have_no_link("Archive document")
+      expect(page).to have_no_link("Archive")
     end
   end
 end
