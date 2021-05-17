@@ -9,16 +9,6 @@ module DescriptionChangeRequestHelper
     end
   end
 
-  def display_request_status(description_change_request)
-    if description_change_request.state == "open"
-      "grey"
-    elsif description_change_request.approved == false
-      "red"
-    else
-      "green"
-    end
-  end
-
   def change_rejected?(description_change_request)
     description_change_request.state == "closed" && description_change_request.approved == false
   end

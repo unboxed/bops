@@ -9,13 +9,6 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     create :planning_application, :invalidated, local_authority: @default_local_authority
   end
 
-  let!(:document_change_request) do
-    create :document_change_request,
-    planning_application: planning_application,
-    document: invalid_document,
-    state: "open", created_at: 12.days.ago
-  end
-
   let!(:invalid_document) do
     create :document, :with_file,
            validated: false,
@@ -54,11 +47,16 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
     expect(page).to have_content("Request replacement documents")
     expect(page).to have_content("The following documents have been marked as invalid.")
-    expect(page).to have_content("#{invalid_document.name}")
-    expect(page).not_to have_content("#{valid_document.name}")
+    expect(page).to have_content(invalid_document.name.to_s)
+    expect(page).not_to have_content(valid_document.name.to_s)
+
+    click_button "Send"
+    expect(page).to have_content("Document change request successfully sent.")
   end
 
-  it "sends a document change request email to the applicant when created" do
+  it "does not display invalid document as an option to create a change request if that document already has an associated change request" do
+    create :document_change_request, planning_application: planning_application, old_document: invalid_document, state: "open", created_at: 12.days.ago
+
     click_link "Validate application"
     click_link "Start new or view existing requests"
     click_link "Add new request"
@@ -68,7 +66,6 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     end
 
     click_button "Next"
-    click_button "Submit"
+    expect(page).not_to have_content(invalid_document.name.to_s)
   end
-
 end

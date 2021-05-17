@@ -226,6 +226,18 @@ class PlanningApplication < ApplicationRecord
     end
   end
 
+  def invalid_documents_without_change_request
+    invalid_documents.reject { |x| document_change_requests.where(old_document: x).any? }
+  end
+
+  def invalid_documents
+    documents.active.invalidated
+  end
+
+  def change_requests
+    (description_change_requests + document_change_requests).sort_by(&:created_at).reverse
+  end
+
 private
 
   def set_key_dates

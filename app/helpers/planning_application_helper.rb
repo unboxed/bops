@@ -125,12 +125,4 @@ module PlanningApplicationHelper
       planning_application.returned_at
     end
   end
-
-  def invalid_documents(planning_application)
-    planning_application.documents.active.invalidated
-  end
-
-  def change_requests(planning_application)
-    planning_application.description_change_requests.order(created_at: :desc) + planning_application.document_change_requests.order(created_at: :desc)
-  end
 end

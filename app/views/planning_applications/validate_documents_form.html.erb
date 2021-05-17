@@ -3,20 +3,20 @@
 
 <h2 class="govuk-heading-l govuk-!-padding-top-3">Validate application</h2>
 
-<% byebug %>
-<% if @document_change_request_errors.present? %>
-  <% @document_change_request_errors.each do |error| %>
+<% if @planning_application.errors[:document_change_request].any? %>
+  <% @planning_application.errors[:document_change_request].each do |error| %>
       <span id="status-error" class="govuk-error-message">
         <span class="govuk-visually-hidden">Error:</span><%= error %></span>
   <% end %>
 <% end %>
+
 
 <p class="govuk-body">
   <%= link_to "Check documents", planning_application_documents_path(@planning_application), class: "govuk-link" %>
 </p>
 
 
-<% if invalid_documents(@planning_application).present? %>
+<% if @planning_application.invalid_documents.present? %>
 <div class="govuk-error-summary govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-labelledby="error-summary-title" role="alert" tabindex="-1">
   <svg class="alert__icon" fill="red" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 25 25" height="25" width="25">
@@ -27,7 +27,7 @@
       <li>
         Invalid documents:
         <span class="govuk-!-font-weight-bold">
-          <%= invalid_documents(@planning_application).count %>
+          <%= @planning_application.invalid_documents.count %>
         </span>
       </li>
     </ul>
