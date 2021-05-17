@@ -20,7 +20,7 @@ RSpec.describe "Document uploads", type: :system do
       it "can upload, and tag documents" do
         visit planning_application_documents_path(planning_application)
 
-        click_link("Upload documents")
+        click_link("Upload document")
 
         attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.pdf")
 
@@ -63,7 +63,7 @@ RSpec.describe "Document uploads", type: :system do
       it "does not make an uploaded document public or referenced by default" do
         visit planning_application_documents_path(planning_application)
 
-        click_link("Upload documents")
+        click_link("Upload document")
 
         attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.pdf")
 
@@ -98,7 +98,7 @@ RSpec.describe "Document uploads", type: :system do
       it "cannot upload a document in the wrong format" do
         visit planning_application_documents_path(planning_application)
 
-        click_link("Upload documents")
+        click_link("Upload document")
 
         attach_file("Upload a file", "spec/fixtures/images/bmp.bmp")
 
@@ -112,7 +112,7 @@ RSpec.describe "Document uploads", type: :system do
       it "cannot save without a document being attached" do
         visit planning_application_documents_path(planning_application)
 
-        click_link("Upload documents")
+        click_link("Upload document")
 
         check("Floor")
 
@@ -124,7 +124,7 @@ RSpec.describe "Document uploads", type: :system do
       it "saves document if no tags are selected" do
         visit planning_application_documents_path(planning_application)
 
-        click_link("Upload documents")
+        click_link("Upload document")
 
         attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.pdf")
 
@@ -145,8 +145,8 @@ RSpec.describe "Document uploads", type: :system do
 
         # The enabled call-to-action is a link, but to show it as disabled
         # we replace it with a button.
-        expect(page).not_to have_link("Upload documents")
-        expect(page).to have_button("Upload documents", disabled: true)
+        expect(page).not_to have_link("Upload document")
+        expect(page).to have_button("Upload document", disabled: true)
       end
     end
   end
