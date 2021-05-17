@@ -1,87 +1,84 @@
 <% content_for :title, "Requests for changes" %>
 <% add_parent_breadcrumb_link "Home", planning_applications_path %>
-<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Application", validate_documents_form_planning_application_path(@planning_application) %>
 
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column govuk-!-padding-top-6">
-    <fieldset class="govuk-fieldset">
-      <h2 class="govuk-heading-l">
-        Requests for changes
-      </h2>
-      <% if @planning_application.description_change_requests.present? %>
-        <table class="govuk-table change-requests">
-          <thead class="govuk-table__head">
-            <tr class="govuk-table__row">
-              <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
-                Request
-              </th>
-              <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
-                Detail
-              </th>
-              <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
-                Reason
-              </th>
-              <th scope="col" class="govuk-table__header">
-                Time remaining
-              </th>
-              <th scope="col" class="govuk-table__header govuk-!-width-one-third">
-                Applicant response
-              </th>
-            </tr>
-          </thead>
-          <tbody class="govuk-table__body">
-            <% change_requests(@planning_application).each do |change_request| %>
-
+<div class="govuk-grid-column-full">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column govuk-!-padding-top-6">
+      <fieldset class="govuk-fieldset">
+        <h2 class="govuk-heading-l">
+          Requests for changes
+        </h2>
+        <% if @planning_application.change_requests.present? %>
+          <table class="govuk-table change-requests">
+            <thead class="govuk-table__head">
               <tr class="govuk-table__row">
-                <% if change_request.class.name == "DescriptionChangeRequest" %>
-                <td class="govuk-table__cell change-request-list">
-                  <%= link_to "Change of description", planning_application_description_change_request_path(@planning_application, change_request), class: "govuk-link" %>
-                </td>
-                <td class="govuk-table__cell change-request-list">
-                  New description: <%= change_request.proposed_description %>
-                </td>
-                <td class="govuk-table__cell change-request-list">
-                  Description change
-                </td>
-                <% else %>
-                  <td class="govuk-table__cell change-request-list">
-                    <%= link_to "Replacement document", planning_application_document_change_requests_path(@planning_application, change_request), class: "govuk-link" %>
-                  </td>
-                  <td class="govuk-table__cell change-request-list">
-                    <%= change_request.document.name %>
-                  </td>
-                  <td class="govuk-table__cell change-request-list">
-                    Reason for document change
-                  </td>
-                <% end %>
-                <td class="govuk-table__cell">
-                  <% if change_request.state == "open" %>
-                  <strong class="govuk-tag govuk-tag--<%=display_request_date_state(change_request) %>">
-                    <%= change_request.days_until_response_due %> days
-                  </strong>
-                  <% else %>
-                    <strong class="govuk-tag govuk-tag--<%=display_request_status(change_request) %>">
-                      <%= change_request.approved? ? 'Accepted' : 'Rejected' %>
-                    </strong>
-                  <% end %>
-                </td>
-                <td class="govuk-table__cell">
-                  <% if change_request.approved? %>
-                    Description change has been approved by the applicant
-                  <% elsif change_request.rejection_reason %>
-                    <%= change_request.rejection_reason %>
-                  <% end %>
-                </td>
+                <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
+                  Request
+                </th>
+                <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
+                  Detail
+                </th>
+                <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
+                  Reason
+                </th>
+                <th scope="col" class="govuk-table__header">
+                  Time remaining
+                </th>
+                <th scope="col" class="govuk-table__header govuk-!-width-one-third">
+                  Applicant response
+                </th>
               </tr>
-            <% end %>
-          </tbody>
-        </table>
-      <% end %>
-      <p class="govuk-body">
-        <%= link_to "Add new request", new_planning_application_change_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-      </p>
-    </fieldset>
+            </thead>
+            <tbody class="govuk-table__body">
+              <% @planning_application.change_requests.each do |change_request| %>
+
+                <tr class="govuk-table__row">
+                  <% if change_request.class.name == "DescriptionChangeRequest" %>
+                  <td class="govuk-table__cell change-request-list">
+                    <%= link_to "Change of description", planning_application_description_change_request_path(@planning_application, change_request), class: "govuk-link" %>
+                  </td>
+                  <td class="govuk-table__cell change-request-list">
+                    New description: <%= change_request.proposed_description %>
+                  </td>
+                  <td class="govuk-table__cell change-request-list">
+                    Description change
+                  </td>
+                  <% else %>
+                    <td class="govuk-table__cell change-request-list">
+                      Replacement document
+                    </td>
+                    <td class="govuk-table__cell change-request-list">
+                      <%= change_request.old_document.name %>
+                    </td>
+                    <td class="govuk-table__cell change-request-list">
+                      <%= change_request.old_document.invalidated_document_reason %>
+                    </td>
+                  <% end %>
+                  <td class="govuk-table__cell">
+                    <% if change_request.state == "open" %>
+                    <strong class="govuk-tag govuk-tag--<%=display_request_date_state(change_request) %>">
+                      <%= change_request.days_until_response_due %> days
+                    </strong>
+                    <% else %>
+                      <strong class="govuk-tag govuk-tag--<%=display_request_status(change_request) %>">
+                        <%= request_state(change_request) %>
+                      </strong>
+                    <% end %>
+                  </td>
+                  <td class="govuk-table__cell">
+                    <%= description_approved_or_rejected(change_request) %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+        <p class="govuk-body">
+          <%= link_to "Add new request", new_planning_application_change_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+        </p>
+      </fieldset>
+    </div>
+    <%= link_to "Back", validate_documents_form_planning_application_path(@planning_application), class: "govuk-button" %>
   </div>
-  <%= link_to "Back", validate_documents_form_planning_application_path(@planning_application), class: "govuk-button" %>
 </div>

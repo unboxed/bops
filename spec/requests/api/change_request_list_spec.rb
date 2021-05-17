@@ -6,11 +6,12 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
   let!(:api_user) { create :api_user }
   let!(:planning_application) { create(:planning_application, local_authority: @default_local_authority) }
   let!(:description_change_request) { create(:description_change_request, planning_application: planning_application) }
+  let!(:document_change_request) { create(:document_change_request, planning_application: planning_application) }
 
-  it "lists the description_change_requests that exist on the planning application" do
+  it "lists the all description change requests that exist on the planning application" do
     get "/api/v1/planning_applications/#{planning_application.id}/change_requests?change_access_id=#{planning_application.change_access_id}", headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
     expect(response).to be_successful
-    expect(json["data"]).to eq([{
+    expect(json["data"]["description_change_requests"]).to eq([{
       "id" => description_change_request.id,
       "type" => "description_change_request",
       "state" => "open",
@@ -20,6 +21,26 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
       "approved" => nil,
       "rejection_reason" => nil,
       "days_until_response_due" => description_change_request.days_until_response_due,
+    }])
+  end
+
+  it "lists the all document change requests that exist on the planning application" do
+    get "/api/v1/planning_applications/#{planning_application.id}/change_requests?change_access_id=#{planning_application.change_access_id}", headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
+    expect(response).to be_successful
+    expect(json["data"]["document_change_requests"]).to eq([{
+      "id" => document_change_request.id,
+      "state" => "open",
+      "response_due" => document_change_request.response_due.strftime("%Y-%m-%d"),
+      "days_until_response_due" => document_change_request.days_until_response_due,
+      "old_document" => {
+        "name" => document_change_request.old_document.name.to_s,
+        "invalid_document_reason" => nil,
+      },
+      "new_document" => {
+        "name" => "proposed-floorplan.png",
+        "url" => rails_blob_url(document_change_request.new_document.file),
+      },
+      "type" => "document_change_request",
     }])
   end
 

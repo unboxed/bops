@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_17_112516) do
+ActiveRecord::Schema.define(version: 2021_05_22_255806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,13 +82,13 @@ ActiveRecord::Schema.define(version: 2021_05_17_112516) do
   create_table "document_change_requests", force: :cascade do |t|
     t.bigint "planning_application_id", null: false
     t.bigint "user_id", null: false
-    t.bigint "document_id", null: false
+    t.bigint "old_document_id", null: false
+    t.bigint "new_document_id"
     t.string "state", default: "open", null: false
-    t.boolean "approved"
-    t.string "rejection_reason"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["document_id"], name: "index_document_change_requests_on_document_id"
+    t.index ["new_document_id"], name: "index_document_change_requests_on_new_document_id"
+    t.index ["old_document_id"], name: "index_document_change_requests_on_old_document_id"
     t.index ["planning_application_id"], name: "index_document_change_requests_on_planning_application_id"
     t.index ["user_id"], name: "index_document_change_requests_on_user_id"
   end
@@ -162,7 +162,6 @@ ActiveRecord::Schema.define(version: 2021_05_17_112516) do
     t.json "boundary_geojson"
     t.text "constraints", default: [], null: false, array: true
     t.string "change_access_id"
-    t.string "previous_description"
     t.date "expiry_date"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
     t.index ["user_id"], name: "index_planning_applications_on_user_id"
@@ -205,7 +204,8 @@ ActiveRecord::Schema.define(version: 2021_05_17_112516) do
   add_foreign_key "audits", "planning_applications"
   add_foreign_key "description_change_requests", "planning_applications"
   add_foreign_key "description_change_requests", "users"
-  add_foreign_key "document_change_requests", "documents"
+  add_foreign_key "document_change_requests", "documents", column: "new_document_id"
+  add_foreign_key "document_change_requests", "documents", column: "old_document_id"
   add_foreign_key "document_change_requests", "planning_applications"
   add_foreign_key "document_change_requests", "users"
   add_foreign_key "planning_applications", "users"

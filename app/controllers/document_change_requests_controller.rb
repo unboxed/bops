@@ -4,19 +4,14 @@ class DocumentChangeRequestsController < ApplicationController
   end
 
   def create
-    @current_local_authority = current_local_authority
-    @document_change_request_errors = []
-    planning_application.documents.invalidated.each do |document|
-      @document_change_request = planning_application.document_change_requests.new(document: document, user: current_user) unless document_request_exists?(document)
-
-      if !@document_change_request.nil? && @document_change_request.save
-        send_change_request_email
-        flash[:notice] = "Document change request successfully sent."
-      else
-        @document_change_request_errors << "A change request document had already been created for #{document.name}."
+    ActiveRecord::Base.transaction do
+      planning_application.invalid_documents_without_change_request.each do |document|
+        @document_change_request = planning_application.document_change_requests.new(old_document: document, user: current_user)
+        @document_change_request.save!
       end
     end
-    byebug
+    flash[:notice] = "Document change request successfully sent."
+    send_change_request_email
     redirect_to validate_documents_form_planning_application_path(@planning_application)
   end
 
@@ -31,11 +26,5 @@ private
       @planning_application,
       @document_change_request,
     ).deliver_now
-  end
-
-  # prevent duplicate description change requests being created the same document ?
-
-  def document_request_exists?(document)
-    planning_application.document_change_requests.where(document: document).any?
   end
 end

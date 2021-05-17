@@ -441,7 +441,7 @@ paths:
                             - 51.50094238217541
   '/api/v1/planning_applications/{planning_application_id}/change_requests':
     get:
-      summary: Retrieves all determined planning applications
+      summary: Retrieves all change requests for a given planning application
       security:
         - bearerAuth: []
       parameters:
@@ -467,17 +467,30 @@ paths:
                 Full:
                   value:
                     data:
-                      - id: 1
-                        type: description_change_request
-                        proposed_description: A proposed new description
-                        state: open
-                        response_due: '2020-05-14T05:18:17.540Z'
-                        days_until_response_due: 10
-                        approved: true
-                        rejection_reason: nil
+                      description_change_requests:
+                        - id: 1
+                          type: description_change_request
+                          proposed_description: A proposed new description
+                          state: open
+                          response_due: '2020-05-14T05:18:17.540Z'
+                          days_until_response_due: 10
+                          approved: true
+                          rejection_reason: nil
+                      document_change_requests:
+                        - id: 2
+                          type: document_change_request
+                          state: open
+                          response_due: '2020-05-14T05:18:17.540Z'
+                          days_until_response_due: 10
+                          old_document:
+                            name: document.jpg
+                            invalid_document_reason: It is missing a scale
+                          new_document:
+                            name: new_document.jpg
+                            url: document.blob./new_document.jpg
   '/api/v1/planning_applications/{planning_application_id}/description_change_requests/{description_change_request_id}':
     patch:
-      summary: Saves the response for a description change request
+      summary: Update a description change request
       security:
         - bearerAuth: []
       parameters:
@@ -525,6 +538,51 @@ paths:
                   data:
                     approved: false
                     rejection_reason: Refusal reason
+      responses:
+        '200':
+          description: Update change request
+          content:
+            application/json:
+              examples:
+                Accept:
+                  value:
+                    message:
+                      - Change request updated
+  '/api/v1/planning_applications/{planning_application_id}/document_change_requests/{document_change_request_id}':
+    patch:
+      summary: Update a document change request
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: planning_application_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: path
+          name: document_change_request_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The change request ID
+        - in: query
+          name: change_access_id
+          schema:
+            type: string
+          required: true
+          description: A unique access code for this planning application
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                new_file:
+                  type: string
+                  format: binary
       responses:
         '200':
           description: Update change request

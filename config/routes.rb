@@ -49,6 +49,7 @@ Rails.application.routes.draw do
         end
         resources :change_requests, only: :index
         resources :description_change_requests, only: :update
+        resources :document_change_requests, only: :update
         resources :documents, only: %i[show]
       end
     end

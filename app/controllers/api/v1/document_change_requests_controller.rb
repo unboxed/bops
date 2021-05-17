@@ -1,31 +1,44 @@
+# frozen_string_literal: true
+
 class Api::V1::DocumentChangeRequestsController < Api::V1::ApplicationController
   skip_before_action :verify_authenticity_token, only: :update
-  before_action :check_token_and_set_application, only: :update, if: :json_request?
+  before_action :check_token_and_set_application, only: :update
+  before_action :check_file_params_are_present, only: :update
 
   def update
-    @document_change_request = @planning_application.document_change_requests.where(id: params[:id]).first
+    @document_change_request = @planning_application.document_change_requests.find_by(id: params[:id])
+    new_document = @planning_application.documents.create!(file: params[:new_file])
+    @document_change_request.update!(state: "closed", new_document: new_document)
 
-    if @document_change_request.update(document_change_params)
-      @document_change_request.update!(state: "closed")
+    if @document_change_request.save
+      archive_old_document
       render json: { "message": "Change request updated" }, status: :ok
     else
-      render json: { "message": "Unable to update request. Please ensure rejection_reason is present if approved is false." }, status: 400
+      render json: { "message": "Unable to update request" }, status: 400
     end
   end
 
 private
 
-  def document_change_params
-    { approved: params[:data][:approved],
-      rejection_reason: params[:data][:rejection_reason] }
+  def check_file_params_are_present
+    if params[:new_file].blank?
+      render json: { "message": "A file must be selected to proceed." }, status: 400
+    end
   end
 
   def check_token_and_set_application
-    @planning_application = current_local_authority.planning_applications.where(id: params[:planning_application_id]).first
+    @planning_application = current_local_authority.planning_applications.find_by(id: params[:planning_application_id])
     if params[:change_access_id] != @planning_application.change_access_id
       render json: {}, status: 401
     else
       @planning_application
     end
+  end
+
+  def archive_old_document
+    @document_change_request.old_document.update!(
+      archive_reason: "Applicant has provived a replacement document.",
+      archived_at: Time.zone.now,
+    )
   end
 end

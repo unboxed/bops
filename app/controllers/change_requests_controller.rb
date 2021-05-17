@@ -3,7 +3,7 @@ class ChangeRequestsController < ApplicationController
 
   def index; end
 
-  def new;  end
+  def new; end
 
   def create
     if params[:change_request] == "description_change"
@@ -17,6 +17,7 @@ class ChangeRequestsController < ApplicationController
   end
 
 private
+
   def set_planning_application
     @planning_application = PlanningApplication.find(params[:planning_application_id])
   end

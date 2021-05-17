@@ -12,20 +12,6 @@
       The following documents have been marked as invalid.
     </p>
     <%= form_with model: [@planning_application, @document_change_request], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
-      <% if @document_change_request.errors.any? %>
-        <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
-          <h2 class="govuk-error-summary__title" id="error-summary-title">
-            There is a problem
-          </h2>
-          <div class="govuk-error-summary__body">
-            <ul class="govuk-list govuk-error-summary__list">
-              <% @document_change_request.errors.full_messages.each do |error| %>
-                <li><%= error %></li>
-              <% end %>
-            </ul>
-          </div>
-        </div>
-      <% end %>
       <table class="govuk-table">
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
@@ -35,7 +21,7 @@
           </tr>
         </thead>
         <tbody class="govuk-table__body">
-          <% @planning_application.documents.invalidated.each do |document| %>
+          <% @planning_application.invalid_documents_without_change_request.each do |document| %>
             <tr class="govuk-table__row">
               <td class="govuk-table__cell">
                 <% if document.tags.present? %>
