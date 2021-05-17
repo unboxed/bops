@@ -42,7 +42,7 @@ paths:
                     created_at: '2020-05-14T05:18:17.540Z'
                     received_date: '2020-05-14T05:18:17.540Z'
                     determined_at: '2020-06-14T05:18:17.540Z'
-                    target_date: '2020-07-09'
+                    target_date: '2020-07-02'
                     started_at: '2020-05-15T05:18:17.540Z'
                     invalidated_at: null
                     withdrawn_at: null
@@ -111,7 +111,7 @@ paths:
                         created_at: '2020-05-14T05:18:17.540Z'
                         received_date: '2020-05-14T05:18:17.540Z'
                         determined_at: '2020-06-14T05:18:17.540Z'
-                        target_date: '2020-07-09'
+                        target_date: '2020-07-02'
                         started_at: '2020-05-15T05:18:17.540Z'
                         invalidated_at: null
                         withdrawn_at: null

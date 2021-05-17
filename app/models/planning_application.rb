@@ -14,9 +14,9 @@ class PlanningApplication < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :local_authority
 
-  before_create :set_target_date
+  before_create :set_key_dates
   before_create :set_change_access_id
-  before_update :set_target_date
+  before_update :set_key_dates
 
   WORK_STATUSES = %w[proposed existing].freeze
 
@@ -100,7 +100,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def days_left
-    (target_date - Date.current).to_i
+    (expiry_date - Date.current).to_i
   end
 
   def reference
@@ -227,8 +227,9 @@ class PlanningApplication < ApplicationRecord
 
 private
 
-  def set_target_date
-    self.target_date = (documents_validated_at || created_at) + 8.weeks
+  def set_key_dates
+    self.expiry_date = (documents_validated_at || created_at) + 8.weeks
+    self.target_date = (documents_validated_at || created_at) + 7.weeks
   end
 
   def set_change_access_id
