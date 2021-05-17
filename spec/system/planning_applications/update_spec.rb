@@ -41,7 +41,7 @@ RSpec.describe "Updating a planning application", type: :system do
     click_button "Save"
     planning_application.reload
 
-    expect(page).to have_text("Target date: 28 November 1989")
+    expect(page).to have_text("Target date: 21 November 1989")
   end
 
   it "is possible to edit site details" do
