@@ -56,7 +56,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).to have_text("Recommendation submitted")
       expect(page).to have_text(assessor.name)
       expect(page).to have_text("Edited private assessor comment")
-      expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+      expect(page).to have_text(Audit.last.created_at.in_time_zone("London").strftime("%d-%m-%Y %H:%M"))
     end
   end
 

@@ -69,7 +69,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
     expect(page).to have_text("Recommendation challenged")
     expect(page).to have_text("Reviewer private comment")
-    expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+    expect(page).to have_text(Audit.last.created_at.in_time_zone("London").strftime("%d-%m-%Y %H:%M"))
   end
 
   it "cannot be rejected without a review comment" do

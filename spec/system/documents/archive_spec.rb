@@ -115,7 +115,7 @@ RSpec.describe "Documents index page", type: :system do
       expect(page).to have_text("Document archived")
       expect(page).to have_text("proposed-floorplan.png")
       expect(page).to have_text(assessor.name)
-      expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+      expect(page).to have_text(Audit.last.created_at.in_time_zone("London").strftime("%d-%m-%Y %H:%M"))
     end
 
     it "User can log out from archive page" do

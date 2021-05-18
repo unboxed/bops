@@ -29,7 +29,7 @@ RSpec.shared_examples "validate and invalidate" do
 
     expect(page).to have_text("Application validated")
     expect(page).to have_text(assessor.name)
-    expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+    expect(page).to have_text(Audit.last.created_at.in_time_zone("London").strftime("%d-%m-%Y %H:%M"))
   end
 
   it "can be invalidated" do
@@ -53,7 +53,7 @@ RSpec.shared_examples "validate and invalidate" do
 
     expect(page).to have_text("Application invalidated")
     expect(page).to have_text(assessor.name)
-    expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+    expect(page).to have_text(Audit.last.created_at.in_time_zone("London").strftime("%d-%m-%Y %H:%M"))
   end
 
   it "allows document edit, archive and upload after invalidation" do

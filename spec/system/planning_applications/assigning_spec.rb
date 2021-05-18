@@ -53,9 +53,9 @@ RSpec.describe "Assigning a planning application", type: :system do
     click_link "Activity log"
 
     expect(page).to have_text("Application assigned to Assessor 2")
-    expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+    expect(page).to have_text(Audit.last.created_at.in_time_zone("London").strftime("%d-%m-%Y %H:%M"))
 
     expect(page).to have_text("Application unassigned")
-    expect(page).to have_text(Audit.second_to_last.created_at.strftime("%d-%m-%Y %H:%M"))
+    expect(page).to have_text(Audit.second_to_last.created_at.in_time_zone("London").strftime("%d-%m-%Y %H:%M"))
   end
 end
