@@ -124,11 +124,11 @@ class PlanningApplication < ApplicationRecord
   end
 
   def agent?
-    agent_first_name? && agent_last_name? && (agent_phone? || agent_email?)
+    agent_first_name? || agent_last_name? || agent_phone? || agent_email?
   end
 
   def applicant?
-    applicant_first_name? && applicant_last_name? && (applicant_phone? || applicant_email?)
+    applicant_first_name? || applicant_last_name? || applicant_phone? || applicant_email?
   end
 
   def review_complete?
