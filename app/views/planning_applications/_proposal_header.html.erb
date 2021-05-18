@@ -6,8 +6,7 @@
   </div>
   <div class="govuk-grid-column-two-thirds">
     <p class="govuk-body">
-      LDC (<%= @planning_application.work_status %>):
-      <%= @planning_application.description %>
+      <%= status_and_type(@planning_application) %>: <%= @planning_application.description %>
     </p>
   </div>
   <div class="govuk-grid-column-two-thirds">
