@@ -11,6 +11,7 @@ class PlanningApplication < ApplicationRecord
   has_many :recommendations, dependent: :destroy
   has_many :description_change_requests, dependent: :destroy
   has_many :document_change_requests, dependent: :destroy
+  has_many :document_create_requests, dependent: :destroy
 
   belongs_to :user, optional: true
   belongs_to :local_authority
@@ -235,7 +236,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def change_requests
-    (description_change_requests + document_change_requests).sort_by(&:created_at).reverse
+    (description_change_requests + document_change_requests + document_create_requests).sort_by(&:created_at).reverse
   end
 
 private

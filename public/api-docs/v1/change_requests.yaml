@@ -102,7 +102,7 @@
 
     responses:
       "200":
-        description: Update change request
+        description: Update description change request
         content:
           application/json:
             examples:
@@ -148,7 +148,53 @@
                 format: binary
     responses:
       "200":
-        description: Update change request
+        description: Update document change request
+        content:
+          application/json:
+            examples:
+              Accept:
+                value:
+                  message:
+                    - Change request updated
+
+? "/api/v1/planning_applications/{planning_application_id}/document_create_requests/{document_create_request_id}"
+: patch:
+    summary: Update a document create request
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: planning_application_id
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+        description: The planning application ID
+      - in: path
+        name: document_create_request_id
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+        description: The change request ID
+      - in: query
+        name: change_access_id
+        schema:
+          type: string
+        required: true
+        description: A unique access code for this planning application
+    requestBody:
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              new_file:
+                type: string
+                format: binary
+    responses:
+      "200":
+        description: Update document create change request
         content:
           application/json:
             examples:

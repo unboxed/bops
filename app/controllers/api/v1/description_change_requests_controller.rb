@@ -1,6 +1,6 @@
 class Api::V1::DescriptionChangeRequestsController < Api::V1::ApplicationController
   skip_before_action :verify_authenticity_token, only: :update
-  before_action :check_token_and_set_application, only: :update, if: :json_request?
+  before_action :check_token_and_set_application, only: :update
 
   def update
     @description_change_request = @planning_application.description_change_requests.where(id: params[:id]).first
@@ -20,14 +20,5 @@ private
   def description_change_params
     { approved: params[:data][:approved],
       rejection_reason: params[:data][:rejection_reason] }
-  end
-
-  def check_token_and_set_application
-    @planning_application = current_local_authority.planning_applications.where(id: params[:planning_application_id]).first
-    if params[:change_access_id] != @planning_application.change_access_id
-      render json: {}, status: 401
-    else
-      @planning_application
-    end
   end
 end

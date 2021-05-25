@@ -42,7 +42,7 @@
                     <td class="govuk-table__cell change-request-list">
                       Description change
                     </td>
-                  <% else %>
+                  <% elsif change_request.class.name == "DocumentChangeRequest" %>
                     <td class="govuk-table__cell change-request-list">
                       Replacement document
                     </td>
@@ -51,6 +51,16 @@
                     </td>
                     <td class="govuk-table__cell change-request-list">
                       <%= change_request.old_document.invalidated_document_reason %>
+                    </td>
+                  <% elsif change_request.class.name == "DocumentCreateRequest" %>
+                    <td class="govuk-table__cell change-request-list">
+                      New document
+                    </td>
+                    <td class="govuk-table__cell change-request-list">
+                      <%= change_request.document_request_type %>
+                    </td>
+                    <td class="govuk-table__cell change-request-list">
+                      <%= change_request.document_request_reason %>
                     </td>
                   <% end %>
                   <td class="govuk-table__cell">
@@ -65,7 +75,7 @@
                     <% end %>
                   </td>
                   <td class="govuk-table__cell">
-                    <%= description_approved_or_rejected(change_request) %>
+                    <%= applicant_response(change_request) %>
                   </td>
                 </tr>
               <% end %>

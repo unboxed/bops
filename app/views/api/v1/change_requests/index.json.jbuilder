@@ -33,4 +33,22 @@ json.data do
     end
     json.type "document_change_request"
   end
+
+  json.document_create_requests @planning_application.document_create_requests do |document_create_request|
+    json.extract! document_create_request,
+                  :id,
+                  :state,
+                  :response_due,
+                  :days_until_response_due,
+                  :document_request_type,
+                  :document_request_reason
+
+    json.new_document do
+      if document_create_request.new_document
+        json.name document_create_request.new_document.file.filename
+        json.url document_create_request.new_document.file.representation(resize_to_limit: [1000, 1000]).processed.url
+      end
+    end
+    json.type "document_create_request"
+  end
 end
