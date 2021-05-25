@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_22_255806) do
+ActiveRecord::Schema.define(version: 2021_05_24_165604) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,20 @@ ActiveRecord::Schema.define(version: 2021_05_22_255806) do
     t.index ["old_document_id"], name: "index_document_change_requests_on_old_document_id"
     t.index ["planning_application_id"], name: "index_document_change_requests_on_planning_application_id"
     t.index ["user_id"], name: "index_document_change_requests_on_user_id"
+  end
+
+  create_table "document_create_requests", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "new_document_id"
+    t.string "state", default: "open", null: false
+    t.string "document_request_type"
+    t.string "document_request_reason"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["new_document_id"], name: "index_document_create_requests_on_new_document_id"
+    t.index ["planning_application_id"], name: "index_document_create_requests_on_planning_application_id"
+    t.index ["user_id"], name: "index_document_create_requests_on_user_id"
   end
 
   create_table "documents", force: :cascade do |t|
@@ -208,6 +222,9 @@ ActiveRecord::Schema.define(version: 2021_05_22_255806) do
   add_foreign_key "document_change_requests", "documents", column: "old_document_id"
   add_foreign_key "document_change_requests", "planning_applications"
   add_foreign_key "document_change_requests", "users"
+  add_foreign_key "document_create_requests", "documents", column: "new_document_id"
+  add_foreign_key "document_create_requests", "planning_applications"
+  add_foreign_key "document_create_requests", "users"
   add_foreign_key "planning_applications", "users"
   add_foreign_key "recommendations", "planning_applications"
   add_foreign_key "recommendations", "users", column: "assessor_id"

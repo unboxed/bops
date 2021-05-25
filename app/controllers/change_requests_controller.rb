@@ -10,6 +10,8 @@ class ChangeRequestsController < ApplicationController
       redirect_to new_planning_application_description_change_request_path
     elsif params[:change_request] == "replacement_document"
       redirect_to new_planning_application_document_change_request_path
+    elsif params[:change_request] == "create_document"
+      redirect_to new_planning_application_document_create_request_path
     else
       flash[:error] = "You must select a change request type to proceed."
       render "new"

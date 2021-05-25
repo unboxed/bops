@@ -19,6 +19,7 @@
           <%= form.govuk_radio_buttons_fieldset(:planning_application, legend: { size: 's', text: '' }) do %>
             <%= form.govuk_radio_button :change_request, 'description_change', label: { text: 'Request approval to a description change'} %>
             <%= form.govuk_radio_button :change_request, 'replacement_document', label: { text: 'Request replacement documents' } %>
+            <%= form.govuk_radio_button :change_request, 'create_document', label: { text: 'Request a new document' } %>
           <% end %>
         </div>
       </fieldset>
