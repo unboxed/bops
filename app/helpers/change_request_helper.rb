@@ -14,10 +14,8 @@ module ChangeRequestHelper
       elsif change_request.approved == false
         change_request.rejection_reason.to_s
       end
-    elsif change_request.class.name == "DocumentChangeRequest"
-      if change_request.state == "closed"
-        change_request.new_document.name
-      end
+    elsif change_request.class.name == "DocumentChangeRequest" && change_request.state == "closed"
+      link_to(change_request.new_document.name.to_s, edit_planning_application_document_path(change_request.planning_application, change_request.new_document.id.to_s))
     end
   end
 

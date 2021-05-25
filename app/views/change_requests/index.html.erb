@@ -1,7 +1,6 @@
 <% content_for :title, "Requests for changes" %>
 <% add_parent_breadcrumb_link "Home", planning_applications_path %>
 <% add_parent_breadcrumb_link "Application", validate_documents_form_planning_application_path(@planning_application) %>
-
 <div class="govuk-grid-column-full">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column govuk-!-padding-top-6">
@@ -32,18 +31,17 @@
             </thead>
             <tbody class="govuk-table__body">
               <% @planning_application.change_requests.each do |change_request| %>
-
                 <tr class="govuk-table__row">
                   <% if change_request.class.name == "DescriptionChangeRequest" %>
-                  <td class="govuk-table__cell change-request-list">
-                    <%= link_to "Change of description", planning_application_description_change_request_path(@planning_application, change_request), class: "govuk-link" %>
-                  </td>
-                  <td class="govuk-table__cell change-request-list">
-                    New description: <%= change_request.proposed_description %>
-                  </td>
-                  <td class="govuk-table__cell change-request-list">
-                    Description change
-                  </td>
+                    <td class="govuk-table__cell change-request-list">
+                      Change of description
+                    </td>
+                    <td class="govuk-table__cell change-request-list">
+                      New description: <%= change_request.proposed_description %>
+                    </td>
+                    <td class="govuk-table__cell change-request-list">
+                      Description change
+                    </td>
                   <% else %>
                     <td class="govuk-table__cell change-request-list">
                       Replacement document
@@ -57,9 +55,9 @@
                   <% end %>
                   <td class="govuk-table__cell">
                     <% if change_request.state == "open" %>
-                    <strong class="govuk-tag govuk-tag--<%=display_request_date_state(change_request) %>">
-                      <%= change_request.days_until_response_due %> days
-                    </strong>
+                      <strong class="govuk-tag govuk-tag--<%=display_request_date_state(change_request) %>">
+                        <%= change_request.days_until_response_due %> days
+                      </strong>
                     <% else %>
                       <strong class="govuk-tag govuk-tag--<%=display_request_status(change_request) %>">
                         <%= request_state(change_request) %>
