@@ -28,7 +28,7 @@ json.data do
     json.new_document do
       if document_change_request.new_document
         json.name document_change_request.new_document.file.filename
-        json.url rails_blob_url(document_change_request.new_document.file)
+        json.url document_change_request.new_document.file.representation(resize_to_limit: [1000, 1000]).processed.url
       end
     end
     json.type "document_change_request"
