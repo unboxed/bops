@@ -1,12 +1,9 @@
-<% add_parent_breadcrumb_link "Home", planning_applications_path %>
-<% add_parent_breadcrumb_link "Application", validate_documents_form_planning_application_path(@planning_application) %>
-<% add_parent_breadcrumb_link "Requests for changes", planning_application_change_requests_path(@planning_application) %>
-<% add_parent_breadcrumb_link "New change request", new_planning_application_change_request_path(@planning_application) %>
+<%= render "change_requests/change_requests_breadcrumbs.html.erb" %>
 
-<% content_for :title, "Request for description change" %>
+<% content_for :title, "Description change" %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-l">
+    <h2 class="govuk-heading-l govuk-!-padding-top-6">
       Request for change
     </h2>
     <p class="govuk-body govuk-!-margin-bottom-1">
@@ -48,6 +45,7 @@
       label: { text: 'Please suggest a new application description', size: 's', class: 'govuk-label govuk-label--s govuk-!-padding-bottom-4'},
       rows: 5 %>
       <%= form.govuk_submit "Send" %>
+      <%= link_to "Back", new_planning_application_change_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
     <% end %>
   </div>
 </div>
