@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Api::V1::ApplicationController < ApplicationController
+  # Make ActiveStorage aware of the current host (used in url helpers)
+  include ActiveStorage::SetCurrent
+
   before_action :authenticate, :set_default_format
   protect_from_forgery with: :null_session
 

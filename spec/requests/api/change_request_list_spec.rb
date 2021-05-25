@@ -27,7 +27,7 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
   it "lists the all document change requests that exist on the planning application" do
     get "/api/v1/planning_applications/#{planning_application.id}/change_requests?change_access_id=#{planning_application.change_access_id}", headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
     expect(response).to be_successful
-    expect(json["data"]["document_change_requests"]).to eq([{
+    expect(json["data"]["document_change_requests"].first).to include({
       "id" => document_change_request.id,
       "state" => "open",
       "response_due" => document_change_request.response_due.strftime("%Y-%m-%d"),
@@ -36,12 +36,10 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
         "name" => document_change_request.old_document.name.to_s,
         "invalid_document_reason" => nil,
       },
-      "new_document" => {
-        "name" => "proposed-floorplan.png",
-        "url" => rails_blob_url(document_change_request.new_document.file),
-      },
       "type" => "document_change_request",
-    }])
+    })
+    expect(json["data"]["document_change_requests"].first["new_document"]["name"]).to eq("proposed-floorplan.png")
+    expect(json["data"]["document_change_requests"].first["new_document"]["url"]).to be_a(String)
   end
 
   it "returns a 401 if API key is wrong" do
