@@ -1,5 +1,5 @@
 class DescriptionChangeRequestsController < ApplicationController
-  before_action :set_planning_application, only: %i[new create show]
+  before_action :set_planning_application, only: %i[new create]
 
   def new
     @description_change_request = @planning_application.description_change_requests.new
@@ -17,10 +17,6 @@ class DescriptionChangeRequestsController < ApplicationController
     else
       render :new
     end
-  end
-
-  def show
-    @description_change_request = DescriptionChangeRequest.find(params[:id])
   end
 
 private
