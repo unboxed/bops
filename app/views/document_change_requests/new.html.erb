@@ -1,8 +1,6 @@
-<% add_parent_breadcrumb_link "Home", planning_applications_path %>
-<% add_parent_breadcrumb_link "Application", validate_documents_form_planning_application_path(@planning_application) %>
-<% add_parent_breadcrumb_link "New change request", new_planning_application_change_request_path(@planning_application) %>
+<%= render "change_requests/change_requests_breadcrumbs.html.erb" %>
 
-<% content_for :title, "Request replacement documents" %>
+<% content_for :title, "Replacement documents" %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-l govuk-!-padding-top-6">
