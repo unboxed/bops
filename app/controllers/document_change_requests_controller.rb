@@ -12,7 +12,7 @@ class DocumentChangeRequestsController < ApplicationController
     end
     flash[:notice] = "Document change request successfully sent."
     send_change_request_email
-    redirect_to validate_documents_form_planning_application_path(@planning_application)
+    redirect_to planning_application_change_requests_path(@planning_application)
   end
 
 private

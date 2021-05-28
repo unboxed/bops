@@ -36,8 +36,6 @@ RSpec.describe "Requesting description changes to a planning application", type:
     fill_in "Please suggest a new application description", with: "New description"
     click_button "Send"
 
-    click_link "Start new or view existing requests"
-
     within(".change-requests") do
       expect(page).to have_content("Description")
       expect(page).to have_content("15 days")
