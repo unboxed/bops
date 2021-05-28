@@ -46,7 +46,7 @@
                     <td class="govuk-table__cell change-request-list">
                       Replacement document
                     </td>
-                    <td class="govuk-table__cell change-request-list">
+                    <td class="govuk-table__cell change-request-list limit-column-width">
                       <%= change_request.old_document.name %>
                     </td>
                     <td class="govuk-table__cell change-request-list">
@@ -74,7 +74,7 @@
                       </strong>
                     <% end %>
                   </td>
-                  <td class="govuk-table__cell">
+                  <td class="govuk-table__cell limit-column-width">
                     <%= applicant_response(change_request) %>
                   </td>
                 </tr>

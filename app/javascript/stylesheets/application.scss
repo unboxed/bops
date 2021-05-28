@@ -105,3 +105,8 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
 .make-invisible {
   display: none;
 }
+
+.limit-column-width {
+  word-wrap: break-word;
+  max-width: 150px;
+}
