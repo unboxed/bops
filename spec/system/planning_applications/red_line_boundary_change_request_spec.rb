@@ -34,5 +34,41 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     expect(page).to have_content("Applicant's original red line boundary")
   end
 
+  it "only accepts a request that contains updated coordinates" do
+    sign_in assessor
+    visit planning_application_path(planning_application)
+    click_link "Validate application"
+    click_link "Start new or view existing requests"
+    click_link "Add new request"
+
+    within("fieldset", text: "Send a change request") do
+      choose "Request approval to a red line boundary change"
+    end
+
+    click_button "Next"
+
+    fill_in "New geojson", with: " "
+    click_button "Send"
+
+    expect(page).to have_content("Red line drawing must be complete")
+  end
+
+  it "only accepts a request that contains a reason" do
+    sign_in assessor
+    visit planning_application_path(planning_application)
+    click_link "Validate application"
+    click_link "Start new or view existing requests"
+    click_link "Add new request"
+
+    within("fieldset", text: "Send a change request") do
+      choose "Request approval to a red line boundary change"
+    end
+
+    click_button "Next"
+
+    fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: " "
+    click_button "Send"
+
+    expect(page).to have_content("Provide a reason for changes")
   end
 end

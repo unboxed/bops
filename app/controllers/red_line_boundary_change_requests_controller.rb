@@ -1,8 +1,12 @@
 class RedLineBoundaryChangeRequestsController < ApplicationController
-  before_action :set_planning_application, only: %i[new create]
+  before_action :set_planning_application, only: %i[new create show]
 
   def new
-    @red_line_boundary_change_request = RedLineBoundaryChangeRequest.new(planning_application_id: @planning_application.id)
+    @red_line_boundary_change_request = @planning_application.red_line_boundary_change_requests.new
+  end
+
+  def show
+    @red_line_boundary_change_request = @planning_application.red_line_boundary_change_requests.find(params[:id])
   end
 
   def create
