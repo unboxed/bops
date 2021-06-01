@@ -239,6 +239,14 @@ class PlanningApplication < ApplicationRecord
     (description_change_requests + document_change_requests + document_create_requests).sort_by(&:created_at).reverse
   end
 
+  def closed_change_requests
+    description_change_requests.closed + document_change_requests.closed + document_create_requests.closed
+  end
+
+  def last_change_request_date
+    closed_change_requests.max_by(&:updated_at).updated_at
+  end
+
 private
 
   def set_key_dates

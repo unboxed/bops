@@ -11,6 +11,7 @@ class DescriptionChangeRequest < ApplicationRecord
   validate :rejected_reason_is_present?
 
   scope :open, -> { where(state: "open") }
+  scope :closed, -> { where(state: "closed") }
 
   def rejected_reason_is_present?
     if approved == false
