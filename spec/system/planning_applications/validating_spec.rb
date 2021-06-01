@@ -3,6 +3,10 @@
 require "rails_helper"
 
 RSpec.shared_examples "validate and invalidate" do
+  let!(:second_planning_application) do
+    create :planning_application, local_authority: @default_local_authority
+  end
+
   it "can be validated" do
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link planning_application.reference
@@ -76,6 +80,53 @@ RSpec.shared_examples "validate and invalidate" do
     click_button "Archive"
 
     expect(page).to have_text("proposed-floorplan.png has been archived")
+  end
+
+  it "displays a validation date of the last closed change request if any closed change requests exist" do
+    create(:description_change_request,
+           planning_application: planning_application,
+           proposed_description: "new roof",
+           state: "closed",
+           updated_at: Time.zone.today - 2.days)
+
+    create(:document_change_request,
+           planning_application: planning_application,
+           state: "closed",
+           updated_at: Time.zone.today - 3.days)
+
+    click_link planning_application.reference
+    click_link "Validate application"
+
+    choose "Yes"
+
+    expect(page).to have_field("Day", with: description_change_request.updated_at.strftime("%-d"))
+    expect(page).to have_field("Month", with: description_change_request.updated_at.strftime("%-m"))
+    expect(page).to have_field("Year", with: description_change_request.updated_at.strftime("%Y"))
+  end
+
+  it "displays a validation date of when the documents where validated if no closed change requests exist" do
+    visit validate_documents_form_planning_application_path(second_planning_application)
+
+    choose "Yes"
+
+    expect(page).to have_field("Day", with: second_planning_application.documents_validated_at.strftime("%-d"))
+    expect(page).to have_field("Month", with: second_planning_application.documents_validated_at.strftime("%-m"))
+    expect(page).to have_field("Year", with: second_planning_application.documents_validated_at.strftime("%Y"))
+  end
+
+  it "allows for the user to input a validation date manually" do
+    visit validate_documents_form_planning_application_path(second_planning_application)
+
+    choose "Yes"
+
+    fill_in "Day", with: "3"
+    fill_in "Month", with: "6"
+    fill_in "Year", with: "2022"
+
+    click_button "Save"
+
+    second_planning_application.reload
+    expect(second_planning_application.documents_validated_at.to_s).to eq("2022-06-03")
   end
 end
 
