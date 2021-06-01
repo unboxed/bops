@@ -28,5 +28,11 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     expect(page).to have_content("Change request for red line boundary successfully sent.")
     expect(page).to have_link("View proposed red line boundary")
     expect(page).to have_content("Coordinates look wrong")
+
+    click_link("View proposed red line boundary")
+    expect(page).to have_content("Coordinates look wrong")
+    expect(page).to have_content("Applicant's original red line boundary")
+  end
+
   end
 end
