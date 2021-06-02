@@ -24,11 +24,13 @@
     <h2 class="govuk-heading-m">
       Applicant's original red line boundary
     </h2>
+    <%= @planning_application.boundary_geojson %>
     <%= render "shared/location_map", locals: { div_id: "current_map", geojson: @planning_application.boundary_geojson } %>
 
     <h2 class="govuk-heading-m">
      Proposed red line boundary
     </h2>
+    <%=  @red_line_boundary_change_request.new_geojson %>
     <%= render "shared/location_map", locals: { div_id: "proposed_map", geojson: @red_line_boundary_change_request.new_geojson } %>
 
   </div>

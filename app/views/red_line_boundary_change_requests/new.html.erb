@@ -36,6 +36,10 @@
                                label: { text: 'New geojson', size: 's', class: 'govuk-label govuk-label--s govuk-!-padding-bottom-4'},
                                rows: 5 %>
 
+      <%= render "shared/interactive_map", locals: { div_id: "interactive_map", geojson: @planning_application.boundary_geojson } %>
+
+      <p class="govuk-body govuk-!-padding-top-4">
+      </p>
       <%= form.govuk_text_area :reason,
                                label: { text: 'Explain to the applicant why changes are proposed to the red line boundary', size: 's', class: 'govuk-label govuk-label--s govuk-!-padding-bottom-4'},
                                rows: 5 %>

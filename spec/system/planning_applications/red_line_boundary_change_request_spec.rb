@@ -21,7 +21,7 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     end
     click_button "Next"
 
-    fill_in "New geojson", with: '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-0.07716178894042969,51.50094238217541],[-0.07645905017852783,51.50053497847238],[-0.07615327835083008,51.50115276135022],[-0.07716178894042969,51.50094238217541]]]}}'
+    fill_in "New geojson", with: "LatLng(51.501027, -0.077844),LatLng(51.501098, -0.077022),LatLng(51.500668, -0.076988),LatLng(51.500754, -0.077633),LatLng(51.500979, -0.077811)"
     fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: "Coordinates look wrong"
     click_button "Send"
 
