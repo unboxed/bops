@@ -219,6 +219,43 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).to have_content("Please enter a valid date")
     end
 
+    it "shows error if only part of the date is empty" do
+      click_link planning_application.reference
+      click_link "Validate application"
+
+      choose "Yes"
+
+      fill_in "Day", with: ""
+      fill_in "Month", with: ""
+      fill_in "Year", with: "2021"
+
+      click_button "Save"
+
+      planning_application.reload
+      expect(planning_application.status).to eql("not_started")
+      expect(page).to have_content("Please enter a valid date")
+
+      fill_in "Day", with: ""
+      fill_in "Month", with: "2"
+      fill_in "Year", with: ""
+
+      click_button "Save"
+
+      planning_application.reload
+      expect(planning_application.status).to eql("not_started")
+      expect(page).to have_content("Please enter a valid date")
+
+      fill_in "Day", with: "1"
+      fill_in "Month", with: ""
+      fill_in "Year", with: ""
+
+      click_button "Save"
+
+      planning_application.reload
+      expect(planning_application.status).to eql("not_started")
+      expect(page).to have_content("Please enter a valid date")
+    end
+
     it "shows edit, upload and archive links for documents" do
       click_link planning_application.reference
       click_button "Documents"
