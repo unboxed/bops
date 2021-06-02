@@ -1,0 +1,47 @@
+<% if locals[:geojson].present? %>
+
+  <div class="map">
+    <div id="<%= locals[:div_id] %>" style="width: 680px; height: 400px;"></div>
+    <div id="coordinates"></div>
+  </div>
+
+  <script>
+      var <%= locals[:div_id] %>Map = L.map(<%= locals[:div_id] %>, {drawControl: true});
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          maxZoom: 22,
+          maxNativeZoom: 19
+      }).addTo(<%= locals[:div_id] %>Map);
+
+      var boundary = L.geoJSON(<%= JSON.parse(locals[:geojson]).to_json.html_safe %>, {
+          "color": "#ff0000",
+          "weight": 2,
+          "opacity": 0.65
+      }).addTo(<%= locals[:div_id] %>Map);
+
+      var drawnItems = new L.FeatureGroup();
+      <%= locals[:div_id] %>Map.addLayer(drawnItems);
+      var drawControl = new L.Control.Draw({
+          edit: {
+              featureGroup: drawnItems
+          }
+      });
+
+      <%= locals[:div_id] %>Map.on('draw:created', function (e) {
+
+          var type = e.layerType,
+              layer = e.layer;
+
+          var latLongs = layer.getLatLngs();
+
+          var coordsDiv = document.getElementById("red-line-boundary-change-request-new-geojson-field");
+          var content = document.createTextNode(latLongs);
+          coordsDiv.appendChild(content);
+
+          drawnItems.addLayer(layer);
+      });
+
+      <%= locals[:div_id] %>Map.fitBounds(boundary.getBounds(), {padding: [50, 50]});
+  </script>
+<% end %>
+
