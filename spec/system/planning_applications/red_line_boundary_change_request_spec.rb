@@ -32,6 +32,9 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     click_link("View proposed red line boundary")
     expect(page).to have_content("Coordinates look wrong")
     expect(page).to have_content("Applicant's original red line boundary")
+
+    email = ActionMailer::Base.deliveries.last
+    expect(email.body).to have_content(planning_application.reference)
   end
 
   it "only accepts a request that contains updated coordinates" do
