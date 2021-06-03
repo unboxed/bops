@@ -105,7 +105,12 @@
   <p class="govuk-body">Signed: <%= planning_application.local_authority.signatory_name %>
     <%= planning_application.local_authority.signatory_job_title %>
   </p>
-  <p class="govuk-body">
+  <% if @planning_application.boundary_geojson.present? %>
+    <%= render "shared/location_map", locals: { div_id: "decision_map" } %>
+  <% else %>
+    <p class="govuk-body">No digital sitemap provided</p>
+  <% end %>
+  <p class="govuk-body govuk-!-padding-top-6">
     Your attention is drawn to the notes accompanying this document
   </p>
 

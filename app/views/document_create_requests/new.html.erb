@@ -1,0 +1,32 @@
+<%= render "change_requests/change_requests_breadcrumbs" %>
+
+<% content_for :title, "Request a new document" %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-6">
+      Request a new document
+    </h2>
+    <%= form_with model: [@planning_application, @document_create_request], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+      <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
+        <fieldset class="govuk-fieldset">
+          <div class="govuk-!-padding-bottom-8">
+            <%= form.govuk_text_field :document_request_type,
+            label: { text: 'Please specify the new document type:', size: 's', class: 'govuk-label govuk-label--s govuk-!-padding-bottom-2' },
+            hint: { text: 'Eg. Existing floor plans' } %>
+          </div>
+        </fieldset>
+        <div>
+          <fieldset class="govuk-fieldset">
+            <div class="govuk-!-padding-bottom-4">
+              <%= form.govuk_text_area :document_request_reason,
+              label: { text: 'Please specify the reason you have requested this document?',
+              size: 's', class: 'govuk-label govuk-label--s govuk-!-padding-bottom-2'},
+              rows: 5 %>
+            </div>
+          </fieldset>
+        </div>
+        <%= form.govuk_submit "Send" %>
+        <%= link_to "Back", new_planning_application_change_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      <% end %>
+    </div>
+  </div>

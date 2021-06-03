@@ -1,0 +1,51 @@
+<%= render "change_requests/change_requests_breadcrumbs" %>
+
+<% content_for :title, "Description change" %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-6">
+      Request for change
+    </h2>
+    <p class="govuk-body govuk-!-margin-bottom-1">
+      <strong>At:</strong> <%= @planning_application.full_address  %>
+    </p>
+    <p class="govuk-body govuk-!-margin-bottom-1">
+      <strong>Date received:</strong> <%= @planning_application.created_at.strftime("%e %B %Y") %>
+    </p>
+    <p class="govuk-body govuk-!-margin-bottom-8">
+      <strong>Application number:</strong> <%= @planning_application.reference  %>
+    </p>
+    <p class="govuk-heading-m govuk-!-padding-top-6">
+      Description of work
+    </p>
+    <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-1">
+      Previous description
+    </p>
+    <p class="govuk-body govuk-!-margin-bottom-6">
+      <%= @planning_application.description  %>
+    </p>
+
+    <%= form_with model: [@planning_application, @description_change_request], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+      <% if @description_change_request.errors.any? %>
+        <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+          <h2 class="govuk-error-summary__title" id="error-summary-title">
+            There is a problem
+          </h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list">
+              <% @description_change_request.errors.full_messages.each do |error| %>
+                <li><%= error %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+
+    <%= form.govuk_text_area :proposed_description,
+      label: { text: 'Please suggest a new application description', size: 's', class: 'govuk-label govuk-label--s govuk-!-padding-bottom-4'},
+      rows: 5 %>
+      <%= form.govuk_submit "Send" %>
+      <%= link_to "Back", new_planning_application_change_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+    <% end %>
+  </div>
+</div>

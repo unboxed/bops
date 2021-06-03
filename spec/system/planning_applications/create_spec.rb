@@ -24,11 +24,35 @@ RSpec.describe "Creating a planning application", type: :system do
     expect(page).to have_text("New Application: Residential Lawful Development Certificate")
 
     fill_in "Description", with: "Back shack"
+
+    within ".applicant-information" do
+      fill_in "Email address", with: "thesebeans@thesebeans.com"
+    end
+
     click_button "Save"
     expect(page).to have_text("Planning application was successfully created.")
 
     visit planning_application_path(PlanningApplication.last.id)
     expect(page).to have_text("Description: Back shack")
+  end
+
+  it "displays an error when both agent and applicant emails are missing" do
+    click_link "Add new application"
+
+    expect(page).to have_text("New Application: Residential Lawful Development Certificate")
+
+    fill_in "Description", with: "Bad bad application"
+
+    click_button "Save"
+    expect(page).to have_text("An applicant or agent email is required.")
+
+    within ".agent-information" do
+      fill_in "Email address", with: "agentina@agentino.com"
+    end
+    click_button "Save"
+
+    visit planning_application_path(PlanningApplication.last.id)
+    expect(page).to have_text("Description: Bad bad application")
   end
 
   it "allows for an application to be created by a reviewer, using minimum details" do
@@ -39,6 +63,10 @@ RSpec.describe "Creating a planning application", type: :system do
     click_link "Add new application"
 
     fill_in "Description", with: "Bird house"
+    within ".applicant-information" do
+      fill_in "Email address", with: "mah@mah.com"
+    end
+
     click_button "Save"
     expect(page).to have_text("Planning application was successfully created.")
 
@@ -93,8 +121,8 @@ RSpec.describe "Creating a planning application", type: :system do
 
       expect(page).to have_text("Site address: Palace Road, Crystal Palace, SE19 2LX")
       expect(page).to have_text("UPRN: 19284783939")
-      expect(page).to have_text("Proposed permitted development: Certificate of Lawfulness")
-      expect(page).to have_text("Work already completed: No")
+      expect(page).to have_text("Application type: Lawful Development Certificate (Proposed)")
+      expect(page).to have_text("Work already started: No")
       expect(page).to have_text("Description: Backyard bird hotel")
       expect(page).to have_text("Payment Reference: 232432544")
       expect(page).to have_text("Agentina Agentino")
@@ -106,7 +134,7 @@ RSpec.describe "Creating a planning application", type: :system do
     end
 
     it "with existing status" do
-      within "form", text: "Has the work been completed?" do
+      within "form", text: "Has the work been started?" do
         choose "Yes"
       end
 
@@ -114,7 +142,7 @@ RSpec.describe "Creating a planning application", type: :system do
 
       visit planning_application_path(PlanningApplication.last.id)
 
-      expect(page).to have_text("Work already completed: Yes")
+      expect(page).to have_text("Work already started: Yes")
     end
 
     it "with the create action being correctly audited" do

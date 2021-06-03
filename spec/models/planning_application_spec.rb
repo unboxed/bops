@@ -298,10 +298,10 @@ RSpec.describe PlanningApplication, type: :model do
       expect(planning_application.reload.agent?).to eq false
     end
 
-    it "returns false if email or phone is not given" do
+    it "returns true if only name is given" do
       planning_application.update!(agent_first_name: "first", agent_last_name: "last", agent_phone: "", agent_email: "")
 
-      expect(planning_application.agent?).to eq false
+      expect(planning_application.agent?).to eq true
     end
 
     it "returns true if name and email are given" do
@@ -327,11 +327,11 @@ RSpec.describe PlanningApplication, type: :model do
       expect(planning_application.applicant?).to eq false
     end
 
-    it "returns false if email or phone is not given" do
+    it "returns true if only name is given" do
       planning_application.update!(applicant_first_name: "first", applicant_last_name: "last",
                                    applicant_phone: "", applicant_email: "")
 
-      expect(planning_application.applicant?).to eq false
+      expect(planning_application.applicant?).to eq true
     end
 
     it "returns true if name and email are given" do
@@ -350,15 +350,28 @@ RSpec.describe PlanningApplication, type: :model do
   end
 
   describe "#target_date" do
+    it "is set as created_at + 7 weeks when new record created" do
+      planning_application = create(:planning_application)
+      expect(planning_application.target_date).to eq((planning_application.created_at + 7.weeks).to_date)
+    end
+
+    it "is set to documents_validated_at + 7 weeks when documents_validated_at added" do
+      planning_application = create(:planning_application)
+      planning_application.update!(documents_validated_at: 1.week.ago)
+      expect(planning_application.target_date).to eq((planning_application.documents_validated_at + 7.weeks).to_date)
+    end
+  end
+
+  describe "#expiry_date" do
     it "is set as created_at + 8 weeks when new record created" do
       planning_application = create(:planning_application)
-      expect(planning_application.target_date).to eq((planning_application.created_at + 8.weeks).to_date)
+      expect(planning_application.expiry_date).to eq((planning_application.created_at + 8.weeks).to_date)
     end
 
     it "is set to documents_validated_at + 8 weeks when documents_validated_at added" do
       planning_application = create(:planning_application)
       planning_application.update!(documents_validated_at: 1.week.ago)
-      expect(planning_application.target_date).to eq((planning_application.documents_validated_at + 8.weeks).to_date)
+      expect(planning_application.expiry_date).to eq((planning_application.documents_validated_at + 8.weeks).to_date)
     end
   end
 end

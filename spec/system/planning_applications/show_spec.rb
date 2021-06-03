@@ -31,7 +31,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "Completed status is correct" do
-      expect(page).to have_text("Work already completed: No")
+      expect(page).to have_text("Work already started: No")
     end
 
     it "Planning application code is correct" do
@@ -50,7 +50,7 @@ RSpec.describe "Planning Application show page", type: :system do
       expect(page).to have_text("Site address: 7 Elm Grove, London, SE15 6UT")
       expect(page).to have_text("UPRN: 00773377")
       expect(page).to have_link("View site on Google Maps")
-      expect(page).to have_text("Application type: Proposed permitted development: Certificate of Lawfulness")
+      expect(page).to have_text("Application type: Lawful Development Certificate (Proposed)")
       expect(page).to have_text("Description: Roof extension")
       expect(page).to have_text("PAY123")
     end
@@ -64,11 +64,10 @@ RSpec.describe "Planning Application show page", type: :system do
     it "Key application dates accordion" do
       click_button "Key application dates"
 
-      expect(page).to have_text("Application status: In assessment")
       expect(page).to have_text("Application received: #{Time.zone.now.strftime('%e %B %Y').strip}")
       expect(page).to have_text("Validation complete: #{Time.zone.now.strftime('%e %B %Y').strip}")
       expect(page).to have_text("Target date: #{planning_application.target_date.strftime('%e %B %Y').strip}")
-      expect(page).to have_text("Statutory date: #{planning_application.target_date.strftime('%e %B %Y').strip}")
+      expect(page).to have_text("Expiry date: #{planning_application.expiry_date.strftime('%e %B %Y').strip}")
     end
 
     it "Contact information accordion" do
@@ -137,6 +136,18 @@ RSpec.describe "Planning Application show page", type: :system do
 
       expect(page).to have_current_path(/sign_in/)
       expect(page).to have_content("You need to sign in or sign up before continuing.")
+    end
+  end
+
+  context "when work status is existing" do
+    before do
+      sign_in assessor
+      planning_application.update!(work_status: "existing")
+      visit planning_application_path(planning_application.reload.id)
+    end
+
+    it "displays the correct application type" do
+      expect(page).to have_text("Application type: Lawful Development Certificate (Existing)")
     end
   end
 end

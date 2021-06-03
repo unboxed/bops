@@ -9,12 +9,16 @@ class PlanningApplication < ApplicationRecord
 
   has_many :documents, dependent: :destroy
   has_many :recommendations, dependent: :destroy
+  has_many :description_change_requests, dependent: :destroy
+  has_many :document_change_requests, dependent: :destroy
+  has_many :document_create_requests, dependent: :destroy
 
   belongs_to :user, optional: true
   belongs_to :local_authority
 
-  before_create :set_target_date
-  before_update :set_target_date
+  before_create :set_key_dates
+  before_create :set_change_access_id
+  before_update :set_key_dates
 
   WORK_STATUSES = %w[proposed existing].freeze
 
@@ -23,6 +27,7 @@ class PlanningApplication < ApplicationRecord
                          message: "Work Status should be proposed or existing" }
   validates :application_type, presence: true
 
+  validate :applicant_or_agent_email
   validate :documents_validated_at_date
   validate :public_comment_present
   validate :decision_with_recommendations
@@ -97,7 +102,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def days_left
-    (target_date - Date.current).to_i
+    (expiry_date - Date.current).to_i
   end
 
   def reference
@@ -121,11 +126,11 @@ class PlanningApplication < ApplicationRecord
   end
 
   def agent?
-    agent_first_name? && agent_last_name? && (agent_phone? || agent_email?)
+    agent_first_name? || agent_last_name? || agent_phone? || agent_email?
   end
 
   def applicant?
-    applicant_first_name? && applicant_last_name? && (applicant_phone? || applicant_email?)
+    applicant_first_name? || applicant_last_name? || applicant_phone? || applicant_email?
   end
 
   def review_complete?
@@ -212,10 +217,45 @@ class PlanningApplication < ApplicationRecord
     "#{address_1}, #{town}, #{postcode}"
   end
 
+  def secure_change_url(application_id, secure_token)
+    if ENV["DOMAIN"] == "bops-staging.services"
+      "http://#{local_authority.subdomain}.bops-applicants-staging.services/change_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
+    elsif ENV["DOMAIN"] == "bops.services"
+      "http://#{local_authority.subdomain}.bops-applicants.services/change_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
+    else
+      "http://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/change_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
+    end
+  end
+
+  def invalid_documents_without_change_request
+    invalid_documents.reject { |x| document_change_requests.where(old_document: x).any? }
+  end
+
+  def invalid_documents
+    documents.active.invalidated
+  end
+
+  def change_requests
+    (description_change_requests + document_change_requests + document_create_requests).sort_by(&:created_at).reverse
+  end
+
+  def closed_change_requests
+    description_change_requests.closed + document_change_requests.closed + document_create_requests.closed
+  end
+
+  def last_change_request_date
+    closed_change_requests.max_by(&:updated_at).updated_at
+  end
+
 private
 
-  def set_target_date
-    self.target_date = (documents_validated_at || created_at) + 8.weeks
+  def set_key_dates
+    self.expiry_date = (documents_validated_at || created_at) + 8.weeks
+    self.target_date = (documents_validated_at || created_at) + 7.weeks
+  end
+
+  def set_change_access_id
+    self.change_access_id = SecureRandom.hex(15)
   end
 
   def documents_validated_at_date
@@ -230,7 +270,7 @@ private
 
   def public_comment_present
     if decision_present? && public_comment.blank?
-      errors.add(:planning_application, "Please fill in the GDPO policies text box.")
+      errors.add(:planning_application, "Please state the reasons why this application is, or is not lawful")
     end
   end
 
@@ -241,6 +281,12 @@ private
   def decision_with_recommendations
     if decision.nil? && recommendations.any?
       errors.add(:planning_application, "Please select Yes or No")
+    end
+  end
+
+  def applicant_or_agent_email
+    unless applicant_email? || agent_email?
+      errors.add(:base, "An applicant or agent email is required.")
     end
   end
 end

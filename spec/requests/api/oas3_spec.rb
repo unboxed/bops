@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "The Open API Specification document", type: :request, show_exceptions: true do
-  let(:document) { Openapi3Parser.load_file(Rails.root.join("public/api-docs/v1/swagger_doc.yaml")) }
+  let(:document) { Openapi3Parser.load_file(Rails.root.join("public/api-docs/v1/_build/swagger_doc.yaml")) }
   let(:api_user) { create :api_user }
 
   def example_request_json_for(path, http_method, example_name)
@@ -66,6 +66,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
 
   it "successfully returns the listing of applications as specified" do
     planning_application_hash = example_response_hash_for("/api/v1/planning_applications", "get", 200, "Full")["data"].first
+
     planning_application = PlanningApplication.create! planning_application_hash.except("application_number", "received_date", "documents", "site").merge(local_authority: @default_local_authority)
     planning_application.update!(planning_application_hash["site"])
     planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url")) do |document|

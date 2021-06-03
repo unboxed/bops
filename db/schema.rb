@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_30_100534) do
+ActiveRecord::Schema.define(version: 2021_05_24_165604) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,48 @@ ActiveRecord::Schema.define(version: 2021_03_30_100534) do
     t.index ["user_id"], name: "index_audits_on_user_id"
   end
 
+  create_table "description_change_requests", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.bigint "user_id", null: false
+    t.string "state", default: "open", null: false
+    t.text "proposed_description"
+    t.boolean "approved"
+    t.string "rejection_reason"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "previous_description"
+    t.index ["planning_application_id"], name: "index_description_change_requests_on_planning_application_id"
+    t.index ["user_id"], name: "index_description_change_requests_on_user_id"
+  end
+
+  create_table "document_change_requests", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "old_document_id", null: false
+    t.bigint "new_document_id"
+    t.string "state", default: "open", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["new_document_id"], name: "index_document_change_requests_on_new_document_id"
+    t.index ["old_document_id"], name: "index_document_change_requests_on_old_document_id"
+    t.index ["planning_application_id"], name: "index_document_change_requests_on_planning_application_id"
+    t.index ["user_id"], name: "index_document_change_requests_on_user_id"
+  end
+
+  create_table "document_create_requests", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "new_document_id"
+    t.string "state", default: "open", null: false
+    t.string "document_request_type"
+    t.string "document_request_reason"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["new_document_id"], name: "index_document_create_requests_on_new_document_id"
+    t.index ["planning_application_id"], name: "index_document_create_requests_on_planning_application_id"
+    t.index ["user_id"], name: "index_document_create_requests_on_user_id"
+  end
+
   create_table "documents", force: :cascade do |t|
     t.bigint "planning_application_id"
     t.datetime "created_at", precision: 6, null: false
@@ -75,6 +117,8 @@ ActiveRecord::Schema.define(version: 2021_03_30_100534) do
     t.string "numbers", default: "", null: false
     t.boolean "publishable", default: false
     t.boolean "referenced_in_decision_notice", default: false
+    t.boolean "validated"
+    t.text "invalidated_document_reason"
     t.index ["planning_application_id"], name: "index_documents_on_planning_application_id"
   end
 
@@ -131,6 +175,8 @@ ActiveRecord::Schema.define(version: 2021_03_30_100534) do
     t.string "uprn"
     t.json "boundary_geojson"
     t.text "constraints", default: [], null: false, array: true
+    t.string "change_access_id"
+    t.date "expiry_date"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
     t.index ["user_id"], name: "index_planning_applications_on_user_id"
   end
@@ -170,6 +216,15 @@ ActiveRecord::Schema.define(version: 2021_03_30_100534) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "audits", "api_users"
   add_foreign_key "audits", "planning_applications"
+  add_foreign_key "description_change_requests", "planning_applications"
+  add_foreign_key "description_change_requests", "users"
+  add_foreign_key "document_change_requests", "documents", column: "new_document_id"
+  add_foreign_key "document_change_requests", "documents", column: "old_document_id"
+  add_foreign_key "document_change_requests", "planning_applications"
+  add_foreign_key "document_change_requests", "users"
+  add_foreign_key "document_create_requests", "documents", column: "new_document_id"
+  add_foreign_key "document_create_requests", "planning_applications"
+  add_foreign_key "document_create_requests", "users"
   add_foreign_key "planning_applications", "users"
   add_foreign_key "recommendations", "planning_applications"
   add_foreign_key "recommendations", "users", column: "assessor_id"

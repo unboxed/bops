@@ -25,4 +25,15 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
       to: @planning_application.applicant_email,
     )
   end
+
+  def change_request_mail(planning_application, change_request)
+    @planning_application = planning_application
+    @change_request = change_request
+
+    view_mail(
+      NOTIFY_TEMPLATE_ID,
+      subject: "Your planning application at: #{@planning_application.full_address}",
+      to: @planning_application.applicant_email,
+    )
+  end
 end

@@ -43,7 +43,7 @@ RSpec.describe "Edit document numbers page", type: :system do
       end
 
       it "Assessor can see information about the document" do
-        within(all(".app-task-list__item").first) do
+        within(all(".govuk-table__row").first) do
           click_link "Edit"
         end
         expect(page).to have_text("Side")
@@ -53,14 +53,14 @@ RSpec.describe "Edit document numbers page", type: :system do
       end
 
       it "Assessor is able to add document numbers and save them" do
-        within(all(".current").first) do
+        within(all(".govuk-table__row").first) do
           click_link "Edit"
         end
         fill_in "Document reference(s)", with: "new_number_1, new_number_2"
 
         click_button "Save"
 
-        within(all(".app-task-list__item").first) do
+        within(all(".govuk-table__row").first) do
           click_link "Edit"
         end
         # the submitted values are re-presented in the form
@@ -68,7 +68,7 @@ RSpec.describe "Edit document numbers page", type: :system do
 
         click_link "Documents"
 
-        within(all(".current").last) do
+        within(all(".govuk-table__row").first) do
           click_link "Edit"
         end
         fill_in "Document reference(s)", with: "other_new_number_1"
@@ -77,7 +77,7 @@ RSpec.describe "Edit document numbers page", type: :system do
       end
 
       it "Assessor is able to add documents to decision notice without publishing" do
-        within(all(".current").first) do
+        within(all(".govuk-table__row").first) do
           click_link("Edit")
         end
         fill_in "Document reference(s)", with: "new_number_1, new_number_2"
@@ -92,7 +92,7 @@ RSpec.describe "Edit document numbers page", type: :system do
 
         click_button "Save"
 
-        within(all(".app-task-list__item").first) do
+        within(all(".govuk-table__row").first) do
           click_link "Edit"
         end
         # the submitted values are re-presented in the form
@@ -100,7 +100,7 @@ RSpec.describe "Edit document numbers page", type: :system do
 
         click_link "Documents"
 
-        within(all(".current").last) do
+        within(all(".govuk-table__row").first) do
           click_link "Edit"
         end
         fill_in "Document reference(s)", with: "other_new_number_1"
@@ -112,7 +112,7 @@ RSpec.describe "Edit document numbers page", type: :system do
       end
 
       it "Assessor is able to publish documents without adding to the decision notice" do
-        within(all(".app-task-list__item").first) do
+        within(all(".govuk-table__row").first) do
           click_link "Edit"
         end
         fill_in "Document reference(s)", with: "new_number_1, new_number_2"
@@ -132,7 +132,7 @@ RSpec.describe "Edit document numbers page", type: :system do
       end
 
       it "Error message is shown if document referenced is true without document number" do
-        within(all(".app-task-list__item").first) do
+        within(all(".govuk-table__row").first) do
           click_link "Edit"
         end
 

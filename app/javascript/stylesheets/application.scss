@@ -101,3 +101,12 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
 .audit_details {
   font-style: italic;
 }
+
+.make-invisible {
+  display: none;
+}
+
+.limit-column-width {
+  word-wrap: break-word;
+  max-width: 150px;
+}

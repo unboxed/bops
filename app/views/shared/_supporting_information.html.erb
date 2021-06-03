@@ -36,10 +36,6 @@
     </div>
     <div class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
       <p class="govuk-body">
-        <strong>Application status:</strong>
-        <%= t("statuses.#{@planning_application.status}") %>
-      </p>
-      <p class="govuk-body">
         <strong>Application received:</strong>
         <%= @planning_application.created_at.strftime("%e %B %Y") %>
       </p>
@@ -52,20 +48,12 @@
         <% end %>
       </p>
       <p class="govuk-body">
-        <strong>Documents valid from:</strong>
-        <% if @planning_application.documents_validated_at %>
-          <%= @planning_application.documents_validated_at.strftime("%e %B %Y") %>
-        <% else %>
-          Not yet validated
-        <% end %>
-      </p>
-      <p class="govuk-body">
         <strong>Target date:</strong>
         <%= @planning_application.target_date.strftime("%e %B %Y") %>
       </p>
       <p class="govuk-body">
-        <strong>Statutory date:</strong>
-        <%= @planning_application.target_date.strftime("%e %B %Y") %>
+        <strong>Expiry date:</strong>
+        <%= @planning_application.expiry_date.strftime("%e %B %Y") %>
       </p>
       <p class="govuk-body">
         <%= link_to "Activity log", planning_application_audits_path(@planning_application) %>

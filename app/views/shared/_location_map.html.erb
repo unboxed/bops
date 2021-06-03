@@ -1,0 +1,34 @@
+<div class="map">
+    <% if locals[:div_id] == "decision_map" %>
+        <div id="decision_map" style="width: 550px; height: 400px;"></div>
+    <% else %>
+        <div id="accordion_map" style="width: 100%; height: 400px;"></div>
+    <% end %>
+</div>
+
+<script>
+    var <%= locals[:div_id] %>Map = L.map(<%= locals[:div_id] %>, {minZoom: 8, maxZoom: 22});
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 22,
+        maxNativeZoom: 19
+    }).addTo(<%= locals[:div_id] %>Map);
+
+    var boundary = L.geoJSON(<%= JSON.parse(@planning_application.boundary_geojson).to_json.html_safe %>, {
+        "color": "#ff0000",
+        "weight": 2,
+        "opacity": 0.65
+    }).addTo(<%= locals[:div_id] %>Map);
+
+    if (<%= locals[:div_id] %>.parentElement.className == "decision-notice") {
+        <%= locals[:div_id] %>Map.fitBounds(boundary.getBounds(), {padding: [50, 50]});
+    } else {
+        <%= locals[:div_id] %>Map.fitBounds(boundary.getBounds());
+
+        function accordion_expanded() {
+            <%= locals[:div_id] %>Map.invalidateSize().fitBounds(boundary.getBounds());
+        }
+    }
+</script>
+
+

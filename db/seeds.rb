@@ -17,9 +17,9 @@ southwark = LocalAuthority.find_or_create_by!(
   email_address: "planning@lambeth.gov.uk",
 )
 
-bucks = LocalAuthority.find_or_create_by!(
+buckinghamshire = LocalAuthority.find_or_create_by!(
   name: "Buckinghamshire",
-  subdomain: "bucks",
+  subdomain: "buckinghamshire",
   signatory_name: "Steve Bambick",
   signatory_job_title: "Director of Planning",
   enquiries_paragraph: "Postal address: Planning Buckinghamshire Council, Gatehouse Rd, Aylesbury HP19 8FF",
@@ -29,7 +29,7 @@ bucks = LocalAuthority.find_or_create_by!(
 ApiUser.find_or_create_by!(name: "api_user", token: (ENV["API_TOKEN"] || "123"))
 
 admin_roles = %i[assessor reviewer]
-local_authorities = [southwark, lambeth, bucks]
+local_authorities = [southwark, lambeth, buckinghamshire]
 
 local_authorities.each do |authority|
   admin_roles.each do |admin_role|

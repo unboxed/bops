@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Api::V1::ApplicationController < ApplicationController
+  # Make ActiveStorage aware of the current host (used in url helpers)
+  include ActiveStorage::SetCurrent
+
   before_action :authenticate, :set_default_format
   protect_from_forgery with: :null_session
 
@@ -24,6 +27,15 @@ class Api::V1::ApplicationController < ApplicationController
       "Origin, X-Requested-With, Content-Type, Accept",
     )
     response.charset = "utf-8"
+  end
+
+  def check_token_and_set_application
+    @planning_application = current_local_authority.planning_applications.find_by(id: params[:planning_application_id])
+    if params[:change_access_id] != @planning_application.change_access_id
+      render json: {}, status: 401
+    else
+      @planning_application
+    end
   end
 
 private

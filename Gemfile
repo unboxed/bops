@@ -12,6 +12,7 @@ gem "appsignal"
 gem "aws-sdk-codedeploy", require: false
 gem "aws-sdk-s3", require: false
 gem "bootsnap", ">= 1.4.2", require: false
+gem "business_time"
 gem "devise"
 gem "faker", require: false
 gem "faraday", require: false
@@ -22,8 +23,8 @@ gem "mail-notify"
 gem "mini_magick"
 gem "pdfkit"
 gem "pg", ">= 0.18", "< 2.0"
-gem "puma", "~> 4.1"
-gem "rails", "~> 6.1.3.1"
+gem "puma", "~> 4.3"
+gem "rails", "~> 6.1.3.2"
 gem "rswag-ui"
 gem "webpacker", "~> 5.2", ">= 5.2.1"
 
