@@ -55,8 +55,6 @@ paths:
                     awaiting_correction_at: null
                     applicant_first_name: Albert
                     applicant_last_name: Manteras
-                    applicant_phone: '23432325435'
-                    applicant_email: applicant@example.com
                     agent_first_name: Jennifer
                     agent_last_name: Harper
                     agent_phone: '237878889'
