@@ -54,6 +54,7 @@ Rails.application.routes.draw do
         resources :document_change_requests, only: :update
         resources :document_create_requests, only: :update
         resources :documents, only: %i[show]
+        resources :red_line_boundary_change_requests, only: :update
       end
     end
   end

@@ -25,18 +25,18 @@ class RedLineBoundaryChangeRequestsController < ApplicationController
     end
   end
 
-private
+  private
 
   def red_line_boundary_change_request_params
     params.require(:red_line_boundary_change_request).permit(:new_geojson, :reason)
   end
 
   def transform_geojson(lat_longs)
-    new_lat_long = lat_longs.gsub("LatLng(", "").gsub(")", "").split(",").each_slice(2).to_a
+    new_lat_long = lat_longs.gsub('LatLng(', '').gsub(')', '').split(',').each_slice(2).to_a
     new_coordinates = new_lat_long.each do |chunk|
       chunk.map! { |e| e.to_f.round(8) }.sort!
     end
-    new_hash = { type: "Feature", geometry: { type: "Polygon", coordinates: [new_coordinates] } }.to_json
+    new_hash = {type: "Feature", geometry: {type: "Polygon", coordinates: [new_coordinates]}}.to_json
     new_hash
   end
 
@@ -46,8 +46,8 @@ private
 
   def send_change_request_email
     PlanningApplicationMailer.change_request_mail(
-      @planning_application,
-      @red_line_boundary_change_request,
-    ).deliver_now
+        @planning_application,
+        @red_line_boundary_change_request,
+        ).deliver_now
   end
 end
