@@ -40,18 +40,18 @@ paths:
                     status: not_started
                     application_type: lawfulness_certificate
                     description: Add chimnney stack
-                    created_at: '2020-05-14T05:18:17.540Z'
-                    received_date: '2020-05-14T05:18:17.540Z'
-                    determined_at: '2020-06-14T05:18:17.540Z'
+                    created_at: '2020-05-14T06:18:17.540+01:00'
+                    received_date: '2020-05-14T06:18:17.540+01:00'
+                    determined_at: '2020-05-14T06:18:17.540+01:00'
                     target_date: '2020-07-02'
-                    started_at: '2020-05-15T05:18:17.540Z'
+                    started_at: '2020-05-15T06:18:17.540+01:00'
                     invalidated_at: null
                     withdrawn_at: null
                     returned_at: null
                     work_status: proposed
                     payment_reference: PAY1
-                    awaiting_determination_at: '2020-05-16T05:18:17.540Z'
-                    in_assessment_at: '2020-05-16T05:18:17.540Z'
+                    awaiting_determination_at: '2020-05-16T06:18:17.540+01:00'
+                    in_assessment_at: '2020-05-16T06:18:17.540+01:00'
                     awaiting_correction_at: null
                     applicant_first_name: Albert
                     applicant_last_name: Manteras
@@ -74,7 +74,7 @@ paths:
                             - [-0.07716178894042969, 51.50094238217541]
                     documents:
                       - url: http://example.com/document_path.pdf
-                        created_at: '2020-05-16T05:18:17.540Z'
+                        created_at: '2020-05-16T06:18:17.540+01:00'
                         tags:
                           ["Side", "Elevation", "Proposed"]
                         numbers: PLAN01

@@ -30,7 +30,7 @@ RSpec.describe "API request to list planning applications", type: :request, show
     let(:planning_application_json) { data.first }
 
     def json_time_format(time)
-      time.utc.iso8601(3) if time.present?
+      time.iso8601(3) if time.present?
     end
 
     it "returns an empty response if no planning application" do
