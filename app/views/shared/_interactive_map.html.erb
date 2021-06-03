@@ -6,7 +6,7 @@
   </div>
 
   <script>
-      var <%= locals[:div_id] %>Map = L.map(<%= locals[:div_id] %>, {drawControl: true});
+      var <%= locals[:div_id] %>Map = L.map(<%= locals[:div_id] %>);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
           maxZoom: 22,
@@ -19,13 +19,20 @@
           "opacity": 0.65
       }).addTo(<%= locals[:div_id] %>Map);
 
-      var drawnItems = new L.FeatureGroup();
-      <%= locals[:div_id] %>Map.addLayer(drawnItems);
+     var drawnItems = new L.FeatureGroup();
       var drawControl = new L.Control.Draw({
           edit: {
               featureGroup: drawnItems
+          },
+          draw: {
+              circle: false,
+              rectangle: false,
+              polyline: false,
+              marker: false,
+              circlemarker: false
           }
       });
+      <%= locals[:div_id] %>Map.addControl(drawControl);
 
       <%= locals[:div_id] %>Map.on('draw:created', function (e) {
 
