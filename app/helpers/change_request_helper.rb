@@ -8,9 +8,9 @@ module ChangeRequestHelper
   end
 
   def applicant_response(change_request)
-    if change_request.class.name == "DescriptionChangeRequest"
+    if change_request.class.name == "DescriptionChangeRequest" || "RedLineBoundaryChangeRequest"
       if change_request.approved?
-        "Description change has been approved by the applicant"
+        "Change has been approved by the applicant"
       elsif change_request.approved == false
         change_request.rejection_reason.to_s
       end
