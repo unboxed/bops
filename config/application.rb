@@ -40,5 +40,8 @@ module Bops
     config.action_view.field_error_proc = ->(html_tag, _instance) { html_tag }
 
     config.middleware.use PDFKit::Middleware, {}, except: ["/rails/active_storage"]
+
+    config.time_zone = "London"
+    config.active_record.default_timezone = :local
   end
 end
