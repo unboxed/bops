@@ -8,7 +8,6 @@ import "stylesheets"
 require("@rails/ujs").start()
 require("@rails/activestorage").start()
 
-L_DISABLE_3D = true;
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
 import * as L from 'leaflet';
