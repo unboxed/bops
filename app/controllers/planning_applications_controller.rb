@@ -180,6 +180,16 @@ class PlanningApplicationsController < AuthenticationController
   def edit_constraints
     @planning_application.constraints = params[:planning_application][:constraints].reject(&:blank?)
     if @planning_application.save!
+      if @planning_application.saved_changes?
+        prev_arr = @planning_application.saved_changes[:constraints][0]
+        new_arr = @planning_application.saved_changes[:constraints][1]
+
+        attr_removed = prev_arr - new_arr
+        attr_added = new_arr - prev_arr
+
+        attr_added.each { |attr| audit("constraint_added", attr) }
+        attr_removed.each { |attr| audit("constraint_removed", attr) }
+      end
       flash[:notice] = "Constraints have been updated"
       redirect_to planning_application_url
     else
