@@ -41,7 +41,6 @@ RSpec.describe "API request to patch document change requests", type: :request, 
 
     red_line_boundary_change_request.reload
     planning_application.reload
-
   end
 
   it "returns a 400 if params are missing" do

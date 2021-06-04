@@ -9,7 +9,6 @@ class RedLineBoundaryChangeRequest < ApplicationRecord
 
   validate :rejected_reason_is_present?
 
-
   def rejected_reason_is_present?
     if approved == false
       errors.add(:base, "Please include a comment for the case officer to indicate why the red line boundary change has been rejected.") if rejection_reason.blank?

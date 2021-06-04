@@ -3,7 +3,8 @@ FactoryBot.define do
     planning_application
     user
     state { "open" }
-    new_geojson { '{
+    new_geojson do
+      '{
         "type": "Feature",
         "geometry": {
             "type": "Polygon",
@@ -27,7 +28,8 @@ FactoryBot.define do
                     ]
                 ]
             ]
-        }' }
+        }'
+    end
     reason { "Boundary incorrect" }
     approved { nil }
   end
