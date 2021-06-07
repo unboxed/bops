@@ -68,5 +68,5 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: (ENV["DOMAIN"] || "lvh.me"), port: 3000 }
 
-  config.hosts << ".lvh.me"
+  config.hosts << "southwark.virtual.local"
 end
