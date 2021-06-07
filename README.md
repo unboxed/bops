@@ -67,9 +67,9 @@ $ rails server
 #### Because of the subdomain being enforced, your app will be available on:
 
 ```
-http://southwark.lvh.me:3000/
+http://southwark.local.abscond.org:3000/
 or
-http://lambeth.lvh.me:3000/
+http://lambeth.local.abscond.org:3000/
 ```
 ##Dependencies
 
