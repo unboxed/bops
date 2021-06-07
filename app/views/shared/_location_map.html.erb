@@ -1,10 +1,10 @@
 <% if locals[:geojson].present? %>
 
   <div class="map">
-      <% if locals[:div_id] == "accordion_map" %>
-        <div id="accordion_map" style="width: 100%; height: 400px;"></div>
-      <% else %>
-        <div id="<%= locals[:div_id] %>" style="width: 550px; height: 400px;"></div>
+    <% if locals[:div_id] == "accordion_map" %>
+      <div id="accordion_map" style="width: 100%; height: 400px;"></div>
+    <% else %>
+      <div id="<%= locals[:div_id] %>" style="width: 550px; height: 400px;"></div>
     <% end %>
   </div>
 
@@ -23,13 +23,13 @@
       }).addTo(<%= locals[:div_id] %>Map);
 
       <% if locals[:div_id] == "accordion_map" %>
-        <%= locals[:div_id] %>Map.fitBounds(boundary.getBounds());
+      <%= locals[:div_id] %>Map.fitBounds(boundary.getBounds());
 
-        function accordion_expanded() {
-            <%= locals[:div_id] %>Map.invalidateSize().fitBounds(boundary.getBounds());
-        }
+      function accordion_expanded() {
+          <%= locals[:div_id] %>Map.invalidateSize().fitBounds(boundary.getBounds());
+      }
       <% else %>
-          <%= locals[:div_id] %>Map.fitBounds(boundary.getBounds(), {padding: [50, 50]});
+        <%= locals[:div_id] %>Map.fitBounds(boundary.getBounds(), {padding: [50, 50]});
       <% end %>
   </script>
 <% end %>

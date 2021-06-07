@@ -21,7 +21,7 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     end
     click_button "Next"
 
-    fill_in "New geojson", with: '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.076715,51.501166],[-0.07695,51.500673],[-0.076,51.500763],[-0.076715,51.501166]]]}}'
+    find(".govuk-visually-hidden", visible: false).set '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.076715,51.501166],[-0.07695,51.500673],[-0.076,51.500763],[-0.076715,51.501166]]]}}'
     fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: "Coordinates look wrong"
     click_button "Send"
 
@@ -50,7 +50,7 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
 
     click_button "Next"
 
-    fill_in "New geojson", with: " "
+    find(".govuk-visually-hidden", visible: false).set ""
     click_button "Send"
 
     expect(page).to have_content("Red line drawing must be complete")

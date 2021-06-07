@@ -1,10 +1,10 @@
 <%= render "change_requests/change_requests_breadcrumbs.html.erb" %>
 
-<% content_for :title, "Description change" %>
+<% content_for :title, "Red line boundary change" %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-l govuk-!-padding-top-6">
-      Request for change
+      Proposed red line boundary change
     </h2>
     <p class="govuk-body govuk-!-margin-bottom-1">
       <strong>At:</strong> <%= @planning_application.full_address  %>
@@ -18,20 +18,20 @@
     <h2 class="govuk-heading-m">
       Reason change is requested
     </h2>
-    <p class="govuk-body govuk-!-margin-bottom-8">
+    <p class="govuk-body">
       <%= @red_line_boundary_change_request.reason  %>
     </p>
-    <h2 class="govuk-heading-m">
+    <h2 class="govuk-heading-m govuk-!-padding-top-4">
       Applicant's original red line boundary
     </h2>
-    <%= @planning_application.boundary_geojson %>
     <%= render "shared/location_map", locals: { div_id: "current_map", geojson: @planning_application.boundary_geojson } %>
 
-    <h2 class="govuk-heading-m">
+    <h2 class="govuk-heading-m govuk-!-padding-top-6">
      Proposed red line boundary
     </h2>
-    <%=  @red_line_boundary_change_request.new_geojson %>
-    <%= render "shared/location_map", locals: { div_id: "proposed_map", geojson: @red_line_boundary_change_request.new_geojson } %>
-
+    <%= render "shared/proposal_map", locals: { div_id: "proposed_map", geojson: @red_line_boundary_change_request.new_geojson } %>
+    <div class="govuk-!-padding-top-8">
+     <%= link_to "Back", new_planning_application_change_request_path(@planning_application), class: "govuk-button govuk-button--primary" %>
+    </div>
   </div>
 </div>
