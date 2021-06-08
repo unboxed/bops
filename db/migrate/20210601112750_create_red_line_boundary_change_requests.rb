@@ -7,6 +7,7 @@ class CreateRedLineBoundaryChangeRequests < ActiveRecord::Migration[6.1]
       t.string :new_geojson
       t.string :reason
       t.string :rejection_reason
+      t.boolean :approved
 
       t.timestamps
     end

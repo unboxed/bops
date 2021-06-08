@@ -3,7 +3,7 @@ class Api::V1::RedLineBoundaryChangeRequestsController < Api::V1::ApplicationCon
   before_action :check_token_and_set_application, only: :update
 
   def update
-    @red_line_boundary_change_request = @planning_application.red_line_boundary_change_requests.where(id: params[:id]).first
+    @red_line_boundary_change_request = @planning_application.red_line_boundary_change_requests.find(params[:id])
 
     if @red_line_boundary_change_request.update(red_line_boundary_change_params)
       @red_line_boundary_change_request.update!(state: "closed")

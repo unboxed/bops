@@ -1,4 +1,4 @@
-<%= render "change_requests/change_requests_breadcrumbs.html.erb" %>
+<%= render "change_requests/change_requests_breadcrumbs" %>
 
 <% content_for :title, "Red line boundary change" %>
 <div class="govuk-grid-row">
@@ -24,8 +24,8 @@
           </h2>
           <div class="govuk-error-summary__body">
             <ul class="govuk-list govuk-error-summary__list">
-              <% @red_line_boundary_change_request.errors.full_messages.each do |error| %>
-                <li><%= error %></li>
+              <% @red_line_boundary_change_request.errors.each do |error| %>
+                <li><%= error.message %></li>
               <% end %>
             </ul>
           </div>
@@ -37,19 +37,26 @@
                                class: "govuk-visually-hidden" %>
 
       <%= render "shared/interactive_map", locals: { div_id: "interactive_map", geojson: @planning_application.boundary_geojson } %>
-      <h2 class="govuk-heading-m govuk-!-padding-top-6">
+      <h2 class="govuk-heading-s govuk-!-padding-top-6">
         Red line drawings shown on map
       </h2>
-      <p class="govuk-body govuk-!-padding-top-4">
-        Applicant submitted red line boundary
-      </p>
+      <div class="govuk-grid-row">
       <p class="govuk-body">
-        Proposed red line boundary
+          <img src="/images/filled_square.png" alt-text="filled boundary square" width="100px" style="float:left" />
+          <br/>Applicant submitted red line boundary
       </p>
+      </div>
+      <div class="govuk-grid-row">
+        <p class="govuk-body govuk-!-margin-left-2">
+          <img src="/images/dotted_square.png" alt-text="square with dotted border" width="90px" style="float:left" />
+          <br/>Proposed red line boundary
+      </p>
+      </div>
+      <div class="govuk-grid-row">
       <%= form.govuk_text_area :reason,
                                label: { text: 'Explain to the applicant why changes are proposed to the red line boundary', size: 's', class: 'govuk-label govuk-label--s govuk-!-padding-bottom-4'},
                                rows: 5 %>
-
+      </div>
       <%= form.govuk_submit "Send" %>
       <%= link_to "Back", new_planning_application_change_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
     <% end %>

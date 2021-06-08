@@ -10,11 +10,9 @@ class RedLineBoundaryChangeRequestsController < ApplicationController
   end
 
   def create
-    @red_line_boundary_change_request = RedLineBoundaryChangeRequest.new(new_geojson: red_line_boundary_change_request_params[:new_geojson],
-                                                                         planning_application_id: @planning_application.id,
-                                                                         reason: red_line_boundary_change_request_params[:reason])
+    @red_line_boundary_change_request = RedLineBoundaryChangeRequest.new(red_line_boundary_change_request_params
+                                                                             .merge!({ planning_application_id: @planning_application.id }))
     @red_line_boundary_change_request.user = current_user
-    @current_local_authority = current_local_authority
 
     if @red_line_boundary_change_request.save
       send_change_request_email

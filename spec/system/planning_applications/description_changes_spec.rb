@@ -73,7 +73,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
       expect(page).to have_content("No good")
 
       expect(page).to have_content("Accepted")
-      expect(page).to have_content("Change has been approved by the applicant")
+      expect(page).to have_content("Description change has been approved by the applicant")
 
       expect(page).to have_content("6 days")
       expect(page).to have_content("-10 days")
