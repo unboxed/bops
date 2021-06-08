@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_24_165604) do
+ActiveRecord::Schema.define(version: 2021_06_03_094828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -176,6 +176,7 @@ ActiveRecord::Schema.define(version: 2021_05_24_165604) do
     t.json "boundary_geojson"
     t.text "constraints", default: [], null: false, array: true
     t.string "change_access_id"
+    t.string "previous_description"
     t.date "expiry_date"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
     t.index ["user_id"], name: "index_planning_applications_on_user_id"
@@ -194,6 +195,18 @@ ActiveRecord::Schema.define(version: 2021_05_24_165604) do
     t.index ["assessor_id"], name: "index_recommendations_on_assessor_id"
     t.index ["planning_application_id"], name: "index_recommendations_on_planning_application_id"
     t.index ["reviewer_id"], name: "index_recommendations_on_reviewer_id"
+  end
+
+  create_table "red_line_boundary_change_requests", force: :cascade do |t|
+    t.integer "planning_application_id", null: false
+    t.integer "user_id", null: false
+    t.string "state", default: "open", null: false
+    t.string "new_geojson"
+    t.string "reason"
+    t.string "rejection_reason"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.boolean "approved"
   end
 
   create_table "users", force: :cascade do |t|

@@ -14,6 +14,18 @@ json.data do
     json.type "description_change_request"
   end
 
+  json.red_line_boundary_change_requests @planning_application.red_line_boundary_change_requests do |red_line_boundary_change_request|
+    json.extract! red_line_boundary_change_request,
+                  :id,
+                  :state,
+                  :response_due,
+                  :new_geojson,
+                  :reason,
+                  :approved,
+                  :days_until_response_due
+    json.type "red_line_boundary_change_request"
+  end
+
   json.document_change_requests @planning_application.document_change_requests do |document_change_request|
     json.extract! document_change_request,
                   :id,
