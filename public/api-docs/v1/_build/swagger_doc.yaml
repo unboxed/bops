@@ -634,3 +634,63 @@ paths:
                   value:
                     message:
                       - Change request updated
+  '/api/v1/planning_applications/{planning_application_id}/red_line_boundary_change_requests/{red_line_boundary_change_id}':
+    patch:
+      summary: Update a red line boundary change request
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: planning_application_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: path
+          name: red_line_boundary_change_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The change request ID
+        - in: query
+          name: change_access_id
+          schema:
+            type: string
+          required: true
+          description: A unique access code for this planning application
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                approved:
+                  type: boolean
+                  example: true
+                rejection_reason:
+                  type: string
+                  example: Refusal reason
+              required:
+                - approved
+            examples:
+              Accept:
+                value:
+                  data:
+                    approved: true
+              Reject:
+                value:
+                  data:
+                    approved: false
+                    rejection_reason: Refusal reason
+      responses:
+        '200':
+          description: Update red line boundary change request
+          content:
+            application/json:
+              examples:
+                Accept:
+                  value:
+                    message:
+                      - Change request updated
