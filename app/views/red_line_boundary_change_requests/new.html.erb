@@ -40,23 +40,22 @@
       <h2 class="govuk-heading-s govuk-!-padding-top-6">
         Red line drawings shown on map
       </h2>
-      <div class="govuk-grid-row">
+      <div class="govuk-grid-row govuk-!-margin-left-1 govuk-!-padding-bottom-2">
       <p class="govuk-body">
-          <img src="/images/filled_square.png" alt-text="filled boundary square" width="100px" style="float:left" />
-          <br/>Applicant submitted red line boundary
+          <img src="/images/filled_square.png" alt-text="filled boundary square" width="60px" style="float:left; padding-right:20px" />
+          Applicant submitted red line boundary
       </p>
       </div>
-      <div class="govuk-grid-row">
-        <p class="govuk-body govuk-!-margin-left-2">
-          <img src="/images/dotted_square.png" alt-text="square with dotted border" width="90px" style="float:left" />
-          <br/>Proposed red line boundary
+      <div class="govuk-grid-row govuk-!-padding-bottom-4">
+        <p class="govuk-body govuk-!-margin-left-4">
+          <img src="/images/dotted_square.png" alt-text="square with dotted border" width="60px" style="float:left; padding-right:20px" />
+          Proposed red line boundary
       </p>
       </div>
-      <div class="govuk-grid-row">
+
       <%= form.govuk_text_area :reason,
                                label: { text: 'Explain to the applicant why changes are proposed to the red line boundary', size: 's', class: 'govuk-label govuk-label--s govuk-!-padding-bottom-4'},
                                rows: 5 %>
-      </div>
       <%= form.govuk_submit "Send" %>
       <%= link_to "Back", new_planning_application_change_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
     <% end %>
