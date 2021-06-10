@@ -241,7 +241,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def closed_change_requests
-    description_change_requests.closed + document_change_requests.closed + document_create_requests.closed
+    change_requests.each { |cr| cr.state.eql?("closed") }
   end
 
   def last_change_request_date

@@ -7,5 +7,4 @@ class DocumentCreateRequest < ApplicationRecord
 
   validates :document_request_type, presence: { message: "Please fill in the document request type." }
   validates :document_request_reason, presence: { message: "Please fill in the reason for this document request." }
-  scope :closed, -> { where(state: "closed") }
 end
