@@ -11,7 +11,7 @@ class Api::V1::RedLineBoundaryChangeRequestsController < Api::V1::ApplicationCon
 
       render json: { "message": "Change request updated" }, status: :ok
     else
-      render json: { "message": "Unable to update request. Please ensure rejection_reason is present if approved is false." }, status: 400
+      render json: { "message": "Unable to update request. Please ensure rejection_reason is present if approved is false." }, status: :bad_request
     end
   end
 
