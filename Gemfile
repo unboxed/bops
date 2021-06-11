@@ -18,12 +18,12 @@ gem "faker", require: false
 gem "faraday", require: false
 gem "govuk_design_system_formbuilder"
 gem "image_processing", "~> 1.2"
-gem "jbuilder", "~> 2.7"
+gem "jbuilder"
 gem "mail-notify"
 gem "mini_magick"
 gem "pdfkit"
 gem "pg", ">= 0.18", "< 2.0"
-gem "puma", "~> 4.3"
+gem "puma"
 gem "rails", "~> 6.1.3.2"
 gem "rswag-ui"
 gem "webpacker", "~> 5.2", ">= 5.2.1"
@@ -44,8 +44,8 @@ group :development, :test do
 end
 
 group :development do
-  gem "listen", ">= 3.0.5", "< 3.2"
-  gem "web-console", ">= 3.3.0"
+  gem "listen"
+  gem "web-console"
 end
 
 group :test do
