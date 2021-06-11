@@ -4,7 +4,7 @@
   "dependencies": {
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
-    "@rails/webpacker": "5.2.1",
+    "@rails/webpacker": "5.4.0",
     "govuk-frontend": "^3.6.0",
     "is-svg": "^4.2.2",
     "leaflet": "^1.7.1",

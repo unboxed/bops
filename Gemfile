@@ -26,7 +26,7 @@ gem "pg", ">= 0.18", "< 2.0"
 gem "puma"
 gem "rails", "~> 6.1.3.2"
 gem "rswag-ui"
-gem "webpacker", "~> 5.2", ">= 5.2.1"
+gem "webpacker", "~> 5.4"
 
 group :development, :test do
   gem "brakeman", require: false

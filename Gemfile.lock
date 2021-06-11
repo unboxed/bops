@@ -424,7 +424,7 @@ DEPENDENCIES
   simplecov
   web-console
   webmock
-  webpacker (~> 5.2, >= 5.2.1)
+  webpacker (~> 5.4)
 
 BUNDLED WITH
    2.2.7
