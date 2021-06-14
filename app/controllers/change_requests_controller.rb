@@ -6,13 +6,14 @@ class ChangeRequestsController < ApplicationController
   def new; end
 
   def create
-    if params[:change_request] == "description_change"
+    case params[:change_request]
+    when "description_change"
       redirect_to new_planning_application_description_change_request_path
-    elsif params[:change_request] == "replacement_document"
+    when "replacement_document"
       redirect_to new_planning_application_document_change_request_path
-    elsif params[:change_request] == "create_document"
+    when "create_document"
       redirect_to new_planning_application_document_create_request_path
-    elsif params[:change_request] == "red_line_boundary"
+    when "red_line_boundary"
       redirect_to new_planning_application_red_line_boundary_change_request_path
     else
       flash[:error] = "You must select a change request type to proceed."

@@ -81,6 +81,6 @@ private
   end
 
   def ensure_document_edits_unlocked
-    render plain: "forbidden", status: 403 and return unless @planning_application.can_validate?
+    render plain: "forbidden", status: :forbidden and return unless @planning_application.can_validate?
   end
 end
