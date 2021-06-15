@@ -7,5 +7,4 @@ class DocumentChangeRequest < ApplicationRecord
   belongs_to :new_document, optional: true, class_name: "Document"
 
   scope :open, -> { where(state: "open") }
-  scope :closed, -> { where(state: "closed") }
 end

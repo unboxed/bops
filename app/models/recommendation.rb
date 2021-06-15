@@ -23,8 +23,8 @@ class Recommendation < ApplicationRecord
   end
 
   def reviewer_comment_is_present?
-    if challenged?
-      errors.add(:base, "Please include a comment for the case officer to indicate why the recommendation has been challenged.") unless reviewer_comment?
+    if challenged? && !reviewer_comment?
+      errors.add(:base, "Please include a comment for the case officer to indicate why the recommendation has been challenged.")
     end
   end
 end

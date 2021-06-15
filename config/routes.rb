@@ -40,6 +40,7 @@ Rails.application.routes.draw do
     resources :description_change_requests, only: %i[new create]
     resources :document_change_requests, only: %i[new create]
     resources :document_create_requests, only: %i[new create]
+    resources :red_line_boundary_change_requests, only: %i[new create show]
   end
 
   namespace :api do
@@ -53,6 +54,7 @@ Rails.application.routes.draw do
         resources :document_change_requests, only: :update
         resources :document_create_requests, only: :update
         resources :documents, only: %i[show]
+        resources :red_line_boundary_change_requests, only: :update
       end
     end
   end

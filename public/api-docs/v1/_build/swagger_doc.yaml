@@ -39,23 +39,21 @@ paths:
                     status: not_started
                     application_type: lawfulness_certificate
                     description: Add chimnney stack
-                    created_at: '2020-05-14T05:18:17.540Z'
-                    received_date: '2020-05-14T05:18:17.540Z'
-                    determined_at: '2020-06-14T05:18:17.540Z'
+                    created_at: '2020-05-14T06:18:17.540+01:00'
+                    received_date: '2020-05-14T06:18:17.540+01:00'
+                    determined_at: '2020-05-14T06:18:17.540+01:00'
                     target_date: '2020-07-02'
-                    started_at: '2020-05-15T05:18:17.540Z'
+                    started_at: '2020-05-15T06:18:17.540+01:00'
                     invalidated_at: null
                     withdrawn_at: null
                     returned_at: null
                     work_status: proposed
                     payment_reference: PAY1
-                    awaiting_determination_at: '2020-05-16T05:18:17.540Z'
-                    in_assessment_at: '2020-05-16T05:18:17.540Z'
+                    awaiting_determination_at: '2020-05-16T06:18:17.540+01:00'
+                    in_assessment_at: '2020-05-16T06:18:17.540+01:00'
                     awaiting_correction_at: null
                     applicant_first_name: Albert
                     applicant_last_name: Manteras
-                    applicant_phone: '23432325435'
-                    applicant_email: applicant@example.com
                     agent_first_name: Jennifer
                     agent_last_name: Harper
                     agent_phone: '237878889'
@@ -78,7 +76,7 @@ paths:
                               - 51.50094238217541
                     documents:
                       - url: 'http://example.com/document_path.pdf'
-                        created_at: '2020-05-16T05:18:17.540Z'
+                        created_at: '2020-05-16T06:18:17.540+01:00'
                         tags:
                           - Side
                           - Elevation
@@ -108,23 +106,21 @@ paths:
                         status: not_started
                         application_type: lawfulness_certificate
                         description: Add chimnney stack
-                        created_at: '2020-05-14T05:18:17.540Z'
-                        received_date: '2020-05-14T05:18:17.540Z'
-                        determined_at: '2020-06-14T05:18:17.540Z'
+                        created_at: '2020-05-14T06:18:17.540+01:00'
+                        received_date: '2020-05-14T06:18:17.540+01:00'
+                        determined_at: '2020-05-14T06:18:17.540+01:00'
                         target_date: '2020-07-02'
-                        started_at: '2020-05-15T05:18:17.540Z'
+                        started_at: '2020-05-15T06:18:17.540+01:00'
                         invalidated_at: null
                         withdrawn_at: null
                         returned_at: null
                         work_status: proposed
                         payment_reference: PAY1
-                        awaiting_determination_at: '2020-05-16T05:18:17.540Z'
-                        in_assessment_at: '2020-05-16T05:18:17.540Z'
+                        awaiting_determination_at: '2020-05-16T06:18:17.540+01:00'
+                        in_assessment_at: '2020-05-16T06:18:17.540+01:00'
                         awaiting_correction_at: null
                         applicant_first_name: Albert
                         applicant_last_name: Manteras
-                        applicant_phone: '23432325435'
-                        applicant_email: applicant@example.com
                         agent_first_name: Jennifer
                         agent_last_name: Harper
                         agent_phone: '237878889'
@@ -147,7 +143,7 @@ paths:
                                   - 51.50094238217541
                         documents:
                           - url: 'http://example.com/document_path.pdf'
-                            created_at: '2020-05-16T05:18:17.540Z'
+                            created_at: '2020-05-16T06:18:17.540+01:00'
                             tags:
                               - Side
                               - Elevation
@@ -631,6 +627,66 @@ paths:
       responses:
         '200':
           description: Update document create change request
+          content:
+            application/json:
+              examples:
+                Accept:
+                  value:
+                    message:
+                      - Change request updated
+  '/api/v1/planning_applications/{planning_application_id}/red_line_boundary_change_requests/{red_line_boundary_change_id}':
+    patch:
+      summary: Update a red line boundary change request
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: planning_application_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: path
+          name: red_line_boundary_change_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The change request ID
+        - in: query
+          name: change_access_id
+          schema:
+            type: string
+          required: true
+          description: A unique access code for this planning application
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                approved:
+                  type: boolean
+                  example: true
+                rejection_reason:
+                  type: string
+                  example: Refusal reason
+              required:
+                - approved
+            examples:
+              Accept:
+                value:
+                  data:
+                    approved: true
+              Reject:
+                value:
+                  data:
+                    approved: false
+                    rejection_reason: Refusal reason
+      responses:
+        '200':
+          description: Update red line boundary change request
           content:
             application/json:
               examples:

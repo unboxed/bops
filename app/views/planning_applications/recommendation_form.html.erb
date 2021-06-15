@@ -46,7 +46,7 @@
         <p class="govuk-body">
           This information <strong>will</strong> appear on the decision notice.
         </p>
-        <%= form.text_area :public_comment, class: "govuk-textarea", rows: "3" %>
+        <%= form.text_area :public_comment, class: "govuk-textarea", rows: "9" %>
       </div>
     </div>
     <div class="govuk-form-group">
@@ -54,9 +54,9 @@
         <%= label_tag :recommendation_assessor_comment, "Please provide supporting information for your manager.", class: "govuk-label govuk-!-font-weight-bold" %>
       </p>
       <p class="govuk-body">
-        Your comment will <strong>not</strong> appear on the decision notice.
+        This information <strong>will not</strong> appear on the decision notice or the public register, however FOI still apply.
       </p>
-      <%= text_area_tag "recommendation[assessor_comment]", @recommendation.assessor_comment, class: "govuk-textarea", rows: "3" %>
+      <%= text_area_tag "recommendation[assessor_comment]", @recommendation.assessor_comment, class: "govuk-textarea", rows: "7" %>
     </div>
     <div class="govuk-!-padding-top-4">
       <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>

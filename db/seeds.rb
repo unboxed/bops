@@ -11,8 +11,8 @@ lambeth = LocalAuthority.find_or_create_by!(
 southwark = LocalAuthority.find_or_create_by!(
   name: "Southwark Council",
   subdomain: "southwark",
-  signatory_name: "Simon Bevan",
-  signatory_job_title: "Director of Planning",
+  signatory_name: "Stephen Platts",
+  signatory_job_title: "Director of Planning and Growth",
   enquiries_paragraph: "Postal address: Planning London Borough of Southwark PO Box 734 Winchester SO23 5DG.",
   email_address: "planning@lambeth.gov.uk",
 )

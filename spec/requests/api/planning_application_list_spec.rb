@@ -30,7 +30,7 @@ RSpec.describe "API request to list planning applications", type: :request, show
     let(:planning_application_json) { data.first }
 
     def json_time_format(time)
-      time.utc.iso8601(3) if time.present?
+      time.iso8601(3) if time.present?
     end
 
     it "returns an empty response if no planning application" do
@@ -68,8 +68,6 @@ RSpec.describe "API request to list planning applications", type: :request, show
         expect(planning_application_json["agent_email"]).to eq(planning_application.agent_email)
         expect(planning_application_json["applicant_first_name"]).to eq(planning_application.applicant_first_name)
         expect(planning_application_json["applicant_last_name"]).to eq(planning_application.applicant_last_name)
-        expect(planning_application_json["applicant_email"]).to eq(planning_application.applicant_email)
-        expect(planning_application_json["applicant_phone"]).to eq(planning_application.applicant_phone)
         expect(planning_application_json["site"]["address_1"]).to eq(planning_application.address_1)
         expect(planning_application_json["site"]["address_2"]).to eq(planning_application.address_2)
         expect(planning_application_json["site"]["town"]).to eq(planning_application.town)
@@ -116,8 +114,6 @@ RSpec.describe "API request to list planning applications", type: :request, show
           expect(planning_application_json["agent_email"]).to eq(planning_application.agent_email)
           expect(planning_application_json["applicant_first_name"]).to eq(planning_application.applicant_first_name)
           expect(planning_application_json["applicant_last_name"]).to eq(planning_application.applicant_last_name)
-          expect(planning_application_json["applicant_email"]).to eq(planning_application.applicant_email)
-          expect(planning_application_json["applicant_phone"]).to eq(planning_application.applicant_phone)
           expect(planning_application_json["site"]["address_1"]).to eq(planning_application.address_1)
           expect(planning_application_json["site"]["address_2"]).to eq(planning_application.address_2)
           expect(planning_application_json["site"]["town"]).to eq(planning_application.town)

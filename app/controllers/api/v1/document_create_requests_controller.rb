@@ -13,7 +13,7 @@ class Api::V1::DocumentCreateRequestsController < Api::V1::ApplicationController
     if @document_create_request.save
       render json: { "message": "Change request updated" }, status: :ok
     else
-      render json: { "message": "Unable to update request" }, status: 400
+      render json: { "message": "Unable to update request" }, status: :bad_request
     end
   end
 
@@ -21,7 +21,7 @@ private
 
   def check_file_params_are_present
     if params[:new_file].blank?
-      render json: { "message": "A file must be selected to proceed." }, status: 400
+      render json: { "message": "A file must be selected to proceed." }, status: :bad_request
     end
   end
 end

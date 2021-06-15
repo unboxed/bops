@@ -91,7 +91,8 @@ class PlanningApplicationsController < AuthenticationController
 
   def validate_documents
     status = params[:planning_application][:status]
-    if status == "in_assessment"
+    case status
+    when "in_assessment"
       if documents_validated_at_missing?
         @planning_application.status = "in_assessment"
         render "validate_documents_form"
@@ -106,7 +107,7 @@ class PlanningApplicationsController < AuthenticationController
         flash[:notice] = "Application is ready for assessment and applicant has been notified"
         redirect_to @planning_application
       end
-    elsif status == "invalidated"
+    when "invalidated"
       @planning_application.invalidate!
       audit("invalidated")
       flash[:notice] = "Application has been invalidated"
@@ -148,7 +149,8 @@ class PlanningApplicationsController < AuthenticationController
     @recommendation = @planning_application.recommendations.last
     @recommendation.update!(reviewer_comment: params[:recommendation][:reviewer_comment], reviewed_at: Time.zone.now, reviewer: current_user)
 
-    if params[:recommendation][:agree] == "No"
+    case params[:recommendation][:agree]
+    when "No"
       audit("challenged", @recommendation.reviewer_comment)
       @recommendation.assign_attributes(challenged: true)
       if @recommendation.save
@@ -157,7 +159,7 @@ class PlanningApplicationsController < AuthenticationController
       else
         render :review_form
       end
-    elsif params[:recommendation][:agree] == "Yes"
+    when "Yes"
       @recommendation.update!(challenged: false)
       audit("approved", @recommendation.reviewer_comment)
       redirect_to @planning_application
@@ -180,6 +182,16 @@ class PlanningApplicationsController < AuthenticationController
   def edit_constraints
     @planning_application.constraints = params[:planning_application][:constraints].reject(&:blank?)
     if @planning_application.save!
+      if @planning_application.saved_changes?
+        prev_arr = @planning_application.saved_changes[:constraints][0]
+        new_arr = @planning_application.saved_changes[:constraints][1]
+
+        attr_removed = prev_arr - new_arr
+        attr_added = new_arr - prev_arr
+
+        attr_added.each { |attr| audit("constraint_added", attr) }
+        attr_removed.each { |attr| audit("constraint_removed", attr) }
+      end
       flash[:notice] = "Constraints have been updated"
       redirect_to planning_application_url
     else
@@ -271,11 +283,11 @@ private
   end
 
   def ensure_user_is_reviewer
-    render plain: "forbidden", status: 403 and return unless current_user.reviewer?
+    render plain: "forbidden", status: :forbidden and return unless current_user.reviewer?
   end
 
   def ensure_constraint_edits_unlocked
-    render plain: "forbidden", status: 403 and return unless @planning_application.can_validate?
+    render plain: "forbidden", status: :forbidden and return unless @planning_application.can_validate?
   end
 
   def documents_validated_at_missing?

@@ -12,6 +12,7 @@ class PlanningApplication < ApplicationRecord
   has_many :description_change_requests, dependent: :destroy
   has_many :document_change_requests, dependent: :destroy
   has_many :document_create_requests, dependent: :destroy
+  has_many :red_line_boundary_change_requests, dependent: :destroy
 
   belongs_to :user, optional: true
   belongs_to :local_authority
@@ -218,10 +219,8 @@ class PlanningApplication < ApplicationRecord
   end
 
   def secure_change_url(application_id, secure_token)
-    if ENV["DOMAIN"] == "bops-staging.services"
-      "http://#{local_authority.subdomain}.bops-applicants-staging.services/change_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
-    elsif ENV["DOMAIN"] == "bops.services"
-      "http://#{local_authority.subdomain}.bops-applicants.services/change_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
+    if Rails.env.production?
+      "https://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/change_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
     else
       "http://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/change_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
     end
@@ -236,11 +235,11 @@ class PlanningApplication < ApplicationRecord
   end
 
   def change_requests
-    (description_change_requests + document_change_requests + document_create_requests).sort_by(&:created_at).reverse
+    (description_change_requests + document_change_requests + document_create_requests + red_line_boundary_change_requests).sort_by(&:created_at).reverse
   end
 
   def closed_change_requests
-    description_change_requests.closed + document_change_requests.closed + document_create_requests.closed
+    change_requests.each { |cr| cr.state.eql?("closed") }
   end
 
   def last_change_request_date

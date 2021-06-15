@@ -9,7 +9,7 @@ components:
       type: http
       scheme: bearer
 paths:
-  "/api/v1/planning_applications/{id}":
+  '/api/v1/planning_applications/{id}':
     get:
       summary: Retrieves all determined planning applications
       parameters:
@@ -40,23 +40,21 @@ paths:
                     status: not_started
                     application_type: lawfulness_certificate
                     description: Add chimnney stack
-                    created_at: '2020-05-14T05:18:17.540Z'
-                    received_date: '2020-05-14T05:18:17.540Z'
-                    determined_at: '2020-06-14T05:18:17.540Z'
+                    created_at: '2020-05-14T06:18:17.540+01:00'
+                    received_date: '2020-05-14T06:18:17.540+01:00'
+                    determined_at: '2020-05-14T06:18:17.540+01:00'
                     target_date: '2020-07-02'
-                    started_at: '2020-05-15T05:18:17.540Z'
+                    started_at: '2020-05-15T06:18:17.540+01:00'
                     invalidated_at: null
                     withdrawn_at: null
                     returned_at: null
                     work_status: proposed
                     payment_reference: PAY1
-                    awaiting_determination_at: '2020-05-16T05:18:17.540Z'
-                    in_assessment_at: '2020-05-16T05:18:17.540Z'
+                    awaiting_determination_at: '2020-05-16T06:18:17.540+01:00'
+                    in_assessment_at: '2020-05-16T06:18:17.540+01:00'
                     awaiting_correction_at: null
                     applicant_first_name: Albert
                     applicant_last_name: Manteras
-                    applicant_phone: '23432325435'
-                    applicant_email: applicant@example.com
                     agent_first_name: Jennifer
                     agent_last_name: Harper
                     agent_phone: '237878889'
@@ -69,18 +67,16 @@ paths:
                       geometry:
                         type: Polygon
                         coordinates:
-                          -
-                            - [-0.07716178894042969, 51.50094238217541]
+                          - - [-0.07716178894042969, 51.50094238217541]
                             - [-0.07645905017852783, 51.50053497847238]
                             - [-0.07615327835083008, 51.50115276135022]
                             - [-0.07716178894042969, 51.50094238217541]
                     documents:
                       - url: http://example.com/document_path.pdf
-                        created_at: '2020-05-16T05:18:17.540Z'
-                        tags:
-                          ["Side", "Elevation", "Proposed"]
+                        created_at: '2020-05-16T06:18:17.540+01:00'
+                        tags: ['Side', 'Elevation', 'Proposed']
                         numbers: PLAN01
-  "/api/v1/planning_applications":
+  '/api/v1/planning_applications':
     get:
       summary: Retrieves all determined planning applications
       responses:
@@ -92,12 +88,12 @@ paths:
                 Full:
                   value:
                     data:
-                      -   <<: *planning_application
+                      - <<: *planning_application
 
     post:
       summary: Create new planning application
       security:
-      - bearerAuth: []
+        - bearerAuth: []
       parameters: []
       responses:
         '200':
@@ -182,7 +178,7 @@ paths:
                                   example: http://example.com/planning/policy/1/234/a.html
                                 value:
                                   type: string
-                                  example: "GPDO 32.2342.223"
+                                  example: 'GPDO 32.2342.223'
                           flags:
                             type: array
                             items:
@@ -228,13 +224,13 @@ paths:
                         type: array
                         items:
                           type: string
-                          example: "Side"
+                          example: 'Side'
                 boundary_geojson:
                   type: object
               required:
-              - site
-              - application_type
-              - applicant_email
+                - site
+                - application_type
+                - applicant_email
             examples:
               Minimum:
                 value:
@@ -269,47 +265,47 @@ paths:
                   proposal_details:
                     - question: What do you want to do?
                       responses:
-                        - value: "Modify or extend"
+                        - value: 'Modify or extend'
                     - question: What is the dwelling used as?
                       responses:
                         - value: A family home
                     - question: Is the property a house?
                       responses:
-                        - value: "Yes"
+                        - value: 'Yes'
                     - question: How many storeys will the new structure have?
                       responses:
-                        - value: "1"
+                        - value: '1'
                     - question: Was the house always a house?
                       responses:
-                        - value: "Yes"
+                        - value: 'Yes'
                     - question: Will the structure include a satellite dish or antenna?
                       responses:
-                        - value: "No"
+                        - value: 'No'
                       metadata:
                         policy_refs:
-                        - url: http://example.com/planning/policy/1/234/a.html
-                          text: "GPDO 00.0000.000"
+                          - url: http://example.com/planning/policy/1/234/a.html
+                            text: 'GPDO 00.0000.000'
                     - question: What will be the total footprint of all additions of the available area around the original house?
                       responses:
                         - value: 50% or less
                     - question: How high will the eaves of the new structure be?
                       responses:
-                        - value: "2.5m or lower"
+                        - value: '2.5m or lower'
                     - question: What will the height of the new structure be?
                       responses:
-                        - value: "2.5m or lower"
+                        - value: '2.5m or lower'
                     - question: How close will the new structure be to the site boundary?
                       responses:
-                        - value: "Within 2m"
+                        - value: 'Within 2m'
                     - question: Will any part of the new structure be forward of the front of the original house?
                       responses:
-                        - value: "No"
+                        - value: 'No'
                     - question: How many storeys will the new structure have?
                       responses:
-                        - value: "1"
+                        - value: '1'
                     - question: Will any part of the pool be forward of the front of the original house?
                       responses:
-                        - value: "No"
+                        - value: 'No'
                     - question: What is the addition to the property?
                       responses:
                         - value: An outdoor pool
@@ -317,47 +313,47 @@ paths:
                       metadata:
                         policy_refs:
                           - url: http://example.com/planning/policy/1/234/b.html
-                            text: "GPDO 00.0000.000"
+                            text: 'GPDO 00.0000.000'
                           - url: http://example.com/planning/policy/1/234/c.html
-                            text: "GPDO 00.0000.000"
+                            text: 'GPDO 00.0000.000'
                     - question: How many storeys will the new structure have?
                       responses:
-                        - value: "1"
+                        - value: '1'
                     - question: Is the property on designated land?
                       responses:
-                        - value: "No"
+                        - value: 'No'
                           auto_answered: true
                     - question: Is the property in an area of outstanding natural beauty?
                       responses:
-                        - value: "No"
+                        - value: 'No'
                       metadata:
                         auto_answered: true
                     - question: Is the property in the broads?
                       responses:
-                        - value: "No"
+                        - value: 'No'
                       metadata:
                         auto_answered: true
                     - question: Is the property in a world heritage site?
                       responses:
-                        - value: "No"
+                        - value: 'No'
                       metadata:
                         auto_answered: true
                     - question: Is the property in a national park?
                       responses:
-                        - value: "No"
+                        - value: 'No'
                       metadata:
                         auto_answered: true
                     - question: Is the house listed?
                       responses:
-                        - value: "No"
+                        - value: 'No'
                     - question: Will the works affect a protected tree?
                       responses:
-                        - value: "No"
+                        - value: 'No'
                       metadata:
                         auto_answered: true
                     - question: Will the new addition allow you to do an acitivity that most houses do not provide a dedicated space for?
                       responses:
-                        - value: "Yes"
+                        - value: 'Yes'
                       metadata:
                         notes: It will allow me to exercise on a regular basis and generate energy
                   constraints:
@@ -372,10 +368,9 @@ paths:
                     geometry:
                       type: Polygon
                       coordinates:
-                        -
-                          - [-0.07716178894042969, 51.50094238217541]
+                        - - [-0.07716178894042969, 51.50094238217541]
                           - [-0.07645905017852783, 51.50053497847238]
                           - [-0.07615327835083008, 51.50115276135022]
                           - [-0.07716178894042969, 51.50094238217541]
 
-  $ref: "./change_requests.yaml"
+  $ref: './change_requests.yaml'
