@@ -15,6 +15,7 @@ class PlanningApplicationsController < AuthenticationController
                                                     determine
                                                     validate_documents_form
                                                     validate_documents
+                                                    view_recommendation
                                                     edit_constraints_form
                                                     edit_constraints
                                                     cancel_confirmation
@@ -134,6 +135,11 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def submit_recommendation; end
+
+  def view_recommendation
+    @assessor_name = @planning_application.recommendations.last.assessor.name
+    @recommended_date = @planning_application.recommendations.last.created_at.strftime("%d %b %Y")
+  end
 
   def assess
     @planning_application.assess!

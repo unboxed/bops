@@ -75,6 +75,8 @@
             <span class="app-task-list__task-name">
               <% if @planning_application.can_review_assessment? && current_user.reviewer? %>
                 <%= link_to "Review assessment", review_form_planning_application_path(@planning_application), aria: {describedby: "review_assessment-completed"} %>
+              <% elsif @planning_application.can_review_assessment? && !current_user.reviewer? %>
+                <%= link_to "View recommendation", view_recommendation_planning_application_path(@planning_application), aria: {describedby: "review_assessment-completed"}%>
               <% else %>
                 Review assessment
               <% end %>
@@ -82,7 +84,7 @@
             <% if @planning_application.review_assessment_complete? %>
               <%= tag.strong "Completed", id: "review_assessment-completed", class: "govuk-tag app-task-list__task-tag" %>
             <% elsif @planning_application.can_review_assessment? && current_user.assessor? %>
-              <%= tag.strong "Waiting", id: "review_assessment-waiting", class: "govuk-tag app-task-list__task-tag" %>
+              <%= tag.strong "Awaiting determination", id: "review_assessment-waiting", class: "govuk-tag app-task-list__task-tag govuk-tag--grey" %>
             <% end %>
           </li>
           <li class="app-task-list__item">

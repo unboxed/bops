@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       get :recommendation_form
       patch :recommend
       get :submit_recommendation
+      get :view_recommendation
       patch :assess
       get :review_form
       patch :review

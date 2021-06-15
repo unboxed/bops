@@ -49,6 +49,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
       # TODO: add a flash message here?
       planning_application.reload
       expect(planning_application.status).to eq("awaiting_determination")
+      click_link "View recommendation"
+      expect(page).to have_text("Recommendations submitted by #{planning_application.recommendations.first.assessor.name}")
+
+      click_link "Back"
 
       click_button "Key application dates"
       click_link "Activity log"
