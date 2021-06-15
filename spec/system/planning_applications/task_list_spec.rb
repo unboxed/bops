@@ -153,10 +153,11 @@ RSpec.describe "Planning Application show page", type: :system do
 
       within "#review-section" do
         expect(page).not_to have_link("Review assessment")
+        expect(page).to have_link("View recommendation")
         expect(page).not_to have_content("Completed")
 
         expect(page).not_to have_link("Publish determination")
-        expect(page).to have_content("Waiting")
+        expect(page).to have_content("Awaiting determination")
       end
     end
 
