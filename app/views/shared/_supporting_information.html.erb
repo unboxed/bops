@@ -82,19 +82,17 @@
       <% if @planning_application.agent? %>
         <p class='govuk-body'>
           <strong>Agent: </strong><br>
-          <%= @planning_application.agent_first_name %>
-          <%= @planning_application.agent_last_name %><br>
-          <%= @planning_application.agent_phone %><br>
-          <%= @planning_application.agent_email %>
+          <% agent_contact_details(@planning_application).each do |info| %>
+            <%= info %><br/>
+          <% end %>
         </p>
       <% end %>
       <% if @planning_application.applicant? %>
         <p class='govuk-body'>
-          <strong>Applicant: </strong><br>
-          <%= @planning_application.applicant_first_name %>
-          <%= @planning_application.applicant_last_name %><br>
-          <%= @planning_application.applicant_phone %><br>
-          <%= @planning_application.applicant_email %>
+          <strong>Applicant: </strong><br/>
+          <% applicant_contact_details(@planning_application).each do |info| %>
+            <%= info %><br/>
+          <% end %>
         </p>
       <% end %>
     </div>
