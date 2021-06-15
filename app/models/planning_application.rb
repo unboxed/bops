@@ -219,11 +219,8 @@ class PlanningApplication < ApplicationRecord
   end
 
   def secure_change_url(application_id, secure_token)
-    case ENV["DOMAIN"]
-    when "bops-staging.services"
-      "http://#{local_authority.subdomain}.bops-applicants-staging.services/change_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
-    when "bops.services"
-      "http://#{local_authority.subdomain}.bops-applicants.services/change_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
+    if Rails.env.production?
+      "https://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/change_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
     else
       "http://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/change_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
     end
