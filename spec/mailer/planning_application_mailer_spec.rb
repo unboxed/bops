@@ -103,4 +103,24 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(change_request_mail.body.encoded).to include("Lord of BiscuitTown")
     end
   end
+
+  describe "#receipt_notice_mail" do
+    let(:receipt_mail) { described_class.receipt_notice_mail(planning_application, host) }
+
+    ENV["APPLICANTS_APP_HOST"] = "example.com"
+
+    it "renders the headers" do
+      expect(receipt_mail.subject).to eq("Your planning application has been received")
+      expect(receipt_mail.to).to eq([planning_application.applicant_email])
+    end
+
+    it "renders the body" do
+      # expect(receipt_mail.body.encoded).to match("started from #{planning_application.documents_validated_at.strftime('%e %B %Y')}")
+      # expect(receipt_mail.body.encoded).to match("issue a decision by #{planning_application.target_date.strftime('%e %B %Y')}")
+      # expect(receipt_mail.body.encoded).to match("issue a decision by #{planning_application.target_date.strftime('%e %B %Y')}")
+      # expect(receipt_mail.body.encoded).to match("Site Address: #{planning_application.full_address}")
+      # expect(receipt_mail.body.encoded).to match("planning reference number #{planning_application.reference}")
+      # expect(receipt_mail.body.encoded).to match("Proposal: #{planning_application.description}")
+    end
+  end
 end

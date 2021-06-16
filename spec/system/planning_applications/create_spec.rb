@@ -153,6 +153,9 @@ RSpec.describe "Creating a planning application", type: :system do
       click_link "Activity log"
 
       expect(page).to have_text("Application created by Assessor 1")
+
+      email = ActionMailer::Base.deliveries.last
+      expect(email.body).to have_content("Palace Road, Crystal Palace, SE19 2LX")
     end
   end
 end

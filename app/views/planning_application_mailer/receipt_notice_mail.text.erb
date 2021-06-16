@@ -1,0 +1,34 @@
+# <%= @planning_application.local_authority.name %>
+
+# Town and country planning act 1990 (as amended)
+
+Dear Sir/Madam,
+
+Reference No.: <%= @planning_application.reference %>
+Proposal: <%= @planning_application.description %>
+Site Address: <%= @planning_application.full_address %>
+
+<%= @planning_application.reference %>
+
+<%= @planning_application.target_date.strftime("%e %B %Y") %>
+
+
+Signed: <%= @planning_application.local_authority.signatory_name %>
+ <%= @planning_application.local_authority.signatory_job_title %>
+
+Your attention is drawn to the notes accompanying this document
+
+Any enquiries regarding this document should quote the Application Number and be sent to
+the
+<%= @planning_application.local_authority.signatory_job_title %>,
+<%= @planning_application.local_authority.name %>,
+<%= @planning_application.local_authority.enquiries_paragraph %>
+or by email to <%= @planning_application.local_authority.email_address %>
+
+Please Note: In light of the COVID-19 situation, Southwark Council is following the current advice from the government to minimise travelling and non-essential contact.
+
+The council is fully committed to helping reduce the spread of the virus by following national guidance, whilst ensuring we continue to provide essential services in our business continuity plans. In accordance with government advice, we have to minimise non-essential contact with service users. Therefore if your application requires a site visit/meeting it may be necessary to delay this to an appropriate time. To avoid/minimise delay you can send us additional information, like site photographs, for us to review together with your application documents.
+
+We apologise for the inconvenience any delays in the determination of your application will cause you.
+
+Thank you for your understanding, support and patience during this period. I will keep you updated if anything changes.
