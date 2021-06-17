@@ -32,7 +32,7 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "Your planning application has been received",
+      subject: "We have received your application",
       to: @planning_application.applicant_email,
     )
   end
