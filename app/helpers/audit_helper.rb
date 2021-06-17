@@ -38,6 +38,8 @@ module AuditHelper
       "Application validated"
     when "withdrawn"
       "Application withdrawn"
+    when "description_change_request_sent"
+      "Sent: request for change (description##{args})"
     end
   end
 end

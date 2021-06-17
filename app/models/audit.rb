@@ -19,5 +19,6 @@ class Audit < ApplicationRecord
     withdrawn: "withdrawn",
     document_invalidated: "document_invalidated",
     document_changed_to_validated: "document_changed_to_validated",
+    description_change_request_sent: "description_change_request_sent"
   }
 end
