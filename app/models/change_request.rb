@@ -16,4 +16,8 @@ module ChangeRequest
   def overdue?
     days_until_response_due.negative?
   end
+
+  def increment_sequence(change_requests)
+    self.sequence = change_requests.length + 1
+  end
 end

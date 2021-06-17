@@ -7,6 +7,8 @@ class DescriptionChangeRequest < ApplicationRecord
   belongs_to :planning_application
   belongs_to :user
 
+  before_create :set_sequence
+
   validates :proposed_description, presence: true
   validate :rejected_reason_is_present?
 
@@ -20,5 +22,10 @@ class DescriptionChangeRequest < ApplicationRecord
 
   def set_previous_application_description
     self.previous_description = planning_application.description
+  end
+
+  def set_sequence
+    change_requests = PlanningApplication.find(planning_application.id).description_change_requests
+    increment_sequence(change_requests)
   end
 end
