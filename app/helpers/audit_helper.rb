@@ -40,6 +40,10 @@ module AuditHelper
       "Application withdrawn"
     when "description_change_request_sent"
       "Sent: request for change (description##{args})"
+    when "document_change_request_sent"
+      "Sent: request for change (replacement document##{args})"
+    when "document_create_request_sent"
+      "Sent: request for change (new document##{args})"
     end
   end
 end

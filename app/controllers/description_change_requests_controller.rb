@@ -39,7 +39,7 @@ private
   end
 
   def description_audit_item(description_change_request, planning_application)
-    "<br/></i>Previous description: #{planning_application.description}
+    "<br/>Previous description: #{planning_application.description}
     <br/> Proposed description: #{description_change_request.proposed_description}"
   end
 end
