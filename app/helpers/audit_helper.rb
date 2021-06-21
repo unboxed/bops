@@ -44,6 +44,8 @@ module AuditHelper
       "Sent: request for change (replacement document##{args})"
     when "document_create_request_sent"
       "Sent: request for change (new document##{args})"
+    when "red_line_boundary_change_request_sent"
+      "Sent: request for change (red line boundary##{args})"
     end
   end
 end
