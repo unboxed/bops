@@ -31,7 +31,7 @@ private
   end
 
   def document_change_audit_item(document_change_request)
-    "<br/>Filename: #{document_change_request.old_document.name}
-    Invalid reason: #{document_change_request.old_document.invalidated_document_reason}"
+    "<br/>Filename: <i>#{document_change_request.old_document.name}</i>
+    <br/>FInvalid reason: <i>#{document_change_request.old_document.invalidated_document_reason}</i>"
   end
 end

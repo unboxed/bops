@@ -9,6 +9,9 @@ class Api::V1::RedLineBoundaryChangeRequestsController < Api::V1::ApplicationCon
       @red_line_boundary_change_request.update!(state: "closed")
       @planning_application.update!(boundary_geojson: @red_line_boundary_change_request.new_geojson) if @red_line_boundary_change_request.approved?
 
+      audit("red_line_boundary_change_request_received", red_line_boundary_audit_item(@red_line_boundary_change_request),
+            @red_line_boundary_change_request.sequence)
+
       render json: { "message": "Change request updated" }, status: :ok
     else
       render json: { "message": "Unable to update request. Please ensure rejection_reason is present if approved is false." }, status: :bad_request
@@ -20,5 +23,13 @@ private
   def red_line_boundary_change_params
     { approved: params[:data][:approved],
       rejection_reason: params[:data][:rejection_reason] }
+  end
+
+  def red_line_boundary_audit_item(change_request)
+    if change_request.approved?
+      "Applicant response: <i>approved</i>"
+    else
+      "Applicant response: <i>rejected</i><br/>Reason: <i>#{change_request.rejection_reason}</i>"
+    end
   end
 end

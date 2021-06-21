@@ -21,13 +21,17 @@
         <% if audit_item.user %>
           <td class="govuk-table__cell"><%= audit_item.user.name %></td>
         <% elsif audit_item.api_user %>
-          <td class="govuk-table__cell"><%= audit_item.api_user.name %></td>
+          <td class="govuk-table__cell"><%= define_api_user(audit_item) %></td>
         <% else %>
           <td class="govuk-table__cell"> User deleted </td>
         <% end %>
         <td colspan="2" class="govuk-table__cell">
-          <%= activity(audit_item.activity_type, audit_item.activity_information) %>
+            <%= activity(audit_item.activity_type, audit_item.activity_information) %>
+          <% if audit_item.activity_type.include?("change") %>
+              <%= simple_format(audit_item.audit_comment, wrapper_tag: "div",) if audit_item.audit_comment.present? %>
+          <% else %>
             <%= simple_format(audit_item.audit_comment, { class: "audit_details" }, wrapper_tag: "div",) if audit_item.audit_comment.present? %>
+          <% end %>
         </td>
       </tr>
     <% end %>

@@ -42,6 +42,9 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
     expect(description_change_request.approved).to eq(true)
     expect(description_change_request.approved).to eq(true)
     expect(planning_application.description).to eq("new roof")
+    expect(Audit.all.last.activity_type).to eq("description_change_request_received")
+    expect(Audit.all.last.audit_comment).to eq("Applicant response: <i>approved</i>")
+    expect(Audit.all.last.activity_information).to eq("1")
   end
 
   it "successfully accepts a rejection" do
@@ -55,6 +58,9 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
     expect(description_change_request.state).to eq("closed")
     expect(description_change_request.approved).to eq(false)
     expect(description_change_request.rejection_reason).to eq("The description is unclear")
+    expect(Audit.all.last.activity_type).to eq("description_change_request_received")
+    expect(Audit.all.last.audit_comment).to eq("Applicant response: <i>rejected</i><br/>Reason: <i>The description is unclear</i>")
+    expect(Audit.all.last.activity_information).to eq("1")
   end
 
   it "returns a 400 if the rejection is missing a rejection reason" do
