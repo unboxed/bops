@@ -97,10 +97,29 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(change_request_mail.body.encoded).to include(change_request.user.name)
       expect(change_request_mail.body.encoded).to include(change_request.response_due.strftime("%e %B %Y"))
       expect(change_request_mail.body.encoded).to include(planning_application.change_access_id)
-      expect(change_request_mail.body.encoded).to include("http://cookies.localhost/change_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}")
+      expect(change_request_mail.body.encoded).to include("http://cookies.example.com/change_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}")
       expect(change_request_mail.body.encoded).to include("Mr. Biscuit")
       expect(change_request_mail.body.encoded).to include("Cookie authority")
       expect(change_request_mail.body.encoded).to include("Lord of BiscuitTown")
+    end
+  end
+
+  describe "#receipt_notice_mail" do
+    let(:receipt_mail) { described_class.receipt_notice_mail(planning_application, host) }
+
+    ENV["APPLICANTS_APP_HOST"] = "example.com"
+
+    it "renders the headers" do
+      expect(receipt_mail.subject).to eq("We have received your application")
+      expect(receipt_mail.to).to eq([planning_application.applicant_email])
+    end
+
+    it "renders the body" do
+      expect(receipt_mail.body.encoded).to match("If by #{planning_application.target_date.strftime('%e %B %Y')}:")
+      expect(receipt_mail.body.encoded).to match("Date received: #{planning_application.created_at.strftime('%e %B %Y - %H:%M:%S')}")
+      expect(receipt_mail.body.encoded).to match("Site address: #{planning_application.full_address}")
+      expect(receipt_mail.body.encoded).to match("Reference: #{planning_application.reference}")
+      expect(receipt_mail.body.encoded).to match("Description: #{planning_application.description}")
     end
   end
 end

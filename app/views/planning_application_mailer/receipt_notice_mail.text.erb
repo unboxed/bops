@@ -1,0 +1,34 @@
+Reference: <%= @planning_application.reference %>
+Date of application: <%= @planning_application.created_at.strftime("%e %B %Y - %H:%M:%S") %>
+Date received: <%= @planning_application.created_at.strftime("%e %B %Y - %H:%M:%S") %>
+
+Site address: <%= @planning_application.full_address %>
+Description: <%= @planning_application.description %>
+Application type: <%= @planning_application.application_type %>
+
+What happens next
+
+We are still checking your application for errors or missing information, and ensuring that all plans and documents comply with all statutory requirements. This is the process for accepting your application and should take less than 14 days. We will contact you during this time if needed.
+
+If your application is valid, then a planning officer may contact you to arrange a site visit.
+
+A planning officer will then make a decision on your application.
+
+If you do not hear from us
+
+If by <%= @planning_application.target_date.strftime("%e %B %Y") %>:
+
+you have not been given a decision in writing
+you have not been told that the application is invalid
+you not agreed in writing to extend the decision period
+
+Then you can appeal to the Secretary of State under section 195 of the Town and Country Planning Act 1990. This does not apply if your application has already been referred to the Secretary of State. You can find out how to appeal an application for a Lawful Development Certificate here: https://www.gov.uk/appeal-lawful-development-certificate-decision.
+
+Contact us
+You can contact us at  <%= @planning_application.local_authority.email_address %>.
+
+Signed: <%= @planning_application.local_authority.signatory_name %>
+<%= @planning_application.local_authority.signatory_job_title %>
+
+Disclaimer: This email does not constitute an approval of any application submitted.
+

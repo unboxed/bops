@@ -50,6 +50,7 @@ class PlanningApplicationsController < AuthenticationController
     if @planning_application.save
       audit("created", nil, current_user.name)
       flash[:notice] = "Planning application was successfully created."
+      receipt_notice_mail if @planning_application.applicant_email.present?
       redirect_to planning_application_documents_path(@planning_application)
     else
       render :new
@@ -283,6 +284,13 @@ private
 
   def validation_notice_mail
     PlanningApplicationMailer.validation_notice_mail(
+      @planning_application,
+      request.host,
+    ).deliver_now
+  end
+
+  def receipt_notice_mail
+    PlanningApplicationMailer.receipt_notice_mail(
       @planning_application,
       request.host,
     ).deliver_now

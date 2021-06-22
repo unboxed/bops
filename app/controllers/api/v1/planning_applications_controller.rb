@@ -46,6 +46,7 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
         activity_information: current_api_user.name,
       )
       send_success_response
+      receipt_notice_mail if @planning_application.applicant_email.present?
     else
       send_failed_response
     end
@@ -112,5 +113,12 @@ private
         town: params[:site][:town],
         postcode: params[:site][:postcode] }
     end
+  end
+
+  def receipt_notice_mail
+    PlanningApplicationMailer.receipt_notice_mail(
+      @planning_application,
+      request.host,
+    ).deliver_now
   end
 end
