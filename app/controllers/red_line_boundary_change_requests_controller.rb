@@ -17,6 +17,8 @@ class RedLineBoundaryChangeRequestsController < ApplicationController
     if @red_line_boundary_change_request.save
       send_change_request_email
       flash[:notice] = "Change request for red line boundary successfully sent."
+      audit("red_line_boundary_change_request_sent", red_line_boundary_audit_item(@red_line_boundary_change_request),
+            @red_line_boundary_change_request.sequence)
       redirect_to planning_application_change_requests_path(@planning_application)
     else
       render :new
@@ -38,5 +40,9 @@ private
       @planning_application,
       @red_line_boundary_change_request,
     ).deliver_now
+  end
+
+  def red_line_boundary_audit_item(change_request)
+    change_request.reason
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_03_094828) do
+ActiveRecord::Schema.define(version: 2021_06_21_110354) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 2021_06_03_094828) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "previous_description"
+    t.integer "sequence"
     t.index ["planning_application_id"], name: "index_description_change_requests_on_planning_application_id"
     t.index ["user_id"], name: "index_description_change_requests_on_user_id"
   end
@@ -87,6 +88,7 @@ ActiveRecord::Schema.define(version: 2021_06_03_094828) do
     t.string "state", default: "open", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "sequence"
     t.index ["new_document_id"], name: "index_document_change_requests_on_new_document_id"
     t.index ["old_document_id"], name: "index_document_change_requests_on_old_document_id"
     t.index ["planning_application_id"], name: "index_document_change_requests_on_planning_application_id"
@@ -102,6 +104,7 @@ ActiveRecord::Schema.define(version: 2021_06_03_094828) do
     t.string "document_request_reason"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "sequence"
     t.index ["new_document_id"], name: "index_document_create_requests_on_new_document_id"
     t.index ["planning_application_id"], name: "index_document_create_requests_on_planning_application_id"
     t.index ["user_id"], name: "index_document_create_requests_on_user_id"
@@ -207,6 +210,7 @@ ActiveRecord::Schema.define(version: 2021_06_03_094828) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "approved"
+    t.integer "sequence"
   end
 
   create_table "users", force: :cascade do |t|

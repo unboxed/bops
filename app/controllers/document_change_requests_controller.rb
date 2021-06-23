@@ -12,6 +12,8 @@ class DocumentChangeRequestsController < ApplicationController
     end
     flash[:notice] = "Document change request successfully sent."
     send_change_request_email
+    audit("document_change_request_sent", document_change_audit_item(@document_change_request),
+          @document_change_request.sequence)
     redirect_to planning_application_change_requests_path(@planning_application)
   end
 
@@ -26,5 +28,10 @@ private
       @planning_application,
       @document_change_request,
     ).deliver_now
+  end
+
+  def document_change_audit_item(document_change_request)
+    { old_document: document_change_request.old_document.name,
+      reason: document_change_request.old_document.invalidated_document_reason }.to_json
   end
 end

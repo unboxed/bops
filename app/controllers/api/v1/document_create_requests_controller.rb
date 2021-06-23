@@ -11,6 +11,10 @@ class Api::V1::DocumentCreateRequestsController < Api::V1::ApplicationController
     @document_create_request.update!(state: "closed", new_document: new_document)
 
     if @document_create_request.save
+
+      audit("document_create_request_received", document_audit_item(new_document),
+            @document_create_request.sequence)
+
       render json: { "message": "Change request updated" }, status: :ok
     else
       render json: { "message": "Unable to update request" }, status: :bad_request
@@ -23,5 +27,9 @@ private
     if params[:new_file].blank?
       render json: { "message": "A file must be selected to proceed." }, status: :bad_request
     end
+  end
+
+  def document_audit_item(document)
+    document.name
   end
 end

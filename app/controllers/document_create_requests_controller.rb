@@ -10,6 +10,8 @@ class DocumentCreateRequestsController < ApplicationController
     if @document_create_request.save
       flash[:notice] = "Document create request successfully sent."
       send_change_request_email
+      audit("document_create_request_sent", document_create_audit_item(@document_create_request),
+            @document_create_request.sequence)
       redirect_to planning_application_change_requests_path(@planning_application)
     else
       render :new
@@ -31,5 +33,9 @@ private
       @planning_application,
       @document_create_request,
     ).deliver_now
+  end
+
+  def document_create_audit_item(document_create_request)
+    { document: document_create_request.document_request_type, reason: document_create_request.document_request_reason }.to_json
   end
 end
