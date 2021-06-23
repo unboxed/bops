@@ -43,6 +43,6 @@ private
   end
 
   def red_line_boundary_audit_item(change_request)
-    "<br/>Reaason: <i>#{change_request.reason}<i>"
+    change_request.reason
   end
 end

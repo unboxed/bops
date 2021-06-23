@@ -27,9 +27,9 @@ private
 
   def red_line_boundary_audit_item(change_request)
     if change_request.approved?
-      "Applicant response: <i>approved</i>"
+      { response: "approved" }.to_json
     else
-      "Applicant response: <i>rejected</i><br/>Reason: <i>#{change_request.rejection_reason}</i>"
+      { response: "rejected", reason: change_request.rejection_reason }.to_json
     end
   end
 end

@@ -38,6 +38,6 @@ private
   end
 
   def document_audit_item(document)
-    "New file: <i>#{document.name}</i>"
+    document.name
   end
 end

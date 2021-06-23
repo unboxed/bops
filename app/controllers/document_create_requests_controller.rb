@@ -36,7 +36,6 @@ private
   end
 
   def document_create_audit_item(document_create_request)
-    "<br/>Document: <i>#{document_create_request.document_request_type}</i>
-    <br/>Reason:  <i>#{document_create_request.document_request_reason}</i>"
+    { document: document_create_request.document_request_type, reason: document_create_request.document_request_reason }.to_json
   end
 end

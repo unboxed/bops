@@ -16,9 +16,4 @@ class RedLineBoundaryChangeRequest < ApplicationRecord
       errors.add(:base, "Please include a comment for the case officer to indicate why the red line boundary change has been rejected.")
     end
   end
-
-  def set_sequence
-    change_requests = PlanningApplication.find(planning_application.id).red_line_boundary_change_requests
-    increment_sequence(change_requests)
-  end
 end

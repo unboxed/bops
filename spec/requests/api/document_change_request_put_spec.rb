@@ -30,7 +30,7 @@ RSpec.describe "API request to patch document change requests", type: :request, 
     expect(document.archive_reason).to eq("Applicant has provived a replacement document.")
 
     expect(Audit.all.last.activity_type).to eq("document_change_request_received")
-    expect(Audit.all.last.audit_comment).to eq("New file: <i>proposed-floorplan.png</i>")
+    expect(Audit.all.last.audit_comment).to eq("proposed-floorplan.png")
     expect(Audit.all.last.activity_information).to eq("1")
   end
 

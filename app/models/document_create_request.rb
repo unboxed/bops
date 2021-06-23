@@ -9,9 +9,4 @@ class DocumentCreateRequest < ApplicationRecord
 
   validates :document_request_type, presence: { message: "Please fill in the document request type." }
   validates :document_request_reason, presence: { message: "Please fill in the reason for this document request." }
-
-  def set_sequence
-    change_requests = PlanningApplication.find(planning_application.id).document_create_requests
-    increment_sequence(change_requests)
-  end
 end

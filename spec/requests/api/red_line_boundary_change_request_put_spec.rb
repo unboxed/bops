@@ -49,7 +49,7 @@ RSpec.describe "API request to patch document change requests", type: :request, 
     planning_application.reload
 
     expect(Audit.all.last.activity_type).to eq("red_line_boundary_change_request_received")
-    expect(Audit.all.last.audit_comment).to eq("Applicant response: <i>approved</i>")
+    expect(Audit.all.last.audit_comment).to eq({ response: "approved" }.to_json)
     expect(Audit.all.last.activity_information).to eq("1")
   end
 
@@ -65,7 +65,7 @@ RSpec.describe "API request to patch document change requests", type: :request, 
     expect(red_line_boundary_change_request.approved).to eq(false)
     expect(red_line_boundary_change_request.rejection_reason).to eq("The boundary is incorrect")
     expect(Audit.all.last.activity_type).to eq("red_line_boundary_change_request_received")
-    expect(Audit.all.last.audit_comment).to eq("Applicant response: <i>rejected</i><br/>Reason: <i>The boundary is incorrect</i>")
+    expect(Audit.all.last.audit_comment).to eq({ response: "rejected", reason: "The boundary is incorrect" }.to_json)
     expect(Audit.all.last.activity_information).to eq("1")
   end
 

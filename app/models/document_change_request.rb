@@ -9,9 +9,4 @@ class DocumentChangeRequest < ApplicationRecord
   before_create :set_sequence
 
   scope :open, -> { where(state: "open") }
-
-  def set_sequence
-    change_requests = PlanningApplication.find(planning_application.id).document_change_requests
-    increment_sequence(change_requests)
-  end
 end
