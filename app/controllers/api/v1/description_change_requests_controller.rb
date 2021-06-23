@@ -10,7 +10,7 @@ class Api::V1::DescriptionChangeRequestsController < Api::V1::ApplicationControl
       @planning_application.update!(description: @description_change_request.proposed_description) if @description_change_request.approved?
 
       audit("description_change_request_received", description_audit_item(@description_change_request),
-            @description_change_request.sequence)
+            @description_change_request.sequence, current_api_user)
 
       render json: { "message": "Change request updated" }, status: :ok
     else

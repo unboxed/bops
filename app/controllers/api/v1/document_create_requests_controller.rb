@@ -13,7 +13,7 @@ class Api::V1::DocumentCreateRequestsController < Api::V1::ApplicationController
     if @document_create_request.save
 
       audit("document_create_request_received", document_audit_item(new_document),
-            @document_create_request.sequence)
+            @document_create_request.sequence, current_api_user)
 
       render json: { "message": "Change request updated" }, status: :ok
     else

@@ -14,7 +14,7 @@ class Api::V1::DocumentChangeRequestsController < Api::V1::ApplicationController
       archive_old_document
 
       audit("document_change_request_received", document_audit_item(new_document),
-            @document_change_request.sequence)
+            @document_change_request.sequence, current_api_user)
 
       render json: { "message": "Change request updated" }, status: :ok
     else

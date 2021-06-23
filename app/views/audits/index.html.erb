@@ -21,18 +21,15 @@
         <% if audit_item.user %>
           <td class="govuk-table__cell"><%= audit_item.user.name %></td>
         <% elsif audit_item.api_user %>
-          <td class="govuk-table__cell"><%= audit_item.api_user.name %></td>
-        <% elsif audit_item.activity_type.include?("received") %>
-          <td class="govuk-table__cell"> Agent / Applicant via API </td>
+          <td class="govuk-table__cell"><%= define_user(audit_item) %></td>
         <% else %>
           <td class="govuk-table__cell"> User deleted </td>
         <% end %>
         <td colspan="2" class="govuk-table__cell">
-            <%= activity(audit_item.activity_type, audit_item.activity_information) %>
           <% if audit_item.activity_type.include?("request") %>
-            <%= render "audits/types/#{audit_item.activity_type}", locals: { comment: audit_item.audit_comment } %>
+            <%= render "audits/types/#{audit_item.activity_type}", locals: { item: audit_item } %>
           <% else %>
-            <%= audit_item.audit_comment if audit_item.audit_comment.present? %>
+            <%= render "audits/types/generic_audit_entry", locals: { item: audit_item } %>
           <% end %>
         </td>
       </tr>
