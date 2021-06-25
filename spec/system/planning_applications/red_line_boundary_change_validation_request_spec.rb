@@ -37,7 +37,7 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     click_button "Key application dates"
     click_link "Activity log"
 
-    expect(page).to have_text("Sent: request for change (red line boundary#1)")
+    expect(page).to have_text("Sent: validation request (red line boundary#1)")
     expect(page).to have_text("Coordinates look wrong")
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
 

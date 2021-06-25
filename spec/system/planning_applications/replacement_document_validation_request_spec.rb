@@ -57,7 +57,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     click_button "Key application dates"
     click_link "Activity log"
 
-    expect(page).to have_text("Sent: request for change (replacement document#1)")
+    expect(page).to have_text("Sent: validation request (replacement document#1)")
     expect(page).to have_text(invalid_document.name.to_s)
     expect(page).to have_text("Invalid reason: Not readable")
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))

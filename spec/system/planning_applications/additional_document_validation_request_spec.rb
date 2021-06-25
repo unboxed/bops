@@ -42,7 +42,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
     click_button "Key application dates"
     click_link "Activity log"
 
-    expect(page).to have_text("Sent: request for change (new document#1)")
+    expect(page).to have_text("Sent: validation request (new document#1)")
     expect(page).to have_text("Document: Backyard plans")
     expect(page).to have_text("Reason: Application is missing a rear view.")
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))

@@ -54,9 +54,9 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "sequence"
-    t.index ["new_document_id"], name: "index_document_create_requests_on_new_document_id"
-    t.index ["planning_application_id"], name: "index_document_create_requests_on_planning_application_id"
-    t.index ["user_id"], name: "index_document_create_requests_on_user_id"
+    t.index ["new_document_id"], name: "ix_additional_document_validation_requests_on_new_document_id"
+    t.index ["planning_application_id"], name: "ix_additional_document_validation_requests_on_planning_applicat"
+    t.index ["user_id"], name: "ix_additional_document_validation_requests_on_user_id"
   end
 
   create_table "api_users", force: :cascade do |t|
@@ -180,9 +180,7 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.string "change_access_id"
     t.date "expiry_date"
     t.integer "payment_amount"
-    t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
     t.index ["local_authority_id"], name: "ix_planning_applications_on_local_authority_id"
-    t.index ["user_id"], name: "index_planning_applications_on_user_id"
     t.index ["user_id"], name: "ix_planning_applications_on_user_id"
   end
 
@@ -223,10 +221,10 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "sequence"
-    t.index ["new_document_id"], name: "index_document_change_requests_on_new_document_id"
-    t.index ["old_document_id"], name: "index_document_change_requests_on_old_document_id"
-    t.index ["planning_application_id"], name: "index_document_change_requests_on_planning_application_id"
-    t.index ["user_id"], name: "index_document_change_requests_on_user_id"
+    t.index ["new_document_id"], name: "ix_replacement_document_validation_requests_on_new_document_id"
+    t.index ["old_document_id"], name: "ix_replacement_document_validation_requests_on_old_document_id"
+    t.index ["planning_application_id"], name: "ix_replacement_document_validation_requests_on_planning_applica"
+    t.index ["user_id"], name: "ix_replacement_document_validation_requests_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
