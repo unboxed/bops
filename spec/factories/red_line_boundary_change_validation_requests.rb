@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :red_line_boundary_change_request do
+  factory :red_line_boundary_change_validation_request do
     planning_application
     user
     state { "open" }

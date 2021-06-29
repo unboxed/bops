@@ -16,7 +16,7 @@ class ChangeRequestsController < ApplicationController
     when "other_validation"
       redirect_to new_planning_application_other_change_validation_request_path
     when "red_line_boundary"
-      redirect_to new_planning_application_red_line_boundary_change_request_path
+      redirect_to new_planning_application_red_line_boundary_change_validation_request_path
     else
       flash[:error] = "You must select a change request type to proceed."
       render "new"

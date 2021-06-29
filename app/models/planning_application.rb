@@ -13,7 +13,7 @@ class PlanningApplication < ApplicationRecord
   has_many :replacement_document_validation_requests, dependent: :destroy
   has_many :other_change_validation_requests, dependent: :destroy
   has_many :additional_document_validation_requests, dependent: :destroy
-  has_many :red_line_boundary_change_requests, dependent: :destroy
+  has_many :red_line_boundary_change_validation_requests, dependent: :destroy
 
   belongs_to :user, optional: true
   belongs_to :local_authority
@@ -236,7 +236,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def change_requests
-    (description_change_validation_requests + replacement_document_validation_requests + additional_document_validation_requests + other_change_validation_requests + red_line_boundary_change_requests).sort_by(&:created_at).reverse
+    (description_change_validation_requests + replacement_document_validation_requests + additional_document_validation_requests + other_change_validation_requests + red_line_boundary_change_validation_requests).sort_by(&:created_at).reverse
   end
 
   def closed_change_requests

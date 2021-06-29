@@ -1,4 +1,4 @@
-class RedLineBoundaryChangeRequest < ApplicationRecord
+class RedLineBoundaryChangeValidationRequest < ApplicationRecord
   include ChangeRequest
 
   belongs_to :planning_application

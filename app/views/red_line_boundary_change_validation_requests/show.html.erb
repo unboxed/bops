@@ -19,7 +19,7 @@
       Reason change is requested
     </h2>
     <p class="govuk-body">
-      <%= @red_line_boundary_change_request.reason  %>
+      <%= @red_line_boundary_change_validation_request.reason  %>
     </p>
     <h2 class="govuk-heading-m govuk-!-padding-top-4">
       Applicant's original red line boundary
@@ -29,7 +29,7 @@
     <h2 class="govuk-heading-m govuk-!-padding-top-6">
      Proposed red line boundary
     </h2>
-    <%= render "shared/proposal_map", locals: { div_id: "proposed_map", geojson: @red_line_boundary_change_request.new_geojson } %>
+    <%= render "shared/proposal_map", locals: { div_id: "proposed_map", geojson: @red_line_boundary_change_validation_request.new_geojson } %>
     <div class="govuk-!-padding-top-8">
      <%= link_to "Back", new_planning_application_change_request_path(@planning_application), class: "govuk-button govuk-button--primary" %>
     </div>

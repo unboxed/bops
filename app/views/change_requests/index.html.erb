@@ -72,12 +72,12 @@
                     <td class="govuk-table__cell change-request-list">
                       <%= change_request.document_request_reason %>
                     </td>
-                  <% elsif change_request.class.name == "RedLineBoundaryChangeRequest" %>
+                  <% elsif change_request.class.name == "RedLineBoundaryChangeValidationRequest" %>
                     <td class="govuk-table__cell change-request-list">
                       Red line boundary changes
                     </td>
                     <td class="govuk-table__cell change-request-list">
-                      <%= link_to "View proposed red line boundary", planning_application_red_line_boundary_change_request_path(@planning_application, change_request) %>
+                      <%= link_to "View proposed red line boundary", planning_application_red_line_boundary_change_validation_request_path(@planning_application, change_request) %>
                     </td>
                     <td class="govuk-table__cell change-request-list">
                       <%= change_request.reason %>

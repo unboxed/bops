@@ -640,7 +640,7 @@ paths:
                   value:
                     message:
                       - Change request updated
-  '/api/v1/planning_applications/{planning_application_id}/red_line_boundary_change_requests/{red_line_boundary_change_id}':
+  '/api/v1/planning_applications/{planning_application_id}/red_line_boundary_change_validation_requests/{red_line_boundary_change_id}':
     patch:
       summary: Update a red line boundary change request
       security:
