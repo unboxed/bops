@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DescriptionChangeRequest < ApplicationRecord
+class DescriptionChangeValidationRequest < ApplicationRecord
   include ChangeRequest
   before_create :set_previous_application_description
 

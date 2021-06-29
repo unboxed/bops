@@ -32,7 +32,7 @@
             <tbody class="govuk-table__body">
               <% @planning_application.change_requests.each do |change_request| %>
                 <tr class="govuk-table__row">
-                  <% if change_request.class.name == "DescriptionChangeRequest" %>
+                  <% if change_request.class.name == "DescriptionChangeValidationRequest" %>
                     <td class="govuk-table__cell change-request-list">
                       Change of description
                     </td>

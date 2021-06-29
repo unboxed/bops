@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_30_202753) do
+ActiveRecord::Schema.define(version: 2021_06_29_153040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.index ["user_id"], name: "ix_audits_on_user_id"
   end
 
-  create_table "description_change_requests", force: :cascade do |t|
+  create_table "description_change_validation_requests", force: :cascade do |t|
     t.bigint "planning_application_id", null: false
     t.bigint "user_id", null: false
     t.string "state", default: "open", null: false
@@ -249,8 +249,8 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "audits", "api_users"
   add_foreign_key "audits", "planning_applications"
-  add_foreign_key "description_change_requests", "planning_applications"
-  add_foreign_key "description_change_requests", "users"
+  add_foreign_key "description_change_validation_requests", "planning_applications"
+  add_foreign_key "description_change_validation_requests", "users"
   add_foreign_key "document_change_requests", "documents", column: "new_document_id"
   add_foreign_key "document_change_requests", "documents", column: "old_document_id"
   add_foreign_key "document_change_requests", "planning_applications"

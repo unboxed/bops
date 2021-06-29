@@ -1,16 +1,16 @@
-class Api::V1::DescriptionChangeRequestsController < Api::V1::ApplicationController
+class Api::V1::DescriptionChangeValidationRequestsController < Api::V1::ApplicationController
   skip_before_action :verify_authenticity_token, only: :update
   before_action :check_token_and_set_application, only: :update
 
   def update
-    @description_change_request = @planning_application.description_change_requests.where(id: params[:id]).first
+    @description_change_validation_request = @planning_application.description_change_validation_requests.where(id: params[:id]).first
 
-    if @description_change_request.update(description_change_params)
-      @description_change_request.update!(state: "closed")
-      @planning_application.update!(description: @description_change_request.proposed_description) if @description_change_request.approved?
+    if @description_change_validation_request.update(description_change_params)
+      @description_change_validation_request.update!(state: "closed")
+      @planning_application.update!(description: @description_change_validation_request.proposed_description) if @description_change_validation_request.approved?
 
-      audit("description_change_request_received", description_audit_item(@description_change_request),
-            @description_change_request.sequence, current_api_user)
+      audit("description_change_validation_request_received", description_audit_item(@description_change_validation_request),
+            @description_change_validation_request.sequence)
 
       render json: { "message": "Change request updated" }, status: :ok
     else

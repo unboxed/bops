@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 json.data do
-  json.description_change_requests @planning_application.description_change_requests do |description_change_request|
-    json.extract! description_change_request,
+  json.description_change_validation_requests @planning_application.description_change_validation_requests do |description_change_validation_request|
+    json.extract! description_change_validation_request,
                   :id,
                   :state,
                   :response_due,
@@ -11,7 +11,7 @@ json.data do
                   :rejection_reason,
                   :approved,
                   :days_until_response_due
-    json.type "description_change_request"
+    json.type "description_change_validation_request"
   end
 
   json.red_line_boundary_change_requests @planning_application.red_line_boundary_change_requests do |red_line_boundary_change_request|

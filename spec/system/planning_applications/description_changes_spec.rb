@@ -9,8 +9,8 @@ RSpec.describe "Requesting description changes to a planning application", type:
     create :planning_application, :invalidated, local_authority: @default_local_authority
   end
 
-  let!(:description_change_request) do
-    create :description_change_request, planning_application: planning_application, state: "open", created_at: 12.days.ago
+  let!(:description_change_validation_request) do
+    create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago
   end
 
   before do
@@ -69,10 +69,10 @@ RSpec.describe "Requesting description changes to a planning application", type:
   end
 
   it "lists the current change requests and their statuses" do
-    create :description_change_request, planning_application: planning_application, state: "open", created_at: 12.days.ago
-    create :description_change_request, planning_application: planning_application, state: "closed", created_at: 12.days.ago, approved: true
-    create :description_change_request, planning_application: planning_application, state: "closed", created_at: 12.days.ago, approved: false, rejection_reason: "No good"
-    create :description_change_request, planning_application: planning_application, state: "open", created_at: 35.days.ago
+    create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago
+    create :description_change_validation_request, planning_application: planning_application, state: "closed", created_at: 12.days.ago, approved: true
+    create :description_change_validation_request, planning_application: planning_application, state: "closed", created_at: 12.days.ago, approved: false, rejection_reason: "No good"
+    create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 35.days.ago
 
     click_link "Validate application"
     click_link "Start new or view existing requests"

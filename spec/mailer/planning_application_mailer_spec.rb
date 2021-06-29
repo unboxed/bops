@@ -17,7 +17,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   let!(:assessor) { create :user, :assessor, local_authority: local_authority }
   let!(:planning_application) { create(:planning_application, :determined, local_authority: local_authority, decision: "granted") }
   let(:host) { "default.example.com" }
-  let!(:change_request) { create(:description_change_request, planning_application: planning_application, user: assessor) }
+  let!(:change_request) { create(:description_change_validation_request, planning_application: planning_application, user: assessor) }
 
   let!(:document_with_tags) do
     create :document, :with_tags,

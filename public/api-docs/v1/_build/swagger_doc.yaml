@@ -469,9 +469,9 @@ paths:
                 Full:
                   value:
                     data:
-                      description_change_requests:
+                      description_change_validation_requests:
                         - id: 1
-                          type: description_change_request
+                          type: description_change_validation_request
                           proposed_description: A proposed new description
                           state: open
                           response_due: '2020-05-14T05:18:17.540Z'
@@ -490,7 +490,7 @@ paths:
                           new_document:
                             name: new_document.jpg
                             url: document.blob./new_document.jpg
-  '/api/v1/planning_applications/{planning_application_id}/description_change_requests/{description_change_request_id}':
+  '/api/v1/planning_applications/{planning_application_id}/description_change_validation_requests/{description_change_validation_request_id}':
     patch:
       summary: Update a description change request
       security:
@@ -504,7 +504,7 @@ paths:
             minimum: 1
           description: The planning application ID
         - in: path
-          name: description_change_request_id
+          name: description_change_validation_request_id
           required: true
           schema:
             type: integer

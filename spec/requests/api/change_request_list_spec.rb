@@ -5,23 +5,23 @@ require "rails_helper"
 RSpec.describe "API request to list change requests", type: :request, show_exceptions: true do
   let!(:api_user) { create :api_user }
   let!(:planning_application) { create(:planning_application, local_authority: @default_local_authority) }
-  let!(:description_change_request) { create(:description_change_request, planning_application: planning_application) }
+  let!(:description_change_validation_request) { create(:description_change_validation_request, planning_application: planning_application) }
   let!(:document_change_request) { create(:document_change_request, planning_application: planning_application) }
   let!(:document_create_request) { create(:document_create_request, planning_application: planning_application) }
 
   it "lists the all description change requests that exist on the planning application" do
     get "/api/v1/planning_applications/#{planning_application.id}/change_requests?change_access_id=#{planning_application.change_access_id}", headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
     expect(response).to be_successful
-    expect(json["data"]["description_change_requests"]).to eq([{
-      "id" => description_change_request.id,
-      "type" => "description_change_request",
+    expect(json["data"]["description_change_validation_requests"]).to eq([{
+      "id" => description_change_validation_request.id,
+      "type" => "description_change_validation_request",
       "state" => "open",
-      "response_due" => description_change_request.response_due.to_s,
-      "proposed_description" => description_change_request.proposed_description,
-      "previous_description" => description_change_request.previous_description,
+      "response_due" => description_change_validation_request.response_due.to_s,
+      "proposed_description" => description_change_validation_request.proposed_description,
+      "previous_description" => description_change_validation_request.previous_description,
       "approved" => nil,
       "rejection_reason" => nil,
-      "days_until_response_due" => description_change_request.days_until_response_due,
+      "days_until_response_due" => description_change_validation_request.days_until_response_due,
     }])
   end
 

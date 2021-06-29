@@ -9,7 +9,7 @@ class PlanningApplication < ApplicationRecord
 
   has_many :documents, dependent: :destroy
   has_many :recommendations, dependent: :destroy
-  has_many :description_change_requests, dependent: :destroy
+  has_many :description_change_validation_requests, dependent: :destroy
   has_many :document_change_requests, dependent: :destroy
   has_many :document_create_requests, dependent: :destroy
   has_many :other_change_validation_requests, dependent: :destroy

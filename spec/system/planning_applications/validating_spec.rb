@@ -83,7 +83,7 @@ RSpec.shared_examples "validate and invalidate" do
   end
 
   it "displays a validation date of the last closed change request if any closed change requests exist" do
-    create(:description_change_request,
+    create(:description_change_validation_request,
            planning_application: planning_application,
            proposed_description: "new roof",
            state: "closed",
@@ -99,9 +99,9 @@ RSpec.shared_examples "validate and invalidate" do
 
     choose "Yes"
 
-    expect(page).to have_field("Day", with: description_change_request.updated_at.strftime("%-d"))
-    expect(page).to have_field("Month", with: description_change_request.updated_at.strftime("%-m"))
-    expect(page).to have_field("Year", with: description_change_request.updated_at.strftime("%Y"))
+    expect(page).to have_field("Day", with: description_change_validation_request.updated_at.strftime("%-d"))
+    expect(page).to have_field("Month", with: description_change_validation_request.updated_at.strftime("%-m"))
+    expect(page).to have_field("Year", with: description_change_validation_request.updated_at.strftime("%Y"))
   end
 
   it "displays a validation date of when the documents where validated if no closed change requests exist" do
@@ -137,8 +137,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
     create :planning_application, :not_started, local_authority: @default_local_authority
   end
 
-  let!(:description_change_request) do
-    create :description_change_request, planning_application: planning_application, state: "closed"
+  let!(:description_change_validation_request) do
+    create :description_change_validation_request, planning_application: planning_application, state: "closed"
   end
 
   let!(:document) do
@@ -162,7 +162,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     include_examples "validate and invalidate"
 
     it "shows error if trying to mark as valid when open change request exists on planning application" do
-      create :description_change_request, planning_application: planning_application, state: "open"
+      create :description_change_validation_request, planning_application: planning_application, state: "open"
       click_link planning_application.reference
       click_link "Validate application"
 

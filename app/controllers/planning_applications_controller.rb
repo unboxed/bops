@@ -98,7 +98,7 @@ class PlanningApplicationsController < AuthenticationController
       if documents_validated_at_missing?
         @planning_application.status = "in_assessment"
         render "validate_documents_form"
-      elsif @planning_application.description_change_requests.open.present?
+      elsif @planning_application.description_change_validation_requests.open.present?
         @planning_application.errors.add(:status, "Planning application cannot be validated if open change requests exist.")
         render "validate_documents_form"
       else

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :description_change_request do
+  factory :description_change_validation_request do
     planning_application
     user
     state { "open" }

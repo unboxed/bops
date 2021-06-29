@@ -1,6 +1,6 @@
 module ChangeRequestHelper
   def request_state(change_request)
-    if change_request.instance_of?(DescriptionChangeRequest)
+    if change_request.instance_of?(DescriptionChangeValidationRequest)
       change_request.approved? ? "Accepted" : "Rejected"
     else
       "Responded"
@@ -8,7 +8,7 @@ module ChangeRequestHelper
   end
 
   def applicant_response(change_request)
-    if change_request.instance_of?(DescriptionChangeRequest) || change_request.instance_of?(RedLineBoundaryChangeRequest)
+    if change_request.instance_of?(DescriptionChangeValidationRequest) || change_request.instance_of?(RedLineBoundaryChangeRequest)
       if change_request.approved?
         approval_message(change_request)
       elsif change_request.approved == false
@@ -22,7 +22,7 @@ module ChangeRequestHelper
   end
 
   def approval_message(change_request)
-    if change_request.instance_of?(DescriptionChangeRequest)
+    if change_request.instance_of?(DescriptionChangeValidationRequest)
       "Description change has been approved by the applicant"
     elsif change_request.instance_of?(RedLineBoundaryChangeRequest)
       "Change to red line boundary has been approved by the applicant"
