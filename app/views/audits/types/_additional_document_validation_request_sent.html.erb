@@ -1,6 +1,5 @@
-<%= activity(locals[:item].activity_type, locals[:item].activity_information) %>
 <p>
-  Document: <i><%= JSON.parse(locals[:item].audit_comment)["document"] %></i>
+  Document: <i><%= JSON.parse(locals[:comment])["document"] %></i>
 <br/>
-  Reason: <i><%= JSON.parse(locals[:item].audit_comment)["reason"] %></i>
+  Reason: <i><%= JSON.parse(locals[:comment])["reason"] %></i>
 </p>

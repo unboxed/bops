@@ -23,7 +23,7 @@ private
   def planning_application
     @planning_application = PlanningApplication.find(params[:planning_application_id])
   end
-  
+
   def send_validation_request_email
     PlanningApplicationMailer.validation_request_mail(
       @planning_application,

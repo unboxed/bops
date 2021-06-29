@@ -46,8 +46,8 @@ json.data do
     json.type "replacement_document_validation_request"
   end
 
-  json.document_create_requests @planning_application.document_create_requests do |document_create_request|
-    json.extract! document_create_request,
+  json.additional_document_validation_requests @planning_application.additional_document_validation_requests do |additional_document_validation_request|
+    json.extract! additional_document_validation_request,
                   :id,
                   :state,
                   :response_due,
@@ -56,11 +56,11 @@ json.data do
                   :document_request_reason
 
     json.new_document do
-      if document_create_request.new_document
-        json.name document_create_request.new_document.file.filename
-        json.url document_create_request.new_document.file.representation(resize_to_limit: [1000, 1000]).processed.url
+      if additional_document_validation_request.new_document
+        json.name additional_document_validation_request.new_document.file.filename
+        json.url additional_document_validation_request.new_document.file.representation(resize_to_limit: [1000, 1000]).processed.url
       end
     end
-    json.type "document_create_request"
+    json.type "additional_document_validation_request"
   end
 end
