@@ -246,6 +246,10 @@ class PlanningApplication < ApplicationRecord
     closed_change_requests.max_by(&:updated_at).updated_at
   end
 
+  def payment_amount_pounds
+    payment_amount.to_i / 100
+  end
+
 private
 
   def set_key_dates

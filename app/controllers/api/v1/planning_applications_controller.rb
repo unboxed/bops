@@ -97,6 +97,7 @@ private
                         proposal_details
                         files
                         payment_reference
+                        payment_amount
                         work_status]
     params.permit permitted_keys
   end

@@ -44,6 +44,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
     expect(PlanningApplication.last.application_type).to eq("lawfulness_certificate")
     expect(PlanningApplication.last.description).to eq("Add a chimney stack")
     expect(PlanningApplication.last.payment_reference).to eq("PAY1")
+    expect(PlanningApplication.last.payment_amount).to eq(10_300)
     expect(PlanningApplication.last.applicant_first_name).to eq("Albert")
     expect(PlanningApplication.last.applicant_last_name).to eq("Manteras")
     expect(PlanningApplication.last.applicant_phone).to eq("23432325435")

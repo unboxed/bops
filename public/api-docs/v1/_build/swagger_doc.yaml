@@ -49,6 +49,7 @@ paths:
                     returned_at: null
                     work_status: proposed
                     payment_reference: PAY1
+                    payment_amount: 10500
                     awaiting_determination_at: '2020-05-16T06:18:17.540+01:00'
                     in_assessment_at: '2020-05-16T06:18:17.540+01:00'
                     awaiting_correction_at: null
@@ -116,6 +117,7 @@ paths:
                         returned_at: null
                         work_status: proposed
                         payment_reference: PAY1
+                        payment_amount: 10500
                         awaiting_determination_at: '2020-05-16T06:18:17.540+01:00'
                         in_assessment_at: '2020-05-16T06:18:17.540+01:00'
                         awaiting_correction_at: null
@@ -199,6 +201,9 @@ paths:
                 payment_reference:
                   type: string
                   example: PAY1
+                payment_amount:
+                  type: integer
+                  example: 10300
                 work_status:
                   type: string
                   example: proposed
@@ -312,6 +317,7 @@ paths:
                     postcode: SE16 3RQ
                   description: Add a chimney stack
                   payment_reference: PAY1
+                  payment_amount: 10300
                   work_status: proposed
                   applicant_first_name: Albert
                   applicant_last_name: Manteras

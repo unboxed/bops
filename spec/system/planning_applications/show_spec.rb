@@ -11,6 +11,7 @@ RSpec.describe "Planning Application show page", type: :system do
                                   documents_validated_at: documents_validated_at,
                                   local_authority: @default_local_authority,
                                   payment_reference: "PAY123",
+                                  payment_amount: 10_300,
                                   work_status: "proposed",
                                   uprn: "00773377",
                                   address_1: "7 Elm Grove",
@@ -53,6 +54,7 @@ RSpec.describe "Planning Application show page", type: :system do
       expect(page).to have_text("Application type: Lawful Development Certificate (Proposed)")
       expect(page).to have_text("Description: Roof extension")
       expect(page).to have_text("PAY123")
+      expect(page).to have_text("£103.00")
     end
 
     it "Constraints accordion" do
