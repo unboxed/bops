@@ -10,6 +10,7 @@ class ReplacementDocumentValidationRequestsController < ApplicationController
         @replacement_document_validation_request.save!
       end
     end
+
     flash[:notice] = "Replacement document validation request successfully sent."
     send_validation_request_email
     audit("replacement_document_validation_request_sent", document_change_audit_item(@replacement_document_validation_request),
@@ -22,7 +23,7 @@ private
   def planning_application
     @planning_application = PlanningApplication.find(params[:planning_application_id])
   end
-
+  
   def send_validation_request_email
     PlanningApplicationMailer.validation_request_mail(
       @planning_application,

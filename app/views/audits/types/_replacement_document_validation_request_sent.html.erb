@@ -1,6 +1,5 @@
-<%= activity(locals[:item].activity_type, locals[:item].activity_information) %>
 <p>
-  File name: <i><%= JSON.parse(locals[:item].audit_comment)["old_document"] %></i>
+  File name: <i><%= JSON.parse(locals[:comment])["old_document"] %></i>
 <br/>
-  Invalid reason: <i><%= JSON.parse(locals[:item].audit_comment)["reason"] %></i>
+  Invalid reason: <i><%= JSON.parse(locals[:comment])["reason"] %></i>
 </p>

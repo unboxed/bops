@@ -26,24 +26,24 @@ json.data do
     json.type "red_line_boundary_change_request"
   end
 
-  json.document_change_requests @planning_application.document_change_requests do |document_change_request|
-    json.extract! document_change_request,
+  json.replacement_document_validation_requests @planning_application.replacement_document_validation_requests do |replacement_document_validation_request|
+    json.extract! replacement_document_validation_request,
                   :id,
                   :state,
                   :response_due,
                   :days_until_response_due
     json.old_document do
-      json.name document_change_request.old_document.file.filename
-      json.invalid_document_reason document_change_request.old_document.invalidated_document_reason
+      json.name replacement_document_validation_request.old_document.file.filename
+      json.invalid_document_reason replacement_document_validation_request.old_document.invalidated_document_reason
     end
 
     json.new_document do
-      if document_change_request.new_document
-        json.name document_change_request.new_document.file.filename
-        json.url document_change_request.new_document.file.representation(resize_to_limit: [1000, 1000]).processed.url
+      if replacement_document_validation_request.new_document
+        json.name replacement_document_validation_request.new_document.file.filename
+        json.url replacement_document_validation_request.new_document.file.representation(resize_to_limit: [1000, 1000]).processed.url
       end
     end
-    json.type "document_change_request"
+    json.type "replacement_document_validation_request"
   end
 
   json.document_create_requests @planning_application.document_create_requests do |document_create_request|
