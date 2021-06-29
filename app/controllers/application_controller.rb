@@ -14,13 +14,14 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_local_authority
 
-  def audit(activity_type, audit_comment = nil, activity_information = nil)
+  def audit(activity_type, audit_comment = nil, activity_information = nil, api_user = nil)
     Audit.create!(
       planning_application_id: @planning_application.id,
       user: current_user,
       audit_comment: audit_comment,
       activity_information: activity_information,
       activity_type: activity_type,
+      api_user: api_user,
     )
   end
 

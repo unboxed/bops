@@ -57,8 +57,7 @@ module AuditHelper
     end
   end
 
-  def define_api_user(audit)
-    change_requests = %w[description_change_request_received red_line_boundary_change_request_received document_change_request_received document_create_request_received]
-    change_requests.include?(audit.activity_type) ? "Applicant / Agent via #{audit.api_user.name}" : audit.api_user.name
+  def define_user(audit)
+    audit.activity_type.include?("received") ? "Applicant / Agent via #{audit.api_user.name}" : audit.api_user.name
   end
 end
