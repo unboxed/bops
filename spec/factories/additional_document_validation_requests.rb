@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :document_create_request do
+  factory :additional_document_validation_request do
     planning_application
     user
     new_document factory: :document

@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
-class Api::V1::DocumentCreateRequestsController < Api::V1::ApplicationController
+class Api::V1::AdditionalDocumentValidationRequestsController < Api::V1::ApplicationController
   skip_before_action :verify_authenticity_token, only: :update
   before_action :check_token_and_set_application, only: :update
   before_action :check_file_params_are_present, only: :update
 
   def update
-    @document_create_request = @planning_application.document_create_requests.find_by(id: params[:id])
+    @additional_document_validation_request = @planning_application.additional_document_validation_requests.find_by(id: params[:id])
     new_document = @planning_application.documents.create!(file: params[:new_file])
-    @document_create_request.update!(state: "closed", new_document: new_document)
+    @additional_document_validation_request.update!(state: "closed", new_document: new_document)
 
-    if @document_create_request.save
+    if @additional_document_validation_request.save
 
-      audit("document_create_request_received", document_audit_item(new_document),
-            @document_create_request.sequence, current_api_user)
+      audit("additional_document_validation_request_received", document_audit_item(new_document),
+            @additional_document_validation_request.sequence)
 
       render json: { "message": "Change request updated" }, status: :ok
     else

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_29_154712) do
+ActiveRecord::Schema.define(version: 2021_06_29_161149) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,21 @@ ActiveRecord::Schema.define(version: 2021_06_29_154712) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "additional_document_validation_requests", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "new_document_id"
+    t.string "state", default: "open", null: false
+    t.string "document_request_type"
+    t.string "document_request_reason"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "sequence"
+    t.index ["new_document_id"], name: "index_document_create_requests_on_new_document_id"
+    t.index ["planning_application_id"], name: "index_document_create_requests_on_planning_application_id"
+    t.index ["user_id"], name: "index_document_create_requests_on_user_id"
   end
 
   create_table "api_users", force: :cascade do |t|
@@ -78,21 +93,6 @@ ActiveRecord::Schema.define(version: 2021_06_29_154712) do
     t.integer "sequence"
     t.index ["planning_application_id"], name: "ix_description_change_requests_on_planning_application_id"
     t.index ["user_id"], name: "ix_description_change_requests_on_user_id"
-  end
-
-  create_table "document_create_requests", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
-    t.bigint "user_id", null: false
-    t.bigint "new_document_id"
-    t.string "state", default: "open", null: false
-    t.string "document_request_type"
-    t.string "document_request_reason"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.integer "sequence"
-    t.index ["new_document_id"], name: "ix_document_create_requests_on_new_document_id"
-    t.index ["planning_application_id"], name: "ix_document_create_requests_on_planning_application_id"
-    t.index ["user_id"], name: "ix_document_create_requests_on_user_id"
   end
 
   create_table "documents", force: :cascade do |t|
@@ -247,13 +247,13 @@ ActiveRecord::Schema.define(version: 2021_06_29_154712) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "additional_document_validation_requests", "documents", column: "new_document_id"
+  add_foreign_key "additional_document_validation_requests", "planning_applications"
+  add_foreign_key "additional_document_validation_requests", "users"
   add_foreign_key "audits", "api_users"
   add_foreign_key "audits", "planning_applications"
   add_foreign_key "description_change_validation_requests", "planning_applications"
   add_foreign_key "description_change_validation_requests", "users"
-  add_foreign_key "document_create_requests", "documents", column: "new_document_id"
-  add_foreign_key "document_create_requests", "planning_applications"
-  add_foreign_key "document_create_requests", "users"
   add_foreign_key "other_change_validation_requests", "planning_applications"
   add_foreign_key "other_change_validation_requests", "users"
   add_foreign_key "planning_applications", "users"

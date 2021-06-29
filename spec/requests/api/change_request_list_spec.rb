@@ -7,7 +7,7 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
   let!(:planning_application) { create(:planning_application, local_authority: @default_local_authority) }
   let!(:description_change_validation_request) { create(:description_change_validation_request, planning_application: planning_application) }
   let!(:replacement_document_validation_request) { create(:replacement_document_validation_request, planning_application: planning_application) }
-  let!(:document_create_request) { create(:document_create_request, planning_application: planning_application) }
+  let!(:additional_document_validation_request) { create(:additional_document_validation_request, planning_application: planning_application) }
 
   it "lists the all description change requests that exist on the planning application" do
     get "/api/v1/planning_applications/#{planning_application.id}/change_requests?change_access_id=#{planning_application.change_access_id}", headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
@@ -46,17 +46,17 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
   it "lists the all document create requests that exist on the planning application" do
     get "/api/v1/planning_applications/#{planning_application.id}/change_requests?change_access_id=#{planning_application.change_access_id}", headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
     expect(response).to be_successful
-    expect(json["data"]["document_create_requests"].first).to include({
-      "id" => document_create_request.id,
+    expect(json["data"]["additional_document_validation_requests"].first).to include({
+      "id" => additional_document_validation_request.id,
       "state" => "open",
-      "response_due" => document_create_request.response_due.strftime("%Y-%m-%d"),
-      "days_until_response_due" => document_create_request.days_until_response_due,
-      "document_request_type" => document_create_request.document_request_type,
-      "document_request_reason" => document_create_request.document_request_reason,
-      "type" => "document_create_request",
+      "response_due" => additional_document_validation_request.response_due.strftime("%Y-%m-%d"),
+      "days_until_response_due" => additional_document_validation_request.days_until_response_due,
+      "document_request_type" => additional_document_validation_request.document_request_type,
+      "document_request_reason" => additional_document_validation_request.document_request_reason,
+      "type" => "additional_document_validation_request",
     })
-    expect(json["data"]["document_create_requests"].first["new_document"]["name"]).to eq("proposed-floorplan.png")
-    expect(json["data"]["document_create_requests"].first["new_document"]["url"]).to be_a(String)
+    expect(json["data"]["additional_document_validation_requests"].first["new_document"]["name"]).to eq("proposed-floorplan.png")
+    expect(json["data"]["additional_document_validation_requests"].first["new_document"]["url"]).to be_a(String)
   end
 
   it "returns a 401 if API key is wrong" do

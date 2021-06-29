@@ -42,7 +42,7 @@ module AuditHelper
       "Sent: request for change (description##{args})"
     when "replacement_document_validation_request_sent"
       "Sent: request for change (replacement document##{args})"
-    when "document_create_request_sent"
+    when "additional_document_validation_request_sent"
       "Sent: request for change (new document##{args})"
     when "red_line_boundary_change_request_sent"
       "Sent: request for change (red line boundary##{args})"
@@ -52,7 +52,7 @@ module AuditHelper
       "Received: request for change (red line boundary##{args})"
     when "replacement_document_validation_request_received"
       "Received: request for change (replacement document##{args})"
-    when "document_create_request_received"
+    when "additional_document_validation_request_received"
       "Received: request for change (new document##{args})"
     when "other_change_validation_request_sent"
       "Sent: request for change (other validation##{args})"
@@ -60,7 +60,7 @@ module AuditHelper
       "Received: request for change (other validation##{args})"
     end
   end
-
+  
   def define_user(audit)
     audit.activity_type.include?("received") ? "Applicant / Agent via #{audit.api_user.name}" : audit.api_user.name
   end

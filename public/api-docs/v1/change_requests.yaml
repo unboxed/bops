@@ -157,7 +157,7 @@
                   message:
                     - Change request updated
 
-? '/api/v1/planning_applications/{planning_application_id}/document_create_requests/{document_create_request_id}'
+? '/api/v1/planning_applications/{planning_application_id}/additional_document_validation_requests/{additional_document_validation_request_id}'
 : patch:
     summary: Update a document create request
     security:
@@ -171,7 +171,7 @@
           minimum: 1
         description: The planning application ID
       - in: path
-        name: document_create_request_id
+        name: additional_document_validation_request_id
         required: true
         schema:
           type: integer

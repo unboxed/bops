@@ -62,7 +62,7 @@
                     <td class="govuk-table__cell change-request-list">
                       <%= change_request.old_document.invalidated_document_reason %>
                     </td>
-                  <% elsif change_request.class.name == "DocumentCreateRequest" %>
+                  <% elsif change_request.class.name == "AdditionalDocumentValidationRequest" %>
                     <td class="govuk-table__cell change-request-list">
                       New document
                     </td>

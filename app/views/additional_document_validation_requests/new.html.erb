@@ -6,7 +6,7 @@
     <h2 class="govuk-heading-l govuk-!-padding-top-6">
       Request a new document
     </h2>
-    <%= form_with model: [@planning_application, @document_create_request], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+    <%= form_with model: [@planning_application, @additional_document_validation_request], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
       <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
         <fieldset class="govuk-fieldset">
           <div class="govuk-!-padding-bottom-8">

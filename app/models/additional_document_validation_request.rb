@@ -1,4 +1,4 @@
-class DocumentCreateRequest < ApplicationRecord
+class AdditionalDocumentValidationRequest < ApplicationRecord
   include ChangeRequest
 
   belongs_to :planning_application
