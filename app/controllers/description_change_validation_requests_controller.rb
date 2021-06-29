@@ -16,6 +16,7 @@ class DescriptionChangeValidationRequestsController < ApplicationController
       audit("description_change_validation_request_sent", description_audit_item(@description_change_validation_request, @planning_application),
             @description_change_validation_request.sequence)
       redirect_to planning_application_validation_requests_path(@planning_application)
+
     else
       render :new
     end

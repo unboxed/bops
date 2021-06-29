@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2021_06_29_163028) do
+=======
+ActiveRecord::Schema.define(version: 2021_06_29_153040) do
+>>>>>>> 877e164 (Rename DescriptionChangeRequests to DescriptionChangeValidationRequests)
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"

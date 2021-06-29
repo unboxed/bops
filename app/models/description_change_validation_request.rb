@@ -2,6 +2,7 @@
 
 class DescriptionChangeValidationRequest < ApplicationRecord
   include ValidationRequest
+
   before_create :set_previous_application_description
 
   belongs_to :planning_application
