@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :document_change_request do
+  factory :replacement_document_validation_request do
     planning_application
     user
     old_document factory: :document

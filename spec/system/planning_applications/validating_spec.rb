@@ -89,7 +89,7 @@ RSpec.shared_examples "validate and invalidate" do
            state: "closed",
            updated_at: Time.zone.today - 2.days)
 
-    create(:document_change_request,
+    create(:replacement_document_validation_request,
            planning_application: planning_application,
            state: "closed",
            updated_at: Time.zone.today - 3.days)

@@ -6,7 +6,7 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
   let!(:api_user) { create :api_user }
   let!(:planning_application) { create(:planning_application, local_authority: @default_local_authority) }
   let!(:description_change_validation_request) { create(:description_change_validation_request, planning_application: planning_application) }
-  let!(:document_change_request) { create(:document_change_request, planning_application: planning_application) }
+  let!(:replacement_document_validation_request) { create(:replacement_document_validation_request, planning_application: planning_application) }
   let!(:document_create_request) { create(:document_create_request, planning_application: planning_application) }
 
   it "lists the all description change requests that exist on the planning application" do
@@ -28,19 +28,19 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
   it "lists the all document change requests that exist on the planning application" do
     get "/api/v1/planning_applications/#{planning_application.id}/change_requests?change_access_id=#{planning_application.change_access_id}", headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
     expect(response).to be_successful
-    expect(json["data"]["document_change_requests"].first).to include({
-      "id" => document_change_request.id,
+    expect(json["data"]["replacement_document_validation_requests"].first).to include({
+      "id" => replacement_document_validation_request.id,
       "state" => "open",
-      "response_due" => document_change_request.response_due.strftime("%Y-%m-%d"),
-      "days_until_response_due" => document_change_request.days_until_response_due,
+      "response_due" => replacement_document_validation_request.response_due.strftime("%Y-%m-%d"),
+      "days_until_response_due" => replacement_document_validation_request.days_until_response_due,
       "old_document" => {
-        "name" => document_change_request.old_document.name.to_s,
+        "name" => replacement_document_validation_request.old_document.name.to_s,
         "invalid_document_reason" => nil,
       },
-      "type" => "document_change_request",
+      "type" => "replacement_document_validation_request",
     })
-    expect(json["data"]["document_change_requests"].first["new_document"]["name"]).to eq("proposed-floorplan.png")
-    expect(json["data"]["document_change_requests"].first["new_document"]["url"]).to be_a(String)
+    expect(json["data"]["replacement_document_validation_requests"].first["new_document"]["name"]).to eq("proposed-floorplan.png")
+    expect(json["data"]["replacement_document_validation_requests"].first["new_document"]["url"]).to be_a(String)
   end
 
   it "lists the all document create requests that exist on the planning application" do

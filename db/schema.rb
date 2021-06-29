@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_29_153040) do
+ActiveRecord::Schema.define(version: 2021_06_29_154712) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,21 +78,6 @@ ActiveRecord::Schema.define(version: 2021_06_29_153040) do
     t.integer "sequence"
     t.index ["planning_application_id"], name: "ix_description_change_requests_on_planning_application_id"
     t.index ["user_id"], name: "ix_description_change_requests_on_user_id"
-  end
-
-  create_table "document_change_requests", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
-    t.bigint "user_id", null: false
-    t.bigint "old_document_id", null: false
-    t.bigint "new_document_id"
-    t.string "state", default: "open", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.integer "sequence"
-    t.index ["new_document_id"], name: "ix_document_change_requests_on_new_document_id"
-    t.index ["old_document_id"], name: "ix_document_change_requests_on_old_document_id"
-    t.index ["planning_application_id"], name: "ix_document_change_requests_on_planning_application_id"
-    t.index ["user_id"], name: "ix_document_change_requests_on_user_id"
   end
 
   create_table "document_create_requests", force: :cascade do |t|
@@ -229,6 +214,21 @@ ActiveRecord::Schema.define(version: 2021_06_29_153040) do
     t.integer "sequence"
   end
 
+  create_table "replacement_document_validation_requests", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "old_document_id", null: false
+    t.bigint "new_document_id"
+    t.string "state", default: "open", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "sequence"
+    t.index ["new_document_id"], name: "index_document_change_requests_on_new_document_id"
+    t.index ["old_document_id"], name: "index_document_change_requests_on_old_document_id"
+    t.index ["planning_application_id"], name: "index_document_change_requests_on_planning_application_id"
+    t.index ["user_id"], name: "index_document_change_requests_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -251,10 +251,6 @@ ActiveRecord::Schema.define(version: 2021_06_29_153040) do
   add_foreign_key "audits", "planning_applications"
   add_foreign_key "description_change_validation_requests", "planning_applications"
   add_foreign_key "description_change_validation_requests", "users"
-  add_foreign_key "document_change_requests", "documents", column: "new_document_id"
-  add_foreign_key "document_change_requests", "documents", column: "old_document_id"
-  add_foreign_key "document_change_requests", "planning_applications"
-  add_foreign_key "document_change_requests", "users"
   add_foreign_key "document_create_requests", "documents", column: "new_document_id"
   add_foreign_key "document_create_requests", "planning_applications"
   add_foreign_key "document_create_requests", "users"
@@ -264,4 +260,8 @@ ActiveRecord::Schema.define(version: 2021_06_29_153040) do
   add_foreign_key "recommendations", "planning_applications"
   add_foreign_key "recommendations", "users", column: "assessor_id"
   add_foreign_key "recommendations", "users", column: "reviewer_id"
+  add_foreign_key "replacement_document_validation_requests", "documents", column: "new_document_id"
+  add_foreign_key "replacement_document_validation_requests", "documents", column: "old_document_id"
+  add_foreign_key "replacement_document_validation_requests", "planning_applications"
+  add_foreign_key "replacement_document_validation_requests", "users"
 end

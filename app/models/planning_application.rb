@@ -10,7 +10,7 @@ class PlanningApplication < ApplicationRecord
   has_many :documents, dependent: :destroy
   has_many :recommendations, dependent: :destroy
   has_many :description_change_validation_requests, dependent: :destroy
-  has_many :document_change_requests, dependent: :destroy
+  has_many :replacement_document_validation_requests, dependent: :destroy
   has_many :document_create_requests, dependent: :destroy
   has_many :other_change_validation_requests, dependent: :destroy
   has_many :red_line_boundary_change_requests, dependent: :destroy
@@ -228,7 +228,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def invalid_documents_without_change_request
-    invalid_documents.reject { |x| document_change_requests.where(old_document: x).any? }
+    invalid_documents.reject { |x| replacement_document_validation_requests.where(old_document: x).any? }
   end
 
   def invalid_documents
@@ -236,7 +236,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def change_requests
-    (description_change_requests + document_change_requests + document_create_requests + other_change_validation_requests + red_line_boundary_change_requests).sort_by(&:created_at).reverse
+    (description_change_validation_requests + replacement_document_validation_requests + document_create_requests + other_change_validation_requests + red_line_boundary_change_requests).sort_by(&:created_at).reverse
   end
 
   def closed_change_requests

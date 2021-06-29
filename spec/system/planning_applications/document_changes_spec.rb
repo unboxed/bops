@@ -64,7 +64,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
   end
 
   it "does not display invalid document as an option to create a change request if that document already has an associated change request" do
-    create :document_change_request, planning_application: planning_application, old_document: invalid_document, state: "open", created_at: 12.days.ago
+    create :replacement_document_validation_request, planning_application: planning_application, old_document: invalid_document, state: "open", created_at: 12.days.ago
 
     click_link "Validate application"
     click_link "Start new or view existing requests"

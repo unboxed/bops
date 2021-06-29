@@ -39,7 +39,7 @@ Rails.application.routes.draw do
     resources :audits, only: :index
     resources :change_requests, only: %i[index new create]
     resources :description_change_validation_requests, only: %i[new create]
-    resources :document_change_requests, only: %i[new create]
+    resources :replacement_document_validation_requests, only: %i[new create]
     resources :document_create_requests, only: %i[new create]
     resources :other_change_validation_requests, only: %i[new create show]
     resources :red_line_boundary_change_requests, only: %i[new create show]
@@ -53,7 +53,7 @@ Rails.application.routes.draw do
         end
         resources :change_requests, only: :index
         resources :description_change_validation_requests, only: :update
-        resources :document_change_requests, only: :update
+        resources :replacement_document_validation_requests, only: :update
         resources :document_create_requests, only: :update
         resources :documents, only: %i[show]
         resources :other_change_validation_requests, only: :update

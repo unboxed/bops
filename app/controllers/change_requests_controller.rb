@@ -10,7 +10,7 @@ class ChangeRequestsController < ApplicationController
     when "description_change"
       redirect_to new_planning_application_description_change_validation_request_path
     when "replacement_document"
-      redirect_to new_planning_application_document_change_request_path
+      redirect_to new_planning_application_replacement_document_validation_request_path
     when "create_document"
       redirect_to new_planning_application_document_create_request_path
     when "other_validation"

@@ -3,8 +3,8 @@
 
 <h2 class="govuk-heading-l govuk-!-padding-top-3">Validate application</h2>
 
-<% if @planning_application.errors[:document_change_request].any? %>
-  <% @planning_application.errors[:document_change_request].each do |error| %>
+<% if @planning_application.errors[:replacement_document_validation_request].any? %>
+  <% @planning_application.errors[:replacement_document_validation_request].each do |error| %>
       <span id="status-error" class="govuk-error-message">
         <span class="govuk-visually-hidden">Error:</span><%= error %></span>
   <% end %>
