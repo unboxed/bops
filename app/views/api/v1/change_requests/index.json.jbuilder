@@ -14,8 +14,8 @@ json.data do
     json.type "description_change_validation_request"
   end
 
-  json.red_line_boundary_change_requests @planning_application.red_line_boundary_change_requests do |red_line_boundary_change_request|
-    json.extract! red_line_boundary_change_request,
+  json.red_line_boundary_change_validation_requests @planning_application.red_line_boundary_change_validation_requests do |red_line_boundary_change_validation_request|
+    json.extract! red_line_boundary_change_validation_request,
                   :id,
                   :state,
                   :response_due,
@@ -23,7 +23,7 @@ json.data do
                   :reason,
                   :approved,
                   :days_until_response_due
-    json.type "red_line_boundary_change_request"
+    json.type "red_line_boundary_change_validation_request"
   end
 
   json.replacement_document_validation_requests @planning_application.replacement_document_validation_requests do |replacement_document_validation_request|

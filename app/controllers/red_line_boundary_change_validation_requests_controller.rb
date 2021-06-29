@@ -41,7 +41,7 @@ private
       @red_line_boundary_change_validation_request,
     ).deliver_now
   end
-
+  
   def red_line_boundary_audit_item(validation_request)
     validation_request.reason
   end

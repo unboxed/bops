@@ -43,8 +43,6 @@ Rails.application.routes.draw do
     resources :other_change_validation_requests, only: %i[new create show]
     resources :additional_document_validation_requests, only: %i[new create]
     resources :red_line_boundary_change_validation_requests, only: %i[new create show]
-    resources :red_line_boundary_change_requests, only: %i[new create show]
-
   end
 
   namespace :api do
@@ -59,7 +57,6 @@ Rails.application.routes.draw do
         resources :replacement_document_validation_requests, only: :update
         resources :additional_document_validation_requests, only: :update
         resources :documents, only: %i[show]
-        resources :other_change_validation_requests, only: :update
         resources :red_line_boundary_change_validation_requests, only: :update
       end
     end
