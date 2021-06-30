@@ -40,7 +40,6 @@ json.site do
 end
 json.received_date planning_application.created_at
 json.decision planning_application.decision if planning_application.determined?
-json.proposal_details JSON.parse(planning_application.proposal_details) if planning_application.proposal_details
 json.constraints planning_application.constraints if planning_application.constraints
 json.documents planning_application.documents.for_publication do |document|
   json.url api_v1_planning_application_document_url(planning_application, document)
