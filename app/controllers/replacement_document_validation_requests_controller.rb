@@ -10,7 +10,7 @@ class ReplacementDocumentValidationRequestsController < ApplicationController
         @replacement_document_validation_request.save!
       end
     end
-
+    
     flash[:notice] = "Replacement document validation request successfully sent."
     send_validation_request_email
     audit("replacement_document_validation_request_sent", document_change_audit_item(@replacement_document_validation_request),
