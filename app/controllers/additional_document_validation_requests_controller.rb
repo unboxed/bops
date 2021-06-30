@@ -9,10 +9,10 @@ class AdditionalDocumentValidationRequestsController < ApplicationController
 
     if @additional_document_validation_request.save
       flash[:notice] = "Document create request successfully sent."
-      send_change_request_email
+      send_validation_request_email
       audit("additional_document_validation_request_sent", document_create_audit_item(@additional_document_validation_request),
             @additional_document_validation_request.sequence)
-      redirect_to planning_application_change_requests_path(@planning_application)
+      redirect_to planning_application_validation_requests_path(@planning_application)
     else
       render :new
     end
@@ -28,8 +28,8 @@ private
     @planning_application = PlanningApplication.find(params[:planning_application_id])
   end
 
-  def send_change_request_email
-    PlanningApplicationMailer.change_request_mail(
+  def send_validation_request_email
+    PlanningApplicationMailer.validation_request_mail(
       @planning_application,
       @additional_document_validation_request,
     ).deliver_now

@@ -37,7 +37,7 @@ Rails.application.routes.draw do
     end
 
     resources :audits, only: :index
-    resources :change_requests, only: %i[index new create]
+    resources :validation_requests, only: %i[index new create]
     resources :description_change_validation_requests, only: %i[new create]
     resources :replacement_document_validation_requests, only: %i[new create]
     resources :other_change_validation_requests, only: %i[new create show]
@@ -51,7 +51,7 @@ Rails.application.routes.draw do
         member do
           get :decision_notice
         end
-        resources :change_requests, only: :index
+        resources :validation_requests, only: :index
         resources :description_change_validation_requests, only: :update
         resources :replacement_document_validation_requests, only: :update
         resources :additional_document_validation_requests, only: :update

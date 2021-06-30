@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DescriptionChangeValidationRequest < ApplicationRecord
-  include ChangeRequest
+  include ValidationRequest
   before_create :set_previous_application_description
 
   belongs_to :planning_application

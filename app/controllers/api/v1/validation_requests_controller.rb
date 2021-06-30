@@ -1,4 +1,4 @@
-class Api::V1::ChangeRequestsController < Api::V1::ApplicationController
+class Api::V1::ValidationRequestsController < Api::V1::ApplicationController
   before_action :check_token_and_set_application, only: %i[index], if: :json_request?
 
   def index; end

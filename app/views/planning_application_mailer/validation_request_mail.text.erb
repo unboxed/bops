@@ -4,7 +4,7 @@ At: <%= @planning_application.full_address %>
 
 Hi <%= @planning_application.applicant_first_name %> <%= @planning_application.applicant_last_name %>
 
-<%= @change_request.user.name %>, the case officer working on your planning application has requested change(s) on your application.
+<%= @validation_request.user.name %>, the case officer working on your planning application has requested change(s) on your application.
 
 To review the requested change please follow the link below:
 
@@ -14,7 +14,7 @@ If we don't hear from you:
 
 We will take no further action on your application until you submit the following change(s).
 
-If these change(s) are not received by <%= @change_request.response_due.strftime("%e %B %Y") %>, your application will be returned to you and your payment refunded.
+If these change(s) are not received by <%= @validation_request.response_due.strftime("%e %B %Y") %>, your application will be returned to you and your payment refunded.
 
 Yours faithfully,
 <%= @planning_application.local_authority.signatory_name %>, <%= @planning_application.local_authority.signatory_job_title %>,

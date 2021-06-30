@@ -221,13 +221,13 @@ class PlanningApplication < ApplicationRecord
 
   def secure_change_url(application_id, secure_token)
     if ENV["DOMAIN"] == "bops-services"
-      "https://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/change_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
+      "https://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
     else
-      "http://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/change_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
+      "http://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
     end
   end
 
-  def invalid_documents_without_change_request
+  def invalid_documents_without_validation_request
     invalid_documents.reject { |x| replacement_document_validation_requests.where(old_document: x).any? }
   end
 
@@ -235,16 +235,16 @@ class PlanningApplication < ApplicationRecord
     documents.active.invalidated
   end
 
-  def change_requests
-    (description_change_validation_requests + replacement_document_validation_requests + additional_document_validation_requests + other_change_validation_requests + red_line_boundary_change_validation_requests).sort_by(&:created_at).reverse
+  def validation_requests
+    (description_change_validation_requests + replacement_document_validation_requests + additional_document_validation_requests + other_change_validation_requests +red_line_boundary_change_validation_requests).sort_by(&:created_at).reverse
   end
 
-  def closed_change_requests
-    change_requests.each { |cr| cr.state.eql?("closed") }
+  def closed_validation_requests
+    validation_requests.each { |cr| cr.state.eql?("closed") }
   end
 
-  def last_change_request_date
-    closed_change_requests.max_by(&:updated_at).updated_at
+  def last_validation_request_date
+    closed_validation_requests.max_by(&:updated_at).updated_at
   end
 
   def payment_amount_pounds

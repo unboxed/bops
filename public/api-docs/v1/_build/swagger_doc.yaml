@@ -441,7 +441,7 @@ paths:
                             - 51.50115276135022
                           - - -0.07716178894042969
                             - 51.50094238217541
-  '/api/v1/planning_applications/{planning_application_id}/change_requests':
+  '/api/v1/planning_applications/{planning_application_id}/validation_requests':
     get:
       summary: Retrieves all change requests for a given planning application
       security:

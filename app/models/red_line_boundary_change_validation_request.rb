@@ -1,5 +1,5 @@
 class RedLineBoundaryChangeValidationRequest < ApplicationRecord
-  include ChangeRequest
+  include ValidationRequest
 
   belongs_to :planning_application
   belongs_to :user

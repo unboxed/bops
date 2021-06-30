@@ -10,7 +10,7 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
   let!(:additional_document_validation_request) { create(:additional_document_validation_request, planning_application: planning_application) }
 
   it "lists the all description change requests that exist on the planning application" do
-    get "/api/v1/planning_applications/#{planning_application.id}/change_requests?change_access_id=#{planning_application.change_access_id}", headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
+    get "/api/v1/planning_applications/#{planning_application.id}/validation_requests?change_access_id=#{planning_application.change_access_id}", headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
     expect(response).to be_successful
     expect(json["data"]["description_change_validation_requests"]).to eq([{
       "id" => description_change_validation_request.id,
@@ -26,7 +26,7 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
   end
 
   it "lists the all document change requests that exist on the planning application" do
-    get "/api/v1/planning_applications/#{planning_application.id}/change_requests?change_access_id=#{planning_application.change_access_id}", headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
+    get "/api/v1/planning_applications/#{planning_application.id}/validation_requests?change_access_id=#{planning_application.change_access_id}", headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
     expect(response).to be_successful
     expect(json["data"]["replacement_document_validation_requests"].first).to include({
       "id" => replacement_document_validation_request.id,
@@ -44,7 +44,7 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
   end
 
   it "lists the all document create requests that exist on the planning application" do
-    get "/api/v1/planning_applications/#{planning_application.id}/change_requests?change_access_id=#{planning_application.change_access_id}", headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
+    get "/api/v1/planning_applications/#{planning_application.id}/validation_requests?change_access_id=#{planning_application.change_access_id}", headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
     expect(response).to be_successful
     expect(json["data"]["additional_document_validation_requests"].first).to include({
       "id" => additional_document_validation_request.id,
@@ -60,12 +60,12 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
   end
 
   it "returns a 401 if API key is wrong" do
-    get "/api/v1/planning_applications/#{planning_application.id}/change_requests?change_access_id=#{planning_application.change_access_id}", headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer bipbopboop" }
+    get "/api/v1/planning_applications/#{planning_application.id}/validation_requests?change_access_id=#{planning_application.change_access_id}", headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer bipbopboop" }
     expect(response.status).to eq(401)
   end
 
   it "returns a 401 if change_access_id is wrong" do
-    get "/api/v1/planning_applications/#{planning_application.id}/change_requests?change_access_id=fffffff", headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
+    get "/api/v1/planning_applications/#{planning_application.id}/validation_requests?change_access_id=fffffff", headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
     expect(response.status).to eq(401)
   end
 end

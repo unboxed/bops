@@ -1,4 +1,4 @@
-<%= render "change_requests/change_requests_breadcrumbs" %>
+<%= render "validation_requests/validation_requests_breadcrumbs" %>
 
 <% content_for :title, "Red line boundary change" %>
 <div class="govuk-grid-row">
@@ -31,7 +31,7 @@
     </h2>
     <%= render "shared/proposal_map", locals: { div_id: "proposed_map", geojson: @red_line_boundary_change_validation_request.new_geojson } %>
     <div class="govuk-!-padding-top-8">
-     <%= link_to "Back", new_planning_application_change_request_path(@planning_application), class: "govuk-button govuk-button--primary" %>
+     <%= link_to "Back", new_planning_application_validation_request_path(@planning_application), class: "govuk-button govuk-button--primary" %>
     </div>
   </div>
 </div>

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ChangeRequest
+module ValidationRequest
   def response_due
     15.business_days.after(created_at.to_date)
   end
@@ -17,8 +17,8 @@ module ChangeRequest
     days_until_response_due.negative?
   end
 
-  def increment_sequence(change_requests)
-    self.sequence = change_requests.length + 1
+  def increment_sequence(validation_requests)
+    self.sequence = validation_requests.length + 1
   end
 
   def set_sequence

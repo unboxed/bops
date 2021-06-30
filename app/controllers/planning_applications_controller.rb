@@ -84,8 +84,8 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def validate_documents_form
-    @planning_application.documents_validated_at ||= if @planning_application.closed_change_requests.present?
-                                                       @planning_application.last_change_request_date
+    @planning_application.documents_validated_at ||= if @planning_application.closed_validation_requests.present?
+                                                       @planning_application.last_validation_request_date
                                                      else
                                                        @planning_application.created_at
                                                      end

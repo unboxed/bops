@@ -1,4 +1,4 @@
-class ChangeRequestsController < ApplicationController
+class ValidationRequestsController < ApplicationController
   before_action :set_planning_application
 
   def index; end
@@ -6,7 +6,7 @@ class ChangeRequestsController < ApplicationController
   def new; end
 
   def create
-    case params[:change_request]
+    case params[:validation_request]
     when "description_change"
       redirect_to new_planning_application_description_change_validation_request_path
     when "replacement_document"

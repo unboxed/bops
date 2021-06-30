@@ -1,4 +1,4 @@
-'/api/v1/planning_applications/{planning_application_id}/change_requests':
+'/api/v1/planning_applications/{planning_application_id}/validation_requests':
   get:
     summary: Retrieves all change requests for a given planning application
     security:

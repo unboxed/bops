@@ -1,4 +1,4 @@
-<%= render "change_requests/change_requests_breadcrumbs" %>
+<%= render "validation_requests/validation_requests_breadcrumbs" %>
 
 <% content_for :title, "Request a new document" %>
 <div class="govuk-grid-row">
@@ -26,7 +26,7 @@
           </fieldset>
         </div>
         <%= form.govuk_submit "Send" %>
-        <%= link_to "Back", new_planning_application_change_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+        <%= link_to "Back", new_planning_application_validation_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
       <% end %>
     </div>
   </div>

@@ -25,11 +25,11 @@ private
       rejection_reason: params[:data][:rejection_reason] }
   end
 
-  def red_line_boundary_audit_item(change_request)
-    if change_request.approved?
+  def red_line_boundary_audit_item(validation_request)
+    if validation_request.approved?
       { response: "approved" }.to_json
     else
-      { response: "rejected", reason: change_request.rejection_reason }.to_json
+      { response: "rejected", reason: validation_request.rejection_reason }.to_json
     end
   end
 end

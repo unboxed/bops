@@ -37,9 +37,9 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
     )
   end
 
-  def change_request_mail(planning_application, change_request)
+  def validation_request_mail(planning_application, validation_request)
     @planning_application = planning_application
-    @change_request = change_request
+    @validation_request = validation_request
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
