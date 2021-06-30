@@ -63,6 +63,7 @@ json.data do
     end
     json.type "additional_document_validation_request"
   end
+<<<<<<< HEAD
 
   json.other_change_validation_requests @planning_application.other_change_validation_requests do |other_change_validation_request|
     json.extract! other_change_validation_request,
@@ -75,4 +76,6 @@ json.data do
                   :days_until_response_due
     json.type "other_change_validation_request"
   end
+=======
+>>>>>>> b408ddc (Rename ChangeRequest to ValidationRequest)
 end

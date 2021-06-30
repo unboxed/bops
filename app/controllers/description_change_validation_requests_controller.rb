@@ -12,6 +12,7 @@ class DescriptionChangeValidationRequestsController < ApplicationController
 
     if @description_change_validation_request.save
       send_validation_request_email
+
       flash[:notice] = "Validation request for description successfully sent."
       audit("description_change_validation_request_sent", description_audit_item(@description_change_validation_request, @planning_application),
             @description_change_validation_request.sequence)

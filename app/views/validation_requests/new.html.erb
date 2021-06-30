@@ -2,12 +2,12 @@
 <% add_parent_breadcrumb_link "Application", validate_documents_form_planning_application_path(@planning_application) %>
 <% add_parent_breadcrumb_link "Requests for changes", planning_application_validation_requests_path(@planning_application) %>
 
-<% content_for :title, "Send a validation request" %>
+<% content_for :title, "Send a change request" %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds govuk-!-padding-top-6">
     <fieldset class="govuk-fieldset">
       <h2 class="govuk-heading-l">
-        Send a validation request
+        Send a change request
       </h2>
       <%= form_with url: planning_application_validation_requests_path, local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
         <% if flash["error"].present? %>
@@ -20,7 +20,6 @@
             <%= form.govuk_radio_button :validation_request, 'description_change', label: { text: 'Request approval to a description change'} %>
             <%= form.govuk_radio_button :validation_request, 'replacement_document', label: { text: 'Request replacement documents' } %>
             <%= form.govuk_radio_button :validation_request, 'create_document', label: { text: 'Request a new document' } %>
-            <%= form.govuk_radio_button :change_request, 'other_validation', label: { text: 'Request other change to application' } %>
             <%= form.govuk_radio_button :validation_request, 'red_line_boundary', label: { text: 'Request approval to a red line boundary change' } %>
           <% end %>
         </div>

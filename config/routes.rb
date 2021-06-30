@@ -51,7 +51,6 @@ Rails.application.routes.draw do
         member do
           get :decision_notice
         end
-
         resources :validation_requests, only: :index
         resources :description_change_validation_requests, only: :update
         resources :replacement_document_validation_requests, only: :update
