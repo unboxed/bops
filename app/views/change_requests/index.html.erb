@@ -42,6 +42,16 @@
                     <td class="govuk-table__cell change-request-list">
                       Description change
                     </td>
+                    <% elsif change_request.class.name == "OtherChangeValidationRequest" %>
+                      <td class="govuk-table__cell change-request-list">
+                        Other
+                      </td>
+                      <td class="govuk-table__cell change-request-list">
+                        <%= change_request.summary %>
+                      </td>
+                      <td class="govuk-table__cell change-request-list">
+                        <%= change_request.suggestion %>
+                      </td>
                   <% elsif change_request.class.name == "DocumentChangeRequest" %>
                     <td class="govuk-table__cell change-request-list">
                       Replacement document
