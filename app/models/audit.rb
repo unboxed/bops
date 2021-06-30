@@ -19,5 +19,13 @@ class Audit < ApplicationRecord
     withdrawn: "withdrawn",
     document_invalidated: "document_invalidated",
     document_changed_to_validated: "document_changed_to_validated",
+    description_change_request_sent: "description_change_request_sent",
+    document_change_request_sent: "document_change_request_sent",
+    document_create_request_sent: "document_create_request_sent",
+    red_line_boundary_change_request_sent: "red_line_boundary_change_request_sent",
+    description_change_request_received: "description_change_request_received",
+    document_change_request_received: "document_change_request_received",
+    document_create_request_received: "document_create_request_received",
+    red_line_boundary_change_request_received: "red_line_boundary_change_request_received",
   }
 end

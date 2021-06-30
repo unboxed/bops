@@ -46,6 +46,14 @@ RSpec.describe "Creating a planning application via the API", type: :request, sh
         expect(PlanningApplication.all[0]).to be_valid
       end
 
+      it "sends the receipt email" do
+        post "/api/v1/planning_applications", params: permitted_development_json,
+                                              headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
+
+        email = ActionMailer::Base.deliveries.last
+        expect(email.body).to include(PlanningApplication.all[0].reference)
+      end
+
       it "downloads and saves the plan against the planning application" do
         post "/api/v1/planning_applications", params: permitted_development_json,
                                               headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }

@@ -13,6 +13,8 @@ class DescriptionChangeRequestsController < ApplicationController
     if @description_change_request.save
       send_change_request_email
       flash[:notice] = "Change request for description successfully sent."
+      audit("description_change_request_sent", description_audit_item(@description_change_request, @planning_application),
+            @description_change_request.sequence)
       redirect_to planning_application_change_requests_path(@planning_application)
     else
       render :new
@@ -34,5 +36,9 @@ private
       @planning_application,
       @description_change_request,
     ).deliver_now
+  end
+
+  def description_audit_item(description_change_request, planning_application)
+    { previous: planning_application.description, proposed: description_change_request.proposed_description }.to_json
   end
 end

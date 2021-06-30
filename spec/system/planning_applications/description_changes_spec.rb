@@ -40,6 +40,15 @@ RSpec.describe "Requesting description changes to a planning application", type:
       expect(page).to have_content("Description")
       expect(page).to have_content("15 days")
     end
+
+    click_link "Application"
+    click_button "Key application dates"
+    click_link "Activity log"
+
+    expect(page).to have_text("Sent: request for change (description#2)")
+    expect(page).to have_text(planning_application.description)
+    expect(page).to have_text("New description")
+    expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
   end
 
   it "only accepts a request that contains a proposed description" do

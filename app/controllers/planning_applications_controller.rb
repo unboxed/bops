@@ -15,6 +15,7 @@ class PlanningApplicationsController < AuthenticationController
                                                     determine
                                                     validate_documents_form
                                                     validate_documents
+                                                    view_recommendation
                                                     edit_constraints_form
                                                     edit_constraints
                                                     cancel_confirmation
@@ -49,6 +50,7 @@ class PlanningApplicationsController < AuthenticationController
     if @planning_application.save
       audit("created", nil, current_user.name)
       flash[:notice] = "Planning application was successfully created."
+      receipt_notice_mail if @planning_application.applicant_email.present?
       redirect_to planning_application_documents_path(@planning_application)
     else
       render :new
@@ -134,6 +136,11 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def submit_recommendation; end
+
+  def view_recommendation
+    @assessor_name = @planning_application.recommendations.last.assessor.name
+    @recommended_date = @planning_application.recommendations.last.created_at.strftime("%d %b %Y")
+  end
 
   def assess
     @planning_application.assess!
@@ -277,6 +284,13 @@ private
 
   def validation_notice_mail
     PlanningApplicationMailer.validation_notice_mail(
+      @planning_application,
+      request.host,
+    ).deliver_now
+  end
+
+  def receipt_notice_mail
+    PlanningApplicationMailer.receipt_notice_mail(
       @planning_application,
       request.host,
     ).deliver_now

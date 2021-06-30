@@ -17,6 +17,7 @@ json.extract! planning_application,
               :invalidated_at,
               :in_assessment_at,
               :payment_reference,
+              :payment_amount,
               :returned_at,
               :started_at,
               :status,
@@ -24,6 +25,10 @@ json.extract! planning_application,
               :withdrawn_at,
               :work_status,
               :boundary_geojson
+if planning_application.user
+  json.assigned_user_name planning_application.user.name
+  json.assigned_user_role planning_application.user.role
+end
 json.application_number planning_application.reference
 json.site do
   json.address_1 planning_application.address_1
@@ -35,7 +40,6 @@ json.site do
 end
 json.received_date planning_application.created_at
 json.decision planning_application.decision if planning_application.determined?
-json.proposal_details JSON.parse(planning_application.proposal_details) if planning_application.proposal_details
 json.constraints planning_application.constraints if planning_application.constraints
 json.documents planning_application.documents.for_publication do |document|
   json.url api_v1_planning_application_document_url(planning_application, document)

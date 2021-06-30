@@ -12,6 +12,10 @@ class Api::V1::DocumentChangeRequestsController < Api::V1::ApplicationController
 
     if @document_change_request.save
       archive_old_document
+
+      audit("document_change_request_received", document_audit_item(new_document),
+            @document_change_request.sequence, current_api_user)
+
       render json: { "message": "Change request updated" }, status: :ok
     else
       render json: { "message": "Unable to update request" }, status: :bad_request
@@ -31,5 +35,9 @@ private
       archive_reason: "Applicant has provived a replacement document.",
       archived_at: Time.zone.now,
     )
+  end
+
+  def document_audit_item(document)
+    document.name
   end
 end

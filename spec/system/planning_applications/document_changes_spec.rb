@@ -52,6 +52,15 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
     click_button "Send"
     expect(page).to have_content("Document change request successfully sent.")
+
+    click_link "Application"
+    click_button "Key application dates"
+    click_link "Activity log"
+
+    expect(page).to have_text("Sent: request for change (replacement document#1)")
+    expect(page).to have_text(invalid_document.name.to_s)
+    expect(page).to have_text("Invalid reason: Not readable")
+    expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
   end
 
   it "does not display invalid document as an option to create a change request if that document already has an associated change request" do

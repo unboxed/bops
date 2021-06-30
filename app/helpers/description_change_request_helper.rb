@@ -12,4 +12,8 @@ module DescriptionChangeRequestHelper
   def change_rejected?(description_change_request)
     description_change_request.state == "closed" && description_change_request.approved == false
   end
+
+  def sequence_description(description_change_request)
+    "description##{description_change_request.sequence}"
+  end
 end

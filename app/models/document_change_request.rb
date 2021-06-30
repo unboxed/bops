@@ -6,5 +6,7 @@ class DocumentChangeRequest < ApplicationRecord
   belongs_to :old_document, class_name: "Document"
   belongs_to :new_document, optional: true, class_name: "Document"
 
+  before_create :set_sequence
+
   scope :open, -> { where(state: "open") }
 end

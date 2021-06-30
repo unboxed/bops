@@ -26,6 +26,17 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
     )
   end
 
+  def receipt_notice_mail(planning_application, host)
+    @host = host
+    @planning_application = planning_application
+
+    view_mail(
+      NOTIFY_TEMPLATE_ID,
+      subject: "We have received your application",
+      to: @planning_application.applicant_email,
+    )
+  end
+
   def change_request_mail(planning_application, change_request)
     @planning_application = planning_application
     @change_request = change_request

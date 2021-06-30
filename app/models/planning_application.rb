@@ -219,7 +219,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def secure_change_url(application_id, secure_token)
-    if Rails.env.production?
+    if ENV["DOMAIN"] == "bops-services"
       "https://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/change_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
     else
       "http://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/change_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
@@ -244,6 +244,10 @@ class PlanningApplication < ApplicationRecord
 
   def last_change_request_date
     closed_change_requests.max_by(&:updated_at).updated_at
+  end
+
+  def payment_amount_pounds
+    payment_amount.to_i / 100
   end
 
 private

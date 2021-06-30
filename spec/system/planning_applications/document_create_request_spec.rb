@@ -37,6 +37,15 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
     click_button "Send"
     expect(page).to have_content("Document create request successfully sent.")
+
+    click_link "Application"
+    click_button "Key application dates"
+    click_link "Activity log"
+
+    expect(page).to have_text("Sent: request for change (new document#1)")
+    expect(page).to have_text("Document: Backyard plans")
+    expect(page).to have_text("Reason: Application is missing a rear view.")
+    expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
   end
 
   it "does not allow for a creation request without a document request reason and type" do

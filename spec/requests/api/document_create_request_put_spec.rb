@@ -23,6 +23,10 @@ RSpec.describe "API request to patch document create requests", type: :request, 
 
     expect(document_create_request.state).to eq("closed")
     expect(document_create_request.new_document).to be_a(Document)
+
+    expect(Audit.all.last.activity_type).to eq("document_create_request_received")
+    expect(Audit.all.last.audit_comment).to eq("proposed-floorplan.png")
+    expect(Audit.all.last.activity_information).to eq("1")
   end
 
   it "returns a 400 if the new document is missing" do

@@ -38,6 +38,26 @@ module AuditHelper
       "Application validated"
     when "withdrawn"
       "Application withdrawn"
+    when "description_change_request_sent"
+      "Sent: request for change (description##{args})"
+    when "document_change_request_sent"
+      "Sent: request for change (replacement document##{args})"
+    when "document_create_request_sent"
+      "Sent: request for change (new document##{args})"
+    when "red_line_boundary_change_request_sent"
+      "Sent: request for change (red line boundary##{args})"
+    when "description_change_request_received"
+      "Received: request for change (description##{args})"
+    when "red_line_boundary_change_request_received"
+      "Received: request for change (red line boundary##{args})"
+    when "document_change_request_received"
+      "Received: request for change (replacement document##{args})"
+    when "document_create_request_received"
+      "Received: request for change (new document##{args})"
     end
+  end
+
+  def define_user(audit)
+    audit.activity_type.include?("received") ? "Applicant / Agent via #{audit.api_user.name}" : audit.api_user.name
   end
 end
