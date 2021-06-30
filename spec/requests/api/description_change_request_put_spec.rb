@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "API request to list change requests", type: :request, show_exceptions: true do
+RSpec.describe "API request to list validation requests", type: :request, show_exceptions: true do
   let!(:api_user) { create :api_user }
   let!(:planning_application) { create(:planning_application, local_authority: @default_local_authority) }
   let!(:description_change_validation_request) do

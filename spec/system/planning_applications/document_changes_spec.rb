@@ -28,7 +28,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     travel_back
   end
 
-  it "allows for a document change request to be created for invalid documents only" do
+  it "allows for a document validation request to be created for invalid documents only" do
     valid_document.file.attach(
       io: File.open(Rails.root.join("spec/fixtures/images/existing-roofplan.pdf")),
       filename: "wowee-florzoplan.png",
@@ -39,7 +39,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
-    within("fieldset", text: "Send a change request") do
+    within("fieldset", text: "Send a validation request") do
       choose "Request replacement documents"
     end
 
@@ -51,7 +51,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     expect(page).not_to have_content(valid_document.name.to_s)
 
     click_button "Send"
-    expect(page).to have_content("Document change request successfully sent.")
+    expect(page).to have_content("Replacement document validation request successfully sent.")
 
     click_link "Application"
     click_button "Key application dates"
@@ -63,14 +63,14 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
   end
 
-  it "does not display invalid document as an option to create a change request if that document already has an associated change request" do
+  it "does not display invalid document as an option to create a validation request if that document already has an associated validation request" do
     create :replacement_document_validation_request, planning_application: planning_application, old_document: invalid_document, state: "open", created_at: 12.days.ago
 
     click_link "Validate application"
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
-    within("fieldset", text: "Send a change request") do
+    within("fieldset", text: "Send a validation request") do
       choose "Request replacement documents"
     end
 

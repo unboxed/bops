@@ -24,7 +24,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
-    within("fieldset", text: "Send a change request") do
+    within("fieldset", text: "Send a validation request") do
       choose "Request a new document"
     end
 
@@ -53,7 +53,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
-    within("fieldset", text: "Send a change request") do
+    within("fieldset", text: "Send a validation request") do
       choose "Request a new document"
     end
 

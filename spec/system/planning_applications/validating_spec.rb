@@ -82,7 +82,7 @@ RSpec.shared_examples "validate and invalidate" do
     expect(page).to have_text("proposed-floorplan.png has been archived")
   end
 
-  it "displays a validation date of the last closed change request if any closed change requests exist" do
+  it "displays a validation date of the last closed validation request if any closed validation requests exist" do
     create(:description_change_validation_request,
            planning_application: planning_application,
            proposed_description: "new roof",
@@ -104,7 +104,7 @@ RSpec.shared_examples "validate and invalidate" do
     expect(page).to have_field("Year", with: description_change_validation_request.updated_at.strftime("%Y"))
   end
 
-  it "displays a validation date of when the documents where validated if no closed change requests exist" do
+  it "displays a validation date of when the documents where validated if no closed validation requests exist" do
     visit validate_documents_form_planning_application_path(second_planning_application)
 
     choose "Yes"
@@ -161,7 +161,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     include_examples "validate and invalidate"
 
-    it "shows error if trying to mark as valid when open change request exists on planning application" do
+    it "shows error if trying to mark as valid when open validation request exists on planning application" do
       create :description_change_validation_request, planning_application: planning_application, state: "open"
       click_link planning_application.reference
       click_link "Validate application"
@@ -169,7 +169,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       choose "Yes"
       click_button "Save"
 
-      expect(page).to have_content("Planning application cannot be validated if open change requests exist")
+      expect(page).to have_content("Planning application cannot be validated if open validation requests exist")
     end
   end
 

@@ -2,14 +2,14 @@
 
 require "rails_helper"
 
-RSpec.describe "API request to list change requests", type: :request, show_exceptions: true do
+RSpec.describe "API request to list validation requests", type: :request, show_exceptions: true do
   let!(:api_user) { create :api_user }
   let!(:planning_application) { create(:planning_application, local_authority: @default_local_authority) }
   let!(:description_change_validation_request) { create(:description_change_validation_request, planning_application: planning_application) }
   let!(:replacement_document_validation_request) { create(:replacement_document_validation_request, planning_application: planning_application) }
   let!(:additional_document_validation_request) { create(:additional_document_validation_request, planning_application: planning_application) }
 
-  it "lists the all description change requests that exist on the planning application" do
+  it "lists the all description validation requests that exist on the planning application" do
     get "/api/v1/planning_applications/#{planning_application.id}/validation_requests?change_access_id=#{planning_application.change_access_id}", headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
     expect(response).to be_successful
     expect(json["data"]["description_change_validation_requests"]).to eq([{
@@ -25,7 +25,7 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
     }])
   end
 
-  it "lists the all document change requests that exist on the planning application" do
+  it "lists the all document validation requests that exist on the planning application" do
     get "/api/v1/planning_applications/#{planning_application.id}/validation_requests?change_access_id=#{planning_application.change_access_id}", headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
     expect(response).to be_successful
     expect(json["data"]["replacement_document_validation_requests"].first).to include({

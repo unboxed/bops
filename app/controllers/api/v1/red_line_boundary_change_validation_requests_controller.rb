@@ -12,7 +12,7 @@ class Api::V1::RedLineBoundaryChangeValidationRequestsController < Api::V1::Appl
       audit("red_line_boundary_change_validation_request_received", red_line_boundary_audit_item(@red_line_boundary_change_validation_request),
             @red_line_boundary_change_validation_request.sequence)
 
-      render json: { "message": "Change request updated" }, status: :ok
+      render json: { "message": "Validation request updated" }, status: :ok
     else
       render json: { "message": "Unable to update request. Please ensure rejection_reason is present if approved is false." }, status: :bad_request
     end

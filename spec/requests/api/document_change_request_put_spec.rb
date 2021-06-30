@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "API request to patch document change requests", type: :request, show_exceptions: true do
+RSpec.describe "API request to patch document validation requests", type: :request, show_exceptions: true do
   include ActionDispatch::TestProcess::FixtureFile
 
   let!(:api_user) { create :api_user }

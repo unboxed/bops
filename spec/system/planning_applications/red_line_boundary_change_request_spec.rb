@@ -16,7 +16,7 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
-    within("fieldset", text: "Send a change request") do
+    within("fieldset", text: "Send a validation request") do
       choose "Request approval to a red line boundary change"
     end
     click_button "Next"
@@ -25,7 +25,7 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: "Coordinates look wrong"
     click_button "Send"
 
-    expect(page).to have_content("Change request for red line boundary successfully sent.")
+    expect(page).to have_content("Validation request for red line boundary successfully sent.")
     expect(page).to have_link("View proposed red line boundary")
     expect(page).to have_content("Coordinates look wrong")
 
@@ -52,7 +52,7 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
-    within("fieldset", text: "Send a change request") do
+    within("fieldset", text: "Send a validation request") do
       choose "Request approval to a red line boundary change"
     end
 
@@ -71,7 +71,7 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
-    within("fieldset", text: "Send a change request") do
+    within("fieldset", text: "Send a validation request") do
       choose "Request approval to a red line boundary change"
     end
 

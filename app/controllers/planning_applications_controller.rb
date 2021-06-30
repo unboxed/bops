@@ -99,7 +99,7 @@ class PlanningApplicationsController < AuthenticationController
         @planning_application.status = "in_assessment"
         render "validate_documents_form"
       elsif @planning_application.description_change_validation_requests.open.present?
-        @planning_application.errors.add(:status, "Planning application cannot be validated if open change requests exist.")
+        @planning_application.errors.add(:status, "Planning application cannot be validated if open validation requests exist.")
         render "validate_documents_form"
       else
         @planning_application.documents_validated_at = date_from_params

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "API request to patch document change requests", type: :request, show_exceptions: true do
+RSpec.describe "API request to patch document validation requests", type: :request, show_exceptions: true do
   include ActionDispatch::TestProcess::FixtureFile
 
   let!(:api_user) { create :api_user }
@@ -30,7 +30,7 @@ RSpec.describe "API request to patch document change requests", type: :request, 
     }
   }'
 
-  it "successfully updates the red line boundary change request" do
+  it "successfully updates the red line boundary validation request" do
     patch "/api/v1/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
           params: approved_json,
           headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }

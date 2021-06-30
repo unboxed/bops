@@ -28,7 +28,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
-    within("fieldset", text: "Send a change request") do
+    within("fieldset", text: "Send a validation request") do
       choose "Request approval to a description change"
     end
     click_button "Next"
@@ -56,7 +56,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
-    within("fieldset", text: "Send a change request") do
+    within("fieldset", text: "Send a validation request") do
       choose "Request approval to a description change"
     end
 
@@ -68,7 +68,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     expect(page).to have_content("Proposed description can't be blank")
   end
 
-  it "lists the current change requests and their statuses" do
+  it "lists the current validation requests and their statuses" do
     create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago
     create :description_change_validation_request, planning_application: planning_application, state: "closed", created_at: 12.days.ago, approved: true
     create :description_change_validation_request, planning_application: planning_application, state: "closed", created_at: 12.days.ago, approved: false, rejection_reason: "No good"
@@ -89,7 +89,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     end
   end
 
-  it "only displays a new change request option if application is invalid" do
+  it "only displays a new validation request option if application is invalid" do
     planning_application.update!(status: "in_assessment")
     click_link "Validate application"
 
