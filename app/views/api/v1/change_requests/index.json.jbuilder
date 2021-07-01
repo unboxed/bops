@@ -63,4 +63,16 @@ json.data do
     end
     json.type "document_create_request"
   end
+
+  json.other_change_validation_requests @planning_application.other_change_validation_requests do |other_change_validation_request|
+    json.extract! other_change_validation_request,
+                  :id,
+                  :state,
+                  :response_due,
+                  :response,
+                  :summary,
+                  :suggestion,
+                  :days_until_response_due
+    json.type "other_change_validation_request"
+  end
 end
