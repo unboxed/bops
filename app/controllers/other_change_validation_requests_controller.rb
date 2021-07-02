@@ -14,11 +14,12 @@ class OtherChangeValidationRequestsController < ApplicationController
     @other_change_validation_request.user = current_user
 
     if @other_change_validation_request.save
-      send_change_request_email
+      send_validation_request_email
+
       flash[:notice] = "Other validation change request successfully sent."
       audit("other_change_validation_request_sent", audit_item(@other_change_validation_request),
             @other_change_validation_request.sequence)
-      redirect_to planning_application_change_requests_path(@planning_application)
+      redirect_to planning_application_validation_requests_path(@planning_application)
     else
       render :new
     end
@@ -34,8 +35,8 @@ private
     @planning_application = PlanningApplication.find(params[:planning_application_id])
   end
 
-  def send_change_request_email
-    PlanningApplicationMailer.change_request_mail(
+  def send_validation_request_email
+    PlanningApplicationMailer.validation_request_mail(
       @planning_application,
       @other_change_validation_request,
     ).deliver_now

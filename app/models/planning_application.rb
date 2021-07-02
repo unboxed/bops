@@ -236,7 +236,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def validation_requests
-    (description_change_validation_requests + replacement_document_validation_requests + additional_document_validation_requests + other_change_validation_requests +red_line_boundary_change_validation_requests).sort_by(&:created_at).reverse
+    (description_change_validation_requests + replacement_document_validation_requests + additional_document_validation_requests + other_change_validation_requests + red_line_boundary_change_validation_requests).sort_by(&:created_at).reverse
   end
 
   def closed_validation_requests

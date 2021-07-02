@@ -60,7 +60,7 @@ module AuditHelper
       "Received: request for change (other validation##{args})"
     end
   end
-  
+
   def define_user(audit)
     audit.activity_type.include?("received") ? "Applicant / Agent via #{audit.api_user.name}" : audit.api_user.name
   end

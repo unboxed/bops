@@ -24,9 +24,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
-    within("fieldset", text: "Send a change request") do
-      choose "Request other change to application"
-    end
+    choose "Request other change to application"
     click_button "Next"
 
     fill_in "Tell the applicant why the application is invalid", with: "The wrong fee has been paid"
@@ -52,10 +50,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
-    within("fieldset", text: "Send a change request") do
-      choose "Request other change to application"
-    end
-
+    choose "Request other change to application"
     click_button "Next"
 
     fill_in "Tell the applicant why the application is invalid", with: ""
