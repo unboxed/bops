@@ -24,9 +24,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
-    within("fieldset", text: "Send a change request") do
-      choose "Request other change to application"
-    end
+    choose "Request other change to application"
     click_button "Next"
 
     fill_in "Tell the applicant why the application is invalid", with: "The wrong fee has been paid"
@@ -42,7 +40,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     click_button "Key application dates"
     click_link "Activity log"
 
-    expect(page).to have_text("Sent: request for change (other validation#1)")
+    expect(page).to have_text("Sent: validation request (other validation#1)")
     expect(page).to have_text("The wrong fee has been paid")
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
   end
@@ -52,10 +50,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
-    within("fieldset", text: "Send a change request") do
-      choose "Request other change to application"
-    end
-
+    choose "Request other change to application"
     click_button "Next"
 
     fill_in "Tell the applicant why the application is invalid", with: ""

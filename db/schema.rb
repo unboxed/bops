@@ -44,6 +44,21 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "additional_document_validation_requests", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "new_document_id"
+    t.string "state", default: "open", null: false
+    t.string "document_request_type"
+    t.string "document_request_reason"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "sequence"
+    t.index ["new_document_id"], name: "ix_additional_document_validation_requests_on_new_document_id"
+    t.index ["planning_application_id"], name: "ix_additional_document_validation_requests_on_planning_applicat"
+    t.index ["user_id"], name: "ix_additional_document_validation_requests_on_user_id"
+  end
+
   create_table "api_users", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "token", default: "", null: false
@@ -65,7 +80,7 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.index ["user_id"], name: "ix_audits_on_user_id"
   end
 
-  create_table "description_change_requests", force: :cascade do |t|
+  create_table "description_change_validation_requests", force: :cascade do |t|
     t.bigint "planning_application_id", null: false
     t.bigint "user_id", null: false
     t.string "state", default: "open", null: false
@@ -76,38 +91,8 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "previous_description"
     t.integer "sequence"
-    t.index ["planning_application_id"], name: "ix_description_change_requests_on_planning_application_id"
-    t.index ["user_id"], name: "ix_description_change_requests_on_user_id"
-  end
-
-  create_table "document_change_requests", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
-    t.bigint "user_id", null: false
-    t.bigint "old_document_id", null: false
-    t.bigint "new_document_id"
-    t.string "state", default: "open", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.integer "sequence"
-    t.index ["new_document_id"], name: "ix_document_change_requests_on_new_document_id"
-    t.index ["old_document_id"], name: "ix_document_change_requests_on_old_document_id"
-    t.index ["planning_application_id"], name: "ix_document_change_requests_on_planning_application_id"
-    t.index ["user_id"], name: "ix_document_change_requests_on_user_id"
-  end
-
-  create_table "document_create_requests", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
-    t.bigint "user_id", null: false
-    t.bigint "new_document_id"
-    t.string "state", default: "open", null: false
-    t.string "document_request_type"
-    t.string "document_request_reason"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.integer "sequence"
-    t.index ["new_document_id"], name: "ix_document_create_requests_on_new_document_id"
-    t.index ["planning_application_id"], name: "ix_document_create_requests_on_planning_application_id"
-    t.index ["user_id"], name: "ix_document_create_requests_on_user_id"
+    t.index ["planning_application_id"], name: "ix_description_change_validation_requests_on_planning_applicati"
+    t.index ["user_id"], name: "ix_description_change_validation_requests_on_user_id"
   end
 
   create_table "documents", force: :cascade do |t|
@@ -195,8 +180,6 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.string "change_access_id"
     t.date "expiry_date"
     t.integer "payment_amount"
-    t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
-    t.index ["user_id"], name: "index_planning_applications_on_user_id"
     t.index ["local_authority_id"], name: "ix_planning_applications_on_local_authority_id"
     t.index ["user_id"], name: "ix_planning_applications_on_user_id"
   end
@@ -216,7 +199,7 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.index ["reviewer_id"], name: "ix_recommendations_on_reviewer_id"
   end
 
-  create_table "red_line_boundary_change_requests", force: :cascade do |t|
+  create_table "red_line_boundary_change_validation_requests", force: :cascade do |t|
     t.integer "planning_application_id", null: false
     t.integer "user_id", null: false
     t.string "state", default: "open", null: false
@@ -227,6 +210,21 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "sequence"
+  end
+
+  create_table "replacement_document_validation_requests", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "old_document_id", null: false
+    t.bigint "new_document_id"
+    t.string "state", default: "open", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "sequence"
+    t.index ["new_document_id"], name: "ix_replacement_document_validation_requests_on_new_document_id"
+    t.index ["old_document_id"], name: "ix_replacement_document_validation_requests_on_old_document_id"
+    t.index ["planning_application_id"], name: "ix_replacement_document_validation_requests_on_planning_applica"
+    t.index ["user_id"], name: "ix_replacement_document_validation_requests_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -247,21 +245,21 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "additional_document_validation_requests", "documents", column: "new_document_id"
+  add_foreign_key "additional_document_validation_requests", "planning_applications"
+  add_foreign_key "additional_document_validation_requests", "users"
   add_foreign_key "audits", "api_users"
   add_foreign_key "audits", "planning_applications"
-  add_foreign_key "description_change_requests", "planning_applications"
-  add_foreign_key "description_change_requests", "users"
-  add_foreign_key "document_change_requests", "documents", column: "new_document_id"
-  add_foreign_key "document_change_requests", "documents", column: "old_document_id"
-  add_foreign_key "document_change_requests", "planning_applications"
-  add_foreign_key "document_change_requests", "users"
-  add_foreign_key "document_create_requests", "documents", column: "new_document_id"
-  add_foreign_key "document_create_requests", "planning_applications"
-  add_foreign_key "document_create_requests", "users"
+  add_foreign_key "description_change_validation_requests", "planning_applications"
+  add_foreign_key "description_change_validation_requests", "users"
   add_foreign_key "other_change_validation_requests", "planning_applications"
   add_foreign_key "other_change_validation_requests", "users"
   add_foreign_key "planning_applications", "users"
   add_foreign_key "recommendations", "planning_applications"
   add_foreign_key "recommendations", "users", column: "assessor_id"
   add_foreign_key "recommendations", "users", column: "reviewer_id"
+  add_foreign_key "replacement_document_validation_requests", "documents", column: "new_document_id"
+  add_foreign_key "replacement_document_validation_requests", "documents", column: "old_document_id"
+  add_foreign_key "replacement_document_validation_requests", "planning_applications"
+  add_foreign_key "replacement_document_validation_requests", "users"
 end

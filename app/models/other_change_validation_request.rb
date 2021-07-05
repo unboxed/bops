@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class OtherChangeValidationRequest < ApplicationRecord
-  include ChangeRequest
+  include ValidationRequest
   belongs_to :planning_application
   belongs_to :user
 

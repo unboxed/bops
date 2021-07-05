@@ -1,0 +1,7 @@
+<p>
+  Applicant: <i><%= JSON.parse(locals[:comment])["response"] %></i>
+<br/>
+  <% if JSON.parse(locals[:comment]).include?("reason") %>
+    Reason: <i><%= JSON.parse(locals[:comment])["reason"] %></i>
+  <% end %>
+</p>
