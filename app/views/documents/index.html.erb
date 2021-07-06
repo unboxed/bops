@@ -60,9 +60,18 @@
             <% if document.tags.present? %>
               <p class="govuk-body">
                 <% document.tags.each do |tag| %>
-                  <strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong>
+                  <% if is_plan_tag(tag) %>
+                    <strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong>
+                  <% end %>
                 <% end %>
               </p>
+                <% document.tags.each do |tag| %>
+                  <% if is_evidence_tag(tag) %>
+                    <p class="govuk-body">
+                      <strong class="govuk-tag govuk-tag--turquoise">EVIDENCE</strong> <strong class="govuk-tag govuk-tag--turquoise"><%= tag  %></strong><br/>
+                    </p>
+                  <% end %>
+                <% end %>
             <% end %>
             <% if document.validated == false %>
             <p class="govuk-body govuk-!-margin-bottom-1 govuk-!-font-weight-bold">
