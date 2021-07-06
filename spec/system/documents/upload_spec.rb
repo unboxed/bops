@@ -26,6 +26,7 @@ RSpec.describe "Document uploads", type: :system do
 
         check("Floor")
         check("Side")
+        check("Utility Bill")
 
         within(".display") do
           choose "Yes"
@@ -43,6 +44,8 @@ RSpec.describe "Document uploads", type: :system do
 
         expect(page).to have_css(".govuk-tag", text: "Floor")
         expect(page).to have_css(".govuk-tag", text: "Side")
+        expect(page).to have_css(".govuk-tag", text: "Utility Bill")
+        expect(page).to have_css(".govuk-tag", text: "EVIDENCE")
 
         expect(page).to have_content("Included in decision notice: Yes")
         expect(page).to have_content("Public: Yes")

@@ -13,13 +13,35 @@
       <% end %>
     <% end %>
 
-    <div class="govuk-checkboxes govuk-checkboxes--small">
-      <%= form.collection_check_boxes :tags, Document::TAGS, :itself, :itself do |b| %>
-        <div class="govuk-checkboxes__item">
-          <%= b.check_box class: "govuk-checkboxes__input" %>
-          <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-half">
+        <h3 class="govuk-heading-s govuk-!-padding-top-4">
+          PLANS
+        </h3>
+        <div class="govuk-checkboxes govuk-checkboxes--small">
+          <%= form.collection_check_boxes :tags, Document::PLAN_TAGS, :itself, :itself do |b| %>
+            <div class="govuk-checkboxes__item">
+              <%= b.check_box class: "govuk-checkboxes__input" %>
+              <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+            </div>
+          <% end %>
         </div>
-      <% end %>
+      </div>
+
+      <div class="govuk-grid-column-one-half">
+        <h3 class="govuk-heading-s govuk-!-padding-top-5">
+          EVIDENCE
+        </h3>
+        <div class="govuk-checkboxes govuk-checkboxes--small">
+          <%= form.collection_check_boxes :tags, Document::EVIDENCE_TAGS, :itself, :itself do |b| %>
+            <div class="govuk-checkboxes__item">
+              <%= b.check_box class: "govuk-checkboxes__input" %>
+              <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
   </fieldset>
 </div>
