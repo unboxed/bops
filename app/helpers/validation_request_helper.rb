@@ -38,4 +38,8 @@ module ValidationRequestHelper
       "green"
     end
   end
+
+  def overdue_requests(validation_requests)
+    validation_requests.select { |req| req.overdue? && req.state == "open" }
+  end
 end
