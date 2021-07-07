@@ -44,7 +44,7 @@
     <%= locals[:div_id] %>Map.addControl(drawControl);
 
     <%= locals[:div_id] %>Map.on('draw:created', function (e) {
-      var geojsonField = document.getElementById("red-line-boundary-change-request-new-geojson-field");
+      var geojsonField = document.getElementById("red-line-boundary-change-validation-request-new-geojson-field");
       geojsonField.value = JSON.stringify(e.layer.toGeoJSON());
 
         <%= locals[:div_id] %>Map.addLayer(e.layer);
