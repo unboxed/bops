@@ -8,6 +8,13 @@
 
 <%= render "proposal_header" %>
 
+<div class="govuk-grid-column-two-thirds">
+  <% if @planning_application.validation_requests %>
+    <%= render "overdue_banner" if @planning_application.overdue_requests.present? %>
+    <%= render "response_banner" if @planning_application.closed_requests.present? %>
+  <% end %>
+</div>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds application">
     <%= render "shared/application_information" %>

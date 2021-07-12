@@ -251,6 +251,14 @@ class PlanningApplication < ApplicationRecord
     payment_amount.to_i / 100
   end
 
+  def overdue_requests
+    validation_requests.select { |req| req.overdue? && req.state == "open" }
+  end
+
+  def closed_requests
+    validation_requests.select { |req| req.state == "closed" }
+  end
+
 private
 
   def set_key_dates
