@@ -31,7 +31,6 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
 
     click_link("View proposed red line boundary")
     expect(page).to have_content("Coordinates look wrong")
-    expect(page).to have_content("Applicant's original red line boundary")
 
     click_link "Application"
     click_button "Key application dates"

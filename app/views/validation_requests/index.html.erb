@@ -1,4 +1,4 @@
-<% content_for :title, "Requests for changes" %>
+<% content_for :title, "Validation requests" %>
 <% add_parent_breadcrumb_link "Home", planning_applications_path %>
 <% add_parent_breadcrumb_link "Application", validate_documents_form_planning_application_path(@planning_application) %>
 <div class="govuk-grid-column-full">
@@ -6,7 +6,7 @@
     <div class="govuk-grid-column govuk-!-padding-top-6">
       <fieldset class="govuk-fieldset">
         <h2 class="govuk-heading-l">
-          Requests for changes
+          Validation requests
         </h2>
         <% if @planning_application.validation_requests.present? %>
           <table class="govuk-table change-requests">
