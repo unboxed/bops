@@ -21,9 +21,6 @@
     <p class="govuk-body">
       <%= @red_line_boundary_change_validation_request.reason  %>
     </p>
-    <h2 class="govuk-heading-m govuk-!-padding-top-4">
-      Applicant's original red line boundary
-    </h2>
     <%= render "shared/location_map", locals: { div_id: "current_map", geojson: @planning_application.boundary_geojson } %>
 
     <h2 class="govuk-heading-m govuk-!-padding-top-6">
