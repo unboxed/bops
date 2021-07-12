@@ -10,7 +10,8 @@
 
 <div class="govuk-grid-column-two-thirds">
   <% if @planning_application.validation_requests %>
-    <%= render "response_banner" unless overdue_requests(@planning_application.validation_requests).empty? %>
+    <%= render "overdue_banner" if @planning_application.overdue_requests.present? %>
+    <%= render "response_banner" if @planning_application.closed_requests.present? %>
   <% end %>
 </div>
 
