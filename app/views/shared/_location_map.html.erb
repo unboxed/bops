@@ -1,5 +1,4 @@
 <% if locals[:geojson].present? %>
-
   <div class="map">
     <% if locals[:div_id] == "accordion_map" %>
       <div id="accordion_map" style="width: 100%; height: 400px;"></div>
@@ -9,11 +8,10 @@
   </div>
 
   <script>
-      var <%= locals[:div_id] %>Map = L.map(<%= locals[:div_id] %>, {minZoom: 8, maxZoom: 22});
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-          maxZoom: 22,
-          maxNativeZoom: 19
+      var <%= locals[:div_id] %>Map = L.map(<%= locals[:div_id] %>, {minZoom: 8, maxZoom: 20});
+      L.tileLayer('https://api.os.uk/maps/raster/v1/zxy/Road_3857/{z}/{x}/{y}.png?key=OmwuvG9HvHq4qKgm8QwaTtTRCMJ1psvk', {
+          attribution: 'Contains OS data &copy; Crown copyright and database rights',
+          maxZoom: 20
       }).addTo(<%= locals[:div_id] %>Map);
 
       var boundary = L.geoJSON(<%= JSON.parse(locals[:geojson]).to_json.html_safe %>, {
