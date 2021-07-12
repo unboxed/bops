@@ -259,6 +259,10 @@ class PlanningApplication < ApplicationRecord
     validation_requests.select { |req| req.state == "closed" }
   end
 
+  def parsed_application_type
+    application_type == "lawfulness_certificate" ? "Certificate of Lawfulness" : "Full"
+  end
+
 private
 
   def set_key_dates
