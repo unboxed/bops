@@ -260,7 +260,14 @@ class PlanningApplication < ApplicationRecord
   end
 
   def parsed_application_type
-    application_type == "lawfulness_certificate" ? "Certificate of Lawfulness" : "Full"
+    case application_type
+    when "lawfulness_certificate"
+      "Certificate of Lawfulness"
+    when "full"
+      "Full"
+    else
+      application_type.humanize
+    end
   end
 
 private
