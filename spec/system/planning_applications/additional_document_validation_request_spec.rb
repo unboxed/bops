@@ -21,7 +21,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
   it "allows for a document creation request to be created and sent to the applicant" do
     click_link "Validate application"
-    click_link "Start new or view existing requests"
+    click_link "Start new or view existing validation requests"
     click_link "Add new request"
 
     within("fieldset", text: "Send a validation request") do
@@ -50,7 +50,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
   it "does not allow for a creation request without a document request reason and type" do
     click_link "Validate application"
-    click_link "Start new or view existing requests"
+    click_link "Start new or view existing validation requests"
     click_link "Add new request"
 
     within("fieldset", text: "Send a validation request") do
