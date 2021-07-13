@@ -13,7 +13,7 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     sign_in assessor
     visit planning_application_path(planning_application)
     click_link "Validate application"
-    click_link "Start new or view existing requests"
+    click_link "Start new or view existing validation requests"
     click_link "Add new request"
 
     within("fieldset", text: "Send a validation request") do
@@ -48,7 +48,7 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     sign_in assessor
     visit planning_application_path(planning_application)
     click_link "Validate application"
-    click_link "Start new or view existing requests"
+    click_link "Start new or view existing validation requests"
     click_link "Add new request"
 
     within("fieldset", text: "Send a validation request") do
@@ -67,7 +67,7 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     sign_in assessor
     visit planning_application_path(planning_application)
     click_link "Validate application"
-    click_link "Start new or view existing requests"
+    click_link "Start new or view existing validation requests"
     click_link "Add new request"
 
     within("fieldset", text: "Send a validation request") do

@@ -25,7 +25,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
 
   it "is possible to create a request to update description" do
     click_link "Validate application"
-    click_link "Start new or view existing requests"
+    click_link "Start new or view existing validation requests"
     click_link "Add new request"
 
     within("fieldset", text: "Send a validation request") do
@@ -53,7 +53,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
 
   it "only accepts a request that contains a proposed description" do
     click_link "Validate application"
-    click_link "Start new or view existing requests"
+    click_link "Start new or view existing validation requests"
     click_link "Add new request"
 
     within("fieldset", text: "Send a validation request") do
@@ -75,7 +75,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 35.days.ago
 
     click_link "Validate application"
-    click_link "Start new or view existing requests"
+    click_link "Start new or view existing validation requests"
 
     within(".change-requests") do
       expect(page).to have_content("Rejected")
@@ -93,6 +93,6 @@ RSpec.describe "Requesting description changes to a planning application", type:
     planning_application.update!(status: "in_assessment")
     click_link "Validate application"
 
-    expect(page).not_to have_content("Start new or view existing requests")
+    expect(page).not_to have_content("Start new or view existing validation requests")
   end
 end
