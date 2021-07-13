@@ -10,7 +10,7 @@
   <script>
       var <%= locals[:div_id] %>Map = L.map(<%= locals[:div_id] %>, {minZoom: 8, maxZoom: 20});
       L.tileLayer('https://api.os.uk/maps/raster/v1/zxy/Road_3857/{z}/{x}/{y}.png?key=OmwuvG9HvHq4qKgm8QwaTtTRCMJ1psvk', {
-          attribution: 'Contains OS data &copy; Crown copyright and database rights',
+          attribution: 'Contains OS data &copy; Crown copyright and database rights 2021 OS (0)100019252',
           maxZoom: 20
       }).addTo(<%= locals[:div_id] %>Map);
 
