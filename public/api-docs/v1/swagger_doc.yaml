@@ -378,4 +378,4 @@ paths:
                           - [-0.07615327835083008, 51.50115276135022]
                           - [-0.07716178894042969, 51.50094238217541]
 
-  $ref: './change_requests.yaml'
+  $ref: './validation_requests.yaml'

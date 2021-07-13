@@ -5,7 +5,7 @@ class Document < ApplicationRecord
 
   has_one_attached :file, dependent: :destroy
 
-  TAGS = %w[
+  PLAN_TAGS = %w[
     Front
     Rear
     Side
@@ -18,6 +18,21 @@ class Document < ApplicationRecord
     Proposed
     Existing
   ].freeze
+
+  EVIDENCE_TAGS = [
+    "Photograph",
+    "Utility Bill",
+    "Building Control Certificate",
+    "Construction Invoice",
+    "Council Tax Document",
+    "Tenancy Agreement",
+    "Tenancy Invoice",
+    "Bank Statement",
+    "Statutory Declaration",
+    "Other",
+  ].freeze
+
+  TAGS = PLAN_TAGS + EVIDENCE_TAGS
 
   PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"].freeze
 

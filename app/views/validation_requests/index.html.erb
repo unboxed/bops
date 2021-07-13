@@ -1,0 +1,112 @@
+<% content_for :title, "Validation requests" %>
+<% add_parent_breadcrumb_link "Home", planning_applications_path %>
+<% add_parent_breadcrumb_link "Application", validate_documents_form_planning_application_path(@planning_application) %>
+<div class="govuk-grid-column-full">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column govuk-!-padding-top-6">
+      <fieldset class="govuk-fieldset">
+        <h2 class="govuk-heading-l">
+          Validation requests
+        </h2>
+        <% if @planning_application.validation_requests.present? %>
+          <table class="govuk-table change-requests">
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
+                  Request
+                </th>
+                <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
+                  Detail
+                </th>
+                <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
+                  Reason
+                </th>
+                <th scope="col" class="govuk-table__header">
+                  Time remaining
+                </th>
+                <th scope="col" class="govuk-table__header govuk-!-width-one-third">
+                  Applicant response
+                </th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              <% @planning_application.validation_requests.each do |validation_request| %>
+                <tr class="govuk-table__row">
+                  <% if validation_request.class.name == "DescriptionChangeValidationRequest" %>
+                    <td class="govuk-table__cell change-request-list">
+                      Change of description
+                    </td>
+                    <td class="govuk-table__cell change-request-list">
+                      New description: <%= validation_request.proposed_description %>
+                    </td>
+                    <td class="govuk-table__cell change-request-list">
+                      Description change
+                    </td>
+                    <% elsif validation_request.class.name == "OtherChangeValidationRequest" %>
+                      <td class="govuk-table__cell change-request-list">
+                        Other
+                      </td>
+                      <td class="govuk-table__cell change-request-list">
+                        <%= validation_request.summary %>
+                      </td>
+                      <td class="govuk-table__cell change-request-list">
+                        <%= validation_request.suggestion %>
+                      </td>
+                  <% elsif validation_request.class.name == "ReplacementDocumentValidationRequest" %>
+                    <td class="govuk-table__cell change-request-list">
+                      Replacement document
+                    </td>
+                    <td class="govuk-table__cell change-request-list limit-column-width">
+                      <%= validation_request.old_document.name %>
+                    </td>
+                    <td class="govuk-table__cell change-request-list">
+                      <%= validation_request.old_document.invalidated_document_reason %>
+                    </td>
+                  <% elsif validation_request.class.name == "AdditionalDocumentValidationRequest" %>
+                    <td class="govuk-table__cell change-request-list">
+                      New document
+                    </td>
+                    <td class="govuk-table__cell change-request-list">
+                      <%= validation_request.document_request_type %>
+                    </td>
+                    <td class="govuk-table__cell change-request-list">
+                      <%= validation_request.document_request_reason %>
+                    </td>
+                  <% elsif validation_request.class.name == "RedLineBoundaryChangeValidationRequest" %>
+                    <td class="govuk-table__cell change-request-list">
+                      Red line boundary changes
+                    </td>
+                    <td class="govuk-table__cell change-request-list">
+                      <%= link_to "View proposed red line boundary", planning_application_red_line_boundary_change_validation_request_path(@planning_application, validation_request) %>
+                    </td>
+                    <td class="govuk-table__cell change-request-list">
+                      <%= validation_request.reason %>
+                    </td>
+                  <% end %>
+                  <td class="govuk-table__cell">
+                    <% if validation_request.state == "open" %>
+                      <strong class="govuk-tag govuk-tag--<%=display_request_date_state(validation_request) %>">
+                        <%= validation_request.days_until_response_due %> days
+                      </strong>
+                    <% else %>
+                      <strong class="govuk-tag govuk-tag--<%=display_request_status(validation_request) %>">
+                        <%= request_state(validation_request) %>
+                      </strong>
+                    <% end %>
+                  </td>
+                  <td class="govuk-table__cell limit-column-width">
+                    <%= applicant_response(validation_request) %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+        <p class="govuk-body">
+          <%= link_to "Add new request", new_planning_application_validation_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+        </p>
+      </fieldset>
+    </div>
+    <%= link_to "Back", validate_documents_form_planning_application_path(@planning_application), class: "govuk-button" %>
+  </div>
+</div>

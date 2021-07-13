@@ -9,10 +9,11 @@ class PlanningApplication < ApplicationRecord
 
   has_many :documents, dependent: :destroy
   has_many :recommendations, dependent: :destroy
-  has_many :description_change_requests, dependent: :destroy
-  has_many :document_change_requests, dependent: :destroy
-  has_many :document_create_requests, dependent: :destroy
-  has_many :red_line_boundary_change_requests, dependent: :destroy
+  has_many :description_change_validation_requests, dependent: :destroy
+  has_many :replacement_document_validation_requests, dependent: :destroy
+  has_many :other_change_validation_requests, dependent: :destroy
+  has_many :additional_document_validation_requests, dependent: :destroy
+  has_many :red_line_boundary_change_validation_requests, dependent: :destroy
 
   belongs_to :user, optional: true
   belongs_to :local_authority
@@ -220,34 +221,42 @@ class PlanningApplication < ApplicationRecord
 
   def secure_change_url(application_id, secure_token)
     if ENV["DOMAIN"] == "bops-services"
-      "https://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/change_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
+      "https://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
     else
-      "http://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/change_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
+      "http://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
     end
   end
 
-  def invalid_documents_without_change_request
-    invalid_documents.reject { |x| document_change_requests.where(old_document: x).any? }
+  def invalid_documents_without_validation_request
+    invalid_documents.reject { |x| replacement_document_validation_requests.where(old_document: x).any? }
   end
 
   def invalid_documents
     documents.active.invalidated
   end
 
-  def change_requests
-    (description_change_requests + document_change_requests + document_create_requests + red_line_boundary_change_requests).sort_by(&:created_at).reverse
+  def validation_requests
+    (description_change_validation_requests + replacement_document_validation_requests + additional_document_validation_requests + other_change_validation_requests + red_line_boundary_change_validation_requests).sort_by(&:created_at).reverse
   end
 
-  def closed_change_requests
-    change_requests.each { |cr| cr.state.eql?("closed") }
+  def closed_validation_requests
+    validation_requests.each { |cr| cr.state.eql?("closed") }
   end
 
-  def last_change_request_date
-    closed_change_requests.max_by(&:updated_at).updated_at
+  def last_validation_request_date
+    closed_validation_requests.max_by(&:updated_at).updated_at
   end
 
   def payment_amount_pounds
     payment_amount.to_i / 100
+  end
+
+  def overdue_requests
+    validation_requests.select { |req| req.overdue? && req.state == "open" }
+  end
+
+  def closed_requests
+    validation_requests.select { |req| req.state == "closed" }
   end
 
 private

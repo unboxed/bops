@@ -84,8 +84,8 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def validate_documents_form
-    @planning_application.documents_validated_at ||= if @planning_application.closed_change_requests.present?
-                                                       @planning_application.last_change_request_date
+    @planning_application.documents_validated_at ||= if @planning_application.closed_validation_requests.present?
+                                                       @planning_application.last_validation_request_date
                                                      else
                                                        @planning_application.created_at
                                                      end
@@ -98,8 +98,8 @@ class PlanningApplicationsController < AuthenticationController
       if documents_validated_at_missing?
         @planning_application.status = "in_assessment"
         render "validate_documents_form"
-      elsif @planning_application.description_change_requests.open.present?
-        @planning_application.errors.add(:status, "Planning application cannot be validated if open change requests exist.")
+      elsif @planning_application.description_change_validation_requests.open.present?
+        @planning_application.errors.add(:status, "Planning application cannot be validated if open validation requests exist.")
         render "validate_documents_form"
       else
         @planning_application.documents_validated_at = date_from_params

@@ -17,7 +17,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   let!(:assessor) { create :user, :assessor, local_authority: local_authority }
   let!(:planning_application) { create(:planning_application, :determined, local_authority: local_authority, decision: "granted") }
   let(:host) { "default.example.com" }
-  let!(:change_request) { create(:description_change_request, planning_application: planning_application, user: assessor) }
+  let!(:validation_request) { create(:description_change_validation_request, planning_application: planning_application, user: assessor) }
 
   let!(:document_with_tags) do
     create :document, :with_tags,
@@ -82,25 +82,25 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
   end
 
-  describe "#change_request_mail" do
-    let(:change_request_mail) { described_class.change_request_mail(planning_application.reload, change_request) }
+  describe "#validation_request_mail" do
+    let(:validation_request_mail) { described_class.validation_request_mail(planning_application.reload, validation_request) }
 
     ENV["APPLICANTS_APP_HOST"] = "localhost"
 
     it "renders the headers" do
-      expect(change_request_mail.subject).to eq("Your planning application at: #{planning_application.full_address}")
-      expect(change_request_mail.to).to eq([planning_application.applicant_email])
+      expect(validation_request_mail.subject).to eq("Your planning application at: #{planning_application.full_address}")
+      expect(validation_request_mail.to).to eq([planning_application.applicant_email])
     end
 
     it "renders the body" do
-      expect(change_request_mail.body.encoded).to include("Application received: #{planning_application.created_at.strftime('%e %B %Y')}")
-      expect(change_request_mail.body.encoded).to include(change_request.user.name)
-      expect(change_request_mail.body.encoded).to include(change_request.response_due.strftime("%e %B %Y"))
-      expect(change_request_mail.body.encoded).to include(planning_application.change_access_id)
-      expect(change_request_mail.body.encoded).to include("http://cookies.example.com/change_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}")
-      expect(change_request_mail.body.encoded).to include("Mr. Biscuit")
-      expect(change_request_mail.body.encoded).to include("Cookie authority")
-      expect(change_request_mail.body.encoded).to include("Lord of BiscuitTown")
+      expect(validation_request_mail.body.encoded).to include("Application received: #{planning_application.created_at.strftime('%e %B %Y')}")
+      expect(validation_request_mail.body.encoded).to include(validation_request.user.name)
+      expect(validation_request_mail.body.encoded).to include(validation_request.response_due.strftime("%e %B %Y"))
+      expect(validation_request_mail.body.encoded).to include(planning_application.change_access_id)
+      expect(validation_request_mail.body.encoded).to include("http://cookies.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}")
+      expect(validation_request_mail.body.encoded).to include("Mr. Biscuit")
+      expect(validation_request_mail.body.encoded).to include("Cookie authority")
+      expect(validation_request_mail.body.encoded).to include("Lord of BiscuitTown")
     end
   end
 
