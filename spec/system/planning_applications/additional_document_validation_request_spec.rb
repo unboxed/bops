@@ -71,4 +71,17 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
     expect(page).to have_content("Document create request successfully sent.")
   end
+
+  it "displays the details of the received request in the audit log" do
+    create :audit, planning_application_id: planning_application.id, activity_type: "additional_document_validation_request_received", activity_information: 1, audit_comment: "roof_plan.pdf"
+
+    sign_in assessor
+    visit planning_application_path(planning_application)
+
+    click_button "Key application dates"
+    click_link "Activity log"
+
+    expect(page).to have_text("Received: request for change (new document#1)")
+    expect(page).to have_text("roof_plan.pdf")
+  end
 end
