@@ -10,7 +10,7 @@ class Api::V1::DescriptionChangeValidationRequestsController < Api::V1::Applicat
       @planning_application.update!(description: @description_change_validation_request.proposed_description) if @description_change_validation_request.approved?
 
       audit("description_change_validation_request_received", description_audit_item(@description_change_validation_request),
-            @description_change_validation_request.sequence)
+            @description_change_validation_request.sequence, current_api_user)
 
       render json: { "message": "Validation request updated" }, status: :ok
     else

@@ -10,7 +10,7 @@ class Api::V1::RedLineBoundaryChangeValidationRequestsController < Api::V1::Appl
       @planning_application.update!(boundary_geojson: @red_line_boundary_change_validation_request.new_geojson) if @red_line_boundary_change_validation_request.approved?
 
       audit("red_line_boundary_change_validation_request_received", red_line_boundary_audit_item(@red_line_boundary_change_validation_request),
-            @red_line_boundary_change_validation_request.sequence)
+            @red_line_boundary_change_validation_request.sequence, current_api_user)
 
       render json: { "message": "Validation request updated" }, status: :ok
     else

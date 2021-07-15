@@ -9,6 +9,8 @@ RSpec.describe "Requesting description changes to a planning application", type:
     create :planning_application, :invalidated, local_authority: @default_local_authority
   end
 
+  let!(:api_user) { create :api_user, name: "Api Wizard" }
+
   before do
     travel_to Time.zone.local(2021, 1, 1)
     sign_in assessor
@@ -88,7 +90,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
   end
 
   it "displays the details of the received request in the audit log" do
-    create :audit, planning_application_id: planning_application.id, activity_type: "other_change_validation_request_received", activity_information: 1, audit_comment: { response: "I have sent the fee" }.to_json
+    create :audit, planning_application_id: planning_application.id, activity_type: "other_change_validation_request_received", activity_information: 1, audit_comment: { response: "I have sent the fee" }.to_json, api_user: api_user
 
     sign_in assessor
     visit planning_application_path(planning_application)
@@ -98,5 +100,6 @@ RSpec.describe "Requesting description changes to a planning application", type:
 
     expect(page).to have_text("Received: request for change (other validation#1)")
     expect(page).to have_text("I have sent the fee")
+    expect(page).to have_text("Applicant / Agent via Api Wizard")
   end
 end
