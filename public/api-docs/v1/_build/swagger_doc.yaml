@@ -83,6 +83,7 @@ paths:
                           - Elevation
                           - Proposed
                         numbers: PLAN01
+                        applicant_description: This is the proposed side elevation
   /api/v1/planning_applications:
     get:
       summary: Retrieves all determined planning applications
@@ -151,6 +152,7 @@ paths:
                               - Elevation
                               - Proposed
                             numbers: PLAN01
+                            applicant_description: This is the proposed side elevation
     post:
       summary: Create new planning application
       security:
@@ -289,6 +291,9 @@ paths:
                         items:
                           type: string
                           example: Side
+                      applicant_description:
+                        type: string
+                        example: This is the side plan
                 boundary_geojson:
                   type: object
               required:
@@ -426,6 +431,7 @@ paths:
                     protected_trees: false
                   files:
                     - filename: 'https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf'
+                      applicant_description: This is the side plan
                       tags:
                         - Side
                   boundary_geojson:
@@ -443,7 +449,7 @@ paths:
                             - 51.50094238217541
   '/api/v1/planning_applications/{planning_application_id}/validation_requests':
     get:
-      summary: Retrieves all change requests for a given planning application
+      summary: Retrieves all validation requests for a given planning application
       security:
         - bearerAuth: []
       parameters:
@@ -462,7 +468,7 @@ paths:
           description: A unique access code for this planning application
       responses:
         '200':
-          description: All change requests
+          description: All validation requests
           content:
             application/json:
               examples:
@@ -492,7 +498,7 @@ paths:
                             url: document.blob./new_document.jpg
   '/api/v1/planning_applications/{planning_application_id}/description_change_validation_requests/{description_change_validation_request_id}':
     patch:
-      summary: Update a description change request
+      summary: Update a description validation request
       security:
         - bearerAuth: []
       parameters:
@@ -509,7 +515,7 @@ paths:
           schema:
             type: integer
             minimum: 1
-          description: The change request ID
+          description: The validation request ID
         - in: query
           name: change_access_id
           schema:
@@ -542,7 +548,7 @@ paths:
                     rejection_reason: Refusal reason
       responses:
         '200':
-          description: Update description change request
+          description: Update description change validation request
           content:
             application/json:
               examples:
@@ -552,7 +558,7 @@ paths:
                       - Validation request updated
   '/api/v1/planning_applications/{planning_application_id}/replacement_document_validation_requests/{replacement_document_validation_request_id}':
     patch:
-      summary: Update a document change request
+      summary: Update a document change validation request
       security:
         - bearerAuth: []
       parameters:
@@ -569,7 +575,7 @@ paths:
           schema:
             type: integer
             minimum: 1
-          description: The change request ID
+          description: The validation request ID
         - in: query
           name: change_access_id
           schema:
@@ -587,7 +593,7 @@ paths:
                   format: binary
       responses:
         '200':
-          description: Update document change request
+          description: Update document change validation request
           content:
             application/json:
               examples:
@@ -614,7 +620,7 @@ paths:
           schema:
             type: integer
             minimum: 1
-          description: The change request ID
+          description: The validation request ID
         - in: query
           name: change_access_id
           schema:
@@ -632,7 +638,7 @@ paths:
                   format: binary
       responses:
         '200':
-          description: Update document create change request
+          description: Update additional document validation request
           content:
             application/json:
               examples:
@@ -642,7 +648,7 @@ paths:
                       - Validation request updated
   '/api/v1/planning_applications/{planning_application_id}/red_line_boundary_change_validation_requests/{red_line_boundary_change_id}':
     patch:
-      summary: Update a red line boundary change request
+      summary: Update a red line boundary change validation request
       security:
         - bearerAuth: []
       parameters:
@@ -659,7 +665,7 @@ paths:
           schema:
             type: integer
             minimum: 1
-          description: The change request ID
+          description: The validation request ID
         - in: query
           name: change_access_id
           schema:
@@ -692,7 +698,7 @@ paths:
                     rejection_reason: Refusal reason
       responses:
         '200':
-          description: Update red line boundary change request
+          description: Update red line boundary change validation request
           content:
             application/json:
               examples:

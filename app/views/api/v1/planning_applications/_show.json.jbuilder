@@ -46,5 +46,6 @@ json.documents planning_application.documents.for_publication do |document|
   json.extract! document,
                 :created_at,
                 :tags,
-                :numbers
+                :numbers,
+                :applicant_description
 end

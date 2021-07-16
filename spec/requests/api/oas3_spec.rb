@@ -63,6 +63,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
     expect(JSON.parse(PlanningApplication.last.proposal_details).first["question"]).to eq("What do you want to do?")
     expect(PlanningApplication.last.constraints).to eq(%w[conservation_area])
     expect(PlanningApplication.last.documents.first.file).to be_present
+    expect(PlanningApplication.last.documents.first.applicant_description).to eq("This is the side plan")
   end
 
   it "successfully returns the listing of applications as specified" do
