@@ -98,4 +98,11 @@ FactoryBot.define do
     status { :invalidated }
     invalidated_at { Time.zone.now }
   end
+
+  trait :without_result do
+    result_flag { "" }
+    result_heading { "" }
+    result_description { "" }
+    result_override { "" }
+  end
 end

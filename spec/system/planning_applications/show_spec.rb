@@ -163,4 +163,32 @@ RSpec.describe "Planning Application show page", type: :system do
       expect(page).to have_text("Application type: Lawful Development Certificate (Existing)")
     end
   end
+
+  context "when no result fields are present" do
+    let!(:planning_application) do
+      create :planning_application, :without_result,
+             local_authority: @default_local_authority
+    end
+
+    before do
+      sign_in assessor
+      visit planning_application_path(planning_application.reload.id)
+    end
+
+    it "displays the correct text in the result accordion when no API user is given" do
+      click_button "Result from application"
+
+      expect(page).to have_text("No result")
+      expect(page).to have_text("The application was not assessed on submission")
+    end
+
+    it "displays the correct text in the result accordion when API user is present" do
+      planning_application.update!(api_user: api_user)
+      visit planning_application_path(planning_application.reload.id)
+      click_button "Result from #{api_user.name}"
+
+      expect(page).to have_text("No result")
+      expect(page).to have_text("#{api_user.name} did not provide a result for this application")
+    end
+  end
 end
