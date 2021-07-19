@@ -77,6 +77,7 @@ paths:
                         created_at: '2020-05-16T06:18:17.540+01:00'
                         tags: ['Side', 'Elevation', 'Proposed']
                         numbers: PLAN01
+                        applicant_description: 'This is the proposed side elevation'
   '/api/v1/planning_applications':
     get:
       summary: Retrieves all determined planning applications
@@ -229,6 +230,9 @@ paths:
                         items:
                           type: string
                           example: 'Side'
+                      applicant_description:
+                        type: string
+                        example: 'This is the side plan'
                 boundary_geojson:
                   type: object
               required:
@@ -366,6 +370,7 @@ paths:
                     protected_trees: false
                   files:
                     - filename: https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf
+                      applicant_description: 'This is the side plan'
                       tags:
                         - Side
                   boundary_geojson:
