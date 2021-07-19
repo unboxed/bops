@@ -9,8 +9,7 @@
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
-
-ActiveRecord::Schema.define(version: 2021_07_16_153004) do
+ActiveRecord::Schema.define(version: 2021_07_19_094622) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -181,8 +180,14 @@ ActiveRecord::Schema.define(version: 2021_07_16_153004) do
     t.string "change_access_id"
     t.date "expiry_date"
     t.integer "payment_amount"
-    t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
-    t.index ["user_id"], name: "index_planning_applications_on_user_id"
+    t.string "result_flag"
+    t.text "result_heading"
+    t.text "result_description"
+    t.string "result_override"
+    t.bigint "api_user_id"
+    t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
+    t.index ["local_authority_id"], name: "ix_planning_applications_on_local_authority_id"
+    t.index ["user_id"], name: "ix_planning_applications_on_user_id"
   end
 
   create_table "recommendations", force: :cascade do |t|
@@ -255,6 +260,7 @@ ActiveRecord::Schema.define(version: 2021_07_16_153004) do
   add_foreign_key "description_change_validation_requests", "users"
   add_foreign_key "other_change_validation_requests", "planning_applications"
   add_foreign_key "other_change_validation_requests", "users"
+  add_foreign_key "planning_applications", "api_users"
   add_foreign_key "planning_applications", "users"
   add_foreign_key "recommendations", "planning_applications"
   add_foreign_key "recommendations", "users", column: "assessor_id"
