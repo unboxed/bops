@@ -1,46 +1,38 @@
-<div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
-  <div class="govuk-accordion__section">
-    <div class="govuk-accordion__section-header">
-      <h3 class="govuk-accordion__section-heading">
-        <button type="button" id="accordion-default-heading-1" aria-controls="accordion-default-heading-1" class="govuk-accordion__section-button" aria-expanded="false">
-          Result from <%= @planning_application.api_user.present? ? @planning_application.api_user.name : "application" %>
-          <span class="govuk-accordion__icon" aria-hidden="true"></span></button>
+<div class="govuk-accordion__section">
+  <div class="govuk-accordion__section-header">
+    <h3 class="govuk-accordion__section-heading">
+      <button type="button" id="accordion-default-heading-2" aria-controls="accordion-default-heading-3" class="govuk-accordion__section-button" aria-expanded="false">
+        Result from <%= @planning_application.api_user.present? ? @planning_application.api_user.name : "application" %>
+      </button>
+      <span class="govuk-accordion__icon" aria-hidden="true"></span>
+    </h3>
+  </div>
+  <div class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-3">
+    <% if @planning_application.result_present? %>
+      <h3 class="govuk-heading-m">
+        <%= @planning_application.result_flag if @planning_application.result_flag.present? %>
       </h3>
-    </div>
-    <div class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
-        <% if @planning_application.result_present? %>
-        <table class="govuk-table">
-          <tbody class="govuk-table__body">
-            <tr class="govuk-table__row">
-              <td class="govuk-table__cell">
-                <p class="govuk-body">
-                  <%= @planning_application.result_flag %>
-                </p>
-              </td>
-            </tr>
-            <tr class="govuk-table__row">
-              <td class="govuk-table__cell">
-                <%= @planning_application.result_heading %>
-              </td>
-            </tr>
-            <tr class="govuk-table__row">
-              <td class="govuk-table__cell">
-                <%= @planning_application.result_description %>
-              </td>
-            </tr>
-            <tr class="govuk-table__row">
-              <td class="govuk-table__cell">
-                <%= @planning_application.result_override %>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      <% else %>
-        <strong>No result</strong>
+      <p class="govuk-body">
+        <strong><%= @planning_application.result_heading if @planning_application.result_heading.present? %></strong>
+      </p>
+      <p class="govuk-body">
+        <%= @planning_application.result_description if @planning_application.result_description.present? %>
+      </p>
+      <% if @planning_application.result_override.present? %>
         <p class="govuk-body">
-          <%= @planning_application.api_user.present? ? "#{@planning_application.api_user.name} did not provide a result for this application" : "The application was not assessed on submission" %>
+          The applicant believes this result is <strong>incorrect</strong> because:
         </p>
+        <div class="govuk-inset-text">
+          <p class="govuk-body">
+            <%= @planning_application.result_override %>
+          </p>
+        </div>
       <% end %>
-    </div>
+    <% else %>
+      <p class='govuk-body'>
+        <strong>No result</strong><br>
+        <%= @planning_application.api_user.present? ? "#{@planning_application.api_user.name} did not provide a result for this application" : "The application was not assessed on submission" %>
+      </p>
+    <% end %>
   </div>
 </div>

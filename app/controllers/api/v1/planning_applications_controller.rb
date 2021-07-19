@@ -32,6 +32,7 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
         boundary_geojson: (params[:boundary_geojson].to_json if params[:boundary_geojson].present?),
         proposal_details: (params[:proposal_details].to_json if params[:proposal_details].present?),
         constraints: constraints_array_from_param(params[:constraints]),
+        api_user: current_api_user,
         audit_log: params.to_json,
       ),
     )
