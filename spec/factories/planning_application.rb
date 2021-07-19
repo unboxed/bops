@@ -25,6 +25,10 @@ FactoryBot.define do
     county { Faker::Address.state }
     postcode { Faker::Address.postcode }
     constraints { ["Conservation Area", "Listed Building"] }
+    result_flag { "Planning permission / Permission needed" }
+    result_heading { Faker::Lorem.unique.sentence }
+    result_description { Faker::Lorem.unique.sentence }
+    result_override { "Override" }
 
     proposal_details do
       [

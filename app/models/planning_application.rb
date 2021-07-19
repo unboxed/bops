@@ -16,6 +16,7 @@ class PlanningApplication < ApplicationRecord
   has_many :red_line_boundary_change_validation_requests, dependent: :destroy
 
   belongs_to :user, optional: true
+  belongs_to :api_user, optional: true
   belongs_to :local_authority
 
   before_create :set_key_dates
@@ -233,6 +234,10 @@ class PlanningApplication < ApplicationRecord
 
   def invalid_documents
     documents.active.invalidated
+  end
+
+  def result_present?
+    [result_flag, result_heading, result_description, result_override].any?(&:present?)
   end
 
   def validation_requests
