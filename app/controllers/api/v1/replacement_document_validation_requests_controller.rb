@@ -14,7 +14,7 @@ class Api::V1::ReplacementDocumentValidationRequestsController < Api::V1::Applic
       archive_old_document
 
       audit("replacement_document_validation_request_received", document_audit_item(new_document),
-            @replacement_document_validation_request.sequence)
+            @replacement_document_validation_request.sequence, current_api_user)
 
       render json: { "message": "Validation request updated" }, status: :ok
     else

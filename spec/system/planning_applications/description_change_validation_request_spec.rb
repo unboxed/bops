@@ -13,6 +13,8 @@ RSpec.describe "Requesting description changes to a planning application", type:
     create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago
   end
 
+  let!(:api_user) { create :api_user, name: "Api Wizard" }
+
   before do
     travel_to Time.zone.local(2021, 1, 1)
     sign_in assessor
@@ -73,7 +75,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     create :description_change_validation_request, planning_application: planning_application, state: "closed", created_at: 12.days.ago, approved: true
     create :description_change_validation_request, planning_application: planning_application, state: "closed", created_at: 12.days.ago, approved: false, rejection_reason: "No good"
     create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 35.days.ago
-    create :audit, planning_application_id: planning_application.id, activity_type: "description_change_validation_request_received", activity_information: 1, audit_comment: { response: "approved" }.to_json
+    create :audit, planning_application_id: planning_application.id, activity_type: "description_change_validation_request_received", activity_information: 1, audit_comment: { response: "approved" }.to_json, api_user: api_user
 
     click_link "Validate application"
     click_link "Start new or view existing validation requests"
@@ -95,6 +97,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
 
     expect(page).to have_text("Received: request for change (description#1)")
     expect(page).to have_text("approved")
+    expect(page).to have_text("Applicant / Agent via Api Wizard")
   end
 
   it "only displays a new validation request option if application is invalid" do

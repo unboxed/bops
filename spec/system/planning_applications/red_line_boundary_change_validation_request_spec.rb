@@ -9,6 +9,8 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     create :planning_application, :invalidated, local_authority: @default_local_authority
   end
 
+  let!(:api_user) { create :api_user, name: "Api Wizard" }
+
   it "is possible to create a request to update map boundary" do
     sign_in assessor
     visit planning_application_path(planning_application)
@@ -83,7 +85,7 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
   end
 
   it "displays the details of the received request in the audit log" do
-    create :audit, planning_application_id: planning_application.id, activity_type: "red_line_boundary_change_validation_request_received", activity_information: 1, audit_comment: { response: "rejected", reason: "The boundary was too small" }.to_json
+    create :audit, planning_application_id: planning_application.id, activity_type: "red_line_boundary_change_validation_request_received", activity_information: 1, audit_comment: { response: "rejected", reason: "The boundary was too small" }.to_json, api_user: api_user
 
     sign_in assessor
     visit planning_application_path(planning_application)
@@ -94,5 +96,6 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     expect(page).to have_text("Received: request for change (red line boundary#1)")
     expect(page).to have_text("The boundary was too small")
     expect(page).to have_text("rejected")
+    expect(page).to have_text("Applicant / Agent via Api Wizard")
   end
 end
