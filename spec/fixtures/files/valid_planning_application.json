@@ -80,7 +80,11 @@
     "uses_percentages": 100,
     "uses_status": 0,
     "uses_evidence": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg",
-    "photographs": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg"
+    "photographs": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg",
+    "result_flag": "Planning permission / Permission needed",
+    "result_heading": "It looks like these changes will need planning permission",
+    "result_description": "Based on the information you have provided, we do not think this is eligible for a Certificate of Lawfulness",
+    "result_override": "This was my reason for rejecting the result"
   },
   "applicant": {
     "type": 0,

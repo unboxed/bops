@@ -60,6 +60,10 @@ paths:
                     agent_last_name: Harper
                     agent_phone: '237878889'
                     agent_email: agent@example.com
+                    result_flag: 'Planning permission / Permission needed'
+                    result_heading: It looks like these changes will need planning permission
+                    result_description: Based on the information you have provided, we do not think this is eligible for a Certificate of Lawfulness
+                    result_override: This was my reason for rejecting the result
                     constraints:
                       - Conservation Area
                       - Listed Building
@@ -215,6 +219,21 @@ paths:
                 applicant_email:
                   type: string
                   example: applicant@example.com
+                result:
+                  type: object
+                  properties:
+                    flag:
+                      type: string
+                      example: 'Planning permission / Permission needed'
+                    heading:
+                      type: string
+                      example: It looks like these changes will need planning permission
+                    description:
+                      type: string
+                      example: Based on the information you have provided, we do not think this is eligible for a Certificate of Lawfulness
+                    override:
+                      type: string
+                      example: This was my reason for rejecting the result
                 constraints:
                   type: object
                 files:
@@ -271,6 +290,11 @@ paths:
                   agent_last_name: Harper
                   agent_phone: '237878889'
                   agent_email: agent@example.com
+                  result:
+                    flag: 'Planning permission / Permission needed'
+                    heading: It looks like these changes will need planning permission
+                    description: Based on the information you have provided, we do not think this is eligible for a Certificate of Lawfulness
+                    override: This was my reason for rejecting the result
                   proposal_details:
                     - question: What do you want to do?
                       responses:
