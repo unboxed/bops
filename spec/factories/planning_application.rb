@@ -25,6 +25,10 @@ FactoryBot.define do
     county { Faker::Address.state }
     postcode { Faker::Address.postcode }
     constraints { ["Conservation Area", "Listed Building"] }
+    result_flag { "Planning permission / Permission needed" }
+    result_heading { Faker::Lorem.unique.sentence }
+    result_description { Faker::Lorem.unique.sentence }
+    result_override { "Override" }
 
     proposal_details do
       [
@@ -93,5 +97,12 @@ FactoryBot.define do
   trait :invalidated do
     status { :invalidated }
     invalidated_at { Time.zone.now }
+  end
+
+  trait :without_result do
+    result_flag { "" }
+    result_heading { "" }
+    result_description { "" }
+    result_override { "" }
   end
 end

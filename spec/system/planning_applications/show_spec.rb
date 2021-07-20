@@ -4,6 +4,7 @@ require "rails_helper"
 
 RSpec.describe "Planning Application show page", type: :system do
   let(:documents_validated_at) { Date.current - 2.weeks }
+  let!(:api_user) { create :api_user }
   let!(:planning_application) do
     create :planning_application, description: "Roof extension",
                                   application_type: "lawfulness_certificate",
@@ -17,7 +18,8 @@ RSpec.describe "Planning Application show page", type: :system do
                                   address_1: "7 Elm Grove",
                                   town: "London",
                                   postcode: "SE15 6UT",
-                                  constraints: ["Conservation Area", "Listed Building"]
+                                  constraints: ["Conservation Area", "Listed Building"],
+                                  api_user: api_user
   end
   let(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
 
@@ -70,6 +72,15 @@ RSpec.describe "Planning Application show page", type: :system do
       expect(page).to have_text("Validation complete: #{Time.zone.now.strftime('%e %B %Y').strip}")
       expect(page).to have_text("Target date: #{planning_application.target_date.strftime('%e %B %Y').strip}")
       expect(page).to have_text("Expiry date: #{planning_application.expiry_date.strftime('%e %B %Y').strip}")
+    end
+
+    it "Result accordion" do
+      click_button "Result from #{api_user.name}"
+
+      expect(page).to have_text("Planning permission / Permission needed")
+      expect(page).to have_text(planning_application.result_heading)
+      expect(page).to have_text(planning_application.result_description)
+      expect(page).to have_text("Override")
     end
 
     it "Contact information accordion" do
@@ -150,6 +161,34 @@ RSpec.describe "Planning Application show page", type: :system do
 
     it "displays the correct application type" do
       expect(page).to have_text("Application type: Lawful Development Certificate (Existing)")
+    end
+  end
+
+  context "when no result fields are present" do
+    let!(:planning_application) do
+      create :planning_application, :without_result,
+             local_authority: @default_local_authority
+    end
+
+    before do
+      sign_in assessor
+      visit planning_application_path(planning_application.reload.id)
+    end
+
+    it "displays the correct text in the result accordion when no API user is given" do
+      click_button "Result from application"
+
+      expect(page).to have_text("No result")
+      expect(page).to have_text("The application was not assessed on submission")
+    end
+
+    it "displays the correct text in the result accordion when API user is present" do
+      planning_application.update!(api_user: api_user)
+      visit planning_application_path(planning_application.reload.id)
+      click_button "Result from #{api_user.name}"
+
+      expect(page).to have_text("No result")
+      expect(page).to have_text("#{api_user.name} did not provide a result for this application")
     end
   end
 end
