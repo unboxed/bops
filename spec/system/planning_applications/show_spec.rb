@@ -74,13 +74,23 @@ RSpec.describe "Planning Application show page", type: :system do
       expect(page).to have_text("Expiry date: #{planning_application.expiry_date.strftime('%e %B %Y').strip}")
     end
 
-    it "Result accordion" do
+    it "Result summary" do
       click_button "Result from #{api_user.name}"
 
       expect(page).to have_text("Planning permission / Permission needed")
       expect(page).to have_text(planning_application.result_heading)
       expect(page).to have_text(planning_application.result_description)
       expect(page).to have_text("Override")
+    end
+
+    it "Result question summary" do
+      click_button "Result from #{api_user.name}"
+
+      within(".govuk-accordion__section.result_information") do
+        expect(page).to have_text("what are you planning to do?")
+        expect(page).to have_text("demolish")
+        expect(page).to have_text("Details identified by #{api_user.name} as relevant to the result")
+      end
     end
 
     it "Contact information accordion" do
