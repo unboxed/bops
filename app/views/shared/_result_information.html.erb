@@ -31,16 +31,17 @@
           <p class="govuk-body">
             <strong>Details identified <%= @planning_application.api_user.present? ? "by #{@planning_application.api_user.name}" : "" %> as relevant to the result</strong>
           </p>
+          <ol class="govuk-body">
           <% @planning_application.flagged_proposals(@planning_application.result_flag).each do |proposal_detail| %>
           <p class="govuk-body">
+            <span class="proposal"><strong><%= display_number(@planning_application.parsed_proposal_details, proposal_detail) %>.</strong></span>
             <strong><%= proposal_detail["question"] %></strong>
           </p>
             <% proposal_detail["responses"].each do |response| %>
-              <p class="govuk-body">
                 <%= response["value"] %>
-              </p>
            <% end %>
           <% end %>
+          </ol>
         <% end %>
       <% end %>
     <% else %>
