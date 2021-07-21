@@ -389,6 +389,8 @@ paths:
                         - value: 'Yes'
                       metadata:
                         notes: It will allow me to exercise on a regular basis and generate energy
+                        flags:
+                          - 'Planning permission / Permission needed'
                   constraints:
                     conservation_area: true
                     protected_trees: false
