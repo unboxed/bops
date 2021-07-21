@@ -1,4 +1,4 @@
-<div class="govuk-accordion__section">
+<div class="govuk-accordion__section result_information">
   <div class="govuk-accordion__section-header">
     <h3 class="govuk-accordion__section-heading">
       <button type="button" id="accordion-default-heading-2" aria-controls="accordion-default-heading-3" class="govuk-accordion__section-button" aria-expanded="false">
@@ -27,6 +27,21 @@
             <%= @planning_application.result_override %>
           </p>
         </div>
+        <% if @planning_application.flagged_proposals(@planning_application.result_flag).present? %>
+          <p class="govuk-body">
+            <strong>Details identified <%= @planning_application.api_user.present? ? "by #{@planning_application.api_user.name}" : "" %> as relevant to the result</strong>
+          </p>
+          <% @planning_application.flagged_proposals(@planning_application.result_flag).each do |proposal_detail| %>
+          <p class="govuk-body">
+            <strong><%= proposal_detail["question"] %></strong>
+          </p>
+            <% proposal_detail["responses"].each do |response| %>
+              <p class="govuk-body">
+                <%= response["value"] %>
+              </p>
+           <% end %>
+          <% end %>
+        <% end %>
       <% end %>
     <% else %>
       <p class='govuk-body'>
