@@ -216,6 +216,20 @@ class PlanningApplication < ApplicationRecord
     proposal_details.present? ? JSON.parse(proposal_details) : []
   end
 
+  def proposal_details_with_metadata
+    parsed_proposal_details.select { |proposal| proposal["metadata"].present? }
+  end
+
+  def proposal_details_with_flags
+    proposal_details_with_metadata.select { |proposal| proposal["metadata"]["flags"].present? }
+  end
+
+  def flagged_proposal_details(flag)
+    proposal_details_with_flags.select do |proposal|
+      proposal["metadata"]["flags"].include?(flag)
+    end
+  end
+
   def full_address
     "#{address_1}, #{town}, #{postcode}"
   end

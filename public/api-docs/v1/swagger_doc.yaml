@@ -333,9 +333,6 @@ paths:
                     - question: Will any part of the new structure be forward of the front of the original house?
                       responses:
                         - value: 'No'
-                    - question: How many storeys will the new structure have?
-                      responses:
-                        - value: '1'
                     - question: Will any part of the pool be forward of the front of the original house?
                       responses:
                         - value: 'No'
@@ -384,11 +381,13 @@ paths:
                         - value: 'No'
                       metadata:
                         auto_answered: true
-                    - question: Will the new addition allow you to do an acitivity that most houses do not provide a dedicated space for?
+                    - question: Will the new addition allow you to do an activity that most houses do not provide a dedicated space for?
                       responses:
                         - value: 'Yes'
                       metadata:
                         notes: It will allow me to exercise on a regular basis and generate energy
+                        flags:
+                          - 'Planning permission / Permission needed'
                   constraints:
                     conservation_area: true
                     protected_trees: false
