@@ -1,13 +1,13 @@
 <div class="govuk-accordion__section result_information">
   <div class="govuk-accordion__section-header">
     <h3 class="govuk-accordion__section-heading">
-      <button type="button" id="accordion-default-heading-2" aria-controls="accordion-default-heading-3" class="govuk-accordion__section-button" aria-expanded="false">
+      <button type="button" id="accordion-default-heading-5" aria-controls="accordion-default-heading-5" class="govuk-accordion__section-button" aria-expanded="false">
         Result from <%= @planning_application.api_user.present? ? @planning_application.api_user.name : "application" %>
       </button>
       <span class="govuk-accordion__icon" aria-hidden="true"></span>
     </h3>
   </div>
-  <div class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-3">
+  <div class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-5">
     <% if @planning_application.result_present? %>
       <h3 class="govuk-heading-m">
         <%= @planning_application.result_flag if @planning_application.result_flag.present? %>
@@ -27,20 +27,20 @@
             <%= @planning_application.result_override %>
           </p>
         </div>
-        <% if @planning_application.flagged_proposals(@planning_application.result_flag).present? %>
+        <% if @planning_application.flagged_proposal_details(@planning_application.result_flag).present? %>
           <p class="govuk-body">
             <strong>Details identified <%= @planning_application.api_user.present? ? "by #{@planning_application.api_user.name}" : "" %> as relevant to the result</strong>
           </p>
           <ol class="govuk-body">
-          <% @planning_application.flagged_proposals(@planning_application.result_flag).each do |proposal_detail| %>
-          <p class="govuk-body">
-            <span class="proposal"><strong><%= display_number(@planning_application.parsed_proposal_details, proposal_detail) %>.</strong></span>
-            <strong><%= proposal_detail["question"] %></strong>
-          </p>
-            <% proposal_detail["responses"].each do |response| %>
-                <%= response["value"] %>
-           <% end %>
-          <% end %>
+            <% @planning_application.flagged_proposal_details(@planning_application.result_flag).each do |proposal_detail| %>
+              <p class="govuk-body">
+                <span class="proposal"><strong><%= display_number(@planning_application.parsed_proposal_details, proposal_detail) %>.</strong></span>
+                <strong><%= proposal_detail["question"] %></strong>
+              </p>
+              <% proposal_detail["responses"].each do |response| %>
+                  <%= response["value"] %>
+             <% end %>
+            <% end %>
           </ol>
         <% end %>
       <% end %>
