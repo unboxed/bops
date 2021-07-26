@@ -36,7 +36,7 @@
                                label: { text: "Applicant's original red line boundary", size: 's', class: 'govuk-label govuk-label--s govuk-!-padding-bottom-4'},
                                class: "govuk-visually-hidden" %>
 
-      <%= render "shared/interactive_map", locals: { div_id: "interactive_map", geojson: @planning_application.boundary_geojson } %>
+      <%= render "shared/interactive_map", locals: { div_id: "interactive_map", geojson: @planning_application.boundary_geojson, hidden_field_id: 'red-line-boundary-change-validation-request-new-geojson-field' } %>
       <h2 class="govuk-heading-s govuk-!-padding-top-6">
         Red line drawings shown on map
       </h2>

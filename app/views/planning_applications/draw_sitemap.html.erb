@@ -1,0 +1,11 @@
+<h2 class="govuk-heading-m">Draw a digital red line boundary</h2>
+<h3 class="govuk-heading-s">Red line site boundary on submission</h3>
+<p class="govuk-body">Site address: <%= @planning_application.full_address %></p>
+
+<h3 class="govuk-heading-s">Draw the red line site boundary</h3>
+
+<%= form_with model: @planning_application, url: update_sitemap_planning_application_path(@planning_application), local: true do |form| %>
+  <%= form.hidden_field :boundary_geojson %>
+  <%= render "shared/interactive_map", locals: { div_id: "interactive_map", geojson: @planning_application.boundary_geojson, hidden_field_id: 'planning_application_boundary_geojson' } %>
+  <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+<% end %>

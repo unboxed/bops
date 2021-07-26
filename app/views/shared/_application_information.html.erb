@@ -86,6 +86,9 @@
         <%= render "shared/location_map", locals: { div_id: "accordion_map", geojson: @planning_application.boundary_geojson } %>
       <% else %>
         <p class="govuk-body">No digital sitemap provided</p>
+        <p class="govuk-body">
+          <%= link_to "Draw digital sitemap", draw_sitemap_planning_application_path(@planning_application) %>
+        </p>
       <% end %>
     </div>
   </div>

@@ -20,6 +20,8 @@ class PlanningApplicationsController < AuthenticationController
                                                     edit_constraints
                                                     cancel_confirmation
                                                     cancel
+                                                    draw_sitemap
+                                                    update_sitemap
                                                     decision_notice]
 
   before_action :ensure_user_is_reviewer, only: %i[review review_form]
@@ -182,6 +184,15 @@ class PlanningApplicationsController < AuthenticationController
     flash[:notice] = "Decision Notice sent to applicant"
 
     redirect_to @planning_application
+  end
+
+  def draw_sitemap; end
+
+  def update_sitemap
+    @planning_application.boundary_geojson = params[:planning_application][:boundary_geojson]
+    @planning_application.save!
+    flash[:notice] = "Site boundary has been updated"
+    redirect_to planning_application_path(@planning_application)
   end
 
   def edit_constraints_form; end
