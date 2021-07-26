@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_27_123609) do
+ActiveRecord::Schema.define(version: 2021_07_26_100521) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,9 +54,10 @@ ActiveRecord::Schema.define(version: 2021_07_27_123609) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "sequence"
-    t.index ["new_document_id"], name: "index_document_create_requests_on_new_document_id"
-    t.index ["planning_application_id"], name: "index_document_create_requests_on_planning_application_id"
-    t.index ["user_id"], name: "index_document_create_requests_on_user_id"
+    t.date "notified_at"
+    t.index ["new_document_id"], name: "ix_additional_document_validation_requests_on_new_document_id"
+    t.index ["planning_application_id"], name: "ix_additional_document_validation_requests_on_planning_applicat"
+    t.index ["user_id"], name: "ix_additional_document_validation_requests_on_user_id"
   end
 
   create_table "api_users", force: :cascade do |t|
@@ -91,8 +92,9 @@ ActiveRecord::Schema.define(version: 2021_07_27_123609) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "previous_description"
     t.integer "sequence"
-    t.index ["planning_application_id"], name: "index_description_change_requests_on_planning_application_id"
-    t.index ["user_id"], name: "index_description_change_requests_on_user_id"
+    t.date "notified_at"
+    t.index ["planning_application_id"], name: "ix_description_change_validation_requests_on_planning_applicati"
+    t.index ["user_id"], name: "ix_description_change_validation_requests_on_user_id"
   end
 
   create_table "documents", force: :cascade do |t|
@@ -133,6 +135,7 @@ ActiveRecord::Schema.define(version: 2021_07_27_123609) do
     t.integer "sequence"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.date "notified_at"
     t.index ["planning_application_id"], name: "ix_other_change_validation_requests_on_planning_application_id"
     t.index ["user_id"], name: "ix_other_change_validation_requests_on_user_id"
   end
@@ -219,6 +222,7 @@ ActiveRecord::Schema.define(version: 2021_07_27_123609) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "approved"
     t.integer "sequence"
+    t.date "notified_at"
   end
 
   create_table "replacement_document_validation_requests", force: :cascade do |t|
@@ -230,10 +234,11 @@ ActiveRecord::Schema.define(version: 2021_07_27_123609) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "sequence"
-    t.index ["new_document_id"], name: "index_document_change_requests_on_new_document_id"
-    t.index ["old_document_id"], name: "index_document_change_requests_on_old_document_id"
-    t.index ["planning_application_id"], name: "index_document_change_requests_on_planning_application_id"
-    t.index ["user_id"], name: "index_document_change_requests_on_user_id"
+    t.date "notified_at"
+    t.index ["new_document_id"], name: "ix_replacement_document_validation_requests_on_new_document_id"
+    t.index ["old_document_id"], name: "ix_replacement_document_validation_requests_on_old_document_id"
+    t.index ["planning_application_id"], name: "ix_replacement_document_validation_requests_on_planning_applica"
+    t.index ["user_id"], name: "ix_replacement_document_validation_requests_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
