@@ -10,12 +10,12 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
     visit planning_application_path(planning_application)
   end
 
-  context "when no digital sitemap exists" do
+  context "when application is not_started" do
     let!(:planning_application) do
-      create :planning_application, local_authority: @default_local_authority
+      create :planning_application, :not_started, local_authority: @default_local_authority
     end
 
-    it "is possible to create and edit a sitemap when application is not_started" do
+    it "is possible to create and edit a sitemap" do
       click_button "Site map"
       expect(page).to have_content("No digital sitemap provided")
       click_link "Draw digital sitemap"
@@ -34,6 +34,30 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
       click_button "Save"
 
       expect(page).to have_content("Site boundary has been updated")
+    end
+  end
+
+  context "when application is already validated but has no boundary" do
+    let!(:planning_application) do
+      create :planning_application, local_authority: @default_local_authority
+    end
+
+    it "is not possible to create a sitemap" do
+      click_button "Site map"
+      expect(page).to have_content("No digital sitemap provided")
+      expect(page).not_to have_link("Draw digital sitemap")
+    end
+  end
+
+  context "when application is already validated and has a boundary" do
+    let!(:planning_application) do
+      create :planning_application, :with_boundary_geojson, local_authority: @default_local_authority
+    end
+
+    it "is not possible to edit the sitemap" do
+      click_button "Site map"
+      expect(page).not_to have_content("No digital sitemap provided")
+      expect(page).not_to have_link("Redraw digital sitemap")
     end
   end
 end

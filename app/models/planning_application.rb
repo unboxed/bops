@@ -208,6 +208,10 @@ class PlanningApplication < ApplicationRecord
     may_assess? && !pending_review?
   end
 
+  def officer_can_draw_boundary?
+    not_started? || invalidated?
+  end
+
   def pending_or_new_recommendation
     recommendations.pending_review.last || recommendations.build
   end

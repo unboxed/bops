@@ -83,15 +83,19 @@
     </div>
     <div class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
       <% if @planning_application.boundary_geojson.present? %>
-        <p class="govuk-body">
-          <%= link_to "Redraw digital sitemap", draw_sitemap_planning_application_path(@planning_application) %>
-        </p>
+        <% if @planning_application.officer_can_draw_boundary? %>
+          <p class="govuk-body">
+            <%= link_to "Redraw digital sitemap", draw_sitemap_planning_application_path(@planning_application) %>
+          </p>
+        <% end %>
         <%= render "shared/location_map", locals: { div_id: "accordion_map", geojson: @planning_application.boundary_geojson } %>
       <% else %>
         <p class="govuk-body">No digital sitemap provided</p>
-        <p class="govuk-body">
-          <%= link_to "Draw digital sitemap", draw_sitemap_planning_application_path(@planning_application) %>
-        </p>
+        <% if @planning_application.officer_can_draw_boundary? %>
+          <p class="govuk-body">
+            <%= link_to "Draw digital sitemap", draw_sitemap_planning_application_path(@planning_application) %>
+          </p>
+        <% end %>
       <% end %>
     </div>
   </div>
