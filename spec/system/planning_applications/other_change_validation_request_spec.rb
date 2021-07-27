@@ -82,13 +82,6 @@ RSpec.describe "Requesting description changes to a planning application", type:
     end
   end
 
-  it "only displays a new change request option if application is invalid" do
-    planning_application.update!(status: "in_assessment")
-    click_link "Validate application"
-
-    expect(page).not_to have_content("Start new or view existing validation requests")
-  end
-
   it "displays the details of the received request in the audit log" do
     create :audit, planning_application_id: planning_application.id, activity_type: "other_change_validation_request_received", activity_information: 1, audit_comment: { response: "I have sent the fee" }.to_json, api_user: api_user
 

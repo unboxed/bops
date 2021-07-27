@@ -12,13 +12,11 @@ RSpec.shared_examples "validate and invalidate" do
     click_link planning_application.reference
     click_link "Validate application"
 
-    choose "Yes"
-
     fill_in "Day", with: "03"
     fill_in "Month", with: "12"
     fill_in "Year", with: "2021"
 
-    click_button "Save"
+    click_button "Validate application"
 
     expect(page).to have_content("Application is ready for assessment")
 
@@ -41,9 +39,9 @@ RSpec.shared_examples "validate and invalidate" do
     click_link planning_application.reference
     click_link "Validate application"
 
-    choose "No"
+    click_link "Start new or view existing validation requests"
 
-    click_button "Save"
+    click_button "Invalidate application"
 
     expect(page).to have_content("Application has been invalidated")
 
@@ -64,9 +62,9 @@ RSpec.shared_examples "validate and invalidate" do
     click_link planning_application.reference
     click_link "Validate application"
 
-    choose "No"
+    click_link "Start new or view existing validation requests"
 
-    click_button "Save"
+    click_button "Invalidate application"
 
     expect(page).to have_content("Application has been invalidated")
 
@@ -97,17 +95,13 @@ RSpec.shared_examples "validate and invalidate" do
     click_link planning_application.reference
     click_link "Validate application"
 
-    choose "Yes"
-
     expect(page).to have_field("Day", with: description_change_validation_request.updated_at.strftime("%-d"))
     expect(page).to have_field("Month", with: description_change_validation_request.updated_at.strftime("%-m"))
     expect(page).to have_field("Year", with: description_change_validation_request.updated_at.strftime("%Y"))
   end
 
   it "displays a validation date of when the documents where validated if no closed validation requests exist" do
-    visit validate_documents_form_planning_application_path(second_planning_application)
-
-    choose "Yes"
+    visit validate_form_planning_application_path(second_planning_application)
 
     expect(page).to have_field("Day", with: second_planning_application.documents_validated_at.strftime("%-d"))
     expect(page).to have_field("Month", with: second_planning_application.documents_validated_at.strftime("%-m"))
@@ -115,15 +109,13 @@ RSpec.shared_examples "validate and invalidate" do
   end
 
   it "allows for the user to input a validation date manually" do
-    visit validate_documents_form_planning_application_path(second_planning_application)
-
-    choose "Yes"
+    visit validate_form_planning_application_path(second_planning_application)
 
     fill_in "Day", with: "3"
     fill_in "Month", with: "6"
     fill_in "Year", with: "2022"
 
-    click_button "Save"
+    click_button "Validate application"
 
     second_planning_application.reload
     expect(second_planning_application.documents_validated_at.to_s).to eq("2022-06-03")
@@ -166,36 +158,22 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link planning_application.reference
       click_link "Validate application"
 
-      choose "Yes"
-      click_button "Save"
+      click_button "Validate application"
 
       expect(page).to have_content("Planning application cannot be validated if open validation requests exist")
     end
   end
 
   context "Planning application does not transition when expected inputs are not sent" do
-    it "shows error when no radio button is selected" do
-      click_link planning_application.reference
-      click_link "Validate application"
-
-      click_button "Save"
-
-      planning_application.reload
-      expect(page).to have_content("Please select one of the below options")
-      expect(planning_application.status).to eql("not_started")
-    end
-
     it "shows error if invalid date is sent" do
       click_link planning_application.reference
       click_link "Validate application"
-
-      choose "Yes"
 
       fill_in "Day", with: "3"
       fill_in "Month", with: "&&£$£$"
       fill_in "Year", with: "2022"
 
-      click_button "Save"
+      click_button "Validate application"
 
       planning_application.reload
       # This is stopped by HTML 5 validations, which are hard to test the UI for.
@@ -206,13 +184,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link planning_application.reference
       click_link "Validate application"
 
-      choose "Yes"
-
       fill_in "Day", with: ""
       fill_in "Month", with: ""
       fill_in "Year", with: ""
 
-      click_button "Save"
+      click_button "Validate application"
 
       planning_application.reload
       expect(planning_application.status).to eql("not_started")
@@ -223,13 +199,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link planning_application.reference
       click_link "Validate application"
 
-      choose "Yes"
-
       fill_in "Day", with: ""
       fill_in "Month", with: ""
       fill_in "Year", with: "2021"
 
-      click_button "Save"
+      click_button "Validate application"
 
       planning_application.reload
       expect(planning_application.status).to eql("not_started")
@@ -239,7 +213,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       fill_in "Month", with: "2"
       fill_in "Year", with: ""
 
-      click_button "Save"
+      click_button "Validate application"
 
       planning_application.reload
       expect(planning_application.status).to eql("not_started")
@@ -249,7 +223,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       fill_in "Month", with: ""
       fill_in "Year", with: ""
 
-      click_button "Save"
+      click_button "Validate application"
 
       planning_application.reload
       expect(planning_application.status).to eql("not_started")
@@ -275,7 +249,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "does not show validate form" do
       visit planning_application_documents_path(planning_application)
 
-      expect(page).not_to have_content("Save")
+      expect(page).not_to have_content("Validate application")
     end
   end
 end

@@ -99,11 +99,4 @@ RSpec.describe "Requesting description changes to a planning application", type:
     expect(page).to have_text("approved")
     expect(page).to have_text("Applicant / Agent via Api Wizard")
   end
-
-  it "only displays a new validation request option if application is invalid" do
-    planning_application.update!(status: "in_assessment")
-    click_link "Validate application"
-
-    expect(page).not_to have_content("Start new or view existing validation requests")
-  end
 end

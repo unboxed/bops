@@ -161,6 +161,10 @@ class PlanningApplication < ApplicationRecord
     true unless awaiting_determination? || determined? || returned? || withdrawn?
   end
 
+  def can_invalidate?
+    true unless awaiting_determination? || determined? || returned? || withdrawn?
+  end
+
   def validation_complete?
     !not_started?
   end
@@ -263,8 +267,16 @@ class PlanningApplication < ApplicationRecord
     (description_change_validation_requests + replacement_document_validation_requests + additional_document_validation_requests + other_change_validation_requests + red_line_boundary_change_validation_requests).sort_by(&:created_at).reverse
   end
 
+  def validation_requests_open?
+    open_validation_requests.any?
+  end
+
+  def open_validation_requests
+    validation_requests.select { |request| request.state.eql?("open") }
+  end
+
   def closed_validation_requests
-    validation_requests.each { |cr| cr.state.eql?("closed") }
+    validation_requests.select { |request| request.state.eql?("closed") }
   end
 
   def last_validation_request_date

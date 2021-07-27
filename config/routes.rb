@@ -12,8 +12,9 @@ Rails.application.routes.draw do
     member do
       get :assign
       patch :assign
-      get :validate_documents_form
-      patch :validate_documents
+      get :validate_form
+      patch :validate
+      patch :invalidate
       get :recommendation_form
       patch :recommend
       get :submit_recommendation
