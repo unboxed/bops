@@ -17,6 +17,7 @@ class PlanningApplication < ApplicationRecord
 
   belongs_to :user, optional: true
   belongs_to :api_user, optional: true
+  belongs_to :boundary_created_by, class_name: "User", optional: true
   belongs_to :local_authority
 
   before_create :set_key_dates

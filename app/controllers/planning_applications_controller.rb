@@ -190,6 +190,7 @@ class PlanningApplicationsController < AuthenticationController
 
   def update_sitemap
     @planning_application.boundary_geojson = params[:planning_application][:boundary_geojson]
+    @planning_application.boundary_created_by = current_user
     @planning_application.save!
     flash[:notice] = "Site boundary has been updated"
     redirect_to planning_application_path(@planning_application)

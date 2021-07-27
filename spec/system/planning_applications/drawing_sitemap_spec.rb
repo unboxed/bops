@@ -26,6 +26,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
 
       expect(page).to have_content("Site boundary has been updated")
       expect(page).not_to have_content("No digital sitemap provided")
+      expect(page).to have_content("Sitemap drawn by Assessor 1")
 
       click_button "Site map"
       click_link "Redraw digital sitemap"
@@ -56,6 +57,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
 
     it "is not possible to edit the sitemap" do
       click_button "Site map"
+      expect(page).to have_content("Sitemap drawn by Applicant")
       expect(page).not_to have_content("No digital sitemap provided")
       expect(page).not_to have_link("Redraw digital sitemap")
     end

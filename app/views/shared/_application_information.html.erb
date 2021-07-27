@@ -83,6 +83,9 @@
     </div>
     <div class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
       <% if @planning_application.boundary_geojson.present? %>
+        <p class="govuk-body">
+          Sitemap drawn by <%= @planning_application.boundary_created_by.present? ? @planning_application.boundary_created_by.name : "Applicant" %>
+        </p>
         <% if @planning_application.officer_can_draw_boundary? %>
           <p class="govuk-body">
             <%= link_to "Redraw digital sitemap", draw_sitemap_planning_application_path(@planning_application) %>
