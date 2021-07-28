@@ -11,9 +11,9 @@ class DescriptionChangeValidationRequestsController < ApplicationController
     @current_local_authority = current_local_authority
 
     if @description_change_validation_request.save
-      send_validation_request_email
+      send_validation_request_email if @planning_application.invalid?
 
-      flash[:notice] = "Validation request for description successfully sent."
+      flash[:notice] = "Validation request for description successfully created."
       audit("description_change_validation_request_sent", description_audit_item(@description_change_validation_request, @planning_application),
             @description_change_validation_request.sequence)
       redirect_to planning_application_validation_requests_path(@planning_application)

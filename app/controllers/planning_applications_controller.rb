@@ -99,8 +99,8 @@ class PlanningApplicationsController < AuthenticationController
       @planning_application.errors.add(:planning_application, "Please enter a valid date")
       render "validate_form"
     elsif @planning_application.validation_requests_open?
-        @planning_application.errors.add(:planning_application, "Planning application cannot be validated if open validation requests exist.")
-        render "validate_form"
+      @planning_application.errors.add(:planning_application, "Planning application cannot be validated if open validation requests exist.")
+      render "validate_form"
     else
       @planning_application.documents_validated_at = date_from_params
       @planning_application.start!
@@ -112,10 +112,15 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def invalidate
-    @planning_application.invalidate!
-    audit("invalidated")
-    flash[:notice] = "Application has been invalidated"
-    redirect_to @planning_application
+    if @planning_application.validation_requests_open?
+      @planning_application.invalidate!
+      audit("invalidated")
+      flash[:notice] = "Application has been invalidated"
+      redirect_to @planning_application
+    else
+      @planning_application.errors.add(:planning_application, "Please create at least one validation request")
+      render "validation_requests/index"
+    end
   end
 
   def recommendation_form
@@ -285,7 +290,7 @@ private
 
   def date_from_params
     Time.zone.parse(
-        validation_date_fields.join("-"),
+      validation_date_fields.join("-"),
     )
   end
 

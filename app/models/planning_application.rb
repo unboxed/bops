@@ -35,6 +35,7 @@ class PlanningApplication < ApplicationRecord
   validate :documents_validated_at_date
   validate :public_comment_present
   validate :decision_with_recommendations
+  # validate :can_invalidate
 
   scope :not_started_and_invalid, -> { where("status = 'not_started' OR status = 'invalidated'") }
   scope :under_assessment, -> { where("status = 'in_assessment' OR status = 'awaiting_correction'") }
@@ -61,7 +62,7 @@ class PlanningApplication < ApplicationRecord
     end
 
     event :invalidate do
-      transitions from: %i[not_started invalidated in_assessment awaiting_determination awaiting_correction], to: :invalidated
+      transitions from: %i[not_started invalidated in_assessment awaiting_determination awaiting_correction], to: :invalidated, guard: :validation_requests_open?
     end
 
     event :determine do
@@ -162,7 +163,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def can_invalidate?
-    true unless awaiting_determination? || determined? || returned? || withdrawn?
+    true unless determined? || returned? || withdrawn?
   end
 
   def validation_complete?

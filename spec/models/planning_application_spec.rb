@@ -12,6 +12,10 @@ RSpec.describe PlanningApplication, type: :model do
              numbers: "number"
     end
 
+    let!(:description_change_validation_request) do
+      create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago
+    end
+
     context "start the application" do
       subject(:planning_application) { create :planning_application, :not_started }
 

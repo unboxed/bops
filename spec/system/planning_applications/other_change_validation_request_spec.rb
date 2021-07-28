@@ -22,6 +22,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
   end
 
   it "is possible to create a request for miscellaneous changes" do
+    delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Validate application"
     click_link "Start new or view existing validation requests"
     click_link "Add new request"
@@ -45,6 +46,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     expect(page).to have_text("Sent: validation request (other validation#1)")
     expect(page).to have_text("The wrong fee has been paid")
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+    expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails)
   end
 
   it "only accepts a request that contains a summary and suggestion" do

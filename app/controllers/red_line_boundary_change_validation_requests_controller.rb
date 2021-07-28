@@ -15,9 +15,9 @@ class RedLineBoundaryChangeValidationRequestsController < ApplicationController
     @red_line_boundary_change_validation_request.user = current_user
 
     if @red_line_boundary_change_validation_request.save
-      send_validation_request_email
+      send_validation_request_email if @planning_application.invalid?
 
-      flash[:notice] = "Validation request for red line boundary successfully sent."
+      flash[:notice] = "Validation request for red line boundary successfully created."
       audit("red_line_boundary_change_validation_request_sent", red_line_boundary_audit_item(@red_line_boundary_change_validation_request),
             @red_line_boundary_change_validation_request.sequence)
       redirect_to planning_application_validation_requests_path(@planning_application)

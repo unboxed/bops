@@ -26,6 +26,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
   end
 
   it "is possible to create a request to update description" do
+    delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Validate application"
     click_link "Start new or view existing validation requests"
     click_link "Add new request"
@@ -51,6 +52,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     expect(page).to have_text(planning_application.description)
     expect(page).to have_text("New description")
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+    expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails)
   end
 
   it "only accepts a request that contains a proposed description" do

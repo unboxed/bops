@@ -35,6 +35,8 @@ RSpec.shared_examples "validate and invalidate" do
   end
 
   it "can be invalidated" do
+    create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago
+
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link planning_application.reference
     click_link "Validate application"
@@ -59,6 +61,8 @@ RSpec.shared_examples "validate and invalidate" do
   end
 
   it "allows document edit, archive and upload after invalidation" do
+    create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago
+
     click_link planning_application.reference
     click_link "Validate application"
 
@@ -242,14 +246,27 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   context "Planning application is in determined state" do
-    let!(:planning_application) do
+    let!(:determined_planning_application) do
       create :planning_application, :determined, local_authority: @default_local_authority
     end
 
     it "does not show validate form" do
-      visit planning_application_documents_path(planning_application)
+      visit planning_application_documents_path(determined_planning_application)
 
       expect(page).not_to have_content("Validate application")
+    end
+  end
+
+  context "Invalidation with no requests" do
+    it "shows correct errors and status when there are no open validation requests" do
+      visit planning_application_path(planning_application)
+      click_link "Validate application"
+
+      click_link "Start new or view existing validation requests"
+
+      click_button "Invalidate application"
+      expect(page).to have_content("Please create at least one validation request")
+      expect(planning_application.status).to eql("not_started")
     end
   end
 end

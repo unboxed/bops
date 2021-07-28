@@ -107,10 +107,27 @@
         </p>
       </fieldset>
     </div>
-    <%= form_with model: @planning_application, url: invalidate_planning_application_path(@planning_application), local:true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
-      <p>
-        <%= form.submit "Invalidate application", class: "govuk-button", data: { module: "govuk-button"} %><%= link_to "Back", validate_form_planning_application_path(@planning_application), class: "govuk-button" %>
-      </p>
+    <% if @planning_application.can_invalidate? %>
+      <% if @planning_application.errors.any? %>
+        <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+          <h2 class="govuk-error-summary__title" id="error-summary-title">
+            There is a problem
+          </h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list">
+              <% @planning_application.errors.full_messages.each do |error| %>
+                <li><%= error %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+
+      <%= form_with model: @planning_application, url: invalidate_planning_application_path(@planning_application), local:true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+        <p>
+          <%= form.submit "Invalidate application", class: "govuk-button", data: { module: "govuk-button"} %><%= link_to "Back", validate_form_planning_application_path(@planning_application), class: "govuk-button" %>
+        </p>
+      <% end%>
     <% end%>
   </div>
 </div>
