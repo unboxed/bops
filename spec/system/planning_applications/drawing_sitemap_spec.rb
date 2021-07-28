@@ -67,4 +67,42 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
       expect(page).not_to have_link("Redraw digital sitemap")
     end
   end
+
+  context "linking to sitemap documents" do
+    let!(:planning_application) do
+      create :planning_application, :not_started, local_authority: @default_local_authority
+    end
+    let!(:document_notsitemap) { create :document, tags: %w[Plan], planning_application: planning_application }
+
+    context "with 0 documents tagged with sitemap" do
+      it "links to all documents" do
+        click_button "Site map"
+        click_link "Draw digital sitemap"
+        expect(page).to have_content("No document has been tagged as a sitemap for this application")
+        expect(page).to have_link("View all documents")
+      end
+    end
+
+    context "with 1 document tagged with sitemap" do
+      let!(:document1) { create :document, tags: %w[Sitemap], planning_application: planning_application }
+
+      it "links to that documents" do
+        click_button "Site map"
+        click_link "Draw digital sitemap"
+        expect(page).to have_link("View sitemap document")
+      end
+    end
+
+    context "with 2 document tagged with sitemap" do
+      let!(:document1) { create :document, tags: %w[Sitemap], planning_application: planning_application }
+      let!(:document2) { create :document, tags: %w[Sitemap], planning_application: planning_application }
+
+      it "links to all documents" do
+        click_button "Site map"
+        click_link "Draw digital sitemap"
+        expect(page).to have_content("Multiple documents have been tagged as a sitemap for this application")
+        expect(page).to have_link("View all documents")
+      end
+    end
+  end
 end

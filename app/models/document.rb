@@ -30,6 +30,7 @@ class Document < ApplicationRecord
     "Bank Statement",
     "Statutory Declaration",
     "Other",
+    "Sitemap",
   ].freeze
 
   TAGS = PLAN_TAGS + EVIDENCE_TAGS
@@ -49,6 +50,8 @@ class Document < ApplicationRecord
 
   scope :for_publication, -> { active.publishable }
   scope :for_display, -> { active.referenced }
+
+  scope :with_tag, ->(tag) { where("tags @> ?", "\"#{tag}\"") }
 
   def name
     file.filename if file.attached?

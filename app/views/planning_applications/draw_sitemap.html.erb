@@ -2,10 +2,22 @@
 <h3 class="govuk-heading-s">Red line site boundary on submission</h3>
 <p class="govuk-body">Site address: <%= @planning_application.full_address %></p>
 
+<%- sitemap_documents = @planning_application.documents.with_tag("Sitemap") %>
+<% if sitemap_documents.size == 0 %>
+  <p class="govuk-body">No document has been tagged as a sitemap for this application</p>
+  <p class="govuk-body"><%= link_to "View all documents", planning_application_documents_path(@planning_application) %></p>
+<% elsif sitemap_documents.size == 1 %>
+  <p class="govuk-body"><%= link_to "View sitemap document", edit_planning_application_document_path(@planning_application, sitemap_documents.first) %></p>
+<% elsif sitemap_documents.size > 1 %>
+  <p class="govuk-body">Multiple documents have been tagged as a sitemap for this application</p>
+  <p class="govuk-body"><%= link_to "View all documents", planning_application_documents_path(@planning_application) %></p>
+<% end %>
+
 <h3 class="govuk-heading-s">Draw the red line site boundary</h3>
 
-<%= form_with model: @planning_application, url: update_sitemap_planning_application_path(@planning_application), local: true do |form| %>
+<%= form_with model: @planning_application, url: update_sitemap_planning_application_path(@planning_application), local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
   <%= form.hidden_field :boundary_geojson %>
   <%= render "shared/interactive_map", locals: { div_id: "interactive_map", geojson: @planning_application.boundary_geojson, hidden_field_id: 'planning_application_boundary_geojson' } %>
-  <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+  <%= form.govuk_submit "Save" %>
+  <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
 <% end %>
