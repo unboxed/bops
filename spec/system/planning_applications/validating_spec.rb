@@ -34,7 +34,7 @@ RSpec.shared_examples "validate and invalidate" do
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
   end
 
-  it "can be invalidated" do
+  it "can be invalidated and email is sent when there is an open validation request" do
     create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago
 
     delivered_emails = ActionMailer::Base.deliveries.count
@@ -50,7 +50,7 @@ RSpec.shared_examples "validate and invalidate" do
     planning_application.reload
     expect(planning_application.status).to eq("invalidated")
 
-    expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails)
+    expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 1)
 
     click_button "Key application dates"
     click_link "Activity log"

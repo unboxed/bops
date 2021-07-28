@@ -292,6 +292,10 @@ class PlanningApplication < ApplicationRecord
     validation_requests.select { |req| req.overdue? && req.state == "open" }
   end
 
+  def invalidation_response_due
+    15.business_days.after(invalidated_at.to_date)
+  end
+
   def closed_requests
     validation_requests.select { |req| req.state == "closed" }
   end
