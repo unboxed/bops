@@ -106,4 +106,8 @@ FactoryBot.define do
     result_description { "" }
     result_override { "" }
   end
+
+  trait :with_boundary_geojson do
+    boundary_geojson { '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.054597,51.537331],[-0.054588,51.537287],[-0.054453,51.537313],[-0.054597,51.537331]]]}}' }
+  end
 end
