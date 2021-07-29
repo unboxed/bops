@@ -31,10 +31,10 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
     @planning_application = planning_application
 
     view_mail(
-        NOTIFY_TEMPLATE_ID,
-        subject: "Your planning application is invalid",
-        to: @planning_application.applicant_email,
-        )
+      NOTIFY_TEMPLATE_ID,
+      subject: "Your planning application is invalid",
+      to: @planning_application.applicant_email,
+    )
   end
 
   def receipt_notice_mail(planning_application, host)

@@ -116,11 +116,11 @@ class PlanningApplicationsController < AuthenticationController
       @planning_application.invalidate!
       audit("invalidated")
       invalidation_notice_mail
-      @planning_application.validation_requests.each { |request| request.update!(notified_at: Time.zone.now) }
+      @planning_application.unsent_validation_requests.each { |request| request.update!(notified_at: Time.zone.now) }
       flash[:notice] = "Application has been invalidated and email has been sent"
       redirect_to @planning_application
     else
-      @planning_application.errors.add(:planning_application, "Please create at least one validation request")
+      @planning_application.errors.add(:planning_application, "Please create at least one validation request before invalidating")
       render "validation_requests/index"
     end
   end
@@ -316,9 +316,9 @@ private
 
   def invalidation_notice_mail
     PlanningApplicationMailer.invalidation_notice_mail(
-        @planning_application,
-        request.host,
-        ).deliver_now
+      @planning_application,
+      request.host,
+    ).deliver_now
   end
 
   def receipt_notice_mail

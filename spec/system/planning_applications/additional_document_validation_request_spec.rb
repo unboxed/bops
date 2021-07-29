@@ -89,4 +89,27 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
     expect(page).to have_text("roof_plan.pdf")
     expect(page).to have_text("Applicant / Agent via Api Wizard")
   end
+
+  context "Invalidation updates additional document validation request" do
+    it "updates the notified_at date of an open request when application is invalidated" do
+      new_planning_application = create :planning_application, :not_started, local_authority: @default_local_authority
+      request = create :additional_document_validation_request, planning_application: new_planning_application, state: "open", created_at: 12.days.ago
+
+      visit planning_application_path(new_planning_application)
+      click_link "Validate application"
+
+      click_link "Start new or view existing validation requests"
+      expect(request.notified_at.class).to eql( NilClass)
+
+      click_button "Invalidate application"
+
+      expect(page).to have_content("Application has been invalidated")
+
+      new_planning_application.reload
+      expect(new_planning_application.status).to eq("invalidated")
+
+      request.reload
+      expect(request.notified_at.class).to eql(Date)
+    end
+  end
 end

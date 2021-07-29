@@ -32,6 +32,10 @@ RSpec.shared_examples "validate and invalidate" do
     expect(page).to have_text("Application validated")
     expect(page).to have_text(assessor.name)
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+
+    click_link("Application")
+    click_link("Validate application")
+    expect(page).to have_link("View notification")
   end
 
   it "can be invalidated and email is sent when there is an open validation request" do
@@ -159,8 +163,12 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     it "shows error if trying to mark as valid when open validation request exists on planning application" do
       create :description_change_validation_request, planning_application: planning_application, state: "open"
+
       click_link planning_application.reference
+
       click_link "Validate application"
+
+      expect(page).to have_content("The application has 1 unresolved validation request")
 
       click_button "Validate application"
 
@@ -255,6 +263,14 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       expect(page).not_to have_content("Validate application")
     end
+
+    it "does not allow new requests when application is determined" do
+      visit planning_application_validation_requests_path(determined_planning_application)
+
+      expect(page).not_to have_button("Invalidate application")
+      expect(page).not_to have_button("New request")
+      expect(page).not_to have_content("Add all required validation requests for this application")
+    end
   end
 
   context "Invalidation with no requests" do
@@ -264,9 +280,37 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_link "Start new or view existing validation requests"
 
+      expect(page).to have_content("Add all required validation requests for this application. Once all requests have been added, you can invalidate the application and notify the applicant that the application is invalid and they can see all validation requests")
+
       click_button "Invalidate application"
       expect(page).to have_content("Please create at least one validation request")
       expect(planning_application.status).to eql("not_started")
+    end
+  end
+
+  context "Application not started" do
+    it "shows text and links when application has not been started" do
+      visit planning_application_path(planning_application)
+      click_link "Validate application"
+
+      expect(page).to have_content("The application has not yet been marked as valid or invalid")
+      expect(page).to have_content("The application has 0 unresolved validation requests")
+
+      click_link "Start new or view existing validation requests"
+
+      expect(page).to have_content("Add all required validation requests for this application. Once all requests have been added, you can invalidate the application and notify the applicant that the application is invalid and they can see all validation requests")
+      expect(page).to have_content("The application has not yet been marked as valid or invalid")
+    end
+  end
+
+  context "Application invalidated" do
+    it "does not show the invalidate button when application is invalid" do
+      invalid_planning_application = create :planning_application, :invalidated, local_authority: @default_local_authority
+
+      visit planning_application_path(invalid_planning_application)
+      click_link "Validate application"
+
+      expect(page).to have_content("The application is marked as invalid. The applicant was notified on #{invalid_planning_application.invalidated_at.strftime('%e %B %Y')}")
     end
   end
 end

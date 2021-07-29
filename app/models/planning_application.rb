@@ -154,6 +154,10 @@ class PlanningApplication < ApplicationRecord
     decision == "refused"
   end
 
+  def validated?
+    true unless not_started? || invalidated?
+  end
+
   def granted?
     decision == "granted"
   end
@@ -274,6 +278,10 @@ class PlanningApplication < ApplicationRecord
 
   def open_validation_requests
     validation_requests.select { |request| request.state.eql?("open") }
+  end
+
+  def unsent_validation_requests
+    open_validation_requests.select { |request| request.notified_at.nil? }
   end
 
   def closed_validation_requests
