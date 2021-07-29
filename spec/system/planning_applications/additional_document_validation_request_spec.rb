@@ -99,7 +99,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       click_link "Validate application"
 
       click_link "Start new or view existing validation requests"
-      expect(request.notified_at.class).to eql( NilClass)
+      expect(request.notified_at.class).to eql(NilClass)
 
       click_button "Invalidate application"
 

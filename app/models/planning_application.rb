@@ -178,6 +178,10 @@ class PlanningApplication < ApplicationRecord
     in_assessment? || awaiting_correction?
   end
 
+  def closed?
+    determined? || returned? || withdrawn?
+  end
+
   def assessment_complete?
     (validation_complete? && pending_review?) || awaiting_determination? || determined?
   end

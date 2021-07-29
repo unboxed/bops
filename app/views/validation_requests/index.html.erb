@@ -138,6 +138,8 @@
           <%= form.submit "Invalidate application", class: "govuk-button", data: { module: "govuk-button"} %> <%= link_to "Back", validate_form_planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
         </p>
       <% end%>
+    <% else%>
+      <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
     <% end%>
   </div>
 </div>

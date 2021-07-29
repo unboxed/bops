@@ -7,7 +7,7 @@ RSpec.shared_examples "validate and invalidate" do
     create :planning_application, local_authority: @default_local_authority
   end
 
-  it "can be validated" do
+  it "can be validated and displays link to notification" do
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link planning_application.reference
     click_link "Validate application"
@@ -36,6 +36,12 @@ RSpec.shared_examples "validate and invalidate" do
     click_link("Application")
     click_link("Validate application")
     expect(page).to have_link("View notification")
+
+    click_link "View notification"
+    expect(page).to have_content(planning_application.reference)
+    expect(page).to have_content(planning_application.full_address)
+    expect(page).to have_content("Your application is now valid")
+    expect(page).to have_content(planning_application.documents_validated_at.strftime("%e %B %Y"))
   end
 
   it "can be invalidated and email is sent when there is an open validation request" do
@@ -168,7 +174,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_link "Validate application"
 
-      expect(page).to have_content("The application has 1 unresolved validation request")
+      expect(page).to have_content("This application has 1 unresolved validation request")
 
       click_button "Validate application"
 
@@ -294,7 +300,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "Validate application"
 
       expect(page).to have_content("The application has not yet been marked as valid or invalid")
-      expect(page).to have_content("The application has 0 unresolved validation requests")
+      expect(page).to have_content("This application has 0 resolved validation requests and 1 unresolved validation request")
 
       click_link "Start new or view existing validation requests"
 

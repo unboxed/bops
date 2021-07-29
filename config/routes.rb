@@ -31,6 +31,7 @@ Rails.application.routes.draw do
       get :decision_notice
       get :draw_sitemap
       patch :update_sitemap
+      get :validation_notice
     end
 
     resources :documents, only: %i[index new create edit update] do

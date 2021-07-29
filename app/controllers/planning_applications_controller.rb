@@ -23,7 +23,8 @@ class PlanningApplicationsController < AuthenticationController
                                                     cancel
                                                     draw_sitemap
                                                     update_sitemap
-                                                    decision_notice]
+                                                    decision_notice
+                                                    validation_notice]
 
   before_action :ensure_user_is_reviewer, only: %i[review review_form]
   before_action :ensure_constraint_edits_unlocked, only: %i[edit_constraints_form edit_constraints]
@@ -107,7 +108,7 @@ class PlanningApplicationsController < AuthenticationController
       audit("started")
       validation_notice_mail
       flash[:notice] = "Application is ready for assessment and applicant has been notified"
-      redirect_to @planning_application
+      render :show
     end
   end
 
@@ -118,7 +119,7 @@ class PlanningApplicationsController < AuthenticationController
       invalidation_notice_mail
       @planning_application.unsent_validation_requests.each { |request| request.update!(notified_at: Time.zone.now) }
       flash[:notice] = "Application has been invalidated and email has been sent"
-      redirect_to @planning_application
+      render :show
     else
       @planning_application.errors.add(:planning_application, "Please create at least one validation request before invalidating")
       render "validation_requests/index"
@@ -253,6 +254,10 @@ class PlanningApplicationsController < AuthenticationController
 
   def decision_notice
     render :decision_notice
+  end
+
+  def validation_notice
+    render :validation_notice
   end
 
 private

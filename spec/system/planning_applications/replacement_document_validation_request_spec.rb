@@ -96,7 +96,6 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     expect(page).to have_text("Applicant / Agent via Api Wizard")
   end
 
-
   context "Invalidation updates replacement document validation request" do
     it "updates the notified_at date of an open request when application is invalidated" do
       new_planning_application = create :planning_application, :not_started, local_authority: @default_local_authority
@@ -106,7 +105,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       click_link "Validate application"
 
       click_link "Start new or view existing validation requests"
-      expect(request.notified_at.class).to eql( NilClass)
+      expect(request.notified_at.class).to eql(NilClass)
 
       click_button "Invalidate application"
 

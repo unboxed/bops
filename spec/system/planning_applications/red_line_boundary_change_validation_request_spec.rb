@@ -107,7 +107,7 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     click_link "Validate application"
 
     click_link "Start new or view existing validation requests"
-    expect(request.notified_at.class).to eql( NilClass)
+    expect(request.notified_at.class).to eql(NilClass)
 
     click_button "Invalidate application"
 
