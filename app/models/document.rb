@@ -30,7 +30,6 @@ class Document < ApplicationRecord
     "Bank Statement",
     "Statutory Declaration",
     "Other",
-    "Sitemap",
   ].freeze
 
   TAGS = PLAN_TAGS + EVIDENCE_TAGS

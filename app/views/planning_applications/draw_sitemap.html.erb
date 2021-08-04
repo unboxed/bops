@@ -2,7 +2,7 @@
 <h3 class="govuk-heading-s">Red line site boundary on submission</h3>
 <p class="govuk-body">Site address: <%= @planning_application.full_address %></p>
 
-<%- sitemap_documents = @planning_application.documents.with_tag("Sitemap") %>
+<%- sitemap_documents = @planning_application.documents.with_tag("Site") %>
 <% if sitemap_documents.size == 0 %>
   <p class="govuk-body">No document has been tagged as a sitemap for this application</p>
   <p class="govuk-body"><%= link_to "View all documents", planning_application_documents_path(@planning_application) %></p>
