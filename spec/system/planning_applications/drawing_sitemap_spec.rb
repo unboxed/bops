@@ -84,7 +84,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
     end
 
     context "with 1 document tagged with sitemap" do
-      let!(:document1) { create :document, tags: %w[Sitemap], planning_application: planning_application }
+      let!(:document1) { create :document, tags: %w[Site], planning_application: planning_application }
 
       it "links to that documents" do
         click_button "Site map"
@@ -94,8 +94,8 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
     end
 
     context "with 2 document tagged with sitemap" do
-      let!(:document1) { create :document, tags: %w[Sitemap], planning_application: planning_application }
-      let!(:document2) { create :document, tags: %w[Sitemap], planning_application: planning_application }
+      let!(:document1) { create :document, tags: %w[Site], planning_application: planning_application }
+      let!(:document2) { create :document, tags: %w[Site], planning_application: planning_application }
 
       it "links to all documents" do
         click_button "Site map"
