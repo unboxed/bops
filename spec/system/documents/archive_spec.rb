@@ -176,6 +176,13 @@ RSpec.describe "Documents index page", type: :system do
 
       expect(page).to have_text("proposed-floorplan.png has been archived")
     end
+
+    it "User can cancel archiving journey" do
+      click_link "Cancel"
+
+      expect(page).to have_current_path(/documents/)
+      expect(page).to have_content("Check all documents to ensure they support the information")
+    end
   end
 
   context "Application that is awaiting determination" do
