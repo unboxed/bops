@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       get :archive
 
       patch :confirm_archive
+      patch :unarchive
     end
 
     resources :audits, only: :index
