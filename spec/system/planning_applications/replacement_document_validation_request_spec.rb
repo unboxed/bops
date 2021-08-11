@@ -64,7 +64,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     expect(page).to have_text(invalid_document.name.to_s)
     expect(page).to have_text("Invalid reason: Not readable")
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
-    expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails)
+    expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
   end
 
   it "does not display invalid document as an option to create a validation request if that document already has an associated validation request" do

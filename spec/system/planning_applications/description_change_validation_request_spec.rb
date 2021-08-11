@@ -52,7 +52,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     expect(page).to have_text(planning_application.description)
     expect(page).to have_text("New description")
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
-    expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails)
+    expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
   end
 
   it "only accepts a request that contains a proposed description" do
@@ -122,6 +122,45 @@ RSpec.describe "Requesting description changes to a planning application", type:
 
       request.reload
       expect(request.notified_at.class).to eql(Date)
+    end
+  end
+
+  context "Sending requests after application is invalidated" do
+    it "allows the planning officer to create and send a validation request while application is invalid" do
+      invalid_planning_application = create :planning_application, :invalidated, local_authority: @default_local_authority
+      delivered_emails = ActionMailer::Base.deliveries.count
+
+      visit planning_application_path(invalid_planning_application)
+      click_link "Validate application"
+
+      click_link "Start new or view existing validation requests"
+
+      expect(page).to have_no_button("Invalidate application")
+
+      click_link "Add new request"
+
+      within("fieldset", text: "Send a validation request") do
+        choose "Request approval to a description change"
+      end
+      click_button "Next"
+
+      fill_in "Please suggest a new application description", with: "New description"
+      click_button "Send"
+
+      within(".change-requests") do
+        expect(page).to have_content("Description")
+        expect(page).to have_content("15 days")
+      end
+
+      click_link "Application"
+      click_button "Key application dates"
+      click_link "Activity log"
+
+      expect(page).to have_text("Sent: validation request (description#1)")
+      expect(page).to have_text(invalid_planning_application.description)
+      expect(page).to have_text("New description")
+      expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+      expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
     end
   end
 end

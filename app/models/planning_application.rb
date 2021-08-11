@@ -62,7 +62,7 @@ class PlanningApplication < ApplicationRecord
     end
 
     event :invalidate do
-      transitions from: %i[not_started invalidated in_assessment awaiting_determination awaiting_correction], to: :invalidated, guard: :validation_requests_open?
+      transitions from: %i[not_started invalidated], to: :invalidated, guard: :validation_requests_open?
     end
 
     event :determine do
@@ -167,7 +167,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def can_invalidate?
-    true unless determined? || returned? || withdrawn?
+    true if not_started? || invalidated?
   end
 
   def validation_complete?

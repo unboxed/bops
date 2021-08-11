@@ -42,7 +42,7 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     expect(page).to have_text("Sent: validation request (red line boundary#1)")
     expect(page).to have_text("Coordinates look wrong")
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
-    expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails)
+    expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
   end
 
   it "only accepts a request that contains updated coordinates" do

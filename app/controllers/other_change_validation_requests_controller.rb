@@ -14,7 +14,7 @@ class OtherChangeValidationRequestsController < ApplicationController
     @other_change_validation_request.user = current_user
 
     if @other_change_validation_request.save
-      send_validation_request_email if @planning_application.invalid?
+      send_validation_request_email if @planning_application.invalidated?
 
       flash[:notice] = "Other validation change request successfully created."
       audit("other_change_validation_request_sent", audit_item(@other_change_validation_request),

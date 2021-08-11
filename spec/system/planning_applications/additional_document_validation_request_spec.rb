@@ -49,7 +49,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
     expect(page).to have_text("Document: Backyard plans")
     expect(page).to have_text("Reason: Application is missing a rear view.")
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
-    expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails)
+    expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
   end
 
   it "does not allow for a creation request without a document request reason and type" do

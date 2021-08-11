@@ -44,46 +44,10 @@ RSpec.shared_examples "validate and invalidate" do
     expect(page).to have_content(planning_application.documents_validated_at.strftime("%e %B %Y"))
   end
 
-  it "can be invalidated and email is sent when there is an open validation request" do
-    create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago
-
-    delivered_emails = ActionMailer::Base.deliveries.count
-    click_link planning_application.reference
-    click_link "Validate application"
-
-    click_link "Start new or view existing validation requests"
-
-    click_button "Invalidate application"
-
-    expect(page).to have_content("Application has been invalidated")
-
-    planning_application.reload
-    expect(planning_application.status).to eq("invalidated")
-
-    expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 1)
-
-    click_button "Key application dates"
-    click_link "Activity log"
-
-    expect(page).to have_text("Application invalidated")
-    expect(page).to have_text(assessor.name)
-    expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
-  end
-
   it "allows document edit, archive and upload after invalidation" do
     create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago
 
     click_link planning_application.reference
-    click_link "Validate application"
-
-    click_link "Start new or view existing validation requests"
-
-    click_button "Invalidate application"
-
-    expect(page).to have_content("Application has been invalidated")
-
-    planning_application.reload
-
     click_button "Documents"
     click_link "Manage documents"
     click_link "Archive"
@@ -158,6 +122,32 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "Checking documents from Not Started status" do
     include_examples "validate and invalidate"
+
+    it "can be invalidated and email is sent when there is an open validation request" do
+      create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago
+
+      delivered_emails = ActionMailer::Base.deliveries.count
+      click_link planning_application.reference
+      click_link "Validate application"
+
+      click_link "Start new or view existing validation requests"
+
+      click_button "Invalidate application"
+
+      expect(page).to have_content("Application has been invalidated")
+
+      planning_application.reload
+      expect(planning_application.status).to eq("invalidated")
+
+      expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 1)
+
+      click_button "Key application dates"
+      click_link "Activity log"
+
+      expect(page).to have_text("Application invalidated")
+      expect(page).to have_text(assessor.name)
+      expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+    end
   end
 
   context "Checking documents from Invalidated status" do
