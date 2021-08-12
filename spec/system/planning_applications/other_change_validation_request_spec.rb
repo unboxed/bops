@@ -29,7 +29,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     choose "Request other change to application"
     click_button "Next"
 
-    fill_in "Tell the applicant why the application is invalid", with: "The wrong fee has been paid"
+    fill_in "Tell the applicant another reason why the application is invalid", with: "The wrong fee has been paid"
     fill_in "Explain to the applicant how the application can be made valid", with: "You need to pay £100, which is the correct fee"
     click_button "Send"
 
@@ -55,7 +55,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     choose "Request other change to application"
     click_button "Next"
 
-    fill_in "Tell the applicant why the application is invalid", with: ""
+    fill_in "Tell the applicant another reason why the application is invalid", with: ""
     fill_in "Explain to the applicant how the application can be made valid", with: ""
     click_button "Send"
 
