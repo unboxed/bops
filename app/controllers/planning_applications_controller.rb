@@ -29,11 +29,11 @@ class PlanningApplicationsController < AuthenticationController
 
   def index
     @planning_applications = if helpers.exclude_others? && current_user.assessor?
-                               current_local_authority.planning_applications.where(user_id: current_user.id).or(
-                                 current_local_authority.planning_applications.where(user_id: nil),
+                               current_local_authority.planning_applications.where(user_id: current_user.id).order("created_at DESC").or(
+                                 current_local_authority.planning_applications.where(user_id: nil).order("created_at DESC"),
                                )
                              else
-                               current_local_authority.planning_applications.all
+                               current_local_authority.planning_applications.all.order("created_at DESC")
                              end
   end
 
