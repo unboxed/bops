@@ -131,10 +131,15 @@
             <p class="govuk-body govuk-!-margin-bottom-1">
               <%= link_to image_tag(document.file.representation(resize: "300x212")),
                           url_for_document(document), target: :_blank %>
+            </p>
             <p class="govuk-body">
               <%= document.name %><br/>
               <%= link_to "View in new window", url_for_document(document), target: :_new %>
             </p>
+            <p class="govuk-body">
+              <%= form_for document, url: planning_application_document_unarchive_path(document_id: document.id), class: "restore" do |form| %>
+                  <%= form.submit "Restore document", class: "govuk-body" %>
+              <% end %>
             </p>
           </td>
           <td class="govuk-table__cell govuk-!-width-one-quarter">
