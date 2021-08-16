@@ -12,6 +12,8 @@ Back Office Planning System (BOPS)
 
 ## Preflight
 
+Pre-installed dependencies include ImageMagick and Poppler for generating and previewing thumbnails for images and PDFs respectively.
+
 ### Clone the project
 
 ```sh
@@ -67,9 +69,9 @@ $ rails server
 #### Because of the subdomain being enforced, your app will be available on:
 
 ```
-http://southwark.local.abscond.org:3000/
+http://southwark.local.lvh.me:3000/
 or
-http://lambeth.local.abscond.org:3000/
+http://lambeth.local.lvh.me:3000/
 ```
 ##Dependencies
 
