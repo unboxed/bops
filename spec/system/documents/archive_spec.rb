@@ -144,6 +144,39 @@ RSpec.describe "Documents index page", type: :system do
     end
   end
 
+  context "restore from archive" do
+    it "Archived document can be restored" do
+      sign_in assessor
+      visit planning_application_path(planning_application)
+      click_button "Documents"
+      click_link "Manage documents"
+      click_link "Archive"
+
+      fill_in "Why do you want to archive this document?", with: "Scale was wrong"
+      click_button "Archive"
+
+      within(".archived-documents") do
+        expect(page).to have_text("Scale was wrong")
+        expect(page).to have_text("proposed-floorplan.png")
+      end
+
+      click_button "Restore document"
+
+      expect(page).to have_text("proposed-floorplan.png has been restored")
+      expect(page).to have_text("No documents archived")
+
+      within(".current-documents") do
+        expect(page).to have_text("proposed-floorplan.png")
+      end
+
+      click_link "Application"
+      click_button "Key application dates"
+      click_link "Activity log"
+
+      expect(page).to have_text("Document unarchived")
+    end
+  end
+
   context "as a reviewer" do
     before do
       sign_in reviewer
@@ -175,6 +208,13 @@ RSpec.describe "Documents index page", type: :system do
       click_button "Archive"
 
       expect(page).to have_text("proposed-floorplan.png has been archived")
+    end
+
+    it "User can cancel archiving journey" do
+      click_link "Cancel"
+
+      expect(page).to have_current_path(/documents/)
+      expect(page).to have_content("Check all documents to ensure they support the information")
     end
   end
 

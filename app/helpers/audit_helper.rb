@@ -8,6 +8,8 @@ module AuditHelper
       args.blank? ? "Application unassigned" : "Application assigned to #{args}"
     when "archived"
       "Document archived"
+    when "unarchived"
+      "Document unarchived"
     when "approved"
       "Recommendation approved"
     when "assessed"

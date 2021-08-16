@@ -32,10 +32,12 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
         boundary_geojson: (params[:boundary_geojson].to_json if params[:boundary_geojson].present?),
         proposal_details: (params[:proposal_details].to_json if params[:proposal_details].present?),
         constraints: constraints_array_from_param(params[:constraints]),
+        api_user: current_api_user,
         audit_log: params.to_json,
       ),
     )
     @planning_application.assign_attributes(site_params) if site_params.present?
+    @planning_application.assign_attributes(result_params) if result_params.present?
 
     if @planning_application.valid? && @planning_application.save!
       upload_documents(params[:files])
@@ -55,7 +57,7 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
   def upload_documents(document_params)
     unless document_params.nil?
       document_params.each do |param|
-        @planning_application.documents.create!(tags: Array(param[:tags])) do |document|
+        @planning_application.documents.create!(tags: Array(param[:tags]), applicant_description: param[:applicant_description]) do |document|
           document.file.attach(io: URI.parse(param[:filename]).open, filename: new_filename(param[:filename]).to_s)
         end
       end
@@ -113,6 +115,15 @@ private
         address_2: params[:site][:address_2],
         town: params[:site][:town],
         postcode: params[:site][:postcode] }
+    end
+  end
+
+  def result_params
+    if params[:result]
+      { result_flag: params[:result][:flag],
+        result_heading: params[:result][:heading],
+        result_description: params[:result][:description],
+        result_override: params[:result][:override] }
     end
   end
 

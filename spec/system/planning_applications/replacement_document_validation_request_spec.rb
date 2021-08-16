@@ -18,6 +18,8 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
   let!(:valid_document) { create :document }
 
+  let!(:api_user) { create :api_user, name: "Api Wizard" }
+
   before do
     travel_to Time.zone.local(2021, 1, 1)
     sign_in assessor
@@ -36,7 +38,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     )
 
     click_link "Validate application"
-    click_link "Start new or view existing requests"
+    click_link "Start new or view existing validation requests"
     click_link "Add new request"
 
     within("fieldset", text: "Send a validation request") do
@@ -67,7 +69,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     create :replacement_document_validation_request, planning_application: planning_application, old_document: invalid_document, state: "open", created_at: 12.days.ago
 
     click_link "Validate application"
-    click_link "Start new or view existing requests"
+    click_link "Start new or view existing validation requests"
     click_link "Add new request"
 
     within("fieldset", text: "Send a validation request") do
@@ -76,5 +78,19 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
     click_button "Next"
     expect(page).not_to have_content(invalid_document.name.to_s)
+  end
+
+  it "displays the details of the received request in the audit log" do
+    create :audit, planning_application_id: planning_application.id, activity_type: "replacement_document_validation_request_received", activity_information: 1, audit_comment: "floor_plan.pdf", api_user: api_user
+
+    sign_in assessor
+    visit planning_application_path(planning_application)
+
+    click_button "Key application dates"
+    click_link "Activity log"
+
+    expect(page).to have_text("Received: request for change (replacement document#1)")
+    expect(page).to have_text("floor_plan.pdf")
+    expect(page).to have_text("Applicant / Agent via Api Wizard")
   end
 end

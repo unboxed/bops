@@ -5,25 +5,32 @@
 <% content_for :title, "Edit document" %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <h1 class="govuk-heading-l" style="margin-bottom: 7px;">
-      <%= @planning_application.reference %>
-    </h1>
-
-    <p class="govuk-body">
-      <%= @planning_application.full_address %>
-    </p>
-    <%= link_to image_tag(@document.file.representation(resize: "500x500")),
+  <div class="govuk-grid-column-one-half">
+    <%= link_to image_tag(@document.file.representation(resize: "500x500"), style: 'max-width:100%'),
                 url_for_document(@document), target: :_blank %>
-
-    <p class="govuk-body">
-      File name: <%= @document.name %>
-    </p>
-
     <p class="govuk-body">
       <%= link_to "View in new window", url_for_document(@document), target: :_new %>
     </p>
+  </div>
+  <div class="govuk-grid-column-one-half">
+    <p class="govuk-body">
+      <strong>File name:</strong> <%= @document.name %>
+    </p>
 
+    <p class="govuk-body">
+      <strong>Date received:</strong> <%= @document.created_at.to_s %>
+    </p>
+
+    <p class="govuk-body">
+      <strong>Applicant reason for submitting document:</strong>
+      <% if @document.applicant_description.present? %>
+        <%= @document.applicant_description %>
+      <% else %>
+        No reason submitted
+      <% end %>
+    </p>
+  </div>
+  <div class="govuk-grid-column-full">
     <%= render 'edit_and_upload' %>
   </div>
 </div>

@@ -60,6 +60,10 @@ paths:
                     agent_last_name: Harper
                     agent_phone: '237878889'
                     agent_email: agent@example.com
+                    result_flag: 'Planning permission / Permission needed'
+                    result_heading: It looks like these changes will need planning permission
+                    result_description: Based on the information you have provided, we do not think this is eligible for a Certificate of Lawfulness
+                    result_override: This was my reason for rejecting the result
                     constraints:
                       - Conservation Area
                       - Listed Building
@@ -77,6 +81,7 @@ paths:
                         created_at: '2020-05-16T06:18:17.540+01:00'
                         tags: ['Side', 'Elevation', 'Proposed']
                         numbers: PLAN01
+                        applicant_description: 'This is the proposed side elevation'
   '/api/v1/planning_applications':
     get:
       summary: Retrieves all determined planning applications
@@ -214,6 +219,21 @@ paths:
                 applicant_email:
                   type: string
                   example: applicant@example.com
+                result:
+                  type: object
+                  properties:
+                    flag:
+                      type: string
+                      example: 'Planning permission / Permission needed'
+                    heading:
+                      type: string
+                      example: It looks like these changes will need planning permission
+                    description:
+                      type: string
+                      example: Based on the information you have provided, we do not think this is eligible for a Certificate of Lawfulness
+                    override:
+                      type: string
+                      example: This was my reason for rejecting the result
                 constraints:
                   type: object
                 files:
@@ -229,6 +249,9 @@ paths:
                         items:
                           type: string
                           example: 'Side'
+                      applicant_description:
+                        type: string
+                        example: 'This is the side plan'
                 boundary_geojson:
                   type: object
               required:
@@ -267,6 +290,11 @@ paths:
                   agent_last_name: Harper
                   agent_phone: '237878889'
                   agent_email: agent@example.com
+                  result:
+                    flag: 'Planning permission / Permission needed'
+                    heading: It looks like these changes will need planning permission
+                    description: Based on the information you have provided, we do not think this is eligible for a Certificate of Lawfulness
+                    override: This was my reason for rejecting the result
                   proposal_details:
                     - question: What do you want to do?
                       responses:
@@ -305,9 +333,6 @@ paths:
                     - question: Will any part of the new structure be forward of the front of the original house?
                       responses:
                         - value: 'No'
-                    - question: How many storeys will the new structure have?
-                      responses:
-                        - value: '1'
                     - question: Will any part of the pool be forward of the front of the original house?
                       responses:
                         - value: 'No'
@@ -356,16 +381,19 @@ paths:
                         - value: 'No'
                       metadata:
                         auto_answered: true
-                    - question: Will the new addition allow you to do an acitivity that most houses do not provide a dedicated space for?
+                    - question: Will the new addition allow you to do an activity that most houses do not provide a dedicated space for?
                       responses:
                         - value: 'Yes'
                       metadata:
                         notes: It will allow me to exercise on a regular basis and generate energy
+                        flags:
+                          - 'Planning permission / Permission needed'
                   constraints:
                     conservation_area: true
                     protected_trees: false
                   files:
                     - filename: https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf
+                      applicant_description: 'This is the side plan'
                       tags:
                         - Side
                   boundary_geojson:

@@ -20,6 +20,8 @@ class PlanningApplicationsController < AuthenticationController
                                                     edit_constraints
                                                     cancel_confirmation
                                                     cancel
+                                                    draw_sitemap
+                                                    update_sitemap
                                                     decision_notice]
 
   before_action :ensure_user_is_reviewer, only: %i[review review_form]
@@ -27,11 +29,11 @@ class PlanningApplicationsController < AuthenticationController
 
   def index
     @planning_applications = if helpers.exclude_others? && current_user.assessor?
-                               current_local_authority.planning_applications.where(user_id: current_user.id).or(
-                                 current_local_authority.planning_applications.where(user_id: nil),
+                               current_local_authority.planning_applications.where(user_id: current_user.id).order("created_at DESC").or(
+                                 current_local_authority.planning_applications.where(user_id: nil).order("created_at DESC"),
                                )
                              else
-                               current_local_authority.planning_applications.all
+                               current_local_authority.planning_applications.all.order("created_at DESC")
                              end
   end
 
@@ -182,6 +184,24 @@ class PlanningApplicationsController < AuthenticationController
     flash[:notice] = "Decision Notice sent to applicant"
 
     redirect_to @planning_application
+  end
+
+  def draw_sitemap; end
+
+  def update_sitemap
+    new_map = @planning_application.boundary_geojson.blank?
+    @planning_application.boundary_geojson = params[:planning_application][:boundary_geojson]
+    @planning_application.boundary_created_by = current_user
+    @planning_application.save!
+
+    if new_map
+      audit("red_line_created", "Red line drawing created")
+    else
+      audit("red_line_updated", "Red line drawing updated")
+    end
+
+    flash[:notice] = "Site boundary has been updated"
+    redirect_to planning_application_path(@planning_application)
   end
 
   def edit_constraints_form; end

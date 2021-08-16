@@ -6,7 +6,7 @@ class DocumentsController < AuthenticationController
   before_action :set_planning_application
   before_action :set_document, only: %i[archive confirm_archive]
   before_action :disable_flash_header, only: :index
-  before_action :ensure_document_edits_unlocked, only: %i[new edit update archive]
+  before_action :ensure_document_edits_unlocked, only: %i[new edit update archive unarchive]
 
   def index
     @documents = @planning_application.documents.order(:created_at)
@@ -33,6 +33,15 @@ class DocumentsController < AuthenticationController
 
   def archive
     render :archive
+  end
+
+  def unarchive
+    @document = @planning_application.documents.find(params[:document_id])
+    @document.update!(archived_at: nil)
+    audit("unarchived", @document.file.filename)
+    flash[:notice] = "#{@document.name} has been restored"
+
+    redirect_to action: :index
   end
 
   def new

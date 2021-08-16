@@ -7,7 +7,7 @@ RSpec.describe "Edit document", type: :system do
     create :planning_application,
            local_authority: @default_local_authority
   end
-  let!(:document) { create :document, :with_file, planning_application: planning_application }
+  let!(:document) { create :document, :with_file, planning_application: planning_application, applicant_description: "This file shows the drawing" }
   let(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
 
   context "as a user who is not logged in" do
@@ -27,6 +27,7 @@ RSpec.describe "Edit document", type: :system do
     it "with valid data" do
       click_link "Edit"
 
+      expect(page).to have_content("This file shows the drawing")
       attach_file("Upload a replacement file", "spec/fixtures/images/proposed-roofplan.pdf")
       fill_in "Document reference(s)", with: "DOC001"
 

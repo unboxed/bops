@@ -28,12 +28,15 @@ Rails.application.routes.draw do
       patch :edit_constraints
       get :cancel_confirmation
       get :decision_notice
+      get :draw_sitemap
+      patch :update_sitemap
     end
 
     resources :documents, only: %i[index new create edit update] do
       get :archive
 
       patch :confirm_archive
+      patch :unarchive
     end
 
     resources :audits, only: :index

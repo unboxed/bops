@@ -145,4 +145,8 @@ module PlanningApplicationHelper
       planning_application.returned_at
     end
   end
+
+  def display_number(proposal_details, element)
+    proposal_details.find_index(element) + 1
+  end
 end

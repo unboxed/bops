@@ -9,7 +9,7 @@ class Api::V1::OtherChangeValidationRequestsController < Api::V1::ApplicationCon
       @other_change_validation_request.update!(state: "closed")
 
       audit("other_change_validation_request_received", audit_item(@other_change_validation_request),
-            @other_change_validation_request.sequence)
+            @other_change_validation_request.sequence, current_api_user)
 
       render json: { "message": "Change request updated" }, status: :ok
     else

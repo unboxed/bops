@@ -13,7 +13,7 @@ class Api::V1::AdditionalDocumentValidationRequestsController < Api::V1::Applica
     if @additional_document_validation_request.save
 
       audit("additional_document_validation_request_received", document_audit_item(new_document),
-            @additional_document_validation_request.sequence)
+            @additional_document_validation_request.sequence, current_api_user)
 
       render json: { "message": "Validation request updated" }, status: :ok
     else

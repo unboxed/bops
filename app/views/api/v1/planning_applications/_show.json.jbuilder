@@ -18,6 +18,10 @@ json.extract! planning_application,
               :in_assessment_at,
               :payment_reference,
               :payment_amount,
+              :result_flag,
+              :result_heading,
+              :result_description,
+              :result_override,
               :returned_at,
               :started_at,
               :status,
@@ -46,5 +50,6 @@ json.documents planning_application.documents.for_publication do |document|
   json.extract! document,
                 :created_at,
                 :tags,
-                :numbers
+                :numbers,
+                :applicant_description
 end

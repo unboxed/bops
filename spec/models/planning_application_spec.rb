@@ -374,4 +374,17 @@ RSpec.describe PlanningApplication, type: :model do
       expect(planning_application.expiry_date).to eq((planning_application.documents_validated_at + 8.weeks).to_date)
     end
   end
+
+  describe "parsed_application_type" do
+    subject(:planning_application) { create :planning_application }
+
+    it "correctly returns the application type for lawfulness certificate" do
+      expect(planning_application.parsed_application_type).to eq "Certificate of Lawfulness"
+    end
+
+    it "correctly returns the application type for full" do
+      planning_application.update!(application_type: "full")
+      expect(planning_application.parsed_application_type).to eql("Full")
+    end
+  end
 end

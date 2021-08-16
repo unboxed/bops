@@ -16,6 +16,8 @@ class PlanningApplication < ApplicationRecord
   has_many :red_line_boundary_change_validation_requests, dependent: :destroy
 
   belongs_to :user, optional: true
+  belongs_to :api_user, optional: true
+  belongs_to :boundary_created_by, class_name: "User", optional: true
   belongs_to :local_authority
 
   before_create :set_key_dates
@@ -207,12 +209,30 @@ class PlanningApplication < ApplicationRecord
     may_assess? && !pending_review?
   end
 
+  def officer_can_draw_boundary?
+    not_started? || invalidated?
+  end
+
   def pending_or_new_recommendation
     recommendations.pending_review.last || recommendations.build
   end
 
   def parsed_proposal_details
     proposal_details.present? ? JSON.parse(proposal_details) : []
+  end
+
+  def proposal_details_with_metadata
+    parsed_proposal_details.select { |proposal| proposal["metadata"].present? }
+  end
+
+  def proposal_details_with_flags
+    proposal_details_with_metadata.select { |proposal| proposal["metadata"]["flags"].present? }
+  end
+
+  def flagged_proposal_details(flag)
+    proposal_details_with_flags.select do |proposal|
+      proposal["metadata"]["flags"].include?(flag)
+    end
   end
 
   def full_address
@@ -233,6 +253,10 @@ class PlanningApplication < ApplicationRecord
 
   def invalid_documents
     documents.active.invalidated
+  end
+
+  def result_present?
+    [result_flag, result_heading, result_description, result_override].any?(&:present?)
   end
 
   def validation_requests
@@ -257,6 +281,17 @@ class PlanningApplication < ApplicationRecord
 
   def closed_requests
     validation_requests.select { |req| req.state == "closed" }
+  end
+
+  def parsed_application_type
+    case application_type
+    when "lawfulness_certificate"
+      "Certificate of Lawfulness"
+    when "full"
+      "Full"
+    else
+      application_type.humanize
+    end
   end
 
 private

@@ -50,6 +50,8 @@ class Document < ApplicationRecord
   scope :for_publication, -> { active.publishable }
   scope :for_display, -> { active.referenced }
 
+  scope :with_tag, ->(tag) { where("tags @> ?", "\"#{tag}\"") }
+
   def name
     file.filename if file.attached?
   end

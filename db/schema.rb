@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_30_202753) do
+ActiveRecord::Schema.define(version: 2021_07_27_123609) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
-    t.index ["blob_id"], name: "ix_active_storage_attachments_on_blob_id"
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.string "service_name", null: false
-    t.index ["key"], name: "ix_active_storage_blobs_on_key", unique: true
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
@@ -54,9 +54,9 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "sequence"
-    t.index ["new_document_id"], name: "ix_additional_document_validation_requests_on_new_document_id"
-    t.index ["planning_application_id"], name: "ix_additional_document_validation_requests_on_planning_applicat"
-    t.index ["user_id"], name: "ix_additional_document_validation_requests_on_user_id"
+    t.index ["new_document_id"], name: "index_document_create_requests_on_new_document_id"
+    t.index ["planning_application_id"], name: "index_document_create_requests_on_planning_application_id"
+    t.index ["user_id"], name: "index_document_create_requests_on_user_id"
   end
 
   create_table "api_users", force: :cascade do |t|
@@ -75,9 +75,9 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "api_user_id"
-    t.index ["api_user_id"], name: "ix_audits_on_api_user_id"
-    t.index ["planning_application_id"], name: "ix_audits_on_planning_application_id"
-    t.index ["user_id"], name: "ix_audits_on_user_id"
+    t.index ["api_user_id"], name: "index_audits_on_api_user_id"
+    t.index ["planning_application_id"], name: "index_audits_on_planning_application_id"
+    t.index ["user_id"], name: "index_audits_on_user_id"
   end
 
   create_table "description_change_validation_requests", force: :cascade do |t|
@@ -91,8 +91,8 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "previous_description"
     t.integer "sequence"
-    t.index ["planning_application_id"], name: "ix_description_change_validation_requests_on_planning_applicati"
-    t.index ["user_id"], name: "ix_description_change_validation_requests_on_user_id"
+    t.index ["planning_application_id"], name: "index_description_change_requests_on_planning_application_id"
+    t.index ["user_id"], name: "index_description_change_requests_on_user_id"
   end
 
   create_table "documents", force: :cascade do |t|
@@ -107,7 +107,8 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.boolean "referenced_in_decision_notice", default: false
     t.boolean "validated"
     t.text "invalidated_document_reason"
-    t.index ["planning_application_id"], name: "ix_documents_on_planning_application_id"
+    t.text "applicant_description"
+    t.index ["planning_application_id"], name: "index_documents_on_planning_application_id"
   end
 
   create_table "local_authorities", force: :cascade do |t|
@@ -119,7 +120,7 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.string "signatory_job_title"
     t.text "enquiries_paragraph"
     t.string "email_address"
-    t.index ["subdomain"], name: "ix_local_authorities_on_subdomain", unique: true
+    t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 
   create_table "other_change_validation_requests", force: :cascade do |t|
@@ -180,8 +181,16 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.string "change_access_id"
     t.date "expiry_date"
     t.integer "payment_amount"
-    t.index ["local_authority_id"], name: "ix_planning_applications_on_local_authority_id"
-    t.index ["user_id"], name: "ix_planning_applications_on_user_id"
+    t.string "result_flag"
+    t.text "result_heading"
+    t.text "result_description"
+    t.string "result_override"
+    t.bigint "api_user_id"
+    t.bigint "boundary_created_by_id"
+    t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
+    t.index ["boundary_created_by_id"], name: "ix_planning_applications_on_boundary_created_by_id"
+    t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
+    t.index ["user_id"], name: "index_planning_applications_on_user_id"
   end
 
   create_table "recommendations", force: :cascade do |t|
@@ -194,9 +203,9 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "challenged"
-    t.index ["assessor_id"], name: "ix_recommendations_on_assessor_id"
-    t.index ["planning_application_id"], name: "ix_recommendations_on_planning_application_id"
-    t.index ["reviewer_id"], name: "ix_recommendations_on_reviewer_id"
+    t.index ["assessor_id"], name: "index_recommendations_on_assessor_id"
+    t.index ["planning_application_id"], name: "index_recommendations_on_planning_application_id"
+    t.index ["reviewer_id"], name: "index_recommendations_on_reviewer_id"
   end
 
   create_table "red_line_boundary_change_validation_requests", force: :cascade do |t|
@@ -206,9 +215,9 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.string "new_geojson"
     t.string "reason"
     t.string "rejection_reason"
-    t.boolean "approved"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "approved"
     t.integer "sequence"
   end
 
@@ -221,10 +230,10 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "sequence"
-    t.index ["new_document_id"], name: "ix_replacement_document_validation_requests_on_new_document_id"
-    t.index ["old_document_id"], name: "ix_replacement_document_validation_requests_on_old_document_id"
-    t.index ["planning_application_id"], name: "ix_replacement_document_validation_requests_on_planning_applica"
-    t.index ["user_id"], name: "ix_replacement_document_validation_requests_on_user_id"
+    t.index ["new_document_id"], name: "index_document_change_requests_on_new_document_id"
+    t.index ["old_document_id"], name: "index_document_change_requests_on_old_document_id"
+    t.index ["planning_application_id"], name: "index_document_change_requests_on_planning_application_id"
+    t.index ["user_id"], name: "index_document_change_requests_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -238,9 +247,9 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
     t.integer "role", default: 0
     t.string "name"
     t.bigint "local_authority_id"
-    t.index ["email", "local_authority_id"], name: "ix_users_on_email__local_authority_id", unique: true
-    t.index ["local_authority_id"], name: "ix_users_on_local_authority_id"
-    t.index ["reset_password_token"], name: "ix_users_on_reset_password_token", unique: true
+    t.index ["email", "local_authority_id"], name: "index_users_on_email_and_local_authority_id", unique: true
+    t.index ["local_authority_id"], name: "index_users_on_local_authority_id"
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -254,7 +263,9 @@ ActiveRecord::Schema.define(version: 2021_06_30_202753) do
   add_foreign_key "description_change_validation_requests", "users"
   add_foreign_key "other_change_validation_requests", "planning_applications"
   add_foreign_key "other_change_validation_requests", "users"
+  add_foreign_key "planning_applications", "api_users"
   add_foreign_key "planning_applications", "users"
+  add_foreign_key "planning_applications", "users", column: "boundary_created_by_id"
   add_foreign_key "recommendations", "planning_applications"
   add_foreign_key "recommendations", "users", column: "assessor_id"
   add_foreign_key "recommendations", "users", column: "reviewer_id"
