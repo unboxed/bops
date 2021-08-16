@@ -35,7 +35,6 @@ class PlanningApplication < ApplicationRecord
   validate :documents_validated_at_date
   validate :public_comment_present
   validate :decision_with_recommendations
-  # validate :can_invalidate
 
   scope :not_started_and_invalid, -> { where("status = 'not_started' OR status = 'invalidated'") }
   scope :under_assessment, -> { where("status = 'in_assessment' OR status = 'awaiting_correction'") }
