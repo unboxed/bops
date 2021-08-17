@@ -55,6 +55,18 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
     end
   end
 
+  context "when application has a boundary created by the applicant" do
+    let!(:planning_application) do
+      create :planning_application, :with_boundary_geojson, local_authority: @default_local_authority
+    end
+
+    it "is not possible to redraw a sitemap" do
+      click_button "Site map"
+      expect(page).to have_content("Sitemap drawn by Applicant")
+      expect(page).not_to have_link("Redraw digital sitemap")
+    end
+  end
+
   context "when application is already validated and has a boundary" do
     let!(:planning_application) do
       create :planning_application, :with_boundary_geojson, local_authority: @default_local_authority

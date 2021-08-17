@@ -88,7 +88,7 @@
         </p>
         <% if @planning_application.officer_can_draw_boundary? %>
           <p class="govuk-body">
-            <%= link_to "Redraw digital sitemap", draw_sitemap_planning_application_path(@planning_application) %>
+            <%= link_to "Redraw digital sitemap", draw_sitemap_planning_application_path(@planning_application) if @planning_application.boundary_created_by.present? %>
           </p>
         <% end %>
         <%= render "shared/location_map", locals: { div_id: "accordion_map", geojson: @planning_application.boundary_geojson } %>
