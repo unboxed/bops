@@ -106,7 +106,7 @@
     <%= planning_application.local_authority.signatory_job_title %>
   </p>
   <% if @planning_application.boundary_geojson.present? %>
-    <%= render "shared/location_map", locals: { div_id: "decision_map", geojson: @planning_application.boundary_geojson } %>
+    <%= render "shared/location_map", locals: { geojson: @planning_application.boundary_geojson } %>
   <% else %>
     <p class="govuk-body">No digital sitemap provided</p>
   <% end %>
