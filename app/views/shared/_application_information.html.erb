@@ -91,7 +91,7 @@
             <%= link_to "Redraw digital sitemap", draw_sitemap_planning_application_path(@planning_application) %>
           </p>
         <% end %>
-        <%= render "shared/location_map", locals: { div_id: "accordion_map", geojson: @planning_application.boundary_geojson } %>
+        <%= render "shared/location_map", locals: { in_accordion: true, geojson: @planning_application.boundary_geojson } %>
       <% else %>
         <p class="govuk-body">No digital sitemap provided</p>
         <% if @planning_application.officer_can_draw_boundary? %>
