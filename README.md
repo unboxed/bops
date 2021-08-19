@@ -64,12 +64,12 @@ $ JS_DRIVER=selenium_chrome rspec spec/system/log_in_spec.rb
 $ rails server
 ```
 
-#### Because of the subdomain being enforced, your app will be available on:
+#### Because of the subdomain being enforced, you will need to use Chrome or Firefox to test subdomains (unless you configure your own computer etc file for this to work on any browser):
 
 ```
-http://southwark.local.abscond.org:3000/
+http://southwark.southwark.localhost:3000/
 or
-http://lambeth.local.abscond.org:3000/
+http://lambeth.lambeth.localhost:3000/
 ```
 ##Dependencies
 
@@ -96,6 +96,15 @@ Once you have the application running, you can submit planning application throu
 
 [1]: https://www.docker.com/products/docker-desktop
 [2]: http://localhost:3000/
+
+## Working with the bops-applicants front end
+
+When testing bops-applicants emails on localhost, you will need to export the APPLICANTS_APP_HOST variable, with defines the link being sent in emails from bops. Running bops applicants on port 3001 for southwark for ex:
+
+```
+export APPLICANTS_APP_HOST=southwark.southwark.localhost:3001
+```
+
 
 ## Working with api documentation: aggregate swagger files
 
