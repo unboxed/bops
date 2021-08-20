@@ -15,7 +15,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
   let!(:reviewer) { create :user, :reviewer, local_authority: local_authority }
   let!(:assessor) { create :user, :assessor, local_authority: local_authority }
-  let!(:planning_application) { create(:planning_application, :determined, local_authority: local_authority, decision: "granted") }
+  let!(:planning_application) { create(:planning_application, :determined, agent_email: "cookie_crackers@example.com", applicant_email: "cookie_crumbs@example.com", local_authority: local_authority, decision: "granted") }
   let(:host) { "default.example.com" }
   let!(:validation_request) { create(:description_change_validation_request, planning_application: planning_application, user: assessor) }
 
@@ -37,7 +37,19 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "renders the headers" do
       expect(mail.subject).to eq("Certificate of Lawfulness: granted")
+    end
+
+    it "emails the applicant when only the applicant is present" do
+      planning_application.update!(agent_email: "")
+      mail = described_class.decision_notice_mail(planning_application.reload, host)
+
       expect(mail.to).to eq([planning_application.applicant_email])
+    end
+
+    it "emails both applicant and agent when both are present" do
+      expect(mail.subject).to eq("Certificate of Lawfulness: granted")
+      expect(mail.to).to eq([planning_application.agent_email])
+      expect(mail.bcc).to eq([planning_application.applicant_email])
     end
 
     it "renders the body" do
@@ -73,7 +85,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "renders the headers" do
       expect(invalidation_mail.subject).to eq("Your planning application is invalid")
-      expect(invalidation_mail.to).to eq([planning_application.applicant_email])
+      expect(invalidation_mail.to).to eq([planning_application.agent_email])
+      expect(invalidation_mail.bcc).to eq([planning_application.applicant_email])
     end
 
     it "renders the body" do
@@ -91,7 +104,11 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "renders the headers" do
       expect(validation_mail.subject).to eq("Your planning application has been validated")
-      expect(validation_mail.to).to eq([planning_application.applicant_email])
+      if planning_application.agent_email.present?
+        expect(validation_mail.to).to eq([planning_application.agent_email])
+      else
+        expect(validation_mail.to).to eq([planning_application.applicant_email])
+      end
     end
 
     it "renders the body" do
@@ -111,7 +128,11 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "renders the headers" do
       expect(validation_request_mail.subject).to eq("Your planning application at: #{planning_application.full_address}")
-      expect(validation_request_mail.to).to eq([planning_application.applicant_email])
+      if planning_application.agent_email.present?
+        expect(validation_request_mail.to).to eq([planning_application.agent_email])
+      else
+        expect(validation_request_mail.to).to eq([planning_application.applicant_email])
+      end
     end
 
     it "renders the body" do
@@ -133,7 +154,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "renders the headers" do
       expect(receipt_mail.subject).to eq("We have received your application")
-      expect(receipt_mail.to).to eq([planning_application.applicant_email])
+      expect(receipt_mail.to).to eq([planning_application.agent_email])
+      expect(receipt_mail.bcc).to eq([planning_application.applicant_email])
     end
 
     it "renders the body" do
