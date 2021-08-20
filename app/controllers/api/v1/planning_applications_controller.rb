@@ -48,7 +48,7 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
         activity_information: current_api_user.name,
       )
       send_success_response
-      receipt_notice_mail if @planning_application.applicant_email.present?
+      receipt_notice_mail if @planning_application.agent_email.present? || @planning_application.applicant_email.present?
     else
       send_failed_response
     end
