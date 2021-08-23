@@ -38,4 +38,14 @@ module ValidationRequestHelper
       "green"
     end
   end
+
+  def request_sent_at(validation_request)
+    validation_request.notified_at.strftime("%e %B %Y") if validation_request.notified_at.present?
+  end
+
+  def request_closed_at(validation_request)
+    if validation_request.state == "closed"
+      validation_request.updated_at.strftime("%e %B %Y")
+    end
+  end
 end

@@ -17,20 +17,26 @@
           <table class="govuk-table change-requests">
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
+                <th scope="col" class="govuk-table__header">
                   Request
                 </th>
-                <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
+                <th scope="col" class="govuk-table__header">
+                  Sent
+                </th>
+                <th scope="col" class="govuk-table__header">
                   Detail
                 </th>
-                <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
+                <th scope="col" class="govuk-table__header">
                   Reason
                 </th>
                 <th scope="col" class="govuk-table__header">
-                  Time remaining
+                  Status
                 </th>
-                <th scope="col" class="govuk-table__header govuk-!-width-one-third">
-                  Applicant response
+                <th scope="col" class="govuk-table__header">
+                  Response received
+                </th>
+                <th scope="col" class="govuk-table__header">
+                  Response
                 </th>
               </tr>
             </thead>
@@ -40,6 +46,9 @@
                   <% if validation_request.class.name == "DescriptionChangeValidationRequest" %>
                     <td class="govuk-table__cell change-request-list">
                       Change of description
+                    </td>
+                    <td class="govuk-table__cell change-request-list">
+                      <%= request_sent_at(validation_request) %>
                     </td>
                     <td class="govuk-table__cell change-request-list">
                       New description: <%= validation_request.proposed_description %>
@@ -52,6 +61,9 @@
                         Other
                       </td>
                       <td class="govuk-table__cell change-request-list">
+                        <%= request_sent_at(validation_request) %>
+                      </td>
+                      <td class="govuk-table__cell change-request-list">
                         <%= validation_request.summary %>
                       </td>
                       <td class="govuk-table__cell change-request-list">
@@ -60,6 +72,9 @@
                   <% elsif validation_request.class.name == "ReplacementDocumentValidationRequest" %>
                     <td class="govuk-table__cell change-request-list">
                       Replacement document
+                    </td>
+                    <td class="govuk-table__cell change-request-list">
+                      <%= request_sent_at(validation_request) %>
                     </td>
                     <td class="govuk-table__cell change-request-list limit-column-width">
                       <%= validation_request.old_document.name %>
@@ -72,6 +87,9 @@
                       New document
                     </td>
                     <td class="govuk-table__cell change-request-list">
+                      <%= request_sent_at(validation_request) %>
+                    </td>
+                    <td class="govuk-table__cell change-request-list">
                       <%= validation_request.document_request_type %>
                     </td>
                     <td class="govuk-table__cell change-request-list">
@@ -80,6 +98,9 @@
                   <% elsif validation_request.class.name == "RedLineBoundaryChangeValidationRequest" %>
                     <td class="govuk-table__cell change-request-list">
                       Red line boundary changes
+                    </td>
+                    <td class="govuk-table__cell change-request-list">
+                      <%= request_sent_at(validation_request) %>
                     </td>
                     <td class="govuk-table__cell change-request-list">
                       <%= link_to "View proposed red line boundary", planning_application_red_line_boundary_change_validation_request_path(@planning_application, validation_request) %>
@@ -98,6 +119,9 @@
                         <%= request_state(validation_request) %>
                       </strong>
                     <% end %>
+                  </td>
+                  <td class="govuk-table__cell limit-column-width">
+                    <%= request_closed_at(validation_request)  %>
                   </td>
                   <td class="govuk-table__cell limit-column-width">
                     <%= applicant_response(validation_request) %>
