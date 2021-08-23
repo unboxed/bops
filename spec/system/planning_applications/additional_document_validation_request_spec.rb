@@ -39,7 +39,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
     fill_in "Please specify the reason you have requested this document?", with: "Application is missing a rear view."
 
     click_button "Send"
-    expect(page).to have_content("Document create request successfully created.")
+    expect(page).to have_content("Additional document request successfully created.")
 
     click_link "Application"
     click_button "Key application dates"
@@ -73,7 +73,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
     fill_in "Please specify the new document type:", with: "Floor plan"
     click_button "Send"
 
-    expect(page).to have_content("Document create request successfully created.")
+    expect(page).to have_content("Additional document request successfully created.")
   end
 
   it "displays the details of the received request in the audit log" do

@@ -121,7 +121,7 @@ class PlanningApplicationsController < AuthenticationController
       flash[:notice] = "Application has been invalidated and email has been sent"
       render :show
     else
-      @planning_application.errors.add(:planning_application, "Please create at least one validation request before invalidating")
+      flash[:error] = "Please create at least one validation request before invalidating"
       render "validation_requests/index"
     end
   end

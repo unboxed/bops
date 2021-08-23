@@ -8,7 +8,7 @@ class AdditionalDocumentValidationRequestsController < ApplicationController
     @additional_document_validation_request.user = current_user
 
     if @additional_document_validation_request.save
-      flash[:notice] = "Document create request successfully created."
+      flash[:notice] = "Additional document request successfully created."
       send_validation_request_email if @planning_application.invalidated?
       audit("additional_document_validation_request_sent", document_create_audit_item(@additional_document_validation_request),
             @additional_document_validation_request.sequence)
