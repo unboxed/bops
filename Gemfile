@@ -24,7 +24,7 @@ gem "mini_magick"
 gem "pdfkit"
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 4"
-gem "rails", "~> 6.1.3.2"
+gem "rails", "~> 6.1.4"
 gem "rswag-ui"
 gem "webpacker", "~> 5.4"
 
