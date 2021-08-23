@@ -1,6 +1,7 @@
 # <%= @planning_application.local_authority.name %>
 
 # Town and country planning act 1990 (as amended)
+# Town and country planning (development management procedure) Order 2015 (as amended)
 
 Dear Sir/Madam,
 
@@ -8,21 +9,23 @@ Reference No.: <%= @planning_application.reference %>
 Proposal: <%= @planning_application.description %>
 Site Address: <%= @planning_application.full_address %>
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Thank you for your planning application received on <%= @planning_application.created_at.strftime("%e %B %Y") %>. Unfortunately your application is invalid and has not been registered.
 
-<%= @planning_application.validation_requests.last.user.name %>, the case officer working on your planning application has requested change(s) on your application.
+To review the reasons for invalidation and make the changes required, please follow the link below:
 
-To review the requested change please follow the link below:
+<%= @planning_application.secure_change_url(@planning_application.id, @planning_application.change_access_id) %>
 
-Review requested actions: <%= @planning_application.secure_change_url(@planning_application.id, @planning_application.change_access_id) %>
+If your amendments contain further errors, your application will be returned to you again.
 
-If we don't hear from you:
+If we don’t hear from you:
 
-We will take no further action on your application until you submit the following change(s).
+We will take no further action on your application until you make the necessary the change(s) to your application.
 
 If these change(s) are not received by <%= @planning_application.invalidation_response_due.strftime("%e %B %Y") %>, your application will be returned to you and your payment refunded.
 
-Signed: <%= @planning_application.local_authority.signatory_name %>
+Yours faithfully,
+
+<%= @planning_application.local_authority.signatory_name %>
 <%= @planning_application.local_authority.signatory_job_title %>
 
 Your attention is drawn to the notes accompanying this document
@@ -34,14 +37,3 @@ the
 <%= @planning_application.local_authority.enquiries_paragraph %>
 or by email to <%= @planning_application.local_authority.email_address %>
 
-Your proposal may also require approval under the Building Regulations and you should contact our Building Control team.
-
-A Community Infrastructure Levy (CIL) charge may be applicable to your application. Further information is available here: https://www.gov.uk/guidance/community-infrastructure-levy
-
-Please Note: In light of the COVID-19 situation, we are following the current advice from the government to minimise travelling and non-essential contact.
-
-We are fully committed to helping reduce the spread of the virus by following national guidance, whilst ensuring we continue to provide essential services in our business continuity plans. In accordance with government advice, we have to minimise non-essential contact with service users. Therefore if your application requires a site visit/meeting it may be necessary to delay this to an appropriate time. To avoid/minimise delay you can send us additional information, like site photographs, for us to review together with your application documents.
-
-We apologise for the inconvenience any delays in the determination of your application will cause you.
-
-Thank you for your understanding, support and patience during this period. I will keep you updated if anything changes.

@@ -77,7 +77,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "renders the body" do
-      expect(invalidation_mail.body.encoded).to include("Review requested actions: http://cookies.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}")
+      expect(invalidation_mail.body.encoded).to include("http://cookies.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}")
       expect(invalidation_mail.body.encoded).to include("Site Address: #{planning_application.full_address}")
       expect(invalidation_mail.body.encoded).to include("Reference No.: #{planning_application.reference}")
       expect(invalidation_mail.body.encoded).to include("Proposal: #{planning_application.description}")
