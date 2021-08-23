@@ -62,6 +62,28 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
   end
 
+  describe "#invalidation_notice_mail" do
+    let!(:planning_application) { create(:planning_application, :invalidated, local_authority: local_authority) }
+
+    let!(:validation_request) { create(:description_change_validation_request, planning_application: planning_application, user: assessor) }
+
+    let(:invalidation_mail) { described_class.invalidation_notice_mail(planning_application, host) }
+
+    ENV["APPLICANTS_APP_HOST"] = "example.com"
+
+    it "renders the headers" do
+      expect(invalidation_mail.subject).to eq("Your planning application is invalid")
+      expect(invalidation_mail.to).to eq([planning_application.applicant_email])
+    end
+
+    it "renders the body" do
+      expect(invalidation_mail.body.encoded).to include("http://cookies.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}")
+      expect(invalidation_mail.body.encoded).to include("Site Address: #{planning_application.full_address}")
+      expect(invalidation_mail.body.encoded).to include("Reference No.: #{planning_application.reference}")
+      expect(invalidation_mail.body.encoded).to include("Proposal: #{planning_application.description}")
+    end
+  end
+
   describe "#validation_notice_mail" do
     let(:validation_mail) { described_class.validation_notice_mail(planning_application, host) }
 

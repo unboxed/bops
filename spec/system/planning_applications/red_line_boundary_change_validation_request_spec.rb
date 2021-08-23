@@ -12,6 +12,7 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
   let!(:api_user) { create :api_user, name: "Api Wizard" }
 
   it "is possible to create a request to update map boundary" do
+    delivered_emails = ActionMailer::Base.deliveries.count
     sign_in assessor
     visit planning_application_path(planning_application)
     click_link "Validate application"
@@ -27,7 +28,7 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: "Coordinates look wrong"
     click_button "Send"
 
-    expect(page).to have_content("Validation request for red line boundary successfully sent.")
+    expect(page).to have_content("Validation request for red line boundary successfully created.")
     expect(page).to have_link("View proposed red line boundary")
     expect(page).to have_content("Coordinates look wrong")
 
@@ -41,9 +42,7 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     expect(page).to have_text("Sent: validation request (red line boundary#1)")
     expect(page).to have_text("Coordinates look wrong")
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
-
-    email = ActionMailer::Base.deliveries.last
-    expect(email.body).to have_content(planning_application.reference)
+    expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
   end
 
   it "only accepts a request that contains updated coordinates" do
@@ -97,5 +96,27 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     expect(page).to have_text("The boundary was too small")
     expect(page).to have_text("rejected")
     expect(page).to have_text("Applicant / Agent via Api Wizard")
+  end
+
+  it "updates the notified_at date of an open request when application is invalidated" do
+    new_planning_application = create :planning_application, :not_started, local_authority: @default_local_authority
+    request = create :red_line_boundary_change_validation_request, planning_application: new_planning_application, state: "open", created_at: 12.days.ago
+
+    sign_in assessor
+    visit planning_application_path(new_planning_application)
+    click_link "Validate application"
+
+    click_link "Start new or view existing validation requests"
+    expect(request.notified_at.class).to eql(NilClass)
+
+    click_button "Invalidate application"
+
+    expect(page).to have_content("Application has been invalidated")
+
+    new_planning_application.reload
+    expect(new_planning_application.status).to eq("invalidated")
+
+    request.reload
+    expect(request.notified_at.class).to eql(Date)
   end
 end

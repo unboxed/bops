@@ -149,4 +149,14 @@ module PlanningApplicationHelper
   def display_number(proposal_details, element)
     proposal_details.find_index(element) + 1
   end
+
+  def validation_request_summary(validation_requests, planning_application)
+    if planning_application.invalidated?
+      "This application has #{pluralize(validation_requests.select { |req| req.state == 'open' }.count, 'unresolved validation request')}"
+    elsif planning_application.recommendable? || planning_application.closed?
+      "This application has #{pluralize(validation_requests.select { |req| req.state == 'closed' }.count, 'resolved validation request')}"
+    else
+      "This application has #{pluralize(validation_requests.select { |req| req.state == 'open' }.count, 'resolved validation request')} and #{pluralize(validation_requests.select { |req| req.state == 'closed' }.count, 'unresolved validation request')}"
+    end
+  end
 end

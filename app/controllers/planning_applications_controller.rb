@@ -13,8 +13,9 @@ class PlanningApplicationsController < AuthenticationController
                                                     review
                                                     publish
                                                     determine
-                                                    validate_documents_form
-                                                    validate_documents
+                                                    validate_form
+                                                    validate
+                                                    invalidate
                                                     view_recommendation
                                                     edit_constraints_form
                                                     edit_constraints
@@ -22,7 +23,8 @@ class PlanningApplicationsController < AuthenticationController
                                                     cancel
                                                     draw_sitemap
                                                     update_sitemap
-                                                    decision_notice]
+                                                    decision_notice
+                                                    validation_notice]
 
   before_action :ensure_user_is_reviewer, only: %i[review review_form]
   before_action :ensure_constraint_edits_unlocked, only: %i[edit_constraints_form edit_constraints]
@@ -85,7 +87,7 @@ class PlanningApplicationsController < AuthenticationController
     end
   end
 
-  def validate_documents_form
+  def validate_form
     @planning_application.documents_validated_at ||= if @planning_application.closed_validation_requests.present?
                                                        @planning_application.last_validation_request_date
                                                      else
@@ -93,32 +95,34 @@ class PlanningApplicationsController < AuthenticationController
                                                      end
   end
 
-  def validate_documents
-    status = params[:planning_application][:status]
-    case status
-    when "in_assessment"
-      if documents_validated_at_missing?
-        @planning_application.status = "in_assessment"
-        render "validate_documents_form"
-      elsif @planning_application.description_change_validation_requests.open.present?
-        @planning_application.errors.add(:status, "Planning application cannot be validated if open validation requests exist.")
-        render "validate_documents_form"
-      else
-        @planning_application.documents_validated_at = date_from_params
-        @planning_application.start!
-        audit("started")
-        validation_notice_mail
-        flash[:notice] = "Application is ready for assessment and applicant has been notified"
-        redirect_to @planning_application
-      end
-    when "invalidated"
+  def validate
+    if validation_date_fields.any?(&:blank?)
+      @planning_application.errors.add(:planning_application, "Please enter a valid date")
+      render "validate_form"
+    elsif @planning_application.validation_requests_open?
+      @planning_application.errors.add(:planning_application, "Planning application cannot be validated if open validation requests exist.")
+      render "validate_form"
+    else
+      @planning_application.documents_validated_at = date_from_params
+      @planning_application.start!
+      audit("started")
+      validation_notice_mail
+      flash[:notice] = "Application is ready for assessment and applicant has been notified"
+      render :show
+    end
+  end
+
+  def invalidate
+    if @planning_application.validation_requests_open?
       @planning_application.invalidate!
       audit("invalidated")
-      flash[:notice] = "Application has been invalidated"
-      render "validate_documents_form"
+      invalidation_notice_mail
+      @planning_application.unsent_validation_requests.each { |request| request.update!(notified_at: Time.zone.now) }
+      flash[:notice] = "Application has been invalidated and email has been sent"
+      render :show
     else
-      @planning_application.errors.add(:status, "Please select one of the below options")
-      render "validate_documents_form"
+      flash[:error] = "Please create at least one validation request before invalidating"
+      render "validation_requests/index"
     end
   end
 
@@ -252,6 +256,10 @@ class PlanningApplicationsController < AuthenticationController
     render :decision_notice
   end
 
+  def validation_notice
+    render :validation_notice
+  end
+
 private
 
   def planning_application_params
@@ -281,13 +289,15 @@ private
     params.require(:planning_application).permit permitted_keys
   end
 
+  def validation_date_fields
+    [params[:planning_application]["documents_validated_at(3i)"],
+     params[:planning_application]["documents_validated_at(2i)"],
+     params[:planning_application]["documents_validated_at(1i)"]]
+  end
+
   def date_from_params
     Time.zone.parse(
-      [
-        params[:planning_application]["documents_validated_at(3i)"],
-        params[:planning_application]["documents_validated_at(2i)"],
-        params[:planning_application]["documents_validated_at(1i)"],
-      ].join("-"),
+      validation_date_fields.join("-"),
     )
   end
 
@@ -304,6 +314,13 @@ private
 
   def validation_notice_mail
     PlanningApplicationMailer.validation_notice_mail(
+      @planning_application,
+      request.host,
+    ).deliver_now
+  end
+
+  def invalidation_notice_mail
+    PlanningApplicationMailer.invalidation_notice_mail(
       @planning_application,
       request.host,
     ).deliver_now

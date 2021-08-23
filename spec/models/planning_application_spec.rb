@@ -12,6 +12,10 @@ RSpec.describe PlanningApplication, type: :model do
              numbers: "number"
     end
 
+    let!(:description_change_validation_request) do
+      create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago
+    end
+
     context "start the application" do
       subject(:planning_application) { create :planning_application, :not_started }
 
@@ -95,48 +99,6 @@ RSpec.describe PlanningApplication, type: :model do
 
     context "invalidate the application from not_started" do
       subject(:planning_application) { create :planning_application, :not_started }
-
-      before do
-        # Set timestamp to differentiate from now
-        planning_application.update("invalidated_at": 1.hour.ago)
-      end
-
-      it "sets the status to invalidated" do
-        planning_application.invalidate
-        expect(planning_application.status).to eq "invalidated"
-      end
-
-      it "sets the timestamp for invalidated_at to now" do
-        freeze_time do
-          planning_application.invalidate
-          expect(planning_application.send("invalidated_at")).to eql(Time.zone.now)
-        end
-      end
-    end
-
-    context "invalidate the application from in_assessment" do
-      subject(:planning_application) { create :planning_application }
-
-      before do
-        # Set timestamp to differentiate from now
-        planning_application.update("invalidated_at": 1.hour.ago)
-      end
-
-      it "sets the status to invalidated" do
-        planning_application.invalidate
-        expect(planning_application.status).to eq "invalidated"
-      end
-
-      it "sets the timestamp for invalidated_at to now" do
-        freeze_time do
-          planning_application.invalidate
-          expect(planning_application.send("invalidated_at")).to eql(Time.zone.now)
-        end
-      end
-    end
-
-    context "invalidate the application from awaiting_determination" do
-      subject(:planning_application) { create :planning_application, :awaiting_determination, decision: "granted" }
 
       before do
         # Set timestamp to differentiate from now

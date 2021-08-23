@@ -11,8 +11,8 @@ class ReplacementDocumentValidationRequestsController < ApplicationController
       end
     end
 
-    flash[:notice] = "Replacement document validation request successfully sent."
-    send_validation_request_email
+    flash[:notice] = "Replacement document validation request successfully created."
+    send_validation_request_email if @planning_application.invalidated?
     audit("replacement_document_validation_request_sent", document_change_audit_item(@replacement_document_validation_request),
           @replacement_document_validation_request.sequence)
     redirect_to planning_application_validation_requests_path(@planning_application)
