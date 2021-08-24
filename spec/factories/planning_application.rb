@@ -6,7 +6,6 @@ FactoryBot.define do
     description      { Faker::Lorem.unique.sentence }
     status           { :in_assessment }
     in_assessment_at { Time.zone.now }
-    ward             { Faker::Address.city }
     documents_validated_at { Time.zone.today }
     work_status { :proposed }
     agent_first_name { Faker::Name.first_name }
@@ -25,6 +24,11 @@ FactoryBot.define do
     town { Faker::Address.city }
     county { Faker::Address.state }
     postcode { Faker::Address.postcode }
+    constraints { ["Conservation Area", "Listed Building"] }
+    result_flag { "Planning permission / Permission needed" }
+    result_heading { Faker::Lorem.unique.sentence }
+    result_description { Faker::Lorem.unique.sentence }
+    result_override { "Override" }
 
     proposal_details do
       [
@@ -44,15 +48,10 @@ FactoryBot.define do
                 text: "GPDO 32.2342.223",
               },
             ],
+            flags: ["Planning permission / Permission needed"],
           },
         },
       ].to_json
-    end
-    constraints do
-      {
-        conservation_area: true,
-        protected_trees: false,
-      }.to_json
     end
   end
 
@@ -99,5 +98,16 @@ FactoryBot.define do
   trait :invalidated do
     status { :invalidated }
     invalidated_at { Time.zone.now }
+  end
+
+  trait :without_result do
+    result_flag { "" }
+    result_heading { "" }
+    result_description { "" }
+    result_override { "" }
+  end
+
+  trait :with_boundary_geojson do
+    boundary_geojson { '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.054597,51.537331],[-0.054588,51.537287],[-0.054453,51.537313],[-0.054597,51.537331]]]}}' }
   end
 end

@@ -1,0 +1,24 @@
+<my-map
+  style="width: 100%; height: 400px;"
+  osVectorTilesApiKey="VgqyKyGclwrFphAv4fw2MrpNI4CnzATT"
+  <% if locals[:geojson].present? %>
+    geojsonData='<%= JSON.parse(locals[:geojson]).to_json.html_safe %>'
+  <% end %>
+  <% if locals[:geojson_field].present?  %>
+    drawMode="true"
+  <% end %>
+></my-map>
+
+<script>
+  const map = document.querySelector("my-map");
+  <% if locals[:geojson_field].present? %>
+    map.addEventListener("geojsonChange", ({ detail: geoJSON }) => {
+      document.getElementById("<%= locals[:geojson_field] %>").value = JSON.stringify(geoJSON);
+    });
+  <% end %>
+  <% if locals[:in_accordion] == true %>
+    function accordion_expanded() {
+      window.dispatchEvent(new Event("resize"));
+    }
+  <% end %>
+</script>

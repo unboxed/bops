@@ -17,6 +17,9 @@ en:
     dimensions: "Revise dimensions"
     other: "Other"
   user_not_authorized: "You are not authorized to perform this action."
+  user:
+    officer_role: "Case Officer"
+    manager_role: "Manager"
   activerecord:
     errors:
       models:

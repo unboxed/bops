@@ -23,6 +23,12 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
     end
   end
 
+  describe "#display_number" do
+    it "returns the right number for an element in an array" do
+      expect(display_number([25, 84, "proposal", 165, true], 165)).to eq(4)
+    end
+  end
+
   describe "#display_decision_status" do
     context "refused" do
       let(:planning_application) do

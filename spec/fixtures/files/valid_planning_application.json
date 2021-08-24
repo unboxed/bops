@@ -19,6 +19,7 @@
   "owners_notified": 0,
   "work_status": "proposed",
   "payment_reference": "PAY1",
+  "payment_amount": 10300,
   "nonnotification_reason": "Unaware of responsibility to notify",
   "visit_contact_name": "Mantas Prikockas",
   "visit_contact_phone": 7971111111,
@@ -51,7 +52,6 @@
   "new_home": null,
   "case_officer": "Abrar Sharif",
   "community_council": "Dulwich",
-  "ward": "Dulwich Wood",
   "last_advert_date": "2020-04-19T23:00:00.000Z",
   "advert_expiry_date": "2020-05-19T23:00:00.000Z",
   "last_posted_date": "2020-04-19T23:00:00.000Z",
@@ -80,7 +80,11 @@
     "uses_percentages": 100,
     "uses_status": 0,
     "uses_evidence": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg",
-    "photographs": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg"
+    "photographs": "http://xxxxxxxx.s3-website.eu-west-2.amazonaws.com/xxxxxxx.jpg",
+    "result_flag": "Planning permission / Permission needed",
+    "result_heading": "It looks like these changes will need planning permission",
+    "result_description": "Based on the information you have provided, we do not think this is eligible for a Certificate of Lawfulness",
+    "result_override": "This was my reason for rejecting the result"
   },
   "applicant": {
     "type": 0,
@@ -192,7 +196,7 @@
       "question": "When was the original property built?",
       "metadata": {
         "flags": [
-          "Missing information"
+          "Planning permission / Permission needed"
         ]
       },
       "responses": [

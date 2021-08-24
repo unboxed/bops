@@ -1,25 +1,22 @@
-<h2>Change your password</h2>
+<h2 class="govuk-heading-l">Change your password</h2>
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
   <%= f.hidden_field :reset_password_token %>
-
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
+  <div class="govuk-form-group govuk-!-margin-top-8">
+    <%= f.label :password, "New password", class: "govuk-heading-s govuk-!-margin-bottom-1" %>
     <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
+      <span class="govuk-hint govuk-!-margin-bottom-1"><%= @minimum_password_length %> characters minimum</span>
     <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
-  </div>
+    <%= f.password_field :password, class: "govuk-input govuk-input--width-20", autofocus: true, autocomplete: "new-password" %>
 
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+    <%= f.label :password_confirmation, "Confirm new password", class: "govuk-heading-s govuk-!-margin-top-6" %>
+    <%= f.password_field :password_confirmation, class: "govuk-input govuk-input--width-20", autocomplete: "new-password" %> <br>
 
-  <div class="actions">
-    <%= f.submit "Change my password" %>
+    <%= f.submit "Change password", class: "govuk-button govuk-!-margin-top-7  govuk-!-margin-bottom-4", data: { module: "govuk-button" } %>
   </div>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<p class="govuk-body govuk-!-margin-top-8">
+  <%= render "devise/shared/links" %>
+</p>

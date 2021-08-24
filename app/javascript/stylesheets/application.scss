@@ -36,8 +36,34 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
   padding: govuk-spacing(2);
 }
 
+.validations-banner {
+  border: 5px solid govuk-colour("red");
+  @include govuk-font($size: 19);
+  color: govuk-colour("black");
+  display: block;
+  overflow: hidden;
+  margin-bottom: govuk-spacing(6);
+  padding: govuk-spacing(2);
+}
+
+.response-banner {
+  border: 5px solid govuk-colour("blue");
+  @include govuk-font($size: 19);
+  color: govuk-colour("black");
+  display: block;
+  overflow: hidden;
+  margin-bottom: govuk-spacing(6);
+  padding: govuk-spacing(2);
+}
+
 .alert__icon {
   fill: govuk-colour("red");
+  float: left;
+  margin-right: govuk-spacing(2);
+}
+
+.info__icon {
+  fill: govuk-colour("blue");
   float: left;
   margin-right: govuk-spacing(2);
 }
@@ -100,4 +126,13 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
 
 .audit_details {
   font-style: italic;
+}
+
+.make-invisible {
+  display: none;
+}
+
+.limit-column-width {
+  word-wrap: break-word;
+  max-width: 150px;
 }

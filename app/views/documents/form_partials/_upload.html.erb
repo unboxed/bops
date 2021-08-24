@@ -1,5 +1,9 @@
 <div class="govuk-form-group <%= form.object.errors[:file].any? ? 'govuk-form-group--error' : '' %>">
-  <%= form.label :file, "Upload a file", class: "govuk-label" %>
+  <% if @document.new_record? %>
+    <%= form.label :file, "Upload a file", class: "govuk-label" %>
+  <% else %>
+    <%= form.label :file, "Upload a replacement file", class: "govuk-label" %>
+  <% end %>
 
   <% if form.object.errors[:file].any? %>
     <% form.object.errors[:file].each do |error| %>

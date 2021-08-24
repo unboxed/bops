@@ -12,20 +12,21 @@ gem "appsignal"
 gem "aws-sdk-codedeploy", require: false
 gem "aws-sdk-s3", require: false
 gem "bootsnap", ">= 1.4.2", require: false
+gem "business_time"
 gem "devise"
 gem "faker", require: false
 gem "faraday", require: false
 gem "govuk_design_system_formbuilder"
 gem "image_processing", "~> 1.2"
-gem "jbuilder", "~> 2.7"
+gem "jbuilder"
 gem "mail-notify"
 gem "mini_magick"
 gem "pdfkit"
 gem "pg", ">= 0.18", "< 2.0"
-gem "puma", "~> 4.1"
-gem "rails", "~> 6.1.3"
+gem "puma", "~> 4"
+gem "rails", "~> 6.1.4"
 gem "rswag-ui"
-gem "webpacker", "~> 4.0"
+gem "webpacker", "~> 5.4"
 
 group :development, :test do
   gem "brakeman", require: false
@@ -37,14 +38,14 @@ group :development, :test do
   gem "rails-controller-testing"
   gem "rspec-rails", "~> 4.0.0"
   gem "rubocop", require: false
-  gem "rubocop-govuk", "3.17.2"
+  gem "rubocop-govuk", "4.0.0"
   gem "selenium-webdriver"
   gem "simplecov", require: false
 end
 
 group :development do
-  gem "listen", ">= 3.0.5", "< 3.2"
-  gem "web-console", ">= 3.3.0"
+  gem "listen"
+  gem "web-console"
 end
 
 group :test do

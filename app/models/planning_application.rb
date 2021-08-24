@@ -9,12 +9,20 @@ class PlanningApplication < ApplicationRecord
 
   has_many :documents, dependent: :destroy
   has_many :recommendations, dependent: :destroy
+  has_many :description_change_validation_requests, dependent: :destroy
+  has_many :replacement_document_validation_requests, dependent: :destroy
+  has_many :other_change_validation_requests, dependent: :destroy
+  has_many :additional_document_validation_requests, dependent: :destroy
+  has_many :red_line_boundary_change_validation_requests, dependent: :destroy
 
   belongs_to :user, optional: true
+  belongs_to :api_user, optional: true
+  belongs_to :boundary_created_by, class_name: "User", optional: true
   belongs_to :local_authority
 
-  before_create :set_target_date
-  before_update :set_target_date
+  before_create :set_key_dates
+  before_create :set_change_access_id
+  before_update :set_key_dates
 
   WORK_STATUSES = %w[proposed existing].freeze
 
@@ -23,6 +31,7 @@ class PlanningApplication < ApplicationRecord
                          message: "Work Status should be proposed or existing" }
   validates :application_type, presence: true
 
+  validate :applicant_or_agent_email
   validate :documents_validated_at_date
   validate :public_comment_present
   validate :decision_with_recommendations
@@ -52,7 +61,7 @@ class PlanningApplication < ApplicationRecord
     end
 
     event :invalidate do
-      transitions from: %i[not_started invalidated in_assessment awaiting_determination awaiting_correction], to: :invalidated
+      transitions from: %i[not_started invalidated], to: :invalidated, guard: :validation_requests_open?
     end
 
     event :determine do
@@ -97,7 +106,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def days_left
-    (target_date - Date.current).to_i
+    (expiry_date - Date.current).to_i
   end
 
   def reference
@@ -121,11 +130,11 @@ class PlanningApplication < ApplicationRecord
   end
 
   def agent?
-    agent_first_name? && agent_last_name? && (agent_phone? || agent_email?)
+    agent_first_name? || agent_last_name? || agent_phone? || agent_email?
   end
 
   def applicant?
-    applicant_first_name? && applicant_last_name? && (applicant_phone? || applicant_email?)
+    applicant_first_name? || applicant_last_name? || applicant_phone? || applicant_email?
   end
 
   def review_complete?
@@ -144,6 +153,10 @@ class PlanningApplication < ApplicationRecord
     decision == "refused"
   end
 
+  def validated?
+    true unless not_started? || invalidated?
+  end
+
   def granted?
     decision == "granted"
   end
@@ -152,12 +165,20 @@ class PlanningApplication < ApplicationRecord
     true unless awaiting_determination? || determined? || returned? || withdrawn?
   end
 
+  def can_invalidate?
+    true if not_started? || invalidated?
+  end
+
   def validation_complete?
     !not_started?
   end
 
   def can_assess?
     in_assessment? || awaiting_correction?
+  end
+
+  def closed?
+    determined? || returned? || withdrawn?
   end
 
   def assessment_complete?
@@ -200,6 +221,10 @@ class PlanningApplication < ApplicationRecord
     may_assess? && !pending_review?
   end
 
+  def officer_can_draw_boundary?
+    not_started? || invalidated?
+  end
+
   def pending_or_new_recommendation
     recommendations.pending_review.last || recommendations.build
   end
@@ -208,14 +233,104 @@ class PlanningApplication < ApplicationRecord
     proposal_details.present? ? JSON.parse(proposal_details) : []
   end
 
+  def proposal_details_with_metadata
+    parsed_proposal_details.select { |proposal| proposal["metadata"].present? }
+  end
+
+  def proposal_details_with_flags
+    proposal_details_with_metadata.select { |proposal| proposal["metadata"]["flags"].present? }
+  end
+
+  def flagged_proposal_details(flag)
+    proposal_details_with_flags.select do |proposal|
+      proposal["metadata"]["flags"].include?(flag)
+    end
+  end
+
   def full_address
     "#{address_1}, #{town}, #{postcode}"
   end
 
+  def secure_change_url(application_id, secure_token)
+    if ENV["DOMAIN"] == "bops-services"
+      "https://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
+    else
+      "http://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
+    end
+  end
+
+  def invalid_documents_without_validation_request
+    invalid_documents.reject { |x| replacement_document_validation_requests.where(old_document: x).any? }
+  end
+
+  def invalid_documents
+    documents.active.invalidated
+  end
+
+  def result_present?
+    [result_flag, result_heading, result_description, result_override].any?(&:present?)
+  end
+
+  def validation_requests
+    (description_change_validation_requests + replacement_document_validation_requests + additional_document_validation_requests + other_change_validation_requests + red_line_boundary_change_validation_requests).sort_by(&:created_at).reverse
+  end
+
+  def validation_requests_open?
+    open_validation_requests.any?
+  end
+
+  def open_validation_requests
+    validation_requests.select { |request| request.state.eql?("open") }
+  end
+
+  def unsent_validation_requests
+    open_validation_requests.select { |request| request.notified_at.nil? }
+  end
+
+  def closed_validation_requests
+    validation_requests.select { |request| request.state.eql?("closed") }
+  end
+
+  def last_validation_request_date
+    closed_validation_requests.max_by(&:updated_at).updated_at
+  end
+
+  def payment_amount_pounds
+    payment_amount.to_i / 100
+  end
+
+  def overdue_requests
+    validation_requests.select { |req| req.overdue? && req.state == "open" }
+  end
+
+  def invalidation_response_due
+    15.business_days.after(invalidated_at.to_date)
+  end
+
+  def closed_requests
+    validation_requests.select { |req| req.state == "closed" }
+  end
+
+  def parsed_application_type
+    case application_type
+    when "lawfulness_certificate"
+      "Certificate of Lawfulness"
+    when "full"
+      "Full"
+    else
+      application_type.humanize
+    end
+  end
+
 private
 
-  def set_target_date
-    self.target_date = (documents_validated_at || created_at) + 8.weeks
+  def set_key_dates
+    self.expiry_date = (documents_validated_at || created_at) + 8.weeks
+    self.target_date = (documents_validated_at || created_at) + 7.weeks
+  end
+
+  def set_change_access_id
+    self.change_access_id = SecureRandom.hex(15)
   end
 
   def documents_validated_at_date
@@ -230,7 +345,7 @@ private
 
   def public_comment_present
     if decision_present? && public_comment.blank?
-      errors.add(:planning_application, "Please fill in the GDPO policies text box.")
+      errors.add(:planning_application, "Please state the reasons why this application is, or is not lawful")
     end
   end
 
@@ -241,6 +356,12 @@ private
   def decision_with_recommendations
     if decision.nil? && recommendations.any?
       errors.add(:planning_application, "Please select Yes or No")
+    end
+  end
+
+  def applicant_or_agent_email
+    unless applicant_email? || agent_email?
+      errors.add(:base, "An applicant or agent email is required.")
     end
   end
 end

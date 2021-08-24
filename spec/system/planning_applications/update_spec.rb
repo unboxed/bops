@@ -30,7 +30,7 @@ RSpec.describe "Updating a planning application", type: :system do
 
     click_button "Application information"
 
-    expect(page).to have_text("Summary: doing more than great things, doing wonderful things.")
+    expect(page).to have_text("Description: doing more than great things, doing wonderful things.")
   end
 
   it "is possible to edit the date received in" do
@@ -41,7 +41,7 @@ RSpec.describe "Updating a planning application", type: :system do
     click_button "Save"
     planning_application.reload
 
-    expect(page).to have_text("Due: 28 November 1989")
+    expect(page).to have_text("Target date: 21 November 1989")
   end
 
   it "is possible to edit site details" do
@@ -56,19 +56,19 @@ RSpec.describe "Updating a planning application", type: :system do
     planning_application.reload
     click_button "Application information"
 
-    expect(page).to have_text("Address: 2 Streatham High Road, Crystal Palace, SW16 1DB")
+    expect(page).to have_text("Site address: 2 Streatham High Road, Crystal Palace, SW16 1DB")
     expect(page).to have_text("UPRN: 294884040")
   end
 
   it "is possible to edit proposed or completed status" do
-    within "form", text: "Has the work been completed?" do
+    within "form", text: "Has the work been started?" do
       choose "Yes"
     end
 
     click_button "Save"
     click_button "Application information"
 
-    expect(page).to have_text("Work already completed: Yes")
+    expect(page).to have_text("Work already started: Yes")
   end
 
   it "is possible to edit applicant information" do
@@ -122,7 +122,7 @@ RSpec.describe "Updating a planning application", type: :system do
     fill_in "County", with: "London"
     fill_in "Postcode", with: "SW16 1DB"
     fill_in "UPRN", with: "294884040"
-    within "form", text: "Has the work been completed?" do
+    within "form", text: "Has the work been started?" do
       choose "Yes"
     end
     within ".applicant-information" do

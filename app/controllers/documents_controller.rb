@@ -6,7 +6,7 @@ class DocumentsController < AuthenticationController
   before_action :set_planning_application
   before_action :set_document, only: %i[archive confirm_archive]
   before_action :disable_flash_header, only: :index
-  before_action :ensure_document_edits_unlocked, only: %i[new edit update archive]
+  before_action :ensure_document_edits_unlocked, only: %i[new edit update archive unarchive]
 
   def index
     @documents = @planning_application.documents.order(:created_at)
@@ -19,6 +19,11 @@ class DocumentsController < AuthenticationController
   def update
     @document = @planning_application.documents.find(params[:id])
     if @document.update(document_params)
+      if @document.saved_change_to_attribute?(:validated, from: false, to: true)
+        audit("document_changed_to_validated", nil, @document.file.filename)
+      elsif @document.saved_change_to_attribute?(:validated, to: false)
+        audit("document_invalidated", @document.invalidated_document_reason, @document.file.filename)
+      end
       flash[:notice] = "Document has been updated"
       redirect_to action: :index
     else
@@ -28,6 +33,15 @@ class DocumentsController < AuthenticationController
 
   def archive
     render :archive
+  end
+
+  def unarchive
+    @document = @planning_application.documents.find(params[:document_id])
+    @document.update!(archived_at: nil)
+    audit("unarchived", @document.file.filename)
+    flash[:notice] = "#{@document.name} has been restored"
+
+    redirect_to action: :index
   end
 
   def new
@@ -59,7 +73,8 @@ private
 
   def document_params
     document_params = params.fetch(:document, {}).permit(:archive_reason, :name, :archived_at,
-                                                         :numbers, :publishable, :referenced_in_decision_notice, :file, tags: [])
+                                                         :numbers, :publishable, :referenced_in_decision_notice,
+                                                         :validated, :invalidated_document_reason, :file, tags: [])
     document_params[:tags].reject!(&:blank?) if document_params[:tags]
     document_params
   end
@@ -75,6 +90,6 @@ private
   end
 
   def ensure_document_edits_unlocked
-    render plain: "forbidden", status: 403 and return unless @planning_application.can_validate?
+    render plain: "forbidden", status: :forbidden and return unless @planning_application.can_validate?
   end
 end

@@ -1,0 +1,44 @@
+<%= render "validation_requests/validation_requests_breadcrumbs" %>
+<% content_for :title, "Other validation request" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-6">
+      Request other validation change
+    </h2>
+    <p class="govuk-body govuk-!-margin-bottom-1">
+      <strong>At:</strong> <%= @planning_application.full_address  %>
+    </p>
+    <p class="govuk-body govuk-!-margin-bottom-1">
+      <strong>Date received:</strong> <%= @planning_application.created_at.strftime("%e %B %Y") %>
+    </p>
+    <p class="govuk-body govuk-!-margin-bottom-8">
+      <strong>Application number:</strong> <%= @planning_application.reference  %>
+    </p>
+    <h2 class="govuk-heading-s">
+      You requested
+    </h2>
+    <div class="govuk-inset-text">
+      <p class="govuk-body">
+        <%= @other_change_validation_request.summary  %>
+      </p>
+      <p class="govuk-body">
+        <%= @other_change_validation_request.suggestion %>
+      </p>
+      <p class="govuk-body">
+      <%= @other_change_validation_request.created_at.strftime("%e %B %Y") %>
+      </p>
+    </div>
+    <div class="govuk-inset-text">
+      <h2 class="govuk-heading-s">
+        Applicant response
+      </h2>
+      <p class="govuk-body">
+        <%= @other_change_validation_request.response %>
+      </p>
+      <p class="govuk-body">
+        <%= @other_change_validation_request.updated_at.strftime("%e %B %Y") %>
+      </p>
+    </div>
+  </div>
+</div>

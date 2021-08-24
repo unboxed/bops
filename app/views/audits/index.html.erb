@@ -18,16 +18,19 @@
     <% @audits.each do |audit_item| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell"><%= audit_item.created_at.strftime("%d-%m-%Y %H:%M") %></td>
-        <% if audit_item.user %>
+        <% if audit_item.api_user %>
+          <td class="govuk-table__cell"><%= define_user(audit_item) %></td>
+        <% elsif audit_item.user %>
           <td class="govuk-table__cell"><%= audit_item.user.name %></td>
-        <% elsif audit_item.api_user %>
-          <td class="govuk-table__cell"><%= audit_item.api_user.name %></td>
         <% else %>
           <td class="govuk-table__cell"> User deleted </td>
         <% end %>
         <td colspan="2" class="govuk-table__cell">
-          <%= activity(audit_item.activity_type, audit_item.activity_information) %>
-            <%= simple_format(audit_item.audit_comment, { class: "audit_details" }, wrapper_tag: "div",) if audit_item.audit_comment.present? %>
+          <% if audit_item.activity_type.include?("request") %>
+            <%= render "audits/types/#{audit_item.activity_type}", locals: { item: audit_item } %>
+          <% else %>
+            <%= render "audits/types/generic_audit_entry", locals: { item: audit_item } %>
+          <% end %>
         </td>
       </tr>
     <% end %>

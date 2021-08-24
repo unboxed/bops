@@ -12,6 +12,10 @@ RSpec.describe PlanningApplication, type: :model do
              numbers: "number"
     end
 
+    let!(:description_change_validation_request) do
+      create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago
+    end
+
     context "start the application" do
       subject(:planning_application) { create :planning_application, :not_started }
 
@@ -95,48 +99,6 @@ RSpec.describe PlanningApplication, type: :model do
 
     context "invalidate the application from not_started" do
       subject(:planning_application) { create :planning_application, :not_started }
-
-      before do
-        # Set timestamp to differentiate from now
-        planning_application.update("invalidated_at": 1.hour.ago)
-      end
-
-      it "sets the status to invalidated" do
-        planning_application.invalidate
-        expect(planning_application.status).to eq "invalidated"
-      end
-
-      it "sets the timestamp for invalidated_at to now" do
-        freeze_time do
-          planning_application.invalidate
-          expect(planning_application.send("invalidated_at")).to eql(Time.zone.now)
-        end
-      end
-    end
-
-    context "invalidate the application from in_assessment" do
-      subject(:planning_application) { create :planning_application }
-
-      before do
-        # Set timestamp to differentiate from now
-        planning_application.update("invalidated_at": 1.hour.ago)
-      end
-
-      it "sets the status to invalidated" do
-        planning_application.invalidate
-        expect(planning_application.status).to eq "invalidated"
-      end
-
-      it "sets the timestamp for invalidated_at to now" do
-        freeze_time do
-          planning_application.invalidate
-          expect(planning_application.send("invalidated_at")).to eql(Time.zone.now)
-        end
-      end
-    end
-
-    context "invalidate the application from awaiting_determination" do
-      subject(:planning_application) { create :planning_application, :awaiting_determination, decision: "granted" }
 
       before do
         # Set timestamp to differentiate from now
@@ -298,10 +260,10 @@ RSpec.describe PlanningApplication, type: :model do
       expect(planning_application.reload.agent?).to eq false
     end
 
-    it "returns false if email or phone is not given" do
+    it "returns true if only name is given" do
       planning_application.update!(agent_first_name: "first", agent_last_name: "last", agent_phone: "", agent_email: "")
 
-      expect(planning_application.agent?).to eq false
+      expect(planning_application.agent?).to eq true
     end
 
     it "returns true if name and email are given" do
@@ -327,11 +289,11 @@ RSpec.describe PlanningApplication, type: :model do
       expect(planning_application.applicant?).to eq false
     end
 
-    it "returns false if email or phone is not given" do
+    it "returns true if only name is given" do
       planning_application.update!(applicant_first_name: "first", applicant_last_name: "last",
                                    applicant_phone: "", applicant_email: "")
 
-      expect(planning_application.applicant?).to eq false
+      expect(planning_application.applicant?).to eq true
     end
 
     it "returns true if name and email are given" do
@@ -350,15 +312,41 @@ RSpec.describe PlanningApplication, type: :model do
   end
 
   describe "#target_date" do
+    it "is set as created_at + 7 weeks when new record created" do
+      planning_application = create(:planning_application)
+      expect(planning_application.target_date).to eq((planning_application.created_at + 7.weeks).to_date)
+    end
+
+    it "is set to documents_validated_at + 7 weeks when documents_validated_at added" do
+      planning_application = create(:planning_application)
+      planning_application.update!(documents_validated_at: 1.week.ago)
+      expect(planning_application.target_date).to eq((planning_application.documents_validated_at + 7.weeks).to_date)
+    end
+  end
+
+  describe "#expiry_date" do
     it "is set as created_at + 8 weeks when new record created" do
       planning_application = create(:planning_application)
-      expect(planning_application.target_date).to eq((planning_application.created_at + 8.weeks).to_date)
+      expect(planning_application.expiry_date).to eq((planning_application.created_at + 8.weeks).to_date)
     end
 
     it "is set to documents_validated_at + 8 weeks when documents_validated_at added" do
       planning_application = create(:planning_application)
       planning_application.update!(documents_validated_at: 1.week.ago)
-      expect(planning_application.target_date).to eq((planning_application.documents_validated_at + 8.weeks).to_date)
+      expect(planning_application.expiry_date).to eq((planning_application.documents_validated_at + 8.weeks).to_date)
+    end
+  end
+
+  describe "parsed_application_type" do
+    subject(:planning_application) { create :planning_application }
+
+    it "correctly returns the application type for lawfulness certificate" do
+      expect(planning_application.parsed_application_type).to eq "Certificate of Lawfulness"
+    end
+
+    it "correctly returns the application type for full" do
+      planning_application.update!(application_type: "full")
+      expect(planning_application.parsed_application_type).to eql("Full")
     end
   end
 end

@@ -72,6 +72,24 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
   end
 
+  it "cannot be rejected without a review comment" do
+    click_link "Review assessment"
+    choose "No"
+    click_button "Save"
+    expect(page).to have_content("Please include a comment for the case officer to indicate why the recommendation has been challenged.")
+  end
+
+  it "can be accepted without a review comment" do
+    click_link "Review assessment"
+    choose "Yes"
+    click_button "Save"
+    click_link "Publish determination"
+    click_button "Determine application"
+
+    planning_application.reload
+    expect(planning_application.status).to eq("determined")
+  end
+
   it "can edit an existing review of an assessment" do
     recommendation = create :recommendation, :reviewed, planning_application: planning_application, reviewer_comment: "Reviewer private comment"
     click_link "Review assessment"

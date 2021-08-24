@@ -13,24 +13,29 @@ class PlanningApplicationsController < AuthenticationController
                                                     review
                                                     publish
                                                     determine
-                                                    validate_documents_form
-                                                    validate_documents
+                                                    validate_form
+                                                    validate
+                                                    invalidate
+                                                    view_recommendation
+                                                    edit_constraints_form
+                                                    edit_constraints
                                                     cancel_confirmation
                                                     cancel
-                                                    decision_notice]
+                                                    draw_sitemap
+                                                    update_sitemap
+                                                    decision_notice
+                                                    validation_notice]
 
   before_action :ensure_user_is_reviewer, only: %i[review review_form]
-
-  rescue_from Notifications::Client::NotFoundError,
-              with: :decision_notice_mail_error
+  before_action :ensure_constraint_edits_unlocked, only: %i[edit_constraints_form edit_constraints]
 
   def index
     @planning_applications = if helpers.exclude_others? && current_user.assessor?
-                               current_local_authority.planning_applications.where(user_id: current_user.id).or(
-                                 current_local_authority.planning_applications.where(user_id: nil),
+                               current_local_authority.planning_applications.where(user_id: current_user.id).order("created_at DESC").or(
+                                 current_local_authority.planning_applications.where(user_id: nil).order("created_at DESC"),
                                )
                              else
-                               current_local_authority.planning_applications.all
+                               current_local_authority.planning_applications.all.order("created_at DESC")
                              end
   end
 
@@ -49,6 +54,7 @@ class PlanningApplicationsController < AuthenticationController
     if @planning_application.save
       audit("created", nil, current_user.name)
       flash[:notice] = "Planning application was successfully created."
+      receipt_notice_mail if @planning_application.agent_email.present? || @planning_application.applicant_email.present?
       redirect_to planning_application_documents_path(@planning_application)
     else
       render :new
@@ -81,32 +87,42 @@ class PlanningApplicationsController < AuthenticationController
     end
   end
 
-  def validate_documents_form
-    @planning_application.documents_validated_at ||= @planning_application.created_at
+  def validate_form
+    @planning_application.documents_validated_at ||= if @planning_application.closed_validation_requests.present?
+                                                       @planning_application.last_validation_request_date
+                                                     else
+                                                       @planning_application.created_at
+                                                     end
   end
 
-  def validate_documents
-    status = params[:planning_application][:status]
-    if status == "in_assessment"
-      if date_from_params.blank?
-        @planning_application.errors.add(:planning_application, "Please enter a valid date")
-        render "validate_documents_form"
-      else
-        @planning_application.documents_validated_at = date_from_params
-        @planning_application.start!
-        audit("started")
-        validation_notice_mail
-        flash[:notice] = "Application is ready for assessment and applicant has been notified"
-        redirect_to @planning_application
-      end
-    elsif status == "invalidated"
+  def validate
+    if validation_date_fields.any?(&:blank?)
+      @planning_application.errors.add(:planning_application, "Please enter a valid date")
+      render "validate_form"
+    elsif @planning_application.validation_requests_open?
+      @planning_application.errors.add(:planning_application, "Planning application cannot be validated if open validation requests exist.")
+      render "validate_form"
+    else
+      @planning_application.documents_validated_at = date_from_params
+      @planning_application.start!
+      audit("started")
+      validation_notice_mail
+      flash[:notice] = "Application is ready for assessment and an email notification has been sent."
+      render :show
+    end
+  end
+
+  def invalidate
+    if @planning_application.validation_requests_open?
       @planning_application.invalidate!
       audit("invalidated")
-      flash[:notice] = "Application has been invalidated"
-      redirect_to @planning_application
+      invalidation_notice_mail
+      @planning_application.unsent_validation_requests.each { |request| request.update!(notified_at: Time.zone.now) }
+      flash[:notice] = "Application has been invalidated and email has been sent"
+      render :show
     else
-      @planning_application.errors.add(:status, "Please select one of the below options")
-      render "validate_documents_form"
+      flash[:error] = "Please create at least one validation request before invalidating"
+      render "validation_requests/index"
     end
   end
 
@@ -127,6 +143,11 @@ class PlanningApplicationsController < AuthenticationController
 
   def submit_recommendation; end
 
+  def view_recommendation
+    @assessor_name = @planning_application.recommendations.last.assessor.name
+    @recommended_date = @planning_application.recommendations.last.created_at.strftime("%d %b %Y")
+  end
+
   def assess
     @planning_application.assess!
     audit("assessed", @planning_application.recommendations.last.assessor_comment)
@@ -141,14 +162,21 @@ class PlanningApplicationsController < AuthenticationController
     @recommendation = @planning_application.recommendations.last
     @recommendation.update!(reviewer_comment: params[:recommendation][:reviewer_comment], reviewed_at: Time.zone.now, reviewer: current_user)
 
-    if params[:recommendation][:agree] == "No"
+    case params[:recommendation][:agree]
+    when "No"
       audit("challenged", @recommendation.reviewer_comment)
-      @planning_application.request_correction!
-    elsif params[:recommendation][:agree] == "Yes"
+      @recommendation.assign_attributes(challenged: true)
+      if @recommendation.save
+        @planning_application.request_correction!
+        redirect_to @planning_application
+      else
+        render :review_form
+      end
+    when "Yes"
+      @recommendation.update!(challenged: false)
       audit("approved", @recommendation.reviewer_comment)
+      redirect_to @planning_application
     end
-
-    redirect_to @planning_application
   end
 
   def publish; end
@@ -160,6 +188,46 @@ class PlanningApplicationsController < AuthenticationController
     flash[:notice] = "Decision Notice sent to applicant"
 
     redirect_to @planning_application
+  end
+
+  def draw_sitemap; end
+
+  def update_sitemap
+    new_map = @planning_application.boundary_geojson.blank?
+    @planning_application.boundary_geojson = params[:planning_application][:boundary_geojson]
+    @planning_application.boundary_created_by = current_user
+    @planning_application.save!
+
+    if new_map
+      audit("red_line_created", "Red line drawing created")
+    else
+      audit("red_line_updated", "Red line drawing updated")
+    end
+
+    flash[:notice] = "Site boundary has been updated"
+    redirect_to planning_application_path(@planning_application)
+  end
+
+  def edit_constraints_form; end
+
+  def edit_constraints
+    @planning_application.constraints = params[:planning_application][:constraints].reject(&:blank?)
+    if @planning_application.save!
+      if @planning_application.saved_changes?
+        prev_arr = @planning_application.saved_changes[:constraints][0]
+        new_arr = @planning_application.saved_changes[:constraints][1]
+
+        attr_removed = prev_arr - new_arr
+        attr_added = new_arr - prev_arr
+
+        attr_added.each { |attr| audit("constraint_added", attr) }
+        attr_removed.each { |attr| audit("constraint_removed", attr) }
+      end
+      flash[:notice] = "Constraints have been updated"
+      redirect_to planning_application_url
+    else
+      render :edit_constraints_form
+    end
   end
 
   def cancel
@@ -188,6 +256,10 @@ class PlanningApplicationsController < AuthenticationController
     render :decision_notice
   end
 
+  def validation_notice
+    render :validation_notice
+  end
+
 private
 
   def planning_application_params
@@ -203,6 +275,7 @@ private
                         agent_phone
                         agent_email
                         county
+                        constraints
                         created_at(3i)
                         created_at(2i)
                         created_at(1i)
@@ -216,13 +289,15 @@ private
     params.require(:planning_application).permit permitted_keys
   end
 
+  def validation_date_fields
+    [params[:planning_application]["documents_validated_at(3i)"],
+     params[:planning_application]["documents_validated_at(2i)"],
+     params[:planning_application]["documents_validated_at(1i)"]]
+  end
+
   def date_from_params
     Time.zone.parse(
-      [
-        params[:planning_application]["documents_validated_at(3i)"],
-        params[:planning_application]["documents_validated_at(2i)"],
-        params[:planning_application]["documents_validated_at(1i)"],
-      ].join("-"),
+      validation_date_fields.join("-"),
     )
   end
 
@@ -244,13 +319,33 @@ private
     ).deliver_now
   end
 
-  def decision_notice_mail_error
-    flash[:notice] =
-      "The email cannot be sent. Please try again later."
-    render "documents/index"
+  def invalidation_notice_mail
+    PlanningApplicationMailer.invalidation_notice_mail(
+      @planning_application,
+      request.host,
+    ).deliver_now
+  end
+
+  def receipt_notice_mail
+    PlanningApplicationMailer.receipt_notice_mail(
+      @planning_application,
+      request.host,
+    ).deliver_now
   end
 
   def ensure_user_is_reviewer
-    render plain: "forbidden", status: 403 and return unless current_user.reviewer?
+    render plain: "forbidden", status: :forbidden and return unless current_user.reviewer?
+  end
+
+  def ensure_constraint_edits_unlocked
+    render plain: "forbidden", status: :forbidden and return unless @planning_application.can_validate?
+  end
+
+  def documents_validated_at_missing?
+    if params["planning_application"]["documents_validated_at(3i)"].blank? ||
+        params["planning_application"]["documents_validated_at(2i)"].blank? ||
+        params["planning_application"]["documents_validated_at(1i)"].blank?
+      @planning_application.errors.add(:status, "Please enter a valid date")
+    end
   end
 end

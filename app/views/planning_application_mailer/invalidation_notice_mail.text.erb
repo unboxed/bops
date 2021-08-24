@@ -1,0 +1,39 @@
+# <%= @planning_application.local_authority.name %>
+
+# Town and country planning act 1990 (as amended)
+# Town and country planning (development management procedure) Order 2015 (as amended)
+
+Dear Sir/Madam,
+
+Reference No.: <%= @planning_application.reference %>
+Proposal: <%= @planning_application.description %>
+Site Address: <%= @planning_application.full_address %>
+
+Thank you for your planning application received on <%= @planning_application.created_at.strftime("%e %B %Y") %>. Unfortunately your application is invalid and has not been registered.
+
+To review the reasons for invalidation and make the changes required, please follow the link below:
+
+<%= @planning_application.secure_change_url(@planning_application.id, @planning_application.change_access_id) %>
+
+If your amendments contain further errors, your application will be returned to you again.
+
+If we don’t hear from you:
+
+We will take no further action on your application until you make the necessary the change(s) to your application.
+
+If these change(s) are not received by <%= @planning_application.invalidation_response_due.strftime("%e %B %Y") %>, your application will be returned to you and your payment refunded.
+
+Yours faithfully,
+
+<%= @planning_application.local_authority.signatory_name %>
+<%= @planning_application.local_authority.signatory_job_title %>
+
+Your attention is drawn to the notes accompanying this document
+
+Any enquiries regarding this document should quote the Application Number and be sent to
+the
+<%= @planning_application.local_authority.signatory_job_title %>,
+<%= @planning_application.local_authority.name %>,
+<%= @planning_application.local_authority.enquiries_paragraph %>
+or by email to <%= @planning_application.local_authority.email_address %>
+

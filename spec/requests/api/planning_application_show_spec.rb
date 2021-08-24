@@ -32,7 +32,7 @@ RSpec.describe "API request to list planning applications", type: :request, show
     let(:planning_application_json) { json }
 
     def json_time_format(time)
-      time.utc.iso8601(3) if time.present?
+      time.iso8601(3) if time.present?
     end
 
     it "returns a 404 if no planning application" do
@@ -64,9 +64,9 @@ RSpec.describe "API request to list planning applications", type: :request, show
         expect(planning_application_json["created_at"]).to eq(json_time_format(planning_application.created_at))
         expect(planning_application_json["invalidated_at"]).to eq(json_time_format(planning_application.invalidated_at))
         expect(planning_application_json["withdrawn_at"]).to eq(json_time_format(planning_application.withdrawn_at))
-        expect(planning_application_json["ward"]).to eq(planning_application.ward)
         expect(planning_application_json["work_status"]).to eq(planning_application.work_status)
         expect(planning_application_json["payment_reference"]).to eq(planning_application.payment_reference)
+        expect(planning_application_json["payment_amount"]).to eq(planning_application.payment_amount)
         expect(planning_application_json["awaiting_determination_at"]).to eq(json_time_format(planning_application.awaiting_determination_at))
         expect(planning_application_json["in_assessment_at"]).to eq(json_time_format(planning_application.in_assessment_at))
         expect(planning_application_json["awaiting_correction_at"]).to eq(json_time_format(planning_application.awaiting_correction_at))
@@ -75,16 +75,13 @@ RSpec.describe "API request to list planning applications", type: :request, show
         expect(planning_application_json["agent_email"]).to eq(planning_application.agent_email)
         expect(planning_application_json["applicant_first_name"]).to eq(planning_application.applicant_first_name)
         expect(planning_application_json["applicant_last_name"]).to eq(planning_application.applicant_last_name)
-        expect(planning_application_json["applicant_email"]).to eq(planning_application.applicant_email)
-        expect(planning_application_json["applicant_phone"]).to eq(planning_application.applicant_phone)
         expect(planning_application_json["site"]["address_1"]).to eq(planning_application.address_1)
         expect(planning_application_json["site"]["address_2"]).to eq(planning_application.address_2)
         expect(planning_application_json["site"]["town"]).to eq(planning_application.town)
         expect(planning_application_json["site"]["county"]).to eq(planning_application.county)
         expect(planning_application_json["site"]["postcode"]).to eq(planning_application.postcode)
         expect(planning_application_json["site"]["uprn"]).to eq(planning_application.uprn)
-        expect(planning_application_json["proposal_details"]).to eq(JSON.parse(planning_application.proposal_details))
-        expect(planning_application_json["constraints"]).to eq(JSON.parse(planning_application.constraints))
+        expect(planning_application_json["constraints"]).to eq(planning_application.constraints)
         expect(planning_application_json["documents"]).to eq([])
       end
 
@@ -110,9 +107,9 @@ RSpec.describe "API request to list planning applications", type: :request, show
           expect(planning_application_json["created_at"]).to eq(json_time_format(planning_application.created_at))
           expect(planning_application_json["invalidated_at"]).to eq(json_time_format(planning_application.invalidated_at))
           expect(planning_application_json["withdrawn_at"]).to eq(json_time_format(planning_application.withdrawn_at))
-          expect(planning_application_json["ward"]).to eq(planning_application.ward)
           expect(planning_application_json["work_status"]).to eq(planning_application.work_status)
           expect(planning_application_json["payment_reference"]).to eq(planning_application.payment_reference)
+          expect(planning_application_json["payment_amount"]).to eq(planning_application.payment_amount)
           expect(planning_application_json["awaiting_determination_at"]).to eq(json_time_format(planning_application.awaiting_determination_at))
           expect(planning_application_json["in_assessment_at"]).to eq(json_time_format(planning_application.in_assessment_at))
           expect(planning_application_json["awaiting_correction_at"]).to eq(json_time_format(planning_application.awaiting_correction_at))
@@ -121,16 +118,13 @@ RSpec.describe "API request to list planning applications", type: :request, show
           expect(planning_application_json["agent_email"]).to eq(planning_application.agent_email)
           expect(planning_application_json["applicant_first_name"]).to eq(planning_application.applicant_first_name)
           expect(planning_application_json["applicant_last_name"]).to eq(planning_application.applicant_last_name)
-          expect(planning_application_json["applicant_email"]).to eq(planning_application.applicant_email)
-          expect(planning_application_json["applicant_phone"]).to eq(planning_application.applicant_phone)
           expect(planning_application_json["site"]["address_1"]).to eq(planning_application.address_1)
           expect(planning_application_json["site"]["address_2"]).to eq(planning_application.address_2)
           expect(planning_application_json["site"]["town"]).to eq(planning_application.town)
           expect(planning_application_json["site"]["county"]).to eq(planning_application.county)
           expect(planning_application_json["site"]["postcode"]).to eq(planning_application.postcode)
           expect(planning_application_json["site"]["uprn"]).to eq(planning_application.uprn)
-          expect(planning_application_json["proposal_details"]).to eq(JSON.parse(planning_application.proposal_details))
-          expect(planning_application_json["constraints"]).to eq(JSON.parse(planning_application.constraints))
+          expect(planning_application_json["constraints"]).to eq(planning_application.constraints)
           expect(planning_application_json["documents"].size).to eq(1)
           expect(planning_application_json["documents"].first["url"]).to eq(api_v1_planning_application_document_url(planning_application, document_with_number))
           expect(planning_application_json["documents"].first["created_at"]).to eq(json_time_format(document_with_number.created_at))

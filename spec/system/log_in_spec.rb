@@ -39,7 +39,7 @@ RSpec.describe "Sign in", type: :system do
 
       it "can see their name and role" do
         expect(page).to have_text("Lorrine Krajcik")
-        expect(page).to have_text("Assessor")
+        expect(page).to have_text("Case Officer")
       end
     end
 
@@ -51,7 +51,7 @@ RSpec.describe "Sign in", type: :system do
 
       it "can see their name and role" do
         expect(page).to have_text("Harley Dicki")
-        expect(page).to have_text("Reviewer")
+        expect(page).to have_text("Manager")
       end
     end
 

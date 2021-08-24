@@ -64,12 +64,12 @@ $ JS_DRIVER=selenium_chrome rspec spec/system/log_in_spec.rb
 $ rails server
 ```
 
-#### Because of the subdomain being enforced, your app will be available on:
+#### Because of the subdomain being enforced, you will need to use Chrome or Firefox to test subdomains (unless you configure your own computer etc file for this to work on any browser):
 
 ```
-http://southwark.lvh.me:3000/
+http://southwark.southwark.localhost:3000/
 or
-http://lambeth.lvh.me:3000/
+http://lambeth.lambeth.localhost:3000/
 ```
 ##Dependencies
 
@@ -96,3 +96,38 @@ Once you have the application running, you can submit planning application throu
 
 [1]: https://www.docker.com/products/docker-desktop
 [2]: http://localhost:3000/
+
+## Working with the bops-applicants front end
+
+When testing bops-applicants emails on localhost, you will need to export the APPLICANTS_APP_HOST variable, with defines the link being sent in emails from bops. Running bops applicants on port 3001 for southwark for ex:
+
+```
+export APPLICANTS_APP_HOST=southwark.southwark.localhost:3001
+```
+
+
+## Working with api documentation: aggregate swagger files
+
+We need a single openapi file to exist, but to keep the code easier to maintain we have multiple files that are then compiled into this single file:
+
+```public/api-docs/v1/_build/swagger_doc.yaml```.
+
+So to create a new api endpoint, create your yaml doc inside public/api-docs/v1 and reference it in
+
+``` public/api-docs/v1/swagger_doc.yaml ```
+
+like so:
+
+```
+  $ref: "./your_new_file_name.yaml"
+```
+
+Make changes to your new file, and when you're happy aggregate them into our single file by installing this package in your machine:
+
+``` npm install -g swagger-cli ```
+
+and running:
+
+```
+swagger-cli bundle public/api-docs/v1/swagger_doc.yaml --outfile public/api-docs/v1/_build/swagger_doc.yaml --type yaml
+```

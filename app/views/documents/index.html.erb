@@ -3,17 +3,29 @@
 
 <% content_for :title, "Documents" %>
 
-<h1 class="govuk-heading-l" style="margin-bottom: 7px;">
-  <%= @planning_application.reference %>
-</h1>
-<p class="govuk-body">
-  <%= @planning_application.full_address %>
-</p>
+<%= render "planning_applications/proposal_header" %>
 
-<%= render "success_flash" %>
+<% if @planning_application.invalid_documents.present? %>
+<div class="govuk-error-summary govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-labelledby="error-summary-title" role="alert" tabindex="-1">
+  <svg class="alert__icon" fill="red" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 25 25" height="25" width="25">
+    <path d="M13.6,15.4h-2.3v-4.5h2.3V15.4z M13.6,19.8h-2.3v-2.2h2.3V19.8z M0,23.2h25L12.5,2L0,23.2z"></path>
+  </svg>
+  <div class="govuk-error-summary__body">
+    <ul class="govuk-list govuk-error-summary__list">
+      <li>
+        Invalid documents:
+        <span class="govuk-!-font-weight-bold">
+          <%= @planning_application.invalid_documents.count %>
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>
+<% end %>
 
-<h2 class="govuk-heading-m">
-  Proposal documents
+<h2 class="govuk-heading-m govuk-!-padding-top-6">
+  Documents
 </h2>
 
 <div class="govuk-grid-row">
@@ -24,97 +36,143 @@
   </div>
   <div class="govuk-grid-column-one-third" style="text-align: right">
     <% if @planning_application.can_validate? %>
-      <%= link_to "Upload documents", new_planning_application_document_path(@planning_application), role: "button", class: "govuk-button", data: { module: "govuk-button" } %>
+      <%= link_to "Upload document", new_planning_application_document_path(@planning_application), role: "button", class: "govuk-button", data: { module: "govuk-button" } %>
     <% else %>
-      <%= tag.button "Upload documents", disabled: "disabled", "aria-disabled": true, class: "govuk-button govuk-button--disabled", data: { module: "govuk-button" } %>
+      <%= tag.button "Upload document", disabled: "disabled", "aria-disabled": true, class: "govuk-button govuk-button--disabled", data: { module: "govuk-button" } %>
     <% end %>
   </div>
 </div>
 
-<ul class="app-task-list current-documents" style="margin-bottom: 2em;">
-  <% unless @documents.nil? %>
-  <% filter_current(@documents).each do |document| %>
-    <li class="app-task-list__item govuk-!-padding-6">
-        <div class="govuk-grid-column-one-quarter">
-            <%= link_to image_tag(document.file.representation(resize: "300x212"), class: "govuk-!-width-full"),
+<% unless @documents.nil? %>
+  <hr/>
+  <table class="govuk-table current-documents">
+    <tbody class="govuk-table__body">
+      <% filter_current(@documents).each do |document| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell govuk-!-width-one-quarter">
+            <%= link_to image_tag(document.file.representation(resize: "300x212")),
                         url_for_document(document), target: :_blank %>
             <p class="govuk-body">
               <%= link_to "View in new window", url_for_document(document), target: :_new %>
             </p>
-        </div>
-        <div class="govuk-grid-column-one-half">
-          <% if document.tags.present? %>
-            <p class="govuk-body">
-              <% document.tags.each do |tag| %>
-                <strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong>
-              <% end %>
+          </td>
+          <td class="govuk-table__cell govuk-!-width-one-half">
+            <% if document.tags.present? %>
+              <p class="govuk-body">
+                <% document.tags.each do |tag| %>
+                  <% if is_plan_tag(tag) %>
+                    <strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong>
+                  <% end %>
+                <% end %>
+              </p>
+                <% document.tags.each do |tag| %>
+                  <% if is_evidence_tag(tag) %>
+                    <p class="govuk-body">
+                      <strong class="govuk-tag govuk-tag--turquoise">EVIDENCE</strong> <strong class="govuk-tag govuk-tag--turquoise"><%= tag  %></strong><br/>
+                    </p>
+                  <% end %>
+                <% end %>
+            <% end %>
+            <% if document.validated == false %>
+            <p class="govuk-body govuk-!-margin-bottom-1 govuk-!-font-weight-bold">
+              Invalid: <%= document.invalidated_document_reason %>
             </p>
-          <% end %>
-          <p class="govuk-body govuk-!-margin-bottom-1">
-            File name: <%= document.name %>
-          </p>
-          <p class="govuk-body govuk-!-margin-bottom-1">
-            Date received: <%= document.created_at.strftime("%e %B %Y") %>
-          </p>
-          <% if document.numbers.present? %>
+            <% end %>
             <p class="govuk-body govuk-!-margin-bottom-1">
-              Document reference(s): <%= document.numbers %>
+              File name: <%= document.name %>
             </p>
-          <% end %>
+            <p class="govuk-body govuk-!-margin-bottom-1">
+              Date received: <%= document.created_at.strftime("%e %B %Y") %>
+            </p>
+            <% if document.numbers.present? %>
+              <p class="govuk-body govuk-!-margin-bottom-1">
+                Document reference(s): <%= document.numbers %>
+              </p>
+            <% end %>
             <p class="govuk-body govuk-!-margin-bottom-1">
               Included in decision notice: <%= document.referenced_in_decision_notice? ? "Yes" : "No" %>
             </p>
             <p class="govuk-body govuk-!-margin-bottom-1">
               Public: <%= document.publishable? ? "Yes" : "No" %>
             </p>
-        </div>
-      <% if @planning_application.can_validate? %>
-        <div class="govuk-grid-column-one-quarter">
-          <p style="text-align: right" class="govuk-body">
-            <%= link_to "Edit", edit_planning_application_document_path(@planning_application, document) %><br />
-            <%= link_to "Archive document", planning_application_document_archive_path(document_id: document.id) %>
-          </p>
-        </div>
-      <% end %>
-    </li>
-    <% end %>
-  <% end %>
-</ul>
-
-<% if @documents.present? %>
-  <div class="govuk-grid-row govuk-!-padding-left-6">
-    <table class="govuk-table archived-documents">
-      <caption class="govuk-table__caption">Archived documents</caption>
-      <thead class="govuk-table__head">
-        <tr>
-          <% if filter_archived(@documents).present? %>
-            <th scope="col" class="govuk-table__header">Document name</th>
-            <th scope="col" class="govuk-table__header">Tags </th>
-            <th scope="col" class="govuk-table__header">Date uploaded</th>
-            <th scope="col" class="govuk-table__header">Officer's comment</th>
-          <% else %>
-            <th scope="row" class="govuk-table__cell" style="font-weight: 100">No documents archived</th>
-          <% end %>
-        </tr>
-      </thead>
-      <% if filter_archived(@documents).present? %>
-        <tbody class="govuk-table__body">
-          <% filter_archived(@documents).each do |document| %>
-            <tr class="govuk-table__row">
-              <td class="govuk-table__cell archive-data"><%= link_to document.name, url_for_document(document), target: :_new %></td>
-              <td class="govuk-table__cell archive-data tags">
-                <p class="govuk-body">
-                  <% document.tags.each do |tag| %>
-                    <strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong>
-                  <% end %>
+          </td>
+          <td class="govuk-table__cell">
+              <% if @planning_application.can_validate? %>
+                <p class="govuk-body govuk-!-margin-right-2" style="text-align:right">
+                  <%= link_to "Edit", edit_planning_application_document_path(@planning_application, document) %><br />
+                  <%= link_to "Archive", planning_application_document_archive_path(document_id: document.id) %>
                 </p>
-              </td>
-              <td class="govuk-table__cell archive-data"><%= document.created_at.strftime("%e %b %Y") %></td>
-              <td class="govuk-table__cell archive-data"><%= document.archive_reason %></td>
-            </tr>
-          <% end %>
-        </tbody>
+              <% end %>
+          </td>
+        </tr>
       <% end %>
-    </table>
-  </div>
+    </tbody>
+  </table>
+<% end %>
+
+<h2 class="govuk-heading-m">
+  Archived documents
+</h2>
+
+<% if filter_archived(@documents).present? %>
+  <table class="govuk-table archived-documents">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Document</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Tags</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Date uploaded</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Officer's comment</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% filter_archived(@documents).each do |document| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell govuk-!-width-one-quarter">
+            <p class="govuk-body govuk-!-margin-bottom-1">
+              <%= link_to image_tag(document.file.representation(resize: "300x212")),
+                          url_for_document(document), target: :_blank %>
+            </p>
+            <p class="govuk-body">
+              <%= document.name %><br/>
+              <%= link_to "View in new window", url_for_document(document), target: :_new %>
+            </p>
+            <p class="govuk-body">
+              <%= form_for document, url: planning_application_document_unarchive_path(document_id: document.id), class: "restore" do |form| %>
+                  <%= form.submit "Restore document", class: "govuk-body" %>
+              <% end %>
+            </p>
+          </td>
+          <td class="govuk-table__cell govuk-!-width-one-quarter">
+            <% if document.tags.present? %>
+              <% document.tags.each do |tag| %>
+                <strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong>
+              <% end %>
+            <% else %>
+              <p class="govuk-body govuk govuk-!-margin-bottom-1">
+                <em>No tags added</em>
+              </p>
+            <% end %>
+          </td>
+          <td class="govuk-table__cell govuk-!-width-one-quarter">
+            <p class="govuk-body govuk-!-margin-bottom-1">
+              <%= document.created_at.strftime("%e %b %Y") %>
+            </p>
+          </td>
+          <td class="govuk-table__cell govuk-!-width-one-quarter">
+            <p class="govuk-body">
+              <% if document.archive_reason.present? %>
+                <%= document.archive_reason %>
+              <% else %>
+                <em>No reason provided</em>
+              <% end %>
+            </p>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+    <p class="govuk-body">
+      <strong>No documents archived</strong>
+    </p>
 <% end %>

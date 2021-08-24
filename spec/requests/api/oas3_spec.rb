@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "The Open API Specification document", type: :request, show_exceptions: true do
-  let(:document) { Openapi3Parser.load_file(Rails.root.join("public/api-docs/v1/swagger_doc.yaml")) }
+  let(:document) { Openapi3Parser.load_file(Rails.root.join("public/api-docs/v1/_build/swagger_doc.yaml")) }
   let(:api_user) { create :api_user }
 
   def example_request_json_for(path, http_method, example_name)
@@ -44,7 +44,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
     expect(PlanningApplication.last.application_type).to eq("lawfulness_certificate")
     expect(PlanningApplication.last.description).to eq("Add a chimney stack")
     expect(PlanningApplication.last.payment_reference).to eq("PAY1")
-    expect(PlanningApplication.last.ward).to eq("Dulwich Wood")
+    expect(PlanningApplication.last.payment_amount).to eq(10_300)
     expect(PlanningApplication.last.applicant_first_name).to eq("Albert")
     expect(PlanningApplication.last.applicant_last_name).to eq("Manteras")
     expect(PlanningApplication.last.applicant_phone).to eq("23432325435")
@@ -59,13 +59,20 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
     expect(PlanningApplication.last.town).to eq("London")
     expect(PlanningApplication.last.postcode).to eq("SE16 3RQ")
     expect(PlanningApplication.last.work_status).to eq("proposed")
+    expect(PlanningApplication.last.boundary_geojson).to eq('{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-0.07716178894042969,51.50094238217541],[-0.07645905017852783,51.50053497847238],[-0.07615327835083008,51.50115276135022],[-0.07716178894042969,51.50094238217541]]]}}')
     expect(JSON.parse(PlanningApplication.last.proposal_details).first["question"]).to eq("What do you want to do?")
-    expect(JSON.parse(PlanningApplication.last.constraints)["conservation_area"]).to eq(true)
+    expect(PlanningApplication.last.constraints).to eq(%w[conservation_area])
     expect(PlanningApplication.last.documents.first.file).to be_present
+    expect(PlanningApplication.last.documents.first.applicant_description).to eq("This is the side plan")
+    expect(PlanningApplication.last.result_flag).to eq("Planning permission / Permission needed")
+    expect(PlanningApplication.last.result_heading).to eq("It looks like these changes will need planning permission")
+    expect(PlanningApplication.last.result_description).to eq("Based on the information you have provided, we do not think this is eligible for a Certificate of Lawfulness")
+    expect(PlanningApplication.last.result_override).to eq("This was my reason for rejecting the result")
   end
 
   it "successfully returns the listing of applications as specified" do
     planning_application_hash = example_response_hash_for("/api/v1/planning_applications", "get", 200, "Full")["data"].first
+
     planning_application = PlanningApplication.create! planning_application_hash.except("application_number", "received_date", "documents", "site").merge(local_authority: @default_local_authority)
     planning_application.update!(planning_application_hash["site"])
     planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url")) do |document|

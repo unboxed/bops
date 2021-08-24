@@ -29,12 +29,15 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
     @planning_application = PlanningApplication.new(
       planning_application_params.merge!(
         local_authority_id: @current_local_authority.id,
+        boundary_geojson: (params[:boundary_geojson].to_json if params[:boundary_geojson].present?),
         proposal_details: (params[:proposal_details].to_json if params[:proposal_details].present?),
-        constraints: (params[:constraints].to_json if params[:constraints].present?),
+        constraints: constraints_array_from_param(params[:constraints]),
+        api_user: current_api_user,
         audit_log: params.to_json,
       ),
     )
     @planning_application.assign_attributes(site_params) if site_params.present?
+    @planning_application.assign_attributes(result_params) if result_params.present?
 
     if @planning_application.valid? && @planning_application.save!
       upload_documents(params[:files])
@@ -45,6 +48,7 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
         activity_information: current_api_user.name,
       )
       send_success_response
+      receipt_notice_mail if @planning_application.agent_email.present? || @planning_application.applicant_email.present?
     else
       send_failed_response
     end
@@ -53,7 +57,7 @@ class Api::V1::PlanningApplicationsController < Api::V1::ApplicationController
   def upload_documents(document_params)
     unless document_params.nil?
       document_params.each do |param|
-        @planning_application.documents.create!(tags: Array(param[:tags])) do |document|
+        @planning_application.documents.create!(tags: Array(param[:tags]), applicant_description: param[:applicant_description]) do |document|
           document.file.attach(io: URI.parse(param[:filename]).open, filename: new_filename(param[:filename]).to_s)
         end
       end
@@ -84,7 +88,6 @@ private
   def planning_application_params
     permitted_keys = %i[application_type
                         description
-                        ward
                         applicant_first_name
                         applicant_last_name
                         applicant_phone
@@ -96,8 +99,13 @@ private
                         proposal_details
                         files
                         payment_reference
+                        payment_amount
                         work_status]
     params.permit permitted_keys
+  end
+
+  def constraints_array_from_param(constraints_params)
+    constraints_params.present? ? constraints_params.to_unsafe_hash.collect { |key, value| key if value }.compact : []
   end
 
   def site_params
@@ -108,5 +116,21 @@ private
         town: params[:site][:town],
         postcode: params[:site][:postcode] }
     end
+  end
+
+  def result_params
+    if params[:result]
+      { result_flag: params[:result][:flag],
+        result_heading: params[:result][:heading],
+        result_description: params[:result][:description],
+        result_override: params[:result][:override] }
+    end
+  end
+
+  def receipt_notice_mail
+    PlanningApplicationMailer.receipt_notice_mail(
+      @planning_application,
+      request.host,
+    ).deliver_now
   end
 end

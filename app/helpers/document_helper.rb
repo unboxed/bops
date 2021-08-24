@@ -8,4 +8,12 @@ module DocumentHelper
   def filter_current(documents)
     documents.select { |file| file.archived? == false }.sort_by(&:created_at)
   end
+
+  def is_plan_tag(tag)
+    Document::PLAN_TAGS.include?(tag)
+  end
+
+  def is_evidence_tag(tag)
+    Document::EVIDENCE_TAGS.include?(tag)
+  end
 end

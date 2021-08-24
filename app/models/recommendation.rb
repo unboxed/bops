@@ -6,6 +6,8 @@ class Recommendation < ApplicationRecord
   scope :pending_review, -> { where(reviewer_id: nil) }
   scope :reviewed, -> { where("reviewer_id IS NOT NULL") }
 
+  validate :reviewer_comment_is_present?
+
   attr_accessor :agree
 
   def current_recommendation?
@@ -17,6 +19,12 @@ class Recommendation < ApplicationRecord
       false
     else
       reviewer.present?
+    end
+  end
+
+  def reviewer_comment_is_present?
+    if challenged? && !reviewer_comment?
+      errors.add(:base, "Please include a comment for the case officer to indicate why the recommendation has been challenged.")
     end
   end
 end

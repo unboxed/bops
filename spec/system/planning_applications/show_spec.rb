@@ -4,20 +4,22 @@ require "rails_helper"
 
 RSpec.describe "Planning Application show page", type: :system do
   let(:documents_validated_at) { Date.current - 2.weeks }
+  let!(:api_user) { create :api_user }
   let!(:planning_application) do
     create :planning_application, description: "Roof extension",
                                   application_type: "lawfulness_certificate",
                                   status: :in_assessment,
-                                  ward: "Dulwich Wood",
                                   documents_validated_at: documents_validated_at,
                                   local_authority: @default_local_authority,
                                   payment_reference: "PAY123",
+                                  payment_amount: 10_300,
                                   work_status: "proposed",
                                   uprn: "00773377",
                                   address_1: "7 Elm Grove",
                                   town: "London",
                                   postcode: "SE15 6UT",
-                                  constraints: '{"conservation_area": true, "article4_area": false, "scheduled_monument": false }'
+                                  constraints: ["Conservation Area", "Listed Building"],
+                                  api_user: api_user
   end
   let(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
 
@@ -32,7 +34,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "Completed status is correct" do
-      expect(page).to have_text("Work already completed: No")
+      expect(page).to have_text("Work already started: No")
     end
 
     it "Planning application code is correct" do
@@ -40,8 +42,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "Target date is correct and label is turquoise" do
-      expect(page).to have_text("Due: #{planning_application.target_date.strftime('%d %B')}")
-      expect(page).to have_text("#{planning_application.days_left} days remaining")
+      expect(page).to have_text("Target date: #{planning_application.target_date.strftime('%d %B')}")
       expect(page).to have_css(".govuk-tag--turquoise")
       expect(page).to have_content("In assessment")
     end
@@ -49,29 +50,47 @@ RSpec.describe "Planning Application show page", type: :system do
     it "Applicant information accordion" do
       click_button "Application information"
 
-      expect(page).to have_text("Address: 7 Elm Grove, London, SE15 6UT")
+      expect(page).to have_text("Site address: 7 Elm Grove, London, SE15 6UT")
       expect(page).to have_text("UPRN: 00773377")
-      expect(page).to have_text("Ward: Dulwich Wood")
-      expect(page).to have_link("Map link")
-      expect(page).to have_text("Application type: Proposed permitted development: Certificate of Lawfulness")
-      expect(page).to have_text("Summary: Roof extension")
+      expect(page).to have_link("View site on Google Maps")
+      expect(page).to have_text("Application type: Lawful Development Certificate (Proposed)")
+      expect(page).to have_text("Description: Roof extension")
       expect(page).to have_text("PAY123")
+      expect(page).to have_text("£103.00")
     end
 
     it "Constraints accordion" do
       click_button "Constraints"
 
-      expect(page).to have_text("conservation_area")
+      expect(page).to have_text("Conservation Area")
     end
 
     it "Key application dates accordion" do
       click_button "Key application dates"
 
-      expect(page).to have_text("Application status: In assessment")
       expect(page).to have_text("Application received: #{Time.zone.now.strftime('%e %B %Y').strip}")
       expect(page).to have_text("Validation complete: #{Time.zone.now.strftime('%e %B %Y').strip}")
       expect(page).to have_text("Target date: #{planning_application.target_date.strftime('%e %B %Y').strip}")
-      expect(page).to have_text("Statutory date: #{planning_application.target_date.strftime('%e %B %Y').strip}")
+      expect(page).to have_text("Expiry date: #{planning_application.expiry_date.strftime('%e %B %Y').strip}")
+    end
+
+    it "Result summary" do
+      click_button "Result from #{api_user.name}"
+
+      expect(page).to have_text("Planning permission / Permission needed")
+      expect(page).to have_text(planning_application.result_heading)
+      expect(page).to have_text(planning_application.result_description)
+      expect(page).to have_text("Override")
+    end
+
+    it "Result question summary" do
+      click_button "Result from #{api_user.name}"
+
+      within(".govuk-accordion__section.result_information") do
+        expect(page).to have_text("1. what are you planning to do?")
+        expect(page).to have_text("demolish")
+        expect(page).to have_text("Details identified by #{api_user.name} as relevant to the result")
+      end
     end
 
     it "Contact information accordion" do
@@ -120,8 +139,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "Target date is correct" do
-      expect(page).to have_text("Due: #{planning_application.target_date.strftime('%d %B')}")
-      expect(page).to have_text("#{planning_application.days_left} days remaining")
+      expect(page).to have_text("Target date: #{planning_application.target_date.strftime('%d %B')}")
     end
 
     it "Breadcrumbs contain reference to Application overview which is not linked" do
@@ -141,6 +159,46 @@ RSpec.describe "Planning Application show page", type: :system do
 
       expect(page).to have_current_path(/sign_in/)
       expect(page).to have_content("You need to sign in or sign up before continuing.")
+    end
+  end
+
+  context "when work status is existing" do
+    before do
+      sign_in assessor
+      planning_application.update!(work_status: "existing")
+      visit planning_application_path(planning_application.reload.id)
+    end
+
+    it "displays the correct application type" do
+      expect(page).to have_text("Application type: Lawful Development Certificate (Existing)")
+    end
+  end
+
+  context "when no result fields are present" do
+    let!(:planning_application) do
+      create :planning_application, :without_result,
+             local_authority: @default_local_authority
+    end
+
+    before do
+      sign_in assessor
+      visit planning_application_path(planning_application.reload.id)
+    end
+
+    it "displays the correct text in the result accordion when no API user is given" do
+      click_button "Result from application"
+
+      expect(page).to have_text("No result")
+      expect(page).to have_text("The application was not assessed on submission")
+    end
+
+    it "displays the correct text in the result accordion when API user is present" do
+      planning_application.update!(api_user: api_user)
+      visit planning_application_path(planning_application.reload.id)
+      click_button "Result from #{api_user.name}"
+
+      expect(page).to have_text("No result")
+      expect(page).to have_text("#{api_user.name} did not provide a result for this application")
     end
   end
 end
