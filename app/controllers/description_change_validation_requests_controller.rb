@@ -1,4 +1,4 @@
-class DescriptionChangeValidationRequestsController < ApplicationController
+class DescriptionChangeValidationRequestsController < ValidationRequestsController
   before_action :set_planning_application, only: %i[new create]
 
   def new
@@ -11,7 +11,7 @@ class DescriptionChangeValidationRequestsController < ApplicationController
     @current_local_authority = current_local_authority
 
     if @description_change_validation_request.save
-      send_validation_request_email if @planning_application.invalidated?
+      email_and_timestamp(@description_change_validation_request) if @planning_application.invalidated?
 
       flash[:notice] = "Validation request for description successfully created."
       audit("description_change_validation_request_sent", description_audit_item(@description_change_validation_request, @planning_application),
@@ -31,13 +31,6 @@ private
 
   def set_planning_application
     @planning_application = PlanningApplication.find(params[:planning_application_id])
-  end
-
-  def send_validation_request_email
-    PlanningApplicationMailer.validation_request_mail(
-      @planning_application,
-      @description_change_validation_request,
-    ).deliver_now
   end
 
   def description_audit_item(description_change_validation_request, planning_application)
