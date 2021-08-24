@@ -1,4 +1,4 @@
-class AdditionalDocumentValidationRequestsController < ApplicationController
+class AdditionalDocumentValidationRequestsController < ValidationRequestsController
   def new
     @additional_document_validation_request = planning_application.additional_document_validation_requests.new
   end
@@ -9,7 +9,7 @@ class AdditionalDocumentValidationRequestsController < ApplicationController
 
     if @additional_document_validation_request.save
       flash[:notice] = "Additional document request successfully created."
-      send_validation_request_email if @planning_application.invalidated?
+      email_and_timestamp(@additional_document_validation_request) if @planning_application.invalidated?
       audit("additional_document_validation_request_sent", document_create_audit_item(@additional_document_validation_request),
             @additional_document_validation_request.sequence)
       redirect_to planning_application_validation_requests_path(@planning_application)
@@ -26,13 +26,6 @@ private
 
   def planning_application
     @planning_application = PlanningApplication.find(params[:planning_application_id])
-  end
-
-  def send_validation_request_email
-    PlanningApplicationMailer.validation_request_mail(
-      @planning_application,
-      @additional_document_validation_request,
-    ).deliver_now
   end
 
   def document_create_audit_item(additional_document_validation_request)
