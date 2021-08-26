@@ -20,7 +20,25 @@ $ git clone git@github.com:unboxed/bops.git
 
 ## Building the project for local development
 
-### First Time Setup without
+### Using Docker
+
+First build and launch the images:
+
+```sh
+docker-compose up
+```
+
+Once your containers are running, you can use the Makefile to get a
+prompt and run a couple extra commands:
+
+```sh
+make prompt
+
+root@232515c34d14:/app# bin/rails db:reset
+root@232515c34d14:/app# yarn
+```
+
+### Locally
 
 #### Install the project's dependencies using bundler and yarn:
 

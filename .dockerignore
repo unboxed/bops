@@ -7,3 +7,5 @@ public/packs/*
 public/packs-test/*
 coverage/*
 storage/*
+Dockerfile
+docker-compose.yml
