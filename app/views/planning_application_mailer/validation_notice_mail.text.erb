@@ -8,13 +8,13 @@ Reference No.: <%= @planning_application.reference %>
 Proposal: <%= @planning_application.description %>
 Site Address: <%= @planning_application.full_address %>
 
-Your application is now valid and has been started from <%= @planning_application.documents_validated_at.strftime("%e %B %Y") %>. The description of your development given in the title block above may be different from the one on your application form. Contact us if you would like the description to be amended.
+Your application is now valid and has been started from <%= @planning_application.documents_validated_at.to_datetime.to_formatted_s(:day_month_year) %>. The description of your development given in the title block above may be different from the one on your application form. Contact us if you would like the description to be amended.
 
 Please quote the planning reference number <%= @planning_application.reference %> when contacting us.
 
 We may request additional information and/or revisions before deciding whether the application should be recommended for permission or refusal.
 
-We aim to issue a decision by <%= @planning_application.target_date.strftime("%e %B %Y") %>. However, if your application has not been determined by <%= @planning_application.target_date.strftime("%e %B %Y") %>, you have the right to appeal to the Secretary of State, either online at https://www.gov.uk/government/organisations/planning-inspectorate, or by post to Temple Quay House, 2 The Square, Temple Quay, Bristol BS1 6PN.
+We aim to issue a decision by <%= @planning_application.target_date.to_datetime.to_formatted_s(:day_month_year) %>. However, if your application has not been determined by <%= @planning_application.target_date.to_datetime.to_formatted_s(:day_month_year) %>, you have the right to appeal to the Secretary of State, either online at https://www.gov.uk/government/organisations/planning-inspectorate, or by post to Temple Quay House, 2 The Square, Temple Quay, Bristol BS1 6PN.
 
 An appeal in this situation assumes the refusal of the application, even if it had intended to be granted. It is therefore recommended that you consult your case officer before taking such action.
 
