@@ -24,13 +24,13 @@
     <div class="govuk-grid-column-two-thirds assigned_to">
       <p class="govuk-body">
         Assigned to: <strong><%= @planning_application.user ? @planning_application.user.name : "Unassigned" %></strong>
-        <span class="assignment_cta"><%= link_to "Change", assign_planning_application_path(@planning_application) %></span>
+        <span class="assignment_cta"><%= link_to "Change", assign_planning_application_path(@planning_application), class: "govuk-link" %></span>
       </p>
     </div>
   </div>
 <% elsif @planning_application.determined? %>
   <p class="govuk-body">
-    <%= link_to "View decision notice", decision_notice_planning_application_path(@planning_application)%>
+    <%= link_to "View decision notice", decision_notice_planning_application_path(@planning_application), class: "govuk-link" %>
   </p>
 <% end %>
 
