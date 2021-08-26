@@ -37,6 +37,9 @@ FactoryBot.define do
           responses: [
             {
               value: "demolish",
+              metadata: {
+                flags: ["Planning permission / Permission needed"],
+              },
             },
           ],
           metadata: {
@@ -48,7 +51,6 @@ FactoryBot.define do
                 text: "GPDO 32.2342.223",
               },
             ],
-            flags: ["Planning permission / Permission needed"],
           },
         },
       ].to_json

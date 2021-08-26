@@ -194,14 +194,14 @@
     },
     {
       "question": "When was the original property built?",
-      "metadata": {
-        "flags": [
-          "Planning permission / Permission needed"
-        ]
-      },
       "responses": [
         {
-          "value": "Don't know"
+          "value": "Don't know",
+          "metadata": {
+            "flags": [
+              "Planning permission / Permission needed"
+            ]
+          }
         }
       ]
     },
