@@ -6,8 +6,11 @@ RUN gem install bundler -v 2.2.7
 # Update the system
 RUN apt-get update -y
 
-# Install Chromium for the Cucumber JS tests
-RUN apt-get install -y chromium
+# Install Chromium for the feature tests
+RUN apt-get install -y --no-install-recommends chromium
+
+# Install wkhtmltopdf for PDFKit and poppler for ActiveStorage's PDF previews
+RUN apt-get install -y --no-install-recommends wkhtmltopdf poppler-utils
 
 ## Install gems in a separate Docker fs layer
 WORKDIR /gems
