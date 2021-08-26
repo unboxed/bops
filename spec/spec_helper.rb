@@ -7,7 +7,10 @@
 require "faker"
 require "webmock/rspec"
 
-WebMock.disable_net_connect!(allow_localhost: true)
+WebMock.disable_net_connect!(
+  allow_localhost: true,
+  allow: "chromedriver.storage.googleapis.com",
+)
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
