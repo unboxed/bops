@@ -41,7 +41,7 @@ RSpec.describe "API request to list planning applications", type: :request, show
 
     context "for a new planning application" do
       let!(:planning_application) { create(:planning_application, :not_started, local_authority: @default_local_authority, decision: "granted") }
-      let(:lambeth) { create :local_authority, subdomain: "lambeth" }
+      let!(:lambeth) { LocalAuthority.find_by(subdomain: "lambeth") }
       let!(:planning_application_lambeth) { create(:planning_application, :not_started, local_authority: lambeth) }
 
       it "returns the accurate data" do
