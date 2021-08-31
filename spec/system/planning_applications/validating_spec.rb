@@ -41,7 +41,7 @@ RSpec.shared_examples "validate and invalidate" do
     expect(page).to have_content(planning_application.reference)
     expect(page).to have_content(planning_application.full_address)
     expect(page).to have_content("Your application is now valid")
-    expect(page).to have_content(planning_application.documents_validated_at.strftime("%e %B %Y"))
+    expect(page).to have_content(planning_application.documents_validated_at.to_formatted_s(:day_month_year))
   end
 
   it "allows document edit, archive and upload after invalidation" do
@@ -306,7 +306,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       visit planning_application_path(invalid_planning_application)
       click_link "Validate application"
 
-      expect(page).to have_content("The application is marked as invalid. The applicant was notified on #{invalid_planning_application.invalidated_at.strftime('%e %B %Y')}")
+      expect(page).to have_content("The application is marked as invalid. The applicant was notified on #{invalid_planning_application.invalidated_at.to_formatted_s(:day_month_year)}")
     end
   end
 end

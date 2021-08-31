@@ -1,5 +1,5 @@
 Application number: <%= @planning_application.reference %>
-Application received: <%= @planning_application.created_at.strftime("%e %B %Y") %>
+Application received: <%= @planning_application.created_at.to_formatted_s(:day_month_year) %>
 At: <%= @planning_application.full_address %>
 
 Hi <%= @planning_application.applicant_first_name %> <%= @planning_application.applicant_last_name %>
@@ -14,7 +14,7 @@ If we don't hear from you:
 
 We will take no further action on your application until you submit the following change(s).
 
-If these change(s) are not received by <%= @validation_request.response_due.strftime("%e %B %Y") %>, your application will be returned to you and your payment refunded.
+If these change(s) are not received by <%= @validation_request.response_due.to_formatted_s(:day_month_year) %>, your application will be returned to you and your payment refunded.
 
 Yours faithfully,
 <%= @planning_application.local_authority.signatory_name %>, <%= @planning_application.local_authority.signatory_job_title %>,

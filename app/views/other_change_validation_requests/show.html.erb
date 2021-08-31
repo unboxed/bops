@@ -10,7 +10,7 @@
       <strong>At:</strong> <%= @planning_application.full_address  %>
     </p>
     <p class="govuk-body govuk-!-margin-bottom-1">
-      <strong>Date received:</strong> <%= @planning_application.created_at.strftime("%e %B %Y") %>
+      <strong>Date received:</strong> <%= @planning_application.created_at.to_formatted_s(:day_month_year) %>
     </p>
     <p class="govuk-body govuk-!-margin-bottom-8">
       <strong>Application number:</strong> <%= @planning_application.reference  %>
@@ -26,7 +26,7 @@
         <%= @other_change_validation_request.suggestion %>
       </p>
       <p class="govuk-body">
-      <%= @other_change_validation_request.created_at.strftime("%e %B %Y") %>
+      <%= @other_change_validation_request.created_at.to_formatted_s(:day_month_year) %>
       </p>
     </div>
     <div class="govuk-inset-text">
@@ -37,7 +37,7 @@
         <%= @other_change_validation_request.response %>
       </p>
       <p class="govuk-body">
-        <%= @other_change_validation_request.updated_at.strftime("%e %B %Y") %>
+        <%= @other_change_validation_request.updated_at.to_formatted_s(:day_month_year) %>
       </p>
     </div>
   </div>
