@@ -40,12 +40,12 @@ module ValidationRequestHelper
   end
 
   def request_sent_at(validation_request)
-    validation_request.notified_at.strftime("%e %B %Y") if validation_request.notified_at.present?
+    validation_request.notified_at.to_formatted_s(:day_month_year) if validation_request.notified_at.present?
   end
 
   def request_closed_at(validation_request)
     if validation_request.state == "closed"
-      validation_request.updated_at.strftime("%e %B %Y")
+      validation_request.updated_at.to_formatted_s(:day_month_year)
     end
   end
 end

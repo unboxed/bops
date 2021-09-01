@@ -95,9 +95,9 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "renders the body" do
-      expect(validation_mail.body.encoded).to match("started from #{planning_application.documents_validated_at.strftime('%e %B %Y')}")
-      expect(validation_mail.body.encoded).to match("issue a decision by #{planning_application.target_date.strftime('%e %B %Y')}")
-      expect(validation_mail.body.encoded).to match("issue a decision by #{planning_application.target_date.strftime('%e %B %Y')}")
+      expect(validation_mail.body.encoded).to match("started from #{planning_application.documents_validated_at.to_formatted_s(:day_month_year)}")
+      expect(validation_mail.body.encoded).to match("issue a decision by #{planning_application.target_date.to_formatted_s(:day_month_year)}")
+      expect(validation_mail.body.encoded).to match("issue a decision by #{planning_application.target_date.to_formatted_s(:day_month_year)}")
       expect(validation_mail.body.encoded).to match("Site Address: #{planning_application.full_address}")
       expect(validation_mail.body.encoded).to match("planning reference number #{planning_application.reference}")
       expect(validation_mail.body.encoded).to match("Proposal: #{planning_application.description}")
@@ -115,9 +115,9 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "renders the body" do
-      expect(validation_request_mail.body.encoded).to include("Application received: #{planning_application.created_at.strftime('%e %B %Y')}")
+      expect(validation_request_mail.body.encoded).to include("Application received: #{planning_application.created_at.to_formatted_s(:day_month_year)}")
       expect(validation_request_mail.body.encoded).to include(validation_request.user.name)
-      expect(validation_request_mail.body.encoded).to include(validation_request.response_due.strftime("%e %B %Y"))
+      expect(validation_request_mail.body.encoded).to include(validation_request.response_due.to_formatted_s(:day_month_year))
       expect(validation_request_mail.body.encoded).to include(planning_application.change_access_id)
       expect(validation_request_mail.body.encoded).to include("http://cookies.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}")
       expect(validation_request_mail.body.encoded).to include("Mr. Biscuit")
@@ -137,7 +137,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "renders the body" do
-      expect(receipt_mail.body.encoded).to match("If by #{planning_application.target_date.strftime('%e %B %Y')}:")
+      expect(receipt_mail.body.encoded).to match("If by #{planning_application.target_date.to_formatted_s(:day_month_year)}:")
       expect(receipt_mail.body.encoded).to match("Date received: #{planning_application.created_at.strftime('%e %B %Y - %H:%M:%S')}")
       expect(receipt_mail.body.encoded).to match("Site address: #{planning_application.full_address}")
       expect(receipt_mail.body.encoded).to match("Reference: #{planning_application.reference}")
