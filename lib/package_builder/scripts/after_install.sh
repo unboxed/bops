@@ -4,6 +4,8 @@ set -o pipefail
 
 chown -R deploy:deploy /home/deploy/bops/releases/<%= release %>
 
+reapply-sysadmins
+
 su - deploy <<'EOF'
 ln -nfs /home/deploy/bops/shared/tmp /home/deploy/bops/releases/<%= release %>/tmp
 ln -nfs /home/deploy/bops/shared/log /home/deploy/bops/releases/<%= release %>/log
