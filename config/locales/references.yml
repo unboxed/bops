@@ -1,0 +1,68 @@
+---
+en:
+  schedules:
+    - name: "Schedule 1"
+      parts:
+        1:
+          name: "Development withing the curtilage of a dwellinghouse"
+          classes:
+            -
+              id: A
+              name: |
+                The enlargement, improvement or other alteration of a
+                dwellinghouse.
+              policies:
+                - A.1/a: |
+                    Development is not permitted by Class A if
+                    permission to use the dwellinghouse as a
+                    dwellinghouse has been granted only by virtue of
+                    Class M, MA, N, P, PA or Q of Part 3 of this
+                    Schedule (changes of use);
+                - A.1/b: |
+                    Development is not permitted by Class A if as a
+                    result of the works, the total area of ground
+                    covered by buildings within the curtilage of the
+                    dwellinghouse (other than the original
+                    dwellinghouse) would exceed 50% of the total area of
+                    the curtilage (excluding the ground area of the
+                    original dwellinghouse)
+            -
+              id: B
+              name: |
+                The reduction, shrinkage and minification of a
+                dwellinghouse.
+              policies:
+                - A.1/a: |
+                    Development is not permitted by Class A if
+                    permission to use the dwellinghouse as a
+                    dwellinghouse has been granted only by virtue of
+                    Class M, MA, N, P, PA or Q of Part 3 of this
+                    Schedule (changes of use);
+                - A.1/b: |
+                    Development is not permitted by Class A if as a
+                    result of the works, the total area of ground
+                    covered by buildings within the curtilage of the
+                    dwellinghouse (other than the original
+                    dwellinghouse) would exceed 50% of the total area of
+                    the curtilage (excluding the ground area of the
+                    original dwellinghouse)
+            -
+              id: C
+              name: |
+                The degradation, destruction or annihilation of a
+                dwellinghouse.
+              policies:
+                - A.1/a: |
+                    Development is not permitted by Class A if
+                    permission to use the dwellinghouse as a
+                    dwellinghouse has been granted only by virtue of
+                    Class M, MA, N, P, PA or Q of Part 3 of this
+                    Schedule (changes of use);
+                - A.1/b: |
+                    Development is not permitted by Class A if as a
+                    result of the works, the total area of ground
+                    covered by buildings within the curtilage of the
+                    dwellinghouse (other than the original
+                    dwellinghouse) would exceed 50% of the total area of
+                    the curtilage (excluding the ground area of the
+                    original dwellinghouse)
