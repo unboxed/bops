@@ -23,7 +23,7 @@
     <% planning_applications.each do |planning_application| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">
-          <%= link_to planning_application.reference, planning_application %>
+          <%= link_to planning_application.reference, planning_application, class: "govuk-link" %>
         </td>
         <td class="govuk-table__cell"><%= planning_application.full_address %></td>
         <td class="govuk-table__cell"><%= t("application_types.#{planning_application.application_type}") %></td>
