@@ -8,7 +8,7 @@
         <strong><%= current_user.name %>,</strong> <%= role_name %>
       </p>
       <p class="govuk-body govuk-!-padding-bottom-2">
-        <%= link_to "Add new application", new_planning_application_path %>
+        <%= link_to "Add new application", new_planning_application_path, class: "govuk-link" %>
       </p>
       <p class="govuk-body"><%= link_to "View all applications", planning_applications_path, class: "govuk-button" %></p>
     <% else %>
