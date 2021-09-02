@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_10_145259) do
+ActiveRecord::Schema.define(version: 2021_09_14_114010) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -191,6 +191,7 @@ ActiveRecord::Schema.define(version: 2021_09_10_145259) do
     t.string "result_override"
     t.bigint "api_user_id"
     t.bigint "boundary_created_by_id"
+    t.jsonb "policy_classes", default: [], array: true
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
     t.index ["boundary_created_by_id"], name: "ix_planning_applications_on_boundary_created_by_id"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"

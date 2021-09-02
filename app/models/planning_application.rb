@@ -4,6 +4,7 @@ require "aasm"
 
 class PlanningApplication < ApplicationRecord
   include AASM
+  include PolicyReference
 
   enum application_type: { lawfulness_certificate: 0, full: 1 }
 

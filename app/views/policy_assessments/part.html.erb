@@ -1,0 +1,41 @@
+<% add_parent_breadcrumb_link "Home", planning_applications_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+
+<% content_for :title, "Assess" %>
+
+<h1 class="govuk-heading-xl">Select the part to assess</h1>
+
+<p class="govuk-body">
+  Select the relevant class(es) to assess this application. Parts are defined blabla
+</p>
+
+<p class="govuk-body">
+  <%= link_to "View legislation", "https://gov.uk", class: "govuk-link" %>
+</p>
+
+<%= form_with(url: new_policy_assessment_path(@planning_application), method: :get) do |form| %>
+  <div class="govuk-form-group">
+    <fieldset class="govuk-fieldset">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+        <h1 class="govuk-fieldset__heading">
+          Select the part to assess
+        </h1>
+      </legend>
+      <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+        <% PlanningApplication.all_parts.each do |part_number, part| %>
+          <div class="govuk-radios__item">
+            <%= form.radio_button :part, part_number, class: "govuk-radios__input" %>
+            <%= form.label :part, value: part_number, class: "govuk-label govuk-radios__label" do %>
+              <strong>Part <%= part_number %></strong> - <%= part[:name] %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="govuk-button-group">
+    <%= form.submit "Continue", class: "govuk-button" %>
+    <%= link_to "Back", @planning_application, class: "govuk-button govuk-button--secondary" %>
+  </div>
+<% end %>

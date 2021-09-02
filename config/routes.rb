@@ -12,6 +12,11 @@ Rails.application.routes.draw do
     member do
       get :assign
       patch :assign
+
+      resources :policy_assessments do
+        get :part, on: :new
+      end
+
       get :validate_form
       patch :validate
       patch :invalidate
