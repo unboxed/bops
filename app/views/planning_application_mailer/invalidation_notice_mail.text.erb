@@ -1,9 +1,6 @@
 # <%= @planning_application.local_authority.name %>
 
-# Town and country planning act 1990 (as amended)
-# Town and country planning (development management procedure) Order 2015 (as amended)
-
-Dear Sir/Madam,
+Dear <%= @planning_application.applicant_name %>,
 
 Reference No.: <%= @planning_application.reference %>
 Proposal: <%= @planning_application.description %>
@@ -15,25 +12,18 @@ To review the reasons for invalidation and make the changes required, please fol
 
 <%= @planning_application.secure_change_url(@planning_application.id, @planning_application.change_access_id) %>
 
-If your amendments contain further errors, your application will be returned to you again.
+If your amendments contain further errors, we may request further changes to your application.
 
 If we don’t hear from you:
 
-We will take no further action on your application until you make the necessary the change(s) to your application.
+We will take no further action on your application until you make the necessary change(s).
 
 If these change(s) are not received by <%= @planning_application.invalidation_response_due.to_formatted_s(:day_month_year) %>, your application will be returned to you and your payment refunded.
 
 Yours faithfully,
 
-<%= @planning_application.local_authority.signatory_name %>
-<%= @planning_application.local_authority.signatory_job_title %>
+<%= @planning_application.local_authority.name %>
 
-Your attention is drawn to the notes accompanying this document
+If you have any questions relating to your application, please contact us by email at  <%= @planning_application.local_authority.email_address %> with your application reference.
 
-Any enquiries regarding this document should quote the Application Number and be sent to
-the
-<%= @planning_application.local_authority.signatory_job_title %>,
-<%= @planning_application.local_authority.name %>,
-<%= @planning_application.local_authority.enquiries_paragraph %>
-or by email to <%= @planning_application.local_authority.email_address %>
 
