@@ -128,9 +128,12 @@ private
   end
 
   def receipt_notice_mail
-    PlanningApplicationMailer.receipt_notice_mail(
-      @planning_application,
-      request.host,
-    ).deliver_now
+    @planning_application.applicant_and_agent_email.each do |user|
+      PlanningApplicationMailer.receipt_notice_mail(
+        @planning_application,
+        request.host,
+        user,
+      ).deliver_now
+    end
   end
 end

@@ -24,7 +24,7 @@ RSpec.shared_examples "validate and invalidate" do
     expect(planning_application.status).to eq("in_assessment")
     expect(planning_application.documents_validated_at).to eq(Date.new(2021, 12, 3))
 
-    expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 1)
+    expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 2)
 
     click_button "Key application dates"
     click_link "Activity log"

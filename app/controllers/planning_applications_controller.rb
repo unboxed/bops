@@ -306,17 +306,23 @@ private
   end
 
   def decision_notice_mail
-    PlanningApplicationMailer.decision_notice_mail(
-      @planning_application,
-      request.host,
-    ).deliver_now
+    @planning_application.applicant_and_agent_email.each do |user|
+      PlanningApplicationMailer.decision_notice_mail(
+        @planning_application,
+        request.host,
+        user,
+      ).deliver_now
+    end
   end
 
   def validation_notice_mail
-    PlanningApplicationMailer.validation_notice_mail(
-      @planning_application,
-      request.host,
-    ).deliver_now
+    @planning_application.applicant_and_agent_email.each do |user|
+      PlanningApplicationMailer.validation_notice_mail(
+        @planning_application,
+        request.host,
+        user,
+      ).deliver_now
+    end
   end
 
   def invalidation_notice_mail
@@ -327,10 +333,13 @@ private
   end
 
   def receipt_notice_mail
-    PlanningApplicationMailer.receipt_notice_mail(
-      @planning_application,
-      request.host,
-    ).deliver_now
+    @planning_application.applicant_and_agent_email.each do |user|
+      PlanningApplicationMailer.receipt_notice_mail(
+        @planning_application,
+        request.host,
+        user,
+      ).deliver_now
+    end
   end
 
   def ensure_user_is_reviewer

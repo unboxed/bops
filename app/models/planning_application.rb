@@ -322,6 +322,10 @@ class PlanningApplication < ApplicationRecord
     end
   end
 
+  def applicant_and_agent_email
+    [agent_email, applicant_email].reject(&:blank?)
+  end
+
 private
 
   def set_key_dates
