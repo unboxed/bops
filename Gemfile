@@ -43,11 +43,13 @@ group :development, :test do
   gem "rubocop-govuk", "4.0.0"
   gem "selenium-webdriver"
   gem "simplecov", require: false
+  gem "spring-commands-rspec"
   gem "webdrivers"
 end
 
 group :development do
   gem "listen"
+  gem "spring"
   gem "web-console"
 end
 
