@@ -23,9 +23,11 @@
           <% end %>
         </ul>
       <% end %>
-      <p class="govuk-body">
-        <%= link_to "Update", edit_constraints_form_planning_application_path(@planning_application) if @planning_application.can_validate? %>
-      </p>
+      <% if @planning_application.can_validate? %>
+        <p class="govuk-body">
+          <%= link_to "Update", edit_constraints_form_planning_application_path(@planning_application), class: "govuk-link" %>
+        </p>
+      <% end %>
     </div>
   </div>
   <div class="govuk-accordion__section">
@@ -43,26 +45,26 @@
     <div class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
       <p class="govuk-body">
         <strong>Application received:</strong>
-        <%= @planning_application.created_at.strftime("%e %B %Y") %>
+        <%= @planning_application.created_at.to_formatted_s(:day_month_year) %>
       </p>
       <p class="govuk-body">
         <strong>Validation complete:</strong>
         <% if @planning_application.in_assessment_at %>
-          <%= @planning_application.in_assessment_at.strftime("%e %B %Y") %>
+          <%= @planning_application.in_assessment_at.to_formatted_s(:day_month_year) %>
         <% else %>
           Not yet started
         <% end %>
       </p>
       <p class="govuk-body">
         <strong>Target date:</strong>
-        <%= @planning_application.target_date.strftime("%e %B %Y") %>
+        <%= @planning_application.target_date.to_formatted_s(:day_month_year) %>
       </p>
       <p class="govuk-body">
         <strong>Expiry date:</strong>
-        <%= @planning_application.expiry_date.strftime("%e %B %Y") %>
+        <%= @planning_application.expiry_date.to_formatted_s(:day_month_year) %>
       </p>
       <p class="govuk-body">
-        <%= link_to "Activity log", planning_application_audits_path(@planning_application) %>
+        <%= link_to "Activity log", planning_application_audits_path(@planning_application), class: "govuk-link" %>
       </p>
     </div>
   </div>
@@ -118,7 +120,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds cancel">
       <p class="govuk-body">
-        <%= link_to "Cancel application", cancel_confirmation_planning_application_path(@planning_application) %>
+        <%= link_to "Cancel application", cancel_confirmation_planning_application_path(@planning_application), class: "govuk-link" %>
       </p>
     </div>
   </div>

@@ -5,7 +5,7 @@
   <p class="govuk-body">The following decision notice has been created based on your answers.</p>
   <%= render "decision_notice", planning_application: @planning_application %>
   <p class="govuk-body">
-    <%= link_to "Download as PDF", decision_notice_api_v1_planning_application_path(@planning_application, format: 'pdf') %>
+    <%= link_to "Download as PDF", decision_notice_api_v1_planning_application_path(@planning_application, format: 'pdf'), class: "govuk-link" %>
   </p>
   <p class="govuk-body">
     <br>

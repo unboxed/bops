@@ -26,6 +26,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
   end
 
   it "is possible to create a request to update description" do
+    delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Validate application"
     click_link "Start new or view existing validation requests"
     click_link "Add new request"
@@ -51,6 +52,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     expect(page).to have_text(planning_application.description)
     expect(page).to have_text("New description")
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+    expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
   end
 
   it "only accepts a request that contains a proposed description" do
@@ -100,10 +102,65 @@ RSpec.describe "Requesting description changes to a planning application", type:
     expect(page).to have_text("Applicant / Agent via Api Wizard")
   end
 
-  it "only displays a new validation request option if application is invalid" do
-    planning_application.update!(status: "in_assessment")
-    click_link "Validate application"
+  context "Invalidation updates description change validation request" do
+    it "updates the notified_at date of an open request when application is invalidated" do
+      new_planning_application = create :planning_application, :not_started, local_authority: @default_local_authority
+      request = create :description_change_validation_request, planning_application: new_planning_application, state: "open", created_at: 12.days.ago
 
-    expect(page).not_to have_content("Start new or view existing validation requests")
+      visit planning_application_path(new_planning_application)
+      click_link "Validate application"
+
+      click_link "Start new or view existing validation requests"
+      expect(request.notified_at.class).to eql(NilClass)
+
+      click_button "Invalidate application"
+
+      expect(page).to have_content("Application has been invalidated")
+
+      new_planning_application.reload
+      expect(new_planning_application.status).to eq("invalidated")
+
+      request.reload
+      expect(request.notified_at.class).to eql(Date)
+    end
+  end
+
+  context "Sending requests after application is invalidated" do
+    it "allows the planning officer to create and send a validation request while application is invalid" do
+      invalid_planning_application = create :planning_application, :invalidated, local_authority: @default_local_authority
+      delivered_emails = ActionMailer::Base.deliveries.count
+
+      visit planning_application_path(invalid_planning_application)
+      click_link "Validate application"
+
+      click_link "Start new or view existing validation requests"
+
+      expect(page).to have_no_button("Invalidate application")
+
+      click_link "Add new request"
+
+      within("fieldset", text: "Send a validation request") do
+        choose "Request approval to a description change"
+      end
+      click_button "Next"
+
+      fill_in "Please suggest a new application description", with: "New description"
+      click_button "Send"
+
+      within(".change-requests") do
+        expect(page).to have_content("Description")
+        expect(page).to have_content("15 days")
+      end
+
+      click_link "Application"
+      click_button "Key application dates"
+      click_link "Activity log"
+
+      expect(page).to have_text("Sent: validation request (description#1)")
+      expect(page).to have_text(invalid_planning_application.description)
+      expect(page).to have_text("New description")
+      expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+      expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
+    end
   end
 end

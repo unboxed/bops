@@ -1,4 +1,4 @@
-class RedLineBoundaryChangeValidationRequestsController < ApplicationController
+class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsController
   before_action :set_planning_application, only: %i[new create show]
 
   def new
@@ -15,9 +15,9 @@ class RedLineBoundaryChangeValidationRequestsController < ApplicationController
     @red_line_boundary_change_validation_request.user = current_user
 
     if @red_line_boundary_change_validation_request.save
-      send_validation_request_email
+      email_and_timestamp(@red_line_boundary_change_validation_request) if @planning_application.invalidated?
 
-      flash[:notice] = "Validation request for red line boundary successfully sent."
+      flash[:notice] = "Validation request for red line boundary successfully created."
       audit("red_line_boundary_change_validation_request_sent", red_line_boundary_audit_item(@red_line_boundary_change_validation_request),
             @red_line_boundary_change_validation_request.sequence)
       redirect_to planning_application_validation_requests_path(@planning_application)
@@ -34,13 +34,6 @@ private
 
   def set_planning_application
     @planning_application = PlanningApplication.find(params[:planning_application_id])
-  end
-
-  def send_validation_request_email
-    PlanningApplicationMailer.validation_request_mail(
-      @planning_application,
-      @red_line_boundary_change_validation_request,
-    ).deliver_now
   end
 
   def red_line_boundary_audit_item(validation_request)

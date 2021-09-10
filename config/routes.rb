@@ -12,8 +12,9 @@ Rails.application.routes.draw do
     member do
       get :assign
       patch :assign
-      get :validate_documents_form
-      patch :validate_documents
+      get :validate_form
+      patch :validate
+      patch :invalidate
       get :recommendation_form
       patch :recommend
       get :submit_recommendation
@@ -30,6 +31,7 @@ Rails.application.routes.draw do
       get :decision_notice
       get :draw_sitemap
       patch :update_sitemap
+      get :validation_notice
     end
 
     resources :documents, only: %i[index new create edit update] do

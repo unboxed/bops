@@ -34,6 +34,8 @@ group :development, :test do
   gem "byebug", platforms: %i[mri mingw x64_mingw]
   gem "capybara"
   gem "factory_bot_rails"
+  gem "guard"
+  gem "guard-rspec"
   gem "pry-byebug"
   gem "rails-controller-testing"
   gem "rspec-rails", "~> 4.0.0"
@@ -41,6 +43,7 @@ group :development, :test do
   gem "rubocop-govuk", "4.0.0"
   gem "selenium-webdriver"
   gem "simplecov", require: false
+  gem "webdrivers"
 end
 
 group :development do

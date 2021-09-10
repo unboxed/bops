@@ -1,7 +1,7 @@
 <% add_parent_breadcrumb_link "Home", planning_applications_path %>
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
 
-<% content_for :title, "Decision notice" %>
+<% content_for :title, "Validation notice" %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -13,10 +13,7 @@
       <%= @planning_application.full_address %>
     </p>
 
-    <%= render "decision_notice", planning_application: @planning_application %>
+    <%= render "validation_notice", planning_application: @planning_application %>
 
-    <p class="govuk-body">
-      <%= link_to "Download as PDF", decision_notice_api_v1_planning_application_path(@planning_application, format: 'pdf'), class: "govuk-link" %>
-    </p>
   </div>
 </div>

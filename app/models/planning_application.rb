@@ -61,7 +61,7 @@ class PlanningApplication < ApplicationRecord
     end
 
     event :invalidate do
-      transitions from: %i[not_started invalidated in_assessment awaiting_determination awaiting_correction], to: :invalidated
+      transitions from: %i[not_started invalidated], to: :invalidated, guard: :validation_requests_open?
     end
 
     event :determine do
@@ -153,6 +153,10 @@ class PlanningApplication < ApplicationRecord
     decision == "refused"
   end
 
+  def validated?
+    true unless not_started? || invalidated?
+  end
+
   def granted?
     decision == "granted"
   end
@@ -161,12 +165,20 @@ class PlanningApplication < ApplicationRecord
     true unless awaiting_determination? || determined? || returned? || withdrawn?
   end
 
+  def can_invalidate?
+    true if not_started? || invalidated?
+  end
+
   def validation_complete?
     !not_started?
   end
 
   def can_assess?
     in_assessment? || awaiting_correction?
+  end
+
+  def closed?
+    determined? || returned? || withdrawn?
   end
 
   def assessment_complete?
@@ -263,8 +275,20 @@ class PlanningApplication < ApplicationRecord
     (description_change_validation_requests + replacement_document_validation_requests + additional_document_validation_requests + other_change_validation_requests + red_line_boundary_change_validation_requests).sort_by(&:created_at).reverse
   end
 
+  def validation_requests_open?
+    open_validation_requests.any?
+  end
+
+  def open_validation_requests
+    validation_requests.select { |request| request.state.eql?("open") }
+  end
+
+  def unsent_validation_requests
+    open_validation_requests.select { |request| request.notified_at.nil? }
+  end
+
   def closed_validation_requests
-    validation_requests.each { |cr| cr.state.eql?("closed") }
+    validation_requests.select { |request| request.state.eql?("closed") }
   end
 
   def last_validation_request_date
@@ -277,6 +301,10 @@ class PlanningApplication < ApplicationRecord
 
   def overdue_requests
     validation_requests.select { |req| req.overdue? && req.state == "open" }
+  end
+
+  def invalidation_response_due
+    15.business_days.after(invalidated_at.to_date)
   end
 
   def closed_requests
@@ -292,6 +320,10 @@ class PlanningApplication < ApplicationRecord
     else
       application_type.humanize
     end
+  end
+
+  def applicant_and_agent_email
+    [agent_email, applicant_email].reject(&:blank?)
   end
 
 private

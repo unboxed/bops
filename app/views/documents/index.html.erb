@@ -53,7 +53,7 @@
             <%= link_to image_tag(document.file.representation(resize: "300x212")),
                         url_for_document(document), target: :_blank %>
             <p class="govuk-body">
-              <%= link_to "View in new window", url_for_document(document), target: :_new %>
+              <%= link_to "View in new window", url_for_document(document), target: :_new, class: "govuk-link" %>
             </p>
           </td>
           <td class="govuk-table__cell govuk-!-width-one-half">
@@ -82,7 +82,7 @@
               File name: <%= document.name %>
             </p>
             <p class="govuk-body govuk-!-margin-bottom-1">
-              Date received: <%= document.created_at.strftime("%e %B %Y") %>
+              Date received: <%= document.created_at.to_formatted_s(:day_month_year) %>
             </p>
             <% if document.numbers.present? %>
               <p class="govuk-body govuk-!-margin-bottom-1">
@@ -99,8 +99,8 @@
           <td class="govuk-table__cell">
               <% if @planning_application.can_validate? %>
                 <p class="govuk-body govuk-!-margin-right-2" style="text-align:right">
-                  <%= link_to "Edit", edit_planning_application_document_path(@planning_application, document) %><br />
-                  <%= link_to "Archive", planning_application_document_archive_path(document_id: document.id) %>
+                  <%= link_to "Edit", edit_planning_application_document_path(@planning_application, document), class: "govuk-link" %><br />
+                  <%= link_to "Archive", planning_application_document_archive_path(document_id: document.id), class: "govuk-link" %>
                 </p>
               <% end %>
           </td>

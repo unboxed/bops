@@ -13,7 +13,7 @@
   </div>
   <div class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-4">
     <p class="govuk-body">
-      <%= link_to "Manage documents", planning_application_documents_path(@planning_application) %>
+      <%= link_to "Manage documents", planning_application_documents_path(@planning_application), class: "govuk-link" %>
     </p>
 
       <div class="scroll-docs">
@@ -27,7 +27,7 @@
               url_for_document(document), target: :_blank %>
             </p>
             <p class="govuk-body">
-              <%= link_to "View in new window", url_for_document(document), target: :_blank %>
+              <%= link_to "View in new window", url_for_document(document), target: :_blank, class: "govuk-link" %>
             </p>
           </div>
 
@@ -73,4 +73,3 @@
 
   </div>
 </div>
-

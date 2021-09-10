@@ -22,6 +22,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
   end
 
   it "is possible to create a request for miscellaneous changes" do
+    delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Validate application"
     click_link "Start new or view existing validation requests"
     click_link "Add new request"
@@ -45,6 +46,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     expect(page).to have_text("Sent: validation request (other validation#1)")
     expect(page).to have_text("The wrong fee has been paid")
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+    expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
   end
 
   it "only accepts a request that contains a summary and suggestion" do
@@ -82,13 +84,6 @@ RSpec.describe "Requesting description changes to a planning application", type:
     end
   end
 
-  it "only displays a new change request option if application is invalid" do
-    planning_application.update!(status: "in_assessment")
-    click_link "Validate application"
-
-    expect(page).not_to have_content("Start new or view existing validation requests")
-  end
-
   it "displays the details of the received request in the audit log" do
     create :audit, planning_application_id: planning_application.id, activity_type: "other_change_validation_request_received", activity_information: 1, audit_comment: { response: "I have sent the fee" }.to_json, api_user: api_user
 
@@ -101,5 +96,28 @@ RSpec.describe "Requesting description changes to a planning application", type:
     expect(page).to have_text("Received: request for change (other validation#1)")
     expect(page).to have_text("I have sent the fee")
     expect(page).to have_text("Applicant / Agent via Api Wizard")
+  end
+
+  context "Invalidation updates other change validation request" do
+    it "updates the notified_at date of an open request when application is invalidated" do
+      new_planning_application = create :planning_application, :not_started, local_authority: @default_local_authority
+      request = create :other_change_validation_request, planning_application: new_planning_application, state: "open", created_at: 12.days.ago
+
+      visit planning_application_path(new_planning_application)
+      click_link "Validate application"
+
+      click_link "Start new or view existing validation requests"
+      expect(request.notified_at.class).to eql(NilClass)
+
+      click_button "Invalidate application"
+
+      expect(page).to have_content("Application has been invalidated")
+
+      new_planning_application.reload
+      expect(new_planning_application.status).to eq("invalidated")
+
+      request.reload
+      expect(request.notified_at.class).to eql(Date)
+    end
   end
 end

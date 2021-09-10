@@ -1,0 +1,25 @@
+---
+services:
+  db:
+    image: postgis/postgis:13-3.1
+    volumes:
+      - type: volume
+        source: db
+        target: /var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+  web:
+    build: .
+    stdin_open: true
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    volumes:
+      - type: bind
+        source: .
+        target: /app
+volumes:
+  db:

@@ -1,6 +1,6 @@
 <% content_for :title, "Validation requests" %>
 <% add_parent_breadcrumb_link "Home", planning_applications_path %>
-<% add_parent_breadcrumb_link "Application", validate_documents_form_planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Application", validate_form_planning_application_path(@planning_application) %>
 <div class="govuk-grid-column-full">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column govuk-!-padding-top-6">
@@ -8,24 +8,35 @@
         <h2 class="govuk-heading-l">
           Validation requests
         </h2>
+        <% if @planning_application.can_invalidate? %>
+          <p class="govuk-body">
+            Add all required validation requests for this application. Once all requests have been added, you can invalidate the application and notify the applicant that the application is invalid and they can see all validation requests.
+          </p>
+        <% end %>
         <% if @planning_application.validation_requests.present? %>
           <table class="govuk-table change-requests">
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
+                <th scope="col" class="govuk-table__header">
                   Request
                 </th>
-                <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
+                <th scope="col" class="govuk-table__header">
+                  Sent
+                </th>
+                <th scope="col" class="govuk-table__header">
                   Detail
                 </th>
-                <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
+                <th scope="col" class="govuk-table__header">
                   Reason
                 </th>
                 <th scope="col" class="govuk-table__header">
-                  Time remaining
+                  Status
                 </th>
-                <th scope="col" class="govuk-table__header govuk-!-width-one-third">
-                  Applicant response
+                <th scope="col" class="govuk-table__header">
+                  Response received
+                </th>
+                <th scope="col" class="govuk-table__header">
+                  Response
                 </th>
               </tr>
             </thead>
@@ -35,6 +46,9 @@
                   <% if validation_request.class.name == "DescriptionChangeValidationRequest" %>
                     <td class="govuk-table__cell change-request-list">
                       Change of description
+                    </td>
+                    <td class="govuk-table__cell change-request-list">
+                      <%= request_sent_at(validation_request) %>
                     </td>
                     <td class="govuk-table__cell change-request-list">
                       New description: <%= validation_request.proposed_description %>
@@ -47,6 +61,9 @@
                         Other
                       </td>
                       <td class="govuk-table__cell change-request-list">
+                        <%= request_sent_at(validation_request) %>
+                      </td>
+                      <td class="govuk-table__cell change-request-list">
                         <%= validation_request.summary %>
                       </td>
                       <td class="govuk-table__cell change-request-list">
@@ -55,6 +72,9 @@
                   <% elsif validation_request.class.name == "ReplacementDocumentValidationRequest" %>
                     <td class="govuk-table__cell change-request-list">
                       Replacement document
+                    </td>
+                    <td class="govuk-table__cell change-request-list">
+                      <%= request_sent_at(validation_request) %>
                     </td>
                     <td class="govuk-table__cell change-request-list limit-column-width">
                       <%= validation_request.old_document.name %>
@@ -67,6 +87,9 @@
                       New document
                     </td>
                     <td class="govuk-table__cell change-request-list">
+                      <%= request_sent_at(validation_request) %>
+                    </td>
+                    <td class="govuk-table__cell change-request-list">
                       <%= validation_request.document_request_type %>
                     </td>
                     <td class="govuk-table__cell change-request-list">
@@ -75,6 +98,9 @@
                   <% elsif validation_request.class.name == "RedLineBoundaryChangeValidationRequest" %>
                     <td class="govuk-table__cell change-request-list">
                       Red line boundary changes
+                    </td>
+                    <td class="govuk-table__cell change-request-list">
+                      <%= request_sent_at(validation_request) %>
                     </td>
                     <td class="govuk-table__cell change-request-list">
                       <%= link_to "View proposed red line boundary", planning_application_red_line_boundary_change_validation_request_path(@planning_application, validation_request) %>
@@ -95,6 +121,9 @@
                     <% end %>
                   </td>
                   <td class="govuk-table__cell limit-column-width">
+                    <%= request_closed_at(validation_request)  %>
+                  </td>
+                  <td class="govuk-table__cell limit-column-width">
                     <%= applicant_response(validation_request) %>
                   </td>
                 </tr>
@@ -102,11 +131,39 @@
             </tbody>
           </table>
         <% end %>
-        <p class="govuk-body">
-          <%= link_to "Add new request", new_planning_application_validation_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-        </p>
+        <% if @planning_application.can_invalidate? %>
+          <p class="govuk-body">
+            <%= "The application has not yet been marked as valid or invalid" if @planning_application.not_started? %>
+          </p>
+          <p class="govuk-body">
+            <%= link_to "Add new request", new_planning_application_validation_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+          </p>
+        <% end %>
       </fieldset>
     </div>
-    <%= link_to "Back", validate_documents_form_planning_application_path(@planning_application), class: "govuk-button" %>
+    <% if @planning_application.not_started? %>
+      <% if @planning_application.errors.any? %>
+        <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+          <h2 class="govuk-error-summary__title" id="error-summary-title">
+            There is a problem
+          </h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list">
+              <% @planning_application.errors.full_messages.each do |error| %>
+                <li><%= error %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+
+      <%= form_with model: @planning_application, url: invalidate_planning_application_path(@planning_application), local:true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+        <p>
+          <%= form.submit "Invalidate application", class: "govuk-button", data: { module: "govuk-button"} %> <%= link_to "Back", validate_form_planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+        </p>
+      <% end%>
+    <% else%>
+      <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+    <% end%>
   </div>
 </div>
