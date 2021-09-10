@@ -23,6 +23,7 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
       NOTIFY_TEMPLATE_ID,
       subject: "Your planning application has been validated",
       to: user,
+      reply_to_id: @planning_application.local_authority.reply_to_notify_id,
     )
   end
 
@@ -35,6 +36,7 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
       NOTIFY_TEMPLATE_ID,
       subject: "Your planning application is invalid",
       to: @application_accountable_email,
+      reply_to_id: @planning_application.local_authority.reply_to_notify_id,
     )
   end
 
@@ -46,6 +48,7 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
       NOTIFY_TEMPLATE_ID,
       subject: "We have received your application",
       to: user,
+      reply_to_id: @planning_application.local_authority.reply_to_notify_id,
     )
   end
 
@@ -58,6 +61,7 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
       NOTIFY_TEMPLATE_ID,
       subject: "Your planning application at: #{@planning_application.full_address}",
       to: @application_accountable_email,
+      reply_to_id: @planning_application.local_authority.reply_to_notify_id,
     )
   end
 end
