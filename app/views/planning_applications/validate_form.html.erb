@@ -66,8 +66,8 @@
           </h2>
           <div class="govuk-error-summary__body">
             <ul class="govuk-list govuk-error-summary__list">
-              <% @planning_application.errors.full_messages.each do |error| %>
-                <li><%= error %></li>
+              <% @planning_application.errors.each do |error| %>
+                <li><%= error.message %></li>
               <% end %>
             </ul>
           </div>
