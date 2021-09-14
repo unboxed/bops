@@ -11,8 +11,18 @@ RSpec.describe PolicyReference, type: :model do
       "part" => part_number,
       "id" =>  class_name,
       "name" => "some policy class",
-      "policies" => %w[one two three],
+      "policies" => [
+        { id: "A.1/a", text: "do this" },
+        { id: "A.2/a", text: "do that" },
+      ]
     }
+  end
+
+  def assert_class_present(klass)
+        expect(application.policy_classes).to include hash_including(
+          "id" => klass["id"],
+          "part" => klass["part"],
+        )
   end
 
   describe "policy_classes=" do
@@ -20,7 +30,19 @@ RSpec.describe PolicyReference, type: :model do
       it "assigns them" do
         application.policy_classes = [a1]
 
-        expect(application.policy_classes).to include a1
+        assert_class_present(a1)
+      end
+
+      it "marks the policy references as undetermined" do
+        application.policy_classes = [a1]
+
+        statuses = application.policy_classes.collect do |klass|
+          klass["policies"].collect do |policy|
+            policy["status"]
+          end
+        end
+
+        expect(statuses.flatten.uniq).to eq ["undetermined"]
       end
     end
 
@@ -32,13 +54,13 @@ RSpec.describe PolicyReference, type: :model do
       it "does not delete it" do
         application.policy_classes = [a2]
 
-        expect(application.policy_classes).to include a1
+        assert_class_present(a2)
       end
 
       it "keeps the previous classes" do
         application.policy_classes = [a2]
 
-        expect(application.policy_classes).to include a2
+        assert_class_present(a1)
       end
     end
   end

@@ -30,9 +30,13 @@ module PolicyReference
       current = policy_classes.map { |h| HashWithIndifferentAccess.new(h) }
 
       classes.map { |h| HashWithIndifferentAccess.new(h) }.each do |c|
-        unless current.detect { |k| k["id"] == c["id"] && k["part"] == c["part"] }
-          current << c
+        next if current.detect { |k| k["id"] == c["id"] && k["part"] == c["part"] }
+
+        c["policies"].each do |policy|
+          policy.merge!({ "status" => "undetermined" })
         end
+
+        current << c
       end
 
       super(current)
