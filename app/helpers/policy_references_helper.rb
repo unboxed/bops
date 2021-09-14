@@ -12,4 +12,11 @@ module PolicyReferencesHelper
       c["id"] == klass and c["part"] = part
     end
   end
+
+  def policy_class_status(klass)
+    return "undetermined" if klass["policies"].any? { |p| p["status"] == "undetermined" }
+    return "does not comply" if klass["policies"].any? { |p| p["status"] == "does not comply" }
+
+    "complies"
+  end
 end
