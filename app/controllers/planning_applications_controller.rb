@@ -102,6 +102,9 @@ class PlanningApplicationsController < AuthenticationController
     elsif @planning_application.validation_requests_open?
       @planning_application.errors.add(:planning_application, "Planning application cannot be validated if open validation requests exist.")
       render "validate_form"
+    elsif @planning_application.invalid_documents.present?
+      @planning_application.errors.add(:planning_application, "This application has an invalid document. You cannot validate an application with invalid documents.")
+      render "validate_form"
     else
       @planning_application.documents_validated_at = date_from_params
       @planning_application.start!

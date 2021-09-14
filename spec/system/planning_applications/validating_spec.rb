@@ -88,7 +88,6 @@ RSpec.shared_examples "validate and invalidate" do
 
   it "allows for the user to input a validation date manually" do
     visit validate_form_planning_application_path(second_planning_application)
-
     fill_in "Day", with: "3"
     fill_in "Month", with: "6"
     fill_in "Year", with: "2022"
@@ -173,6 +172,21 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   context "Planning application does not transition when expected inputs are not sent" do
+    it "shows an error when invalid documents are present" do
+      create :document, :with_file,
+             planning_application: planning_application,
+             validated: false, invalidated_document_reason: "Missing a lazy Suzan"
+
+      click_link planning_application.reference
+      click_link "Validate application"
+
+      click_button "Validate application"
+      expect(page).to have_content("This application has an invalid document. You cannot validate an application with invalid documents.")
+
+      planning_application.reload
+      expect(planning_application.status).to eql("not_started")
+    end
+
     it "shows error if invalid date is sent" do
       click_link planning_application.reference
       click_link "Validate application"
