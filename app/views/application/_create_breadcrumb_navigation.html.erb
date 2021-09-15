@@ -4,6 +4,8 @@
   </li>
 <% end %>
 
-<li class="govuk-breadcrumbs__list-item" aria-current="page">
-  <%= yield :title %>
-</li>
+<% if content_for?(:title) %>
+  <li class="govuk-breadcrumbs__list-item" aria-current="page">
+    <%= yield :title  %>
+  </li>
+<% end %>
