@@ -12,13 +12,15 @@ en:
                 The enlargement, improvement or other alteration of a
                 dwellinghouse.
               policies:
-                - A.1/a: |
+                - id: A.1/a
+                  description: |
                     Development is not permitted by Class A if
                     permission to use the dwellinghouse as a
                     dwellinghouse has been granted only by virtue of
                     Class M, MA, N, P, PA or Q of Part 3 of this
                     Schedule (changes of use);
-                - A.1/b: |
+                - id: A.1/b
+                  description: |
                     Development is not permitted by Class A if as a
                     result of the works, the total area of ground
                     covered by buildings within the curtilage of the
@@ -32,13 +34,15 @@ en:
                 The reduction, shrinkage and minification of a
                 dwellinghouse.
               policies:
-                - B.1/a: |
+                - id: B.1/a
+                  description: |
                     Development is not permitted by Class A if
                     permission to use the dwellinghouse as a
                     dwellinghouse has been granted only by virtue of
                     Class M, MA, N, P, PA or Q of Part 3 of this
                     Schedule (changes of use);
-                - B.1/b: |
+                - id: B.1/b
+                  description: |
                     Development is not permitted by Class A if as a
                     result of the works, the total area of ground
                     covered by buildings within the curtilage of the
@@ -52,13 +56,15 @@ en:
                 The degradation, destruction or annihilation of a
                 dwellinghouse.
               policies:
-                - A.1/a: |
+                - id: A.1/a
+                  description: |
                     Development is not permitted by Class A if
                     permission to use the dwellinghouse as a
                     dwellinghouse has been granted only by virtue of
                     Class M, MA, N, P, PA or Q of Part 3 of this
                     Schedule (changes of use);
-                - A.1/b: |
+                - id: A.1/b
+                  description: |
                     Development is not permitted by Class A if as a
                     result of the works, the total area of ground
                     covered by buildings within the curtilage of the

@@ -3,7 +3,7 @@
 
 <% content_for :title, "Assess" %>
 
-<h1 class="govuk-heading-xl">Assess - <%= part_and_class(@klass) %></h1>
+<h1 class="govuk-heading-xl">Assess - <%= @klass %></h1>
 
 <p class="govuk-body">Select the relevant blabla</p>
 
@@ -19,7 +19,7 @@
 
 <%= form_with method: :put, scope: "policies" do |form| %>
   <table class="govuk-table policies">
-    <caption class="govuk-table__caption govuk-table__caption--l"><%= part_and_class(@klass) %></caption>
+    <caption class="govuk-table__caption govuk-table__caption--l"><%= @klass %></caption>
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <th scope="col" class="govuk-table__header govuk-!-width-one-half">Policy reference</th>
@@ -29,17 +29,17 @@
       </tr>
     </thead>
     <tbody class="govuk-table__body">
-      <% @klass["policies"].each do |policy| %>
+      <% @klass.policies.each do |policy| %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
             <details class="govuk-details" data-module="govuk-details">
               <summary class="govuk-details__summary">
                 <span class="govuk-details__summary-text">
-                  <%= policy.keys.first %>
+                  <%= policy["id"] %>
                 </span>
               </summary>
               <div class="govuk-details__text">
-                <%= policy.values.first %>
+                <%= policy["description"] %>
               </div>
             </details>
           </td>
@@ -49,8 +49,8 @@
                 <% ["complies", "does_not_comply", "undetermined"].each do |status| %>
                   <td class="govuk-table__cell">
                     <div class="govuk-radios__item">
-                      <%= form.radio_button policy.keys.first, status, class: "govuk-radios__input" %>
-                      <%= form.label policy.keys.first, value: policy.keys.first, class: "govuk-label govuk-radios__label " do %>
+                      <%= form.radio_button policy["id"], status, class: "govuk-radios__input", checked: status == policy["status"] %>
+                      <%= form.label policy["id"], value: status, class: "govuk-label govuk-radios__label " do %>
                       <% end %>
                     </div>
                   </td>

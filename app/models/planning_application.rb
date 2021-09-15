@@ -4,7 +4,6 @@ require "aasm"
 
 class PlanningApplication < ApplicationRecord
   include AASM
-  include PolicyReference
 
   enum application_type: { lawfulness_certificate: 0, full: 1 }
 
@@ -40,6 +39,8 @@ class PlanningApplication < ApplicationRecord
   scope :not_started_and_invalid, -> { where("status = 'not_started' OR status = 'invalidated'") }
   scope :under_assessment, -> { where("status = 'in_assessment' OR status = 'awaiting_correction'") }
   scope :closed, -> { where("status = 'determined' OR status = 'withdrawn' OR status = 'returned'") }
+
+  attribute :policy_classes, :policy_class, array: true
 
   aasm.attribute_name :status
 

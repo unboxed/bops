@@ -22,7 +22,7 @@
         </h1>
       </legend>
       <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-        <% PlanningApplication.all_parts.each do |part_number, part| %>
+        <% PolicyClass.all_parts.each do |part_number, part| %>
           <div class="govuk-radios__item">
             <%= form.radio_button :part, part_number, class: "govuk-radios__input" %>
             <%= form.label :part, value: part_number, class: "govuk-label govuk-radios__label" do %>
