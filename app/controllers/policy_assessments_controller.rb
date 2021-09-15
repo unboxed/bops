@@ -13,11 +13,12 @@ class PolicyAssessmentsController < PlanningApplicationsController
   def create
     class_ids = policy_class_params[:policy_classes].reject(&:blank?)
 
-    classes = PlanningApplication
+    classes = PolicyClass
                 .classes_for_part(params[:part])
-                .select { |c| class_ids.include? c[:id] }
+                .select { |c| class_ids.include? c.id }
+                .each { |c| c.stamp_status! }
 
-    @planning_application.policy_classes = classes
+    @planning_application.policy_classes += classes
 
     if @planning_application.save
       redirect_to @planning_application, notice: "classes successfully added"
@@ -31,14 +32,16 @@ class PolicyAssessmentsController < PlanningApplicationsController
   def update_class
     new_policies = policies_params[:policies]
 
-    @klass["policies"].each do |policy|
-      value = new_policies[policy.keys.first]
+    @klass.policies.each do |policy|
+      value = new_policies[policy["id"]]
 
       policy["status"] = value if value.present?
     end
 
+    @planning_application.policy_classes_will_change!
+
     if @planning_application.save
-      redirect_to @planning_application, notice: "Successfully updated policy classes"
+      redirect_to @planning_application, notice: "Successfully updated policy class"
     end
   end
 
@@ -53,6 +56,6 @@ class PolicyAssessmentsController < PlanningApplicationsController
   end
 
   def set_policy_class
-    @klass = @planning_application.find_policy_class(policies_params[:part], policies_params[:policy_class])
+    @klass = @planning_application.policy_classes.find { |p| p.part == params[:part] && p.id == params[:policy_class] }
   end
 end
