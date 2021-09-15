@@ -38,18 +38,17 @@
         <% if @planning_application.policy_classes.none? %>
           No policy references yet.
         <% else %>
-          <% @planning_application.policy_classes.each do |policy| %>
+          <% @planning_application.policy_classes.each do |klass| %>
             <li class="app-task-list__item">
               <span class="app-task-list__task-name">
-                <%= link_to part_and_class(policy), {
+                <%= link_to klass, {
                     controller: "policy_assessments",
                     action: "show_class",
-                    part: policy["part"],
-                    policy_class: policy["id"],
+                    part: klass.part,
+                    policy_class: klass.id,
                 }, aria: { describedby: "assessment-completed" }, class: "govuk-link"  %>
               </span>
-              <% status = policy_class_status(policy) %>
-              <%= tag.strong status, class: class_for_policy_class_status(status) %>
+              <%= tag.strong klass.status, class: class_for_policy_class_status(klass.status) %>
             </li>
           <% end %>
         <% end %>

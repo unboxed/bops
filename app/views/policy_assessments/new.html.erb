@@ -22,9 +22,9 @@
         </p>
       </div>
       <div class="govuk-checkboxes">
-        <%= form.collection_check_boxes :policy_classes, checkboxes_for_policy_classes_for_part(@part), :first, :second do |b| %>
+        <%= form.collection_check_boxes :policy_classes, PolicyClass.classes_for_part(@part), :id, :name do |b| %>
           <div class="govuk-checkboxes__item">
-            <% if policy_class_already_selected?(@part, b.value) %>
+            <% if @planning_application.policy_classes.include?(b.object) %>
               <%= b.check_box(class: "govuk-checkboxes__input", disabled: true, checked: true) %>
             <% else %>
               <%= b.check_box(class: "govuk-checkboxes__input") %>
