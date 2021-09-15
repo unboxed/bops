@@ -156,7 +156,7 @@ module PlanningApplicationHelper
     elsif planning_application.recommendable? || planning_application.closed?
       "This application has #{pluralize(validation_requests.select { |req| req.state == 'closed' }.count, 'resolved validation request')}"
     else
-      "This application has #{pluralize(validation_requests.select { |req| req.state == 'open' }.count, 'resolved validation request')} and #{pluralize(validation_requests.select { |req| req.state == 'closed' }.count, 'unresolved validation request')}"
+      "This application has #{pluralize(validation_requests.select { |req| req.state == 'open' }.count, 'unresolved validation request')} and #{pluralize(validation_requests.select { |req| req.state == 'closed' }.count, 'resolved validation request')}"
     end
   end
 end
