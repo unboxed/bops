@@ -41,5 +41,11 @@ module PolicyReference
 
       super(current)
     end
+
+    def find_policy_class(part_number, class_id)
+      policy_classes.find do |klass|
+        klass["id"] == class_id && klass["part"] == part_number
+      end
+    end
   end
 end

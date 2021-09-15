@@ -15,6 +15,11 @@ Rails.application.routes.draw do
 
       resources :policy_assessments do
         get :part, on: :new
+
+        collection do
+          get "/:part/:policy_class", action: "show_class"
+          put "/:part/:policy_class", action: "update_class"
+        end
       end
 
       get :validate_form

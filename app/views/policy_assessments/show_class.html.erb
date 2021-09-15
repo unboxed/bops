@@ -1,0 +1,70 @@
+<% add_parent_breadcrumb_link "Home", planning_applications_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+
+<% content_for :title, "Assess" %>
+
+<h1 class="govuk-heading-xl">Assess - <%= part_and_class(@klass) %></h1>
+
+<p class="govuk-body">Select the relevant blabla</p>
+
+<p class="govuk-body">
+  <%= link_to "Open legislation in new window", nil, class: "govuk-link" %>
+</p>
+
+<p class="govuk-body">
+  Please indicate whether the application complies to each of the policies.
+</p>
+
+<%= button_to "Remove class from assessment", nil, class: "govuk-button govuk-button--warning" %>
+
+<%= form_with method: :put, scope: "policies" do |form| %>
+  <table class="govuk-table policies">
+    <caption class="govuk-table__caption govuk-table__caption--l"><%= part_and_class(@klass) %></caption>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header govuk-!-width-one-half">Policy reference</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter-width">Complies</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter-width">Does not comply</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter-width">Undetermined</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% @klass["policies"].each do |policy| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <details class="govuk-details" data-module="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                  <%= policy.keys.first %>
+                </span>
+              </summary>
+              <div class="govuk-details__text">
+                <%= policy.values.first %>
+              </div>
+            </details>
+          </td>
+          <div class="govuk-form-group">
+            <fieldset class="govuk-fieldset">
+              <div class="govuk-radios" data-module="govuk-radios">
+                <% ["complies", "does_not_comply", "undetermined"].each do |status| %>
+                  <td class="govuk-table__cell">
+                    <div class="govuk-radios__item">
+                      <%= form.radio_button policy.keys.first, status, class: "govuk-radios__input" %>
+                      <%= form.label policy.keys.first, value: policy.keys.first, class: "govuk-label govuk-radios__label " do %>
+                      <% end %>
+                    </div>
+                  </td>
+                <% end %>
+              </div>
+            </fieldset>
+          </div>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="govuk-button-group">
+    <%= form.submit "Save assessments", class: "govuk-button" %>
+    <%= link_to "Back", @planning_application, class: "govuk-button govuk-button--secondary" %>
+  </div>
+<% end %>
