@@ -304,7 +304,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "Validate application"
 
       expect(page).to have_content("The application has not yet been marked as valid or invalid")
-      expect(page).to have_content("This application has 0 resolved validation requests and 1 unresolved validation request")
+      expect(page).to have_content("This application has 0 unresolved validation requests and 1 resolved validation request")
 
       click_link "Start new or view existing validation requests"
 
