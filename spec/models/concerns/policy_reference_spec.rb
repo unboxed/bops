@@ -18,11 +18,11 @@ RSpec.describe PolicyReference, type: :model do
     }
   end
 
-  def assert_class_present(klass)
-        expect(application.policy_classes).to include hash_including(
-          "id" => klass["id"],
-          "part" => klass["part"],
-        )
+  def assert_class_present(classes, klass)
+    expect(classes).to include hash_including(
+      "id" => klass["id"],
+      "part" => klass["part"],
+    )
   end
 
   describe "policy_classes=" do
@@ -30,7 +30,7 @@ RSpec.describe PolicyReference, type: :model do
       it "assigns them" do
         application.policy_classes = [a1]
 
-        assert_class_present(a1)
+        assert_class_present(application.policy_classes, a1)
       end
 
       it "marks the policy references as undetermined" do
@@ -54,13 +54,29 @@ RSpec.describe PolicyReference, type: :model do
       it "does not delete it" do
         application.policy_classes = [a2]
 
-        assert_class_present(a2)
+        assert_class_present(application.policy_classes, a2)
       end
 
       it "keeps the previous classes" do
         application.policy_classes = [a2]
 
-        assert_class_present(a1)
+        assert_class_present(application.policy_classes, a1)
+      end
+    end
+  end
+
+  describe "#find_policy_class" do
+    before { application.policy_classes = [a2] }
+
+    context "when there is a matching class" do
+      it "returns it" do
+        assert_class_present([application.find_policy_class(2, "A")], a2)
+      end
+    end
+
+    context "when there is no match" do
+      it "returns nil" do
+        expect(application.find_policy_class(2, "B")).to be_nil
       end
     end
   end
