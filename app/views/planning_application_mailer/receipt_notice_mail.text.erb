@@ -1,3 +1,5 @@
+Dear <%= @planning_application.agent_or_applicant_name %>,
+
 Reference: <%= @planning_application.reference %>
 Date of application: <%= @planning_application.created_at.strftime("%e %B %Y - %H:%M:%S") %>
 Date received: <%= @planning_application.created_at.strftime("%e %B %Y - %H:%M:%S") %>

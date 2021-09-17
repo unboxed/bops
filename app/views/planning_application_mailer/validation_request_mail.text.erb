@@ -2,7 +2,7 @@ Application number: <%= @planning_application.reference %>
 Application received: <%= @planning_application.created_at.to_formatted_s(:day_month_year) %>
 At: <%= @planning_application.full_address %>
 
-Hi <%= @planning_application.applicant_first_name %> <%= @planning_application.applicant_last_name %>
+Hi <%= @planning_application.agent_or_applicant_name %>,
 
 <%= @validation_request.user.name %>, the case officer working on your planning application has requested change(s) on your application.
 

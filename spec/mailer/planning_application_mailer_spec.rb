@@ -70,6 +70,19 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         expect(mail.body.encoded).to include("Your Certificate of lawful development (proposed) has been refused.")
         expect(mail.body.encoded).to include(decision_notice_api_v1_planning_application_path(planning_application, format: "pdf"))
       end
+
+      it "includes the name of the agent in the body if agent is present" do
+        expect(mail.body.encoded).to include(planning_application.agent_first_name)
+        expect(mail.body.encoded).to include(planning_application.agent_last_name)
+      end
+
+      it "includes the name of the applicant in the body if no agent is present" do
+        planning_application.update!(agent_first_name: "")
+        mail = described_class.decision_notice_mail(planning_application.reload, host, [planning_application.agent_email, planning_application.applicant_email])
+
+        expect(mail.body.encoded).to include(planning_application.applicant_first_name)
+        expect(mail.body.encoded).to include(planning_application.applicant_last_name)
+      end
     end
   end
 
@@ -162,6 +175,19 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(validation_request_mail.body.encoded).to include("Mr. Biscuit")
       expect(validation_request_mail.body.encoded).to include("Cookie authority")
       expect(validation_request_mail.body.encoded).to include("Lord of BiscuitTown")
+    end
+
+    it "includes the name of the agent in the body if agent is present" do
+      expect(validation_request_mail.body.encoded).to include(planning_application.agent_first_name)
+      expect(validation_request_mail.body.encoded).to include(planning_application.agent_last_name)
+    end
+
+    it "includes the name of the applicant in the body if no agent is present" do
+      planning_application.update!(agent_first_name: "")
+      mail = described_class.validation_request_mail(planning_application.reload, validation_request)
+
+      expect(mail.body.encoded).to include(planning_application.applicant_first_name)
+      expect(mail.body.encoded).to include(planning_application.applicant_last_name)
     end
   end
 
