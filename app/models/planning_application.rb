@@ -326,6 +326,14 @@ class PlanningApplication < ApplicationRecord
     [agent_email, applicant_email].reject(&:blank?)
   end
 
+  def agent_or_applicant_name
+    if agent_first_name?
+      "#{agent_first_name} #{agent_last_name}"
+    else
+      "#{applicant_first_name} #{applicant_last_name}"
+    end
+  end
+
 private
 
   def set_key_dates
