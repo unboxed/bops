@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-class Api::V1::ReplacementDocumentValidationRequestsController < Api::V1::ApplicationController
+class Api::V1::ReplacementDocumentValidationRequestsController < Api::V1::ValidationRequestsController
   skip_before_action :verify_authenticity_token, only: :update
   before_action :check_token_and_set_application, only: :update
   before_action :check_file_params_are_present, only: :update
+  before_action :check_file_size, only: :update
 
   def update
     @replacement_document_validation_request = @planning_application.replacement_document_validation_requests.find_by(id: params[:id])
