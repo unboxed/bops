@@ -23,8 +23,10 @@
           <main class="govuk-main-wrapper">
           <div class="govuk-grid-column-one-third">
             <p class="govuk-body govuk-!-margin-bottom-1">
-              <%= link_to image_tag(document.file.representation(resize: "200x110")),
-              url_for_document(document), target: :_blank %>
+              <% if document.file.representable? %>
+                <%= link_to image_tag(document.file.representation(resize: "200x110")),
+                url_for_document(document), target: :_blank %>
+              <% end %>
             </p>
             <p class="govuk-body">
               <%= link_to "View in new window", url_for_document(document), target: :_blank, class: "govuk-link" %>
