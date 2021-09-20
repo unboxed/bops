@@ -13,4 +13,10 @@ private
       @planning_application
     end
   end
+
+  def check_file_size
+    if params[:new_file].size > 30.megabytes
+      render json: { "message": "The file must be 30MB or less" }, status: :bad_request
+    end
+  end
 end

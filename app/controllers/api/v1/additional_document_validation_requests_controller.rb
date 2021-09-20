@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-class Api::V1::AdditionalDocumentValidationRequestsController < Api::V1::ApplicationController
+class Api::V1::AdditionalDocumentValidationRequestsController < Api::V1::ValidationRequestsController
   skip_before_action :verify_authenticity_token, only: :update
   before_action :check_token_and_set_application, only: :update
   before_action :check_file_params_are_present, only: :update
+  before_action :check_file_size, only: :update
 
   def update
     @additional_document_validation_request = @planning_application.additional_document_validation_requests.find_by(id: params[:id])
@@ -17,7 +18,7 @@ class Api::V1::AdditionalDocumentValidationRequestsController < Api::V1::Applica
 
       render json: { "message": "Validation request updated" }, status: :ok
     else
-      render json: { "message": "Unable to update request" }, status: :bad_request
+      render json: { "message": "Validation request could not be updated" }, status: :bad_request
     end
   end
 
