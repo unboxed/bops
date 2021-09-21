@@ -51,7 +51,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       select_class "AA"
       select_class "C"
 
-      expect(current_path).to eq planning_application_path(planning_application)
+      expect(page).to have_current_path planning_application_path(planning_application), ignore_query: true
 
       expect(page).to have_text "classes successfully added"
 
