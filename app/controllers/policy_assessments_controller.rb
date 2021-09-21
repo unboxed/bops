@@ -16,7 +16,7 @@ class PolicyAssessmentsController < PlanningApplicationsController
     classes = PolicyClass
                 .classes_for_part(params[:part])
                 .select { |c| class_ids.include? c.id }
-                .each { |c| c.stamp_status! }
+                .each(&:stamp_status!)
 
     @planning_application.policy_classes += classes
 
@@ -45,7 +45,7 @@ class PolicyAssessmentsController < PlanningApplicationsController
     end
   end
 
-  private
+private
 
   def policy_class_params
     params.permit(:part, policy_classes: [])
