@@ -56,7 +56,7 @@
                       <div class="govuk-radios" data-module="govuk-radios">
                         <div class="govuk-radios govuk-radios--small">
                           <div class="govuk-radios__item">
-                            <%= form.radio_button policy["id"], status, class: "govuk-radios__input", checked: status == policy["status"] %>
+                            <%= form.radio_button policy["id"], status, class: "govuk-radios__input", checked: status == policy["status"], disabled: @planning_application.assessment_complete? %>
                             <%= form.label policy["id"], value: status, class: "govuk-label govuk-radios__label " do %>
                             <% end %>
                           </div>
@@ -72,7 +72,7 @@
       </table>
 
       <div class="govuk-button-group">
-        <%= form.submit "Save assessments", class: "govuk-button" %>
+        <%= form.submit "Save assessments", class: "govuk-button", disabled: @planning_application.assessment_complete? %>
         <%= link_to "Back", @planning_application, class: "govuk-button govuk-button--secondary" %>
       </div>
     <% end %>

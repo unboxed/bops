@@ -18,29 +18,31 @@
       </li>
     </ul>
     <h2 class="govuk-heading-l">Assess against policy</h2>
-    <ul class="app-task-list__items" id="assess-section">
-      <% if @planning_application.policy_classes.none? %>
-        No policy references yet.
-      <% else %>
-        <% @planning_application.policy_classes.each do |klass| %>
-          <li class="app-task-list__item">
-            <span class="app-task-list__task-name">
-              <%= link_to klass, {
-                  controller: "policy_assessments",
-                  action: "show_class",
-                  part: klass.part,
-                  policy_class: klass.id,
-              }, aria: { describedby: "assessment-completed" }, class: "govuk-link"  %>
-            </span>
-            <%= tag.strong klass.status, class: class_for_policy_class_status(klass.status) %>
-          </li>
-        <% end %>
+    <ul class="app-task-list__items" id="assess-policy-section">
+      <% @planning_application.policy_classes.each do |klass| %>
+        <li class="app-task-list__item">
+          <span class="app-task-list__task-name">
+            <%= link_to klass, {
+                controller: "policy_assessments",
+                action: "show_class",
+                part: klass.part,
+                policy_class: klass.id,
+            }, aria: { describedby: "assessment-completed" }, class: "govuk-link"  %>
+          </span>
+          <%= tag.strong klass.status, class: class_for_policy_class_status(klass.status) %>
+        </li>
       <% end %>
-      <li class="app-task-list__item">
-        <span class="app-task-list__task-name">
-          <%= link_to "Add assessment area", part_new_policy_assessment_path(@planning_application), class: "govuk-link" %>
-        </span>
-      </li>
+      <% unless @planning_application.assessment_complete? %>
+        <li class="app-task-list__item">
+          <span class="app-task-list__task-name">
+            <% if @planning_application.can_assess? %>
+              <%= link_to "Add assessment area", part_new_policy_assessment_path(@planning_application), class: "govuk-link" %>
+            <% else %>
+              Add assessment area
+            <% end %>
+          </span>
+        </li>
+      <% end %>
     </ul>
     <h2 class="govuk-heading-l">Assessment</h2>
     <ul class="app-task-list__items" id="assess-section">
