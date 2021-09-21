@@ -25,18 +25,18 @@ class PolicyClass
   end
 
   def stamp_part!(number)
-    part = number
+    self[:part] = number
   end
 
   def stamp_status!
     policies.each do |policy|
-      policy["status"] = "undetermined"
+      policy["status"] = "to_be_determined"
     end
   end
 
   def status
-    return "in assessment" if policies.any? { |p| p["status"] == "undetermined" }
     return "does not comply" if policies.any? { |p| p["status"] == "does_not_comply" }
+    return "in assessment" if policies.any? { |p| p["status"] == "to_be_determined" }
 
     "complies"
   end
