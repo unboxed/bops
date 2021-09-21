@@ -8,6 +8,7 @@ class PolicyClass
   attribute :name
   attribute :part
   attribute :policies
+  attribute :url
 
   class << self
     def all_parts
