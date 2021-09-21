@@ -8,6 +8,7 @@ en:
           classes:
             -
               id: A
+              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-a-enlargement-improvement-or-other-alteration-of-a-dwellinghouse
               name: |
                 The enlargement, improvement or other alteration of a
                 dwellinghouse.
@@ -30,6 +31,7 @@ en:
                     original dwellinghouse)
             -
               id: B
+              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-b-additions-etc-to-the-roof-of-a-dwellinghouse/made
               name: |
                 The reduction, shrinkage and minification of a
                 dwellinghouse.
@@ -52,6 +54,7 @@ en:
                     original dwellinghouse)
             -
               id: C
+              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-c-other-alterations-to-the-roof-of-a-dwellinghouse/made
               name: |
                 The degradation, destruction or annihilation of a
                 dwellinghouse.
