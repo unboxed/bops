@@ -41,7 +41,7 @@
                 <details class="govuk-details" data-module="govuk-details">
                   <summary class="govuk-details__summary">
                     <span class="govuk-details__summary-text">
-                      <%= policy["id"] %>
+                      <%= @klass.id %>.<%= policy["id"] %>
                     </span>
                   </summary>
                   <div class="govuk-details__text">
@@ -49,11 +49,11 @@
                   </div>
                 </details>
               </td>
-              <div class="govuk-form-group">
-                <fieldset class="govuk-fieldset">
-                  <div class="govuk-radios" data-module="govuk-radios">
-                    <% ["complies", "does_not_comply", "to_be_determined"].each do |status| %>
-                      <td class="govuk-table__cell">
+              <% ["complies", "does_not_comply", "to_be_determined"].each do |status| %>
+                <td class="govuk-table__cell">
+                  <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset">
+                      <div class="govuk-radios" data-module="govuk-radios">
                         <div class="govuk-radios govuk-radios--small">
                           <div class="govuk-radios__item">
                             <%= form.radio_button policy["id"], status, class: "govuk-radios__input", checked: status == policy["status"] %>
@@ -61,11 +61,11 @@
                             <% end %>
                           </div>
                         </div>
-                      </td>
-                    <% end %>
+                      </div>
+                    </fieldset>
                   </div>
-                </fieldset>
-              </div>
+                </td>
+              <% end %>
             </tr>
           <% end %>
         </tbody>
