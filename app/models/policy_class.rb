@@ -25,7 +25,7 @@ class PolicyClass
   end
 
   def stamp_part!(number)
-    self[:part] = number
+    self.part = number
   end
 
   def stamp_status!
