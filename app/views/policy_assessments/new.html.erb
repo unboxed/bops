@@ -3,46 +3,52 @@
 
 <% content_for :title, "Assess" %>
 
-<h1 class="govuk-heading-xl">Policy assessment area</h1>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(url: policy_assessments_path(@planning_application)) do |form| %>
+      <%= form.hidden_field :part, value: @part %>
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset" aria-describedby="nationality-hint">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+            <span class="govuk-fieldset__heading">
+              Add classes to assess
+            </span>
+          </legend>
+          <div id="policy-class-hint" class="govuk-hint">
+            <p class="govuk-body">
+              Select the relevant class(es) to assess. Classes are defined
+              in The Town and Country Planning (General Permitted
+              Development) (England) Order 2015 (GPDO), Schedule 2, Part <%= @part %>.
+            </p>
 
-<%= form_with(url: policy_assessments_path(@planning_application)) do |form| %>
-  <%= form.hidden_field :part, value: @part %>
-  <div class="govuk-form-group">
-    <fieldset class="govuk-fieldset" aria-describedby="nationality-hint">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-        <span class="govuk-fieldset__heading">
-          Add classes to assess
-        </span>
-      </legend>
-      <div id="policy-class-hint" class="govuk-hint">
-        <p class="govuk-body">Select the relevant classes etc etc.</p>
-
-        <p class="govuk-body">
-          <%= link_to "View legislation", nil, class: "govuk-link" %>
-        </p>
-      </div>
-      <div class="govuk-checkboxes">
-        <%= form.collection_check_boxes :policy_classes, PolicyClass.classes_for_part(@part), :id, :name do |b| %>
-          <div class="govuk-checkboxes__item">
-            <% if @planning_application.policy_classes.include?(b.object) %>
-              <%= b.check_box(class: "govuk-checkboxes__input", disabled: true, checked: true) %>
-            <% else %>
-              <%= b.check_box(class: "govuk-checkboxes__input") %>
-            <% end %>
-            <%= b.label(class: "govuk-label govuk-checkboxes__label") do %>
-              <p class="govuk-body">
-                <strong>Class <%= b.value %></strong>
-                - <%= b.text %>
-              </p>
+            <p class="govuk-body">
+              <%= link_to "View legislation", "https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/#{@part}/made", class: "govuk-link" %>
+            </p>
+          </div>
+          <div class="govuk-checkboxes">
+            <%= form.collection_check_boxes :policy_classes, PolicyClass.classes_for_part(@part), :id, :name do |b| %>
+              <div class="govuk-checkboxes__item">
+                <% if @planning_application.policy_classes.include?(b.object) %>
+                  <%= b.check_box(class: "govuk-checkboxes__input", disabled: true, checked: true) %>
+                <% else %>
+                  <%= b.check_box(class: "govuk-checkboxes__input") %>
+                <% end %>
+                <%= b.label(class: "govuk-label govuk-checkboxes__label") do %>
+                  <p class="govuk-body">
+                    <strong>Class <%= b.value %></strong>
+                    - <%= b.text %>
+                  </p>
+                <% end %>
+              </div>
             <% end %>
           </div>
-        <% end %>
+        </fieldset>
       </div>
-    </fieldset>
-  </div>
 
-  <div class="govuk-button-group">
-    <%= form.submit "Add classes", class: "govuk-button" %>
-    <%= link_to "Back", part_new_policy_assessment_path(@planning_application, part: @part), class: "govuk-button govuk-button--secondary" %>
+      <div class="govuk-button-group">
+        <%= form.submit "Add classes", class: "govuk-button" %>
+        <%= link_to "Back", part_new_policy_assessment_path(@planning_application, part: @part), class: "govuk-button govuk-button--secondary" %>
+      </div>
+    <% end %>
   </div>
-<% end %>
+</div>
