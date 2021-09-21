@@ -234,16 +234,20 @@ class PlanningApplication < ApplicationRecord
   end
 
   def proposal_details_with_metadata
-    parsed_proposal_details.select { |proposal| proposal["metadata"].present? }
+    parsed_proposal_details.select do |proposal|
+      proposal["responses"].any? { |element| element["metadata"].present? }
+    end
   end
 
   def proposal_details_with_flags
-    proposal_details_with_metadata.select { |proposal| proposal["metadata"]["flags"].present? }
+    proposal_details_with_metadata.select do |proposal|
+      proposal["responses"].any? { |element| element["metadata"]["flags"].present? }
+    end
   end
 
   def flagged_proposal_details(flag)
     proposal_details_with_flags.select do |proposal|
-      proposal["metadata"]["flags"].include?(flag)
+      proposal["responses"].select { |element| element["metadata"]["flags"].include?(flag) }
     end
   end
 
