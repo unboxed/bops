@@ -34,7 +34,7 @@ class PolicyClass
   end
 
   def status
-    return "undetermined" if policies.any? { |p| p["status"] == "undetermined" }
+    return "in assessment" if policies.any? { |p| p["status"] == "undetermined" }
     return "does not comply" if policies.any? { |p| p["status"] == "does_not_comply" }
 
     "complies"
