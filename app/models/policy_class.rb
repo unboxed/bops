@@ -19,8 +19,8 @@ class PolicyClass
 
     def classes_for_part(number)
       all_parts[number.to_i][:classes]
-        .map { |h| h[:part] = number; h }
         .map { |h| PolicyClass.new(h) }
+        .each { |c| c.stamp_part!(number) }
     end
   end
 
@@ -41,7 +41,7 @@ class PolicyClass
     "complies"
   end
 
-  def as_json(options = nil)
+  def as_json(_options = nil)
     attributes.as_json
   end
 
