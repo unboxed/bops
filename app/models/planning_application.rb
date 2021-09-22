@@ -252,7 +252,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def secure_change_url(application_id, secure_token)
-    if ENV["AWS_PROFILE"].present?
+    if Rails.env.production?
       "https://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
     else
       "http://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
