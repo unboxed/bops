@@ -9,19 +9,13 @@ Rails.application.routes.draw do
   mount Rswag::Ui::Engine => "api-docs"
 
   resources :planning_applications, only: %i[index show new edit create update] do
+    resources :policy_classes, except: %i[index edit] do
+      get :part, on: :new
+    end
+
     member do
       get :assign
       patch :assign
-
-      resources :policy_assessments do
-        get :part, on: :new
-
-        collection do
-          get "/:part/:policy_class", action: "show_class"
-          put "/:part/:policy_class", action: "update_class"
-        end
-      end
-
       get :validate_form
       patch :validate
       patch :invalidate

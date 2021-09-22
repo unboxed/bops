@@ -1,6 +1,6 @@
-class PolicyAssessmentsController < PlanningApplicationsController
+class PolicyClassesController < PlanningApplicationsController
   before_action :set_planning_application
-  before_action :set_policy_class, only: %i[show_class update_class]
+  before_action :set_policy_class_and_part, only: %i[show update]
 
   def part; end
 
@@ -27,9 +27,9 @@ class PolicyAssessmentsController < PlanningApplicationsController
     end
   end
 
-  def show_class; end
+  def show; end
 
-  def update_class
+  def update
     new_policies = policies_params[:policies]
 
     @klass.policies.each do |policy|
@@ -55,7 +55,13 @@ private
     params.permit(:part, :policy_class, policies: {})
   end
 
-  def set_policy_class
-    @klass = @planning_application.policy_classes.find { |p| p.part == params[:part] && p.id == params[:policy_class] }
+  def set_policy_class_and_part
+    part, id = params[:id].split("-")
+
+    @klass = @planning_application.policy_classes.find { |c| c.part == part && c.id == id }
+  end
+
+  def set_planning_application
+    @planning_application = current_local_authority.planning_applications.find(params[:planning_application_id])
   end
 end
