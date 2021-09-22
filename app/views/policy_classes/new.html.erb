@@ -5,7 +5,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with(url: policy_assessments_path(@planning_application)) do |form| %>
+    <%= form_with(url: planning_application_policy_classes_path(@planning_application)) do |form| %>
       <%= form.hidden_field :part, value: @part %>
       <div class="govuk-form-group">
         <fieldset class="govuk-fieldset" aria-describedby="nationality-hint">
@@ -47,7 +47,7 @@
 
       <div class="govuk-button-group">
         <%= form.submit "Add classes", class: "govuk-button" %>
-        <%= link_to "Back", part_new_policy_assessment_path(@planning_application, part: @part), class: "govuk-button govuk-button--secondary" %>
+        <%= link_to "Back", part_new_planning_application_policy_class_path(@planning_application, part: @part), class: "govuk-button govuk-button--secondary" %>
       </div>
     <% end %>
   </div>

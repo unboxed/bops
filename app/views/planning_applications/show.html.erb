@@ -22,12 +22,7 @@
       <% @planning_application.policy_classes.each do |klass| %>
         <li class="app-task-list__item">
           <span class="app-task-list__task-name">
-            <%= link_to klass, {
-                controller: "policy_assessments",
-                action: "show_class",
-                part: klass.part,
-                policy_class: klass.id,
-            }, aria: { describedby: "assessment-completed" }, class: "govuk-link"  %>
+            <%= link_to klass, planning_application_policy_class_path(@planning_application, id: [klass.part, klass.id].join("-")), aria: { describedby: "assessment-completed" }, class: "govuk-link"  %>
           </span>
           <%= tag.strong klass.status, class: class_for_policy_class_status(klass.status) %>
         </li>
@@ -36,7 +31,7 @@
         <li class="app-task-list__item">
           <span class="app-task-list__task-name">
             <% if @planning_application.can_assess? %>
-              <%= link_to "Add assessment area", part_new_policy_assessment_path(@planning_application), class: "govuk-link" %>
+              <%= link_to "Add assessment area", part_new_planning_application_policy_class_path(@planning_application), class: "govuk-link" %>
             <% else %>
               Add assessment area
             <% end %>
