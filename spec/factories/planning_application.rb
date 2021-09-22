@@ -62,7 +62,7 @@ FactoryBot.define do
     awaiting_determination_at { Time.zone.now }
 
     after(:create) do |pa|
-      pa.target_date = Date.current + 7.weeks
+      pa.target_date = 35.business_days.from_now
       pa.save!
     end
   end
@@ -72,7 +72,7 @@ FactoryBot.define do
     documents_validated_at    { nil }
 
     after(:create) do |pa|
-      pa.target_date = Date.current + 7.weeks
+      pa.target_date = 35.business_days.from_now
       pa.save!
     end
   end
@@ -82,7 +82,7 @@ FactoryBot.define do
     awaiting_correction_at { Time.zone.now }
 
     after(:create) do |pa|
-      pa.target_date = Date.current + 7.weeks
+      pa.target_date = 35.business_days.from_now
       pa.save!
     end
   end
@@ -92,7 +92,7 @@ FactoryBot.define do
     determined_at { Time.zone.now }
 
     after(:create) do |pa|
-      pa.target_date = Date.current + 1.week
+      pa.target_date = 5.business_days.from_now
       pa.save!
     end
   end

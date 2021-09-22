@@ -312,28 +312,28 @@ RSpec.describe PlanningApplication, type: :model do
   end
 
   describe "#target_date" do
-    it "is set as created_at + 7 weeks when new record created" do
+    it "is set as created_at + 34 business days when new record created" do
       planning_application = create(:planning_application)
-      expect(planning_application.target_date).to eq((planning_application.created_at + 7.weeks).to_date)
+      expect(planning_application.target_date).to eq(34.business_days.after(planning_application.created_at).to_date)
     end
 
-    it "is set to documents_validated_at + 7 weeks when documents_validated_at added" do
+    it "is set to documents_validated_at + 35 business days when documents_validated_at added" do
       planning_application = create(:planning_application)
       planning_application.update!(documents_validated_at: 1.week.ago)
-      expect(planning_application.target_date).to eq((planning_application.documents_validated_at + 7.weeks).to_date)
+      expect(planning_application.target_date).to eq(35.business_days.after(planning_application.documents_validated_at).to_date)
     end
   end
 
   describe "#expiry_date" do
-    it "is set as created_at + 8 weeks when new record created" do
+    it "is set as created_at + 39 business days when new record created" do
       planning_application = create(:planning_application)
-      expect(planning_application.expiry_date).to eq((planning_application.created_at + 8.weeks).to_date)
+      expect(planning_application.expiry_date).to eq(39.business_days.after(planning_application.created_at).to_date)
     end
 
-    it "is set to documents_validated_at + 8 weeks when documents_validated_at added" do
+    it "is set to documents_validated_at + 40 business days when documents_validated_at added" do
       planning_application = create(:planning_application)
       planning_application.update!(documents_validated_at: 1.week.ago)
-      expect(planning_application.expiry_date).to eq((planning_application.documents_validated_at + 8.weeks).to_date)
+      expect(planning_application.expiry_date).to eq(40.business_days.after(planning_application.documents_validated_at).to_date)
     end
   end
 

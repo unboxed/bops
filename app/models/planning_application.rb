@@ -106,7 +106,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def days_left
-    (expiry_date - Date.current).to_i
+    Date.current.business_days_until(expiry_date)
   end
 
   def reference
@@ -341,8 +341,8 @@ class PlanningApplication < ApplicationRecord
 private
 
   def set_key_dates
-    self.expiry_date = (documents_validated_at || created_at) + 8.weeks
-    self.target_date = (documents_validated_at || created_at) + 7.weeks
+    self.expiry_date = 40.business_days.after(documents_validated_at || created_at)
+    self.target_date = 35.business_days.after(documents_validated_at || created_at)
   end
 
   def set_change_access_id
