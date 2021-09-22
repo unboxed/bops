@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application show page", type: :system do
-  let(:documents_validated_at) { Date.current - 2.weeks }
+  let(:documents_validated_at) { 10.business_days.until(Date.current) }
   let!(:api_user) { create :api_user }
   let!(:planning_application) do
     create :planning_application, description: "Roof extension",
@@ -131,7 +131,7 @@ RSpec.describe "Planning Application show page", type: :system do
   end
 
   context "as an assessor when target date is within a week" do
-    let(:documents_validated_at) { Date.current - (7.weeks + 5.days) }
+    let(:documents_validated_at) { 40.business_days.until(Date.current) }
 
     before do
       sign_in assessor
