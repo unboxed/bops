@@ -35,7 +35,7 @@
   <% end %>
   <% if @planning_application.validated? %>
     <p class="govuk-body">
-      The application is marked as valid<%= @planning_application.can_invalidate? ? "." : "and cannot be marked as invalid." %><br/>
+      The application is marked as valid<%= @planning_application.can_invalidate? ? "." : " and cannot be marked as invalid." %><br/>
       The applicant was notified on <%= @planning_application.documents_validated_at.to_formatted_s(:day_month_year) %>
     </p>
     <p class="govuk-body">
