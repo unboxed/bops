@@ -41,21 +41,21 @@
     <p class="govuk-body">
       <%= link_to "View notification", validation_notice_planning_application_path(@planning_application), class: "govuk-link" %>
     </p>
+  <% else %>
+    <h2 class="govuk-heading-m">
+      Validation requests
+    </h2>
+    <p class="govuk-body govuk-!-margin-top-2">
+      <%= validation_request_summary(@planning_application.validation_requests, @planning_application) %>
+    </p>
+    <p class="govuk-body govuk-!-padding-bottom-6">
+      <% if @planning_application.can_invalidate? %>
+        <%= link_to "Start new or view existing validation requests", planning_application_validation_requests_path(@planning_application), class: "govuk-link" %>
+      <% else %>
+        <%= link_to "View requests", planning_application_validation_requests_path(@planning_application), class: "govuk-link" %>
+      <% end %>
+    </p>
   <% end %>
-
-  <h2 class="govuk-heading-m">
-    Validation requests
-  </h2>
-  <p class="govuk-body govuk-!-margin-top-2">
-    <%= validation_request_summary(@planning_application.validation_requests, @planning_application) %>
-  </p>
-  <p class="govuk-body govuk-!-padding-bottom-6">
-    <% if @planning_application.can_invalidate? %>
-      <%= link_to "Start new or view existing validation requests", planning_application_validation_requests_path(@planning_application), class: "govuk-link" %>
-    <% else %>
-      <%= link_to "View requests", planning_application_validation_requests_path(@planning_application), class: "govuk-link" %>
-    <% end %>
-  </p>
 
   <% if @planning_application.can_validate? %>
     <%= form_with model: @planning_application, url: validate_planning_application_path(@planning_application), local:true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
