@@ -1,4 +1,4 @@
-BusinessTime::Config.load("#{Rails.root}/config/business_time.yml")
+BusinessTime::Config.load(Rails.root.join("config/business_time.yml").to_s)
 
 # or you can configure it manually:  look at me!  I'm Tim Ferriss!
 #  BusinessTime::Config.beginning_of_workday = "10:00 am"

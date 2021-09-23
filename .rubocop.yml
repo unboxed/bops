@@ -12,7 +12,6 @@ AllCops:
   Exclude:
     - "db/migrate/*"
     - "lib/package_builder.rb"
-    - "config/initializers/business_time.rb"
 
 Lint/UnusedMethodArgument:
  Exclude:
