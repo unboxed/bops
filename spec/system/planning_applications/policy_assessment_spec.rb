@@ -111,6 +111,12 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(node).to be_disabled
         end
       end
+
+      it "doesn't allow deleting a class" do
+        click_link "Part 1, Class A"
+
+        expect(page).to have_button("Remove class from assessment", disabled: true)
+      end
     end
   end
 end
