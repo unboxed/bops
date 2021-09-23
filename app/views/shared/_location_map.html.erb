@@ -1,6 +1,8 @@
 <my-map
   style="width: 100%; height: 400px;"
   osVectorTilesApiKey="VgqyKyGclwrFphAv4fw2MrpNI4CnzATT"
+  showScale
+  useScaleBarStyle
   <% if locals[:geojson].present? %>
     geojsonData='<%= JSON.parse(locals[:geojson]).to_json.html_safe %>'
   <% end %>
