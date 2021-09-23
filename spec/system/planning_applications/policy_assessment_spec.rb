@@ -53,12 +53,24 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       expect(page).to have_current_path planning_application_path(planning_application), ignore_query: true
 
-      expect(page).to have_text "classes successfully added"
+      expect(page).to have_text "Policy classes have been successfully added"
 
       within("#assess-policy-section") do
         expect(page).to have_link "Part 1, Class AA"
         expect(page).to have_link "Part 1, Class C"
       end
+    end
+
+    it "allows removing classes" do
+      select_class "C"
+
+      click_link "Part 1, Class C"
+
+      click_button "Remove class from assessment"
+
+      expect(page).to have_text "Policy class has been removed."
+
+      expect(page).not_to have_link "Part 1, Class C"
     end
 
     it "defaults the policies to be determined" do

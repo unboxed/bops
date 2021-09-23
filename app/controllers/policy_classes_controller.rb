@@ -1,6 +1,6 @@
 class PolicyClassesController < PlanningApplicationsController
   before_action :set_planning_application
-  before_action :set_policy_class_and_part, only: %i[show update]
+  before_action :set_policy_class, only: %i[show update destroy]
 
   def part; end
 
@@ -21,7 +21,7 @@ class PolicyClassesController < PlanningApplicationsController
     @planning_application.policy_classes += classes
 
     if @planning_application.save
-      redirect_to @planning_application, notice: "classes successfully added"
+      redirect_to @planning_application, notice: "Policy classes have been successfully added"
     else
       render :new
     end
@@ -45,6 +45,14 @@ class PolicyClassesController < PlanningApplicationsController
     end
   end
 
+  def destroy
+    @planning_application.policy_classes.delete(@klass)
+
+    if @planning_application.save
+      redirect_to @planning_application, notice: "Policy class has been removed."
+    end
+  end
+
 private
 
   def policy_class_params
@@ -55,7 +63,7 @@ private
     params.permit(:part, :policy_class, policies: {})
   end
 
-  def set_policy_class_and_part
+  def set_policy_class
     part, id = params[:id].split("-")
 
     @klass = @planning_application.policy_classes.find { |c| c.part == part && c.id == id }
