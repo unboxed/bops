@@ -3,6 +3,7 @@
 class PolicyClass
   include ActiveModel::Model
   include ActiveModel::Attributes
+  include ActiveModel::Dirty
 
   attribute :id
   attribute :name
