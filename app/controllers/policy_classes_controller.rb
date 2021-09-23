@@ -13,6 +13,11 @@ class PolicyClassesController < PlanningApplicationsController
   def create
     class_ids = policy_class_params[:policy_classes].reject(&:blank?)
 
+    if class_ids.empty?
+      redirect_to new_planning_application_policy_class_path(@planning_application, part: params[:part]), alert: "Please select at least one class"
+      return
+    end
+
     classes = PolicyClass
                 .classes_for_part(params[:part])
                 .select { |c| class_ids.include? c.id }
