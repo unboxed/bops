@@ -2,29 +2,28 @@
   <span class="govuk-caption-xl">
     <%= planning_application.local_authority.name %>
   </span>
+  <br/>
   <h2 class="govuk-heading-s">
-    Town and Country Planning Act 1990 (as amended) <br><br>
-    Town and Country Planning (Development Management Procedure) (England) Order 2015 (as amended)
+    Town and Country Planning Act 1990 (as amended): sections 191 and 192 <br>
+    Town and Country Planning (Development Management Procedure) (England) Order 2015 (as amended): Article 39
   </h2>
-  <h3 class="govuk-heading-s">
-    Decision notice
-  </h3>
-  <p class="govuk-body">
-    Certificate of lawfulness of <%= @planning_application.work_status %> use or development:
-    <strong><%= planning_application.decision %>.</strong>
-  </p>
+  <h2 class="govuk-heading-m">
+    Certificate of Lawful Use or Development <%= "Decision Notice" if @planning_application.refused? %><br/>
+    <strong><%= planning_application.decision.capitalize %></strong>
+  </h2>
   <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
   <dl class="govuk-summary-list govuk-summary-list--no-border">
     <%
       {
-        "Applicant" => @planning_application.applicant_name,
-        "Date of Issue of this decision" => planning_application.determined_at&.to_formatted_s(:day_month_year) || "TBD",
-        "Application received" => planning_application.created_at.to_formatted_s(:day_month_year),
-        "Site address" => planning_application.full_address,
+        "Applicant" => planning_application.applicant_name,
         "Application number" => planning_application.reference,
+        "Application received" => planning_application.created_at.to_formatted_s(:day_month_year),
+        "Decision date" => planning_application.determined_at&.to_formatted_s(:day_month_year) || "TBD",
+        "Site address" => planning_application.full_address,
+        "Use/development" => description_including_status(planning_application),
       }.each do |key, value|
     %>
-      <div class="govuk-summary-list__row">
+  <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
           <%= key %>
         </dt>
@@ -34,111 +33,74 @@
       </div>
     <% end %>
   </dl>
-  <% if planning_application.granted? %>
-    <p class="govuk-body">
-      IT IS HEREBY CERTIFIED that the use or operations described below are
-      <strong>lawful</strong> for the purposes of S.192 of the Town and Country Planning Act 1990
-      in accordance with the valid application received on <%= planning_application.created_at.strftime("%d/%m/%Y") %>
-      and supporting documents listed below. Full application is available on the planning register.
-    </p>
+  <p class="govuk-body">
+      We certify that on the date of the application, the <%= @planning_application.work_status %> use or operations described in the application and supporting plans were <%= @planning_application.granted? ? "lawful" : "not lawful" %> for the purposes of <%= @planning_application.work_status == "proposed" ? "S.192" : "S.191" %> of the Town and Country Planning Act 1990.
+  </p>
+  <p class="govuk-body govuk-!-margin-bottom-1">
+    <strong>
+      The proposal <%= @planning_application.granted? ? "complies" : "does not comply" %> due to the following reason(s):
+    </strong>
+  </p>
+  <p class="govuk-body">
+      <%= planning_application.public_comment %>
+  </p>
+  <% if @planning_application.granted? %>
     <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
-      <%= @planning_application.work_status.humanize %> use or development:
+      This decision is based on the following approved plans:
     </h3>
-    <p class="govuk-body">
-      <%= planning_application.description %>
-    </p>
-    <p class="govuk-body govuk-!-margin-bottom-1"><strong>The proposal complies due to the following reason(s):</strong></p>
-    <p class="govuk-body"> <%= planning_application.public_comment %> </p>
-    <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
-      Permission is subject to the following approved plans:
-    </h3>
-  <% elsif planning_application.refused? %>
-    <p class="govuk-body">
-      IT IS HEREBY CERTIFIED that the use or operations described below are
-      <strong>not lawful</strong>
-      for the purposes of S.192 of the Town and Country Planning Act 1990
-      on the date that the application for this Certificate was received.
-    </p>
-    <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
-      <%= @planning_application.work_status.humanize %> use or development:
-    </h3>
-    <p class="govuk-body">
-      <%= planning_application.description %>
-    </p>
-    <p class="govuk-body"> <strong>The proposal does not comply due to the following reason(s):</strong></p>
-    <p class="govuk-body"> <%= planning_application.public_comment %> </p>
-    <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
-      The proposal was refused based on the following plans:
-    </h3>
-  <% end %>
-  <% if planning_application.documents.for_display.present? %>
-    <table class="govuk-table">
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header app-custom-class">Plan reference number</th>
-          <th scope="col" class="govuk-table__header app-custom-class">Plan description</th>
-          <th scope="col" class="govuk-table__header app-custom-class">Date received</th>
-        </tr>
-      </thead>
-      <tbody class="govuk-table__body">
-        <% @planning_application.documents.for_display.each do |document| %>
-          <% document.numbers.split(",").each do |number| %>
-              <tr class="govuk-table__row">
-                <td class="govuk-table__cell"><%= number %></td>
-                <td class="govuk-table__cell">
-                  <% document.tags.each do |tag| %>
-                    <%= tag.upcase %>
-                  <% end %>
-                </td>
-                <td class="govuk-table__cell"><%= document.created_at.to_formatted_s(:day_month_year) %></td>
-              </tr>
+    <% if planning_application.documents.for_display.present? %>
+      <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header app-custom-class">Document reference</th>
+            <th scope="col" class="govuk-table__header app-custom-class">Description</th>
+            <th scope="col" class="govuk-table__header app-custom-class">Date received</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <% @planning_application.documents.for_display.each do |document| %>
+            <% document.numbers.split(",").each do |number| %>
+                <tr class="govuk-table__row">
+                  <td class="govuk-table__cell"><%= number %></td>
+                  <td class="govuk-table__cell">
+                    <% document.tags.each do |tag| %>
+                      <%= tag.upcase %>
+                    <% end %>
+                  </td>
+                  <td class="govuk-table__cell"><%= document.created_at.to_formatted_s(:day_month_year) %></td>
+                </tr>
+           <% end %>
          <% end %>
-       <% end %>
-      </tbody>
-    </table>
-  <% else %>
-    <p class="govuk-body">
-      No plans specified
-    </p>
+        </tbody>
+      </table>
+    <% else %>
+      <p class="govuk-body">
+        No plans specified
+      </p>
+    <% end %>
   <% end %>
 
-  <p class="govuk-body">Signed: <%= planning_application.local_authority.signatory_name %>
-    <%= planning_application.local_authority.signatory_job_title %>
-  </p>
+  <h3 class="govuk-heading-s">
+    Site location
+  </h3>
   <% if @planning_application.boundary_geojson.present? %>
     <%= render "shared/location_map", locals: { geojson: @planning_application.boundary_geojson } %>
   <% else %>
     <p class="govuk-body">No digital sitemap provided</p>
   <% end %>
-  <p class="govuk-body govuk-!-padding-top-6">
-    Your attention is drawn to the notes accompanying this document
-  </p>
 
+  <h3 class="govuk-heading-s">
+    Notes:
+  </h3>
   <p class="govuk-body">
-    Any enquiries regarding this document should quote the Application Number and be sent to
-    the
-    <%= planning_application.local_authority.signatory_job_title %>,
-    <%= planning_application.local_authority.name %>,
-    <%= planning_application.local_authority.enquiries_paragraph %>
-    or by email to <%= planning_application.local_authority.email_address %>
+    Enquiries regarding this document should include the Application number and be sent to:
+    <%= planning_application.local_authority.email_address %>, or<br/>
+    <%= planning_application.local_authority.signatory_job_title %>, <%= planning_application.local_authority.name %>, Postal address: <%= planning_application.local_authority.enquiries_paragraph %>.
   </p>
-  <% if planning_application.refused? %>
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+  <% if @planning_application.refused? %>
     <p class="govuk-body">
-      INFORMATIVE NOTES TO APPLICANT RELATING TO THE PROPOSED DEVELOPMENT
-    </p>
-    <h3 class="govuk-heading-s">
-      [1] APPEAL TO THE SECRETARY OF STATE.
-    </h3>
-    <p class="govuk-body">
-      If the applicant is aggrieved by this decision of the council to refuse an application for a Certificate of Lawfulness of Existing Use or Development or to refuse it in part the applicant may appeal to the Secretary of State in accordance
-      with Section 195 of the Town and Country Planning Act 1990 within six months of the receipt of this notice. The Secretary of State can allow a longer period for giving notice of an appeal but will not normally use this power unless there are special
-      circumstances which excuse the delay in giving notice of appeal. If you do decide to appeal you can do so using The Planning Inspectorate’s online appeals service. You can find the service through the appeals area of the Planning Portal at
-      www.planningportal.gov.uk/pcs. You can also appeal by completing the appropriate form which you can get from The Planning Inspectorate, Customer Support Unit, Temple Quay House, 2 The Square, Temple Quay, Bristol BS1 6PN [tel. 0117-3726372]. The form
-      can also be downloaded from the Inspectorate's website at www.planning-inspectorate.gov.uk. The Planning Inspectorate will publish details of your appeal on the internet on the appeals area of the Planning Portal. This may include a copy of the
-      original planning application from and relevant supporting documents supplied to the council by you or your agent, together with the completed appeal form and information you submit to The Planning Inspectorate. Please ensure that you only provide
-      information, including personal information belonging to you, that you are happy will be made available to others in this way. If you supply information belonging to someone else please ensure you have their permission to do so. More detailed
-      information about data protection and privacy matters is available on the Planning Portal.
+      Appeals to the Secretary of State<br/>
+      If you are aggrieved by this decision, then you can appeal to the Secretary of State under section 195 of the Town and Country Planning Act 1990 (as amended). Appeals to the Secretary of State regarding this decision may be made online and in accordance with the guidance set out on the Government website at: <a href="https://www.gov.uk/appeal-lawful-development-certificate-decision">https://www.gov.uk/appeal-lawful-development-certificate-decision</a>
     </p>
   <% end %>
 </div>
