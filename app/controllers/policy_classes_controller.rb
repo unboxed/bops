@@ -32,7 +32,7 @@ class PolicyClassesController < PlanningApplicationsController
   def update
     new_policies = policies_params[:policies]
 
-    @klass.policies.each do |policy|
+    @policy_class.policies.each do |policy|
       value = new_policies[policy["id"]]
 
       policy["status"] = value if value.present?
@@ -46,7 +46,7 @@ class PolicyClassesController < PlanningApplicationsController
   end
 
   def destroy
-    @planning_application.policy_classes.delete(@klass)
+    @planning_application.policy_classes.delete(@policy_class)
 
     if @planning_application.save
       redirect_to @planning_application, notice: "Policy class has been removed."
@@ -66,7 +66,7 @@ private
   def set_policy_class
     part, id = params[:id].split("-")
 
-    @klass = @planning_application.policy_classes.find { |c| c.part == part && c.id == id }
+    @policy_class = @planning_application.policy_classes.find { |c| c.part == part && c.id == id }
   end
 
   def set_planning_application
