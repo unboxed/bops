@@ -17,7 +17,13 @@
       <%= link_to "Open legislation in new window", @policy_class.url, class: "govuk-link", target: "_blank" %>
     </p>
 
-    <%= button_to "Remove class from assessment", nil, method: :delete, class: "govuk-button govuk-button--warning" %>
+    <%= button_to(
+        "Remove class from assessment",
+        nil,
+        method: :delete,
+        class: "govuk-button govuk-button--warning",
+        disabled: @planning_application.assessment_complete?
+    ) %>
   </div>
 </div>
 
