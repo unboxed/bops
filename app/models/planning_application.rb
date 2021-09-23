@@ -35,10 +35,13 @@ class PlanningApplication < ApplicationRecord
   validate :documents_validated_at_date
   validate :public_comment_present
   validate :decision_with_recommendations
+  validate :policy_classes_editable
 
   scope :not_started_and_invalid, -> { where("status = 'not_started' OR status = 'invalidated'") }
   scope :under_assessment, -> { where("status = 'in_assessment' OR status = 'awaiting_correction'") }
   scope :closed, -> { where("status = 'determined' OR status = 'withdrawn' OR status = 'returned'") }
+
+  attribute :policy_classes, :policy_class, array: true
 
   aasm.attribute_name :status
 
@@ -335,6 +338,12 @@ class PlanningApplication < ApplicationRecord
       "#{agent_first_name} #{agent_last_name}"
     else
       "#{applicant_first_name} #{applicant_last_name}"
+    end
+  end
+
+  def policy_classes_editable
+    if policy_classes_changed? && !in_assessment?
+      errors.add(:policy_classes, "cannot be added at this stage")
     end
   end
 

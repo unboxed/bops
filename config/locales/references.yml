@@ -1,0 +1,894 @@
+---
+en:
+  schedules:
+    - name: "Schedule 1"
+      parts:
+        1:
+          name: "Development within the curtilage of a dwellinghouse"
+          classes:
+            -
+              id: A
+              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-a-enlargement-improvement-or-other-alteration-of-a-dwellinghouse
+              name: enlargement, improvement or other alteration of a dwellinghouse
+              policies:
+                -
+                  id: 1a
+                  description: |
+                    Development is not permitted by Class A if
+                    permission to use the dwellinghouse as a
+                    dwellinghouse has been granted only by virtue of
+                    Class M, MA, N, P, PA or Q of Part 3 of this
+                    Schedule (changes of use);
+                -
+                  id: 1b
+                  description: |
+                    Development is not permitted by Class A if as a
+                    result of the works, the total area of ground
+                    covered by buildings within the curtilage of the
+                    dwellinghouse (other than the original
+                    dwellinghouse) would exceed 50% of the total area
+                    of the curtilage (excluding the ground area of the
+                    original dwellinghouse)
+                -
+                  id: 1c
+                  description: |
+                    Development is not permitted by Class A if the
+                    height of the part of the dwellinghouse enlarged,
+                    improved or altered would exceed the height of the
+                    highest part of the roof of the existing
+                    dwellinghouse
+                -
+                  id: 1d
+                  description: |
+                    Development is not permitted by Class A if the
+                    height of the eaves of the part of the
+                    dwellinghouse enlarged, improved or altered would
+                    exceed the height of the eaves of the existing
+                    dwellinghouse
+                -
+                  id: 1e(i)
+                  description: |
+                    Development is not permitted by Class A if the
+                    enlarged part of the dwellinghouse would extend
+                    beyond a wall which forms the principal elevation
+                    of the original dwellinghouse
+                -
+                  id: 1e(ii)
+                  description: |
+                    Development is not permitted by Class A if the
+                    enlarged part of the dwellinghouse would extend
+                    beyond a wall which fronts a highway and forms a
+                    side elevation of the original dwellinghouse
+                -
+                  id: 1f(i)
+                  description: |
+                    Development is not permitted by Class A if subject
+                    to paragraph (g), the enlarged part of the
+                    dwellinghouse would have a single storey and
+                    extend beyond the rear wall of the original
+                    dwellinghouse by more than 4 metres in the case of
+                    a detached dwellinghouse, or 3 metres in the case
+                    of any other dwellinghouse
+                -
+                  id: 1f(ii)
+                  description: |
+                    Development is not permitted by Class A if subject
+                    to paragraph (g), the enlarged part of the
+                    dwellinghouse would have a single storey and
+                    exceed 4 metres in height
+                -
+                  id: 1g(i)
+                  description: |
+                    Development is not permitted by Class A if for a
+                    dwellinghouse not on article 2(3) land nor on a
+                    site of special scientific interest, the enlarged
+                    part of the dwellinghouse would have a single
+                    storey and extend beyond the rear wall of the
+                    original dwellinghouse by more than 8 metres in
+                    the case of a detached dwellinghouse, or 6 metres
+                    in the case of any other dwellinghouse
+                -
+                  id: 1g(ii)
+                  description: |
+                    Development is not permitted by Class A if for a
+                    dwellinghouse not on article 2(3) land nor on a
+                    site of special scientific interest, the enlarged
+                    part of the dwellinghouse would have a single
+                    storey and exceed 4 metres in height
+                -
+                  id: 1h(i)
+                  description: |
+                    Development is not permitted by Class A if the
+                    enlarged part of the dwellinghouse would have more
+                    than a single storey and extend beyond the rear
+                    wall of the original dwellinghouse by more than 3
+                    metres
+                -
+                  id: 1h(ii)
+                  description: |
+                    Development is not permitted by Class A if the
+                    enlarged part of the dwellinghouse would have more
+                    than a single storey and be within 7 metres of any
+                    boundary of the curtilage of the dwellinghouse
+                    being enlarged which is opposite the rear wall of
+                    that dwellinghouse
+                -
+                  id: 1i
+                  description: |
+                    Development is not permitted by Class A if the
+                    enlarged part of the dwellinghouse would be within
+                    2 metres of the boundary of the curtilage of the
+                    dwellinghouse, and the height of the eaves of the
+                    enlarged part would exceed 3 metres
+                -
+                  id: 1j(i)
+                  description: |
+                    Development is not permitted by Class A if the
+                    enlarged part of the dwellinghouse would extend
+                    beyond a wall forming a side elevation of the
+                    original dwellinghouse, and would exceed 4 metres
+                    in height
+                -
+                  id: 1j(ii)
+                  description: |
+                    Development is not permitted by Class A if the
+                    enlarged part of the dwellinghouse would extend
+                    beyond a wall forming a side elevation of the
+                    original dwellinghouse, and would ave more than a
+                    single storey
+                -
+                  id: 1j(iii)
+                  description: |
+                    Development is not permitted by Class A if the
+                    enlarged part of the dwellinghouse would extend
+                    beyond a wall forming a side elevation of the
+                    original dwellinghouse, and would have a width
+                    greater than half the width of the original
+                    dwellinghouse
+                -
+                  id: 1ja
+                  description: |
+                    Development is not permitted by Class A if any
+                    total enlargement (being the enlarged part
+                    together with any existing enlargement of the
+                    original dwellinghouse to which it will be joined)
+                    exceeds or would exceed the limits set out in
+                    sub-paragraphs (e) to (j)
+                -
+                  id: 1k(i)
+                  description: |
+                    Development is not permitted by Class A if it
+                    would consist of or include the construction or
+                    provision of a verandah, balcony or raised
+                    platform
+                -
+                  id: 1k(ii)
+                  description: |
+                    Development is not permitted by Class A if it
+                    would consist of or include the installation,
+                    alteration or replacement of a microwave antenna
+                -
+                  id: 1k(iii)
+                  description: |
+                    Development is not permitted by Class A if it
+                    would consist of or include the installation,
+                    alteration or replacement of a chimney, flue or
+                    soil and vent pipe
+                -
+                  id: 1k(iv)
+                  description: |
+                    Development is not permitted by Class A if it
+                    would consist of or include an alteration to any
+                    part of the roof of the dwellinghouse
+                -
+                  id: 1l
+                  description: |
+                    Development is not permitted by Class A if the
+                    dwellinghouse is built under Part 20 of this
+                    Schedule (construction of new dwellinghouses)
+                -
+                  id: 2a
+                  description: |
+                    In the case of a dwellinghouse on article 2(3)
+                    land, development is not permitted by Class A if
+                    it would consist of or include the cladding of any
+                    part of the exterior of the dwellinghouse with
+                    stone, artificial stone, pebble dash, render,
+                    timber, plastic or tiles
+                -
+                  id: 2b
+                  description: |
+                    In the case of a dwellinghouse on article 2(3)
+                    land, development is not permitted by Class A if
+                    the enlarged part of the dwellinghouse would
+                    extend beyond a wall forming a side elevation of
+                    the original dwellinghouse
+                -
+                  id: 2c
+                  description: |
+                    In the case of a dwellinghouse on article 2(3)
+                    land, development is not permitted by Class A if
+                    the enlarged part of the dwellinghouse would have
+                    more than a single storey and extend beyond the
+                    rear wall of the original dwellinghouse
+                -
+                  id: 2d
+                  description: |
+                    In the case of a dwellinghouse on article 2(3)
+                    land, development is not permitted by Class A if
+                    any total enlargement (being the enlarged part
+                    together with any existing enlargement of the
+                    original dwellinghouse to which it will be joined)
+                    exceeds or would exceed the limits set out in
+                    sub-paragraphs (b) and (c)
+                -
+                  id: 3a
+                  description: |
+                    Development is permitted by Class A subject to the
+                    following condition - the materials used in any
+                    exterior work (other than materials used in the
+                    construction of a conservatory) must be of a
+                    similar appearance to those used in the
+                    construction of the exterior of the existing
+                    dwellinghouse
+                -
+                  id: 3b(i)
+                  description: |
+                    Development is permitted by Class A subject to the
+                    following condition - any upper-floor window
+                    located in a wall or roof slope forming a side
+                    elevation of the dwellinghouse must be
+                    obscure-glazed
+                -
+                  id: 3b(ii)
+                  description: |
+                    Development is permitted by Class A subject to the
+                    following condition - any upper-floor window
+                    located in a wall or roof slope forming a side
+                    elevation of the dwellinghouse must be non-opening
+                    unless the parts of the window which can be opened
+                    are more than 1.7 metres above the floor of the
+                    room in which the window is installed
+                -
+                  id: 3c
+                  description: |
+                    Development is permitted by Class A subject to the
+                    following condition - where the enlarged part of
+                    the dwellinghouse has more than a single storey,
+                    or forms an upper storey on an existing
+                    enlargement of the original dwellinghouse, the
+                    roof pitch of the enlarged part must, so far as
+                    practicable, be the same as the roof pitch of the
+                    original dwellinghouse
+            -
+              id: AA
+              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-aa-enlargement-of-a-dwellinghouse-by-construction-of-additional-storeys
+              name: enlargement of a dwellinghouse by construction of additional storeys
+              policies:
+                -
+                  id: 1a
+                  description: |
+                    Development is not permitted by Class AA if
+                    permission to use the dwellinghouse as a
+                    dwellinghouse has been granted only by virtue of
+                    Class M, MA, N, O, P, PA or Q of Part 3 of this
+                    Schedule (changes of use)
+                -
+                  id: 1b(i)
+                  description: |
+                    Development is not permitted by Class AA if the
+                    dwellinghouse is located on article 2(3) land
+                -
+                  id: 1b(ii)
+                  description: |
+                    Development is not permitted by Class AA if the
+                    dwellinghouse is located on a site of special
+                    scientific interest
+                -
+                  id: 1c
+                  description: |
+                    Development is not permitted by Class AA if the
+                    dwellinghouse was constructed before 1st July 1948
+                    or after 28th October 2018
+                -
+                  id: 1d
+                  description: |
+                    Development is not permitted by Class AA if the
+                    existing dwellinghouse has been enlarged by the
+                    addition of one or more storeys above the original
+                    dwellinghouse, whether in reliance on the
+                    permission granted by Class AA or otherwise
+                -
+                  id: 1e
+                  description: |
+                    Development is not permitted by Class AA if
+                    following the development the height of the
+                    highest part of the roof of the dwellinghouse
+                    would exceed 18 metres
+                -
+                  id: 1f(i)
+                  description: |
+                    Development is not permitted by Class AA if
+                    following the development the height of the
+                    highest part of the roof of the dwellinghouse
+                    would exceed the height of the highest part of the
+                    roof of the existing dwellinghouse by more than
+                    3.5 metres, where the existing dwellinghouse
+                    consists of one storey
+                -
+                  id: 1f(ii)
+                  description: |
+                    Development is not permitted by Class AA if
+                    following the development the height of the
+                    highest part of the roof of the dwellinghouse
+                    would exceed the height of the highest part of the
+                    roof of the existing dwellinghouse by more than 7
+                    metres, where the existing dwellinghouse consists
+                    of more than one storey
+                -
+                  id: 1g(i)
+                  description: |
+                    Development is not permitted by Class AA if the
+                    dwellinghouse is not detached and following the
+                    development the height of the highest part of its
+                    roof would exceed by more than 3.5 metres in the
+                    case of a semi-detached house, the height of the
+                    highest part of the roof of the building with
+                    which it shares a party wall (or, as the case may
+                    be, which has a main wall adjoining its main wall)
+                -
+                  id: 1g(ii)
+                  description: |
+                    Development is not permitted by Class AA if the
+                    dwellinghouse is not detached and following the
+                    development the height of the highest part of its
+                    roof would exceed by more than 3.5 metres in the
+                    case of a terrace house, the height of the highest
+                    part of the roof of every other building in the
+                    row in which it is situated
+                -
+                  id: 1h(i)
+                  description: |
+                    Development is not permitted by Class AA if the
+                    floor to ceiling height of any additional storey,
+                    measured internally, would exceed the lower of 3
+                    metres
+                -
+                  id: 1h(ii)
+                  description: |
+                    Development is not permitted by Class AA if the
+                    floor to ceiling height of any additional storey,
+                    measured internally, would exceed the lower of the
+                    floor to ceiling height, measured internally, of
+                    any storey of the principal part of the existing
+                    dwellinghouse
+                -
+                  id: 1i
+                  description: |
+                    Development is not permitted by Class AA if any
+                    additional storey is constructed other than on the
+                    principal part of the dwellinghouse
+                -
+                  id: 1j
+                  description: |
+                    Development is not permitted by Class AA if the
+                    development would include the provision of visible
+                    support structures on or attached to the exterior
+                    of the dwellinghouse upon completion of the
+                    development
+                -
+                  id: 1k
+                  description: |
+                    Development is not permitted by Class AA if the
+                    development would include any engineering
+                    operations other than works within the curtilage
+                    of the dwellinghouse to strengthen its existing
+                    walls or existing foundations
+                -
+                  id: 2a
+                  description: |
+                    Development is permitted by Class AA subject to
+                    the following condition - the materials used in
+                    any exterior work must be of a similar appearance
+                    to those used in the construction of the exterior
+                    of the existing dwellinghouse
+                -
+                  id: 2b
+                  description: |
+                    Development is permitted by Class AA subject to
+                    the following condition - the development must not
+                    include a window in any wall or roof slope forming
+                    a side elevation of the dwelling house
+                -
+                  id: 2c
+                  description: |
+                    Development is permitted by Class AA subject to
+                    the following condition - the development must not
+                    include a window in any wall or roof slope forming
+                    a side elevation of the dwelling house
+                -
+                  id: 2d
+                  description: |
+                    Development is permitted by Class AA subject to
+                    the following condition - following the
+                    development, the dwellinghouse must be used as a
+                    dwellinghouse within the meaning of Class C3 of
+                    the Schedule to the Use Classes Order and for no
+                    other purpose, except to the extent that the other
+                    purpose is ancillary to the primary use as a
+                    dwellinghouse
+                -
+                  id: 2e
+                  description: |
+                    Development is permitted by Class AA subject to
+                    the following condition -
+            -
+              id: B
+              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-a-enlargement-improvement-or-other-alteration-of-a-dwellinghouse
+              name: additions etc to the roof of a dwellinghouse
+              policies:
+                -
+                  id: 1a
+                  description: |
+                    "Development is not permitted by Class B if
+                    permission to use the dwellinghouse as a
+                    dwellinghouse has been granted only by virtue of
+                    Class M, MA, N, P, PA or Q of Part 3 of this
+                    Schedule (changes of use)"
+                -
+                  id: 1b
+                  description: |
+                    "Development is not permitted by Class B if any
+                    part of the dwellinghouse would, as a result of
+                    the works, exceed the height of the highest part
+                    of the existing roof"
+                -
+                  id: 1c
+                  description: |
+                    "Development is not permitted by Class B if any
+                    part of the dwellinghouse would, as a result of
+                    the works, extend beyond the plane of any existing
+                    roof slope which forms the principal elevation of
+                    the dwellinghouse and fronts a highway"
+                -
+                  id: 1d(i)
+                  description: |
+                    Development is not permitted by Class B if the
+                    cubic content of the resulting roof space would
+                    exceed the cubic content of the original roof
+                    space by more than 40 cubic metres in the case of
+                    a terrace house
+                -
+                  id: 1d(ii)
+                  description: |
+                    Development is not permitted by Class B if the
+                    cubic content of the resulting roof space would
+                    exceed the cubic content of the original roof
+                    space by more than 50 cubic metres in any other
+                    case
+                -
+                  id: 1e(i)
+                  description: |
+                    "Development is not permitted by Class B if it
+                    would consist of or include the construction or
+                    provision of a verandah, balcony or raised
+                    platform"
+                -
+                  id: 1e(ii)
+                  description: |
+                    "Development is not permitted by Class B if it
+                    would consist of or include the installation,
+                    alteration or replacement of a chimney, flue or
+                    soil and vent pipe"
+                -
+                  id: 1f
+                  description: |
+                    Development is not permitted by Class B if the
+                    dwellinghouse is on article 2(3) land
+                -
+                  id: 1g
+                  description: |
+                    Development is not permitted by Class B if the
+                    dwellinghouse is built under Part 20 of this
+                    Schedule (construction of new dwellinghouses)
+                -
+                  id: 1h
+                  description: |
+                    Development is not permitted by Class B if the
+                    existing dwellinghouse has been enlarged in
+                    reliance on the permission granted by Class AA
+                    (enlargement of a dwellinghouse by construction of
+                    additional storeys)
+                -
+                  id: 2a
+                  description: |
+                    Development is permitted by Class B subject to the
+                    following condition - the materials used in any
+                    exterior work must be of a similar appearance to
+                    those used in the construction of the exterior of
+                    the existing dwellinghouse
+                -
+                  id: 2b(i)(aa)
+                  description: |
+                    Development is permitted by Class B subject to the
+                    following condition - the enlargement must be
+                    constructed so that other than in the case of a
+                    hip-to-gable enlargement or an enlargement which
+                    joins the original roof to the roof of a rear or
+                    side extension the eaves of the original roof are
+                    maintained or reinstated
+                -
+                  id: 2b(i)(bb)
+                  description: |
+                    "Development is permitted by Class B subject to
+                    the following condition - the enlargement must be
+                    constructed so that other than in the case of a
+                    hip-to-gable enlargement or an enlargement which
+                    joins the original roof to the roof of a rear or
+                    side extension he edge of the enlargement closest
+                    to the eaves of the original roof is, so far as
+                    practicable, not less than 0.2 metres from the
+                    eaves, measured along the roof slope from the
+                    outside edge of the eaves"
+                -
+                  id: 2b(ii)
+                  description: |
+                    "Development is permitted by Class B subject to
+                    the following condition - the enlargement must be
+                    constructed so that other than in the case of an
+                    enlargement which joins the original roof to the
+                    roof of a rear or side extension, no part of the
+                    enlargement extends beyond the outside face of any
+                    external wall of the original dwellinghouse"
+                -
+                  id: 2c(i)
+                  description: |
+                    Development is permitted by Class B subject to the
+                    following condition - any window inserted on a
+                    wall or roof slope forming a side elevation of the
+                    dwellinghouse must be obscure-glazed
+                -
+                  id: 2c(ii)
+                  description: |
+                    Development is permitted by Class B subject to the
+                    following condition - any window inserted on a
+                    wall or roof slope forming a side elevation of the
+                    dwellinghouse must be non-opening unless the parts
+                    of the window which can be opened are more than
+                    1.7 metres above the floor of the room in which
+                    the window is installed
+            -
+              id: C
+              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-c-other-alterations-to-the-roof-of-a-dwellinghouse/made
+              name: other alterations to the roof of a dwellinghouse
+              policies:
+                -
+                  id: 1a
+                  description: |
+                    "Development is not permitted by Class C if
+                    permission to use the dwellinghouse as a
+                    dwellinghouse has been granted only by virtue of
+                    Class M, MA, N, P, PA or Q of Part 3 of this
+                    Schedule (changes of use)"
+                -
+                  id: 1b
+                  description: |
+                    Development is not permitted by Class C if the
+                    alteration would protrude more than 0.15 metres
+                    beyond the plane of the slope of the original roof
+                    when measured from the perpendicular with the
+                    external surface of the original roof
+                -
+                  id: 1c
+                  description: |
+                    Development is not permitted by Class C if it
+                    would result in the highest part of the alteration
+                    being higher than the highest part of the original
+                    roof
+                -
+                  id: 1d(i)
+                  description: |
+                    "Development is not permitted by Class C if it
+                    would consist of or include the installation,
+                    alteration or replacement of a chimney, flue or
+                    soil and vent pipe"
+                -
+                  id: 1d(ii)
+                  description: |
+                    "Development is not permitted by Class C if it
+                    would consist of or include the installation,
+                    alteration or replacement of solar photovoltaics
+                    or solar thermal equipment"
+                -
+                  id: 1e
+                  description: |
+                    Development is not permitted by Class C if the
+                    dwellinghouse is built under Part 20 of this
+                    Schedule (construction of new dwellinghouses)
+                -
+                  id: 2a
+                  description: |
+                    Development is permitted by Class C subject to the
+                    condition that any window located on a roof slope
+                    forming a side elevation of the dwellinghouse must
+                    be obscure-glazed
+                -
+                  id: 2b
+                  description: |
+                    Development is permitted by Class C subject to the
+                    condition that any window located on a roof slope
+                    forming a side elevation of the dwellinghouse must
+                    be non-opening unless the parts of the window
+                    which can be opened are more than 1.7 metres above
+                    the floor of the room in which the window is
+                    installed
+            -
+              id: D
+              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-d-porches/made
+              name: porches
+              policies:
+                -
+                  id: 1a
+                  description: |
+                    "Development is not permitted by Class D if
+                    permission to use the dwellinghouse as a
+                    dwellinghouse has been granted only by virtue of
+                    Class M, MA, N, P, PA or Q of Part 3 of this
+                    Schedule (changes of use)"
+                -
+                  id: 1b
+                  description: |
+                    Development is not permitted by Class D if the
+                    ground area (measured externally) of the structure
+                    would exceed 3 square metres
+                -
+                  id: 1c
+                  description: |
+                    Development is not permitted by Class D if any
+                    part of the structure would be more than 3 metres
+                    above ground level
+                -
+                  id: 1d
+                  description: |
+                    Development is not permitted by Class D if any
+                    part of the structure would be within 2 metres of
+                    any boundary of the curtilage of the dwellinghouse
+                    with a highway
+                -
+                  id: 1e
+                  description: |
+                    Development is not permitted by Class D if the
+                    dwellinghouse is built under Part 20 of this
+                    Schedule (construction of new dwellinghouses)
+            -
+              id: E
+              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-e-buildings-etc-incidental-to-the-enjoyment-of-a-dwellinghouse/made
+              name: buildings etc incidental to the enjoyment of a dwellinghouse
+              policies:
+                -
+                  id: 1a
+                  description: |
+                    Development is not permitted by Class E if
+                    permission to use the dwellinghouse as a
+                    dwellinghouse has been granted only by virtue of
+                    Class M, MA, N, P, PA or Q of Part 3 of this
+                    Schedule (changes of use)
+                -
+                  id: 1b
+                  description: |
+                    Development is not permitted by Class E if the
+                    total area of ground covered by buildings,
+                    enclosures and containers within the curtilage
+                    (other than the original dwellinghouse) would
+                    exceed 50% of the total area of the curtilage
+                    (excluding the ground area of the original
+                    dwellinghouse)
+                -
+                  id: 1c
+                  description: |
+                    Development is not permitted by Class E if any
+                    part of the building, enclosure, pool or container
+                    would be situated on land forward of a wall
+                    forming the principal elevation of the original
+                    dwellinghouse
+                -
+                  id: 1d
+                  description: |
+                    Development is not permitted by Class E if the
+                    building would have more than a single storey
+                -
+                  id: 1e(i)
+                  description: |
+                    Development is not permitted by Class E if the
+                    height of the building, enclosure or container
+                    would exceed 4 metres in the case of a building
+                    with a dual-pitched roof
+                -
+                  id: 1e(ii)
+                  description: |
+                    Development is not permitted by Class E if the
+                    height of the building, enclosure or container
+                    would exceed 2.5 metres in the case of a building,
+                    enclosure or container within 2 metres of the
+                    boundary of the curtilage of the dwellinghouse
+                -
+                  id: 1e(iii)
+                  description: |
+                    Development is not permitted by Class E if the
+                    height of the building, enclosure or container
+                    would exceed 3 metres in any other case
+                -
+                  id: 1f
+                  description: |
+                    Development is not permitted by Class E if the
+                    height of the eaves of the building would exceed
+                    2.5 metres
+                -
+                  id: 1g
+                  description: |
+                    Development is not permitted by Class E if the
+                    building, enclosure, pool or container would be
+                    situated within the curtilage of a listed building
+                -
+                  id: 1h
+                  description: |
+                    Development is not permitted by Class E if it
+                    would include the construction or provision of a
+                    verandah, balcony or raised platform
+                -
+                  id: 1i
+                  description: |
+                    Development is not permitted by Class E if it
+                    relates to a dwelling or a microwave antenna
+                -
+                  id: 1j
+                  description: |
+                    Development is not permitted by Class E if the
+                    capacity of the container would exceed 3,500
+                    litres
+                -
+                  id: 1k
+                  description: |
+                    Development is not permitted by Class E if the
+                    dwellinghouse is built under Part 20 of this
+                    Schedule (construction of new dwellinghouses)
+                -
+                  id: 2a
+                  description: |
+                    Development is not permitted by Class E if In the
+                    case of any land within the curtilage of the
+                    dwellinghouse which is within an area of
+                    outstanding natural beauty development is not
+                    permitted by Class E if the total area of ground
+                    covered by buildings, enclosures, pools and
+                    containers situated more than 20 metres from any
+                    wall of the dwellinghouse would exceed 10 square
+                    metres
+                -
+                  id: 2b
+                  description: |
+                    Development is not permitted by Class E if In the
+                    case of any land within the curtilage of the
+                    dwellinghouse which is within the Broads
+                    development is not permitted by Class E if the
+                    total area of ground covered by buildings,
+                    enclosures, pools and containers situated more
+                    than 20 metres from any wall of the dwellinghouse
+                    would exceed 10 square metres
+                -
+                  id: 2c
+                  description: |
+                    Development is not permitted by Class E if In the
+                    case of any land within the curtilage of the
+                    dwellinghouse which is within a National Park
+                    development is not permitted by Class E if the
+                    total area of ground covered by buildings,
+                    enclosures, pools and containers situated more
+                    than 20 metres from any wall of the dwellinghouse
+                    would exceed 10 square metres
+                -
+                  id: 2d
+                  description: |
+                    Development is not permitted by Class E if In the
+                    case of any land within the curtilage of the
+                    dwellinghouse which is within a World Heritage
+                    Site development is not permitted by Class E if
+                    the total area of ground covered by buildings,
+                    enclosures, pools and containers situated more
+                    than 20 metres from any wall of the dwellinghouse
+                    would exceed 10 square metres
+                -
+                  id: 3
+                  description: |
+                    In the case of any land within the curtilage of
+                    the dwellinghouse which is article 2(3) land,
+                    development is not permitted by Class E if any
+                    part of the building, enclosure, pool or container
+                    would be situated on land between a wall forming a
+                    side elevation of the dwellinghouse and the
+                    boundary of the curtilage of the dwellinghouse
+            -
+              id: F
+              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-f-hard-surfaces-incidental-to-the-enjoyment-of-a-dwellinghouse/made
+              name: hard surfaces incidental to the enjoyment of a dwellinghouse
+              policies:
+                -
+                  id: 1a
+                  description: |
+                    Development is not permitted by Class F if
+                    permission to use the dwellinghouse as a
+                    dwellinghouse has been granted only by virtue of
+                    Class M, MA, N, P, PA or Q of Part 3 of this
+                    Schedule (changes of use)
+                -
+                  id: 1b
+                  description: |
+                    Development is not permitted by Class F if the
+                    dwellinghouse is built under Part 20 of this
+                    Schedule (construction of new dwellinghouses)
+                -
+                  id: 2a
+                  description: |
+                    Development is permitted by Class F subject to the
+                    condition that where the hard surface would be
+                    situated on land between a wall forming the
+                    principal elevation of the dwellinghouse and a
+                    highway either the hard surface is made of porous
+                    materials, or provision is made to direct run-off
+                    water from the hard surface to a permeable or
+                    porous area or surface within the curtilage of the
+                    dwellinghouse
+                -
+                  id: 2b
+                  description: |
+                    Development is permitted by Class F subject to the
+                    condition that where the area of ground covered by
+                    the hard surface, or the area of hard surface
+                    replaced, would exceed 5 square metres either the
+                    hard surface is made of porous materials, or
+                    provision is made to direct run-off water from the
+                    hard surface to a permeable or porous area or
+                    surface within the curtilage of the dwellinghouse
+            -
+              id: G
+              name: chimneys, flues etc on a dwellinghouse
+              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-g-chimneys-flues-etc-on-a-dwellinghouse/made
+              policies:
+                -
+                  id: 1a
+                  description: |
+                    Development is not permitted by Class G if
+                    permission to use the dwellinghouse as a
+                    dwellinghouse has been granted only by virtue of
+                    Class M, MA, N, P, PA or Q of Part 3 of this
+                    Schedule (changes of use)
+                -
+                  id: 1b
+                  description: |
+                    Development is not permitted by Class G if the
+                    height of the chimney, flue or soil and vent pipe
+                    would exceed the highest part of the roof by 1
+                    metre or more
+                -
+                  id: 1c(i)
+                  description: |
+                    Development is not permitted by Class G if in the
+                    case of a dwellinghouse on article 2(3) land, the
+                    chimney, flue or soil and vent pipe would be
+                    installed on a wall or roof slope which fronts a
+                    highway
+                -
+                  id: 1c(ii)
+                  description: |
+                    Development is not permitted by Class G if in the
+                    case of a dwellinghouse on article 2(3) land, the
+                    chimney, flue or soil and vent pipe would be
+                    installed on a wall or roof slope which forms
+                    either the principal elevation or a side elevation
+                    of the dwellinghouse
+                -
+                  id: 1d
+                  description: |
+                    Development is not permitted by Class G if the
+                    dwellinghouse is built under Part 20 of this
+                    Schedule (construction of new dwellinghouses)

@@ -77,6 +77,16 @@ FactoryBot.define do
     end
   end
 
+  trait :in_assessment do
+    status                    { :in_assessment }
+    documents_validated_at    { Time.zone.now }
+
+    after(:create) do |pa|
+      pa.target_date = Date.current + 7.weeks
+      pa.save!
+    end
+  end
+
   trait :awaiting_correction do
     status { :awaiting_correction }
     awaiting_correction_at { Time.zone.now }

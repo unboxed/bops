@@ -1,0 +1,86 @@
+<% add_parent_breadcrumb_link "Home", planning_applications_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+
+<% content_for :title, "Assess" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">Assess - <%= @policy_class %></h1>
+
+    <p class="govuk-body">
+      Please indicate if the application complies, does not comply, or
+      is not applicable to each of the policies. Policies are defined in the Town and Country
+      Planning (General Permitted Development) (England) Order 2015,
+      Schedule 2, <%= @policy_class %>.</p>
+
+    <p class="govuk-body">
+      <%= link_to "Open legislation in new window", @policy_class.url, class: "govuk-link", target: "_blank" %>
+    </p>
+
+    <%= button_to(
+        "Remove class from assessment",
+        nil,
+        method: :delete,
+        class: "govuk-button govuk-button--warning",
+        disabled: @planning_application.assessment_complete?
+    ) %>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= form_with method: :put, scope: "policies" do |form| %>
+      <table class="govuk-table">
+        <caption class="govuk-table__caption govuk-table__caption--l"><%= @policy_class %></caption>
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header govuk-!-width-one-half">Policy reference</th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter-width">Complies</th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter-width">Does not comply</th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter-width">To be determined</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <% @policy_class.policies.each do |policy| %>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary">
+                    <span class="govuk-details__summary-text">
+                      <%= @policy_class.id %>.<%= policy["id"] %>
+                    </span>
+                  </summary>
+                  <div class="govuk-details__text">
+                    <%= policy["description"] %>
+                  </div>
+                </details>
+              </td>
+              <% ["complies", "does_not_comply", "to_be_determined"].each do |status| %>
+                <td class="govuk-table__cell">
+                  <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset">
+                      <div class="govuk-radios" data-module="govuk-radios">
+                        <div class="govuk-radios govuk-radios--small">
+                          <div class="govuk-radios__item">
+                            <%= form.radio_button policy["id"], status, class: "govuk-radios__input", checked: status == policy["status"], disabled: @planning_application.assessment_complete? %>
+                            <%= form.label policy["id"], value: status, class: "govuk-label govuk-radios__label " do %>
+                            <% end %>
+                          </div>
+                        </div>
+                      </div>
+                    </fieldset>
+                  </div>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <div class="govuk-button-group">
+        <%= form.submit "Save assessments", class: "govuk-button", disabled: @planning_application.assessment_complete? %>
+        <%= link_to "Back", @planning_application, class: "govuk-button govuk-button--secondary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

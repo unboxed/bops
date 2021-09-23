@@ -1,0 +1,56 @@
+<% add_parent_breadcrumb_link "Home", planning_applications_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+
+<% content_for :title, "Assess" %>
+
+<%= render "flash_content" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(url: planning_application_policy_classes_path(@planning_application)) do |form| %>
+      <%= form.hidden_field :part, value: @part %>
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset" aria-describedby="nationality-hint">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+            <h1 class="govuk-heading-l">
+              Add classes to assess
+            </h1>
+          </legend>
+          <div id="policy-class-hint" class="govuk-hint">
+            <p class="govuk-body">
+              Select the relevant class(es) to assess. Classes are defined
+              in The Town and Country Planning (General Permitted
+              Development) (England) Order 2015 (GPDO), Schedule 2, Part <%= @part %>.
+            </p>
+
+            <p class="govuk-body">
+              <%= link_to "View legislation", "https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/#{@part}/made", class: "govuk-link" %>
+            </p>
+          </div>
+          <div class="govuk-checkboxes">
+            <%= form.collection_check_boxes :policy_classes, PolicyClass.classes_for_part(@part), :id, :name do |b| %>
+              <div class="govuk-checkboxes__item">
+                <% if @planning_application.policy_classes.include?(b.object) %>
+                  <%= b.check_box(class: "govuk-checkboxes__input", disabled: true, checked: true) %>
+                <% else %>
+                  <%= b.check_box(class: "govuk-checkboxes__input") %>
+                <% end %>
+                <%= b.label(class: "govuk-label govuk-checkboxes__label") do %>
+                  <p class="govuk-body">
+                    <strong>Class <%= b.value %></strong>
+                    - <%= b.text %>
+                  </p>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="govuk-button-group">
+        <%= form.submit "Add classes", class: "govuk-button" %>
+        <%= link_to "Back", part_new_planning_application_policy_class_path(@planning_application, part: @part), class: "govuk-button govuk-button--secondary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
