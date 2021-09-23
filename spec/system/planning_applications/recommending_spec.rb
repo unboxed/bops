@@ -44,6 +44,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(planning_application.public_comment).to eq("This is a new public comment")
 
       click_link "Submit recommendation"
+
+      expect(page).to have_content("We certify that on the date of the application")
+      expect(page).to have_content("not lawful")
+      expect(page).to have_content("aggrieved")
+
       click_button "Submit to manager"
 
       # TODO: add a flash message here?

@@ -46,7 +46,10 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     expect(page).not_to have_content("Review Assessment")
     expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 2)
     click_link("View decision notice")
-    expect(page).to have_content("IT IS HEREBY CERTIFIED")
+    expect(page).to have_content("We certify that on the date of the application")
+    expect(page).to have_content("were lawful")
+    expect(page).to have_content("S.192")
+    expect(page).to have_no_content("aggrieved")
   end
 
   it "can be rejected" do
