@@ -5,8 +5,8 @@ FactoryBot.define do
     id { Faker::Name.initials(number: 1) }
     name { Faker::Lorem.sentence }
 
-    after(:build) do |_, klass|
-      klass.policies = attributes_for_list(:policy_reference, 3)
+    after(:build) do |_, policy_class|
+      policy_class.policies = attributes_for_list(:policy_reference, 3)
     end
   end
 end
