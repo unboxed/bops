@@ -49,6 +49,16 @@ class PolicyClass
     "Part #{part}, Class #{id}"
   end
 
+  # NOTE: this is a method that is normally provided and overriden in
+  # the scope of ActiveRecord. Since this is an ActiveModel, stick to
+  # the naming and call it manually from the controller; it joins the
+  # part and the ID of the policy class together, since we store them
+  # flat on PlanningApplication and thus we cannot distinguish them on
+  # their IDs alone.
+  def to_param
+    [part, id].join("-")
+  end
+
   def ==(other)
     if other.is_a? Hash
       part == other[:part] && id == other[:id]

@@ -31,7 +31,7 @@
             <span class="app-task-list__task-name">
               <%= link_to(
                   policy_class,
-                  planning_application_policy_class_path(@planning_application, id: [policy_class.part, policy_class.id].join("-")),
+                  planning_application_policy_class_path(@planning_application, id: policy_class.to_param),
                   aria: { describedby: "assessment-completed" },
                   class: "govuk-link"
               ) %>

@@ -26,4 +26,10 @@ RSpec.describe PolicyClass, type: :model do
       policy_class.policies.each { |p| expect(p["status"]).to eq "to_be_determined" }
     end
   end
+
+  describe "to_param" do
+    it "joins the class's part and id" do
+      expect(build(:policy_class, part: "1", id: "A").to_param).to eq "1-A"
+    end
+  end
 end
