@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :policy_class do
-    id { Faker::Name.initials(number: 1) }
+    id { "A" }
     name { Faker::Lorem.sentence }
 
     after(:build) do |_, policy_class|

@@ -66,7 +66,7 @@ private
   def set_policy_class
     part, id = params[:id].split("-")
 
-    @policy_class = @planning_application.policy_classes.find { |c| c.part == part && c.id == id }
+    @policy_class = @planning_application.policy_classes.find { |c| c.part == part.to_i && c.id == id }
   end
 
   def set_planning_application
