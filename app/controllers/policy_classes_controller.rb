@@ -23,7 +23,7 @@ class PolicyClassesController < PlanningApplicationsController
     if @planning_application.save
       redirect_to @planning_application, notice: "Policy classes have been successfully added"
     else
-      render :new
+      redirect_to new_planning_application_policy_class_path(@planning_application, part: params[:part]), alert: @planning_application.errors.full_messages
     end
   end
 
@@ -37,8 +37,6 @@ class PolicyClassesController < PlanningApplicationsController
 
       policy["status"] = value if value.present?
     end
-
-    @planning_application.policy_classes_will_change!
 
     if @planning_application.save
       redirect_to @planning_application, notice: "Successfully updated policy class"
