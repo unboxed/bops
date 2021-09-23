@@ -14,7 +14,7 @@
       Schedule 2, <%= @klass %>.</p>
 
     <p class="govuk-body">
-      <%= link_to "Open legislation in new window", @klass.url, class: "govuk-link" %>
+      <%= link_to "Open legislation in new window", @klass.url, class: "govuk-link", target: "_blank" %>
     </p>
 
     <%= button_to "Remove class from assessment", nil, method: :delete, class: "govuk-button govuk-button--warning" %>
