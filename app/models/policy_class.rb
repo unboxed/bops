@@ -17,15 +17,17 @@ class PolicyClass
       I18n.t("schedules").first[:parts]
     end
 
-    def classes_for_part(number)
-      all_parts[number.to_i][:classes]
+    def classes_for_part(part)
+      number = part.to_i
+
+      all_parts[number][:classes]
         .map { |h| PolicyClass.new(h) }
         .each { |c| c.stamp_part!(number) }
     end
   end
 
   def stamp_part!(number)
-    self.part = number
+    self.part = number.to_i
   end
 
   def stamp_status!
