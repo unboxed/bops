@@ -43,6 +43,8 @@ class PolicyClassesController < PlanningApplicationsController
       policy["status"] = value if value.present?
     end
 
+    @planning_application.policy_classes_will_change!
+
     if @planning_application.save
       redirect_to @planning_application, notice: "Successfully updated policy class"
     end
