@@ -1,20 +1,47 @@
 <% content_for :title, "Validate application" %>
+
 <%= render "planning_applications/assessment_dashboard" do %>
-
   <h2 class="govuk-heading-l govuk-!-padding-top-3">Validate application</h2>
-
   <% if @planning_application.not_started? %>
-    <p class="govuk-body">
+    <p class="govuk-body govuk-!-font-weight-bold">
       The application has not yet been marked as valid or invalid
     </p>
     <p class="govuk-body">
       <%= link_to "Check documents", planning_application_documents_path(@planning_application), class: "govuk-link" %>
     </p>
+    <p class="govuk-body">
+      Once the application has been checked, mark the application as valid.
+    </p>
+    
+    <% if @planning_application.can_validate? %>
+      <%= form_with model: @planning_application, url: validate_planning_application_path(@planning_application), local:true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+        <% if @planning_application.errors.any? %>
+          <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+            <h2 class="govuk-error-summary__title" id="error-summary-title">
+              There is a problem
+            </h2>
+            <div class="govuk-error-summary__body">
+              <ul class="govuk-list govuk-error-summary__list">
+                <% @planning_application.errors.each do |error| %>
+                  <li><%= error.message %></li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        <% end %>
+        <%= form.govuk_date_field :documents_validated_at, legend: { text: '', size: 's' }, hint: { text: 'Enter valid date, e.g. 28 12 2021' } %>
+        <p>
+          <%= form.submit "Validate application", class: "govuk-button", data: { module: "govuk-button"} %>
+        </p>
+      <% end%>
+    <% end %> <%# close can_validate? conditional %>
+    
   <% elsif @planning_application.invalidated? %>
     <p class="govuk-body">
       <%= "The application is marked as invalid. The applicant was notified on #{@planning_application.invalidated_at.to_formatted_s(:day_month_year)}" %>
     </p>
   <% end %>
+  
   <% if @planning_application.invalid_documents.present? %>
     <div class="govuk-error-summary govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-labelledby="error-summary-title" role="alert" tabindex="-1">
       <svg class="alert__icon" fill="red" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg"
@@ -33,6 +60,8 @@
       </div>
     </div>
   <% end %>
+
+
   <% if @planning_application.validated? %>
     <p class="govuk-body">
       The application is marked as valid<%= @planning_application.can_invalidate? ? "." : " and cannot be marked as invalid." %><br/>
@@ -56,29 +85,6 @@
       <% end %>
     </p>
   <% end %>
+<% end %> <%# close render assessment dashboard %>
+  
 
-  <% if @planning_application.can_validate? %>
-    <%= form_with model: @planning_application, url: validate_planning_application_path(@planning_application), local:true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
-      <% if @planning_application.errors.any? %>
-        <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
-          <h2 class="govuk-error-summary__title" id="error-summary-title">
-            There is a problem
-          </h2>
-          <div class="govuk-error-summary__body">
-            <ul class="govuk-list govuk-error-summary__list">
-              <% @planning_application.errors.each do |error| %>
-                <li><%= error.message %></li>
-              <% end %>
-            </ul>
-          </div>
-        </div>
-      <% end %>
-        <%= form.govuk_date_field :documents_validated_at, legend: { text: '', size: 's' }, hint: { text: 'Enter valid date, e.g. 28 12 2021' } %>
-        <p>
-          <%= form.submit "Validate application", class: "govuk-button", data: { module: "govuk-button"} %>
-        </p>
-    <% end%>
-  <% else %>
-    <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-  <% end %>
-<% end %>

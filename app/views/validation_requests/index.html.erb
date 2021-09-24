@@ -109,17 +109,25 @@
                       <%= validation_request.reason %>
                     </td>
                   <% end %>
-                  <td class="govuk-table__cell">
-                    <% if validation_request.open? %>
-                      <strong class="govuk-tag govuk-tag--<%=display_request_date_state(validation_request) %>">
-                        <%= validation_request.days_until_response_due %> days
+                   <% if @planning_application.can_invalidate? %>
+                    <td class="govuk-table__cell">
+                      <strong class="govuk-tag govuk-tag--yellow">
+                        Not sent
                       </strong>
-                    <% else %>
-                      <strong class="govuk-tag govuk-tag--<%=display_request_status(validation_request) %>">
-                        <%= request_state(validation_request) %>
-                      </strong>
-                    <% end %>
-                  </td>
+                    </td>
+                  <% else %>
+                    <td class="govuk-table__cell">
+                      <% if validation_request.state == "open" %>
+                        <strong class="govuk-tag govuk-tag--<%=display_request_date_state(validation_request) %>">
+                          <%= validation_request.days_until_response_due %> days
+                        </strong>
+                      <% else %>
+                        <strong class="govuk-tag govuk-tag--<%=display_request_status(validation_request) %>">
+                          <%= request_state(validation_request) %>
+                        </strong>
+                      <% end %>
+                    </td>
+                  <% end %>
                   <td class="govuk-table__cell limit-column-width">
                     <%= request_closed_at(validation_request)  %>
                   </td>
@@ -133,10 +141,11 @@
         <% end %>
         <% if @planning_application.can_invalidate? %>
           <p class="govuk-body">
-            <%= "The application has not yet been marked as valid or invalid" if @planning_application.not_started? %>
-          </p>
-          <p class="govuk-body">
             <%= link_to "Add new request", new_planning_application_validation_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+          </p>
+
+          <p class="govuk-body govuk-!-font-weight-bold">
+            <%= "The application has not yet been marked as valid or invalid" if @planning_application.not_started? %>
           </p>
         <% end %>
       </fieldset>
