@@ -11,6 +11,7 @@ RSpec.shared_examples "validate and invalidate" do
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link planning_application.reference
     click_link "Validate application"
+    click_link "Validate application"
 
     fill_in "Day", with: "03"
     fill_in "Month", with: "12"
@@ -88,6 +89,7 @@ RSpec.shared_examples "validate and invalidate" do
 
   it "allows for the user to input a validation date manually" do
     visit validate_form_planning_application_path(second_planning_application)
+    click_link "Validate application"
     fill_in "Day", with: "3"
     fill_in "Month", with: "6"
     fill_in "Year", with: "2022"
@@ -120,8 +122,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
   end
 
   context "Checking documents from Not Started status" do
-    include_examples "validate and invalidate"
-
     it "can be invalidated and email is sent when there is an open validation request" do
       create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago
 
@@ -129,7 +129,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link planning_application.reference
       click_link "Validate application"
 
-      click_link "Start new or view existing validation requests"
+      click_link "Request validation changes"
 
       click_button "Invalidate application"
 
@@ -154,17 +154,14 @@ RSpec.describe "Planning Application Assessment", type: :system do
       create :planning_application, :invalidated, local_authority: @default_local_authority
     end
 
-    include_examples "validate and invalidate"
-
     it "shows error if trying to mark as valid when open validation request exists on planning application" do
       create :description_change_validation_request, planning_application: planning_application, state: "open"
-
       click_link planning_application.reference
-
       click_link "Validate application"
 
-      expect(page).to have_content("This application has 1 unresolved validation request")
+      expect(page).to have_content("This application has 1 unresolved validation request and 1 resolved validation request")
 
+      click_link "Validate application"
       click_button "Validate application"
 
       expect(page).to have_content("Planning application cannot be validated if open validation requests exist")
@@ -179,8 +176,14 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_link planning_application.reference
       click_link "Validate application"
+      click_link "Validate application"
+
+      fill_in "Day", with: "3"
+      fill_in "Month", with: "10"
+      fill_in "Year", with: "2022"
 
       click_button "Validate application"
+
       expect(page).to have_content("This application has an invalid document. You cannot validate an application with invalid documents.")
 
       planning_application.reload
@@ -189,6 +192,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     it "shows error if invalid date is sent" do
       click_link planning_application.reference
+      click_link "Validate application"
       click_link "Validate application"
 
       fill_in "Day", with: "3"
@@ -205,6 +209,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "shows error if date is empty" do
       click_link planning_application.reference
       click_link "Validate application"
+      click_link "Validate application"
 
       fill_in "Day", with: ""
       fill_in "Month", with: ""
@@ -219,6 +224,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     it "shows error if only part of the date is empty" do
       click_link planning_application.reference
+      click_link "Validate application"
       click_link "Validate application"
 
       fill_in "Day", with: ""
@@ -288,7 +294,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       visit planning_application_path(planning_application)
       click_link "Validate application"
 
-      click_link "Start new or view existing validation requests"
+      click_link "Request validation changes"
 
       expect(page).to have_content("Add all required validation requests for this application. Once all requests have been added, you can invalidate the application and notify the applicant that the application is invalid and they can see all validation requests")
 
@@ -304,9 +310,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "Validate application"
 
       expect(page).to have_content("The application has not yet been marked as valid or invalid")
-      expect(page).to have_content("This application has 0 unresolved validation requests and 1 resolved validation request")
+      expect(page).to have_content("Once the application has been checked, mark the application as valid.")
 
-      click_link "Start new or view existing validation requests"
+      click_link "Request validation changes"
 
       expect(page).to have_content("Add all required validation requests for this application. Once all requests have been added, you can invalidate the application and notify the applicant that the application is invalid and they can see all validation requests")
       expect(page).to have_content("The application has not yet been marked as valid or invalid")
