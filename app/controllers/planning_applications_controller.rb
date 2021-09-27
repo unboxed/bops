@@ -101,13 +101,13 @@ class PlanningApplicationsController < AuthenticationController
   def validate
     if validation_date_fields.any?(&:blank?)
       @planning_application.errors.add(:planning_application, "Please enter a valid date")
-      render "validate_form"
+      render "confirm_validation"
     elsif @planning_application.validation_requests_open?
       @planning_application.errors.add(:planning_application, "Planning application cannot be validated if open validation requests exist.")
-      render "validate_form"
+      render "confirm_validation"
     elsif @planning_application.invalid_documents.present?
       @planning_application.errors.add(:planning_application, "This application has an invalid document. You cannot validate an application with invalid documents.")
-      render "validate_form"
+      render "confirm_validation"
     else
       @planning_application.documents_validated_at = date_from_params
       @planning_application.start!

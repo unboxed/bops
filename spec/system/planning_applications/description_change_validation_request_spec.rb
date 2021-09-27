@@ -28,7 +28,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
   it "is possible to create a request to update description" do
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Validate application"
-    click_link "Start new or view existing validation requests"
+    click_link "Start new or view existing requests"
     click_link "Add new request"
 
     within("fieldset", text: "Send a validation request") do
@@ -57,7 +57,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
 
   it "only accepts a request that contains a proposed description" do
     click_link "Validate application"
-    click_link "Start new or view existing validation requests"
+    click_link "Start new or view existing requests"
     click_link "Add new request"
 
     within("fieldset", text: "Send a validation request") do
@@ -73,14 +73,14 @@ RSpec.describe "Requesting description changes to a planning application", type:
   end
 
   it "lists the current validation requests and their statuses" do
-    create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago
-    create :description_change_validation_request, planning_application: planning_application, state: "closed", created_at: 12.days.ago, approved: true
-    create :description_change_validation_request, planning_application: planning_application, state: "closed", created_at: 12.days.ago, approved: false, rejection_reason: "No good"
-    create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 35.days.ago
+    create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago, notified_at: 12.days.ago
+    create :description_change_validation_request, planning_application: planning_application, state: "closed", created_at: 12.days.ago, notified_at: 12.days.ago, approved: true
+    create :description_change_validation_request, planning_application: planning_application, state: "closed", created_at: 12.days.ago, notified_at: 12.days.ago, approved: false, rejection_reason: "No good"
+    create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 35.days.ago, notified_at: 35.days.ago
     create :audit, planning_application_id: planning_application.id, activity_type: "description_change_validation_request_received", activity_information: 1, audit_comment: { response: "approved" }.to_json, api_user: api_user
 
     click_link "Validate application"
-    click_link "Start new or view existing validation requests"
+    click_link "Start new or view existing requests"
 
     within(".change-requests") do
       expect(page).to have_content("Rejected")
@@ -110,7 +110,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
       visit planning_application_path(new_planning_application)
       click_link "Validate application"
 
-      click_link "Start new or view existing validation requests"
+      click_link "Request validation changes"
       expect(request.notified_at.class).to eql(NilClass)
 
       click_button "Invalidate application"
@@ -133,7 +133,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
       visit planning_application_path(invalid_planning_application)
       click_link "Validate application"
 
-      click_link "Start new or view existing validation requests"
+      click_link "Start new or view existing requests"
 
       expect(page).to have_no_button("Invalidate application")
 
