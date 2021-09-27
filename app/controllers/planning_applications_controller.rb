@@ -14,6 +14,7 @@ class PlanningApplicationsController < AuthenticationController
                                                     publish
                                                     determine
                                                     validate_form
+                                                    confirm_validation
                                                     validate
                                                     invalidate
                                                     view_recommendation
@@ -94,6 +95,8 @@ class PlanningApplicationsController < AuthenticationController
                                                        @planning_application.created_at
                                                      end
   end
+
+  def confirm_validation; end
 
   def validate
     if validation_date_fields.any?(&:blank?)

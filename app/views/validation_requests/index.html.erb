@@ -109,16 +109,13 @@
                       <%= validation_request.reason %>
                     </td>
                   <% end %>
-                   <% if @planning_application.can_invalidate? %>
                     <td class="govuk-table__cell">
-                      <strong class="govuk-tag govuk-tag--yellow">
-                        Not sent
-                      </strong>
-                    </td>
-                  <% else %>
-                    <td class="govuk-table__cell">
-                      <% if validation_request.state == "open" %>
-                        <strong class="govuk-tag govuk-tag--<%=display_request_date_state(validation_request) %>">
+                      <% if validation_request.state == "open" && validation_request.notified_at.blank? %>
+                        <strong class="govuk-tag govuk-tag--yellow">
+                          Not sent
+                        </strong>
+                      <% elsif validation_request.state == "open" && validation_request.notified_at.present? %>
+                         <strong class="govuk-tag govuk-tag--<%=display_request_date_state(validation_request) %>">
                           <%= validation_request.days_until_response_due %> days
                         </strong>
                       <% else %>
@@ -127,7 +124,6 @@
                         </strong>
                       <% end %>
                     </td>
-                  <% end %>
                   <td class="govuk-table__cell limit-column-width">
                     <%= request_closed_at(validation_request)  %>
                   </td>
