@@ -125,10 +125,13 @@ class PlanningApplicationsController < AuthenticationController
       audit("invalidated")
 
       invalidation_notice_mail
+      request_names = []
       @planning_application.unsent_validation_requests.each do |request|
-        audit("The following invalidation requests have been emailed: #{request.model_name.human} \n")
         request.update!(notified_at: Time.zone.now)
+        request_names << "#{request.model_name.human} ##{request.sequence}"
       end
+
+      audit("validation_requests_sent", nil, request_names.join(", "))
       flash[:notice] = "Application has been invalidated and email has been sent"
       render :show
     else

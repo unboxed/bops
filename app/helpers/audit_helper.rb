@@ -68,6 +68,8 @@ module AuditHelper
       "Sent: validation request (other validation##{args})"
     when "other_change_validation_request_received"
       "Received: request for change (other validation##{args})"
+    when "validation_requests_sent"
+      "The following invalidation requests have been emailed: #{args}"
     end
   end
 

@@ -8,7 +8,12 @@
         <h2 class="govuk-heading-l">
           Validation requests
         </h2>
-        <% if @planning_application.can_invalidate? %>
+      
+        <% if @planning_application.invalidated? %>
+          <p class="govuk-body">
+            Send further requests for this application. Any new requests will be immediately sent.
+          </p>
+        <% elsif @planning_application.can_invalidate? %>
           <p class="govuk-body">
             Add all required validation requests for this application. Once all requests have been added, you can invalidate the application and notify the applicant that the application is invalid and they can see all validation requests.
           </p>
