@@ -17,8 +17,13 @@ class OtherChangeValidationRequestsController < ValidationRequestsController
       email_and_timestamp(@other_change_validation_request) if @planning_application.invalidated?
 
       flash[:notice] = "Other validation change request successfully created."
-      audit("other_change_validation_request_sent", audit_item(@other_change_validation_request),
-            @other_change_validation_request.sequence)
+      if @planning_application.invalidated?
+        audit("other_change_validation_request_sent", audit_item(@other_change_validation_request),
+              @other_change_validation_request.sequence)
+      else
+        audit("other_change_validation_request_added", audit_item(@other_change_validation_request),
+              @other_change_validation_request.sequence)
+      end
       redirect_to planning_application_validation_requests_path(@planning_application)
     else
       render :new

@@ -18,8 +18,13 @@ class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsCont
       email_and_timestamp(@red_line_boundary_change_validation_request) if @planning_application.invalidated?
 
       flash[:notice] = "Validation request for red line boundary successfully created."
-      audit("red_line_boundary_change_validation_request_sent", red_line_boundary_audit_item(@red_line_boundary_change_validation_request),
-            @red_line_boundary_change_validation_request.sequence)
+      if @planning_application.invalidated?
+        audit("red_line_boundary_change_validation_request_sent", red_line_boundary_audit_item(@red_line_boundary_change_validation_request),
+              @red_line_boundary_change_validation_request.sequence)
+      else
+        audit("red_line_boundary_change_validation_request_added", red_line_boundary_audit_item(@red_line_boundary_change_validation_request),
+              @red_line_boundary_change_validation_request.sequence)
+      end
       redirect_to planning_application_validation_requests_path(@planning_application)
     else
       render :new
