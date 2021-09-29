@@ -120,11 +120,11 @@
                           Not sent
                         </strong>
                       <% elsif validation_request.state == "open" && validation_request.notified_at.present? %>
-                         <strong class="govuk-tag govuk-tag--<%=display_request_date_state(validation_request) %>">
+                         <strong class="govuk-tag govuk-tag--<%= display_request_date_state(validation_request) %>">
                           <%= validation_request.days_until_response_due %> days
                         </strong>
                       <% else %>
-                        <strong class="govuk-tag govuk-tag--<%=display_request_status(validation_request) %>">
+                        <strong class="govuk-tag govuk-tag--<%= display_request_status(validation_request) %>">
                           <%= request_state(validation_request) %>
                         </strong>
                       <% end %>
@@ -145,8 +145,10 @@
             <%= link_to "Add new request", new_planning_application_validation_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
           </p>
 
-          <p class="govuk-body govuk-!-font-weight-bold">
-            <%= "The application has not yet been marked as valid or invalid" if @planning_application.not_started? %>
+          <p class="govuk-body">
+            <strong>
+              <%= "The application has not yet been marked as valid or invalid" if @planning_application.not_started? %>
+            </strong>
           </p>
         <% end %>
       </fieldset>

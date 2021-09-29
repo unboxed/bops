@@ -1,14 +1,14 @@
 <% add_parent_breadcrumb_link "Home", planning_applications_path %>
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
-<% content_for :title, "Validate documents" %>
+<% content_for :title, "Validate application" %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl govuk-!-padding-top-5">
+    <h1 class="govuk-heading-xl">
       Validate Application
     </h1>
     <p class="govuk-body">
-      Once validated the application cannot be invalidated. Ensure you have checked this application is valid.
+      Once validated, the application cannot be invalidated. Ensure you have checked this application is valid.
     </p>
     <%= form_with model: @planning_application, url: validate_planning_application_path(@planning_application), local:true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
       <% if @planning_application.errors.any? %>
