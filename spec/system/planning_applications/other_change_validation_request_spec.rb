@@ -84,20 +84,6 @@ RSpec.describe "Requesting description changes to a planning application", type:
     end
   end
 
-  it "displays the details of the received request in the audit log" do
-    create :audit, planning_application_id: planning_application.id, activity_type: "other_change_validation_request_received", activity_information: 1, audit_comment: { response: "I have sent the fee" }.to_json, api_user: api_user
-
-    sign_in assessor
-    visit planning_application_path(planning_application)
-
-    click_button "Key application dates"
-    click_link "Activity log"
-
-    expect(page).to have_text("Received: request for change (other validation#1)")
-    expect(page).to have_text("I have sent the fee")
-    expect(page).to have_text("Applicant / Agent via Api Wizard")
-  end
-
   context "Invalidation updates other change validation request" do
     it "updates the notified_at date of an open request when application is invalidated" do
       new_planning_application = create :planning_application, :not_started, local_authority: @default_local_authority
