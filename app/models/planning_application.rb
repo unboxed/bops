@@ -316,10 +316,6 @@ class PlanningApplication < ApplicationRecord
     15.business_days.after(invalidated_at.to_date)
   end
 
-  def closed_requests
-    validation_requests.select { |req| req.state == "closed" }
-  end
-
   def parsed_application_type
     case application_type
     when "lawfulness_certificate"
