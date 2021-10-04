@@ -2,6 +2,7 @@
 
 class OtherChangeValidationRequest < ApplicationRecord
   include ValidationRequest
+
   belongs_to :planning_application
   belongs_to :user
 
@@ -12,10 +13,8 @@ class OtherChangeValidationRequest < ApplicationRecord
 
   validate :response_is_present?
 
-  scope :open, -> { where(state: "open") }
-
   def response_is_present?
-    if state == "closed" && response.blank?
+    if closed? && response.blank?
       errors.add(:base, "some suggestion error here")
     end
   end

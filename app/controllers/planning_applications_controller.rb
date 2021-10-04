@@ -118,7 +118,9 @@ class PlanningApplicationsController < AuthenticationController
   def invalidate
     if @planning_application.validation_requests_open?
       @planning_application.invalidate!
+
       audit("invalidated")
+
       invalidation_notice_mail
       @planning_application.unsent_validation_requests.each { |request| request.update!(notified_at: Time.zone.now) }
       flash[:notice] = "Application has been invalidated and email has been sent"

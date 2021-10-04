@@ -7,6 +7,4 @@ class ReplacementDocumentValidationRequest < ApplicationRecord
   belongs_to :new_document, optional: true, class_name: "Document"
 
   before_create :set_sequence
-
-  scope :open, -> { where(state: "open") }
 end

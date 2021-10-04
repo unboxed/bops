@@ -110,7 +110,7 @@
                     </td>
                   <% end %>
                   <td class="govuk-table__cell">
-                    <% if validation_request.state == "open" %>
+                    <% if validation_request.open? %>
                       <strong class="govuk-tag govuk-tag--<%=display_request_date_state(validation_request) %>">
                         <%= validation_request.days_until_response_due %> days
                       </strong>
