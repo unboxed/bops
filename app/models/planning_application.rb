@@ -289,7 +289,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def open_validation_requests
-    validation_requests.select { |request| request.state.eql?("open") }
+    validation_requests.select(&:open?)
   end
 
   def unsent_validation_requests
@@ -297,7 +297,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def closed_validation_requests
-    validation_requests.select { |request| request.state.eql?("closed") }
+    validation_requests.select(&:closed?)
   end
 
   def last_validation_request_date
@@ -309,7 +309,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def overdue_requests
-    validation_requests.select { |req| req.overdue? && req.state == "open" }
+    validation_requests.select(&:open?).select(&:overdue?)
   end
 
   def invalidation_response_due
