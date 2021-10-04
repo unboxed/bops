@@ -38,7 +38,7 @@ class PolicyClassesController < PlanningApplicationsController
     new_policies = policies_params[:policies]
 
     @policy_class.policies.each do |policy|
-      value = new_policies[policy["id"]]
+      value = new_policies[policy["id"].to_s]
 
       policy["status"] = value if value.present?
     end
