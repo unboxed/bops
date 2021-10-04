@@ -103,7 +103,7 @@
                       <%= request_sent_at(validation_request) %>
                     </td>
                     <td class="govuk-table__cell change-request-list">
-                      <%= link_to "View proposed red line boundary", planning_application_red_line_boundary_change_validation_request_path(@planning_application, validation_request) %>
+                      <%= link_to "View proposed red line boundary", planning_application_red_line_boundary_change_validation_request_path(@planning_application, validation_request), class: "govuk-link" %>
                     </td>
                     <td class="govuk-table__cell change-request-list">
                       <%= validation_request.reason %>
