@@ -35,7 +35,7 @@
         </tbody>
       </table>
       <p class="govuk-body govuk-!-padding-top-6 govuk-!-padding-bottom-8">
-        If you want to make any changes to the requests, return to <%= link_to "documents", planning_application_documents_path(@planning_application) %>
+        If you want to make any changes to the requests, return to <%= link_to "documents", planning_application_documents_path(@planning_application), class: "govuk-link" %>
       </p>
       <%= form.govuk_submit "Send" %>
       <%= link_to "Back", new_planning_application_validation_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
