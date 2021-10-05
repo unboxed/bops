@@ -156,8 +156,8 @@ module PlanningApplicationHelper
 
   def validation_request_summary(validation_requests, planning_application)
     if planning_application.invalidated?
-      "This application has #{pluralize(validation_requests.select { |req| req.state == 'open' }.count, 'unresolved validation request')} and #{pluralize(validation_requests.select { |req| req.state == 'closed' }.count, 'resolved validation request')}"
-    elsif planning_application.validation_requests.blank? && (planning_application.recommendable? || planning_application.closed?)
+      "This application has #{pluralize(validation_requests.count(&:open?), 'unresolved validation request')} and #{pluralize(validation_requests.count(&:closed?), 'resolved validation request')}"
+    elsif planning_application.validation_requests.none? && (planning_application.recommendable? || planning_application.closed?)
       "This application had no validation requests"
     elsif planning_application.recommendable? || planning_application.closed? && planning_application.validation_requests.present?
       "This application has #{pluralize(validation_requests.count(&:closed?), 'resolved validation request')}"
