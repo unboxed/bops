@@ -1,84 +1,94 @@
 <% content_for :title, "Validate application" %>
-<%= render "planning_applications/assessment_dashboard" do %>
 
-  <h2 class="govuk-heading-l govuk-!-padding-top-3">Validate application</h2>
+<%= render "planning_applications/assessment_dashboard" do %>
+  <h2 class="govuk-heading-l">
+    Validate application
+  </h2>
+
+  <% if @planning_application.invalid_documents.present? %>
+      <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1">
+        <svg class="alert__icon" fill="red" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 25 25" height="25" width="25">
+          <path d="M13.6,15.4h-2.3v-4.5h2.3V15.4z M13.6,19.8h-2.3v-2.2h2.3V19.8z M0,23.2h25L12.5,2L0,23.2z"></path>
+        </svg>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            <li>
+              Invalid documents:
+              <strong>
+                <%= @planning_application.invalid_documents.count %>
+              </strong>
+            </li>
+          </ul>
+        </div>
+      </div>
+    <% end %>
 
   <% if @planning_application.not_started? %>
     <p class="govuk-body">
-      The application has not yet been marked as valid or invalid
+      <strong>
+        The application has not yet been marked as valid or invalid
+      </strong>
+    </p>
+
+    <p class="govuk-body">
+      <%= link_to "Check documents", planning_application_documents_path(@planning_application), class: "govuk-link" %>
+    </p>
+    <p class="govuk-body">
+      Once the application has been checked, mark the application as valid.
+    </p>
+    <p class="govuk-body">
+      <%= link_to "Validate application", confirm_validation_planning_application_path(@planning_application), class: "govuk-button" %>
+    </p>
+    <h3 class="govuk-heading-m">
+      Invalidate application
+    </h3>
+    <p class="govuk-body">
+      If the application is invalid, you will need to request changes from the applicant before you can mark the application as invalid.
+    </p>
+    <%= link_to "Request validation changes", planning_application_validation_requests_path(@planning_application), class: "govuk-button" %>
+  
+  <% elsif @planning_application.invalidated? %>
+    <p class="govuk-body">
+      <strong>
+        <%= "The application is marked as invalid. The applicant was notified on #{@planning_application.invalidated_at.to_formatted_s(:day_month_year)}" %>
+      </strong>
     </p>
     <p class="govuk-body">
       <%= link_to "Check documents", planning_application_documents_path(@planning_application), class: "govuk-link" %>
     </p>
-  <% elsif @planning_application.invalidated? %>
+    <h2 class="govuk-heading-m">
+      Validation requests
+    </h2>
     <p class="govuk-body">
-      <%= "The application is marked as invalid. The applicant was notified on #{@planning_application.invalidated_at.to_formatted_s(:day_month_year)}" %>
+      <%= validation_request_summary(@planning_application.validation_requests, @planning_application) %>
+    </p>
+    <p class="govuk-body">
+      <%= link_to "Start new or view existing requests", planning_application_validation_requests_path(@planning_application), class: "govuk-link" %>
+    </p>
+    <p class="govuk-body">
+      Once the application has been checked and all validation requests resolved, mark the application as valid.
+    </p>
+    <p class="govuk-body">
+      <%= link_to "Validate application", confirm_validation_planning_application_path(@planning_application), class: "govuk-button" %>
     </p>
   <% end %>
-  <% if @planning_application.invalid_documents.present? %>
-    <div class="govuk-error-summary govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-labelledby="error-summary-title" role="alert" tabindex="-1">
-      <svg class="alert__icon" fill="red" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg"
-           viewBox="0 0 25 25" height="25" width="25">
-        <path d="M13.6,15.4h-2.3v-4.5h2.3V15.4z M13.6,19.8h-2.3v-2.2h2.3V19.8z M0,23.2h25L12.5,2L0,23.2z"></path>
-      </svg>
-      <div class="govuk-error-summary__body">
-        <ul class="govuk-list govuk-error-summary__list">
-          <li>
-            Invalid documents:
-            <span class="govuk-!-font-weight-bold">
-              <%= @planning_application.invalid_documents.count %>
-            </span>
-          </li>
-        </ul>
-      </div>
-    </div>
-  <% end %>
+
   <% if @planning_application.validated? %>
     <p class="govuk-body">
-      The application is marked as valid<%= @planning_application.can_invalidate? ? "." : " and cannot be marked as invalid." %><br/>
-      The applicant was notified on <%= @planning_application.documents_validated_at.to_formatted_s(:day_month_year) %>
+      <strong>
+        The application is marked as valid<%= @planning_application.can_invalidate? ? "." : " and cannot be marked as invalid." %><br/>
+        The applicant was notified on <%= @planning_application.documents_validated_at.to_formatted_s(:day_month_year) %>
+      </strong>
     </p>
     <p class="govuk-body">
       <%= link_to "View notification", validation_notice_planning_application_path(@planning_application), class: "govuk-link" %>
     </p>
-  <% else %>
     <h2 class="govuk-heading-m">
       Validation requests
     </h2>
-    <p class="govuk-body govuk-!-margin-top-2">
+    <p class="govuk-body">
       <%= validation_request_summary(@planning_application.validation_requests, @planning_application) %>
     </p>
-    <p class="govuk-body govuk-!-padding-bottom-6">
-      <% if @planning_application.can_invalidate? %>
-        <%= link_to "Start new or view existing validation requests", planning_application_validation_requests_path(@planning_application), class: "govuk-link" %>
-      <% else %>
-        <%= link_to "View requests", planning_application_validation_requests_path(@planning_application), class: "govuk-link" %>
-      <% end %>
-    </p>
-  <% end %>
-
-  <% if @planning_application.can_validate? %>
-    <%= form_with model: @planning_application, url: validate_planning_application_path(@planning_application), local:true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
-      <% if @planning_application.errors.any? %>
-        <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
-          <h2 class="govuk-error-summary__title" id="error-summary-title">
-            There is a problem
-          </h2>
-          <div class="govuk-error-summary__body">
-            <ul class="govuk-list govuk-error-summary__list">
-              <% @planning_application.errors.each do |error| %>
-                <li><%= error.message %></li>
-              <% end %>
-            </ul>
-          </div>
-        </div>
-      <% end %>
-        <%= form.govuk_date_field :documents_validated_at, legend: { text: '', size: 's' }, hint: { text: 'Enter valid date, e.g. 28 12 2021' } %>
-        <p>
-          <%= form.submit "Validate application", class: "govuk-button", data: { module: "govuk-button"} %>
-        </p>
-    <% end%>
-  <% else %>
-    <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
   <% end %>
 <% end %>

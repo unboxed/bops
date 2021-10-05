@@ -48,6 +48,14 @@ module AuditHelper
       "Sent: validation request (new document##{args})"
     when "red_line_boundary_change_validation_request_sent"
       "Sent: validation request (red line boundary##{args})"
+    when "description_change_validation_request_added"
+      "Added: validation request (description##{args})"
+    when "replacement_document_validation_request_added"
+      "Added: validation request (replacement document##{args})"
+    when "additional_document_validation_request_added"
+      "Added: validation request (new document##{args})"
+    when "red_line_boundary_change_validation_request_added"
+      "Added: validation request (red line boundary##{args})"
     when "description_change_validation_request_received"
       "Received: request for change (description##{args})"
     when "red_line_boundary_change_validation_request_received"
@@ -60,6 +68,8 @@ module AuditHelper
       "Sent: validation request (other validation##{args})"
     when "other_change_validation_request_received"
       "Received: request for change (other validation##{args})"
+    when "validation_requests_sent"
+      "The following invalidation requests have been emailed: #{args}"
     end
   end
 

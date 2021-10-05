@@ -24,7 +24,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
   it "is possible to create a request for miscellaneous changes" do
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Validate application"
-    click_link "Start new or view existing validation requests"
+    click_link "Start new or view existing requests"
     click_link "Add new request"
 
     choose "Request other change to application"
@@ -51,7 +51,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
 
   it "only accepts a request that contains a summary and suggestion" do
     click_link "Validate application"
-    click_link "Start new or view existing validation requests"
+    click_link "Start new or view existing requests"
     click_link "Add new request"
 
     choose "Request other change to application"
@@ -66,11 +66,11 @@ RSpec.describe "Requesting description changes to a planning application", type:
   end
 
   it "lists the current change requests and their statuses" do
-    create :other_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago, summary: "Missing information", suggestion: "Please provide more details about ownership"
-    create :other_change_validation_request, planning_application: planning_application, state: "closed", created_at: 12.days.ago, summary: "Fees outstanding", suggestion: "Please pay the balance", response: "paid"
+    create :other_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago, notified_at: 12.days.ago, summary: "Missing information", suggestion: "Please provide more details about ownership"
+    create :other_change_validation_request, planning_application: planning_application, state: "closed", created_at: 12.days.ago, notified_at: 12.days.ago, summary: "Fees outstanding", suggestion: "Please pay the balance", response: "paid"
 
     click_link "Validate application"
-    click_link "Start new or view existing validation requests"
+    click_link "Start new or view existing requests"
 
     within(".change-requests") do
       expect(page).to have_content("Missing information")
@@ -84,20 +84,6 @@ RSpec.describe "Requesting description changes to a planning application", type:
     end
   end
 
-  it "displays the details of the received request in the audit log" do
-    create :audit, planning_application_id: planning_application.id, activity_type: "other_change_validation_request_received", activity_information: 1, audit_comment: { response: "I have sent the fee" }.to_json, api_user: api_user
-
-    sign_in assessor
-    visit planning_application_path(planning_application)
-
-    click_button "Key application dates"
-    click_link "Activity log"
-
-    expect(page).to have_text("Received: request for change (other validation#1)")
-    expect(page).to have_text("I have sent the fee")
-    expect(page).to have_text("Applicant / Agent via Api Wizard")
-  end
-
   context "Invalidation updates other change validation request" do
     it "updates the notified_at date of an open request when application is invalidated" do
       new_planning_application = create :planning_application, :not_started, local_authority: @default_local_authority
@@ -106,7 +92,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
       visit planning_application_path(new_planning_application)
       click_link "Validate application"
 
-      click_link "Start new or view existing validation requests"
+      click_link "Request validation changes"
       expect(request.notified_at.class).to eql(NilClass)
 
       click_button "Invalidate application"

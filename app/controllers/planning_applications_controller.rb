@@ -14,6 +14,7 @@ class PlanningApplicationsController < AuthenticationController
                                                     publish
                                                     determine
                                                     validate_form
+                                                    confirm_validation
                                                     validate
                                                     invalidate
                                                     view_recommendation
@@ -95,16 +96,18 @@ class PlanningApplicationsController < AuthenticationController
                                                      end
   end
 
+  def confirm_validation; end
+
   def validate
     if validation_date_fields.any?(&:blank?)
       @planning_application.errors.add(:planning_application, "Please enter a valid date")
-      render "validate_form"
+      render "confirm_validation"
     elsif @planning_application.validation_requests_open?
       @planning_application.errors.add(:planning_application, "Planning application cannot be validated if open validation requests exist.")
-      render "validate_form"
+      render "confirm_validation"
     elsif @planning_application.invalid_documents.present?
       @planning_application.errors.add(:planning_application, "This application has an invalid document. You cannot validate an application with invalid documents.")
-      render "validate_form"
+      render "confirm_validation"
     else
       @planning_application.documents_validated_at = date_from_params
       @planning_application.start!
@@ -118,11 +121,19 @@ class PlanningApplicationsController < AuthenticationController
   def invalidate
     if @planning_application.validation_requests_open?
       @planning_application.invalidate!
-
+      # FIXME: move this into the state machine
       audit("invalidated")
 
       invalidation_notice_mail
-      @planning_application.unsent_validation_requests.each { |request| request.update!(notified_at: Time.zone.now) }
+
+      # FIXME: move this into the state machine
+      request_names = @planning_application.unsent_validation_requests.map do |request|
+        request.update!(notified_at: Time.zone.now)
+        request.audit_name
+      end
+
+      audit("validation_requests_sent", nil, request_names.join(", "))
+
       flash[:notice] = "Application has been invalidated and email has been sent"
       render :show
     else
