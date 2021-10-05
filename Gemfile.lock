@@ -121,6 +121,51 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
+    cucumber (7.0.0)
+      builder (~> 3.2, >= 3.2.4)
+      cucumber-core (~> 10.0, >= 10.0.1)
+      cucumber-create-meta (~> 6.0, >= 6.0.1)
+      cucumber-cucumber-expressions (~> 12.1, >= 12.1.1)
+      cucumber-gherkin (~> 20.0, >= 20.0.1)
+      cucumber-html-formatter (~> 16.0, >= 16.0.1)
+      cucumber-messages (~> 17.0, >= 17.0.1)
+      cucumber-wire (~> 6.0, >= 6.0.1)
+      diff-lcs (~> 1.4, >= 1.4.4)
+      mime-types (~> 3.3, >= 3.3.1)
+      multi_test (~> 0.1, >= 0.1.2)
+      sys-uname (~> 1.2, >= 1.2.2)
+    cucumber-core (10.0.1)
+      cucumber-gherkin (~> 20.0, >= 20.0.1)
+      cucumber-messages (~> 17.0, >= 17.0.1)
+      cucumber-tag-expressions (~> 3.0, >= 3.0.1)
+    cucumber-create-meta (6.0.1)
+      cucumber-messages (~> 17.0, >= 17.0.1)
+      sys-uname (~> 1.2, >= 1.2.2)
+    cucumber-cucumber-expressions (12.1.3)
+    cucumber-gherkin (20.0.1)
+      cucumber-messages (~> 17.0, >= 17.0.1)
+    cucumber-html-formatter (16.0.1)
+      cucumber-messages (~> 17.0, >= 17.0.1)
+    cucumber-messages (17.1.1)
+    cucumber-rails (2.4.0)
+      capybara (>= 2.18, < 4)
+      cucumber (>= 3.2, < 8)
+      mime-types (~> 3.3)
+      nokogiri (~> 1.10)
+      railties (>= 5.0, < 7)
+      rexml (~> 3.0)
+      webrick (~> 1.7)
+    cucumber-tag-expressions (3.0.1)
+    cucumber-wire (6.1.1)
+      cucumber-core (~> 10.0, >= 10.0.1)
+      cucumber-cucumber-expressions (~> 12.1, >= 12.1.2)
+      cucumber-messages (~> 17.0, >= 17.0.1)
+    database_cleaner (2.0.1)
+      database_cleaner-active_record (~> 2.0.0)
+    database_cleaner-active_record (2.0.1)
+      activerecord (>= 5.a)
+      database_cleaner-core (~> 2.0.0)
+    database_cleaner-core (2.0.1)
     deep_merge (1.2.1)
     devise (4.8.0)
       bcrypt (~> 3.0)
@@ -180,6 +225,9 @@ GEM
       shellany (~> 0.0)
       thor (>= 0.18.1)
     guard-compat (1.2.1)
+    guard-cucumber (3.0.0)
+      cucumber (>= 3.1)
+      nenv (>= 0.1)
     guard-rspec (4.7.3)
       guard (~> 2.1)
       guard-compat (~> 1.1)
@@ -212,11 +260,15 @@ GEM
       rack (>= 2.1.4)
     marcel (1.0.1)
     method_source (1.0.0)
+    mime-types (3.3.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2021.0901)
     mini_magick (4.11.0)
     mini_mime (1.1.1)
     mini_portile2 (2.6.1)
     minitest (5.14.4)
     msgpack (1.4.2)
+    multi_test (0.1.2)
     multipart-post (2.1.1)
     nenv (0.3.0)
     nio4r (2.5.8)
@@ -381,6 +433,8 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    sys-uname (1.2.2)
+      ffi (~> 1.1)
     thor (1.1.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
@@ -405,6 +459,7 @@ GEM
       rack-proxy (>= 0.6.1)
       railties (>= 5.2)
       semantic_range (>= 2.3.0)
+    webrick (1.7.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -431,6 +486,8 @@ DEPENDENCIES
   business_time
   byebug
   capybara
+  cucumber-rails
+  database_cleaner
   devise
   dotenv-rails
   factory_bot_rails
@@ -438,6 +495,7 @@ DEPENDENCIES
   faraday
   govuk_design_system_formbuilder
   guard
+  guard-cucumber
   guard-rspec
   image_processing (~> 1.2)
   jbuilder
