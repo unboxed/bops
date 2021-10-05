@@ -4,63 +4,53 @@ on: [push, pull_request]
 
 jobs:
   test:
+    env:
+      DATABASE_URL: postgres://postgres:@localhost:5432/test
+      RAILS_ENV: test
+
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+     - name: Checkout code
+       uses: actions/checkout@v2
 
-    - name: Setup Ruby 2.6.6
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 2.6.6
+     - name: Setup Ruby 2.6.6
+       uses: ruby/setup-ruby@v1
+       with:
+         ruby-version: 2.6.6
+         bundler-cache: true
 
-    - name: Enable postgis extension
-      uses: huaxk/postgis-action@v1
-      with:
-        postgresql version: '11'
+     - name: Enable postgis extension
+       uses: huaxk/postgis-action@v1
+       with:
+         postgresql version: '11'
 
-    - name: Install Node
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-    - run: yarn install
+     - name: Install Node
+       uses: actions/setup-node@v2
+       with:
+         node-version: '14'
+     - run: yarn install
 
-    - name: Install file previewing tools
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y ghostscript poppler-utils
+     - name: Install file previewing tools
+       run: |
+         sudo apt-get update
+         sudo apt-get install -y ghostscript poppler-utils
 
-    - name: Cache Ruby Gems
-      uses: actions/cache@v1
-      with:
-        path: vendor/bundle
-        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-gems-
+      - name: Bundle audit
+        run: bundle exec bundle-audit
 
-    - name: Build App
-      env:
-        DATABASE_URL: postgres://postgres:@localhost:5432/test
-        RAILS_ENV: test
-      run: |
-        gem install bundler
-        bundle config path vendor/bundle
-        bundle install --jobs 4 --retry 3
-        sudo npm --unsafe-perm rebuild node-sass
-        NODE_ENV=test bundle exec rails webpacker:compile
-        bundle exec rails db:setup
+      - name: Setup database
+        shell: bash
+        run: bundle exec rake db:setup
 
-    - name: Run Tests
-      env:
-        DATABASE_URL: postgres://postgres:@localhost:5432/test
-        RAILS_ENV: test
-      run: |
-        bundle exec rake
+     - name: Brakeman
+       run: bundle exec brakeman
 
-    - name: Run Cucumber tests
-      env:
-        DATABASE_URL: postgres://postgres:@localhost:5432/test
-        RAILS_ENV: test
-      run: |
-        bundle exec cucumber
+     - name: Rubocop
+       run: bundle exec rubocop
+
+     - name: RSpec
+       run: bundle exec rspec
+
+     - name: Cucumber
+       run: bundle exec
