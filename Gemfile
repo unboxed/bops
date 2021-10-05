@@ -35,6 +35,7 @@ group :development, :test do
   gem "capybara"
   gem "factory_bot_rails"
   gem "guard"
+  gem "guard-cucumber"
   gem "guard-rspec"
   gem "pry-byebug"
   gem "rails-controller-testing"
@@ -52,6 +53,8 @@ group :development do
 end
 
 group :test do
+  gem "cucumber-rails", require: false
+  gem "database_cleaner"
   gem "openapi3_parser"
   gem "webmock"
 end
