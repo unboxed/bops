@@ -13,8 +13,6 @@ class DescriptionChangeValidationRequest < ApplicationRecord
   validates :proposed_description, presence: true
   validate :rejected_reason_is_present?
 
-  scope :open, -> { where(state: "open") }
-
   def rejected_reason_is_present?
     if approved == false && rejection_reason.blank?
       errors.add(:base, "Please include a comment for the case officer to indicate why the description change has been rejected.")
