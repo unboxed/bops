@@ -7,7 +7,10 @@ RSpec.describe "Edit document", type: :system do
     create :planning_application,
            local_authority: @default_local_authority
   end
-  let!(:document) { create :document, :with_file, planning_application: planning_application, applicant_description: "This file shows the drawing" }
+  let!(:document) do
+    create :document, :with_file, planning_application: planning_application,
+                                  applicant_description: "This file shows the drawing"
+  end
   let(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
 
   context "as a user who is not logged in" do
@@ -80,7 +83,8 @@ RSpec.describe "Edit document", type: :system do
 
       expect(page).to have_content("Please fill in the comment box with the reason(s) this document is not valid.")
 
-      fill_in "Describe in full why the document is invalid. This will be sent to the applicant.", with: "This document is missing scales"
+      fill_in "Describe in full why the document is invalid. This will be sent to the applicant.",
+              with: "This document is missing scales"
       click_button("Save")
 
       expect(page).to have_content("Invalid documents: 1")

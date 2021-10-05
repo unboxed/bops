@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe "Validation banners", type: :system do
   context "Validation request banners are displayed correctly when open request is overdue" do
     let!(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
@@ -10,10 +12,6 @@ RSpec.describe "Validation banners", type: :system do
 
     before do
       sign_in assessor
-    end
-
-    after do
-      travel_back
     end
 
     it "shows the correct count for 1 overdue request validation" do
@@ -50,10 +48,6 @@ RSpec.describe "Validation banners", type: :system do
       travel 2.months
       sign_in assessor
       visit planning_application_path(planning_application)
-    end
-
-    after do
-      travel_back
     end
 
     it "does not display the overdue validation request banner" do

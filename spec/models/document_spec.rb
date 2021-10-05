@@ -23,7 +23,7 @@ RSpec.describe Document, type: :model do
       document.file.attach(
         io: File.open(Rails.root.join("spec/fixtures/images/existing-roofplan.pdf")),
         filename: "existing-roofplan.png",
-        content_type: "image/png",
+        content_type: "image/png"
       )
 
       expect(document).to be_valid
@@ -33,7 +33,7 @@ RSpec.describe Document, type: :model do
       document.file.attach(
         io: File.open(Rails.root.join("spec/fixtures/images/existing-roofplan.pdf")),
         filename: "existing-roofplan.pdf",
-        content_type: "application/pdf",
+        content_type: "application/pdf"
       )
 
       expect(document).to be_valid
@@ -43,7 +43,7 @@ RSpec.describe Document, type: :model do
       document.file.attach(
         io: File.open(Rails.root.join("spec/fixtures/images/bmp.bmp")),
         filename: "bmp.bmp",
-        content_type: "image/bmp",
+        content_type: "image/bmp"
       )
 
       expect(document).not_to be_valid

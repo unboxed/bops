@@ -33,7 +33,7 @@ class PlanningApplicationsController < AuthenticationController
   def index
     @planning_applications = if helpers.exclude_others? && current_user.assessor?
                                current_local_authority.planning_applications.where(user_id: current_user.id).order("created_at DESC").or(
-                                 current_local_authority.planning_applications.where(user_id: nil).order("created_at DESC"),
+                                 current_local_authority.planning_applications.where(user_id: nil).order("created_at DESC")
                                )
                              else
                                current_local_authority.planning_applications.all.order("created_at DESC")
@@ -55,7 +55,9 @@ class PlanningApplicationsController < AuthenticationController
     if @planning_application.save
       audit("created", nil, current_user.name)
       flash[:notice] = "Planning application was successfully created."
-      receipt_notice_mail if @planning_application.agent_email.present? || @planning_application.applicant_email.present?
+      if @planning_application.agent_email.present? || @planning_application.applicant_email.present?
+        receipt_notice_mail
+      end
       redirect_to planning_application_documents_path(@planning_application)
     else
       render :new
@@ -66,7 +68,8 @@ class PlanningApplicationsController < AuthenticationController
     if @planning_application.update(planning_application_params)
       planning_application_params.keys.map do |p|
         if @planning_application.saved_change_to_attribute?(p)
-          audit("updated", "Changed from: #{@planning_application.saved_changes[p][0]} \r\n Changed to: #{@planning_application.saved_changes[p][1]}", p.split("_").join(" ").capitalize)
+          audit("updated",
+                "Changed from: #{@planning_application.saved_changes[p][0]} \r\n Changed to: #{@planning_application.saved_changes[p][1]}", p.split("_").join(" ").capitalize)
         end
       end
       flash[:notice] = "Planning application was successfully updated."
@@ -103,10 +106,12 @@ class PlanningApplicationsController < AuthenticationController
       @planning_application.errors.add(:planning_application, "Please enter a valid date")
       render "confirm_validation"
     elsif @planning_application.validation_requests_open?
-      @planning_application.errors.add(:planning_application, "Planning application cannot be validated if open validation requests exist.")
+      @planning_application.errors.add(:planning_application,
+                                       "Planning application cannot be validated if open validation requests exist.")
       render "confirm_validation"
     elsif @planning_application.invalid_documents.present?
-      @planning_application.errors.add(:planning_application, "This application has an invalid document. You cannot validate an application with invalid documents.")
+      @planning_application.errors.add(:planning_application,
+                                       "This application has an invalid document. You cannot validate an application with invalid documents.")
       render "confirm_validation"
     else
       @planning_application.documents_validated_at = date_from_params
@@ -176,7 +181,8 @@ class PlanningApplicationsController < AuthenticationController
 
   def review
     @recommendation = @planning_application.recommendations.last
-    @recommendation.update!(reviewer_comment: params[:recommendation][:reviewer_comment], reviewed_at: Time.zone.now, reviewer: current_user)
+    @recommendation.update!(reviewer_comment: params[:recommendation][:reviewer_comment], reviewed_at: Time.zone.now,
+                            reviewer: current_user)
 
     case params[:recommendation][:agree]
     when "No"
@@ -276,7 +282,7 @@ class PlanningApplicationsController < AuthenticationController
     render :validation_notice
   end
 
-private
+  private
 
   def planning_application_params
     permitted_keys = %i[address_1
@@ -313,7 +319,7 @@ private
 
   def date_from_params
     Time.zone.parse(
-      validation_date_fields.join("-"),
+      validation_date_fields.join("-")
     )
   end
 
@@ -326,7 +332,7 @@ private
       PlanningApplicationMailer.decision_notice_mail(
         @planning_application,
         request.host,
-        user,
+        user
       ).deliver_now
     end
   end
@@ -336,7 +342,7 @@ private
       PlanningApplicationMailer.validation_notice_mail(
         @planning_application,
         request.host,
-        user,
+        user
       ).deliver_now
     end
   end
@@ -344,7 +350,7 @@ private
   def invalidation_notice_mail
     PlanningApplicationMailer.invalidation_notice_mail(
       @planning_application,
-      request.host,
+      request.host
     ).deliver_now
   end
 
@@ -353,7 +359,7 @@ private
       PlanningApplicationMailer.receipt_notice_mail(
         @planning_application,
         request.host,
-        user,
+        user
       ).deliver_now
     end
   end
@@ -368,8 +374,8 @@ private
 
   def documents_validated_at_missing?
     if params["planning_application"]["documents_validated_at(3i)"].blank? ||
-        params["planning_application"]["documents_validated_at(2i)"].blank? ||
-        params["planning_application"]["documents_validated_at(1i)"].blank?
+       params["planning_application"]["documents_validated_at(2i)"].blank? ||
+       params["planning_application"]["documents_validated_at(1i)"].blank?
       @planning_application.errors.add(:status, "Please enter a valid date")
     end
   end

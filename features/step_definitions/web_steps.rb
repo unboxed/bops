@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Then("the page contains {string}") do |content|
   expect(page).to have_content(content)
 end

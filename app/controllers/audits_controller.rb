@@ -7,7 +7,7 @@ class AuditsController < AuthenticationController
     @audits = Audit.where(planning_application_id: params[:planning_application_id])
   end
 
-private
+  private
 
   def set_planning_application
     @planning_application = current_local_authority.planning_applications.find(params[:planning_application_id])

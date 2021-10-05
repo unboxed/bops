@@ -69,13 +69,13 @@ class DocumentsController < AuthenticationController
     end
   end
 
-private
+  private
 
   def document_params
     document_params = params.fetch(:document, {}).permit(:archive_reason, :name, :archived_at,
                                                          :numbers, :publishable, :referenced_in_decision_notice,
                                                          :validated, :invalidated_document_reason, :file, tags: [])
-    document_params[:tags].reject!(&:blank?) if document_params[:tags]
+    document_params[:tags]&.reject!(&:blank?)
     document_params
   end
 
@@ -85,7 +85,7 @@ private
 
   def set_document
     @document = @planning_application.documents.find(
-      params[:document_id],
+      params[:document_id]
     )
   end
 

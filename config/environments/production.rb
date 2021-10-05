@@ -63,7 +63,7 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :notify
   config.action_mailer.notify_settings = {
-    api_key: ENV["NOTIFY_API_KEY"],
+    api_key: ENV["NOTIFY_API_KEY"]
   }
   config.action_mailer.default_url_options = { host: (ENV["DOMAIN"] || "bops.services") }
 

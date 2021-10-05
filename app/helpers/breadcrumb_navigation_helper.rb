@@ -9,7 +9,7 @@ module BreadcrumbNavigationHelper
     render partial: "breadcrumb_navigation", locals: { nav: navigation }
   end
 
-private
+  private
 
   def navigation
     @navigation ||= []

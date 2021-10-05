@@ -17,10 +17,6 @@ RSpec.describe "Requesting description changes to a planning application", type:
     visit planning_application_path(planning_application)
   end
 
-  after do
-    travel_back
-  end
-
   it "is possible to create a request for miscellaneous changes" do
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Validate application"
@@ -31,7 +27,8 @@ RSpec.describe "Requesting description changes to a planning application", type:
     click_button "Next"
 
     fill_in "Tell the applicant another reason why the application is invalid", with: "The wrong fee has been paid"
-    fill_in "Explain to the applicant how the application can be made valid", with: "You need to pay £100, which is the correct fee"
+    fill_in "Explain to the applicant how the application can be made valid",
+            with: "You need to pay £100, which is the correct fee"
     click_button "Send"
 
     within(".change-requests") do
@@ -66,8 +63,10 @@ RSpec.describe "Requesting description changes to a planning application", type:
   end
 
   it "lists the current change requests and their statuses" do
-    create :other_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago, notified_at: 12.days.ago, summary: "Missing information", suggestion: "Please provide more details about ownership"
-    create :other_change_validation_request, planning_application: planning_application, state: "closed", created_at: 12.days.ago, notified_at: 12.days.ago, summary: "Fees outstanding", suggestion: "Please pay the balance", response: "paid"
+    create :other_change_validation_request, planning_application: planning_application, state: "open",
+                                             created_at: 12.days.ago, notified_at: 12.days.ago, summary: "Missing information", suggestion: "Please provide more details about ownership"
+    create :other_change_validation_request, planning_application: planning_application, state: "closed",
+                                             created_at: 12.days.ago, notified_at: 12.days.ago, summary: "Fees outstanding", suggestion: "Please pay the balance", response: "paid"
 
     click_link "Validate application"
     click_link "Start new or view existing requests"
@@ -87,7 +86,8 @@ RSpec.describe "Requesting description changes to a planning application", type:
   context "Invalidation updates other change validation request" do
     it "updates the notified_at date of an open request when application is invalidated" do
       new_planning_application = create :planning_application, :not_started, local_authority: @default_local_authority
-      request = create :other_change_validation_request, planning_application: new_planning_application, state: "open", created_at: 12.days.ago
+      request = create :other_change_validation_request, planning_application: new_planning_application, state: "open",
+                                                         created_at: 12.days.ago
 
       visit planning_application_path(new_planning_application)
       click_link "Validate application"

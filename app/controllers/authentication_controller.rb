@@ -12,7 +12,7 @@ class AuthenticationController < ApplicationController
     end
   end
 
-private
+  private
 
   def please_retry(_exception)
     reset_session

@@ -32,7 +32,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_link "Assess proposal"
       expect(page).to have_checked_field("Yes")
-      expect(page).to have_field("Please provide supporting information for your manager.", with: "This is a private assessor comment")
+      expect(page).to have_field("Please provide supporting information for your manager.",
+                                 with: "This is a private assessor comment")
       choose "No"
       fill_in "State the reasons why this application is, or is not lawful.", with: "This is a new public comment"
       fill_in "Please provide supporting information for your manager.", with: "Edited private assessor comment"
@@ -88,7 +89,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       choose "Yes"
-      fill_in "State the reasons why this application is, or is not lawful.", with: "This is so granted and GDPO everything"
+      fill_in "State the reasons why this application is, or is not lawful.",
+              with: "This is so granted and GDPO everything"
       fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
       click_button "Save"
 
@@ -107,7 +109,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       expect(page).to have_checked_field("Yes")
-      expect(page).to have_field("Please provide supporting information for your manager.", with: "This is a private assessor comment")
+      expect(page).to have_field("Please provide supporting information for your manager.",
+                                 with: "This is a private assessor comment")
     end
   end
 

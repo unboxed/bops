@@ -56,11 +56,13 @@ module PlanningApplicationHelper
   end
 
   def ecology_constraints
-    ["Special Area of Conservation (SAC)", "Site of Special Scientific Interest (SSSI)", "Ancient Semi-Natural Woodland (ASNW)", "Local Wildlife / Biological notification site", "Priority habitat"]
+    ["Special Area of Conservation (SAC)", "Site of Special Scientific Interest (SSSI)",
+     "Ancient Semi-Natural Woodland (ASNW)", "Local Wildlife / Biological notification site", "Priority habitat"]
   end
 
   def heritage_constraints
-    ["Listed building", "Conservation Area", "Area of Outstanding Natural Beauty", "National Park", "World Heritage Site", "Broads"]
+    ["Listed building", "Conservation Area", "Area of Outstanding Natural Beauty", "National Park",
+     "World Heritage Site", "Broads"]
   end
 
   def policy_constraints
@@ -80,15 +82,16 @@ module PlanningApplicationHelper
   end
 
   def standard_constraints
-    [flooding_constraints, military_constraints, ecology_constraints, heritage_constraints, policy_constraints, tree_constraints, other_constraints].flatten
+    [flooding_constraints, military_constraints, ecology_constraints, heritage_constraints, policy_constraints,
+     tree_constraints, other_constraints].flatten
   end
 
   def constraints_group
     { "General Policy": policy_constraints,
       "Heritage & Conservation": heritage_constraints,
-      "Flooding": flooding_constraints,
-      "Ecology": ecology_constraints,
-      "Trees": tree_constraints,
+      Flooding: flooding_constraints,
+      Ecology: ecology_constraints,
+      Trees: tree_constraints,
       "Military & Defence": military_constraints }
   end
 
@@ -156,14 +159,20 @@ module PlanningApplicationHelper
 
   def validation_request_summary(validation_requests, planning_application)
     if planning_application.invalidated?
-      "This application has #{pluralize(validation_requests.count(&:open?), 'unresolved validation request')} and #{pluralize(validation_requests.count(&:closed?), 'resolved validation request')}"
+      "This application has #{pluralize(validation_requests.count(&:open?),
+                                        'unresolved validation request')} and #{pluralize(
+                                          validation_requests.count(&:closed?), 'resolved validation request'
+                                        )}"
     elsif planning_application.validation_requests.none? && (planning_application.recommendable? || planning_application.closed?)
       "This application had no validation requests"
-    elsif planning_application.recommendable? || planning_application.closed? && planning_application.validation_requests.present?
+    elsif planning_application.recommendable? || (planning_application.closed? && planning_application.validation_requests.present?)
       "This application has #{pluralize(validation_requests.count(&:closed?), 'resolved validation request')}"
     else
       # FIXME: same body as first branch
-      "This application has #{pluralize(validation_requests.count(&:open?), 'unresolved validation request')} and #{pluralize(validation_requests.count(&:closed?), 'resolved validation request')}"
+      "This application has #{pluralize(validation_requests.count(&:open?),
+                                        'unresolved validation request')} and #{pluralize(
+                                          validation_requests.count(&:closed?), 'resolved validation request'
+                                        )}"
     end
   end
 end

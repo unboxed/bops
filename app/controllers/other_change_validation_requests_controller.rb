@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OtherChangeValidationRequestsController < ValidationRequestsController
   before_action :set_planning_application, only: %i[new create show]
 
@@ -30,7 +32,7 @@ class OtherChangeValidationRequestsController < ValidationRequestsController
     end
   end
 
-private
+  private
 
   def other_change_validation_request_params
     params.require(:other_change_validation_request).permit(:summary, :suggestion)

@@ -3,11 +3,15 @@
 FactoryBot.define do
   factory :document do
     planning_application
-    file { fixture_file_upload(Rails.root.join("spec/fixtures/images/proposed-floorplan.png"), "proposed-floorplan/png") }
+    file do
+      fixture_file_upload(Rails.root.join("spec/fixtures/images/proposed-floorplan.png"), "proposed-floorplan/png")
+    end
   end
 
   trait :with_file do
-    file { fixture_file_upload(Rails.root.join("spec/fixtures/images/proposed-floorplan.png"), "proposed-floorplan/png") }
+    file do
+      fixture_file_upload(Rails.root.join("spec/fixtures/images/proposed-floorplan.png"), "proposed-floorplan/png")
+    end
   end
 
   trait :archived do

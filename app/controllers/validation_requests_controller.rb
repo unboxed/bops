@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ValidationRequestsController < ApplicationController
   before_action :set_planning_application
 
@@ -23,7 +25,7 @@ class ValidationRequestsController < ApplicationController
     end
   end
 
-private
+  private
 
   def set_planning_application
     @planning_application = PlanningApplication.find(params[:planning_application_id])
@@ -32,7 +34,7 @@ private
   def send_validation_request_email(request)
     PlanningApplicationMailer.validation_request_mail(
       @planning_application,
-      request,
+      request
     ).deliver_now
   end
 

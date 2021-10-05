@@ -11,9 +11,7 @@ module SubdomainHelper
   end
 
   def url_for(options = nil)
-    if options.is_a?(Hash) && options.key?(:subdomain)
-      options[:host] = with_subdomain(options.delete(:subdomain))
-    end
+    options[:host] = with_subdomain(options.delete(:subdomain)) if options.is_a?(Hash) && options.key?(:subdomain)
     super
   end
 end

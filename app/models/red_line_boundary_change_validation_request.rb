@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RedLineBoundaryChangeValidationRequest < ApplicationRecord
   include ValidationRequest
 
@@ -13,7 +15,8 @@ class RedLineBoundaryChangeValidationRequest < ApplicationRecord
 
   def rejected_reason_is_present?
     if approved == false && rejection_reason.blank?
-      errors.add(:base, "Please include a comment for the case officer to indicate why the red line boundary change has been rejected.")
+      errors.add(:base,
+                 "Please include a comment for the case officer to indicate why the red line boundary change has been rejected.")
     end
   end
 end

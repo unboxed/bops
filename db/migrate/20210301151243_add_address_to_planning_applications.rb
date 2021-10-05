@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddAddressToPlanningApplications < ActiveRecord::Migration[6.0]
   def change
     change_table(:planning_applications) do |t|

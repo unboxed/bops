@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddApiUserToAudit < ActiveRecord::Migration[6.0]
   def change
     add_reference(:audits, :api_user, foreign_key: true)

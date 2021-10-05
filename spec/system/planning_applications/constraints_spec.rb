@@ -6,7 +6,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
   let!(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
 
   let!(:planning_application) do
-    create :planning_application, :not_started, local_authority: @default_local_authority, constraints: ["Conservation Area"]
+    create :planning_application, :not_started, local_authority: @default_local_authority,
+                                                constraints: ["Conservation Area"]
   end
 
   before do

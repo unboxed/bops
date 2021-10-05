@@ -4,7 +4,9 @@ require "rails_helper"
 
 RSpec.describe "Policy classes", type: :request, show_exceptions: true do
   let!(:current_local_authority) { @default_local_authority }
-  let!(:planning_application) { create(:planning_application, :in_assessment, local_authority: current_local_authority) }
+  let!(:planning_application) do
+    create(:planning_application, :in_assessment, local_authority: current_local_authority)
+  end
   let!(:policy_class) { build(:policy_class) }
   let!(:assessor) { create(:user, :assessor, local_authority: current_local_authority) }
 
@@ -26,7 +28,7 @@ RSpec.describe "Policy classes", type: :request, show_exceptions: true do
   it "validates selecting some classes" do
     params = {
       part: policy_class.part,
-      policy_classes: [],
+      policy_classes: []
     }
 
     post planning_application_policy_classes_path(planning_application), params: params
@@ -44,8 +46,8 @@ RSpec.describe "Policy classes", type: :request, show_exceptions: true do
       params = {
         part: policy_class.part,
         policy_classes: [
-          policy_class.id,
-        ],
+          policy_class.id
+        ]
       }
 
       post planning_application_policy_classes_path(planning_application), params: params

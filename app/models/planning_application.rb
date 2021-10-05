@@ -340,12 +340,10 @@ class PlanningApplication < ApplicationRecord
   end
 
   def policy_classes_editable
-    if policy_classes_changed? && !in_assessment?
-      errors.add(:policy_classes, "cannot be added at this stage")
-    end
+    errors.add(:policy_classes, "cannot be added at this stage") if policy_classes_changed? && !in_assessment?
   end
 
-private
+  private
 
   def set_key_dates
     self.expiry_date = 40.business_days.after(documents_validated_at || created_at)
@@ -377,14 +375,10 @@ private
   end
 
   def decision_with_recommendations
-    if decision.nil? && recommendations.any?
-      errors.add(:planning_application, "Please select Yes or No")
-    end
+    errors.add(:planning_application, "Please select Yes or No") if decision.nil? && recommendations.any?
   end
 
   def applicant_or_agent_email
-    unless applicant_email? || agent_email?
-      errors.add(:base, "An applicant or agent email is required.")
-    end
+    errors.add(:base, "An applicant or agent email is required.") unless applicant_email? || agent_email?
   end
 end

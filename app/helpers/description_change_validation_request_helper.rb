@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DescriptionChangeValidationRequestHelper
   def display_request_date_state(description_change_validation_request)
     if description_change_validation_request.closed?

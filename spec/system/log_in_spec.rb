@@ -58,8 +58,12 @@ RSpec.describe "Sign in", type: :system do
     context "a user belonging to a given subdomain" do
       let!(:lambeth) { create :local_authority, subdomain: "lamb" }
       let!(:southwark) { create :local_authority, subdomain: "south" }
-      let(:lambeth_assessor) { create :user, :assessor, name: "Lambertina Lamb", password: "Lambsrock18!", local_authority: lambeth }
-      let(:southwark_assessor) { create :user, :assessor, name: "Southwarkina Sully", password: "Southwark4ever!", local_authority: southwark }
+      let(:lambeth_assessor) do
+        create :user, :assessor, name: "Lambertina Lamb", password: "Lambsrock18!", local_authority: lambeth
+      end
+      let(:southwark_assessor) do
+        create :user, :assessor, name: "Southwarkina Sully", password: "Southwark4ever!", local_authority: southwark
+      end
 
       before do
         @previous_host = Capybara.app_host

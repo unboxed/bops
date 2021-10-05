@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe "API request to list change requests", type: :request, show_exceptions: true do
@@ -23,7 +25,7 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
   it "successfully accepts a response" do
     patch "/api/v1/planning_applications/#{planning_application.id}/other_change_validation_requests/#{other_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
           params: valid_response,
-          headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
+          headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
 
     expect(response).to be_successful
 
@@ -39,7 +41,7 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
   it "returns a 400 if the update is missing a response" do
     patch "/api/v1/planning_applications/#{planning_application.id}/other_change_validation_requests/#{other_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
           params: missing_response,
-          headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
+          headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
 
     expect(response.status).to eq(400)
   end
@@ -47,7 +49,7 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
   it "returns a 401 if API key is wrong" do
     patch "/api/v1/planning_applications/#{planning_application.id}/other_change_validation_requests/#{other_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
           params: valid_response,
-          headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer BEAR_THE_BEARER" }
+          headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer BEAR_THE_BEARER" }
 
     expect(response.status).to eq(401)
   end
@@ -55,7 +57,7 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
   it "returns a 401 if change_access_id is wrong" do
     patch "/api/v1/planning_applications/#{planning_application.id}/other_change_validation_requests/#{other_change_validation_request.id}?change_access_id=CHANGEISGOOD",
           params: valid_response,
-          headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
+          headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
 
     expect(response.status).to eq(401)
   end

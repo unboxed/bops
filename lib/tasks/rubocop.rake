@@ -2,7 +2,5 @@
 
 desc "Run the rubocop static code analyzer"
 task rubocop: :environment do
-  unless system "rubocop"
-    exit 1
-  end
+  exit 1 unless system "rubocop"
 end

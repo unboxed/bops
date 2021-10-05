@@ -24,7 +24,8 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     end
     click_button "Next"
 
-    find(".govuk-visually-hidden", visible: false).set '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.076715,51.501166],[-0.07695,51.500673],[-0.076,51.500763],[-0.076715,51.501166]]]}}'
+    find(".govuk-visually-hidden",
+         visible: false).set '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.076715,51.501166],[-0.07695,51.500673],[-0.076,51.500763],[-0.076715,51.501166]]]}}'
     fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: "Coordinates look wrong"
     click_button "Send"
 
@@ -85,7 +86,8 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
 
   it "updates the notified_at date of an open request when application is invalidated" do
     new_planning_application = create :planning_application, :not_started, local_authority: @default_local_authority
-    request = create :red_line_boundary_change_validation_request, planning_application: new_planning_application, state: "open", created_at: 12.days.ago
+    request = create :red_line_boundary_change_validation_request, planning_application: new_planning_application,
+                                                                   state: "open", created_at: 12.days.ago
 
     sign_in assessor
     visit planning_application_path(new_planning_application)

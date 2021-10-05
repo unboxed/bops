@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 BusinessTime::Config.load(Rails.root.join("config/business_time.yml").to_s)
 
 # or you can configure it manually:  look at me!  I'm Tim Ferriss!
