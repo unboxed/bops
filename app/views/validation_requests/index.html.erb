@@ -8,7 +8,7 @@
         <h2 class="govuk-heading-l">
           Validation requests
         </h2>
-      
+
         <% if @planning_application.invalidated? %>
           <p class="govuk-body">
             Send further requests for this application. Any new requests will be immediately sent.
@@ -115,14 +115,16 @@
                     </td>
                   <% end %>
                     <td class="govuk-table__cell">
-                      <% if validation_request.state == "open" && validation_request.notified_at.blank? %>
-                        <strong class="govuk-tag govuk-tag--yellow">
-                          Not sent
-                        </strong>
-                      <% elsif validation_request.state == "open" && validation_request.notified_at.present? %>
-                         <strong class="govuk-tag govuk-tag--<%= display_request_date_state(validation_request) %>">
-                          <%= validation_request.days_until_response_due %> days
-                        </strong>
+                      <% if validation_request.open? %>
+                        <% if validation_request.notified_at.blank? %>
+                          <strong class="govuk-tag govuk-tag--yellow">
+                            Not sent
+                          </strong>
+                        <% else %>
+                          <strong class="govuk-tag govuk-tag--<%= display_request_date_state(validation_request) %>">
+                            <%= validation_request.days_until_response_due %> days
+                          </strong>
+                        <% end %>
                       <% else %>
                         <strong class="govuk-tag govuk-tag--<%= display_request_status(validation_request) %>">
                           <%= request_state(validation_request) %>
