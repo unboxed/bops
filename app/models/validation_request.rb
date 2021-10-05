@@ -37,4 +37,8 @@ module ValidationRequest
       self.sequence = self.class.where(planning_application: planning_application).count + 1
     end
   end
+
+  def audit_name
+    "#{model_name.human} ##{sequence}"
+  end
 end

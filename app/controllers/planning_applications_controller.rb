@@ -121,17 +121,19 @@ class PlanningApplicationsController < AuthenticationController
   def invalidate
     if @planning_application.validation_requests_open?
       @planning_application.invalidate!
-
+      # FIXME: move this into the state machine
       audit("invalidated")
 
       invalidation_notice_mail
-      request_names = []
-      @planning_application.unsent_validation_requests.each do |request|
+
+      # FIXME: move this into the state machine
+      request_names = @planning_application.unsent_validation_requests.map do |request|
         request.update!(notified_at: Time.zone.now)
-        request_names << "#{request.model_name.human} ##{request.sequence}"
+        request.audit_name
       end
 
       audit("validation_requests_sent", nil, request_names.join(", "))
+
       flash[:notice] = "Application has been invalidated and email has been sent"
       render :show
     else
