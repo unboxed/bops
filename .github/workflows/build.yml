@@ -57,3 +57,10 @@ jobs:
         RAILS_ENV: test
       run: |
         bundle exec rake
+
+    - name: Run Cucumber tests
+      env:
+        DATABASE_URL: postgres://postgres:@localhost:5432/test
+        RAILS_ENV: test
+      run: |
+        bundle exec cucumber
