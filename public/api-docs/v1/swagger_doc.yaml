@@ -168,6 +168,17 @@ paths:
                             value:
                               type: string
                               example: demolish
+                            metadata:
+                              type: object
+                              properties:
+                                flags:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      value:
+                                        type: string
+                                        example: 'Planning permission / Permission needed'
                       metadata:
                         type: object
                         properties:
@@ -373,9 +384,12 @@ paths:
                         - value: 'No'
                       metadata:
                         auto_answered: true
-                    - question: Is the house listed?
+                    - question: Is any part of the property listed?
                       responses:
                         - value: 'No'
+                          metadata:
+                            flags:
+                              - 'Listed building consent / Not required'
                     - question: Will the works affect a protected tree?
                       responses:
                         - value: 'No'
@@ -384,10 +398,10 @@ paths:
                     - question: Will the new addition allow you to do an activity that most houses do not provide a dedicated space for?
                       responses:
                         - value: 'Yes'
-                      metadata:
-                        notes: It will allow me to exercise on a regular basis and generate energy
-                        flags:
-                          - 'Planning permission / Permission needed'
+                          metadata:
+                            notes: It will allow me to exercise on a regular basis and generate energy
+                            flags:
+                              - 'Planning permission / Permission needed'
                   constraints:
                     conservation_area: true
                     protected_trees: false

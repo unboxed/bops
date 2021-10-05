@@ -90,6 +90,7 @@ RSpec.describe "Planning Application show page", type: :system do
         expect(page).to have_text("1. what are you planning to do?")
         expect(page).to have_text("demolish")
         expect(page).to have_text("Details identified by #{api_user.name} as relevant to the result")
+        expect(page).to have_no_text("listed building")
       end
     end
 

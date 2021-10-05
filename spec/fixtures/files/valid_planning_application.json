@@ -206,6 +206,19 @@
       ]
     },
     {
+      "question": "Is any part of the property listed?",
+      "responses": [
+        {
+          "value": "No",
+          "metadata": {
+            "flags": [
+              "Listed building consent / Not required"
+            ]
+          }
+        }
+      ]
+    },
+    {
       "question": "Please describe the project",
       "responses": [
         {
