@@ -252,7 +252,7 @@ class PlanningApplication < ApplicationRecord
 
   def flagged_proposal_details(flag)
     proposal_details_with_flags.select do |proposal|
-      proposal["responses"].select { |element| element["metadata"]["flags"].include?(flag) }
+      proposal["responses"].any? { |element| element["metadata"]["flags"].include?(flag) }
     end
   end
 
