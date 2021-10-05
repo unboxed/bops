@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddFieldsToLocalAuthority < ActiveRecord::Migration[6.0]
   def change
     add_column :local_authorities, :signatory_name, :string

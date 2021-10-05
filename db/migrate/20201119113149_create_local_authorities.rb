@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateLocalAuthorities < ActiveRecord::Migration[6.0]
   def change
     create_table :local_authorities do |t|

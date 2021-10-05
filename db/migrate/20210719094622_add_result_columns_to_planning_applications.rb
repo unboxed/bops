@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddResultColumnsToPlanningApplications < ActiveRecord::Migration[6.1]
   def change
     add_column :planning_applications, :result_flag, :string

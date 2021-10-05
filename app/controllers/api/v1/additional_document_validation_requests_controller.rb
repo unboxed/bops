@@ -1,36 +1,40 @@
 # frozen_string_literal: true
 
-class Api::V1::AdditionalDocumentValidationRequestsController < Api::V1::ValidationRequestsController
-  skip_before_action :verify_authenticity_token, only: :update
-  before_action :check_token_and_set_application, only: :update
-  before_action :check_file_params_are_present, only: :update
-  before_action :check_file_size, only: :update
+module Api
+  module V1
+    class AdditionalDocumentValidationRequestsController < Api::V1::ValidationRequestsController
+      skip_before_action :verify_authenticity_token, only: :update
+      before_action :check_token_and_set_application, only: :update
+      before_action :check_file_params_are_present, only: :update
+      before_action :check_file_size, only: :update
 
-  def update
-    @additional_document_validation_request = @planning_application.additional_document_validation_requests.find_by(id: params[:id])
-    new_document = @planning_application.documents.create!(file: params[:new_file])
-    @additional_document_validation_request.update!(state: "closed", new_document: new_document)
+      def update
+        @additional_document_validation_request = @planning_application.additional_document_validation_requests.find_by(id: params[:id])
+        new_document = @planning_application.documents.create!(file: params[:new_file])
+        @additional_document_validation_request.update!(state: "closed", new_document: new_document)
 
-    if @additional_document_validation_request.save
+        if @additional_document_validation_request.save
 
-      audit("additional_document_validation_request_received", document_audit_item(new_document),
-            @additional_document_validation_request.sequence, current_api_user)
+          audit("additional_document_validation_request_received", document_audit_item(new_document),
+                @additional_document_validation_request.sequence, current_api_user)
 
-      render json: { "message": "Validation request updated" }, status: :ok
-    else
-      render json: { "message": "Validation request could not be updated" }, status: :bad_request
+          render json: { message: "Validation request updated" }, status: :ok
+        else
+          render json: { message: "Validation request could not be updated" }, status: :bad_request
+        end
+      end
+
+      private
+
+      def check_file_params_are_present
+        if params[:new_file].blank?
+          render json: { message: "A file must be selected to proceed." }, status: :bad_request
+        end
+      end
+
+      def document_audit_item(document)
+        document.name
+      end
     end
-  end
-
-private
-
-  def check_file_params_are_present
-    if params[:new_file].blank?
-      render json: { "message": "A file must be selected to proceed." }, status: :bad_request
-    end
-  end
-
-  def document_audit_item(document)
-    document.name
   end
 end

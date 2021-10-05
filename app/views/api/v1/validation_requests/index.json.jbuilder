@@ -40,7 +40,8 @@ json.data do
     json.new_document do
       if replacement_document_validation_request.new_document
         json.name replacement_document_validation_request.new_document.file.filename
-        json.url replacement_document_validation_request.new_document.file.representation(resize_to_limit: [1000, 1000]).processed.url
+        json.url replacement_document_validation_request.new_document.file.representation(resize_to_limit: [1000,
+                                                                                                            1000]).processed.url
       end
     end
     json.type "replacement_document_validation_request"
@@ -58,7 +59,8 @@ json.data do
     json.new_document do
       if additional_document_validation_request.new_document
         json.name additional_document_validation_request.new_document.file.filename
-        json.url additional_document_validation_request.new_document.file.representation(resize_to_limit: [1000, 1000]).processed.url
+        json.url additional_document_validation_request.new_document.file.representation(resize_to_limit: [1000,
+                                                                                                           1000]).processed.url
       end
     end
     json.type "additional_document_validation_request"

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddColumnsToApplicants < ActiveRecord::Migration[6.0]
   def change
     add_column :applicants, :residence_status, :boolean

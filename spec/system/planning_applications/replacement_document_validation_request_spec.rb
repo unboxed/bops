@@ -26,16 +26,12 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     visit planning_application_path(planning_application)
   end
 
-  after do
-    travel_back
-  end
-
   it "allows for a document validation request to be created for invalid documents only" do
     delivered_emails = ActionMailer::Base.deliveries.count
     valid_document.file.attach(
       io: File.open(Rails.root.join("spec/fixtures/images/existing-roofplan.pdf")),
       filename: "wowee-florzoplan.png",
-      content_type: "image/png",
+      content_type: "image/png"
     )
 
     click_link "Validate application"
@@ -68,7 +64,8 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
   end
 
   it "does not display invalid document as an option to create a validation request if that document already has an associated validation request" do
-    create :replacement_document_validation_request, planning_application: planning_application, old_document: invalid_document, state: "open", created_at: 12.days.ago
+    create :replacement_document_validation_request, planning_application: planning_application,
+                                                     old_document: invalid_document, state: "open", created_at: 12.days.ago
 
     click_link "Validate application"
     click_link "Start new or view existing requests"
@@ -85,7 +82,8 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
   context "Invalidation updates replacement document validation request" do
     it "updates the notified_at date of an open request when application is invalidated" do
       new_planning_application = create :planning_application, :not_started, local_authority: @default_local_authority
-      request = create :replacement_document_validation_request, planning_application: new_planning_application, state: "open", created_at: 12.days.ago
+      request = create :replacement_document_validation_request, planning_application: new_planning_application,
+                                                                 state: "open", created_at: 12.days.ago
 
       visit planning_application_path(new_planning_application)
       click_link "Validate application"

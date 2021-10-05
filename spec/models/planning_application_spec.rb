@@ -13,7 +13,8 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     let!(:description_change_validation_request) do
-      create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago
+      create :description_change_validation_request, planning_application: planning_application, state: "open",
+                                                     created_at: 12.days.ago
     end
 
     context "start the application" do
@@ -21,7 +22,7 @@ RSpec.describe PlanningApplication, type: :model do
 
       before do
         # Set timestamp to differentiate from now
-        planning_application.update("in_assessment_at": 1.hour.ago)
+        planning_application.update(in_assessment_at: 1.hour.ago)
       end
 
       it "sets the status to in_assessment" do
@@ -63,7 +64,7 @@ RSpec.describe PlanningApplication, type: :model do
 
       before do
         # Set timestamp to differentiate from now
-        planning_application.update("returned_at": 1.hour.ago)
+        planning_application.update(returned_at: 1.hour.ago)
       end
 
       it "sets the status to returned" do
@@ -81,7 +82,7 @@ RSpec.describe PlanningApplication, type: :model do
 
     context "assess the application" do
       before do
-        planning_application.update("awaiting_determination_at": 1.hour.ago, decision: "granted")
+        planning_application.update(awaiting_determination_at: 1.hour.ago, decision: "granted")
       end
 
       it "sets the status to awaiting_determination" do
@@ -102,7 +103,7 @@ RSpec.describe PlanningApplication, type: :model do
 
       before do
         # Set timestamp to differentiate from now
-        planning_application.update("invalidated_at": 1.hour.ago)
+        planning_application.update(invalidated_at: 1.hour.ago)
       end
 
       it "sets the status to invalidated" do
@@ -123,7 +124,7 @@ RSpec.describe PlanningApplication, type: :model do
 
       before do
         # Set timestamp to differentiate from now
-        planning_application.update("awaiting_correction_at": 1.hour.ago)
+        planning_application.update(awaiting_correction_at: 1.hour.ago)
       end
 
       it "sets the status to awaiting_correction" do
@@ -144,7 +145,7 @@ RSpec.describe PlanningApplication, type: :model do
 
       before do
         # Set timestamp to differentiate from now
-        planning_application.update("determined_at": 1.hour.ago)
+        planning_application.update(determined_at: 1.hour.ago)
       end
 
       it "sets the status to determined" do
@@ -165,7 +166,7 @@ RSpec.describe PlanningApplication, type: :model do
 
       before do
         # Set timestamp to differentiate from now
-        planning_application.update("withdrawn_at": 1.hour.ago)
+        planning_application.update(withdrawn_at: 1.hour.ago)
       end
 
       it "sets the status to withdrawn" do
@@ -186,7 +187,7 @@ RSpec.describe PlanningApplication, type: :model do
 
       before do
         # Set timestamp to differentiate from now
-        planning_application.update("withdrawn_at": 1.hour.ago)
+        planning_application.update(withdrawn_at: 1.hour.ago)
       end
 
       it "sets the status to withdrawn" do
@@ -207,7 +208,7 @@ RSpec.describe PlanningApplication, type: :model do
 
       before do
         # Set timestamp to differentiate from now
-        planning_application.update("withdrawn_at": 1.hour.ago)
+        planning_application.update(withdrawn_at: 1.hour.ago)
       end
 
       it "sets the status to withdrawn" do
@@ -228,7 +229,7 @@ RSpec.describe PlanningApplication, type: :model do
 
       before do
         # Set timestamp to differentiate from now
-        planning_application.update("withdrawn_at": 1.hour.ago)
+        planning_application.update(withdrawn_at: 1.hour.ago)
       end
 
       it "sets the status to withdrawn" do
@@ -316,10 +317,6 @@ RSpec.describe PlanningApplication, type: :model do
 
     before do
       travel_to Time.zone.local(2021, 9, 23, 10, 10, 44)
-    end
-
-    after do
-      travel_back
     end
 
     describe "#target_date" do

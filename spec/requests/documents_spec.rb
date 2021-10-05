@@ -13,8 +13,8 @@ RSpec.describe "Documents", type: :request, show_exceptions: true do
   # TODO: add the rest of the actions on documents controller
   it "returns 404 when trying to index documents for a planning application on another local authority" do
     sign_in assessor
-    expect {
+    expect do
       get planning_application_documents_path(planning_application)
-    }.to raise_error(ActiveRecord::RecordNotFound)
+    end.to raise_error(ActiveRecord::RecordNotFound)
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateDocumentChangeRequests < ActiveRecord::Migration[6.1]
   def change
     create_table :document_change_requests do |t|

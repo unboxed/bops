@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe "API request to patch document validation requests", type: :request, show_exceptions: true do
@@ -33,7 +35,7 @@ RSpec.describe "API request to patch document validation requests", type: :reque
   it "successfully updates the red line boundary validation request" do
     patch "/api/v1/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
           params: approved_json,
-          headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
+          headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
 
     expect(response).to be_successful
 
@@ -56,7 +58,7 @@ RSpec.describe "API request to patch document validation requests", type: :reque
   it "successfully accepts a rejection" do
     patch "/api/v1/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
           params: rejected_json,
-          headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
+          headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
 
     expect(response).to be_successful
 
@@ -72,7 +74,7 @@ RSpec.describe "API request to patch document validation requests", type: :reque
   it "returns a 400 if params are missing" do
     patch "/api/v1/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
           params: rejected_json_missing_reason,
-          headers: { "CONTENT-TYPE": "application/json", "Authorization": "Bearer #{api_user.token}" }
+          headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
 
     expect(response.status).to eq(400)
   end

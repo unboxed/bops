@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "faker"
 
 lambeth = LocalAuthority.find_or_create_by!(
@@ -6,7 +8,7 @@ lambeth = LocalAuthority.find_or_create_by!(
   signatory_name: "Christina Thompson",
   signatory_job_title: "Director of Finance & Property",
   enquiries_paragraph: "Postal address: Planning London Borough of Lambeth PO Box 734 Winchester SO23 5DG.",
-  email_address: "planning@lambeth.gov.uk",
+  email_address: "planning@lambeth.gov.uk"
 )
 southwark = LocalAuthority.find_or_create_by!(
   name: "Southwark Council",
@@ -14,7 +16,7 @@ southwark = LocalAuthority.find_or_create_by!(
   signatory_name: "Stephen Platts",
   signatory_job_title: "Director of Planning and Growth",
   enquiries_paragraph: "Postal address: Planning London Borough of Southwark PO Box 734 Winchester SO23 5DG.",
-  email_address: "planning@lambeth.gov.uk",
+  email_address: "planning@lambeth.gov.uk"
 )
 
 buckinghamshire = LocalAuthority.find_or_create_by!(
@@ -23,7 +25,7 @@ buckinghamshire = LocalAuthority.find_or_create_by!(
   signatory_name: "Steve Bambick",
   signatory_job_title: "Director of Planning",
   enquiries_paragraph: "Postal address: Planning Buckinghamshire Council, Gatehouse Rd, Aylesbury HP19 8FF",
-  email_address: "planning@buckinghamshire.gov.uk",
+  email_address: "planning@buckinghamshire.gov.uk"
 )
 
 ApiUser.find_or_create_by!(name: "api_user", token: (ENV["API_TOKEN"] || "123"))

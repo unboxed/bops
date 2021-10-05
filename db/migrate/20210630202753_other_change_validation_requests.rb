@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OtherChangeValidationRequests < ActiveRecord::Migration[6.1]
   def change
     create_table :other_change_validation_requests do |t|

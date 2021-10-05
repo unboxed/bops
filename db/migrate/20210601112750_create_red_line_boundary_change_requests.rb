@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateRedLineBoundaryChangeRequests < ActiveRecord::Migration[6.1]
   def change
     create_table :red_line_boundary_change_requests do |t|
