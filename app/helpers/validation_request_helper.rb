@@ -1,6 +1,16 @@
 # frozen_string_literal: true
 
 module ValidationRequestHelper
+  def options_for_new_request_validations
+    [
+      ["description_change", "Request approval to a description change"],
+      ["replacement_document", "Request replacement documents"],
+      ["create_document", "Request a new document"],
+      ["other_validation", "Request other change to application"],
+      ["red_line_boundary", "Request approval to a red line boundary change"]
+    ]
+  end
+
   def request_state(validation_request)
     if validation_request.instance_of?(DescriptionChangeValidationRequest)
       validation_request.approved? ? "Accepted" : "Rejected"

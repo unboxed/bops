@@ -75,7 +75,7 @@ cucumber_options = {
   # Below are examples overriding defaults
 
   # cmd: 'bin/cucumber',
-  cmd_additional_args: '--publish-quiet',
+  cmd_additional_args: "--publish-quiet",
 
   # all_after_pass: false,
   # all_on_start: false,
