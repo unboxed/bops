@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DescriptionChangeValidationRequestsController < ValidationRequestsController
   before_action :set_planning_application, only: %i[new create]
 
@@ -28,7 +30,7 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
     end
   end
 
-private
+  private
 
   def description_change_validation_request_params
     params.require(:description_change_validation_request).permit(:proposed_description)
@@ -39,6 +41,7 @@ private
   end
 
   def description_audit_item(description_change_validation_request, planning_application)
-    { previous: planning_application.description, proposed: description_change_validation_request.proposed_description }.to_json
+    { previous: planning_application.description,
+      proposed: description_change_validation_request.proposed_description }.to_json
   end
 end

@@ -5,7 +5,8 @@ require "rails_helper"
 RSpec.describe "Planning Application Reviewing", type: :system do
   let!(:reviewer) { create :user, :reviewer, local_authority: @default_local_authority }
   let!(:planning_application) do
-    create :planning_application, :awaiting_determination, local_authority: @default_local_authority, decision: "granted"
+    create :planning_application, :awaiting_determination, local_authority: @default_local_authority,
+                                                           decision: "granted"
   end
   let!(:previous_recommendation) do
     create :recommendation, :reviewed,
@@ -13,7 +14,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
            assessor_comment: "First assessor comment",
            reviewer_comment: "First reviewer comment"
   end
-  let!(:recommendation) { create :recommendation, planning_application: planning_application, assessor_comment: "New assessor comment" }
+  let!(:recommendation) do
+    create :recommendation, planning_application: planning_application, assessor_comment: "New assessor comment"
+  end
 
   before do
     sign_in reviewer
@@ -94,7 +97,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
   end
 
   it "can edit an existing review of an assessment" do
-    recommendation = create :recommendation, :reviewed, planning_application: planning_application, reviewer_comment: "Reviewer private comment"
+    recommendation = create :recommendation, :reviewed, planning_application: planning_application,
+                                                        reviewer_comment: "Reviewer private comment"
     click_link "Review assessment"
 
     within ".recommendations" do

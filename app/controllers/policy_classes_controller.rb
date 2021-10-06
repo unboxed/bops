@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PolicyClassesController < PlanningApplicationsController
   before_action :set_planning_application
   before_action :set_policy_class, only: %i[show update destroy]
@@ -7,28 +9,33 @@ class PolicyClassesController < PlanningApplicationsController
   def new
     @part = params[:part]
 
-    redirect_to part_new_planning_application_policy_class_path(@planning_application), alert: "Please choose one of the policy parts" if @part.blank?
+    if @part.blank?
+      redirect_to part_new_planning_application_policy_class_path(@planning_application),
+                  alert: "Please choose one of the policy parts"
+    end
   end
 
   def create
     class_ids = policy_class_params[:policy_classes].reject(&:blank?)
 
     if class_ids.empty?
-      redirect_to new_planning_application_policy_class_path(@planning_application, part: params[:part]), alert: "Please select at least one class"
+      redirect_to new_planning_application_policy_class_path(@planning_application, part: params[:part]),
+                  alert: "Please select at least one class"
       return
     end
 
     classes = PolicyClass
-                .classes_for_part(params[:part])
-                .select { |c| class_ids.include? c.id }
-                .each(&:stamp_status!)
+              .classes_for_part(params[:part])
+              .select { |c| class_ids.include? c.id }
+              .each(&:stamp_status!)
 
     @planning_application.policy_classes += classes
 
     if @planning_application.save
       redirect_to @planning_application, notice: "Policy classes have been successfully added"
     else
-      redirect_to new_planning_application_policy_class_path(@planning_application, part: params[:part]), alert: @planning_application.errors.full_messages
+      redirect_to new_planning_application_policy_class_path(@planning_application, part: params[:part]),
+                  alert: @planning_application.errors.full_messages
     end
   end
 
@@ -45,20 +52,16 @@ class PolicyClassesController < PlanningApplicationsController
 
     @planning_application.policy_classes_will_change!
 
-    if @planning_application.save
-      redirect_to @planning_application, notice: "Successfully updated policy class"
-    end
+    redirect_to @planning_application, notice: "Successfully updated policy class" if @planning_application.save
   end
 
   def destroy
     @planning_application.policy_classes.delete(@policy_class)
 
-    if @planning_application.save
-      redirect_to @planning_application, notice: "Policy class has been removed."
-    end
+    redirect_to @planning_application, notice: "Policy class has been removed." if @planning_application.save
   end
 
-private
+  private
 
   def policy_class_params
     params.permit(:part, policy_classes: [])

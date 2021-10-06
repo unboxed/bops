@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeBooleanToEnum < ActiveRecord::Migration[6.0]
   def up
     remove_column :policy_evaluations, :requirements_met

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddStatusColumnsToPlanningApplications < ActiveRecord::Migration[6.0]
   def change
     add_column :planning_applications, :invalidated_at, :datetime

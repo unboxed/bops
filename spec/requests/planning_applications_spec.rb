@@ -26,9 +26,9 @@ RSpec.describe "Planning applications", type: :request, show_exceptions: true do
 
     it "returns 404 when trying to get show for a planning application" do
       sign_in assessor
-      expect {
+      expect do
         get planning_application_path(planning_application)
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      end.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end

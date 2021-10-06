@@ -10,7 +10,8 @@ RSpec.describe "Requesting description changes to a planning application", type:
   end
 
   let!(:description_change_validation_request) do
-    create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago
+    create :description_change_validation_request, planning_application: planning_application, state: "open",
+                                                   created_at: 12.days.ago
   end
 
   let!(:api_user) { create :api_user, name: "Api Wizard" }
@@ -19,10 +20,6 @@ RSpec.describe "Requesting description changes to a planning application", type:
     travel_to Time.zone.local(2021, 1, 1)
     sign_in assessor
     visit planning_application_path(planning_application)
-  end
-
-  after do
-    travel_back
   end
 
   it "is possible to create a request to update description" do
@@ -73,11 +70,16 @@ RSpec.describe "Requesting description changes to a planning application", type:
   end
 
   it "lists the current validation requests and their statuses" do
-    create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 12.days.ago, notified_at: 12.days.ago
-    create :description_change_validation_request, planning_application: planning_application, state: "closed", created_at: 12.days.ago, notified_at: 12.days.ago, approved: true
-    create :description_change_validation_request, planning_application: planning_application, state: "closed", created_at: 12.days.ago, notified_at: 12.days.ago, approved: false, rejection_reason: "No good"
-    create :description_change_validation_request, planning_application: planning_application, state: "open", created_at: 35.days.ago, notified_at: 35.days.ago
-    create :audit, planning_application_id: planning_application.id, activity_type: "description_change_validation_request_received", activity_information: 1, audit_comment: { response: "approved" }.to_json, api_user: api_user
+    create :description_change_validation_request, planning_application: planning_application, state: "open",
+                                                   created_at: 12.days.ago, notified_at: 12.days.ago
+    create :description_change_validation_request, planning_application: planning_application, state: "closed",
+                                                   created_at: 12.days.ago, notified_at: 12.days.ago, approved: true
+    create :description_change_validation_request, planning_application: planning_application, state: "closed",
+                                                   created_at: 12.days.ago, notified_at: 12.days.ago, approved: false, rejection_reason: "No good"
+    create :description_change_validation_request, planning_application: planning_application, state: "open",
+                                                   created_at: 35.days.ago, notified_at: 35.days.ago
+    create :audit, planning_application_id: planning_application.id,
+                   activity_type: "description_change_validation_request_received", activity_information: 1, audit_comment: { response: "approved" }.to_json, api_user: api_user
 
     click_link "Validate application"
     click_link "Start new or view existing requests"
@@ -105,7 +107,8 @@ RSpec.describe "Requesting description changes to a planning application", type:
   context "Invalidation updates description change validation request" do
     it "updates the notified_at date of an open request when application is invalidated" do
       new_planning_application = create :planning_application, :not_started, local_authority: @default_local_authority
-      request = create :description_change_validation_request, planning_application: new_planning_application, state: "open", created_at: 12.days.ago
+      request = create :description_change_validation_request, planning_application: new_planning_application,
+                                                               state: "open", created_at: 12.days.ago
 
       visit planning_application_path(new_planning_application)
       click_link "Validate application"
@@ -127,7 +130,8 @@ RSpec.describe "Requesting description changes to a planning application", type:
 
   context "Sending requests after application is invalidated" do
     it "allows the planning officer to create and send a validation request while application is invalid" do
-      invalid_planning_application = create :planning_application, :invalidated, local_authority: @default_local_authority
+      invalid_planning_application = create :planning_application, :invalidated,
+                                            local_authority: @default_local_authority
       delivered_emails = ActionMailer::Base.deliveries.count
 
       visit planning_application_path(invalid_planning_application)

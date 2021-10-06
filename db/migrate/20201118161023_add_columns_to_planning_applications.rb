@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddColumnsToPlanningApplications < ActiveRecord::Migration[6.0]
   def change
     add_column :planning_applications, :questions, :jsonb, null: true

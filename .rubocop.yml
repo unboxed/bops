@@ -1,30 +1,12 @@
-inherit_gem:
-  rubocop-govuk:
-    - config/default.yml
-    - config/rails.yml
-    - config/rspec.yml
+inherit_from: .rubocop_todo.yml
 
-inherit_mode:
-  merge:
-    - Exclude
+require:
+  - rubocop-rails
+  - rubocop-rspec
 
 AllCops:
-  Exclude:
-    - "db/migrate/*"
-    - "lib/package_builder.rb"
+  TargetRubyVersion: 2.6
+  NewCops: enable
 
-Lint/UnusedMethodArgument:
- Exclude:
-    - "app/mailers/devise_mailer.rb"
-
-RSpec/ContextWording:
-  Enabled: false
-
-RSpec/LetSetup:
-  Enabled: false
-
-RSpec/InstanceVariable:
-  Enabled: false
-
-Naming/VariableNumber:
-  Enabled: false
+Style/StringLiterals:
+  EnforcedStyle: double_quotes

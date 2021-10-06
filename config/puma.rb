@@ -7,7 +7,7 @@ if ENV["RAILS_ENV"] == "production"
   concurrency = {
     workers: ENV.fetch("WEB_CONCURRENCY", 4).to_i,
     min_threads: ENV.fetch("WEB_CONCURRENCY_MIN_THREADS", 8).to_i,
-    max_threads: ENV.fetch("WEB_CONCURRENCY_MAX_THREADS", 32).to_i,
+    max_threads: ENV.fetch("WEB_CONCURRENCY_MAX_THREADS", 32).to_i
   }
 
   workers(concurrency[:workers])

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemovePolicyEvaluationsAndPolicyConsiderations < ActiveRecord::Migration[6.0]
   def change
     drop_table "policy_considerations" do |t|

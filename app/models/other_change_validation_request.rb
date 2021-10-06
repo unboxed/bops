@@ -14,8 +14,6 @@ class OtherChangeValidationRequest < ApplicationRecord
   validate :response_is_present?
 
   def response_is_present?
-    if closed? && response.blank?
-      errors.add(:base, "some suggestion error here")
-    end
+    errors.add(:base, "some suggestion error here") if closed? && response.blank?
   end
 end

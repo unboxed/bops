@@ -8,34 +8,36 @@ RSpec.describe "API request to show document file", type: :request, show_excepti
 
   describe "data" do
     it "returns a 404 if no planning application" do
-      expect {
+      expect do
         get "/api/v1/planning_applications/xxx/documents/#{document.id}"
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      end.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     it "returns a 404 if no document" do
-      expect {
+      expect do
         get "/api/v1/planning_applications/#{planning_application.id}/documents/xxx"
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      end.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     context "with a document that is not public" do
       let!(:document) { create(:document, :with_file, planning_application: planning_application) }
 
       it "returns a 404" do
-        expect {
+        expect do
           get "/api/v1/planning_applications/#{planning_application.id}/documents/#{document.id}"
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
     context "with a document that has been archived" do
-      let!(:document) { create(:document, :with_file, :referenced, :archived, planning_application: planning_application) }
+      let!(:document) do
+        create(:document, :with_file, :referenced, :archived, planning_application: planning_application)
+      end
 
       it "returns a 404" do
-        expect {
+        expect do
           get "/api/v1/planning_applications/#{planning_application.id}/documents/#{document.id}"
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 

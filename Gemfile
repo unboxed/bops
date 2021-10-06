@@ -40,8 +40,9 @@ group :development, :test do
   gem "pry-byebug"
   gem "rails-controller-testing"
   gem "rspec-rails", "~> 4.0.0"
-  gem "rubocop", require: false
-  gem "rubocop-govuk", "4.0.0"
+  gem "rubocop"
+  gem "rubocop-rails"
+  gem "rubocop-rspec"
   gem "selenium-webdriver"
   gem "simplecov", require: false
   gem "webdrivers"

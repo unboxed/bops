@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ReplacementDocumentValidationRequestsController < ValidationRequestsController
   def new
     @replacement_document_validation_request = planning_application.replacement_document_validation_requests.new
@@ -6,7 +8,9 @@ class ReplacementDocumentValidationRequestsController < ValidationRequestsContro
   def create
     ActiveRecord::Base.transaction do
       planning_application.invalid_documents_without_validation_request.each do |document|
-        @replacement_document_validation_request = planning_application.replacement_document_validation_requests.new(old_document: document, user: current_user)
+        @replacement_document_validation_request = planning_application.replacement_document_validation_requests.new(
+          old_document: document, user: current_user
+        )
         @replacement_document_validation_request.save!
       end
     end
@@ -23,7 +27,7 @@ class ReplacementDocumentValidationRequestsController < ValidationRequestsContro
     redirect_to planning_application_validation_requests_path(@planning_application)
   end
 
-private
+  private
 
   def planning_application
     @planning_application = PlanningApplication.find(params[:planning_application_id])

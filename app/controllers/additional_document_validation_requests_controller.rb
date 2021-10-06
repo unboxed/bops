@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AdditionalDocumentValidationRequestsController < ValidationRequestsController
   def new
     @additional_document_validation_request = planning_application.additional_document_validation_requests.new
@@ -23,7 +25,7 @@ class AdditionalDocumentValidationRequestsController < ValidationRequestsControl
     end
   end
 
-private
+  private
 
   def additional_document_validation_request_params
     params.require(:additional_document_validation_request).permit(:document_request_type, :document_request_reason)
@@ -34,6 +36,7 @@ private
   end
 
   def document_create_audit_item(additional_document_validation_request)
-    { document: additional_document_validation_request.document_request_type, reason: additional_document_validation_request.document_request_reason }.to_json
+    { document: additional_document_validation_request.document_request_type,
+      reason: additional_document_validation_request.document_request_reason }.to_json
   end
 end

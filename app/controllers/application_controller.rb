@@ -21,11 +21,11 @@ class ApplicationController < ActionController::Base
       audit_comment: audit_comment,
       activity_information: activity_information,
       activity_type: activity_type,
-      api_user: api_user,
+      api_user: api_user
     )
   end
 
-private
+  private
 
   def find_current_local_authority_from_subdomain
     unless @current_local_authority ||= LocalAuthority.find_by(subdomain: request.subdomains.first)

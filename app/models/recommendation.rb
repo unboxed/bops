@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 class Recommendation < ApplicationRecord
   belongs_to :planning_application
   belongs_to :assessor, class_name: "User"
   belongs_to :reviewer, class_name: "User", optional: true
 
   scope :pending_review, -> { where(reviewer_id: nil) }
-  scope :reviewed, -> { where("reviewer_id IS NOT NULL") }
+  scope :reviewed, -> { where.not(reviewer_id: nil) }
 
   validate :reviewer_comment_is_present?
 
@@ -24,7 +26,8 @@ class Recommendation < ApplicationRecord
 
   def reviewer_comment_is_present?
     if challenged? && !reviewer_comment?
-      errors.add(:base, "Please include a comment for the case officer to indicate why the recommendation has been challenged.")
+      errors.add(:base,
+                 "Please include a comment for the case officer to indicate why the recommendation has been challenged.")
     end
   end
 end

@@ -15,9 +15,14 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
   let!(:reviewer) { create :user, :reviewer, local_authority: local_authority }
   let!(:assessor) { create :user, :assessor, local_authority: local_authority }
-  let!(:planning_application) { create(:planning_application, :determined, agent_email: "cookie_crackers@example.com", applicant_email: "cookie_crumbs@example.com", local_authority: local_authority, decision: "granted") }
+  let!(:planning_application) do
+    create(:planning_application, :determined, agent_email: "cookie_crackers@example.com",
+                                               applicant_email: "cookie_crumbs@example.com", local_authority: local_authority, decision: "granted")
+  end
   let(:host) { "default.example.com" }
-  let!(:validation_request) { create(:description_change_validation_request, planning_application: planning_application, user: assessor) }
+  let!(:validation_request) do
+    create(:description_change_validation_request, planning_application: planning_application, user: assessor)
+  end
 
   let!(:document_with_tags) do
     create :document, :with_tags,
@@ -33,7 +38,9 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   describe "#decision_notice_mail" do
-    let(:mail) { described_class.decision_notice_mail(planning_application.reload, host, planning_application.applicant_email) }
+    let(:mail) do
+      described_class.decision_notice_mail(planning_application.reload, host, planning_application.applicant_email)
+    end
 
     it "renders the headers" do
       expect(mail.subject).to eq("Certificate of Lawfulness: granted")
@@ -41,7 +48,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "emails the applicant when only the applicant is present" do
       planning_application.update!(agent_email: "")
-      mail = described_class.decision_notice_mail(planning_application.reload, host, [planning_application.agent_email, planning_application.applicant_email])
+      mail = described_class.decision_notice_mail(planning_application.reload, host,
+                                                  [planning_application.agent_email, planning_application.applicant_email])
 
       expect(mail.to).to eq([planning_application.applicant_email])
     end
@@ -53,7 +61,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "renders the body" do
       expect(mail.body.encoded).to include("Your Certificate of lawful development (proposed) has been granted.")
-      expect(mail.body.encoded).to include(decision_notice_api_v1_planning_application_path(planning_application, format: "pdf"))
+      expect(mail.body.encoded).to include(decision_notice_api_v1_planning_application_path(planning_application,
+                                                                                            format: "pdf"))
     end
 
     context "for a rejected application" do
@@ -68,7 +77,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "includes the status in the body" do
         expect(mail.body.encoded).to include("Your Certificate of lawful development (proposed) has been refused.")
-        expect(mail.body.encoded).to include(decision_notice_api_v1_planning_application_path(planning_application, format: "pdf"))
+        expect(mail.body.encoded).to include(decision_notice_api_v1_planning_application_path(planning_application,
+                                                                                              format: "pdf"))
       end
 
       it "includes the name of the agent in the body if agent is present" do
@@ -78,7 +88,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "includes the name of the applicant in the body if no agent is present" do
         planning_application.update!(agent_first_name: "")
-        mail = described_class.decision_notice_mail(planning_application.reload, host, [planning_application.agent_email, planning_application.applicant_email])
+        mail = described_class.decision_notice_mail(planning_application.reload, host,
+                                                    [planning_application.agent_email, planning_application.applicant_email])
 
         expect(mail.body.encoded).to include(planning_application.applicant_first_name)
         expect(mail.body.encoded).to include(planning_application.applicant_last_name)
@@ -89,7 +100,9 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   describe "#invalidation_notice_mail" do
     let!(:planning_application) { create(:planning_application, :invalidated, local_authority: local_authority) }
 
-    let!(:validation_request) { create(:description_change_validation_request, planning_application: planning_application, user: assessor) }
+    let!(:validation_request) do
+      create(:description_change_validation_request, planning_application: planning_application, user: assessor)
+    end
 
     let(:invalidation_mail) { described_class.invalidation_notice_mail(planning_application, host) }
 
@@ -119,7 +132,10 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   describe "#validation_notice_mail" do
-    let(:validation_mail) { described_class.validation_notice_mail(planning_application, host, [planning_application.agent_email, planning_application.applicant_email]) }
+    let(:validation_mail) do
+      described_class.validation_notice_mail(planning_application, host,
+                                             [planning_application.agent_email, planning_application.applicant_email])
+    end
 
     ENV["APPLICANTS_APP_HOST"] = "example.com"
 
@@ -130,7 +146,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "emails only the applicant when the agent is missing" do
       planning_application.update!(agent_email: "")
-      mail = described_class.validation_notice_mail(planning_application.reload, host, [planning_application.agent_email, planning_application.applicant_email])
+      mail = described_class.validation_notice_mail(planning_application.reload, host,
+                                                    [planning_application.agent_email, planning_application.applicant_email])
 
       expect(mail.to).to eq([planning_application.applicant_email])
     end
@@ -146,7 +163,9 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   describe "#validation_request_mail" do
-    let(:validation_request_mail) { described_class.validation_request_mail(planning_application.reload, validation_request) }
+    let(:validation_request_mail) do
+      described_class.validation_request_mail(planning_application.reload, validation_request)
+    end
 
     ENV["APPLICANTS_APP_HOST"] = "localhost"
 
@@ -192,7 +211,10 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   describe "#receipt_notice_mail" do
-    let(:receipt_mail) { described_class.receipt_notice_mail(planning_application, host, [planning_application.agent_email, planning_application.applicant_email]) }
+    let(:receipt_mail) do
+      described_class.receipt_notice_mail(planning_application, host,
+                                          [planning_application.agent_email, planning_application.applicant_email])
+    end
 
     ENV["APPLICANTS_APP_HOST"] = "example.com"
 

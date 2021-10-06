@@ -29,7 +29,7 @@ class Document < ApplicationRecord
     "Tenancy Invoice",
     "Bank Statement",
     "Statutory Declaration",
-    "Other",
+    "Other"
   ].freeze
 
   TAGS = PLAN_TAGS + EVIDENCE_TAGS
@@ -75,32 +75,24 @@ class Document < ApplicationRecord
     self.class.for_publication.where(id: id).any?
   end
 
-private
+  private
 
   def tag_values_permitted
-    unless (tags - Document::TAGS).empty?
-      errors.add(:tags, :unpermitted_tags)
-    end
+    errors.add(:tags, :unpermitted_tags) unless (tags - Document::TAGS).empty?
   end
 
   def file_content_type_permitted
     return unless file.attached? && file.blob&.content_type
 
-    unless PERMITTED_CONTENT_TYPES.include? file.blob.content_type
-      errors.add(:file, :unsupported_file_type)
-    end
+    errors.add(:file, :unsupported_file_type) unless PERMITTED_CONTENT_TYPES.include? file.blob.content_type
   end
 
   def file_attached
-    unless file.attached?
-      errors.add(:file, :missing_file)
-    end
+    errors.add(:file, :missing_file) unless file.attached?
   end
 
   def numbered
-    if referenced_in_decision_notice? && numbers.blank?
-      errors.add(:numbers, :missing_numbers)
-    end
+    errors.add(:numbers, :missing_numbers) if referenced_in_decision_notice? && numbers.blank?
   end
 
   def invalidated_comment_present?

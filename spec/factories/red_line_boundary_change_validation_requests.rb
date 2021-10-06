@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :red_line_boundary_change_validation_request do
     planning_application

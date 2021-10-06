@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateDescriptionChangeRequests < ActiveRecord::Migration[6.1]
   def change
     create_table :description_change_requests do |t|

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A sample Guardfile
 # More info at https://github.com/guard/guard#readme
 
@@ -49,7 +51,7 @@ guard :rspec, cmd: "bin/rspec --order defined --fail-fast", failed_mode: :focus 
     [
       rspec.spec.call("routing/#{m[1]}_routing"),
       rspec.spec.call("controllers/#{m[1]}_controller"),
-      rspec.spec.call("acceptance/#{m[1]}"),
+      rspec.spec.call("acceptance/#{m[1]}")
     ]
   end
 

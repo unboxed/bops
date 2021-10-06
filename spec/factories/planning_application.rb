@@ -38,9 +38,9 @@ FactoryBot.define do
             {
               value: "demolish",
               metadata: {
-                flags: ["Planning permission / Permission needed"],
-              },
-            },
+                flags: ["Planning permission / Permission needed"]
+              }
+            }
           ],
           metadata: {
             notes: "this will be done before rebuilding",
@@ -48,11 +48,11 @@ FactoryBot.define do
             policy_refs: [
               {
                 url: "http://example.com/planning/policy/1/234/a.html",
-                text: "GPDO 32.2342.223",
-              },
-            ],
-          },
-        },
+                text: "GPDO 32.2342.223"
+              }
+            ]
+          }
+        }
       ].to_json
     end
   end
@@ -120,6 +120,8 @@ FactoryBot.define do
   end
 
   trait :with_boundary_geojson do
-    boundary_geojson { '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.054597,51.537331],[-0.054588,51.537287],[-0.054453,51.537313],[-0.054597,51.537331]]]}}' }
+    boundary_geojson do
+      '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.054597,51.537331],[-0.054588,51.537287],[-0.054453,51.537313],[-0.054597,51.537331]]]}}'
+    end
   end
 end

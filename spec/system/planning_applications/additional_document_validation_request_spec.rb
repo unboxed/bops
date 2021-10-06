@@ -17,10 +17,6 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
     visit planning_application_path(planning_application)
   end
 
-  after do
-    travel_back
-  end
-
   it "allows for a document creation request to be created and sent to the applicant" do
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Validate application"
@@ -77,7 +73,8 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
   end
 
   it "displays the details of the received request in the audit log" do
-    create :audit, planning_application_id: planning_application.id, activity_type: "additional_document_validation_request_received", activity_information: 1, audit_comment: "roof_plan.pdf", api_user: api_user
+    create :audit, planning_application_id: planning_application.id,
+                   activity_type: "additional_document_validation_request_received", activity_information: 1, audit_comment: "roof_plan.pdf", api_user: api_user
 
     sign_in assessor
     visit planning_application_path(planning_application)
@@ -93,7 +90,8 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
   context "Invalidation updates additional document validation request" do
     it "updates the notified_at date of an open request when application is invalidated" do
       new_planning_application = create :planning_application, :not_started, local_authority: @default_local_authority
-      request = create :additional_document_validation_request, planning_application: new_planning_application, state: "open", created_at: 12.days.ago
+      request = create :additional_document_validation_request, planning_application: new_planning_application,
+                                                                state: "open", created_at: 12.days.ago
 
       visit planning_application_path(new_planning_application)
       click_link "Validate application"
