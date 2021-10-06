@@ -25,7 +25,7 @@ class PackageBuilder
     @environment = environment.to_s
     @revision    = current_revision
     @tmpdir      = Dir.mktmpdir
-    @timestamp   = Time.zone.now.getutc
+    @timestamp   = Time.now.getutc
     @release     = @timestamp.strftime("%Y%m%d%H%M%S")
     @client      = nil
     @completed   = false
@@ -57,11 +57,11 @@ class PackageBuilder
     release_obj = bucket.object(release_key)
 
     info "Uploading package #{package_name} to S3 ..."
-    start_time = Time.zone.now
+    start_time = Time.now
 
     release_obj.upload_file(package_path)
 
-    duration = Time.zone.now - start_time
+    duration = Time.now - start_time
     info "Upload completed in #{duration} seconds."
   end
 
@@ -80,7 +80,7 @@ class PackageBuilder
     end
   end
 
-  private
+private
 
   def application_name
     "#{ENV.fetch('AWS_DEPLOYMENT_APP_NAME', 'bops-app')}-#{environment}"
@@ -167,7 +167,7 @@ class PackageBuilder
   end
 
   def tag_ref?
-    ENV.fetch("GITHUB_REF", "") =~ %r{\Arefs/tags/[0-9]+(?:\.[0-9]+){1,2}\z}
+    ENV.fetch("GITHUB_REF", "") =~ /\Arefs\/tags\/[0-9]+(?:\.[0-9]+){1,2}\z/
   end
 
   def deploy_build?
@@ -183,12 +183,12 @@ class PackageBuilder
         s3_location: {
           bucket: release_bucket,
           key: deployment_key,
-          bundle_type: "tgz"
-        }
+          bundle_type: "tgz",
+        },
       },
       deployment_config_name: deployment_config_name,
       description: description,
-      ignore_application_stop_failures: true
+      ignore_application_stop_failures: true,
     }
   end
 
@@ -267,7 +267,7 @@ class PackageBuilder
         request.params = {
           api_key: appsignal_push_api_key,
           name: appsignal_app_name,
-          environment: "production"
+          environment: "production",
         }
 
         request.body = <<-JSON.strip_heredoc
@@ -279,7 +279,9 @@ class PackageBuilder
         JSON
       end
 
-      info "Notified AppSignal of deployment of #{revision}" if response.success?
+      if response.success?
+        info "Notified AppSignal of deployment of #{revision}"
+      end
     end
   end
 
@@ -389,7 +391,7 @@ class PackageBuilder
     duration     = completed_at - created_at
     status       = deployment.status.downcase
 
-    info format("Deployment %s %s in %0.2f seconds", id, status, duration)
+    info sprintf("Deployment %s %s in %0.2f seconds", id, status, duration)
 
     if status == "succeeded"
       yield if block_given?
@@ -402,13 +404,13 @@ class PackageBuilder
   def deployment_progress(deployment)
     id         = deployment.deployment_id
     created_at = deployment.create_time
-    duration   = Time.zone.now - created_at
+    duration   = Time.now - created_at
     overview   = deployment.deployment_overview
     progress   = %w[Pending InProgress Succeeded Failed Skipped]
     progress   = progress.map { |status| "#{status}: %d" }.join(", ")
-    progress   = format(progress, *overview.values)
+    progress   = sprintf(progress, *overview.values)
 
-    info format("Deploying %s (%s) in %0.2f seconds", id, progress, duration)
+    info sprintf("Deploying %s (%s) in %0.2f seconds", id, progress, duration)
   end
 
   def treeish
