@@ -8,6 +8,14 @@ Then("the page does not contain {string}") do |content|
   expect(page).not_to have_content(content)
 end
 
+Then("the page has a {string} link") do |label|
+  expect(page).to have_link(label)
+end
+
+Then("the page does not have a {string} link") do |label|
+  expect(page).not_to have_link(label)
+end
+
 Then("the page has button {string}") do |label|
   expect(page).to have_button(label)
 end
@@ -22,6 +30,12 @@ end
 
 Then("the page contains an error about {string}") do |msg|
   within(:css, "div.govuk-error-summary") do
+    expect(page).to have_content msg
+  end
+end
+
+Then("the page contains a custom flash about {string}") do |msg|
+  within(:css, ".flash") do
     expect(page).to have_content msg
   end
 end

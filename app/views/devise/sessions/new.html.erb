@@ -11,13 +11,13 @@
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
         <div class="govuk-form-group">
           <div class="field">
-            <%= f.label :email, class: "govuk-label", for: "width-30"%>
+            <%= f.label :email, class: "govuk-label" %>
             <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "govuk-input govuk-input--width-30", type: "text" %>
           </div>
         </div>
         <div class="govuk-form-group">
           <div class="field">
-            <%= f.label :password, class: "govuk-label", for: "width-30"%>
+            <%= f.label :password, class: "govuk-label" %>
             <%= f.password_field :password, autocomplete: "current-password", class: "govuk-input govuk-input--width-30", type: "password" %>
           </div>
         </div>
@@ -41,6 +41,3 @@
       </p>
     </div>
  </div>
-
-
-
