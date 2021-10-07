@@ -52,7 +52,16 @@ FactoryBot.define do
               }
             ]
           }
-        }
+        },
+        question: "Is this a listed building?",
+        responses: [
+          {
+            value: "No",
+            metadata: {
+              flags: ["Listed building consent"]
+            }
+          }
+        ]
       ].to_json
     end
   end
