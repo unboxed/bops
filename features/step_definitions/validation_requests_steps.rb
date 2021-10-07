@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 When("I view the application's validations requests") do
-  visit current_host + planning_application_validation_requests_path(@planning_application)
+  visit planning_application_validation_requests_path(@planning_application)
 end
 
 When("I create a new document validation request for a {string} because {string}") do |type, reason|

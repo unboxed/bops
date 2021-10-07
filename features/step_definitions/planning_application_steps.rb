@@ -7,9 +7,9 @@ Given("I am logged in as an assessor") do
 
   domain = @officer.local_authority.subdomain
 
-  url = URI.join("http://#{domain}.#{domain}.localhost:3000", new_user_session_path)
+  Capybara.default_host = "http://#{domain}.#{domain}.localhost:3000"
 
-  visit url
+  visit new_user_session_path
 
   fill_in "Email", with: @officer.email
   fill_in "Password", with: @officer.password
@@ -25,6 +25,20 @@ Given("a new planning application") do
   )
 end
 
+Given("the planning application is validated") do
+  now = Time.zone.now
+
+  steps %(
+    When I view the planning application
+    And I press "Validate application"
+    And I press "Validate application"
+    And I fill in "Day" with "#{now.day}"
+    And I fill in "Month" with "#{now.month}"
+    And I fill in "Year" with "#{now.year}"
+    And I press "Validate application"
+  )
+end
+
 When("I view the planning application") do
-  visit current_url + planning_application_path(@planning_application)
+  visit planning_application_path(@planning_application)
 end
