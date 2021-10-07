@@ -13,6 +13,9 @@ up:
 prompt:
 	$(DOCKER-RUN) bash
 
+guard:
+	$(DOCKER-RUN) $(BUNDLE-RUN) guard
+
 db-prompt:
 	$(DB-RUN) psql postgres://postgres:postgres@db
 
