@@ -39,6 +39,17 @@ Given("the planning application is validated") do
   )
 end
 
+Given("the planning application is assessed") do
+  steps %(
+    When I view the planning application
+    And I press "Assess proposal"
+    And I choose "Yes"
+    And I fill in "State the reasons why" with "a valid reason"
+    And I fill in "supporting information" with "looks legit"
+    And I press "Save"
+  )
+end
+
 When("I view the planning application") do
   visit planning_application_path(@planning_application)
 end
