@@ -48,7 +48,7 @@
                     </strong>
                   <% when "closed" %>
                     <strong class="govuk-tag govuk-tag--<%= display_request_status(validation_request) %>">
-                      <%= request_state(validation_request) %>
+                      <%= closed_request_state(validation_request) %>
                     </strong>
                   <% end %>
                 </td>
