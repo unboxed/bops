@@ -1,0 +1,12 @@
+<td class="govuk-table__cell change-request-list">
+  Red line boundary changes
+</td>
+<td class="govuk-table__cell change-request-list">
+  <%= request_sent_at(red_line_boundary_change_validation_request) %>
+</td>
+<td class="govuk-table__cell change-request-list">
+  <%= link_to "View proposed red line boundary", planning_application_validation_requests_path(@planning_application, red_line_boundary_change_validation_request), class: "govuk-link" %>
+</td>
+<td class="govuk-table__cell change-request-list">
+  <%= red_line_boundary_change_validation_request.reason %>
+</td>
