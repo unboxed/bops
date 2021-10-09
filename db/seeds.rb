@@ -34,6 +34,8 @@ admin_roles = %i[assessor reviewer]
 local_authorities = [southwark, lambeth, buckinghamshire]
 
 local_authorities.each do |authority|
+  authority.readonly!
+
   admin_roles.each do |admin_role|
     User.find_or_create_by!(email: "#{authority.subdomain}_#{admin_role}@example.com") do |user|
       first_name = Faker::Name.unique.first_name
