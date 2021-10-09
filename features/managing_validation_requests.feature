@@ -19,3 +19,9 @@ Feature: Managing validation requests
     And I view the application's validations requests
     Then there is a new document request for a "Picture of the dog" that shows "15 days"
     Then there is a new document request for a "Picture of the cat" that shows "15 days"
+
+  Scenario: As an assessor any request past invalidation is sent immediately
+    Given the planning application is invalidated
+    Then the page contains "Assigned to: "
+    And I create a new document validation request for an "Extra request" because "love requests"
+    Then there is a new document request for an "Extra request" that shows "15 days"
