@@ -31,6 +31,5 @@ Feature: Managing validation requests
 
   Scenario: As an assessor any request past invalidation is sent immediately
     Given the planning application is invalidated
-    Then the page contains "Assigned to: "
     And I create a new document validation request for an "Extra request" because "love requests"
     Then there is a validation request for an "Extra request" that shows "15 days"
