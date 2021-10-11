@@ -87,14 +87,14 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
   it "updates the notified_at date of an open request when application is invalidated" do
     new_planning_application = create :planning_application, :not_started, local_authority: @default_local_authority
     request = create :red_line_boundary_change_validation_request, planning_application: new_planning_application,
-                                                                   state: "open", created_at: 12.days.ago
+                                                                   state: "pending", created_at: 12.days.ago
 
     sign_in assessor
     visit planning_application_path(new_planning_application)
     click_link "Validate application"
 
     click_link "Request validation changes"
-    expect(request.notified_at.class).to eql(NilClass)
+    expect(request.notified_at).to be_nil
 
     click_button "Invalidate application"
 
@@ -104,6 +104,6 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     expect(new_planning_application.status).to eq("invalidated")
 
     request.reload
-    expect(request.notified_at.class).to eql(Date)
+    expect(request.notified_at).to be_a Date
   end
 end

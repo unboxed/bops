@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.shared_examples "validate and invalidate" do
   let!(:second_planning_application) do
-    create :planning_application, local_authority: @default_local_authority
+    create :planning_application, :not_started, local_authority: @default_local_authority
   end
 
   it "can be validated and displays link to notification" do
@@ -124,7 +124,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "Checking documents from Not Started status" do
     it "can be invalidated and email is sent when there is an open validation request" do
-      create :description_change_validation_request, planning_application: planning_application, state: "open",
+      create :description_change_validation_request, planning_application: planning_application, state: "pending",
                                                      created_at: 12.days.ago
 
       delivered_emails = ActionMailer::Base.deliveries.count

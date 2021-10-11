@@ -105,7 +105,7 @@ class PlanningApplicationsController < AuthenticationController
     if validation_date_fields.any?(&:blank?)
       @planning_application.errors.add(:planning_application, "Please enter a valid date")
       render "confirm_validation"
-    elsif @planning_application.validation_requests_open?
+    elsif @planning_application.open_validation_requests?
       @planning_application.errors.add(:planning_application,
                                        "Planning application cannot be validated if open validation requests exist.")
       render "confirm_validation"
@@ -124,7 +124,7 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def invalidate
-    if @planning_application.validation_requests_open?
+    if @planning_application.pending_validation_requests?
       @planning_application.invalidate!
       # FIXME: move this into the state machine
       audit("invalidated")
@@ -132,7 +132,7 @@ class PlanningApplicationsController < AuthenticationController
       invalidation_notice_mail
 
       # FIXME: move this into the state machine
-      request_names = @planning_application.unsent_validation_requests.map do |request|
+      request_names = @planning_application.pending_validation_requests.map do |request|
         request.update!(notified_at: Time.zone.now)
         request.audit_name
       end
