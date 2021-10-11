@@ -64,7 +64,7 @@ class PlanningApplication < ApplicationRecord
     end
 
     event :invalidate do
-      transitions from: %i[not_started invalidated], to: :invalidated, guard: :validation_requests_open?
+      transitions from: %i[not_started invalidated], to: :invalidated, guard: :pending_validation_requests?
     end
 
     event :determine do
@@ -284,20 +284,22 @@ class PlanningApplication < ApplicationRecord
     (description_change_validation_requests + replacement_document_validation_requests + additional_document_validation_requests + other_change_validation_requests + red_line_boundary_change_validation_requests).sort_by(&:created_at).reverse
   end
 
-  def validation_requests_open?
-    open_validation_requests.any?
-  end
+  # since we can't use the native scopes that AASM provides (because
+  # #validation_requests is actually the method above rather than a
+  # .has_many assocations), add some homemade methods to them.
+  #
+  # application.open_validation_requests => [reqs...]
+  # application.open_validation_requests? => true/false
+  %i[open pending closed].each do |state|
+    selector = "#{state}_validation_requests"
 
-  def open_validation_requests
-    validation_requests.select(&:open?)
-  end
+    define_method selector do
+      validation_requests.select(&:"#{state}?".to_sym)
+    end
 
-  def unsent_validation_requests
-    open_validation_requests.select { |request| request.notified_at.nil? }
-  end
-
-  def closed_validation_requests
-    validation_requests.select(&:closed?)
+    define_method "#{selector}?" do
+      send(selector).any?
+    end
   end
 
   def last_validation_request_date

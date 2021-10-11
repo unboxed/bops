@@ -102,8 +102,11 @@ RSpec.describe PlanningApplication, type: :model do
       subject(:planning_application) { create :planning_application, :not_started }
 
       before do
-        # Set timestamp to differentiate from now
-        planning_application.update(invalidated_at: 1.hour.ago)
+        create(
+          :additional_document_validation_request,
+          planning_application: planning_application,
+          state: "pending"
+        )
       end
 
       it "sets the status to invalidated" do

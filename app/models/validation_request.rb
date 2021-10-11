@@ -9,7 +9,8 @@ module ValidationRequest
     aasm.attribute_name :state
 
     aasm do
-      state :open, initial: true
+      state :pending, initial: true
+      state :open
       state :closed
     end
 
