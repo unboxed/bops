@@ -4,6 +4,7 @@ module Api
   module V1
     class PlanningApplicationsController < Api::V1::ApplicationController
       before_action :set_cors_headers, only: %i[index show create], if: :json_request?
+
       skip_before_action :authenticate, only: %i[index show decision_notice]
       skip_before_action :set_default_format, only: %i[decision_notice]
 
@@ -38,31 +39,45 @@ module Api
             audit_log: params.to_json
           )
         )
+
         @planning_application.assign_attributes(site_params) if site_params.present?
         @planning_application.assign_attributes(result_params) if result_params.present?
 
-        if @planning_application.valid? && @planning_application.save!
-          upload_documents(params[:files])
-          Audit.create!(
-            planning_application: @planning_application,
-            api_user: current_api_user,
-            activity_type: "created",
-            activity_information: current_api_user.name
-          )
-          send_success_response
-          if @planning_application.agent_email.present? || @planning_application.applicant_email.present?
-            receipt_notice_mail
+        begin
+          PlanningApplication.transaction do
+            if @planning_application.valid? && @planning_application.save!
+              upload_documents(params[:files])
+
+              Audit.create!(
+                planning_application: @planning_application,
+                api_user: current_api_user,
+                activity_type: "created",
+                activity_information: current_api_user.name
+              )
+              send_success_response
+              if @planning_application.agent_email.present? || @planning_application.applicant_email.present?
+                receipt_notice_mail
+              end
+            else
+              send_failed_response
+            end
           end
-        else
-          send_failed_response
+        rescue Errors::WrongFileTypeError => e
+          send_failed_response(e.message)
         end
       end
 
       def upload_documents(document_params)
         document_params&.each do |param|
+          file = URI.parse(param[:filename]).open
+
+          unless Document::PERMITTED_CONTENT_TYPES.include? file.content_type
+            raise Errors::WrongFileTypeError.new(nil, param[:filename])
+          end
+
           @planning_application.documents.create!(tags: Array(param[:tags]),
                                                   applicant_description: param[:applicant_description]) do |document|
-            document.file.attach(io: URI.parse(param[:filename]).open, filename: new_filename(param[:filename]).to_s)
+            document.file.attach(io: file, filename: new_filename(param[:filename]).to_s)
           end
         end
       end
@@ -76,8 +91,8 @@ module Api
                        message: "Application created" }, status: :ok
       end
 
-      def send_failed_response
-        render json: { message: "Unable to create application" },
+      def send_failed_response(message = nil)
+        render json: { message: message || "Unable to create application" },
                status: :bad_request
       end
 
