@@ -40,6 +40,7 @@ class ValidationRequestsController < ApplicationController
 
   def email_and_timestamp(request)
     send_validation_request_email(request)
-    request.update!(notified_at: Time.zone.now)
+
+    request.mark_as_sent!
   end
 end

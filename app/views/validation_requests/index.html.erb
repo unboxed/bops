@@ -67,23 +67,23 @@
         <p class="govuk-body">
           Send further requests for this application. Any new requests will be immediately sent.
         </p>
-      <% elsif @planning_application.can_invalidate? %>
-        <p class="govuk-body">
-          Add all required validation requests for this application. Once all requests have been added, you can invalidate the application and notify the applicant that the application is invalid and they can see all validation requests.
-        </p>
-      <% end %>
-
-      <% if @planning_application.can_invalidate? %>
-        <p class="govuk-body">
-          <%= link_to "Add new request", new_planning_application_validation_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-        </p>
-
+      <% elsif @planning_application.not_started? %>
         <p class="govuk-body">
           <strong>
-            <%= "The application has not yet been marked as valid or invalid" if @planning_application.not_started? %>
+            The application has not yet been marked as valid or invalid
           </strong>
         </p>
+
+        <p class="govuk-body">
+          Add all required validation requests for this
+          application. Once all requests have been added, you can
+          invalidate the application and notify the applicant that the
+          application is invalid and they can see all validation
+          requests
+        </p>
       <% end %>
+
+      <%= link_to "Add new request", new_planning_application_validation_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
     </div>
     <% if @planning_application.not_started? %>
       <% if @planning_application.errors.any? %>
@@ -102,9 +102,10 @@
       <% end %>
 
       <%= form_with model: @planning_application, url: invalidate_planning_application_path(@planning_application), local:true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
-        <p>
-          <%= form.submit "Invalidate application", class: "govuk-button", data: { module: "govuk-button"} %> <%= link_to "Back", validate_form_planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-        </p>
+        <div class="govuk-button-group">
+          <%= form.submit "Invalidate application", class: "govuk-button", data: { module: "govuk-button"} %>
+          <%= link_to "Back", validate_form_planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+        </div>
       <% end%>
     <% else%>
       <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>

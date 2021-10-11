@@ -64,7 +64,9 @@ class PlanningApplication < ApplicationRecord
     end
 
     event :invalidate do
-      transitions from: %i[not_started invalidated], to: :invalidated, guard: :pending_validation_requests?
+      transitions from: %i[not_started invalidated], to: :invalidated, guard: :pending_validation_requests? do
+        after { pending_validation_requests.each(&:mark_as_sent!) }
+      end
     end
 
     event :determine do
@@ -168,10 +170,6 @@ class PlanningApplication < ApplicationRecord
 
   def can_validate?
     true unless awaiting_determination? || determined? || returned? || withdrawn?
-  end
-
-  def can_invalidate?
-    true if not_started? || invalidated?
   end
 
   def validation_complete?
