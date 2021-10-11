@@ -225,7 +225,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "renders the body" do
       expect(receipt_mail.body.encoded).to match("If by #{planning_application.target_date.to_formatted_s(:day_month_year)}:")
-      expect(receipt_mail.body.encoded).to match("Date received: #{planning_application.created_at.strftime('%e %B %Y - %H:%M:%S')}")
+      expect(receipt_mail.body.encoded).to match("Date received: #{Time.first_business_day(planning_application.created_at).to_formatted_s(:day_month_year)}")
       expect(receipt_mail.body.encoded).to match("Site address: #{planning_application.full_address}")
       expect(receipt_mail.body.encoded).to match("Reference: #{planning_application.reference}")
       expect(receipt_mail.body.encoded).to match("Description: #{planning_application.description}")
