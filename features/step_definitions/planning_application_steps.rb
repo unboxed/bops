@@ -60,3 +60,7 @@ end
 When("I view the planning application") do
   visit planning_application_path(@planning_application)
 end
+
+When("I view the planning application audit") do
+  visit planning_application_audits_path(@planning_application)
+end
