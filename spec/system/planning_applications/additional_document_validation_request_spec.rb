@@ -90,8 +90,13 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
   context "Invalidation updates additional document validation request" do
     it "updates the notified_at date of an open request when application is invalidated" do
       new_planning_application = create :planning_application, :not_started, local_authority: @default_local_authority
-      request = create :additional_document_validation_request, planning_application: new_planning_application,
-                                                                state: "open", created_at: 12.days.ago
+
+      request = create(
+        :additional_document_validation_request,
+        planning_application: new_planning_application,
+        state: "pending",
+        created_at: 12.days.ago
+      )
 
       visit planning_application_path(new_planning_application)
       click_link "Validate application"
@@ -107,7 +112,8 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       expect(new_planning_application.status).to eq("invalidated")
 
       request.reload
-      expect(request.notified_at.class).to eql(Date)
+
+      expect(request.notified_at).not_to be_nil
     end
   end
 end
