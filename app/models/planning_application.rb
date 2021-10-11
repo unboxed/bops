@@ -64,7 +64,7 @@ class PlanningApplication < ApplicationRecord
     end
 
     event :invalidate do
-      transitions from: %i[not_started invalidated], to: :invalidated, guard: :pending_validation_requests? do
+      transitions from: :not_started, to: :invalidated, guard: :pending_validation_requests? do
         after { pending_validation_requests.each(&:mark_as_sent!) }
       end
     end
