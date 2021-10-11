@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PlanningApplicationMailer < Mail::Notify::Mailer
+  helper :planning_application
+
   NOTIFY_TEMPLATE_ID = "7cb31359-e913-4590-a458-3d0cefd0d283"
 
   def decision_notice_mail(planning_application, host, user)
