@@ -109,7 +109,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
   end
 
   context "Invalidation updates description change validation request" do
-    it "updates the notified_at date of a pending request when application is invalidated" do
+    it "updates the notified_at date of a request when application is invalidated" do
       new_planning_application = create :planning_application, :not_started, local_authority: @default_local_authority
       request = create :description_change_validation_request, planning_application: new_planning_application,
                                                                state: "pending", created_at: 12.days.ago
