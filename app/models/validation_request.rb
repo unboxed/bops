@@ -9,8 +9,17 @@ module ValidationRequest
     aasm.attribute_name :state
 
     aasm do
-      state :open, initial: true
+      state :pending, initial: true
+      state :open
       state :closed
+
+      event :mark_as_sent! do
+        transitions from: :pending, to: :open
+
+        after do
+          update!(notified_at: Time.zone.now)
+        end
+      end
     end
 
     def response_due

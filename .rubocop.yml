@@ -1,3 +1,4 @@
+---
 inherit_from: .rubocop_todo.yml
 
 require:
@@ -10,3 +11,18 @@ AllCops:
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
+
+Style/Documentation:
+  Enabled: false
+
+# be a bit kinder with our metrics
+Metrics/BlockLength:
+  Max: 40
+
+Metrics/MethodLength:
+  Max: 20
+
+# we tend to use update_all in migrations
+Rails/SkipsModelValidations:
+  Exclude:
+    - db/migrate/*.rb

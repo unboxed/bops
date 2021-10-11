@@ -4,7 +4,7 @@
 <div class="govuk-grid-column-full">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column govuk-!-padding-top-6">
-      <% if @planning_application.validation_requests.present? %>
+      <% if @planning_application.validation_requests.any? %>
         <table class="govuk-table change-requests">
           <caption class="govuk-table__caption govuk-table__caption--l">Validation requests</caption>
           <thead class="govuk-table__head">
@@ -35,86 +35,20 @@
           <tbody class="govuk-table__body">
             <% @planning_application.validation_requests.each do |validation_request| %>
               <tr class="govuk-table__row">
-                <% if validation_request.class.name == "DescriptionChangeValidationRequest" %>
-                  <td class="govuk-table__cell change-request-list">
-                    Change of description
-                  </td>
-                  <td class="govuk-table__cell change-request-list">
-                    <%= request_sent_at(validation_request) %>
-                  </td>
-                  <td class="govuk-table__cell change-request-list">
-                    New description: <%= validation_request.proposed_description %>
-                  </td>
-                  <td class="govuk-table__cell change-request-list">
-                    Description change
-                  </td>
-                <% elsif validation_request.class.name == "OtherChangeValidationRequest" %>
-                  <td class="govuk-table__cell change-request-list">
-                    Other
-                  </td>
-                  <td class="govuk-table__cell change-request-list">
-                    <%= request_sent_at(validation_request) %>
-                  </td>
-                  <td class="govuk-table__cell change-request-list">
-                    <%= validation_request.summary %>
-                  </td>
-                  <td class="govuk-table__cell change-request-list">
-                    <%= validation_request.suggestion %>
-                  </td>
-                <% elsif validation_request.class.name == "ReplacementDocumentValidationRequest" %>
-                  <td class="govuk-table__cell change-request-list">
-                    Replacement document
-                  </td>
-                  <td class="govuk-table__cell change-request-list">
-                    <%= request_sent_at(validation_request) %>
-                  </td>
-                  <td class="govuk-table__cell change-request-list limit-column-width">
-                    <%= validation_request.old_document.name %>
-                  </td>
-                  <td class="govuk-table__cell change-request-list">
-                    <%= validation_request.old_document.invalidated_document_reason %>
-                  </td>
-                <% elsif validation_request.class.name == "AdditionalDocumentValidationRequest" %>
-                  <td class="govuk-table__cell change-request-list">
-                    New document
-                  </td>
-                  <td class="govuk-table__cell change-request-list">
-                    <%= request_sent_at(validation_request) %>
-                  </td>
-                  <td class="govuk-table__cell change-request-list">
-                    <%= validation_request.document_request_type %>
-                  </td>
-                  <td class="govuk-table__cell change-request-list">
-                    <%= validation_request.document_request_reason %>
-                  </td>
-                <% elsif validation_request.class.name == "RedLineBoundaryChangeValidationRequest" %>
-                  <td class="govuk-table__cell change-request-list">
-                    Red line boundary changes
-                  </td>
-                  <td class="govuk-table__cell change-request-list">
-                    <%= request_sent_at(validation_request) %>
-                  </td>
-                  <td class="govuk-table__cell change-request-list">
-                    <%= link_to "View proposed red line boundary", planning_application_red_line_boundary_change_validation_request_path(@planning_application, validation_request), class: "govuk-link" %>
-                  </td>
-                  <td class="govuk-table__cell change-request-list">
-                    <%= validation_request.reason %>
-                  </td>
-                <% end %>
+                <%= render validation_request %>
                 <td class="govuk-table__cell">
-                  <% if validation_request.open? %>
-                    <% if validation_request.notified_at.blank? %>
-                      <strong class="govuk-tag govuk-tag--yellow">
-                        Not sent
-                      </strong>
-                    <% else %>
-                      <strong class="govuk-tag govuk-tag--<%= display_request_date_state(validation_request) %>">
-                        <%= validation_request.days_until_response_due %> days
-                      </strong>
-                    <% end %>
-                  <% else %>
+                  <% case validation_request.state %>
+                  <% when "pending" %>
+                    <strong class="govuk-tag govuk-tag--yellow">
+                      Not sent
+                    </strong>
+                  <% when "open" %>
+                    <strong class="govuk-tag govuk-tag--<%= display_request_date_state(validation_request) %>">
+                      <%= validation_request.days_until_response_due %> days
+                    </strong>
+                  <% when "closed" %>
                     <strong class="govuk-tag govuk-tag--<%= display_request_status(validation_request) %>">
-                      <%= request_state(validation_request) %>
+                      <%= closed_request_state(validation_request) %>
                     </strong>
                   <% end %>
                 </td>
@@ -133,23 +67,23 @@
         <p class="govuk-body">
           Send further requests for this application. Any new requests will be immediately sent.
         </p>
-      <% elsif @planning_application.can_invalidate? %>
-        <p class="govuk-body">
-          Add all required validation requests for this application. Once all requests have been added, you can invalidate the application and notify the applicant that the application is invalid and they can see all validation requests.
-        </p>
-      <% end %>
-
-      <% if @planning_application.can_invalidate? %>
-        <p class="govuk-body">
-          <%= link_to "Add new request", new_planning_application_validation_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-        </p>
-
+      <% elsif @planning_application.not_started? %>
         <p class="govuk-body">
           <strong>
-            <%= "The application has not yet been marked as valid or invalid" if @planning_application.not_started? %>
+            The application has not yet been marked as valid or invalid
           </strong>
         </p>
+
+        <p class="govuk-body">
+          Add all required validation requests for this
+          application. Once all requests have been added, you can
+          invalidate the application and notify the applicant that the
+          application is invalid and they can see all validation
+          requests
+        </p>
       <% end %>
+
+      <%= link_to "Add new request", new_planning_application_validation_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
     </div>
     <% if @planning_application.not_started? %>
       <% if @planning_application.errors.any? %>
@@ -168,9 +102,10 @@
       <% end %>
 
       <%= form_with model: @planning_application, url: invalidate_planning_application_path(@planning_application), local:true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
-        <p>
-          <%= form.submit "Invalidate application", class: "govuk-button", data: { module: "govuk-button"} %> <%= link_to "Back", validate_form_planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-        </p>
+        <div class="govuk-button-group">
+          <%= form.submit "Invalidate application", class: "govuk-button", data: { module: "govuk-button"} %>
+          <%= link_to "Back", validate_form_planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+        </div>
       <% end%>
     <% else%>
       <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>

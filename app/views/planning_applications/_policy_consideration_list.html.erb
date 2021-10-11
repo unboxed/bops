@@ -25,7 +25,7 @@
             <% if proposal_detail["metadata"]["policy_refs"].present? %>
               <%= proposal_detail["metadata"]["policy_refs"].collect {|policy_ref|
                   if policy_ref["url"].present?
-                    link_to policy_ref["text"], policy_ref["url"]
+                    link_to policy_ref["text"], policy_ref["url"], class: "govuk-link"
                   else
                     policy_ref["text"]
                   end

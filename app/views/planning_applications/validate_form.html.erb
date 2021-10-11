@@ -47,7 +47,7 @@
       If the application is invalid, you will need to request changes from the applicant before you can mark the application as invalid.
     </p>
     <%= link_to "Request validation changes", planning_application_validation_requests_path(@planning_application), class: "govuk-button" %>
-  
+
   <% elsif @planning_application.invalidated? %>
     <p class="govuk-body">
       <strong>
@@ -77,7 +77,7 @@
   <% if @planning_application.validated? %>
     <p class="govuk-body">
       <strong>
-        The application is marked as valid<%= @planning_application.can_invalidate? ? "." : " and cannot be marked as invalid." %><br/>
+        The application is marked as valid<%= @planning_application.may_invalidate? ? "." : " and cannot be marked as invalid." %><br/>
         The applicant was notified on <%= @planning_application.documents_validated_at.to_formatted_s(:day_month_year) %>
       </strong>
     </p>

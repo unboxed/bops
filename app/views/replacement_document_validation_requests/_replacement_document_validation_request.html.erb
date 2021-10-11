@@ -1,0 +1,12 @@
+<td class="govuk-table__cell change-request-list">
+  Replacement document
+</td>
+<td class="govuk-table__cell change-request-list">
+  <%= request_sent_at(replacement_document_validation_request) %>
+</td>
+<td class="govuk-table__cell change-request-list limit-column-width">
+  <%= replacement_document_validation_request.old_document.name %>
+</td>
+<td class="govuk-table__cell change-request-list">
+  <%= replacement_document_validation_request.old_document.invalidated_document_reason %>
+</td>

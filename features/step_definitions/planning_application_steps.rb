@@ -25,6 +25,13 @@ Given("a new planning application") do
   )
 end
 
+Given("the planning application is invalidated") do
+  steps %(
+    Given I create a new document validation request for a "validation request" because "I have to"
+    And I press "Invalidate application"
+  )
+end
+
 Given("the planning application is validated") do
   now = Time.zone.now
 
@@ -52,4 +59,8 @@ end
 
 When("I view the planning application") do
   visit planning_application_path(@planning_application)
+end
+
+When("I view the planning application audit") do
+  visit planning_application_audits_path(@planning_application)
 end

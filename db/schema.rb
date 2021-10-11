@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_14_114010) do
+ActiveRecord::Schema.define(version: 2021_10_09_130553) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 2021_09_14_114010) do
     t.bigint "planning_application_id", null: false
     t.bigint "user_id", null: false
     t.bigint "new_document_id"
-    t.string "state", default: "open", null: false
+    t.string "state", null: false
     t.string "document_request_type"
     t.string "document_request_reason"
     t.datetime "created_at", precision: 6, null: false
@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(version: 2021_09_14_114010) do
   create_table "description_change_validation_requests", force: :cascade do |t|
     t.bigint "planning_application_id", null: false
     t.bigint "user_id", null: false
-    t.string "state", default: "open", null: false
+    t.string "state", null: false
     t.text "proposed_description"
     t.boolean "approved"
     t.string "rejection_reason"
@@ -129,7 +129,7 @@ ActiveRecord::Schema.define(version: 2021_09_14_114010) do
   create_table "other_change_validation_requests", force: :cascade do |t|
     t.bigint "planning_application_id", null: false
     t.bigint "user_id", null: false
-    t.string "state", default: "open", null: false
+    t.string "state", null: false
     t.text "summary"
     t.text "suggestion"
     t.text "response"
@@ -216,7 +216,7 @@ ActiveRecord::Schema.define(version: 2021_09_14_114010) do
   create_table "red_line_boundary_change_validation_requests", force: :cascade do |t|
     t.integer "planning_application_id", null: false
     t.integer "user_id", null: false
-    t.string "state", default: "open", null: false
+    t.string "state", null: false
     t.string "new_geojson"
     t.string "reason"
     t.string "rejection_reason"
@@ -232,7 +232,7 @@ ActiveRecord::Schema.define(version: 2021_09_14_114010) do
     t.bigint "user_id", null: false
     t.bigint "old_document_id", null: false
     t.bigint "new_document_id"
-    t.string "state", default: "open", null: false
+    t.string "state", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "sequence"

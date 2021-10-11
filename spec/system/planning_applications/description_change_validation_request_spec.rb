@@ -6,12 +6,16 @@ RSpec.describe "Requesting description changes to a planning application", type:
   let!(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
 
   let!(:planning_application) do
-    create :planning_application, :invalidated, local_authority: @default_local_authority
+    create :planning_application, :not_started, local_authority: @default_local_authority
   end
 
   let!(:description_change_validation_request) do
-    create :description_change_validation_request, planning_application: planning_application, state: "open",
-                                                   created_at: 12.days.ago
+    create(
+      :description_change_validation_request,
+      planning_application: planning_application,
+      state: "open",
+      created_at: 12.days.ago
+    )
   end
 
   let!(:api_user) { create :api_user, name: "Api Wizard" }
@@ -23,9 +27,8 @@ RSpec.describe "Requesting description changes to a planning application", type:
   end
 
   it "is possible to create a request to update description" do
-    delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Validate application"
-    click_link "Start new or view existing requests"
+    click_link "Request validation changes"
     click_link "Add new request"
 
     within("fieldset", text: "Send a validation request") do
@@ -38,23 +41,23 @@ RSpec.describe "Requesting description changes to a planning application", type:
 
     within(".change-requests") do
       expect(page).to have_content("Description")
-      expect(page).to have_content("15 days")
+      expect(page).to have_content("Not sent")
     end
 
     click_link "Application"
     click_button "Key application dates"
     click_link "Activity log"
 
-    expect(page).to have_text("Sent: validation request (description#2)")
+    expect(page).to have_text("Added: validation request (description#2)")
     expect(page).to have_text(planning_application.description)
     expect(page).to have_text("New description")
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
-    expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
   end
 
   it "only accepts a request that contains a proposed description" do
     click_link "Validate application"
-    click_link "Start new or view existing requests"
+    click_link "Request validation changes"
+
     click_link "Add new request"
 
     within("fieldset", text: "Send a validation request") do
@@ -82,7 +85,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
                    activity_type: "description_change_validation_request_received", activity_information: 1, audit_comment: { response: "approved" }.to_json, api_user: api_user
 
     click_link "Validate application"
-    click_link "Start new or view existing requests"
+    click_link "Request validation changes"
 
     within(".change-requests") do
       expect(page).to have_content("Rejected")
@@ -105,16 +108,16 @@ RSpec.describe "Requesting description changes to a planning application", type:
   end
 
   context "Invalidation updates description change validation request" do
-    it "updates the notified_at date of an open request when application is invalidated" do
+    it "updates the notified_at date of a request when application is invalidated" do
       new_planning_application = create :planning_application, :not_started, local_authority: @default_local_authority
       request = create :description_change_validation_request, planning_application: new_planning_application,
-                                                               state: "open", created_at: 12.days.ago
+                                                               state: "pending", created_at: 12.days.ago
 
       visit planning_application_path(new_planning_application)
       click_link "Validate application"
 
       click_link "Request validation changes"
-      expect(request.notified_at.class).to eql(NilClass)
+      expect(request.notified_at).to be_nil
 
       click_button "Invalidate application"
 
@@ -124,7 +127,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
       expect(new_planning_application.status).to eq("invalidated")
 
       request.reload
-      expect(request.notified_at.class).to eql(Date)
+      expect(request.notified_at).to be_a Date
     end
   end
 

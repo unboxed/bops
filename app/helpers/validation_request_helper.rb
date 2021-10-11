@@ -11,7 +11,7 @@ module ValidationRequestHelper
     ]
   end
 
-  def request_state(validation_request)
+  def closed_request_state(validation_request)
     if validation_request.instance_of?(DescriptionChangeValidationRequest)
       validation_request.approved? ? "Accepted" : "Rejected"
     else
