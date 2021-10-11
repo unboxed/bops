@@ -6,12 +6,16 @@ RSpec.describe "Requesting description changes to a planning application", type:
   let!(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
 
   let!(:planning_application) do
-    create :planning_application, :invalidated, local_authority: @default_local_authority
+    create :planning_application, :not_started, local_authority: @default_local_authority
   end
 
   let!(:description_change_validation_request) do
-    create :description_change_validation_request, planning_application: planning_application, state: "open",
-                                                   created_at: 12.days.ago
+    create(
+      :description_change_validation_request,
+      planning_application: planning_application,
+      state: "open",
+      created_at: 12.days.ago
+    )
   end
 
   let!(:api_user) { create :api_user, name: "Api Wizard" }
