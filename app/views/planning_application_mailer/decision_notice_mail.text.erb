@@ -1,5 +1,12 @@
-<%= @planning_application.agent_or_applicant_name %>,
+Dear <%= @planning_application.agent_or_applicant_name %>,
 
-Your Certificate of lawful development (<%= @planning_application.work_status %>) has been <%= @planning_application.decision %>.
+Reference: <%= @planning_application.reference %>
+Site address: <%= @planning_application.full_address %>
+Description: <%= @planning_application.description %>
 
-To see the full decision notice visit <%= decision_notice_api_v1_planning_application_url(@planning_application, format: 'pdf', host: @host) %>
+Your Lawful Development Certificate (<%= @planning_application.work_status %>) has been <%= @planning_application.decision %>.
+
+To see the full decision notice, please visit <%= decision_notice_api_v1_planning_application_url(@planning_application, format: 'pdf', host: @host) %>
+
+Yours faithfully,
+<%= @planning_application.local_authority.name %>
