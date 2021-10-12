@@ -4,9 +4,11 @@ module Api
   module V1
     class AdditionalDocumentValidationRequestsController < Api::V1::ValidationRequestsController
       skip_before_action :verify_authenticity_token, only: :update
-      before_action :check_token_and_set_application, only: :update
-      before_action :check_file_params_are_present, only: :update
-      before_action :check_file_size, only: :update
+
+      before_action :check_token_and_set_application,
+                    :check_file_params_are_present,
+                    :check_file_size,
+                    :check_file_type, only: :update
 
       def update
         @additional_document_validation_request = @planning_application.additional_document_validation_requests.find_by(id: params[:id])
