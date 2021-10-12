@@ -131,7 +131,7 @@ class PlanningApplicationsController < AuthenticationController
 
       invalidation_notice_mail
 
-      request_names = @planning_application.pending_validation_requests.map(&:audit_name)
+      request_names = @planning_application.open_validation_requests.map(&:audit_name)
 
       audit("validation_requests_sent", nil, request_names.join(", "))
 
