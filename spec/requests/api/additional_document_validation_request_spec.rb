@@ -15,7 +15,7 @@ RSpec.describe "API request to patch document create requests", type: :request, 
 
   it "successfully accepts a new document" do
     patch "/api/v1/planning_applications/#{planning_application.id}/additional_document_validation_requests/#{additional_document_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
-          params: { new_file: fixture_file_upload("../images/proposed-floorplan.png") },
+          params: { new_file: fixture_file_upload("../images/proposed-floorplan.png", "image/png") },
           headers: { Authorization: "Bearer #{api_user.token}" }
 
     expect(response).to be_successful
@@ -29,6 +29,16 @@ RSpec.describe "API request to patch document create requests", type: :request, 
     expect(Audit.all.last.activity_type).to eq("additional_document_validation_request_received")
     expect(Audit.all.last.audit_comment).to eq("proposed-floorplan.png")
     expect(Audit.all.last.activity_information).to eq("1")
+  end
+
+  it "rejects wrong document types" do
+    patch "/api/v1/planning_applications/#{planning_application.id}/additional_document_validation_requests/#{additional_document_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
+          params: { new_file: fixture_file_upload("../images/proposed-floorplan.png", "application/octet-stream") },
+          headers: { Authorization: "Bearer #{api_user.token}" }
+
+    expect(response).not_to be_successful
+
+    expect(additional_document_validation_request).to be_open
   end
 
   it "returns a 400 if the new document is missing" do
