@@ -12,10 +12,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Setup ruby
+    - name: Setup Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6
+        ruby-version: 2.7.4
 
     - name: Install gems
       run: |
