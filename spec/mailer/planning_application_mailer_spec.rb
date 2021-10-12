@@ -60,7 +60,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "renders the body" do
-      expect(mail.body.encoded).to include("Your Certificate of lawful development (proposed) has been granted.")
+      expect(mail.body.encoded).to include("Your Lawful Development Certificate (proposed) has been granted.")
       expect(mail.body.encoded).to include(decision_notice_api_v1_planning_application_path(planning_application,
                                                                                             format: "pdf"))
     end
@@ -76,7 +76,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       end
 
       it "includes the status in the body" do
-        expect(mail.body.encoded).to include("Your Certificate of lawful development (proposed) has been refused.")
+        expect(mail.body.encoded).to include("Your Lawful Development Certificate (proposed) has been refused.")
         expect(mail.body.encoded).to include(decision_notice_api_v1_planning_application_path(planning_application,
                                                                                               format: "pdf"))
       end
