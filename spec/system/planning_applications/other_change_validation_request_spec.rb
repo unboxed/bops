@@ -29,7 +29,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     fill_in "Tell the applicant another reason why the application is invalid", with: "The wrong fee has been paid"
     fill_in "Explain to the applicant how the application can be made valid",
             with: "You need to pay £100, which is the correct fee"
-    click_button "Send"
+    click_button "Add"
 
     within(".change-requests") do
       expect(page).to have_content("Other")
@@ -56,7 +56,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
 
     fill_in "Tell the applicant another reason why the application is invalid", with: ""
     fill_in "Explain to the applicant how the application can be made valid", with: ""
-    click_button "Send"
+    click_button "Add"
 
     expect(page).to have_content("Summary can't be blank")
     expect(page).to have_content("Suggestion can't be blank")

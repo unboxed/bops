@@ -23,7 +23,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
-    within("fieldset", text: "Send a validation request") do
+    within("fieldset", text: "Add a validation request") do
       choose "Request a new document"
     end
 
@@ -34,7 +34,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
     fill_in "Please specify the new document type:", with: "Backyard plans"
     fill_in "Please specify the reason you have requested this document?", with: "Application is missing a rear view."
 
-    click_button "Send"
+    click_button "Add"
     expect(page).to have_content("Additional document request successfully created.")
 
     click_link "Application"
@@ -53,21 +53,21 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
-    within("fieldset", text: "Send a validation request") do
+    within("fieldset", text: "Add a validation request") do
       choose "Request a new document"
     end
 
     click_button "Next"
-    click_button "Send"
+    click_button "Add"
 
     expect(page).to have_content("Please fill in the document request type.")
     expect(page).to have_content("Please fill in the reason for this document request.")
 
     fill_in "Please specify the reason you have requested this document?", with: "Application is missing a floor plan."
-    click_button "Send"
+    click_button "Add"
     expect(page).to have_content("Please fill in the document request type.")
     fill_in "Please specify the new document type:", with: "Floor plan"
-    click_button "Send"
+    click_button "Add"
 
     expect(page).to have_content("Additional document request successfully created.")
   end
