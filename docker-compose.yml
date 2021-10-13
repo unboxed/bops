@@ -16,6 +16,11 @@ services:
     stdin_open: true
     environment:
       DATABASE_URL: postgres://postgres:postgres@db:5432
+      APPLICANTS_APP_HOST: southwark.southwark.localhost:3001
+    networks:
+      default:
+        aliases:
+          - southwark.southwark.web
     ports:
       - "3000:3000"
     depends_on:
@@ -24,5 +29,20 @@ services:
       - type: bind
         source: .
         target: /app
+  applicants:
+    build: ./bops-applicants
+    environment:
+      API_BEARER: 123
+      API_HOST: southwark.web:3000
+      API_USER: api_user
+      PORT: 3001
+      PROTOCOL: http
+    ports:
+      - "3001:3001"
+    volumes:
+      - type: bind
+        source: ./bops-applicants/
+        target: /app
+
 volumes:
   db:
