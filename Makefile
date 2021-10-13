@@ -1,4 +1,5 @@
 DOCKER-RUN = docker-compose run --rm web
+DOCKER-EXEC = docker-compose exec web
 DB-RUN = docker-compose run --rm db
 BUNDLE-RUN = bundle exec
 
@@ -24,6 +25,9 @@ db-prompt:
 
 lint:
 	$(DOCKER-RUN) $(BUNDLE-RUN) rubocop
+
+e2e:
+	$(DOCKER-EXEC) $(BUNDLE-RUN) cucumber features/e2e.feature
 
 # this regenerates the Rubocop TODO and ensures that cops aren't
 # turned off over a max number of file offenses. Note: we don't want
