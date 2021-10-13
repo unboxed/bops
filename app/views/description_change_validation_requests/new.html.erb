@@ -44,8 +44,7 @@
     <%= form.govuk_text_area :proposed_description,
       label: { text: 'Please suggest a new application description', size: 's', class: 'govuk-label govuk-label--s govuk-!-padding-bottom-4'},
       rows: 5 %>
-      <%= form.govuk_submit "Send" %>
-      <%= link_to "Back", new_planning_application_validation_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      <%= render "shared/validation_request_form_actions", form: form %>
     <% end %>
   </div>
 </div>

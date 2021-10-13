@@ -41,8 +41,7 @@
                                label: { text: 'Explain to the applicant how the application can be made valid.', size: 's', class: 'govuk-label govuk-label--s'},
                                hint: { text: 'Add all information that they will need to complete this action.' },
                                rows: 5 %>
-      <%= form.govuk_submit "Send" %>
-      <%= link_to "Back", new_planning_application_validation_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      <%= render "shared/validation_request_form_actions", form: form %>
     <% end %>
   </div>
 </div>
