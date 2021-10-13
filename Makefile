@@ -13,6 +13,9 @@ up:
 prompt:
 	$(DOCKER-RUN) bash
 
+aprompt:
+	docker-compose run --rm applicants bash
+
 guard:
 	$(DOCKER-RUN) $(BUNDLE-RUN) guard
 
