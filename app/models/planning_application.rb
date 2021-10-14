@@ -343,6 +343,10 @@ class PlanningApplication < ApplicationRecord
     errors.add(:policy_classes, "cannot be added at this stage") if policy_classes_changed? && !in_assessment?
   end
 
+  def documents_for_decision_notice
+    documents.for_display
+  end
+
   private
 
   def set_key_dates
