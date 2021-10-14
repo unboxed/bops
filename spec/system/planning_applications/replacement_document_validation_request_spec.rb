@@ -38,7 +38,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
-    within("fieldset", text: "Send a validation request") do
+    within("fieldset", text: "Add a validation request") do
       choose "Request replacement documents"
     end
 
@@ -49,7 +49,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     expect(page).to have_content(invalid_document.name.to_s)
     expect(page).not_to have_content(valid_document.name.to_s)
 
-    click_button "Send"
+    click_button "Add"
     expect(page).to have_content("Replacement document validation request successfully created.")
 
     click_link "Application"
@@ -71,7 +71,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
-    within("fieldset", text: "Send a validation request") do
+    within("fieldset", text: "Add a validation request") do
       choose "Request replacement documents"
     end
 

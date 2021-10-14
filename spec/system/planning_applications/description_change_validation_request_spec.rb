@@ -31,13 +31,13 @@ RSpec.describe "Requesting description changes to a planning application", type:
     click_link "Request validation changes"
     click_link "Add new request"
 
-    within("fieldset", text: "Send a validation request") do
+    within("fieldset", text: "Add a validation request") do
       choose "Request approval to a description change"
     end
     click_button "Next"
 
     fill_in "Please suggest a new application description", with: "New description"
-    click_button "Send"
+    click_button "Add"
 
     within(".change-requests") do
       expect(page).to have_content("Description")
@@ -60,14 +60,14 @@ RSpec.describe "Requesting description changes to a planning application", type:
 
     click_link "Add new request"
 
-    within("fieldset", text: "Send a validation request") do
+    within("fieldset", text: "Add a validation request") do
       choose "Request approval to a description change"
     end
 
     click_button "Next"
 
     fill_in "Please suggest a new application description", with: " "
-    click_button "Send"
+    click_button "Add"
 
     expect(page).to have_content("Proposed description can't be blank")
   end
@@ -146,13 +146,13 @@ RSpec.describe "Requesting description changes to a planning application", type:
 
       click_link "Add new request"
 
-      within("fieldset", text: "Send a validation request") do
+      within("fieldset", text: "Add a validation request") do
         choose "Request approval to a description change"
       end
       click_button "Next"
 
       fill_in "Please suggest a new application description", with: "New description"
-      click_button "Send"
+      click_button "Add"
 
       within(".change-requests") do
         expect(page).to have_content("Description")

@@ -19,7 +19,7 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
-    within("fieldset", text: "Send a validation request") do
+    within("fieldset", text: "Add a validation request") do
       choose "Request approval to a red line boundary change"
     end
     click_button "Next"
@@ -27,7 +27,7 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     find(".govuk-visually-hidden",
          visible: false).set '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.076715,51.501166],[-0.07695,51.500673],[-0.076,51.500763],[-0.076715,51.501166]]]}}'
     fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: "Coordinates look wrong"
-    click_button "Send"
+    click_button "Add"
 
     expect(page).to have_content("Validation request for red line boundary successfully created.")
     expect(page).to have_link("View proposed red line boundary")
@@ -53,14 +53,14 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
-    within("fieldset", text: "Send a validation request") do
+    within("fieldset", text: "Add a validation request") do
       choose "Request approval to a red line boundary change"
     end
 
     click_button "Next"
 
     find(".govuk-visually-hidden", visible: false).set ""
-    click_button "Send"
+    click_button "Add"
 
     expect(page).to have_content("Red line drawing must be complete")
   end
@@ -74,14 +74,14 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
 
     click_link "Add new request"
 
-    within("fieldset", text: "Send a validation request") do
+    within("fieldset", text: "Add a validation request") do
       choose "Request approval to a red line boundary change"
     end
 
     click_button "Next"
 
     fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: " "
-    click_button "Send"
+    click_button "Add"
 
     expect(page).to have_content("Provide a reason for changes")
   end
