@@ -1,5 +1,6 @@
 <%= form_with model: @planning_application, local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
-  <% if @planning_application.errors.any? %>
+ 
+ <% if @planning_application.errors.any? %>
     <span id="status-error" class="govuk-error-message">
       <span class="govuk-visually-hidden">
         <h2>
@@ -14,13 +15,18 @@
       </ul>
     </span>
   <% end %>
-    <%= form.hidden_field :application_type, :value => "lawfulness_certificate" %>
+
+  <%= form.hidden_field :application_type, :value => "lawfulness_certificate" %>
   <div class="govuk-form-group govuk-!-margin-top-8">
-    <%= form.label :description, "Description", class: "govuk-heading-m govuk-!-margin-bottom-1" %>
-    <div id="description-hint" class="govuk-hint">
-      Applicants must be notified of / approve changes to description
-    </div>
-    <%= form.text_area :description, class: "govuk-textarea", rows: "5" %>
+    <h2 class="govuk-heading-m">
+      Description
+    </h2>
+    <p class="govuk-body">
+      <%= @planning_application.description %>
+    </p>
+    <p class="govuk-body">
+      <%= link_to "Propose a change to the description", new_planning_application_description_change_validation_request_path(@planning_application), class: "govuk-link"  %>
+    </p>
   </div>
   <div class="govuk-form-group govuk-!-margin-top-8">
     <%= form.govuk_date_field :created_at, legend: { text: 'Date received', size: 'm' } %>
@@ -31,19 +37,14 @@
     </h2>
     <%= form.label :address_1, class: "govuk-label" %>
     <%= form.text_field :address_1, class: "govuk-textarea" %>
-
     <%= form.label :address_2, class: "govuk-label" %>
     <%= form.text_field :address_2, class: "govuk-textarea" %>
-
     <%= form.label :town, class: "govuk-label" %>
     <%= form.text_field :town, class: "govuk-textarea govuk-input govuk-!-width-two-thirds" %>
-
     <%= form.label :county, class: "govuk-label" %>
     <%= form.text_field :county, class: "govuk-textarea govuk-input govuk-!-width-two-thirds" %>
-
     <%= form.label :postcode, class: "govuk-label" %>
     <%= form.text_field :postcode, class: "govuk-textarea govuk-input--width-10" %>
-
     <%= form.label :uprn, "UPRN", class: "govuk-label" %>
     <%= form.text_field :uprn, class: "govuk-textarea govuk-input--width-10" %>
   </div>
@@ -60,13 +61,10 @@
     </h2>
     <%= form.label :applicant_first_name, "First name", class: "govuk-label" %>
     <%= form.text_field :applicant_first_name, class: "govuk-textarea govuk-input govuk-!-width-two-thirds" %>
-
     <%= form.label :applicant_last_name, "Last name", class: "govuk-label" %>
     <%= form.text_field :applicant_last_name, class: "govuk-textarea govuk-input govuk-!-width-two-thirds" %>
-
     <%= form.label :applicant_email, "Email address", class: "govuk-label" %>
     <%= form.text_field :applicant_email, class: "govuk-textarea govuk-input govuk-!-width-two-thirds" %>
-
     <%= form.label :applicant_phone, "UK telephone number", class: "govuk-label" %>
     <%= form.text_field :applicant_phone, class: "govuk-textarea govuk-input govuk-!-width-two-thirds" %>
   </div>
@@ -76,13 +74,10 @@
     </h2>
     <%= form.label :agent_first_name, "First name", class: "govuk-label" %>
     <%= form.text_field :agent_first_name, class: "govuk-textarea govuk-input govuk-!-width-two-thirds" %>
-
     <%= form.label :agent_last_name, "Last name", class: "govuk-label" %>
     <%= form.text_field :agent_last_name, class: "govuk-textarea govuk-input govuk-!-width-two-thirds" %>
-
     <%= form.label :agent_email, "Email address", class: "govuk-label" %>
     <%= form.text_field :agent_email, class: "govuk-textarea govuk-input govuk-!-width-two-thirds" %>
-
     <%= form.label :agent_phone, "UK telephone number", class: "govuk-label" %>
     <%= form.text_field :agent_phone, class: "govuk-textarea govuk-input govuk-!-width-two-thirds" %>
   </div>

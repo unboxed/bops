@@ -14,7 +14,6 @@ Feature: Managing validation requests
     Examples:
       | type                     | comment                         |
       | additional document      | John                            |
-      | description change       | Paul                            |
       | other change             | George                          |
       | red line boundary change | View proposed red line boundary |
 

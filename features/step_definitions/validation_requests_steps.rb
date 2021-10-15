@@ -64,16 +64,6 @@ Given("I create a(n) additional document validation request with {string}") do |
   )
 end
 
-Given("I create a description change validation request with {string}") do |details|
-  steps %(
-    Given I add a new validation request
-    And I choose "Request approval to a description change"
-    And I press "Next"
-    And I fill in "Please suggest a new application description" with "#{details}"
-    And I press "Add"
-  )
-end
-
 Given("I create a(n) other change validation request with {string}") do |details|
   steps %(
     Given I add a new validation request

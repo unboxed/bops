@@ -6,27 +6,20 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
   include ValidationRequests
 
   def new
-    @description_change_validation_request = @planning_application.description_change_validation_requests.new
+    @description_change_request = @planning_application.description_change_validation_requests.new
   end
 
   def create
-    @description_change_validation_request = @planning_application.description_change_validation_requests.new(description_change_validation_request_params)
-    @description_change_validation_request.user = current_user
+    @description_change_request = @planning_application.description_change_validation_requests.new(description_change_validation_request_params)
+    @description_change_request.user = current_user
     @current_local_authority = current_local_authority
 
-    if @description_change_validation_request.save
-      email_and_timestamp(@description_change_validation_request) if @planning_application.invalidated?
-
-      flash[:notice] = "Validation request for description successfully created."
-      if @planning_application.invalidated?
-        audit("description_change_validation_request_sent", description_audit_item(@description_change_validation_request, @planning_application),
-              @description_change_validation_request.sequence)
-      else
-        audit("description_change_validation_request_added", description_audit_item(@description_change_validation_request, @planning_application),
-              @description_change_validation_request.sequence)
-      end
-      redirect_to planning_application_validation_requests_path(@planning_application)
-
+    if @description_change_request.save
+      email_and_timestamp(@description_change_request)
+      flash[:notice] = "Description change request successfully sent."
+      audit("description_change_validation_request_sent", description_audit_item(@description_change_request, @planning_application),
+            @description_change_request.sequence)
+      redirect_to planning_application_path(@planning_application)
     else
       render :new
     end
