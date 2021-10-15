@@ -60,6 +60,17 @@ Given("the planning application is assessed") do
   )
 end
 
+Given("I create a description change request with {string}") do |details|
+  steps %(
+    When I view the planning application
+    And I press "Application information"
+    And I press "Edit details"
+    And I press "Propose a change to the description"
+    And I fill in "Please suggest a new application description" with "#{details}"
+    And I press "Add"
+  )
+end
+
 When("I view the planning application") do
   visit planning_application_path(@planning_application)
 end
