@@ -36,6 +36,7 @@ class PlanningApplication < ApplicationRecord
   validate :public_comment_present
   validate :decision_with_recommendations
   validate :policy_classes_editable
+  validate :allows_only_one_open_description_change
 
   scope :not_started_and_invalid, -> { where("status = 'not_started' OR status = 'invalidated'") }
   scope :under_assessment, -> { where("status = 'in_assessment' OR status = 'awaiting_correction'") }
@@ -285,6 +286,10 @@ class PlanningApplication < ApplicationRecord
   def cancelled_validation_requests
     validation_requests.filter(&:cancelled?).sort_by(&:cancelled_at).reverse
   end
+  
+  def open_description_change_requests
+    description_change_validation_requests.where(state: "open")
+  end
 
   # since we can't use the native scopes that AASM provides (because
   # #validation_requests is actually the method above rather than a
@@ -349,6 +354,10 @@ class PlanningApplication < ApplicationRecord
 
   def documents_for_decision_notice
     documents.for_display
+  end
+  
+  def allows_only_one_open_description_change
+    errors.add(:base, "An open description change already exists for this planning application") if open_description_change_requests.size > 1
   end
 
   private

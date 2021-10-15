@@ -20,7 +20,6 @@ Feature: Creating a description change on the application as an assessor
     Given I create a description change request with "A backyard full of burritos"
     When I visit the new description change request link
 
-
   Scenario: I can cancel a description change request
     Given an existing description change request
     When I view the planning application with description
