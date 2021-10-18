@@ -17,7 +17,7 @@ Style/Documentation:
 
 # be a bit kinder with our metrics
 Metrics/BlockLength:
-  Max: 40
+  Max: 80
 
 Metrics/MethodLength:
   Max: 20
