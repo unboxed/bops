@@ -32,3 +32,12 @@ en:
               unpermitted_tags: "Please choose valid tags"
             numbers:
               missing_numbers: "All documents listed on the decision notice must have a document number"
+
+  helpers:
+    label:
+      additional_document_validation_request: &cancel_reason
+        cancel_reason: "Explain to the applicant why this request is being cancelled"
+      description_change_validation_request: *cancel_reason
+      other_change_validation_request: *cancel_reason
+      red_line_boundary_change_validation_request: *cancel_reason
+      replacement_document_validation_request: *cancel_reason

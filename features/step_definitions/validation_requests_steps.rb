@@ -22,6 +22,30 @@ Then("there is a validation request for a(n) {string} that shows {string}") do |
   expect(table).to have_selector(:table_row, "Detail" => request_details, "Status" => status)
 end
 
+Then("there is a validation request for a(n) {string} that has a link {string}") do |request_details, link|
+  table = page.find(:table, "Validation requests")
+
+  expect(table).to have_selector(:table_row, "Detail" => request_details, "Actions" => link)
+end
+
+Then("there is a validation request for a(n) {string} that does not have a link {string}") do |request_details, link|
+  table = page.find(:table, "Validation requests")
+
+  expect(table).to_not have_selector(:table_row, "Detail" => request_details, "Actions" => link)
+end
+
+Then("there is a cancelled validation request for a(n) {string} that shows {string}") do |reason, date|
+  table = page.find(:table, "Cancelled requests")
+
+  expect(table).to have_selector(:table_row, "Reason for cancellation" => reason, "Date cancelled" => date)
+end
+
+Then("there is no validation request for a {string}") do |request_details|
+  table = page.find(:table, "Validation requests")
+
+  expect(table).to_not have_selector(:table_row, "Detail" => request_details)
+end
+
 Given("I add a new validation request") do
   steps %(
     Given I view the application's validations requests
@@ -72,4 +96,77 @@ Given("I create a red line boundary change validation request with {string}") do
 
   # force a refresh as we've gone under the hood here
   visit current_path
+end
+
+# Cancel validation requests
+
+When("I see the cancel confirmation form actions") do
+  within(".govuk-button-group") do
+    steps %(
+      Then the page has button "Confirm cancellation"
+      And the page has a "Back" link with href "#{planning_application_validation_requests_path(@planning_application)}"
+    )
+  end
+end
+
+Given("I cancel a validation request for a {string} with {string}") do |details, reason|
+  steps %(
+    Given I click link "Cancel request" in table row for "#{details}"
+    Then I fill in "Explain to the applicant why this request is being cancelled" with "#{reason}"
+    And I press "Confirm cancellation"
+    Then an email is sent to the applicant confirming the validation request cancellation
+  )
+end
+
+Given("I cancel a(n) additional document validation request with {string}") do |details|
+  steps %(
+    Given I create an additional document validation request with "Picture of funny meme"
+    And I click link "Cancel request" in table row for "Picture of funny meme"
+    Then I fill in "Explain to the applicant why this request is being cancelled" with "#{details}"
+    And I see the cancel confirmation form actions
+    And I press "Confirm cancellation"
+    Then an email is sent to the applicant confirming the validation request cancellation
+  )
+end
+
+Given("I cancel a description change validation request with {string}") do |details|
+  steps %(
+    Given I create a description change validation request with "A new description"
+    And I click link "Cancel request" in table row for "A new description"
+    Then I fill in "Explain to the applicant why this request is being cancelled" with "#{details}"
+    And I see the cancel confirmation form actions
+    And I press "Confirm cancellation"
+    Then an email is sent to the applicant confirming the validation request cancellation
+  )
+end
+
+Given("I cancel a(n) other change validation request with {string}") do |details|
+  steps %(
+    Given I create an other change validation request with "More info needed"
+    And I click link "Cancel request" in table row for "More info needed"
+    Then I fill in "Explain to the applicant why this request is being cancelled" with "#{details}"
+    And I see the cancel confirmation form actions
+    And I press "Confirm cancellation"
+    Then an email is sent to the applicant confirming the validation request cancellation
+  )
+end
+
+Given("I cancel a red line boundary change validation request with {string}") do |details|
+  steps %(
+    Given I create a red line boundary change validation request with "boundary change required"
+    And I view the application's validations requests
+    And I click link "Cancel request" in table row for "boundary change required"
+    Then I fill in "Explain to the applicant why this request is being cancelled" with "#{details}"
+    And I see the cancel confirmation form actions
+    And I press "Confirm cancellation"
+    Then an email is sent to the applicant confirming the validation request cancellation
+  )
+end
+
+Then("an email is sent to the applicant confirming the validation request cancellation") do
+  body = ActionMailer::Base.deliveries.last.body.to_s
+  expect(body).to include(@planning_application.secure_change_url)
+  expect(body).to include(
+    "officer working on your planning application has cancelled one of the validation requests(s) on your application."
+  )
 end

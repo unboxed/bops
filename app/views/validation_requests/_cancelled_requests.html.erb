@@ -1,0 +1,37 @@
+<table class="govuk-table cancelled-requests">
+  <caption class="govuk-table__caption govuk-table__caption--m">
+    Cancelled requests
+  </caption>
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">
+        Request
+      </th>
+      <th scope="col" class="govuk-table__header">
+        Original reason for request
+      </th>
+      <th scope="col" class="govuk-table__header">
+        Reason for cancellation
+      </th>
+      <th scope="col" class="govuk-table__header">
+        Date cancelled
+      </th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <% requests.each do |request| %>
+      <tr class="govuk-table__row">
+        <%= content_tag(:tr, id: dom_id(request)) do %>
+          <%= render request %>
+
+          <td class="govuk-table__cell limit-column-width">
+            <%= request.cancel_reason %>
+          </td>
+          <td class="govuk-table__cell limit-column-width">
+            <%= request.cancelled_at.to_formatted_s(:day_month_year) %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

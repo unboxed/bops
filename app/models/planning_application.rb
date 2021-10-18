@@ -282,6 +282,10 @@ class PlanningApplication < ApplicationRecord
     (description_change_validation_requests + replacement_document_validation_requests + additional_document_validation_requests + other_change_validation_requests + red_line_boundary_change_validation_requests).sort_by(&:created_at).reverse
   end
 
+  def cancelled_validation_requests
+    validation_requests.filter(&:cancelled?).sort_by(&:cancelled_at).reverse
+  end
+
   # since we can't use the native scopes that AASM provides (because
   # #validation_requests is actually the method above rather than a
   # .has_many assocations), add some homemade methods to them.

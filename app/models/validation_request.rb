@@ -3,21 +3,42 @@
 module ValidationRequest
   extend ActiveSupport::Concern
 
+  class RecordCancelError < RuntimeError; end
+
+  class NotDestroyableError < StandardError; end
+
+  class CancelledEmailError < StandardError; end
+
   included do
+    before_create :set_sequence
+
+    before_destroy :ensure_validation_request_destroyable!
+
+    validates :cancel_reason, presence: true, if: :cancelled?
+
     include AASM
 
     aasm.attribute_name :state
 
-    aasm do
+    aasm whiny_persistence: true do
       state :pending, initial: true
       state :open
       state :closed
+      state :cancelled
 
       event :mark_as_sent! do
         transitions from: :pending, to: :open
 
         after do
           update!(notified_at: Time.zone.now)
+        end
+      end
+
+      event :cancel do
+        transitions from: %i[open pending], to: :cancelled
+
+        after do
+          update!(cancelled_at: Time.current)
         end
       end
     end
@@ -49,5 +70,36 @@ module ValidationRequest
 
   def audit_name
     "#{model_name.human} ##{sequence}"
+  end
+
+  def cancel_request!
+    transaction do
+      cancel!
+      audit_cancel_request!
+    end
+  rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
+    raise RecordCancelError, e.message
+  end
+
+  def can_cancel?
+    may_cancel? && planning_application.invalidated?
+  end
+
+  def ensure_validation_request_destroyable!
+    return if pending?
+
+    raise NotDestroyableError, "Only requests that are pending can be destroyed"
+  end
+
+  private
+
+  def audit_cancel_request!
+    Audit.create!(
+      planning_application_id: planning_application.id,
+      user: Current.user,
+      audit_comment: { cancel_reason: cancel_reason }.to_json,
+      activity_information: sequence,
+      activity_type: "#{self.class.name.underscore}_cancelled"
+    )
   end
 end

@@ -1,0 +1,29 @@
+<%= render "validation_requests/validation_requests_breadcrumbs" %>
+
+<% content_for :title, "Cancel validation request" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl govuk-!-padding-top-6">
+      Cancel validation request
+    </h1>
+
+    <h2 class="govuk-heading-m">
+      Requested red line boundary to be cancelled
+    </h2>
+
+    <%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.new_geojson } %>
+
+    <div class="govuk-warning-text">
+      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+      <strong class="govuk-warning-text__text">
+        <span class="govuk-warning-text__assistive">Warning</span>
+        The existing red line will continue to be used for this application after this request is cancelled.
+      </strong>
+    </div>
+
+    <%= render "validation_requests/cancel_confirmation_form",
+        validation_request: @red_line_boundary_change_validation_request,
+        cancel_request_url: cancel_request_url(@planning_application, @red_line_boundary_change_validation_request) %>
+  </div>
+</div>

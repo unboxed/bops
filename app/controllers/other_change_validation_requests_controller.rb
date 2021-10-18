@@ -3,6 +3,8 @@
 class OtherChangeValidationRequestsController < ValidationRequestsController
   before_action :set_planning_application, only: %i[new create show]
 
+  include ValidationRequests
+
   def new
     @other_change_validation_request = @planning_application.other_change_validation_requests.new
   end

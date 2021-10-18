@@ -1,0 +1,28 @@
+<%= form_with model:
+  [@planning_application, validation_request],
+  url: cancel_request_url,
+  local: true,
+  builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+
+  <% if validation_request.errors.any? %>
+    <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+      <h2 class="govuk-error-summary__title" id="error-summary-title">
+        There is a problem
+      </h2>
+      <div class="govuk-error-summary__body">
+        <ul class="govuk-list govuk-error-summary__list">
+          <% validation_request.errors.full_messages.each do |error| %>
+            <li><%= error %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <%= form.govuk_text_area :cancel_reason, rows: 5, required: true %>
+
+  <div class="govuk-button-group">
+    <%= form.submit "Confirm cancellation", class: "govuk-button", data: { module: "govuk-button" } %>
+    <%= link_to "Back", planning_application_validation_requests_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+  </div>
+<% end %>

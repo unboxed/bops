@@ -28,7 +28,9 @@ RSpec.describe "API request to list validation requests", type: :request, show_e
                                                                            "previous_description" => description_change_validation_request.previous_description,
                                                                            "approved" => nil,
                                                                            "rejection_reason" => nil,
-                                                                           "days_until_response_due" => description_change_validation_request.days_until_response_due
+                                                                           "days_until_response_due" => description_change_validation_request.days_until_response_due,
+                                                                           "cancel_reason" => nil,
+                                                                           "cancelled_at" => nil
                                                                          }])
   end
 

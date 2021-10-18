@@ -37,6 +37,10 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
            numbers: "archived_number"
   end
 
+  before do
+    ENV["APPLICANTS_APP_HOST"] = "example.com"
+  end
+
   describe "#decision_notice_mail" do
     let(:mail) do
       described_class.decision_notice_mail(planning_application.reload, host, planning_application.applicant_email)
@@ -106,8 +110,6 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     let(:invalidation_mail) { described_class.invalidation_notice_mail(planning_application, host) }
 
-    ENV["APPLICANTS_APP_HOST"] = "example.com"
-
     it "emails only the agent when the agent is present" do
       expect(invalidation_mail.to).to eq([planning_application.agent_email])
     end
@@ -137,8 +139,6 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
                                              [planning_application.agent_email, planning_application.applicant_email])
     end
 
-    ENV["APPLICANTS_APP_HOST"] = "example.com"
-
     it "renders the headers" do
       expect(validation_mail.subject).to eq("Your planning application has been validated")
       expect(validation_mail.to).to eq([planning_application.agent_email, planning_application.applicant_email])
@@ -166,8 +166,6 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     let(:validation_request_mail) do
       described_class.validation_request_mail(planning_application.reload, validation_request)
     end
-
-    ENV["APPLICANTS_APP_HOST"] = "localhost"
 
     it "emails only the agent when the agent is present" do
       expect(validation_request_mail.to).to eq([planning_application.agent_email])
@@ -210,13 +208,61 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
   end
 
+  describe "#cancelled_validation_request_mail" do
+    let(:cancelled_validation_request_mail) do
+      described_class.cancelled_validation_request_mail(planning_application.reload, validation_request)
+    end
+
+    it "emails only the agent when the agent is present" do
+      expect(cancelled_validation_request_mail.to).to eq([planning_application.agent_email])
+    end
+
+    it "emails only the applicant when the agent is missing" do
+      planning_application.update!(agent_email: "")
+      mail = described_class.cancelled_validation_request_mail(planning_application.reload, validation_request)
+
+      expect(mail.to).to eq([planning_application.applicant_email])
+    end
+
+    it "renders the headers" do
+      expect(cancelled_validation_request_mail.subject).to eq("Your planning application at: #{planning_application.full_address}")
+      expect(cancelled_validation_request_mail.to).to eq([planning_application.agent_email])
+    end
+
+    it "renders the body" do
+      body = cancelled_validation_request_mail.body.encoded
+      expect(body).to include("Application number: #{planning_application.reference}")
+      expect(body).to include("Application received: #{planning_application.created_at.to_formatted_s(:day_month_year)}")
+      expect(body).to include("At: #{planning_application.full_address}")
+      expect(body).to include("Hi #{planning_application.agent_or_applicant_name}")
+      expect(body).to include("#{validation_request.user.name}, the officer working on your planning application has cancelled one of the validation requests(s) on your application. You no longer need to take action for this request.")
+      expect(body).to include("To see the reason this request was cancelled and review any remaining validation requests please follow the link below:")
+      expect(body).to include(planning_application.change_access_id)
+      expect(body).to include("http://cookies.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}")
+      expect(body).to include("Yours faithfully")
+      expect(body).to include("#{planning_application.local_authority.signatory_name}, #{planning_application.local_authority.signatory_job_title}")
+      expect(body).to include(planning_application.local_authority.name.to_s)
+    end
+
+    it "includes the name of the agent in the body if agent is present" do
+      expect(cancelled_validation_request_mail.body.encoded).to include(planning_application.agent_first_name)
+      expect(cancelled_validation_request_mail.body.encoded).to include(planning_application.agent_last_name)
+    end
+
+    it "includes the name of the applicant in the body if no agent is present" do
+      planning_application.update!(agent_first_name: "")
+      mail = described_class.cancelled_validation_request_mail(planning_application.reload, validation_request)
+
+      expect(mail.body.encoded).to include(planning_application.applicant_first_name)
+      expect(mail.body.encoded).to include(planning_application.applicant_last_name)
+    end
+  end
+
   describe "#receipt_notice_mail" do
     let(:receipt_mail) do
       described_class.receipt_notice_mail(planning_application, host,
                                           [planning_application.agent_email, planning_application.applicant_email])
     end
-
-    ENV["APPLICANTS_APP_HOST"] = "example.com"
 
     it "renders the headers" do
       expect(receipt_mail.subject).to eq("We have received your application")

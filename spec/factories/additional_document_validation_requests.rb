@@ -8,5 +8,23 @@ FactoryBot.define do
     state { "open" }
     document_request_type { "Floor plan" }
     document_request_reason { "Missing floor plan" }
+
+    trait :pending do
+      state { "pending" }
+    end
+
+    trait :open do
+      state { "open" }
+    end
+
+    trait :closed do
+      state { "closed" }
+    end
+
+    trait :cancelled do
+      state { "cancelled" }
+      cancel_reason { "Made by mistake!" }
+      cancelled_at { Time.current }
+    end
   end
 end

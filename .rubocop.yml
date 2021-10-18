@@ -26,3 +26,16 @@ Metrics/MethodLength:
 Rails/SkipsModelValidations:
   Exclude:
     - db/migrate/*.rb
+
+# Rspec
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Max: 4
+
+RSpec/InstanceVariable:
+  Enabled: false
