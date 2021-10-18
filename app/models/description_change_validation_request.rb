@@ -8,8 +8,6 @@ class DescriptionChangeValidationRequest < ApplicationRecord
   belongs_to :planning_application
   belongs_to :user
 
-  before_create :set_sequence
-
   validates :proposed_description, presence: true
   validate :rejected_reason_is_present?
 

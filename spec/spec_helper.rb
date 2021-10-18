@@ -6,6 +6,7 @@
 # available in our specs.
 require "faker"
 require "webmock/rspec"
+require "aasm/rspec"
 
 WebMock.disable_net_connect!(
   allow_localhost: true,

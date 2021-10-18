@@ -1,12 +1,15 @@
 <td class="govuk-table__cell change-request-list">
   Change of description
 </td>
-<td class="govuk-table__cell change-request-list">
-  <%= request_sent_at(description_change_validation_request) %>
-</td>
-<td class="govuk-table__cell change-request-list">
-  New description: <%= description_change_validation_request.proposed_description %>
-</td>
-<td class="govuk-table__cell change-request-list">
-  Description change
-</td>
+<% if description_change_validation_request.cancelled? %>
+  <td class="govuk-table__cell change-request-list">
+    <%= description_change_validation_request.proposed_description %>
+  </td>
+<% else %>
+  <td class="govuk-table__cell change-request-list">
+    New description: <%= description_change_validation_request.proposed_description %>
+  </td>
+  <td class="govuk-table__cell change-request-list">
+    Description change
+  </td>
+<% end %>

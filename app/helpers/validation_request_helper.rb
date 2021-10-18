@@ -55,11 +55,25 @@ module ValidationRequestHelper
     end
   end
 
-  def request_sent_at(validation_request)
-    validation_request.notified_at.to_formatted_s(:day_month_year) if validation_request.notified_at.present?
-  end
-
   def request_closed_at(validation_request)
     validation_request.updated_at.to_formatted_s(:day_month_year) if validation_request.closed?
+  end
+
+  def cancel_confirmation_request_url(planning_application, validation_request)
+    link_to "Cancel request", send("cancel_confirmation_planning_application_#{request_type(validation_request)}_path", planning_application, validation_request)
+  end
+
+  def delete_confirmation_request_url(planning_application, validation_request)
+    link_to "Delete request", send("planning_application_#{request_type(validation_request)}_path", planning_application, validation_request), method: :delete, data: { confirm: "Are you sure?" }
+  end
+
+  def cancel_request_url(planning_application, validation_request)
+    send("cancel_planning_application_#{request_type(validation_request)}_path", planning_application, validation_request)
+  end
+
+  private
+
+  def request_type(validation_request)
+    validation_request.class.name.underscore
   end
 end

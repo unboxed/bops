@@ -28,6 +28,11 @@ class Audit < ApplicationRecord
     description_change_validation_request_received: "description_change_validation_request_received",
     replacement_document_validation_request_received: "replacement_document_validation_request_received",
     additional_document_validation_request_received: "additional_document_validation_request_received",
-    red_line_boundary_change_validation_request_received: "red_line_boundary_change_validation_request_received"
+    red_line_boundary_change_validation_request_received: "red_line_boundary_change_validation_request_received",
+    additional_document_validation_request_cancelled: "additional_document_validation_request_cancelled",
+    description_change_validation_request_cancelled: "description_change_validation_request_cancelled",
+    other_change_validation_request_cancelled: "other_change_validation_request_cancelled",
+    red_line_boundary_change_validation_request_cancelled: "red_line_boundary_change_validation_request_cancelled",
+    replacement_document_validation_request_cancelled: "replacement_document_validation_request_cancelled"
   }
 end

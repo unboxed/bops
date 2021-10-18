@@ -4,16 +4,13 @@
 <div class="govuk-grid-column-full">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column govuk-!-padding-top-6">
-      <% if @planning_application.validation_requests.any? %>
+      <% if @active_validation_requests.any? %>
         <table class="govuk-table change-requests">
           <caption class="govuk-table__caption govuk-table__caption--l">Validation requests</caption>
           <thead class="govuk-table__head">
             <tr class="govuk-table__row">
               <th scope="col" class="govuk-table__header">
                 Request
-              </th>
-              <th scope="col" class="govuk-table__header">
-                Sent
               </th>
               <th scope="col" class="govuk-table__header">
                 Detail
@@ -30,39 +27,59 @@
               <th scope="col" class="govuk-table__header">
                 Response
               </th>
+              <th scope="col" class="govuk-table__header">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody class="govuk-table__body">
-            <% @planning_application.validation_requests.each do |validation_request| %>
+            <% @active_validation_requests.each do |validation_request| %>
               <tr class="govuk-table__row">
-                <%= render validation_request %>
-                <td class="govuk-table__cell">
-                  <% case validation_request.state %>
-                  <% when "pending" %>
-                    <strong class="govuk-tag govuk-tag--yellow">
-                      Not sent
-                    </strong>
-                  <% when "open" %>
-                    <strong class="govuk-tag govuk-tag--<%= display_request_date_state(validation_request) %>">
-                      <%= validation_request.days_until_response_due %> days
-                    </strong>
-                  <% when "closed" %>
-                    <strong class="govuk-tag govuk-tag--<%= display_request_status(validation_request) %>">
-                      <%= closed_request_state(validation_request) %>
-                    </strong>
-                  <% end %>
-                </td>
-                <td class="govuk-table__cell limit-column-width">
-                  <%= request_closed_at(validation_request)  %>
-                </td>
-                <td class="govuk-table__cell limit-column-width">
-                  <%= applicant_response(validation_request) %>
-                </td>
+                <%= content_tag(:tr, id: dom_id(validation_request)) do %>
+                  <%= render validation_request %>
+                  <td class="govuk-table__cell">
+                    <% case validation_request.state %>
+                    <% when "pending" %>
+                      <strong class="govuk-tag govuk-tag--yellow">
+                        Not sent
+                      </strong>
+                    <% when "open" %>
+                      <strong class="govuk-tag govuk-tag--<%= display_request_date_state(validation_request) %>">
+                        <%= validation_request.days_until_response_due %> days
+                      </strong>
+                    <% when "closed" %>
+                      <strong class="govuk-tag govuk-tag--<%= display_request_status(validation_request) %>">
+                        <%= closed_request_state(validation_request) %>
+                      </strong>
+                    <% end %>
+                  </td>
+                  <td class="govuk-table__cell limit-column-width">
+                    <%= request_closed_at(validation_request)  %>
+                  </td>
+                  <td class="govuk-table__cell limit-column-width">
+                    <%= applicant_response(validation_request) %>
+                  </td>
+                  <td class="govuk-table__cell limit-column-width">
+                    <% if !validation_request.closed? && !validation_request.cancelled? %>
+                      <% if @planning_application.invalidated? %>
+                          <%= cancel_confirmation_request_url(@planning_application, validation_request) %>
+                        <% end %>
+                      <% if @planning_application.not_started? %>
+                        <%= delete_confirmation_request_url(@planning_application, validation_request) %>
+                      <% end %>
+                    <% end %>
+                  </td>
+                <% end %>
               </tr>
             <% end %>
           </tbody>
         </table>
       <% end %>
+
+      <% if @cancelled_validation_requests.any? %>
+        <%= render "validation_requests/cancelled_requests", requests: @cancelled_validation_requests %>
+      <% end %>
+
       <% if @planning_application.invalidated? %>
         <p class="govuk-body">
           Send further requests for this application. Any new requests will be immediately sent.

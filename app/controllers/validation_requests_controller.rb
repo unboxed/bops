@@ -3,7 +3,10 @@
 class ValidationRequestsController < ApplicationController
   before_action :set_planning_application
 
-  def index; end
+  def index
+    validation_requests = @planning_application.validation_requests
+    @cancelled_validation_requests, @active_validation_requests = validation_requests.partition(&:cancelled?)
+  end
 
   def new; end
 

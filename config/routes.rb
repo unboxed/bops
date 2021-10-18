@@ -48,12 +48,22 @@ Rails.application.routes.draw do
 
     resources :audits, only: :index
     resources :validation_requests, only: %i[index new create]
-    resources :description_change_validation_requests, only: %i[new create]
-    resources :replacement_document_validation_requests, only: %i[new create]
-    resources :other_change_validation_requests, only: %i[new create show]
-    resources :additional_document_validation_requests, only: %i[new create]
-    resources :other_change_validation_requests, only: %i[new create show]
-    resources :red_line_boundary_change_validation_requests, only: %i[new create show]
+
+    concern :cancel_validation_requests do
+      member do
+        get :cancel_confirmation
+
+        patch :cancel
+      end
+    end
+
+    with_options concerns: :cancel_validation_requests do
+      resources :additional_document_validation_requests, only: %i[new create destroy]
+      resources :description_change_validation_requests, only: %i[new create destroy]
+      resources :other_change_validation_requests, only: %i[new create show destroy]
+      resources :red_line_boundary_change_validation_requests, only: %i[new create show destroy]
+      resources :replacement_document_validation_requests, only: %i[new create destroy]
+    end
   end
 
   namespace :api do

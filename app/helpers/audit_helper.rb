@@ -70,6 +70,16 @@ module AuditHelper
       "Received: request for change (other validation##{args})"
     when "validation_requests_sent"
       "The following invalidation requests have been emailed: #{args}"
+    when "additional_document_validation_request_cancelled"
+      "Cancelled: validation request (new document##{args})"
+    when "description_change_validation_request_cancelled"
+      "Cancelled: validation request (applicant approval for description change ##{args})"
+    when "other_change_validation_request_cancelled"
+      "Cancelled: validation request (other change from applicant##{args})"
+    when "red_line_boundary_change_validation_request_cancelled"
+      "Cancelled: validation request (applicant approval for red line boundary change##{args})"
+    when "replacement_document_validation_request_cancelled"
+      "Cancelled: validation request (replace document##{args})"
     end
   end
 

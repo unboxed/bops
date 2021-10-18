@@ -32,5 +32,47 @@ RSpec.describe AuditHelper, type: :helper do
     it "returns the correct wording for an archive audit" do
       expect(activity(document_archived_audit.activity_type)).to eq("Document archived")
     end
+
+    context "when cancelled validation requests" do
+      %w[
+        additional_document_validation_request_cancelled
+        description_change_validation_request_cancelled
+        other_change_validation_request_cancelled
+        red_line_boundary_change_validation_request_cancelled
+        replacement_document_validation_request_cancelled
+      ].each do |validation_request|
+        let(validation_request) { create :audit, activity_type: validation_request }
+      end
+
+      it "returns the correct wording for additional_document_validation_request_cancelled audit" do
+        expect(activity(additional_document_validation_request_cancelled.activity_type)).to eq(
+          "Cancelled: validation request (new document#)"
+        )
+      end
+
+      it "returns the correct wording for description_change_validation_request_cancelled audit" do
+        expect(activity(description_change_validation_request_cancelled.activity_type)).to eq(
+          "Cancelled: validation request (applicant approval for description change #)"
+        )
+      end
+
+      it "returns the correct wording for other_change_validation_request_cancelled audit" do
+        expect(activity(other_change_validation_request_cancelled.activity_type)).to eq(
+          "Cancelled: validation request (other change from applicant#)"
+        )
+      end
+
+      it "returns the correct wording for red_line_boundary_change_validation_request_cancelled audit" do
+        expect(activity(red_line_boundary_change_validation_request_cancelled.activity_type)).to eq(
+          "Cancelled: validation request (applicant approval for red line boundary change#)"
+        )
+      end
+
+      it "returns the correct wording for replacement_document_validation_request_cancelled audit" do
+        expect(activity(replacement_document_validation_request_cancelled.activity_type)).to eq(
+          "Cancelled: validation request (replace document#)"
+        )
+      end
+    end
   end
 end
