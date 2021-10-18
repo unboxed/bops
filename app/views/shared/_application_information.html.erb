@@ -22,7 +22,7 @@
               </p>
               <p class="govuk-body">
                 <% if @planning_application.open_description_change_requests.any? %>
-                  <%= link_to "View requested change", planning_application_description_change_validation_requests_path(@planning_application.open_description_change_requests.last) %>
+                  <%= link_to "View requested change", planning_application_description_change_validation_request_path(@planning_application, @planning_application.open_description_change_requests.last.id) %>
                 <% else %>
                   <%= link_to "Propose a change to the description", new_planning_application_description_change_validation_request_path(@planning_application) %>
                 <% end %>

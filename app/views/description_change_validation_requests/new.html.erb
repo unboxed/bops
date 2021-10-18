@@ -1,51 +1,61 @@
 <% add_parent_breadcrumb_link "Home", planning_applications_path %>
 <% add_parent_breadcrumb_link "Application", validate_form_planning_application_path(@planning_application) %>
-
 <% content_for :title, "Description change" %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-l govuk-!-padding-top-6">
+    <h2 class="govuk-heading-l">
       Request approval to a description change
     </h2>
-    <p class="govuk-body govuk-!-margin-bottom-1">
-      <strong>At:</strong> <%= @planning_application.full_address  %>
-    </p>
-    <p class="govuk-body govuk-!-margin-bottom-1">
-      <strong>Date received:</strong> <%= received_at(@planning_application) %>
-    </p>
-    <p class="govuk-body govuk-!-margin-bottom-8">
+    <p class="govuk-body">
+      <strong>At:</strong> <%= @planning_application.full_address  %> <br>
+      <strong>Date received:</strong> <%= received_at(@planning_application) %> <br>
       <strong>Application number:</strong> <%= @planning_application.reference  %>
     </p>
-    <p class="govuk-heading-m govuk-!-padding-top-6">
-      Description of work
-    </p>
-    <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-1">
-      Previous description
-    </p>
-    <p class="govuk-body govuk-!-margin-bottom-6">
-      <%= @planning_application.description  %>
-    </p>
-
-    <%= form_with model: [@planning_application, @description_change_request], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
-      <% if @description_change_request.errors.any? %>
-        <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
-          <h2 class="govuk-error-summary__title" id="error-summary-title">
-            There is a problem
-          </h2>
-          <div class="govuk-error-summary__body">
-            <ul class="govuk-list govuk-error-summary__list">
-              <% @description_change_request.errors.full_messages.each do |error| %>
-                <li><%= error %></li>
-              <% end %>
-            </ul>
+    <div class="govuk-form-group">
+      <p class="govuk-heading-m">
+        Description of work
+      </p>
+      <p class="govuk-body">
+        <strong>
+          Previous description
+        </strong>
+      </p>
+      <p class="govuk-body">
+        <%= @planning_application.description  %>
+      </p>
+      <%= form_with model: [@planning_application, @description_change_request], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+        <% if @description_change_request.errors.any? %>
+          <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+            <h2 class="govuk-error-summary__title" id="error-summary-title">
+              There is a problem
+            </h2>
+            <div class="govuk-error-summary__body">
+              <ul class="govuk-list govuk-error-summary__list">
+                <% @description_change_request.errors.full_messages.each do |error| %>
+                  <li><%= error %></li>
+                <% end %>
+              </ul>
+            </div>
           </div>
-        </div>
-      <% end %>
-
-    <%= form.govuk_text_area :proposed_description,
-      label: { text: 'Please suggest a new application description', size: 's', class: 'govuk-label govuk-label--s govuk-!-padding-bottom-4'},
+        <% end %>
+        <% if @planning_application.rejected_description_change.present? %>
+          <h4 class="govuk-heading-m">
+            Rejected proposed description 
+          </h4>
+          <p class="govuk-body">
+            <%= @planning_application.rejected_description_change.proposed_description %>
+          </p>
+          <p class="govuk-body">
+            <span class="govuk-caption-m">
+              Applicant rejected this description because: <%= @planning_application.rejected_description_change.rejection_reason %>
+            </span>
+          </p>
+        <% end %>
+        <%= form.govuk_text_area :proposed_description,
+      label: { text: 'Please suggest a new application description', class: 'govuk-label govuk-label--s'},
       rows: 5 %>
-      <%= render "shared/validation_request_form_actions", form: form %>
-    <% end %>
+        <%= render "shared/validation_request_form_actions", form: form %>
+      <% end %>
+    </div>
   </div>
 </div>

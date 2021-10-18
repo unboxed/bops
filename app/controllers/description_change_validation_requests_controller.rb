@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DescriptionChangeValidationRequestsController < ValidationRequestsController
-  before_action :set_planning_application, only: %i[new create]
+  before_action :set_planning_application, only: %i[new create show]
 
   include ValidationRequests
 
@@ -23,6 +23,10 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
     else
       render :new
     end
+  end
+
+  def show
+    @description_change_request = @planning_application.description_change_validation_requests.find(params[:id])
   end
 
   private
