@@ -46,8 +46,8 @@ RSpec.shared_examples "validate and invalidate" do
   end
 
   it "allows document edit, archive and upload after invalidation" do
-    create :description_change_validation_request, planning_application: planning_application, state: "open",
-                                                   created_at: 12.days.ago
+    create :additional_document_validation_request, planning_application: planning_application, state: "open",
+                                                    created_at: 12.days.ago
 
     click_link planning_application.reference
     click_button "Documents"
@@ -61,9 +61,8 @@ RSpec.shared_examples "validate and invalidate" do
   end
 
   it "displays a validation date of the last closed validation request if any closed validation requests exist" do
-    create(:description_change_validation_request,
+    create(:additional_document_validation_request,
            planning_application: planning_application,
-           proposed_description: "new roof",
            state: "closed",
            updated_at: Time.zone.today - 2.days)
 
@@ -75,9 +74,9 @@ RSpec.shared_examples "validate and invalidate" do
     click_link planning_application.reference
     click_link "Validate application"
 
-    expect(page).to have_field("Day", with: description_change_validation_request.updated_at.strftime("%-d"))
-    expect(page).to have_field("Month", with: description_change_validation_request.updated_at.strftime("%-m"))
-    expect(page).to have_field("Year", with: description_change_validation_request.updated_at.strftime("%Y"))
+    expect(page).to have_field("Day", with: additional_document_validation_request.updated_at.strftime("%-d"))
+    expect(page).to have_field("Month", with: additional_document_validation_request.updated_at.strftime("%-m"))
+    expect(page).to have_field("Year", with: additional_document_validation_request.updated_at.strftime("%Y"))
   end
 
   it "displays a validation date of when the documents where validated if no closed validation requests exist" do
@@ -109,8 +108,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
     create :planning_application, :not_started, local_authority: @default_local_authority
   end
 
-  let!(:description_change_validation_request) do
-    create :description_change_validation_request, planning_application: planning_application, state: "closed"
+  let!(:additional_document_validation_request) do
+    create :additional_document_validation_request, planning_application: planning_application, state: "closed"
   end
 
   let!(:document) do
@@ -124,8 +123,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "Checking documents from Not Started status" do
     it "can be invalidated and email is sent when there is an open validation request" do
-      create :description_change_validation_request, planning_application: planning_application, state: "pending",
-                                                     created_at: 12.days.ago
+      create :additional_document_validation_request, planning_application: planning_application, state: "pending",
+                                                      created_at: 12.days.ago
 
       delivered_emails = ActionMailer::Base.deliveries.count
       click_link planning_application.reference
@@ -157,7 +156,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     it "shows error if trying to mark as valid when open validation request exists on planning application" do
-      create :description_change_validation_request, planning_application: planning_application, state: "open"
+      create :additional_document_validation_request, planning_application: planning_application, state: "open"
       click_link planning_application.reference
       click_link "Validate application"
 

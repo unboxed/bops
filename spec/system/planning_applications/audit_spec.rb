@@ -59,7 +59,6 @@ RSpec.describe "Auditing changes to a planning application", type: :system do
     click_button "Application information"
     click_link "Edit details"
 
-    fill_in "Description", with: "doing more than great things, doing wonderful things."
     fill_in "Day", with: "3"
     fill_in "Month", with: "10"
     fill_in "Year", with: "2021"
@@ -88,10 +87,6 @@ RSpec.describe "Auditing changes to a planning application", type: :system do
     click_button "Save"
     click_button "Key application dates"
     click_link "Activity log"
-
-    expect(page).to have_text("Description updated")
-    expect(page).to have_text("Changed from: Back shack")
-    expect(page).to have_text("Changed to: doing more than great things, doing wonderful things.")
 
     expect(page).to have_text("Address 1 updated")
     expect(page).to have_text("Changed from: 1 golden street")

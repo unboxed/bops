@@ -36,7 +36,6 @@ class PlanningApplication < ApplicationRecord
   validate :public_comment_present
   validate :decision_with_recommendations
   validate :policy_classes_editable
-  validate :allows_only_one_open_description_change
 
   scope :not_started_and_invalid, -> { where("status = 'not_started' OR status = 'invalidated'") }
   scope :under_assessment, -> { where("status = 'in_assessment' OR status = 'awaiting_correction'") }

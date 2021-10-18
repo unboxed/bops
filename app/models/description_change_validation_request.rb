@@ -10,6 +10,7 @@ class DescriptionChangeValidationRequest < ApplicationRecord
 
   validates :proposed_description, presence: true
   validate :rejected_reason_is_present?
+  validate :allows_only_one_open_description_change, on: :create
 
   def rejected_reason_is_present?
     if approved == false && rejection_reason.blank?
@@ -20,5 +21,11 @@ class DescriptionChangeValidationRequest < ApplicationRecord
 
   def set_previous_application_description
     self.previous_description = planning_application.description
+  end
+
+  def allows_only_one_open_description_change
+    if planning_application.open_description_change_requests.any?
+      errors.add(:base, "An open description change already exists for this planning application")
+    end
   end
 end
