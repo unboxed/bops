@@ -54,7 +54,10 @@
         <%= form.govuk_text_area :proposed_description,
       label: { text: 'Please suggest a new application description', class: 'govuk-label govuk-label--s'},
       rows: 5 %>
-        <%= render "shared/validation_request_form_actions", form: form %>
+        <div class="govuk-button-group">
+          <%= form.govuk_submit "Add" %>
+          <%= link_to "Back", validate_form_planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+        </div>
       <% end %>
     </div>
   </div>

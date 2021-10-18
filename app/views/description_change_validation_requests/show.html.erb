@@ -8,12 +8,8 @@
       Request approval to a description change
     </h2>
     <p class="govuk-body">
-      <strong>At:</strong> <%= @planning_application.full_address  %>
-    </p>
-    <p class="govuk-body">
-      <strong>Date received:</strong> <%= @planning_application.created_at.strftime("%e %B %Y") %>
-    </p>
-    <p class="govuk-body">
+      <strong>At:</strong> <%= @planning_application.full_address  %> <br>
+      <strong>Date received:</strong> <%= @planning_application.created_at.strftime("%e %B %Y") %> <br>
       <strong>Application number:</strong> <%= @planning_application.reference  %>
     </p>
 
@@ -21,7 +17,7 @@
       <p class="govuk-body"> <strong> Previous description:</strong><br>
         <%= @planning_application.description  %>
       </p>
-      <p class="govuk-body"> <strong> Suggested description:</strong><br>
+      <p class="govuk-body"> <strong> Proposed description:</strong><br>
         <%= @description_change_request.proposed_description  %>
       </p>
     </div>
@@ -39,5 +35,6 @@
       </p>
     <% end %>
     <%= link_to "Back", validate_form_planning_application_path(@planning_application), class: "govuk-button" %>
+    <%= link_to "Cancel this request", planning_application_description_change_validation_request_cancel_path(@planning_application, @description_change_request), class: "govuk-button govuk-button--secondary"  %>
   </div>
 </div>

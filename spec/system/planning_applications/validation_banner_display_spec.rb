@@ -6,8 +6,8 @@ RSpec.describe "Validation banners", type: :system do
 
     let!(:planning_application) { create :planning_application, local_authority: @default_local_authority }
 
-    let!(:description_change_validation_request) do
-      create :description_change_validation_request, planning_application: planning_application, state: "open"
+    let!(:replacement_document_validation_request) do
+      create :replacement_document_validation_request, planning_application: planning_application, state: "open"
     end
 
     before do
@@ -36,12 +36,12 @@ RSpec.describe "Validation banners", type: :system do
 
     let!(:planning_application) { create :planning_application, local_authority: @default_local_authority }
 
-    let!(:description_change_validation_request) do
-      create :description_change_validation_request, planning_application: planning_application, state: "closed"
-    end
-
     let!(:replacement_document_validation_request) do
       create :replacement_document_validation_request, planning_application: planning_application, state: "closed"
+    end
+
+    let!(:additional_document_validation_request) do
+      create :additional_document_validation_request, planning_application: planning_application, state: "closed"
     end
 
     before do

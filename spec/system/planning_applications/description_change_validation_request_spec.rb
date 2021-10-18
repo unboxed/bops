@@ -9,15 +9,6 @@ RSpec.describe "Requesting description changes to a planning application", type:
     create :planning_application, :not_started, local_authority: @default_local_authority
   end
 
-  let!(:description_change_validation_request) do
-    create(
-      :description_change_validation_request,
-      planning_application: planning_application,
-      state: "open",
-      created_at: 12.days.ago
-    )
-  end
-
   let!(:api_user) { create :api_user, name: "Api Wizard" }
 
   before do
@@ -27,44 +18,24 @@ RSpec.describe "Requesting description changes to a planning application", type:
   end
 
   it "is possible to create a request to update description" do
-    click_link "Validate application"
-    click_link "Request validation changes"
-    click_link "Add new request"
-
-    within("fieldset", text: "Add a validation request") do
-      choose "Request approval to a description change"
-    end
-    click_button "Next"
+    visit new_planning_application_description_change_validation_request_path(planning_application)
 
     fill_in "Please suggest a new application description", with: "New description"
     click_button "Add"
 
-    within(".change-requests") do
-      expect(page).to have_content("Description")
-      expect(page).to have_content("Not sent")
-    end
+    expect(page).to have_text("Description change request successfully sent.")
 
-    click_link "Application"
     click_button "Key application dates"
     click_link "Activity log"
 
-    expect(page).to have_text("Added: validation request (description#2)")
+    expect(page).to have_text("Sent: validation request (description#1)")
     expect(page).to have_text(planning_application.description)
-    expect(page).to have_text("New description")
+    expect(page).to have_text("Proposed description")
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
   end
 
   it "only accepts a request that contains a proposed description" do
-    click_link "Validate application"
-    click_link "Request validation changes"
-
-    click_link "Add new request"
-
-    within("fieldset", text: "Add a validation request") do
-      choose "Request approval to a description change"
-    end
-
-    click_button "Next"
+    visit new_planning_application_description_change_validation_request_path(planning_application)
 
     fill_in "Please suggest a new application description", with: " "
     click_button "Add"

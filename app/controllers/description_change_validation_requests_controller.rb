@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DescriptionChangeValidationRequestsController < ValidationRequestsController
-  before_action :set_planning_application, only: %i[new create show]
+  before_action :set_planning_application, only: %i[new create show cancel]
 
   include ValidationRequests
 
@@ -26,10 +26,20 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
   end
 
   def show
-    @description_change_request = @planning_application.description_change_validation_requests.find(params[:id])
+    @description_change_request = description_change_request
+  end
+
+  def cancel
+    description_change_request.update!(state: "closed", approved: false, rejection_reason: "Request cancelled by planning officer.")
+    flash[:notice] = "Description change request successfully cancelled."
+    redirect_to planning_application_path(@planning_application)
   end
 
   private
+
+  def description_change_request
+    @planning_application.description_change_validation_requests.find(params[:id] ||= params[:description_change_validation_request_id])
+  end
 
   def description_change_validation_request_params
     params.require(:description_change_validation_request).permit(:proposed_description)

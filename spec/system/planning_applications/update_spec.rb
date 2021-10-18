@@ -9,7 +9,6 @@ RSpec.describe "Updating a planning application", type: :system do
            :not_started,
            local_authority: @default_local_authority,
            user: assessor1,
-           description: "Back shack",
            address_1: "1 golden street",
            address_2: "Southwark"
   end
@@ -19,18 +18,6 @@ RSpec.describe "Updating a planning application", type: :system do
     visit planning_application_path(planning_application)
     click_button "Application information"
     click_link "Edit details"
-  end
-
-  it "is possible to edit an application's summary" do
-    fill_in "Description", with: "doing more than great things, doing wonderful things."
-
-    click_button "Save"
-
-    expect(page).to have_text("Planning application was successfully updated.")
-
-    click_button "Application information"
-
-    expect(page).to have_text("Description: doing more than great things, doing wonderful things.")
   end
 
   it "is possible to edit the date received in" do
