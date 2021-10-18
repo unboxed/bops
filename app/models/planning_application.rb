@@ -288,7 +288,13 @@ class PlanningApplication < ApplicationRecord
   end
   
   def open_description_change_requests
-    description_change_validation_requests.where(state: "open")
+    description_change_validation_requests.select(&:open?)
+  end
+
+  def rejected_description_change
+    description_change_validation_requests.select do |request|
+      request&.approved == false
+    end.last
   end
 
   # since we can't use the native scopes that AASM provides (because
@@ -357,7 +363,9 @@ class PlanningApplication < ApplicationRecord
   end
   
   def allows_only_one_open_description_change
-    errors.add(:base, "An open description change already exists for this planning application") if open_description_change_requests.size > 1
+    if open_description_change_requests.size > 1
+      errors.add(:base, "An open description change already exists for this planning application")
+    end
   end
 
   private

@@ -1,0 +1,43 @@
+<% add_parent_breadcrumb_link "Home", planning_applications_path %>
+<% add_parent_breadcrumb_link "Application", validate_form_planning_application_path(@planning_application) %>
+<% content_for :title, "Description change" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l">
+      Request approval to a description change
+    </h2>
+    <p class="govuk-body">
+      <strong>At:</strong> <%= @planning_application.full_address  %>
+    </p>
+    <p class="govuk-body">
+      <strong>Date received:</strong> <%= @planning_application.created_at.strftime("%e %B %Y") %>
+    </p>
+    <p class="govuk-body">
+      <strong>Application number:</strong> <%= @planning_application.reference  %>
+    </p>
+
+    <div>
+      <p class="govuk-body"> <strong> Previous description:</strong><br>
+        <%= @planning_application.description  %>
+      </p>
+      <p class="govuk-body"> <strong> Suggested description:</strong><br>
+        <%= @description_change_request.proposed_description  %>
+      </p>
+    </div>
+    <p class="govuk-body">
+      <% if @description_change_request.state == "open" %>
+        Sent on <%= @description_change_request.created_at.strftime("%e %B %Y") %>. Agent or applicant has not yet responded.
+      <% else %>
+        <%= @description_change_request.approved? ? 'Approved' : 'Rejected' %>
+      <% end %>
+    </p>
+    <% if @description_change_request.rejection_reason.present? %>
+      <p class="govuk-body">
+        <strong>Applicant objection to suggested changes:</strong><br>
+        <%= @description_change_request.rejection_reason %>
+      </p>
+    <% end %>
+    <%= link_to "Back", validate_form_planning_application_path(@planning_application), class: "govuk-button" %>
+  </div>
+</div>
