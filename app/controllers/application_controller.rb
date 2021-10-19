@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
 
   before_action :find_current_local_authority_from_subdomain
   before_action :prevent_caching
+  before_action :set_current_user
 
   attr_reader :current_local_authority
 
@@ -39,5 +40,9 @@ class ApplicationController < ActionController::Base
     flash[:notice] = "Document validation successful. Application is ready for assessment."
     Appsignal.send_error(exception)
     render "planning_applications/show"
+  end
+
+  def set_current_user
+    Current.user = current_user
   end
 end
