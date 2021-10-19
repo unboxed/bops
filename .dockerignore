@@ -10,3 +10,4 @@ storage/*
 Dockerfile
 docker-compose.yml
 bops-applicants
+deploy
