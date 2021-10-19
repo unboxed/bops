@@ -6,6 +6,7 @@ BUNDLE-RUN = bundle exec
 .DEFAULT_GOAL := up
 
 build:
+	git submodule update --init
 	docker-compose build
 
 up:
