@@ -1,8 +1,0 @@
-<%= activity(locals[:item].activity_type, locals[:item].activity_information) %>
-<p>
-  Previous description: <i><%= JSON.parse(locals[:item].audit_comment)["previous"] %></i>
-</p>
-<p>
-  Proposed description: <i><%= JSON.parse(locals[:item].audit_comment)["proposed"] %></i>
-</p>
-

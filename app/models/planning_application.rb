@@ -360,7 +360,7 @@ class PlanningApplication < ApplicationRecord
   def documents_for_decision_notice
     documents.for_display
   end
-  
+
   def allows_only_one_open_description_change
     if open_description_change_requests.size > 1
       errors.add(:base, "An open description change already exists for this planning application")
