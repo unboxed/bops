@@ -12,6 +12,9 @@ build:
 up:
 	docker-compose up
 
+upe2e:
+	docker-compose -f docker-compose.yml -f docker-compose.e2e.yml up
+
 prompt:
 	$(DOCKER-RUN) bash
 

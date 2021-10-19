@@ -2,23 +2,7 @@
 
 Back Office Planning System (BOPS)
 
-| Dependency | Version |
-| ---------- | ------- |
-| Ruby       | 2.6.5   |
-| Rails      | 6.0.2.2 |
-| Postgresql | 1.2.3   |
-| Node       | 13.8.0  |
-| Yarn       | 1.15.2  |
-
-## Preflight
-
-### Clone the project
-
-```sh
-$ git clone git@github.com:unboxed/bops.git
-```
-
-## Building the project for local development
+## Getting started
 
 ### Using Docker
 
@@ -29,18 +13,17 @@ docker-compose up
 ```
 
 Once your containers are running, you can use the Makefile to get a
-prompt and run a couple extra commands:
+prompt and setup your database:
 
 ```sh
 make prompt
 
-root@232515c34d14:/app# bin/rails db:reset
-root@232515c34d14:/app# yarn
+root@232515c34d14:/app# bin/rails db:setup
 ```
 
 ### Locally
 
-#### Install the project's dependencies using bundler and yarn:
+#### Install the project's dependencies:
 
 ```sh
 $ bundle install
@@ -62,45 +45,64 @@ CREATE EXTENSION postgis_topology;
 $ rails db:setup
 ```
 
-#### Tests
-
-You can run the full test suite using following command:
-
-```sh
-$ rspec
-```
-
-Individual system specs with opening Chrome browser can be run using the following command:
-
-```sh
-$ JS_DRIVER=selenium_chrome rspec spec/system/log_in_spec.rb
-```
-
 #### Start the server:
 
 ```sh
 $ rails server
 ```
 
-#### Because of the subdomain being enforced, your options to test subdomains include using bops-care.link (needed to test [BOPS-applicants](https://github.com/unboxed/bops-applicants)) or, if you're just testing BOPS, Chrome, Firefox and Brave currently support subdomains too. This means your app will be available on:
+## Subdomains
+
+Because of the local authority being inferred on the request's
+subdomain, your options to get work locally include using Docker or
+using the `bops-care.link` domain which points back to your localhost:
 
 ```
 http://southwark.bops-care.link:3000/
-
 http://lambeth.bops-care.link:3000/
-
 http://buckinghamshire.bops-care.link:3000/
+```
 
-or
-
-http://southwark.southwark.localhost:3000/
-
-http://lambeth.lambeth.localhost:3000/
-
-http://buckinghamshire.buckinghamshire.localhost:3000/
+Otherwise you can use localhost though you'll have to double the
+subdomain since `localhost` is missing the second componetn found in
+`normal-domains.com`.
 
 ```
-## Dependencies
+http://southwark.southwark.localhost:3000/
+http://lambeth.lambeth.localhost:3000/
+http://buckinghamshire.buckinghamshire.localhost:3000/
+```
+
+## BOPS applicants
+
+BOPS allows planning officers to request changes to an application;
+these requests are presented to applicants through a separate app
+called
+[BOPS-applicants](https://github.com/unboxed/bops-applicants). Applicants
+receive an email containing a special URL that will be opened in BOPS
+applicants and contain the right paramaters for it to query back at
+BOPS.
+
+If you're using Docker, `bops-applicants` is already part of the
+Compose group and should be running on port 3001. If you're not,
+you'll have to clone/setup/boot the app manually and points BOPS to it
+through the environment variable `APPLICANTS_APP_HOST`.
+
+Another benefit of using Docker is being able to run some end-to-end tests
+that integrate both BOPS and BOPS applicants:
+
+```sh
+make upe2e # boots the apps with the right e2e environment setup
+make e2e   # actually runs the Cucumber tests tagged with `@e2e`
+```
+
+
+Note that because of the limitations of Docker network aliases (which
+can't accept wildcards, we will add a small DNS service eventually),
+BOPS applicants has to operate against the Southwark local authority
+(i.e `southwark.localhost`) for now.
+
+## Misc dependencies
 
 You will need to install `wkhtmltopdf` locally as this renders the PDF of the decision notice. Install this with the command:
 
@@ -125,15 +127,6 @@ Once you have the application running, you can submit planning application throu
 
 [1]: https://www.docker.com/products/docker-desktop
 [2]: http://localhost:3000/
-
-## Working with the bops-applicants front end
-
-When testing bops-applicants emails on localhost, you will need to export the APPLICANTS_APP_HOST variable, with defines the link being sent in emails from BOPS. Running bops-applicants on port 3001 for southwark for ex:
-
-```
-export APPLICANTS_APP_HOST=bops-care.link:3001
-```
-
 
 ## Working with api documentation: aggregate swagger files
 
