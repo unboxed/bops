@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Capybara.server = :puma, { Silent: true }
+Capybara.server = :puma, { Silent: false }
 
 Capybara.register_driver :firefox_headless do |app|
   options = ::Selenium::WebDriver::Firefox::Options.new
