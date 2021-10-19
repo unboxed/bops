@@ -28,7 +28,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     click_button "Key application dates"
     click_link "Activity log"
 
-    expect(page).to have_text("Sent: validation request (description#1)")
+    expect(page).to have_text("Sent: description change request (description#1)")
     expect(page).to have_text(planning_application.description)
     expect(page).to have_text("Proposed description")
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
