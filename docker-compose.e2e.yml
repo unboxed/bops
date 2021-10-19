@@ -1,0 +1,19 @@
+---
+services:
+  web:
+    environment:
+      APPLICANTS_APP_HOST: southwark.southwark.applicants:3001
+    networks:
+      default:
+        aliases:
+          - southwark.southwark.web
+    ports:
+      - "3000:3000"
+      - "3333:3333"
+  applicants:
+    environment:
+      API_HOST: southwark.web:3333
+    networks:
+      default:
+        aliases:
+          - southwark.southwark.applicants
