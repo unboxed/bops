@@ -7,3 +7,4 @@ std_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} --strict --tags 'not 
 default: <%= std_opts %> features --publish-quiet --tags 'not @e2e'
 wip: --tags @wip:3 --wip features
 rerun: <%= rerun_opts %> --format rerun --publish-quiet --out rerun.txt --strict --tags 'not @wip'
+e2e: <%= std_opts %> features --publish-quiet --tags '@e2e'
