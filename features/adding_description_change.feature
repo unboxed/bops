@@ -15,6 +15,9 @@ Feature: Creating a description change on the application
     And I press "View requested change"
     And I press "Cancel this request"
     Then the page contains "Description change request successfully cancelled"
+    Then I press "Key application dates"
+    Then I press "Activity log"
+    Then the page contains "Cancelled: description change request"
   
   Scenario: I can add and view a new description change request after cancelling the previous one
     Given I create a description change request from the application edit page with "Its margarita time ole!"

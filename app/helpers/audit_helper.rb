@@ -42,6 +42,8 @@ module AuditHelper
       "Application withdrawn"
     when "description_change_validation_request_sent"
       "Sent: description change request (description##{args})"
+    when "description_change_request_cancelled"
+      "Cancelled: description change request (description##{args})"
     when "replacement_document_validation_request_sent"
       "Sent: validation request (replacement document##{args})"
     when "additional_document_validation_request_sent"

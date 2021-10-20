@@ -16,10 +16,9 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
 
     if @description_change_request.save
       email_and_timestamp(@description_change_request)
-      flash[:notice] = "Description change request successfully sent."
       audit("description_change_validation_request_sent", description_audit_item(@description_change_request, @planning_application),
             @description_change_request.sequence)
-      redirect_to planning_application_path(@planning_application)
+      redirect_to planning_application_path(@planning_application), notice: "Description change request successfully sent."
     else
       render :new
     end
@@ -32,6 +31,9 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
   def cancel
     description_change_request.update!(state: "closed", approved: false, rejection_reason: "Request cancelled by planning officer.")
     flash[:notice] = "Description change request successfully cancelled."
+
+    audit("description_change_request_cancelled", current_user.name,
+          description_change_request.sequence)
     redirect_to planning_application_path(@planning_application)
   end
 

@@ -361,12 +361,6 @@ class PlanningApplication < ApplicationRecord
     documents.for_display
   end
 
-  def allows_only_one_open_description_change
-    if open_description_change_requests.size > 1
-      errors.add(:base, "An open description change already exists for this planning application")
-    end
-  end
-
   private
 
   def set_key_dates
