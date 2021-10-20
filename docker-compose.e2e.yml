@@ -2,7 +2,7 @@
 services:
   web:
     environment:
-      APPLICANTS_APP_HOST: southwark.southwark.applicants:3001
+      APPLICANTS_APP_HOST: http://southwark.southwark.applicants:3001
     networks:
       default:
         aliases:

@@ -5,5 +5,5 @@ When("I switch to BOPS") do
 end
 
 When("I switch to BOPS-applicants") do
-  Capybara.app_host = "http://southwark.southwark.applicants:3001"
+  Capybara.app_host = ENV["APPLICANTS_APP_HOST"]
 end
