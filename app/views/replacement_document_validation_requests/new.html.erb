@@ -3,41 +3,52 @@
 <% content_for :title, "Replacement documents" %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-l govuk-!-padding-top-6">
+    <h1 class="govuk-heading-l">
       Request replacement documents
-    </h2>
-    <p class="govuk-body govuk-!-padding-bottom-3">
-      The following documents have been marked as invalid.
-    </p>
-    <%= form_with model: [@planning_application, @replacement_document_validation_request], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
-      <table class="govuk-table">
-        <thead class="govuk-table__head">
-          <tr class="govuk-table__row">
-            <th scope="col" class="govuk-table__header app-custom-class">Document</th>
-            <th scope="col" class="govuk-table__header app-custom-class">File name</th>
-            <th scope="col" class="govuk-table__header app-custom-class">Invalid reason</th>
-          </tr>
-        </thead>
-        <tbody class="govuk-table__body">
-          <% @planning_application.invalid_documents_without_validation_request.each do |document| %>
-            <tr class="govuk-table__row">
-              <td class="govuk-table__cell">
-                <% if document.tags.present? %>
-                  <% document.tags.each do |tag| %>
-                    <%= tag.upcase %>
-                  <% end %>
-                <% end %>
-              </td>
-              <td class="govuk-table__cell"><%= document.name %></td>
-              <td class="govuk-table__cell"><%= document.invalidated_document_reason %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-      <p class="govuk-body govuk-!-padding-top-6 govuk-!-padding-bottom-8">
-        If you want to make any changes to the requests, return to <%= link_to "documents", planning_application_documents_path(@planning_application), class: "govuk-link" %>
+    </h1>
+    <% if @planning_application.invalid_documents.none? %>
+      <p class="govuk-body">
+        Replacement documents cannot be requested because this
+        application has no documents marked as invalid.
       </p>
-      <%= render "shared/validation_request_form_actions", form: form %>
+
+      <p class="govuk-body">
+        <%= link_to "Review the documents submitted as part of this application", planning_application_documents_path(@planning_application), class: "govuk_link" %> if you want to mark any as invalid.
+      </p>
+    <% else %>
+      <p class="govuk-body">
+        The following documents have been marked as invalid.
+      </p>
+      <%= form_with model: [@planning_application, @replacement_document_validation_request], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+        <table class="govuk-table">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header app-custom-class">Document</th>
+              <th scope="col" class="govuk-table__header app-custom-class">File name</th>
+              <th scope="col" class="govuk-table__header app-custom-class">Invalid reason</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            <% @planning_application.invalid_documents_without_validation_request.each do |document| %>
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell">
+                  <% if document.tags.present? %>
+                    <% document.tags.each do |tag| %>
+                      <%= tag.upcase %>
+                    <% end %>
+                  <% end %>
+                </td>
+                <td class="govuk-table__cell"><%= document.name %></td>
+                <td class="govuk-table__cell"><%= document.invalidated_document_reason %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <p class="govuk-body govuk-!-padding-top-6 govuk-!-padding-bottom-8">
+          If you want to make any changes to the requests, return to <%= link_to "documents", planning_application_documents_path(@planning_application), class: "govuk-link" %>
+        </p>
+        <%= render "shared/validation_request_form_actions", form: form %>
+      <% end %>
     <% end %>
   </div>
 </div>
