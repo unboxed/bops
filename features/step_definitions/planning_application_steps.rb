@@ -3,11 +3,14 @@
 require "faker"
 
 Given("I am logged in as an assessor") do
-  @officer = FactoryBot.create(:user, :assessor)
+  southwark = LocalAuthority.find_by(subdomain: "southwark")
+  @officer = FactoryBot.create(:user, :assessor, local_authority: southwark)
 
   domain = @officer.local_authority.subdomain
 
-  Capybara.default_host = "http://#{domain}.#{domain}.localhost:3000"
+  visit root_path
+
+  Capybara.app_host = "http://#{domain}.#{domain}.localhost:#{Capybara.server_port}"
 
   visit new_user_session_path
 

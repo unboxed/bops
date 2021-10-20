@@ -1,18 +1,10 @@
 # frozen_string_literal: true
 
-Capybara.server = :puma, { Silent: true }
-
-Capybara.register_driver :chrome do |app|
-  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    chromeOptions: { args: %w[window-size=1280,960] }
-  )
-
-  Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: capabilities)
-end
+Capybara.server = :puma, { Silent: false }
 
 Capybara.register_driver :chrome_headless do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    chromeOptions: { args: %w[headless no-sandbox window-size=1280,960] }
+    chromeOptions: { args: %w[headless no-sandbox window-size=1280,960], w3c: false }
   )
 
   Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: capabilities)
