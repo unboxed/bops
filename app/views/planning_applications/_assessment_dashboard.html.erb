@@ -13,6 +13,7 @@
     <%= render "overdue_banner" if @planning_application.overdue_requests.present? %>
     <%= render "response_banner" if @planning_application.closed_validation_requests.any? %>
   <% end %>
+    <%= render "description_response_banner" if @planning_application.responded_description_requests.present? %>
 </div>
 
 <div class="govuk-grid-row">
