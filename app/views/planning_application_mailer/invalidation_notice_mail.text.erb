@@ -10,7 +10,7 @@ Thank you for your planning application received on <%= @planning_application.cr
 
 To review the reasons for invalidation and make the changes required, please follow the link below:
 
-<%= @planning_application.secure_change_url(@planning_application.id, @planning_application.change_access_id) %>
+<%= @planning_application.secure_change_url %>
 
 If your amendments contain further errors, we may request further changes to your application.
 
@@ -25,5 +25,3 @@ Yours faithfully,
 <%= @planning_application.local_authority.name %>
 
 If you have any questions relating to your application, please contact us by email at  <%= @planning_application.local_authority.email_address %> with your application reference.
-
-

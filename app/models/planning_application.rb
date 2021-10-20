@@ -258,11 +258,11 @@ class PlanningApplication < ApplicationRecord
     "#{address_1}, #{town}, #{postcode}"
   end
 
-  def secure_change_url(application_id, secure_token)
+  def secure_change_url
     if Rails.env.production?
-      "https://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
+      "https://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}"
     else
-      "http://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{application_id}&change_access_id=#{secure_token}"
+      "http://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}"
     end
   end
 
