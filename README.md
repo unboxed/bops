@@ -64,7 +64,7 @@ http://buckinghamshire.bops-care.link:3000/
 ```
 
 Otherwise you can use localhost though you'll have to double the
-subdomain since `localhost` is missing the second componetn found in
+subdomain since `localhost` is missing the second component found in
 `normal-domains.com`.
 
 ```
@@ -80,19 +80,19 @@ these requests are presented to applicants through a separate app
 called
 [BOPS-applicants](https://github.com/unboxed/bops-applicants). Applicants
 receive an email containing a special URL that will be opened in BOPS
-applicants and contain the right paramaters for it to query back at
+applicants and contain the right parameters for it to query back at
 BOPS.
 
 If you're using Docker, `bops-applicants` is already part of the
 Compose group and should be running on port 3001. If you're not,
-you'll have to clone/setup/boot the app manually and points BOPS to it
-through the environment variable `APPLICANTS_APP_HOST`.
+you'll have to clone/setup/boot the app manually and point BOPS to it
+through the environment variable `APPLICANTS_APP_HOST`. See
+`./env.example`.
 
 Another benefit of using Docker is being able to run some end-to-end tests
 that integrate both BOPS and BOPS applicants:
 
 ```sh
-make upe2e # boots the apps with the right e2e environment setup
 make e2e   # actually runs the Cucumber tests tagged with `@e2e`
 ```
 
