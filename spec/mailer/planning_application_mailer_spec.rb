@@ -21,7 +21,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
   let(:host) { "default.example.com" }
   let!(:validation_request) do
-    create(:description_change_validation_request, planning_application: planning_application, user: assessor)
+    create(:other_change_validation_request, planning_application: planning_application, user: assessor)
   end
 
   let!(:document_with_tags) do
@@ -105,7 +105,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     let!(:planning_application) { create(:planning_application, :invalidated, local_authority: local_authority) }
 
     let!(:validation_request) do
-      create(:description_change_validation_request, planning_application: planning_application, user: assessor)
+      create(:other_change_validation_request, planning_application: planning_application, user: assessor)
     end
 
     let(:invalidation_mail) { described_class.invalidation_notice_mail(planning_application, host) }

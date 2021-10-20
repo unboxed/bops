@@ -11,6 +11,7 @@ class DescriptionChangeValidationRequest < ApplicationRecord
   validates :proposed_description, presence: true
   validate :rejected_reason_is_present?
   validate :allows_only_one_open_description_change, on: :create
+  validate :planning_application_has_not_been_determined, on: :create
 
   def rejected_reason_is_present?
     if approved == false && rejection_reason.blank?
@@ -25,7 +26,13 @@ class DescriptionChangeValidationRequest < ApplicationRecord
 
   def allows_only_one_open_description_change
     if planning_application.open_description_change_requests.any?
-      errors.add(:base, "An open description change already exists for this planning application")
+      errors.add(:base, "An open description change already exists for this planning application.")
+    end
+  end
+
+  def planning_application_has_not_been_determined
+    if planning_application.determined?
+      errors.add(:base, "A description change request cannot be submitted for a determined planning application.")
     end
   end
 end
