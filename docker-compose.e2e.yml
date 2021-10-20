@@ -7,9 +7,8 @@ services:
       default:
         aliases:
           - southwark.southwark.web
-    ports:
-      - "3000:3000"
-      - "3333:3333"
+    depends_on:
+      - applicants
   applicants:
     environment:
       API_HOST: southwark.web:3333
