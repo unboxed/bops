@@ -20,7 +20,6 @@ Feature: Creating a description change on the application
     Given I create a description change request from the application edit page with "Its margarita time ole!"
     Then the page contains "Description change request successfully sent."
     When I press "Application information"
-    Then print the page
     And I press "View requested change"
     Then the page contains "Previous description"
     Then the page contains "Add a statue of Melissa striking poses"
@@ -32,3 +31,19 @@ Feature: Creating a description change on the application
     When I press "Application information"
     And I press "Propose a change to the description"
     Then the page contains "Rejected proposed description"
+
+  Scenario: I cannot create a second description change request when an open one exists
+    Given an existing description change request
+    When I visit the new description change request link
+    And I fill in "Please suggest a new application description" with "Mambo number 2"
+    And I press "Add"
+    Then the page contains "An open description change already exists for this planning application."
+
+  Scenario: I cannot create a description change request on a determined planning application
+    Given a determined planning application
+    When I view the determined application
+    When I press "Application information"
+    And I press "Propose a change to the description"
+    And I fill in "Please suggest a new application description" with "Mambo number 10"
+    And I press "Add"
+    Then the page contains "A description change request cannot be submitted for a determined planning application"

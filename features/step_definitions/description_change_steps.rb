@@ -18,6 +18,14 @@ Given("an existing description change request") do
   )
 end
 
+Given("a determined planning application") do
+  @determined_planning_application = FactoryBot.create(
+    :planning_application,
+    :determined,
+    local_authority: @officer.local_authority
+  )
+end
+
 Given("a rejected description change request") do
   @rejected_description_change = FactoryBot.create(
     :description_change_validation_request,
@@ -55,6 +63,10 @@ end
 
 When("I view the planning application with description") do
   visit planning_application_path(@planning_application_with_description)
+end
+
+When("I view the determined application") do
+  visit planning_application_path(@determined_planning_application)
 end
 
 And("I click on Application information") do
