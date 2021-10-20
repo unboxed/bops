@@ -290,6 +290,12 @@ class PlanningApplication < ApplicationRecord
     description_change_validation_requests.select(&:open?)
   end
 
+  def responded_description_requests
+    description_change_validation_requests.select do |request|
+      request.state == "closed" && request.rejection_reason != "Request cancelled by planning officer."
+    end.last
+  end
+
   def rejected_description_change
     description_change_validation_requests.select do |request|
       request&.approved == false
