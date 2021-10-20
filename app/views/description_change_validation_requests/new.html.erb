@@ -39,9 +39,11 @@
           </div>
         <% end %>
         <% if @planning_application.rejected_description_change.present? %>
-          <h4 class="govuk-heading-m">
-            Rejected proposed description 
-          </h4>
+          <p class="govuk-body">
+            <strong>
+              Rejected proposed description 
+            </strong>
+          </p>
           <p class="govuk-body">
             <%= @planning_application.rejected_description_change.proposed_description %>
           </p>
