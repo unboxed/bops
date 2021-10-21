@@ -285,21 +285,23 @@ class PlanningApplication < ApplicationRecord
   def cancelled_validation_requests
     validation_requests.filter(&:cancelled?).sort_by(&:cancelled_at).reverse
   end
-  
+
   def open_description_change_requests
     description_change_validation_requests.select(&:open?)
   end
 
-  def responded_description_requests
-    description_change_validation_requests.select do |request|
-      request.state == "closed" && request.rejection_reason != "Request cancelled by planning officer."
+  def responded_description_request
+    description_change_validation_requests.closed.select do |request|
+      request.rejection_reason != "Request cancelled by planning officer." && request.auto_closed.blank?
     end.last
   end
 
+  def auto_closed_description_requests
+    description_change_validation_requests.select(&:auto_closed?).last
+  end
+
   def rejected_description_change
-    description_change_validation_requests.select do |request|
-      request.approved == false
-    end.last
+    description_change_validation_requests.select(&:rejected?).last
   end
 
   # since we can't use the native scopes that AASM provides (because

@@ -22,21 +22,15 @@
       </p>
     </div>
     <p class="govuk-body">
-      <% if @description_change_request.state == "open" %>
+      <% if @description_change_request.open? %>
         Sent on <%= @description_change_request.created_at.strftime("%e %B %Y") %>. Agent or applicant has not yet responded.
       <% else %>
         <%= @description_change_request.approved? ? 'Approved' : 'Rejected' %>
       <% end %>
     </p>
-    <% if @description_change_request.rejection_reason.present? %>
-      <p class="govuk-body">
-        <strong>Applicant objection to suggested changes:</strong><br>
-        <%= @description_change_request.rejection_reason %>
-      </p>
-    <% end %>
     <%= link_to "Back", validate_form_planning_application_path(@planning_application), class: "govuk-button" %>
-    <% if @description_change_request.state == "open" %>
-      <%= link_to "Cancel this request", planning_application_description_change_validation_request_cancel_path(@planning_application, @description_change_request), class: "govuk-button govuk-button--secondary"  %>
+    <% if @description_change_request.open? %>
+      <%= link_to "Cancel this request", planning_application_description_change_validation_request_cancel_path(@planning_application, @description_change_request), class: "govuk-button govuk-button--secondary", method: :patch  %>
     <% end %>
   </div>
 </div>

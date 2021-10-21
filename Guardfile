@@ -75,7 +75,7 @@ cucumber_options = {
   # Below are examples overriding defaults
 
   # cmd: 'bin/cucumber',
-  cmd_additional_args: "--publish-quiet --fail-fast --profile wip",
+  cmd_additional_args: "--publish-quiet --fail-fast",
 
   # all_after_pass: false,
   # all_on_start: false,

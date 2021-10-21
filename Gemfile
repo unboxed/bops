@@ -27,7 +27,7 @@ gem "rails", "~> 6.1.4"
 gem "rswag-ui"
 gem "sassc", "~> 2.1.0"
 gem "webpacker", "~> 5.4"
-gem 'whenever'
+gem "whenever"
 
 group :development, :test do
   gem "brakeman", require: false
