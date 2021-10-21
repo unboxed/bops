@@ -298,7 +298,7 @@ class PlanningApplication < ApplicationRecord
 
   def rejected_description_change
     description_change_validation_requests.select do |request|
-      request&.approved == false
+      request.approved == false
     end.last
   end
 

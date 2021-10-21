@@ -66,6 +66,7 @@ Rails.application.routes.draw do
 
     resources :description_change_validation_requests, only: %i[new create show] do
       get :cancel
+      get :auto_update_and_notify
     end
   end
 

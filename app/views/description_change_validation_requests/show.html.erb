@@ -35,6 +35,8 @@
       </p>
     <% end %>
     <%= link_to "Back", validate_form_planning_application_path(@planning_application), class: "govuk-button" %>
-    <%= link_to "Cancel this request", planning_application_description_change_validation_request_cancel_path(@planning_application, @description_change_request), class: "govuk-button govuk-button--secondary"  %>
+    <% if @description_change_request.state == "open" %>
+      <%= link_to "Cancel this request", planning_application_description_change_validation_request_cancel_path(@planning_application, @description_change_request), class: "govuk-button govuk-button--secondary"  %>
+    <% end %>
   </div>
 </div>
