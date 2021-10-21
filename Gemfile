@@ -32,20 +32,18 @@ group :development, :test do
   gem "brakeman", require: false
   gem "bundler-audit", require: false
   gem "byebug", platforms: %i[mri mingw x64_mingw]
-  gem "capybara"
   gem "factory_bot_rails"
-  gem "guard"
-  gem "guard-cucumber"
-  gem "guard-rspec"
-  gem "pry-byebug"
+  gem "guard", require: false
+  gem "guard-cucumber", require: false
+  gem "guard-rspec", require: false
   gem "rails-controller-testing"
   gem "rspec-rails", "~> 4.0.0"
-  gem "rubocop"
-  gem "rubocop-rails"
-  gem "rubocop-rspec"
+  gem "rubocop", require: false
+  gem "rubocop-rails", require: false
+  gem "rubocop-rspec", require: false
   gem "selenium-webdriver"
   gem "simplecov", require: false
-  gem "webdrivers"
+  gem "webdrivers", require: false
 end
 
 group :development do
@@ -54,6 +52,7 @@ group :development do
 end
 
 group :test do
+  gem "capybara"
   gem "cucumber-rails", require: false
   gem "database_cleaner"
   gem "openapi3_parser"

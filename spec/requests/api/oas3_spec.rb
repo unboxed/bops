@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require "openapi3_parser"
 
 RSpec.describe "The Open API Specification document", type: :request, show_exceptions: true do
   let(:document) { Openapi3Parser.load_file(Rails.root.join("public/api-docs/v1/_build/swagger_doc.yaml")) }
