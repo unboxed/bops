@@ -12,15 +12,15 @@ RSpec.describe ValidationRequest, type: :model do
       expect(request).to be_pending
     end
 
-    %w[additional_document description_change other_change red_line_boundary_change
+    %w[additional_document other_change red_line_boundary_change
        replacement_document].each do |request_type|
       it_behaves_like "StateMachineTransitions", request_type, "pending", %i[open cancelled]
-      it_behaves_like "StateMachineTransitions", request_type, "open", %i[cancelled]
+      it_behaves_like "StateMachineTransitions", request_type, "open", %i[cancelled closed]
       it_behaves_like "StateMachineTransitions", request_type, "cancelled", %i[]
       it_behaves_like "StateMachineTransitions", request_type, "closed", %i[]
 
       it_behaves_like "StateMachineEvents", request_type, "pending", %i[mark_as_sent! cancel]
-      it_behaves_like "StateMachineEvents", request_type, "open", %i[cancel]
+      it_behaves_like "StateMachineEvents", request_type, "open", %i[cancel approve!]
       it_behaves_like "StateMachineEvents", request_type, "cancelled", %i[]
       it_behaves_like "StateMachineEvents", request_type, "closed", %i[]
     end

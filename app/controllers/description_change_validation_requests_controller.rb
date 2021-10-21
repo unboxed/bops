@@ -4,8 +4,6 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
   before_action :set_planning_application, only: %i[new create show cancel]
   before_action :set_description_change_request, only: %i[show cancel]
 
-  include ValidationRequests
-
   def new
     @description_change_request = @planning_application.description_change_validation_requests.new
   end
@@ -28,12 +26,15 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
   def show; end
 
   def cancel
-    @description_change_request.update!(state: "closed", approved: false, rejection_reason: "Request cancelled by planning officer.")
-    flash[:notice] = "Description change request successfully cancelled."
+    DescriptionChangeValidationRequest.transaction do
+      @description_change_request.update!(cancel_reason: "Request cancelled by planning officer.")
+      @description_change_request.cancel
+    end
 
     audit("description_change_request_cancelled", current_user.name,
           @description_change_request.sequence)
-    redirect_to planning_application_path(@planning_application)
+
+    redirect_to @planning_application, notice: "Description change request successfully cancelled."
   end
 
   private

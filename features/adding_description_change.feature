@@ -11,7 +11,7 @@ Feature: Creating a description change on the application
 
   Scenario: I can cancel a description change request
     Given I create a description change request with "Add a backyard cinema"
-    Given I cancel the existing description change request
+    And I cancel the existing description change request
     Then the page contains "Description change request successfully cancelled"
     And there is an audit entry containing "Cancelled: description change request"
   
@@ -45,3 +45,22 @@ Feature: Creating a description change on the application
     And I fill in "Please suggest a new application description" with "Mambo number 10"
     And I press "Add"
     Then the page contains "A description change request cannot be submitted for a determined planning application"
+
+  Scenario: I can view a notification banner when a request has been auto-closed
+    Given I create a description change request with "Add a rooftop cinema"
+    And the description change request has been auto-closed after 5 days
+    When I view the planning application
+    Then the page contains "Description change request has been automatically accepted after 5 days."
+
+  Scenario: I can view a notification banner when a request has been responded to
+    Given I create a description change request with "Add a golden fence"
+    And the request has been responded to
+    When I view the planning application
+    Then the page contains "new response to a description change request."
+
+  Scenario: After a request auto-closed I can see an updated planning application description
+    Given I create a description change request with "Add a ball pit"
+    When the description request has been auto-closed
+    And I view the planning application
+    Then the page contains "Add a ball pit"
+    And there is an audit entry containing "Request was auto-closed and approved after being open for 5 business days."

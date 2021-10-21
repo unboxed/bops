@@ -32,12 +32,11 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
   def invalidation_notice_mail(planning_application, host)
     @host = host
     @planning_application = planning_application
-    @application_accountable_email = @planning_application.applicant_and_agent_email.first
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
       subject: "Your planning application is invalid",
-      to: @application_accountable_email,
+      to: @planning_application.applicant_and_agent_email.first,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
   end
@@ -62,17 +61,14 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
     build_validation_request_mail(planning_application, validation_request)
   end
 
-  private
-
-  def build_validation_request_mail(planning_application, validation_request)
+  def description_change_mail(planning_application, description_change_request)
     @planning_application = planning_application
-    @validation_request = validation_request
-    @application_accountable_email = @planning_application.applicant_and_agent_email.first
+    @description_change_request = description_change_request
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
       subject: "Your planning application at: #{@planning_application.full_address}",
-      to: @application_accountable_email,
+      to: @planning_application.applicant_and_agent_email.first,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
   end
@@ -80,12 +76,25 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
   def description_closure_notification_mail(planning_application, description_change_request)
     @planning_application = planning_application
     @description_change_request = description_change_request
-    @application_accountable_email = @planning_application.applicant_and_agent_email.first
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
       subject: "Your planning application at: #{@planning_application.full_address}",
-      to: @application_accountable_email,
+      to: @planning_application.applicant_and_agent_email.first,
+      reply_to_id: @planning_application.local_authority.reply_to_notify_id
+    )
+  end
+
+  private
+
+  def build_validation_request_mail(planning_application, validation_request)
+    @planning_application = planning_application
+    @validation_request = validation_request
+
+    view_mail(
+      NOTIFY_TEMPLATE_ID,
+      subject: "Your planning application at: #{@planning_application.full_address}",
+      to: @planning_application.applicant_and_agent_email.first,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
   end

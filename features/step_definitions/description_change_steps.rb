@@ -46,3 +46,18 @@ When("I cancel the existing description change request") do
     When I press "Cancel this request"
   )
 end
+
+When("the description change request has been auto-closed after 5 days") do
+  @planning_application.description_change_validation_requests.last.update!(state: "closed", auto_closed: true,
+                                                                            approved: true)
+end
+
+When("the request has been responded to") do
+  @planning_application.description_change_validation_requests.last.update!(state: "closed", approved: true)
+end
+
+When("the description request has been auto-closed") do
+  @planning_application.description_change_validation_requests.last.update!(created_at: 6.business_days.ago)
+
+  CloseDescriptionChangeJob.perform_now
+end

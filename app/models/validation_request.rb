@@ -41,6 +41,15 @@ module ValidationRequest
           update!(cancelled_at: Time.current)
         end
       end
+
+      event :approve! do
+        transitions from: :open, to: :closed
+
+        after do
+          update!(approved: true, auto_closed: true)
+          audit_auto_closed!
+        end
+      end
     end
 
     def response_due
@@ -100,6 +109,14 @@ module ValidationRequest
       audit_comment: { cancel_reason: cancel_reason }.to_json,
       activity_information: sequence,
       activity_type: "#{self.class.name.underscore}_cancelled"
+    )
+  end
+
+  def audit_auto_closed!
+    Audit.create!(
+      planning_application_id: planning_application.id,
+      user: Current.user,
+      activity_type: "auto_closed"
     )
   end
 end

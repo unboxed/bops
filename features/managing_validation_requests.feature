@@ -60,6 +60,5 @@ Feature: Managing validation requests
     Examples:
       | type                     | reason                        |
       | additional document      | document no longer needed     |
-      | description change       | descripion no longer needed   |
       | other change             | my mistake                    |
       | red line boundary change | original boundary was correct |

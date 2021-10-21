@@ -39,8 +39,19 @@ class ValidationRequestsController < ApplicationController
     ).deliver_now
   end
 
+  def send_description_request_email(request)
+    PlanningApplicationMailer.description_change_mail(
+      @planning_application,
+      request
+    ).deliver_now
+  end
+
   def email_and_timestamp(request)
-    send_validation_request_email(request)
+    if request.instance_of?(DescriptionChangeValidationRequest)
+      send_description_request_email(request)
+    else
+      send_validation_request_email(request)
+    end
 
     request.mark_as_sent!
   end
