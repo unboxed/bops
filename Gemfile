@@ -12,6 +12,7 @@ gem "aws-sdk-s3", require: false
 gem "bootsnap", ">= 1.4.2", require: false
 gem "business_time"
 gem "devise"
+gem "delayed_job_active_record"
 gem "faker", require: false
 gem "faraday", require: false
 gem "govuk_design_system_formbuilder"

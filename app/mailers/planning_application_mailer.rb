@@ -76,4 +76,17 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
   end
+
+  def description_closure_notification_mail(planning_application, description_change_request)
+    @planning_application = planning_application
+    @description_change_request = description_change_request
+    @application_accountable_email = @planning_application.applicant_and_agent_email.first
+
+    view_mail(
+      NOTIFY_TEMPLATE_ID,
+      subject: "Your planning application at: #{@planning_application.full_address}",
+      to: @application_accountable_email,
+      reply_to_id: @planning_application.local_authority.reply_to_notify_id
+    )
+  end
 end
