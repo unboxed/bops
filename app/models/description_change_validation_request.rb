@@ -13,6 +13,8 @@ class DescriptionChangeValidationRequest < ApplicationRecord
   validate :allows_only_one_open_description_change, on: :create
   validate :planning_application_has_not_been_determined, on: :create
 
+  scope :open_change_created_over_5_days_ago, -> { where("state = 'open' AND created_at > ?", 5.business_days.ago) }
+
   def rejected_reason_is_present?
     if approved == false && rejection_reason.blank?
       errors.add(:base,

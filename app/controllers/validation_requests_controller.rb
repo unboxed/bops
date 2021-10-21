@@ -44,11 +44,4 @@ class ValidationRequestsController < ApplicationController
 
     request.mark_as_sent!
   end
-
-  def email_description_closure_notification(request)
-    PlanningApplicationMailer.description_closure_notification_mail(
-      @planning_application,
-      request
-    ).deliver_now
-  end
 end
