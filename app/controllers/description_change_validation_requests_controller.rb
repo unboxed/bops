@@ -2,7 +2,7 @@
 
 class DescriptionChangeValidationRequestsController < ValidationRequestsController
   before_action :set_planning_application, only: %i[new create show cancel]
-  before_action :set_description_change_request, only: %i[show cancel auto_update_and_notify]
+  before_action :set_description_change_request, only: %i[show cancel]
 
   include ValidationRequests
 
@@ -34,13 +34,6 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
     audit("description_change_request_cancelled", current_user.name,
           @description_change_request.sequence)
     redirect_to planning_application_path(@planning_application)
-  end
-
-  def auto_update_and_notify
-    # 5 business days after creation of the description change, call this action
-    @planning_application.update!(description: @description_change_request.proposed_description)
-    @description_change_request.update!(state: "closed", approved: true)
-    email_description_closure_notification(@description_change_request)
   end
 
   private

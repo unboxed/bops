@@ -11,8 +11,8 @@ gem "aws-sdk-codedeploy", require: false
 gem "aws-sdk-s3", require: false
 gem "bootsnap", ">= 1.4.2", require: false
 gem "business_time"
-gem "devise"
 gem "delayed_job_active_record"
+gem "devise"
 gem "faker", require: false
 gem "faraday", require: false
 gem "govuk_design_system_formbuilder"
@@ -27,6 +27,7 @@ gem "rails", "~> 6.1.4"
 gem "rswag-ui"
 gem "sassc", "~> 2.1.0"
 gem "webpacker", "~> 5.4"
+gem 'whenever'
 
 group :development, :test do
   gem "brakeman", require: false

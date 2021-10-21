@@ -67,3 +67,7 @@ end
 When("I view the planning application audit") do
   visit planning_application_audits_path(@planning_application)
 end
+
+And("the planning application has a description of {string}") do |description|
+  @planning_application.update!(description: description)
+end
