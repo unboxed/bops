@@ -1,7 +1,7 @@
 ---
 services:
   db:
-    image: postgis/postgis:13-3.1
+    image: postgres:13.4
     volumes:
       - type: volume
         source: db

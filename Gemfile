@@ -6,7 +6,6 @@ source "https://rubygems.org"
 gem "dotenv-rails", require: "dotenv/rails-now"
 
 gem "aasm"
-gem "activerecord-postgis-adapter"
 gem "after_commit_everywhere"
 gem "appsignal"
 gem "aws-sdk-codedeploy", require: false
