@@ -6,7 +6,6 @@ source "https://rubygems.org"
 gem "dotenv-rails", require: "dotenv/rails-now"
 
 gem "aasm"
-gem "after_commit_everywhere"
 gem "appsignal"
 gem "aws-sdk-codedeploy", require: false
 gem "aws-sdk-s3", require: false
@@ -31,7 +30,6 @@ group :development, :test do
   gem "brakeman", require: false
   gem "bundler-audit", require: false
   gem "byebug", platforms: %i[mri mingw x64_mingw]
-  gem "factory_bot_rails"
   gem "guard", require: false
   gem "guard-cucumber", require: false
   gem "guard-rspec", require: false
@@ -52,8 +50,9 @@ end
 
 group :test do
   gem "capybara"
+  gem "factory_bot_rails"
   gem "cucumber-rails", require: false
   gem "database_cleaner"
-  gem "openapi3_parser"
+  gem "openapi3_parser", require: false
   gem "webmock"
 end

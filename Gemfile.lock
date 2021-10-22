@@ -64,9 +64,6 @@ GEM
       zeitwerk (~> 2.3)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
-    after_commit_everywhere (1.1.0)
-      activerecord (>= 4.2)
-      activesupport
     appsignal (3.0.13)
       rack
     ast (2.4.2)
@@ -91,7 +88,7 @@ GEM
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.16)
     bindex (0.8.1)
-    bootsnap (1.7.7)
+    bootsnap (1.9.1)
       msgpack (~> 1.0)
     brakeman (5.1.1)
     builder (3.2.4)
@@ -457,7 +454,6 @@ PLATFORMS
 
 DEPENDENCIES
   aasm
-  after_commit_everywhere
   appsignal
   aws-sdk-codedeploy
   aws-sdk-s3
