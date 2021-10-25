@@ -30,8 +30,5 @@
 yarn-debug.log*
 .yarn-integrity
 
-# Ignore simplecov coverage results
-coverage
-
 # Ignore build packages
 /pkg
