@@ -104,7 +104,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       click_link "Request validation changes"
       expect(request.notified_at).to be_nil
 
-      click_button "Invalidate application"
+      click_button "Mark the application as invalid"
 
       expect(page).to have_content("Application has been invalidated")
 

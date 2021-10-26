@@ -10,12 +10,12 @@ Feature: Invalidating application
   Scenario: As an assessor I cannot invalidate an application without validation requests
     When I press "Validate application"
     And I press "Request validation changes"
-    When I press "Invalidate"
+    When I press "Mark the application as invalid"
     Then the page contains a custom flash about "Please create at least one validation request before invalidating"
 
   Scenario: As an assessor I can invalidate an application with validation requests
     When I press "Validate application"
     And I press "Request validation changes"
     And I create a new document validation request for a "Picture of the dog" because "it would be nice"
-    When I press "Invalidate"
+    When I press "Mark the application as invalid"
     Then the page contains "Application has been invalidated"
