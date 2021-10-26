@@ -11,13 +11,13 @@ RSpec.shared_examples "validate and invalidate" do
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link planning_application.reference
     click_link "Validate application"
-    click_link "Validate application"
+    click_link "Mark the application as valid"
 
     fill_in "Day", with: "03"
     fill_in "Month", with: "12"
     fill_in "Year", with: "2021"
 
-    click_button "Validate application"
+    click_button "Mark the application as valid"
 
     expect(page).to have_content("Application is ready for assessment")
 
@@ -90,12 +90,12 @@ RSpec.shared_examples "validate and invalidate" do
 
   it "allows for the user to input a validation date manually" do
     visit validate_form_planning_application_path(second_planning_application)
-    click_link "Validate application"
+    click_link "Mark the application as valid"
     fill_in "Day", with: "3"
     fill_in "Month", with: "6"
     fill_in "Year", with: "2022"
 
-    click_button "Validate application"
+    click_button "Mark the application as valid"
 
     second_planning_application.reload
     expect(second_planning_application.documents_validated_at.to_s).to eq("2022-06-03")
@@ -133,7 +133,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_link "Request validation changes"
 
-      click_button "Invalidate application"
+      click_button "Mark the application as invalid"
 
       expect(page).to have_content("Application has been invalidated")
 
@@ -163,8 +163,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       expect(page).to have_content("This application has 1 unresolved validation request and 1 resolved validation request")
 
-      click_link "Validate application"
-      click_button "Validate application"
+      click_link "Mark the application as valid"
+      click_button "Mark the application as valid"
 
       expect(page).to have_content("Planning application cannot be validated if open validation requests exist")
     end
@@ -178,13 +178,13 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_link planning_application.reference
       click_link "Validate application"
-      click_link "Validate application"
+      click_link "Mark the application as valid"
 
       fill_in "Day", with: "3"
       fill_in "Month", with: "10"
       fill_in "Year", with: "2022"
 
-      click_button "Validate application"
+      click_button "Mark the application as valid"
 
       expect(page).to have_content("This application has an invalid document. You cannot validate an application with invalid documents.")
 
@@ -195,13 +195,13 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "shows error if invalid date is sent" do
       click_link planning_application.reference
       click_link "Validate application"
-      click_link "Validate application"
+      click_link "Mark the application as valid"
 
       fill_in "Day", with: "3"
       fill_in "Month", with: "&&£$£$"
       fill_in "Year", with: "2022"
 
-      click_button "Validate application"
+      click_button "Mark the application as valid"
 
       planning_application.reload
       # This is stopped by HTML 5 validations, which are hard to test the UI for.
@@ -211,13 +211,13 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "shows error if date is empty" do
       click_link planning_application.reference
       click_link "Validate application"
-      click_link "Validate application"
+      click_link "Mark the application as valid"
 
       fill_in "Day", with: ""
       fill_in "Month", with: ""
       fill_in "Year", with: ""
 
-      click_button "Validate application"
+      click_button "Mark the application as valid"
 
       planning_application.reload
       expect(planning_application.status).to eql("not_started")
@@ -227,13 +227,13 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "shows error if only part of the date is empty" do
       click_link planning_application.reference
       click_link "Validate application"
-      click_link "Validate application"
+      click_link "Mark the application as valid"
 
       fill_in "Day", with: ""
       fill_in "Month", with: ""
       fill_in "Year", with: "2021"
 
-      click_button "Validate application"
+      click_button "Mark the application as valid"
 
       planning_application.reload
       expect(planning_application.status).to eql("not_started")
@@ -243,7 +243,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       fill_in "Month", with: "2"
       fill_in "Year", with: ""
 
-      click_button "Validate application"
+      click_button "Mark the application as valid"
 
       planning_application.reload
       expect(planning_application.status).to eql("not_started")
@@ -253,7 +253,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       fill_in "Month", with: ""
       fill_in "Year", with: ""
 
-      click_button "Validate application"
+      click_button "Mark the application as valid"
 
       planning_application.reload
       expect(planning_application.status).to eql("not_started")
@@ -285,7 +285,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "does not allow new requests when application is determined" do
       visit planning_application_validation_requests_path(determined_planning_application)
 
-      expect(page).not_to have_button("Invalidate application")
+      expect(page).not_to have_button("Mark the application as invalid")
       expect(page).not_to have_button("New request")
       expect(page).not_to have_content("Add all required validation requests for this application")
     end
@@ -300,7 +300,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       expect(page).to have_content("Add all required validation requests for this application. Once all requests have been added, you can invalidate the application and notify the applicant that the application is invalid and they can see all validation requests")
 
-      click_button "Invalidate application"
+      click_button "Mark the application as invalid"
       expect(page).to have_content("Please create at least one validation request")
       expect(planning_application.status).to eql("not_started")
     end

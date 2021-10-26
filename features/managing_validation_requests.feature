@@ -24,7 +24,7 @@ Feature: Managing validation requests
     Then there is a validation request for a "Picture of the cat" that shows "Not sent"
 
   Scenario: As an assessor I can see the time left on each request of an invalidated application
-    When I press "Invalidate"
+    When I press "Mark the application as invalid"
     And I view the application's validations requests
     Then there is a validation request for a "Picture of the dog" that shows "15 days"
     Then there is a validation request for a "Picture of the cat" that shows "15 days"
