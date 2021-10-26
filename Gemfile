@@ -22,9 +22,9 @@ gem "mini_magick"
 gem "pdfkit"
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 4"
-gem "sassc", "~> 2.1.0"
 gem "rails", "~> 6.1.4"
 gem "rswag-ui"
+gem "sassc", "~> 2.1.0"
 gem "webpacker", "~> 5.4"
 
 group :development, :test do
@@ -50,9 +50,9 @@ end
 
 group :test do
   gem "capybara"
-  gem "factory_bot_rails"
   gem "cucumber-rails", require: false
   gem "database_cleaner"
+  gem "factory_bot_rails"
   gem "openapi3_parser", require: false
   gem "webmock"
 end
