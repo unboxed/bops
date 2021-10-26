@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ReplacementDocumentValidationRequestsController < ValidationRequestsController
+  include ValidationRequests
+
   def new
     @replacement_document_validation_request = planning_application.replacement_document_validation_requests.new
   end

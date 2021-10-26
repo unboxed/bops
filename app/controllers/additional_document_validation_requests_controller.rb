@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class AdditionalDocumentValidationRequestsController < ValidationRequestsController
+  include ValidationRequests
+
   def new
     @additional_document_validation_request = planning_application.additional_document_validation_requests.new
   end

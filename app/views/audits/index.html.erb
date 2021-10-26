@@ -27,7 +27,11 @@
         <% end %>
         <td colspan="2" class="govuk-table__cell">
           <% if audit_item.activity_type.include?("request") %>
-            <%= render "audits/types/#{audit_item.activity_type}", locals: { item: audit_item } %>
+            <% if audit_item.activity_type.match("/*_validation_request_cancelled") %>
+              <%= render "audits/types/validation_request_cancelled", locals: { item: audit_item } %>
+            <% else %>
+              <%= render "audits/types/#{audit_item.activity_type}", locals: { item: audit_item } %>
+            <% end %>
           <% else %>
             <%= render "audits/types/generic_audit_entry", locals: { item: audit_item } %>
           <% end %>

@@ -12,6 +12,10 @@ Then("the page has a {string} link") do |label|
   expect(page).to have_link(label)
 end
 
+Then("the page has a {string} link with href {string}") do |label, href|
+  expect(page).to have_link(label, href: href)
+end
+
 Then("the page does not have a {string} link") do |label|
   expect(page).not_to have_link(label)
 end
@@ -92,4 +96,10 @@ end
 
 Then("the input for {string} contains {string}") do |label, value|
   expect(page.find_field(label).value).to eq value
+end
+
+Then "I click link {string} in table row for {string}" do |link, value|
+  within(:xpath, "//tr[contains(.,'#{value}')]") do
+    click_link(link)
+  end
 end

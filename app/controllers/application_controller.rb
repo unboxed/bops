@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  include Auditable
+
   rescue_from Notifications::Client::NotFoundError, with: :validation_notice_request_error
   rescue_from Notifications::Client::ServerError, with: :validation_notice_request_error
   rescue_from Notifications::Client::RequestError, with: :validation_notice_request_error
@@ -9,21 +11,11 @@ class ApplicationController < ActionController::Base
 
   before_action :find_current_local_authority_from_subdomain
   before_action :prevent_caching
+  before_action :set_current_user
 
   attr_reader :current_local_authority
 
   helper_method :current_local_authority
-
-  def audit(activity_type, audit_comment = nil, activity_information = nil, api_user = nil)
-    Audit.create!(
-      planning_application_id: @planning_application.id,
-      user: current_user,
-      audit_comment: audit_comment,
-      activity_information: activity_information,
-      activity_type: activity_type,
-      api_user: api_user
-    )
-  end
 
   private
 
@@ -48,5 +40,9 @@ class ApplicationController < ActionController::Base
     flash[:notice] = "Document validation successful. Application is ready for assessment."
     Appsignal.send_error(exception)
     render "planning_applications/show"
+  end
+
+  def set_current_user
+    Current.user = current_user
   end
 end

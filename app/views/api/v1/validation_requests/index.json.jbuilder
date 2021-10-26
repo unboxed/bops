@@ -10,7 +10,9 @@ json.data do
                   :previous_description,
                   :rejection_reason,
                   :approved,
-                  :days_until_response_due
+                  :days_until_response_due,
+                  :cancel_reason,
+                  :cancelled_at
     json.type "description_change_validation_request"
   end
 
@@ -22,7 +24,9 @@ json.data do
                   :new_geojson,
                   :reason,
                   :approved,
-                  :days_until_response_due
+                  :days_until_response_due,
+                  :cancel_reason,
+                  :cancelled_at
     json.type "red_line_boundary_change_validation_request"
   end
 
@@ -31,7 +35,9 @@ json.data do
                   :id,
                   :state,
                   :response_due,
-                  :days_until_response_due
+                  :days_until_response_due,
+                  :cancel_reason,
+                  :cancelled_at
     json.old_document do
       json.name replacement_document_validation_request.old_document.file.filename
       json.invalid_document_reason replacement_document_validation_request.old_document.invalidated_document_reason
@@ -54,7 +60,9 @@ json.data do
                   :response_due,
                   :days_until_response_due,
                   :document_request_type,
-                  :document_request_reason
+                  :document_request_reason,
+                  :cancel_reason,
+                  :cancelled_at
 
     json.new_document do
       if additional_document_validation_request.new_document
@@ -74,7 +82,9 @@ json.data do
                   :response,
                   :summary,
                   :suggestion,
-                  :days_until_response_due
+                  :days_until_response_due,
+                  :cancel_reason,
+                  :cancelled_at
     json.type "other_change_validation_request"
   end
 end

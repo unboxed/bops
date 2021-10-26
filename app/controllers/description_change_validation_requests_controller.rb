@@ -3,6 +3,8 @@
 class DescriptionChangeValidationRequestsController < ValidationRequestsController
   before_action :set_planning_application, only: %i[new create]
 
+  include ValidationRequests
+
   def new
     @description_change_validation_request = @planning_application.description_change_validation_requests.new
   end

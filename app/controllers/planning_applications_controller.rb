@@ -137,6 +137,9 @@ class PlanningApplicationsController < AuthenticationController
 
       redirect_to @planning_application, notice: "Application has been invalidated and email has been sent"
     else
+      validation_requests = @planning_application.validation_requests
+      @cancelled_validation_requests, @active_validation_requests = validation_requests.partition(&:cancelled?)
+
       flash[:error] = "Please create at least one validation request before invalidating"
       render "validation_requests/index"
     end

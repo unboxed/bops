@@ -6,8 +6,6 @@ class OtherChangeValidationRequest < ApplicationRecord
   belongs_to :planning_application
   belongs_to :user
 
-  before_create :set_sequence
-
   validates :summary, presence: true
   validates :suggestion, presence: true
 

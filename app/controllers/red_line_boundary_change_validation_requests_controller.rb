@@ -3,6 +3,8 @@
 class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsController
   before_action :set_planning_application, only: %i[new create show]
 
+  include ValidationRequests
+
   def new
     @red_line_boundary_change_validation_request = @planning_application.red_line_boundary_change_validation_requests.new
   end

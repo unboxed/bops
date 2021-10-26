@@ -55,6 +55,16 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
   end
 
   def validation_request_mail(planning_application, validation_request)
+    build_validation_request_mail(planning_application, validation_request)
+  end
+
+  def cancelled_validation_request_mail(planning_application, validation_request)
+    build_validation_request_mail(planning_application, validation_request)
+  end
+
+  private
+
+  def build_validation_request_mail(planning_application, validation_request)
     @planning_application = planning_application
     @validation_request = validation_request
     @application_accountable_email = @planning_application.applicant_and_agent_email.first
