@@ -91,15 +91,15 @@ class PlanningApplicationsController < AuthenticationController
     end
   end
 
-  def validate_form
+  def validate_form; end
+
+  def confirm_validation
     @planning_application.documents_validated_at ||= if @planning_application.closed_validation_requests.present?
                                                        @planning_application.last_validation_request_date
                                                      else
                                                        @planning_application.created_at
                                                      end
   end
-
-  def confirm_validation; end
 
   def validate
     if validation_date_fields.any?(&:blank?)
