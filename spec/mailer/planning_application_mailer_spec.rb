@@ -240,7 +240,6 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(body).to include(planning_application.change_access_id)
       expect(body).to include("http://cookies.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}")
       expect(body).to include("Yours faithfully")
-      expect(body).to include("#{planning_application.local_authority.signatory_name}, #{planning_application.local_authority.signatory_job_title}")
       expect(body).to include(planning_application.local_authority.name.to_s)
     end
 
