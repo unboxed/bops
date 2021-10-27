@@ -3,18 +3,18 @@
     {
       "warning_type": "Redirect",
       "warning_code": 18,
-      "fingerprint": "1984409560e4007d0985eaa4e7e595cfc1a664dbf8f4d86a9819c81a60e713ff",
+      "fingerprint": "013f4e7ea9d88292d04e9cf18eb4ca634e75969ced93fd8752277b6d91428d99",
       "check_name": "Redirect",
       "message": "Possible unprotected redirect",
       "file": "app/controllers/planning_applications_controller.rb",
-      "line": 256,
+      "line": 208,
       "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
-      "code": "redirect_to(current_local_authority.planning_applications.find(params[:id]))",
+      "code": "redirect_to(current_local_authority.planning_applications.find(params[:id]), :notice => \"Decision Notice sent to applicant\")",
       "render_path": null,
       "location": {
         "type": "method",
         "class": "PlanningApplicationsController",
-        "method": "cancel"
+        "method": "determine"
       },
       "user_input": "params[:id]",
       "confidence": "Weak",
@@ -23,18 +23,18 @@
     {
       "warning_type": "Redirect",
       "warning_code": 18,
-      "fingerprint": "1984409560e4007d0985eaa4e7e595cfc1a664dbf8f4d86a9819c81a60e713ff",
+      "fingerprint": "12c68226952c9a92bc6b0e207c6069435291ca4d92a73f8927a6cbb673dc9f7d",
       "check_name": "Redirect",
       "message": "Possible unprotected redirect",
       "file": "app/controllers/planning_applications_controller.rb",
-      "line": 261,
+      "line": 225,
       "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
-      "code": "redirect_to(current_local_authority.planning_applications.find(params[:id]))",
+      "code": "redirect_to(current_local_authority.planning_applications.find(params[:id]), :notice => \"Site boundary has been updated\")",
       "render_path": null,
       "location": {
         "type": "method",
         "class": "PlanningApplicationsController",
-        "method": "cancel"
+        "method": "update_sitemap"
       },
       "user_input": "params[:id]",
       "confidence": "Weak",
@@ -47,7 +47,7 @@
       "check_name": "Redirect",
       "message": "Possible unprotected redirect",
       "file": "app/controllers/planning_applications_controller.rb",
-      "line": 138,
+      "line": 137,
       "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
       "code": "redirect_to(current_local_authority.planning_applications.find(params[:id]), :notice => \"Application has been invalidated and email has been sent\")",
       "render_path": null,
@@ -63,31 +63,11 @@
     {
       "warning_type": "Redirect",
       "warning_code": 18,
-      "fingerprint": "27b9a7f1176c97cc7f4d2715eaa42f050bf6d507ea281f1853fa90436969c94e",
-      "check_name": "Redirect",
-      "message": "Possible unprotected redirect",
-      "file": "app/controllers/planning_applications_controller.rb",
-      "line": 207,
-      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
-      "code": "redirect_to(current_local_authority.planning_applications.find(params[:id]))",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "PlanningApplicationsController",
-        "method": "determine"
-      },
-      "user_input": "params[:id]",
-      "confidence": "Weak",
-      "note": ""
-    },
-    {
-      "warning_type": "Redirect",
-      "warning_code": 18,
       "fingerprint": "3c8044aad0dfc6077d787528ad6b41c1869e156860948fd78d088ae46fd11e6f",
       "check_name": "Redirect",
       "message": "Possible unprotected redirect",
       "file": "app/controllers/planning_applications_controller.rb",
-      "line": 154,
+      "line": 156,
       "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
       "code": "redirect_to(current_local_authority.planning_applications.find(params[:id]))",
       "render_path": null,
@@ -123,6 +103,26 @@
     {
       "warning_type": "Redirect",
       "warning_code": 18,
+      "fingerprint": "4dcb57191d9214886e2a031bb3a922200d2b68374ee373420a21a669d1fdc3c6",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/planning_applications_controller.rb",
+      "line": 121,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(current_local_authority.planning_applications.find(params[:id]), :notice => \"Application is ready for assessment and an email notification has been sent.\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "PlanningApplicationsController",
+        "method": "validate"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
       "fingerprint": "51391ef8493ecc912e21ae41f9b89e408506217ad10de170bcccdcccdc443d3c",
       "check_name": "Redirect",
       "message": "Possible unprotected redirect",
@@ -147,7 +147,7 @@
       "check_name": "Redirect",
       "message": "Possible unprotected redirect",
       "file": "app/controllers/planning_applications_controller.rb",
-      "line": 170,
+      "line": 172,
       "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
       "code": "redirect_to(current_local_authority.planning_applications.find(params[:id]))",
       "render_path": null,
@@ -163,11 +163,51 @@
     {
       "warning_type": "Redirect",
       "warning_code": 18,
+      "fingerprint": "6ec74230c57d83a234ce319f8134156f7e2f7061f74a4174760de10176d2e60d",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/planning_applications_controller.rb",
+      "line": 263,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(current_local_authority.planning_applications.find(params[:id]), :notice => \"Application has been returned\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "PlanningApplicationsController",
+        "method": "cancel"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "86621296ed2716baba501578910ad1fa22fe9bf92a3524a0434e1c1c81c37a18",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/planning_applications_controller.rb",
+      "line": 244,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(current_local_authority.planning_applications.find(params[:id]), :notice => \"Constraints have been updated\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "PlanningApplicationsController",
+        "method": "edit_constraints"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
       "fingerprint": "c94415625c7d2247e3915a74143dfb40f58d8880a171210510866a61f5eb4041",
       "check_name": "Redirect",
       "message": "Possible unprotected redirect",
       "file": "app/controllers/planning_applications_controller.rb",
-      "line": 90,
+      "line": 89,
       "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
       "code": "redirect_to(current_local_authority.planning_applications.find(params[:id]))",
       "render_path": null,
@@ -207,7 +247,7 @@
       "check_name": "Redirect",
       "message": "Possible unprotected redirect",
       "file": "app/controllers/planning_applications_controller.rb",
-      "line": 188,
+      "line": 190,
       "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
       "code": "redirect_to(current_local_authority.planning_applications.find(params[:id]))",
       "render_path": null,
@@ -227,7 +267,7 @@
       "check_name": "Redirect",
       "message": "Possible unprotected redirect",
       "file": "app/controllers/planning_applications_controller.rb",
-      "line": 195,
+      "line": 197,
       "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
       "code": "redirect_to(current_local_authority.planning_applications.find(params[:id]))",
       "render_path": null,
@@ -239,8 +279,48 @@
       "user_input": "params[:id]",
       "confidence": "Weak",
       "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "e845657503c525ebfc27f571d4f3f736acf20089ca3bf21c2a23e2757054fb92",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/planning_applications_controller.rb",
+      "line": 75,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(current_local_authority.planning_applications.find(params[:id]), :notice => \"Planning application was successfully updated.\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "PlanningApplicationsController",
+        "method": "update"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "fefe5e2b45e8cdf10019b1b4b67c58ccf0ad9a4513b68fdea4a9d0f3424fa4f8",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/planning_applications_controller.rb",
+      "line": 257,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(current_local_authority.planning_applications.find(params[:id]), :notice => \"Application has been withdrawn\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "PlanningApplicationsController",
+        "method": "cancel"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
     }
   ],
-  "updated": "2021-10-11 11:16:36 +0000",
+  "updated": "2021-10-27 10:54:37 +0000",
   "brakeman_version": "5.1.1"
 }

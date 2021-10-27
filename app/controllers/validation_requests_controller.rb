@@ -23,7 +23,7 @@ class ValidationRequestsController < ApplicationController
     when "red_line_boundary"
       redirect_to new_planning_application_red_line_boundary_change_validation_request_path
     else
-      flash[:error] = "You must select a validation request type to proceed."
+      flash.now[:error] = "You must select a validation request type to proceed."
       render "new"
     end
   end
