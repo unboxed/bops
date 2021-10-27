@@ -54,11 +54,10 @@ class PlanningApplicationsController < AuthenticationController
 
     if @planning_application.save
       audit("created", nil, current_user.name)
-      flash[:notice] = "Planning application was successfully created."
-      if @planning_application.agent_email.present? || @planning_application.applicant_email.present?
-        receipt_notice_mail
-      end
-      redirect_to planning_application_documents_path(@planning_application)
+
+      receipt_notice_mail if @planning_application.applicant_and_agent_email.any?
+
+      redirect_to planning_application_documents_path(@planning_application), notice: "Planning application was successfully created."
     else
       render :new
     end
@@ -72,8 +71,8 @@ class PlanningApplicationsController < AuthenticationController
                 "Changed from: #{@planning_application.saved_changes[p][0]} \r\n Changed to: #{@planning_application.saved_changes[p][1]}", p.split("_").join(" ").capitalize)
         end
       end
-      flash[:notice] = "Planning application was successfully updated."
-      redirect_to planning_application_url
+
+      redirect_to @planning_application, notice: "Planning application was successfully updated."
     else
       render :edit
     end
@@ -118,8 +117,8 @@ class PlanningApplicationsController < AuthenticationController
       @planning_application.start!
       audit("started")
       validation_notice_mail
-      flash[:notice] = "Application is ready for assessment and an email notification has been sent."
-      render :show
+
+      redirect_to @planning_application, notice: "Application is ready for assessment and an email notification has been sent."
     end
   end
 
@@ -140,7 +139,7 @@ class PlanningApplicationsController < AuthenticationController
       validation_requests = @planning_application.validation_requests
       @cancelled_validation_requests, @active_validation_requests = validation_requests.partition(&:cancelled?)
 
-      flash[:error] = "Please create at least one validation request before invalidating"
+      flash.now[:error] = "Please create at least one validation request before invalidating"
       render "validation_requests/index"
     end
   end
@@ -205,9 +204,8 @@ class PlanningApplicationsController < AuthenticationController
     @planning_application.determine!
     audit("determined", "Application #{@planning_application.decision}")
     decision_notice_mail
-    flash[:notice] = "Decision Notice sent to applicant"
 
-    redirect_to @planning_application
+    redirect_to @planning_application, notice: "Decision Notice sent to applicant"
   end
 
   def draw_sitemap; end
@@ -224,8 +222,7 @@ class PlanningApplicationsController < AuthenticationController
       audit("red_line_updated", "Red line drawing updated")
     end
 
-    flash[:notice] = "Site boundary has been updated"
-    redirect_to planning_application_path(@planning_application)
+    redirect_to @planning_application, notice: "Site boundary has been updated"
   end
 
   def edit_constraints_form; end
@@ -243,8 +240,8 @@ class PlanningApplicationsController < AuthenticationController
         attr_added.each { |attr| audit("constraint_added", attr) }
         attr_removed.each { |attr| audit("constraint_removed", attr) }
       end
-      flash[:notice] = "Constraints have been updated"
-      redirect_to planning_application_url
+
+      redirect_to @planning_application, notice: "Constraints have been updated"
     else
       render :edit_constraints_form
     end
@@ -254,14 +251,16 @@ class PlanningApplicationsController < AuthenticationController
     case params[:planning_application][:status]
     when "withdrawn"
       @planning_application.withdraw!(:withdrawn, params[:planning_application][:cancellation_comment])
-      flash[:notice] = "Application has been withdrawn"
+
       audit("withdrawn", @planning_application.cancellation_comment)
-      redirect_to @planning_application
+
+      redirect_to @planning_application, notice: "Application has been withdrawn"
     when "returned"
       @planning_application.return!(:returned, params[:planning_application][:cancellation_comment])
-      flash[:notice] = "Application has been returned"
+
       audit("returned", @planning_application.cancellation_comment)
-      redirect_to @planning_application
+
+      redirect_to @planning_application, notice: "Application has been returned"
     else
       @planning_application.errors.add(:status, "Please select one of the below options")
       render :cancel_confirmation
