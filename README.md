@@ -30,15 +30,6 @@ $ bundle install
 $ yarn install
 ```
 
-#### Enable the PostGIS extension:
-
-Within psql's CLI, enable the postgis and postgis_topology extensions:
-
-```sh
-CREATE EXTENSION postgis;
-CREATE EXTENSION postgis_topology;
-```
-
 #### Create the databases
 
 ```sh

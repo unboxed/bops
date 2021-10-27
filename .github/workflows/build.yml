@@ -7,8 +7,20 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: postgres://postgres:@localhost:5432/test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
       RAILS_ENV: test
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -18,11 +30,6 @@ jobs:
         with:
           ruby-version: 2.6.6
           bundler-cache: true
-
-      - name: Enable postgis extension
-        uses: huaxk/postgis-action@v1
-        with:
-          postgresql version: '11'
 
       - name: Install Node
         uses: actions/setup-node@v2
