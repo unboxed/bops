@@ -39,7 +39,7 @@ Feature: Creating a description change on the application
 
   Scenario: I cannot create a description change request on a determined planning application
     Given a determined planning application
-    When I view the determined application
+    When I view the planning application
     When I press "Application information"
     And I press "Propose a change to the description"
     And I fill in "Please suggest a new application description" with "Mambo number 10"

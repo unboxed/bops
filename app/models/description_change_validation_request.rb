@@ -14,6 +14,7 @@ class DescriptionChangeValidationRequest < ApplicationRecord
   validate :planning_application_has_not_been_determined, on: :create
 
   scope :open_change_created_over_5_business_days_ago, -> { open.where("created_at <= ?", 5.business_days.ago) }
+  scope :responded, -> { closed.where(cancelled_at: nil, auto_closed: false).order(created_at: :asc) }
 
   def rejected_reason_is_present?
     if approved == false && rejection_reason.blank?

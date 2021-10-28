@@ -276,4 +276,56 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(receipt_mail.body.encoded).to match("Description: #{planning_application.description}")
     end
   end
+
+  context "creating description changes for an undetermined application" do
+    let!(:undetermined_planning_application) do
+      create :planning_application,
+             local_authority: local_authority
+    end
+
+    let!(:description_change_request) do
+      create :description_change_validation_request,
+             planning_application: undetermined_planning_application,
+             user: assessor
+    end
+
+    describe "#receipt_notice_mail" do
+      let!(:description_change_mail) do
+        described_class.description_change_mail(planning_application, description_change_request)
+      end
+
+      it "renders the headers" do
+        expect(description_change_mail.subject).to eq("Your planning application at: #{planning_application.full_address}")
+        expect(description_change_mail.to).to eq([planning_application.agent_email])
+      end
+
+      it "renders the body" do
+        expect(description_change_mail.body.encoded).to match("Application number: #{planning_application.reference}")
+        expect(description_change_mail.body.encoded).to match("Application received: #{Time.first_business_day(planning_application.created_at).to_formatted_s(:day_month_year)}")
+        expect(description_change_mail.body.encoded).to match("At: #{planning_application.full_address}")
+        expect(description_change_mail.body.encoded).to match("the officer working on your planning application has proposed a change to the description of your application.")
+        expect(description_change_mail.body.encoded).to match("If your response is not received by #{description_change_request.request_expiry_date.to_formatted_s(:day_month_year)}")
+        expect(description_change_mail.body.encoded).to match("the proposed description will be automatically accepted as the description of your application.")
+      end
+    end
+
+    describe "# description_closure_notification_mail" do
+      let!(:description_closure_mail) do
+        described_class.description_closure_notification_mail(planning_application, description_change_request)
+      end
+
+      it "renders the headers" do
+        expect(description_closure_mail.subject).to eq("Your planning application at: #{planning_application.full_address}")
+        expect(description_closure_mail.to).to eq([planning_application.agent_email])
+      end
+
+      it "renders the body" do
+        expect(description_closure_mail.body.encoded).to match("Reference: #{planning_application.reference}")
+        expect(description_closure_mail.body.encoded).to match("Site address: #{planning_application.full_address}")
+        expect(description_closure_mail.body.encoded).to match("Description: #{planning_application.description}")
+        expect(description_closure_mail.body.encoded).to match("The proposed description change which you were told about 5 days ago has been automatically accepted.")
+        expect(description_closure_mail.body.encoded).to match("To see the updated description please follow the link below:")
+      end
+    end
+  end
 end

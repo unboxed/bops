@@ -38,18 +38,18 @@
             </div>
           </div>
         <% end %>
-        <% if @planning_application.rejected_description_change.present? %>
+        <% if @planning_application.latest_rejected_description_change.present? %>
           <p class="govuk-body">
             <strong>
               Rejected proposed description 
             </strong>
           </p>
           <p class="govuk-body">
-            <%= @planning_application.rejected_description_change.proposed_description %>
+            <%= @planning_application.latest_rejected_description_change.proposed_description %>
           </p>
           <p class="govuk-body">
             <span class="govuk-caption-m">
-              Applicant rejected this description because: <%= @planning_application.rejected_description_change.rejection_reason %>
+              Applicant rejected this description because: <%= @planning_application.latest_rejected_description_change.rejection_reason %>
             </span>
           </p>
         <% end %>

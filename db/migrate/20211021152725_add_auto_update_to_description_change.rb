@@ -2,6 +2,6 @@
 
 class AddAutoUpdateToDescriptionChange < ActiveRecord::Migration[6.1]
   def change
-    add_column :description_change_validation_requests, :auto_closed, :boolean
+    add_column :description_change_validation_requests, :auto_closed, :boolean, default: false
   end
 end

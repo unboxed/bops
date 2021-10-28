@@ -20,7 +20,7 @@ RSpec.describe ValidationRequest, type: :model do
       it_behaves_like "StateMachineTransitions", request_type, "closed", %i[]
 
       it_behaves_like "StateMachineEvents", request_type, "pending", %i[mark_as_sent! cancel]
-      it_behaves_like "StateMachineEvents", request_type, "open", %i[cancel approve!]
+      it_behaves_like "StateMachineEvents", request_type, "open", %i[cancel auto_approve!]
       it_behaves_like "StateMachineEvents", request_type, "cancelled", %i[]
       it_behaves_like "StateMachineEvents", request_type, "closed", %i[]
     end

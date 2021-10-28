@@ -3,15 +3,11 @@
 require "faker"
 
 Given("a determined planning application") do
-  @determined_planning_application = FactoryBot.create(
-    :planning_application,
-    :determined,
-    local_authority: @officer.local_authority
-  )
+  @planning_application.update!(status: "determined", determined_at: Time.zone.now)
 end
 
 Given("a rejected description change request") do
-  @rejected_description_change = FactoryBot.create(
+  FactoryBot.create(
     :description_change_validation_request,
     planning_application: @planning_application,
     state: "closed",
@@ -34,10 +30,6 @@ When("I visit the new description change request link") do
   visit new_planning_application_description_change_validation_request_path(@planning_application)
 end
 
-When("I view the determined application") do
-  visit planning_application_path(@determined_planning_application)
-end
-
 When("I cancel the existing description change request") do
   steps %(
     I view the planning application
@@ -48,8 +40,7 @@ When("I cancel the existing description change request") do
 end
 
 When("the description change request has been auto-closed after 5 days") do
-  @planning_application.description_change_validation_requests.last.update!(state: "closed", auto_closed: true,
-                                                                            approved: true)
+  @planning_application.description_change_validation_requests.last.auto_approve!
 end
 
 When("the request has been responded to") do
