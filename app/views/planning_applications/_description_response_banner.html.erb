@@ -6,6 +6,6 @@
     <span class="moj-banner__assistive">
       Warning
     </span><strong> 1 new response </strong> to a description change request.<br/>
-      <%= link_to "View description change request", planning_application_description_change_validation_request_path(@planning_application, @planning_application.responded_description_request), class: "govuk-link" %></span>
+      <%= link_to "View description change request", planning_application_description_change_validation_request_path(@planning_application, @planning_application.description_change_validation_requests.responded.last), class: "govuk-link" %></span>
   </div>
 </div>

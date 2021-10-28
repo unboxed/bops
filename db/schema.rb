@@ -111,7 +111,7 @@ ActiveRecord::Schema.define(version: 2021_10_21_152725) do
     t.date "notified_at"
     t.text "cancel_reason"
     t.datetime "cancelled_at"
-    t.boolean "auto_closed"
+    t.boolean "auto_closed", default: false
     t.index ["planning_application_id"], name: "index_description_change_requests_on_planning_application_id"
     t.index ["user_id"], name: "index_description_change_requests_on_user_id"
   end

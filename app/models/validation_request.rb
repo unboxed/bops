@@ -42,10 +42,11 @@ module ValidationRequest
         end
       end
 
-      event :approve! do
+      event :auto_approve! do
         transitions from: :open, to: :closed
 
         after do
+          planning_application.update!(description: proposed_description)
           update!(approved: true, auto_closed: true)
           audit_auto_closed!
         end

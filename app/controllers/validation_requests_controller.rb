@@ -47,7 +47,7 @@ class ValidationRequestsController < ApplicationController
   end
 
   def email_and_timestamp(request)
-    if request.instance_of?(DescriptionChangeValidationRequest)
+    if request.is_a?(DescriptionChangeValidationRequest)
       send_description_request_email(request)
     else
       send_validation_request_email(request)

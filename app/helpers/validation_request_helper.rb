@@ -11,7 +11,7 @@ module ValidationRequestHelper
   end
 
   def applicant_response(validation_request)
-    if validation_request.instance_of?(RedLineBoundaryChangeValidationRequest)
+    if validation_request.is_a?(RedLineBoundaryChangeValidationRequest)
       if validation_request.approved?
         "Change to red line boundary has been approved by the applicant"
       elsif validation_request.approved == false

@@ -24,13 +24,20 @@
     <p class="govuk-body">
       <%= @planning_application.description %>
     </p>
-    <p class="govuk-body">
-      <% if @planning_application.open_description_change_requests.any? %>
-        <%= link_to "View requested change", planning_application_description_change_validation_request_path(@planning_application, @planning_application.open_description_change_requests.last.id), class: "govuk-link" %>
-      <% else %>
-        <%= link_to "Propose a change to the description", new_planning_application_description_change_validation_request_path(@planning_application), class: "govuk-link" %>
-      <% end %>
-    </p>
+    <% if action_name == "new" || action_name == "create" %>
+      <p class="govuk-body">
+        <%= form.label :description, "Description", class: "govuk-heading-m govuk-!-margin-bottom-1" %>
+        <%= form.text_area :description, class: "govuk-textarea", rows: "5" %>
+      </p>
+    <% else %>
+      <p class="govuk-body">
+        <% if @planning_application.open_description_change_requests.any? %>
+          <%= link_to "View requested change", planning_application_description_change_validation_request_path(@planning_application, @planning_application.open_description_change_requests.last.id), class: "govuk-link" %>
+        <% else %>
+          <%= link_to "Propose a change to the description", new_planning_application_description_change_validation_request_path(@planning_application), class: "govuk-link" %>
+        <% end %>
+      </p>
+    <% end %>
   </div>
   <div class="govuk-form-group govuk-!-margin-top-8">
     <%= form.govuk_date_field :created_at, legend: { text: 'Date received', size: 'm' } %>

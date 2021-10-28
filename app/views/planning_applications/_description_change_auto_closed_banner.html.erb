@@ -5,6 +5,6 @@
   <div class="moj-banner__message">
     <span class="moj-banner__assistive">
       </span><strong> Description change request has been automatically accepted </strong> after 5 days.<br/>
-      <%= link_to "View description change request", planning_application_description_change_validation_request_path(@planning_application, @planning_application.auto_closed_description_requests), class: "govuk-link" %></span>
+      <%= link_to "View description change request", planning_application_description_change_validation_request_path(@planning_application, @planning_application.latest_auto_closed_description_request), class: "govuk-link" %></span>
   </div>
 </div>
