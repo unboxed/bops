@@ -524,7 +524,9 @@ paths:
                           response_due: '2020-05-14T05:18:17.540Z'
                           days_until_response_due: 10
                           approved: true
-                          rejection_reason: nil
+                          rejection_reason: null
+                          cancel_reason: null
+                          cancelled_at: null
                       replacement_document_validation_requests:
                         - id: 2
                           type: replacement_document_validation_request
@@ -537,6 +539,41 @@ paths:
                           new_document:
                             name: new_document.jpg
                             url: document.blob./new_document.jpg
+                          cancel_reason: null
+                          cancelled_at: null
+                      other_change_validation_requests:
+                        - id: 1
+                          type: other_change_validation_request
+                          state: open
+                          response_due: '2021-11-15'
+                          summary: A summary
+                          suggestion: A better suggestion
+                          response: null
+                          days_until_response_due: 10
+                          cancel_reason: null
+                          cancelled_at: null
+                      red_line_boundary_change_validation_requests:
+                        - id: 1
+                          type: red_line_boundary_change_validation_request
+                          state: open
+                          reason: needs more accurate line
+                          response_due: "2021-11-19"
+                          days_until_response_due: 15
+                          new_geojson: null
+                          approved: null
+                          cancel_reason: null
+                          cancelled_at: null
+                      additional_document_validation_requests:
+                        - id: 1
+                          type: additional_document_validation_request
+                          state: open
+                          response_due: '2020-05-14T05:18:17.540Z'
+                          days_until_response_due: 10
+                          new_document:
+                            name: new_document.jpg
+                            url: document.blob./new_document.jpg
+                          cancel_reason: null
+                          cancelled_at: null
   '/api/v1/planning_applications/{planning_application_id}/description_change_validation_requests/{description_change_validation_request_id}':
     patch:
       summary: Update a description validation request
