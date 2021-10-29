@@ -11,7 +11,7 @@ module Api
 
       def check_token_and_set_application
         @planning_application = current_local_authority.planning_applications.find_by(id: params[:planning_application_id])
-        if params[:change_access_id] == @planning_application.change_access_id
+        if @planning_application.validation_complete? && params[:change_access_id] == @planning_application.change_access_id
           @planning_application
         else
           render json: {}, status: :unauthorized
