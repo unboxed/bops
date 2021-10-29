@@ -5,7 +5,6 @@ on: [push, pull_request]
 
 jobs:
   test:
-    name: Setup and Tests
     runs-on: ubuntu-latest
     env:
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
@@ -64,70 +63,3 @@ jobs:
 
       - name: Cucumber
         run: bundle exec cucumber
-
-  deploy-staging:
-    if: ${{ github.ref == 'refs/heads/master' }}
-    name: Deploy to staging
-    runs-on: ubuntu-latest
-    environment: staging
-    needs: test
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7.4
-
-      - name: Install gems
-        run: |
-          gem install bundler
-          bundle install --jobs 4 --retry 3 --path vendor/bundle
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-2
-
-      - run: echo "Deploying to staging on branch $GITHUB_REF"
-
-      - name: Deploy staging application
-        run: |
-          bundle exec rake deploy:preview
-
-  deploy-production:
-    if: ${{ github.ref == 'refs/heads/master' }}
-    name: Deploy to production
-    runs-on: ubuntu-latest
-    environment: production
-    needs: [test, deploy-staging]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7.4
-
-      - name: Install gems
-        run: |
-          gem install bundler
-          bundle install --jobs 4 --retry 3 --path vendor/bundle
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-2
-
-      - run: echo "Deploying to production on branch $GITHUB_REF"
-
-      - name: Deploy production application
-        run: |
-          bundle exec rake deploy:production
