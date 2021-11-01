@@ -23,10 +23,6 @@ module PlanningApplicationHelper
     end
   end
 
-  def description_including_status(planning_application)
-    "#{planning_application.work_status.capitalize} #{planning_application.description}"
-  end
-
   def proposed_or_existing(planning_application)
     planning_application.work_status == "proposed" ? "No" : "Yes"
   end
