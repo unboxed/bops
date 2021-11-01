@@ -20,6 +20,7 @@
         "Application received" => planning_application.created_at.to_formatted_s(:day_month_year),
         "Decision date" => planning_application.determined_at&.to_formatted_s(:day_month_year) || "TBD",
         "Site address" => planning_application.full_address,
+        "Use/development" => planning_application.description,
       }.each do |key, value|
     %>
     <div class="govuk-summary-list__row">
@@ -32,11 +33,6 @@
     </div>
   <% end %>
 </dl>
-<p class="govuk-body">
-  <strong>
-    Use/development
-  </strong>
-</p>
 <p class="govuk-body">
   We certify that on the date of the application, the <%= @planning_application.work_status %> use or operations described in the application and supporting plans were <%= @planning_application.granted? ? "lawful" : "not lawful" %> for the purposes of <%= @planning_application.work_status == "proposed" ? "S.192" : "S.191" %> of the Town and Country Planning Act 1990.
 </p>
