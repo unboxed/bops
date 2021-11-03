@@ -34,7 +34,7 @@ Feature: Creating a description change on the application
     Given I create a description change request with "A yard full of bananas"
     When I visit the new description change request link
     And I fill in "Please suggest a new application description" with "Mambo number 2"
-    And I press "Add"
+    And I press "Send"
     Then the page contains "An open description change already exists for this planning application."
 
   Scenario: I cannot create a description change request on a determined planning application
@@ -43,7 +43,7 @@ Feature: Creating a description change on the application
     When I press "Application information"
     And I press "Propose a change to the description"
     And I fill in "Please suggest a new application description" with "Mambo number 10"
-    And I press "Add"
+    And I press "Send"
     Then the page contains "A description change request cannot be submitted for a determined planning application"
 
   Scenario: I can view a notification banner when a request has been auto-closed
