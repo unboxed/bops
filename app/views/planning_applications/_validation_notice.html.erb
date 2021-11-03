@@ -6,7 +6,7 @@
     Town and Country Planning Act 1990 (as amended) <br><br>
   </h2>
   <p class="govuk-body">
-    Dear Sir/Madam,
+    Dear <%= @planning_application.agent_or_applicant_name %>,
   </p>
   <p class="govuk-body">
     <strong>Reference No.:</strong> <%= @planning_application.reference %><br/>
@@ -14,7 +14,9 @@
     <strong>Site Address:</strong> <%= @planning_application.full_address %>
   </p>
   <p class="govuk-body">
-    Your application is now valid and has been started from <%= @planning_application.documents_validated_at.to_formatted_s(:day_month_year) %>. The description of your development given in the title block above may be different from the one on your application form. Contact us if you would like the description to be amended.
+    Your application is now valid and has been started from <%= @planning_application.documents_validated_at.to_datetime.to_formatted_s(:day_month_year) %>.
+    The description of your development given in the title block above may be different from the one on your application form. 
+    Contact us if you would like the description to be amended.
   </p>
   <p class="govuk-body">
     Please quote the planning reference number <%= @planning_application.reference %> when contacting us.
@@ -23,42 +25,39 @@
     We may request additional information and/or revisions before deciding whether the application should be recommended for permission or refusal.
   </p>
   <p class="govuk-body">
-    We aim to issue a decision by <%= @planning_application.target_date.to_formatted_s(:day_month_year) %>. However, if your application has not been determined by <%= @planning_application.target_date %>, you have the right to appeal to the Secretary of State, either online at https://www.gov.uk/government/organisations/planning-inspectorate, or by post to Temple Quay House, 2 The Square, Temple Quay, Bristol BS1 6PN.
+    We aim to issue a decision by <%= @planning_application.target_date.to_datetime.to_formatted_s(:day_month_year) %>.
+    However, if your application has not been determined by <%= @planning_application.target_date.to_datetime.to_formatted_s(:day_month_year) %>,
+    you have the right to appeal to the Secretary of State, either online at https://www.gov.uk/government/organisations/planning-inspectorate,
+    or by post to Temple Quay House, 2 The Square, Temple Quay, Bristol BS1 6PN.
   </p>
   <p class="govuk-body">
-    An appeal in this situation assumes the refusal of the application, even if it had intended to be granted. It is therefore recommended that you consult your case officer before taking such action.
+    An appeal in this situation assumes the refusal of the application,
+    even if it had intended to be granted. It is therefore recommended that you consult your case officer before taking such action.
+    If you wish to appeal, use the Planning Inspectorate’s online appeals service. To find out more, follow the link below.
+    The Planning Inspectorate will publish your appeal details on its website,
+    including the documents you submitted as part of your planning application,
+    along with your completed appeal form and any other information required.
+    Ensure any personal information provided belongs to you and that its publication is not an issue.
+    If you provide information belonging to someone else make sure you have their permission.
   </p>
   <p class="govuk-body">
-    If you wish to appeal, use the Planning Inspectorate’s online appeals service. To find out more, follow the link below. The Planning Inspectorate will publish your appeal details on its website, including the documents you submitted as part of your planning application, along with your completed appeal form and any other information required. Ensure any personal information provided belongs to you and that its publication is not an issue. If you provide information belonging to someone else make sure you have their permission.
-  </p>
-  <p class="govuk-body">
-    <strong>Signed:</strong> <%= @planning_application.local_authority.signatory_name %>
+    Signed: <%= @planning_application.local_authority.signatory_name %> <br>
     <%= @planning_application.local_authority.signatory_job_title %>
   </p>
   <p class="govuk-body">
     Your attention is drawn to the notes accompanying this document
-  </p>
-  <p class="govuk-body">
     Any enquiries regarding this document should quote the Application Number and be sent to
     the
-    <%= @planning_application.local_authority.signatory_job_title %>,<br/>
-    <%= @planning_application.local_authority.name %>,<br/>
-    <%= @planning_application.local_authority.enquiries_paragraph %><br/>
+    <%= @planning_application.local_authority.signatory_job_title %>,
+    <%= @planning_application.local_authority.name %>,
+    <%= @planning_application.local_authority.enquiries_paragraph %>
     or by email to <%= @planning_application.local_authority.email_address %>
   </p>
   <p class="govuk-body">
     Your proposal may also require approval under the Building Regulations and you should contact our Building Control team.
-  </p>
-  <p class="govuk-body">
     A Community Infrastructure Levy (CIL) charge may be applicable to your application. Further information is available here: https://www.gov.uk/guidance/community-infrastructure-levy
-  </p>
-  <p class="govuk-body">
     Please Note: In light of the COVID-19 situation, we are following the current advice from the government to minimise travelling and non-essential contact.
-  </p>
-  <p class="govuk-body">
     We are fully committed to helping reduce the spread of the virus by following national guidance, whilst ensuring we continue to provide essential services in our business continuity plans. In accordance with government advice, we have to minimise non-essential contact with service users. Therefore if your application requires a site visit/meeting it may be necessary to delay this to an appropriate time. To avoid/minimise delay you can send us additional information, like site photographs, for us to review together with your application documents.
-  </p>
-  <p class="govuk-body">
     We apologise for the inconvenience any delays in the determination of your application will cause you.
   </p>
   <p class="govuk-body">
