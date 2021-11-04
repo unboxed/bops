@@ -11,10 +11,12 @@ module Api
 
       def check_token_and_set_application
         @planning_application = current_local_authority.planning_applications.find_by(id: params[:planning_application_id])
-        if @planning_application.validation_complete? && params[:change_access_id] == @planning_application.change_access_id
+        return unauthorized_response unless params[:change_access_id] == @planning_application.change_access_id
+
+        if @planning_application.validation_complete? || @planning_application.description_change_validation_requests.any?
           @planning_application
         else
-          render json: {}, status: :unauthorized
+          unauthorized_response
         end
       end
 
@@ -28,6 +30,10 @@ module Api
         unless Document::PERMITTED_CONTENT_TYPES.include? params[:new_file].content_type
           render json: { message: "The file type must be JPEG, PNG or PDF" }, status: :bad_request
         end
+      end
+
+      def unauthorized_response
+        render json: {}, status: :unauthorized
       end
     end
   end
