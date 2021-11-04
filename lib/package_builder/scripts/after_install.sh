@@ -16,4 +16,5 @@ mv -Tf /home/deploy/bops/current_<%= release %> /home/deploy/bops/current
 cd /home/deploy/bops/current && bundle install --without development test --deployment --quiet
 cd /home/deploy/bops/current && bundle exec rake db:migrate
 cd /home/deploy/bops/current && bundle exec rake assets:precompile
+if [ ${SERVER_TYPE} = "worker" ] ; then cd /home/deploy/bops/current && bundle exec whenever -w ; else echo not running whenever ; fi
 EOF
