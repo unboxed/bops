@@ -21,7 +21,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     visit new_planning_application_description_change_validation_request_path(planning_application)
 
     fill_in "Please suggest a new application description", with: "New description"
-    click_button "Add"
+    click_button "Send"
 
     expect(page).to have_text("Description change request successfully sent.")
 
@@ -38,7 +38,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
     visit new_planning_application_description_change_validation_request_path(planning_application)
 
     fill_in "Please suggest a new application description", with: " "
-    click_button "Add"
+    click_button "Send"
 
     expect(page).to have_content("Proposed description can't be blank")
   end
