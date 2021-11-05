@@ -257,10 +257,6 @@ class PlanningApplication < ApplicationRecord
     end
   end
 
-  def full_address
-    "#{address_1}, #{town}, #{postcode}"
-  end
-
   def secure_change_url
     if Rails.env.production?
       "https://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}"

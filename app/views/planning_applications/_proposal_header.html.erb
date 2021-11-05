@@ -1,37 +1,32 @@
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds ">
-    <h1 class="govuk-heading-l govuk-!-margin-bottom-3">
-      <%= @planning_application.reference %>
-    </h1>
-  </div>
   <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body">
-      <%= status_and_type(@planning_application) %>: <%= @planning_application.description %>
-    </p>
-  </div>
-  <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body">
-      <%= @planning_application.full_address %>
-    </p>
-  </div>
-  <div class="govuk-grid-column-two-thirds">
-    <%= render "shared/status_panel" %>
-  </div>
-</div>
+    <span class="govuk-caption-l"><%= @planning_application.reference %></span>
+    <h1 class="govuk-heading-l"><%= @planning_application.full_address %></h1>
 
-<% if @planning_application.in_progress? %>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds assigned_to">
+    <p class="govuk-body"><%= @planning_application.status_tag %></p>
+
+    <p class="govuk-body">
+      <%= @planning_application.type_and_work_status %>: <%= @planning_application.description %>
+    </p>
+
+    <p class="govuk-body">
+      <strong>Expiry date:</strong> <%= @planning_application.target_date.to_formatted_s(:day_month_year) %>
+      <span class="govuk-!-margin-left-1">
+        <%= @planning_application.remaining_days_status_tag %>
+      </span>
+    </p>
+
+    <% if @planning_application.in_progress? %>
       <p class="govuk-body">
-        Assigned to: <strong><%= @planning_application.user ? @planning_application.user.name : "Unassigned" %></strong>
+        Assigned to: <strong><%= @planning_application.user&.name || "Unassigned" %></strong>
         <span class="assignment_cta"><%= link_to "Change", assign_planning_application_path(@planning_application), class: "govuk-link" %></span>
       </p>
-    </div>
+    <% elsif @planning_application.determined? %>
+      <p class="govuk-body">
+        <%= link_to "View decision notice", decision_notice_planning_application_path(@planning_application), class: "govuk-link" %>
+      </p>
+    <% end %>
   </div>
-<% elsif @planning_application.determined? %>
-  <p class="govuk-body">
-    <%= link_to "View decision notice", decision_notice_planning_application_path(@planning_application), class: "govuk-link" %>
-  </p>
-<% end %>
+</div>
 
 <%= render "flash_content" %>

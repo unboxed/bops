@@ -321,7 +321,10 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def set_planning_application
-    @planning_application = current_local_authority.planning_applications.find(params[:id])
+    @planning_application = PlanningApplicationPresenter.new(
+      view_context,
+      current_local_authority.planning_applications.find(params[:id])
+    )
   end
 
   def decision_notice_mail
