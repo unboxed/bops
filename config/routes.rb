@@ -67,6 +67,10 @@ Rails.application.routes.draw do
     resources :description_change_validation_requests, only: %i[new create show] do
       patch :cancel
     end
+
+    scope module: :planning_application do
+      resources :notes, only: %i[index create]
+    end
   end
 
   namespace :api do

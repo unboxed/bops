@@ -42,7 +42,7 @@ Feature: Managing validation requests
     Then there is no validation request for a "Picture of the dog"
 
   Scenario: As an assessor I can cancel a validation request only after invalidating the planning application
-    Given the date is year: 2021, month: 10, day: 21
+    Given the date is 21-10-2021
     And the planning application is invalidated
     When I view the application's validations requests
     Then there is a validation request for a "Picture of the dog" that has a link "Cancel request"
@@ -53,7 +53,7 @@ Feature: Managing validation requests
     And there is no validation request for a "Picture of the dog"
 
   Scenario Outline: As an assessor I can cancel different validation requests
-    Given the date is year: 2021, month: 10, day: 21
+    Given the date is 21-10-2021
     And the planning application is invalidated
     When I cancel a <type> validation request with "<reason>"
     Then there is a cancelled validation request for a "<reason>" that shows "21 October 2021"
