@@ -71,3 +71,17 @@ end
 And("the planning application has a description of {string}") do |description|
   @planning_application.update!(description: description)
 end
+
+When("I view all {string} planning applications") do |status|
+  visit planning_applications_path
+
+  click_on(status)
+end
+
+Given("the application expires in {int} days") do |n|
+  @planning_application.update_column(:expiry_date, n.business_days.from_now) # rubocop:disable Rails/SkipsModelValidations
+end
+
+Then("the page contains a {string} tag containing {string}") do |colour, text|
+  expect(page).to have_selector(".govuk-tag--#{colour}", text: text)
+end
