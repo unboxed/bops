@@ -17,6 +17,16 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_local_authority
 
+  protected
+
+  def set_planning_application
+    application = current_local_authority
+                  .planning_applications
+                  .find(params[:planning_application_id] || params[:id])
+
+    @planning_application = PlanningApplicationPresenter.new(view_context, application)
+  end
+
   private
 
   def find_current_local_authority_from_subdomain

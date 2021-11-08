@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class DescriptionChangeValidationRequestsController < ValidationRequestsController
-  before_action :set_planning_application, only: %i[new create show cancel]
   before_action :set_description_change_request, only: %i[show cancel]
 
   def new
@@ -45,10 +44,6 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
 
   def description_change_validation_request_params
     params.require(:description_change_validation_request).permit(:proposed_description)
-  end
-
-  def set_planning_application
-    @planning_application = PlanningApplication.find(params[:planning_application_id])
   end
 
   def description_audit_item(description_change_validation_request, planning_application)
