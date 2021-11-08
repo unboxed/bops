@@ -16,7 +16,7 @@
     </span>
   <% end %>
 
-  <%= form.hidden_field :application_type, :value => "lawfulness_certificate" %>
+  <%= form.hidden_field :application_type, value: "lawfulness_certificate" %>
   <div class="govuk-form-group govuk-!-margin-top-8">
     <h2 class="govuk-heading-m">
       Description
@@ -66,38 +66,38 @@
       <%= form.govuk_radio_button :work_status, "proposed", label: { text: 'No' } %>
     </div>
   </div>
-  <div class="govuk-form-group govuk-!-margin-top-8 applicant-information">
+  <div class="govuk-form-group govuk-!-margin-top-8 applicant-information govuk-!-width-two-thirds">
     <h2 class="govuk-heading-m">
       Applicant information
     </h2>
     <%= form.label :applicant_first_name, "First name", class: "govuk-label" %>
-    <%= form.text_field :applicant_first_name, class: "govuk-textarea govuk-input govuk-!-width-two-thirds" %>
+    <%= form.text_field :applicant_first_name, class: "govuk-textarea govuk-input" %>
     <%= form.label :applicant_last_name, "Last name", class: "govuk-label" %>
-    <%= form.text_field :applicant_last_name, class: "govuk-textarea govuk-input govuk-!-width-two-thirds" %>
+    <%= form.text_field :applicant_last_name, class: "govuk-textarea govuk-input" %>
     <%= form.label :applicant_email, "Email address", class: "govuk-label" %>
-    <%= form.text_field :applicant_email, class: "govuk-textarea govuk-input govuk-!-width-two-thirds" %>
+    <%= form.text_field :applicant_email, class: "govuk-textarea govuk-input" %>
     <%= form.label :applicant_phone, "UK telephone number", class: "govuk-label" %>
-    <%= form.text_field :applicant_phone, class: "govuk-textarea govuk-input govuk-!-width-two-thirds" %>
+    <%= form.text_field :applicant_phone, class: "govuk-textarea govuk-input" %>
   </div>
-  <div class="govuk-form-group govuk-!-margin-top-8 agent-information">
+  <div class="govuk-form-group govuk-!-margin-top-8 agent-information govuk-!-width-two-thirds">
     <h2 class="govuk-heading-m">
       Agent information
     </h2>
     <%= form.label :agent_first_name, "First name", class: "govuk-label" %>
-    <%= form.text_field :agent_first_name, class: "govuk-textarea govuk-input govuk-!-width-two-thirds" %>
+    <%= form.text_field :agent_first_name, class: "govuk-textarea govuk-input" %>
     <%= form.label :agent_last_name, "Last name", class: "govuk-label" %>
-    <%= form.text_field :agent_last_name, class: "govuk-textarea govuk-input govuk-!-width-two-thirds" %>
+    <%= form.text_field :agent_last_name, class: "govuk-textarea govuk-input" %>
     <%= form.label :agent_email, "Email address", class: "govuk-label" %>
-    <%= form.text_field :agent_email, class: "govuk-textarea govuk-input govuk-!-width-two-thirds" %>
+    <%= form.text_field :agent_email, class: "govuk-textarea govuk-input" %>
     <%= form.label :agent_phone, "UK telephone number", class: "govuk-label" %>
-    <%= form.text_field :agent_phone, class: "govuk-textarea govuk-input govuk-!-width-two-thirds" %>
+    <%= form.text_field :agent_phone, class: "govuk-textarea govuk-input" %>
   </div>
-  <div class="govuk-form-group govuk-!-margin-top-8">
+  <div class="govuk-form-group govuk-!-margin-top-8 govuk-!-width-two-thirds">
     <%= form.label :payment_reference, class: "govuk-heading-m" %>
-    <%= form.text_field :payment_reference, class: "govuk-textarea govuk-input govuk-!-width-two-thirds" %>
+    <%= form.text_field :payment_reference, class: "govuk-textarea govuk-input" %>
   </div>
-  <p>
-    <%= form.submit "Save", class: "govuk-button govuk-!-margin-right-1", data: { module: "govuk-button" } %>
-    <%= link_to 'Cancel', @planning_applications_path, class: "govuk-button govuk-button--secondary" %>
-  </p>
+  <div class="govuk-button-group">
+    <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+    <%= link_to 'Cancel', planning_applications_path, class: "govuk-button govuk-button--secondary" %>
+  </div>
 <% end %>
