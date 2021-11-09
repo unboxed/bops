@@ -42,4 +42,4 @@ en:
       red_line_boundary_change_validation_request: *cancel_reason
       replacement_document_validation_request: *cancel_reason
       note:
-        entry: "Add a note to this application. This will replace the current note."
+        entry: "Add a note to this application."

@@ -10,12 +10,6 @@ RSpec.describe Note, type: :model do
       it "validates presence" do
         expect { note.valid? }.to change { note.errors[:entry] }.to ["can't be blank"]
       end
-
-      it "validates max length of 500 characters" do
-        note = described_class.new(entry: "x" * 501)
-
-        expect { note.valid? }.to change { note.errors[:entry] }.to ["is too long (maximum is 500 characters)"]
-      end
     end
 
     describe "#user" do

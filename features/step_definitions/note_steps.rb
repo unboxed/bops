@@ -16,7 +16,7 @@ end
 Then("I see that there are no notes") do
   steps %(
     And the page contains "There are no notes yet."
-    And the page does not contain "Current note"
+    And the page does not contain "Latest note"
     And the page does not contain "Previous notes"
   )
 end
@@ -24,7 +24,7 @@ end
 Then("I see that there is one note") do
   steps %(
     And the page does not contain "There are no notes yet."
-    And the page contains "Current note"
+    And the page contains "Latest note"
     And the page does not contain "Previous notes"
   )
 end
@@ -46,7 +46,7 @@ end
 Then("I see that there are multiple notes") do
   within("#notes") do
     steps %(
-      And the page contains "Current note"
+      And the page contains "Latest note"
       And the page contains "Previous notes"
     )
   end
@@ -54,14 +54,14 @@ end
 
 Given("I add a note with {string}") do |entry|
   steps %(
-    Given I fill in "Add a note to this application. This will replace the current note." with "#{entry}"
+    Given I fill in "Add a note to this application." with "#{entry}"
     And I see the note form actions
     And I press "Add new note"
     Then the page contains "Note was successfully created."
   )
 end
 
-When("I see the current note with entry {string} at {string}") do |entry, day_month_year|
+When("I see the latest note with entry {string} at {string}") do |entry, day_month_year|
   steps %(
     Then the page contains "#{entry}"
     And the page contains "#{day_month_year}"
