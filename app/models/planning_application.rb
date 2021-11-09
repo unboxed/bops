@@ -7,16 +7,13 @@ class PlanningApplication < ApplicationRecord
 
   enum application_type: { lawfulness_certificate: 0, full: 1 }
 
-  with_options dependent: :destroy do
-    has_many :documents
-    has_many :recommendations
-    has_many :description_change_validation_requests
-    has_many :replacement_document_validation_requests
-    has_many :other_change_validation_requests
-    has_many :additional_document_validation_requests
-    has_many :red_line_boundary_change_validation_requests
-    has_many :notes, -> { by_created_at_desc }, inverse_of: :planning_application
-  end
+  has_many :documents, dependent: :destroy
+  has_many :recommendations, dependent: :destroy
+  has_many :description_change_validation_requests, dependent: :destroy
+  has_many :replacement_document_validation_requests, dependent: :destroy
+  has_many :other_change_validation_requests, dependent: :destroy
+  has_many :additional_document_validation_requests, dependent: :destroy
+  has_many :red_line_boundary_change_validation_requests, dependent: :destroy
 
   belongs_to :user, optional: true
   belongs_to :api_user, optional: true

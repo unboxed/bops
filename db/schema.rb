@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_03_111313) do
+ActiveRecord::Schema.define(version: 2021_10_21_152725) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -143,16 +143,6 @@ ActiveRecord::Schema.define(version: 2021_11_03_111313) do
     t.string "email_address"
     t.string "reply_to_notify_id"
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
-  end
-
-  create_table "notes", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
-    t.bigint "user_id", null: false
-    t.string "entry", limit: 500, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["planning_application_id"], name: "ix_notes_on_planning_application_id"
-    t.index ["user_id"], name: "ix_notes_on_user_id"
   end
 
   create_table "other_change_validation_requests", force: :cascade do |t|
@@ -303,8 +293,6 @@ ActiveRecord::Schema.define(version: 2021_11_03_111313) do
   add_foreign_key "audits", "planning_applications"
   add_foreign_key "description_change_validation_requests", "planning_applications"
   add_foreign_key "description_change_validation_requests", "users"
-  add_foreign_key "notes", "planning_applications"
-  add_foreign_key "notes", "users"
   add_foreign_key "other_change_validation_requests", "planning_applications"
   add_foreign_key "other_change_validation_requests", "users"
   add_foreign_key "planning_applications", "api_users"

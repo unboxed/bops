@@ -115,33 +115,6 @@
       <p class='govuk-body'>Consultation is not applicable for proposed permitted development.</p>
     </div>
   </div>
-  <div class="govuk-accordion__section">
-    <div class="govuk-accordion__section-header">
-      <h2 class="govuk-accordion__section-heading">
-        <span class="govuk-accordion__section-button" id="notes-section">
-          Notes
-        </span>
-        <span class="govuk-accordion__icon" aria-hidden="true"></span>
-      </h2>
-    </div>
-    <div class="govuk-accordion__section-content" aria-labelledby="notes-section">
-      <% if @planning_application.notes.any? %>
-        <p class='govuk-body'>
-          <%= @planning_application.notes.first.entry %>
-        </p>
-        <p class='govuk-body'>
-          <%= @planning_application.notes.first.created_at.to_formatted_s(:day_month_year) %>
-        </p>
-        <p class='govuk-body'>
-          <%= link_to "Add and view all notes", planning_application_notes_path(@planning_application) %>
-        </p>
-      <% else %>
-        <p class='govuk-body'>
-          <%= link_to "Add a note", planning_application_notes_path(@planning_application), class: "govuk-link" %>
-        </p>
-      <% end %>
-    </div>
-  </div>
 </div>
 <% if @planning_application.in_progress? %>
   <div class="govuk-grid-row">
