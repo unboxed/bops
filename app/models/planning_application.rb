@@ -49,7 +49,7 @@ class PlanningApplication < ApplicationRecord
 
   aasm.attribute_name :status
 
-  aasm do
+  aasm no_direct_assignment: true do
     state :not_started, initial: true
     state :invalidated
     state :in_assessment
