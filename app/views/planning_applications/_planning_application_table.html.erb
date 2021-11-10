@@ -34,9 +34,7 @@
           </td>
         <% end %>
         <td class="govuk-table__cell">
-          <strong class="govuk-tag govuk-tag--<%= display_status(planning_application)[:color] %>">
-            <%= display_status(planning_application)[:decision] %>
-          </strong>
+          <%= planning_application.status_tag %>
         </td>
         <% if id == "awaiting_determination" %>
           <td class="govuk-table__cell"><%= planning_application.awaiting_determination_at.strftime("%e %b") %></td>

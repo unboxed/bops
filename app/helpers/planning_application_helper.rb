@@ -97,40 +97,6 @@ module PlanningApplicationHelper
      planning_application.applicant_email].reject(&:blank?)
   end
 
-  def display_status(planning_application)
-    if planning_application.determined?
-      display_decision_status(planning_application)
-    elsif planning_application.status == "invalidated"
-      { color: "yellow", decision: "invalid" }
-    elsif planning_application.status == "not_started"
-      { color: "grey", decision: "Not started" }
-    elsif planning_application.status == "in_assessment"
-      { color: "turquoise", decision: "In assessment" }
-    elsif planning_application.status == "awaiting_determination"
-      { color: "purple", decision: "Awaiting determination" }
-    elsif planning_application.status == "awaiting_correction"
-      { color: "green", decision: "Awaiting correction" }
-    else
-      { color: "grey", decision: planning_application.status }
-    end
-  end
-
-  def display_decision_status(planning_application)
-    if planning_application.granted?
-      { color: "green", decision: "Granted" }
-    else
-      { color: "red", decision: "Refused" }
-    end
-  end
-
-  def cancelled_at(planning_application)
-    if planning_application.withdrawn?
-      planning_application.withdrawn_at
-    elsif planning_application.returned?
-      planning_application.returned_at
-    end
-  end
-
   def display_number(proposal_details, element)
     proposal_details.find_index(element) + 1
   end
