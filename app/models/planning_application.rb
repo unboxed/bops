@@ -110,6 +110,10 @@ class PlanningApplication < ApplicationRecord
     "#{applicant_first_name} #{applicant_last_name}"
   end
 
+  def full_address
+    "#{address_1}, #{town}, #{postcode}"
+  end
+
   def timestamp_status_change
     update("#{aasm.to_state}_at": Time.zone.now)
   end

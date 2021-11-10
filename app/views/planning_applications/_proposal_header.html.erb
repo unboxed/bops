@@ -10,10 +10,7 @@
     </p>
 
     <p class="govuk-body">
-      <strong>Expiry date:</strong> <%= @planning_application.target_date.to_formatted_s(:day_month_year) %>
-      <span class="govuk-!-margin-left-1">
-        <%= @planning_application.remaining_days_status_tag %>
-      </span>
+      <%= @planning_application.next_relevant_date %>
     </p>
 
     <% if @planning_application.in_progress? %>

@@ -36,7 +36,7 @@ class PlanningApplicationPresenter
       classes = ["govuk-tag govuk-tag--#{status_tag_colour}"]
 
       tag.span class: classes do
-        status
+        determined? ? decision.humanize : status.humanize
       end
     end
 
@@ -52,26 +52,32 @@ class PlanningApplicationPresenter
       end
     end
 
+    def next_relevant_date
+      if in_progress?
+        expiry_date_tag
+      else
+        determined_date_tag
+      end
+    end
+
+    def expiry_date_tag
+      tag.strong("Expiry date: ") +
+        tag.span(expiry_date.to_formatted_s(:day_month_year)) +
+        tag.span(class: "govuk-!-margin-left-1") +
+        remaining_days_status_tag
+    end
+
+    def determined_date_tag
+      tag.strong("#{decision.humanize} at: ") +
+        tag.span(determined_at.to_formatted_s(:day_month_year))
+    end
+
     def type
       I18n.t(planning_application.application_type, scope: "application_types")
     end
 
-    def status
-      planning_application.status.humanize
-    end
-
-    def work_status
-      planning_application.work_status.humanize
-    end
-
     def type_and_work_status
-      "#{type} (#{work_status})"
-    end
-  end
-
-  concerning :Address do
-    def full_address
-      "#{address_1}, #{town}, #{postcode}"
+      "#{type} (#{work_status.humanize})"
     end
   end
 
