@@ -11,4 +11,4 @@ Feature: As an assessor I can browse all applications
       | days | colour |
       |   12 | green  |
       |    7 | yellow |
-      |  -10 | red    |
+      |   10 | red    |

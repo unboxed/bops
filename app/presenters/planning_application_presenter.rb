@@ -44,7 +44,11 @@ class PlanningApplicationPresenter
       classes = ["govuk-tag govuk-tag--#{status_date_tag_colour}"]
 
       tag.span class: classes do
-        I18n.t("planning_applications.days_left", count: planning_application.days_left)
+        if expiry_date.past?
+          I18n.t("planning_applications.overdue", count: days_overdue)
+        else
+          I18n.t("planning_applications.days_left", count: days_left)
+        end
       end
     end
 

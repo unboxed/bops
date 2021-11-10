@@ -115,9 +115,11 @@ class PlanningApplication < ApplicationRecord
   end
 
   def days_left
-    days_left = Date.current.business_days_until(expiry_date)
+    Date.current.business_days_until(expiry_date)
+  end
 
-    days_left.positive? ? days_left : -expiry_date.business_days_until(Date.current)
+  def days_overdue
+    expiry_date.business_days_until(Date.current)
   end
 
   def reference

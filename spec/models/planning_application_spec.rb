@@ -374,4 +374,46 @@ RSpec.describe PlanningApplication, type: :model do
       end
     end
   end
+
+  # rubocop:disable Rails/SkipsModelValidations
+  describe "days left/past" do
+    let(:planning_application) { create(:planning_application) }
+
+    describe "#days_left" do
+      context "when the expiry date is in the future" do
+        before { planning_application.update_column(:expiry_date, 3.days.from_now) }
+
+        it "returns a positive number" do
+          expect(planning_application.days_left).to be_positive
+        end
+      end
+
+      context "when the expiry date is past" do
+        before { planning_application.update_column(:expiry_date, 12.days.ago) }
+
+        it "returns zero" do
+          expect(planning_application.days_left).to eq 0
+        end
+      end
+    end
+
+    describe "#days_overdue" do
+      context "when the application has not expired" do
+        before { planning_application.update_column(:expiry_date, 3.days.from_now) }
+
+        it "returns 0" do
+          expect(planning_application.days_overdue).to eq 0
+        end
+      end
+
+      context "when the application has expired" do
+        before { planning_application.update_column(:expiry_date, 3.days.ago) }
+
+        it "returns a positive number" do
+          expect(planning_application.days_overdue).to be_positive
+        end
+      end
+    end
+  end
+  # rubocop:enable Rails/SkipsModelValidations
 end
