@@ -111,6 +111,7 @@ FactoryBot.define do
   trait :determined do
     status        { :determined }
     determined_at { Time.zone.now }
+    decision { "granted" }
 
     after(:create) do |pa|
       pa.target_date = 5.business_days.from_now

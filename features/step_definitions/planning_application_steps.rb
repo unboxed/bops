@@ -28,6 +28,14 @@ Given("a new planning application") do
   )
 end
 
+Given("a determined planning application") do
+  @planning_application = FactoryBot.create(
+    :planning_application,
+    :determined,
+    local_authority: @officer.local_authority
+  )
+end
+
 Given("the planning application is invalidated") do
   steps %(
     Given I create a new document validation request for a "validation request" because "I have to"

@@ -16,6 +16,7 @@
     <% if @planning_application.in_progress? %>
       <p class="govuk-body">
         Assigned to: <strong><%= @planning_application.user&.name || "Unassigned" %></strong>
+        <!-- FIXME: make the link explicit and remove the span (i.e "Assign application"/"Change assignee") -->
         <span class="assignment_cta"><%= link_to "Change", assign_planning_application_path(@planning_application), class: "govuk-link" %></span>
       </p>
     <% elsif @planning_application.determined? %>
