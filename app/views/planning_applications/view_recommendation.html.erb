@@ -1,59 +1,16 @@
- <% add_parent_breadcrumb_link "Home", planning_applications_path %>
- <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Home", planning_applications_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
 
-  <% content_for :title, "View recommendation" %>
+<%= render "assessment_dashboard" do %>
+  <h2 class="govuk-heading-m">
+    View recommendation
+  </h2>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+  <p class="govuk-body">
+    Recommendations submitted by <%= @assessor_name %> on <%= @recommended_date %>
+  </p>
 
-  <h1 class="govuk-heading-l" style="margin-bottom: 7px;">
-    <%= @planning_application.reference %>
-  </h1>
+  <%= render "decision_notice", planning_application: @planning_application %>
 
-    <p class="govuk-body">
-      <%= @planning_application.type_and_work_status %>: <%= @planning_application.description %>
-    </p>
-
-    <p class="govuk-body">
-      <%= @planning_application.full_address %>
-    </p>
-
-    <strong class="govuk-tag govuk-tag--<%= display_status(@planning_application)[:color] %>">
-      <%= display_status(@planning_application)[:decision] %>
-    </strong>
-
-    <div class="govuk-grid-row govuk-!-padding-top-4">
-      <div class="govuk-grid-column-two-thirds assigned_to">
-        <p class="govuk-body">
-          Assigned to: <strong><%= @planning_application.user ? @planning_application.user.name : "Unassigned" %></strong>
-          <span class="assignment_cta"><%= link_to "Change", assign_planning_application_path(@planning_application) %></span>
-        </p>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<div class="govuk-grid-row">
- <div class="govuk-grid-column-two-thirds application">
-
-    <%= render "shared/application_information" %>
-
-    <%= yield %>
-
-    <h2 class="govuk-heading-m">
-      View recommendation
-    </h2>
-    <p class="govuk-body">
-      Recommendations submitted by <%= @assessor_name %> on <%= @recommended_date %>
-    </p>
-
-    <%= render "decision_notice", planning_application: @planning_application %>
-
-    <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button" %>
-
-    </div>
-  <div class="govuk-grid-column-one-third supporting">
-   <%= render "shared/supporting_information" %>
-  </div>
-</div>
+  <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button" %>
+<% end %>
