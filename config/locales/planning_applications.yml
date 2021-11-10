@@ -4,7 +4,3 @@ en:
       one: '1 day remaining'
       zero: '%{count} days overdue'
       other: '%{count} days remaining'
-
-    type:
-      lawfulness_certificate: Lawful ​Development ​Certificate
-      full: Full

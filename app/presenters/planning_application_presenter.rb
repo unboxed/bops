@@ -49,7 +49,7 @@ class PlanningApplicationPresenter
     end
 
     def type
-      I18n.t(planning_application.application_type, scope: "planning_applications.type")
+      I18n.t(planning_application.application_type, scope: "application_types")
     end
 
     def status
