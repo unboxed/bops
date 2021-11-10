@@ -52,11 +52,11 @@ class PlanningApplicationPresenter
       end
     end
 
-    def next_relevant_date
-      if in_progress?
-        expiry_date_tag
-      else
+    def next_relevant_date_tag
+      if determined?
         determined_date_tag
+      else
+        expiry_date_tag
       end
     end
 
