@@ -1,0 +1,35 @@
+<h2 class="govuk-heading-l">Assess against policy</h2>
+<ul class="app-task-list__items" id="assess-policy-section">
+  <% if @planning_application.assessment_complete? && @planning_application.policy_classes.none? %>
+    <li class="app-task-list__item">
+      <span class="app-task-list__task-name">
+        No policy classes were added.
+      </span>
+    </li>
+  <% else %>
+    <% @planning_application.policy_classes.each do |policy_class| %>
+      <li class="app-task-list__item">
+        <span class="app-task-list__task-name">
+          <%= link_to(
+              policy_class,
+              planning_application_policy_class_path(@planning_application, id: policy_class.to_param),
+              aria: { describedby: "assessment-completed" },
+              class: "govuk-link"
+          ) %>
+        </span>
+        <%= tag.strong policy_class.status, class: class_for_policy_class_status(policy_class.status) %>
+      </li>
+    <% end %>
+    <% unless @planning_application.assessment_complete? %>
+      <li class="app-task-list__item">
+        <span class="app-task-list__task-name">
+          <% if @planning_application.can_assess? %>
+            <%= link_to "Add assessment area", part_new_planning_application_policy_class_path(@planning_application), class: "govuk-link" %>
+          <% else %>
+            Add assessment area
+          <% end %>
+        </span>
+      </li>
+    <% end %>
+  <% end %>
+</ul>

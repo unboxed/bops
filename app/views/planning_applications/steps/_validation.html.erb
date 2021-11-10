@@ -1,0 +1,17 @@
+<h2 class="govuk-heading-l">
+  Validation
+</h2>
+<ul class="app-task-list__items" id="validation-section">
+  <li class="app-task-list__item">
+    <span class="app-task-list__task-name">
+      <% if @planning_application.can_validate? %>
+        <%= link_to "Validate application", validate_form_planning_application_path(@planning_application), aria: { describedby: "validation-completed" }, class: "govuk-link" %>
+      <% else %>
+        Validate application
+      <% end %>
+    </span>
+    <% if @planning_application.validation_complete? %>
+      <%= tag.strong "Completed", id: "validation-completed", class: "govuk-tag app-task-list__task-tag" %>
+    <% end %>
+  </li>
+</ul>
