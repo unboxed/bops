@@ -10,7 +10,7 @@ en:
     determined: "Determined"
   application_types:
     full: "Full Householder Application"
-    lawfulness_certificate: "Certificate of Lawfulness"
+    lawfulness_certificate: "Lawful Development Certificate"
   archive_reasons:
     scale: "Missing scale bar or north arrow"
     design: "Revise design"

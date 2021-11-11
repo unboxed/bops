@@ -47,7 +47,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "renders the headers" do
-      expect(mail.subject).to eq("Certificate of Lawfulness: granted")
+      expect(mail.subject).to eq("Lawful Development Certificate: granted")
     end
 
     it "emails the applicant when only the applicant is present" do
@@ -59,7 +59,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "emails both applicant and agent when both are present" do
-      expect(mail.subject).to eq("Certificate of Lawfulness: granted")
+      expect(mail.subject).to eq("Lawful Development Certificate: granted")
       expect(mail.to).to eq([planning_application.applicant_email])
     end
 
@@ -76,7 +76,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       end
 
       it "includes the status in the subject" do
-        expect(mail.subject).to eq("Certificate of Lawfulness: refused")
+        expect(mail.subject).to eq("Lawful Development Certificate: refused")
       end
 
       it "includes the status in the body" do

@@ -349,7 +349,7 @@ RSpec.describe PlanningApplication, type: :model do
     subject(:planning_application) { create :planning_application }
 
     it "correctly returns the application type for lawfulness certificate" do
-      expect(planning_application.parsed_application_type).to eq "Certificate of Lawfulness"
+      expect(planning_application.parsed_application_type).to eq "Lawful Development Certificate"
     end
 
     it "correctly returns the application type for full" do

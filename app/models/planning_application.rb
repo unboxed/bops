@@ -341,7 +341,7 @@ class PlanningApplication < ApplicationRecord
   def parsed_application_type
     case application_type
     when "lawfulness_certificate"
-      "Certificate of Lawfulness"
+      "Lawful Development Certificate"
     when "full"
       "Full"
     else
