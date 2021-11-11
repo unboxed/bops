@@ -30,8 +30,7 @@ end
 
 Given("a determined planning application") do
   @planning_application = FactoryBot.create(
-    :planning_application,
-    :determined,
+    :determined_planning_application,
     local_authority: @officer.local_authority
   )
 end
