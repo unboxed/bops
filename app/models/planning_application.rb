@@ -103,7 +103,7 @@ class PlanningApplication < ApplicationRecord
                                                              }
     end
 
-    after_all_transitions :timestamp_status_change
+    after_all_transitions :timestamp_status_change # FIXME: https://github.com/aasm/aasm#timestamps
   end
 
   def applicant_name

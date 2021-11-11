@@ -53,23 +53,27 @@ class PlanningApplicationPresenter
     end
 
     def next_relevant_date_tag
-      if determined?
-        determined_date_tag
+      tag.strong(next_date_label) + tag.span(next_date)
+    end
+
+    def next_date_label
+      if in_progress?
+        "Expiry date: "
+      elsif determined?
+        "#{decision.humanize} at: "
       else
-        expiry_date_tag
+        "#{status.humanize} at: "
       end
     end
 
-    def expiry_date_tag
-      tag.strong("Expiry date: ") +
-        tag.span(expiry_date.to_formatted_s(:day_month_year)) +
-        tag.span(class: "govuk-!-margin-left-1") +
-        remaining_days_status_tag
-    end
+    def next_date
+      date = if in_progress?
+               expiry_date
+             else
+               send("#{status}_at")
+             end
 
-    def determined_date_tag
-      tag.strong("#{decision.humanize} at: ") +
-        tag.span(determined_at.to_formatted_s(:day_month_year))
+      date.to_formatted_s(:day_month_year)
     end
 
     def type
