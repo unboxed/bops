@@ -28,10 +28,6 @@ class ValidationRequestsController < ApplicationController
 
   private
 
-  def set_planning_application
-    @planning_application = PlanningApplication.find(params[:planning_application_id])
-  end
-
   def send_validation_request_email(request)
     PlanningApplicationMailer.validation_request_mail(
       @planning_application,

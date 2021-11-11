@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class OtherChangeValidationRequestsController < ValidationRequestsController
-  before_action :set_planning_application, only: %i[new create show]
-
   include ValidationRequests
 
   def new
@@ -38,10 +36,6 @@ class OtherChangeValidationRequestsController < ValidationRequestsController
 
   def other_change_validation_request_params
     params.require(:other_change_validation_request).permit(:summary, :suggestion)
-  end
-
-  def set_planning_application
-    @planning_application = PlanningApplication.find(params[:planning_application_id])
   end
 
   def audit_item(other_change_validation_request)

@@ -37,6 +37,7 @@
         Contents
       </h2>
       <%= render "planning_application_tabs" %>
+
       <%= render "planning_application_table", planning_applications: @planning_applications.not_started_and_invalid, id: "not_started_and_invalid", title: "Not started" unless exclude_others? && current_user.reviewer?  %>
       <%= render "planning_application_table", planning_applications: @planning_applications.under_assessment, id: "under_assessment", title: "In assessment" unless exclude_others? && current_user.reviewer?  %>
       <%= render "planning_application_table", planning_applications: @planning_applications.awaiting_determination, id: "awaiting_determination", title: "Awaiting determination" %>

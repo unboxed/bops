@@ -26,7 +26,7 @@ RSpec.describe "Planning Application show page", type: :system do
   context "as an assessor" do
     before do
       sign_in assessor
-      visit planning_application_path(planning_application.id)
+      visit planning_application_path(planning_application)
     end
 
     it "Site address is present" do
@@ -53,7 +53,7 @@ RSpec.describe "Planning Application show page", type: :system do
       expect(page).to have_text("Site address: 7 Elm Grove, London, SE15 6UT")
       expect(page).to have_text("UPRN: 00773377")
       expect(page).to have_link("View site on Google Maps")
-      expect(page).to have_text("Application type: Lawful Development Certificate (Proposed)")
+      expect(page).to have_text("Application type: Certificate of Lawfulness (Proposed)")
       expect(page).to have_text("Description: Roof extension")
       expect(page).to have_text("PAY123")
       expect(page).to have_text("£103.00")
@@ -136,11 +136,7 @@ RSpec.describe "Planning Application show page", type: :system do
 
     before do
       sign_in assessor
-      visit planning_application_path(planning_application.id)
-    end
-
-    it "Target date is correct" do
-      expect(page).to have_text("Target date: #{planning_application.target_date.strftime('%d %B')}")
+      visit planning_application_path(planning_application)
     end
 
     it "Breadcrumbs contain reference to Application overview which is not linked" do
@@ -167,11 +163,11 @@ RSpec.describe "Planning Application show page", type: :system do
     before do
       sign_in assessor
       planning_application.update!(work_status: "existing")
-      visit planning_application_path(planning_application.reload.id)
+      visit planning_application_path(planning_application)
     end
 
     it "displays the correct application type" do
-      expect(page).to have_text("Application type: Lawful Development Certificate (Existing)")
+      expect(page).to have_text("Application type: Certificate of Lawfulness (Existing)")
     end
   end
 
@@ -183,7 +179,7 @@ RSpec.describe "Planning Application show page", type: :system do
 
     before do
       sign_in assessor
-      visit planning_application_path(planning_application.reload.id)
+      visit planning_application_path(planning_application)
     end
 
     it "displays the correct text in the result accordion when no API user is given" do
@@ -195,7 +191,7 @@ RSpec.describe "Planning Application show page", type: :system do
 
     it "displays the correct text in the result accordion when API user is present" do
       planning_application.update!(api_user: api_user)
-      visit planning_application_path(planning_application.reload.id)
+      visit planning_application_path(planning_application)
       click_button "Result from #{api_user.name}"
 
       expect(page).to have_text("No result")

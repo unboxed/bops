@@ -2,10 +2,6 @@
 
 require "faker"
 
-Given("a determined planning application") do
-  @planning_application.update!(status: "determined", determined_at: Time.zone.now)
-end
-
 Given("a rejected description change request") do
   FactoryBot.create(
     :description_change_validation_request,

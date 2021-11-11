@@ -1,31 +1,7 @@
 # frozen_string_literal: true
 
 class PlanningApplicationsController < AuthenticationController
-  before_action :set_planning_application, only: %i[show
-                                                    edit
-                                                    update
-                                                    assign
-                                                    recommendation_form
-                                                    recommend
-                                                    submit_recommendation
-                                                    assess
-                                                    review_form
-                                                    review
-                                                    publish
-                                                    determine
-                                                    validate_form
-                                                    confirm_validation
-                                                    validate
-                                                    invalidate
-                                                    view_recommendation
-                                                    edit_constraints_form
-                                                    edit_constraints
-                                                    cancel_confirmation
-                                                    cancel
-                                                    draw_sitemap
-                                                    update_sitemap
-                                                    decision_notice
-                                                    validation_notice]
+  before_action :set_planning_application, except: %i[new create index]
 
   before_action :ensure_user_is_reviewer, only: %i[review review_form]
   before_action :ensure_constraint_edits_unlocked, only: %i[edit_constraints_form edit_constraints]
@@ -318,10 +294,6 @@ class PlanningApplicationsController < AuthenticationController
     Time.zone.parse(
       validation_date_fields.join("-")
     )
-  end
-
-  def set_planning_application
-    @planning_application = current_local_authority.planning_applications.find(params[:id])
   end
 
   def decision_notice_mail

@@ -8,6 +8,7 @@ class PlanningApplication < ApplicationRecord
   enum application_type: { lawfulness_certificate: 0, full: 1 }
 
   with_options dependent: :destroy do
+    has_many :audits
     has_many :documents
     has_many :recommendations
     has_many :description_change_validation_requests
@@ -48,7 +49,7 @@ class PlanningApplication < ApplicationRecord
 
   aasm.attribute_name :status
 
-  aasm do
+  aasm no_direct_assignment: true do
     state :not_started, initial: true
     state :invalidated
     state :in_assessment
@@ -102,11 +103,15 @@ class PlanningApplication < ApplicationRecord
                                                              }
     end
 
-    after_all_transitions :timestamp_status_change
+    after_all_transitions :timestamp_status_change # FIXME: https://github.com/aasm/aasm#timestamps
   end
 
   def applicant_name
     "#{applicant_first_name} #{applicant_last_name}"
+  end
+
+  def full_address
+    "#{address_1}, #{town}, #{postcode}"
   end
 
   def timestamp_status_change
@@ -114,9 +119,11 @@ class PlanningApplication < ApplicationRecord
   end
 
   def days_left
-    days_left = Date.current.business_days_until(expiry_date)
+    Date.current.business_days_until(expiry_date)
+  end
 
-    days_left.positive? ? days_left : -expiry_date.business_days_until(Date.current)
+  def days_overdue
+    expiry_date.business_days_until(Date.current)
   end
 
   def reference
@@ -255,10 +262,6 @@ class PlanningApplication < ApplicationRecord
     proposal_details_with_flags.select do |proposal|
       proposal["responses"].any? { |element| element["metadata"]["flags"].include?(flag) }
     end
-  end
-
-  def full_address
-    "#{address_1}, #{town}, #{postcode}"
   end
 
   def secure_change_url

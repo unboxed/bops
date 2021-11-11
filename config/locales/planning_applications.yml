@@ -1,0 +1,9 @@
+en:
+  planning_applications:
+    days_left:
+      one: '1 day remaining'
+      zero: '%{count} days overdue'
+      other: '%{count} days remaining'
+    overdue:
+      one: '1 day overdue'
+      other: '%{count} days overdue'

@@ -1,0 +1,27 @@
+<h2 class="govuk-heading-l">Assessment</h2>
+<ul class="app-task-list__items" id="assess-section">
+  <li class="app-task-list__item">
+    <span class="app-task-list__task-name">
+      <% if @planning_application.can_assess? %>
+        <%= link_to "Assess proposal", recommendation_form_planning_application_path(@planning_application), aria: { describedby: "assessment-completed" }, class: "govuk-link" %>
+      <% else %>
+        Assess proposal
+      <% end %>
+    </span>
+    <% if @planning_application.assessment_complete? %>
+      <%= tag.strong "Completed", id: "validation-completed", class: "govuk-tag app-task-list__task-tag" %>
+    <% end %>
+  </li>
+  <li class="app-task-list__item">
+    <span class="app-task-list__task-name">
+      <% if @planning_application.can_submit_recommendation? %>
+        <%= link_to "Submit recommendation", submit_recommendation_planning_application_path(@planning_application), aria: { describedby: "submit_recommendation-completed" }, class: "govuk-link" %>
+      <% else %>
+        Submit recommendation
+      <% end %>
+    </span>
+    <% if @planning_application.submit_recommendation_complete? %>
+      <%= tag.strong "Completed", id: "submit_recommendation-completed", class: "govuk-tag app-task-list__task-tag" %>
+    <% end %>
+  </li>
+</ul>

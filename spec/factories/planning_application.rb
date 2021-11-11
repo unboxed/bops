@@ -66,73 +66,97 @@ FactoryBot.define do
         ]
       ].to_json
     end
-  end
 
-  trait :awaiting_determination do
-    status                    { :awaiting_determination }
-    awaiting_determination_at { Time.zone.now }
+    trait :awaiting_determination do
+      status                    { :awaiting_determination }
+      awaiting_determination_at { Time.zone.now }
 
-    after(:create) do |pa|
-      pa.target_date = 35.business_days.from_now
-      pa.save!
+      after(:create) do |pa|
+        pa.target_date = 35.business_days.from_now
+        pa.save!
+      end
     end
-  end
 
-  trait :not_started do
-    status                    { :not_started }
-    documents_validated_at    { nil }
-
-    after(:create) do |pa|
-      pa.target_date = 35.business_days.from_now
-      pa.save!
+    trait :not_started do
+      status                    { :not_started }
+      documents_validated_at    { nil }
     end
-  end
 
-  trait :in_assessment do
-    status                    { :in_assessment }
-    documents_validated_at    { Time.zone.now }
+    trait :in_assessment do
+      status                    { :in_assessment }
+      documents_validated_at    { Time.zone.now }
 
-    after(:create) do |pa|
-      pa.target_date = Date.current + 7.weeks
-      pa.save!
+      after(:create) do |pa|
+        pa.target_date = Date.current + 7.weeks
+        pa.save!
+      end
     end
-  end
 
-  trait :awaiting_correction do
-    status { :awaiting_correction }
-    awaiting_correction_at { Time.zone.now }
+    trait :awaiting_correction do
+      status { :awaiting_correction }
+      awaiting_correction_at { Time.zone.now }
 
-    after(:create) do |pa|
-      pa.target_date = 35.business_days.from_now
-      pa.save!
+      after(:create) do |pa|
+        pa.target_date = 35.business_days.from_now
+        pa.save!
+      end
     end
-  end
 
-  trait :determined do
-    status        { :determined }
-    determined_at { Time.zone.now }
+    trait :determined do
+      status        { :determined }
+      determined_at { Time.zone.now }
+      decision { "granted" }
 
-    after(:create) do |pa|
-      pa.target_date = 5.business_days.from_now
-      pa.save!
+      after(:create) do |pa|
+        pa.target_date = 5.business_days.from_now
+        pa.save!
+      end
     end
-  end
 
-  trait :invalidated do
-    status { :invalidated }
-    invalidated_at { Time.zone.now }
-  end
+    trait :invalidated do
+      status { :invalidated }
+      invalidated_at { Time.zone.now }
+    end
 
-  trait :without_result do
-    result_flag { "" }
-    result_heading { "" }
-    result_description { "" }
-    result_override { "" }
-  end
+    trait :without_result do
+      result_flag { "" }
+      result_heading { "" }
+      result_description { "" }
+      result_override { "" }
+    end
 
-  trait :with_boundary_geojson do
-    boundary_geojson do
-      '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.054597,51.537331],[-0.054588,51.537287],[-0.054453,51.537313],[-0.054597,51.537331]]]}}'
+    trait :with_boundary_geojson do
+      boundary_geojson do
+        '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.054597,51.537331],[-0.054588,51.537287],[-0.054453,51.537313],[-0.054597,51.537331]]]}}'
+      end
+    end
+
+    factory :not_started_planning_application do
+      factory :invalidated_planning_application do
+        after(:create, &:invalidate!)
+      end
+
+      factory :in_assessment_planning_application do
+        decision { "granted" }
+
+        after(:create, &:assess!)
+
+        factory :determined_planning_application do
+          after(:create, &:determine!)
+        end
+      end
+    end
+
+    factory :returned_planning_application do
+      after(:create) do |application|
+        application.return!("this will not do")
+      end
+    end
+
+    factory :withdrawn_planning_application do
+      after(:create) do |application|
+        application.withdraw!("no thanks")
+      end
     end
   end
 end

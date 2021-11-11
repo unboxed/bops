@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsController
-  before_action :set_planning_application, only: %i[new create show]
-
   include ValidationRequests
 
   def new
@@ -39,10 +37,6 @@ class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsCont
 
   def red_line_boundary_change_validation_request_params
     params.require(:red_line_boundary_change_validation_request).permit(:new_geojson, :reason)
-  end
-
-  def set_planning_application
-    @planning_application = PlanningApplication.find(params[:planning_application_id])
   end
 
   def red_line_boundary_audit_item(validation_request)

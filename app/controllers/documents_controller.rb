@@ -79,10 +79,6 @@ class DocumentsController < AuthenticationController
     document_params
   end
 
-  def set_planning_application
-    @planning_application = current_local_authority.planning_applications.find(params[:planning_application_id])
-  end
-
   def set_document
     @document = @planning_application.documents.find(
       params[:document_id]
