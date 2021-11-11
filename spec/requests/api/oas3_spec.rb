@@ -71,7 +71,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
     expect(PlanningApplication.last.documents.first.applicant_description).to eq("This is the side plan")
     expect(PlanningApplication.last.result_flag).to eq("Planning permission / Permission needed")
     expect(PlanningApplication.last.result_heading).to eq("It looks like these changes will need planning permission")
-    expect(PlanningApplication.last.result_description).to eq("Based on the information you have provided, we do not think this is eligible for a Certificate of Lawfulness")
+    expect(PlanningApplication.last.result_description).to eq("Based on the information you have provided, we do not think this is eligible for a Lawful Development Certificate")
     expect(PlanningApplication.last.result_override).to eq("This was my reason for rejecting the result")
   end
 

@@ -53,7 +53,7 @@ RSpec.describe "Planning Application show page", type: :system do
       expect(page).to have_text("Site address: 7 Elm Grove, London, SE15 6UT")
       expect(page).to have_text("UPRN: 00773377")
       expect(page).to have_link("View site on Google Maps")
-      expect(page).to have_text("Application type: Certificate of Lawfulness (Proposed)")
+      expect(page).to have_text("Application type: Lawful Development Certificate (Proposed)")
       expect(page).to have_text("Description: Roof extension")
       expect(page).to have_text("PAY123")
       expect(page).to have_text("£103.00")
@@ -167,7 +167,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "displays the correct application type" do
-      expect(page).to have_text("Application type: Certificate of Lawfulness (Existing)")
+      expect(page).to have_text("Application type: Lawful Development Certificate (Existing)")
     end
   end
 
