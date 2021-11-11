@@ -84,7 +84,7 @@
       <% if @planning_application.agent? %>
         <p class='govuk-body'>
           <strong>Agent: </strong><br>
-          <% agent_contact_details(@planning_application).each do |info| %>
+          <% @planning_application.agent_contact_details.each do |info| %>
             <%= info %><br/>
           <% end %>
         </p>
@@ -92,7 +92,7 @@
       <% if @planning_application.applicant? %>
         <p class='govuk-body'>
           <strong>Applicant: </strong><br/>
-          <% applicant_contact_details(@planning_application).each do |info| %>
+          <% @planning_application.applicant_contact_details.each do |info| %>
             <%= info %><br/>
           <% end %>
         </p>

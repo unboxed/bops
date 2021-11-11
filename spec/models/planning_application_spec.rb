@@ -345,19 +345,6 @@ RSpec.describe PlanningApplication, type: :model do
     end
   end
 
-  describe "parsed_application_type" do
-    subject(:planning_application) { create :planning_application }
-
-    it "correctly returns the application type for lawfulness certificate" do
-      expect(planning_application.parsed_application_type).to eq "Lawful Development Certificate"
-    end
-
-    it "correctly returns the application type for full" do
-      planning_application.update!(application_type: "full")
-      expect(planning_application.parsed_application_type).to eql("Full")
-    end
-  end
-
   describe "policy_classes" do
     context "when the application is not assessable anymore" do
       let(:planning_application) { create(:planning_application, :determined) }

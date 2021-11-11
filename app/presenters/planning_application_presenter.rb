@@ -75,14 +75,6 @@ class PlanningApplicationPresenter
 
       date.to_formatted_s(:day_month_year)
     end
-
-    def type
-      I18n.t(planning_application.application_type, scope: "application_types")
-    end
-
-    def type_and_work_status
-      "#{type} (#{work_status.humanize})"
-    end
   end
 
   private

@@ -77,26 +77,6 @@ module PlanningApplicationHelper
     "https://google.co.uk/maps/place/#{CGI.escape(address)}"
   end
 
-  def agent_full_name(planning_application)
-    [planning_application.agent_first_name, planning_application.agent_last_name].compact.join(" ")
-  end
-
-  def agent_contact_details(planning_application)
-    [agent_full_name(planning_application),
-     planning_application.agent_phone,
-     planning_application.agent_email].reject(&:blank?)
-  end
-
-  def applicant_full_name(planning_application)
-    [planning_application.applicant_first_name, planning_application.applicant_last_name].compact.join(" ")
-  end
-
-  def applicant_contact_details(planning_application)
-    [applicant_full_name(planning_application),
-     planning_application.applicant_phone,
-     planning_application.applicant_email].reject(&:blank?)
-  end
-
   def display_number(proposal_details, element)
     proposal_details.find_index(element) + 1
   end

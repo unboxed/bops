@@ -6,7 +6,7 @@ Date received: <%= received_at(@planning_application) %>
 
 Site address: <%= @planning_application.full_address %>
 Description: <%= @planning_application.description %>
-Application type: <%= @planning_application.parsed_application_type %>
+Application type: <%= @planning_application.type %>
 
 What happens next:
 
@@ -31,4 +31,3 @@ Signed: <%= @planning_application.local_authority.signatory_name %>
 <%= @planning_application.local_authority.signatory_job_title %>
 
 Disclaimer: This email does not constitute an approval of any application submitted.
-
