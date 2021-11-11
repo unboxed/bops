@@ -13,7 +13,7 @@ RSpec.describe "Planning Application show page", type: :system do
 
     it "makes valid task list for not_started" do
       planning_application = create(:planning_application, :not_started, local_authority: @default_local_authority)
-      visit planning_application_path(planning_application.id)
+      visit planning_application_path(planning_application)
 
       within "#validation-section" do
         expect(page).to have_link("Validate application")
@@ -28,7 +28,7 @@ RSpec.describe "Planning Application show page", type: :system do
 
     it "makes valid task list for when it has been validated but no proposal has been made" do
       planning_application = create(:planning_application, local_authority: @default_local_authority)
-      visit planning_application_path(planning_application.id)
+      visit planning_application_path(planning_application)
       within "#validation-section" do
         expect(page).to have_link("Validate application")
         expect(page).to have_content("Completed")
@@ -44,7 +44,7 @@ RSpec.describe "Planning Application show page", type: :system do
     it "makes valid task list for when it in assessment and a proposal has been created" do
       planning_application = create(:planning_application, local_authority: @default_local_authority)
       create(:recommendation, planning_application: planning_application)
-      visit planning_application_path(planning_application.id)
+      visit planning_application_path(planning_application)
 
       within "#assess-section" do
         expect(page).to have_link("Assess proposal")
@@ -57,7 +57,7 @@ RSpec.describe "Planning Application show page", type: :system do
       planning_application = create(:planning_application, :awaiting_determination,
                                     local_authority: @default_local_authority)
       create(:recommendation, planning_application: planning_application)
-      visit planning_application_path(planning_application.id)
+      visit planning_application_path(planning_application)
       within "#validation-section" do
         expect(page).not_to have_link("Validate application")
         expect(page).to have_content("Completed")
@@ -84,7 +84,7 @@ RSpec.describe "Planning Application show page", type: :system do
       planning_application = create(:planning_application, :awaiting_determination,
                                     local_authority: @default_local_authority)
       create(:recommendation, :reviewed, planning_application: planning_application)
-      visit planning_application_path(planning_application.id)
+      visit planning_application_path(planning_application)
 
       within "#review-section" do
         expect(page).to have_link("Review assessment")
@@ -100,7 +100,7 @@ RSpec.describe "Planning Application show page", type: :system do
       planning_application = create(:planning_application, :awaiting_correction,
                                     local_authority: @default_local_authority)
       create(:recommendation, :reviewed, planning_application: planning_application)
-      visit planning_application_path(planning_application.id)
+      visit planning_application_path(planning_application)
 
       within "#validation-section" do
         expect(page).to have_link("Validate application")
@@ -118,7 +118,7 @@ RSpec.describe "Planning Application show page", type: :system do
                                     local_authority: @default_local_authority)
       create(:recommendation, :reviewed, planning_application: planning_application)
       create(:recommendation, planning_application: planning_application)
-      visit planning_application_path(planning_application.id)
+      visit planning_application_path(planning_application)
 
       within "#validation-section" do
         expect(page).to have_link("Validate application")
@@ -145,7 +145,7 @@ RSpec.describe "Planning Application show page", type: :system do
       planning_application = create(:planning_application, :awaiting_determination,
                                     local_authority: @default_local_authority)
       create(:recommendation, planning_application: planning_application)
-      visit planning_application_path(planning_application.id)
+      visit planning_application_path(planning_application)
       within "#validation-section" do
         expect(page).not_to have_link("Validate application")
         expect(page).to have_content("Completed")
@@ -170,7 +170,7 @@ RSpec.describe "Planning Application show page", type: :system do
       planning_application = create(:planning_application, :awaiting_determination,
                                     local_authority: @default_local_authority)
       create(:recommendation, :reviewed, planning_application: planning_application)
-      visit planning_application_path(planning_application.id)
+      visit planning_application_path(planning_application)
 
       within "#validation-section" do
         expect(page).to have_content("Completed")
