@@ -16,9 +16,16 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   let!(:reviewer) { create :user, :reviewer, local_authority: local_authority }
   let!(:assessor) { create :user, :assessor, local_authority: local_authority }
   let!(:planning_application) do
-    create(:planning_application, :determined, agent_email: "cookie_crackers@example.com",
-                                               applicant_email: "cookie_crumbs@example.com", local_authority: local_authority, decision: "granted")
+    create(
+      :planning_application,
+      :determined,
+      agent_email: "cookie_crackers@example.com",
+      applicant_email: "cookie_crumbs@example.com",
+      local_authority: local_authority,
+      decision: "granted"
+    )
   end
+
   let(:host) { "default.example.com" }
   let!(:validation_request) do
     create(:other_change_validation_request, planning_application: planning_application, user: assessor)

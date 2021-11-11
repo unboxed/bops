@@ -3,6 +3,8 @@
 require "aasm"
 
 class PlanningApplication < ApplicationRecord
+  include PlanningApplicationDecorator
+
   include AASM
 
   enum application_type: { lawfulness_certificate: 0, full: 1 }
@@ -104,14 +106,6 @@ class PlanningApplication < ApplicationRecord
     end
 
     after_all_transitions :timestamp_status_change # FIXME: https://github.com/aasm/aasm#timestamps
-  end
-
-  def applicant_name
-    "#{applicant_first_name} #{applicant_last_name}"
-  end
-
-  def full_address
-    "#{address_1}, #{town}, #{postcode}"
   end
 
   def timestamp_status_change
@@ -265,11 +259,9 @@ class PlanningApplication < ApplicationRecord
   end
 
   def secure_change_url
-    if Rails.env.production?
-      "https://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}"
-    else
-      "http://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}"
-    end
+    protocol = Rails.env.production? ? "https" : "http"
+
+    "#{protocol}://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}"
   end
 
   def invalid_documents_without_validation_request
@@ -336,17 +328,6 @@ class PlanningApplication < ApplicationRecord
 
   def invalidation_response_due
     15.business_days.after(invalidated_at.to_date)
-  end
-
-  def parsed_application_type
-    case application_type
-    when "lawfulness_certificate"
-      "Lawful Development Certificate"
-    when "full"
-      "Full"
-    else
-      application_type.humanize
-    end
   end
 
   def applicant_and_agent_email
