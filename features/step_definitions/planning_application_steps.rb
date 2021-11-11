@@ -89,6 +89,10 @@ Given("the application expires in {int} days") do |n|
   @planning_application.update_column(:expiry_date, n.business_days.from_now) # rubocop:disable Rails/SkipsModelValidations
 end
 
+Given("the application expired {int} days ago") do |n|
+  @planning_application.update_column(:expiry_date, n.business_days.ago) # rubocop:disable Rails/SkipsModelValidations
+end
+
 Then("the page contains a {string} tag containing {string}") do |colour, text|
   expect(page).to have_selector(".govuk-tag--#{colour}", text: text)
 end
