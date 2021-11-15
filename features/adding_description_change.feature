@@ -24,6 +24,17 @@ Feature: Creating a description change on the application
     Then the page contains "Proposed description"
     Then the page contains "Its margarita time ole!"
   
+  Scenario: When a change request has been accepted I can view the previous description and the new one
+    Given I create a description change request with "Bring me the beans"
+    And the request has been responded to
+    When I press "Application information"
+    And I press "View requested change"
+    Then the page contains "Approved"
+    Then the page contains "Previous description:"
+    Then the page contains "Add a statue of Melissa striking poses"
+    Then the page contains "Proposed description:"
+    Then the page contains "Bring me the beans"
+
   Scenario: When a change request has been rejected I can view it when creating a new one
     Given a rejected description change request
     When I press "Application information"
