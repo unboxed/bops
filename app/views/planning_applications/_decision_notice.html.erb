@@ -23,13 +23,15 @@
         "Use/development" => planning_application.description,
       }.each do |key, value|
     %>
-    <div class="govuk-summary-list__row">
+    <div class="govuk-summary-list__column">
       <dt class="govuk-summary-list__key">
         <%= key %>
       </dt>
-      <dd class="govuk-summary-list__value">
+    </div>
+    <div class="govuk-summary-list__column">
+      <dt class="govuk-summary-list__value">
         <%= value %>
-      </dd>
+      </dt>
     </div>
   <% end %>
 </dl>
@@ -92,13 +94,27 @@
   Notes:
 </h3>
 <p class="govuk-body">
-  Enquiries regarding this document should include the Application number and be sent to:
-  <%= planning_application.local_authority.email_address %>, or<br/>
-  <%= planning_application.local_authority.signatory_job_title %>, <%= planning_application.local_authority.name %>, Postal address: <%= planning_application.local_authority.enquiries_paragraph %>.
+  Enquiries regarding this document should include the application number and be sent to:
+</p>
+<h3 class="govuk-heading-s">
+  Email
+</h3>
+<p class="govuk-body">
+  <%= planning_application.local_authority.email_address %>
+</p>
+<h3 class="govuk-heading-s">
+  Post
+</h3>
+<p class="govuk-body">
+  <%= planning_application.local_authority.signatory_job_title %>, <br>
+  <%= planning_application.local_authority.name %>, <br>
+  <%= planning_application.local_authority.enquiries_paragraph %>.
 </p>
 <% if @planning_application.refused? %>
+  <h3 class="govuk-heading-s">
+    Appeals to the Secretary of State
+  </h3>
   <p class="govuk-body">
-    Appeals to the Secretary of State<br/>
     If you are aggrieved by this decision, then you can appeal to the Secretary of State under section 195 of the Town and Country Planning Act 1990 (as amended). Appeals to the Secretary of State regarding this decision may be made online and in accordance with the guidance set out on the Government website at: <a href="https://www.gov.uk/appeal-lawful-development-certificate-decision">https://www.gov.uk/appeal-lawful-development-certificate-decision</a>
   </p>
 <% end %>

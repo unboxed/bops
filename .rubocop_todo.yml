@@ -338,3 +338,4 @@ Layout/LineLength:
     - 'spec/system/planning_applications/show_spec.rb'
     - 'spec/system/planning_applications/validating_spec.rb'
     - 'db/migrate/20211020153256_create_delayed_jobs.rb'
+    - 'db/migrate/20211122103943_update_enquiries_paragraph.rb'
