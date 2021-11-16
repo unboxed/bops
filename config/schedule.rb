@@ -22,5 +22,5 @@
 # Learn more: http://github.com/javan/whenever
 
 every 1.day, at: "9:00 am" do
-  runner "CloseDescriptionJob.perform"
+  runner "CloseDescriptionJob.perform_later"
 end
