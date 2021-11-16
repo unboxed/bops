@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/BlockLength
 json.data do
   json.description_change_validation_requests @planning_application.description_change_validation_requests do |description_change_validation_request|
     json.extract! description_change_validation_request,
@@ -23,6 +24,7 @@ json.data do
                   :response_due,
                   :new_geojson,
                   :reason,
+                  :rejection_reason,
                   :approved,
                   :days_until_response_due,
                   :cancel_reason,
@@ -88,3 +90,4 @@ json.data do
     json.type "other_change_validation_request"
   end
 end
+# rubocop:enable Metrics/BlockLength
