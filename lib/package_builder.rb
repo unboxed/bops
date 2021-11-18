@@ -127,9 +127,9 @@ private
   end
 
   def create_deployments!
-    create_deployment!("Webservers") do
-      notify_appsignal
-    end
+    create_deployment!("Webservers")
+    create_deployment!("Workers")
+    notify_appsignal
   end
 
   def create_deployment!(deployment_group_name, &block)
