@@ -86,7 +86,7 @@
               File name: <%= document.name %>
             </p>
             <p class="govuk-body govuk-!-margin-bottom-1">
-              Date received: <%= document.created_at.to_formatted_s(:day_month_year) %>
+              Date received: <%= document.received_at_or_created %>
             </p>
             <% if document.numbers.present? %>
               <p class="govuk-body govuk-!-margin-bottom-1">

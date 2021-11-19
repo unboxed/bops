@@ -8,6 +8,7 @@
               <span class="govuk-visually-hidden">Error:</span><%= error %></span>
       <% end %>
     <% end %>
+    <%= render partial: 'documents/form_partials/received_at', locals: {form: form} %>
     <%= render partial: 'documents/form_partials/tags', locals: {form: form} %>
     <%= render partial: 'documents/form_partials/validate_document', locals: {form: form} %>
     <%= render partial: 'documents/form_partials/privacy', locals: {form: form} %>

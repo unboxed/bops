@@ -98,6 +98,23 @@ RSpec.describe "Document uploads", type: :system do
         end
       end
 
+      it "displays the date when uploaded and user who uploaded the document" do
+        visit planning_application_documents_path(planning_application)
+
+        click_link("Upload document")
+        attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.pdf")
+
+        fill_in "Day", with: "4"
+        fill_in "Month", with: "11"
+        fill_in "Year", with: "2021"
+
+        click_button("Save")
+
+        expect(page).to have_content("Date received: 4 November 2021")
+        visit edit_planning_application_document_path(planning_application, planning_application.documents.last)
+        expect(page).to have_content("This document was manually uploaded by #{assessor.name}")
+      end
+
       it "cannot upload a document in the wrong format" do
         visit planning_application_documents_path(planning_application)
 

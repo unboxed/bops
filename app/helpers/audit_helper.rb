@@ -24,6 +24,8 @@ module AuditHelper
       "Constraint removed"
     when "determined"
       "Decision Published"
+    when "document_received_at_changed"
+      "#{args} received at date was modified"
     when "document_invalidated"
       "#{args} was marked as invalid"
     when "document_changed_to_validated"

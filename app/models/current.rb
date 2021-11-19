@@ -2,4 +2,5 @@
 
 class Current < ActiveSupport::CurrentAttributes
   attribute :user
+  attribute :api_user
 end
