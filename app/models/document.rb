@@ -2,6 +2,8 @@
 
 class Document < ApplicationRecord
   belongs_to :planning_application
+  belongs_to :user, optional: true
+  belongs_to :api_user, optional: true
 
   has_one_attached :file, dependent: :destroy
 
@@ -41,6 +43,7 @@ class Document < ApplicationRecord
   validate :file_attached
   validate :numbered
   validate :invalidated_comment_present?
+  validate :created_date_is_in_the_past
 
   scope :active, -> { where(archived_at: nil) }
   scope :invalidated, -> { where(validated: false) }
@@ -51,6 +54,11 @@ class Document < ApplicationRecord
   scope :for_display, -> { active.referenced }
 
   scope :with_tag, ->(tag) { where("tags @> ?", "\"#{tag}\"") }
+
+  before_create do
+    self.api_user ||= Current.api_user
+    self.user ||= Current.user
+  end
 
   def name
     file.filename if file.attached?
@@ -73,6 +81,10 @@ class Document < ApplicationRecord
 
   def published?
     self.class.for_publication.where(id: id).any?
+  end
+
+  def received_at_or_created
+    (received_at || created_at).to_date.to_formatted_s(:day_month_year)
   end
 
   private
@@ -98,6 +110,12 @@ class Document < ApplicationRecord
   def invalidated_comment_present?
     if validated == false && invalidated_document_reason.blank?
       errors.add(:document_validation, "Please fill in the comment box with the reason(s) this document is not valid.")
+    end
+  end
+
+  def created_date_is_in_the_past
+    if received_at.present? && received_at > Time.zone.today
+      errors.add(:received_at, "Date must be today or earlier. You cannot insert a future date.")
     end
   end
 end

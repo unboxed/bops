@@ -16,4 +16,12 @@ module DocumentHelper
   def is_evidence_tag(tag)
     Document::EVIDENCE_TAGS.include?(tag)
   end
+
+  def created_by(document)
+    if document.user.present?
+      "This document was manually uploaded by #{document.user.name}"
+    elsif document.api_user.present?
+      "This document was uploaded by #{document.api_user.name}"
+    end
+  end
 end

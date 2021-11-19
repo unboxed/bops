@@ -19,7 +19,9 @@ class DocumentsController < AuthenticationController
   def update
     @document = @planning_application.documents.find(params[:id])
     if @document.update(document_params)
-      if @document.saved_change_to_attribute?(:validated, from: false, to: true)
+      if @document.saved_change_to_received_at?
+        audit("document_received_at_changed", audit_date_comment(@document), @document.file.filename)
+      elsif @document.saved_change_to_attribute?(:validated, from: false, to: true)
         audit("document_changed_to_validated", nil, @document.file.filename)
       elsif @document.saved_change_to_attribute?(:validated, to: false)
         audit("document_invalidated", @document.invalidated_document_reason, @document.file.filename)
@@ -74,7 +76,8 @@ class DocumentsController < AuthenticationController
   def document_params
     document_params = params.fetch(:document, {}).permit(:archive_reason, :name, :archived_at,
                                                          :numbers, :publishable, :referenced_in_decision_notice,
-                                                         :validated, :invalidated_document_reason, :file, tags: [])
+                                                         :validated, :invalidated_document_reason, :file,
+                                                         :received_at, :created_by, tags: [])
     document_params[:tags]&.reject!(&:blank?)
     document_params
   end
@@ -87,5 +90,10 @@ class DocumentsController < AuthenticationController
 
   def ensure_document_edits_unlocked
     render plain: "forbidden", status: :forbidden and return unless @planning_application.can_validate?
+  end
+
+  def audit_date_comment(document)
+    { previous_received_date: document.saved_change_to_received_at.first,
+      updated_received_date: document.saved_change_to_received_at.second }.to_json
   end
 end

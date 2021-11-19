@@ -55,6 +55,7 @@ module Api
 
       def current_api_user
         @current_api_user ||= authenticate
+        Current.api_user = @current_api_user
       end
 
       protected

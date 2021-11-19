@@ -18,7 +18,7 @@
     </p>
 
     <p class="govuk-body">
-      <strong>Date received:</strong> <%= @document.created_at.to_s %>
+      <strong>Date received:</strong> <%= @document.received_at_or_created %>
     </p>
 
     <p class="govuk-body">
@@ -28,6 +28,10 @@
       <% else %>
         No reason submitted
       <% end %>
+    </p>
+
+    <p class="govuk-body">
+      <%= created_by(@document)  %>
     </p>
   </div>
   <div class="govuk-grid-column-full">

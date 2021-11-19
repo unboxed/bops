@@ -56,6 +56,30 @@ RSpec.describe "Edit document", type: :system do
       expect(page).to have_content("Public: Yes")
     end
 
+    it "allows for the date received to be edited" do
+      click_link "Edit"
+
+      expect(page).to have_content("Date received")
+
+      fill_in "Day", with: "19"
+      fill_in "Month", with: "11"
+      fill_in "Year", with: "2021"
+
+      click_button("Save")
+      expect(page).to have_content("Date received: 19 November 2021")
+    end
+
+    it "does not allow for a future date to be inserted in created_date" do
+      click_link "Edit"
+
+      fill_in "Day", with: "19"
+      fill_in "Month", with: "11"
+      fill_in "Year", with: "3021"
+
+      click_button("Save")
+      expect(page).to have_content("Date must be today or earlier. You cannot insert a future date.")
+    end
+
     it "allows for a document to be marked as not valid" do
       click_link "Edit"
 
@@ -125,6 +149,20 @@ RSpec.describe "Edit document", type: :system do
       click_button("Save")
       visit planning_application_audits_path(planning_application)
       expect(page).to have_content("#{document.name} was modified from invalid to valid")
+    end
+
+    it "audits the action of editing the received_at date on a document" do
+      click_link "Edit"
+
+      fill_in "Day", with: "3"
+      fill_in "Month", with: "10"
+      fill_in "Year", with: "1989"
+      click_button("Save")
+
+      document.reload
+      visit planning_application_audits_path(planning_application)
+      expect(page).to have_content("received at date was modified to:")
+      expect(page).to have_content(document.received_at.to_date.strftime("%e %B %Y").to_s)
     end
 
     it "with wrong format document" do
