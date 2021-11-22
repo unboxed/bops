@@ -7,6 +7,10 @@ module Requests
     def json
       @json ||= JSON.parse(response.body)
     end
+
+    def json_time_format(time)
+      time.iso8601(3) if time.present?
+    end
   end
 end
 

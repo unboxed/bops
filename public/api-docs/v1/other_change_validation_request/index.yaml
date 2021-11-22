@@ -1,0 +1,37 @@
+get:
+  summary: Retrieves all other change validation requests for a given planning application
+  tags:
+    - Other change validation requests
+  security:
+    - bearerAuth: []
+  parameters:
+    - in: path
+      $ref: '../common/parameters/planning_application_id.yaml'
+    - in: query
+      $ref: '../common/parameters/change_access_id.yaml'
+
+  responses:
+    '200':
+      description: All other change validation requests for a planning application
+      content:
+        application/json:
+          example:
+            data:
+              - id: 1
+                state: open
+                response_due: '2020-05-14T05:18:17.540Z'
+                response: I accept the change
+                summary: We need another change
+                suggestion: Make a change
+                days_until_response_due: 10
+                cancel_reason: null
+                cancelled_at: null
+              - id: 2
+                state: open
+                response_due: '2020-05-14T05:18:17.540Z'
+                response: I accept the change
+                summary: We need yet another change
+                suggestion: Make an additional change
+                days_until_response_due: 10
+                cancel_reason: null
+                cancelled_at: null

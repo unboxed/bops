@@ -3,8 +3,28 @@
 module Api
   module V1
     class DescriptionChangeValidationRequestsController < Api::V1::ApplicationController
-      skip_before_action :verify_authenticity_token, only: :update
-      before_action :check_token_and_set_application, only: :update
+      skip_before_action :verify_authenticity_token
+      before_action :check_token_and_set_application
+
+      def index
+        respond_to do |format|
+          format.json do
+            @description_change_validation_requests = @planning_application.description_change_validation_requests
+          end
+        end
+      end
+
+      def show
+        respond_to do |format|
+          if (@description_change_validation_request = @planning_application.description_change_validation_requests.where(id: params[:id]).first)
+            format.json
+          else
+            format.json do
+              render json: { message: "Unable to find description change validation request with id: #{params[:id]}" }, status: :not_found
+            end
+          end
+        end
+      end
 
       def update
         @description_change_validation_request = @planning_application.description_change_validation_requests.where(id: params[:id]).first

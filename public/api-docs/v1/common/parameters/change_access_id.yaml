@@ -1,0 +1,5 @@
+name: change_access_id
+required: true
+schema:
+  type: string
+description: A unique access code for this planning application

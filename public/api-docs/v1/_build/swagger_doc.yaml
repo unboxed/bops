@@ -11,6 +11,8 @@ paths:
   '/api/v1/planning_applications/{id}':
     get:
       summary: Retrieves all determined planning applications
+      tags:
+        - Planning application
       parameters:
         - in: path
           name: id
@@ -91,6 +93,8 @@ paths:
   /api/v1/planning_applications:
     get:
       summary: Retrieves all determined planning applications
+      tags:
+        - Planning application
       responses:
         '200':
           description: All determined planning applications
@@ -163,6 +167,8 @@ paths:
                             applicant_description: This is the proposed side elevation
     post:
       summary: Create new planning application
+      tags:
+        - Planning application
       security:
         - bearerAuth: []
       parameters: []
@@ -491,6 +497,8 @@ paths:
   '/api/v1/planning_applications/{planning_application_id}/validation_requests':
     get:
       summary: Retrieves all validation requests for a given planning application
+      tags:
+        - Validation requests
       security:
         - bearerAuth: []
       parameters:
@@ -503,9 +511,9 @@ paths:
           description: The planning application ID
         - in: query
           name: change_access_id
+          required: true
           schema:
             type: string
-          required: true
           description: A unique access code for this planning application
       responses:
         '200':
@@ -557,7 +565,7 @@ paths:
                           type: red_line_boundary_change_validation_request
                           state: open
                           reason: needs more accurate line
-                          response_due: "2021-11-19"
+                          response_due: '2021-11-19'
                           days_until_response_due: 15
                           new_geojson: null
                           approved: null
@@ -574,9 +582,197 @@ paths:
                             url: document.blob./new_document.jpg
                           cancel_reason: null
                           cancelled_at: null
-  '/api/v1/planning_applications/{planning_application_id}/description_change_validation_requests/{description_change_validation_request_id}':
+  '/api/v1/planning_applications/{planning_application_id}/other_change_validation_requests':
+    get:
+      summary: Retrieves all other change validation requests for a given planning application
+      tags:
+        - Other change validation requests
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: planning_application_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: query
+          name: change_access_id
+          required: true
+          schema:
+            type: string
+          description: A unique access code for this planning application
+      responses:
+        '200':
+          description: All other change validation requests for a planning application
+          content:
+            application/json:
+              example:
+                data:
+                  - id: 1
+                    state: open
+                    response_due: '2020-05-14T05:18:17.540Z'
+                    response: I accept the change
+                    summary: We need another change
+                    suggestion: Make a change
+                    days_until_response_due: 10
+                    cancel_reason: null
+                    cancelled_at: null
+                  - id: 2
+                    state: open
+                    response_due: '2020-05-14T05:18:17.540Z'
+                    response: I accept the change
+                    summary: We need yet another change
+                    suggestion: Make an additional change
+                    days_until_response_due: 10
+                    cancel_reason: null
+                    cancelled_at: null
+  '/api/v1/planning_applications/{planning_application_id}/other_change_validation_requests/{other_change_validation_request_id}':
+    get:
+      summary: Retrieves an other change validation request
+      tags:
+        - Other change validation requests
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: planning_application_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: path
+          name: other_change_validation_request_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The other change validation request ID
+        - in: query
+          name: change_access_id
+          required: true
+          schema:
+            type: string
+          description: A unique access code for this planning application
+      responses:
+        '200':
+          description: An other change validation request
+          content:
+            application/json:
+              example:
+                id: 1
+                state: open
+                response_due: '2020-05-14T05:18:17.540Z'
+                response: I accept the change
+                summary: We need another change
+                suggestion: Make a change
+                days_until_response_due: 10
+                cancel_reason: null
+                cancelled_at: null
     patch:
-      summary: Update a description validation request
+      summary: Update an other validation request
+      tags:
+        - Other change validation requests
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: planning_application_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: path
+          name: other_change_validation_request_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The other change validation request ID
+        - in: query
+          name: change_access_id
+          required: true
+          schema:
+            type: string
+          description: A unique access code for this planning application
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                response:
+                  type: string
+                  example: A response
+              required:
+                - response
+            example:
+              data:
+                response: A response
+      responses:
+        '200':
+          description: Update other change validation request
+          content:
+            application/json:
+              example:
+                message:
+                  - Validation request updated
+  '/api/v1/planning_applications/{planning_application_id}/description_change_validation_requests':
+    get:
+      summary: Retrieves all description change validation requests for a given planning application
+      tags:
+        - Description change validation requests
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: planning_application_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: query
+          name: change_access_id
+          required: true
+          schema:
+            type: string
+          description: A unique access code for this planning application
+      responses:
+        '200':
+          description: All description change validation requests for a planning application
+          content:
+            application/json:
+              example:
+                data:
+                  - id: 1
+                    state: closed
+                    response_due: '2020-05-14T05:18:17.540Z'
+                    proposed_description: A better description
+                    previous_description: A description
+                    rejection_reason: I prefer my description
+                    approved: false
+                    days_until_response_due: 10
+                    cancel_reason: null
+                    cancelled_at: null
+                  - id: 2
+                    state: open
+                    response_due: '2020-05-14T05:18:17.540Z'
+                    proposed_description: Another description
+                    previous_description: My description
+                    rejection_reason: null
+                    approved: true
+                    days_until_response_due: 10
+                    cancel_reason: null
+                    cancelled_at: null
+  '/api/v1/planning_applications/{planning_application_id}/description_change_validation_requests/{description_change_validation_request_id}':
+    get:
+      summary: Retrieves a desription change validation request
+      tags:
+        - Description change validation requests
       security:
         - bearerAuth: []
       parameters:
@@ -593,12 +789,55 @@ paths:
           schema:
             type: integer
             minimum: 1
-          description: The validation request ID
+          description: The description change validation request ID
         - in: query
           name: change_access_id
+          required: true
           schema:
             type: string
+          description: A unique access code for this planning application
+      responses:
+        '200':
+          description: A description change validation request
+          content:
+            application/json:
+              example:
+                id: 1
+                state: closed
+                response_due: '2020-05-14T05:18:17.540Z'
+                proposed_description: 'A better description,'
+                previous_description: 'A description,'
+                rejection_reason: 'I prefer my description,'
+                approved: 'false,'
+                days_until_response_due: 10
+                cancel_reason: null
+                cancelled_at: null
+    patch:
+      summary: Update a description validation request
+      tags:
+        - Description change validation requests
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: planning_application_id
           required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: path
+          name: description_change_validation_request_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The description change validation request ID
+        - in: query
+          name: change_access_id
+          required: true
+          schema:
+            type: string
           description: A unique access code for this planning application
       requestBody:
         content:
@@ -629,14 +868,62 @@ paths:
           description: Update description change validation request
           content:
             application/json:
-              examples:
-                Accept:
-                  value:
-                    message:
-                      - Validation request updated
-  '/api/v1/planning_applications/{planning_application_id}/replacement_document_validation_requests/{replacement_document_validation_request_id}':
-    patch:
-      summary: Update a document change validation request
+              example:
+                message:
+                  - Validation request updated
+  '/api/v1/planning_applications/{planning_application_id}/red_line_boundary_change_validation_requests':
+    get:
+      summary: Retrieves all red line boundary change validation requests for a given planning application
+      tags:
+        - Red line boundary change validation requests
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: planning_application_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: query
+          name: change_access_id
+          required: true
+          schema:
+            type: string
+          description: A unique access code for this planning application
+      responses:
+        '200':
+          description: All red line boundary change validation requests for a planning application
+          content:
+            application/json:
+              example:
+                data:
+                  - id: 1
+                    state: open
+                    response_due: '2021-11-19'
+                    new_geojson: '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-0.10325081560910647,51.46816799316076],[-0.10352967552199721,51.46765851790562],[-0.10129790933432066,51.46777755697633],[-0.1016511730084775,51.46847182126817],[-0.10325081560910647,51.46816799316076]]]},"properties":null}]}'
+                    reason: needs more accurate line
+                    rejection_reason: i do not agree
+                    approved: false
+                    days_until_response_due: 15
+                    cancel_reason: null
+                    cancelled_at: null
+                  - id: 2
+                    state: open
+                    response_due: '2021-11-19'
+                    new_geojson: '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-0.09761652809754853,51.467562650218866],[-0.09746094063525311,51.466979258263365],[-0.09590813634358597,51.46703468056387],[-0.09605296414052011,51.46772966009246],[-0.09761652809754853,51.467562650218866]]]},"properties":null}]}'
+                    reason: needs a way more accurate line
+                    rejection_reason: null
+                    approved: true
+                    days_until_response_due: 15
+                    cancel_reason: null
+                    cancelled_at: null
+  '/api/v1/planning_applications/{planning_application_id}/red_line_boundary_change_validation_requests/{red_line_boundary_change_validation_request_id}':
+    get:
+      summary: Retrieves a red line boundary change validation request
+      tags:
+        - Red line boundary change validation requests
       security:
         - bearerAuth: []
       parameters:
@@ -648,85 +935,38 @@ paths:
             minimum: 1
           description: The planning application ID
         - in: path
-          name: replacement_document_validation_request_id
+          name: red_line_boundary_change_validation_request_id
           required: true
           schema:
             type: integer
             minimum: 1
-          description: The validation request ID
+          description: The red line boundary change validation request ID
         - in: query
           name: change_access_id
+          required: true
           schema:
             type: string
-          required: true
           description: A unique access code for this planning application
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                new_file:
-                  type: string
-                  format: binary
       responses:
         '200':
-          description: Update document change validation request
+          description: A red line boundary change validation request
           content:
             application/json:
-              examples:
-                Accept:
-                  value:
-                    message:
-                      - Validation request updated
-  '/api/v1/planning_applications/{planning_application_id}/additional_document_validation_requests/{additional_document_validation_request_id}':
-    patch:
-      summary: Update a document create request
-      security:
-        - bearerAuth: []
-      parameters:
-        - in: path
-          name: planning_application_id
-          required: true
-          schema:
-            type: integer
-            minimum: 1
-          description: The planning application ID
-        - in: path
-          name: additional_document_validation_request_id
-          required: true
-          schema:
-            type: integer
-            minimum: 1
-          description: The validation request ID
-        - in: query
-          name: change_access_id
-          schema:
-            type: string
-          required: true
-          description: A unique access code for this planning application
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                new_file:
-                  type: string
-                  format: binary
-      responses:
-        '200':
-          description: Update additional document validation request
-          content:
-            application/json:
-              examples:
-                Accept:
-                  value:
-                    message:
-                      - Validation request updated
-  '/api/v1/planning_applications/{planning_application_id}/red_line_boundary_change_validation_requests/{red_line_boundary_change_id}':
+              example:
+                id: 1
+                state: closed
+                response_due: '2021-11-19'
+                new_geojson: '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-0.10325081560910647,51.46816799316076],[-0.10352967552199721,51.46765851790562],[-0.10129790933432066,51.46777755697633],[-0.1016511730084775,51.46847182126817],[-0.10325081560910647,51.46816799316076]]]},"properties":null}]}'
+                reason: needs more accurate line
+                rejection_reason: i do not agree
+                approved: false
+                days_until_response_due: 15
+                cancel_reason: null
+                cancelled_at: null
     patch:
       summary: Update a red line boundary change validation request
+      tags:
+        - Red line boundary change validation requests
       security:
         - bearerAuth: []
       parameters:
@@ -738,17 +978,17 @@ paths:
             minimum: 1
           description: The planning application ID
         - in: path
-          name: red_line_boundary_change_id
+          name: red_line_boundary_change_validation_request_id
           required: true
           schema:
             type: integer
             minimum: 1
-          description: The validation request ID
+          description: The red line boundary change validation request ID
         - in: query
           name: change_access_id
+          required: true
           schema:
             type: string
-          required: true
           description: A unique access code for this planning application
       requestBody:
         content:
@@ -779,8 +1019,287 @@ paths:
           description: Update red line boundary change validation request
           content:
             application/json:
-              examples:
-                Accept:
-                  value:
-                    message:
-                      - Validation request updated
+              example:
+                message:
+                  - Validation request updated
+  '/api/v1/planning_applications/{planning_application_id}/additional_document_validation_requests':
+    get:
+      summary: Retrieves all additional document requests for a given planning application
+      tags:
+        - Additional document validation requests
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: planning_application_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: query
+          name: change_access_id
+          required: true
+          schema:
+            type: string
+          description: A unique access code for this planning application
+      responses:
+        '200':
+          description: All additional document requests for a planning application
+          content:
+            application/json:
+              example:
+                data:
+                  - id: 1
+                    state: closed
+                    response_due: '2020-05-14T05:18:17.540Z'
+                    days_until_response_due: 10
+                    document_request_type: floor plan
+                    document_request_reason: need to see the floor plan
+                    new_document:
+                      name: new_document.jpg
+                      url: document.blob./new_document.jpg
+                    cancel_reason: null
+                    cancelled_at: null
+                  - id: 2
+                    state: open
+                    response_due: '2020-05-14T05:18:17.540Z'
+                    days_until_response_due: 10
+                    document_request_type: floor plan
+                    document_request_reason: need to see the floor plan
+                    cancel_reason: null
+                    cancelled_at: null
+  '/api/v1/planning_applications/{planning_application_id}/additional_document_validation_requests/{additional_document_validation_request_id}':
+    get:
+      summary: Retrieves an additional document validation request
+      tags:
+        - Additional document validation requests
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: planning_application_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: path
+          name: additional_document_validation_request_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The additional document validation request ID
+        - in: query
+          name: change_access_id
+          required: true
+          schema:
+            type: string
+          description: A unique access code for this planning application
+      responses:
+        '200':
+          description: An additional document validation request
+          content:
+            application/json:
+              example:
+                id: 1
+                state: closed
+                response_due: '2020-05-14T05:18:17.540Z'
+                days_until_response_due: 10
+                document_request_type: floor plan
+                document_request_reason: need to see the floor plan
+                new_document:
+                  name: new_document.jpg
+                  url: document.blob./new_document.jpg
+                cancel_reason: null
+                cancelled_at: null
+    patch:
+      summary: Update an additional document validation request
+      tags:
+        - Additional document validation requests
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: planning_application_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: path
+          name: additional_document_validation_request_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The additional document validation request ID
+        - in: query
+          name: change_access_id
+          required: true
+          schema:
+            type: string
+          description: A unique access code for this planning application
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                new_file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Update additional document validation request
+          content:
+            application/json:
+              example:
+                message:
+                  - Validation request updated
+  '/api/v1/planning_applications/{planning_application_id}/replacement_document_validation_requests':
+    get:
+      summary: Retrieves all replacement document requests for a given planning application
+      tags:
+        - Replacement document validation requests
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: planning_application_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: query
+          name: change_access_id
+          required: true
+          schema:
+            type: string
+          description: A unique access code for this planning application
+      responses:
+        '200':
+          description: All replacement document requests for a planning application
+          content:
+            application/json:
+              example:
+                data:
+                  - id: 1
+                    state: open
+                    response_due: '2020-05-14T05:18:17.540Z'
+                    days_until_response_due: 10
+                    document_request_type: lower ground floor plan
+                    document_request_reason: need to see the lower ground floor plan
+                    old_document:
+                      name: old_document.jpg
+                      url: document.blob./old_document.jpg
+                    cancel_reason: null
+                    cancelled_at: null
+                  - id: 2
+                    state: closed
+                    response_due: '2020-05-14T05:18:17.540Z'
+                    days_until_response_due: 10
+                    document_request_type: upper level floor plan
+                    document_request_reason: need to see the upper level floor plan
+                    old_document:
+                      name: jpg-icon.png
+                      invalid_document_reason: not detailed enough
+                    new_document:
+                      name: new_document.jpg
+                      url: document.blob./new_document.jpg
+                    cancel_reason: null
+                    cancelled_at: null
+  '/api/v1/planning_applications/{planning_application_id}/replacement_document_validation_requests/{replacement_document_validation_request_id}':
+    get:
+      summary: Retrieves a replacement document validation request
+      tags:
+        - Replacement document validation requests
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: planning_application_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: path
+          name: replacement_document_validation_request_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The validation request ID
+        - in: query
+          name: change_access_id
+          required: true
+          schema:
+            type: string
+          description: A unique access code for this planning application
+      responses:
+        '200':
+          description: A replacement document validation request
+          content:
+            application/json:
+              example:
+                id: 1
+                state: closed
+                response_due: '2020-05-14T05:18:17.540Z'
+                days_until_response_due: 10
+                document_request_type: floor plan
+                document_request_reason: need to see the floor plan
+                old_document:
+                  name: jpg-icon.png
+                  invalid_document_reason: not detailed enough
+                new_document:
+                  name: new_document.jpg
+                  url: document.blob./new_document.jpg
+                cancel_reason: null
+                cancelled_at: null
+    patch:
+      summary: Update a replacement document change validation request
+      tags:
+        - Replacement document validation requests
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: planning_application_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+        - in: path
+          name: replacement_document_validation_request_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The validation request ID
+        - in: query
+          name: change_access_id
+          required: true
+          schema:
+            type: string
+          description: A unique access code for this planning application
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                new_file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Update replacement document change validation request
+          content:
+            application/json:
+              example:
+                message:
+                  - Validation request updated

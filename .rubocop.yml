@@ -46,3 +46,6 @@ RSpec/NestedGroups:
 
 RSpec/InstanceVariable:
   Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false

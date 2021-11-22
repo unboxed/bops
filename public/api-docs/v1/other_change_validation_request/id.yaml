@@ -1,0 +1,66 @@
+get:
+  summary: Retrieves an other change validation request
+  tags:
+    - Other change validation requests
+  security:
+    - bearerAuth: []
+  parameters:
+    - in: path
+      $ref: '../common/parameters/planning_application_id.yaml'
+    - in: path
+      $ref: '../common/parameters/other_change_validation_request_id.yaml'
+    - in: query
+      $ref: '../common/parameters/change_access_id.yaml'
+
+  responses:
+    '200':
+      description: An other change validation request
+      content:
+        application/json:
+          example:
+            id: 1
+            state: open
+            response_due: '2020-05-14T05:18:17.540Z'
+            response: I accept the change
+            summary: We need another change
+            suggestion: Make a change
+            days_until_response_due: 10
+            cancel_reason: null
+            cancelled_at: null
+
+patch:
+  summary: Update an other validation request
+  tags:
+    - Other change validation requests
+  security:
+    - bearerAuth: []
+  parameters:
+    - in: path
+      $ref: '../common/parameters/planning_application_id.yaml'
+    - in: path
+      $ref: '../common/parameters/other_change_validation_request_id.yaml'
+    - in: query
+      $ref: '../common/parameters/change_access_id.yaml'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            response:
+              type: string
+              example: 'A response'
+          required:
+            - response
+        example:
+          data:
+            response: 'A response'
+
+  responses:
+    '200':
+      description: Update other change validation request
+      content:
+        application/json:
+          example:
+            message:
+              - Validation request updated

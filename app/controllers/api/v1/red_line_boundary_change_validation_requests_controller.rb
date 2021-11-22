@@ -3,8 +3,28 @@
 module Api
   module V1
     class RedLineBoundaryChangeValidationRequestsController < Api::V1::ApplicationController
-      skip_before_action :verify_authenticity_token, only: :update
-      before_action :check_token_and_set_application, only: :update
+      skip_before_action :verify_authenticity_token
+      before_action :check_token_and_set_application
+
+      def index
+        respond_to do |format|
+          format.json do
+            @red_line_boundary_change_validation_requests = @planning_application.red_line_boundary_change_validation_requests
+          end
+        end
+      end
+
+      def show
+        respond_to do |format|
+          if (@red_line_boundary_change_validation_request = @planning_application.red_line_boundary_change_validation_requests.where(id: params[:id]).first)
+            format.json
+          else
+            format.json do
+              render json: { message: "Unable to find red line boundary change validation request with id: #{params[:id]}" }, status: :not_found
+            end
+          end
+        end
+      end
 
       def update
         @red_line_boundary_change_validation_request = @planning_application.red_line_boundary_change_validation_requests.find(params[:id])

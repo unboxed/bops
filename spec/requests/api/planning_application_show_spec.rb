@@ -33,10 +33,6 @@ RSpec.describe "API request to list planning applications", type: :request, show
   describe "data" do
     let(:planning_application_json) { json }
 
-    def json_time_format(time)
-      time.iso8601(3) if time.present?
-    end
-
     it "returns a 404 if no planning application" do
       get "/api/v1/planning_applications/xxx"
       expect(response.code).to eq("404")

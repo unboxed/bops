@@ -1,0 +1,6 @@
+name: additional_document_validation_request_id
+required: true
+schema:
+  type: integer
+  minimum: 1
+description: The additional document validation request ID

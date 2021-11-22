@@ -33,10 +33,15 @@ module Api
 
       def check_token_and_set_application
         @planning_application = current_local_authority.planning_applications.find_by(id: params[:planning_application_id])
-        if params[:change_access_id] == @planning_application.change_access_id
-          @planning_application
+
+        if @planning_application
+          if params[:change_access_id] == @planning_application.change_access_id
+            @planning_application
+          else
+            render json: { message: "Change access id is invalid" }, status: :unauthorized
+          end
         else
-          render json: {}, status: :unauthorized
+          render json: { message: "Unable to find planning application with id: #{params[:planning_application_id]}" }, status: :not_found
         end
       end
 

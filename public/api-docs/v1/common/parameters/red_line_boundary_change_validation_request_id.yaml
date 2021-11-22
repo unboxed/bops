@@ -1,0 +1,6 @@
+name: red_line_boundary_change_validation_request_id
+required: true
+schema:
+  type: integer
+  minimum: 1
+description: The red line boundary change validation request ID

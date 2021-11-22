@@ -12,6 +12,8 @@ paths:
   '/api/v1/planning_applications/{id}':
     get:
       summary: Retrieves all determined planning applications
+      tags:
+        - Planning application
       parameters:
         - in: path
           name: id
@@ -85,6 +87,8 @@ paths:
   '/api/v1/planning_applications':
     get:
       summary: Retrieves all determined planning applications
+      tags:
+        - Planning application
       responses:
         '200':
           description: All determined planning applications
@@ -98,6 +102,8 @@ paths:
 
     post:
       summary: Create new planning application
+      tags:
+        - Planning application
       security:
         - bearerAuth: []
       parameters: []

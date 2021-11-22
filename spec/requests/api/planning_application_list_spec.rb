@@ -29,10 +29,6 @@ RSpec.describe "API request to list planning applications", type: :request, show
     let(:data) { json["data"] }
     let(:planning_application_json) { data.first }
 
-    def json_time_format(time)
-      time.iso8601(3) if time.present?
-    end
-
     it "returns an empty response if no planning application" do
       get "/api/v1/planning_applications.json"
       expect(response).to be_successful
