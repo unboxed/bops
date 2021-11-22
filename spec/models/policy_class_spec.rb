@@ -6,7 +6,7 @@ RSpec.describe PolicyClass, type: :model do
   let(:policy_class) { build(:policy_class) }
 
   describe "validation" do
-    it "has a  valid factory" do
+    it "has a valid factory" do
       expect(build(:policy_class)).to be_valid
     end
   end
