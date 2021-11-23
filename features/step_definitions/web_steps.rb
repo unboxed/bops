@@ -103,3 +103,7 @@ Then "I click link {string} in table row for {string}" do |link, value|
     click_link(link)
   end
 end
+
+When("I upload {string} for the {string} input") do |path, name|
+  attach_file(name, path)
+end

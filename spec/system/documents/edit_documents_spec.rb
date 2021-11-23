@@ -27,35 +27,6 @@ RSpec.describe "Edit document", type: :system do
       visit planning_application_documents_path(planning_application)
     end
 
-    it "with valid data" do
-      click_link "Edit"
-
-      expect(page).to have_content("This file shows the drawing")
-      attach_file("Upload a replacement file", "spec/fixtures/images/proposed-roofplan.pdf")
-      fill_in "Document reference(s)", with: "DOC001"
-
-      check("Floor")
-      check("Side")
-
-      within(".display") do
-        choose "Yes"
-      end
-
-      within(".publish") do
-        choose "Yes"
-      end
-
-      click_button("Save")
-
-      expect(page).to have_content("Document has been updated")
-      expect(page).to have_content("proposed-roofplan.pdf")
-      expect(page).to have_content("DOC001")
-      expect(page).to have_css(".govuk-tag", text: "Floor")
-      expect(page).to have_css(".govuk-tag", text: "Side")
-      expect(page).to have_content("Included in decision notice: Yes")
-      expect(page).to have_content("Public: Yes")
-    end
-
     it "allows for the date received to be edited" do
       click_link "Edit"
 
