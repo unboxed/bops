@@ -19,6 +19,34 @@ RSpec.describe Document, type: :model do
   describe "validations" do
     before { document.save }
 
+    it "has a valid factory" do
+      expect(create(:document)).to be_valid
+    end
+
+    context "when a received date is set in the future" do
+      it "is not valid" do
+        document.received_at = 2.days.from_now
+
+        expect(document).not_to be_valid
+      end
+    end
+
+    context "when a received date is set to today" do
+      it "is valid" do
+        document.received_at = Time.zone.today
+
+        expect(document).to be_valid
+      end
+    end
+
+    context "when a received date is set in the past" do
+      it "is valid" do
+        document.received_at = 3.days.ago
+
+        expect(document).to be_valid
+      end
+    end
+
     it "is valid for a png file content type" do
       document.file.attach(
         io: File.open(Rails.root.join("spec/fixtures/images/existing-roofplan.pdf")),
