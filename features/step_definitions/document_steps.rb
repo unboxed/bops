@@ -28,3 +28,13 @@ end
 Given("I attach a replacement file with path {string}") do |path|
   step %(I upload "#{path}" for the "file" input)
 end
+
+Given("I set the date inputs to {string}") do |date|
+  day, month, year = date.split("/")
+
+  steps %(
+    Given I fill in "Day" with "#{day}"
+    And I fill in "Month" with "#{month}"
+    And I fill in "Year" with "#{year}"
+  )
+end
