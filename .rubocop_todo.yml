@@ -65,6 +65,7 @@ Metrics/BlockLength:
     - 'spec/system/planning_applications/task_list_spec.rb'
     - 'spec/system/planning_applications/update_spec.rb'
     - 'spec/system/planning_applications/validating_spec.rb'
+    - 'spec/models/document_spec.rb'
 
 # Offense count: 3
 # Configuration parameters: CountComments, Max, CountAsOne.
