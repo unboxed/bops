@@ -17,111 +17,11 @@ RSpec.describe "Document uploads", type: :system do
     before { sign_in assessor }
 
     context "when the application is under assessment" do
-      it "can upload, and tag documents" do
-        visit planning_application_documents_path(planning_application)
-
-        click_link("Upload document")
-
-        attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.pdf")
-
-        check("Floor")
-        check("Side")
-        check("Utility Bill")
-
-        within(".display") do
-          choose "Yes"
-        end
-
-        within(".publish") do
-          choose "Yes"
-        end
-
-        fill_in "Document reference(s)", with: "DOC001"
-
-        click_button("Save")
-
-        expect(page).to have_css("img[src*=\"proposed-roofplan.pdf\"]")
-
-        expect(page).to have_css(".govuk-tag", text: "Floor")
-        expect(page).to have_css(".govuk-tag", text: "Side")
-        expect(page).to have_css(".govuk-tag", text: "Utility Bill")
-        expect(page).to have_css(".govuk-tag", text: "EVIDENCE")
-
-        expect(page).to have_content("Included in decision notice: Yes")
-        expect(page).to have_content("Public: Yes")
-
-        find(".govuk-breadcrumbs").click_link("Application")
-
-        click_button("Documents")
-
-        within(find(".scroll-docs")) do
-          expect(all("img").count).to eq 2
-          expect(all("img").last["src"]).to have_content("proposed-roofplan.pdf")
-
-          expect(page).to have_css(".govuk-tag", text: "Side")
-          expect(page).to have_css(".govuk-tag", text: "Floor")
-        end
-      end
-
-      it "does not make an uploaded document public or referenced by default" do
-        visit planning_application_documents_path(planning_application)
-
-        click_link("Upload document")
-
-        attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.pdf")
-
-        check("Floor")
-        check("Side")
-
-        fill_in "Document reference(s)", with: "DOC001"
-
-        click_button("Save")
-
-        expect(page).to have_css("img[src*=\"proposed-roofplan.pdf\"]")
-
-        expect(page).to have_css(".govuk-tag", text: "Floor")
-        expect(page).to have_css(".govuk-tag", text: "Side")
-
-        expect(page).to have_content("Included in decision notice: No")
-        expect(page).to have_content("Public: No")
-
-        find(".govuk-breadcrumbs").click_link("Application")
-
-        click_button("Documents")
-
-        within(find(".scroll-docs")) do
-          expect(all("img").count).to eq 2
-          expect(all("img").last["src"]).to have_content("proposed-roofplan.pdf")
-
-          expect(page).to have_css(".govuk-tag", text: "Side")
-          expect(page).to have_css(".govuk-tag", text: "Floor")
-        end
-      end
-
-      it "displays the date when uploaded and user who uploaded the document" do
-        visit planning_application_documents_path(planning_application)
-
-        click_link("Upload document")
-        attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.pdf")
-
-        fill_in "Day", with: "4"
-        fill_in "Month", with: "11"
-        fill_in "Year", with: "2021"
-
-        click_button("Save")
-
-        expect(page).to have_content("Date received: 4 November 2021")
-        visit edit_planning_application_document_path(planning_application, planning_application.documents.last)
-        expect(page).to have_content("This document was manually uploaded by #{assessor.name}")
-      end
-
       it "cannot upload a document in the wrong format" do
         visit planning_application_documents_path(planning_application)
 
         click_link("Upload document")
-
         attach_file("Upload a file", "spec/fixtures/images/bmp.bmp")
-
         check("Floor")
 
         click_button("Save")
@@ -133,27 +33,10 @@ RSpec.describe "Document uploads", type: :system do
         visit planning_application_documents_path(planning_application)
 
         click_link("Upload document")
-
         check("Floor")
-
         click_button("Save")
 
         expect(page).to have_content("Please choose a file")
-      end
-
-      it "saves document if no tags are selected" do
-        visit planning_application_documents_path(planning_application)
-
-        click_link("Upload document")
-
-        attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.pdf")
-
-        click_button("Save")
-
-        expect(page).to have_content("proposed-roofplan.pdf has been uploaded")
-
-        expect(page).to have_content("Included in decision notice: No")
-        expect(page).to have_content("Public: No")
       end
     end
 

@@ -25,3 +25,12 @@ Feature: Uploading documents for an application
     And the option "Floor" is checked
     And the option "Side" is checked
     And the option "Utility Bill" is checked
+
+
+ Scenario: I can upload a new document with no tags and it defaults to not public
+    Given I press "Upload document"
+    And I upload "spec/fixtures/images/proposed-floorplan.png" for the "file" input
+    And I press "Save"
+    Then the page contains "proposed-floorplan.png has been uploaded."
+    Then the page contains "Included in decision notice: No"
+    Then the page contains "Public: No"
