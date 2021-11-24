@@ -62,7 +62,7 @@ end
 
 Then("debugger") do
   # rubocop:disable Lint/Debugger
-  require 'pry'
+  require "pry"
   binding.pry
   # rubocop:enable Lint/Debugger
 end

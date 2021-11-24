@@ -26,7 +26,7 @@
           <td class="govuk-table__cell"> User deleted </td>
         <% end %>
         <td colspan="2" class="govuk-table__cell">
-          <% if audit_item.activity_type.match(/validation|document_received_at_changed/) %>
+          <% if audit_item.activity_type.include?("request") || audit_item.activity_type.include?("document_received_at_changed") %>
             <% if audit_item.activity_type.match("/*_validation_request_cancelled") %>
               <%= render "audits/types/validation_request_cancelled", locals: { item: audit_item } %>
             <% else %>
