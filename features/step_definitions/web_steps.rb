@@ -107,3 +107,7 @@ end
 When("I upload {string} for the {string} input") do |path, name|
   attach_file(name, path)
 end
+
+Then "the option {string} is checked" do |option|
+  expect(page).to have_checked_field(option)
+end
