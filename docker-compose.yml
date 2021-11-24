@@ -17,6 +17,7 @@ services:
     environment:
       DATABASE_URL: postgres://postgres:postgres@db:5432
       APPLICANTS_APP_HOST: southwark.localhost:3001
+      GROVER_NO_SANDBOX: "true"
     ports:
       - "3000:3000"
       - "3333:3333"
