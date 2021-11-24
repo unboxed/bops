@@ -16,11 +16,11 @@ gem "devise"
 gem "faker", require: false
 gem "faraday", require: false
 gem "govuk_design_system_formbuilder"
+gem "grover"
 gem "image_processing", "~> 1.2"
 gem "jbuilder"
 gem "mail-notify"
 gem "mini_magick"
-gem "pdfkit"
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 4"
 gem "rails", "~> 6.1.4"
