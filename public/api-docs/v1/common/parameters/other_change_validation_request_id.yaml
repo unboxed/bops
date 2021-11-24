@@ -1,0 +1,6 @@
+name: other_change_validation_request_id
+required: true
+schema:
+  type: integer
+  minimum: 1
+description: The other change validation request ID

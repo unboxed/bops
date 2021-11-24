@@ -1,0 +1,6 @@
+name: description_change_validation_request_id
+required: true
+schema:
+  type: integer
+  minimum: 1
+description: The description change validation request ID

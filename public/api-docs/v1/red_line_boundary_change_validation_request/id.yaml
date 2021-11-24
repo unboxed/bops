@@ -1,0 +1,76 @@
+get:
+  summary: Retrieves a red line boundary change validation request
+  tags:
+    - Red line boundary change validation requests
+  security:
+    - bearerAuth: []
+  parameters:
+    - in: path
+      $ref: '../common/parameters/planning_application_id.yaml'
+    - in: path
+      $ref: '../common/parameters/red_line_boundary_change_validation_request_id.yaml'
+    - in: query
+      $ref: '../common/parameters/change_access_id.yaml'
+
+  responses:
+    '200':
+      description: A red line boundary change validation request
+      content:
+        application/json:
+          example:
+            id: 1
+            state: closed
+            response_due: '2021-11-19'
+            new_geojson: "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[-0.10325081560910647,51.46816799316076],[-0.10352967552199721,51.46765851790562],[-0.10129790933432066,51.46777755697633],[-0.1016511730084775,51.46847182126817],[-0.10325081560910647,51.46816799316076]]]},\"properties\":null}]}"
+            reason: needs more accurate line
+            rejection_reason: i do not agree
+            approved: false
+            days_until_response_due: 15
+            cancel_reason: null
+            cancelled_at: null
+
+patch:
+  summary: Update a red line boundary change validation request
+  tags:
+    - Red line boundary change validation requests
+  security:
+    - bearerAuth: []
+  parameters:
+    - in: path
+      $ref: '../common/parameters/planning_application_id.yaml'
+    - in: path
+      $ref: '../common/parameters/red_line_boundary_change_validation_request_id.yaml'
+    - in: query
+      $ref: '../common/parameters/change_access_id.yaml'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            approved:
+              type: boolean
+              example: true
+            rejection_reason:
+              type: string
+              example: 'Refusal reason'
+          required:
+            - approved
+        examples:
+          Accept:
+            value:
+              data:
+                approved: true
+          Reject:
+            value:
+              data:
+                approved: false
+                rejection_reason: 'Refusal reason'
+  responses:
+    '200':
+      description: Update red line boundary change validation request
+      content:
+        application/json:
+          example:
+            message:
+              - Validation request updated

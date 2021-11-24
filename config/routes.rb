@@ -80,12 +80,12 @@ Rails.application.routes.draw do
           get :decision_notice
         end
         resources :validation_requests, only: :index
-        resources :description_change_validation_requests, only: :update
-        resources :replacement_document_validation_requests, only: :update
-        resources :additional_document_validation_requests, only: :update
+        resources :description_change_validation_requests, only: %i[index update show]
+        resources :replacement_document_validation_requests, only: %i[index update show]
+        resources :additional_document_validation_requests, only: %i[index update show]
         resources :documents, only: %i[show]
-        resources :other_change_validation_requests, only: :update
-        resources :red_line_boundary_change_validation_requests, only: :update
+        resources :other_change_validation_requests, only: %i[index update show]
+        resources :red_line_boundary_change_validation_requests, only: %i[index update show]
       end
     end
   end

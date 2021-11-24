@@ -1,0 +1,65 @@
+get:
+  summary: Retrieves a replacement document validation request
+  tags:
+    - Replacement document validation requests
+  security:
+    - bearerAuth: []
+  parameters:
+    - in: path
+      $ref: '../common/parameters/planning_application_id.yaml'
+    - in: path
+      $ref: '../common/parameters/replacement_document_validation_request_id.yaml'
+    - in: query
+      $ref: '../common/parameters/change_access_id.yaml'
+
+  responses:
+    '200':
+      description: A replacement document validation request
+      content:
+        application/json:
+          example:
+            id: 1
+            state: closed
+            response_due: '2020-05-14T05:18:17.540Z'
+            days_until_response_due: 10
+            document_request_type: floor plan
+            document_request_reason: need to see the floor plan
+            old_document:
+              name: jpg-icon.png
+              invalid_document_reason: not detailed enough
+            new_document:
+              name: new_document.jpg
+              url: document.blob./new_document.jpg
+            cancel_reason: null
+            cancelled_at: null
+
+patch:
+  summary: Update a replacement document change validation request
+  tags:
+    - Replacement document validation requests
+  security:
+    - bearerAuth: []
+  parameters:
+    - in: path
+      $ref: '../common/parameters/planning_application_id.yaml'
+    - in: path
+      $ref: '../common/parameters/replacement_document_validation_request_id.yaml'
+    - in: query
+      $ref: '../common/parameters/change_access_id.yaml'
+  requestBody:
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          properties:
+            new_file:
+              type: string
+              format: binary
+  responses:
+    '200':
+      description: Update replacement document change validation request
+      content:
+        application/json:
+          example:
+            message:
+              - Validation request updated

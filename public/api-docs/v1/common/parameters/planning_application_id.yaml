@@ -1,0 +1,6 @@
+name: planning_application_id
+required: true
+schema:
+  type: integer
+  minimum: 1
+description: The planning application ID

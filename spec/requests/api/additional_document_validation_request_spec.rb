@@ -2,50 +2,141 @@
 
 require "rails_helper"
 
-RSpec.describe "API request to patch document create requests", type: :request, show_exceptions: true do
-  include ActionDispatch::TestProcess::FixtureFile
-
-  let!(:api_user) { create :api_user }
+RSpec.describe "Additional document validation requests API", type: :request, show_exceptions: true do
+  let!(:api_user) { create(:api_user) }
   let!(:planning_application) { create(:planning_application, local_authority: @default_local_authority) }
-
   let!(:additional_document_validation_request) do
-    create(:additional_document_validation_request,
-           planning_application: planning_application)
+    create(:additional_document_validation_request, planning_application: planning_application)
+  end
+  let(:token) { "Bearer #{api_user.token}" }
+
+  describe "#index" do
+    let(:path) { "/api/v1/planning_applications/#{planning_application.id}/additional_document_validation_requests" }
+    let!(:additional_document_validation_request2) do
+      create(:additional_document_validation_request, :closed, planning_application: planning_application)
+    end
+    let!(:additional_document_validation_request3) do
+      create(:additional_document_validation_request, :cancelled, planning_application: planning_application)
+    end
+
+    context "when the request is successful" do
+      it "retrieves all additional document validation requests for a given planning application" do
+        get "#{path}?change_access_id=#{planning_application.change_access_id}",
+            headers: { "CONTENT-TYPE": "application/json", Authorization: token }
+
+        expect(response).to be_successful
+        expect(json["data"]).to eq(
+          [
+            {
+              "id" => additional_document_validation_request.id,
+              "state" => "open",
+              "response_due" => additional_document_validation_request.response_due.to_s,
+              "days_until_response_due" => 15,
+              "document_request_type" => "Floor plan",
+              "document_request_reason" => "Missing floor plan",
+              "cancel_reason" => nil,
+              "cancelled_at" => nil,
+              "new_document" => {
+                "name" => "proposed-floorplan.png",
+                "url" => json["data"][0]["new_document"]["url"]
+              }
+            },
+            {
+              "id" => additional_document_validation_request2.id,
+              "state" => "closed",
+              "response_due" => additional_document_validation_request2.response_due.to_s,
+              "days_until_response_due" => 15,
+              "document_request_type" => "Floor plan",
+              "document_request_reason" => "Missing floor plan",
+              "cancel_reason" => nil,
+              "cancelled_at" => nil,
+              "new_document" => {
+                "name" => "proposed-floorplan.png",
+                "url" => json["data"][1]["new_document"]["url"]
+              }
+            },
+            {
+              "id" => additional_document_validation_request3.id,
+              "state" => "cancelled",
+              "response_due" => additional_document_validation_request3.response_due.to_s,
+              "days_until_response_due" => 15,
+              "document_request_type" => "Floor plan",
+              "document_request_reason" => "Missing floor plan",
+              "cancel_reason" => "Made by mistake!",
+              "cancelled_at" => json_time_format(additional_document_validation_request3.cancelled_at),
+              "new_document" => {
+                "name" => "proposed-floorplan.png",
+                "url" => json["data"][2]["new_document"]["url"]
+              }
+            }
+          ]
+        )
+      end
+    end
+
+    context "when the request is forbidden" do
+      it_behaves_like "ApiRequest::Forbidden"
+    end
+
+    context "when the request is not found" do
+      describe "when the planning request is not found" do
+        let(:path) { "/api/v1/planning_applications/#{planning_application.id + 1}/additional_document_validation_requests" }
+
+        it_behaves_like "ApiRequest::NotFound", "planning_application"
+      end
+    end
   end
 
-  it "successfully accepts a new document" do
-    patch "/api/v1/planning_applications/#{planning_application.id}/additional_document_validation_requests/#{additional_document_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
-          params: { new_file: fixture_file_upload("../images/proposed-floorplan.png", "image/png") },
-          headers: { Authorization: "Bearer #{api_user.token}" }
+  describe "#show" do
+    let(:path) do
+      "/api/v1/planning_applications/#{planning_application.id}/additional_document_validation_requests/#{additional_document_validation_request.id}"
+    end
 
-    expect(response).to be_successful
+    context "when the request is successful" do
+      it "retrieves a additional document validation request for a given planning application" do
+        get "#{path}?change_access_id=#{planning_application.change_access_id}",
+            headers: { "CONTENT-TYPE": "application/json", Authorization: token }
 
-    additional_document_validation_request.reload
-    planning_application.reload
+        expect(response).to be_successful
+        expect(json).to eq(
+          {
+            "id" => additional_document_validation_request.id,
+            "state" => "open",
+            "response_due" => additional_document_validation_request.response_due.to_s,
+            "days_until_response_due" => 15,
+            "document_request_type" => "Floor plan",
+            "document_request_reason" => "Missing floor plan",
+            "cancel_reason" => nil,
+            "cancelled_at" => nil,
+            "new_document" => {
+              "name" => "proposed-floorplan.png",
+              "url" => json["new_document"]["url"]
+            }
+          }
+        )
+      end
+    end
 
-    expect(additional_document_validation_request.state).to eq("closed")
-    expect(additional_document_validation_request.new_document).to be_a(Document)
+    context "when the request is forbidden" do
+      it_behaves_like "ApiRequest::Forbidden"
+    end
 
-    expect(Audit.all.last.activity_type).to eq("additional_document_validation_request_received")
-    expect(Audit.all.last.audit_comment).to eq("proposed-floorplan.png")
-    expect(Audit.all.last.activity_information).to eq("1")
-  end
+    context "when the request is not found" do
+      describe "when the planning request is not found" do
+        let(:path) do
+          "/api/v1/planning_applications/#{planning_application.id + 1}/additional_document_validation_requests/#{additional_document_validation_request.id}"
+        end
 
-  it "rejects wrong document types" do
-    patch "/api/v1/planning_applications/#{planning_application.id}/additional_document_validation_requests/#{additional_document_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
-          params: { new_file: fixture_file_upload("../images/proposed-floorplan.png", "application/octet-stream") },
-          headers: { Authorization: "Bearer #{api_user.token}" }
+        it_behaves_like "ApiRequest::NotFound", "planning_application"
+      end
 
-    expect(response).not_to be_successful
+      describe "when the additional document request is not found" do
+        let(:path) do
+          "/api/v1/planning_applications/#{planning_application.id}/additional_document_validation_requests/#{additional_document_validation_request.id + 1}"
+        end
 
-    expect(additional_document_validation_request).to be_open
-  end
-
-  it "returns a 400 if the new document is missing" do
-    patch "/api/v1/planning_applications/#{planning_application.id}/additional_document_validation_requests/#{additional_document_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
-          params: "{}",
-          headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
-
-    expect(response.status).to eq(400)
+        it_behaves_like "ApiRequest::NotFound", "additional_document_validation_request"
+      end
+    end
   end
 end

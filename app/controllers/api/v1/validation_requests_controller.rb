@@ -9,17 +9,6 @@ module Api
 
       private
 
-      def check_token_and_set_application
-        @planning_application = current_local_authority.planning_applications.find_by(id: params[:planning_application_id])
-        return unauthorized_response unless params[:change_access_id] == @planning_application.change_access_id
-
-        if @planning_application.validation_complete? || @planning_application.description_change_validation_requests.any?
-          @planning_application
-        else
-          unauthorized_response
-        end
-      end
-
       def check_file_size
         if params[:new_file].size > 30.megabytes
           render json: { message: "The file must be 30MB or less" }, status: :bad_request

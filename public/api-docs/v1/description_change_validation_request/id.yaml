@@ -1,0 +1,77 @@
+get:
+  summary: Retrieves a desription change validation request
+  tags:
+    - Description change validation requests
+  security:
+    - bearerAuth: []
+  parameters:
+    - in: path
+      $ref: '../common/parameters/planning_application_id.yaml'
+    - in: path
+      $ref: '../common/parameters/description_change_validation_request_id.yaml'
+    - in: query
+      $ref: '../common/parameters/change_access_id.yaml'
+
+  responses:
+    '200':
+      description: A description change validation request
+      content:
+        application/json:
+          example:
+            id: 1
+            state: closed
+            response_due: '2020-05-14T05:18:17.540Z'
+            proposed_description: A better description,
+            previous_description: A description,
+            rejection_reason: I prefer my description,
+            approved: false,
+            days_until_response_due: 10
+            cancel_reason: null
+            cancelled_at: null
+
+patch:
+  summary: Update a description validation request
+  tags:
+    - Description change validation requests
+  security:
+    - bearerAuth: []
+  parameters:
+    - in: path
+      $ref: '../common/parameters/planning_application_id.yaml'
+    - in: path
+      $ref: '../common/parameters/description_change_validation_request_id.yaml'
+    - in: query
+      $ref: '../common/parameters/change_access_id.yaml'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            approved:
+              type: boolean
+              example: true
+            rejection_reason:
+              type: string
+              example: 'Refusal reason'
+          required:
+            - approved
+        examples:
+          Accept:
+            value:
+              data:
+                approved: true
+          Reject:
+            value:
+              data:
+                approved: false
+                rejection_reason: 'Refusal reason'
+
+  responses:
+    '200':
+      description: Update description change validation request
+      content:
+        application/json:
+          example:
+            message:
+              - Validation request updated
