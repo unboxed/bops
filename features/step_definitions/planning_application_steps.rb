@@ -20,22 +20,8 @@ Given("I am logged in as an assessor") do
   click_button "Log in"
 end
 
-Given("I am logged in as an assessor called {string}") do |name|
-  southwark = LocalAuthority.find_by(subdomain: "southwark")
-  @officer = FactoryBot.create(:user, :assessor, name: name, local_authority: southwark)
-
-  domain = @officer.local_authority.subdomain
-
-  visit root_path
-
-  Capybara.app_host = "http://#{domain}.#{domain}.localhost:#{Capybara.server_port}"
-
-  visit new_user_session_path
-
-  fill_in "Email", with: @officer.email
-  fill_in "Password", with: @officer.password
-
-  click_button "Log in"
+Given("my name is {string}") do |name|
+  @officer.update!(name: name)
 end
 
 Given("a new planning application") do
