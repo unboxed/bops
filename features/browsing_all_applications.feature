@@ -4,7 +4,8 @@ Feature: As an assessor I can browse all applications
     And a new planning application
 
   Scenario Outline: I can see a colour-coded expiry date
-    Given the application expires in <days> days
+    Given the time is 10:00
+    And the application expires in <days> days
     When I view all "Not started" planning applications
     Then the page contains a "<colour>" tag containing "<days> days"
     Examples:

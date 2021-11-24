@@ -19,11 +19,10 @@ class DocumentsController < AuthenticationController
   def update
     @document = @planning_application.documents.find(params[:id])
     if @document.update(document_params)
-
-      if @document.saved_changes.keys.include?("received_at")
+      if @document.saved_change_to_attribute?("received_at")
         audit("document_received_at_changed", audit_date_comment(@document), @document.file.filename)
       end
-      
+
       if @document.saved_change_to_attribute?(:validated, from: false, to: true)
         audit("document_changed_to_validated", nil, @document.file.filename)
       elsif @document.saved_change_to_attribute?(:validated, to: false)
