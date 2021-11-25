@@ -1,0 +1,34 @@
+name: Deploy to Preview
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.6
+
+    - name: Install gems
+      run: |
+        gem install bundler
+        bundle install --jobs 4 --retry 3 --path vendor/bundle
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-west-2
+
+    - name: Deploy application
+      run: |
+        bundle exec rake deploy:preview
