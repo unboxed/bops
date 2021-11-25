@@ -18,3 +18,6 @@ cd /home/deploy/bops/current && bundle exec rake db:migrate
 cd /home/deploy/bops/current && bundle exec rake assets:precompile
 if [ ${SERVER_TYPE} = "worker" ] ; then cd /home/deploy/bops/current && bundle exec whenever -w ; else echo not running whenever ; fi
 EOF
+
+# Enable services if they have not been previously enabled
+systemctl is-active --quiet bops.service || systemctl enable bops.service
