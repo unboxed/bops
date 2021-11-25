@@ -25,8 +25,8 @@
     We may request additional information and/or revisions before deciding whether the application should be recommended for permission or refusal.
   </p>
   <p class="govuk-body">
-    We aim to issue a decision by <%= @planning_application.target_date.to_datetime.to_formatted_s(:day_month_year) %>.
-    However, if your application has not been determined by <%= @planning_application.target_date.to_datetime.to_formatted_s(:day_month_year) %>,
+    We aim to issue a decision by <%= @planning_application.expiry_date.to_datetime.to_formatted_s(:day_month_year) %>.
+    However, if your application has not been determined by <%= @planning_application.expiry_date.to_datetime.to_formatted_s(:day_month_year) %>,
     you have the right to appeal to the Secretary of State, either online at https://www.gov.uk/government/organisations/planning-inspectorate,
     or by post to Temple Quay House, 2 The Square, Temple Quay, Bristol BS1 6PN.
   </p>
