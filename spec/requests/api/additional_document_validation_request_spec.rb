@@ -25,7 +25,7 @@ RSpec.describe "Additional document validation requests API", type: :request, sh
             headers: { "CONTENT-TYPE": "application/json", Authorization: token }
 
         expect(response).to be_successful
-        expect(json["data"]).to eq(
+        expect(sort_by_id(json["data"])).to eq(
           [
             {
               "id" => additional_document_validation_request.id,

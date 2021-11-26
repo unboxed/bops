@@ -11,6 +11,10 @@ module Requests
     def json_time_format(time)
       time.iso8601(3) if time.present?
     end
+
+    def sort_by_id(response)
+      response.sort_by! { |k| k["id"] }
+    end
   end
 end
 
