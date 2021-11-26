@@ -354,6 +354,16 @@ class PlanningApplication < ApplicationRecord
     Time.next_immediate_business_day(created_at)
   end
 
+  def valid_from
+    return nil unless validated?
+
+    if closed_validation_requests.any?
+      Time.next_immediate_business_day(last_validation_request_date)
+    else
+      received_at
+    end
+  end
+
   private
 
   def set_key_dates

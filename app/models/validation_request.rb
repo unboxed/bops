@@ -51,6 +51,10 @@ module ValidationRequest
           audit_auto_closed!
         end
       end
+
+      event :close! do
+        transitions from: :open, to: :closed
+      end
     end
 
     def response_due

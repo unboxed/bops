@@ -5,8 +5,8 @@ require "faker"
 FactoryBot.define do
   factory :planning_application do
     local_authority
-    description      { Faker::Lorem.unique.sentence }
-    status           { :in_assessment }
+    description { Faker::Lorem.unique.sentence }
+    status { :in_assessment }
     in_assessment_at { Time.zone.now }
     documents_validated_at { Time.zone.today }
     work_status { :proposed }
@@ -132,8 +132,26 @@ FactoryBot.define do
     end
 
     factory :not_started_planning_application do
+      status { :not_started }
+
       factory :invalidated_planning_application do
-        after(:create, &:invalidate!)
+        after(:create) do |p|
+          create(
+            :additional_document_validation_request,
+            :pending,
+            planning_application: p
+          )
+
+          p.invalidate!
+        end
+
+        factory :valid_planning_application do
+          after(:create) do |p|
+            p.validation_requests.each(&:close!)
+
+            p.start!
+          end
+        end
       end
 
       factory :in_assessment_planning_application do

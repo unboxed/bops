@@ -356,6 +356,49 @@ RSpec.describe PlanningApplication, type: :model do
     end
   end
 
+  describe "#valid_from" do
+    let(:planning_application) { create(:not_started_planning_application) }
+    context "when the application is not valid" do
+      it "is nil" do
+        expect(planning_application.valid_from).to be_nil
+      end
+    end
+
+    context "when the application is valid" do
+      context "when there have been validation requests" do
+        before do
+          [
+            [3.days.ago, :closed],
+            [2.day.ago, :cancelled],
+            [12.days.ago, :closed],
+            [1.day.ago, :closed]
+          ].each do |at, state|
+            create(
+              :other_change_validation_request,
+              state,
+              planning_application: planning_application,
+              updated_at: at
+            )
+          end
+
+          planning_application.start!
+        end
+
+        it "is the time of the last successfully closed request" do
+          expect(planning_application.valid_from).to eq Time.next_immediate_business_day(1.day.ago)
+        end
+      end
+
+      context "when there have been no validation requests" do
+        before { planning_application.start! }
+
+        it "returns the received_at value" do
+          expect(planning_application.valid_from).to eq planning_application.received_at
+        end
+      end
+    end
+  end
+
   describe "policy_classes" do
     context "when the application is not assessable anymore" do
       let(:planning_application) { create(:planning_application, :determined) }
