@@ -19,8 +19,7 @@ RSpec.describe "Description change validation requests API", type: :request, sho
             headers: { "CONTENT-TYPE": "application/json", Authorization: token }
 
         expect(response).to be_successful
-
-        expect(json["data"]).to eq(
+        expect(sort_by_id(json["data"])).to eq(
           [
             {
               "id" => description_change_validation_request.id,

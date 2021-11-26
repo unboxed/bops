@@ -25,7 +25,7 @@ RSpec.describe "Other change validation requests API", type: :request, show_exce
             headers: { "CONTENT-TYPE": "application/json", Authorization: token }
 
         expect(response).to be_successful
-        expect(json["data"]).to eq(
+        expect(sort_by_id(json["data"])).to eq(
           [
             {
               "id" => other_change_validation_request.id,
