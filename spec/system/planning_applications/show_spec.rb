@@ -42,7 +42,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "Target date is correct and label is turquoise" do
-      expect(page).to have_text("Target date: #{planning_application.target_date.strftime('%d %B')}")
+      expect(page).to have_text("Target date: #{planning_application.target_date.to_formatted_s(:day_month_year)}")
       expect(page).to have_css(".govuk-tag--turquoise")
       expect(page).to have_content("In assessment")
     end

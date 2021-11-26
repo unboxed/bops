@@ -25,7 +25,7 @@ RSpec.describe "Replacement document validation requests API", type: :request, s
             headers: { "CONTENT-TYPE": "application/json", Authorization: token }
 
         expect(response).to be_successful
-        expect(json["data"]).to eq(
+        expect(sort_by_id(json["data"])).to eq(
           [
             {
               "id" => replacement_document_validation_request.id,
