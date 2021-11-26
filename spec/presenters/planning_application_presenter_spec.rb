@@ -8,7 +8,7 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
   subject(:presenter) { described_class.new(view, planning_application) }
 
   let(:context) { ActionView::Base.new }
-  let!(:planning_application) { create(:planning_application) }
+  let!(:planning_application) { create(:not_started_planning_application) }
 
   it "delegates missing methods to its application" do
     expect(presenter.id).to eq planning_application.id

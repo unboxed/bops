@@ -151,16 +151,16 @@ FactoryBot.define do
 
             p.start!
           end
-        end
-      end
 
-      factory :in_assessment_planning_application do
-        decision { "granted" }
+          factory :in_assessment_planning_application do
+            decision { "granted" }
 
-        after(:create, &:assess!)
+            after(:create, &:assess!)
 
-        factory :determined_planning_application do
-          after(:create, &:determine!)
+            factory :determined_planning_application do
+              after(:create, &:determine!)
+            end
+          end
         end
       end
     end
