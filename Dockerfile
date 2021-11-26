@@ -9,6 +9,9 @@ RUN apt-get update -y
 # Install Chromium for the feature tests
 RUN apt-get install -y --no-install-recommends chromium
 
+# Install Poppler to generate PDF previews
+RUN apt-get install -y --no-install-recommends poppler-utils
+
 ## Install gems in a separate Docker fs layer
 WORKDIR /gems
 COPY Gemfile Gemfile.lock ./
