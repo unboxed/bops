@@ -23,7 +23,7 @@ RSpec.shared_examples "StateMachineTransitions" do |request_type, state, valid_s
 end
 
 RSpec.shared_examples "StateMachineEvents" do |request_type, state, valid_events|
-  let(:events) { %i[mark_as_sent! cancel auto_approve!] }
+  let(:events) { %i[mark_as_sent cancel auto_approve] }
   let(:invalid_events) { events - valid_events }
   let(:validation_request) { create("#{request_type}_validation_request", :"#{state}") }
 
