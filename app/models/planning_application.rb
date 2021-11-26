@@ -7,6 +7,9 @@ class PlanningApplication < ApplicationRecord
 
   include AASM
 
+  # Since postcode is not a required field, safeguard against it
+  after_create :set_ward if :postcode.present?
+
   enum application_type: { lawfulness_certificate: 0, full: 1 }
 
   with_options dependent: :destroy do
@@ -387,5 +390,16 @@ class PlanningApplication < ApplicationRecord
 
   def applicant_or_agent_email
     errors.add(:base, "An applicant or agent email is required.") unless applicant_email? || agent_email?
+  end
+
+  def set_ward
+    response = Faraday.get "https://mapit.mysociety.org/postcode/#{self.postcode.gsub(/\s/,"%20")}"
+    json_response = JSON.parse response.body
+    ward_id = json_response["shortcuts"]["ward"]
+    ward_type_name = json_response["areas"][ward_id.to_s]["type_name"]
+    ward_name = json_response["areas"][ward_id.to_s]["name"]
+    self.ward = ward_name
+    self.ward_type_name = ward_type_name
+    self.save!
   end
 end
