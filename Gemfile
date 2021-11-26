@@ -11,6 +11,7 @@ gem "aws-sdk-codedeploy", require: false
 gem "aws-sdk-s3", require: false
 gem "bootsnap", ">= 1.4.2", require: false
 gem "business_time"
+gem "daemons"
 gem "delayed_job_active_record"
 gem "devise"
 gem "faker", require: false
