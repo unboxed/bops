@@ -161,8 +161,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "renders the body" do
       expect(validation_mail.body.encoded).to match("started from #{planning_application.documents_validated_at.to_formatted_s(:day_month_year)}")
-      expect(validation_mail.body.encoded).to match("issue a decision by #{planning_application.target_date.to_formatted_s(:day_month_year)}")
-      expect(validation_mail.body.encoded).to match("issue a decision by #{planning_application.target_date.to_formatted_s(:day_month_year)}")
+      expect(validation_mail.body.encoded).to match("issue a decision by #{planning_application.expiry_date.to_formatted_s(:day_month_year)}")
+      expect(validation_mail.body.encoded).to match("issue a decision by #{planning_application.expiry_date.to_formatted_s(:day_month_year)}")
       expect(validation_mail.body.encoded).to match("Site Address: #{planning_application.full_address}")
       expect(validation_mail.body.encoded).to match("planning reference number #{planning_application.reference}")
       expect(validation_mail.body.encoded).to match("Proposal: #{planning_application.description}")
