@@ -350,6 +350,10 @@ class PlanningApplication < ApplicationRecord
     documents.for_display
   end
 
+  def received_at
+    Time.next_immediate_business_day(created_at)
+  end
+
   private
 
   def set_key_dates

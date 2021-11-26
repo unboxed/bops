@@ -317,9 +317,20 @@ RSpec.describe PlanningApplication, type: :model do
 
   describe "deadlines" do
     let(:planning_application) { create :planning_application }
+    let(:date) { Time.zone.local(2021, 9, 23, 10, 10, 44) }
 
     before do
-      travel_to Time.zone.local(2021, 9, 23, 10, 10, 44)
+      travel_to date
+    end
+
+    describe "#received_at" do
+      before do
+        planning_application.update!(created_at: date.change(hour: 23))
+      end
+
+      it "returns the correct business day for the application's created_at" do
+        expect(planning_application.received_at).to eq Date.tomorrow
+      end
     end
 
     describe "#target_date" do

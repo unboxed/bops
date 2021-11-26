@@ -45,7 +45,7 @@
     <div class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
       <p class="govuk-body">
         <strong>Application received:</strong>
-        <%= @planning_application.created_at.to_formatted_s(:day_month_year) %>
+        <%= @planning_application.received_at.to_formatted_s(:day_month_year) %>
       </p>
       <p class="govuk-body">
         <strong>Validation complete:</strong>
