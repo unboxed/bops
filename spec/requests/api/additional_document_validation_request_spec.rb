@@ -30,7 +30,7 @@ RSpec.describe "Additional document validation requests API", type: :request, sh
             {
               "id" => additional_document_validation_request.id,
               "state" => "open",
-              "response_due" => additional_document_validation_request.response_due.to_s,
+              "response_due" => additional_document_validation_request.response_due.to_s(:db),
               "days_until_response_due" => 15,
               "document_request_type" => "Floor plan",
               "document_request_reason" => "Missing floor plan",
@@ -44,7 +44,7 @@ RSpec.describe "Additional document validation requests API", type: :request, sh
             {
               "id" => additional_document_validation_request2.id,
               "state" => "closed",
-              "response_due" => additional_document_validation_request2.response_due.to_s,
+              "response_due" => additional_document_validation_request2.response_due.to_s(:db),
               "days_until_response_due" => 15,
               "document_request_type" => "Floor plan",
               "document_request_reason" => "Missing floor plan",
@@ -58,7 +58,7 @@ RSpec.describe "Additional document validation requests API", type: :request, sh
             {
               "id" => additional_document_validation_request3.id,
               "state" => "cancelled",
-              "response_due" => additional_document_validation_request3.response_due.to_s,
+              "response_due" => additional_document_validation_request3.response_due.to_s(:db),
               "days_until_response_due" => 15,
               "document_request_type" => "Floor plan",
               "document_request_reason" => "Missing floor plan",
@@ -102,7 +102,7 @@ RSpec.describe "Additional document validation requests API", type: :request, sh
           {
             "id" => additional_document_validation_request.id,
             "state" => "open",
-            "response_due" => additional_document_validation_request.response_due.to_s,
+            "response_due" => additional_document_validation_request.response_due.to_s(:db),
             "days_until_response_due" => 15,
             "document_request_type" => "Floor plan",
             "document_request_reason" => "Missing floor plan",

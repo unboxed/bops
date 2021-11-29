@@ -17,8 +17,8 @@
       {
         "Applicant" => planning_application.applicant_name,
         "Application number" => planning_application.reference,
-        "Application received" => planning_application.received_at.to_formatted_s(:day_month_year),
-        "Decision date" => planning_application.determined_at&.to_formatted_s(:day_month_year) || "TBD",
+        "Application received" => planning_application.received_at,
+        "Decision date" => planning_application.determined_at || "TBD",
         "Site address" => planning_application.full_address,
         "Use/development" => planning_application.description,
       }.each do |key, value|
@@ -70,7 +70,7 @@
                   <%= tag.upcase %>
                 <% end %>
               </td>
-              <td class="govuk-table__cell"><%= document.created_at.to_formatted_s(:day_month_year) %></td>
+              <td class="govuk-table__cell"><%= document.created_at %></td>
             </tr>
           <% end %>
         <% end %>

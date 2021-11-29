@@ -84,7 +84,7 @@ class Document < ApplicationRecord
   end
 
   def received_at_or_created
-    (received_at || created_at).to_date.to_formatted_s(:day_month_year)
+    (received_at || created_at).to_date
   end
 
   private

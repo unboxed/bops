@@ -24,7 +24,7 @@ RSpec.describe "Description change validation requests API", type: :request, sho
             {
               "id" => description_change_validation_request.id,
               "state" => "open",
-              "response_due" => description_change_validation_request.response_due.to_s,
+              "response_due" => description_change_validation_request.response_due.to_s(:db),
               "proposed_description" => "New description",
               "previous_description" => description_change_validation_request.previous_description,
               "rejection_reason" => nil,
@@ -66,7 +66,7 @@ RSpec.describe "Description change validation requests API", type: :request, sho
           {
             "id" => description_change_validation_request.id,
             "state" => "open",
-            "response_due" => description_change_validation_request.response_due.to_s,
+            "response_due" => description_change_validation_request.response_due.to_s(:db),
             "proposed_description" => "New description",
             "previous_description" => description_change_validation_request.previous_description,
             "rejection_reason" => nil,

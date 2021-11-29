@@ -45,23 +45,23 @@
     <div class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
       <p class="govuk-body">
         <strong>Application received:</strong>
-        <%= @planning_application.received_at.to_formatted_s(:day_month_year) %>
+        <%= @planning_application.received_at %>
       </p>
       <p class="govuk-body">
         <strong>Valid from:</strong>
         <% if @planning_application.valid_from.present? %>
-          <%= @planning_application.valid_from.to_formatted_s(:day_month_year) %>
+          <%= @planning_application.valid_from %>
         <% else %>
           Not yet valid
         <% end %>
       </p>
       <p class="govuk-body">
         <strong>Target date:</strong>
-        <%= @planning_application.target_date.to_formatted_s(:day_month_year) %>
+        <%= @planning_application.target_date %>
       </p>
       <p class="govuk-body">
         <strong>Expiry date:</strong>
-        <%= @planning_application.expiry_date.to_formatted_s(:day_month_year) %>
+        <%= @planning_application.expiry_date %>
       </p>
       <p class="govuk-body">
         <%= link_to "Activity log", planning_application_audits_path(@planning_application), class: "govuk-link" %>
@@ -130,7 +130,7 @@
           <%= truncate @planning_application.notes.first.entry, length: 200 %>
         </p>
         <p class='govuk-body'>
-          <%= @planning_application.notes.first.created_at.to_formatted_s(:day_month_year) %>
+          <%= @planning_application.notes.first.created_at %>
         </p>
         <p class='govuk-body'>
           <%= link_to "Add and view all notes", planning_application_notes_path(@planning_application) %>

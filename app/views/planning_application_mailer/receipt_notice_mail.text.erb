@@ -2,7 +2,7 @@ Dear <%= @planning_application.agent_or_applicant_name %>,
 
 Reference: <%= @planning_application.reference %>
 Date of application: <%= @planning_application.created_at.strftime("%e %B %Y - %H:%M:%S") %>
-Date received: <%= @planning_application.received_at.to_formatted_s(:day_month_year) %>
+Date received: <%= @planning_application.received_at %>
 
 Site address: <%= @planning_application.full_address %>
 Description: <%= @planning_application.description %>
@@ -16,7 +16,7 @@ If your application is valid, then a planning officer may contact you to arrange
 
 A planning officer will then make a decision on your application.
 
-If by <%= @planning_application.target_date.to_formatted_s(:day_month_year) %>:
+If by <%= @planning_application.target_date %>:
 
 - you have not been given a decision in writing
 - you have not been told that the application is invalid

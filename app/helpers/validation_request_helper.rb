@@ -39,7 +39,7 @@ module ValidationRequestHelper
   end
 
   def request_closed_at(validation_request)
-    validation_request.updated_at.to_formatted_s(:day_month_year) if validation_request.closed?
+    validation_request.updated_at if validation_request.closed?
   end
 
   def cancel_confirmation_request_url(planning_application, validation_request)

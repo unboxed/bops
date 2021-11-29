@@ -1,5 +1,5 @@
 Application number: <%= @planning_application.reference %>
-Application received: <%= @planning_application.received_at.to_formatted_s(:day_month_year) %>
+Application received: <%= @planning_application.received_at %>
 At: <%= @planning_application.full_address %>
 
 Dear <%= @planning_application.agent_or_applicant_name %>,
@@ -10,7 +10,7 @@ To review and accept or reject the proposed description follow the link below:
 
 <%= @planning_application.secure_change_url %>
 
-If your response is not received by <%= @description_change_request.request_expiry_date.to_formatted_s(:day_month_year) %>,
+If your response is not received by <%= @description_change_request.request_expiry_date %>,
 the proposed description will be automatically accepted as the description of your application.
 
 Yours faithfully,
