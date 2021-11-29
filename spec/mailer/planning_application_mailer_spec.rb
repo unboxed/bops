@@ -196,9 +196,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(validation_request_mail.body.encoded).to include(validation_request.response_due.to_s)
       expect(validation_request_mail.body.encoded).to include(planning_application.change_access_id)
       expect(validation_request_mail.body.encoded).to include("http://cookies.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}")
-      expect(validation_request_mail.body.encoded).to include("Mr. Biscuit")
       expect(validation_request_mail.body.encoded).to include("Cookie authority")
-      expect(validation_request_mail.body.encoded).to include("Lord of BiscuitTown")
     end
 
     it "includes the name of the agent in the body if agent is present" do
