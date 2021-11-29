@@ -316,31 +316,97 @@ RSpec.describe PlanningApplication, type: :model do
   end
 
   describe "deadlines" do
-    let(:planning_application) { create :planning_application }
+    let(:planning_application) { create(:not_started_planning_application) }
+    let(:date) { Time.zone.local(2021, 9, 23, 22, 10, 44) }
 
     before do
-      travel_to Time.zone.local(2021, 9, 23, 10, 10, 44)
+      travel_to date
+    end
+
+    describe "#received_at" do
+      it "returns the correct business day for the application's created_at" do
+        expect(planning_application.received_at).to eq Date.tomorrow
+      end
     end
 
     describe "#target_date" do
-      it "is set as created_at + 35 business days when new record created" do
-        expect(planning_application.target_date).to eq(35.business_days.after(planning_application.created_at).to_date)
+      context "when there were no documents validated" do
+        before { planning_application.update!(documents_validated_at: nil) }
+
+        it "is set as received at + 35 business days" do
+          expect(planning_application.target_date).to eq(35.business_days.after(planning_application.received_at).to_date)
+        end
       end
 
-      it "is set to documents_validated_at + 35 business days when documents_validated_at added" do
-        planning_application.update!(documents_validated_at: 1.week.ago)
-        expect(planning_application.target_date).to eq(35.business_days.after(planning_application.documents_validated_at).to_date)
+      context "when there are validated documents" do
+        before { planning_application.update!(documents_validated_at: 1.week.ago) }
+
+        it "is set to documents_validated_at + 35 business days" do
+          expect(planning_application.target_date).to eq(35.business_days.after(planning_application.documents_validated_at).to_date)
+        end
       end
     end
 
     describe "#expiry_date" do
-      it "is set as created_at + 40 business days when new record created" do
-        expect(planning_application.expiry_date).to eq(40.business_days.after(planning_application.created_at).to_date)
+      context "when there were no documents validated" do
+        before { planning_application.update!(documents_validated_at: nil) }
+
+        it "is set as received_at + 40 business days" do
+          expect(planning_application.expiry_date).to eq(40.business_days.after(planning_application.received_at).to_date)
+        end
       end
 
-      it "is set to documents_validated_at + 40 business days when documents_validated_at added" do
-        planning_application.update!(documents_validated_at: 1.week.ago)
-        expect(planning_application.expiry_date).to eq(40.business_days.after(planning_application.documents_validated_at).to_date)
+      context "when there are validated documents" do
+        before { planning_application.update!(documents_validated_at: 1.week.ago) }
+
+        it "is set to documents_validated_at + 40 business days" do
+          planning_application.update!(documents_validated_at: 1.week.ago)
+          expect(planning_application.expiry_date).to eq(40.business_days.after(planning_application.documents_validated_at).to_date)
+        end
+      end
+    end
+  end
+
+  describe "#valid_from" do
+    let(:planning_application) { create(:not_started_planning_application) }
+
+    context "when the application is not valid" do
+      it "is nil" do
+        expect(planning_application.valid_from).to be_nil
+      end
+    end
+
+    context "when the application is valid" do
+      context "when there have been validation requests" do
+        before do
+          [
+            [3.days.ago, :closed],
+            [2.days.ago, :cancelled],
+            [12.days.ago, :closed],
+            [1.day.ago, :closed]
+          ].each do |at, state|
+            create(
+              :other_change_validation_request,
+              state,
+              planning_application: planning_application,
+              updated_at: at
+            )
+          end
+
+          planning_application.start!
+        end
+
+        it "is the time of the last successfully closed request" do
+          expect(planning_application.valid_from).to eq Time.next_immediate_business_day(1.day.ago)
+        end
+      end
+
+      context "when there have been no validation requests" do
+        before { planning_application.start! }
+
+        it "returns the received_at value" do
+          expect(planning_application.valid_from).to eq planning_application.received_at
+        end
       end
     end
   end

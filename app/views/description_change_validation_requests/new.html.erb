@@ -8,7 +8,7 @@
     </h2>
     <p class="govuk-body">
       <strong>At:</strong> <%= @planning_application.full_address  %> <br>
-      <strong>Date received:</strong> <%= received_at(@planning_application) %> <br>
+      <strong>Date received:</strong> <%= @planning_application.received_at.to_formatted_s(:day_month_year) %> <br>
       <strong>Application number:</strong> <%= @planning_application.reference  %>
     </p>
     <div class="govuk-form-group">
@@ -41,7 +41,7 @@
         <% if @planning_application.latest_rejected_description_change.present? %>
           <p class="govuk-body">
             <strong>
-              Rejected proposed description 
+              Rejected proposed description
             </strong>
           </p>
           <p class="govuk-body">

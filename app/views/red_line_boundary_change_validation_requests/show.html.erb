@@ -10,7 +10,7 @@
       <strong>At:</strong> <%= @planning_application.full_address  %>
     </p>
     <p class="govuk-body govuk-!-margin-bottom-1">
-      <strong>Date received:</strong> <%= received_at(@planning_application) %>
+      <strong>Date received:</strong> <%= @planning_application.received_at.to_formatted_s(:day_month_year) %>
     </p>
     <p class="govuk-body govuk-!-margin-bottom-8">
       <strong>Application number:</strong> <%= @planning_application.reference  %>

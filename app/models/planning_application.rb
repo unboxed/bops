@@ -350,11 +350,25 @@ class PlanningApplication < ApplicationRecord
     documents.for_display
   end
 
+  def received_at
+    Time.next_immediate_business_day(created_at)
+  end
+
+  def valid_from
+    return nil unless validated?
+
+    if closed_validation_requests.any?
+      Time.next_immediate_business_day(last_validation_request_date)
+    else
+      received_at
+    end
+  end
+
   private
 
   def set_key_dates
-    self.expiry_date = 40.business_days.after(documents_validated_at || created_at)
-    self.target_date = 35.business_days.after(documents_validated_at || created_at)
+    self.expiry_date = 40.business_days.after(documents_validated_at || received_at)
+    self.target_date = 35.business_days.after(documents_validated_at || received_at)
   end
 
   def set_change_access_id

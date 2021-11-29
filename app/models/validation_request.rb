@@ -26,7 +26,7 @@ module ValidationRequest
       state :closed
       state :cancelled
 
-      event :mark_as_sent! do
+      event :mark_as_sent do
         transitions from: :pending, to: :open
 
         after do
@@ -42,7 +42,7 @@ module ValidationRequest
         end
       end
 
-      event :auto_approve! do
+      event :auto_approve do
         transitions from: :open, to: :closed
 
         after do
@@ -50,6 +50,10 @@ module ValidationRequest
           update!(approved: true, auto_closed: true)
           audit_auto_closed!
         end
+      end
+
+      event :close do
+        transitions from: :open, to: :closed
       end
     end
 

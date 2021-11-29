@@ -68,8 +68,8 @@ RSpec.describe "Planning Application show page", type: :system do
     it "Key application dates accordion" do
       click_button "Key application dates"
 
-      expect(page).to have_text("Application received: #{Time.zone.now.to_formatted_s(:day_month_year).strip}")
-      expect(page).to have_text("Validation complete: #{Time.zone.now.to_formatted_s(:day_month_year).strip}")
+      expect(page).to have_text("Application received: #{planning_application.received_at.to_formatted_s(:day_month_year).strip}")
+      expect(page).to have_text("Valid from: #{planning_application.valid_from.to_formatted_s(:day_month_year).strip}")
       expect(page).to have_text("Target date: #{planning_application.target_date.to_formatted_s(:day_month_year).strip}")
       expect(page).to have_text("Expiry date: #{planning_application.expiry_date.to_formatted_s(:day_month_year).strip}")
     end

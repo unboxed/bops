@@ -19,16 +19,16 @@ RSpec.describe ValidationRequest, type: :model do
       it_behaves_like "StateMachineTransitions", request_type, "cancelled", %i[]
       it_behaves_like "StateMachineTransitions", request_type, "closed", %i[]
 
-      it_behaves_like "StateMachineEvents", request_type, "pending", %i[mark_as_sent! cancel]
-      it_behaves_like "StateMachineEvents", request_type, "open", %i[cancel auto_approve!]
+      it_behaves_like "StateMachineEvents", request_type, "pending", %i[mark_as_sent cancel]
+      it_behaves_like "StateMachineEvents", request_type, "open", %i[cancel auto_approve]
       it_behaves_like "StateMachineEvents", request_type, "cancelled", %i[]
       it_behaves_like "StateMachineEvents", request_type, "closed", %i[]
     end
 
     describe "events" do
-      describe "mark_as_sent!" do
+      describe "mark_as_sent" do
         it "updates the notified timestamp" do
-          expect { request.mark_as_sent! }.to change(request, :notified_at).from(nil).to(Time.zone.now.to_date)
+          expect { request.mark_as_sent }.to change(request, :notified_at).from(nil).to(Time.zone.now.to_date)
         end
       end
 

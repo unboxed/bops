@@ -31,10 +31,14 @@
       <% end %>
     <% end %>
     <fieldset class="govuk-fieldset">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+        <h2 class="govuk-fieldset__heading">
+          Do you agree with the recommendation?
+        </h2>
+      </legend>
       <div class="<%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
         <div class="govuk-form-group">
-          <p class="govuk-body"><strong>Do you agree with the recommendation?</strong></p>
-          <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios" style="margin-bottom: 20px;">
+          <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
             <div class="govuk-radios govuk-radios--small">
               <div class="govuk-radios__item">
                 <%= form.radio_button :agree, "Yes", checked: @recommendation.challenged == false, class: "govuk-radios__input" %>

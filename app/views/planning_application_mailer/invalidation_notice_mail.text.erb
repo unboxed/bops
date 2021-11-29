@@ -6,7 +6,7 @@ Reference No.: <%= @planning_application.reference %>
 Proposal: <%= @planning_application.description %>
 Site Address: <%= @planning_application.full_address %>
 
-Thank you for your planning application received on <%= @planning_application.created_at.to_formatted_s(:day_month_year) %>. Unfortunately your application is invalid and has not been registered.
+Thank you for your planning application received on <%= @planning_application.received_at.to_formatted_s(:day_month_year) %>. Unfortunately your application is invalid and has not been registered.
 
 To review the reasons for invalidation and make the changes required, please follow the link below:
 

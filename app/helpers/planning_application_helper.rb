@@ -99,8 +99,4 @@ module PlanningApplicationHelper
                                         )}"
     end
   end
-
-  def received_at(planning_application)
-    Time.first_business_day(planning_application.created_at).to_formatted_s(:day_month_year)
-  end
 end

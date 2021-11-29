@@ -2,9 +2,17 @@
 
 require "faker"
 
-Given("I am logged in as an assessor") do
+Given("I am logged out") do
+  visit root_path
+
+  click_on "Log out" if page.has_button? "Log out"
+end
+
+Given("I am logged in as a(n) {}") do |role|
+  step("I am logged out")
+
   southwark = LocalAuthority.find_by(subdomain: "southwark")
-  @officer = FactoryBot.create(:user, :assessor, local_authority: southwark)
+  @officer = FactoryBot.create(:user, role.to_sym, local_authority: southwark)
 
   domain = @officer.local_authority.subdomain
 
@@ -28,13 +36,6 @@ Given("a new planning application") do
   @planning_application = FactoryBot.create(
     :planning_application,
     :not_started,
-    local_authority: @officer.local_authority
-  )
-end
-
-Given("a determined planning application") do
-  @planning_application = FactoryBot.create(
-    :determined_planning_application,
     local_authority: @officer.local_authority
   )
 end
@@ -68,6 +69,26 @@ Given("the planning application is assessed") do
     And I fill in "State the reasons why" with "a valid reason"
     And I fill in "supporting information" with "looks legit"
     And I press "Save"
+  )
+end
+
+Given("a recommandation is submitted for the planning application") do
+  steps %(
+    Given the planning application is validated
+    And the planning application is assessed
+    And I press "Submit recommendation"
+    And I press "Submit to manager"
+  )
+end
+
+Given("the planning application is determined") do
+  steps %(
+    Given a recommandation is submitted for the planning application
+    And I press "Review assessment"
+    And I choose "Yes" for "Do you agree with the recommendation?"
+    And I press "Save"
+    And I press "Publish determination"
+    And I press "Determine application"
   )
 end
 

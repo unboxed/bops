@@ -45,14 +45,14 @@
     <div class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
       <p class="govuk-body">
         <strong>Application received:</strong>
-        <%= @planning_application.created_at.to_formatted_s(:day_month_year) %>
+        <%= @planning_application.received_at.to_formatted_s(:day_month_year) %>
       </p>
       <p class="govuk-body">
-        <strong>Validation complete:</strong>
-        <% if @planning_application.in_assessment_at %>
-          <%= @planning_application.in_assessment_at.to_formatted_s(:day_month_year) %>
+        <strong>Valid from:</strong>
+        <% if @planning_application.valid_from.present? %>
+          <%= @planning_application.valid_from.to_formatted_s(:day_month_year) %>
         <% else %>
-          Not yet started
+          Not yet valid
         <% end %>
       </p>
       <p class="govuk-body">
