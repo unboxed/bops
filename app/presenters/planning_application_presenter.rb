@@ -67,13 +67,11 @@ class PlanningApplicationPresenter
     end
 
     def next_date
-      date = if in_progress?
-               expiry_date
-             else
-               send("#{status}_at")
-             end
-
-      date.to_formatted_s(:day_month_year)
+      if in_progress?
+        expiry_date
+      else
+        send("#{status}_at")
+      end
     end
   end
 

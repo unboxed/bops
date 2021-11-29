@@ -30,7 +30,7 @@ RSpec.describe "Replacement document validation requests API", type: :request, s
             {
               "id" => replacement_document_validation_request.id,
               "state" => "open",
-              "response_due" => replacement_document_validation_request.response_due.to_s,
+              "response_due" => replacement_document_validation_request.response_due.to_s(:db),
               "days_until_response_due" => 15,
               "cancel_reason" => nil,
               "cancelled_at" => nil,
@@ -47,7 +47,7 @@ RSpec.describe "Replacement document validation requests API", type: :request, s
             {
               "id" => replacement_document_validation_request2.id,
               "state" => "closed",
-              "response_due" => replacement_document_validation_request2.response_due.to_s,
+              "response_due" => replacement_document_validation_request2.response_due.to_s(:db),
               "days_until_response_due" => 15,
               "cancel_reason" => nil,
               "cancelled_at" => nil,
@@ -64,7 +64,7 @@ RSpec.describe "Replacement document validation requests API", type: :request, s
             {
               "id" => replacement_document_validation_request3.id,
               "state" => "cancelled",
-              "response_due" => replacement_document_validation_request3.response_due.to_s,
+              "response_due" => replacement_document_validation_request3.response_due.to_s(:db),
               "days_until_response_due" => 15,
               "cancel_reason" => "Made by mistake!",
               "cancelled_at" => json_time_format(replacement_document_validation_request3.cancelled_at),
@@ -111,7 +111,7 @@ RSpec.describe "Replacement document validation requests API", type: :request, s
           {
             "id" => replacement_document_validation_request.id,
             "state" => "open",
-            "response_due" => replacement_document_validation_request.response_due.to_s,
+            "response_due" => replacement_document_validation_request.response_due.to_s(:db),
             "days_until_response_due" => 15,
             "cancel_reason" => nil,
             "cancelled_at" => nil,

@@ -29,9 +29,9 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
         let(:planning_application) { create("#{state}_planning_application") }
 
         it "shows the '#{date}' date" do
-          date = planning_application.send(date).to_formatted_s(:day_month_year)
+          date = planning_application.send(date)
 
-          expect(presenter.next_relevant_date_tag).to include date
+          expect(presenter.next_relevant_date_tag).to include date.to_s
         end
 
         it "shows a '#{label}' label" do

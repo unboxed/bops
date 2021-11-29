@@ -2,13 +2,13 @@
 
 <% if JSON.parse(locals[:item].audit_comment)["previous_received_date"].present? %> 
   <p>
-    from: <%= JSON.parse(locals[:item].audit_comment)["previous_received_date"].to_datetime.to_formatted_s(:day_month_year) %>
+    from: <%= JSON.parse(locals[:item].audit_comment)["previous_received_date"].to_datetime %>
   </p>
 <% end %>
 
 <% if JSON.parse(locals[:item].audit_comment)["updated_received_date"].present? %> 
   <p>
-    to: <%= JSON.parse(locals[:item].audit_comment)["updated_received_date"].to_datetime.to_formatted_s(:day_month_year) %>
+    to: <%= JSON.parse(locals[:item].audit_comment)["updated_received_date"].to_datetime %>
   </p>
 <% end %>
 

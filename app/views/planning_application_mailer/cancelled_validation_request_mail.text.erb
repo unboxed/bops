@@ -1,5 +1,5 @@
 Application number: <%= @planning_application.reference %>
-Application received: <%= @planning_application.received_at.to_formatted_s(:day_month_year) %>
+Application received: <%= @planning_application.received_at %>
 At: <%= @planning_application.full_address %>
 
 Hi <%= @planning_application.agent_or_applicant_name %>,
