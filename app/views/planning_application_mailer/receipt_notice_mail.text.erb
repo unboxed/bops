@@ -2,7 +2,7 @@ Dear <%= @planning_application.agent_or_applicant_name %>,
 
 Reference: <%= @planning_application.reference %>
 Date of application: <%= @planning_application.created_at.strftime("%e %B %Y - %H:%M:%S") %>
-Date received: <%= received_at(@planning_application) %>
+Date received: <%= @planning_application.received_at.to_formatted_s(:day_month_year) %>
 
 Site address: <%= @planning_application.full_address %>
 Description: <%= @planning_application.description %>

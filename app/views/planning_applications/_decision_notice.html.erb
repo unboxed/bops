@@ -17,7 +17,7 @@
       {
         "Applicant" => planning_application.applicant_name,
         "Application number" => planning_application.reference,
-        "Application received" => planning_application.created_at.to_formatted_s(:day_month_year),
+        "Application received" => planning_application.received_at.to_formatted_s(:day_month_year),
         "Decision date" => planning_application.determined_at&.to_formatted_s(:day_month_year) || "TBD",
         "Site address" => planning_application.full_address,
         "Use/development" => planning_application.description,

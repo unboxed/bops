@@ -191,7 +191,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "renders the body" do
-      expect(validation_request_mail.body.encoded).to include("Application received: #{planning_application.created_at.to_formatted_s(:day_month_year)}")
+      expect(validation_request_mail.body.encoded).to include("Application received: #{planning_application.received_at.to_formatted_s(:day_month_year)}")
       expect(validation_request_mail.body.encoded).to include(validation_request.user.name)
       expect(validation_request_mail.body.encoded).to include(validation_request.response_due.to_formatted_s(:day_month_year))
       expect(validation_request_mail.body.encoded).to include(planning_application.change_access_id)
@@ -239,7 +239,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     it "renders the body" do
       body = cancelled_validation_request_mail.body.encoded
       expect(body).to include("Application number: #{planning_application.reference}")
-      expect(body).to include("Application received: #{planning_application.created_at.to_formatted_s(:day_month_year)}")
+      expect(body).to include("Application received: #{planning_application.received_at.to_formatted_s(:day_month_year)}")
       expect(body).to include("At: #{planning_application.full_address}")
       expect(body).to include("Hi #{planning_application.agent_or_applicant_name}")
       expect(body).to include("#{validation_request.user.name}, the officer working on your planning application has cancelled one of the validation requests(s) on your application. You no longer need to take action for this request.")
@@ -277,7 +277,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "renders the body" do
       expect(receipt_mail.body.encoded).to match("If by #{planning_application.target_date.to_formatted_s(:day_month_year)}:")
-      expect(receipt_mail.body.encoded).to match("Date received: #{Time.first_business_day(planning_application.created_at).to_formatted_s(:day_month_year)}")
+      expect(receipt_mail.body.encoded).to match("Date received: #{planning_application.received_at.to_formatted_s(:day_month_year)}")
       expect(receipt_mail.body.encoded).to match("Site address: #{planning_application.full_address}")
       expect(receipt_mail.body.encoded).to match("Reference: #{planning_application.reference}")
       expect(receipt_mail.body.encoded).to match("Description: #{planning_application.description}")
@@ -308,7 +308,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "renders the body" do
         expect(description_change_mail.body.encoded).to match("Application number: #{planning_application.reference}")
-        expect(description_change_mail.body.encoded).to match("Application received: #{Time.first_business_day(planning_application.created_at).to_formatted_s(:day_month_year)}")
+        expect(description_change_mail.body.encoded).to match("Application received: #{planning_application.received_at.to_formatted_s(:day_month_year)}")
         expect(description_change_mail.body.encoded).to match("At: #{planning_application.full_address}")
         expect(description_change_mail.body.encoded).to match("the officer working on your planning application has proposed a change to the description of your application.")
         expect(description_change_mail.body.encoded).to match("If your response is not received by #{description_change_request.request_expiry_date.to_formatted_s(:day_month_year)}")
