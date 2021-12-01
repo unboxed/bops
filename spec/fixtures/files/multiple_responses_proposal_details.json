@@ -1,0 +1,1091 @@
+[
+  {
+    "question": "The property is",
+    "responses": [
+      {
+        "value": "a home"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "Are there any protected trees on the property?",
+    "responses": [
+      {
+        "value": "No"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "Is any part of the property listed?",
+    "responses": [
+      {
+        "value": "No",
+        "metadata": {
+          "flags": ["Listed building consent / Not required"]
+        }
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "What are you applying about?",
+    "responses": [
+      {
+        "value": "Proposed changes I want to make in the future"
+      }
+    ],
+    "metadata": {
+      "policy_refs": [
+        {
+          "text": "Town and Country Planning Act 1990 Section 171B"
+        }
+      ]
+    }
+  },
+  {
+    "question": "The property is",
+    "responses": [
+      {
+        "value": "House/s or flat/s"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "What does the application relate to?",
+    "responses": [
+      {
+        "value": "Proposed changes"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "What type of planning application are you making?",
+    "responses": [
+      {
+        "value": "Lawful Development Certificate"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "What are you applying about?",
+    "responses": [
+      {
+        "value": "Changes that will be made in the future"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true,
+      "policy_refs": [
+        {
+          "text":
+            "[Town and Country Planning Act 1990 Section 171B](https://www.legislation.gov.uk/ukpga/1990/8/section/171B)"
+        }
+      ]
+    }
+  },
+  {
+    "question": "List all the changes involved in the project",
+    "responses": [
+      {
+        "value": "Add rooflights to an existing roof"
+      },
+      {
+        "value": "Add roof dormers"
+      },
+      {
+        "value": "Change the shape of a roof"
+      }
+    ]
+  },
+  {
+    "question": "What types of roof extension are involved?",
+    "responses": [
+      {
+        "value": "Addition of dormers"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "What do the works involve?",
+    "responses": [
+      {
+        "value": "addition of rooflight/s"
+      },
+      {
+        "value": "alter the shape of a roof"
+      },
+      {
+        "value": "addition of a roof extension"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "What will the works involve?",
+    "responses": [
+      {
+        "value": "Alteration"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "Is this a test?",
+    "responses": [
+      {
+        "value": "No"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "What type/s of roof extension is involved?",
+    "responses": [
+      {
+        "value": "Addition of a dormer"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "What type of extension is involved?",
+    "responses": [
+      {
+        "value": "Add a roof extension"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "What alterations are being made to the building?",
+    "responses": [
+      {
+        "value": "Other alterations not on this list"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "Do the works involve painting facades?",
+    "responses": [
+      {
+        "value": "No"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "What do the works involve?",
+    "responses": [
+      {
+        "value": "Alteration"
+      },
+      {
+        "value": "Extension"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "What type of extension is being proposed?",
+    "responses": [
+      {
+        "value": "A roof extension"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question":
+      "Have you already told us that the project will involve works to the roof?",
+    "responses": [
+      {
+        "value": "Yes, a rooflight"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "What works will the project involve?",
+    "responses": [
+      {
+        "value": "Alteration"
+      },
+      {
+        "value": "Extension"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "What type of property is it?",
+    "responses": [
+      {
+        "value": "House"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true,
+      "policy_refs": [
+        {
+          "text": "General Permitted Development Order 2015 S.2 P.7"
+        }
+      ]
+    }
+  },
+  {
+    "question": "The house is",
+    "responses": [
+      {
+        "value": "a terrace"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "Is the property on designated land?",
+    "responses": [
+      {
+        "value": "No"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true,
+      "policy_refs": [
+        {
+          "text":
+            "[General Permitted Development Order 2015 S.2 P.1 B.1 (f)](https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-b-additions-etc-to-the-roof-of-a-dwellinghouse)"
+        }
+      ]
+    }
+  },
+  {
+    "question": "What do you want to do?",
+    "responses": [
+      {
+        "value": "Add dormers"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "What type of property is it?",
+    "responses": [
+      {
+        "value": "House"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true,
+      "policy_refs": [
+        {
+          "text": "General Permitted Development Order 2015"
+        }
+      ]
+    }
+  },
+  {
+    "question": "What type of house is it?",
+    "responses": [
+      {
+        "value": "Mid terrace"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "Was the house always a house?",
+    "responses": [
+      {
+        "value": "Yes, it was built as a house"
+      }
+    ]
+  },
+  {
+    "question": "The property is",
+    "responses": [
+      {
+        "value": "a house"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "The property is",
+    "responses": [
+      {
+        "value": "a house"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "What will the works involve?",
+    "responses": [
+      {
+        "value": "add rooflight/s"
+      },
+      {
+        "value": "add roof dormer/s"
+      },
+      {
+        "value": "alter the shape of a roof"
+      },
+      {
+        "value": "add a roof extension"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "Is the property subject to any Article 4 directions?",
+    "responses": [
+      {
+        "value": "Yes"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "Was the house always a house?",
+    "responses": [
+      {
+        "value": "Yes, it was built as a house",
+        "metadata": {
+          "flags": ["Planning permission / Permitted development"]
+        }
+      }
+    ],
+    "metadata": {
+      "auto_answered": true,
+      "policy_refs": [
+        {
+          "text":
+            "The Town and Country Planning (General Permitted Development) (England) Order 2015 S.2 P.1 C.1 (e)"
+        }
+      ]
+    }
+  },
+  {
+    "question": "Was the house built before 2020?",
+    "responses": [
+      {
+        "value": "Yes, it was built before 2020"
+      }
+    ]
+  },
+  {
+    "question": "Was the house built before 2020?",
+    "responses": [
+      {
+        "value": "Yes, it was built before 2020"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "How many new rooflights will be added?",
+    "responses": [
+      {
+        "value": "3"
+      }
+    ]
+  },
+  {
+    "question":
+      "Will the new rooflights protrude more than 15cm from the plane of the original roof?",
+    "responses": [
+      {
+        "value": "No",
+        "metadata": {
+          "flags": ["Planning permission / Permitted development"]
+        }
+      }
+    ],
+    "metadata": {
+      "policy_refs": [
+        {
+          "text":
+            "General Permitted Development 2015 P.1 C.1 (b), Permitted Development Technical Guidance"
+        }
+      ]
+    }
+  },
+  {
+    "question": "The highest point of the new rooflights will be",
+    "responses": [
+      {
+        "value": "Lower than the top of the original roof",
+        "metadata": {
+          "flags": ["Planning permission / Permitted development"]
+        }
+      }
+    ],
+    "metadata": {
+      "policy_refs": [
+        {
+          "text": "General Permitted Development Order 2015 P.1 C.1 (c)"
+        }
+      ]
+    }
+  },
+  {
+    "question": "Will any new rooflights be side-facing?",
+    "responses": [
+      {
+        "value": "No, the rooflights only face the front or rear"
+      }
+    ]
+  },
+  {
+    "question": "How many new dormers will be added?",
+    "responses": [
+      {
+        "value": "1"
+      }
+    ]
+  },
+  {
+    "question": "The existing house has a",
+    "responses": [
+      {
+        "value": "hip roof"
+      }
+    ]
+  },
+  {
+    "question": "I want to extend the roof on the",
+    "responses": [
+      {
+        "value": "rear of the house",
+        "metadata": {
+          "flags": ["Planning permission / Permitted development"]
+        }
+      },
+      {
+        "value": "side of the house"
+      }
+    ],
+    "metadata": {
+      "policy_refs": [
+        {
+          "text": "General Permitted Development Order 2015 S.2 P.1 B.1 (c)"
+        }
+      ]
+    }
+  },
+  {
+    "question": "Would it extend beyond the plane of the front roof slope?",
+    "responses": [
+      {
+        "value": "No",
+        "metadata": {
+          "flags": ["Planning permission / Permitted development"]
+        }
+      }
+    ],
+    "metadata": {
+      "policy_refs": [
+        {
+          "text":
+            "[General Permitted Development Order 2015 S.2 P.1 B.1 (c)](https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-b-additions-etc-to-the-roof-of-a-dwellinghouse)"
+        }
+      ]
+    }
+  },
+  {
+    "question": "The new dormer will be",
+    "responses": [
+      {
+        "value": "lower than the original roof",
+        "metadata": {
+          "flags": ["Planning permission / Permitted development"]
+        }
+      }
+    ],
+    "metadata": {
+      "policy_refs": [
+        {
+          "text":
+            "[General Permitted Development Order 2015 S.2 P.1 B.1 (b)](https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-b-additions-etc-to-the-roof-of-a-dwellinghouse)"
+        }
+      ]
+    }
+  },
+  {
+    "question": "All the original eaves",
+    "responses": [
+      {
+        "value": "will be retained",
+        "metadata": {
+          "flags": ["Planning permission / Permitted development"]
+        }
+      }
+    ],
+    "metadata": {
+      "policy_refs": [
+        {
+          "text":
+            "General Permitted Development Order 2015 S.2 P.1 B.2 (b)(i)(a)"
+        }
+      ]
+    }
+  },
+  {
+    "question": "The dormer will be set back from the edge of the eaves by",
+    "responses": [
+      {
+        "value": "less than 0.2m",
+        "metadata": {
+          "flags": ["Planning permission / Permission needed"]
+        }
+      }
+    ],
+    "metadata": {
+      "policy_refs": [
+        {
+          "text":
+            "General Permitted Development Order 2015 S.2 P.1 B.2 (b)(i)(bb) \nGPDO Technical Guidance"
+        }
+      ]
+    }
+  },
+  {
+    "question": "The new dormer",
+    "responses": [
+      {
+        "value": "will not extend beyond the walls of the original house",
+        "metadata": {
+          "flags": ["Planning permission / Permitted development"]
+        }
+      }
+    ],
+    "metadata": {
+      "policy_refs": [
+        {
+          "text":
+            "[General Permitted Development Order 2015 S.2 P.1 B.2 (b)(ii)](https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-b-additions-etc-to-the-roof-of-a-dwellinghouse)"
+        }
+      ]
+    }
+  },
+  {
+    "question": "Does the house have a rear projection?",
+    "responses": [
+      {
+        "value": "No"
+      }
+    ]
+  },
+  {
+    "question": "The total cubic volume of all roof extensions will be",
+    "responses": [
+      {
+        "value": "40m3 or less",
+        "metadata": {
+          "flags": ["Planning permission / Permitted development"]
+        }
+      }
+    ],
+    "metadata": {
+      "policy_refs": [
+        {
+          "text": "General Permitted Development Order 2015 S.2 P.1 B.1 (d)(i)"
+        }
+      ]
+    }
+  },
+  {
+    "question": "The materials and appearance",
+    "responses": [
+      {
+        "value": "will be similar to the existing house",
+        "metadata": {
+          "flags": ["Planning permission / Permitted development"]
+        }
+      }
+    ],
+    "metadata": {
+      "policy_refs": [
+        {
+          "text":
+            "[General Permitted Development Order 2015 S.2 P.1 B.2 (a)](https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-b-additions-etc-to-the-roof-of-a-dwellinghouse/made)"
+        }
+      ]
+    }
+  },
+  {
+    "question": "Will the dormer include a new outdoor verandah or balcony?",
+    "responses": [
+      {
+        "value": "No",
+        "metadata": {
+          "flags": ["Planning permission / Permitted development"]
+        }
+      }
+    ],
+    "metadata": {
+      "policy_refs": [
+        {
+          "text": "General Permitted Development Order 2015 S.2 P.1 B.1(e)(i)"
+        }
+      ]
+    }
+  },
+  {
+    "question": "Will there by any new side-facing windows?",
+    "responses": [
+      {
+        "value": "No"
+      }
+    ]
+  },
+  {
+    "question": "Would you like to proceed anyway?",
+    "responses": [
+      {
+        "value": "Yes"
+      }
+    ]
+  },
+  {
+    "question": "In what way do you believe this assessment is incorrect?",
+    "responses": [
+      {
+        "value": "I cant retain the eaves."
+      }
+    ]
+  },
+  {
+    "question": "What are the materials of the existing windows?",
+    "responses": [
+      {
+        "value": "White plastic"
+      }
+    ]
+  },
+  {
+    "question": "The materials of the new windows are",
+    "responses": [
+      {
+        "value": "White plastic"
+      }
+    ]
+  },
+  {
+    "question": "What are the materials of the existing external walls?",
+    "responses": [
+      {
+        "value": "Bricks"
+      }
+    ]
+  },
+  {
+    "question": "Describe the tone and texture of the existing bricks",
+    "responses": [
+      {
+        "value": "Plain"
+      }
+    ]
+  },
+  {
+    "question": "What colour are the plain bricks?",
+    "responses": [
+      {
+        "value": "Red"
+      }
+    ]
+  },
+  {
+    "question": "Select the materials of the proposed external walls",
+    "responses": [
+      {
+        "value": "Bricks"
+      }
+    ]
+  },
+  {
+    "question": "The bricks of the new external walls are",
+    "responses": [
+      {
+        "value": "Plain"
+      }
+    ]
+  },
+  {
+    "question": "What colour are the new plain bricks?",
+    "responses": [
+      {
+        "value": "Red"
+      }
+    ]
+  },
+  {
+    "question": "What are the materials of the existing roof?",
+    "responses": [
+      {
+        "value": "Concrete tiles"
+      }
+    ]
+  },
+  {
+    "question": "The materials of the new rooflights are",
+    "responses": [
+      {
+        "value": "White plastic"
+      }
+    ]
+  },
+  {
+    "question": "What will be the materials of the new roof?",
+    "responses": [
+      {
+        "value": "Concrete tiles"
+      }
+    ]
+  },
+  {
+    "question": "Does the extension include any new external doors?",
+    "responses": [
+      {
+        "value": "No"
+      }
+    ]
+  },
+  {
+    "question": "Does the extension include any rooflights?",
+    "responses": [
+      {
+        "value": "Yes"
+      }
+    ]
+  },
+  {
+    "question": "Who are you?",
+    "responses": [
+      {
+        "value": "I am the applicant"
+      }
+    ]
+  },
+  {
+    "question": "I am",
+    "responses": [
+      {
+        "value": "the applicant"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "Who are you applying for?",
+    "responses": [
+      {
+        "value": "Myself"
+      }
+    ]
+  },
+  {
+    "question": "Title",
+    "responses": [
+      {
+        "value": "Mr"
+      }
+    ]
+  },
+  {
+    "question": "Is your contact address the same as the property address?",
+    "responses": [
+      {
+        "value": "Yes"
+      }
+    ]
+  },
+  {
+    "question":
+      "If a planning officer needs to make a site visit, who should they contact?",
+    "responses": [
+      {
+        "value": "Me, the applicant"
+      }
+    ]
+  },
+  {
+    "question": "Which of these best describes your interest in the land?",
+    "responses": [
+      {
+        "value": "Sole owner"
+      }
+    ],
+    "metadata": {
+      "policy_refs": [
+        {
+          "text":
+            "The Town and Country Planning (Development Management Procedure) (England) Order 2015"
+        }
+      ]
+    }
+  },
+  {
+    "question": "Do these floor plans show the entire property?",
+    "responses": [
+      {
+        "value": "Yes"
+      }
+    ]
+  },
+  {
+    "question": "Will the works involve any alterations to ground levels?",
+    "responses": [
+      {
+        "value": "No"
+      }
+    ]
+  },
+  {
+    "question": "Would you like to upload any photographs?",
+    "responses": [
+      {
+        "value": "No"
+      }
+    ]
+  },
+  {
+    "question": "Would you like to upload any visualisations of the proposals?",
+    "responses": [
+      {
+        "value": "No"
+      }
+    ]
+  },
+  {
+    "question":
+      "Would you like to upload any additional drawings or documents?",
+    "responses": [
+      {
+        "value": "No"
+      }
+    ]
+  },
+  {
+    "question": "How many homes does this application relate to?",
+    "responses": [
+      {
+        "value": "One"
+      }
+    ],
+    "metadata": {
+      "policy_refs": [
+        {
+          "text":
+            "The Town and Country Planning (Fees for Applications, Deemed Applications, Requests and Site Visits) (England) Regulations 2012 Schedule 1, Part 2"
+        }
+      ]
+    }
+  },
+  {
+    "question":
+      "Are the works being carried out for the sole purpose of providing access for a disabled resident?",
+    "responses": [
+      {
+        "value": "No"
+      }
+    ],
+    "metadata": {
+      "policy_refs": [
+        {
+          "text": "UK Statutory Instruments 2012 No. 2920 Regulation 4"
+        }
+      ]
+    }
+  },
+  {
+    "question": "Does the application qualify for a disability exemption?",
+    "responses": [
+      {
+        "value": "No"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "Is this application a resubmission?",
+    "responses": [
+      {
+        "value": "Yes"
+      }
+    ],
+    "metadata": {
+      "policy_refs": [
+        {
+          "text":
+            "UK Statutory Instruments 2012 No. 2920 Regulation 8, UK Statutory Instruments 2012 No. 2920 Regulation 9,"
+        }
+      ]
+    }
+  },
+  {
+    "question": "Is this your first resubmission for this site?",
+    "responses": [
+      {
+        "value": "Yes"
+      }
+    ],
+    "metadata": {
+      "policy_refs": [
+        {
+          "text": "UK Statutory Instruments 2012 No. 2920 Regulation 8"
+        }
+      ]
+    }
+  },
+  {
+    "question": "What type of application is this? ",
+    "responses": [
+      {
+        "value": "Certificate of Lawfulness"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question": "What was the result of the original application?",
+    "responses": [
+      {
+        "value": "Withdrawn"
+      }
+    ]
+  },
+  {
+    "question": "The original application was submitted",
+    "responses": [
+      {
+        "value": "within the last 12 months"
+      }
+    ],
+    "metadata": {
+      "policy_refs": [
+        {
+          "text": "UK Statutory Instruments 2012 No. 2920 Regulation 8"
+        }
+      ]
+    }
+  },
+  {
+    "question": "Does the application qualify for a resubmission exemption?",
+    "responses": [
+      {
+        "value": "Yes"
+      }
+    ],
+    "metadata": {
+      "auto_answered": true
+    }
+  },
+  {
+    "question":
+      "What was the Application Reference Number of the original application?",
+    "responses": [
+      {
+        "value": "Test ref"
+      }
+    ]
+  },
+  {
+    "question":
+      "To qualify for a fee exemption, the proposed works must be of a similar description to the original application",
+    "responses": [
+      {
+        "value": "I understand"
+      }
+    ],
+    "metadata": {
+      "policy_refs": [
+        {
+          "text": "UK Statutory Instruments 2012 No. 2920 Regulation 8"
+        }
+      ]
+    }
+  },
+  {
+    "question": "Connections with Buckinghamshire Council",
+    "responses": [
+      {
+        "value": "None of the above apply to me"
+      }
+    ]
+  },
+  {
+    "question": "I confirm that:",
+    "responses": [
+      {
+        "value":
+          "The information contained in this application is truthful, accurate and complete, to the best of my knowledge"
+      }
+    ]
+  }
+]
