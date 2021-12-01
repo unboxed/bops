@@ -24,6 +24,10 @@ module Api
       def unauthorized_response
         render json: {}, status: :unauthorized
       end
+
+      def render_failed_request
+        render json: { message: "Validation request could not be updated - please contact support" }, status: :bad_request
+      end
     end
   end
 end

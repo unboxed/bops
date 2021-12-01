@@ -24,9 +24,9 @@ get:
             days_until_response_due: 10
             document_request_type: floor plan
             document_request_reason: need to see the floor plan
-            new_document:
-              name: new_document.jpg
-              url: document.blob./new_document.jpg
+            documents:
+              - name: new_document.jpg
+                url: document.blob./new_document.jpg
             cancel_reason: null
             cancelled_at: null
 

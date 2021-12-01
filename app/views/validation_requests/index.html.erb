@@ -56,8 +56,18 @@
                   <td class="govuk-table__cell limit-column-width">
                     <%= request_closed_at(validation_request)  %>
                   </td>
-                  <td class="govuk-table__cell limit-column-width">
-                    <%= applicant_response(validation_request) %>
+                   <td class="govuk-table__cell limit-column-width">
+                    <% if validation_request.is_a?(AdditionalDocumentValidationRequest) %>
+                      <ul id="additional-documents" class="govuk-list">
+                        <% validation_request.documents.each do |document| %>
+                          <%= tag.li id: dom_id(document) do %>
+                            <%= document_url(document) %>
+                          <% end %>
+                        <% end %>
+                      </ul>
+                    <% else %>
+                      <%= applicant_response(validation_request) %>
+                    <% end %>
                   </td>
                   <td class="govuk-table__cell limit-column-width">
                     <% if !validation_request.closed? && !validation_request.cancelled? %>

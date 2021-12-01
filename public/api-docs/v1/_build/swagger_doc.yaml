@@ -577,9 +577,9 @@ paths:
                           state: open
                           response_due: '2020-05-14T05:18:17.540Z'
                           days_until_response_due: 10
-                          new_document:
-                            name: new_document.jpg
-                            url: document.blob./new_document.jpg
+                          documents:
+                            - name: new_document.jpg
+                              url: document.blob./new_document.jpg
                           cancel_reason: null
                           cancelled_at: null
   '/api/v1/planning_applications/{planning_application_id}/other_change_validation_requests':
@@ -1056,9 +1056,9 @@ paths:
                     days_until_response_due: 10
                     document_request_type: floor plan
                     document_request_reason: need to see the floor plan
-                    new_document:
-                      name: new_document.jpg
-                      url: document.blob./new_document.jpg
+                    documents:
+                      - name: new_document.jpg
+                        url: document.blob./new_document.jpg
                     cancel_reason: null
                     cancelled_at: null
                   - id: 2
@@ -1067,6 +1067,7 @@ paths:
                     days_until_response_due: 10
                     document_request_type: floor plan
                     document_request_reason: need to see the floor plan
+                    documents: []
                     cancel_reason: null
                     cancelled_at: null
   '/api/v1/planning_applications/{planning_application_id}/additional_document_validation_requests/{additional_document_validation_request_id}':
@@ -1109,9 +1110,9 @@ paths:
                 days_until_response_due: 10
                 document_request_type: floor plan
                 document_request_reason: need to see the floor plan
-                new_document:
-                  name: new_document.jpg
-                  url: document.blob./new_document.jpg
+                documents:
+                  - name: new_document.jpg
+                    url: document.blob./new_document.jpg
                 cancel_reason: null
                 cancelled_at: null
     patch:

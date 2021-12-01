@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/BlockLength
 json.data do
   json.description_change_validation_requests @planning_application.description_change_validation_requests do |description_change_validation_request|
     json.extract! description_change_validation_request,
@@ -66,13 +65,12 @@ json.data do
                   :cancel_reason,
                   :cancelled_at
 
-    json.new_document do
-      if additional_document_validation_request.new_document
-        json.name additional_document_validation_request.new_document.file.filename
-        json.url additional_document_validation_request.new_document.file.representation(resize_to_limit: [1000,
-                                                                                                           1000]).processed.url
-      end
+    json.documents additional_document_validation_request.documents do |document|
+      json.name document.file.filename
+      json.url document.file.representation(resize_to_limit: [1000, 1000]).processed.url
+      json.extract! document
     end
+
     json.type "additional_document_validation_request"
   end
 
@@ -90,4 +88,3 @@ json.data do
     json.type "other_change_validation_request"
   end
 end
-# rubocop:enable Metrics/BlockLength

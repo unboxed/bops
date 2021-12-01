@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_29_164248) do
+ActiveRecord::Schema.define(version: 2021_12_01_161025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,7 +46,6 @@ ActiveRecord::Schema.define(version: 2021_11_29_164248) do
   create_table "additional_document_validation_requests", force: :cascade do |t|
     t.bigint "planning_application_id", null: false
     t.bigint "user_id", null: false
-    t.bigint "new_document_id"
     t.string "state", null: false
     t.string "document_request_type"
     t.string "document_request_reason"
@@ -56,7 +55,6 @@ ActiveRecord::Schema.define(version: 2021_11_29_164248) do
     t.date "notified_at"
     t.text "cancel_reason"
     t.datetime "cancelled_at"
-    t.index ["new_document_id"], name: "index_document_create_requests_on_new_document_id"
     t.index ["planning_application_id"], name: "index_document_create_requests_on_planning_application_id"
     t.index ["user_id"], name: "index_document_create_requests_on_user_id"
   end
@@ -132,6 +130,8 @@ ActiveRecord::Schema.define(version: 2021_11_29_164248) do
     t.bigint "user_id"
     t.bigint "api_user_id"
     t.datetime "received_at"
+    t.bigint "additional_document_validation_request_id"
+    t.index ["additional_document_validation_request_id"], name: "ix_documents_on_additional_document_validation_request_id"
     t.index ["api_user_id"], name: "ix_documents_on_api_user_id"
     t.index ["planning_application_id"], name: "index_documents_on_planning_application_id"
     t.index ["user_id"], name: "ix_documents_on_user_id"
@@ -301,13 +301,13 @@ ActiveRecord::Schema.define(version: 2021_11_29_164248) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "additional_document_validation_requests", "documents", column: "new_document_id"
   add_foreign_key "additional_document_validation_requests", "planning_applications"
   add_foreign_key "additional_document_validation_requests", "users"
   add_foreign_key "audits", "api_users"
   add_foreign_key "audits", "planning_applications"
   add_foreign_key "description_change_validation_requests", "planning_applications"
   add_foreign_key "description_change_validation_requests", "users"
+  add_foreign_key "documents", "additional_document_validation_requests"
   add_foreign_key "documents", "api_users"
   add_foreign_key "documents", "users"
   add_foreign_key "notes", "planning_applications"

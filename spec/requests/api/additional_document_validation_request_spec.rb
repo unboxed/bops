@@ -13,7 +13,7 @@ RSpec.describe "Additional document validation requests API", type: :request, sh
   describe "#index" do
     let(:path) { "/api/v1/planning_applications/#{planning_application.id}/additional_document_validation_requests" }
     let!(:additional_document_validation_request2) do
-      create(:additional_document_validation_request, :closed, planning_application: planning_application)
+      create(:additional_document_validation_request, :closed, :with_documents, planning_application: planning_application)
     end
     let!(:additional_document_validation_request3) do
       create(:additional_document_validation_request, :cancelled, planning_application: planning_application)
@@ -36,10 +36,7 @@ RSpec.describe "Additional document validation requests API", type: :request, sh
               "document_request_reason" => "Missing floor plan",
               "cancel_reason" => nil,
               "cancelled_at" => nil,
-              "new_document" => {
-                "name" => "proposed-floorplan.png",
-                "url" => json["data"][0]["new_document"]["url"]
-              }
+              "documents" => []
             },
             {
               "id" => additional_document_validation_request2.id,
@@ -50,10 +47,12 @@ RSpec.describe "Additional document validation requests API", type: :request, sh
               "document_request_reason" => "Missing floor plan",
               "cancel_reason" => nil,
               "cancelled_at" => nil,
-              "new_document" => {
-                "name" => "proposed-floorplan.png",
-                "url" => json["data"][1]["new_document"]["url"]
-              }
+              "documents" => [
+                {
+                  "name" => "proposed-floorplan.png",
+                  "url" => json["data"][1]["documents"][0]["url"]
+                }
+              ]
             },
             {
               "id" => additional_document_validation_request3.id,
@@ -64,10 +63,7 @@ RSpec.describe "Additional document validation requests API", type: :request, sh
               "document_request_reason" => "Missing floor plan",
               "cancel_reason" => "Made by mistake!",
               "cancelled_at" => json_time_format(additional_document_validation_request3.cancelled_at),
-              "new_document" => {
-                "name" => "proposed-floorplan.png",
-                "url" => json["data"][2]["new_document"]["url"]
-              }
+              "documents" => []
             }
           ]
         )
@@ -108,10 +104,7 @@ RSpec.describe "Additional document validation requests API", type: :request, sh
             "document_request_reason" => "Missing floor plan",
             "cancel_reason" => nil,
             "cancelled_at" => nil,
-            "new_document" => {
-              "name" => "proposed-floorplan.png",
-              "url" => json["new_document"]["url"]
-            }
+            "documents" => []
           }
         )
       end
