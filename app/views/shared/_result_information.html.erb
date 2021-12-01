@@ -27,6 +27,7 @@
             <%= @planning_application.result_override %>
           </p>
         </div>
+      <% end %>
         <% if @planning_application.flagged_proposal_details(@planning_application.result_flag).present? %>
           <p class="govuk-body">
             <strong>Details identified <%= @planning_application.api_user.present? ? "by #{@planning_application.api_user.name}" : "" %> as relevant to the result</strong>
@@ -40,7 +41,6 @@
               <% proposal_detail["responses"].each do |response| %>
                   <%= response["value"] %>
              <% end %>
-            <% end %>
           </ol>
         <% end %>
       <% end %>
