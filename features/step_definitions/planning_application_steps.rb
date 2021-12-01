@@ -40,6 +40,12 @@ Given("a new planning application") do
   )
 end
 
+Given("a new application of type prior approval") do
+  @planning_application = FactoryBot.create(:planning_application,
+                                            :prior_approval,
+                                            local_authority: @officer.local_authority)
+end
+
 Given("the planning application is invalidated") do
   steps %(
     Given I create a new document validation request for a "validation request" because "I have to"
@@ -72,7 +78,7 @@ Given("the planning application is assessed") do
   )
 end
 
-Given("a recommandation is submitted for the planning application") do
+Given("a recommendation is submitted for the planning application") do
   steps %(
     Given the planning application is validated
     And the planning application is assessed

@@ -131,6 +131,62 @@ FactoryBot.define do
       end
     end
 
+    trait :prior_approval do
+      result_flag { "Planning permission / Prior approval" }
+
+      proposal_details do
+        [
+          {
+            question: "What do you want to do?",
+            responses: [
+              {
+                value: "Modify or extend"
+              }
+            ]
+          },
+          {
+            question: "I will add",
+            responses: [
+              {
+                value: "1-2 new storeys",
+                metadata: {
+                  flags: [
+                    "Planning permission / Prior approval"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            question: "The new storeys will be",
+            responses: [
+              {
+                value: "on the principal part of the building only",
+                metadata: {
+                  flags: [
+                    "Planning permission / Prior approval"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            question: "The height of the new roof will be higher than the old roof by",
+            responses: [
+              {
+                value: "7m or less",
+                metadata: {
+                  flags: [
+                    "Planning permission / Prior approval"
+                  ]
+                }
+              }
+            ]
+          }
+        ].to_json
+      end
+    end
+
     factory :not_started_planning_application do
       status { :not_started }
 
