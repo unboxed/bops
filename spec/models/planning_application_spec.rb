@@ -468,5 +468,13 @@ RSpec.describe PlanningApplication, type: :model do
       end
     end
   end
+
+  describe "proposal_details" do
+    it "defaults to an empty array" do
+      planning_application.update!(proposal_details: nil)
+
+      expect(planning_application.proposal_details).to eq []
+    end
+  end
   # rubocop:enable Rails/SkipsModelValidations
 end
