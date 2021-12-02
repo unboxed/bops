@@ -8,31 +8,9 @@
     </h3>
   </div>
   <div class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-3">
-    <ol class="govuk-body">
+    <ol class="govuk-list govuk-list--number">
       <% @planning_application.proposal_details.each do |proposal_detail| %>
-        <li>
-          <p>
-            <strong><%= proposal_detail['question'] %></strong>
-          </p>
-          <p><%= proposal_detail['responses'].collect {|response| response["value"] }.join(", ") %></p>
-          <% if proposal_detail["metadata"].present? %>
-            <% if proposal_detail["metadata"]["notes"].present? %>
-              <p><em><%= proposal_detail["metadata"]["notes"] %></em></p>
-            <% end %>
-            <% if proposal_detail["metadata"]["auto_answered"].present? %>
-              <p><em>Auto-answered by RIPA</em></p>
-            <% end %>
-            <% if proposal_detail["metadata"]["policy_refs"].present? %>
-              <%= proposal_detail["metadata"]["policy_refs"].collect {|policy_ref|
-                  if policy_ref["url"].present?
-                    link_to policy_ref["text"], policy_ref["url"], class: "govuk-link"
-                  else
-                    policy_ref["text"]
-                  end
-                }.join(", ").html_safe %>
-            <% end %>
-          <% end %>
-        </li>
+        <li><%= @planning_application.proposal_detail_item(proposal_detail) %></li>
       <% end %>
     </ol>
   </div>

@@ -3,7 +3,7 @@
 class PlanningApplicationPresenter
   attr_reader :template, :planning_application
 
-  delegate :tag, to: :template
+  delegate :tag, :concat, :link_to, to: :template
   delegate :to_param, to: :planning_application
 
   STATUS_COLOURS = {
@@ -71,6 +71,52 @@ class PlanningApplicationPresenter
         expiry_date
       else
         send("#{status}_at")
+      end
+    end
+  end
+
+  concerning :ProposalDetails do
+    def proposal_question(proposal)
+      tag.p(class: "govuk-body") do
+        tag.strong(proposal.question)
+      end
+    end
+
+    def proposal_responses(proposal)
+      tag.p(class: "govuk-body") do
+        proposal.responses.map(&:value).compact.join(", ")
+      end
+    end
+
+    def proposal_policy_refs(proposal)
+      refs = proposal.metadata.policy_refs
+
+      refs.map do |ref|
+        if ref.url.present?
+          link_to(ref.url, ref.url, class: "govuk-link")
+        else
+          ref.text
+        end
+      end.join
+    end
+
+    def proposal_metadata(proposal)
+      metadata = proposal.metadata
+
+      return if metadata.nil?
+
+      tag.div do
+        concat tag.p(tag.em(metadata.notes)) if metadata.notes.present?
+        concat tag.p(tag.em("Auto-answered by RIPA")) if metadata.auto_answered.present?
+        concat proposal_policy_refs(proposal) if metadata.policy_refs.present?
+      end
+    end
+
+    def proposal_detail_item(proposal)
+      tag.p(class: "govuk-body") do
+        proposal_question(proposal) +
+          proposal_responses(proposal) +
+          proposal_metadata(proposal)
       end
     end
   end
