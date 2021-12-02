@@ -127,3 +127,9 @@ end
 Then("the page contains a {string} tag containing {string}") do |colour, text|
   expect(page).to have_selector(".govuk-tag--#{colour}", text: text)
 end
+
+Then("there is a relevant proposal detail for {string} with a response of {string}") do |question, response|
+  within(".result_information ol") do
+    expect(page).to have_selector("li", text: [question, response].join("\n"))
+  end
+end
