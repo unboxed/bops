@@ -32,10 +32,10 @@
           <p class="govuk-body">
             <strong> Details identified <%= @planning_application.api_user.present? ? "by #{@planning_application.api_user.name}" : "" %> as relevant to the result</strong>
           </p>
-          <ol class="govuk-body">
-            <li class="govuk-body">
+          <ol class="govuk-list">
+            <li>
               <% @planning_application.flagged_proposal_details(@planning_application.result_flag).each do |proposal_detail| %>
-                <h4 class="proposal govuk-heading-s">
+                <h4 class="govuk-heading-s">
                   <%= display_number(@planning_application.parsed_proposal_details, proposal_detail) %>.
                   <%= proposal_detail["question"] %>
                 </h4>
