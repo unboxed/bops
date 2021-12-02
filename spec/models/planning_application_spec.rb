@@ -468,5 +468,29 @@ RSpec.describe PlanningApplication, type: :model do
       end
     end
   end
+
+  describe "proposal_details" do
+    it "defaults to an empty array" do
+      planning_application.update!(proposal_details: nil)
+
+      expect(planning_application.proposal_details).to eq []
+    end
+  end
+
+  describe "flagged_proposal_details" do
+    it "returns the relevant questions for the application's result" do
+      expect(planning_application.flagged_proposal_details(planning_application.result_flag).length).to eq 1
+    end
+
+    context "when there's a proposal detail with multiple responses" do
+      before do
+        planning_application.proposal_details = File.read("./spec/fixtures/files/multiple_responses_proposal_details.json")
+      end
+
+      it "does not crash" do
+        expect { planning_application.flagged_proposal_details(planning_application.result_flag) }.not_to raise_error
+      end
+    end
+  end
   # rubocop:enable Rails/SkipsModelValidations
 end

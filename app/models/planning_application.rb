@@ -236,25 +236,25 @@ class PlanningApplication < ApplicationRecord
     recommendations.pending_review.last || recommendations.build
   end
 
-  def parsed_proposal_details
-    proposal_details.present? ? JSON.parse(proposal_details) : []
+  def proposal_details
+    JSON.parse(self[:proposal_details] || "[]", object_class: OpenStruct)
   end
 
   def proposal_details_with_metadata
-    parsed_proposal_details.select do |proposal|
-      proposal["responses"].any? { |element| element["metadata"].present? }
+    proposal_details.select do |proposal|
+      proposal.responses.any? { |element| element.metadata.present? }
     end
   end
 
   def proposal_details_with_flags
     proposal_details_with_metadata.select do |proposal|
-      proposal["responses"].any? { |element| element["metadata"]["flags"].present? }
+      proposal.responses.any? { |element| element.metadata.flags.present? }
     end
   end
 
   def flagged_proposal_details(flag)
     proposal_details_with_flags.select do |proposal|
-      proposal["responses"].any? { |element| element["metadata"]["flags"].include?(flag) }
+      proposal.responses.any? { |element| element&.metadata&.flags&.include?(flag) }
     end
   end
 

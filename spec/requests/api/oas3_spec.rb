@@ -65,7 +65,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
     expect(PlanningApplication.last.postcode).to eq("SE16 3RQ")
     expect(PlanningApplication.last.work_status).to eq("proposed")
     expect(PlanningApplication.last.boundary_geojson).to eq('{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-0.07716178894042969,51.50094238217541],[-0.07645905017852783,51.50053497847238],[-0.07615327835083008,51.50115276135022],[-0.07716178894042969,51.50094238217541]]]}}')
-    expect(JSON.parse(PlanningApplication.last.proposal_details).first["question"]).to eq("What do you want to do?")
+    expect(PlanningApplication.last.proposal_details.first["question"]).to eq("What do you want to do?")
     expect(PlanningApplication.last.constraints).to eq(%w[conservation_area])
     expect(PlanningApplication.last.documents.first.file).to be_present
     expect(PlanningApplication.last.documents.first.applicant_description).to eq("This is the side plan")

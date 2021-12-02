@@ -340,12 +340,4 @@ class PlanningApplicationsController < AuthenticationController
   def ensure_constraint_edits_unlocked
     render plain: "forbidden", status: :forbidden and return unless @planning_application.can_validate?
   end
-
-  def documents_validated_at_missing?
-    if params["planning_application"]["documents_validated_at(3i)"].blank? ||
-       params["planning_application"]["documents_validated_at(2i)"].blank? ||
-       params["planning_application"]["documents_validated_at(1i)"].blank?
-      @planning_application.errors.add(:status, "Please enter a valid date")
-    end
-  end
 end

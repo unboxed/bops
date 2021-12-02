@@ -36,7 +36,7 @@
             <li>
               <% @planning_application.flagged_proposal_details(@planning_application.result_flag).each do |proposal_detail| %>
                 <h4 class="govuk-heading-s">
-                  <%= display_number(@planning_application.parsed_proposal_details, proposal_detail) %>.
+                  <%= display_number(@planning_application.proposal_details, proposal_detail) %>.
                   <%= proposal_detail["question"] %>
                 </h4>
                <p class="govuk-body">
