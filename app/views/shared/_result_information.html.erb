@@ -30,19 +30,23 @@
       <% end %>
         <% if @planning_application.flagged_proposal_details(@planning_application.result_flag).present? %>
           <p class="govuk-body">
-            <strong>Details identified <%= @planning_application.api_user.present? ? "by #{@planning_application.api_user.name}" : "" %> as relevant to the result</strong>
+            <strong> Details identified <%= @planning_application.api_user.present? ? "by #{@planning_application.api_user.name}" : "" %> as relevant to the result</strong>
           </p>
-          <ol class="govuk-body">
-            <% @planning_application.flagged_proposal_details(@planning_application.result_flag).each do |proposal_detail| %>
-              <p class="govuk-body">
-                <span class="proposal"><strong><%= display_number(@planning_application.parsed_proposal_details, proposal_detail) %>.</strong></span>
-                <strong><%= proposal_detail["question"] %></strong>
-              </p>
-              <% proposal_detail["responses"].each do |response| %>
+          <ol class="govuk-list">
+            <li>
+              <% @planning_application.flagged_proposal_details(@planning_application.result_flag).each do |proposal_detail| %>
+                <h4 class="govuk-heading-s">
+                  <%= display_number(@planning_application.parsed_proposal_details, proposal_detail) %>.
+                  <%= proposal_detail["question"] %>
+                </h4>
+               <p class="govuk-body">
+                <% proposal_detail["responses"].each do |response| %>
                   <%= response["value"] %>
-             <% end %>
+                <% end %>
+              </p>
+              <% end %>
+            </li>
           </ol>
-        <% end %>
       <% end %>
     <% else %>
       <p class='govuk-body'>

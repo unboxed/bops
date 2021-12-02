@@ -40,6 +40,12 @@ Given("a new planning application") do
   )
 end
 
+Given("a new application of type prior approval") do
+  @planning_application = FactoryBot.create(:planning_application,
+                                            :prior_approval,
+                                            local_authority: @officer.local_authority)
+end
+
 Given("the planning application is invalidated") do
   steps %(
     Given I create a new document validation request for a "validation request" because "I have to"
@@ -72,7 +78,7 @@ Given("the planning application is assessed") do
   )
 end
 
-Given("a recommandation is submitted for the planning application") do
+Given("a recommendation is submitted for the planning application") do
   steps %(
     Given the planning application is validated
     And the planning application is assessed
@@ -83,7 +89,7 @@ end
 
 Given("the planning application is determined") do
   steps %(
-    Given a recommandation is submitted for the planning application
+    Given a recommendation is submitted for the planning application
     And I press "Review assessment"
     And I choose "Yes" for "Do you agree with the recommendation?"
     And I press "Save"
@@ -120,4 +126,10 @@ end
 
 Then("the page contains a {string} tag containing {string}") do |colour, text|
   expect(page).to have_selector(".govuk-tag--#{colour}", text: text)
+end
+
+Then("there is a relevant proposal detail for {string} with a response of {string}") do |question, response|
+  within(".result_information ol") do
+    expect(page).to have_selector("li", text: [question, response].join("\n"))
+  end
 end
