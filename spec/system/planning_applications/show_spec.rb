@@ -114,6 +114,20 @@ RSpec.describe "Planning Application show page", type: :system do
       expect(page).to have_text("Consultation is not applicable for proposed permitted development.")
     end
 
+    it "Audit log accordion" do
+      create :audit, 
+      planning_application: planning_application, 
+      user: assessor,
+      activity_type: "started"
+
+      click_button("Audit log")
+
+      expect(page).to have_text("Application validated")
+      expect(page).to have_text("#{assessor.name}")
+      expect(page).to have_text("#{audit.created_at}")
+      expect(page).to have_link("View all")
+    end
+
     it "Application information accordion is minimised by default" do
       within(".govuk-grid-column-two-thirds.application") do
         expect(page).to have_button("Open all")
