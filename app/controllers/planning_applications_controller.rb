@@ -16,7 +16,9 @@ class PlanningApplicationsController < AuthenticationController
                              end
   end
 
-  def show; end
+  def show
+    @audit = @planning_application.audits.last
+  end
 
   def new
     @planning_application = PlanningApplication.new
