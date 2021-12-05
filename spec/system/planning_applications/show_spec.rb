@@ -65,8 +65,8 @@ RSpec.describe "Planning Application show page", type: :system do
       expect(page).to have_text("Conservation Area")
     end
 
-    it "Key application dates accordion" do
-      click_button "Key application dates"
+    it "Audit log accordion" do
+      click_button "Audit log"
 
       expect(page).to have_text("Application received: #{planning_application.received_at}")
       expect(page).to have_text("Valid from: #{planning_application.valid_from}")
@@ -112,20 +112,6 @@ RSpec.describe "Planning Application show page", type: :system do
       click_button("Consultation")
 
       expect(page).to have_text("Consultation is not applicable for proposed permitted development.")
-    end
-
-    it "Audit log accordion" do
-      create :audit, 
-      planning_application: planning_application, 
-      user: assessor,
-      activity_type: "started"
-
-      click_button("Audit log")
-
-      expect(page).to have_text("Application validated")
-      expect(page).to have_text("#{assessor.name}")
-      expect(page).to have_text("#{audit.created_at}")
-      expect(page).to have_link("View all")
     end
 
     it "Application information accordion is minimised by default" do

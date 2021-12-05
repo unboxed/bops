@@ -60,8 +60,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_link "Back"
 
-      click_button "Key application dates"
-      click_link "Activity log"
+      click_button "Audit log"
+      click_link "View all"
 
       expect(page).to have_text("Recommendation submitted")
       expect(page).to have_text(assessor.name)

@@ -70,8 +70,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     expect(planning_application.recommendations.last.reviewer_comment).to eq("Reviewer private comment")
     expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails)
 
-    click_button "Key application dates"
-    click_link "Activity log"
+    click_button "Audit log"
+    click_link "View all"
 
     expect(page).to have_text("Recommendation challenged")
     expect(page).to have_text("Reviewer private comment")

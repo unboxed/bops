@@ -32,7 +32,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).to have_content("Listed building")
       expect(page).to have_content("Broads")
       expect(page).to have_content("Flood zone 3")
-      expect(page).to have_no_content("Conservation Area")
 
       click_link("Update")
 
@@ -75,8 +74,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
       fill_in "Local constraints", with: "Batcave of national significance"
 
       click_button("Save")
-      click_button "Key application dates"
-      click_link "Activity log"
+      click_button "Audit log"
+      click_link "View all"
 
       expect(page).to have_text("Constraint added")
       expect(page).to have_text("Flood zone 3")

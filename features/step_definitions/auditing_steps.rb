@@ -3,15 +3,19 @@
 Then("there is an audit entry containing {string}") do |content|
   step "I visit the audit log"
 
-  within_table("Activity log") do
+  within_table("Audit log") do
     expect(page).to have_content content
   end
+end
+
+When("I click on the audit accordion") do
+  page.find_by(id: "audit-log").click
 end
 
 When("I visit the audit log") do
   steps %(
     When I view the planning application
-    Then I press "Key application dates"
-    Then I press "Activity log"
+    Then I click on the audit accordion
+    Then I press "View all"
   )
 end

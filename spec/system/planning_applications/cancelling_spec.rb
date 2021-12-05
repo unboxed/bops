@@ -27,8 +27,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(planning_application.cancellation_comment).to eq("Withdrawn reason")
       expect(page).not_to have_content("Assigned to:")
 
-      click_button "Key application dates"
-      click_link "Activity log"
+      click_button "Audit log"
+      click_link "View all"
 
       expect(page).to have_text("Application withdrawn")
       expect(page).to have_text(assessor.name)
@@ -47,8 +47,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(planning_application.cancellation_comment).to eq("Returned reason")
       expect(page).not_to have_content("Assigned to:")
 
-      click_button "Key application dates"
-      click_link "Activity log"
+      click_button "Audit log"
+      click_link "View all"
 
       expect(page).to have_text("Application returned")
       expect(page).to have_text(assessor.name)
