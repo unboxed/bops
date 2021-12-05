@@ -37,8 +37,8 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
     expect(page).to have_content("Coordinates look wrong")
 
     click_link "Application"
-    click_button "Key application dates"
-    click_link "Activity log"
+    click_button "Audit log"
+    click_link "View all"
 
     expect(page).to have_text("Sent: validation request (red line boundary#1)")
     expect(page).to have_text("Coordinates look wrong")

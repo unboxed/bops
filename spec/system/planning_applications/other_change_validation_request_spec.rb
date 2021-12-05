@@ -37,8 +37,8 @@ RSpec.describe "Requesting description changes to a planning application", type:
     end
 
     click_link "Application"
-    click_button "Key application dates"
-    click_link "Activity log"
+    click_button "Audit log"
+    click_link "View all"
 
     expect(page).to have_text("Sent: validation request (other validation#1)")
     expect(page).to have_text("The wrong fee has been paid")

@@ -27,8 +27,8 @@ RSpec.shared_examples "validate and invalidate" do
 
     expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 2)
 
-    click_button "Key application dates"
-    click_link "Activity log"
+    click_button "Audit log"
+    click_link "View all"
 
     expect(page).to have_text("Application validated")
     expect(page).to have_text(assessor.name)
@@ -141,8 +141,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 1)
 
-      click_button "Key application dates"
-      click_link "Activity log"
+      click_button "Audit log"
+      click_link "View all"
 
       expect(page).to have_text("Application invalidated")
       expect(page).to have_text(assessor.name)

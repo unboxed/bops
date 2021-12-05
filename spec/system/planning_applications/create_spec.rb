@@ -74,8 +74,8 @@ RSpec.describe "Creating a planning application", type: :system do
     expect(page).to have_text("Description: Bird house")
 
     visit planning_application_path(PlanningApplication.last.id)
-    click_button "Key application dates"
-    click_link "Activity log"
+    click_button "Audit log"
+    click_link "View all"
 
     expect(page).to have_text("Application created by Reviewer 1")
   end
@@ -149,8 +149,8 @@ RSpec.describe "Creating a planning application", type: :system do
       click_button "Save"
 
       visit planning_application_path(PlanningApplication.last.id)
-      click_button "Key application dates"
-      click_link "Activity log"
+      click_button "Audit log"
+      click_link "View all"
 
       expect(page).to have_text("Application created by Assessor 1")
 

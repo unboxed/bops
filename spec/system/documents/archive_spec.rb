@@ -109,8 +109,8 @@ RSpec.describe "Documents index page", type: :system do
       click_button "Archive"
 
       click_link "Application"
-      click_button "Key application dates"
-      click_link "Activity log"
+      click_button "Audit log"
+      click_link "View all"
 
       expect(page).to have_text("Document archived")
       expect(page).to have_text("proposed-floorplan.png")
@@ -170,8 +170,8 @@ RSpec.describe "Documents index page", type: :system do
       end
 
       click_link "Application"
-      click_button "Key application dates"
-      click_link "Activity log"
+      click_button "Audit log"
+      click_link "View all"
 
       expect(page).to have_text("Document unarchived")
     end

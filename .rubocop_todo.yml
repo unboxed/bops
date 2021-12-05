@@ -264,6 +264,11 @@ Rails/ReversibleMigration:
 Style/FormatStringToken:
   EnforcedStyle: unannotated
 
+# Offense count: 1
+Style/OpenStructUse:
+  Exclude:
+    - 'app/models/planning_application.rb'
+
 # Offense count: 18
 # Configuration parameters: MinBodyLength.
 Style/GuardClause:
