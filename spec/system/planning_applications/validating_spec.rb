@@ -27,13 +27,6 @@ RSpec.shared_examples "validate and invalidate" do
 
     expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 2)
 
-    click_button "Audit log"
-    click_link "View all"
-
-    expect(page).to have_text("Application validated")
-    expect(page).to have_text(assessor.name)
-    expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
-
     click_link("Application")
     click_link("Validate application")
     expect(page).to have_link("View notification")
@@ -140,13 +133,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(planning_application.status).to eq("invalidated")
 
       expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 1)
-
-      click_button "Audit log"
-      click_link "View all"
-
-      expect(page).to have_text("Application invalidated")
-      expect(page).to have_text(assessor.name)
-      expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
     end
   end
 

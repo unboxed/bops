@@ -133,3 +133,12 @@ Then("there is a relevant proposal detail for {string} with a response of {strin
     expect(page).to have_selector("li", text: [question, response].join("\n"))
   end
 end
+
+Given("a created at audit entry") do
+  @planning_application = FactoryBot.create(
+    :audit,
+    planning_application: @planning_application,
+    activity_type: "created",
+    user: @officer
+  )
+end
