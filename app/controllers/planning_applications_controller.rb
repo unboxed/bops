@@ -17,7 +17,7 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def show
-    @audit = @planning_application.audits.last
+    @audit = @planning_application.audits.order("created_at ASC").last
   end
 
   def new
