@@ -9,7 +9,7 @@ Then("there is an audit entry containing {string}") do |content|
 end
 
 When("I click on the audit accordion") do
-  page.find_by(id: "audit-log").click
+  page.find("#audit-log").click
 end
 
 When("I visit the audit log") do
