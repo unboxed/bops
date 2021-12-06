@@ -71,7 +71,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails)
 
     click_button "Audit log"
-    click_link "View all"
+    click_link "View all audits"
 
     expect(page).to have_text("Recommendation challenged")
     expect(page).to have_text("Reviewer private comment")

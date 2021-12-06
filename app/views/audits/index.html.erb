@@ -18,7 +18,7 @@
     <% @audits.each do |audit_item| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell"><%= audit_item.created_at.strftime("%d-%m-%Y %H:%M") %></td>
-          <td class="govuk-table__cell"><%= define_audit_user(audit_item) %></td>
+        <td class="govuk-table__cell"><%= define_audit_user(audit_item) %></td>
         <td colspan="2" class="govuk-table__cell">
           <% if audit_item.activity_type.include?("request") || audit_item.activity_type.include?("document_received_at_changed") %>
             <% if audit_item.activity_type.match("/*_validation_request_cancelled") %>

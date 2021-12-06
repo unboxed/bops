@@ -96,4 +96,14 @@ module AuditHelper
       "User deleted"
     end
   end
+
+  def audit_entry_template(audit)
+    if audit.activity_type.match("/*_validation_request_cancelled")
+      "validation_request_cancelled"
+    elsif audit.activity_type.include?("request") || audit.activity_type.include?("document_received_at_changed")
+      audit.activity_type
+    else
+      "generic_audit_entry"
+    end
+  end
 end

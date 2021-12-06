@@ -10,7 +10,7 @@ class PlanningApplication < ApplicationRecord
   enum application_type: { lawfulness_certificate: 0, full: 1 }
 
   with_options dependent: :destroy do
-    has_many :audits
+    has_many :audits, -> { order(created_at: :asc) }, inverse_of: :planning_application
     has_many :documents
     has_many :recommendations
     has_many :description_change_validation_requests

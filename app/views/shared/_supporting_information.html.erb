@@ -115,32 +115,28 @@
   <div class="govuk-accordion__section">
     <div class="govuk-accordion__section-header">
       <h2 class="govuk-accordion__section-heading">
-        <span class="govuk-accordion__section-button" id="audit-log">
+        <button class="govuk-accordion__section-button" id="audit-log">
           Audit log
-        </span>
+        </button>
         <span class="govuk-accordion__icon" aria-hidden="true"></span>
       </h2>
     </div>
     <div class="govuk-accordion__section-content" aria-labelledby="audit-log">
-      <% if @audit.present? %>
+      <% if @last_audit.present? %>
         <p class="govuk-body">
-          <% if @audit.activity_type.match("/*_validation_request_cancelled") %>
-            <%= render "audits/types/validation_request_cancelled", locals: { item: @audit } %>
-          <% elsif @audit.activity_type.include?("request") || @audit.activity_type.include?("document_received_at_changed") %>
-            <%= render "audits/types/#{@audit.activity_type}", locals: { item: @audit } %>
-          <% else %>
-            <%= render "audits/types/generic_audit_entry", locals: { item: @audit } %>
-          <% end %>
+        
+          <%= render "audits/types/#{audit_entry_template(@last_audit)}", locals: { item: @last_audit } %>
+
           <p class="govuk-body">
-            <%= define_audit_user(@audit) %>
+            <%= define_audit_user(@last_audit) %>
           </p>
           <p class="govuk-body">
-            <%= @audit.created_at.to_date %> at <%= @audit.created_at.strftime("%H:%M") %> 
+            <%= @last_audit.created_at.to_date %> at <%= @last_audit.created_at.strftime("%H:%M") %> 
           </p>
         </p>
       <% end %>
       <p class='govuk-body'>
-        <%= link_to "View all", planning_application_audits_path(@planning_application), class: "govuk-link" %>
+        <%= link_to "View all audits", planning_application_audits_path(@planning_application), class: "govuk-link" %>
       </p>
     </div>
   </div>

@@ -54,7 +54,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
     click_link "Application"
     click_button "Audit log"
-    click_link "View all"
+    click_link "View all audits"
 
     expect(page).to have_text("Sent: validation request (replacement document#1)")
     expect(page).to have_text(invalid_document.name.to_s)
