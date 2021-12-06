@@ -15,6 +15,7 @@ Feature: Auditing a planning application
     And the planning application is invalidated
     When I view the planning application audit
     Then there is an audit entry containing "invalidation requests have been emailed: Additional document validation request #2, Additional document validation request #1"
+    And there is an audit entry containing "Application invalidated"
 
   Scenario: I can audit when a validation request is cancelled after an application is made invalid
     Given I create an additional document validation request with "Meme of the dog"
@@ -55,11 +56,17 @@ Feature: Auditing a planning application
     And there is an audit entry containing "Constraint removed"
     And there is an audit entry containing "Conservation Area"
 
-  Scenario: I can view an entry in the audit log showing application updates
+  Scenario: I can view an entry in the audit log showing application updates and validation
     Given I press "Application information"
-    And I press "Edit details"
+    When I press "Edit details"
     And I fill in "Address 1" with "20 leafy gardens"
     And I press "Save"
     Then there is an audit entry containing "Address 1 updated"
     And there is an audit entry containing "Miyazaki"
     And there is an audit entry containing "Changed to: 20 leafy gardens"
+    When I view the planning application
+    And I press "Validate application"
+    And I press "Mark the application as valid"
+    And I set the date inputs to "5/12/2021"
+    And I press "Mark the application as valid"
+    Then there is an audit entry containing "Application validated"

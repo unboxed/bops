@@ -95,7 +95,7 @@ When("I check {string} for {string}") do |option, legend|
   end
 end
 
-Given('I uncheck {string}') do |option|
+Given("I uncheck {string}") do |option|
   uncheck option
 end
 
