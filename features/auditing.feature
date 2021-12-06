@@ -27,20 +27,14 @@ Feature: Auditing a planning application
     Then there is an audit entry containing "Reason: Meme of dog is no longer needed"
 
   Scenario: I can view in the audit log when a planning application has been withdrawn
-    Given I press "Cancel application"
-    And I choose "Withdrawn by applicant"
-    And I fill in "Can you provide more detail?" with "Applicant is moving to Bermuda, because heck this"
-    And I press "Save"
+    Given the application is withdrawn by the applicant
     Then there is an audit entry containing "Application withdrawn"
-    Then there is an audit entry containing "Applicant is moving to Bermuda, because heck this"
+    And there is an audit entry containing "Applicant is moving to Bermuda, because heck this"
 
   Scenario: I can view in the audit log when a planning application has been returned
-    Given I press "Cancel application"
-    And I choose "Returned as invalid"
-    And I fill in "Can you provide more detail?" with "Applicant sent selfies instead of floor plans"
-    And I press "Save"
+    Given the application is returned by the applicant
     Then there is an audit entry containing "Application returned"
-    Then there is an audit entry containing "Applicant sent selfies instead of floor plans"
+    And there is an audit entry containing "Applicant sent selfies instead of floor plans"
 
   Scenario: Updating constraints displays all updates in the audit log
     Given I press "Constraints"
@@ -49,14 +43,11 @@ Feature: Auditing a planning application
     And I check "Broads"
     And I uncheck "Conservation Area"
     And I press "Save"
-    Then there is an audit entry containing "Constraint added"
-    And there is an audit entry containing "National Park"
-    And there is an audit entry containing "Constraint added"
-    And there is an audit entry containing "Broads"
-    And there is an audit entry containing "Constraint removed"
-    And there is an audit entry containing "Conservation Area"
+    Then there is an audit entry containing "Constraint added National Park"
+    And there is an audit entry containing "Constraint added Broads"
+    And there is an audit entry containing "Constraint removed Conservation Area"
 
-  Scenario: I can view an entry in the audit log showing application updates and validation
+  Scenario: I can view an entry in the audit log showing application updates
     Given I press "Application information"
     When I press "Edit details"
     And I fill in "Address 1" with "20 leafy gardens"
@@ -64,8 +55,9 @@ Feature: Auditing a planning application
     Then there is an audit entry containing "Address 1 updated"
     And there is an audit entry containing "Miyazaki"
     And there is an audit entry containing "Changed to: 20 leafy gardens"
-    When I view the planning application
-    And I press "Validate application"
+    
+  Scenario: I can view an entry in the audit showing the application being validated
+    When I press "Validate application"
     And I press "Mark the application as valid"
     And I set the date inputs to "5/12/2021"
     And I press "Mark the application as valid"

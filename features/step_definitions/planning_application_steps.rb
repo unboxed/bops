@@ -134,11 +134,20 @@ Then("there is a relevant proposal detail for {string} with a response of {strin
   end
 end
 
-Given("a created at audit entry") do
-  @planning_application = FactoryBot.create(
-    :audit,
-    planning_application: @planning_application,
-    activity_type: "created",
-    user: @officer
+Given "the application is withdrawn by the applicant" do
+  steps %(
+    Given I press "Cancel application"
+    And I choose "Withdrawn by applicant"
+    And I fill in "Can you provide more detail?" with "Applicant is moving to Bermuda, because heck this"
+    And I press "Save"
+  )
+end
+
+Given "the application is returned by the applicant" do
+  steps %(
+    Given I press "Cancel application"
+    When I choose "Returned as invalid"
+    And I fill in "Can you provide more detail?" with "Applicant sent selfies instead of floor plans"
+    And I press "Save"
   )
 end

@@ -37,7 +37,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
       expect(page).to have_content("Site boundary has been updated")
 
       click_button "Audit log"
-      click_link "View all"
+      click_link "View all audits"
       expect(page).to have_content("Red line drawing created")
       expect(page).to have_content("Red line drawing updated")
     end

@@ -74,10 +74,6 @@ RSpec.describe "Creating a planning application", type: :system do
     expect(page).to have_text("Description: Bird house")
 
     visit planning_application_path(PlanningApplication.last.id)
-    click_button "Audit log"
-    click_link "View all"
-
-    expect(page).to have_text("Application created by Reviewer 1")
   end
 
   context "it allows for a full application to be completed" do
@@ -143,19 +139,6 @@ RSpec.describe "Creating a planning application", type: :system do
       visit planning_application_path(PlanningApplication.last.id)
 
       expect(page).to have_text("Work already started: Yes")
-    end
-
-    it "with the create action being correctly audited" do
-      click_button "Save"
-
-      visit planning_application_path(PlanningApplication.last.id)
-      click_button "Audit log"
-      click_link "View all"
-
-      expect(page).to have_text("Application created by Assessor 1")
-
-      email = ActionMailer::Base.deliveries.last
-      expect(email.body).to have_content("Palace Road, Crystal Palace, SE19 2LX")
     end
   end
 end

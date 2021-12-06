@@ -32,7 +32,7 @@ RSpec.describe "Auditing changes to a planning application", type: :system do
     sign_in assessor
     visit planning_application_path(planning_application)
     click_button "Audit log"
-    click_link "View all"
+    click_link "View all audits"
   end
 
   it "displays details of other change validation request in the audit log" do
@@ -86,7 +86,7 @@ RSpec.describe "Auditing changes to a planning application", type: :system do
 
     click_button "Save"
     click_button "Audit log"
-    click_link "View all"
+    click_link "View all audits"
 
     expect(page).to have_text("Address 1 updated")
     expect(page).to have_text("Changed from: 1 golden street")
