@@ -87,7 +87,13 @@ module AuditHelper
     end
   end
 
-  def define_user(audit)
-    audit.activity_type.include?("received") ? "Applicant / Agent via #{audit.api_user.name}" : audit.api_user.name
+  def define_audit_user(audit)
+    if audit.api_user.present?
+      audit.activity_type.include?("received") ? "Applicant / Agent via #{audit.api_user.name}" : audit.api_user.name
+    elsif audit.user.present?
+      audit.user.name
+    else
+      "User deleted"
+    end
   end
 end

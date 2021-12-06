@@ -95,6 +95,10 @@ When("I check {string} for {string}") do |option, legend|
   end
 end
 
+Given('I uncheck {string}') do |option|
+  uncheck option
+end
+
 Then("the input for {string} contains {string}") do |label, value|
   expect(page.find_field(label).value).to eq value
 end

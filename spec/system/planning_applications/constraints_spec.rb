@@ -66,27 +66,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).to have_field("Bats live here", checked: true)
     end
 
-    it "creates an audit record when a constraint is added or removed" do
-      click_link "Update"
-
-      check("Flood zone 3")
-      uncheck("Conservation Area")
-      fill_in "Local constraints", with: "Batcave of national significance"
-
-      click_button("Save")
-      click_button "Audit log"
-      click_link "View all"
-
-      expect(page).to have_text("Constraint added")
-      expect(page).to have_text("Flood zone 3")
-
-      expect(page).to have_text("Constraint removed")
-      expect(page).to have_text("Conservation Area")
-
-      expect(page).to have_text("Constraint added")
-      expect(page).to have_text("Batcave of national significance")
-    end
-
     it "allows for the constraints page to be saved with no changes to constraints" do
       click_link "Update"
       click_button("Save")
