@@ -39,13 +39,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(planning_application.status).to eq("returned")
       expect(planning_application.cancellation_comment).to eq("Returned reason")
       expect(page).not_to have_content("Assigned to:")
-
-      click_button "Audit log"
-      click_link "View all"
-
-      expect(page).to have_text("Application returned")
-      expect(page).to have_text(assessor.name)
-      expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
     end
 
     it "errors if no option chosen" do

@@ -1,6 +1,7 @@
 Feature: Auditing a planning application
   Background:
     Given I am logged in as an assessor
+    And my name is "Miyazaki"
     And a new planning application
     And I view the planning application
 
@@ -31,3 +32,34 @@ Feature: Auditing a planning application
     And I press "Save"
     Then there is an audit entry containing "Application withdrawn"
     Then there is an audit entry containing "Applicant is moving to Bermuda, because heck this"
+
+  Scenario: I can view in the audit log when a planning application has been returned
+    Given I press "Cancel application"
+    And I choose "Returned as invalid"
+    And I fill in "Can you provide more detail?" with "Applicant sent selfies instead of floor plans"
+    And I press "Save"
+    Then there is an audit entry containing "Application returned"
+    Then there is an audit entry containing "Applicant sent selfies instead of floor plans"
+
+  Scenario: Updating constraints displays all updates in the audit log
+    Given I press "Constraints"
+    And I press "Update"
+    And I check "National Park"
+    And I check "Broads"
+    And I uncheck "Conservation Area"
+    And I press "Save"
+    Then there is an audit entry containing "Constraint added"
+    And there is an audit entry containing "National Park"
+    And there is an audit entry containing "Constraint added"
+    And there is an audit entry containing "Broads"
+    And there is an audit entry containing "Constraint removed"
+    And there is an audit entry containing "Conservation Area"
+
+  Scenario: I can view an entry in the audit log showing application updates
+    Given I press "Application information"
+    And I press "Edit details"
+    And I fill in "Address 1" with "20 leafy gardens"
+    And I press "Save"
+    Then there is an audit entry containing "Address 1 updated"
+    And there is an audit entry containing "Miyazaki"
+    And there is an audit entry containing "Changed to: 20 leafy gardens"

@@ -8,13 +8,7 @@
   <%= render "audits/types/generic_audit_entry", locals: { item: @audit } %>
 <% end %>
 <p class="govuk-body">
-  <% if @audit.api_user %>
-    <%= define_user(@audit) %>
-  <% elsif @audit.user %>
-    <%= @audit.user.name %>
-  <% else %>
-    User deleted
-  <% end %>
+  <%= define_audit_user(@audit) %>
 </p>
 <p class="govuk-body">
   <%= @audit.created_at.to_date %> at <%= @audit.created_at.strftime("%H:%M") %> 
