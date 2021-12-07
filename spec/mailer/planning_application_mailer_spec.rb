@@ -328,7 +328,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         expect(description_closure_mail.body.encoded).to match("Reference: #{planning_application.reference}")
         expect(description_closure_mail.body.encoded).to match("Site address: #{planning_application.full_address}")
         expect(description_closure_mail.body.encoded).to match("Description: #{planning_application.description}")
-        expect(description_closure_mail.body.encoded).to match("The proposed description change which you were told about 5 days ago has been automatically accepted.")
+        expect(description_closure_mail.body.encoded).to match("The proposed description change which you were told about 5 business days ago has been automatically accepted.")
         expect(description_closure_mail.body.encoded).to match("To see the updated description please follow the link below:")
       end
     end
