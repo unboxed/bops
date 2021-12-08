@@ -4,7 +4,7 @@ require "faker"
 
 FactoryBot.define do
   factory :planning_application do
-    before(:create) { |pa| pa.define_singleton_method(:audit_created) do true; end }
+    before(:create) { |pa| pa.define_singleton_method(:audit_created) { true; } }
 
     local_authority
     description { Faker::Lorem.unique.sentence }

@@ -131,7 +131,7 @@ class PlanningApplication < ApplicationRecord
     audit("created", nil, Current.user.name)
   end
 
-  # we already have an auditable module but the arguments need to change. Worht calling super or not?
+  # we already have an auditable module but the arguments need to change. Worth calling super or not?
   def audit(activity_type, audit_comment = nil, activity_information = nil, _api_user = nil)
     Audit.create!(
       planning_application_id: id,
@@ -439,6 +439,12 @@ class PlanningApplication < ApplicationRecord
     else
       received_at
     end
+  end
+
+  def assign(user)
+    self.user = user
+
+    audit("assigned", nil, self.user&.name)
   end
 
   private
