@@ -28,6 +28,7 @@ class PlanningApplication < ApplicationRecord
 
   before_create :set_key_dates
   before_create :set_change_access_id
+  after_create :audit_created
   before_update :set_key_dates
 
   WORK_STATUSES = %w[proposed existing].freeze
@@ -63,10 +64,18 @@ class PlanningApplication < ApplicationRecord
 
     event :start do
       transitions from: %i[not_started invalidated in_assessment], to: :in_assessment, guard: :has_validation_date?
+
+      after do
+        audit("started")
+      end
     end
 
     event :assess do
       transitions from: %i[in_assessment awaiting_correction], to: :awaiting_determination, guard: :decision_present?
+
+      after do
+        audit("assessed", recommendations.last.assessor_comment)
+      end
     end
 
     event :invalidate do
@@ -77,6 +86,10 @@ class PlanningApplication < ApplicationRecord
 
     event :determine do
       transitions from: :awaiting_determination, to: :determined
+
+      after do
+        audit("determined", "Application #{decision}")
+      end
     end
 
     event :request_correction do
@@ -92,6 +105,9 @@ class PlanningApplication < ApplicationRecord
                            returned], to: :returned, after: proc { |comment|
                                                               update!(cancellation_comment: comment)
                                                             }
+      after do
+        audit("returned", cancellation_comment)
+      end
     end
 
     event :withdraw do
@@ -103,9 +119,28 @@ class PlanningApplication < ApplicationRecord
                            returned], to: :withdrawn, after: proc { |comment|
                                                                update!(cancellation_comment: comment)
                                                              }
+      after do
+        audit("withdrawn", cancellation_comment)
+      end
     end
 
     after_all_transitions :timestamp_status_change # FIXME: https://github.com/aasm/aasm#timestamps
+  end
+
+  def audit_created
+    audit("created", nil, Current.user.name)
+  end
+
+  # we already have an auditable module but the arguments need to change. Worht calling super or not?
+  def audit(activity_type, audit_comment = nil, activity_information = nil, _api_user = nil)
+    Audit.create!(
+      planning_application_id: id,
+      user: Current.user,
+      audit_comment: audit_comment,
+      activity_information: activity_information,
+      activity_type: activity_type,
+      api_user: Current.api_user
+    )
   end
 
   def timestamp_status_change
