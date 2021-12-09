@@ -158,7 +158,7 @@
           <%= @planning_application.notes.first.created_at %>
         </p>
         <p class='govuk-body'>
-          <%= link_to "Add and view all notes", planning_application_notes_path(@planning_application) %>
+          <%= link_to "Add and view all notes", planning_application_notes_path(@planning_application), class: "govuk-link" %>
         </p>
       <% else %>
         <p class='govuk-body'>
