@@ -333,16 +333,16 @@ RSpec.describe PlanningApplication, type: :model do
       context "when there were no documents validated" do
         before { planning_application.update!(documents_validated_at: nil) }
 
-        it "is set as received at + 35 business days" do
-          expect(planning_application.target_date).to eq(35.business_days.after(planning_application.received_at).to_date)
+        it "is set as received at + 35 days" do
+          expect(planning_application.target_date).to eq(35.days.after(planning_application.received_at).to_date)
         end
       end
 
       context "when there are validated documents" do
         before { planning_application.update!(documents_validated_at: 1.week.ago) }
 
-        it "is set to documents_validated_at + 35 business days" do
-          expect(planning_application.target_date).to eq(35.business_days.after(planning_application.documents_validated_at).to_date)
+        it "is set to documents_validated_at + 35 days" do
+          expect(planning_application.target_date).to eq(35.days.after(planning_application.documents_validated_at).to_date)
         end
       end
     end
@@ -351,17 +351,17 @@ RSpec.describe PlanningApplication, type: :model do
       context "when there were no documents validated" do
         before { planning_application.update!(documents_validated_at: nil) }
 
-        it "is set as received_at + 40 business days" do
-          expect(planning_application.expiry_date).to eq(40.business_days.after(planning_application.received_at).to_date)
+        it "is set as received_at + 40 days" do
+          expect(planning_application.expiry_date).to eq(40.days.after(planning_application.received_at).to_date)
         end
       end
 
       context "when there are validated documents" do
         before { planning_application.update!(documents_validated_at: 1.week.ago) }
 
-        it "is set to documents_validated_at + 40 business days" do
+        it "is set to documents_validated_at + 40 days" do
           planning_application.update!(documents_validated_at: 1.week.ago)
-          expect(planning_application.expiry_date).to eq(40.business_days.after(planning_application.documents_validated_at).to_date)
+          expect(planning_application.expiry_date).to eq(40.days.after(planning_application.documents_validated_at).to_date)
         end
       end
     end

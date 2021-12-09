@@ -367,8 +367,8 @@ class PlanningApplication < ApplicationRecord
   private
 
   def set_key_dates
-    self.expiry_date = 40.business_days.after(documents_validated_at || received_at)
-    self.target_date = 35.business_days.after(documents_validated_at || received_at)
+    self.expiry_date = 40.days.after(documents_validated_at || received_at)
+    self.target_date = 35.days.after(documents_validated_at || received_at)
   end
 
   def set_change_access_id
