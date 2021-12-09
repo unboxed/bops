@@ -16,7 +16,7 @@ module StatusPresenter
       classes = ["govuk-tag govuk-tag--#{status_tag_colour}"]
 
       tag.span class: classes do
-        determined? ? decision.humanize : status.humanize
+        determined? ? decision.humanize : aasm.human_state.humanize
       end
     end
 

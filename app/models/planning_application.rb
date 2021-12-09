@@ -53,7 +53,7 @@ class PlanningApplication < ApplicationRecord
 
   aasm no_direct_assignment: true do
     state :not_started, initial: true
-    state :invalidated
+    state :invalidated, display: "invalid"
     state :in_assessment
     state :awaiting_determination
     state :awaiting_correction
