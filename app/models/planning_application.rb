@@ -81,6 +81,12 @@ class PlanningApplication < ApplicationRecord
     event :invalidate do
       transitions from: :not_started, to: :invalidated, guard: :pending_validation_requests? do
         after { pending_validation_requests.each(&:mark_as_sent!) }
+
+        after do
+          request_names = open_validation_requests.map(&:audit_name)
+          audit("validation_requests_sent", nil, request_names.join(", "))
+          audit("invalidated")
+        end
       end
     end
 
