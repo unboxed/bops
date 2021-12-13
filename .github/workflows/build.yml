@@ -9,6 +9,7 @@ jobs:
     env:
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
       RAILS_ENV: test
+      SPEC_OPTS: "-f doc"
     services:
       postgres:
         image: postgres
