@@ -18,6 +18,16 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
     expect(presenter).to respond_to :id
   end
 
+  describe "#status_tag" do
+    context "when an application is in the invalidated state" do
+      let(:planning_application) { create(:invalidated_planning_application) }
+
+      it "shows invalid" do
+        expect(presenter.status_tag).to include ">Invalid<"
+      end
+    end
+  end
+
   describe "#next_relevant_date_tag" do
     [
       [:not_started, "Expiry date: ", :expiry_date],
