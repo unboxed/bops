@@ -151,11 +151,20 @@ class PlanningApplication < ApplicationRecord
   end
 
   def audit_update_actions
-    if saved_changes?
-      saved_changes.keys.map do |attribute_name|
+    saved_changes.keys.map do |attribute_name|
+      if attribute_name.eql?("constraints")
+        prev_arr = saved_changes[:constraints][0]
+        new_arr = saved_changes[:constraints][1]
+
+        attr_removed = prev_arr - new_arr
+        attr_added = new_arr - prev_arr
+
+        attr_added.each { |attr| audit("constraint_added", attr) }
+        attr_removed.each { |attr| audit("constraint_removed", attr) }
+      else
         audit("updated",
               "Changed from: #{saved_change_to_attribute(attribute_name).first}
-              \r\n Changed to: #{saved_change_to_attribute(attribute_name).second}",
+                \r\n Changed to: #{saved_change_to_attribute(attribute_name).second}",
               attribute_name.humanize)
       end
     end
