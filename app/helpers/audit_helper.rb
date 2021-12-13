@@ -68,6 +68,8 @@ module AuditHelper
       "Received: request for change (replacement document##{args})"
     when "additional_document_validation_request_received"
       "Received: request for change (new document##{args})"
+    when "other_change_validation_request_added"
+      "Added: validation request (other validation##{args})"
     when "other_change_validation_request_sent"
       "Sent: validation request (other validation##{args})"
     when "other_change_validation_request_received"
