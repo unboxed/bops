@@ -191,12 +191,5 @@ RSpec.describe "Planning Application index page", type: :system do
     it "Breadcrumbs are not displayed" do
       expect(find(".govuk-breadcrumbs__list").text).to be_empty
     end
-
-    it "User can log out from index page" do
-      click_button "Log out"
-
-      expect(page).to have_current_path(/sign_in/)
-      expect(page).to have_content("You need to sign in or sign up before continuing.")
-    end
   end
 end

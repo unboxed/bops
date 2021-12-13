@@ -118,13 +118,6 @@ RSpec.describe "Documents index page", type: :system do
       expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
     end
 
-    it "User can log out from archive page" do
-      click_button "Log out"
-
-      expect(page).to have_current_path(/sign_in/)
-      expect(page).to have_content("You need to sign in or sign up before continuing.")
-    end
-
     it "Archived document appears in correct place on DMS page" do
       fill_in "Why do you want to archive this document?", with: "Scale was wrong"
       click_button "Archive"

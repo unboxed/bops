@@ -150,13 +150,6 @@ RSpec.describe "Planning Application show page", type: :system do
       expect(page).to have_text "Home"
       expect(page).to have_link "Home"
     end
-
-    it "User can log out from application page" do
-      click_button "Log out"
-
-      expect(page).to have_current_path(/sign_in/)
-      expect(page).to have_content("You need to sign in or sign up before continuing.")
-    end
   end
 
   context "when work status is existing" do

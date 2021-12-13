@@ -25,7 +25,7 @@ RSpec.describe "Creating a planning application", type: :system do
 
     fill_in "Description", with: "Back shack"
 
-    within ".applicant-information" do
+    within_fieldset "Applicant information" do
       fill_in "Email address", with: "thesebeans@thesebeans.com"
     end
 
@@ -46,7 +46,7 @@ RSpec.describe "Creating a planning application", type: :system do
     click_button "Save"
     expect(page).to have_text("An applicant or agent email is required.")
 
-    within ".agent-information" do
+    within_fieldset "Agent information" do
       fill_in "Email address", with: "agentina@agentino.com"
     end
     click_button "Save"
@@ -63,7 +63,7 @@ RSpec.describe "Creating a planning application", type: :system do
     click_link "Add new application"
 
     fill_in "Description", with: "Bird house"
-    within ".applicant-information" do
+    within_fieldset "Applicant information" do
       fill_in "Email address", with: "mah@mah.com"
     end
 
@@ -91,14 +91,14 @@ RSpec.describe "Creating a planning application", type: :system do
       fill_in "Postcode", with: "SE19 2LX"
       fill_in "UPRN", with: "19284783939"
 
-      within ".applicant-information" do
+      within_fieldset "Applicant information" do
         fill_in "First name", with: "Carlota"
         fill_in "Last name", with: "Corlita"
         fill_in "Email address", with: "carlota@corlita.com"
         fill_in "UK telephone number", with: "0777773949494312"
       end
 
-      within ".agent-information" do
+      within_fieldset "Agent information" do
         fill_in "First name", with: "Agentina"
         fill_in "Last name", with: "Agentino"
         fill_in "Email address", with: "agentina@agentino.com"

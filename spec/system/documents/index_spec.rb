@@ -54,13 +54,6 @@ RSpec.describe "Documents index page", type: :system do
 
       expect(current_url).to include("/rails/active_storage/")
     end
-
-    it "User can log out from documents page" do
-      click_button "Log out"
-
-      expect(page).to have_current_path(/sign_in/)
-      expect(page).to have_content("You need to sign in or sign up before continuing.")
-    end
   end
 
   context "handling invalid documents" do
