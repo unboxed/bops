@@ -77,8 +77,8 @@ cucumber_options = {
   # cmd: 'bin/cucumber',
   cmd_additional_args: "--publish-quiet --fail-fast",
 
-  # all_after_pass: false,
-  # all_on_start: false,
+  all_after_pass: false,
+  all_on_start: false,
   # keep_failed: false,
   # feature_sets: ['features/frontend', 'features/experimental'],
 
