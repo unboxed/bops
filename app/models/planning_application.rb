@@ -30,6 +30,7 @@ class PlanningApplication < ApplicationRecord
   before_create :set_change_access_id
   after_create :audit_created
   before_update :set_key_dates
+  after_update :audit_update_actions
 
   WORK_STATUSES = %w[proposed existing].freeze
 
@@ -147,6 +148,17 @@ class PlanningApplication < ApplicationRecord
       activity_type: activity_type,
       api_user: Current.api_user
     )
+  end
+
+  def audit_update_actions
+    if saved_changes?
+      saved_changes.keys.map do |attribute_name|
+        audit("updated",
+              "Changed from: #{saved_change_to_attribute(attribute_name).first}
+              \r\n Changed to: #{saved_change_to_attribute(attribute_name).second}",
+              attribute_name.humanize)
+      end
+    end
   end
 
   def timestamp_status_change
