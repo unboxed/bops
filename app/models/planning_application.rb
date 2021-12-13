@@ -75,7 +75,7 @@ class PlanningApplication < ApplicationRecord
       transitions from: %i[in_assessment awaiting_correction], to: :awaiting_determination, guard: :decision_present?
 
       after do
-        audit("assessed", recommendations.last.assessor_comment)
+        audit("assessed", recommendations.last&.assessor_comment)
       end
     end
 
@@ -135,7 +135,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def audit_created
-    audit("created", nil, Current.user.name)
+    audit("created", nil, Current.user&.name || Current.api_user&.name)
   end
 
   # we already have an auditable module but the arguments need to change. Worth calling super or not?
@@ -152,15 +152,17 @@ class PlanningApplication < ApplicationRecord
 
   def audit_update_actions
     saved_changes.keys.map do |attribute_name|
-      if attribute_name.eql?("constraints")
-        prev_arr = saved_changes[:constraints][0]
-        new_arr = saved_changes[:constraints][1]
+      case attribute_name
+      when "constraints"
+        prev_arr, new_arr = saved_changes[:constraints]
 
         attr_removed = prev_arr - new_arr
         attr_added = new_arr - prev_arr
 
         attr_added.each { |attr| audit("constraint_added", attr) }
         attr_removed.each { |attr| audit("constraint_removed", attr) }
+      when "boundary_geojson"
+        audit("red_line_updated", "Red line drawing updated")
       else
         audit("updated",
               "Changed from: #{saved_change_to_attribute(attribute_name).first}

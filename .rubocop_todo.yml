@@ -38,6 +38,7 @@ Metrics/AbcSize:
     - 'app/helpers/planning_application_helper.rb'
     - 'app/helpers/validation_request_helper.rb'
     - 'db/migrate/20200419000000_create_initial_schema.rb'
+    - 'app/models/planning_application.rb'
 
 # Offense count: 37
 # Configuration parameters: CountComments, Max, CountAsOne, ExcludedMethods, IgnoredMethods.

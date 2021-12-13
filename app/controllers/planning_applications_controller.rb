@@ -168,16 +168,9 @@ class PlanningApplicationsController < AuthenticationController
   def draw_sitemap; end
 
   def update_sitemap
-    new_map = @planning_application.boundary_geojson.blank?
     @planning_application.boundary_geojson = params[:planning_application][:boundary_geojson]
     @planning_application.boundary_created_by = current_user
     @planning_application.save!
-
-    if new_map
-      audit("red_line_created", "Red line drawing created")
-    else
-      audit("red_line_updated", "Red line drawing updated")
-    end
 
     redirect_to @planning_application, notice: "Site boundary has been updated"
   end
