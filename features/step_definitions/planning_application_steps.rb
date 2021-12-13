@@ -134,6 +134,14 @@ Then("there is a relevant proposal detail for {string} with a response of {strin
   end
 end
 
+Given("I edit the planning application's details") do
+  steps %(
+    Given I view the planning application
+    And I press "Application information"
+    And I press "Edit details"
+  )
+end
+
 Given "the application is withdrawn by the applicant" do
   steps %(
     Given I press "Cancel application"

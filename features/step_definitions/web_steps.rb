@@ -72,7 +72,13 @@ When("I press {string}") do |label|
 end
 
 When("I fill in {string} with {string}") do |label, value|
-  fill_in label, with: value
+  if @fieldset.present?
+    within_fieldset(@fieldset) do
+      fill_in label, with: value
+    end
+  else
+    fill_in label, with: value
+  end
 end
 
 When("I choose {string}") do |option|
@@ -115,4 +121,8 @@ end
 
 Then "the option {string} is checked" do |option|
   expect(page).to have_checked_field(option)
+end
+
+Given("I am focused on the {string} fieldset") do |fieldset|
+  @fieldset = fieldset
 end
