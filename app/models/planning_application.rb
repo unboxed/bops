@@ -354,6 +354,14 @@ class PlanningApplication < ApplicationRecord
     Time.next_immediate_business_day(created_at)
   end
 
+  def defined_constraints
+    I18n.t("constraints").values.flatten
+  end
+
+  def custom_constraints
+    constraints.difference(defined_constraints)
+  end
+
   def valid_from
     return nil unless validated?
 
