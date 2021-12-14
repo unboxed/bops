@@ -251,9 +251,7 @@ RSpec.describe PlanningApplication, type: :model do
 
   describe "#reference" do
     it "pads the ID correctly" do
-      planning_application.update!(id: 1000)
-
-      expect(planning_application.reference).to eq "00001000"
+      expect(planning_application.reference).to eq planning_application.id.to_s.rjust(8, "0").to_s
     end
   end
 
