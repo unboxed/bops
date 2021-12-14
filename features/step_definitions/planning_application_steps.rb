@@ -69,7 +69,7 @@ end
 
 Given("the planning application is assessed") do
   steps %(
-    When I view the planning application
+    Given I view the planning application
     And I press "Assess proposal"
     And I choose "Yes"
     And I fill in "State the reasons why" with "a valid reason"

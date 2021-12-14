@@ -493,4 +493,20 @@ RSpec.describe PlanningApplication, type: :model do
     end
   end
   # rubocop:enable Rails/SkipsModelValidations
+
+  describe "custom_constraints" do
+    let(:planning_application) { build(:planning_application) }
+
+    it "contains any custom constraint added" do
+      planning_application.constraints << "Foobar"
+
+      expect(planning_application.custom_constraints).to contain_exactly "Foobar"
+    end
+
+    it "is empty when all constraints are predefined ones" do
+      planning_application.constraints << "Listed Building"
+
+      expect(planning_application.custom_constraints).to be_empty
+    end
+  end
 end

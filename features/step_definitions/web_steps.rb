@@ -44,6 +44,10 @@ Then("the page contains a custom flash about {string}") do |msg|
   end
 end
 
+Then("the {string} option is checked") do |option|
+  expect(page.find_field(option)).to be_checked
+end
+
 Then("I should see the following within {string}") do |caption, table|
   expect(page).to have_table(caption, with_rows: table.rows)
 end

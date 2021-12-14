@@ -30,7 +30,7 @@ Feature: Managing validation requests
 
   Scenario: As an assessor any request past invalidation is sent immediately
     Given the planning application is invalidated
-    And I create a new document validation request for an "Extra request" because "love requests"
+    When I create a new document validation request for an "Extra request" because "love requests"
     Then there is a validation request for an "Extra request" that shows "15 days"
 
   Scenario: As an assessor I can delete a validation request before invalidating the planning application
