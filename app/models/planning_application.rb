@@ -354,6 +354,40 @@ class PlanningApplication < ApplicationRecord
     Time.next_immediate_business_day(created_at)
   end
 
+  # FIXME: it is unclear how the constraits are parsed/mapped from an
+  # API request. I was told (RIPA Slack, 12/21) that the list was:
+  #
+  # article4
+  # article4.buckinghamshire.officetoresi
+  # article4.buckinghamshire.poultry
+  # article4.lambeth.caz
+  # article4.lambeth.kiba
+  # article4.lambeth.fentiman
+  # article4.lambeth.streatham
+  # article4.lambeth.stockwell
+  # article4.lambeth.leigham
+  # article4.lambeth.stmarks
+  # article4.lambeth.parkHall
+  # article4.lambeth.lansdowne
+  # article4.lambeth.albert
+  # article4.lambeth.hydeFarm
+  # article4.southwark.sunray
+  # listed
+  # designated
+  # designated.conservationArea
+  # designated.conservationArea.lambeth.churchRoad
+  # designated.AONB
+  # designated.nationalPark
+  # designated.broads
+  # designated.WHS
+  # designated.monument
+  # tpo
+  # nature.SSSI
+  #
+  # but these do not map to all the constraints we have (ex: military
+  # zone). Until that is figured (and please ad some integration tests
+  # around it), just assume plain-text constraints rather than a
+  # key-value mapping.
   def defined_constraints
     I18n.t("constraints").values.flatten
   end
