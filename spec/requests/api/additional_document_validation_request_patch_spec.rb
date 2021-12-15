@@ -15,7 +15,7 @@ RSpec.describe "API request to patch document create requests", type: :request, 
 
   it "successfully accepts a new document" do
     patch "/api/v1/planning_applications/#{planning_application.id}/additional_document_validation_requests/#{additional_document_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
-          params: { new_file: fixture_file_upload("../images/proposed-floorplan.png", "image/png") },
+          params: { files: [fixture_file_upload("../images/proposed-floorplan.png", "image/png")] },
           headers: { Authorization: "Bearer #{api_user.token}" }
 
     expect(response).to be_successful
@@ -24,7 +24,7 @@ RSpec.describe "API request to patch document create requests", type: :request, 
     planning_application.reload
 
     expect(additional_document_validation_request.state).to eq("closed")
-    expect(additional_document_validation_request.new_document).to be_a(Document)
+    expect(additional_document_validation_request.documents.last).to be_a(Document)
 
     expect(Audit.all.last.activity_type).to eq("additional_document_validation_request_received")
     expect(Audit.all.last.audit_comment).to eq("proposed-floorplan.png")
@@ -33,19 +33,21 @@ RSpec.describe "API request to patch document create requests", type: :request, 
 
   it "rejects wrong document types" do
     patch "/api/v1/planning_applications/#{planning_application.id}/additional_document_validation_requests/#{additional_document_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
-          params: { new_file: fixture_file_upload("../images/proposed-floorplan.png", "application/octet-stream") },
+          params: { files: [fixture_file_upload("../images/proposed-floorplan.png", "application/octet-stream")] },
           headers: { Authorization: "Bearer #{api_user.token}" }
 
     expect(response).not_to be_successful
+    expect(json).to eq({ "message" => "The file type must be JPEG, PNG or PDF" })
 
     expect(additional_document_validation_request).to be_open
   end
 
   it "returns a 400 if the new document is missing" do
     patch "/api/v1/planning_applications/#{planning_application.id}/additional_document_validation_requests/#{additional_document_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
-          params: "{}",
-          headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
+          params: { files: "" },
+          headers: { Authorization: "Bearer #{api_user.token}" }
 
+    expect(json).to eq({ "message" => "At least one file must be selected to proceed." })
     expect(response.status).to eq(400)
   end
 end

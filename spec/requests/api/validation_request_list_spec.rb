@@ -12,7 +12,7 @@ RSpec.describe "API request to list validation requests", type: :request, show_e
     create(:replacement_document_validation_request, planning_application: planning_application)
   end
   let!(:additional_document_validation_request) do
-    create(:additional_document_validation_request, planning_application: planning_application)
+    create(:additional_document_validation_request, :with_documents, planning_application: planning_application)
   end
 
   it "lists the all description validation requests that exist on the planning application" do
@@ -66,8 +66,9 @@ RSpec.describe "API request to list validation requests", type: :request, show_e
                                                                                        "document_request_reason" => additional_document_validation_request.document_request_reason,
                                                                                        "type" => "additional_document_validation_request"
                                                                                      })
-    expect(json["data"]["additional_document_validation_requests"].first["new_document"]["name"]).to eq("proposed-floorplan.png")
-    expect(json["data"]["additional_document_validation_requests"].first["new_document"]["url"]).to be_a(String)
+
+    expect(json["data"]["additional_document_validation_requests"].first["documents"][0]["name"]).to eq("proposed-floorplan.png")
+    expect(json["data"]["additional_document_validation_requests"].first["documents"][0]["url"]).to be_a(String)
   end
 
   it "returns a 401 if API key is wrong" do

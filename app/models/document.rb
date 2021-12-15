@@ -2,8 +2,12 @@
 
 class Document < ApplicationRecord
   belongs_to :planning_application
-  belongs_to :user, optional: true
-  belongs_to :api_user, optional: true
+
+  with_options optional: true do
+    belongs_to :additional_document_validation_request
+    belongs_to :user
+    belongs_to :api_user
+  end
 
   has_one_attached :file, dependent: :destroy
 

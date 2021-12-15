@@ -74,9 +74,9 @@
                         state: open
                         response_due: '2020-05-14T05:18:17.540Z'
                         days_until_response_due: 10
-                        new_document:
-                          name: new_document.jpg
-                          url: document.blob./new_document.jpg
+                        documents:
+                          - name: new_document.jpg
+                            url: document.blob./new_document.jpg
                         cancel_reason: null
                         cancelled_at: null
 

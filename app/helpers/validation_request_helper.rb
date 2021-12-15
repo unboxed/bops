@@ -58,6 +58,11 @@ module ValidationRequestHelper
          validation_request)
   end
 
+  def document_url(document)
+    link_to(document.name.to_s,
+            edit_planning_application_document_path(document.planning_application, document.id))
+  end
+
   private
 
   def request_type(validation_request)
