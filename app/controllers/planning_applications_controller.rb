@@ -6,6 +6,8 @@ class PlanningApplicationsController < AuthenticationController
   before_action :ensure_user_is_reviewer, only: %i[review review_form]
   before_action :ensure_constraint_edits_unlocked, only: %i[edit_constraints_form edit_constraints]
 
+  before_action :set_last_audit, only: %i[show validate_form]
+
   def index
     @planning_applications = if helpers.exclude_others? && current_user.assessor?
                                current_local_authority.planning_applications.where(user_id: current_user.id).order("created_at DESC").or(
@@ -16,9 +18,7 @@ class PlanningApplicationsController < AuthenticationController
                              end
   end
 
-  def show
-    @last_audit = @planning_application.audits.last
-  end
+  def show; end
 
   def new
     @planning_application = PlanningApplication.new
@@ -341,5 +341,9 @@ class PlanningApplicationsController < AuthenticationController
 
   def ensure_constraint_edits_unlocked
     render plain: "forbidden", status: :forbidden and return unless @planning_application.can_validate?
+  end
+
+  def set_last_audit
+    @last_audit = @planning_application.audits.last if @planning_application.present?
   end
 end
