@@ -3,6 +3,10 @@
 class Document < ApplicationRecord
   belongs_to :planning_application
 
+  delegate :audits, to: :planning_application
+
+  include AuditableModel
+
   with_options optional: true do
     belongs_to :additional_document_validation_request
     belongs_to :user
@@ -10,6 +14,8 @@ class Document < ApplicationRecord
   end
 
   has_one_attached :file, dependent: :destroy
+  after_create :create_audit!
+  after_update :audit_updated!
 
   PLAN_TAGS = %w[
     Front
@@ -78,9 +84,14 @@ class Document < ApplicationRecord
 
   def archive(archive_reason)
     unless archived?
-      update!(archive_reason: archive_reason,
-              archived_at: Time.zone.now)
+      update!(archive_reason: archive_reason, archived_at: Time.zone.now)
+      audit_created!(activity_type: "archived", audit_comment: file.filename)
     end
+  end
+
+  def unarchive!
+    update!(archived_at: nil)
+    audit_created!(activity_type: "unarchived", audit_comment: file.filename)
   end
 
   def published?
@@ -89,6 +100,21 @@ class Document < ApplicationRecord
 
   def received_at_or_created
     (received_at || created_at).to_date
+  end
+
+  def audit_updated!
+    if saved_changes?
+      if saved_change_to_attribute?("received_at")
+        audit_created!(activity_type: "document_received_at_changed", activity_information: file.filename,
+                       audit_comment: audit_date_comment)
+      end
+      if saved_change_to_attribute?(:validated, from: false, to: true)
+        audit_created!(activity_type: "document_changed_to_validated", activity_information: file.filename)
+      elsif saved_change_to_attribute?(:validated, to: false)
+        audit_created!(activity_type: "document_invalidated", activity_information: file.filename,
+                       audit_comment: invalidated_document_reason)
+      end
+    end
   end
 
   private
@@ -121,5 +147,14 @@ class Document < ApplicationRecord
     if received_at.present? && received_at > Time.zone.today
       errors.add(:received_at, "Date must be today or earlier. You cannot insert a future date.")
     end
+  end
+
+  def create_audit!
+    audit_created!(activity_type: "uploaded", audit_comment: file.filename)
+  end
+
+  def audit_date_comment
+    { previous_received_date: saved_change_to_received_at.first,
+      updated_received_date: saved_change_to_received_at.second }.to_json
   end
 end

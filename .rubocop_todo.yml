@@ -46,6 +46,7 @@ Metrics/ClassLength:
     - 'app/controllers/api/v1/planning_applications_controller.rb'
     - 'app/controllers/planning_applications_controller.rb'
     - 'app/models/planning_application.rb'
+    - 'app/models/document.rb'
 
 # Offense count: 4
 # Configuration parameters: IgnoredMethods, Max.
