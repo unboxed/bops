@@ -15,10 +15,10 @@ class AdditionalDocumentValidationRequestsController < ValidationRequestsControl
       flash[:notice] = "Additional document request successfully created."
       email_and_timestamp(@additional_document_validation_request) if @planning_application.invalidated?
       if @planning_application.invalidated?
-        audit("additional_document_validation_request_sent", document_create_audit_item(@additional_document_validation_request),
+        audit("additional_document_validation_request_sent", @additional_document_validation_request.audit_item,
               @additional_document_validation_request.sequence)
       else
-        audit("additional_document_validation_request_added", document_create_audit_item(@additional_document_validation_request),
+        audit("additional_document_validation_request_added", @additional_document_validation_request.audit_item,
               @additional_document_validation_request.sequence)
       end
       redirect_to planning_application_validation_requests_path(@planning_application)
@@ -35,10 +35,5 @@ class AdditionalDocumentValidationRequestsController < ValidationRequestsControl
 
   def planning_application
     @planning_application = PlanningApplication.find(params[:planning_application_id])
-  end
-
-  def document_create_audit_item(additional_document_validation_request)
-    { document: additional_document_validation_request.document_request_type,
-      reason: additional_document_validation_request.document_request_reason }.to_json
   end
 end

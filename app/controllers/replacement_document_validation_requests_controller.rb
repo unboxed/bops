@@ -24,17 +24,10 @@ class ReplacementDocumentValidationRequestsController < ValidationRequestsContro
 
     audit(
       "replacement_document_validation_request_#{event}",
-      document_change_audit_item(@replacement_document_validation_request),
+      @replacement_document_validation_request.audit_item,
       @replacement_document_validation_request.sequence
     )
 
     redirect_to planning_application_validation_requests_path(@planning_application)
-  end
-
-  private
-
-  def document_change_audit_item(replacement_document_validation_request)
-    { old_document: replacement_document_validation_request.old_document.name,
-      reason: replacement_document_validation_request.old_document.invalidated_document_reason }.to_json
   end
 end

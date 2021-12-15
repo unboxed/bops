@@ -50,5 +50,14 @@ class ValidationRequestsController < ApplicationController
     end
 
     request.mark_as_sent!
+
+    event = request.planning_application.invalidated? ? "sent" : "added"
+    audit_request_sent_or_added(request, event)
+  end
+
+  def audit_request_sent_or_added(request, event)
+    audit("#{request.model_name.param_key}_#{event}",
+          "#{request.audit_item}",
+          "#{request.sequence}")
   end
 end

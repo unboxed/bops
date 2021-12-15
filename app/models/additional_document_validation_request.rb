@@ -40,4 +40,9 @@ class AdditionalDocumentValidationRequest < ApplicationRecord
       activity_information: sequence
     )
   end
+  
+  def audit_item
+    { document: document_request_type,
+      reason: document_request_reason }.to_json
+  end
 end

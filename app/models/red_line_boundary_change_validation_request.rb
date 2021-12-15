@@ -17,4 +17,8 @@ class RedLineBoundaryChangeValidationRequest < ApplicationRecord
                  "Please include a comment for the case officer to indicate why the red line boundary change has been rejected.")
     end
   end
+
+  def audit_item
+    reason
+  end
 end

@@ -18,15 +18,7 @@ class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsCont
 
     if @red_line_boundary_change_validation_request.save
       email_and_timestamp(@red_line_boundary_change_validation_request) if @planning_application.invalidated?
-
       flash[:notice] = "Validation request for red line boundary successfully created."
-      if @planning_application.invalidated?
-        audit("red_line_boundary_change_validation_request_sent", red_line_boundary_audit_item(@red_line_boundary_change_validation_request),
-              @red_line_boundary_change_validation_request.sequence)
-      else
-        audit("red_line_boundary_change_validation_request_added", red_line_boundary_audit_item(@red_line_boundary_change_validation_request),
-              @red_line_boundary_change_validation_request.sequence)
-      end
       redirect_to planning_application_validation_requests_path(@planning_application)
     else
       render :new
@@ -37,9 +29,5 @@ class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsCont
 
   def red_line_boundary_change_validation_request_params
     params.require(:red_line_boundary_change_validation_request).permit(:new_geojson, :reason)
-  end
-
-  def red_line_boundary_audit_item(validation_request)
-    validation_request.reason
   end
 end
