@@ -33,7 +33,9 @@
       <% end %>
 
       <%= form.govuk_text_area :new_geojson,
-                               label: { text: "Applicant's original red line boundary", size: 's', class: 'govuk-label govuk-label--s govuk-!-padding-bottom-4'},
+                               label: { text: @planning_application.boundary_geojson ? "Applicant's existing red line boundary" : "No digital red line boundary has been previously set",
+                                        size: 's',
+                                        class: 'govuk-label govuk-label--s govuk-!-padding-bottom-4' },
                                class: "govuk-visually-hidden" %>
 
       <%= render "shared/location_map", locals: { geojson: @planning_application.boundary_geojson, geojson_field: 'red-line-boundary-change-validation-request-new-geojson-field' } %>

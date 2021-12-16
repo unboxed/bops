@@ -6,7 +6,7 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
   let!(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
 
   let!(:planning_application) do
-    create :planning_application, :invalidated, local_authority: @default_local_authority
+    create :planning_application, :invalidated, :with_boundary_geojson, local_authority: @default_local_authority
   end
 
   let!(:api_user) { create :api_user, name: "Api Wizard" }
@@ -35,6 +35,16 @@ RSpec.describe "Requesting map changes to a planning application", type: :system
 
     click_link("View proposed red line boundary")
     expect(page).to have_content("Coordinates look wrong")
+
+    within(".govuk-heading-l") do
+      expect(page).to have_text("Proposed red line boundary change")
+    end
+
+    # Two maps should be displayed with the original geojson and what the proposed change was
+    map_selectors = all("my-map")
+    red_line_boundary_change_validation_request = planning_application.red_line_boundary_change_validation_requests.last
+    expect(map_selectors.first["geojsondata"]).to eq(red_line_boundary_change_validation_request.original_geojson)
+    expect(map_selectors.last["geojsondata"]).to eq(red_line_boundary_change_validation_request.new_geojson)
 
     click_link "Application"
     click_button "Audit log"

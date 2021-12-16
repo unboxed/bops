@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "Red line boundary change validation requests API", type: :request, show_exceptions: true do
   let!(:api_user) { create(:api_user) }
-  let!(:planning_application) { create(:planning_application, local_authority: @default_local_authority) }
+  let!(:planning_application) { create(:planning_application, :with_boundary_geojson, local_authority: @default_local_authority) }
   let!(:red_line_boundary_change_validation_request) do
     create(:red_line_boundary_change_validation_request, planning_application: planning_application)
   end
@@ -30,6 +30,7 @@ RSpec.describe "Red line boundary change validation requests API", type: :reques
               "response_due" => red_line_boundary_change_validation_request.response_due.to_s(:db),
               "new_geojson" => red_line_boundary_change_validation_request.new_geojson,
               "reason" => "Boundary incorrect",
+              "original_geojson" => red_line_boundary_change_validation_request.planning_application.boundary_geojson,
               "rejection_reason" => nil,
               "approved" => nil,
               "days_until_response_due" => 15,
@@ -42,6 +43,7 @@ RSpec.describe "Red line boundary change validation requests API", type: :reques
               "response_due" => red_line_boundary_change_validation_request2.response_due.to_s(:db),
               "new_geojson" => red_line_boundary_change_validation_request2.new_geojson,
               "reason" => "Boundary incorrect",
+              "original_geojson" => red_line_boundary_change_validation_request.planning_application.boundary_geojson,
               "rejection_reason" => nil,
               "approved" => nil,
               "days_until_response_due" => 15,
@@ -84,6 +86,7 @@ RSpec.describe "Red line boundary change validation requests API", type: :reques
             "response_due" => red_line_boundary_change_validation_request.response_due.to_s(:db),
             "new_geojson" => red_line_boundary_change_validation_request.new_geojson,
             "reason" => "Boundary incorrect",
+            "original_geojson" => red_line_boundary_change_validation_request.planning_application.boundary_geojson,
             "rejection_reason" => nil,
             "approved" => nil,
             "days_until_response_due" => 15,
