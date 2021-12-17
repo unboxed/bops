@@ -19,14 +19,7 @@ class ReplacementDocumentValidationRequestsController < ValidationRequestsContro
 
     flash[:notice] = "Replacement document validation request successfully created."
     email_and_timestamp(@replacement_document_validation_request) if @planning_application.invalidated?
-
-    event = @planning_application.invalidated? ? "sent" : "added"
-
-    audit(
-      "replacement_document_validation_request_#{event}",
-      @replacement_document_validation_request.audit_item,
-      @replacement_document_validation_request.sequence
-    )
+    @replacement_document_validation_request.audit!
 
     redirect_to planning_application_validation_requests_path(@planning_application)
   end

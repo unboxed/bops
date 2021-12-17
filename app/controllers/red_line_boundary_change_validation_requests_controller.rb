@@ -18,6 +18,8 @@ class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsCont
 
     if @red_line_boundary_change_validation_request.save
       email_and_timestamp(@red_line_boundary_change_validation_request) if @planning_application.invalidated?
+      @red_line_boundary_change_validation_request.audit!
+
       flash[:notice] = "Validation request for red line boundary successfully created."
       redirect_to planning_application_validation_requests_path(@planning_application)
     else

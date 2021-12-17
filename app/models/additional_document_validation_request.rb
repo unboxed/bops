@@ -29,6 +29,11 @@ class AdditionalDocumentValidationRequest < ApplicationRecord
     open? && may_close?
   end
 
+  def audit_item
+    { document: document_request_type,
+      reason: document_request_reason }.to_json
+  end
+
   private
 
   def audit_upload_files!
@@ -39,10 +44,5 @@ class AdditionalDocumentValidationRequest < ApplicationRecord
       activity_type: "additional_document_validation_request_received",
       activity_information: sequence
     )
-  end
-  
-  def audit_item
-    { document: document_request_type,
-      reason: document_request_reason }.to_json
   end
 end

@@ -2,6 +2,7 @@
 
 module ValidationRequest
   extend ActiveSupport::Concern
+  include AuditableModel
 
   class RecordCancelError < RuntimeError; end
 
@@ -105,7 +106,22 @@ module ValidationRequest
     raise NotDestroyableError, "Only requests that are pending can be destroyed"
   end
 
+  def audit!
+    if is_a?(DescriptionChangeValidationRequest)
+      audit_request_sent_or_added(self, "sent")
+    else
+      event = planning_application.invalidated? ? "sent" : "added"
+      audit_request_sent_or_added(self, event)
+    end
+  end
+
   private
+
+  def audit_request_sent_or_added(request, event)
+    audit("#{request.model_name.param_key}_#{event}",
+          request.audit_item.to_s,
+          request.sequence.to_s)
+  end
 
   def audit_cancel_request!
     Audit.create!(

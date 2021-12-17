@@ -46,4 +46,9 @@ class DescriptionChangeValidationRequest < ApplicationRecord
   def rejected?
     !approved && rejection_reason.present?
   end
+
+  def audit_item
+    { previous: planning_application.description,
+      proposed: proposed_description }.to_json
+  end
 end

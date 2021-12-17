@@ -14,13 +14,7 @@ class AdditionalDocumentValidationRequestsController < ValidationRequestsControl
     if @additional_document_validation_request.save
       flash[:notice] = "Additional document request successfully created."
       email_and_timestamp(@additional_document_validation_request) if @planning_application.invalidated?
-      if @planning_application.invalidated?
-        audit("additional_document_validation_request_sent", @additional_document_validation_request.audit_item,
-              @additional_document_validation_request.sequence)
-      else
-        audit("additional_document_validation_request_added", @additional_document_validation_request.audit_item,
-              @additional_document_validation_request.sequence)
-      end
+      @additional_document_validation_request.audit!
       redirect_to planning_application_validation_requests_path(@planning_application)
     else
       render :new
