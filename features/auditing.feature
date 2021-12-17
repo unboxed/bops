@@ -9,6 +9,8 @@ Feature: Auditing a planning application
     Given I create a new document validation request for a "Picture of the dog" because "it would be nice"
     When I view the planning application audit
     Then there is an audit entry containing "Added: validation request (new document#1)"
+    And there is an audit log entry in the index accordion with "Added: validation request (new document#1)"
+    And there is an audit log entry in the validate form accordion with "Added: validation request (new document#1)"
 
   Scenario: I can audit the validation requests are sent when the application is invalid
     Given I create an additional document validation request with "Picture of the dog"
