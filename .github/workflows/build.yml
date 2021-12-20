@@ -4,12 +4,9 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  test:
+  bundle-audit:
     runs-on: ubuntu-latest
-    env:
-      DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
-      RAILS_ENV: test
-      SPEC_OPTS: "-f doc"
+
     services:
       postgres:
         image: postgres
@@ -22,6 +19,196 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
+      memcached:
+        image: memcached:1.5.16
+        ports: ["11211:11211"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby 2.6.6
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6.6
+          bundler-cache: true
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Check bundle for known CVEs
+        run: |
+          bundle exec bundle-audit
+
+  brakeman:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      memcached:
+        image: memcached:1.5.16
+        ports: ["11211:11211"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby 2.6.6
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6.6
+          bundler-cache: true
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Analyse code for vulnerabilities
+        run: bundle exec brakeman
+
+  rubocop:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      memcached:
+        image: memcached:1.5.16
+        ports: ["11211:11211"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby 2.6.6
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6.6
+          bundler-cache: true
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Analyse code for formatting
+        run: bundle exec rubocop
+
+  spec-controllers:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      memcached:
+        image: memcached:1.5.16
+        ports: ["11211:11211"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby 2.6.6
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6.6
+          bundler-cache: true
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Run specs
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
+          RAILS_ENV: test
+          SPEC_OPTS: "-f doc -P spec/controllers/*_spec.rb"
+        run: |
+          bundle exec rake spec:controllers
+
+  spec-models:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      memcached:
+        image: memcached:1.5.16
+        ports: ["11211:11211"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby 2.6.6
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6.6
+          bundler-cache: true
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Run specs
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
+          RAILS_ENV: test
+          SPEC_OPTS: "-f doc -P spec/models/**/*_spec.rb"
+        run: |
+          bundle exec rake spec:models
+
+  spec-requests:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      memcached:
+        image: memcached:1.5.16
+        ports: ["11211:11211"]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -35,8 +222,97 @@ jobs:
       - name: Install Node
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
-          cache: 'yarn'
+          node-version: "14"
+          cache: "yarn"
+
+      - name: Install JS deps
+        run: yarn install
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Run specs
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
+          RAILS_ENV: test
+          SPEC_OPTS: "-f doc -P spec/requests/**/*_spec.rb"
+        run: |
+          bundle exec rake spec:requests
+
+  spec-other:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      memcached:
+        image: memcached:1.5.16
+        ports: ["11211:11211"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby 2.6.6
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6.6
+          bundler-cache: true
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Run specs
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
+          RAILS_ENV: test
+          SPEC_OPTS: "-f doc -P spec/{helpers,presenters,mailer,jobs}/**/*_spec.rb"
+        run: |
+          bundle exec rake spec
+
+  spec-system:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      memcached:
+        image: memcached:1.5.16
+        ports: ["11211:11211"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby 2.6.6
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6.6
+          bundler-cache: true
+
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+          cache: "yarn"
 
       - name: Install JS deps
         run: yarn install
@@ -46,21 +322,67 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ghostscript poppler-utils
 
-      - name: Bundle audit
-        run: bundle exec bundle-audit
+      - name: Setup
+        uses: ./.github/actions/setup
 
-      - name: Setup database
-        shell: bash
-        run: bundle exec rake db:setup
+      - name: Run specs
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
+          RAILS_ENV: test
+          SPEC_OPTS: "-f doc -P spec/system/**/*_spec.rb"
+        run: |
+          bundle exec rake spec
 
-      - name: Brakeman
-        run: bundle exec brakeman
+  cucumber:
+    runs-on: ubuntu-latest
 
-      - name: Rubocop
-        run: bundle exec rubocop
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      memcached:
+        image: memcached:1.5.16
+        ports: ["11211:11211"]
 
-      - name: RSpec
-        run: bundle exec rspec
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Cucumber
-        run: bundle exec cucumber
+      - name: Setup Ruby 2.6.6
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6.6
+          bundler-cache: true
+
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+          cache: "yarn"
+
+      - name: Install JS deps
+        run: yarn install
+
+      - name: Install file previewing tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ghostscript poppler-utils
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Run cucumber specs
+        env:
+          CUCUMBER_FORMAT: pretty
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
+          RAILS_ENV: test
+        run: |
+          bundle exec cucumber
