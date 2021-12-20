@@ -88,7 +88,7 @@ Given("a recommendation is submitted for the planning application") do
 end
 
 Given("the recommendation is challenged with {string}") do |string|
-  steps %( 
+  steps %(
     Given I am logged in as a reviewer
     When I view the planning application
     And I press "Review assessment"
@@ -96,7 +96,6 @@ Given("the recommendation is challenged with {string}") do |string|
     And I fill in "Review comment" with "#{string}"
     And I press "Save"
   )
-
 end
 
 Given("the planning application is determined") do

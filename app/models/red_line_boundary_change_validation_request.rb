@@ -21,4 +21,12 @@ class RedLineBoundaryChangeValidationRequest < ApplicationRecord
   def audit_item
     reason
   end
+
+  def audit_api_item
+    if approved?
+      { response: "approved" }.to_json
+    else
+      { response: "rejected", reason: rejection_reason }.to_json
+    end
+  end
 end

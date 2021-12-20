@@ -51,4 +51,12 @@ class DescriptionChangeValidationRequest < ApplicationRecord
     { previous: planning_application.description,
       proposed: proposed_description }.to_json
   end
+
+  def audit_api_item
+    if approved?
+      { response: "approved" }.to_json
+    else
+      { response: "rejected", reason: rejection_reason }.to_json
+    end
+  end
 end

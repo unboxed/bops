@@ -115,13 +115,19 @@ module ValidationRequest
     end
   end
 
-  private
+  def audit_api_action!
+    audit("#{model_name.param_key}_received",
+          audit_api_item.to_s,
+          sequence.to_s)
+  end
 
   def audit_request_sent_or_added(request, event)
     audit("#{request.model_name.param_key}_#{event}",
           request.audit_item.to_s,
           request.sequence.to_s)
   end
+
+  private
 
   def audit_cancel_request!
     Audit.create!(

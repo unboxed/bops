@@ -38,8 +38,7 @@ module Api
         if @replacement_document_validation_request.save
           archive_old_document
 
-          audit("replacement_document_validation_request_received", document_audit_item(new_document),
-                @replacement_document_validation_request.sequence, current_api_user)
+          @replacement_document_validation_request.audit_api_action!
 
           render json: { message: "Validation request updated" }, status: :ok
         else
@@ -60,10 +59,6 @@ module Api
           archive_reason: "Applicant has provived a replacement document.",
           archived_at: Time.zone.now
         )
-      end
-
-      def document_audit_item(document)
-        document.name
       end
     end
   end

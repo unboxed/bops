@@ -19,4 +19,8 @@ class OtherChangeValidationRequest < ApplicationRecord
     { summary: summary,
       suggestion: suggestion }.to_json
   end
+
+  def audit_api_item
+    { response: response }.to_json
+  end
 end

@@ -12,4 +12,8 @@ class ReplacementDocumentValidationRequest < ApplicationRecord
     { old_document: old_document.name,
       reason: old_document.invalidated_document_reason }.to_json
   end
+
+  def audit_api_item
+    new_document.name
+  end
 end
