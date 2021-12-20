@@ -51,15 +51,6 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
     click_button "Add"
     expect(page).to have_content("Replacement document validation request successfully created.")
-
-    click_link "Application"
-    click_button "Audit log"
-    click_link "View all audits"
-
-    expect(page).to have_text("Sent: validation request (replacement document#1)")
-    expect(page).to have_text(invalid_document.name.to_s)
-    expect(page).to have_text("Invalid reason: Not readable")
-    expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
     expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
   end
 

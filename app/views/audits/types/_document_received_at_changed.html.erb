@@ -2,13 +2,13 @@
 
 <% if JSON.parse(locals[:item].audit_comment)["previous_received_date"].present? %> 
   <p class="govuk-body">
-    from: <%= JSON.parse(locals[:item].audit_comment)["previous_received_date"].to_datetime %>
+    from: <%= JSON.parse(locals[:item].audit_comment)["previous_received_date"].to_date %>
   </p>
 <% end %>
 
 <% if JSON.parse(locals[:item].audit_comment)["updated_received_date"].present? %> 
   <p class="govuk-body">
-    to: <%= JSON.parse(locals[:item].audit_comment)["updated_received_date"].to_datetime %>
+    to: <%= JSON.parse(locals[:item].audit_comment)["updated_received_date"].to_date %>
   </p>
 <% end %>
 

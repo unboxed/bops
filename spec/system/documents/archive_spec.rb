@@ -107,15 +107,7 @@ RSpec.describe "Documents index page", type: :system do
     it "allows document to be archived with an optional comment" do
       fill_in "Why do you want to archive this document?", with: "Scale was wrong"
       click_button "Archive"
-
-      click_link "Application"
-      click_button "Audit log"
-      click_link "View all audits"
-
-      expect(page).to have_text("Document archived")
-      expect(page).to have_text("proposed-floorplan.png")
-      expect(page).to have_text(assessor.name)
-      expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+      expect(page).to have_text("proposed-floorplan.png has been archived")
     end
 
     it "Archived document appears in correct place on DMS page" do
@@ -161,12 +153,6 @@ RSpec.describe "Documents index page", type: :system do
       within(".current-documents") do
         expect(page).to have_text("proposed-floorplan.png")
       end
-
-      click_link "Application"
-      click_button "Audit log"
-      click_link "View all audits"
-
-      expect(page).to have_text("Document unarchived")
     end
   end
 
@@ -196,7 +182,7 @@ RSpec.describe "Documents index page", type: :system do
       click_link "Archive"
     end
 
-    it "Document can be archived" do
+    it "Document can be archived by an assessor" do
       fill_in "Why do you want to archive this document?", with: "Scale was wrong"
       click_button "Archive"
 

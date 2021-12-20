@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Given("I manage the application's documents") do
+Given("I manage the documents for the application") do
   steps %(
     Given I view the planning application
     And I press "Manage documents"
@@ -9,7 +9,7 @@ end
 
 Given("the planning application has a document with reference {string}") do |reference|
   steps %(
-    When I manage the application's documents
+    When I manage the documents for the application
     And I press "Upload document"
     And I upload "spec/fixtures/images/proposed-floorplan.png" for the "file" input
     And I fill in "Document reference(s)" with "#{reference}"
@@ -18,7 +18,7 @@ Given("the planning application has a document with reference {string}") do |ref
 end
 
 Given("I view the document with reference {string}") do |reference|
-  step "I manage the application's documents"
+  step "I manage the documents for the application"
 
   document = @planning_application.documents.find_by(numbers: reference)
 

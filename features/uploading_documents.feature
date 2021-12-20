@@ -3,7 +3,7 @@ Feature: Uploading documents for an application
     Given I am logged in as an assessor
     And my name is "Morisuke"
     And a new planning application
-    When I manage the application's documents
+    When I manage the documents for the application
 
   Scenario: I can upload a new document with a reference, received date and tags
     Given I press "Upload document"
@@ -25,7 +25,6 @@ Feature: Uploading documents for an application
     And the option "Floor" is checked
     And the option "Side" is checked
     And the option "Utility Bill" is checked
-
 
  Scenario: I can upload a new document with no tags and it defaults to not public
     Given I press "Upload document"

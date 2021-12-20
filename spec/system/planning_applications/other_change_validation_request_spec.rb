@@ -35,14 +35,6 @@ RSpec.describe "Requesting description changes to a planning application", type:
       expect(page).to have_content("Other")
       expect(page).to have_content("15 days")
     end
-
-    click_link "Application"
-    click_button "Audit log"
-    click_link "View all audits"
-
-    expect(page).to have_text("Sent: validation request (other validation#1)")
-    expect(page).to have_text("The wrong fee has been paid")
-    expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
     expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
   end
 

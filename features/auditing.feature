@@ -38,6 +38,13 @@ Feature: Auditing a planning application
     Then there is an audit entry containing "Application returned"
     And there is an audit entry containing "Applicant sent selfies instead of floor plans"
 
+  Scenario: I can view in the audit log when a recommendation has been submitted or challenged
+    Given a recommendation is submitted for the planning application
+    Then there is an audit entry containing "Recommendation submitted"
+    Given the recommendation is challenged with "This is my challenge comment"
+    Then there is an audit entry containing "Recommendation challenged"
+    And there is an audit entry containing "This is my challenge comment"
+
   Scenario: Updating constraints displays all updates in the audit log
     Given I press "Constraints"
     And I press "Update"

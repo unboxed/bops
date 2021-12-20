@@ -41,7 +41,15 @@ Feature: Editing documents for an application
     And I choose "No" for "Is the document valid?"
     And I fill in "Describe in full why the document is invalid." with "BANANAS"
     When I press "Save"
-    Then there is an audit entry containing "received at date was modified"
-    And there is an audit entry containing "from: 19 November 2021"
-    And there is an audit entry containing "to: 22 November 2021"
-    Then there is an audit entry containing "proposed-floorplan.png was marked as invalid"
+    Then there is an audit entry containing "received at date was modified from: 19 November 2021 to: 22 November 2021"
+    And there is an audit entry containing "proposed-floorplan.png was marked as invalid"
+
+  Scenario: I can archive and unarchive a document
+    Given I manage the documents for the application
+    When I press "Archive"
+    And I fill in "Why do you want to archive this document?" with "this is not a good photo of me on holiday"
+    And I press "Archive"
+    Then there is an audit entry containing "Document archived proposed-floorplan.png"
+    Then I manage the documents for the application
+    And I press "Restore document"
+    Then there is an audit entry containing "Document unarchived proposed-floorplan.png"

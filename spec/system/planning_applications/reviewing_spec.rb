@@ -69,13 +69,6 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     expect(planning_application.recommendations.last.reviewed_at).not_to be_nil
     expect(planning_application.recommendations.last.reviewer_comment).to eq("Reviewer private comment")
     expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails)
-
-    click_button "Audit log"
-    click_link "View all audits"
-
-    expect(page).to have_text("Recommendation challenged")
-    expect(page).to have_text("Reviewer private comment")
-    expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
   end
 
   it "cannot be rejected without a review comment" do

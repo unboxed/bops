@@ -6,7 +6,7 @@ module AuditableModel
   included do
     private
 
-    def audit(activity_type, audit_comment = nil, activity_information = nil, _api_user = nil)
+    def audit(activity_type, audit_comment = nil, activity_information = nil)
       Audit.create!(
         planning_application_id: planning_application.id,
         user: Current.user,

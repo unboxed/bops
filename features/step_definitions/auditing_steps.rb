@@ -8,14 +8,6 @@ Then("there is an audit entry containing {string}") do |content|
   end
 end
 
-Then("there is an audit entry with") do |content|
-  step "I visit the audit log"
-
-  within_table("Audit log") do
-    page.should have_content(content)
-  end
-end
-
 Then("there is an audit log entry in the index accordion with {string}") do |content|
   steps %(
     When I view the planning application
