@@ -101,6 +101,10 @@ class PlanningApplication < ApplicationRecord
 
     event :request_correction do
       transitions from: :awaiting_determination, to: :awaiting_correction
+
+      after do
+        audit("challenged", recommendations.last.reviewer_comment)
+      end
     end
 
     event :return do
