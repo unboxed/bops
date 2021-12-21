@@ -7,6 +7,8 @@ class PlanningApplication < ApplicationRecord
 
   include AASM
 
+  include AuditableModel
+
   enum application_type: { lawfulness_certificate: 0, full: 1 }
 
   with_options dependent: :destroy do
@@ -140,18 +142,6 @@ class PlanningApplication < ApplicationRecord
 
   def audit_created
     audit("created", nil, Current.user&.name || Current.api_user&.name)
-  end
-
-  # we already have an auditable module but the arguments need to change. Worth calling super or not?
-  def audit(activity_type, audit_comment = nil, activity_information = nil, _api_user = nil)
-    Audit.create!(
-      planning_application_id: id,
-      user: Current.user,
-      audit_comment: audit_comment,
-      activity_information: activity_information,
-      activity_type: activity_type,
-      api_user: Current.api_user
-    )
   end
 
   def audit_update_actions

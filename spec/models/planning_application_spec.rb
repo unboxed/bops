@@ -127,6 +127,7 @@ RSpec.describe PlanningApplication, type: :model do
 
       before do
         # Set timestamp to differentiate from now
+        create :recommendation, planning_application: planning_application, reviewer_comment: "Bonkers"
         planning_application.update(awaiting_correction_at: 1.hour.ago)
       end
 
