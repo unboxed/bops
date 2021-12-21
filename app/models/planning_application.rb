@@ -158,10 +158,12 @@ class PlanningApplication < ApplicationRecord
       when "boundary_geojson"
         audit("red_line_updated", "Red line drawing updated")
       else
-        audit("updated",
-              "Changed from: #{saved_change_to_attribute(attribute_name).first}
-                \r\n Changed to: #{saved_change_to_attribute(attribute_name).second}",
-              attribute_name.humanize)
+        unless attribute_name.eql?("updated_at")
+          audit("updated",
+                "Changed from: #{saved_change_to_attribute(attribute_name).first}
+                  \r\n Changed to: #{saved_change_to_attribute(attribute_name).second}",
+                attribute_name.humanize)
+        end
       end
     end
   end
