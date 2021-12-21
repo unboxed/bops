@@ -29,6 +29,9 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Max: 20
 
+Rails/LexicallyScopedActionFilter:
+  Enabled: false
+
 # we tend to use update_all in migrations
 Rails/SkipsModelValidations:
   Exclude:
