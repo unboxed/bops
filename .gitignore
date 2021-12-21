@@ -32,3 +32,6 @@ yarn-debug.log*
 
 # Ignore build packages
 /pkg
+
+# Ignore .env file
+.env
