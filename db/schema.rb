@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_01_161025) do
+ActiveRecord::Schema.define(version: 2021_12_16_140625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -253,8 +253,8 @@ ActiveRecord::Schema.define(version: 2021_12_01_161025) do
     t.integer "planning_application_id", null: false
     t.integer "user_id", null: false
     t.string "state", null: false
-    t.string "new_geojson"
-    t.string "reason"
+    t.json "new_geojson", null: false
+    t.string "reason", null: false
     t.string "rejection_reason"
     t.boolean "approved"
     t.datetime "created_at", precision: 6, null: false
@@ -263,6 +263,7 @@ ActiveRecord::Schema.define(version: 2021_12_01_161025) do
     t.date "notified_at"
     t.text "cancel_reason"
     t.datetime "cancelled_at"
+    t.json "original_geojson"
   end
 
   create_table "replacement_document_validation_requests", force: :cascade do |t|
