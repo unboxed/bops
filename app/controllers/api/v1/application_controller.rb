@@ -5,7 +5,6 @@ module Api
     class ApplicationController < ApplicationController
       # Make ActiveStorage aware of the current host (used in url helpers)
       include ActiveStorage::SetCurrent
-      include Auditable
 
       before_action :authenticate, :set_default_format
       protect_from_forgery with: :null_session

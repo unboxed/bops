@@ -4,6 +4,7 @@ module Api
   module V1
     class ValidationRequestsController < Api::V1::ApplicationController
       before_action :check_token_and_set_application, only: %i[index], if: :json_request?
+      before_action :current_api_user, only: :update
 
       def index; end
 

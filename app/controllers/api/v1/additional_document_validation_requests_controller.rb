@@ -8,8 +8,7 @@ module Api
       before_action :check_token_and_set_application
       before_action :check_files_params_are_present,
                     :check_files_size,
-                    :check_files_type,
-                    :current_api_user, only: :update
+                    :check_files_type, only: :update
 
       rescue_from AdditionalDocumentValidationRequest::UploadFilesError do |_exception|
         render_failed_request
