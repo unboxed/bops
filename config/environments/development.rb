@@ -68,6 +68,5 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: (ENV["DOMAIN"] || "bops-care.link"), port: 3000 }
 
-  config.hosts << ".bops-care.link"
-  config.hosts << "southwark.southwark.web"
+  config.hosts.clear
 end

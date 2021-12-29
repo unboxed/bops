@@ -1,0 +1,18 @@
+<%= render "validation_requests/validation_requests_breadcrumbs" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: [@planning_application, @additional_document_validation_request], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+      <%= form.govuk_fieldset legend: { text: "Request a new document", size: 'l' } do %>
+        <%= form.govuk_text_field :document_request_type,
+         label: { text: 'Please specify the new document type:', size: 's' },
+         hint: { text: 'Eg. Existing floor plans' } %>
+
+        <%= form.govuk_text_area :document_request_reason,
+         label: { text: 'Please specify the reason you have requested this document?', size: 's'},
+         rows: 5 %>
+      <% end %>
+      <%= render "shared/validation_request_form_actions", form: form %>
+    <% end %>
+  </div>
+</div>

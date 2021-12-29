@@ -3,13 +3,13 @@
 class OtherChangeValidationRequestsController < ValidationRequestsController
   include ValidationRequests
 
+  before_action :set_other_validation_request, only: %i[show edit update]
+
   def new
     @other_change_validation_request = @planning_application.other_change_validation_requests.new
   end
 
-  def show
-    @other_change_validation_request = @planning_application.other_change_validation_requests.find(params[:id])
-  end
+  def show; end
 
   def create
     @other_change_validation_request = @planning_application.other_change_validation_requests.new(other_change_validation_request_params)
@@ -32,6 +32,10 @@ class OtherChangeValidationRequestsController < ValidationRequestsController
     end
   end
 
+  def edit; end
+
+  def update; end
+
   private
 
   def other_change_validation_request_params
@@ -40,5 +44,9 @@ class OtherChangeValidationRequestsController < ValidationRequestsController
 
   def audit_item(other_change_validation_request)
     { summary: other_change_validation_request.summary, suggestion: other_change_validation_request.suggestion }.to_json
+  end
+
+  def set_other_validation_request
+    @other_change_validation_request = @planning_application.other_change_validation_requests.find(params[:id])
   end
 end

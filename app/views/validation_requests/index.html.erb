@@ -21,12 +21,18 @@
               <th scope="col" class="govuk-table__header">
                 Status
               </th>
-              <th scope="col" class="govuk-table__header">
-                Response received
-              </th>
-              <th scope="col" class="govuk-table__header">
-                Response
-              </th>
+              <% if @planning_application.invalidated? %>
+                <th scope="col" class="govuk-table__header">
+                  Response received
+                </th>
+                <th scope="col" class="govuk-table__header">
+                  Response
+                </th>
+              <% else %>
+                <th scope="col" class="govuk-table__header">
+                  Edit
+                </th>
+              <% end %>
               <th scope="col" class="govuk-table__header">
                 Actions
               </th>
@@ -53,10 +59,12 @@
                       </strong>
                     <% end %>
                   </td>
-                  <td class="govuk-table__cell limit-column-width">
-                    <%= request_closed_at(validation_request)  %>
-                  </td>
-                   <td class="govuk-table__cell limit-column-width">
+                  <% if @planning_application.invalidated? %>
+                    <td class="govuk-table__cell limit-column-width">
+                      <%= request_closed_at(validation_request)  %>
+                    </td>
+
+                    <td class="govuk-table__cell limit-column-width">
                     <% if validation_request.is_a?(AdditionalDocumentValidationRequest) %>
                       <ul id="additional-documents" class="govuk-list">
                         <% validation_request.documents.each do |document| %>
@@ -69,6 +77,11 @@
                       <%= applicant_response(validation_request) %>
                     <% end %>
                   </td>
+                  <% else %>
+                  <td class="govuk-table__cell limit-column-width"> 
+                    <%= edit_validation_request_url(validation_request) %>
+                  </td>
+                  <% end %>
                   <td class="govuk-table__cell limit-column-width">
                     <% if !validation_request.closed? && !validation_request.cancelled? %>
                       <% if @planning_application.invalidated? %>
