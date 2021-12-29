@@ -3,6 +3,8 @@
 class AdditionalDocumentValidationRequestsController < ValidationRequestsController
   include ValidationRequests
 
+  before_action :set_additional_document_validation_request, only: %i[edit update]
+
   def new
     @additional_document_validation_request = planning_application.additional_document_validation_requests.new
   end
@@ -27,6 +29,10 @@ class AdditionalDocumentValidationRequestsController < ValidationRequestsControl
     end
   end
 
+  def edit; end
+
+  def update; end
+
   private
 
   def additional_document_validation_request_params
@@ -40,5 +46,9 @@ class AdditionalDocumentValidationRequestsController < ValidationRequestsControl
   def document_create_audit_item(additional_document_validation_request)
     { document: additional_document_validation_request.document_request_type,
       reason: additional_document_validation_request.document_request_reason }.to_json
+  end
+
+  def set_additional_document_validation_request
+    @additional_document_validation_request = @planning_application.additional_document_validation_requests.find(params[:id])
   end
 end

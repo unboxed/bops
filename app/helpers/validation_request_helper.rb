@@ -58,6 +58,12 @@ module ValidationRequestHelper
          validation_request)
   end
 
+  def edit_validation_request_url(validation_request)
+    link_to "Edit",
+            send("edit_planning_application_#{request_type(validation_request)}_path", validation_request.planning_application,
+                 validation_request)
+  end
+
   def document_url(document)
     link_to(document.name.to_s,
             edit_planning_application_document_path(document.planning_application, document.id))

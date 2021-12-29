@@ -3,13 +3,13 @@
 class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsController
   include ValidationRequests
 
+  before_action :set_red_line_boundary_validation_request, only: %i[show edit update]
+
   def new
     @red_line_boundary_change_validation_request = @planning_application.red_line_boundary_change_validation_requests.new
   end
 
-  def show
-    @red_line_boundary_change_validation_request = @planning_application.red_line_boundary_change_validation_requests.find(params[:id])
-  end
+  def show; end
 
   def create
     @red_line_boundary_change_validation_request = RedLineBoundaryChangeValidationRequest.new(red_line_boundary_change_validation_request_params
@@ -33,6 +33,10 @@ class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsCont
     end
   end
 
+  def edit; end
+
+  def update; end
+
   private
 
   def red_line_boundary_change_validation_request_params
@@ -41,5 +45,9 @@ class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsCont
 
   def red_line_boundary_audit_item(validation_request)
     validation_request.reason
+  end
+
+  def set_red_line_boundary_validation_request
+    @red_line_boundary_change_validation_request = @planning_application.red_line_boundary_change_validation_requests.find(params[:id])
   end
 end
