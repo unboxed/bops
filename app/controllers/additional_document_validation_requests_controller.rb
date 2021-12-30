@@ -31,7 +31,13 @@ class AdditionalDocumentValidationRequestsController < ValidationRequestsControl
 
   def edit; end
 
-  def update; end
+  def update
+    if @additional_document_validation_request.update(additional_document_validation_request_params)
+      redirect_to planning_application_validation_requests_path(@planning_application), notice: "Additional document request successfully updated"
+    else
+      render :edit
+    end
+  end
 
   private
 

@@ -35,7 +35,13 @@ class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsCont
 
   def edit; end
 
-  def update; end
+  def update
+    if @red_line_boundary_change_validation_request.update(red_line_boundary_change_validation_request_params)
+      redirect_to planning_application_validation_requests_path(@planning_application)
+    else
+      render :edit
+    end
+  end
 
   private
 

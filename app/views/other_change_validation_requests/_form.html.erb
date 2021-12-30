@@ -1,0 +1,45 @@
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-6">
+      Request other validation change
+    </h2>
+    <p class="govuk-body govuk-!-margin-bottom-1">
+      <strong>At:</strong> <%= @planning_application.full_address  %>
+    </p>
+    <p class="govuk-body govuk-!-margin-bottom-1">
+      <strong>Date received:</strong> <%= @planning_application.received_at %>
+    </p>
+    <p class="govuk-body govuk-!-margin-bottom-8">
+      <strong>Application number:</strong> <%= @planning_application.reference  %>
+    </p>
+
+    <%= form_with model: [@planning_application, @other_change_validation_request], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+      <% if @other_change_validation_request.errors.any? %>
+        <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+          <h2 class="govuk-error-summary__title" id="error-summary-title">
+            There is a problem
+          </h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list">
+              <% @other_change_validation_request.errors.full_messages.each do |error| %>
+                <li><%= error %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+
+      <%= form.govuk_text_area :summary,
+                               label: { text: 'Tell the applicant another reason why the application is invalid.', size: 's', class: 'govuk-label govuk-label--s'},
+                               hint: { text: 'Only add one reason for each request.' },
+                               rows: 5 %>
+
+      <%= form.govuk_text_area :suggestion,
+                               label: { text: 'Explain to the applicant how the application can be made valid.', size: 's', class: 'govuk-label govuk-label--s'},
+                               hint: { text: 'Add all information that they will need to complete this action.' },
+                               rows: 5 %>
+      <%= render "shared/validation_request_form_actions", form: form %>
+    <% end %>
+  </div>
+</div>

@@ -12,7 +12,7 @@ Scenario: I can edit a document validation request before its been sent
   When I view the application's validations requests
   And I press "Edit" on "Picture of the dog"
   And fill in "Reason for requesting this document" with "cats instead"
-  When I press "Update request"
+  When I press "Update"
   And I view all validation requests
   Then the table contains "cats instead"
 
