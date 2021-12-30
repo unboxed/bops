@@ -34,7 +34,13 @@ class OtherChangeValidationRequestsController < ValidationRequestsController
 
   def edit; end
 
-  def update; end
+  def update
+    if @other_change_validation_request.update(other_change_validation_request_params)
+      redirect_to planning_application_validation_requests_path(@planning_application), notice: "Other validation request successfully updated"
+    else
+      render :edit
+    end
+  end
 
   private
 
