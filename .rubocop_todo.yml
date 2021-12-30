@@ -283,6 +283,7 @@ Style/GuardClause:
     - 'app/models/recommendation.rb'
     - 'app/models/red_line_boundary_change_validation_request.rb'
     - 'db/migrate/20210308183431_add_service_name_to_active_storage_blobs.active_storage.rb'
+    - 'app/helpers/validation_request_helper.rb'
 
 # Offense count: 174
 # Cop supports --auto-correct.
