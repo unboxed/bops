@@ -1,8 +1,8 @@
 <div class="govuk-button-group">
-  <% if action_name.eql?("new") %>
-    <%= form.govuk_submit "Add" %>
-  <% else %>
+  <% if action_name.eql?("edit") %>
     <%= form.govuk_submit "Update" %>
+  <% else %>
+    <%= form.govuk_submit "Add" %>
   <% end %>
   <%= link_to "Back", new_planning_application_validation_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
 </div>

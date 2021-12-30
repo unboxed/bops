@@ -119,6 +119,12 @@ Then "I click link {string} in table row for {string}" do |link, value|
   end
 end
 
+Then "the page does not contain {string} in table row for {string}" do |link, value|
+  within(:xpath, "//tr[contains(.,'#{value}')]") do
+    expect(page).not_to have_content(link)
+  end
+end
+
 When("I upload {string} for the {string} input") do |path, name|
   attach_file(name, path)
 end
