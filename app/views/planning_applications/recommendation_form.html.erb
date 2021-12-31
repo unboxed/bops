@@ -59,7 +59,9 @@
       <%= text_area_tag "recommendation[assessor_comment]", @recommendation.assessor_comment, class: "govuk-textarea", rows: "7" %>
     </div>
     <div class="govuk-!-padding-top-4">
-      <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+      <%= form.submit "Save and mark as complete", class: "govuk-button", action: "assess", data: { module: "govuk-button" } %>
+      <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", formaction: "save_assessment", data: { module: "govuk-button" } %>
+      <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
     </div>
   <% end %>
 <% end %>

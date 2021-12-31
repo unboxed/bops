@@ -123,7 +123,7 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def recommendation_form
-    @recommendation = @planning_application.pending_or_new_recommendation
+    @recommendation = @planning_application.recommendations.last || @planning_application.pending_or_new_recommendation
   end
 
   def recommend
@@ -131,6 +131,7 @@ class PlanningApplicationsController < AuthenticationController
     @planning_application.assign_attributes(params.require(:planning_application).permit(:decision, :public_comment))
     @recommendation.assign_attributes(params.require(:recommendation).permit(:assessor_comment).merge(assessor: current_user))
     if @planning_application.save && @recommendation.save
+      @recommendation.update(submitted: true)
       redirect_to @planning_application
     else
       render :recommendation_form
@@ -142,6 +143,25 @@ class PlanningApplicationsController < AuthenticationController
   def view_recommendation
     @assessor_name = @planning_application.recommendations.last.assessor.name
     @recommended_date = @planning_application.recommendations.last.created_at.strftime("%d %b %Y")
+  end
+
+  def save_assessment
+    @planning_application.public_comment = params[:planning_application][:public_comment]
+    @planning_application.save(validate: false)
+
+    recommendation = @planning_application.recommendations.build
+    if current_user.assessor?
+      recommendation.assessor = current_user
+    elsif current_user.reviewer?
+      recommendation.reviewer = current_user
+    end
+
+    recommendation.assessor_comment = params[:recommendation][:assessor_comment]
+    recommendation.save(validate: false)
+
+    @planning_application.save_assessment
+
+    redirect_to @planning_application
   end
 
   def assess

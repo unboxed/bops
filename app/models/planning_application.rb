@@ -54,6 +54,7 @@ class PlanningApplication < ApplicationRecord
   aasm no_direct_assignment: true do
     state :not_started, initial: true
     state :invalidated, display: "invalid"
+    state :assessment_in_progress
     state :in_assessment
     state :awaiting_determination
     state :awaiting_correction
@@ -65,8 +66,16 @@ class PlanningApplication < ApplicationRecord
       transitions from: %i[not_started invalidated in_assessment], to: :in_assessment, guard: :has_validation_date?
     end
 
+    event :save_assessment do
+      transitions from: %i[assessment_in_progress in_assessment], to: :assessment_in_progress
+
+      after do
+        save(validate: false)
+      end
+    end
+
     event :assess do
-      transitions from: %i[in_assessment awaiting_correction], to: :awaiting_determination, guard: :decision_present?
+      transitions from: %i[in_assessment assessment_in_progress awaiting_correction], to: :awaiting_determination, guard: :decision_present?
     end
 
     event :invalidate do
@@ -181,7 +190,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def can_assess?
-    in_assessment? || awaiting_correction?
+    assessment_in_progress? || in_assessment? || awaiting_correction?
   end
 
   def closed?
