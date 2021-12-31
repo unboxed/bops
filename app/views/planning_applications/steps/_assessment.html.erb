@@ -10,6 +10,8 @@
     </span>
     <% if @planning_application.assessment_complete? %>
       <%= tag.strong "Completed", id: "validation-completed", class: "govuk-tag app-task-list__task-tag" %>
+    <% elsif @planning_application.assessment_in_progress? %>
+      <%= tag.strong "In progress", id: "assessment-in-progress", class: "govuk-tag app-task-list__task-tag" %>
     <% end %>
   </li>
   <li class="app-task-list__item">

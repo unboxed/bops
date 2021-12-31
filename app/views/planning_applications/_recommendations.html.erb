@@ -1,10 +1,10 @@
-<% if recommendations.present? %>
+<% if recommendations.submitted.present? %>
   <div class="recommendations govuk-inset-text">
-    <% recommendations.each do |recommendation| %>
+    <% recommendations.submitted.each do |recommendation| %>
       <div class="recommendation">
         <p class="govuk-body">
           <strong>Submitted recommendation</strong> by <%= recommendation.assessor.name %><br />
-          <%= accessible_time recommendation.created_at %>
+          <%= recommendation.created_at %>
         </p>
 
         <p class="govuk-body comment">
@@ -15,7 +15,7 @@
         <div class="recommendation">
           <p class="govuk-body">
             <strong>Recommendation challenged</strong> by <%= recommendation.reviewer.name %> <br />
-            <%= accessible_time recommendation.reviewed_at %>
+            <%= recommendation.reviewed_at %>
           </p>
 
           <p class="govuk-body comment">

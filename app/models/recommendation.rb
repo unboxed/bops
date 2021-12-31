@@ -2,11 +2,12 @@
 
 class Recommendation < ApplicationRecord
   belongs_to :planning_application
-  belongs_to :assessor, class_name: "User"
+  belongs_to :assessor, class_name: "User", optional: true
   belongs_to :reviewer, class_name: "User", optional: true
 
   scope :pending_review, -> { where(reviewer_id: nil) }
   scope :reviewed, -> { where.not(reviewer_id: nil) }
+  scope :submitted, -> { where(submitted: true) }
 
   validate :reviewer_comment_is_present?
 
@@ -20,7 +21,7 @@ class Recommendation < ApplicationRecord
     if current_recommendation? && planning_application.awaiting_determination?
       false
     else
-      reviewer.present?
+      reviewer_comment.present?
     end
   end
 

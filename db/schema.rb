@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_16_140625) do
+ActiveRecord::Schema.define(version: 2021_12_31_163004) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -228,6 +228,7 @@ ActiveRecord::Schema.define(version: 2021_12_16_140625) do
     t.bigint "api_user_id"
     t.bigint "boundary_created_by_id"
     t.jsonb "policy_classes", default: [], array: true
+    t.datetime "assessment_in_progress_at"
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
     t.index ["boundary_created_by_id"], name: "ix_planning_applications_on_boundary_created_by_id"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
@@ -236,7 +237,7 @@ ActiveRecord::Schema.define(version: 2021_12_16_140625) do
 
   create_table "recommendations", force: :cascade do |t|
     t.bigint "planning_application_id", null: false
-    t.bigint "assessor_id", null: false
+    t.bigint "assessor_id"
     t.bigint "reviewer_id"
     t.text "assessor_comment"
     t.text "reviewer_comment"
@@ -244,6 +245,7 @@ ActiveRecord::Schema.define(version: 2021_12_16_140625) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "challenged"
+    t.boolean "submitted"
     t.index ["assessor_id"], name: "index_recommendations_on_assessor_id"
     t.index ["planning_application_id"], name: "index_recommendations_on_planning_application_id"
     t.index ["reviewer_id"], name: "index_recommendations_on_reviewer_id"
