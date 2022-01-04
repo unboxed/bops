@@ -74,7 +74,7 @@ Given("the planning application is assessed") do
     And I choose "Yes"
     And I fill in "State the reasons why" with "a valid reason"
     And I fill in "supporting information" with "looks legit"
-    And I press "Save"
+    And I press "Save and mark as complete"
   )
 end
 
@@ -158,4 +158,10 @@ Given "the application is returned by the applicant" do
     And I fill in "Can you provide more detail?" with "Applicant sent selfies instead of floor plans"
     And I press "Save"
   )
+end
+
+Then("the assess proposal accordion displays a {string} tag") do |tag|
+  within(:xpath, '//*[@id="assess-section"]') do
+    expect(page).to have_content tag
+  end
 end

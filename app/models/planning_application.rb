@@ -67,7 +67,7 @@ class PlanningApplication < ApplicationRecord
     end
 
     event :save_assessment do
-      transitions from: %i[assessment_in_progress in_assessment], to: :assessment_in_progress
+      transitions from: %i[in_assessment assessment_in_progress], to: :assessment_in_progress
 
       after do
         save(validate: false)
@@ -198,7 +198,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def assessment_complete?
-    (validation_complete? && pending_review?) || awaiting_determination? || determined?
+    (validation_complete? && pending_review? && recommendations.last.submitted) || awaiting_determination? || determined?
   end
 
   def can_submit_recommendation?
