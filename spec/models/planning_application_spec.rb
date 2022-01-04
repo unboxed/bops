@@ -451,6 +451,8 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     describe "#days_overdue" do
+      before { travel_to Time.zone.local(2021, 12, 1) }
+
       context "when the application has not expired" do
         before { planning_application.update_column(:expiry_date, 3.days.from_now) }
 
