@@ -4,7 +4,7 @@
   showScale
   useScaleBarStyle
   <% if locals[:geojson].present? %>
-    geojsonData='<%= JSON.parse(locals[:geojson]).to_json.html_safe %>'
+    geojsonData='<%= locals[:geojson].is_a?(Hash) ? locals[:geojson].to_json : JSON.parse(locals[:geojson]).to_json.html_safe %>'
   <% end %>
   <% if locals[:geojson_field].present?  %>
     drawMode="true"
