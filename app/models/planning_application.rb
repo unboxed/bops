@@ -202,7 +202,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def can_submit_recommendation?
-    assessment_complete? && (in_assessment? || awaiting_correction?)
+    assessment_complete? && (in_assessment? || assessment_in_progress? || awaiting_correction?)
   end
 
   def submit_recommendation_complete?

@@ -15,7 +15,10 @@ RSpec.describe "Planning Application Reviewing", type: :system do
            reviewer_comment: "First reviewer comment"
   end
   let!(:recommendation) do
-    create :recommendation, planning_application: planning_application, assessor_comment: "New assessor comment"
+    create :recommendation,
+           planning_application: planning_application,
+           assessor_comment: "New assessor comment",
+           submitted: true
   end
 
   before do

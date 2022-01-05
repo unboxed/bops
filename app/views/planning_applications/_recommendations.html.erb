@@ -4,7 +4,7 @@
       <div class="recommendation">
         <p class="govuk-body">
           <strong>Submitted recommendation</strong> by <%= recommendation.assessor.name %><br />
-          <%= recommendation.created_at %>
+          <%= accessible_time recommendation.created_at %>
         </p>
 
         <p class="govuk-body comment">
@@ -15,7 +15,7 @@
         <div class="recommendation">
           <p class="govuk-body">
             <strong>Recommendation challenged</strong> by <%= recommendation.reviewer.name %> <br />
-            <%= recommendation.reviewed_at %>
+            <%= accessible_time recommendation.reviewed_at %>
           </p>
 
           <p class="govuk-body comment">
