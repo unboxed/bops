@@ -43,7 +43,7 @@ RSpec.describe "Planning Application show page", type: :system do
 
     it "makes valid task list for when it in assessment and a proposal has been created" do
       planning_application = create(:planning_application, local_authority: @default_local_authority)
-      create(:recommendation, planning_application: planning_application)
+      create(:recommendation, planning_application: planning_application, submitted: true)
       visit planning_application_path(planning_application)
 
       within "#assess-section" do
@@ -117,7 +117,7 @@ RSpec.describe "Planning Application show page", type: :system do
       planning_application = create(:planning_application, :awaiting_correction,
                                     local_authority: @default_local_authority)
       create(:recommendation, :reviewed, planning_application: planning_application)
-      create(:recommendation, planning_application: planning_application)
+      create(:recommendation, planning_application: planning_application, submitted: true)
       visit planning_application_path(planning_application)
 
       within "#validation-section" do

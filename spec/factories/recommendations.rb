@@ -7,9 +7,11 @@ FactoryBot.define do
     assessor_comment { "Assessor Comment" }
     reviewer_comment { nil }
     reviewed_at { nil }
+    submitted { nil }
   end
 
   trait :reviewed do
+    submitted { true }
     reviewer { association :user, :reviewer }
     reviewer_comment { "Reviewer Comment" }
     reviewed_at { Time.zone.now }

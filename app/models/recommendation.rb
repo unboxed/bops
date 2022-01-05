@@ -21,7 +21,7 @@ class Recommendation < ApplicationRecord
     if current_recommendation? && planning_application.awaiting_determination?
       false
     else
-      reviewer_comment.present?
+      reviewer.present?
     end
   end
 
