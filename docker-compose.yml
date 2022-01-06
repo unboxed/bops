@@ -33,6 +33,7 @@ services:
         target: /app
   applicants:
     build: ./bops-applicants
+    command: bash -c "bundle install && bundle exec rails s -p 3001 -b 0.0.0.0"
     environment:
       API_BEARER: 123
       API_HOST: southwark.localhost:3000
