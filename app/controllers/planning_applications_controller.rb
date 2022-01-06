@@ -42,6 +42,10 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def update
+    if @planning_application.recommendations.last.present? && !@planning_application.recommendations.last.submitted
+      flash.now[:error] = "Please complete in draft assessment before updating application fields."
+    end
+
     if @planning_application.update(planning_application_params)
       planning_application_params.keys.map do |p|
         if @planning_application.saved_change_to_attribute?(p)
