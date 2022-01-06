@@ -57,6 +57,22 @@ RSpec.describe "Planning Application show page", type: :system do
       expect(page).to have_text("Description: Roof extension")
       expect(page).to have_text("PAY123")
       expect(page).to have_text("£103.00")
+
+      within("#ward") do
+        expect(page).to have_text("Ward:")
+        expect(page).to have_text("South Bermondsey")
+        expect(page).to have_link(
+          "View on mapit", href: "https://mapit.mysociety.org/postcode/SE156UT.html"
+        )
+      end
+
+      within("#ward-type") do
+        expect(page).to have_text("Ward type:")
+        expect(page).to have_text("London borough ward")
+        expect(page).to have_link(
+          "View on mapit", href: "https://mapit.mysociety.org/postcode/SE156UT.html"
+        )
+      end
     end
 
     it "Constraints accordion" do
@@ -189,6 +205,27 @@ RSpec.describe "Planning Application show page", type: :system do
 
       expect(page).to have_text("No result")
       expect(page).to have_text("#{api_user.name} did not provide a result for this application")
+    end
+  end
+
+  context "when no postcode has been set" do
+    let!(:planning_application) { create(:planning_application, local_authority: @default_local_authority, postcode: "") }
+
+    before do
+      sign_in assessor
+      visit planning_application_path(planning_application)
+    end
+
+    it "displays no ward information in the application information section" do
+      click_button "Application information"
+
+      within("#ward") do
+        expect(page).to have_text("A postcode is required for ward information")
+      end
+
+      within("#ward-type") do
+        expect(page).to have_text("A postcode is required for ward information")
+      end
     end
   end
 end

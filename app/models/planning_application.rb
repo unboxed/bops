@@ -28,6 +28,8 @@ class PlanningApplication < ApplicationRecord
 
   before_create :set_key_dates
   before_create :set_change_access_id
+
+  after_create :set_ward_information
   before_update :set_key_dates
 
   WORK_STATUSES = %w[proposed existing].freeze
@@ -424,6 +426,16 @@ class PlanningApplication < ApplicationRecord
 
   def set_change_access_id
     self.change_access_id = SecureRandom.hex(15)
+  end
+
+  def set_ward_information
+    return if postcode.blank?
+
+    ward_type, ward = Apis::Mapit::Query.new.fetch(postcode)
+
+    self.ward_type = ward_type
+    self.ward = ward
+    save!
   end
 
   def documents_validated_at_date

@@ -1,0 +1,28 @@
+{
+  "wgs84_lat": 51.45392903566775,
+  "shortcuts": {
+    "WMC": 65808,
+    "ward": 151821,
+    "council": 2491
+  },
+  "wgs84_lon": -0.07010828918056362,
+  "postcode": "SE22 0HW",
+  "areas": {
+    "151821": {
+      "parent_area": 2491,
+      "generation_high": 44,
+      "all_names": {},
+      "id": 151821,
+      "codes": {
+        "gss": "E05011099",
+        "unit_id": "44809"
+      },
+      "name": "Dulwich Hill",
+      "country": "E",
+      "type_name": "London borough ward",
+      "generation_low": 33,
+      "country_name": "England",
+      "type": "LBW"
+    }
+  }
+}

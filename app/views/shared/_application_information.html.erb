@@ -43,6 +43,28 @@
             <td class="govuk-table__cell"><strong>Location:</strong></td>
             <td class="govuk-table__cell"><%= link_to 'View site on Google Maps', map_link(@planning_application.full_address), target: '_blank', class: "govuk-link" %></td>
           </tr>
+          <tr class="govuk-table__row" id="ward">
+            <td class="govuk-table__cell"><strong>Ward:</strong></td>
+            <td class="govuk-table__cell">
+            <% if @planning_application.postcode.present? %>
+              <p class="govuk-body"><%= @planning_application.ward %></p>
+              <%= link_to "View on mapit", mapit_link(@planning_application.postcode), target: '_blank', class: "govuk-link" %>
+            <% else %>
+              <p class="govuk-body">A postcode is required for ward information</p>
+            <% end %>
+            </td>
+          </tr>
+          <tr class="govuk-table__row" id="ward-type">
+            <td class="govuk-table__cell"><strong>Ward type:</strong></td>
+            <td class="govuk-table__cell">
+            <% if @planning_application.postcode.present? %>
+              <p class="govuk-body"><%= @planning_application.ward_type %></p>
+              <%= link_to "View on mapit", mapit_link(@planning_application.postcode), target: '_blank', class: "govuk-link" %>
+            <% else %>
+              <p class="govuk-body">A postcode is required for ward information</p>
+            <% end %>
+            </td>
+          </tr>
           <tr class="govuk-table__row">
             <td class="govuk-table__cell"><strong>UPRN:</strong></td>
             <td class="govuk-table__cell"><%= @planning_application.uprn %></td>
