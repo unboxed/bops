@@ -44,7 +44,7 @@ class PlanningApplication < ApplicationRecord
   validate :policy_classes_editable
 
   scope :not_started_and_invalid, -> { where("status = 'not_started' OR status = 'invalidated'") }
-  scope :under_assessment, -> { where("status = 'in_assessment' OR status = 'awaiting_correction'") }
+  scope :under_assessment, -> { where("status = 'in_assessment' OR status = 'assessment_in_progress' OR status = 'awaiting_correction'") }
   scope :closed, -> { where("status = 'determined' OR status = 'withdrawn' OR status = 'returned'") }
 
   attribute :policy_classes, :policy_class, array: true
