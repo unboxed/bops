@@ -37,8 +37,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
       choose "No"
       fill_in "State the reasons why this application is, or is not lawful.", with: "This is a new public comment"
       fill_in "Please provide supporting information for your manager.", with: "Edited private assessor comment"
-      click_button "Save and mark as complete"
+      click_button "Update assessment"
       planning_application.reload
+
       expect(planning_application.recommendations.count).to eq(1)
       expect(planning_application.recommendations.first.assessor_comment).to eq("Edited private assessor comment")
       expect(planning_application.decision).to eq("refused")
@@ -92,7 +93,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       fill_in "State the reasons why this application is, or is not lawful.",
               with: "This is so granted and GDPO everything"
       fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
-      click_button "Save and mark as complete"
+      click_button "Update assessment"
 
       planning_application.reload
       expect(planning_application.recommendations.count).to eq(2)
