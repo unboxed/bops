@@ -165,3 +165,14 @@ Then("the assess proposal accordion displays a {string} tag") do |tag|
     expect(page).to have_content tag
   end
 end
+
+Given "a draft assessment on the planning application" do
+  steps %(
+    Given the planning application is validated
+    And I view the planning application
+    And I press "Assess proposal"
+    When I fill in "State the reasons why this application is, or is not lawful." with "Lawful as can be"
+    And I fill in "Please provide supporting information for your manager." with "I'm hoping you feel supported"
+    And I press "Save and come back later"
+  )
+end

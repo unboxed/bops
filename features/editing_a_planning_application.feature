@@ -54,3 +54,10 @@ Feature: Editing an application's details
     Given I fill in "Payment reference" with "293844848"
     When I press "Save"
     Then the page contains "293844848"
+
+  Scenario: I cannot edit a planning application if it has an assessment in progress
+    Given a draft assessment on the planning application
+    When I edit the planning application's details
+    And I fill in "Address 2" with "Happy Buns"
+    And I press "Save"
+    Then the page contains "Please complete in draft assessment before updating application fields."
