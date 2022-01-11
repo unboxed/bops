@@ -35,4 +35,5 @@ WORKDIR /app
 
 COPY . .
 
-CMD ["bundle", "exec", "rails", "s", "-b", "0.0.0.0"]
+# Sets an interactive shell as default command when the container starts
+CMD ["/bin/sh"]

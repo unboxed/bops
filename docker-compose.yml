@@ -13,7 +13,10 @@ services:
       - "5433:5432"
   web:
     build: .
+    entrypoint: ./docker-entrypoint.sh
+    command: bash -c "bundle exec rails s -b 0.0.0.0"
     stdin_open: true
+    tty: true
     environment:
       DATABASE_URL: postgres://postgres:postgres@db:5432
       APPLICANTS_APP_HOST: southwark.localhost:3001
@@ -33,7 +36,10 @@ services:
         target: /app
   applicants:
     build: ./bops-applicants
-    command: bash -c "bundle install && bundle exec rails s -p 3001 -b 0.0.0.0"
+    entrypoint: ./docker-entrypoint.sh
+    stdin_open: true
+    tty: true
+    command: bash -c "bundle exec rails s -p 3001 -b 0.0.0.0"
     environment:
       API_BEARER: 123
       API_HOST: southwark.localhost:3000
