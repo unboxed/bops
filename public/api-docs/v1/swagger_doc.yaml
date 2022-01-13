@@ -38,6 +38,8 @@ paths:
                       town: nil
                       county: London
                       postcode: SE16 3RQ
+                      latitude: '51.4842536'
+                      longitude: '-0.0764165'
                       uprn: '100081043511'
                     status: not_started
                     application_type: lawfulness_certificate
@@ -146,6 +148,12 @@ paths:
                     postcode:
                       type: string
                       example: SE16 3RQ
+                    latitude:
+                      type: string
+                      example: '51.4842536'
+                    longitude:
+                      type: string
+                      example: '-0.0764165'
                 description:
                   type: string
                   example: Add chimnney stack
@@ -285,6 +293,8 @@ paths:
                     address_2: Southwark
                     town: London
                     postcode: SE16 3RQ
+                    latitude: '51.4842536'
+                    longitude: '-0.0764165'
                   applicant_email: applicant@example.com
               Full:
                 value:
@@ -295,6 +305,8 @@ paths:
                     address_2: Southwark
                     town: London
                     postcode: SE16 3RQ
+                    latitude: '51.4842536'
+                    longitude: '-0.0764165'
                   description: Add a chimney stack
                   payment_reference: PAY1
                   payment_amount: 10300

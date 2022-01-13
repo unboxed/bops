@@ -26,6 +26,8 @@ FactoryBot.define do
     town { Faker::Address.city }
     county { Faker::Address.state }
     postcode { Faker::Address.postcode }
+    latitude { Faker::Address.latitude }
+    longitude { Faker::Address.longitude }
     constraints { ["Conservation Area", "Listed Building"] }
     result_flag { "Planning permission / Permission needed" }
     result_heading { Faker::Lorem.unique.sentence }

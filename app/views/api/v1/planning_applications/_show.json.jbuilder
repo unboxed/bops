@@ -41,6 +41,8 @@ json.site do
   json.town planning_application.town
   json.postcode planning_application.postcode
   json.uprn planning_application.uprn
+  json.latitude planning_application.latitude
+  json.longitude planning_application.longitude
 end
 json.received_date planning_application.created_at
 json.decision planning_application.decision if planning_application.determined?

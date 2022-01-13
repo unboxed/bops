@@ -20,6 +20,11 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
       expect(page).to have_content("No digital sitemap provided")
       click_link "Draw digital sitemap"
 
+      # When no boundary set, map should be displayed zoomed in at latitiude/longitude if fields present
+      map_selector = find("my-map")
+      expect(map_selector["latitude"]).to eq(planning_application.latitude)
+      expect(map_selector["longitude"]).to eq(planning_application.longitude)
+
       # JS to emulate a polygon drawn on the map
       execute_script 'document.getElementById("planning_application_boundary_geojson").setAttribute("value", \'{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.054597,51.537331],[-0.054588,51.537287],[-0.054453,51.537313],[-0.054597,51.537331]]]}}\')'
       click_button "Save"
