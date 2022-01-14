@@ -1,0 +1,28 @@
+{
+  "wgs84_lat": 51.49215328714048,
+  "shortcuts": {
+    "WMC": 65689,
+    "ward": 151831,
+    "council": 2491
+  },
+  "wgs84_lon": -0.06662168182039398,
+  "postcode": "SE16 3RQ",
+  "areas": {
+    "151831": {
+      "parent_area": 2491,
+      "generation_high": 44,
+      "all_names": {},
+      "id": 151831,
+      "codes": {
+        "gss": "E05011116",
+        "unit_id": "11090"
+      },
+      "name": "South Bermondsey",
+      "country": "E",
+      "type_name": "London borough ward",
+      "generation_low": 33,
+      "country_name": "England",
+      "type": "LBW"
+    }
+  }
+}

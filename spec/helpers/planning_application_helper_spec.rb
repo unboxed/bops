@@ -9,6 +9,13 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
     end
   end
 
+  describe "#mapit_link" do
+    it "returns the correct link for a postcode" do
+      expect(mapit_link("se16 3Rq")).to eq("https://mapit.mysociety.org/postcode/SE163RQ.html")
+      expect(mapit_link("s e16 3 rQ")).to eq("https://mapit.mysociety.org/postcode/SE163RQ.html")
+    end
+  end
+
   describe "#display_number" do
     it "returns the right number for an element in an array" do
       expect(display_number([25, 84, "proposal", 165, true], 165)).to eq(4)

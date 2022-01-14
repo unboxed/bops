@@ -49,3 +49,6 @@ RSpec/InstanceVariable:
 
 RSpec/MultipleMemoizedHelpers:
   Enabled: false
+
+RSpec/AnyInstance:
+  Enabled: false

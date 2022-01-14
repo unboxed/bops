@@ -29,6 +29,10 @@ module PlanningApplicationHelper
     "https://google.co.uk/maps/place/#{CGI.escape(address)}"
   end
 
+  def mapit_link(postcode)
+    "https://mapit.mysociety.org/postcode/#{postcode.gsub(/\s+/, '').upcase}.html"
+  end
+
   def display_number(proposal_details, element)
     proposal_details.find_index(element) + 1
   end

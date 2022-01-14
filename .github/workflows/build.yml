@@ -275,7 +275,7 @@ jobs:
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
           RAILS_ENV: test
-          SPEC_OPTS: "-f doc -P spec/{helpers,presenters,mailer,jobs}/**/*_spec.rb"
+          SPEC_OPTS: "-f doc -P spec/{helpers,presenters,mailer,jobs,services}/**/*_spec.rb"
         run: |
           bundle exec rake spec
 

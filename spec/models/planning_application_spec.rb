@@ -249,6 +249,32 @@ RSpec.describe PlanningApplication, type: :model do
     end
   end
 
+  describe "callbacks" do
+    describe "::after_create" do
+      context "when there is a postcode set" do
+        let(:planning_application) { create :planning_application, postcode: "SE22 0HW" }
+
+        it "calls the mapit API and sets the ward information" do
+          expect_any_instance_of(Apis::Mapit::Client).to receive(:call).with("SE22 0HW").and_call_original
+
+          expect(planning_application.ward).to eq("South Bermondsey")
+          expect(planning_application.ward_type).to eq("London borough ward")
+        end
+      end
+
+      context "when there is no postcode set" do
+        let(:planning_application) { create :planning_application, postcode: nil }
+
+        it "does not call the mapit API" do
+          expect_any_instance_of(Apis::Mapit::Client).not_to receive(:call)
+
+          expect(planning_application.ward).to eq(nil)
+          expect(planning_application.ward_type).to eq(nil)
+        end
+      end
+    end
+  end
+
   describe "#reference" do
     it "pads the ID correctly" do
       planning_application.update!(id: 1000)
