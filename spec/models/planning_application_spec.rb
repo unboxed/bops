@@ -5,16 +5,48 @@ require "rails_helper"
 RSpec.describe PlanningApplication, type: :model do
   subject(:planning_application) { create :planning_application }
 
-  describe "state transitions" do
+  describe "states" do
     let!(:proposed_document_1) do
       create :document, :with_tags,
              planning_application: planning_application,
              numbers: "number"
     end
 
-    let!(:description_change_validation_request) do
+    let(:description_change_validation_request) do
       create :description_change_validation_request, planning_application: planning_application, state: "open",
                                                      created_at: 12.days.ago
+    end
+
+    context "when not started" do
+      it_behaves_like "PlanningApplicationStateMachineEvents", "not_started", %i[return close withdraw]
+    end
+
+    context "when invalidated" do
+      it_behaves_like "PlanningApplicationStateMachineEvents", "invalidated", %i[start return close withdraw]
+    end
+
+    context "when in assessment" do
+      it_behaves_like "PlanningApplicationStateMachineEvents", "in_assessment", %i[start save_assessment return close withdraw]
+    end
+
+    context "when awaiting determination" do
+      it_behaves_like "PlanningApplicationStateMachineEvents", "awaiting_determination", %i[determine request_correction return close withdraw]
+    end
+
+    context "when determined" do
+      it_behaves_like "PlanningApplicationStateMachineEvents", "determined", %i[]
+    end
+
+    context "when returned" do
+      it_behaves_like "PlanningApplicationStateMachineEvents", "returned", %i[]
+    end
+
+    context "when withdrawn" do
+      it_behaves_like "PlanningApplicationStateMachineEvents", "withdrawn", %i[]
+    end
+
+    context "when closed" do
+      it_behaves_like "PlanningApplicationStateMachineEvents", "closed", %i[]
     end
 
     context "start the application" do

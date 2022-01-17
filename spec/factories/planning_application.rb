@@ -115,6 +115,21 @@ FactoryBot.define do
       end
     end
 
+    trait :returned do
+      status { :returned }
+      returned_at { Time.zone.now }
+    end
+
+    trait :withdrawn do
+      status { :withdrawn }
+      withdrawn_at { Time.zone.now }
+    end
+
+    trait :closed do
+      status    { :closed }
+      closed_at { Time.zone.now }
+    end
+
     trait :invalidated do
       status { :invalidated }
       invalidated_at { Time.zone.now }

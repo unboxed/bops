@@ -244,25 +244,31 @@ class PlanningApplicationsController < AuthenticationController
   def cancel
     case params[:planning_application][:status]
     when "withdrawn"
-      @planning_application.withdraw!(:withdrawn, params[:planning_application][:cancellation_comment])
+      @planning_application.withdraw!(:withdrawn, params[:planning_application][:closed_or_cancellation_comment])
 
-      audit("withdrawn", @planning_application.cancellation_comment)
+      audit("withdrawn", @planning_application.closed_or_cancellation_comment)
 
       redirect_to @planning_application, notice: "Application has been withdrawn"
     when "returned"
-      @planning_application.return!(:returned, params[:planning_application][:cancellation_comment])
+      @planning_application.return!(:returned, params[:planning_application][:closed_or_cancellation_comment])
 
-      audit("returned", @planning_application.cancellation_comment)
+      audit("returned", @planning_application.closed_or_cancellation_comment)
 
       redirect_to @planning_application, notice: "Application has been returned"
+    when "closed"
+      @planning_application.close!(:closed, params[:planning_application][:closed_or_cancellation_comment])
+
+      audit("closed", @planning_application.closed_or_cancellation_comment)
+
+      redirect_to @planning_application, notice: "Application has been closed"
     else
       @planning_application.errors.add(:status, "Please select one of the below options")
-      render :cancel_confirmation
+      render :close_or_cancel_confirmation
     end
   end
 
-  def cancel_confirmation
-    render :cancel_confirmation
+  def close_or_cancel_confirmation
+    render :close_or_cancel_confirmation
   end
 
   def decision_notice
