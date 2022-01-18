@@ -25,6 +25,8 @@ Style/Documentation:
 # be a bit kinder with our metrics
 Metrics/BlockLength:
   Max: 80
+  Exclude:
+    - spec/**/*
 
 Metrics/MethodLength:
   Max: 20

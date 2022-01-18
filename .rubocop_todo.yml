@@ -39,34 +39,6 @@ Metrics/AbcSize:
     - 'app/helpers/validation_request_helper.rb'
     - 'db/migrate/20200419000000_create_initial_schema.rb'
 
-# Offense count: 37
-# Configuration parameters: CountComments, Max, CountAsOne, ExcludedMethods, IgnoredMethods.
-# IgnoredMethods: refine
-Metrics/BlockLength:
-  Exclude:
-    - 'spec/factories/planning_application.rb'
-    - 'spec/mailer/planning_application_mailer_spec.rb'
-    - 'spec/models/planning_application_spec.rb'
-    - 'spec/requests/api/*'
-    - 'spec/system/documents/archive_spec.rb'
-    - 'spec/system/documents/display_and_publish_documents_spec.rb'
-    - 'spec/system/documents/edit_documents_spec.rb'
-    - 'spec/system/documents/upload_spec.rb'
-    - 'spec/system/planning_applications/additional_document_validation_request_spec.rb'
-    - 'spec/system/planning_applications/audit_spec.rb'
-    - 'spec/system/planning_applications/constraints_spec.rb'
-    - 'spec/system/planning_applications/create_spec.rb'
-    - 'spec/system/planning_applications/description_change_validation_request_spec.rb'
-    - 'spec/system/planning_applications/drawing_sitemap_spec.rb'
-    - 'spec/system/planning_applications/index_spec.rb'
-    - 'spec/system/planning_applications/recommending_spec.rb'
-    - 'spec/system/planning_applications/reviewing_spec.rb'
-    - 'spec/system/planning_applications/show_spec.rb'
-    - 'spec/system/planning_applications/task_list_spec.rb'
-    - 'spec/system/planning_applications/update_spec.rb'
-    - 'spec/system/planning_applications/validating_spec.rb'
-    - 'spec/models/document_spec.rb'
-
 # Offense count: 3
 # Configuration parameters: CountComments, Max, CountAsOne.
 Metrics/ClassLength:
