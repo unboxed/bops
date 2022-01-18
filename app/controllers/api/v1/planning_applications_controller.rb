@@ -35,6 +35,7 @@ module Api
             boundary_geojson: (params[:boundary_geojson].to_json if params[:boundary_geojson].present?),
             proposal_details: (params[:proposal_details].to_json if params[:proposal_details].present?),
             constraints: constraints_array_from_param(params[:constraints]),
+            planx_data: (params[:planx_debug_data].to_json if params[:planx_debug_data].present?),
             api_user: current_api_user,
             audit_log: params.to_json
           )
@@ -118,7 +119,8 @@ module Api
                             files
                             payment_reference
                             payment_amount
-                            work_status]
+                            work_status
+                            planx_debug_data]
         params.permit permitted_keys
       end
 

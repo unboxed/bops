@@ -59,7 +59,10 @@ RSpec.describe "Creating a planning application via the API", type: :request, sh
         post_with(params: permitted_development_json)
 
         expect(response.status).to eq 200
-        expect(PlanningApplication.last).to be_valid
+
+        planning_application = PlanningApplication.last
+        expect(planning_application).to be_valid
+        expect(JSON.parse(planning_application.planx_data)).to be_a(Hash)
       end
 
       it "sends the receipt email" do

@@ -150,6 +150,835 @@
     "councillor_relationship": "cousin",
     "accuracy_declared": true
   },
+  "planx_debug_data": {
+    "passport": {
+      "data": {
+        "_nots": {
+          "property.constraints.planning": [
+            "designated.nationalPark",
+            "designated.broads",
+            "designated.WHS",
+            "article4",
+            "listed",
+            "designated.conservationArea",
+            "designated.AONB",
+            "designated.monument",
+            "tpo",
+            "nature.SSSI",
+            "article4.buckinghamshire.officetoresi",
+            "article4.buckinghamshire.poultry",
+            "designated"
+          ]
+        },
+        "_address": {
+          "x": 494719.3523889026,
+          "y": 190522.32149347337,
+          "pao": "1",
+          "sao": "",
+          "town": "BEACONSFIELD",
+          "uprn": "100080481952",
+          "title": "1 AMERSHAM ROAD, BEACONSFIELD",
+          "street": "AMERSHAM ROAD",
+          "latitude": "51.6055817",
+          "postcode": "HP9 2HA",
+          "blpu_code": "RD",
+          "longitude": "-0.6336623",
+          "__typename": "addresses",
+          "organisation": "",
+          "single_line_address": "1 AMERSHAM ROAD, BEACONSFIELD, HP9 2HA"
+        },
+        "property.type": [
+          "residential.dwelling.house.semiDetached"
+        ],
+        "applicant.type": [
+          "individual"
+        ],
+        "applicant.email": "",
+        "applicant.title": "TEST",
+        "application.type": [
+          "ldc.proposed"
+        ],
+        "proposal.siteArea": 422.05,
+        "applicant.resident": [
+          "true"
+        ],
+        "application.author": [
+          "applicant"
+        ],
+        "applicant.name.last": "TEST",
+        "applicant.name.first": "TEST",
+        "proposal.description": "TEST\n",
+        "proposal.projectType": [
+          "alter.rooflight"
+        ],
+        "applicant.siteContact": [
+          "applicant"
+        ],
+        "number.rooflights.add": 1,
+        "property.boundary.site": {
+          "type": "Feature",
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -0.6342745605373094,
+                  51.605623889823136
+                ],
+                [
+                  -0.6341790510425964,
+                  51.60574761074395
+                ],
+                [
+                  -0.6339162294291637,
+                  51.60566285132967
+                ],
+                [
+                  -0.634159342274219,
+                  51.605442991890385
+                ],
+                [
+                  -0.6342745605373094,
+                  51.605623889823136
+                ]
+              ]
+            ]
+          },
+          "properties": null
+        },
+        "property.history.built": [
+          "before2020"
+        ],
+        "applicant.phone.primary": "0891505050",
+        "application.fee.payable": 103,
+        "property.materials.roof": [
+          "concrete.tiles"
+        ],
+        "application.resubmission": [
+          "false"
+        ],
+        "property.drawing.roofPlan": [
+          {
+            "url": "",
+            "filename": "doc_6.pdf"
+          }
+        ],
+        "proposal.drawing.roofPlan": [
+          {
+            "url": "",
+            "filename": "doc_7.pdf"
+          }
+        ],
+        "application.fee.calculated": 103,
+        "property.drawing.elevation": [
+          {
+            "url": "",
+            "filename": "doc_3.pdf"
+          }
+        ],
+        "property.drawing.floorPlan": [
+          {
+            "url": "",
+            "filename": "doc_1.pdf"
+          }
+        ],
+        "property.history.changeUse": [
+          "false"
+        ],
+        "proposal.drawing.elevation": [
+          {
+            "url": "",
+            "filename": "doc_4.pdf"
+          }
+        ],
+        "proposal.drawing.floorPlan": [
+          {
+            "url": "",
+            "filename": "doc_2.pdf"
+          }
+        ],
+        "proposal.materials.rooflights": [
+          "plastic.grey"
+        ],
+        "applicant.ownership.certificate": [
+          "a"
+        ],
+        "application.fee.reduction.sports": [
+          "false"
+        ],
+        "application.fee.reference.govPay": {
+          "moto": false,
+          "state": {
+            "status": "created",
+            "finished": false
+          },
+          "_links": {
+            "self": {
+              "href": "",
+              "method": "GET"
+            },
+            "cancel": {
+              "href": "/cancel",
+              "method": "POST"
+            },
+            "events": {
+              "href": "/events",
+              "method": "GET"
+            },
+            "refunds": {
+              "href": "/refunds",
+              "method": "GET"
+            },
+            "next_url": {
+              "href": "",
+              "method": "GET"
+            },
+            "next_url_post": {
+              "href": "",
+              "type": "application/x-www-form-urlencoded",
+              "method": "POST",
+              "params": {
+                "chargeTokenId": ""
+              }
+            }
+          },
+          "amount": 103,
+          "language": "en",
+          "reference": "",
+          "payment_id": "",
+          "return_url": "",
+          "description": "New application",
+          "created_date": "2021-11-01T18:03:33.644Z",
+          "refund_summary": {
+            "status": "pending",
+            "amount_available": 10300,
+            "amount_submitted": 0
+          },
+          "delayed_capture": false,
+          "payment_provider": "sandbox",
+          "settlement_summary": {}
+        },
+        "application.fee.exemption.disability": [
+          "false"
+        ],
+        "application.fee.reduction.alternative": [
+          "false"
+        ],
+        "application.fee.exemption.resubmission": [
+          "false"
+        ],
+        "application.fee.reduction.parishCouncil": [
+          "false"
+        ]
+      }
+    },
+    "session_id": "",
+    "breadcrumbs": {
+      "0LeweTcJSG": {
+        "auto": false,
+        "data": {
+          "property.drawing.floorPlan": [
+            {
+              "url": "",
+              "filename": "doc_1.pdf"
+            }
+          ]
+        }
+      },
+      "0Ssv1Buc4B": {
+        "auto": true,
+        "answers": [
+          "v2b6eBucAa"
+        ]
+      },
+      "1musHhDgqP": {
+        "auto": false,
+        "data": {
+          "applicant.name.first": "TEST"
+        }
+      },
+      "2fPL5miNqx": {
+        "auto": true,
+        "answers": [
+          "ywnW81Ru65"
+        ]
+      },
+      "3ItxJXs4Xv": {
+        "auto": false,
+        "data": {
+          "applicant.title": "TEST"
+        }
+      },
+      "49oiq0CewH": {
+        "auto": false,
+        "answers": [
+          "NIJ0rnfl5H"
+        ]
+      },
+      "5BvOSdcGqe": {
+        "auto": false,
+        "answers": [
+          "phNHyuVqvs"
+        ]
+      },
+      "5lCb5LcDSR": {
+        "auto": false,
+        "answers": [
+          "wmSJvWpgqj"
+        ]
+      },
+      "5zuTzBucBS": {
+        "auto": false,
+        "answers": [
+          "AV3sVBuclf"
+        ]
+      },
+      "83n77dtTWe": {
+        "auto": false,
+        "data": {
+          "proposal.drawing.floorPlan": [
+            {
+              "url": "",
+              "filename": "doc_2.pdf"
+            }
+          ]
+        }
+      },
+      "8Wz7TKJbeD": {
+        "auto": false,
+        "answers": [
+          "8qqEbCGj97"
+        ]
+      },
+      "8XMxtVMin2": {
+        "auto": true,
+        "answers": [
+          "TTPxO66mEi"
+        ]
+      },
+      "AXaUGBucW3": {
+        "auto": false,
+        "answers": [
+          "QRbcuBuczJ"
+        ]
+      },
+      "B3QUuAVXW4": {
+        "auto": false,
+        "answers": [
+          "g3GoOjJgaN"
+        ]
+      },
+      "BnAgyyY3hX": {
+        "auto": false,
+        "answers": [
+          "7ebH217ewZ"
+        ]
+      },
+      "CtyInx9nSU": {
+        "auto": false,
+        "answers": [
+          "1ikPyMZOwV"
+        ]
+      },
+      "E63e1zXlP8": {
+        "auto": false,
+        "answers": [
+          "Ldu681Wb3o"
+        ]
+      },
+      "EIDyKgngGl": {
+        "auto": true,
+        "answers": [
+          "aJewV4Mnjs"
+        ]
+      },
+      "Ft7nQ96FWN": {
+        "auto": true,
+        "answers": [
+          "HpbTYicfdV"
+        ]
+      },
+      "Fz5kBdQM5H": {
+        "auto": false,
+        "data": {
+          "applicant.email": ""
+        }
+      },
+      "G24OiZ6efK": {
+        "auto": false,
+        "answers": [
+          "ApWXpo366q"
+        ]
+      },
+      "GzQpqBucyb": {
+        "auto": false,
+        "data": {
+          "_nots": {
+            "property.constraints.planning": [
+              "designated.nationalPark",
+              "designated.broads",
+              "designated.WHS",
+              "article4",
+              "listed",
+              "designated.conservationArea",
+              "designated.AONB",
+              "designated.monument",
+              "tpo",
+              "nature.SSSI",
+              "article4.buckinghamshire.officetoresi",
+              "article4.buckinghamshire.poultry",
+              "designated"
+            ]
+          },
+          "_address": {
+            "x": 494719.3523889026,
+            "y": 190522.32149347337,
+            "pao": "1",
+            "sao": "",
+            "town": "BEACONSFIELD",
+            "uprn": "100080481952",
+            "title": "1 AMERSHAM ROAD, BEACONSFIELD",
+            "street": "AMERSHAM ROAD",
+            "latitude": "51.6055817",
+            "postcode": "HP9 2HA",
+            "blpu_code": "RD",
+            "longitude": "-0.6336623",
+            "__typename": "addresses",
+            "organisation": "",
+            "single_line_address": "1 AMERSHAM ROAD, BEACONSFIELD, HP9 2HA"
+          }
+        }
+      },
+      "H149aYxMJs": {
+        "auto": true,
+        "data": {
+          "application.fee.reduction.alternative": [
+            "false"
+          ]
+        }
+      },
+      "HF5gig0UwR": {
+        "auto": false,
+        "answers": [
+          "z83hY4SFT7"
+        ]
+      },
+      "IvhIQ5MqTU": {
+        "auto": false,
+        "answers": [
+          "RZBWTrxcPK"
+        ]
+      },
+      "L6RlHOAmz3": {
+        "auto": false,
+        "answers": [
+          "JpD8CZ5aCu"
+        ]
+      },
+      "LfInrn7aDg": {
+        "auto": false,
+        "data": {
+          "applicant.name.last": "TEST"
+        }
+      },
+      "LpcyuL0xVA": {
+        "auto": false
+      },
+      "Mgew2WYO0s": {
+        "auto": false,
+        "answers": [
+          "wUpOQySV53"
+        ]
+      },
+      "NpxV0KPCFD": {
+        "auto": true,
+        "answers": [
+          "kgaFUFF9ER"
+        ]
+      },
+      "OjcuaKCgpa": {
+        "auto": true,
+        "answers": [
+          "AeLGP7vY6f"
+        ]
+      },
+      "QAZWTVrm3T": {
+        "auto": true,
+        "data": {
+          "application.fee.reduction.parishCouncil": [
+            "false"
+          ]
+        }
+      },
+      "R72aEBuc3F": {
+        "auto": false,
+        "data": {
+          "application.fee.reference.govPay": {
+            "moto": false,
+            "state": {
+              "status": "created",
+              "finished": false
+            },
+            "_links": {
+              "self": {
+                "href": "",
+                "method": "GET"
+              },
+              "cancel": {
+                "href": "/cancel",
+                "method": "POST"
+              },
+              "events": {
+                "href": "/events",
+                "method": "GET"
+              },
+              "refunds": {
+                "href": "/refunds",
+                "method": "GET"
+              },
+              "next_url": {
+                "href": "",
+                "method": "GET"
+              },
+              "next_url_post": {
+                "href": "",
+                "type": "application/x-www-form-urlencoded",
+                "method": "POST",
+                "params": {
+                  "chargeTokenId": ""
+                }
+              }
+            },
+            "amount": 103,
+            "language": "en",
+            "reference": "",
+            "payment_id": "",
+            "return_url": "",
+            "description": "New application",
+            "created_date": "2021-11-01T18:03:33.644Z",
+            "refund_summary": {
+              "status": "pending",
+              "amount_available": 10300,
+              "amount_submitted": 0
+            },
+            "delayed_capture": false,
+            "payment_provider": "sandbox",
+            "settlement_summary": {}
+          }
+        }
+      },
+      "RQsUof5f4e": {
+        "auto": true,
+        "answers": [
+          "iMgDYwC1fA"
+        ]
+      },
+      "SY2RlcC2mT": {
+        "auto": true,
+        "answers": [
+          "2CXdq0J4pE"
+        ]
+      },
+      "SoLrKSKj7H": {
+        "auto": true,
+        "answers": [
+          "QUedStxP6e"
+        ]
+      },
+      "V8DjNFWrvM": {
+        "auto": false,
+        "answers": [
+          "vC48winwrW"
+        ]
+      },
+      "VjKjvBucUI": {
+        "auto": false,
+        "data": {
+          "proposal.description": "TEST\n"
+        }
+      },
+      "W8i3IBucmu": {
+        "auto": true,
+        "answers": [
+          "UpM0bBucnW"
+        ]
+      },
+      "WTjpjXyWUj": {
+        "auto": false,
+        "data": {
+          "applicant.phone.primary": "0891505050"
+        }
+      },
+      "XICClWixMm": {
+        "auto": false,
+        "answers": [
+          "5d08GGC5dB"
+        ]
+      },
+      "YQww2SiG5I": {
+        "auto": false,
+        "answers": [
+          "PThsPFkBP9"
+        ]
+      },
+      "ZSw4cvGSqq": {
+        "auto": false,
+        "data": {
+          "property.drawing.roofPlan": [
+            {
+              "url": "",
+              "filename": "doc_6.pdf"
+            }
+          ]
+        }
+      },
+      "ZVPE5MjeNd": {
+        "auto": true,
+        "answers": [
+          "FJCgycNn2P"
+        ]
+      },
+      "aNCrtwuqLB": {
+        "auto": false,
+        "answers": [
+          "ADsUBodsd7"
+        ]
+      },
+      "aabVvTGBLp": {
+        "auto": false,
+        "answers": [
+          "xjlu8OxhHR"
+        ]
+      },
+      "anEZAlu1jw": {
+        "auto": false,
+        "answers": [
+          "bAijhVBVdu"
+        ]
+      },
+      "dknMGLlZaS": {
+        "auto": true,
+        "answers": [
+          "oaEgqmt3Mj"
+        ]
+      },
+      "eiN5C9wgDe": {
+        "auto": false,
+        "answers": [
+          "4G8adrKwPt"
+        ]
+      },
+      "erMj9LH16l": {
+        "auto": true,
+        "data": {
+          "application.fee.calculated": 103
+        }
+      },
+      "fLVlIcYbXD": {
+        "auto": false,
+        "answers": [
+          "06bA9iXPTC"
+        ]
+      },
+      "fcVT5BucS9": {
+        "auto": true,
+        "answers": [
+          "lUduBBucPp"
+        ]
+      },
+      "g01FztvfL0": {
+        "auto": true,
+        "data": {
+          "application.fee.reduction.sports": [
+            "false"
+          ]
+        }
+      },
+      "hwylHZOZXA": {
+        "auto": true,
+        "answers": [
+          "o8F4ZxPUdg"
+        ]
+      },
+      "ifKSiqpfjA": {
+        "auto": true,
+        "data": {
+          "application.fee.exemption.resubmission": [
+            "false"
+          ]
+        }
+      },
+      "jhW9joqZF3": {
+        "auto": true,
+        "answers": [
+          "jqor9SqKdC"
+        ]
+      },
+      "jkGS7LGAID": {
+        "auto": true,
+        "answers": [
+          "pDbALmkBdg"
+        ]
+      },
+      "k6Q5dvmXD1": {
+        "auto": false,
+        "data": {
+          "proposal.drawing.elevation": [
+            {
+              "url": "",
+              "filename": "doc_4.pdf"
+            }
+          ]
+        }
+      },
+      "kH8LltzXsC": {
+        "auto": true,
+        "answers": [
+          "bKvEooIOQF"
+        ]
+      },
+      "kRQvPOo2rZ": {
+        "auto": false,
+        "answers": [
+          "CV2UXdNJbf"
+        ]
+      },
+      "lCfRyXcbqm": {
+        "auto": false,
+        "answers": [
+          "GCh1PmH3vR"
+        ]
+      },
+      "lHUpBVGnkX": {
+        "auto": false,
+        "answers": [
+          "XIFZgXiLwn"
+        ]
+      },
+      "mpDYAZBWJO": {
+        "auto": true,
+        "answers": [
+          "R34ldvRJHr"
+        ]
+      },
+      "oQTsebNRMf": {
+        "auto": false,
+        "data": {
+          "number.rooflights.add": 1
+        }
+      },
+      "pbMm4dzL2R": {
+        "auto": true,
+        "answers": [
+          "kgClnJjvGJ"
+        ]
+      },
+      "sea3PGmxCZ": {
+        "auto": false,
+        "answers": [
+          "VrrESbMyxA"
+        ]
+      },
+      "uCpFOkZnVA": {
+        "auto": true,
+        "data": {
+          "application.fee.payable": 103
+        }
+      },
+      "uEWi5CUULe": {
+        "auto": true,
+        "answers": [
+          "PbjNPpOIfT"
+        ]
+      },
+      "uYcSdRePXT": {
+        "auto": false,
+        "data": {
+          "proposal.drawing.roofPlan": [
+            {
+              "url": "",
+              "filename": "doc_7.pdf"
+            }
+          ]
+        }
+      },
+      "w4g0E2b5BK": {
+        "auto": true,
+        "answers": [
+          "4ebNLhJlr0"
+        ]
+      },
+      "wCqwaiL60E": {
+        "auto": true,
+        "answers": [
+          "iavOhUUgRh"
+        ]
+      },
+      "wMA7jBucyt": {
+        "auto": false,
+        "data": {
+          "proposal.siteArea": 422.05,
+          "property.boundary.site": {
+            "type": "Feature",
+            "geometry": {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [
+                    -0.6342745605373094,
+                    51.605623889823136
+                  ],
+                  [
+                    -0.6341790510425964,
+                    51.60574761074395
+                  ],
+                  [
+                    -0.6339162294291637,
+                    51.60566285132967
+                  ],
+                  [
+                    -0.634159342274219,
+                    51.605442991890385
+                  ],
+                  [
+                    -0.6342745605373094,
+                    51.605623889823136
+                  ]
+                ]
+              ]
+            },
+            "properties": null
+          }
+        }
+      },
+      "wPBtMBucx8": {
+        "auto": false
+      },
+      "yeaI6BucZf": {
+        "auto": false,
+        "answers": [
+          "tpjpyBucL7"
+        ]
+      },
+      "zhHilBuczB": {
+        "auto": true,
+        "answers": [
+          "rRUNRBucNP"
+        ]
+      },
+      "zrzylofeuv": {
+        "auto": false,
+        "data": {
+          "property.drawing.elevation": [
+            {
+              "url": "",
+              "filename": "doc_3.pdf"
+            }
+          ]
+        }
+      }
+    }
+  },
   "proposal_details": [
     {
       "question": "What are you planning to do?",
@@ -182,7 +1011,7 @@
         "policy_refs": [
           {
             "text": "GPDO 32.2342.223",
-            "url": "http://example.com/gpdo.pdf"
+            "url": ""
           }
         ]
       },
