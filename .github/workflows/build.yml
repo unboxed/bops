@@ -27,10 +27,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Ruby 2.6.6
+      - name: Setup Ruby 2.7.5
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6.6
+          ruby-version: 2.7.5
           bundler-cache: true
 
       - name: Setup
@@ -63,10 +63,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Ruby 2.6.6
+      - name: Setup Ruby 2.7.5
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6.6
+          ruby-version: 2.7.5
           bundler-cache: true
 
       - name: Setup
@@ -98,10 +98,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Ruby 2.6.6
+      - name: Setup Ruby 2.7.5
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6.6
+          ruby-version: 2.7.5
           bundler-cache: true
 
       - name: Setup
@@ -133,10 +133,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Ruby 2.6.6
+      - name: Setup Ruby 2.7.5
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6.6
+          ruby-version: 2.7.5
           bundler-cache: true
 
       - name: Setup
@@ -173,10 +173,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Ruby 2.6.6
+      - name: Setup Ruby 2.7.5
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6.6
+          ruby-version: 2.7.5
           bundler-cache: true
 
       - name: Setup
@@ -213,10 +213,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Ruby 2.6.6
+      - name: Setup Ruby 2.7.5
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6.6
+          ruby-version: 2.7.5
           bundler-cache: true
 
       - name: Install Node
@@ -262,10 +262,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Ruby 2.6.6
+      - name: Setup Ruby 2.7.5
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6.6
+          ruby-version: 2.7.5
           bundler-cache: true
 
       - name: Setup
@@ -302,10 +302,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Ruby 2.6.6
+      - name: Setup Ruby 2.7.5
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6.6
+          ruby-version: 2.7.5
           bundler-cache: true
 
       - name: Install Node
@@ -356,10 +356,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Ruby 2.6.6
+      - name: Setup Ruby 2.7.5
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6.6
+          ruby-version: 2.7.5
           bundler-cache: true
 
       - name: Install Node
