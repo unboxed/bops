@@ -5,6 +5,10 @@
   useScaleBarStyle
   <% if locals[:geojson].present? %>
     geojsonData='<%= locals[:geojson].is_a?(Hash) ? locals[:geojson].to_json : JSON.parse(locals[:geojson]).to_json.html_safe %>'
+  <% elsif @planning_application.latitude && @planning_application.longitude %>
+    zoom="19"
+    latitude='<%= @planning_application.latitude %>'
+    longitude='<%= @planning_application.longitude %>'
   <% end %>
   <% if locals[:geojson_field].present?  %>
     drawMode="true"

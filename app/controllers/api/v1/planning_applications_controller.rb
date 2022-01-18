@@ -138,7 +138,9 @@ module Api
             address_1: params[:site][:address_1],
             address_2: params[:site][:address_2],
             town: params[:site][:town],
-            postcode: params[:site][:postcode] }
+            postcode: params[:site][:postcode],
+            latitude: params[:site][:latitude],
+            longitude: params[:site][:longitude] }
         end
       end
 
