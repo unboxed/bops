@@ -5,6 +5,13 @@
 
     <p class="govuk-body"><%= @planning_application.status_tag %></p>
 
+    <% if @planning_application.closed? %>
+      <p class="govuk-body">
+        <strong>Reason for being closed:</strong>
+        <%= @planning_application.closed_or_cancellation_comment %>
+      </p>
+    <% end %>
+
     <p class="govuk-body">
       <%= @planning_application.type_and_work_status %>: <%= @planning_application.description %>
     </p>

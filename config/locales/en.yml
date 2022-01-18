@@ -35,6 +35,8 @@ en:
 
   helpers:
     label:
+      planning_application:
+        closed_or_cancellation_comment: "Provide a reason"
       additional_document_validation_request: &cancel_reason
         cancel_reason: "Explain to the applicant why this request is being cancelled"
       description_change_validation_request: *cancel_reason

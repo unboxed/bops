@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_12_155627) do
+ActiveRecord::Schema.define(version: 2022_01_17_172354) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -205,7 +205,7 @@ ActiveRecord::Schema.define(version: 2022_01_12_155627) do
     t.datetime "withdrawn_at"
     t.datetime "returned_at"
     t.string "payment_reference"
-    t.text "cancellation_comment"
+    t.text "closed_or_cancellation_comment"
     t.date "documents_validated_at"
     t.string "work_status", default: "proposed"
     t.string "decision"
@@ -233,6 +233,7 @@ ActiveRecord::Schema.define(version: 2022_01_12_155627) do
     t.string "ward_type"
     t.string "latitude"
     t.string "longitude"
+    t.datetime "closed_at"
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
     t.index ["boundary_created_by_id"], name: "ix_planning_applications_on_boundary_created_by_id"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"

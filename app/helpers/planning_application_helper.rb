@@ -43,9 +43,9 @@ module PlanningApplicationHelper
                                         'unresolved validation request')} and #{pluralize(
                                           validation_requests.count(&:closed?), 'resolved validation request'
                                         )}"
-    elsif planning_application.validation_requests.none? && (planning_application.recommendable? || planning_application.closed?)
+    elsif planning_application.validation_requests.none? && (planning_application.recommendable? || planning_application.closed_or_cancelled?)
       "This application had no validation requests"
-    elsif planning_application.recommendable? || (planning_application.closed? && planning_application.validation_requests.present?)
+    elsif planning_application.recommendable? || (planning_application.closed_or_cancelled? && planning_application.validation_requests.present?)
       "This application has #{pluralize(validation_requests.count(&:closed?), 'resolved validation request')}"
     else
       # FIXME: same body as first branch

@@ -33,7 +33,7 @@ Rails.application.routes.draw do
       patch :cancel
       get :edit_constraints_form
       patch :edit_constraints
-      get :cancel_confirmation
+      get :close_or_cancel_confirmation
       get :decision_notice
       get :draw_sitemap
       patch :update_sitemap

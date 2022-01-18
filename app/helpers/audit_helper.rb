@@ -42,6 +42,8 @@ module AuditHelper
       "Application validated"
     when "withdrawn"
       "Application withdrawn"
+    when "closed"
+      "Application closed"
     when "auto_closed"
       "Request was auto-closed and approved after being open for 5 business days."
     when "description_change_validation_request_sent"

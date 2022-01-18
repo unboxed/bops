@@ -33,6 +33,7 @@ class PlanningApplication < ApplicationRecord
   before_update :set_key_dates
 
   WORK_STATUSES = %w[proposed existing].freeze
+  IN_PROGRESS_STATUSES = %i[not_started in_assessment invalidated awaiting_determination awaiting_correction].freeze
 
   validates :work_status,
             inclusion: { in: WORK_STATUSES,
@@ -47,7 +48,7 @@ class PlanningApplication < ApplicationRecord
 
   scope :not_started_and_invalid, -> { where("status = 'not_started' OR status = 'invalidated'") }
   scope :under_assessment, -> { where("status = 'in_assessment' OR status = 'assessment_in_progress' OR status = 'awaiting_correction'") }
-  scope :closed, -> { where("status = 'determined' OR status = 'withdrawn' OR status = 'returned'") }
+  scope :closed, -> { where("status = 'determined' OR status = 'withdrawn' OR status = 'returned' OR status = 'closed'") }
 
   attribute :policy_classes, :policy_class, array: true
 
@@ -63,6 +64,7 @@ class PlanningApplication < ApplicationRecord
     state :determined
     state :returned
     state :withdrawn
+    state :closed
 
     event :start do
       transitions from: %i[not_started invalidated in_assessment], to: :in_assessment, guard: :has_validation_date?
@@ -95,25 +97,21 @@ class PlanningApplication < ApplicationRecord
     end
 
     event :return do
-      transitions from: %i[not_started
-                           in_assessment
-                           invalidated
-                           awaiting_determination
-                           awaiting_correction
-                           returned], to: :returned, after: proc { |comment|
-                                                              update!(cancellation_comment: comment)
-                                                            }
+      transitions from: IN_PROGRESS_STATUSES, to: :returned, after: proc { |comment|
+                                                                      update!(closed_or_cancellation_comment: comment)
+                                                                    }
     end
 
     event :withdraw do
-      transitions from: %i[not_started
-                           in_assessment
-                           invalidated
-                           awaiting_determination
-                           awaiting_correction
-                           returned], to: :withdrawn, after: proc { |comment|
-                                                               update!(cancellation_comment: comment)
-                                                             }
+      transitions from: IN_PROGRESS_STATUSES, to: :withdrawn, after: proc { |comment|
+                                                                       update!(closed_or_cancellation_comment: comment)
+                                                                     }
+    end
+
+    event :close do
+      transitions from: IN_PROGRESS_STATUSES, to: :closed, after: proc { |comment|
+                                                                    update!(closed_or_cancellation_comment: comment)
+                                                                  }
     end
 
     after_all_transitions :timestamp_status_change # FIXME: https://github.com/aasm/aasm#timestamps
@@ -164,11 +162,11 @@ class PlanningApplication < ApplicationRecord
   end
 
   def recommendable?
-    true unless determined? || returned? || withdrawn? || invalidated? || not_started?
+    true unless determined? || returned? || withdrawn? || closed? || invalidated? || not_started?
   end
 
   def in_progress?
-    true unless determined? || returned? || withdrawn?
+    true unless determined? || returned? || withdrawn? || closed?
   end
 
   def refused?
@@ -184,7 +182,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def can_validate?
-    true unless awaiting_determination? || determined? || returned? || withdrawn?
+    true unless awaiting_determination? || determined? || returned? || withdrawn? || closed?
   end
 
   def validation_complete?
@@ -195,8 +193,8 @@ class PlanningApplication < ApplicationRecord
     assessment_in_progress? || in_assessment? || awaiting_correction?
   end
 
-  def closed?
-    determined? || returned? || withdrawn?
+  def closed_or_cancelled?
+    determined? || returned? || withdrawn? || closed?
   end
 
   def assessment_complete?
