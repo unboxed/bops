@@ -31,6 +31,10 @@ RSpec.configure do |config|
 
   config.include Devise::Test::IntegrationHelpers, type: :request
 
+  config.before(:suite) do
+    Rails.application.load_seed
+  end
+
   config.before do |example|
     @default_local_authority = LocalAuthority.find_or_create_by!(name: "Default Authority", subdomain: "default")
     case example.metadata[:type]
