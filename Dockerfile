@@ -1,7 +1,7 @@
-FROM ruby:2.6.6
+FROM ruby:2.7.5
 
 # Match our Bundler version
-RUN gem install bundler -v 2.2.7
+RUN gem install bundler -v 2.3.5
 
 # Update the system
 RUN apt-get update -y
