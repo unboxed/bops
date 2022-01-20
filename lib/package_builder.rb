@@ -127,8 +127,8 @@ private
   end
 
   def create_deployments!
-    create_deployment!("Webservers")
     create_deployment!("Workers")
+    create_deployment!("Webservers")
     notify_appsignal
   end
 
