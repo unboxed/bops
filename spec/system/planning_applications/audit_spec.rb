@@ -3,10 +3,11 @@
 require "rails_helper"
 
 RSpec.describe "Auditing changes to a planning application", type: :system do
-  let!(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
+  let(:default_local_authority) { create(:local_authority, :default) }
+  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
 
   let!(:planning_application) do
-    create :planning_application, :invalidated, local_authority: @default_local_authority
+    create :planning_application, :invalidated, local_authority: default_local_authority
   end
 
   let!(:api_user) { create :api_user, name: "Api Wizard" }

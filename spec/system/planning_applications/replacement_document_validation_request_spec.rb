@@ -3,10 +3,11 @@
 require "rails_helper"
 
 RSpec.describe "Requesting document changes to a planning application", type: :system do
-  let!(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
+  let!(:default_local_authority) { create(:local_authority, :default) }
+  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
 
   let!(:planning_application) do
-    create :planning_application, :invalidated, local_authority: @default_local_authority
+    create :planning_application, :invalidated, local_authority: default_local_authority
   end
 
   let!(:invalid_document) do
@@ -81,7 +82,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
   context "Invalidation updates replacement document validation request" do
     it "updates the notified_at date of an open request when application is invalidated" do
-      new_planning_application = create :planning_application, :not_started, local_authority: @default_local_authority
+      new_planning_application = create :planning_application, :not_started, local_authority: default_local_authority
       request = create :replacement_document_validation_request, planning_application: new_planning_application,
                                                                  state: "pending", created_at: 12.days.ago
 

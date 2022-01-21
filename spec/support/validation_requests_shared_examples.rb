@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
-  let!(:current_local_authority) { @default_local_authority }
+  let!(:current_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) { create(:planning_application, local_authority: current_local_authority) }
   let!(:assessor) { create(:user, :assessor, local_authority: current_local_authority) }
   let!(:request) { create(request_type, planning_application: planning_application) }

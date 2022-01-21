@@ -3,12 +3,13 @@
 require "rails_helper"
 
 RSpec.describe "Documents index page", type: :system do
-  let(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
-  let(:reviewer) { create :user, :reviewer, local_authority: @default_local_authority }
+  let!(:default_local_authority) { create(:local_authority, :default) }
+  let(:assessor) { create :user, :assessor, local_authority: default_local_authority }
+  let(:reviewer) { create :user, :reviewer, local_authority: default_local_authority }
 
   let!(:planning_application) do
     create :planning_application,
-           local_authority: @default_local_authority,
+           local_authority: default_local_authority,
            address_1: "Elm Grove"
   end
 
@@ -24,7 +25,7 @@ RSpec.describe "Documents index page", type: :system do
 
   let!(:not_started_planning_application) do
     create :planning_application, :not_started,
-           local_authority: @default_local_authority,
+           local_authority: default_local_authority,
            address_1: "Elm Grove"
   end
 
@@ -36,7 +37,7 @@ RSpec.describe "Documents index page", type: :system do
 
   let!(:awaiting_determination_planning_application) do
     create :planning_application, :awaiting_determination,
-           local_authority: @default_local_authority,
+           local_authority: default_local_authority,
            address_1: "Elm Grove"
   end
 

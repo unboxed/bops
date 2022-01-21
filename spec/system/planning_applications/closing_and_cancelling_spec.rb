@@ -3,10 +3,11 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application Assessment", type: :system do
-  let!(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
+  let(:default_local_authority) { create(:local_authority, :default) }
+  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
 
   let!(:planning_application) do
-    create :planning_application, :not_started, local_authority: @default_local_authority
+    create :planning_application, :not_started, local_authority: default_local_authority
   end
 
   before do
@@ -71,7 +72,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "when planning application has been determined" do
     let!(:planning_application) do
-      create :planning_application, :determined, local_authority: @default_local_authority
+      create :planning_application, :determined, local_authority: default_local_authority
     end
 
     it "prevents closing or cancelling" do
@@ -83,7 +84,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "when planning application has been closed" do
     let!(:planning_application) do
-      create :planning_application, :closed, local_authority: @default_local_authority
+      create :planning_application, :closed, local_authority: default_local_authority
     end
 
     it "prevents closing or cancelling" do

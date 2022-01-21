@@ -3,9 +3,10 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application Reviewing", type: :system do
-  let!(:reviewer) { create :user, :reviewer, local_authority: @default_local_authority }
+  let!(:default_local_authority) { create(:local_authority, :default) }
+  let!(:reviewer) { create :user, :reviewer, local_authority: default_local_authority }
   let!(:planning_application) do
-    create :planning_application, :awaiting_determination, local_authority: @default_local_authority,
+    create :planning_application, :awaiting_determination, local_authority: default_local_authority,
                                                            decision: "granted"
   end
   let!(:previous_recommendation) do

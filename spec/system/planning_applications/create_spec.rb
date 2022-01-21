@@ -3,8 +3,9 @@
 require "rails_helper"
 
 RSpec.describe "Creating a planning application", type: :system do
-  let!(:assessor1) { create :user, :assessor, local_authority: @default_local_authority, name: "Assessor 1" }
-  let!(:reviewer1) { create :user, :reviewer, local_authority: @default_local_authority, name: "Reviewer 1" }
+  let!(:default_local_authority) { create(:local_authority, :default) }
+  let!(:assessor1) { create :user, :assessor, local_authority: default_local_authority, name: "Assessor 1" }
+  let!(:reviewer1) { create :user, :reviewer, local_authority: default_local_authority, name: "Reviewer 1" }
 
   before do
     sign_in assessor1
@@ -13,7 +14,7 @@ RSpec.describe "Creating a planning application", type: :system do
 
   it "prevents a logged out user from accessing the form" do
     click_button "Log out"
-    visit new_planning_application_path(@default_local_authority)
+    visit new_planning_application_path(default_local_authority)
 
     expect(page).to have_text("You need to sign in or sign up before continuing.")
   end

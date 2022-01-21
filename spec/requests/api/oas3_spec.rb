@@ -4,8 +4,9 @@ require "rails_helper"
 require "openapi3_parser"
 
 RSpec.describe "The Open API Specification document", type: :request, show_exceptions: true do
-  let(:document) { Openapi3Parser.load_file(Rails.root.join("public/api-docs/v1/_build/swagger_doc.yaml")) }
-  let(:api_user) { create :api_user }
+  let!(:document) { Openapi3Parser.load_file(Rails.root.join("public/api-docs/v1/_build/swagger_doc.yaml")) }
+  let!(:api_user) { create :api_user }
+  let!(:default_local_authority) { create(:local_authority, :default) }
 
   def example_request_json_for(path, http_method, example_name)
     document.paths[path][http_method].request_body.content["application/json"].examples[example_name].value.to_h.to_json
@@ -80,7 +81,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
                                                           "Full")["data"].first
 
     planning_application = PlanningApplication.create! planning_application_hash.except("application_number",
-                                                                                        "received_date", "documents", "site").merge(local_authority: @default_local_authority)
+                                                                                        "received_date", "documents", "site").merge(local_authority: default_local_authority)
     planning_application.update!(planning_application_hash["site"])
     planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url")) do |document|
       document.file.attach(io: File.open(Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf")),
@@ -99,7 +100,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
   it "successfully returns an application as specified" do
     planning_application_hash = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "Full")
     planning_application = PlanningApplication.create! planning_application_hash.except("application_number",
-                                                                                        "received_date", "documents", "site").merge(local_authority: @default_local_authority)
+                                                                                        "received_date", "documents", "site").merge(local_authority: default_local_authority)
     planning_application.update!(planning_application_hash["site"])
     planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url")) do |document|
       document.file.attach(io: File.open(Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf")),

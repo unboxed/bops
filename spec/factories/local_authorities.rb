@@ -8,5 +8,10 @@ FactoryBot.define do
     signatory_job_title { "Director" }
     enquiries_paragraph { Faker::Lorem.unique.sentence }
     email_address { Faker::Internet.email }
+
+    trait :default do
+      name { "Default Authority" }
+      subdomain { "default" }
+    end
   end
 end

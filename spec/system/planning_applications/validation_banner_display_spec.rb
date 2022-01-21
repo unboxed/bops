@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
-RSpec.describe "Validation banners", type: :system do
-  context "Validation request banners are displayed correctly when open request is overdue" do
-    let!(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
+require "rails_helper"
 
-    let!(:planning_application) { create :planning_application, local_authority: @default_local_authority }
+RSpec.describe "Validation banners", type: :system do
+  let!(:default_local_authority) { create(:local_authority, :default) }
+
+  context "Validation request banners are displayed correctly when open request is overdue" do
+    let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
+
+    let!(:planning_application) { create :planning_application, local_authority: default_local_authority }
 
     let!(:replacement_document_validation_request) do
       create :replacement_document_validation_request, planning_application: planning_application, state: "open"
@@ -32,9 +36,9 @@ RSpec.describe "Validation banners", type: :system do
   end
 
   context "Validation warning banner is not displayed when request is closed" do
-    let!(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
+    let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
 
-    let!(:planning_application) { create :planning_application, local_authority: @default_local_authority }
+    let!(:planning_application) { create :planning_application, local_authority: default_local_authority }
 
     let!(:replacement_document_validation_request) do
       create :replacement_document_validation_request, planning_application: planning_application, state: "closed"
