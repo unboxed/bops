@@ -158,12 +158,8 @@ private
     end
   end
 
-  def master_ref?
-    ENV.fetch("GITHUB_REF", "") == "refs/heads/master"
-  end
-
-  def production_ref?
-    ENV.fetch("GITHUB_REF", "") == "refs/heads/production"
+  def main_ref?
+    ENV.fetch("GITHUB_REF", "") == "refs/heads/main"
   end
 
   def tag_ref?
@@ -171,7 +167,7 @@ private
   end
 
   def deploy_build?
-    master_ref? || production_ref? || tag_ref?
+    main_ref? || tag_ref?
   end
 
   def deployment_config(deployment_group_name)
