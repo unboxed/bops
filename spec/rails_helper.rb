@@ -30,12 +30,7 @@ RSpec.configure do |config|
 
   config.include Devise::Test::IntegrationHelpers, type: :request
 
-  config.before do |example|
-    case example.metadata[:type]
-    when :request
-      host! "default.example.com"
-    when :system
-      Capybara.app_host = "http://default.example.com"
-    end
+  config.before type: :request do
+    host!("default.example.com")
   end
 end
