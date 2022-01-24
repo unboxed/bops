@@ -13,5 +13,23 @@ FactoryBot.define do
       name { "Default Authority" }
       subdomain { "default" }
     end
+
+    trait :lambeth do
+      name { "Lambeth Council" }
+      subdomain { "lambeth" }
+      signatory_name { "Christina Thompson" }
+      signatory_job_title { "Director of Finance & Property" }
+      enquiries_paragraph { "Planning, London Borough of Lambeth, PO Box 734, Winchester SO23 5DG" }
+      email_address { "planning@lambeth.gov.uk" }
+    end
+
+    trait :southwark do
+      name { "Southwark Council" }
+      subdomain { "southwark" }
+      signatory_name { "Stephen Platts" }
+      signatory_job_title { "Director of Planning and Growth" }
+      enquiries_paragraph { "Planning, London Borough of Southwark, PO Box 734, Winchester SO23 5DG" }
+      email_address { "planning@southwark.gov.uk" }
+    end
   end
 end

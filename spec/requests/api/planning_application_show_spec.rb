@@ -8,7 +8,7 @@ RSpec.describe "API request to list planning applications", type: :request, show
   let!(:planning_application) do
     create(:planning_application, :not_started, local_authority: default_local_authority, decision: "granted")
   end
-  let!(:lambeth) { LocalAuthority.find_by(subdomain: "lambeth") }
+  let!(:lambeth) { build(:local_authority, :lambeth) }
   let!(:planning_application_lambeth) { create(:planning_application, :not_started, local_authority: lambeth) }
 
   describe "format" do
