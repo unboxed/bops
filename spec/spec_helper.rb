@@ -5,13 +5,7 @@
 # This means we need to explicitly require it here for it to be
 # available in our specs.
 require "faker"
-require "webmock/rspec"
 require "aasm/rspec"
-
-WebMock.disable_net_connect!(
-  allow_localhost: true,
-  allow: "chromedriver.storage.googleapis.com"
-)
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
