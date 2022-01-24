@@ -511,5 +511,8 @@ DEPENDENCIES
   webpacker (~> 5.4)
   whenever
 
+RUBY VERSION
+   ruby 2.7.5p203
+
 BUNDLED WITH
    2.3.5
