@@ -16,7 +16,7 @@ southwark = LocalAuthority.find_or_create_by!(
   signatory_name: "Stephen Platts",
   signatory_job_title: "Director of Planning and Growth",
   enquiries_paragraph: "Planning, London Borough of Southwark, PO Box 734, Winchester SO23 5DG",
-  email_address: "planning@lambeth.gov.uk"
+  email_address: "planning@southwark.gov.uk"
 )
 
 buckinghamshire = LocalAuthority.find_or_create_by!(
