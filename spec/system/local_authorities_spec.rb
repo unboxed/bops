@@ -9,7 +9,7 @@ RSpec.describe "Accessing correct local authority", type: :system do
   context "Lambeth council" do
     before do
       @previous_host = Capybara.app_host
-      Capybara.app_host = "http://lambeth.example.com"
+      Capybara.app_host = "http://#{lambeth.subdomain}.example.com"
     end
 
     after do

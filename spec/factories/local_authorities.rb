@@ -15,8 +15,8 @@ FactoryBot.define do
     end
 
     trait :lambeth do
-      name { "Lambeth Council" }
-      subdomain { "lambeth" }
+      name { "Lambeth Council Authority" }
+      subdomain { "lambeth_authority" }
       signatory_name { "Christina Thompson" }
       signatory_job_title { "Director of Finance & Property" }
       enquiries_paragraph { "Planning, London Borough of Lambeth, PO Box 734, Winchester SO23 5DG" }
@@ -24,8 +24,8 @@ FactoryBot.define do
     end
 
     trait :southwark do
-      name { "Southwark Council" }
-      subdomain { "southwark" }
+      name { "Southwark Council Authority" }
+      subdomain { "southwark_authority" }
       signatory_name { "Stephen Platts" }
       signatory_job_title { "Director of Planning and Growth" }
       enquiries_paragraph { "Planning, London Borough of Southwark, PO Box 734, Winchester SO23 5DG" }
