@@ -33,10 +33,10 @@ gem "whenever"
 group :development, :test do
   gem "brakeman", require: false
   gem "bundler-audit", require: false
-  gem "byebug", platforms: %i[mri mingw x64_mingw]
   gem "guard", require: false
   gem "guard-cucumber", require: false
   gem "guard-rspec", require: false
+  gem "pry-byebug"
   gem "rails-controller-testing"
   gem "rspec-rails", "~> 4.0.0"
   gem "rubocop", require: false

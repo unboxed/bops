@@ -3,10 +3,11 @@
 require "rails_helper"
 
 RSpec.describe "Requesting a new document for a planning application", type: :system do
-  let!(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
+  let!(:default_local_authority) { create(:local_authority, :default) }
+  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
 
   let!(:planning_application) do
-    create :planning_application, :invalidated, local_authority: @default_local_authority
+    create :planning_application, :invalidated, local_authority: default_local_authority
   end
 
   let!(:api_user) { create :api_user, name: "Api Wizard" }
@@ -89,7 +90,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
   context "Invalidation updates additional document validation request" do
     it "updates the notified_at date of an open request when application is invalidated" do
-      new_planning_application = create :planning_application, :not_started, local_authority: @default_local_authority
+      new_planning_application = create :planning_application, :not_started, local_authority: default_local_authority
 
       request = create(
         :additional_document_validation_request,

@@ -3,13 +3,13 @@
 require "rails_helper"
 
 RSpec.describe "Accessing correct local authority", type: :system do
-  let!(:lambeth) { LocalAuthority.find_by(subdomain: "lambeth") }
-  let!(:southwark) { LocalAuthority.find_by(subdomain: "southwark") }
+  let!(:lambeth) { create(:local_authority, :lambeth) }
+  let!(:southwark) { create(:local_authority, :southwark) }
 
   context "Lambeth council" do
     before do
       @previous_host = Capybara.app_host
-      Capybara.app_host = "http://lambeth.example.com"
+      Capybara.app_host = "http://#{lambeth.subdomain}.example.com"
     end
 
     after do

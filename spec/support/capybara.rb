@@ -32,5 +32,6 @@ RSpec.configure do |config|
 
   config.before type: :system do
     driven_by(ENV.fetch("JS_DRIVER", "chrome_headless").to_sym)
+    Capybara.app_host = "http://default.example.com"
   end
 end

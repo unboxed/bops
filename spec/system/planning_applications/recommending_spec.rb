@@ -3,10 +3,11 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application Assessment", type: :system do
-  let!(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
+  let!(:default_local_authority) { create(:local_authority, :default) }
+  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
 
   let!(:planning_application) do
-    create :planning_application, local_authority: @default_local_authority
+    create :planning_application, local_authority: default_local_authority
   end
 
   before do
@@ -73,7 +74,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "with previous recommendations" do
     let!(:planning_application) do
-      create :planning_application, :awaiting_correction, local_authority: @default_local_authority
+      create :planning_application, :awaiting_correction, local_authority: default_local_authority
     end
 
     let!(:recommendation) do

@@ -3,6 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "API request to list planning applications", type: :request, show_exceptions: true do
+  let!(:default_local_authority) { create(:local_authority, :default) }
   let(:reviewer) { create :user, :reviewer }
 
   describe "format" do
@@ -37,9 +38,9 @@ RSpec.describe "API request to list planning applications", type: :request, show
 
     context "for a new planning application" do
       let!(:planning_application) do
-        create(:planning_application, :not_started, local_authority: @default_local_authority, decision: "granted")
+        create(:planning_application, :not_started, local_authority: default_local_authority, decision: "granted")
       end
-      let!(:lambeth) { LocalAuthority.find_by(subdomain: "lambeth") }
+      let!(:lambeth) { build(:local_authority, :lambeth) }
       let!(:planning_application_lambeth) { create(:planning_application, :not_started, local_authority: lambeth) }
 
       it "returns the accurate data" do
@@ -85,7 +86,7 @@ RSpec.describe "API request to list planning applications", type: :request, show
 
       context "for a granted planning application" do
         let!(:planning_application) do
-          create(:planning_application, :determined, local_authority: @default_local_authority, decision: "granted")
+          create(:planning_application, :determined, local_authority: default_local_authority, decision: "granted")
         end
         let!(:document_with_number) { create(:document, :public, planning_application: planning_application) }
         let!(:document_without_number) { create(:document, planning_application: planning_application) }

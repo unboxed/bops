@@ -6,7 +6,8 @@ RSpec.describe "API request to patch document validation requests", type: :reque
   include ActionDispatch::TestProcess::FixtureFile
 
   let!(:api_user) { create :api_user }
-  let!(:planning_application) { create(:planning_application, local_authority: @default_local_authority) }
+  let!(:default_local_authority) { create(:local_authority, :default) }
+  let!(:planning_application) { create(:planning_application, local_authority: default_local_authority) }
   let!(:document) do
     create(:document, :with_file, :public, planning_application: planning_application, validated: false,
                                            invalidated_document_reason: "Not readable")

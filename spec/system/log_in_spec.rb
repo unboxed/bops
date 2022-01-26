@@ -3,8 +3,9 @@
 require "rails_helper"
 
 RSpec.describe "Sign in", type: :system do
-  let(:assessor) { create :user, :assessor, name: "Lorrine Krajcik" }
-  let(:reviewer) { create :user, :reviewer, name: "Harley Dicki" }
+  let!(:default_local_authority) { create(:local_authority, :default) }
+  let(:assessor) { create :user, :assessor, name: "Lorrine Krajcik", local_authority: default_local_authority }
+  let(:reviewer) { create :user, :reviewer, name: "Harley Dicki", local_authority: default_local_authority }
 
   it "ensure we can perform a healthcheck" do
     visit healthcheck_path

@@ -5,12 +5,13 @@ require "rails_helper"
 RSpec.describe "Planning Application show page", type: :system do
   let(:documents_validated_at) { 10.business_days.until(Date.current) }
   let!(:api_user) { create :api_user }
+  let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) do
     create :planning_application, description: "Roof extension",
                                   application_type: "lawfulness_certificate",
                                   status: :in_assessment,
                                   documents_validated_at: documents_validated_at,
-                                  local_authority: @default_local_authority,
+                                  local_authority: default_local_authority,
                                   payment_reference: "PAY123",
                                   payment_amount: 10_300,
                                   work_status: "proposed",
@@ -21,7 +22,7 @@ RSpec.describe "Planning Application show page", type: :system do
                                   constraints: ["Conservation Area", "Listed Building"],
                                   api_user: api_user
   end
-  let(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
+  let(:assessor) { create :user, :assessor, local_authority: default_local_authority }
 
   context "as an assessor" do
     before do
@@ -183,7 +184,7 @@ RSpec.describe "Planning Application show page", type: :system do
   context "when no result fields are present" do
     let!(:planning_application) do
       create :planning_application, :without_result,
-             local_authority: @default_local_authority
+             local_authority: default_local_authority
     end
 
     before do
@@ -209,7 +210,7 @@ RSpec.describe "Planning Application show page", type: :system do
   end
 
   context "when no postcode has been set" do
-    let!(:planning_application) { create(:planning_application, local_authority: @default_local_authority, postcode: "") }
+    let!(:planning_application) { create(:planning_application, local_authority: default_local_authority, postcode: "") }
 
     before do
       sign_in assessor

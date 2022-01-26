@@ -6,7 +6,6 @@ require File.expand_path("../config/environment", __dir__)
 
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require "rspec/rails"
-require "webmock/rspec"
 
 require "webdrivers"
 
@@ -31,13 +30,7 @@ RSpec.configure do |config|
 
   config.include Devise::Test::IntegrationHelpers, type: :request
 
-  config.before do |example|
-    @default_local_authority = LocalAuthority.find_or_create_by!(name: "Default Authority", subdomain: "default")
-    case example.metadata[:type]
-    when :request
-      host! "default.example.com"
-    when :system
-      Capybara.app_host = "http://default.example.com"
-    end
+  config.before type: :request do
+    host!("default.example.com")
   end
 end

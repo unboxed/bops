@@ -3,8 +3,9 @@
 require "rails_helper"
 
 RSpec.shared_examples "validate and invalidate" do
+  let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:second_planning_application) do
-    create :planning_application, :not_started, local_authority: @default_local_authority
+    create :planning_application, :not_started, local_authority: default_local_authority
   end
 
   it "can be validated and displays link to notification" do
@@ -95,10 +96,11 @@ RSpec.shared_examples "validate and invalidate" do
 end
 
 RSpec.describe "Planning Application Assessment", type: :system do
-  let!(:assessor) { create :user, :assessor, local_authority: @default_local_authority }
+  let!(:default_local_authority) { create(:local_authority, :default) }
+  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
 
   let!(:planning_application) do
-    create :planning_application, :not_started, local_authority: @default_local_authority
+    create :planning_application, :not_started, local_authority: default_local_authority
   end
 
   let!(:additional_document_validation_request) do
@@ -138,7 +140,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "Checking documents from Invalidated status" do
     let!(:planning_application) do
-      create :planning_application, :invalidated, local_authority: @default_local_authority
+      create :planning_application, :invalidated, local_authority: default_local_authority
     end
 
     it "shows error if trying to mark as valid when open validation request exists on planning application" do
@@ -258,7 +260,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "Planning application is in determined state" do
     let!(:determined_planning_application) do
-      create :planning_application, :determined, local_authority: @default_local_authority
+      create :planning_application, :determined, local_authority: default_local_authority
     end
 
     it "does not show validate form" do
@@ -309,7 +311,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   context "Application invalidated" do
     it "does not show the invalidate button when application is invalid" do
       invalid_planning_application = create :planning_application, :invalidated,
-                                            local_authority: @default_local_authority
+                                            local_authority: default_local_authority
 
       visit planning_application_path(invalid_planning_application)
       click_link "Validate application"

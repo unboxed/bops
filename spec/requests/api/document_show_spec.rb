@@ -3,7 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "API request to show document file", type: :request, show_exceptions: true do
-  let!(:planning_application) { create(:planning_application, :not_started) }
+  let!(:default_local_authority) { create(:local_authority, :default) }
+  let!(:planning_application) { create(:planning_application, :not_started, local_authority: default_local_authority) }
   let!(:document) { create(:document, :with_file, :public, planning_application: planning_application) }
 
   describe "data" do

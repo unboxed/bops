@@ -3,7 +3,9 @@
 require "rails_helper"
 
 RSpec.describe "Creating a planning application via the API", type: :request, show_exceptions: true do
-  let(:api_user) { create :api_user }
+  let!(:api_user) { create :api_user }
+
+  before { create(:local_authority, :default) }
 
   def post_with(params:, headers: {})
     post(
