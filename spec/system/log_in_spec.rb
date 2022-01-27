@@ -57,8 +57,8 @@ RSpec.describe "Sign in", type: :system do
     end
 
     context "a user belonging to a given subdomain" do
-      let!(:lambeth) { create :local_authority, subdomain: "lamb" }
-      let!(:southwark) { create :local_authority, subdomain: "south" }
+      let!(:lambeth) { create :local_authority, :lambeth }
+      let!(:southwark) { create :local_authority, :southwark }
       let(:lambeth_assessor) do
         create :user, :assessor, name: "Lambertina Lamb", password: "Lambsrock18!", local_authority: lambeth
       end
@@ -68,7 +68,7 @@ RSpec.describe "Sign in", type: :system do
 
       before do
         @previous_host = Capybara.app_host
-        Capybara.app_host = "http://lamb.example.com"
+        Capybara.app_host = "http://lambeth_authority.example.com"
       end
 
       after do
@@ -93,6 +93,12 @@ RSpec.describe "Sign in", type: :system do
         click_button("Log in")
 
         expect(page).to have_text("Signed in successfully.")
+      end
+
+      it "has the feedback email" do
+        visit root_path
+
+        expect(page).to have_link("feedback", href: "mailto:feedback_email@lambeth.gov.uk")
       end
     end
   end

@@ -21,6 +21,7 @@ FactoryBot.define do
       signatory_job_title { "Director of Finance & Property" }
       enquiries_paragraph { "Planning, London Borough of Lambeth, PO Box 734, Winchester SO23 5DG" }
       email_address { "planning@lambeth.gov.uk" }
+      feedback_email { "feedback_email@lambeth.gov.uk" }
     end
 
     trait :southwark do
@@ -30,6 +31,7 @@ FactoryBot.define do
       signatory_job_title { "Director of Planning and Growth" }
       enquiries_paragraph { "Planning, London Borough of Southwark, PO Box 734, Winchester SO23 5DG" }
       email_address { "planning@southwark.gov.uk" }
+      feedback_email { "feedback_email@southwark.gov.uk" }
     end
   end
 end
