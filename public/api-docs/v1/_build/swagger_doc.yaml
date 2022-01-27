@@ -335,7 +335,7 @@ paths:
                     properties:
                       filename:
                         type: string
-                        example: 'https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf'
+                        example: 'https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf'
                       tags:
                         type: array
                         items:
@@ -491,7 +491,7 @@ paths:
                     conservation_area: true
                     protected_trees: false
                   files:
-                    - filename: 'https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf'
+                    - filename: 'https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf'
                       applicant_description: This is the side plan
                       tags:
                         - Side

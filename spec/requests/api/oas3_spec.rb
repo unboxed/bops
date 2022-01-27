@@ -35,7 +35,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
   end
 
   it "successfully creates the Full application as per the oas3 definition" do
-    stub_request(:get, "https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf")
+    stub_request(:get, "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf")
       .to_return(
         status: 200,
         body: File.read(Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf")),
