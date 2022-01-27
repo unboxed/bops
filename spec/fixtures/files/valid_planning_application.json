@@ -121,11 +121,11 @@
     "email": "applicant@example.com"
   },
   "files": [{
-    "filename": "https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
+    "filename": "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
     "tags": ["Front", "Section", "Existing"]
   },
     {
-      "filename": "https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
+      "filename": "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
       "tags": ["Side", "Elevation", "Proposed"]
     }],
   "constraints": {

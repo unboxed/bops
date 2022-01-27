@@ -20,7 +20,7 @@ RSpec.describe "Creating a planning application via the API", type: :request, sh
 
   context "with success in downloading document" do
     before do
-      stub_request(:get, "https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf")
+      stub_request(:get, "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf")
         .to_return(
           status: 200,
           body: File.read(Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf")),
@@ -140,7 +140,7 @@ RSpec.describe "Creating a planning application via the API", type: :request, sh
 
   context "with error in downloading document" do
     before do
-      stub_request(:get, "https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf")
+      stub_request(:get, "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf")
         .to_return(status: 404, body: "")
     end
 
@@ -156,7 +156,7 @@ RSpec.describe "Creating a planning application via the API", type: :request, sh
 
   context "with the wrong type of document" do
     before do
-      stub_request(:get, "https://bops-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf")
+      stub_request(:get, "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf")
         .to_return(status: 200, body: "some document", headers: { "Content-Type" => "application/octet-stream" })
     end
 
