@@ -268,5 +268,9 @@ FactoryBot.define do
         application.withdraw!("no thanks")
       end
     end
+
+    factory :closed_planning_application do
+      after(:create, &:close!)
+    end
   end
 end
