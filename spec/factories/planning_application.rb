@@ -262,5 +262,11 @@ FactoryBot.define do
         application.return!("this will not do")
       end
     end
+
+    factory :withdrawn_planning_application do
+      after(:create) do |application|
+        application.withdraw!("no thanks")
+      end
+    end
   end
 end

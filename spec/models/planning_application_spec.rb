@@ -333,4 +333,42 @@ RSpec.describe PlanningApplication, type: :model do
       end
     end
   end
+
+  describe "#withdraw_last_recommendation!" do
+    let(:planning_application) { create(:submitted_planning_application) }
+    let(:user) { create(:user) }
+
+    before do
+      freeze_time
+      Current.user = user
+    end
+
+    describe "when successful" do
+      it "withdraws the recommendation and creates an audit record" do
+        expect { planning_application.withdraw_last_recommendation! }
+          .to change(planning_application, :status).from("awaiting_determination").to("in_assessment")
+                                                   .and change(planning_application.recommendations.reload.last, :submitted).from(true).to(false)
+
+        expect(planning_application.in_assessment_at).to eq(Time.current)
+
+        expect(Audit.last).to have_attributes(
+          planning_application_id: planning_application.id,
+          activity_type: "withdrawn_recommendation",
+          user: user
+        )
+      end
+    end
+
+    describe "when there is an error" do
+      it "when planning application is not in awaiting_determination it raises PlanningApplication::WithdrawRecommendationError" do
+        planning_application.update(status: "determined")
+
+        expect { planning_application.withdraw_last_recommendation! }
+          .to raise_error(PlanningApplication::WithdrawRecommendationError, "Event 'withdraw_recommendation' cannot transition from 'determined'.")
+          .and change(Audit, :count).by(0)
+
+        expect(planning_application).to be_determined
+      end
+    end
+  end
 end

@@ -3,6 +3,8 @@
 class PlanningApplication < ApplicationRecord
   class SubmitRecommendationError < RuntimeError; end
 
+  class WithdrawRecommendationError < RuntimeError; end
+
   include PlanningApplicationDecorator
 
   include PlanningApplicationStatus
@@ -358,6 +360,20 @@ class PlanningApplication < ApplicationRecord
     end
   rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
     raise SubmitRecommendationError, e.message
+  end
+
+  def withdraw_last_recommendation!
+    transaction do
+      withdraw_recommendation!
+
+      Audit.create!(
+        planning_application_id: id,
+        user: Current.user,
+        activity_type: "withdrawn_recommendation"
+      )
+    end
+  rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
+    raise WithdrawRecommendationError, e.message
   end
 
   private

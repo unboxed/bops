@@ -86,6 +86,12 @@ module PlanningApplicationStatus
         end
       end
 
+      event :withdraw_recommendation do
+        transitions from: :awaiting_determination, to: :in_assessment do
+          after { recommendations.last.update!(submitted: false) }
+        end
+      end
+
       after_all_transitions :timestamp_status_change # FIXME: https://github.com/aasm/aasm#timestamps
     end
   end

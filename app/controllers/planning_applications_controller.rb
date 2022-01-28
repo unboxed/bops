@@ -6,6 +6,10 @@ class PlanningApplicationsController < AuthenticationController
   before_action :ensure_user_is_reviewer, only: %i[review review_form]
   before_action :ensure_constraint_edits_unlocked, only: %i[edit_constraints_form edit_constraints]
 
+  rescue_from PlanningApplication::WithdrawRecommendationError do |_exception|
+    redirect_failed_withdraw_recommendation
+  end
+
   rescue_from PlanningApplication::SubmitRecommendationError do |_exception|
     redirect_failed_submit_recommendation
   end
@@ -157,6 +161,21 @@ class PlanningApplicationsController < AuthenticationController
   def view_recommendation
     @assessor_name = @planning_application.recommendations.last.assessor.name
     @recommended_date = @planning_application.recommendations.last.created_at.strftime("%d %b %Y")
+  end
+
+  def withdraw_recommendation
+    respond_to do |format|
+      if @planning_application.may_withdraw_recommendation?
+        @planning_application.withdraw_last_recommendation!
+
+        format.html do
+          redirect_to submit_recommendation_planning_application_path(@planning_application),
+                      notice: "Recommendation was successfully withdrawn."
+        end
+      else
+        format.html { redirect_failed_withdraw_recommendation }
+      end
+    end
   end
 
   def save_assessment
@@ -384,6 +403,11 @@ class PlanningApplicationsController < AuthenticationController
 
   def set_last_audit
     @last_audit = @planning_application.audits.last if @planning_application.present?
+  end
+
+  def redirect_failed_withdraw_recommendation
+    redirect_to view_recommendation_planning_application_path(@planning_application),
+                alert: "Error withdrawing recommendation - please contact support."
   end
 
   def redirect_failed_submit_recommendation

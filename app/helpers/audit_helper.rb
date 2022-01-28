@@ -16,6 +16,8 @@ module AuditHelper
       "Recommendation assessed"
     when "submitted"
       "Recommendation submitted"
+    when "withdrawn_recommendation"
+      "Recommendation withdrawn"
     when "challenged"
       "Recommendation challenged"
     when "created"

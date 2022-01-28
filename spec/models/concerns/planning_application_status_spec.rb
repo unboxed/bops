@@ -37,7 +37,7 @@ RSpec.describe PlanningApplicationStatus do
 
     context "when awaiting determination" do
       it_behaves_like "PlanningApplicationStateMachineEvents", "awaiting_determination",
-                      %i[determine request_correction return close withdraw]
+                      %i[determine request_correction return close withdraw withdraw_recommendation]
     end
 
     context "when determined" do
@@ -319,6 +319,32 @@ RSpec.describe PlanningApplicationStatus do
           expect do
             planning_application.submit
           end.to raise_error(AASM::InvalidTransition)
+        end
+      end
+    end
+
+    context "when I withdraw the recommendation from awaiting determination" do
+      let(:planning_application) do
+        create(:planning_application, :with_recommendation, :awaiting_determination, decision: "granted")
+      end
+
+      it "sets the status back to in_assessment" do
+        planning_application.withdraw_recommendation
+
+        expect(planning_application.status).to eq("in_assessment")
+      end
+
+      it "sets recommendation submitted to false" do
+        planning_application.withdraw_recommendation
+
+        expect(planning_application.recommendations.last.submitted).to eq(false)
+      end
+
+      it "sets the timestamp for awaiting_determination_at to now" do
+        freeze_time do
+          planning_application.withdraw_recommendation
+
+          expect(planning_application.in_assessment_at).to eql(Time.zone.now)
         end
       end
     end

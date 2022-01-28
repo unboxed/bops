@@ -191,4 +191,47 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
     end
   end
+
+  context "when withdrawing a recommendation" do
+    let!(:planning_application) do
+      create(:planning_application, :with_recommendation, :awaiting_determination, local_authority: default_local_authority, decision: "granted")
+    end
+
+    it "can only be withdrawn when a planning application is awaiting determination" do
+      click_link("Awaiting determination")
+      click_link(planning_application.reference)
+      click_link("View recommendation")
+
+      within(".govuk-button-group") do
+        expect(page).to have_link("Back", href: planning_application_path(planning_application))
+
+        accept_confirm(text: "Are you sure you want to withdraw this recommendation?") do
+          click_button("Withdraw recommendation")
+        end
+      end
+
+      expect(page).to have_content("Recommendation was successfully withdrawn.")
+      expect(page).to have_current_path(submit_recommendation_planning_application_path(planning_application))
+      expect(page).to have_button("Submit to manager")
+      expect(page).not_to have_button("Withdraw recommendation")
+      expect(planning_application.reload.status).to eq("in_assessment")
+
+      # Check latest audit
+      click_button "Audit log"
+      within("#latest-audit") do
+        expect(page).to have_content("Recommendation withdrawn")
+        expect(page).to have_text(assessor.name)
+        expect(page).to have_text(Audit.last.created_at.strftime("%H:%M"))
+
+        click_link "View all audits"
+      end
+
+      # Check audit logs
+      within("#audit_#{Audit.last.id}") do
+        expect(page).to have_content("Recommendation withdrawn")
+        expect(page).to have_text(assessor.name)
+        expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+      end
+    end
+  end
 end
