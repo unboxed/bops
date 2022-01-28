@@ -25,17 +25,17 @@ class Document < ApplicationRecord
     Existing
   ].freeze
 
-  EVIDENCE_TAGS = [
-    "Photograph",
-    "Utility Bill",
-    "Building Control Certificate",
-    "Construction Invoice",
-    "Council Tax Document",
-    "Tenancy Agreement",
-    "Tenancy Invoice",
-    "Bank Statement",
-    "Statutory Declaration",
-    "Other"
+  EVIDENCE_TAGS = %w[
+    Photograph
+    Utility Bill
+    Building Control Certificate
+    Construction Invoice
+    Council Tax Document
+    Tenancy Agreement
+    Tenancy Invoice
+    Bank Statement
+    Statutory Declaration
+    Other
   ].freeze
 
   TAGS = PLAN_TAGS + EVIDENCE_TAGS
