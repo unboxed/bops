@@ -28,6 +28,10 @@ module AuditHelper
       "Constraint removed"
     when "determined"
       "Decision Published"
+    when "red_line_created"
+      "Red line drawing created"
+    when "red_line_updated"
+      "Red line drawing updated"
     when "document_received_at_changed"
       "#{args} received at date was modified"
     when "document_invalidated"
@@ -92,6 +96,8 @@ module AuditHelper
       "Cancelled: validation request (applicant approval for red line boundary change##{args})"
     when "replacement_document_validation_request_cancelled"
       "Cancelled: validation request (replace document##{args})"
+    else
+      raise ArgumentError, "Activity type: #{type_of_activity} is not valid"
     end
   end
 

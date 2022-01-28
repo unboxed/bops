@@ -6,6 +6,8 @@ class PlanningApplicationsController < AuthenticationController
   before_action :ensure_user_is_reviewer, only: %i[review review_form]
   before_action :ensure_constraint_edits_unlocked, only: %i[edit_constraints_form edit_constraints]
 
+  before_action :set_last_audit, only: %i[show validate_form view_recommendation submit_recommendation]
+
   rescue_from PlanningApplication::WithdrawRecommendationError do |_exception|
     redirect_failed_withdraw_recommendation
   end
