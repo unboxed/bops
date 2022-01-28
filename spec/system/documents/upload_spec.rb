@@ -42,7 +42,7 @@ RSpec.describe "Document uploads", type: :system do
     end
 
     context "when the planning application has been submitted for review" do
-      before { planning_application.assess! }
+      let!(:planning_application) { create(:submitted_planning_application, local_authority: default_local_authority) }
 
       it "the upload \"button\" is disabled" do
         visit planning_application_documents_path(planning_application)

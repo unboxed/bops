@@ -30,6 +30,11 @@ RSpec.describe PlanningApplicationStatus do
                       %i[start save_assessment return close withdraw]
     end
 
+    context "when assessment in progress" do
+      it_behaves_like "PlanningApplicationStateMachineEvents", "assessment_in_progress",
+                      %i[save_assessment]
+    end
+
     context "when awaiting determination" do
       it_behaves_like "PlanningApplicationStateMachineEvents", "awaiting_determination",
                       %i[determine request_correction return close withdraw]
@@ -115,19 +120,17 @@ RSpec.describe PlanningApplicationStatus do
     end
 
     context "when I assess the application" do
-      before do
-        planning_application.update(awaiting_determination_at: 1.hour.ago, decision: "granted")
-      end
+      let(:planning_application) { create(:planning_application, decision: "granted") }
 
-      it "sets the status to awaiting_determination" do
+      it "sets the status to in_assessment" do
         planning_application.assess
-        expect(planning_application.status).to eq "awaiting_determination"
+        expect(planning_application.status).to eq "in_assessment"
       end
 
-      it "sets the timestamp for awaiting_determination_at to now" do
+      it "sets the timestamp for in_assessment_at to now" do
         freeze_time do
           planning_application.assess
-          expect(planning_application.send("awaiting_determination_at")).to eql(Time.zone.now)
+          expect(planning_application.send("in_assessment_at")).to eql(Time.zone.now)
         end
       end
     end
@@ -278,6 +281,44 @@ RSpec.describe PlanningApplicationStatus do
         freeze_time do
           planning_application.withdraw
           expect(planning_application.send("withdrawn_at")).to eql(Time.zone.now)
+        end
+      end
+    end
+
+    context "when I submit the application from in_assessment" do
+      context "when decision is present" do
+        let(:planning_application) do
+          create(:planning_application, :with_recommendation, :in_assessment, decision: "granted")
+        end
+
+        it "sets the status to awaiting_determination" do
+          planning_application.submit
+
+          expect(planning_application.status).to eq("awaiting_determination")
+        end
+
+        it "sets the recommendation to submitted" do
+          planning_application.submit
+
+          expect(planning_application.recommendations.last.submitted).to eq(true)
+        end
+
+        it "sets the timestamp for awaiting_determination_at to now" do
+          freeze_time do
+            planning_application.submit
+
+            expect(planning_application.awaiting_determination_at).to eql(Time.zone.now)
+          end
+        end
+      end
+
+      context "when decision is not present" do
+        let(:planning_application) { create :planning_application, :in_assessment }
+
+        it "guards against decision not being present" do
+          expect do
+            planning_application.submit
+          end.to raise_error(AASM::InvalidTransition)
         end
       end
     end

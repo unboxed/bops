@@ -12,7 +12,7 @@ RSpec.describe AuditHelper, type: :helper do
     let(:document_archived_audit) { create :audit, activity_type: "archived" }
 
     it "returns the correct wording for an assessed audit" do
-      expect(activity(approved_audit.activity_type)).to eq("Recommendation submitted")
+      expect(activity(approved_audit.activity_type)).to eq("Recommendation assessed")
     end
 
     it "returns the correct wording for an assigned audit" do

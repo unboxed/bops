@@ -63,19 +63,19 @@ RSpec.shared_examples "ValidationRequestStateMachineEvents" do |request_type, st
 end
 
 RSpec.shared_examples "PlanningApplicationStateMachineEvents" do |state, valid_events|
-  let(:events) { PlanningApplication.aasm.events.map(&:name) }
-  let(:invalid_events) { events - valid_events }
   let(:planning_application) { create(:planning_application, :"#{state}") }
+  events = PlanningApplication.aasm.events.map(&:name)
+  invalid_events = events - valid_events
 
   describe "events" do
-    it "allows event" do
-      valid_events.each do |valid_event|
+    valid_events.each do |valid_event|
+      it "allows the #{valid_event} event" do
         expect(planning_application).to allow_event(valid_event)
       end
     end
 
-    it "does not allow event" do
-      invalid_events.each do |invalid_event|
+    invalid_events.each do |invalid_event|
+      it "does not allow the #{invalid_event} event" do
         expect(planning_application).not_to allow_event(invalid_event)
       end
     end

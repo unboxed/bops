@@ -6,7 +6,9 @@ class PlanningApplicationsController < AuthenticationController
   before_action :ensure_user_is_reviewer, only: %i[review review_form]
   before_action :ensure_constraint_edits_unlocked, only: %i[edit_constraints_form edit_constraints]
 
-  before_action :set_last_audit, only: %i[show validate_form]
+  rescue_from PlanningApplication::SubmitRecommendationError do |_exception|
+    redirect_failed_submit_recommendation
+  end
 
   def index
     @planning_applications = if helpers.exclude_others? && current_user.assessor?
@@ -135,14 +137,22 @@ class PlanningApplicationsController < AuthenticationController
     @planning_application.assign_attributes(params.require(:planning_application).permit(:decision, :public_comment))
     @recommendation.assign_attributes(params.require(:recommendation).permit(:assessor_comment).merge(assessor: current_user))
     if @planning_application.save && @recommendation.save
-      @recommendation.update(submitted: true)
+      @planning_application.assess!
       redirect_to @planning_application
     else
       render :recommendation_form
     end
   end
 
-  def submit_recommendation; end
+  def submit_recommendation
+    respond_to do |format|
+      if @planning_application.can_submit_recommendation?
+        format.html { render :submit_recommendation }
+      else
+        format.html { render plain: "Not Found", status: :not_found }
+      end
+    end
+  end
 
   def view_recommendation
     @assessor_name = @planning_application.recommendations.last.assessor.name
@@ -153,17 +163,24 @@ class PlanningApplicationsController < AuthenticationController
     @planning_application.public_comment = params[:planning_application][:public_comment]
     recommendation = @planning_application.recommendations.build(assessor: current_user)
     recommendation.assessor_comment = params[:recommendation][:assessor_comment]
-    recommendation.save(validate: false)
 
     @planning_application.save_assessment
 
     redirect_to @planning_application
   end
 
-  def assess
-    @planning_application.assess!
-    audit("assessed", @planning_application.recommendations.last.assessor_comment)
-    redirect_to @planning_application
+  def submit
+    respond_to do |format|
+      if @planning_application.can_submit_recommendation?
+        @planning_application.submit_recommendation!
+
+        format.html do
+          redirect_to @planning_application, notice: "Recommendation was successfully submitted."
+        end
+      else
+        format.html { redirect_failed_submit_recommendation }
+      end
+    end
   end
 
   def review_form
@@ -367,5 +384,10 @@ class PlanningApplicationsController < AuthenticationController
 
   def set_last_audit
     @last_audit = @planning_application.audits.last if @planning_application.present?
+  end
+
+  def redirect_failed_submit_recommendation
+    redirect_to submit_recommendation_planning_application_path(@planning_application),
+                alert: "Error submitting recommendation - please contact support."
   end
 end

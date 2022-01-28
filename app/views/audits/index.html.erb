@@ -17,20 +17,26 @@
   <tbody class="govuk-table__body">
     <% @audits.each do |audit_item| %>
       <tr class="govuk-table__row">
-        <td class="govuk-table__cell"><%= audit_item.created_at.strftime("%d-%m-%Y %H:%M") %></td>
-        <td class="govuk-table__cell"><%= define_audit_user(audit_item) %></td>
-        <td colspan="2" class="govuk-table__cell">
-          <% if audit_item.activity_type.include?("request") || audit_item.activity_type.include?("document_received_at_changed") %>
-            <% if audit_item.activity_type.match("/*_validation_request_cancelled") %>
-              <%= render "audits/types/validation_request_cancelled", locals: { item: audit_item } %>
+        <%= content_tag(:tr, id: dom_id(audit_item)) do %>
+          <td class="govuk-table__cell"><%= audit_item.created_at.strftime("%d-%m-%Y %H:%M") %></td>
+          <td class="govuk-table__cell"><%= define_audit_user(audit_item) %></td>
+          <td colspan="2" class="govuk-table__cell">
+            <% if audit_item.activity_type.include?("request") || audit_item.activity_type.include?("document_received_at_changed") %>
+              <% if audit_item.activity_type.match("/*_validation_request_cancelled") %>
+                <%= render "audits/types/validation_request_cancelled", locals: { item: audit_item } %>
+              <% else %>
+                <%= render "audits/types/#{audit_item.activity_type}", locals: { item: audit_item } %>
+              <% end %>
             <% else %>
-              <%= render "audits/types/#{audit_item.activity_type}", locals: { item: audit_item } %>
+              <% if audit_item.activity_type.include?("submitted") %>
+                <%= render "audits/types/#{audit_item.activity_type}", locals: { item: audit_item } %>
+              <% else %>
+                <%= render "audits/types/generic_audit_entry", locals: { item: audit_item } %>
+              <% end %>
             <% end %>
-          <% else %>
-            <%= render "audits/types/generic_audit_entry", locals: { item: audit_item } %>
-          <% end %>
-        </td>
+          </td>
+        <% end %>
       </tr>
     <% end %>
-    </tbody>
+  </tbody>
 </table>

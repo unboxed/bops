@@ -1,6 +1,6 @@
-<% if recommendations.submitted.present? %>
+<% if recommendations.present? %>
   <div class="recommendations govuk-inset-text">
-    <% recommendations.submitted.each do |recommendation| %>
+    <% recommendations.each do |recommendation| %>
       <div class="recommendation">
         <p class="govuk-body">
           <strong>Submitted recommendation</strong> by <%= recommendation.assessor.name %><br />

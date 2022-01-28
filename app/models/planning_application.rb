@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PlanningApplication < ApplicationRecord
+  class SubmitRecommendationError < RuntimeError; end
+
   include PlanningApplicationDecorator
 
   include PlanningApplicationStatus
@@ -126,11 +128,11 @@ class PlanningApplication < ApplicationRecord
   end
 
   def assessment_complete?
-    (validation_complete? && pending_review? && recommendations.last.submitted) || awaiting_determination? || determined?
+    (validation_complete? && pending_review? && !assessment_in_progress?) || awaiting_determination? || determined?
   end
 
   def can_submit_recommendation?
-    assessment_complete? && (in_assessment? || assessment_in_progress? || awaiting_correction?)
+    assessment_complete? && (in_assessment? || awaiting_correction?)
   end
 
   def submit_recommendation_complete?
@@ -341,6 +343,21 @@ class PlanningApplication < ApplicationRecord
     else
       received_at
     end
+  end
+
+  def submit_recommendation!
+    transaction do
+      submit!
+
+      Audit.create!(
+        planning_application_id: id,
+        user: Current.user,
+        activity_type: "submitted",
+        audit_comment: { assessor_comment: recommendations.last.assessor_comment }.to_json
+      )
+    end
+  rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
+    raise SubmitRecommendationError, e.message
   end
 
   private

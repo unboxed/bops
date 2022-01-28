@@ -22,7 +22,7 @@ module PlanningApplicationStatus
 
     aasm.attribute_name :status
 
-    aasm no_direct_assignment: true do
+    aasm whiny_persistence: true, no_direct_assignment: true do
       state :not_started, initial: true
       state :invalidated, display: "invalid"
       state :assessment_in_progress
@@ -47,7 +47,7 @@ module PlanningApplicationStatus
       end
 
       event :assess do
-        transitions from: %i[in_assessment assessment_in_progress awaiting_correction], to: :awaiting_determination,
+        transitions from: %i[in_assessment assessment_in_progress awaiting_correction], to: :in_assessment,
                     guard: :decision_present?
       end
 
@@ -78,6 +78,12 @@ module PlanningApplicationStatus
       event :close do
         transitions from: IN_PROGRESS_STATUSES, to: :closed,
                     after: proc { |comment| update!(closed_or_cancellation_comment: comment) }
+      end
+
+      event :submit do
+        transitions from: :in_assessment, to: :awaiting_determination, guard: :decision_present? do
+          after { recommendations.last.update!(submitted: true) }
+        end
       end
 
       after_all_transitions :timestamp_status_change # FIXME: https://github.com/aasm/aasm#timestamps

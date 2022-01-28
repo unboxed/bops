@@ -13,6 +13,8 @@ module AuditHelper
     when "approved"
       "Recommendation approved"
     when "assessed"
+      "Recommendation assessed"
+    when "submitted"
       "Recommendation submitted"
     when "challenged"
       "Recommendation challenged"
@@ -104,7 +106,9 @@ module AuditHelper
   def audit_entry_template(audit)
     if audit.activity_type.match("/*_validation_request_cancelled")
       "validation_request_cancelled"
-    elsif audit.activity_type.include?("request") || audit.activity_type.include?("document_received_at_changed")
+    elsif audit.activity_type.include?("request") ||
+          audit.activity_type.include?("document_received_at_changed") ||
+          audit.activity_type.include?("submitted")
       audit.activity_type
     else
       "generic_audit_entry"
