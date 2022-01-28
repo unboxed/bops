@@ -182,6 +182,7 @@ class PlanningApplicationsController < AuthenticationController
 
   def save_assessment
     @planning_application.public_comment = params[:planning_application][:public_comment]
+    @planning_application.decision = params[:planning_application][:decision]
     recommendation = @planning_application.recommendations.build(assessor: current_user)
     recommendation.assessor_comment = params[:recommendation][:assessor_comment]
 
