@@ -15,61 +15,88 @@ RSpec.describe "Planning Application Assessment", type: :system do
     visit root_path
   end
 
-  context "with no previous recommendations" do
-    it "can create a new recommendation, edit it, and submit it" do
+  context "when clicking Save and mark as complete" do
+    context "with no previous recommendations" do
+      it "can create a new recommendation, edit it, and submit it" do
+        click_link "In assessment"
+        click_link planning_application.reference
+        click_link "Assess proposal"
+        choose "Yes"
+        fill_in "State the reasons why this application is, or is not lawful.", with: "This is a public comment"
+        fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
+        click_button "Save and mark as complete"
+
+        planning_application.reload
+        expect(planning_application.recommendations.count).to eq(1)
+        expect(planning_application.public_comment).to eq("This is a public comment")
+        expect(planning_application.recommendations.first.assessor_comment).to eq("This is a private assessor comment")
+        expect(planning_application.decision).to eq("granted")
+
+        click_link "Assess proposal"
+        expect(page).to have_checked_field("Yes")
+        expect(page).to have_field("Please provide supporting information for your manager.",
+                                   with: "This is a private assessor comment")
+        choose "No"
+        fill_in "State the reasons why this application is, or is not lawful.", with: "This is a new public comment"
+        fill_in "Please provide supporting information for your manager.", with: "Edited private assessor comment"
+        click_button "Update assessment"
+        planning_application.reload
+
+        expect(planning_application.recommendations.count).to eq(1)
+        expect(planning_application.recommendations.first.assessor_comment).to eq("Edited private assessor comment")
+        expect(planning_application.decision).to eq("refused")
+        expect(planning_application.public_comment).to eq("This is a new public comment")
+
+        click_link "Submit recommendation"
+
+        expect(page).to have_content("We certify that on the date of the application")
+        expect(page).to have_content("not lawful")
+        expect(page).to have_content("aggrieved")
+
+        click_button "Submit to manager"
+
+        expect(page).to have_content("Recommendation was successfully submitted.")
+
+        planning_application.reload
+        expect(planning_application.status).to eq("awaiting_determination")
+        click_link "View recommendation"
+        expect(page).to have_text("Recommendations submitted by #{planning_application.recommendations.first.assessor.name}")
+
+        click_link "Back"
+
+        click_button "Audit log"
+        click_link "View all audits"
+
+        expect(page).to have_text("Recommendation submitted")
+        expect(page).to have_text(assessor.name)
+        expect(page).to have_text("Assessor comment: Edited private assessor comment")
+        expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+      end
+    end
+
+    it "errors if no public comment is provided when providing rejection recommendation" do
       click_link "In assessment"
       click_link planning_application.reference
       click_link "Assess proposal"
-      choose "Yes"
-      fill_in "State the reasons why this application is, or is not lawful.", with: "This is a public comment"
+      choose "No"
       fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
+      fill_in "State the reasons why this application is, or is not lawful.", with: ""
       click_button "Save and mark as complete"
 
-      planning_application.reload
-      expect(planning_application.recommendations.count).to eq(1)
-      expect(planning_application.public_comment).to eq("This is a public comment")
-      expect(planning_application.recommendations.first.assessor_comment).to eq("This is a private assessor comment")
-      expect(planning_application.decision).to eq("granted")
+      expect(page).to have_content("Please state the reasons why this application is, or is not lawful")
 
+      expect(planning_application.status).to eq("in_assessment")
+    end
+
+    it "errors if no decision given" do
+      click_link "In assessment"
+      click_link planning_application.reference
       click_link "Assess proposal"
-      expect(page).to have_checked_field("Yes")
-      expect(page).to have_field("Please provide supporting information for your manager.",
-                                 with: "This is a private assessor comment")
-      choose "No"
-      fill_in "State the reasons why this application is, or is not lawful.", with: "This is a new public comment"
-      fill_in "Please provide supporting information for your manager.", with: "Edited private assessor comment"
-      click_button "Update assessment"
-      planning_application.reload
+      click_button "Save and mark as complete"
 
-      expect(planning_application.recommendations.count).to eq(1)
-      expect(planning_application.recommendations.first.assessor_comment).to eq("Edited private assessor comment")
-      expect(planning_application.decision).to eq("refused")
-      expect(planning_application.public_comment).to eq("This is a new public comment")
+      expect(page).to have_content("Please select Yes or No")
 
-      click_link "Submit recommendation"
-
-      expect(page).to have_content("We certify that on the date of the application")
-      expect(page).to have_content("not lawful")
-      expect(page).to have_content("aggrieved")
-
-      click_button "Submit to manager"
-
-      expect(page).to have_content("Recommendation was successfully submitted.")
-
-      planning_application.reload
-      expect(planning_application.status).to eq("awaiting_determination")
-      click_link "View recommendation"
-      expect(page).to have_text("Recommendations submitted by #{planning_application.recommendations.first.assessor.name}")
-
-      click_link "Back"
-
-      click_button "Audit log"
-      click_link "View all audits"
-
-      expect(page).to have_text("Recommendation submitted")
-      expect(page).to have_text(assessor.name)
-      expect(page).to have_text("Assessor comment: Edited private assessor comment")
-      expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+      expect(planning_application.status).to eq("in_assessment")
     end
   end
 
@@ -117,31 +144,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).to have_field("Please provide supporting information for your manager.",
                                  with: "This is a private assessor comment")
     end
-  end
-
-  it "errors if no public comment is provided when providing rejection recommendation" do
-    click_link "In assessment"
-    click_link planning_application.reference
-    click_link "Assess proposal"
-    choose "No"
-    fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
-    fill_in "State the reasons why this application is, or is not lawful.", with: ""
-    click_button "Save and mark as complete"
-
-    expect(page).to have_content("Please state the reasons why this application is, or is not lawful")
-
-    expect(planning_application.status).to eq("in_assessment")
-  end
-
-  it "errors if no decision given" do
-    click_link "In assessment"
-    click_link planning_application.reference
-    click_link "Assess proposal"
-    click_button "Save and mark as complete"
-
-    expect(page).to have_content("Please select Yes or No")
-
-    expect(planning_application.status).to eq("in_assessment")
   end
 
   context "when submitting a recommendation" do
@@ -232,6 +234,43 @@ RSpec.describe "Planning Application Assessment", type: :system do
         expect(page).to have_text(assessor.name)
         expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
       end
+    end
+  end
+
+  context "when clicking Save and come back later" do
+    context "with no previous recommendations" do
+      it "can create a new recommendation,saves it and come back later" do
+        click_link "In assessment"
+        click_link planning_application.reference
+        click_link "Assess proposal"
+        choose "Yes"
+        fill_in "State the reasons why this application is, or is not lawful.", with: "This is a public comment"
+        fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
+        click_button "Save and come back later"
+
+        planning_application.reload
+        expect(planning_application.recommendations.count).to eq(1)
+        expect(planning_application.public_comment).to eq("This is a public comment")
+        expect(planning_application.recommendations.first.assessor_comment).to eq("This is a private assessor comment")
+        expect(planning_application.decision).to eq("granted")
+
+        click_link "Assess proposal"
+        expect(page).to have_checked_field("Yes")
+        expect(page).to have_content("This is a public comment")
+        expect(page).to have_field("Please provide supporting information for your manager.",
+                                   with: "This is a private assessor comment")
+      end
+    end
+
+    it "errors if no decision given" do
+      click_link "In assessment"
+      click_link planning_application.reference
+      click_link "Assess proposal"
+      click_button "Save and come back later"
+
+      expect(page).not_to have_content("Please select Yes or No")
+
+      expect(planning_application.status).to eq("in_assessment")
     end
   end
 end
