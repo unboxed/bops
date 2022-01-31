@@ -1,4 +1,4 @@
-<% if current_user %>
+<% if current_user && controller_path != "public/planning_guides" %>
   <% if current_page?(planning_applications_path(@planning_application)) %>
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">

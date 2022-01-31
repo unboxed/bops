@@ -31,6 +31,12 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
     click_button "Next"
 
     expect(page).to have_content("Request a new document")
+    expect(page).to have_content("This request will be sent to the applicant immediately.")
+
+    expect(page).to have_link(
+      "Applicants will be able to see this advice about how to prepare plans (Opens in a new window or tab)",
+      href: "/planning_guides/index"
+    )
 
     fill_in "Please specify the new document type:", with: "Backyard plans"
     fill_in "Please specify the reason you have requested this document?", with: "Application is missing a rear view."

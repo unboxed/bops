@@ -44,9 +44,12 @@
             <% end %>
           </tbody>
         </table>
-        <p class="govuk-body govuk-!-padding-top-6 govuk-!-padding-bottom-8">
+        <p class="govuk-body govuk-!-padding-top-6 govuk-!-padding-bottom-6">
           If you want to make any changes to the requests, return to <%= link_to "documents", planning_application_documents_path(@planning_application), class: "govuk-link" %>
         </p>
+
+        <%= render "shared/planning_guides_link" %>
+
         <%= render "shared/validation_request_form_actions", form: form %>
       <% end %>
     <% end %>
