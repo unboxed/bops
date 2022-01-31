@@ -142,6 +142,20 @@ RSpec.describe "Planning guides", type: :system do
       expect(page).to have_image_displayed("unit_plans/proposed")
       expect(page).to have_link("Back", href: "/planning_guides/index")
     end
+
+    it "use plans pages" do
+      click_link("Existing use plans")
+
+      expect(page).to have_content("How to create existing use plans")
+      expect(page).to have_image_displayed("use_plans/existing")
+      click_link("Back")
+
+      click_link("Proposed use plans")
+
+      expect(page).to have_content("How to create proposed use plans")
+      expect(page).to have_image_displayed("use_plans/proposed")
+      expect(page).to have_link("Back", href: "/planning_guides/index")
+    end
   end
 
   context "when logged in" do
