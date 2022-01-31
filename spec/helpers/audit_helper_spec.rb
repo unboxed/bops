@@ -12,7 +12,7 @@ RSpec.describe AuditHelper, type: :helper do
     let(:document_archived_audit) { create :audit, activity_type: "archived" }
 
     it "returns the correct wording for an assessed audit" do
-      expect(activity(approved_audit.activity_type)).to eq("Recommendation submitted")
+      expect(activity(approved_audit.activity_type)).to eq("Recommendation assessed")
     end
 
     it "returns the correct wording for an assigned audit" do
@@ -73,6 +73,41 @@ RSpec.describe AuditHelper, type: :helper do
           "Cancelled: validation request (replace document#)"
         )
       end
+    end
+
+    it "returns an Argument Error if audit activity does not exist" do
+      expect { activity("does_not_exist") }.to raise_error(ArgumentError, "Activity type: does_not_exist is not valid")
+    end
+  end
+
+  describe "#audit_entry_template" do
+    let(:assessor) { create :user, name: "Polly" }
+    let(:validation_request_cancelled_audit) do
+      create :audit, activity_type: "additional_document_validation_request_cancelled"
+    end
+    let(:validation_request_audit) { create :audit, activity_type: "other_change_validation_request_added" }
+    let(:document_received_at_changed_audit) { create :audit, activity_type: "document_received_at_changed_audit" }
+    let(:submitted_audit) { create :audit, activity_type: "submitted" }
+    let(:random_audit) { create :audit, activity_type: "random" }
+
+    it "returns the correct audit activity type for a cancelled validation request" do
+      expect(audit_entry_template(validation_request_cancelled_audit)).to eq("validation_request_cancelled")
+    end
+
+    it "returns the correct audit activity type for a validation request" do
+      expect(audit_entry_template(validation_request_audit)).to eq("other_change_validation_request_added")
+    end
+
+    it "returns the correct audit activity type for document_received_at_changed" do
+      expect(audit_entry_template(document_received_at_changed_audit)).to eq("document_received_at_changed_audit")
+    end
+
+    it "returns the correct audit activity type for submitting a planning application" do
+      expect(audit_entry_template(submitted_audit)).to eq("submitted")
+    end
+
+    it "returns the generic template for an audit" do
+      expect(audit_entry_template(random_audit)).to eq("generic_audit_entry")
     end
   end
 end

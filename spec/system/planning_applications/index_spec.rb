@@ -81,6 +81,7 @@ RSpec.describe "Planning Application index page", type: :system do
       let!(:other_assessor_planning_application) do
         create :planning_application, user_id: second_assessor.id, local_authority: default_local_authority
       end
+      let(:recommendation) { create :recommendation, planning_application: other_assessor_planning_application }
 
       it "On login, assessor gets redirected to a view with its own and unassigned Planning Applications" do
         within("#under_assessment") do
@@ -113,8 +114,11 @@ RSpec.describe "Planning Application index page", type: :system do
       end
 
       it "Applications in a determined state belonging to other assessors are also not visible on login" do
+        other_assessor_planning_application.recommendations << recommendation
+
         other_assessor_planning_application.decision = "granted"
         other_assessor_planning_application.assess!
+        other_assessor_planning_application.submit!
         other_assessor_planning_application.determine!
 
         click_link "Closed"

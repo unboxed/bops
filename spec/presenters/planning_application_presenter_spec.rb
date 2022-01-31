@@ -33,7 +33,8 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
       [:not_started, "Expiry date: ", :expiry_date],
       [:determined, "Granted at: ", :determined_at],
       [:returned, "Returned at: ", :returned_at],
-      [:withdrawn, "Withdrawn at: ", :withdrawn_at]
+      [:withdrawn, "Withdrawn at: ", :withdrawn_at],
+      [:closed, "Closed at: ", :closed_at]
     ].each do |state, label, date|
       context "when the application is #{state.to_s.humanize}" do
         let(:planning_application) { create("#{state}_planning_application") }

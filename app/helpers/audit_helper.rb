@@ -13,7 +13,11 @@ module AuditHelper
     when "approved"
       "Recommendation approved"
     when "assessed"
+      "Recommendation assessed"
+    when "submitted"
       "Recommendation submitted"
+    when "withdrawn_recommendation"
+      "Recommendation withdrawn"
     when "challenged"
       "Recommendation challenged"
     when "created"
@@ -24,6 +28,10 @@ module AuditHelper
       "Constraint removed"
     when "determined"
       "Decision Published"
+    when "red_line_created"
+      "Red line drawing created"
+    when "red_line_updated"
+      "Red line drawing updated"
     when "document_received_at_changed"
       "#{args} received at date was modified"
     when "document_invalidated"
@@ -88,6 +96,8 @@ module AuditHelper
       "Cancelled: validation request (applicant approval for red line boundary change##{args})"
     when "replacement_document_validation_request_cancelled"
       "Cancelled: validation request (replace document##{args})"
+    else
+      raise ArgumentError, "Activity type: #{type_of_activity} is not valid"
     end
   end
 
@@ -104,7 +114,9 @@ module AuditHelper
   def audit_entry_template(audit)
     if audit.activity_type.match("/*_validation_request_cancelled")
       "validation_request_cancelled"
-    elsif audit.activity_type.include?("request") || audit.activity_type.include?("document_received_at_changed")
+    elsif audit.activity_type.include?("request") ||
+          audit.activity_type.include?("document_received_at_changed") ||
+          audit.activity_type.include?("submitted")
       audit.activity_type
     else
       "generic_audit_entry"

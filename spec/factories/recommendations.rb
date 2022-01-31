@@ -10,6 +10,10 @@ FactoryBot.define do
     submitted { nil }
   end
 
+  trait :submitted do
+    submitted { true }
+  end
+
   trait :reviewed do
     submitted { true }
     reviewer { association :user, :reviewer }

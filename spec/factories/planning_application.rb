@@ -94,6 +94,11 @@ FactoryBot.define do
       end
     end
 
+    trait :assessment_in_progress do
+      status { :assessment_in_progress }
+      assessment_in_progress_at { Time.zone.now }
+    end
+
     trait :awaiting_correction do
       status { :awaiting_correction }
       awaiting_correction_at { Time.zone.now }
@@ -204,6 +209,12 @@ FactoryBot.define do
       end
     end
 
+    trait :with_recommendation do
+      after(:create) do |planning_application|
+        create(:recommendation, planning_application: planning_application)
+      end
+    end
+
     factory :not_started_planning_application do
       status { :not_started }
 
@@ -230,8 +241,16 @@ FactoryBot.define do
 
             after(:create, &:assess!)
 
-            factory :determined_planning_application do
-              after(:create, &:determine!)
+            factory :submitted_planning_application do
+              after(:create) do |planning_application|
+                create(:recommendation, planning_application: planning_application)
+
+                planning_application.submit!
+              end
+
+              factory :determined_planning_application do
+                after(:create, &:determine!)
+              end
             end
           end
         end
@@ -248,6 +267,10 @@ FactoryBot.define do
       after(:create) do |application|
         application.withdraw!("no thanks")
       end
+    end
+
+    factory :closed_planning_application do
+      after(:create, &:close!)
     end
   end
 end
