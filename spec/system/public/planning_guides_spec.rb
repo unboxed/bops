@@ -114,6 +114,20 @@ RSpec.describe "Planning guides", type: :system do
       expect(page).to have_image_displayed("sections/proposed")
       expect(page).to have_link("Back", href: "/planning_guides/index")
     end
+
+    it "roof plans pages" do
+      click_link("Existing roof plans")
+
+      expect(page).to have_content("How to create existing roof plans")
+      expect(page).to have_image_displayed("roof_plans/existing")
+      click_link("Back")
+
+      click_link("Proposed roof plans")
+
+      expect(page).to have_content("How to create proposed roof plans")
+      expect(page).to have_image_displayed("roof_plans/proposed")
+      expect(page).to have_link("Back", href: "/planning_guides/index")
+    end
   end
 
   context "when logged in" do
