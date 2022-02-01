@@ -32,6 +32,7 @@ class PlanningApplication < ApplicationRecord
   before_create :set_change_access_id
 
   after_create :set_ward_information
+  after_create :audit_created!
   before_update :set_key_dates
 
   WORK_STATUSES = %w[proposed existing].freeze
@@ -423,5 +424,14 @@ class PlanningApplication < ApplicationRecord
 
   def applicant_or_agent_email
     errors.add(:base, "An applicant or agent email is required.") unless applicant_email? || agent_email?
+  end
+
+  def audit_created!
+    audits.create!(
+      user: user || nil,
+      activity_type: "created",
+      activity_information: api_user&.name || user&.name,
+      api_user: api_user || nil
+    )
   end
 end

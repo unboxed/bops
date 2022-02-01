@@ -49,12 +49,6 @@ module Api
             if @planning_application.valid? && @planning_application.save!
               upload_documents(params[:files])
 
-              Audit.create!(
-                planning_application: @planning_application,
-                api_user: current_api_user,
-                activity_type: "created",
-                activity_information: current_api_user.name
-              )
               send_success_response
               if @planning_application.agent_email.present? || @planning_application.applicant_email.present?
                 receipt_notice_mail

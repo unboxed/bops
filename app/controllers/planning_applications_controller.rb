@@ -39,8 +39,6 @@ class PlanningApplicationsController < AuthenticationController
     @planning_application.assign_attributes(local_authority: current_local_authority)
 
     if @planning_application.save
-      audit("created", nil, current_user.name)
-
       receipt_notice_mail if @planning_application.applicant_and_agent_email.any?
 
       redirect_to planning_application_documents_path(@planning_application), notice: "Planning application was successfully created."
