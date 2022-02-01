@@ -64,6 +64,15 @@ module PlanningApplicationStatus
         transitions from: :not_started, to: :invalidated, guard: :pending_validation_requests? do
           after { pending_validation_requests.each(&:mark_as_sent!) }
         end
+
+        after do
+          audits.create!(
+            user: user || nil,
+            activity_type: "invalidated",
+            activity_information: api_user&.name || user&.name,
+            api_user: api_user || nil
+          )
+        end
       end
 
       event :determine do

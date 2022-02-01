@@ -150,6 +150,7 @@ RSpec.describe PlanningApplicationStatus do
       it "sets the status to invalidated" do
         planning_application.invalidate
         expect(planning_application.status).to eq "invalidated"
+        expect(Audit.last.activity_type).to eq("invalidated")
       end
 
       it "sets the timestamp for invalidated_at to now" do

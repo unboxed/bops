@@ -113,8 +113,6 @@ class PlanningApplicationsController < AuthenticationController
     if @planning_application.may_invalidate?
       @planning_application.invalidate!
 
-      audit("invalidated")
-
       invalidation_notice_mail
 
       request_names = @planning_application.open_validation_requests.map(&:audit_name)
