@@ -103,7 +103,6 @@ class PlanningApplicationsController < AuthenticationController
     else
       @planning_application.documents_validated_at = date_from_params
       @planning_application.start!
-      audit("started")
       validation_notice_mail
 
       redirect_to @planning_application, notice: "Application is ready for assessment and an email notification has been sent."

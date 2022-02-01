@@ -68,6 +68,7 @@ RSpec.describe PlanningApplicationStatus do
         planning_application.update!(documents_validated_at: Time.zone.today)
         planning_application.start
         expect(planning_application.status).to eq "in_assessment"
+        expect(Audit.last.activity_type).to eq("started")
       end
 
       it "sets the timestamp for in_assessment_at to now" do

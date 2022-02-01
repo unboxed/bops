@@ -36,6 +36,15 @@ module PlanningApplicationStatus
 
       event :start do
         transitions from: %i[not_started invalidated in_assessment], to: :in_assessment, guard: :has_validation_date?
+
+        after do
+          audits.create!(
+            user: user || nil,
+            activity_type: "started",
+            activity_information: api_user&.name || user&.name,
+            api_user: api_user || nil
+          )
+        end
       end
 
       event :save_assessment do
