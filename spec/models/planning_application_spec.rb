@@ -32,10 +32,12 @@ RSpec.describe PlanningApplication, type: :model do
   end
 
   describe "#reference" do
-    it "pads the ID correctly" do
-      planning_application.update!(id: 1000)
+    it "starts with 0 and then the planning_application ID" do
+      expect(planning_application.reference).to match(/^(?:0+#{planning_application.id})$/)
+    end
 
-      expect(planning_application.reference).to eq "00001000"
+    it "has 8 characters length" do
+      expect(planning_application.reference).to match(/^\d{8}$/)
     end
   end
 
