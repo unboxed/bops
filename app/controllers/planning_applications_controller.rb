@@ -230,7 +230,6 @@ class PlanningApplicationsController < AuthenticationController
 
   def determine
     @planning_application.determine!
-    audit("determined", "Application #{@planning_application.decision}")
     decision_notice_mail
 
     redirect_to @planning_application, notice: "Decision Notice sent to applicant"

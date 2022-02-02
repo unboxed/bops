@@ -193,6 +193,7 @@ RSpec.describe PlanningApplicationStatus do
       it "sets the status to determined" do
         planning_application.determine
         expect(planning_application.status).to eq "determined"
+        expect(Audit.last.activity_type).to eq("determined")
       end
 
       it "sets the timestamp for determined_at to now" do

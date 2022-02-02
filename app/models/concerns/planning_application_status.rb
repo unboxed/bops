@@ -65,6 +65,8 @@ module PlanningApplicationStatus
 
       event :determine do
         transitions from: :awaiting_determination, to: :determined
+
+        after { audit_created!(activity_type: "determined", audit_comment: "Application #{decision}") }
       end
 
       event :request_correction do
