@@ -429,6 +429,6 @@ class PlanningApplication < ApplicationRecord
   end
 
   def create_audit!
-    audit_created!(activity_type: "created")
+    audit_created!(activity_type: "created", activity_information: api_user&.name || user&.name)
   end
 end

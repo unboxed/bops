@@ -6,11 +6,11 @@ module AuditableModel
   included do
     private
 
-    def audit_created!(activity_type:)
+    def audit_created!(activity_type:, activity_information: nil)
       audits.create!(
         user: user || nil,
         activity_type: activity_type,
-        activity_information: api_user&.name || user&.name,
+        activity_information: activity_information,
         api_user: api_user || nil
       )
     end
