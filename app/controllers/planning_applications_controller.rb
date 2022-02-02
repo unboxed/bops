@@ -112,10 +112,6 @@ class PlanningApplicationsController < AuthenticationController
 
       invalidation_notice_mail
 
-      request_names = @planning_application.open_validation_requests.map(&:audit_name)
-
-      audit("validation_requests_sent", nil, request_names.join(", "))
-
       redirect_to @planning_application, notice: "Application has been invalidated and email has been sent"
     else
       validation_requests = @planning_application.validation_requests

@@ -60,7 +60,11 @@ module PlanningApplicationStatus
           after { pending_validation_requests.each(&:mark_as_sent!) }
         end
 
-        after { audit_created!(activity_type: "invalidated") }
+        after do
+          request_names = open_validation_requests.map(&:audit_name).join(", ")
+          audit_created!(activity_type: "validation_requests_sent", activity_information: request_names)
+          audit_created!(activity_type: "invalidated")
+        end
       end
 
       event :determine do
