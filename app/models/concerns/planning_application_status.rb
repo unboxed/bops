@@ -81,6 +81,8 @@ module PlanningApplicationStatus
       event :withdraw do
         transitions from: IN_PROGRESS_STATUSES, to: :withdrawn,
                     after: proc { |comment| update!(closed_or_cancellation_comment: comment) }
+
+        after { audit_created!(activity_type: "withdrawn", audit_comment: closed_or_cancellation_comment) }
       end
 
       event :close do

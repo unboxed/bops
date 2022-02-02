@@ -279,8 +279,6 @@ class PlanningApplicationsController < AuthenticationController
     when "withdrawn"
       @planning_application.withdraw!(:withdrawn, params[:planning_application][:closed_or_cancellation_comment])
 
-      audit("withdrawn", @planning_application.closed_or_cancellation_comment)
-
       redirect_to @planning_application, notice: "Application has been withdrawn"
     when "returned"
       @planning_application.return!(:returned, params[:planning_application][:closed_or_cancellation_comment])
