@@ -283,8 +283,6 @@ class PlanningApplicationsController < AuthenticationController
     when "returned"
       @planning_application.return!(:returned, params[:planning_application][:closed_or_cancellation_comment])
 
-      audit("returned", @planning_application.closed_or_cancellation_comment)
-
       redirect_to @planning_application, notice: "Application has been returned"
     when "closed"
       @planning_application.close!(:closed, params[:planning_application][:closed_or_cancellation_comment])

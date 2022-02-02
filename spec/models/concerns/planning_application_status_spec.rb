@@ -109,7 +109,9 @@ RSpec.describe PlanningApplicationStatus do
 
       it "sets the status to returned" do
         planning_application.return
+
         expect(planning_application.status).to eq "returned"
+        expect(Audit.last.activity_type).to eq("returned")
       end
 
       it "sets the timestamp for returned_at to now" do
