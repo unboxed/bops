@@ -5,6 +5,8 @@ require "aasm"
 module PlanningApplicationStatus
   extend ActiveSupport::Concern
 
+  include AuditableModel
+
   IN_PROGRESS_STATUSES = %i[not_started in_assessment invalidated awaiting_determination awaiting_correction].freeze
 
   included do
@@ -37,14 +39,7 @@ module PlanningApplicationStatus
       event :start do
         transitions from: %i[not_started invalidated in_assessment], to: :in_assessment, guard: :has_validation_date?
 
-        after do
-          audits.create!(
-            user: user || nil,
-            activity_type: "started",
-            activity_information: api_user&.name || user&.name,
-            api_user: api_user || nil
-          )
-        end
+        after { audit_created!(activity_type: "started") }
       end
 
       event :save_assessment do
@@ -65,14 +60,7 @@ module PlanningApplicationStatus
           after { pending_validation_requests.each(&:mark_as_sent!) }
         end
 
-        after do
-          audits.create!(
-            user: user || nil,
-            activity_type: "invalidated",
-            activity_information: api_user&.name || user&.name,
-            api_user: api_user || nil
-          )
-        end
+        after { audit_created!(activity_type: "invalidated") }
       end
 
       event :determine do
