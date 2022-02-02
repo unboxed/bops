@@ -379,6 +379,12 @@ class PlanningApplication < ApplicationRecord
     raise WithdrawRecommendationError, e.message
   end
 
+  def assign(user)
+    self.user = user
+
+    audit_created!(activity_type: "assigned", activity_information: self.user&.name)
+  end
+
   private
 
   def set_key_dates

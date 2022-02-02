@@ -68,12 +68,9 @@ class PlanningApplicationsController < AuthenticationController
 
   def assign
     if request.patch?
-      @planning_application.user = if params[:planning_application][:user_id] == "0"
-                                     nil
-                                   else
-                                     current_local_authority.users.find(params[:planning_application][:user_id])
-                                   end
-      audit("assigned", nil, @planning_application.user&.name)
+      user = params[:planning_application][:user_id].eql?("0") ? nil : current_local_authority.users.find(params[:planning_application][:user_id])
+      @planning_application.assign(user)
+
       redirect_to @planning_application if @planning_application.save
     end
   end
