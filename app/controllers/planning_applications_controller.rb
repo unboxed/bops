@@ -287,8 +287,6 @@ class PlanningApplicationsController < AuthenticationController
     when "closed"
       @planning_application.close!(:closed, params[:planning_application][:closed_or_cancellation_comment])
 
-      audit("closed", @planning_application.closed_or_cancellation_comment)
-
       redirect_to @planning_application, notice: "Application has been closed"
     else
       @planning_application.errors.add(:status, "Please select one of the below options")

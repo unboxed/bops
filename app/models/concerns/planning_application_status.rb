@@ -90,6 +90,8 @@ module PlanningApplicationStatus
       event :close do
         transitions from: IN_PROGRESS_STATUSES, to: :closed,
                     after: proc { |comment| update!(closed_or_cancellation_comment: comment) }
+
+        after { audit_created!(activity_type: "closed", audit_comment: closed_or_cancellation_comment) }
       end
 
       event :submit do
