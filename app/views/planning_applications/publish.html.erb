@@ -11,7 +11,9 @@
   <% if @planning_application.awaiting_determination? %>
     <p class="govuk-body">By determining the application, the applicant will receive this decision notice. The decision notice will also be available publicly. </p>
 
-    <%= form_with model: @planning_application, url: determine_planning_application_path(@planning_application), local: true do |form| %>
+    <%= form_with model: @planning_application, url: determine_planning_application_path(@planning_application), local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+      <%= form.govuk_date_field :determination_date, legend: { text: 'Enter determination date', size: 'l' } %>
+
       <%= form.submit "Determine application", class: "govuk-button", data: { module: "govuk-button" } %>
     <% end %>
   <% else %>

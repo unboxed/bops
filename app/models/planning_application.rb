@@ -376,6 +376,10 @@ class PlanningApplication < ApplicationRecord
     raise WithdrawRecommendationError, e.message
   end
 
+  def determination_date
+    super || Time.zone.today
+  end
+
   private
 
   def set_key_dates
