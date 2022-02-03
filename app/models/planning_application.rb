@@ -36,6 +36,7 @@ class PlanningApplication < ApplicationRecord
   after_create :set_ward_information
   after_create :create_audit!
   before_update :set_key_dates
+  after_update :audit_updated!
 
   WORK_STATUSES = %w[proposed existing].freeze
 
@@ -383,6 +384,16 @@ class PlanningApplication < ApplicationRecord
     self.user = user
 
     audit_created!(activity_type: "assigned", activity_information: self.user&.name)
+  end
+
+  def audit_updated!
+    if saved_changes?
+      saved_changes.keys.map do |attribute_name|
+        audit_created!(activity_type: "updated",
+                       activity_information: attribute_name.humanize,
+                       audit_comment: "Changed from: #{saved_change_to_attribute(attribute_name).first} \r\n Changed to: #{saved_change_to_attribute(attribute_name).second}")
+      end
+    end
   end
 
   private
