@@ -31,7 +31,7 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
   describe "#next_relevant_date_tag" do
     [
       [:not_started, "Expiry date: ", :expiry_date],
-      [:determined, "Granted at: ", :determined_at],
+      [:determined, "Granted at: ", :determination_date],
       [:returned, "Returned at: ", :returned_at],
       [:withdrawn, "Withdrawn at: ", :withdrawn_at],
       [:closed, "Closed at: ", :closed_at]

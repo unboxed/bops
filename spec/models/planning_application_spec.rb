@@ -5,6 +5,32 @@ require "rails_helper"
 RSpec.describe PlanningApplication, type: :model do
   subject(:planning_application) { create :planning_application }
 
+  describe "validations" do
+    describe "#determination_date" do
+      it "validates that date is not in the future" do
+        planning_application = build(:planning_application, determination_date: Time.current + 1.day)
+
+        expect do
+          planning_application.valid?
+        end.to change {
+          planning_application.errors[:determination_date]
+        }.to ["Determination date must be today or in the past"]
+      end
+
+      it "does not raise a validation error if date is today" do
+        planning_application = build(:planning_application, determination_date: Time.current)
+
+        expect { planning_application.valid? }.not_to(change { planning_application.errors[:determination_date] })
+      end
+
+      it "does not raise a validation error if date is in the past" do
+        planning_application = build(:planning_application, determination_date: Time.current - 1.day)
+
+        expect { planning_application.valid? }.not_to(change { planning_application.errors[:determination_date] })
+      end
+    end
+  end
+
   describe "callbacks" do
     describe "::after_create" do
       context "when there is a postcode set" do
@@ -191,6 +217,24 @@ RSpec.describe PlanningApplication, type: :model do
         it "returns the received_at value" do
           expect(planning_application.valid_from).to eq planning_application.received_at
         end
+      end
+    end
+  end
+
+  describe "#determination_date" do
+    before { freeze_time }
+
+    context "when there is no determination date set in the db" do
+      it "returns today's date" do
+        expect(planning_application.determination_date).to eq(Time.zone.today)
+      end
+    end
+
+    context "when there is a determination date set in the db" do
+      it "returns the determination date" do
+        planning_application.update(determination_date: Time.current - 5.days)
+
+        expect(planning_application.determination_date).to eq(Time.current - 5.days)
       end
     end
   end

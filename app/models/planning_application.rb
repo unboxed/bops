@@ -76,6 +76,7 @@ class PlanningApplication < ApplicationRecord
   validate :public_comment_present
   validate :decision_with_recommendations
   validate :policy_classes_editable
+  validate :determination_date_is_not_in_the_future
 
   attribute :policy_classes, :policy_class, array: true
 
@@ -424,6 +425,10 @@ class PlanningApplication < ApplicationRecord
     end
   end
 
+  def determination_date
+    super || Time.zone.today
+  end
+
   private
 
   def set_key_dates
@@ -475,5 +480,13 @@ class PlanningApplication < ApplicationRecord
 
   def create_audit!
     audit_created!(activity_type: "created", activity_information: Current.api_user&.name || Current.user&.name)
+  end
+
+  def determination_date_is_not_in_the_future
+    return unless determination_date_changed?
+
+    if determination_date >= Time.zone.tomorrow
+      errors.add(:determination_date, "Determination date must be today or in the past")
+    end
   end
 end

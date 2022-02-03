@@ -24,7 +24,7 @@ Style/Documentation:
 
 # be a bit kinder with our metrics
 Metrics/BlockLength:
-  Max: 80
+  Max: 100
   Exclude:
     - spec/**/*
 

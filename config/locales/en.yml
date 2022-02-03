@@ -45,3 +45,6 @@ en:
       replacement_document_validation_request: *cancel_reason
       note:
         entry: "Add a note to this application."
+    legend:
+      planning_application:
+        determination_date: "Enter determination date"

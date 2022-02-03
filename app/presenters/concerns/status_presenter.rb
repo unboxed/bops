@@ -49,6 +49,8 @@ module StatusPresenter
     def next_date
       if in_progress?
         expiry_date
+      elsif determined?
+        determination_date.to_date
       else
         send("#{status}_at")
       end

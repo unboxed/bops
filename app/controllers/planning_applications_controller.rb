@@ -6,7 +6,7 @@ class PlanningApplicationsController < AuthenticationController
   before_action :ensure_user_is_reviewer, only: %i[review review_form]
   before_action :ensure_constraint_edits_unlocked, only: %i[edit_constraints_form edit_constraints]
 
-  before_action :set_last_audit, only: %i[show validate_form view_recommendation submit_recommendation]
+  before_action :set_last_audit, only: %i[show validate_form view_recommendation submit_recommendation publish]
 
   rescue_from PlanningApplication::WithdrawRecommendationError do |_exception|
     redirect_failed_withdraw_recommendation
@@ -215,10 +215,21 @@ class PlanningApplicationsController < AuthenticationController
   def publish; end
 
   def determine
-    @planning_application.determine!
-    decision_notice_mail
+    respond_to do |format|
+      @planning_application.assign_attributes(determination_date_params)
 
-    redirect_to @planning_application, notice: "Decision Notice sent to applicant"
+      if @planning_application.valid?
+        @planning_application.determine!
+
+        decision_notice_mail
+
+        format.html do
+          redirect_to @planning_application, notice: "Decision Notice sent to applicant"
+        end
+      else
+        format.html { render :publish }
+      end
+    end
   end
 
   def draw_sitemap; end
@@ -319,6 +330,10 @@ class PlanningApplicationsController < AuthenticationController
                         uprn
                         work_status]
     params.require(:planning_application).permit permitted_keys
+  end
+
+  def determination_date_params
+    params.require(:planning_application).permit(:determination_date)
   end
 
   def validation_date_fields
