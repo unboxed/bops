@@ -53,13 +53,6 @@ class PlanningApplicationsController < AuthenticationController
     end
 
     if @planning_application.update(planning_application_params)
-      planning_application_params.keys.map do |p|
-        if @planning_application.saved_change_to_attribute?(p)
-          audit("updated",
-                "Changed from: #{@planning_application.saved_changes[p][0]} \r\n Changed to: #{@planning_application.saved_changes[p][1]}", p.split("_").join(" ").capitalize)
-        end
-      end
-
       redirect_to @planning_application, notice: "Planning application was successfully updated."
     else
       render :edit
