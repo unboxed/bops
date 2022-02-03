@@ -68,6 +68,7 @@ RSpec.describe PlanningApplicationStatus do
         planning_application.update!(documents_validated_at: Time.zone.today)
         planning_application.start
         expect(planning_application.status).to eq "in_assessment"
+        expect(Audit.last.activity_type).to eq("started")
       end
 
       it "sets the timestamp for in_assessment_at to now" do
@@ -108,7 +109,9 @@ RSpec.describe PlanningApplicationStatus do
 
       it "sets the status to returned" do
         planning_application.return
+
         expect(planning_application.status).to eq "returned"
+        expect(Audit.last.activity_type).to eq("returned")
       end
 
       it "sets the timestamp for returned_at to now" do
@@ -149,6 +152,7 @@ RSpec.describe PlanningApplicationStatus do
       it "sets the status to invalidated" do
         planning_application.invalidate
         expect(planning_application.status).to eq "invalidated"
+        expect(Audit.last.activity_type).to eq("invalidated")
       end
 
       it "sets the timestamp for invalidated_at to now" do
@@ -191,6 +195,7 @@ RSpec.describe PlanningApplicationStatus do
       it "sets the status to determined" do
         planning_application.determine
         expect(planning_application.status).to eq "determined"
+        expect(Audit.last.activity_type).to eq("determined")
       end
 
       it "sets the timestamp for determined_at to now" do
@@ -211,7 +216,9 @@ RSpec.describe PlanningApplicationStatus do
 
       it "sets the status to withdrawn" do
         planning_application.withdraw
+
         expect(planning_application.status).to eq "withdrawn"
+        expect(Audit.last.activity_type).to eq("withdrawn")
       end
 
       it "sets the timestamp for withdrawn_at to now" do
@@ -232,7 +239,9 @@ RSpec.describe PlanningApplicationStatus do
 
       it "sets the status to withdrawn" do
         planning_application.withdraw
+
         expect(planning_application.status).to eq "withdrawn"
+        expect(Audit.last.activity_type).to eq("withdrawn")
       end
 
       it "sets the timestamp for withdrawn_at to now" do
@@ -253,7 +262,9 @@ RSpec.describe PlanningApplicationStatus do
 
       it "sets the status to withdrawn" do
         planning_application.withdraw
+
         expect(planning_application.status).to eq "withdrawn"
+        expect(Audit.last.activity_type).to eq("withdrawn")
       end
 
       it "sets the timestamp for withdrawn_at to now" do
@@ -274,7 +285,9 @@ RSpec.describe PlanningApplicationStatus do
 
       it "sets the status to withdrawn" do
         planning_application.withdraw
+
         expect(planning_application.status).to eq "withdrawn"
+        expect(Audit.last.activity_type).to eq("withdrawn")
       end
 
       it "sets the timestamp for withdrawn_at to now" do

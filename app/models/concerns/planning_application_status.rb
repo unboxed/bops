@@ -5,6 +5,8 @@ require "aasm"
 module PlanningApplicationStatus
   extend ActiveSupport::Concern
 
+  include AuditableModel
+
   IN_PROGRESS_STATUSES = %i[not_started in_assessment invalidated awaiting_determination awaiting_correction].freeze
 
   included do
@@ -36,6 +38,8 @@ module PlanningApplicationStatus
 
       event :start do
         transitions from: %i[not_started invalidated in_assessment], to: :in_assessment, guard: :has_validation_date?
+
+        after { audit_created!(activity_type: "started") }
       end
 
       event :save_assessment do
@@ -55,10 +59,18 @@ module PlanningApplicationStatus
         transitions from: :not_started, to: :invalidated, guard: :pending_validation_requests? do
           after { pending_validation_requests.each(&:mark_as_sent!) }
         end
+
+        after do
+          request_names = open_validation_requests.map(&:audit_name).join(", ")
+          audit_created!(activity_type: "validation_requests_sent", activity_information: request_names)
+          audit_created!(activity_type: "invalidated")
+        end
       end
 
       event :determine do
         transitions from: :awaiting_determination, to: :determined
+
+        after { audit_created!(activity_type: "determined", audit_comment: "Application #{decision}") }
       end
 
       event :request_correction do
@@ -68,16 +80,22 @@ module PlanningApplicationStatus
       event :return do
         transitions from: IN_PROGRESS_STATUSES, to: :returned,
                     after: proc { |comment| update!(closed_or_cancellation_comment: comment) }
+
+        after { audit_created!(activity_type: "returned", audit_comment: closed_or_cancellation_comment) }
       end
 
       event :withdraw do
         transitions from: IN_PROGRESS_STATUSES, to: :withdrawn,
                     after: proc { |comment| update!(closed_or_cancellation_comment: comment) }
+
+        after { audit_created!(activity_type: "withdrawn", audit_comment: closed_or_cancellation_comment) }
       end
 
       event :close do
         transitions from: IN_PROGRESS_STATUSES, to: :closed,
                     after: proc { |comment| update!(closed_or_cancellation_comment: comment) }
+
+        after { audit_created!(activity_type: "closed", audit_comment: closed_or_cancellation_comment) }
       end
 
       event :submit do

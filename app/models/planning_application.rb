@@ -5,6 +5,8 @@ class PlanningApplication < ApplicationRecord
 
   class WithdrawRecommendationError < RuntimeError; end
 
+  include AuditableModel
+
   include PlanningApplicationDecorator
 
   include PlanningApplicationStatus
@@ -32,6 +34,7 @@ class PlanningApplication < ApplicationRecord
   before_create :set_change_access_id
 
   after_create :set_ward_information
+  after_create :create_audit!
   before_update :set_key_dates
 
   WORK_STATUSES = %w[proposed existing].freeze
@@ -376,6 +379,12 @@ class PlanningApplication < ApplicationRecord
     raise WithdrawRecommendationError, e.message
   end
 
+  def assign(user)
+    self.user = user
+
+    audit_created!(activity_type: "assigned", activity_information: self.user&.name)
+  end
+
   private
 
   def set_key_dates
@@ -423,5 +432,9 @@ class PlanningApplication < ApplicationRecord
 
   def applicant_or_agent_email
     errors.add(:base, "An applicant or agent email is required.") unless applicant_email? || agent_email?
+  end
+
+  def create_audit!
+    audit_created!(activity_type: "created", activity_information: api_user&.name || user&.name)
   end
 end

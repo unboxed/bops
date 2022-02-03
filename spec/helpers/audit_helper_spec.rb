@@ -86,9 +86,9 @@ RSpec.describe AuditHelper, type: :helper do
       create :audit, activity_type: "additional_document_validation_request_cancelled"
     end
     let(:validation_request_audit) { create :audit, activity_type: "other_change_validation_request_added" }
-    let(:document_received_at_changed_audit) { create :audit, activity_type: "document_received_at_changed_audit" }
+    let(:document_received_at_changed) { create :audit, activity_type: "document_received_at_changed" }
     let(:submitted_audit) { create :audit, activity_type: "submitted" }
-    let(:random_audit) { create :audit, activity_type: "random" }
+    let(:random_audit) { create :audit, activity_type: "created" }
 
     it "returns the correct audit activity type for a cancelled validation request" do
       expect(audit_entry_template(validation_request_cancelled_audit)).to eq("validation_request_cancelled")
@@ -99,7 +99,7 @@ RSpec.describe AuditHelper, type: :helper do
     end
 
     it "returns the correct audit activity type for document_received_at_changed" do
-      expect(audit_entry_template(document_received_at_changed_audit)).to eq("document_received_at_changed_audit")
+      expect(audit_entry_template(document_received_at_changed)).to eq("document_received_at_changed")
     end
 
     it "returns the correct audit activity type for submitting a planning application" do

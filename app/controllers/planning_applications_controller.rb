@@ -39,8 +39,6 @@ class PlanningApplicationsController < AuthenticationController
     @planning_application.assign_attributes(local_authority: current_local_authority)
 
     if @planning_application.save
-      audit("created", nil, current_user.name)
-
       receipt_notice_mail if @planning_application.applicant_and_agent_email.any?
 
       redirect_to planning_application_documents_path(@planning_application), notice: "Planning application was successfully created."
@@ -70,12 +68,9 @@ class PlanningApplicationsController < AuthenticationController
 
   def assign
     if request.patch?
-      @planning_application.user = if params[:planning_application][:user_id] == "0"
-                                     nil
-                                   else
-                                     current_local_authority.users.find(params[:planning_application][:user_id])
-                                   end
-      audit("assigned", nil, @planning_application.user&.name)
+      user = params[:planning_application][:user_id].eql?("0") ? nil : current_local_authority.users.find(params[:planning_application][:user_id])
+      @planning_application.assign(user)
+
       redirect_to @planning_application if @planning_application.save
     end
   end
@@ -105,7 +100,6 @@ class PlanningApplicationsController < AuthenticationController
     else
       @planning_application.documents_validated_at = date_from_params
       @planning_application.start!
-      audit("started")
       validation_notice_mail
 
       redirect_to @planning_application, notice: "Application is ready for assessment and an email notification has been sent."
@@ -116,13 +110,7 @@ class PlanningApplicationsController < AuthenticationController
     if @planning_application.may_invalidate?
       @planning_application.invalidate!
 
-      audit("invalidated")
-
       invalidation_notice_mail
-
-      request_names = @planning_application.open_validation_requests.map(&:audit_name)
-
-      audit("validation_requests_sent", nil, request_names.join(", "))
 
       redirect_to @planning_application, notice: "Application has been invalidated and email has been sent"
     else
@@ -235,7 +223,6 @@ class PlanningApplicationsController < AuthenticationController
 
   def determine
     @planning_application.determine!
-    audit("determined", "Application #{@planning_application.decision}")
     decision_notice_mail
 
     redirect_to @planning_application, notice: "Decision Notice sent to applicant"
@@ -285,19 +272,13 @@ class PlanningApplicationsController < AuthenticationController
     when "withdrawn"
       @planning_application.withdraw!(:withdrawn, params[:planning_application][:closed_or_cancellation_comment])
 
-      audit("withdrawn", @planning_application.closed_or_cancellation_comment)
-
       redirect_to @planning_application, notice: "Application has been withdrawn"
     when "returned"
       @planning_application.return!(:returned, params[:planning_application][:closed_or_cancellation_comment])
 
-      audit("returned", @planning_application.closed_or_cancellation_comment)
-
       redirect_to @planning_application, notice: "Application has been returned"
     when "closed"
       @planning_application.close!(:closed, params[:planning_application][:closed_or_cancellation_comment])
-
-      audit("closed", @planning_application.closed_or_cancellation_comment)
 
       redirect_to @planning_application, notice: "Application has been closed"
     else
