@@ -80,6 +80,8 @@ module PlanningApplicationStatus
 
       event :request_correction do
         transitions from: :awaiting_determination, to: :awaiting_correction
+
+        after { audit_created!(activity_type: "challenged", audit_comment: recommendations&.last&.reviewer_comment) }
       end
 
       event :return do

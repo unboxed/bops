@@ -197,7 +197,6 @@ class PlanningApplicationsController < AuthenticationController
 
     case params[:recommendation][:agree]
     when "No"
-      audit("challenged", @recommendation.reviewer_comment)
       @recommendation.assign_attributes(challenged: true)
       if @recommendation.save
         @planning_application.request_correction!
