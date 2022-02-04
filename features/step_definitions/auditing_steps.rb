@@ -8,6 +8,14 @@ Then("there is an audit entry containing {string}") do |content|
   end
 end
 
+Then("there is not an audit entry containing {string}") do |content|
+  step "I visit the audit log"
+
+  within_table("Audit log") do
+    expect(page).not_to have_content(content, normalize_ws: true)
+  end
+end
+
 Then("there is an audit entry with") do |content|
   step "I visit the audit log"
 

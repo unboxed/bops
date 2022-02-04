@@ -413,22 +413,6 @@ class PlanningApplication < ApplicationRecord
     audit_created!(activity_type: "assigned", activity_information: self.user&.name)
   end
 
-  def audit_updated!
-    if saved_changes?
-      saved_changes.keys.intersection(PLANNING_APPLICATION_PERMITTED_KEYS).map do |attribute_name|
-        next if saved_change_to_attribute(attribute_name).all?(&:blank?)
-
-        if attribute_name.eql?("constraints")
-          audit_constraits!(saved_changes)
-        else
-          audit_created!(activity_type: "updated",
-                         activity_information: attribute_name.humanize,
-                         audit_comment: "Changed from: #{saved_change_to_attribute(attribute_name).first} \r\n Changed to: #{saved_change_to_attribute(attribute_name).second}")
-        end
-      end
-    end
-  end
-
   def determination_date
     super || Time.zone.today
   end
@@ -484,6 +468,26 @@ class PlanningApplication < ApplicationRecord
 
   def create_audit!
     audit_created!(activity_type: "created", activity_information: Current.api_user&.name || Current.user&.name)
+  end
+
+  def audit_updated!
+    if saved_changes?
+      saved_changes.keys.intersection(PLANNING_APPLICATION_PERMITTED_KEYS).map do |attribute_name|
+        next if saved_change_to_attribute(attribute_name).all?(&:blank?)
+
+        attribute_to_audit(attribute_name)
+      end
+    end
+  end
+
+  def attribute_to_audit(attribute_name)
+    if attribute_name.eql?("constraints")
+      audit_constraits!(saved_changes)
+    else
+      audit_created!(activity_type: "updated",
+                     activity_information: attribute_name.humanize,
+                     audit_comment: "Changed from: #{saved_change_to_attribute(attribute_name).first} \r\n Changed to: #{saved_change_to_attribute(attribute_name).second}")
+    end
   end
 
   def audit_constraits!(saved_changes)

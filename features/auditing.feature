@@ -53,11 +53,13 @@ Feature: Auditing a planning application
     Given I press "Application information"
     When I press "Edit details"
     And I fill in "Address 1" with "20 leafy gardens"
+    And I fill in "Payment reference" with " "
     And I press "Save"
     Then there is an audit entry containing "Address 1 updated"
     And there is an audit entry containing "Miyazaki"
     And there is an audit entry containing "Changed to: 20 leafy gardens"
-    
+    And there is not an audit entry containing "Payment reference updated"
+
   Scenario: I can view an entry in the audit showing the application being validated
     When I press "Validate application"
     And I press "Mark the application as valid"
