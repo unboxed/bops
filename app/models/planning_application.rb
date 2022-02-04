@@ -40,6 +40,32 @@ class PlanningApplication < ApplicationRecord
 
   WORK_STATUSES = %w[proposed existing].freeze
 
+  PLANNING_APPLICATION_PERMITTED_KEYS = %w[address_1
+                                           address_2
+                                           application_type
+                                           applicant_first_name
+                                           applicant_last_name
+                                           applicant_phone
+                                           applicant_email
+                                           agent_first_name
+                                           agent_last_name
+                                           agent_phone
+                                           agent_email
+                                           county
+                                           constraints
+                                           created_at(3i)
+                                           created_at(2i)
+                                           created_at(1i)
+                                           description
+                                           proposal_details
+                                           payment_reference
+                                           postcode
+                                           town
+                                           uprn
+                                           work_status].freeze
+
+  private_constant :PLANNING_APPLICATION_PERMITTED_KEYS
+
   validates :work_status,
             inclusion: { in: WORK_STATUSES,
                          message: "Work Status should be proposed or existing" }
@@ -388,7 +414,9 @@ class PlanningApplication < ApplicationRecord
 
   def audit_updated!
     if saved_changes?
-      saved_changes.keys.map do |attribute_name|
+      saved_changes.keys.intersection(PLANNING_APPLICATION_PERMITTED_KEYS).map do |attribute_name|
+        next if saved_change_to_attribute(attribute_name).all?(&:blank?)
+
         audit_created!(activity_type: "updated",
                        activity_information: attribute_name.humanize,
                        audit_comment: "Changed from: #{saved_change_to_attribute(attribute_name).first} \r\n Changed to: #{saved_change_to_attribute(attribute_name).second}")
