@@ -417,6 +417,10 @@ class PlanningApplication < ApplicationRecord
     super || Time.zone.today
   end
 
+  def audit_boundary_geojson!(status)
+    audit_created!(activity_type: "red_line_#{status}", audit_comment: "Red line drawing #{status}")
+  end
+
   private
 
   def set_key_dates

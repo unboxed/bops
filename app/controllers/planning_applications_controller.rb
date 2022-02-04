@@ -241,9 +241,9 @@ class PlanningApplicationsController < AuthenticationController
     @planning_application.save!
 
     if new_map
-      audit("red_line_created", "Red line drawing created")
+      @planning_application.audit_boundary_geojson!("created")
     else
-      audit("red_line_updated", "Red line drawing updated")
+      @planning_application.audit_boundary_geojson!("updated")
     end
 
     redirect_to @planning_application, notice: "Site boundary has been updated"
