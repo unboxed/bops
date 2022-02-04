@@ -77,11 +77,10 @@ Rails.application.routes.draw do
   end
 
   namespace :public, path: "/" do
-    scope "/planning_guides", as: "planning_guide" do
-      controller "planning_guides" do
-        get "/:page", action: "show"
-        get "/:type/:page", action: "show"
-      end
+    resources :planning_guides, only: :index
+    resource :planning_guides, only: :show do
+      get "/:page", action: "show"
+      get "/:type/:page", action: "show"
     end
   end
 

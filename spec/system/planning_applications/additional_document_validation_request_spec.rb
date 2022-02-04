@@ -35,7 +35,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
     expect(page).to have_link(
       "Applicants will be able to see this advice about how to prepare plans (Opens in a new window or tab)",
-      href: "/planning_guides/index"
+      href: public_planning_guides_path
     )
 
     fill_in "Please specify the new document type:", with: "Backyard plans"

@@ -7,14 +7,14 @@ RSpec.describe "Planning guides", type: :system do
 
   context "when not logged in" do
     before do
-      visit "planning_guides/index"
+      visit public_planning_guides_path
     end
 
     it "the planning guide index page is publicy accessible" do
       expect(page).to have_content("Find out how to create a valid plan")
       within(".govuk-header__content") do
         expect(page).to have_link("Back-office Planning System: #{default_local_authority.name}",
-                                  href: "/planning_guides/index")
+                                  href: public_planning_guides_path)
       end
 
       within(".govuk-grid-column-two-thirds") do
@@ -56,7 +56,7 @@ RSpec.describe "Planning guides", type: :system do
 
       expect(page).to have_content("How to create all drawings and plans")
       expect(page).to have_image_displayed("drawing_plans")
-      expect(page).to have_link("Back", href: "/planning_guides/index")
+      expect(page).to have_link("Back", href: public_planning_guides_path)
     end
 
     it "floor plans pages" do
@@ -70,7 +70,7 @@ RSpec.describe "Planning guides", type: :system do
 
       expect(page).to have_content("How to create proposed floor plans")
       expect(page).to have_image_displayed("floor_plans/proposed")
-      expect(page).to have_link("Back", href: "/planning_guides/index")
+      expect(page).to have_link("Back", href: public_planning_guides_path)
     end
 
     it "site plans pages" do
@@ -84,7 +84,7 @@ RSpec.describe "Planning guides", type: :system do
 
       expect(page).to have_content("How to create proposed site plans")
       expect(page).to have_image_displayed("site_plans/proposed")
-      expect(page).to have_link("Back", href: "/planning_guides/index")
+      expect(page).to have_link("Back", href: public_planning_guides_path)
     end
 
     it "elevations pages" do
@@ -98,7 +98,7 @@ RSpec.describe "Planning guides", type: :system do
 
       expect(page).to have_content("How to create proposed elevations")
       expect(page).to have_image_displayed("elevations/proposed")
-      expect(page).to have_link("Back", href: "/planning_guides/index")
+      expect(page).to have_link("Back", href: public_planning_guides_path)
     end
 
     it "sections pages" do
@@ -112,7 +112,7 @@ RSpec.describe "Planning guides", type: :system do
 
       expect(page).to have_content("How to create proposed sections")
       expect(page).to have_image_displayed("sections/proposed")
-      expect(page).to have_link("Back", href: "/planning_guides/index")
+      expect(page).to have_link("Back", href: public_planning_guides_path)
     end
 
     it "roof plans pages" do
@@ -126,7 +126,7 @@ RSpec.describe "Planning guides", type: :system do
 
       expect(page).to have_content("How to create proposed roof plans")
       expect(page).to have_image_displayed("roof_plans/proposed")
-      expect(page).to have_link("Back", href: "/planning_guides/index")
+      expect(page).to have_link("Back", href: public_planning_guides_path)
     end
 
     it "unit plans pages" do
@@ -140,7 +140,7 @@ RSpec.describe "Planning guides", type: :system do
 
       expect(page).to have_content("How to create proposed unit plans")
       expect(page).to have_image_displayed("unit_plans/proposed")
-      expect(page).to have_link("Back", href: "/planning_guides/index")
+      expect(page).to have_link("Back", href: public_planning_guides_path)
     end
 
     it "use plans pages" do
@@ -154,7 +154,7 @@ RSpec.describe "Planning guides", type: :system do
 
       expect(page).to have_content("How to create proposed use plans")
       expect(page).to have_image_displayed("use_plans/proposed")
-      expect(page).to have_link("Back", href: "/planning_guides/index")
+      expect(page).to have_link("Back", href: public_planning_guides_path)
     end
   end
 
@@ -164,14 +164,14 @@ RSpec.describe "Planning guides", type: :system do
     before do
       sign_in(user)
 
-      visit "planning_guides/index"
+      visit public_planning_guides_path
     end
 
     it "is accessible" do
       expect(page).to have_content("Find out how to create a valid plan")
       within(".govuk-header__content") do
         expect(page).to have_link("Back-office Planning System: #{default_local_authority.name}",
-                                  href: "/planning_guides/index")
+                                  href: public_planning_guides_path)
       end
     end
   end

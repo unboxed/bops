@@ -6,13 +6,19 @@ module Public
 
     BASE_URL = "public/planning_guides/"
 
+    def index
+      respond_to do |format|
+        format.html
+      end
+    end
+
     def show
       respond_to do |format|
         format.html do
           if params[:type]
-            render template: "#{BASE_URL}#{params[:type]}/#{params[:page]}"
+            render "#{BASE_URL}#{params[:type]}/#{params[:page]}"
           else
-            render template: "#{BASE_URL}#{params[:page]}"
+            render "#{BASE_URL}#{params[:page]}"
           end
         end
       end

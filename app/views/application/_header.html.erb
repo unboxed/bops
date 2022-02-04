@@ -2,7 +2,7 @@
   <div class="govuk-header__container govuk-width-container">
     <div class="govuk-header__content">
       <% if controller_path == "public/planning_guides" %>
-        <%= link_to "Back-office Planning System: #{current_local_authority.name}", "/planning_guides/index", class: "govuk-header__link govuk-header__link--service-name" %>
+        <%= link_to "Back-office Planning System: #{current_local_authority.name}", public_planning_guides_path, class: "govuk-header__link govuk-header__link--service-name" %>
       <% else %>
         <%= link_to "Back-office Planning System: #{current_local_authority.name}", root_path, class: "govuk-header__link govuk-header__link--service-name" %>
       <% end %>
