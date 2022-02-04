@@ -421,6 +421,10 @@ class PlanningApplication < ApplicationRecord
     audit_created!(activity_type: "red_line_#{status}", audit_comment: "Red line drawing #{status}")
   end
 
+  def audit_recommendation_approved!
+    audit_created!(activity_type: "approved", audit_comment: recommendations.last.reviewer_comment)
+  end
+
   private
 
   def set_key_dates

@@ -206,7 +206,7 @@ class PlanningApplicationsController < AuthenticationController
       end
     when "Yes"
       @recommendation.update!(challenged: false)
-      audit("approved", @recommendation.reviewer_comment)
+      @planning_application.audit_recommendation_approved!
       redirect_to @planning_application
     end
   end
