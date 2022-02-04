@@ -388,7 +388,7 @@ class PlanningApplication < ApplicationRecord
 
   def audit_updated!
     if saved_changes?
-      saved_changes.keys.map do |attribute_name|
+      saved_changes.keys.intersection(PLANNING_APPLICATION_PERMITTED_KEYS).map do |attribute_name|
         audit_created!(activity_type: "updated",
                        activity_information: attribute_name.humanize,
                        audit_comment: "Changed from: #{saved_change_to_attribute(attribute_name).first} \r\n Changed to: #{saved_change_to_attribute(attribute_name).second}")
@@ -397,6 +397,30 @@ class PlanningApplication < ApplicationRecord
   end
 
   private
+
+  PLANNING_APPLICATION_PERMITTED_KEYS = %w[address_1
+                                           address_2
+                                           application_type
+                                           applicant_first_name
+                                           applicant_last_name
+                                           applicant_phone
+                                           applicant_email
+                                           agent_first_name
+                                           agent_last_name
+                                           agent_phone
+                                           agent_email
+                                           county
+                                           constraints
+                                           created_at(3i)
+                                           created_at(2i)
+                                           created_at(1i)
+                                           description
+                                           proposal_details
+                                           payment_reference
+                                           postcode
+                                           town
+                                           uprn
+                                           work_status].freeze
 
   def set_key_dates
     self.expiry_date = 56.days.after(documents_validated_at || received_at)
