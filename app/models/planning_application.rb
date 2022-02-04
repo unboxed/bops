@@ -389,6 +389,8 @@ class PlanningApplication < ApplicationRecord
   def audit_updated!
     if saved_changes?
       saved_changes.keys.intersection(PLANNING_APPLICATION_PERMITTED_KEYS).map do |attribute_name|
+        next if saved_change_to_attribute(attribute_name).all?(&:blank?)
+
         audit_created!(activity_type: "updated",
                        activity_information: attribute_name.humanize,
                        audit_comment: "Changed from: #{saved_change_to_attribute(attribute_name).first} \r\n Changed to: #{saved_change_to_attribute(attribute_name).second}")
