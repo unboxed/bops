@@ -40,6 +40,32 @@ class PlanningApplication < ApplicationRecord
 
   WORK_STATUSES = %w[proposed existing].freeze
 
+  PLANNING_APPLICATION_PERMITTED_KEYS = %w[address_1
+                                           address_2
+                                           application_type
+                                           applicant_first_name
+                                           applicant_last_name
+                                           applicant_phone
+                                           applicant_email
+                                           agent_first_name
+                                           agent_last_name
+                                           agent_phone
+                                           agent_email
+                                           county
+                                           constraints
+                                           created_at(3i)
+                                           created_at(2i)
+                                           created_at(1i)
+                                           description
+                                           proposal_details
+                                           payment_reference
+                                           postcode
+                                           town
+                                           uprn
+                                           work_status].freeze
+
+  private_constant :PLANNING_APPLICATION_PERMITTED_KEYS
+
   validates :work_status,
             inclusion: { in: WORK_STATUSES,
                          message: "Work Status should be proposed or existing" }
@@ -399,30 +425,6 @@ class PlanningApplication < ApplicationRecord
   end
 
   private
-
-  PLANNING_APPLICATION_PERMITTED_KEYS = %w[address_1
-                                           address_2
-                                           application_type
-                                           applicant_first_name
-                                           applicant_last_name
-                                           applicant_phone
-                                           applicant_email
-                                           agent_first_name
-                                           agent_last_name
-                                           agent_phone
-                                           agent_email
-                                           county
-                                           constraints
-                                           created_at(3i)
-                                           created_at(2i)
-                                           created_at(1i)
-                                           description
-                                           proposal_details
-                                           payment_reference
-                                           postcode
-                                           town
-                                           uprn
-                                           work_status].freeze
 
   def set_key_dates
     self.expiry_date = 56.days.after(documents_validated_at || received_at)
