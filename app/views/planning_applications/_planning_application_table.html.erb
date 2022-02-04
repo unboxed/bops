@@ -30,7 +30,7 @@
         <% elsif planning_application_status == "awaiting_determination" %>
           <td class="govuk-table__cell"><%= planning_application.awaiting_determination_at.strftime("%e %b") %></td>
         <% elsif planning_application_status == "closed" %>
-          <td class="govuk-table__cell"><%= planning_application.determined_at.strftime("%e %b") if planning_application.determined? %></td>
+          <td class="govuk-table__cell"><%= planning_application.determination_date.strftime("%e %b") if planning_application.determined? %></td>
         <% end %>
         <td class="govuk-table__cell">
           <% if planning_application.user %>
