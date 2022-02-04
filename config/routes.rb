@@ -76,6 +76,14 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :public, path: "/" do
+    resources :planning_guides, only: :index
+    resource :planning_guides, only: :show do
+      get "/:page", action: "show"
+      get "/:type/:page", action: "show"
+    end
+  end
+
   namespace :api do
     namespace :v1 do
       resources :planning_applications, only: %i[index create show] do

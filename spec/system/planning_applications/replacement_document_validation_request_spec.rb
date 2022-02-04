@@ -49,6 +49,12 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     expect(page).to have_content("The following documents have been marked as invalid.")
     expect(page).to have_content(invalid_document.name.to_s)
     expect(page).not_to have_content(valid_document.name.to_s)
+    expect(page).to have_content("This request will be sent to the applicant immediately.")
+
+    expect(page).to have_link(
+      "Applicants will be able to see this advice about how to prepare plans (Opens in a new window or tab)",
+      href: public_planning_guides_path
+    )
 
     click_button "Add"
     expect(page).to have_content("Replacement document validation request successfully created.")

@@ -1,0 +1,45 @@
+<div class="govuk-width-container">
+  <h1 class="govuk-heading-l">
+    How to create proposed elevations
+  </h1>
+  <h2 class="govuk-heading-m">
+    Example elevation
+  </h2>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= image_pack_tag("public/elevations/proposed.svg", alt: "Proposed elevations example") %>
+    </div>
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="govuk-body">
+        <h2>Your elevations must</h2>
+        <ul>
+          <li>
+            <strong>Be drawn to scale</strong> Usually 1:100 or 1:50 at A3 or A4 size
+          </li>
+          <li><strong>Have a scale bar</strong></li>
+          <li><strong>Have a unique drawing reference number</strong></li>
+          <li><strong>Be clearly labelled</strong></li>
+          <li><strong>Show all sides of the proposal </strong></li>
+        </ul>
+        <h2>You should include</h2>
+        <ul>
+          <li>
+            <strong>Materials</strong> labelling any materials that are relevant for the proposed changes
+          </li>
+          <li>
+            <strong>Heights</strong> showing any heights relative to the street if on a hill
+          </li>
+        </ul>
+        <p>
+          Your application may not be marked as valid if the drawings do not clearly
+          and accurately describe the site and the proposed changes.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div>
+    <%= link_to "Back", public_planning_guides_path, class: "govuk-button" %>
+  </div>
+</div>
