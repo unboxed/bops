@@ -85,13 +85,13 @@ class Document < ApplicationRecord
   def archive(archive_reason)
     unless archived?
       update!(archive_reason: archive_reason, archived_at: Time.zone.now)
-      audit_created!(activity_type: "archived", audit_comment: file.filename)
+      audit_created!(activity_type: "archived", activity_information: file.filename)
     end
   end
 
   def unarchive!
     update!(archived_at: nil)
-    audit_created!(activity_type: "unarchived", audit_comment: file.filename)
+    audit_created!(activity_type: "unarchived", activity_information: file.filename)
   end
 
   def published?
@@ -150,7 +150,7 @@ class Document < ApplicationRecord
   end
 
   def create_audit!
-    audit_created!(activity_type: "uploaded", audit_comment: file.filename)
+    audit_created!(activity_type: "uploaded", activity_information: file.filename)
   end
 
   def audit_date_comment
