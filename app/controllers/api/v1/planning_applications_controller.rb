@@ -44,22 +44,18 @@ module Api
         @planning_application.assign_attributes(site_params) if site_params.present?
         @planning_application.assign_attributes(result_params) if result_params.present?
 
-        begin
-          PlanningApplication.transaction do
-            if @planning_application.valid? && @planning_application.save!
-              upload_documents(params[:files])
+        PlanningApplication.transaction do
+          if @planning_application.save!
+            upload_documents(params[:files])
 
-              send_success_response
-              if @planning_application.agent_email.present? || @planning_application.applicant_email.present?
-                receipt_notice_mail
-              end
-            else
-              send_failed_response
+            send_success_response
+            if @planning_application.agent_email.present? || @planning_application.applicant_email.present?
+              receipt_notice_mail
             end
           end
-        rescue Errors::WrongFileTypeError => e
-          send_failed_response(e.message)
         end
+      rescue Errors::WrongFileTypeError, Errors::GetFileError, ActiveRecord::RecordInvalid, ArgumentError => e
+        send_failed_response(e)
       end
 
       def upload_documents(document_params)
@@ -74,6 +70,8 @@ module Api
                                                   applicant_description: param[:applicant_description]) do |document|
             document.file.attach(io: file, filename: new_filename(param[:filename]).to_s)
           end
+        rescue OpenURI::HTTPError
+          raise Errors::GetFileError.new(nil, param[:filename])
         end
       end
 
@@ -86,8 +84,10 @@ module Api
                        message: "Application created" }, status: :ok
       end
 
-      def send_failed_response(message = nil)
-        render json: { message: message || "Unable to create application" },
+      def send_failed_response(error)
+        Appsignal.send_error(error)
+
+        render json: { message: error.message.to_s || "Unable to create application" },
                status: :bad_request
       end
 

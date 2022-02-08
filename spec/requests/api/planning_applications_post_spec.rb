@@ -49,7 +49,7 @@ RSpec.describe "Creating a planning application via the API", type: :request, sh
       it "renders failure message" do
         post "/api/v1/planning_applications", params: json,
                                               headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
-        expect(response.body).to eq('{"message":"Unable to create application"}')
+        expect(response.body).to eq("{\"message\":\"Validation failed: Application type can't be blank, An applicant or agent email is required.\"}")
       end
     end
 
@@ -149,7 +149,12 @@ RSpec.describe "Creating a planning application via the API", type: :request, sh
       minimal_development_json = File.read(valid_json)
 
       it "raises an error" do
-        expect { post_with(params: minimal_development_json) }.to raise_error(OpenURI::HTTPError)
+        post_with(params: minimal_development_json)
+
+        expect(response.status).to eq 400
+        expect(response.body).to eq(
+          "{\"message\":\"The document: 'proposed-first-floor-plan.pdf' at location: 'https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf' does not exist or is forbidden\"}"
+        )
       end
     end
   end
