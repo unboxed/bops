@@ -3,6 +3,10 @@
 module ValidationRequest
   extend ActiveSupport::Concern
 
+  delegate :audits, to: :planning_application
+
+  include AuditableModel
+
   class RecordCancelError < RuntimeError; end
 
   class NotDestroyableError < StandardError; end
@@ -48,7 +52,7 @@ module ValidationRequest
         after do
           planning_application.update!(description: proposed_description)
           update!(approved: true, auto_closed: true)
-          audit_auto_closed!
+          audit_created!(activity_type: "auto_closed")
         end
       end
 
@@ -89,7 +93,8 @@ module ValidationRequest
   def cancel_request!
     transaction do
       cancel!
-      audit_cancel_request!
+      audit_created!(activity_type: "#{self.class.name.underscore}_cancelled", activity_information: sequence,
+                     audit_comment: { cancel_reason: cancel_reason }.to_json)
     end
   rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
     raise RecordCancelError, e.message
@@ -103,25 +108,5 @@ module ValidationRequest
     return if pending?
 
     raise NotDestroyableError, "Only requests that are pending can be destroyed"
-  end
-
-  private
-
-  def audit_cancel_request!
-    Audit.create!(
-      planning_application_id: planning_application.id,
-      user: Current.user,
-      audit_comment: { cancel_reason: cancel_reason }.to_json,
-      activity_information: sequence,
-      activity_type: "#{self.class.name.underscore}_cancelled"
-    )
-  end
-
-  def audit_auto_closed!
-    Audit.create!(
-      planning_application_id: planning_application.id,
-      user: Current.user,
-      activity_type: "auto_closed"
-    )
   end
 end

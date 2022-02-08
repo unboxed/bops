@@ -413,20 +413,16 @@ class PlanningApplication < ApplicationRecord
     audit_created!(activity_type: "assigned", activity_information: self.user&.name)
   end
 
-  def audit_updated!
-    if saved_changes?
-      saved_changes.keys.intersection(PLANNING_APPLICATION_PERMITTED_KEYS).map do |attribute_name|
-        next if saved_change_to_attribute(attribute_name).all?(&:blank?)
-
-        audit_created!(activity_type: "updated",
-                       activity_information: attribute_name.humanize,
-                       audit_comment: "Changed from: #{saved_change_to_attribute(attribute_name).first} \r\n Changed to: #{saved_change_to_attribute(attribute_name).second}")
-      end
-    end
-  end
-
   def determination_date
     super || Time.zone.today
+  end
+
+  def audit_boundary_geojson!(status)
+    audit_created!(activity_type: "red_line_#{status}", audit_comment: "Red line drawing #{status}")
+  end
+
+  def audit_recommendation_approved!
+    audit_created!(activity_type: "approved", audit_comment: recommendations.last.reviewer_comment)
   end
 
   private
@@ -480,6 +476,36 @@ class PlanningApplication < ApplicationRecord
 
   def create_audit!
     audit_created!(activity_type: "created", activity_information: Current.api_user&.name || Current.user&.name)
+  end
+
+  def audit_updated!
+    if saved_changes?
+      saved_changes.keys.intersection(PLANNING_APPLICATION_PERMITTED_KEYS).map do |attribute_name|
+        next if saved_change_to_attribute(attribute_name).all?(&:blank?)
+
+        attribute_to_audit(attribute_name)
+      end
+    end
+  end
+
+  def attribute_to_audit(attribute_name)
+    if attribute_name.eql?("constraints")
+      audit_constraits!(saved_changes)
+    else
+      audit_created!(activity_type: "updated",
+                     activity_information: attribute_name.humanize,
+                     audit_comment: "Changed from: #{saved_change_to_attribute(attribute_name).first} \r\n Changed to: #{saved_change_to_attribute(attribute_name).second}")
+    end
+  end
+
+  def audit_constraits!(saved_changes)
+    prev_arr, new_arr = saved_changes[:constraints]
+
+    attr_removed = prev_arr - new_arr
+    attr_added = new_arr - prev_arr
+
+    attr_added.each { |attr| audit_created!(activity_type: "constraint_added", audit_comment: attr) }
+    attr_removed.each { |attr| audit_created!(activity_type: "constraint_removed", audit_comment: attr) }
   end
 
   def determination_date_is_not_in_the_future

@@ -1,4 +1,5 @@
 <%= activity(locals[:item].activity_type, locals[:item].activity_information) %>
 <p class="govuk-body">
   <i><%= locals[:item].audit_comment %></i>
+  <i><%= locals[:item].activity_information if locals[:item].audit_comment.nil? %></i>
 </p>

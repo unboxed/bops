@@ -197,17 +197,16 @@ class PlanningApplicationsController < AuthenticationController
 
     case params[:recommendation][:agree]
     when "No"
-      audit("challenged", @recommendation.reviewer_comment)
       @recommendation.assign_attributes(challenged: true)
       if @recommendation.save
-        @planning_application.request_correction!
+        @planning_application.request_correction!(@recommendation.reviewer_comment)
         redirect_to @planning_application
       else
         render :review_form
       end
     when "Yes"
       @recommendation.update!(challenged: false)
-      audit("approved", @recommendation.reviewer_comment)
+      @planning_application.audit_recommendation_approved!
       redirect_to @planning_application
     end
   end
@@ -241,9 +240,9 @@ class PlanningApplicationsController < AuthenticationController
     @planning_application.save!
 
     if new_map
-      audit("red_line_created", "Red line drawing created")
+      @planning_application.audit_boundary_geojson!("created")
     else
-      audit("red_line_updated", "Red line drawing updated")
+      @planning_application.audit_boundary_geojson!("updated")
     end
 
     redirect_to @planning_application, notice: "Site boundary has been updated"
@@ -254,17 +253,6 @@ class PlanningApplicationsController < AuthenticationController
   def edit_constraints
     @planning_application.constraints = params[:planning_application][:constraints].reject(&:blank?)
     if @planning_application.save!
-      if @planning_application.saved_changes?
-        prev_arr = @planning_application.saved_changes[:constraints][0]
-        new_arr = @planning_application.saved_changes[:constraints][1]
-
-        attr_removed = prev_arr - new_arr
-        attr_added = new_arr - prev_arr
-
-        attr_added.each { |attr| audit("constraint_added", attr) }
-        attr_removed.each { |attr| audit("constraint_removed", attr) }
-      end
-
       redirect_to @planning_application, notice: "Constraints have been updated"
     else
       render :edit_constraints_form
