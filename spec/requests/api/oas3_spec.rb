@@ -59,6 +59,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
     expect(PlanningApplication.last.agent_last_name).to eq("Harper")
     expect(PlanningApplication.last.agent_phone).to eq("237878889")
     expect(PlanningApplication.last.agent_email).to eq("agent@example.com")
+    expect(PlanningApplication.last.user_role).to eq("agent")
     expect(PlanningApplication.last.address_1).to eq("11 Abbey Gardens")
     expect(PlanningApplication.last.address_2).to eq("Southwark")
     expect(PlanningApplication.last.uprn).to eq("100081043511")

@@ -37,7 +37,8 @@ module Api
             constraints: constraints_array_from_param(params[:constraints]),
             planx_data: (params[:planx_debug_data].to_json if params[:planx_debug_data].present?),
             api_user: current_api_user,
-            audit_log: params.to_json
+            audit_log: params.to_json,
+            user_role: params[:user_role].presence
           )
         )
 
@@ -109,6 +110,7 @@ module Api
                             agent_last_name
                             agent_phone
                             agent_email
+                            user_role
                             proposal_details
                             files
                             payment_reference

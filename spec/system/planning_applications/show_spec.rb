@@ -114,6 +114,9 @@ RSpec.describe "Planning Application show page", type: :system do
     it "Contact information accordion" do
       click_button("Contact information")
 
+      expect(page).to have_content("Applicant role type:")
+      expect(page).to have_content(planning_application.user_role)
+
       expect(page).to have_content(planning_application.agent_first_name)
       expect(page).to have_content(planning_application.agent_last_name)
       expect(page).to have_content(planning_application.agent_phone)
