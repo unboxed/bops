@@ -21,6 +21,7 @@ services:
       DATABASE_URL: postgres://postgres:postgres@db:5432
       APPLICANTS_APP_HOST: southwark.localhost:3001
       GROVER_NO_SANDBOX: "true"
+      OS_VECTOR_TILES_API_KEY: ${OS_VECTOR_TILES_API_KEY}
     ports:
       - "3000:3000"
       - "3333:3333"
@@ -36,7 +37,7 @@ services:
         target: /app
   applicants:
     build: ./bops-applicants
-    entrypoint: ./bops-applicants/docker-entrypoint.sh
+    entrypoint: ./docker-entrypoint.sh
     stdin_open: true
     tty: true
     command: bash -c "bundle exec rails s -p 3001 -b 0.0.0.0"
@@ -46,6 +47,7 @@ services:
       API_USER: api_user
       PORT: 3001
       PROTOCOL: http
+      OS_VECTOR_TILES_API_KEY: ${OS_VECTOR_TILES_API_KEY}
     ports:
       - "3001:3001"
     volumes:

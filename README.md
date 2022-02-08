@@ -64,6 +64,11 @@ http://lambeth.lambeth.localhost:3000/
 http://buckinghamshire.buckinghamshire.localhost:3000/
 ```
 
+## OS maps
+
+To utilise all the map functionality, you will need to set an `OS_VECTOR_TILES_API_KEY` in `.env`
+You can find this value from the parameter store on AWS
+
 ## BOPS applicants
 
 BOPS allows planning officers to request changes to an application;

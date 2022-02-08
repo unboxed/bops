@@ -2,6 +2,7 @@
 
 set -e
 
+echo "Initializing BOPS"
 echo "Bundling gems"
 bundle check || bundle install
 
