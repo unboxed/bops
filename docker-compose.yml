@@ -37,7 +37,7 @@ services:
         target: /app
   applicants:
     build: ./bops-applicants
-    entrypoint: ./bops-applicants/docker-entrypoint.sh
+    entrypoint: ./docker-entrypoint.sh
     stdin_open: true
     tty: true
     command: bash -c "bundle exec rails s -p 3001 -b 0.0.0.0"
