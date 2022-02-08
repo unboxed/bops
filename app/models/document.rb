@@ -85,7 +85,7 @@ class Document < ApplicationRecord
   def archive(archive_reason)
     unless archived?
       update!(archive_reason: archive_reason, archived_at: Time.zone.now)
-      audit_created!(activity_type: "archived", activity_information: file.filename)
+      audit_created!(activity_type: "archived", activity_information: file.filename, audit_comment: archive_reason)
     end
   end
 
