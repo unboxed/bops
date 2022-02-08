@@ -34,7 +34,12 @@ class DocumentsController < AuthenticationController
   def unarchive
     @document = @planning_application.documents.find(params[:document_id])
     @document.unarchive!
-    flash[:notice] = "#{@document.name} has been restored"
+
+    if @document.unarchived?
+      flash[:notice] = "#{@document.name} has been restored"
+    else
+      flash[:alert] = "There was an error with unarchiving #{@document.name}"
+    end
 
     redirect_to action: :index
   end
@@ -56,9 +61,13 @@ class DocumentsController < AuthenticationController
 
   def confirm_archive
     @document.archive(document_params[:archive_reason])
-    if @document.save
+
+    if @document.archived?
       flash[:notice] = "#{@document.name} has been archived"
       redirect_to planning_application_documents_path
+    else
+      flash[:alert] = "There was an error with archiving #{@document.name}"
+      render :archive
     end
   end
 

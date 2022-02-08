@@ -78,20 +78,28 @@ class Document < ApplicationRecord
     archived_at.present?
   end
 
+  def unarchived?
+    !archived?
+  end
+
   def referenced_in_decision_notice?
     referenced_in_decision_notice == true
   end
 
   def archive(archive_reason)
     unless archived?
-      update!(archive_reason: archive_reason, archived_at: Time.zone.now)
-      audit_created!(activity_type: "archived", activity_information: file.filename, audit_comment: archive_reason)
+      transaction do
+        update!(archive_reason: archive_reason, archived_at: Time.zone.now)
+        audit_created!(activity_type: "archived", activity_information: file.filename, audit_comment: archive_reason)
+      end
     end
   end
 
   def unarchive!
-    update!(archived_at: nil)
-    audit_created!(activity_type: "unarchived", activity_information: file.filename)
+    transaction do
+      update!(archived_at: nil)
+      audit_created!(activity_type: "unarchived", activity_information: file.filename)
+    end
   end
 
   def published?
