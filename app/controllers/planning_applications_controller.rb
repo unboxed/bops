@@ -199,7 +199,7 @@ class PlanningApplicationsController < AuthenticationController
     when "No"
       @recommendation.assign_attributes(challenged: true)
       if @recommendation.save
-        @planning_application.request_correction!
+        @planning_application.request_correction!(@recommendation.reviewer_comment)
         redirect_to @planning_application
       else
         render :review_form

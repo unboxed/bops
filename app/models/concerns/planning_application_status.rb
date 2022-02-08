@@ -79,9 +79,8 @@ module PlanningApplicationStatus
       end
 
       event :request_correction do
-        transitions from: :awaiting_determination, to: :awaiting_correction
-
-        after { audit_created!(activity_type: "challenged", audit_comment: recommendations&.last&.reviewer_comment) }
+        transitions from: :awaiting_determination, to: :awaiting_correction,
+                    after: proc { |comment| audit_created!(activity_type: "challenged", audit_comment: comment) }
       end
 
       event :return do
