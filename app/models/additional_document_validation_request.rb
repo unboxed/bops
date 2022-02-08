@@ -3,12 +3,16 @@
 class AdditionalDocumentValidationRequest < ApplicationRecord
   class UploadFilesError < RuntimeError; end
 
+  include AuditableModel
+
   include ValidationRequest
 
   belongs_to :planning_application
   belongs_to :user
 
   has_many :documents, dependent: :destroy
+
+  delegate :audits, to: :planning_application
 
   validates :document_request_type, presence: { message: "Please fill in the document request type." }
   validates :document_request_reason, presence: { message: "Please fill in the reason for this document request." }
@@ -32,12 +36,10 @@ class AdditionalDocumentValidationRequest < ApplicationRecord
   private
 
   def audit_upload_files!
-    Audit.create!(
-      planning_application_id: planning_application.id,
-      audit_comment: documents.map(&:name).join(", "),
-      api_user: Current.api_user,
+    audit_created!(
       activity_type: "additional_document_validation_request_received",
-      activity_information: sequence
+      activity_information: sequence,
+      audit_comment: documents.map(&:name).join(", ")
     )
   end
 end
