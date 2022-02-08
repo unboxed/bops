@@ -47,6 +47,7 @@ services:
       API_USER: api_user
       PORT: 3001
       PROTOCOL: http
+      OS_VECTOR_TILES_API_KEY: ${OS_VECTOR_TILES_API_KEY}
     ports:
       - "3001:3001"
     volumes:
