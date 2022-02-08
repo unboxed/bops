@@ -34,9 +34,7 @@ module Api
           if @description_change_validation_request.approved?
             @planning_application.update!(description: @description_change_validation_request.proposed_description)
           end
-
-          audit("description_change_validation_request_received", description_audit_item(@description_change_validation_request),
-                @description_change_validation_request.sequence, current_api_user)
+          @description_change_validation_request.create_api_audit!
 
           render json: { message: "Description change request updated" }, status: :ok
         else
@@ -50,14 +48,6 @@ module Api
       def description_change_params
         { approved: params[:data][:approved],
           rejection_reason: params[:data][:rejection_reason] }
-      end
-
-      def description_audit_item(validation_request)
-        if validation_request.approved?
-          { response: "approved" }.to_json
-        else
-          { response: "rejected", reason: validation_request.rejection_reason }.to_json
-        end
       end
     end
   end
