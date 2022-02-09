@@ -26,10 +26,8 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
     DescriptionChangeValidationRequest.transaction do
       @description_change_request.update!(cancel_reason: "Request cancelled by planning officer.")
       @description_change_request.cancel
+      @description_change_request.audit_cancel!
     end
-
-    audit("description_change_request_cancelled", current_user.name,
-          @description_change_request.sequence)
 
     redirect_to @planning_application, notice: "Description change request successfully cancelled."
   end
