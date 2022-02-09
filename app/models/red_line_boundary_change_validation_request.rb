@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
 class RedLineBoundaryChangeValidationRequest < ApplicationRecord
+  include AuditableModel
+
   include ValidationRequest
 
   belongs_to :planning_application
   belongs_to :user
+
+  delegate :audits, to: :planning_application
 
   validates :new_geojson, presence: { message: "Red line drawing must be complete" }
   validates :reason, presence: { message: "Provide a reason for changes" }
@@ -20,9 +24,25 @@ class RedLineBoundaryChangeValidationRequest < ApplicationRecord
     end
   end
 
+  def create_api_audit!
+    audit_created!(
+      activity_type: "red_line_boundary_change_validation_request_received",
+      activity_information: sequence.to_s,
+      audit_comment: audit_api_comment
+    )
+  end
+
   private
 
   def set_original_geojson
     self.original_geojson = planning_application.boundary_geojson
+  end
+
+  def audit_api_comment
+    if approved?
+      { response: "approved" }.to_json
+    else
+      { response: "rejected", reason: rejection_reason }.to_json
+    end
   end
 end
