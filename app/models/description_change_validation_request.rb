@@ -12,6 +12,7 @@ class DescriptionChangeValidationRequest < ApplicationRecord
   validate :rejected_reason_is_present?
   validate :allows_only_one_open_description_change, on: :create
   validate :planning_application_has_not_been_determined, on: :create
+  after_create :create_audit!
 
   scope :open_change_created_over_5_business_days_ago, -> { open.where("created_at <= ?", 5.business_days.ago) }
   scope :responded, -> { closed.where(cancelled_at: nil, auto_closed: false).order(created_at: :asc) }
@@ -55,5 +56,18 @@ class DescriptionChangeValidationRequest < ApplicationRecord
     else
       { response: "rejected", reason: rejection_reason }.to_json
     end
+  end
+
+  def create_audit!
+    audit_created!(
+      activity_type: "description_change_validation_request_sent",
+      activity_information: sequence.to_s,
+      audit_comment: audit_comment
+    )
+  end
+
+  def audit_comment
+    { previous: planning_application.description,
+      proposed: proposed_description }.to_json
   end
 end

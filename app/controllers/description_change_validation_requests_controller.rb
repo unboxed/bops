@@ -14,8 +14,6 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
 
     if @description_change_request.save
       email_and_timestamp(@description_change_request)
-      audit("description_change_validation_request_sent", description_audit_item(@description_change_request, @planning_application),
-            @description_change_request.sequence)
       redirect_to planning_application_path(@planning_application), notice: "Description change request successfully sent."
     else
       render :new
@@ -44,10 +42,5 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
 
   def description_change_validation_request_params
     params.require(:description_change_validation_request).permit(:proposed_description)
-  end
-
-  def description_audit_item(description_change_validation_request, planning_application)
-    { previous: planning_application.description,
-      proposed: description_change_validation_request.proposed_description }.to_json
   end
 end
