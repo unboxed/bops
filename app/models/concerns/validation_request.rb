@@ -17,6 +17,7 @@ module ValidationRequest
     before_create :set_sequence
 
     before_destroy :ensure_validation_request_destroyable!
+    after_create :create_audit!
 
     validates :cancel_reason, presence: true, if: :cancelled?
 
@@ -115,6 +116,25 @@ module ValidationRequest
       activity_type: "#{self.class.name.underscore}_received",
       activity_information: sequence.to_s,
       audit_comment: audit_api_comment
+    )
+  end
+
+  def create_audit!
+    if is_a?(DescriptionChangeValidationRequest)
+      create_audit_for!("sent")
+    else
+      event = planning_application.invalidated? ? "sent" : "added"
+      create_audit_for!(event)
+    end
+  end
+
+  private
+
+  def create_audit_for!(event)
+    audit_created!(
+      activity_type: "#{self.class.name.underscore}_#{event}",
+      activity_information: sequence.to_s,
+      audit_comment: audit_comment
     )
   end
 end

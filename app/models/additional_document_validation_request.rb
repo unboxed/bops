@@ -11,7 +11,6 @@ class AdditionalDocumentValidationRequest < ApplicationRecord
 
   validates :document_request_type, presence: { message: "Please fill in the document request type." }
   validates :document_request_reason, presence: { message: "Please fill in the reason for this document request." }
-  after_create :create_audit!
 
   def upload_files!(files)
     transaction do
@@ -36,19 +35,6 @@ class AdditionalDocumentValidationRequest < ApplicationRecord
       activity_type: "additional_document_validation_request_received",
       activity_information: sequence,
       audit_comment: documents.map(&:name).join(", ")
-    )
-  end
-
-  def create_audit!
-    event = planning_application.invalidated? ? "sent" : "added"
-    create_audit_for!(event)
-  end
-
-  def create_audit_for!(event)
-    audit_created!(
-      activity_type: "additional_document_validation_request_#{event}",
-      activity_information: sequence.to_s,
-      audit_comment: audit_comment
     )
   end
 

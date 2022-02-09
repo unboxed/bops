@@ -12,7 +12,6 @@ class RedLineBoundaryChangeValidationRequest < ApplicationRecord
   validate :rejected_reason_is_present?
 
   before_create :set_original_geojson
-  after_create :create_audit!
 
   def rejected_reason_is_present?
     if approved == false && rejection_reason.blank?
@@ -33,19 +32,6 @@ class RedLineBoundaryChangeValidationRequest < ApplicationRecord
     else
       { response: "rejected", reason: rejection_reason }.to_json
     end
-  end
-
-  def create_audit!
-    event = planning_application.invalidated? ? "sent" : "added"
-    create_audit_for!(event)
-  end
-
-  def create_audit_for!(event)
-    audit_created!(
-      activity_type: "red_line_boundary_change_validation_request_#{event}",
-      activity_information: sequence.to_s,
-      audit_comment: audit_comment
-    )
   end
 
   def audit_comment
