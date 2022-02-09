@@ -2,9 +2,6 @@
 
 class AdditionalDocumentValidationRequest < ApplicationRecord
   class UploadFilesError < RuntimeError; end
-
-  include AuditableModel
-
   include ValidationRequest
 
   belongs_to :planning_application
@@ -12,10 +9,9 @@ class AdditionalDocumentValidationRequest < ApplicationRecord
 
   has_many :documents, dependent: :destroy
 
-  delegate :audits, to: :planning_application
-
   validates :document_request_type, presence: { message: "Please fill in the document request type." }
   validates :document_request_reason, presence: { message: "Please fill in the reason for this document request." }
+  after_create :create_audit!
 
   def upload_files!(files)
     transaction do
@@ -41,5 +37,23 @@ class AdditionalDocumentValidationRequest < ApplicationRecord
       activity_information: sequence,
       audit_comment: documents.map(&:name).join(", ")
     )
+  end
+
+  def create_audit!
+    event = planning_application.invalidated? ? "sent" : "added"
+    create_audit_for!(event)
+  end
+
+  def create_audit_for!(event)
+    audit_created!(
+      activity_type: "additional_document_validation_request_#{event}",
+      activity_information: sequence.to_s,
+      audit_comment: audit_comment
+    )
+  end
+
+  def audit_comment
+    { document: document_request_type,
+      reason: document_request_reason }.to_json
   end
 end
