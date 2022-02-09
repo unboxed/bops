@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module AuditableModel
+module Auditable
   extend ActiveSupport::Concern
 
   included do

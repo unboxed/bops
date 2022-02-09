@@ -5,7 +5,7 @@ class Document < ApplicationRecord
 
   delegate :audits, to: :planning_application
 
-  include AuditableModel
+  include Auditable
 
   with_options optional: true do
     belongs_to :additional_document_validation_request

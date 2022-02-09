@@ -5,7 +5,7 @@ class PlanningApplication < ApplicationRecord
 
   class WithdrawRecommendationError < RuntimeError; end
 
-  include AuditableModel
+  include Auditable
 
   include PlanningApplicationDecorator
 

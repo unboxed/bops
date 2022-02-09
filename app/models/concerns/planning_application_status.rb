@@ -5,7 +5,7 @@ require "aasm"
 module PlanningApplicationStatus
   extend ActiveSupport::Concern
 
-  include AuditableModel
+  include Auditable
 
   IN_PROGRESS_STATUSES = %i[not_started in_assessment invalidated awaiting_determination awaiting_correction].freeze
 

@@ -5,7 +5,7 @@ module ValidationRequest
 
   delegate :audits, to: :planning_application
 
-  include AuditableModel
+  include Auditable
 
   class RecordCancelError < RuntimeError; end
 
