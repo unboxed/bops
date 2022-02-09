@@ -37,6 +37,7 @@ class PlanningApplication < ApplicationRecord
   after_create :create_audit!
   before_update :set_key_dates
   after_update :audit_updated!
+  after_update :address_or_boundary_geojson_updated?
 
   WORK_STATUSES = %w[proposed existing].freeze
 
@@ -63,6 +64,14 @@ class PlanningApplication < ApplicationRecord
                                            town
                                            uprn
                                            work_status].freeze
+
+  ADDRESS_AND_BOUNDARY_GEOJSON_FIELDS = %w[address_1
+                                           address_2
+                                           county
+                                           postcode
+                                           town
+                                           uprn
+                                           boundary_geojson].freeze
 
   private_constant :PLANNING_APPLICATION_PERMITTED_KEYS
 
@@ -485,6 +494,14 @@ class PlanningApplication < ApplicationRecord
 
         attribute_to_audit(attribute_name)
       end
+    end
+  end
+
+  def address_or_boundary_geojson_updated?
+    return if updated_address_or_boundary_geojson
+
+    if saved_changes.keys.intersection(ADDRESS_AND_BOUNDARY_GEOJSON_FIELDS).any?
+      update!(updated_address_or_boundary_geojson: true)
     end
   end
 

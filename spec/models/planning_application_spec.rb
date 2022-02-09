@@ -55,6 +55,34 @@ RSpec.describe PlanningApplication, type: :model do
         end
       end
     end
+
+    describe "::after_update" do
+      context "when there is an update to any address or boundary geojson fields" do
+        it "sets the updated_address_or_boundary_geojson to true" do
+          planning_application.update!(address_1: "")
+
+          expect(planning_application.updated_address_or_boundary_geojson).to eq(true)
+        end
+      end
+
+      context "when there is an update but not to any address or boundary geojson fields" do
+        it "does not set the updated_address_or_boundary_geojson to true" do
+          planning_application.update!(agent_first_name: "Agent first name")
+
+          expect(planning_application.updated_address_or_boundary_geojson).to eq(false)
+        end
+      end
+    end
+  end
+
+  describe "constants" do
+    describe "ADDRESS_AND_BOUNDARY_GEOJSON_FIELDS" do
+      it "returns address and boundary geojson fields as an array of symbols" do
+        expect(PlanningApplication::ADDRESS_AND_BOUNDARY_GEOJSON_FIELDS).to eq(
+          %w[address_1 address_2 county postcode town uprn boundary_geojson]
+        )
+      end
+    end
   end
 
   describe "#reference" do
