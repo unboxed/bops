@@ -1,16 +1,12 @@
 # frozen_string_literal: true
 
 class DescriptionChangeValidationRequest < ApplicationRecord
-  include AuditableModel
-
   include ValidationRequest
 
   before_create :set_previous_application_description
 
   belongs_to :planning_application
   belongs_to :user
-
-  delegate :audits, to: :planning_application
 
   validates :proposed_description, presence: true
   validate :rejected_reason_is_present?
@@ -49,14 +45,6 @@ class DescriptionChangeValidationRequest < ApplicationRecord
 
   def rejected?
     !approved && rejection_reason.present?
-  end
-
-  def create_api_audit!
-    audit_created!(
-      activity_type: "description_change_validation_request_received",
-      activity_information: sequence.to_s,
-      audit_comment: audit_api_comment
-    )
   end
 
   private

@@ -109,4 +109,12 @@ module ValidationRequest
 
     raise NotDestroyableError, "Only requests that are pending can be destroyed"
   end
+
+  def create_api_audit!
+    audit_created!(
+      activity_type: "#{self.class.name.underscore}_received",
+      activity_information: sequence.to_s,
+      audit_comment: audit_api_comment
+    )
+  end
 end
