@@ -31,7 +31,7 @@ class AdditionalDocumentValidationRequest < ApplicationRecord
   private
 
   def audit_upload_files!
-    audit_created!(
+    audit!(
       activity_type: "additional_document_validation_request_received",
       activity_information: sequence,
       audit_comment: documents.map(&:name).join(", ")

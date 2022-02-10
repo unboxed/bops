@@ -52,7 +52,7 @@ class DescriptionChangeValidationRequest < ApplicationRecord
   # to description_change_validation_request_cancelled, stop audit
   # the user in the audit_comment delete it.
   def audit_cancel!
-    audit_created!(
+    audit!(
       activity_type: "description_change_request_cancelled",
       activity_information: sequence,
       audit_comment: Current.user&.name
