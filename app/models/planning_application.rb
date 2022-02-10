@@ -5,7 +5,7 @@ class PlanningApplication < ApplicationRecord
 
   class WithdrawRecommendationError < RuntimeError; end
 
-  include AuditableModel
+  include Auditable
 
   include PlanningApplicationDecorator
 
@@ -410,7 +410,7 @@ class PlanningApplication < ApplicationRecord
   def assign(user)
     self.user = user
 
-    audit_created!(activity_type: "assigned", activity_information: self.user&.name)
+    audit!(activity_type: "assigned", activity_information: self.user&.name)
   end
 
   def determination_date
@@ -418,11 +418,11 @@ class PlanningApplication < ApplicationRecord
   end
 
   def audit_boundary_geojson!(status)
-    audit_created!(activity_type: "red_line_#{status}", audit_comment: "Red line drawing #{status}")
+    audit!(activity_type: "red_line_#{status}", audit_comment: "Red line drawing #{status}")
   end
 
   def audit_recommendation_approved!
-    audit_created!(activity_type: "approved", audit_comment: recommendations.last.reviewer_comment)
+    audit!(activity_type: "approved", audit_comment: recommendations.last.reviewer_comment)
   end
 
   private
@@ -475,7 +475,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def create_audit!
-    audit_created!(activity_type: "created", activity_information: Current.api_user&.name || Current.user&.name)
+    audit!(activity_type: "created", activity_information: Current.api_user&.name || Current.user&.name)
   end
 
   def audit_updated!
@@ -492,9 +492,9 @@ class PlanningApplication < ApplicationRecord
     if attribute_name.eql?("constraints")
       audit_constraits!(saved_changes)
     else
-      audit_created!(activity_type: "updated",
-                     activity_information: attribute_name.humanize,
-                     audit_comment: "Changed from: #{saved_change_to_attribute(attribute_name).first} \r\n Changed to: #{saved_change_to_attribute(attribute_name).second}")
+      audit!(activity_type: "updated",
+             activity_information: attribute_name.humanize,
+             audit_comment: "Changed from: #{saved_change_to_attribute(attribute_name).first} \r\n Changed to: #{saved_change_to_attribute(attribute_name).second}")
     end
   end
 
@@ -504,8 +504,8 @@ class PlanningApplication < ApplicationRecord
     attr_removed = prev_arr - new_arr
     attr_added = new_arr - prev_arr
 
-    attr_added.each { |attr| audit_created!(activity_type: "constraint_added", audit_comment: attr) }
-    attr_removed.each { |attr| audit_created!(activity_type: "constraint_removed", audit_comment: attr) }
+    attr_added.each { |attr| audit!(activity_type: "constraint_added", audit_comment: attr) }
+    attr_removed.each { |attr| audit!(activity_type: "constraint_removed", audit_comment: attr) }
   end
 
   def determination_date_is_not_in_the_future

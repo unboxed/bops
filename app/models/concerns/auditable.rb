@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-module AuditableModel
+module Auditable
   extend ActiveSupport::Concern
 
   included do
     private
 
-    def audit_created!(activity_type:, activity_information: nil, audit_comment: nil)
+    def audit!(activity_type:, activity_information: nil, audit_comment: nil)
       audits.create!(
         user: Current.user,
         activity_type: activity_type,

@@ -5,7 +5,7 @@ class Document < ApplicationRecord
 
   delegate :audits, to: :planning_application
 
-  include AuditableModel
+  include Auditable
 
   with_options optional: true do
     belongs_to :additional_document_validation_request
@@ -90,7 +90,7 @@ class Document < ApplicationRecord
     unless archived?
       transaction do
         update!(archive_reason: archive_reason, archived_at: Time.zone.now)
-        audit_created!(activity_type: "archived", activity_information: file.filename, audit_comment: archive_reason)
+        audit!(activity_type: "archived", activity_information: file.filename, audit_comment: archive_reason)
       end
     end
   end
@@ -98,7 +98,7 @@ class Document < ApplicationRecord
   def unarchive!
     transaction do
       update!(archived_at: nil)
-      audit_created!(activity_type: "unarchived", activity_information: file.filename)
+      audit!(activity_type: "unarchived", activity_information: file.filename)
     end
   end
 
@@ -113,14 +113,14 @@ class Document < ApplicationRecord
   def audit_updated!
     if saved_changes?
       if saved_change_to_attribute?("received_at")
-        audit_created!(activity_type: "document_received_at_changed", activity_information: file.filename,
-                       audit_comment: audit_date_comment)
+        audit!(activity_type: "document_received_at_changed", activity_information: file.filename,
+               audit_comment: audit_date_comment)
       end
       if saved_change_to_attribute?(:validated, from: false, to: true)
-        audit_created!(activity_type: "document_changed_to_validated", activity_information: file.filename)
+        audit!(activity_type: "document_changed_to_validated", activity_information: file.filename)
       elsif saved_change_to_attribute?(:validated, to: false)
-        audit_created!(activity_type: "document_invalidated", activity_information: file.filename,
-                       audit_comment: invalidated_document_reason)
+        audit!(activity_type: "document_invalidated", activity_information: file.filename,
+               audit_comment: invalidated_document_reason)
       end
     end
   end
@@ -158,7 +158,7 @@ class Document < ApplicationRecord
   end
 
   def create_audit!
-    audit_created!(activity_type: "uploaded", activity_information: file.filename)
+    audit!(activity_type: "uploaded", activity_information: file.filename)
   end
 
   def audit_date_comment

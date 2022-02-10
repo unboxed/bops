@@ -2,7 +2,6 @@
 
 class AdditionalDocumentValidationRequest < ApplicationRecord
   class UploadFilesError < RuntimeError; end
-
   include ValidationRequest
 
   belongs_to :planning_application
@@ -32,12 +31,15 @@ class AdditionalDocumentValidationRequest < ApplicationRecord
   private
 
   def audit_upload_files!
-    Audit.create!(
-      planning_application_id: planning_application.id,
-      audit_comment: documents.map(&:name).join(", "),
-      api_user: Current.api_user,
+    audit!(
       activity_type: "additional_document_validation_request_received",
-      activity_information: sequence
+      activity_information: sequence,
+      audit_comment: documents.map(&:name).join(", ")
     )
+  end
+
+  def audit_comment
+    { document: document_request_type,
+      reason: document_request_reason }.to_json
   end
 end

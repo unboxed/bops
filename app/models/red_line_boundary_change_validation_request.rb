@@ -25,4 +25,16 @@ class RedLineBoundaryChangeValidationRequest < ApplicationRecord
   def set_original_geojson
     self.original_geojson = planning_application.boundary_geojson
   end
+
+  def audit_api_comment
+    if approved?
+      { response: "approved" }.to_json
+    else
+      { response: "rejected", reason: rejection_reason }.to_json
+    end
+  end
+
+  def audit_comment
+    reason
+  end
 end

@@ -31,20 +31,12 @@ module Api
 
         if params[:data][:response].present? && @other_change_validation_request.update(response: params[:data][:response])
           @other_change_validation_request.update!(state: "closed")
-
-          audit("other_change_validation_request_received", audit_item(@other_change_validation_request),
-                @other_change_validation_request.sequence, current_api_user)
+          @other_change_validation_request.create_api_audit!
 
           render json: { message: "Change request updated" }, status: :ok
         else
           render json: { message: "Unable to update request. Please ensure response is present" }, status: :bad_request
         end
-      end
-
-      private
-
-      def audit_item(change_request)
-        { response: change_request.response }.to_json
       end
     end
   end

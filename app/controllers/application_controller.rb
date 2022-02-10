@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  include Auditable
-
   rescue_from Notifications::Client::NotFoundError, with: :validation_notice_request_error
   rescue_from Notifications::Client::ServerError, with: :validation_notice_request_error
   rescue_from Notifications::Client::RequestError, with: :validation_notice_request_error

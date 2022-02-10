@@ -14,4 +14,15 @@ class OtherChangeValidationRequest < ApplicationRecord
   def response_is_present?
     errors.add(:base, "some suggestion error here") if closed? && response.blank?
   end
+
+  private
+
+  def audit_api_comment
+    { response: response }.to_json
+  end
+
+  def audit_comment
+    { summary: summary,
+      suggestion: suggestion }.to_json
+  end
 end

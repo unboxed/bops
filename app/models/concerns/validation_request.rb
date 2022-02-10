@@ -5,7 +5,7 @@ module ValidationRequest
 
   delegate :audits, to: :planning_application
 
-  include AuditableModel
+  include Auditable
 
   class RecordCancelError < RuntimeError; end
 
@@ -17,6 +17,7 @@ module ValidationRequest
     before_create :set_sequence
 
     before_destroy :ensure_validation_request_destroyable!
+    after_create :create_audit!
 
     validates :cancel_reason, presence: true, if: :cancelled?
 
@@ -52,7 +53,7 @@ module ValidationRequest
         after do
           planning_application.update!(description: proposed_description)
           update!(approved: true, auto_closed: true)
-          audit_created!(activity_type: "auto_closed")
+          audit!(activity_type: "auto_closed")
         end
       end
 
@@ -93,8 +94,8 @@ module ValidationRequest
   def cancel_request!
     transaction do
       cancel!
-      audit_created!(activity_type: "#{self.class.name.underscore}_cancelled", activity_information: sequence,
-                     audit_comment: { cancel_reason: cancel_reason }.to_json)
+      audit!(activity_type: "#{self.class.name.underscore}_cancelled", activity_information: sequence,
+             audit_comment: { cancel_reason: cancel_reason }.to_json)
     end
   rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
     raise RecordCancelError, e.message
@@ -108,5 +109,32 @@ module ValidationRequest
     return if pending?
 
     raise NotDestroyableError, "Only requests that are pending can be destroyed"
+  end
+
+  def create_api_audit!
+    audit!(
+      activity_type: "#{self.class.name.underscore}_received",
+      activity_information: sequence.to_s,
+      audit_comment: audit_api_comment
+    )
+  end
+
+  def create_audit!
+    if is_a?(DescriptionChangeValidationRequest)
+      create_audit_for!("sent")
+    else
+      event = planning_application.invalidated? ? "sent" : "added"
+      create_audit_for!(event)
+    end
+  end
+
+  private
+
+  def create_audit_for!(event)
+    audit!(
+      activity_type: "#{self.class.name.underscore}_#{event}",
+      activity_information: sequence.to_s,
+      audit_comment: audit_comment
+    )
   end
 end

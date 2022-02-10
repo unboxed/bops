@@ -46,4 +46,31 @@ class DescriptionChangeValidationRequest < ApplicationRecord
   def rejected?
     !approved && rejection_reason.present?
   end
+
+  # TODO, move this on validation_request on the event cancel
+  # in order to do that we need to make a change this activity_type
+  # to description_change_validation_request_cancelled, stop audit
+  # the user in the audit_comment delete it.
+  def audit_cancel!
+    audit!(
+      activity_type: "description_change_request_cancelled",
+      activity_information: sequence,
+      audit_comment: Current.user&.name
+    )
+  end
+
+  private
+
+  def audit_api_comment
+    if approved?
+      { response: "approved" }.to_json
+    else
+      { response: "rejected", reason: rejection_reason }.to_json
+    end
+  end
+
+  def audit_comment
+    { previous: planning_application.description,
+      proposed: proposed_description }.to_json
+  end
 end
