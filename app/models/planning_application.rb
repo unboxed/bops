@@ -89,7 +89,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def days_overdue
-    expiry_date.business_days_until(Date.current)
+    expiry_date.business_days_until(Time.previous_business_day(Date.current))
   end
 
   def reference

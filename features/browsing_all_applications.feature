@@ -14,7 +14,14 @@ Feature: As an assessor I can browse all applications
       |    7 | yellow |
       |    2 | red    |
 
-   Scenario: I can see how many days is the application overdue
-     Given the application expired 10 days ago
-     When I view all "Not started" planning applications
-     Then the page contains a "red" tag containing "10 days overdue"
+  Scenario: I can see how many days is the application overdue during the working week
+    Given the date is 11-02-2022
+    And the application expired 10 days ago
+    When I view all "Not started" planning applications
+    Then the page contains a "red" tag containing "10 days overdue"
+
+  Scenario: I can see how many days is the application overdue during the weekend
+    Given the date is 12-02-2022
+    And the application expired 10 days ago
+    When I view all "Not started" planning applications
+    Then the page contains a "red" tag containing "10 days overdue"
