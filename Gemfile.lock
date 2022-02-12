@@ -238,7 +238,7 @@ GEM
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
     hashdiff (1.0.1)
-    i18n (1.9.1)
+    i18n (1.8.11)
       concurrent-ruby (~> 1.0)
     image_processing (1.12.1)
       mini_magick (>= 4.9.5, < 5)
@@ -490,6 +490,7 @@ DEPENDENCIES
   guard
   guard-cucumber
   guard-rspec
+  i18n (< 1.9)
   image_processing (~> 1.2)
   jbuilder
   listen
