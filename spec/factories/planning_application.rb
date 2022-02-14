@@ -18,6 +18,7 @@ FactoryBot.define do
     applicant_last_name { Faker::Name.last_name }
     applicant_phone { Faker::Base.numerify("+44 7### ######") }
     applicant_email { Faker::Internet.email }
+    user_role { "agent" }
     application_type { :lawfulness_certificate }
     public_comment { "All GDPO compliant" }
     uprn { Faker::Base.numerify("00######") }

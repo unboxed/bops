@@ -13,6 +13,8 @@ class PlanningApplication < ApplicationRecord
 
   enum application_type: { lawfulness_certificate: 0, full: 1 }
 
+  enum user_role: { applicant: 0, agent: 1, proxy: 2 }
+
   with_options dependent: :destroy do
     has_many :audits, -> { order(created_at: :asc) }, inverse_of: :planning_application
     has_many :documents

@@ -119,6 +119,7 @@ RSpec.describe "API request to list planning applications", type: :request, show
           expect(planning_application_json["agent_email"]).to eq(planning_application.agent_email)
           expect(planning_application_json["applicant_first_name"]).to eq(planning_application.applicant_first_name)
           expect(planning_application_json["applicant_last_name"]).to eq(planning_application.applicant_last_name)
+          expect(planning_application_json["user_role"]).to eq(planning_application.user_role)
           expect(planning_application_json["site"]["address_1"]).to eq(planning_application.address_1)
           expect(planning_application_json["site"]["address_2"]).to eq(planning_application.address_2)
           expect(planning_application_json["site"]["town"]).to eq(planning_application.town)

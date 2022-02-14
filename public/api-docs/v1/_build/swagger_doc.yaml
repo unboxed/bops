@@ -64,6 +64,7 @@ paths:
                     agent_last_name: Harper
                     agent_phone: '237878889'
                     agent_email: agent@example.com
+                    user_role: agent
                     result_flag: Planning permission / Permission needed
                     result_heading: It looks like these changes will need planning permission
                     result_description: 'Based on the information you have provided, we do not think this is eligible for a Lawful Development Certificate'
@@ -142,6 +143,7 @@ paths:
                         agent_last_name: Harper
                         agent_phone: '237878889'
                         agent_email: agent@example.com
+                        user_role: agent
                         result_flag: Planning permission / Permission needed
                         result_heading: It looks like these changes will need planning permission
                         result_description: 'Based on the information you have provided, we do not think this is eligible for a Lawful Development Certificate'
@@ -313,6 +315,9 @@ paths:
                 applicant_email:
                   type: string
                   example: applicant@example.com
+                user_role:
+                  type: string
+                  example: agent
                 result:
                   type: object
                   properties:
@@ -388,6 +393,7 @@ paths:
                   agent_last_name: Harper
                   agent_phone: '237878889'
                   agent_email: agent@example.com
+                  user_role: agent
                   result:
                     flag: Planning permission / Permission needed
                     heading: It looks like these changes will need planning permission
