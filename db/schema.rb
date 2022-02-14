@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_02_114719) do
+ActiveRecord::Schema.define(version: 2022_02_09_112310) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -237,6 +237,7 @@ ActiveRecord::Schema.define(version: 2022_02_02_114719) do
     t.datetime "closed_at"
     t.jsonb "planx_data"
     t.datetime "determination_date"
+    t.boolean "updated_address_or_boundary_geojson", default: false
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
     t.index ["boundary_created_by_id"], name: "ix_planning_applications_on_boundary_created_by_id"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"

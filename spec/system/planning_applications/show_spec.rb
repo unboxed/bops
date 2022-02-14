@@ -229,4 +229,63 @@ RSpec.describe "Planning Application show page", type: :system do
       end
     end
   end
+
+  context "when I update an address or boundary geojson field" do
+    let!(:planning_application) { create(:planning_application, :with_boundary_geojson, local_authority: default_local_authority) }
+
+    before do
+      sign_in assessor
+      visit planning_application_path(planning_application)
+    end
+
+    it "displays a warning message in relevant sections after the update" do
+      # No warning text before an update
+      click_button "Site map"
+      within("#site-map-section") do
+        expect(page).to have_no_css("#govuk-warning-text")
+      end
+
+      click_button "Result from application"
+      within("#results-section") do
+        expect(page).to have_no_css("#govuk-warning-text")
+      end
+
+      click_button "Proposal details"
+      within("#proposal-details-section") do
+        expect(page).to have_no_css("#govuk-warning-text")
+      end
+
+      click_button "Constraints"
+      within("#constraints-section") do
+        expect(page).to have_no_css("#govuk-warning-text")
+      end
+
+      # Update address
+      click_button "Application information"
+      click_link "Edit details"
+      fill_in "Address 2", with: "Another address"
+      click_button "Save"
+
+      # Now we see a warning text in relevant sections
+      click_button "Site map"
+      within("#site-map-section .govuk-warning-text") do
+        expect(page).to have_content("This application has been updated. Please check the site map is correct.")
+      end
+
+      click_button "Result from application"
+      within("#results-section .govuk-warning-text") do
+        expect(page).to have_content("! Warning This application has been updated. The result may no longer be accurate.")
+      end
+
+      click_button "Proposal details"
+      within("#proposal-details-section .govuk-warning-text") do
+        expect(page).to have_content("! Warning This application has been updated. The proposal details may no longer be accurate. Please check all relevant details have been provided.")
+      end
+
+      click_button "Constraints"
+      within("#constraints-section .govuk-warning-text") do
+        expect(page).to have_content("This application has been updated. Please check the constraints are correct.")
+      end
+    end
+  end
 end

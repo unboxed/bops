@@ -110,8 +110,13 @@
         <span class="govuk-accordion__icon" aria-hidden="true"></span>
       </h3>
     </div>
-    <div class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
+    <div class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2" id="site-map-section">
       <% if @planning_application.boundary_geojson.present? %>
+        <% if @planning_application.updated_address_or_boundary_geojson %>
+          <%= render "shared/warning_text",
+            message: "This application has been updated. Please check the site map is correct." %>
+        <% end %>
+
         <p class="govuk-body">
           Sitemap drawn by <%= @planning_application.boundary_created_by.present? ? @planning_application.boundary_created_by.name : "Applicant" %>
         </p>
