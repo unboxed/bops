@@ -21,6 +21,8 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
   it "allows for a document creation request to be created and sent to the applicant" do
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Validate application"
+    click_link "Start now"
+    click_link "Send validation decision"
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
@@ -57,6 +59,8 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
   it "does not allow for a creation request without a document request reason and type" do
     click_link "Validate application"
+    click_link "Start now"
+    click_link "Send validation decision"
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
@@ -107,8 +111,8 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
       visit planning_application_path(new_planning_application)
       click_link "Validate application"
-
-      click_link "Request validation changes"
+      click_link "Start now"
+      click_link "Send validation decision"
       expect(request.notified_at).to be_nil
 
       click_button "Mark the application as invalid"

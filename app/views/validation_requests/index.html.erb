@@ -1,6 +1,8 @@
 <% content_for :title, "Validation requests" %>
 <% add_parent_breadcrumb_link "Home", planning_applications_path %>
 <% add_parent_breadcrumb_link "Application", validate_form_planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Validation tasks", planning_application_validation_tasks_path(@planning_application) %>
+
 <div class="govuk-grid-column-full">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column govuk-!-padding-top-6">
@@ -78,7 +80,7 @@
                     <% end %>
                   </td>
                   <% else %>
-                  <td class="govuk-table__cell limit-column-width"> 
+                  <td class="govuk-table__cell limit-column-width">
                     <%= edit_validation_request_url(@planning_application, validation_request) %>
                   </td>
                   <% end %>
@@ -140,15 +142,9 @@
           </div>
         </div>
       <% end %>
-
-      <%= form_with model: @planning_application, url: invalidate_planning_application_path(@planning_application), local:true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
-        <div class="govuk-button-group">
-          <%= form.submit "Mark the application as invalid", class: "govuk-button", data: { module: "govuk-button"} %>
-          <%= link_to "Back", validate_form_planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-        </div>
-      <% end%>
+      <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
     <% else%>
-      <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
     <% end%>
   </div>
 </div>

@@ -62,6 +62,8 @@ Feature: Auditing a planning application
 
   Scenario: I can view an entry in the audit showing the application being validated
     When I press "Validate application"
+    And I press "Start now"
+    And I press "Send validation decision"
     And I press "Mark the application as valid"
     And I set the date inputs to "5/12/2021"
     And I press "Mark the application as valid"

@@ -49,6 +49,8 @@ end
 Given("the planning application is invalidated") do
   steps %(
     Given I create a new document validation request for a "validation request" because "I have to"
+    And I press "Back"
+    And I press "Send validation decision"
     And I press "Mark the application as invalid"
   )
 end
@@ -59,6 +61,8 @@ Given("the planning application is validated") do
   steps %(
     When I view the planning application
     And I press "Validate application"
+    And I press "Start now"
+    And I press "Send validation decision"
     And I press "Mark the application as valid"
     And I fill in "Day" with "#{now.day}"
     And I fill in "Month" with "#{now.month}"

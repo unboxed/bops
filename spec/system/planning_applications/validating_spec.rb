@@ -12,6 +12,8 @@ RSpec.shared_examples "validate and invalidate" do
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link planning_application.reference
     click_link "Validate application"
+    click_link "Start now"
+    click_link "Send validation decision"
     click_link "Mark the application as valid"
 
     fill_in "Day", with: "03"
@@ -111,6 +113,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
     create :document, :with_file, :with_tags, planning_application: planning_application
   end
 
+  let!(:new_planning_application) { create :planning_application, :not_started, local_authority: default_local_authority }
+
   before do
     sign_in assessor
     visit root_path
@@ -124,9 +128,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
       delivered_emails = ActionMailer::Base.deliveries.count
       click_link planning_application.reference
       click_link "Validate application"
-
-      click_link "Request validation changes"
-
+      click_link "Start now"
+      click_link "Send validation decision"
       click_button "Mark the application as invalid"
 
       expect(page).to have_content("Application has been invalidated")
@@ -147,6 +150,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
       create :additional_document_validation_request, planning_application: planning_application, state: "open"
       click_link planning_application.reference
       click_link "Validate application"
+      click_link "Start now"
+      click_link "Send validation decision"
 
       expect(page).to have_content("This application has 1 unresolved validation request and 1 resolved validation request")
 
@@ -165,23 +170,20 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_link planning_application.reference
       click_link "Validate application"
-      click_link "Mark the application as valid"
+      click_link "Start now"
+      click_link "Send validation decision"
 
-      fill_in "Day", with: "3"
-      fill_in "Month", with: "10"
-      fill_in "Year", with: "2022"
-
-      click_button "Mark the application as valid"
-
-      expect(page).to have_content("This application has an invalid document. You cannot validate an application with invalid documents.")
+      expect(page).to have_content("You have marked items as invalid, so you cannot validate this application.")
 
       planning_application.reload
       expect(planning_application.status).to eql("not_started")
     end
 
     it "shows error if invalid date is sent" do
-      click_link planning_application.reference
+      click_link new_planning_application.reference
       click_link "Validate application"
+      click_link "Start now"
+      click_link "Send validation decision"
       click_link "Mark the application as valid"
 
       fill_in "Day", with: "3"
@@ -190,14 +192,16 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_button "Mark the application as valid"
 
-      planning_application.reload
+      new_planning_application.reload
       # This is stopped by HTML 5 validations, which are hard to test the UI for.
-      expect(planning_application.status).to eql("not_started")
+      expect(new_planning_application.status).to eql("not_started")
     end
 
     it "shows error if date is empty" do
-      click_link planning_application.reference
+      click_link new_planning_application.reference
       click_link "Validate application"
+      click_link "Start now"
+      click_link "Send validation decision"
       click_link "Mark the application as valid"
 
       fill_in "Day", with: ""
@@ -206,14 +210,16 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_button "Mark the application as valid"
 
-      planning_application.reload
-      expect(planning_application.status).to eql("not_started")
+      new_planning_application.reload
+      expect(new_planning_application.status).to eql("not_started")
       expect(page).to have_content("Please enter a valid date")
     end
 
     it "shows error if only part of the date is empty" do
-      click_link planning_application.reference
+      click_link new_planning_application.reference
       click_link "Validate application"
+      click_link "Start now"
+      click_link "Send validation decision"
       click_link "Mark the application as valid"
 
       fill_in "Day", with: ""
@@ -222,8 +228,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_button "Mark the application as valid"
 
-      planning_application.reload
-      expect(planning_application.status).to eql("not_started")
+      new_planning_application.reload
+      expect(new_planning_application.status).to eql("not_started")
       expect(page).to have_content("Please enter a valid date")
 
       fill_in "Day", with: ""
@@ -232,8 +238,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_button "Mark the application as valid"
 
-      planning_application.reload
-      expect(planning_application.status).to eql("not_started")
+      new_planning_application.reload
+      expect(new_planning_application.status).to eql("not_started")
       expect(page).to have_content("Please enter a valid date")
 
       fill_in "Day", with: "1"
@@ -242,8 +248,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_button "Mark the application as valid"
 
-      planning_application.reload
-      expect(planning_application.status).to eql("not_started")
+      new_planning_application.reload
+      expect(new_planning_application.status).to eql("not_started")
       expect(page).to have_content("Please enter a valid date")
     end
 
@@ -280,15 +286,13 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "Invalidation with no requests" do
     it "shows correct errors and status when there are no open validation requests" do
-      visit planning_application_path(planning_application)
+      visit planning_application_path(new_planning_application)
       click_link "Validate application"
-
-      click_link "Request validation changes"
+      click_link "Start now"
+      click_link "Review validation requests"
 
       expect(page).to have_content("Add all required validation requests for this application. Once all requests have been added, you can invalidate the application and notify the applicant that the application is invalid and they can see all validation requests")
 
-      click_button "Mark the application as invalid"
-      expect(page).to have_content("Please create at least one validation request")
       expect(planning_application.status).to eql("not_started")
     end
   end
@@ -297,11 +301,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "shows text and links when application has not been started" do
       visit planning_application_path(planning_application)
       click_link "Validate application"
-
-      expect(page).to have_content("The application has not yet been marked as valid or invalid")
-      expect(page).to have_content("Once the application has been checked, mark the application as valid.")
-
-      click_link "Request validation changes"
+      click_link "Start now"
+      click_link "Review validation requests"
 
       expect(page).to have_content("Add all required validation requests for this application. Once all requests have been added, you can invalidate the application and notify the applicant that the application is invalid and they can see all validation requests")
       expect(page).to have_content("The application has not yet been marked as valid or invalid")
@@ -315,6 +316,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       visit planning_application_path(invalid_planning_application)
       click_link "Validate application"
+      click_link "Start now"
+      click_link "Send validation decision"
 
       expect(page).to have_content("The application is marked as invalid. The applicant was notified on #{invalid_planning_application.invalidated_at}")
     end

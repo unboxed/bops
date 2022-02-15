@@ -36,6 +36,8 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     )
 
     click_link "Validate application"
+    click_link "Start now"
+    click_link "Send validation decision"
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
@@ -75,6 +77,8 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
                                                      old_document: invalid_document, state: "open", created_at: 12.days.ago
 
     click_link "Validate application"
+    click_link "Start now"
+    click_link "Send validation decision"
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
@@ -94,8 +98,8 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
       visit planning_application_path(new_planning_application)
       click_link "Validate application"
-
-      click_link "Request validation changes"
+      click_link "Start now"
+      click_link "Send validation decision"
       expect(request.notified_at).to be_nil
 
       click_button "Mark the application as invalid"
