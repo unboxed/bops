@@ -21,6 +21,8 @@ RSpec.describe "Requesting description changes to a planning application", type:
   it "is possible to create a request for miscellaneous changes" do
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Validate application"
+    click_link "Start now"
+    click_link "Send validation decision"
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
@@ -49,6 +51,8 @@ RSpec.describe "Requesting description changes to a planning application", type:
 
   it "only accepts a request that contains a summary and suggestion" do
     click_link "Validate application"
+    click_link "Start now"
+    click_link "Send validation decision"
     click_link "Start new or view existing requests"
     click_link "Add new request"
 
@@ -70,6 +74,8 @@ RSpec.describe "Requesting description changes to a planning application", type:
                                              created_at: 12.days.ago, notified_at: 12.days.ago, summary: "Fees outstanding", suggestion: "Please pay the balance", response: "paid"
 
     click_link "Validate application"
+    click_link "Start now"
+    click_link "Send validation decision"
     click_link "Start new or view existing requests"
 
     within(".change-requests") do
@@ -92,8 +98,8 @@ RSpec.describe "Requesting description changes to a planning application", type:
 
       visit planning_application_path(new_planning_application)
       click_link "Validate application"
-
-      click_link "Request validation changes"
+      click_link "Start now"
+      click_link "Send validation decision"
       expect(request.notified_at).to be_nil
 
       click_button "Mark the application as invalid"

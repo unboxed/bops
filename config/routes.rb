@@ -40,6 +40,7 @@ Rails.application.routes.draw do
       get :draw_sitemap
       patch :update_sitemap
       get :validation_notice
+      get :validation_decision
     end
 
     resources :documents, only: %i[index new create edit update] do
@@ -73,6 +74,8 @@ Rails.application.routes.draw do
 
     scope module: :planning_application do
       resources :notes, only: %i[index create]
+
+      resources :validation_tasks, only: :index
     end
   end
 

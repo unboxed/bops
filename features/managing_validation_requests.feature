@@ -4,7 +4,8 @@ Feature: Managing validation requests
     And a new planning application
     And I view the planning application
     When I press "Validate application"
-    And I press "Request validation changes"
+    And I press "Start now"
+    And I press "Send validation decision"
     And I create a new document validation request for a "Picture of the dog" because "it would be nice"
     And I create a new document validation request for a "Picture of the cat" because "it would also be nice"
 
@@ -23,7 +24,9 @@ Feature: Managing validation requests
     Then there is a validation request for a "Picture of the cat" that shows "Not sent"
 
   Scenario: As an assessor I can see the time left on each request of an invalidated application
-    When I press "Mark the application as invalid"
+    When I press "Back"
+    And I press "Send validation decision"
+    And I press "Mark the application as invalid"
     And I view the application's validations requests
     Then there is a validation request for a "Picture of the dog" that shows "15 days"
     Then there is a validation request for a "Picture of the cat" that shows "15 days"

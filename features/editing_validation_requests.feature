@@ -4,7 +4,8 @@ Feature: Editing validation requests
     And a new planning application
     And I view the planning application
     When I press "Validate application"
-    And I press "Request validation changes"
+    And I press "Start now"
+    And I press "Send validation decision"
     And I create a new document validation request for a "Picture of the dog" because "it would be nice"
     And I create a other change validation request with "Time for some changes up in here"
     And I create a red line boundary change validation request with "We shall update some boundaries"
