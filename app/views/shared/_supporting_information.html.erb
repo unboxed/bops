@@ -12,16 +12,16 @@
       </h3>
     </div>
     <div class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1" id="constraints-section">
+      <% if @planning_application.updated_address_or_boundary_geojson %>
+        <%= render "shared/warning_text",
+          message: "This application has been updated. Please check the constraints are correct." %>
+      <% end %>
+
       <% if @planning_application.constraints.empty? %>
         <p class="govuk-body audit_details">
           No constraints identified by RIPA
         </p>
       <% else %>
-        <% if @planning_application.updated_address_or_boundary_geojson %>
-          <%= render "shared/warning_text",
-            message: "This application has been updated. Please check the constraints are correct." %>
-        <% end %>
-
         <ul class="govuk-list govuk-list--bullet">
           <% @planning_application.constraints.each do |constraint| %>
             <li><%= constraint %></li>

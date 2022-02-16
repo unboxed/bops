@@ -8,12 +8,12 @@
     </h3>
   </div>
   <div class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-3" id="proposal-details-section">
-    <% if @planning_application.proposal_details.any? %>
-      <% if @planning_application.updated_address_or_boundary_geojson %>
-        <%= render "shared/warning_text",
-          message: "This application has been updated. The proposal details may no longer be accurate. Please check all relevant details have been provided." %>
-      <% end %>
+    <% if @planning_application.updated_address_or_boundary_geojson %>
+      <%= render "shared/warning_text",
+        message: "This application has been updated. The proposal details may no longer be accurate. Please check all relevant details have been provided." %>
+    <% end %>
 
+    <% if @planning_application.proposal_details.any? %>
       <ol class="govuk-list govuk-list--number">
         <% @planning_application.proposal_details.each do |proposal_detail| %>
           <li><%= @planning_application.proposal_detail_item(proposal_detail) %></li>
