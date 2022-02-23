@@ -9,7 +9,11 @@ class PlanningApplication
     private
 
     def set_planning_application
-      @planning_application = current_local_authority.planning_applications.find(planning_application_id)
+      @planning_application = planning_applications_scope.find(planning_application_id)
+    end
+
+    def planning_applications_scope
+      current_local_authority.planning_applications.includes(:other_change_validation_requests)
     end
 
     def planning_application_id

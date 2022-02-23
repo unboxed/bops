@@ -22,21 +22,28 @@ RSpec.describe "Requesting description changes to a planning application", type:
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Validate application"
     click_link "Start now"
-    click_link "Send validation decision"
-    click_link "Start new or view existing requests"
-    click_link "Add new request"
-
-    choose "Request other change to application"
-    click_button "Next"
+    click_link "Add an other validation request"
 
     fill_in "Tell the applicant another reason why the application is invalid", with: "The wrong fee has been paid"
     fill_in "Explain to the applicant how the application can be made valid",
             with: "You need to pay £100, which is the correct fee"
-    click_button "Add"
+
+    within(".govuk-button-group") do
+      expect(page).to have_link("Back", href: planning_application_validation_tasks_path(planning_application))
+      click_button "Add"
+    end
 
     within(".change-requests") do
       expect(page).to have_content("Other")
       expect(page).to have_content("15 days")
+    end
+
+    click_link "Back"
+    within("#other-change-validation-tasks") do
+      expect(page).to have_link(
+        "View other validation request #1",
+        href: edit_planning_application_other_change_validation_request_path(planning_application, OtherChangeValidationRequest.last)
+      )
     end
 
     click_link "Application"
@@ -52,12 +59,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
   it "only accepts a request that contains a summary and suggestion" do
     click_link "Validate application"
     click_link "Start now"
-    click_link "Send validation decision"
-    click_link "Start new or view existing requests"
-    click_link "Add new request"
-
-    choose "Request other change to application"
-    click_button "Next"
+    click_link "Add an other validation request"
 
     fill_in "Tell the applicant another reason why the application is invalid", with: ""
     fill_in "Explain to the applicant how the application can be made valid", with: ""
