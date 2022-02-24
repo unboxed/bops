@@ -50,7 +50,7 @@ RSpec.describe PlanningApplication, type: :model do
       let!(:planning_application3) { create(:planning_application, user: nil) }
 
       it "returns planning applications for a given user_id and all other null users" do
-        expect(described_class.for_user_and_null_users(user1.id)).to eq(
+        expect(described_class.for_user_and_null_users(user1.id)).to match_array(
           [planning_application1, planning_application3]
         )
       end
