@@ -47,7 +47,10 @@ module Api
 
         PlanningApplication.transaction do
           if @planning_application.save!
-            upload_documents(params[:files])
+            UploadDocumentsJob.perform_now(
+              planning_application: @planning_application,
+              files: params[:files]
+            )
 
             send_success_response
             if @planning_application.agent_email.present? || @planning_application.applicant_email.present?
@@ -57,27 +60,6 @@ module Api
         end
       rescue Errors::WrongFileTypeError, Errors::GetFileError, ActiveRecord::RecordInvalid, ArgumentError => e
         send_failed_response(e)
-      end
-
-      def upload_documents(document_params)
-        document_params&.each do |param|
-          file = URI.parse(param[:filename]).open
-
-          unless Document::PERMITTED_CONTENT_TYPES.include? file.content_type
-            raise Errors::WrongFileTypeError.new(nil, param[:filename])
-          end
-
-          @planning_application.documents.create!(tags: Array(param[:tags]),
-                                                  applicant_description: param[:applicant_description]) do |document|
-            document.file.attach(io: file, filename: new_filename(param[:filename]).to_s)
-          end
-        rescue OpenURI::HTTPError
-          raise Errors::GetFileError.new(nil, param[:filename])
-        end
-      end
-
-      def new_filename(name)
-        name.split("/")[-1]
       end
 
       def send_success_response
