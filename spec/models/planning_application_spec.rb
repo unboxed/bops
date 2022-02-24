@@ -31,6 +31,32 @@ RSpec.describe PlanningApplication, type: :model do
     end
   end
 
+  describe "scopes" do
+    describe ".by_created_at_desc" do
+      let!(:planning_application1) { create(:planning_application, created_at: Time.zone.now - 1.day) }
+      let!(:planning_application2) { create(:planning_application, created_at: Time.zone.now) }
+      let!(:planning_application3) { create(:planning_application, created_at: Time.zone.now - 2.days) }
+
+      it "returns planning applications sorted by created at desc (i.e. most recent first)" do
+        expect(described_class.by_created_at_desc).to eq([planning_application2, planning_application1, planning_application3])
+      end
+    end
+
+    describe ".for_user_and_null_users" do
+      let!(:user1) { create(:user) }
+      let!(:user2) { create(:user) }
+      let!(:planning_application1) { create(:planning_application, user: user1) }
+      let!(:planning_application2) { create(:planning_application, user: user2) }
+      let!(:planning_application3) { create(:planning_application, user: nil) }
+
+      it "returns planning applications for a given user_id and all other null users" do
+        expect(described_class.for_user_and_null_users(user1.id)).to eq(
+          [planning_application1, planning_application3]
+        )
+      end
+    end
+  end
+
   describe "callbacks" do
     describe "::after_create" do
       context "when there is a postcode set" do

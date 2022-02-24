@@ -32,6 +32,10 @@ class PlanningApplication < ApplicationRecord
   belongs_to :boundary_created_by, class_name: "User", optional: true
   belongs_to :local_authority
 
+  scope :by_created_at_desc, -> { order(created_at: :desc) }
+  scope :with_user, -> { preload(:user) }
+  scope :for_user_and_null_users, ->(user_id) { where(user_id: [user_id, nil]) }
+
   before_create :set_key_dates
   before_create :set_change_access_id
 
