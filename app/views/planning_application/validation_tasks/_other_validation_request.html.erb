@@ -1,0 +1,20 @@
+<li id="other-change-validation-tasks">
+  <h2 class="app-task-list__section">
+    Other validation issues
+  </h2>
+  <ul class="app-task-list__items">
+    <li class="app-task-list__item">
+      <span class="app-task-list__task-name">
+        <%= link_to "Add an other validation request", new_planning_application_other_change_validation_request_path, class: "govuk-link" %>
+      </span>
+    </li>
+    <% @planning_application.other_change_validation_requests.each do |other_change_validation_request| %>
+      <li class="app-task-list__item">
+        <span class="app-task-list__task-name">
+          <%= link_to "View other validation request ##{other_change_validation_request.sequence}",
+            edit_planning_application_other_change_validation_request_path(@planning_application, other_change_validation_request), class: "govuk-link" %>
+        </span>
+      </li>
+    <% end %>
+  </ul>
+</li>

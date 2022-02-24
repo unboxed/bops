@@ -5,7 +5,6 @@ module ValidationRequestHelper
     [
       ["replacement_document", "Request replacement documents"],
       ["create_document", "Request a new document"],
-      ["other_validation", "Request other change to application"],
       ["red_line_boundary", "Request approval to a red line boundary change"]
     ]
   end

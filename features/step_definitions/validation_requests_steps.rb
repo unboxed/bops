@@ -4,6 +4,14 @@ When("I view the application's validations requests") do
   visit planning_application_validation_requests_path(@planning_application)
 end
 
+When("I start the validation wizard") do
+  visit validate_form_planning_application_path(@planning_application)
+
+  steps %(
+    Given I press "Start now"
+  )
+end
+
 When("I create a new document validation request for a(n) {string} because {string}") do |type, reason|
   steps %(
     Given I view the application's validations requests
@@ -66,9 +74,8 @@ end
 
 Given("I create a(n) other change validation request with {string}") do |details|
   steps %(
-    Given I add a new validation request
-    And I choose "Request other change to application"
-    And I press "Next"
+    Given I start the validation wizard
+    And I press "Add an other validation request"
     And I fill in "Tell the applicant" with "#{details}"
     And I fill in "Explain to the applicant" with "Please make the change"
     And I press "Add"
