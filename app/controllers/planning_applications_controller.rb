@@ -18,11 +18,9 @@ class PlanningApplicationsController < AuthenticationController
 
   def index
     @planning_applications = if helpers.exclude_others? && current_user.assessor?
-                               current_local_authority.planning_applications.where(user_id: current_user.id).order("created_at DESC").or(
-                                 current_local_authority.planning_applications.where(user_id: nil).order("created_at DESC")
-                               )
+                               planning_applications_scope.for_user_and_null_users(current_user.id)
                              else
-                               current_local_authority.planning_applications.all.order("created_at DESC")
+                               planning_applications_scope
                              end
   end
 
@@ -292,6 +290,10 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   private
+
+  def planning_applications_scope
+    @planning_applications_scope ||= current_local_authority.planning_applications.with_user.by_created_at_desc
+  end
 
   def planning_application_params
     permitted_keys = %i[address_1

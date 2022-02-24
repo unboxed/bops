@@ -5,6 +5,8 @@ class Audit < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :api_user, optional: true
 
+  scope :with_user_and_api_user, -> { preload(:user, :api_user) }
+
   enum activity_type: {
     approved: "approved",
     assessed: "assessed",
