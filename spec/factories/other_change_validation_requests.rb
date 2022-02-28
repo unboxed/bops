@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :other_change_validation_request do
-    planning_application
+    planning_application { create :planning_application, :invalidated }
     user
     state { "open" }
     summary { "Incorrect fee" }

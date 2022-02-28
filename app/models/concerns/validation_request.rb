@@ -13,8 +13,11 @@ module ValidationRequest
 
   class CancelledEmailError < StandardError; end
 
+  class ValidationRequestNotCreatableError < StandardError; end
+
   included do
     before_create :set_sequence
+    before_create :ensure_planning_application_not_validated!
 
     before_destroy :ensure_validation_request_destroyable!
     after_create :create_audit!
@@ -126,6 +129,14 @@ module ValidationRequest
       event = planning_application.invalidated? ? "sent" : "added"
       create_audit_for!(event)
     end
+  end
+
+  def ensure_planning_application_not_validated!
+    return if is_a?(DescriptionChangeValidationRequest)
+    return unless planning_application.validated?
+
+    raise ValidationRequestNotCreatableError,
+          "Cannot create #{self.class.name} when planning application has been validated"
   end
 
   private

@@ -7,7 +7,7 @@ RSpec.describe "API request to patch document validation requests", type: :reque
   let!(:default_local_authority) { create(:local_authority, :default) }
 
   let!(:api_user) { create :api_user }
-  let!(:planning_application) { create(:planning_application, local_authority: default_local_authority) }
+  let!(:planning_application) { create(:planning_application, :invalidated, local_authority: default_local_authority) }
 
   let!(:red_line_boundary_change_validation_request) do
     create(:red_line_boundary_change_validation_request,

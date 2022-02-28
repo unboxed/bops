@@ -322,4 +322,23 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).to have_content("The application is marked as invalid. The applicant was notified on #{invalid_planning_application.invalidated_at}")
     end
   end
+
+  context "Application validated" do
+    before do
+      planning_application = create(:planning_application, :in_assessment, local_authority: default_local_authority)
+
+      visit planning_application_path(planning_application)
+    end
+
+    it "does not allow you to add requests if application has been validated" do
+      click_link "Validate application"
+      click_link "Start now"
+      click_link "Send validation decision"
+      expect(page).to have_content("The application is marked as valid and cannot be marked as invalid.")
+
+      click_link "Back"
+      click_link "Review validation requests"
+      expect(page).not_to have_link("Add new request")
+    end
+  end
 end

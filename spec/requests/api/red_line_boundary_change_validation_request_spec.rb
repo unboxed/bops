@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe "Red line boundary change validation requests API", type: :request, show_exceptions: true do
   let!(:api_user) { create(:api_user) }
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:planning_application) { create(:planning_application, :with_boundary_geojson, local_authority: default_local_authority) }
+  let!(:planning_application) { create(:planning_application, :invalidated, :with_boundary_geojson, local_authority: default_local_authority) }
   let!(:red_line_boundary_change_validation_request) do
     create(:red_line_boundary_change_validation_request, planning_application: planning_application)
   end

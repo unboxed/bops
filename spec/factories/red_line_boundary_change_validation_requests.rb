@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :red_line_boundary_change_validation_request do
-    planning_application
+    planning_application { create :planning_application, :invalidated }
     user
     state { "open" }
     new_geojson do

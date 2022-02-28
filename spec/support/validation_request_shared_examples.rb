@@ -2,8 +2,8 @@
 
 require "rails_helper"
 
-RSpec.shared_examples "ValidationRequest" do |_klass, request_type|
-  let(:planning_application) { create(:planning_application) }
+RSpec.shared_examples "ValidationRequest" do |klass, request_type|
+  let(:planning_application) { create(:planning_application, :invalidated) }
   let(:request) { create(request_type, planning_application: planning_application) }
 
   describe "validations" do
@@ -21,6 +21,17 @@ RSpec.shared_examples "ValidationRequest" do |_klass, request_type|
 
         another_request = create(request_type, planning_application: planning_application)
         expect(another_request.sequence).to eq(2)
+      end
+
+      context "when a planning application has been validated" do
+        let(:planning_application) { create(:planning_application, :in_assessment) }
+
+        it "prevents a #{request_type} validation request from being created" do
+          expect do
+            request
+          end.to raise_error(ValidationRequest::ValidationRequestNotCreatableError,
+                             "Cannot create #{klass.name} when planning application has been validated")
+        end
       end
     end
 

@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :additional_document_validation_request do
-    planning_application
+    planning_application { create :planning_application, :invalidated }
     user
     state { "open" }
     document_request_type { "Floor plan" }

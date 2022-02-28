@@ -3,11 +3,13 @@
     Other validation issues
   </h2>
   <ul class="app-task-list__items">
-    <li class="app-task-list__item">
-      <span class="app-task-list__task-name">
-        <%= link_to "Add an other validation request", new_planning_application_other_change_validation_request_path, class: "govuk-link" %>
-      </span>
-    </li>
+    <% unless @planning_application.validated? %>
+      <li class="app-task-list__item">
+        <span class="app-task-list__task-name">
+          <%= link_to "Add an other validation request", new_planning_application_other_change_validation_request_path, class: "govuk-link" %>
+        </span>
+      </li>
+    <% end %>
     <% @planning_application.other_change_validation_requests.each do |other_change_validation_request| %>
       <li class="app-task-list__item">
         <span class="app-task-list__task-name">
