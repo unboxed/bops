@@ -7,7 +7,7 @@ RSpec.describe "API request to patch document create requests", type: :request, 
 
   let!(:api_user) { create :api_user }
   let!(:default_local_authority) { build(:local_authority, :default) }
-  let!(:planning_application) { create(:planning_application, local_authority: default_local_authority) }
+  let!(:planning_application) { create(:planning_application, :invalidated, local_authority: default_local_authority) }
 
   let!(:additional_document_validation_request) do
     create(:additional_document_validation_request,

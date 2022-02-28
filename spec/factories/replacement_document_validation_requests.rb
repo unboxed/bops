@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :replacement_document_validation_request do
-    planning_application
+    planning_application { create :planning_application, :invalidated }
     user
     old_document factory: :document
     new_document factory: :document

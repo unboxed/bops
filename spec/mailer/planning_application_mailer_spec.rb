@@ -25,10 +25,11 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       decision: "granted"
     )
   end
+  let!(:invalid_planning_application) { create(:planning_application, :invalidated) }
 
   let(:host) { "default.example.com" }
   let!(:validation_request) do
-    create(:other_change_validation_request, planning_application: planning_application, user: assessor)
+    create(:other_change_validation_request, planning_application: invalid_planning_application, user: assessor)
   end
 
   let!(:document_with_tags) do

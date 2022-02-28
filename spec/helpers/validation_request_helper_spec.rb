@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe ValidationRequestHelper, type: :helper do
-  let(:planning_application) { create(:planning_application) }
+  let(:planning_application) { create(:planning_application, :invalidated) }
   let(:request) { create(:other_change_validation_request, planning_application: planning_application) }
   let(:document) { create(:document, planning_application: planning_application) }
 

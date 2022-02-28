@@ -125,7 +125,9 @@
         </p>
       <% end %>
 
-      <%= link_to "Add new request", new_planning_application_validation_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      <% unless @planning_application.validated? %>
+        <%= link_to "Add new request", new_planning_application_validation_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      <% end %>
     </div>
     <% if @planning_application.not_started? %>
       <% if @planning_application.errors.any? %>

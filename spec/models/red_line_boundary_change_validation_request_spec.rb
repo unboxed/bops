@@ -67,7 +67,7 @@ RSpec.describe RedLineBoundaryChangeValidationRequest, type: :model do
 
     describe "::before_create" do
       it "sets the original geojson field using the planning application boundary geojson" do
-        planning_application = create(:planning_application, :with_boundary_geojson)
+        planning_application = create(:planning_application, :invalidated, :with_boundary_geojson)
         red_line_boundary_change_validation_request = create(:red_line_boundary_change_validation_request,
                                                              planning_application: planning_application)
 
