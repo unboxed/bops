@@ -13,6 +13,12 @@ class Document < ApplicationRecord
     belongs_to :api_user
   end
 
+  has_one :replacement_document_validation_request,
+          lambda { |document|
+            unscope(:where).where("old_document_id = :id OR new_document_id = :id", id: document.id)
+          },
+          dependent: :destroy,
+          inverse_of: false
   has_one_attached :file, dependent: :destroy
   after_create :create_audit!
   after_update :audit_updated!

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_11_153225) do
+ActiveRecord::Schema.define(version: 2022_03_01_124154) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -131,9 +131,11 @@ ActiveRecord::Schema.define(version: 2022_02_11_153225) do
     t.bigint "api_user_id"
     t.datetime "received_at"
     t.bigint "additional_document_validation_request_id"
+    t.bigint "replacement_document_validation_request_id"
     t.index ["additional_document_validation_request_id"], name: "ix_documents_on_additional_document_validation_request_id"
     t.index ["api_user_id"], name: "ix_documents_on_api_user_id"
     t.index ["planning_application_id"], name: "index_documents_on_planning_application_id"
+    t.index ["replacement_document_validation_request_id"], name: "ix_documents_on_replacement_document_validation_request_id"
     t.index ["user_id"], name: "ix_documents_on_user_id"
   end
 
@@ -323,6 +325,7 @@ ActiveRecord::Schema.define(version: 2022_02_11_153225) do
   add_foreign_key "description_change_validation_requests", "users"
   add_foreign_key "documents", "additional_document_validation_requests"
   add_foreign_key "documents", "api_users"
+  add_foreign_key "documents", "replacement_document_validation_requests"
   add_foreign_key "documents", "users"
   add_foreign_key "notes", "planning_applications"
   add_foreign_key "notes", "users"
