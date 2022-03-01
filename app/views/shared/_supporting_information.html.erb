@@ -30,7 +30,7 @@
       <% end %>
       <% if @planning_application.can_validate? %>
         <p class="govuk-body">
-          <%= link_to "Update constraints", edit_constraints_form_planning_application_path(@planning_application), class: "govuk-link" %>
+          <%= link_to "Update constraints", edit_planning_application_constraints_path(@planning_application), class: "govuk-link" %>
         </p>
       <% end %>
     </div>
