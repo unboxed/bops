@@ -49,6 +49,31 @@ RSpec.describe ValidationRequest, type: :model do
     end
   end
 
+  describe "scopes" do
+    describe ".not_cancelled" do
+      before do
+        create(:replacement_document_validation_request, :cancelled)
+      end
+
+      let!(:replacement_document_validation_request1) do
+        create(:replacement_document_validation_request, :closed)
+      end
+      let!(:replacement_document_validation_request2) do
+        create(:replacement_document_validation_request, :open)
+      end
+      let!(:replacement_document_validation_request3) do
+        create(:replacement_document_validation_request, :pending)
+      end
+
+      it "returns documents that are not archived" do
+        expect(ReplacementDocumentValidationRequest.not_cancelled).to match_array(
+          [replacement_document_validation_request1, replacement_document_validation_request2,
+           replacement_document_validation_request3]
+        )
+      end
+    end
+  end
+
   describe "instance methods" do
     describe "#cancel_request!" do
       before { Current.user = request.user }
