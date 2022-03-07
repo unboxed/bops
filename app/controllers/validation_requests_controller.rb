@@ -12,8 +12,6 @@ class ValidationRequestsController < ApplicationController
 
   def create
     case params[:validation_request]
-    when "replacement_document"
-      redirect_to new_planning_application_replacement_document_validation_request_path
     when "create_document"
       redirect_to new_planning_application_additional_document_validation_request_path
     when "red_line_boundary"
