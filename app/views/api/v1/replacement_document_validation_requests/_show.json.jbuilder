@@ -10,7 +10,7 @@ json.extract! replacement_document_validation_request,
 
 json.old_document do
   json.name replacement_document_validation_request.old_document.file.filename
-  json.invalid_document_reason replacement_document_validation_request.old_document.invalidated_document_reason
+  json.invalid_document_reason replacement_document_validation_request.invalidated_document_reason
   json.url replacement_document_validation_request.old_document.file.representation(
     resize_to_limit: [1000, 1000]
   ).processed.url

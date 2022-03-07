@@ -8,6 +8,10 @@ class ReplacementDocumentValidationRequest < ApplicationRecord
   belongs_to :old_document, class_name: "Document"
   belongs_to :new_document, optional: true, class_name: "Document"
 
+  validates :reason, presence: true
+
+  delegate :invalidated_document_reason, to: :old_document
+
   private
 
   def audit_api_comment
@@ -16,6 +20,6 @@ class ReplacementDocumentValidationRequest < ApplicationRecord
 
   def audit_comment
     { old_document: old_document.name,
-      reason: old_document.invalidated_document_reason }.to_json
+      reason: invalidated_document_reason }.to_json
   end
 end

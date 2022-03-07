@@ -77,10 +77,10 @@
                   <% end %>
                 <% end %>
             <% end %>
-            <% if document.validated == false %>
-            <p class="govuk-body govuk-!-margin-bottom-1 govuk-!-font-weight-bold">
-              Invalid: <%= document.invalidated_document_reason %>
-            </p>
+            <% if document.invalidated_document_reason %>
+              <p class="govuk-body govuk-!-margin-bottom-1 govuk-!-font-weight-bold">
+                Invalid: <%= document.invalidated_document_reason %>
+              </p>
             <% end %>
             <p class="govuk-body govuk-!-margin-bottom-1">
               File name: <%= document.name %>

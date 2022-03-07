@@ -41,7 +41,7 @@ json.data do
                   :cancelled_at
     json.old_document do
       json.name replacement_document_validation_request.old_document.file.filename
-      json.invalid_document_reason replacement_document_validation_request.old_document.invalidated_document_reason
+      json.invalid_document_reason replacement_document_validation_request.invalidated_document_reason
     end
 
     json.new_document do

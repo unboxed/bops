@@ -107,5 +107,25 @@ RSpec.describe Document, type: :model do
         expect(document.archived?).to be true
       end
     end
+
+    describe "#invalidated_document_reason" do
+      context "when there is an associated replacement_document_validation_request" do
+        let!(:replacement_document_validation_request) do
+          create :replacement_document_validation_request, old_document: document, reason: "invalid!"
+        end
+
+        it "calls the super method" do
+          expect(document.invalidated_document_reason).to eq("invalid!")
+        end
+      end
+
+      context "when there is no associated replacement_document_validation_request" do
+        before { document.update(invalidated_document_reason: "an invalid reason") }
+
+        it "calls the replacement_document_validation_request reason" do
+          expect(document.invalidated_document_reason).to eq("an invalid reason")
+        end
+      end
+    end
   end
 end

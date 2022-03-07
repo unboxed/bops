@@ -131,6 +131,10 @@ class Document < ApplicationRecord
     end
   end
 
+  def invalidated_document_reason
+    replacement_document_validation_request.try(:reason) || super
+  end
+
   private
 
   def tag_values_permitted

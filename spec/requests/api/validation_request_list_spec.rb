@@ -10,7 +10,7 @@ RSpec.describe "API request to list validation requests", type: :request, show_e
     create(:description_change_validation_request, planning_application: planning_application)
   end
   let!(:replacement_document_validation_request) do
-    create(:replacement_document_validation_request, planning_application: planning_application)
+    create(:replacement_document_validation_request, :with_response, planning_application: planning_application)
   end
   let!(:additional_document_validation_request) do
     create(:additional_document_validation_request, :with_documents, planning_application: planning_application)
@@ -41,12 +41,12 @@ RSpec.describe "API request to list validation requests", type: :request, show_e
     expect(response).to be_successful
     expect(json["data"]["replacement_document_validation_requests"].first).to include({
                                                                                         "id" => replacement_document_validation_request.id,
-                                                                                        "state" => "open",
+                                                                                        "state" => "closed",
                                                                                         "response_due" => replacement_document_validation_request.response_due.strftime("%Y-%m-%d"),
                                                                                         "days_until_response_due" => replacement_document_validation_request.days_until_response_due,
                                                                                         "old_document" => {
                                                                                           "name" => replacement_document_validation_request.old_document.name.to_s,
-                                                                                          "invalid_document_reason" => nil
+                                                                                          "invalid_document_reason" => "Document is invalid"
                                                                                         },
                                                                                         "type" => "replacement_document_validation_request"
                                                                                       })
