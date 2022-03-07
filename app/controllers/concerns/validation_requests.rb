@@ -17,12 +17,12 @@ module ValidationRequests
       respond_to do |format|
         if request_type_instance.destroyed?
           format.html do
-            redirect_to planning_application_validation_requests_path(@planning_application),
+            redirect_to planning_application_validation_tasks_path(@planning_application),
                         notice: "Validation request was successfully deleted."
           end
         else
           format.html do
-            redirect_to planning_application_validation_requests_path(@planning_application),
+            redirect_to planning_application_validation_tasks_path(@planning_application),
                         alert: "Couldn't delete validation request - please contact support."
           end
         end
