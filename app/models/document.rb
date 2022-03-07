@@ -61,6 +61,7 @@ class Document < ApplicationRecord
   validate :invalidated_comment_present?
   validate :created_date_is_in_the_past
 
+  scope :by_created_at, -> { order(created_at: :asc) }
   scope :active, -> { where(archived_at: nil) }
   scope :invalidated, -> { where(validated: false) }
   scope :referenced, -> { where(referenced_in_decision_notice: true) }
@@ -70,6 +71,7 @@ class Document < ApplicationRecord
   scope :for_display, -> { active.referenced }
 
   scope :with_tag, ->(tag) { where("tags @> ?", "\"#{tag}\"") }
+  scope :with_file_attachment, -> { includes(file_attachment: :blob) }
 
   before_create do
     self.api_user ||= Current.api_user

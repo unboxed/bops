@@ -9,7 +9,11 @@ class DocumentsController < AuthenticationController
   before_action :ensure_document_edits_unlocked, only: %i[new edit update archive unarchive]
 
   def index
-    @documents = @planning_application.documents.order(:created_at)
+    @documents = @planning_application.documents
+
+    respond_to do |format|
+      format.html
+    end
   end
 
   def edit

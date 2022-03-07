@@ -14,6 +14,16 @@ RSpec.describe Document, type: :model do
         expect(described_class.active).to match_array([active_document])
       end
     end
+
+    describe ".by_created_at" do
+      let!(:document1) { create(:document, created_at: Time.zone.now - 1.day) }
+      let!(:document2) { create(:document, created_at: Time.zone.now) }
+      let!(:document3) { create(:document, created_at: Time.zone.now - 2.days) }
+
+      it "returns document sorted by created at" do
+        expect(described_class.by_created_at).to eq([document3, document1, document2])
+      end
+    end
   end
 
   describe "validations" do
