@@ -9,6 +9,9 @@ RSpec.describe "Validation tasks", type: :system do
   let!(:planning_application) do
     create :planning_application, :invalidated, local_authority: default_local_authority
   end
+  let!(:document) do
+    create(:document, :with_file, planning_application: planning_application)
+  end
 
   before do
     sign_in assessor
@@ -28,6 +31,17 @@ RSpec.describe "Validation tasks", type: :system do
             "Add an other validation request",
             href: new_planning_application_other_change_validation_request_path(planning_application)
           )
+        end
+
+        within("#document-validation-tasks") do
+          expect(page).to have_content("Check supplied documents")
+          expect(page).to have_link(
+            "Validate document - #{document.name}",
+            href: edit_planning_application_document_path(planning_application, document, validate: "yes")
+          )
+          within(".govuk-tag--grey") do
+            expect(page).to have_content("Not checked yet")
+          end
         end
 
         within("#review-tasks") do
@@ -53,6 +67,12 @@ RSpec.describe "Validation tasks", type: :system do
         within("#other-change-validation-tasks") do
           expect(page).to have_content("Other validation issues")
           expect(page).not_to have_link("Add an other validation request")
+        end
+
+        within("#document-validation-tasks") do
+          expect(page).to have_content("Check supplied documents")
+          expect(page).to have_content("Planning application has already been validated")
+          expect(page).not_to have_link("Validate document - #{document.name}")
         end
 
         within("#review-tasks") do
