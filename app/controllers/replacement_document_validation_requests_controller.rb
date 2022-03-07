@@ -3,23 +3,82 @@
 class ReplacementDocumentValidationRequestsController < ValidationRequestsController
   include ValidationRequests
 
+  before_action :set_replacement_document_validation_request, only: %i[edit update]
+  before_action :set_document, only: %i[new edit update]
+
   def new
     @replacement_document_validation_request = @planning_application.replacement_document_validation_requests.new
+
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def edit
+    respond_to do |format|
+      format.html
+    end
   end
 
   def create
+    @document = @planning_application.documents.find(document_id)
+
     ActiveRecord::Base.transaction do
-      @planning_application.invalid_documents_without_validation_request.each do |document|
-        @replacement_document_validation_request = @planning_application.replacement_document_validation_requests.new(
-          old_document: document, user: current_user
-        )
-        @replacement_document_validation_request.save!
+      @replacement_document_validation_request = @planning_application.replacement_document_validation_requests.new(replacement_document_validation_request_params).tap do |record|
+        record.old_document = @document
+        record.user = current_user
+      end
+
+      respond_to do |format|
+        if @replacement_document_validation_request.save
+          @document.replacement_document_validation_request = @replacement_document_validation_request
+          email_and_timestamp(@replacement_document_validation_request) if @planning_application.invalidated?
+
+          format.html { redirect_to planning_application_validation_tasks_path(@planning_application), notice: "Replacement document validation request successfully created." }
+        else
+          format.html { render :new }
+        end
       end
     end
+  rescue ActiveRecord::RecordNotFound
+    respond_to do |format|
+      format.html { redirect_to planning_application_validation_tasks_path(@planning_application), alert: "Could not find document with id: #{document_id}" }
+    end
+  end
 
-    flash[:notice] = "Replacement document validation request successfully created."
-    email_and_timestamp(@replacement_document_validation_request) if @planning_application.invalidated?
+  def update
+    respond_to do |format|
+      if @replacement_document_validation_request.update(replacement_document_validation_request_params)
+        format.html { redirect_to planning_application_validation_tasks_path(@planning_application), notice: "Replacement document reason successfully updated." }
+      else
+        format.html { render :edit }
+      end
+    end
+  end
 
-    redirect_to planning_application_validation_requests_path(@planning_application)
+  private
+
+  def set_document
+    @document = if @replacement_document_validation_request
+                  @replacement_document_validation_request.old_document
+                else
+                  @planning_application.documents.find(params[:document])
+                end
+  end
+
+  def set_replacement_document_validation_request
+    @replacement_document_validation_request = @planning_application.replacement_document_validation_requests.find(replacement_document_validation_request_id)
+  end
+
+  def replacement_document_validation_request_params
+    params.require(:replacement_document_validation_request).permit(:reason)
+  end
+
+  def document_id
+    Integer(params[:replacement_document_validation_request][:document_id])
+  end
+
+  def replacement_document_validation_request_id
+    Integer(params[:id])
   end
 end

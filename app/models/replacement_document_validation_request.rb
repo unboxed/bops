@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ReplacementDocumentValidationRequest < ApplicationRecord
+  class ResetDocumentInvalidationError < StandardError; end
+
   include ValidationRequest
 
   belongs_to :planning_application
@@ -14,6 +16,14 @@ class ReplacementDocumentValidationRequest < ApplicationRecord
   scope :with_active_document, -> { joins(:old_document).where(documents: { archived_at: nil }) }
 
   delegate :invalidated_document_reason, to: :old_document
+
+  before_destroy :reset_document_invalidation
+
+  def reset_document_invalidation
+    old_document.update!(invalidated_document_reason: nil, validated: nil)
+  rescue ActiveRecord::ActiveRecordError => e
+    raise ResetDocumentInvalidationError, e.message
+  end
 
   private
 

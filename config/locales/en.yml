@@ -42,7 +42,9 @@ en:
       description_change_validation_request: *cancel_reason
       other_change_validation_request: *cancel_reason
       red_line_boundary_change_validation_request: *cancel_reason
-      replacement_document_validation_request: *cancel_reason
+      replacement_document_validation_request:
+        cancel_reason: "Explain to the applicant why this request is being cancelled"
+        reason: "List all issues with the document."
       note:
         entry: "Add a note to this application."
     legend:

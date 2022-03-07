@@ -4,9 +4,10 @@ class DocumentsController < AuthenticationController
   include ActiveStorage::SetCurrent
 
   before_action :set_planning_application
-  before_action :set_document, only: %i[archive confirm_archive]
+  before_action :set_document, only: %i[edit update archive confirm_archive unarchive]
   before_action :disable_flash_header, only: :index
   before_action :ensure_document_edits_unlocked, only: %i[new edit update archive unarchive]
+  before_action :validate_document?, only: %i[edit update]
 
   def index
     @documents = @planning_application.documents
@@ -17,17 +18,24 @@ class DocumentsController < AuthenticationController
   end
 
   def edit
-    @document = @planning_application.documents.find(params[:id])
+    respond_to do |format|
+      format.html { render :edit }
+    end
   end
 
   def update
-    @document = @planning_application.documents.find(params[:id])
-    if @document.update(document_params)
-
-      flash[:notice] = "Document has been updated"
-      redirect_to action: :index
-    else
-      render :edit
+    respond_to do |format|
+      format.html do
+        if @document.update(document_params)
+          if !@document.validated? && @validate_document
+            redirect_to new_planning_application_replacement_document_validation_request_path(document: @document)
+          else
+            redirect_to redirect_url, notice: "Document has been updated"
+          end
+        else
+          render :edit
+        end
+      end
     end
   end
 
@@ -38,7 +46,6 @@ class DocumentsController < AuthenticationController
   end
 
   def unarchive
-    @document = @planning_application.documents.find(params[:document_id])
     @document.unarchive!
 
     if @document.unarchived?
@@ -92,12 +99,26 @@ class DocumentsController < AuthenticationController
   end
 
   def set_document
-    @document = @planning_application.documents.find(
-      params[:document_id]
-    )
+    @document = @planning_application.documents.find(document_id)
+  end
+
+  def document_id
+    Integer(params[:document_id] || params[:id])
   end
 
   def ensure_document_edits_unlocked
     render plain: "forbidden", status: :forbidden and return unless @planning_application.can_validate?
+  end
+
+  def validate_document?
+    @validate_document = params[:validate] == "yes"
+  end
+
+  def redirect_url
+    if @validate_document
+      planning_application_validation_tasks_path(@planning_application)
+    else
+      planning_application_documents_path(@planning_application)
+    end
   end
 end

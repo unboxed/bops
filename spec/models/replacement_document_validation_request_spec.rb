@@ -92,4 +92,22 @@ RSpec.describe ReplacementDocumentValidationRequest, type: :model do
       end
     end
   end
+
+  describe "callbacks" do
+    describe "::before_destroy" do
+      let!(:document) do
+        create :document, validated: false, invalidated_document_reason: "Invalid"
+      end
+      let!(:replacement_document_validation_request) do
+        create :replacement_document_validation_request, :pending, old_document: document
+      end
+
+      before { replacement_document_validation_request.destroy! }
+
+      it "updates and resets the validation fields on the associated document" do
+        expect(document.reload.invalidated_document_reason).to eq(nil)
+        expect(document.validated).to eq(nil)
+      end
+    end
+  end
 end

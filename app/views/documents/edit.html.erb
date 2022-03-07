@@ -1,8 +1,16 @@
 <% add_parent_breadcrumb_link "Home", planning_applications_path %>
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
-<% add_parent_breadcrumb_link "Documents", planning_application_documents_path(@planning_application) %>
+<% if @validate_document %>
+  <% add_parent_breadcrumb_link "Validation tasks", planning_application_validation_tasks_path(@planning_application) %>
+  <% content_for :title, "Validate document" %>
+<% else %>
+  <% add_parent_breadcrumb_link "Documents", planning_application_documents_path(@planning_application) %>
+  <% content_for :title, "Edit document" %>
+<% end %>
 
-<% content_for :title, "Edit document" %>
+<% if @validate_document %>
+  <h1 class="govuk-heading-l">Check document </h1>
+<% end %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-half">

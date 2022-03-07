@@ -17,10 +17,11 @@ class Document < ApplicationRecord
 
   has_one :replacement_document_validation_request,
           lambda { |document|
-            unscope(:where).where("old_document_id = :id OR new_document_id = :id", id: document.id)
+            unscope(:where).where(old_document_id: document.id, cancelled_at: nil)
           },
           dependent: :destroy,
           inverse_of: false
+
   has_one_attached :file, dependent: :destroy
   after_create :create_audit!
   after_update :audit_updated!
@@ -60,7 +61,6 @@ class Document < ApplicationRecord
   validate :file_content_type_permitted
   validate :file_attached
   validate :numbered
-  validate :invalidated_comment_present?
   validate :created_date_is_in_the_past
 
   scope :by_created_at, -> { order(created_at: :asc) }
@@ -161,12 +161,6 @@ class Document < ApplicationRecord
 
   def numbered
     errors.add(:numbers, :missing_numbers) if referenced_in_decision_notice? && numbers.blank?
-  end
-
-  def invalidated_comment_present?
-    if validated == false && invalidated_document_reason.blank?
-      errors.add(:document_validation, "Please fill in the comment box with the reason(s) this document is not valid.")
-    end
   end
 
   def created_date_is_in_the_past

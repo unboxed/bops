@@ -37,5 +37,12 @@ RSpec.describe "Edit document", type: :system do
 
       expect(page).to have_content("The selected file must be a PDF, JPG or PNG")
     end
+
+    it "cannot validate document via manage documents screen" do
+      visit edit_planning_application_document_path(planning_application, document)
+
+      expect(page).not_to have_content("Is the document valid?")
+      expect(page).not_to have_css("#validate-document")
+    end
   end
 end

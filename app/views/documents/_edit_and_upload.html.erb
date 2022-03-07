@@ -1,5 +1,5 @@
 <%= form_with model: [@planning_application, @document], local: true, class: "document", builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
-  <%= render partial: 'documents/form_partials/upload', locals: {form: form} %>
+  <%= render partial: 'documents/form_partials/upload', locals: {form: form} unless @validate_document %>
 
   <div class="govuk-form-group <%= @document.errors.any? ? 'govuk-form-group--error' : '' %>">
     <% if @document.errors[:numbers].any? %>
@@ -8,13 +8,19 @@
               <span class="govuk-visually-hidden">Error:</span><%= error %></span>
       <% end %>
     <% end %>
-    <%= render partial: 'documents/form_partials/received_at', locals: {form: form} %>
+    <%= render partial: 'documents/form_partials/received_at', locals: {form: form} unless @validate_document %>
     <%= render partial: 'documents/form_partials/tags', locals: {form: form} %>
-    <%= render partial: 'documents/form_partials/validate_document', locals: {form: form} %>
     <%= render partial: 'documents/form_partials/privacy', locals: {form: form} %>
+    <%= render partial: 'documents/form_partials/validate_document', locals: {form: form} if @validate_document %>
 
-    <div class="govuk-form-group govuk-!-padding-top-3">
+    <div class="govuk-button-group">
       <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+
+      <% if @validate_document %>
+        <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      <% else %>
+        <%= link_to "Back", planning_application_documents_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      <% end %>
     </div>
   </div>
 <% end %>
