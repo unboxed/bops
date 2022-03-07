@@ -29,16 +29,21 @@
       <%= @other_change_validation_request.created_at %>
       </p>
     </div>
-    <div class="govuk-inset-text">
-      <h2 class="govuk-heading-s">
-        Applicant response
-      </h2>
-      <p class="govuk-body">
-        <%= @other_change_validation_request.response %>
-      </p>
-      <p class="govuk-body">
-        <%= @other_change_validation_request.updated_at %>
-      </p>
-    </div>
+    <% if @other_change_validation_request.response %>
+      <div class="govuk-inset-text">
+        <h2 class="govuk-heading-s">
+          Applicant response
+        </h2>
+        <p class="govuk-body">
+          <%= @other_change_validation_request.response %>
+        </p>
+        <p class="govuk-body">
+          <%= @other_change_validation_request.updated_at %>
+        </p>
+      </div>
+    <% end %>
+
+    <%= render "shared/validation_request_show_actions",
+        planning_application: @planning_application, validation_request: @other_change_validation_request %>
   </div>
 </div>
