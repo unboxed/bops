@@ -17,7 +17,7 @@
         Invalid documents:
         <span>
           <strong>
-            <%= @planning_application.invalid_documents.count %>
+            <%= @planning_application.replacement_document_validation_requests.open_or_pending.with_active_document.count %>
           </strong>
         </span>
       </li>

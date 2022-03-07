@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Document < ApplicationRecord
+  class NotArchiveableError < StandardError; end
+
   belongs_to :planning_application
 
   delegate :audits, to: :planning_application
@@ -95,6 +97,10 @@ class Document < ApplicationRecord
   end
 
   def archive(archive_reason)
+    if replacement_document_validation_request.try(:open_or_pending?)
+      raise NotArchiveableError, "Cannot archive document with an open or pending validation request"
+    end
+
     unless archived?
       transaction do
         update!(archive_reason: archive_reason, archived_at: Time.zone.now)

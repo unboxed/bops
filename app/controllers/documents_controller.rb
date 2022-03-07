@@ -32,7 +32,9 @@ class DocumentsController < AuthenticationController
   end
 
   def archive
-    render :archive
+    respond_to do |format|
+      format.html
+    end
   end
 
   def unarchive
@@ -73,6 +75,9 @@ class DocumentsController < AuthenticationController
       flash[:alert] = "There was an error with archiving #{@document.name}"
       render :archive
     end
+  rescue Document::NotArchiveableError => e
+    flash[:alert] = e
+    render :archive
   end
 
   private

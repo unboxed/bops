@@ -103,18 +103,36 @@ RSpec.describe Document, type: :model do
 
   describe "instance methods" do
     describe "#archive" do
-      before { document.archive("scale") }
+      context "when document can be archived" do
+        before { document.archive("scale") }
 
-      it "archive reason should be correctly returned when assigned" do
-        expect(document.archive_reason).to eql("scale")
+        it "archive reason should be correctly returned when assigned" do
+          expect(document.archive_reason).to eql("scale")
+        end
+
+        it "is able to be archived with valid reason" do
+          expect(document.archived_at).not_to be(nil)
+        end
+
+        it "returns true when archived? method called" do
+          expect(document.archived?).to be true
+        end
       end
 
-      it "is able to be archived with valid reason" do
-        expect(document.archived_at).not_to be(nil)
-      end
+      context "when document cannot be archived" do
+        let!(:replacement_document_validation_request) do
+          create :replacement_document_validation_request, old_document: document
+        end
 
-      it "returns true when archived? method called" do
-        expect(document.archived?).to be true
+        before { document.replacement_document_validation_request = replacement_document_validation_request }
+
+        it "raises an error if there is an associated replacement document validation request" do
+          expect do
+            document.archive("scale")
+          end.to raise_error(
+            Document::NotArchiveableError, "Cannot archive document with an open or pending validation request"
+          )
+        end
       end
     end
 

@@ -224,4 +224,22 @@ RSpec.describe "Documents index page", type: :system do
       expect(page).to have_no_link("Archive")
     end
   end
+
+  context "with an associated replacement document validation request" do
+    let!(:replacement_document_validation_request) do
+      create(:replacement_document_validation_request, planning_application: not_started_planning_application,
+                                                       old_document: not_started_document)
+    end
+
+    before do
+      sign_in assessor
+      visit planning_application_document_archive_path(not_started_planning_application, not_started_document)
+    end
+
+    it "I am unable to archive the document" do
+      click_button "Archive"
+
+      expect(page).to have_content("Cannot archive document with an open or pending validation request")
+    end
+  end
 end

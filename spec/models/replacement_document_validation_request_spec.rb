@@ -48,4 +48,48 @@ RSpec.describe ReplacementDocumentValidationRequest, type: :model do
       end
     end
   end
+
+  describe "scopes" do
+    describe ".open_or_pending" do
+      before do
+        create(:replacement_document_validation_request, :closed)
+        create(:replacement_document_validation_request, :cancelled)
+      end
+
+      let!(:replacement_document_validation_request1) do
+        create(:replacement_document_validation_request, :open)
+      end
+      let!(:replacement_document_validation_request3) do
+        create(:replacement_document_validation_request, :pending)
+      end
+
+      it "returns replacement_document_validation_request sorted by created at desc (i.e. most recent first)" do
+        expect(described_class.open_or_pending).to match_array(
+          [replacement_document_validation_request1, replacement_document_validation_request3]
+        )
+      end
+    end
+
+    describe ".with_active_document" do
+      let(:document1) { create(:document, :archived) }
+      let!(:replacement_document_validation_request2) do
+        create(:replacement_document_validation_request, old_document: document2)
+      end
+      let!(:replacement_document_validation_request3) do
+        create(:replacement_document_validation_request, old_document: document3)
+      end
+      let(:document2) { create(:document) }
+      let(:document3) { create(:document) }
+
+      before do
+        create(:replacement_document_validation_request, old_document: document1)
+      end
+
+      it "returns replacement_document_validation_request sorted by created at desc (i.e. most recent first)" do
+        expect(described_class.with_active_document).to match_array(
+          [replacement_document_validation_request2, replacement_document_validation_request3]
+        )
+      end
+    end
+  end
 end
