@@ -93,5 +93,31 @@ RSpec.describe ValidationRequest, type: :model do
         end
       end
     end
+
+    describe "#open_or_pending?" do
+      context "when true" do
+        %i[open pending].each do |state|
+          let!(:replacement_document_validation_request) do
+            create(:replacement_document_validation_request, :"#{state}")
+          end
+
+          it "for a #{state} validation request" do
+            expect(replacement_document_validation_request).to be_open_or_pending
+          end
+        end
+      end
+
+      context "when false" do
+        %i[closed cancelled].each do |state|
+          let!(:replacement_document_validation_request) do
+            create(:replacement_document_validation_request, :"#{state}")
+          end
+
+          it "for a #{state} validation request" do
+            expect(replacement_document_validation_request).not_to be_open_or_pending
+          end
+        end
+      end
+    end
   end
 end
