@@ -393,6 +393,59 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     end
   end
 
+  context "when there are invalid documents" do
+    let!(:planning_application) do
+      create(:planning_application, :invalidated, local_authority: default_local_authority)
+    end
+    let!(:document) { create(:document, planning_application: planning_application, validated: false) }
+
+    context "when there is an open or pending replacement document validation request" do
+      let!(:replacement_document_validation_request) do
+        create(:replacement_document_validation_request, :open, planning_application: planning_application, old_document: document)
+      end
+
+      it "does show a invalid documents warning" do
+        click_link "Validate application"
+        click_link "Start now"
+        expect(page).to have_content("Invalid documents: 1")
+
+        click_link "Check documents"
+        expect(page).to have_content("Invalid documents: 1")
+      end
+    end
+
+    context "when there is a cancelled replacement document validation request" do
+      let!(:replacement_document_validation_request) do
+        create(:replacement_document_validation_request, :cancelled, planning_application: planning_application, old_document: document)
+      end
+
+      it "does show a warning when there is an open or pending replacement document validation request for an active document" do
+        click_link "Validate application"
+        click_link "Start now"
+        expect(page).not_to have_content("Invalid documents")
+      end
+    end
+
+    context "when there is no replacement document validation request" do
+      it "does not show a warning" do
+        click_link "Validate application"
+        click_link "Start now"
+        expect(page).not_to have_content("Invalid documents")
+      end
+    end
+
+    context "when document is archived" do
+      let!(:document) { create(:document, planning_application: planning_application, validated: false, archived_at: Time.zone.now) }
+      let!(:replacement_document_validation_request) do
+        create(:replacement_document_validation_request, planning_application: planning_application, old_document: document)
+      end
+
+      it "does not show a warning" do
+        expect(page).not_to have_content("Invalid documents")
+      end
+    end
+  end
+
   context "Invalidation updates replacement document validation request" do
     let!(:planning_application) do
       create(:planning_application, :not_started, local_authority: default_local_authority)
