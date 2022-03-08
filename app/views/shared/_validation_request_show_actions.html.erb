@@ -1,0 +1,13 @@
+<div class="govuk-button-group">
+  <%= link_to "Back", planning_application_validation_tasks_path(planning_application), class: "govuk-button" %>
+  <% if validation_request.open_or_pending? %>
+    <% if planning_application.invalidated? %>
+      <%= cancel_confirmation_request_url(planning_application, validation_request, classname: "govuk-button govuk-button--secondary") %>
+    <% end %>
+
+    <% if planning_application.not_started? %>
+      <%= edit_request_url(planning_application, validation_request, classname: "govuk-button govuk-button--secondary") %>
+      <%= delete_confirmation_request_url(planning_application, validation_request, classname: "govuk-button govuk-button--secondary") %>
+    <% end %>
+  <% end %>
+</div>

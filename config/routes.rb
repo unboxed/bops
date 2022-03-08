@@ -65,7 +65,7 @@ Rails.application.routes.draw do
       resources :additional_document_validation_requests, only: %i[new create edit update destroy]
       resources :other_change_validation_requests, only: %i[new create show edit update destroy]
       resources :red_line_boundary_change_validation_requests, only: %i[new create show edit update destroy]
-      resources :replacement_document_validation_requests, only: %i[new create destroy]
+      resources :replacement_document_validation_requests, only: %i[new create show edit update destroy]
     end
 
     resources :description_change_validation_requests, only: %i[new create show] do

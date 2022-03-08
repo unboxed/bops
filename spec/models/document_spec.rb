@@ -14,6 +14,16 @@ RSpec.describe Document, type: :model do
         expect(described_class.active).to match_array([active_document])
       end
     end
+
+    describe ".by_created_at" do
+      let!(:document1) { create(:document, created_at: Time.zone.now - 1.day) }
+      let!(:document2) { create(:document, created_at: Time.zone.now) }
+      let!(:document3) { create(:document, created_at: Time.zone.now - 2.days) }
+
+      it "returns document sorted by created at" do
+        expect(described_class.by_created_at).to eq([document3, document1, document2])
+      end
+    end
   end
 
   describe "validations" do
@@ -93,18 +103,56 @@ RSpec.describe Document, type: :model do
 
   describe "instance methods" do
     describe "#archive" do
-      before { document.archive("scale") }
+      context "when document can be archived" do
+        before { document.archive("scale") }
 
-      it "archive reason should be correctly returned when assigned" do
-        expect(document.archive_reason).to eql("scale")
+        it "archive reason should be correctly returned when assigned" do
+          expect(document.archive_reason).to eql("scale")
+        end
+
+        it "is able to be archived with valid reason" do
+          expect(document.archived_at).not_to be(nil)
+        end
+
+        it "returns true when archived? method called" do
+          expect(document.archived?).to be true
+        end
       end
 
-      it "is able to be archived with valid reason" do
-        expect(document.archived_at).not_to be(nil)
+      context "when document cannot be archived" do
+        let!(:replacement_document_validation_request) do
+          create :replacement_document_validation_request, old_document: document
+        end
+
+        before { document.replacement_document_validation_request = replacement_document_validation_request }
+
+        it "raises an error if there is an associated replacement document validation request" do
+          expect do
+            document.archive("scale")
+          end.to raise_error(
+            Document::NotArchiveableError, "Cannot archive document with an open or pending validation request"
+          )
+        end
+      end
+    end
+
+    describe "#invalidated_document_reason" do
+      context "when there is an associated replacement_document_validation_request" do
+        let!(:replacement_document_validation_request) do
+          create :replacement_document_validation_request, old_document: document, reason: "invalid!"
+        end
+
+        it "calls the super method" do
+          expect(document.invalidated_document_reason).to eq("invalid!")
+        end
       end
 
-      it "returns true when archived? method called" do
-        expect(document.archived?).to be true
+      context "when there is no associated replacement_document_validation_request" do
+        before { document.update(invalidated_document_reason: "an invalid reason") }
+
+        it "calls the replacement_document_validation_request reason" do
+          expect(document.invalidated_document_reason).to eq("an invalid reason")
+        end
       end
     end
   end

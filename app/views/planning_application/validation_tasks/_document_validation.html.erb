@@ -1,0 +1,29 @@
+<li id="document-validation-tasks">
+  <h2 class="app-task-list__section">
+    Check supplied documents
+  </h2>
+
+  <ul class="app-task-list__items">
+    <% if !@planning_application.validated? %>
+      <% if @planning_application.documents.active.empty? %>
+        <li class="app-task-list__item">
+          <span class="app-task-list__task-name">
+            There are no active documents
+          </span>
+        </li>
+      <% else %>
+        <% @planning_application.documents.active.each_with_index do |document, index| %>
+          <%= content_tag(:li, id: dom_id(document), class: "app-task-list__item") do %>
+            <%= @planning_application.document_task_list(document) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% else %>
+      <li class="app-task-list__item">
+        <span class="app-task-list__task-name">
+          Planning application has already been validated
+        </span>
+      </li>
+    <% end %>
+  </ul>
+</li>

@@ -42,9 +42,14 @@ RSpec.describe "Requesting description changes to a planning application", type:
     within("#other-change-validation-tasks") do
       expect(page).to have_link(
         "View other validation request #1",
-        href: edit_planning_application_other_change_validation_request_path(planning_application, OtherChangeValidationRequest.last)
+        href: planning_application_other_change_validation_request_path(planning_application, OtherChangeValidationRequest.last)
       )
     end
+
+    click_link "View other validation request #1"
+    expect(page).to have_link("Cancel request")
+    expect(page).not_to have_link("Edit request")
+    expect(page).not_to have_link("Delete request")
 
     click_link "Application"
     click_button "Audit log"

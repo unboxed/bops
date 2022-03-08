@@ -16,8 +16,8 @@ class PlanningApplication < ApplicationRecord
   enum user_role: { applicant: 0, agent: 1, proxy: 2 }
 
   with_options dependent: :destroy do
-    has_many :audits, -> { order(created_at: :asc) }, inverse_of: :planning_application
-    has_many :documents
+    has_many :audits, -> { by_created_at }, inverse_of: :planning_application
+    has_many :documents, -> { with_file_attachment.by_created_at }, inverse_of: :planning_application
     has_many :recommendations
     has_many :description_change_validation_requests
     has_many :replacement_document_validation_requests

@@ -9,13 +9,10 @@
 <% end %>
 
 <div class="govuk-button-group">
-  <% if action_name.eql?("edit") %>
-    <% unless @planning_application.validated? %>
-      <%= form.govuk_submit "Update" %>
-    <% end %>
-    <%= link_to "Back", planning_application_validation_requests_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+  <% if action_name.eql?("edit") && !@planning_application.validated? %>
+    <%= form.govuk_submit "Update" %>
   <% else %>
     <%= form.govuk_submit "Add" %>
-    <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
   <% end %>
+  <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
 </div>

@@ -3,11 +3,12 @@
     <span class="govuk-error-message">
     <span class="govuk-visually-hidden">Error:</span><%= form.object.errors[:document_validation].join(" ") %></span>
   <% end %>
+
+  <%= hidden_field_tag(:validate, "yes") %>
+
   <%= form.govuk_radio_buttons_fieldset(:validated, legend: { size: 's', text: 'Is the document valid?' }) do %>
     <%= form.govuk_radio_button :validated, 'true', label: { text: 'Yes'} %>
-    <%= form.govuk_radio_button :validated, 'false', label: { text: 'No' } do  %>
-      <%= form.govuk_text_area :invalidated_document_reason, label: { text: 'Describe in full why the document is invalid. This will be sent to the applicant.', class: 'make-invisible' }, hint: { text: 'Describe in full why the document is invalid. This will be sent to the applicant.'}, rows: 3 %>
-    <% end %>
+    <%= form.govuk_radio_button :validated, 'false', label: { text: 'No' } %>
   <% end %>
 </div>
 

@@ -24,6 +24,8 @@ module ValidationRequest
 
     validates :cancel_reason, presence: true, if: :cancelled?
 
+    scope :not_cancelled, -> { where(cancelled_at: nil) }
+
     include AASM
 
     aasm.attribute_name :state
@@ -97,6 +99,7 @@ module ValidationRequest
   def cancel_request!
     transaction do
       cancel!
+      reset_document_invalidation if is_a?(ReplacementDocumentValidationRequest)
       audit!(activity_type: "#{self.class.name.underscore}_cancelled", activity_information: sequence,
              audit_comment: { cancel_reason: cancel_reason }.to_json)
     end
@@ -137,6 +140,10 @@ module ValidationRequest
 
     raise ValidationRequestNotCreatableError,
           "Cannot create #{self.class.name} when planning application has been validated"
+  end
+
+  def open_or_pending?
+    open? || pending?
   end
 
   private

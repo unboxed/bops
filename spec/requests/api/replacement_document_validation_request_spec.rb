@@ -14,7 +14,7 @@ RSpec.describe "Replacement document validation requests API", type: :request, s
   describe "#index" do
     let(:path) { "/api/v1/planning_applications/#{planning_application.id}/replacement_document_validation_requests" }
     let!(:replacement_document_validation_request2) do
-      create(:replacement_document_validation_request, :closed, planning_application: planning_application)
+      create(:replacement_document_validation_request, :with_response, :closed, planning_application: planning_application)
     end
     let!(:replacement_document_validation_request3) do
       create(:replacement_document_validation_request, :cancelled, planning_application: planning_application)
@@ -37,12 +37,8 @@ RSpec.describe "Replacement document validation requests API", type: :request, s
               "cancelled_at" => nil,
               "old_document" => {
                 "name" => "proposed-floorplan.png",
-                "invalid_document_reason" => nil,
+                "invalid_document_reason" => "Document is invalid",
                 "url" => json["data"][0]["old_document"]["url"]
-              },
-              "new_document" => {
-                "name" => "proposed-floorplan.png",
-                "url" => json["data"][0]["new_document"]["url"]
               }
             },
             {
@@ -54,7 +50,7 @@ RSpec.describe "Replacement document validation requests API", type: :request, s
               "cancelled_at" => nil,
               "old_document" => {
                 "name" => "proposed-floorplan.png",
-                "invalid_document_reason" => nil,
+                "invalid_document_reason" => "Document is invalid",
                 "url" => json["data"][1]["old_document"]["url"]
               },
               "new_document" => {
@@ -73,10 +69,6 @@ RSpec.describe "Replacement document validation requests API", type: :request, s
                 "name" => "proposed-floorplan.png",
                 "invalid_document_reason" => nil,
                 "url" => json["data"][2]["old_document"]["url"]
-              },
-              "new_document" => {
-                "name" => "proposed-floorplan.png",
-                "url" => json["data"][2]["new_document"]["url"]
               }
             }
           ]
@@ -118,12 +110,8 @@ RSpec.describe "Replacement document validation requests API", type: :request, s
             "cancelled_at" => nil,
             "old_document" => {
               "name" => "proposed-floorplan.png",
-              "invalid_document_reason" => nil,
+              "invalid_document_reason" => "Document is invalid",
               "url" => json["old_document"]["url"]
-            },
-            "new_document" => {
-              "name" => "proposed-floorplan.png",
-              "url" => json["new_document"]["url"]
             }
           }
         )

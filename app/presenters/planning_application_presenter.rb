@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
 class PlanningApplicationPresenter
+  include Rails.application.routes.url_helpers
+
   attr_reader :template, :planning_application
 
-  delegate :tag, :concat, :link_to, to: :template
+  delegate :tag, :concat, :link_to, :truncate, to: :template
   delegate :to_param, to: :planning_application
 
   include StatusPresenter
   include ProposalDetailsPresenter
+  include ValidationTasksPresenter
 
   def initialize(template, planning_application)
     @template = template

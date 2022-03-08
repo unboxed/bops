@@ -5,8 +5,13 @@ FactoryBot.define do
     planning_application { create :planning_application, :invalidated }
     user
     old_document factory: :document
-    new_document factory: :document
+    reason { "Document is invalid" }
     state { "open" }
+
+    trait :with_response do
+      state { "closed" }
+      new_document factory: :document
+    end
 
     trait :pending do
       state { "pending" }

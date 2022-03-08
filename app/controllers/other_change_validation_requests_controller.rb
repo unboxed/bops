@@ -25,7 +25,15 @@ class OtherChangeValidationRequestsController < ValidationRequestsController
     end
   end
 
-  def edit; end
+  def edit
+    respond_to do |format|
+      if @other_change_validation_request.closed?
+        format.html { render plain: "Not Found", status: :not_found }
+      else
+        format.html { render :edit }
+      end
+    end
+  end
 
   def update
     if @other_change_validation_request.update(other_change_validation_request_params)

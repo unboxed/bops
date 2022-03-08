@@ -17,7 +17,7 @@
         Invalid documents:
         <span>
           <strong>
-            <%= @planning_application.invalid_documents.count %>
+            <%= @planning_application.replacement_document_validation_requests.open_or_pending.with_active_document.count %>
           </strong>
         </span>
       </li>
@@ -77,10 +77,10 @@
                   <% end %>
                 <% end %>
             <% end %>
-            <% if document.validated == false %>
-            <p class="govuk-body govuk-!-margin-bottom-1 govuk-!-font-weight-bold">
-              Invalid: <%= document.invalidated_document_reason %>
-            </p>
+            <% if document.invalidated_document_reason %>
+              <p class="govuk-body govuk-!-margin-bottom-1 govuk-!-font-weight-bold">
+                Invalid: <%= document.invalidated_document_reason %>
+              </p>
             <% end %>
             <p class="govuk-body govuk-!-margin-bottom-1">
               File name: <%= document.name %>

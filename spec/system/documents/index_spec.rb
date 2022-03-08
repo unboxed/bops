@@ -58,10 +58,16 @@ RSpec.describe "Documents index page", type: :system do
   end
 
   context "handling invalid documents" do
+    let!(:planning_application) do
+      create :planning_application, :invalidated, local_authority: default_local_authority
+    end
     let!(:invalid_document) do
-      create :document, :with_file,
-             planning_application: planning_application,
-             validated: false, invalidated_document_reason: "Missing a tikki bar"
+      create :document, :with_file, planning_application: planning_application,
+                                    validated: false, invalidated_document_reason: "Document is invalid"
+    end
+    let!(:replacement_document_validation_request) do
+      create :replacement_document_validation_request, planning_application: planning_application,
+                                                       old_document: invalid_document
     end
 
     before do
@@ -73,7 +79,7 @@ RSpec.describe "Documents index page", type: :system do
 
     it "displays the number of invalid documents at the top of the page" do
       expect(page).to have_text("Invalid documents: 1")
-      expect(page).to have_text("Missing a tikki bar")
+      expect(page).to have_text("Document is invalid")
     end
   end
 end

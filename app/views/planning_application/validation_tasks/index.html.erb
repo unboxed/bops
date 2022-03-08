@@ -31,7 +31,7 @@
             <li>
               Invalid documents:
               <strong>
-                <%= @planning_application.invalid_documents.count %>
+                <%= @planning_application.replacement_document_validation_requests.open_or_pending.with_active_document.count %>
               </strong>
             </li>
           </ul>
@@ -41,6 +41,8 @@
 
     <ol class="app-task-list">
       <%= render "other_validation_request" %>
+
+      <%= render "document_validation" %>
 
       <li id="review-tasks">
         <h2 class="app-task-list__section">

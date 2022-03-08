@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Document < ApplicationRecord
+  class NotArchiveableError < StandardError; end
+
   belongs_to :planning_application
 
   delegate :audits, to: :planning_application
@@ -15,10 +17,11 @@ class Document < ApplicationRecord
 
   has_one :replacement_document_validation_request,
           lambda { |document|
-            unscope(:where).where("old_document_id = :id OR new_document_id = :id", id: document.id)
+            unscope(:where).where(old_document_id: document.id, cancelled_at: nil)
           },
           dependent: :destroy,
           inverse_of: false
+
   has_one_attached :file, dependent: :destroy
   after_create :create_audit!
   after_update :audit_updated!
@@ -58,9 +61,9 @@ class Document < ApplicationRecord
   validate :file_content_type_permitted
   validate :file_attached
   validate :numbered
-  validate :invalidated_comment_present?
   validate :created_date_is_in_the_past
 
+  scope :by_created_at, -> { order(created_at: :asc) }
   scope :active, -> { where(archived_at: nil) }
   scope :invalidated, -> { where(validated: false) }
   scope :referenced, -> { where(referenced_in_decision_notice: true) }
@@ -70,6 +73,7 @@ class Document < ApplicationRecord
   scope :for_display, -> { active.referenced }
 
   scope :with_tag, ->(tag) { where("tags @> ?", "\"#{tag}\"") }
+  scope :with_file_attachment, -> { includes(file_attachment: :blob) }
 
   before_create do
     self.api_user ||= Current.api_user
@@ -93,6 +97,10 @@ class Document < ApplicationRecord
   end
 
   def archive(archive_reason)
+    if replacement_document_validation_request.try(:open_or_pending?)
+      raise NotArchiveableError, "Cannot archive document with an open or pending validation request"
+    end
+
     unless archived?
       transaction do
         update!(archive_reason: archive_reason, archived_at: Time.zone.now)
@@ -131,6 +139,10 @@ class Document < ApplicationRecord
     end
   end
 
+  def invalidated_document_reason
+    replacement_document_validation_request.try(:reason) || super
+  end
+
   private
 
   def tag_values_permitted
@@ -149,12 +161,6 @@ class Document < ApplicationRecord
 
   def numbered
     errors.add(:numbers, :missing_numbers) if referenced_in_decision_notice? && numbers.blank?
-  end
-
-  def invalidated_comment_present?
-    if validated == false && invalidated_document_reason.blank?
-      errors.add(:document_validation, "Please fill in the comment box with the reason(s) this document is not valid.")
-    end
   end
 
   def created_date_is_in_the_past

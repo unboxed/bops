@@ -25,23 +25,12 @@ Feature: Editing documents for an application
     Then the page contains "Date received: 19 November 2021"
     And there is an audit entry containing "received at date was modified"
 
-  Scenario: I can mark a document as not valid
-    Given I choose "No" for "Is the document valid?"
-    And I fill in "Describe in full why the document is invalid." with "BANANAS"
-    When I press "Save"
-    Then the page contains "Invalid documents: 1"
-    Then the page contains "BANANAS"
-    And there is an audit entry containing "proposed-floorplan.png was marked as invalid"
-
   Scenario: I can edit and audit simultaneous updates to the document
     Given I set the date inputs to "19/11/2021"
     And I press "Save"
     And I view the document with reference "FOOBAR"
     And I set the date inputs to "22/11/2021"
-    And I choose "No" for "Is the document valid?"
-    And I fill in "Describe in full why the document is invalid." with "BANANAS"
     When I press "Save"
     Then there is an audit entry containing "received at date was modified"
     And there is an audit entry containing "from: 19 November 2021"
     And there is an audit entry containing "to: 22 November 2021"
-    Then there is an audit entry containing "proposed-floorplan.png was marked as invalid"

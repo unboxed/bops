@@ -14,6 +14,13 @@ FactoryBot.define do
     end
   end
 
+  trait :with_other_file do
+    file do
+      fixture_file_upload(Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf"),
+                          "proposed-first-floor-plan/pdf")
+    end
+  end
+
   trait :archived do
     archived_at { Time.zone.now }
   end

@@ -3,7 +3,6 @@
 module ValidationRequestHelper
   def options_for_new_request_validations
     [
-      ["replacement_document", "Request replacement documents"],
       ["create_document", "Request a new document"],
       ["red_line_boundary", "Request approval to a red line boundary change"]
     ]
@@ -41,15 +40,22 @@ module ValidationRequestHelper
     validation_request.updated_at if validation_request.closed?
   end
 
-  def cancel_confirmation_request_url(planning_application, validation_request)
-    link_to "Cancel request",
-            send("cancel_confirmation_planning_application_#{request_type(validation_request)}_path", planning_application,
-                 validation_request)
+  def edit_request_url(planning_application, validation_request, classname: nil)
+    link_to "Edit request",
+            send("edit_planning_application_#{request_type(validation_request)}_path", planning_application,
+                 validation_request), class: classname
   end
 
-  def delete_confirmation_request_url(planning_application, validation_request)
+  def cancel_confirmation_request_url(planning_application, validation_request, classname: nil)
+    link_to "Cancel request",
+            send("cancel_confirmation_planning_application_#{request_type(validation_request)}_path", planning_application,
+                 validation_request), class: classname
+  end
+
+  def delete_confirmation_request_url(planning_application, validation_request, classname: nil)
     link_to "Delete request",
-            send("planning_application_#{request_type(validation_request)}_path", planning_application, validation_request), method: :delete, data: { confirm: "Are you sure?" }
+            send("planning_application_#{request_type(validation_request)}_path", planning_application, validation_request),
+            method: :delete, data: { confirm: "Are you sure?" }, class: classname
   end
 
   def cancel_request_url(planning_application, validation_request)
