@@ -5,7 +5,7 @@
 
 <%= render "planning_applications/proposal_header" %>
 
-<% if @planning_application.invalid_documents.present? %>
+<% if @planning_application.replacement_document_validation_requests.open_or_pending.with_active_document.any? %>
 <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1">
   <svg class="alert__icon" fill="red" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 25 25" height="25" width="25">
