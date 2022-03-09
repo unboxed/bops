@@ -419,7 +419,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
         create(:replacement_document_validation_request, :cancelled, planning_application: planning_application, old_document: document)
       end
 
-      it "does show a warning when there is an open or pending replacement document validation request for an active document" do
+      it "does not show a warning" do
         click_link "Validate application"
         click_link "Start now"
         expect(page).not_to have_content("Invalid documents")
