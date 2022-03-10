@@ -41,7 +41,9 @@ Rails.application.routes.draw do
       get :validation_decision
     end
 
-    resource :constraints, only: %i[edit update]
+    resource :constraints, only: %i[show edit update] do
+      patch :check
+    end
 
     resources :documents, only: %i[index new create edit update] do
       get :archive

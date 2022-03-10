@@ -17,22 +17,7 @@
           message: "This application has been updated. Please check the constraints are correct." %>
       <% end %>
 
-      <% if @planning_application.constraints.empty? %>
-        <p class="govuk-body audit_details">
-          No constraints identified by RIPA
-        </p>
-      <% else %>
-        <ul class="govuk-list govuk-list--bullet">
-          <% @planning_application.constraints.each do |constraint| %>
-            <li><%= constraint %></li>
-          <% end %>
-        </ul>
-      <% end %>
-      <% if @planning_application.can_validate? %>
-        <p class="govuk-body">
-          <%= link_to "Update constraints", edit_planning_application_constraints_path(@planning_application), class: "govuk-link" %>
-        </p>
-      <% end %>
+      <%= render "constraints/info" %>
     </div>
   </div>
   <div class="govuk-accordion__section">

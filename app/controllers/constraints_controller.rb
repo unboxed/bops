@@ -4,6 +4,7 @@ class ConstraintsController < AuthenticationController
   before_action :set_planning_application
   before_action :ensure_constraint_edits_unlocked, only: %i[edit update]
 
+  def show; end
 
   def edit; end
 
@@ -12,6 +13,24 @@ class ConstraintsController < AuthenticationController
       redirect_to @planning_application, notice: "Constraints have been updated"
     else
       render :edit
+    end
+  end
+
+  def check
+    @planning_application.constraints_checked!
+
+    respond_to do |format|
+      if @planning_application.constraints_checked?
+        format.html do
+          redirect_to planning_application_validation_tasks_path(@planning_application),
+                      notice: "Constraints was successfully checked."
+        end
+      else
+        format.html do
+          redirect_to planning_application_validation_tasks_path(@planning_application),
+                      alert: "Couldn't check constraints - please contact support."
+        end
+      end
     end
   end
 

@@ -54,7 +54,8 @@ class Audit < ApplicationRecord
     description_change_validation_request_cancelled: "description_change_validation_request_cancelled",
     other_change_validation_request_cancelled: "other_change_validation_request_cancelled",
     red_line_boundary_change_validation_request_cancelled: "red_line_boundary_change_validation_request_cancelled",
-    replacement_document_validation_request_cancelled: "replacement_document_validation_request_cancelled"
+    replacement_document_validation_request_cancelled: "replacement_document_validation_request_cancelled",
+    constraints_checked: "constraints_checked"
   }
 
   validates :activity_type, presence: true

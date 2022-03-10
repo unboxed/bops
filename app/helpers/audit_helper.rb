@@ -96,6 +96,8 @@ module AuditHelper
       "Cancelled: validation request (applicant approval for red line boundary change##{args})"
     when "replacement_document_validation_request_cancelled"
       "Cancelled: validation request (replace document##{args})"
+    when "constraints_checked"
+      "Constraints Checked"
     else
       raise ArgumentError, "Activity type: #{type_of_activity} is not valid"
     end
