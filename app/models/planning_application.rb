@@ -440,6 +440,13 @@ class PlanningApplication < ApplicationRecord
     audit!(activity_type: "approved", audit_comment: recommendations.last.reviewer_comment)
   end
 
+  def constraints_checked!
+    transaction do
+      update!(constraints_checked: true)
+      audit!(activity_type: "constraints_checked")
+    end
+  end
+
   private
 
   def set_key_dates

@@ -1,0 +1,15 @@
+<h1 class="govuk-heading-l">Check the constraints</h1>
+
+<% if @planning_application.api_user.present? %>
+  <h2 class="govuk-heading-m">Constraints identified by <%= @planning_application.api_user.name %></h2>
+<% end %>
+
+<p class="govuk-body" id="constraints-review">Review all the constraints and update as necessary</p>
+<%= render "constraints/info" %>
+
+<%= form_with model: @planning_application, url: check_planning_application_constraints_path(@planning_application), method: :patch do |form| %>
+  <div class="govuk-button-group">
+    <%= form.submit "Marked as checked", class: "govuk-button", data: { module: "govuk-button" } unless @planning_application.constraints_checked? %>
+    <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+  </div>
+<% end %>

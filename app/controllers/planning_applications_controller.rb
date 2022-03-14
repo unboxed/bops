@@ -4,7 +4,6 @@ class PlanningApplicationsController < AuthenticationController
   before_action :set_planning_application, except: %i[new create index]
 
   before_action :ensure_user_is_reviewer, only: %i[review review_form]
-  before_action :ensure_constraint_edits_unlocked, only: %i[edit_constraints_form edit_constraints]
 
   before_action :set_last_audit, only: %i[show validate_form view_recommendation submit_recommendation publish]
 
@@ -246,17 +245,6 @@ class PlanningApplicationsController < AuthenticationController
     redirect_to @planning_application, notice: "Site boundary has been updated"
   end
 
-  def edit_constraints_form; end
-
-  def edit_constraints
-    @planning_application.constraints = params[:planning_application][:constraints].reject(&:blank?)
-    if @planning_application.save!
-      redirect_to @planning_application, notice: "Constraints have been updated"
-    else
-      render :edit_constraints_form
-    end
-  end
-
   def cancel
     case params[:planning_application][:status]
     when "withdrawn"
@@ -377,10 +365,6 @@ class PlanningApplicationsController < AuthenticationController
 
   def ensure_user_is_reviewer
     render plain: "forbidden", status: :forbidden and return unless current_user.reviewer?
-  end
-
-  def ensure_constraint_edits_unlocked
-    render plain: "forbidden", status: :forbidden and return unless @planning_application.can_validate?
   end
 
   def set_last_audit

@@ -44,6 +44,17 @@ RSpec.describe "Validation tasks", type: :system do
           end
         end
 
+        within("#constraints-validation-tasks") do
+          expect(page).to have_content("Constraints")
+          expect(page).to have_link(
+            "Validate constraints",
+            href: planning_application_constraints_path(planning_application)
+          )
+          within(".govuk-tag--grey") do
+            expect(page).to have_content("Not checked yet")
+          end
+        end
+
         within("#review-tasks") do
           expect(page).to have_content("Review")
           expect(page).to have_link(
@@ -59,7 +70,7 @@ RSpec.describe "Validation tasks", type: :system do
 
   context "when application has been validated" do
     let!(:planning_application) do
-      create :planning_application, :in_assessment, local_authority: default_local_authority
+      create :planning_application, :in_assessment, local_authority: default_local_authority, constraints_checked: true
     end
 
     it "displays the validation tasks list but no actions to create new requests can be taken" do
@@ -73,6 +84,17 @@ RSpec.describe "Validation tasks", type: :system do
           expect(page).to have_content("Check supplied documents")
           expect(page).to have_content("Planning application has already been validated")
           expect(page).not_to have_link("Validate document - #{document.name}")
+        end
+
+        within("#constraints-validation-tasks") do
+          expect(page).to have_content("Constraints")
+          expect(page).to have_link(
+            "Validate constraints",
+            href: planning_application_constraints_path(planning_application)
+          )
+          within(".govuk-tag--green") do
+            expect(page).to have_content("Checked")
+          end
         end
 
         within("#review-tasks") do

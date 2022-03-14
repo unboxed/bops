@@ -33,14 +33,16 @@ Rails.application.routes.draw do
       get :publish
       patch :determine
       patch :cancel
-      get :edit_constraints_form
-      patch :edit_constraints
       get :close_or_cancel_confirmation
       get :decision_notice
       get :draw_sitemap
       patch :update_sitemap
       get :validation_notice
       get :validation_decision
+    end
+
+    resource :constraints, only: %i[show edit update] do
+      patch :check
     end
 
     resources :documents, only: %i[index new create edit update] do
