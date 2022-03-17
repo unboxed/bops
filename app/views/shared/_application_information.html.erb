@@ -122,7 +122,7 @@
         </p>
         <% if @planning_application.officer_can_draw_boundary? %>
           <p class="govuk-body">
-            <%= link_to "Redraw digital sitemap", draw_sitemap_planning_application_path(@planning_application), class: "govuk-link" %>
+            <%= link_to "Redraw digital sitemap", planning_application_sitemap_path(@planning_application), class: "govuk-link" %>
           </p>
         <% end %>
         <%= render "shared/location_map", locals: { in_accordion: true, geojson: @planning_application.boundary_geojson } %>
@@ -130,7 +130,7 @@
         <p class="govuk-body">No digital sitemap provided</p>
         <% if @planning_application.officer_can_draw_boundary? %>
           <p class="govuk-body">
-            <%= link_to "Draw digital sitemap", draw_sitemap_planning_application_path(@planning_application), class: "govuk-link" %>
+            <%= link_to "Draw digital sitemap", planning_application_sitemap_path(@planning_application), class: "govuk-link" %>
           </p>
         <% end %>
       <% end %>

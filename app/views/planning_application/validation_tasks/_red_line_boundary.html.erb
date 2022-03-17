@@ -5,7 +5,7 @@
   <ul class="app-task-list__items">
     <li class="app-task-list__item">
       <span class="app-task-list__task-name">
-        <%= link_to_unless(@planning_application.boundary_geojson.present? && @planning_application.officer_can_draw_boundary?, "Draw red line boundary", draw_sitemap_planning_application_path(@planning_application), class: "govuk-link" ) %>
+        <%= link_to_unless(@planning_application.boundary_geojson.present? && @planning_application.officer_can_draw_boundary?, "Draw red line boundary", planning_application_sitemap_path(@planning_application), class: "govuk-link" ) %>
       </span>
       <% if @planning_application.boundary_geojson.present? %>
         <strong class="govuk-tag govuk-tag--green app-task-list__task-tag">

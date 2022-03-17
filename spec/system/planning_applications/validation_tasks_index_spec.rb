@@ -67,7 +67,7 @@ RSpec.describe "Validation tasks", type: :system do
           expect(page).to have_content("Red line boundary")
           expect(page).to have_link(
             "Draw red line boundary",
-            href: draw_sitemap_planning_application_path(planning_application)
+            href: planning_application_sitemap_path(planning_application)
           )
           within(".govuk-tag--grey") do
             expect(page).to have_content("Not checked yet")
@@ -127,7 +127,7 @@ RSpec.describe "Validation tasks", type: :system do
           expect(page).to have_content("Red line boundary")
           expect(page).to have_link(
             "Draw red line boundary",
-            href: draw_sitemap_planning_application_path(planning_application)
+            href: planning_application_sitemap_path(planning_application)
           )
           within(".govuk-tag--green") do
             expect(page).to have_content("Checked")
