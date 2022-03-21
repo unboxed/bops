@@ -45,6 +45,10 @@ Rails.application.routes.draw do
       patch :check
     end
 
+    resource :fee_items, only: %i[show] do
+      patch :validate
+    end
+
     resources :documents, only: %i[index new create edit update] do
       get :archive
 

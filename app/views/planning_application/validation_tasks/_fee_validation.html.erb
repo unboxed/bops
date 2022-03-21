@@ -1,0 +1,18 @@
+<li id="fee-validation-task">
+  <h2 class="app-task-list__section">
+    Fee
+  </h2>
+  <ul class="app-task-list__items">
+    <% if @planning_application.validated? %>
+      <li class="app-task-list__item">
+        <span class="app-task-list__task-name">
+          Planning application has already been validated
+        </span>
+      </li>
+    <% else %>
+      <li class="app-task-list__item">
+        <%= @planning_application.fee_task_list %>
+      </li>
+    <% end %>
+  </ul>
+</li>

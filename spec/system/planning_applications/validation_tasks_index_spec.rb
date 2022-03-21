@@ -25,6 +25,14 @@ RSpec.describe "Validation tasks", type: :system do
 
     it "displays the validation tasks list" do
       within(".app-task-list") do
+        within("#fee-validation-task") do
+          expect(page).to have_content("Fee")
+          expect(page).to have_link(
+            "Validate fee",
+            href: planning_application_fee_items_path(planning_application, validate_fee: "yes")
+          )
+        end
+
         within("#other-change-validation-tasks") do
           expect(page).to have_content("Other validation issues")
           expect(page).to have_link(
@@ -75,6 +83,12 @@ RSpec.describe "Validation tasks", type: :system do
 
     it "displays the validation tasks list but no actions to create new requests can be taken" do
       within(".app-task-list") do
+        within("#fee-validation-task") do
+          expect(page).to have_content("Fee")
+          expect(page).to have_content("Planning application has already been validated")
+          expect(page).not_to have_link("Validate fee")
+        end
+
         within("#other-change-validation-tasks") do
           expect(page).to have_content("Other validation issues")
           expect(page).not_to have_link("Add an other validation request")

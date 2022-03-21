@@ -40,10 +40,13 @@
     <% end %>
 
     <ol class="app-task-list">
+      <%= render "fee_validation" %>
+
       <%= render "constraints" %>
-      <%= render "other_validation_request" %>
 
       <%= render "document_validation" %>
+
+      <%= render "other_validation_request" %>
 
       <li id="review-tasks">
         <h2 class="app-task-list__section">
