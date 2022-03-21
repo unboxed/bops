@@ -8,6 +8,10 @@ FactoryBot.define do
     summary { "Incorrect fee" }
     suggestion { "You need to pay a different fee" }
 
+    trait :fee do
+      fee_item { true }
+    end
+
     trait :pending do
       state { "pending" }
     end

@@ -1,5 +1,5 @@
 <td class="govuk-table__cell change-request-list">
-  Other
+  Other <%= "(fee)" if other_change_validation_request.fee_item? %>
 </td>
 <% unless other_change_validation_request.cancelled? %>
   <td class="govuk-table__cell change-request-list">

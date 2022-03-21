@@ -31,6 +31,22 @@ RSpec.describe PlanningApplication, type: :model do
     end
   end
 
+  describe "associations" do
+    describe "fee_validation_requests" do
+      let!(:planning_application) { create(:planning_application, :invalidated) }
+      let!(:other_change_validation_request1) do
+        create(:other_change_validation_request, fee_item: false, planning_application: planning_application)
+      end
+      let!(:other_change_validation_request2) do
+        create(:other_change_validation_request, fee_item: true, planning_application: planning_application)
+      end
+
+      it "returns a has many association only where fee item is set to true on other change validation requests" do
+        expect(planning_application.fee_item_validation_requests).to eq([other_change_validation_request2])
+      end
+    end
+  end
+
   describe "scopes" do
     describe ".by_created_at_desc" do
       let!(:planning_application1) { create(:planning_application, created_at: Time.zone.now - 1.day) }

@@ -32,6 +32,11 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Max: 20
 
+Layout/LineLength:
+  Exclude:
+    - spec/presenters/**/*
+    - spec/system/**/*
+
 # we tend to use update_all in migrations
 Rails/SkipsModelValidations:
   Exclude:
@@ -45,7 +50,7 @@ RSpec/ExampleLength:
   Enabled: false
 
 RSpec/NestedGroups:
-  Max: 4
+  Max: 5
 
 RSpec/InstanceVariable:
   Enabled: false

@@ -3,13 +3,13 @@
 module ValidationTasks
   extend ActiveSupport::Concern
 
-  class DocumentsPresenter < PlanningApplicationPresenter
-    attr_reader :document
+  class FeeItemsPresenter < PlanningApplicationPresenter
+    attr_reader :fee_item_validation_request
 
-    def initialize(template, planning_application, document)
+    def initialize(template, planning_application)
       super(template, planning_application)
 
-      @document = document
+      @fee_item_validation_request = planning_application.fee_item_validation_requests.not_cancelled.last
     end
 
     def task_list_row
@@ -25,29 +25,25 @@ module ValidationTasks
     def validate_link
       case validation_item_status
       when "Valid", "Not checked yet"
-        link_to validate_document_link_text,
-                edit_planning_application_document_path(
-                  planning_application, document, validate: "yes"
-                ), class: "govuk-link"
-      when "Invalid"
-        link_to validate_document_link_text,
-                planning_application_replacement_document_validation_request_path(
-                  planning_application, document.replacement_document_validation_request
+        link_to "Validate fee",
+                planning_application_fee_items_path(planning_application, validate_fee: "yes"), class: "govuk-link"
+      when "Invalid", "Updated"
+        link_to "Validate fee",
+                planning_application_other_change_validation_request_path(
+                  planning_application, fee_item_validation_request
                 ), class: "govuk-link"
       else
         raise ArgumentError, "Status: #{validation_item_status} is not a valid option"
       end
     end
 
-    def validate_document_link_text
-      "Validate document - #{truncate document.name.to_s, length: 25}"
-    end
-
     def validation_item_status
-      status = if document.validated?
+      status = if planning_application.valid_fee?
                  "Valid"
-               elsif document.replacement_document_validation_request.try(:open_or_pending?)
+               elsif planning_application.fee_item_validation_requests.open_or_pending.any?
                  "Invalid"
+               elsif planning_application.fee_item_validation_requests.closed.any?
+                 "Updated"
                else
                  "Not checked yet"
                end

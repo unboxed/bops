@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Requesting description changes to a planning application", type: :system do
+RSpec.describe "Requesting other changes to a planning application", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
 
@@ -24,6 +24,8 @@ RSpec.describe "Requesting description changes to a planning application", type:
     click_link "Start now"
     click_link "Add an other validation request"
 
+    expect(page).not_to have_content("Request other validation change (fee)")
+
     fill_in "Tell the applicant another reason why the application is invalid", with: "The wrong fee has been paid"
     fill_in "Explain to the applicant how the application can be made valid",
             with: "You need to pay £100, which is the correct fee"
@@ -32,6 +34,8 @@ RSpec.describe "Requesting description changes to a planning application", type:
       expect(page).to have_link("Back", href: planning_application_validation_tasks_path(planning_application))
       click_button "Add"
     end
+
+    click_link "Review validation requests"
 
     within(".change-requests") do
       expect(page).to have_content("Other")
@@ -47,6 +51,8 @@ RSpec.describe "Requesting description changes to a planning application", type:
     end
 
     click_link "View other validation request #1"
+    expect(page).to have_content("View other request")
+    expect(page).not_to have_content("View other request (fee)")
     expect(page).to have_link("Cancel request")
     expect(page).not_to have_link("Edit request")
     expect(page).not_to have_link("Delete request")
@@ -118,6 +124,24 @@ RSpec.describe "Requesting description changes to a planning application", type:
 
       request.reload
       expect(request.notified_at).to be_a Date
+    end
+  end
+
+  context "when there are fee item validation requests" do
+    let!(:other_change_validation_request) do
+      create(:other_change_validation_request, planning_application: planning_application)
+    end
+    let!(:fee_change_validation_request) do
+      create(:other_change_validation_request, :fee, planning_application: planning_application)
+    end
+
+    it "does not show in the other validation issues task list" do
+      visit planning_application_validation_tasks_path(planning_application)
+
+      within("#other-change-validation-tasks") do
+        expect(page).to have_link("View other validation request ##{other_change_validation_request.sequence}")
+        expect(page).not_to have_link("View other validation request ##{fee_change_validation_request.sequence}")
+      end
     end
   end
 end

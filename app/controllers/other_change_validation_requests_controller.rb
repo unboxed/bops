@@ -3,25 +3,41 @@
 class OtherChangeValidationRequestsController < ValidationRequestsController
   include ValidationRequests
 
+  before_action :ensure_planning_application_not_validated, only: %i[new create edit update]
+  before_action :ensure_planning_application_not_invalidated, only: :edit
   before_action :set_other_validation_request, only: %i[show edit update]
+  before_action :validate_fee?, only: %i[new create edit update]
+  before_action :ensure_no_open_or_pending_fee_item_validation_request, only: %i[new create]
 
   def new
     @other_change_validation_request = @planning_application.other_change_validation_requests.new
+
+    respond_to do |format|
+      format.html
+    end
   end
 
-  def show; end
+  def show
+    respond_to do |format|
+      format.html
+    end
+  end
 
   def create
     @other_change_validation_request = @planning_application.other_change_validation_requests.new(other_change_validation_request_params)
     @other_change_validation_request.user = current_user
 
-    if @other_change_validation_request.save
-      email_and_timestamp(@other_change_validation_request) if @planning_application.invalidated?
+    respond_to do |format|
+      if @other_change_validation_request.save
+        email_and_timestamp(@other_change_validation_request) if @planning_application.invalidated?
 
-      flash[:notice] = "Other validation change request successfully created."
-      redirect_to planning_application_validation_requests_path(@planning_application)
-    else
-      render :new
+        format.html do
+          redirect_to planning_application_validation_tasks_path(@planning_application),
+                      notice: "Other validation change request successfully created."
+        end
+      else
+        format.html { render :new, validate_fee: params[:validate_fee] }
+      end
     end
   end
 
@@ -36,20 +52,29 @@ class OtherChangeValidationRequestsController < ValidationRequestsController
   end
 
   def update
-    if @other_change_validation_request.update(other_change_validation_request_params)
-      redirect_to planning_application_validation_requests_path(@planning_application), notice: "Other validation request successfully updated"
-    else
-      render :edit
+    respond_to do |format|
+      if @other_change_validation_request.update(other_change_validation_request_params)
+        format.html do
+          redirect_to planning_application_validation_tasks_path(@planning_application),
+                      notice: "Other validation request successfully updated"
+        end
+      else
+        format.html { render :edit }
+      end
     end
   end
 
   private
 
   def other_change_validation_request_params
-    params.require(:other_change_validation_request).permit(:summary, :suggestion)
+    params.require(:other_change_validation_request).permit(:summary, :suggestion, :fee_item)
   end
 
   def set_other_validation_request
     @other_change_validation_request = @planning_application.other_change_validation_requests.find(params[:id])
+  end
+
+  def validate_fee?
+    @validate_fee = params[:validate_fee] == "yes" || @other_change_validation_request.try(:fee_item?)
   end
 end

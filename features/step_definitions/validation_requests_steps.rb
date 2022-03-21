@@ -79,6 +79,7 @@ Given("I create a(n) other change validation request with {string}") do |details
     And I fill in "Tell the applicant" with "#{details}"
     And I fill in "Explain to the applicant" with "Please make the change"
     And I press "Add"
+    And I click link "Review validation requests"
   )
 end
 

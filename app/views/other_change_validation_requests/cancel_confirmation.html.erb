@@ -9,7 +9,7 @@
     </h1>
 
     <h2 class="govuk-heading-m">
-      Other request to be cancelled
+      Other request to be cancelled <%= "(fee)" if @other_change_validation_request.fee_item? %>
     </h2>
 
     <h3 class="govuk-heading-s">

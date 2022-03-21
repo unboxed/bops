@@ -1,0 +1,22 @@
+<%= render "validation_requests/validation_requests_breadcrumbs" %>
+<% content_for :title, "Fee validation" %>
+
+<div class="govuk-grid-column-two-thirds">
+  <h2 class="govuk-heading-l">
+    Check the fee
+  </h2>
+  <%= render "fee_item_table" %>
+
+  <%= form_with model: @planning_application, url: validate_planning_application_fee_items_path(@planning_application), builder: GOVUKDesignSystemFormBuilder::FormBuilder, local: true do |form| %>
+    <%= form.govuk_radio_buttons_fieldset(:valid_fee) do %>
+      <%= form.govuk_radio_button :valid_fee, true, label: { text: "Yes"} %>
+      <%= form.govuk_radio_button :valid_fee, false, label: { text: "No" } %>
+    <% end %>
+
+    <div class="govuk-button-group">
+      <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+
+      <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+    </div>
+  <% end %>
+</div>
