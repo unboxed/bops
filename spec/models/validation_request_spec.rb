@@ -93,6 +93,23 @@ RSpec.describe ValidationRequest, type: :model do
             audit_comment: "{\"cancel_reason\":\"My bad\"}"
           )
         end
+
+        context "when validation request is a fee item" do
+          let!(:planning_application) do
+            create(:planning_application, :invalidated, valid_fee: false)
+          end
+          let!(:request) do
+            create(:other_change_validation_request, :open, fee_item: true, planning_application: planning_application)
+          end
+
+          it "resets the fee invalidation on the planning application" do
+            request.assign_attributes(cancel_reason: "Cancel reason")
+
+            expect do
+              request.cancel_request!
+            end.to change(request.planning_application, :valid_fee).from(false).to(nil)
+          end
+        end
       end
 
       describe "when there is an ActiveRecord error" do
@@ -141,6 +158,50 @@ RSpec.describe ValidationRequest, type: :model do
           it "for a #{state} validation request" do
             expect(replacement_document_validation_request).not_to be_open_or_pending
           end
+        end
+      end
+    end
+
+    describe "#active_closed_fee_item?" do
+      context "when validation request does not respond to fee_item?" do
+        let!(:validation_request) { create(:replacement_document_validation_request) }
+
+        it "returns nil" do
+          expect(validation_request.active_closed_fee_item?).to eq(nil)
+        end
+      end
+
+      context "when fee_item is not true on the validation request" do
+        let!(:validation_request) { create(:other_change_validation_request, fee_item: false) }
+
+        it "returns false" do
+          expect(validation_request.active_closed_fee_item?).to eq(false)
+        end
+      end
+
+      context "when fee_item is true and validation request is not closed" do
+        let!(:validation_request) { create(:other_change_validation_request, :open, fee_item: true) }
+
+        it "returns false" do
+          expect(validation_request.active_closed_fee_item?).to eq(false)
+        end
+      end
+
+      context "when fee_item is true and validation request is closed" do
+        let!(:planning_application) { create(:planning_application, :invalidated) }
+        let!(:validation_request1) do
+          create(:other_change_validation_request, :closed, fee_item: true, planning_application: planning_application)
+        end
+        let!(:validation_request2) do
+          create(:other_change_validation_request, :closed, fee_item: true, planning_application: planning_application)
+        end
+
+        it "returns false when it is not the latest record" do
+          expect(validation_request1.active_closed_fee_item?).to eq(false)
+        end
+
+        it "returns true when it is the latest record" do
+          expect(validation_request2.active_closed_fee_item?).to eq(true)
         end
       end
     end

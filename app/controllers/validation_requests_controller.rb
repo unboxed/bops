@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ValidationRequestsController < ApplicationController
+class ValidationRequestsController < AuthenticationController
   before_action :set_planning_application
 
   def index
@@ -46,5 +46,21 @@ class ValidationRequestsController < ApplicationController
     end
 
     request.mark_as_sent!
+  end
+
+  def ensure_planning_application_not_validated
+    render plain: "forbidden", status: :forbidden and return unless @planning_application.can_validate?
+  end
+
+  def ensure_no_open_or_pending_fee_item_validation_request
+    return unless @planning_application.fee_item_validation_requests.open_or_pending.any?
+
+    render plain: "forbidden", status: :forbidden
+  end
+
+  def ensure_planning_application_not_invalidated
+    return if @planning_application.not_started?
+
+    render plain: "forbidden", status: :forbidden
   end
 end

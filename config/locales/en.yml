@@ -34,13 +34,20 @@ en:
               missing_numbers: "All documents listed on the decision notice must have a document number"
 
   helpers:
+    hint:
+      other_change_validation_request:
+        summary: "Only add one reason for each request."
+        suggestion: "Add all information that they will need to complete this action."
     label:
       planning_application:
         closed_or_cancellation_comment: "Provide a reason"
       additional_document_validation_request: &cancel_reason
         cancel_reason: "Explain to the applicant why this request is being cancelled"
       description_change_validation_request: *cancel_reason
-      other_change_validation_request: *cancel_reason
+      other_change_validation_request:
+        cancel_reason: "Explain to the applicant why this request is being cancelled"
+        summary: "Tell the applicant another reason why the application is invalid."
+        suggestion: "Explain to the applicant how the application can be made valid."
       red_line_boundary_change_validation_request: *cancel_reason
       replacement_document_validation_request:
         cancel_reason: "Explain to the applicant why this request is being cancelled"
@@ -50,3 +57,4 @@ en:
     legend:
       planning_application:
         determination_date: "Enter determination date"
+        valid_fee: "Is the fee valid?"

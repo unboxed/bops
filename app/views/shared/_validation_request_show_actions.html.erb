@@ -1,5 +1,9 @@
 <div class="govuk-button-group">
-  <%= link_to "Back", planning_application_validation_tasks_path(planning_application), class: "govuk-button" %>
+  <% if show_continue_link = validation_request.active_closed_fee_item? %>
+    <%= link_to "Continue", planning_application_fee_items_path(planning_application, validate_fee: "yes"), class: "govuk-button" %>
+  <% end %>
+  <%= link_to "Back", planning_application_validation_tasks_path(planning_application), class: "govuk-button #{"govuk-button--secondary" if show_continue_link}" %>
+
   <% if validation_request.open_or_pending? %>
     <% if planning_application.invalidated? %>
       <%= cancel_confirmation_request_url(planning_application, validation_request, classname: "govuk-button govuk-button--secondary") %>

@@ -113,6 +113,10 @@ Then("the input for {string} contains {string}") do |label, value|
   expect(page.find_field(label).value).to eq value
 end
 
+Then "I click link {string}" do |link|
+  click_link(link)
+end
+
 Then "I click link {string} in table row for {string}" do |link, value|
   within(:xpath, "//tr[contains(.,'#{value}')]") do
     click_link(link)

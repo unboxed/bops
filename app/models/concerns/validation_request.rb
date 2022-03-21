@@ -25,6 +25,7 @@ module ValidationRequest
     validates :cancel_reason, presence: true, if: :cancelled?
 
     scope :not_cancelled, -> { where(cancelled_at: nil) }
+    scope :open_or_pending, -> { open.or(pending) }
 
     include AASM
 
@@ -100,6 +101,7 @@ module ValidationRequest
     transaction do
       cancel!
       reset_document_invalidation if is_a?(ReplacementDocumentValidationRequest)
+      reset_fee_invalidation if is_a?(OtherChangeValidationRequest) && fee_item?
       audit!(activity_type: "#{self.class.name.underscore}_cancelled", activity_information: sequence,
              audit_comment: { cancel_reason: cancel_reason }.to_json)
     end
@@ -144,6 +146,10 @@ module ValidationRequest
 
   def open_or_pending?
     open? || pending?
+  end
+
+  def active_closed_fee_item?
+    try(:fee_item?) && closed? && self == planning_application.fee_item_validation_requests.not_cancelled.last
   end
 
   private

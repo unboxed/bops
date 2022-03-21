@@ -12,7 +12,6 @@ class ReplacementDocumentValidationRequest < ApplicationRecord
 
   validates :reason, presence: true
 
-  scope :open_or_pending, -> { open.or(pending) }
   scope :with_active_document, -> { joins(:old_document).where(documents: { archived_at: nil }) }
 
   delegate :invalidated_document_reason, to: :old_document

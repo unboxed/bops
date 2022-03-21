@@ -2,7 +2,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-l govuk-!-padding-top-6">
-      Request other validation change
+      Request other validation change <%= "(Fee)" if @validate_fee %>
     </h2>
     <p class="govuk-body govuk-!-margin-bottom-1">
       <strong>At:</strong> <%= @planning_application.full_address  %>
@@ -10,11 +10,18 @@
     <p class="govuk-body govuk-!-margin-bottom-1">
       <strong>Date received:</strong> <%= @planning_application.received_at %>
     </p>
-    <p class="govuk-body govuk-!-margin-bottom-8">
+    <p class="govuk-body govuk-!-margin-bottom-5">
       <strong>Application number:</strong> <%= @planning_application.reference  %>
     </p>
 
+    <%= render "fee_items/fee_item_table" if @validate_fee %>
+
     <%= form_with model: [@planning_application, @other_change_validation_request], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+      <% if @validate_fee %>
+        <%= form.hidden_field :fee_item, value: @validate_fee %>
+        <%= hidden_field_tag(:validate_fee, "yes") %>
+      <% end %>
+
       <% if @other_change_validation_request.errors.any? %>
         <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
           <h2 class="govuk-error-summary__title" id="error-summary-title">
@@ -31,14 +38,12 @@
       <% end %>
 
       <%= form.govuk_text_area :summary,
-                               label: { text: 'Tell the applicant another reason why the application is invalid.', size: 's', class: 'govuk-label govuk-label--s'},
-                               hint: { text: 'Only add one reason for each request.' },
+                               label: { size: "s", class: "govuk-label govuk-label--s"},
                                rows: 5,
                                readonly: @planning_application.validated? %>
 
       <%= form.govuk_text_area :suggestion,
-                               label: { text: 'Explain to the applicant how the application can be made valid.', size: 's', class: 'govuk-label govuk-label--s'},
-                               hint: { text: 'Add all information that they will need to complete this action.' },
+                               label: { size: "s", class: "govuk-label govuk-label--s"},
                                rows: 5,
                                readonly: @planning_application.validated? %>
 
