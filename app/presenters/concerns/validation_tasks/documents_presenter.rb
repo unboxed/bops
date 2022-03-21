@@ -14,16 +14,16 @@ module ValidationTasks
 
     def task_list_row
       html = tag.span class: "app-task-list__task-name" do
-        concat document_validate_link
+        concat validate_link
       end
 
-      html.concat document_status_tag
+      html.concat validation_item_tag
     end
 
     private
 
-    def document_validate_link
-      case document_status
+    def validate_link
+      case validation_item_status
       when "Valid", "Not checked yet"
         link_to validate_document_link_text,
                 edit_planning_application_document_path(
@@ -35,7 +35,7 @@ module ValidationTasks
                   planning_application, document.replacement_document_validation_request
                 ), class: "govuk-link"
       else
-        raise ArgumentError, "Status: #{document_status} is not a valid option"
+        raise ArgumentError, "Status: #{validation_item_status} is not a valid option"
       end
     end
 
@@ -43,7 +43,7 @@ module ValidationTasks
       "Validate document - #{truncate document.name.to_s, length: 25}"
     end
 
-    def document_status
+    def validation_item_status
       status = if document.validated?
                  "Valid"
                elsif document.replacement_document_validation_request.try(:open_or_pending?)
@@ -55,18 +55,6 @@ module ValidationTasks
       raise "Status: #{status} is not included in the permitted list" unless STATUSES.include?(status)
 
       status
-    end
-
-    def document_status_tag
-      classes = ["govuk-tag govuk-tag--#{document_status_tag_colour} app-task-list__task-tag"]
-
-      tag.strong class: classes do
-        document_status
-      end
-    end
-
-    def document_status_tag_colour
-      STATUS_COLOURS[document_status.to_sym]
     end
   end
 end

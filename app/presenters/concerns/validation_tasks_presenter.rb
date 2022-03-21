@@ -15,5 +15,19 @@ module ValidationTasksPresenter
     def document_task_list(document)
       ValidationTasks::DocumentsPresenter.new(@template, @planning_application, document).task_list_row
     end
+
+    private
+
+    def validation_item_tag
+      classes = ["govuk-tag govuk-tag--#{validation_item_status_tag_colour} app-task-list__task-tag"]
+
+      tag.strong class: classes do
+        validation_item_status
+      end
+    end
+
+    def validation_item_status_tag_colour
+      STATUS_COLOURS[validation_item_status.to_sym]
+    end
   end
 end
