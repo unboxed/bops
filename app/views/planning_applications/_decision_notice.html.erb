@@ -23,30 +23,29 @@
         "Use/development" => planning_application.description,
       }.each do |key, value|
     %>
-    <div class="govuk-summary-list__column">
-      <dt class="govuk-summary-list__key">
-        <%= key %>
-      </dt>
-    </div>
-    <div class="govuk-summary-list__column">
-      <dt class="govuk-summary-list__value">
-        <%= value %>
-      </dt>
-    </div>
-  <% end %>
-</dl>
-<p class="govuk-body">
-  We certify that on the date of the application, the <%= @planning_application.work_status %> use or operations described in the application and supporting plans were <%= @planning_application.granted? ? "lawful" : "not lawful" %> for the purposes of <%= @planning_application.work_status == "proposed" ? "S.192" : "S.191" %> of the Town and Country Planning Act 1990.
-</p>
-<p class="govuk-body">
-  <strong>
-    The proposal <%= @planning_application.granted? ? "complies" : "does not comply" %> due to the following reason(s):
-  </strong>
-</p>
-<p class="govuk-body">
-  <%= planning_application.public_comment %>
-</p>
-<% if @planning_application.granted? %>
+      <div class="govuk-summary-list__column">
+        <dt class="govuk-summary-list__key">
+          <%= key %>
+        </dt>
+      </div>
+      <div class="govuk-summary-list__column">
+        <dt class="govuk-summary-list__value">
+          <%= value %>
+        </dt>
+      </div>
+    <% end %>
+  </dl>
+  <p class="govuk-body">
+    We certify that on the date of the application, the <%= @planning_application.work_status %> use or operations described in the application and supporting plans were <%= @planning_application.granted? ? "lawful" : "not lawful" %> for the purposes of <%= @planning_application.work_status == "proposed" ? "S.192" : "S.191" %> of the Town and Country Planning Act 1990.
+  </p>
+  <p class="govuk-body">
+    <strong>
+      The proposal <%= @planning_application.granted? ? "complies" : "does not comply" %> due to the following reason(s):
+    </strong>
+  </p>
+  <p class="govuk-body">
+    <%= planning_application.public_comment %>
+  </p>
   <h3 class="govuk-heading-s">
     This decision is based on the following approved plans:
   </h3>
@@ -81,42 +80,40 @@
       No plans specified
     </p>
   <% end %>
-<% end %>
-<h3 class="govuk-heading-s">
-  Site location
-</h3>
-<% if @planning_application.boundary_geojson.present? %>
-  <%= render "shared/location_map", locals: { geojson: @planning_application.boundary_geojson } %>
-<% else %>
-  <p class="govuk-body">No digital sitemap provided</p>
-<% end %>
-<h3 class="govuk-heading-s">
-  Notes:
-</h3>
-<p class="govuk-body">
-  Enquiries regarding this document should include the application number and be sent to:
-</p>
-<h3 class="govuk-heading-s">
-  Email
-</h3>
-<p class="govuk-body">
-  <%= mail_to planning_application.local_authority.email_address, nil, class: "govuk-link" %>
-</p>
-<h3 class="govuk-heading-s">
-  Post
-</h3>
-<p class="govuk-body">
-  <%= planning_application.local_authority.signatory_job_title %>, <br>
-  <%= planning_application.local_authority.name %>, <br>
-  <%= planning_application.local_authority.enquiries_paragraph %>.
-</p>
-<% if @planning_application.refused? %>
   <h3 class="govuk-heading-s">
-    Appeals to the Secretary of State
+    Site location
+  </h3>
+  <% if @planning_application.boundary_geojson.present? %>
+    <%= render "shared/location_map", locals: { geojson: @planning_application.boundary_geojson } %>
+  <% else %>
+    <p class="govuk-body">No digital sitemap provided</p>
+  <% end %>
+  <h3 class="govuk-heading-s">
+    Notes:
   </h3>
   <p class="govuk-body">
-    If you are aggrieved by this decision, then you can appeal to the Secretary of State under section 195 of the Town and Country Planning Act 1990 (as amended). Appeals to the Secretary of State regarding this decision may be made online and in accordance with the guidance set out on the Government website at: <a href="https://www.gov.uk/appeal-lawful-development-certificate-decision">https://www.gov.uk/appeal-lawful-development-certificate-decision</a>
+    Enquiries regarding this document should include the application number and be sent to:
   </p>
-<% end %>
+  <h3 class="govuk-heading-s">
+    Email
+  </h3>
+  <p class="govuk-body">
+    <%= mail_to planning_application.local_authority.email_address, nil, class: "govuk-link" %>
+  </p>
+  <h3 class="govuk-heading-s">
+    Post
+  </h3>
+  <p class="govuk-body">
+    <%= planning_application.local_authority.signatory_job_title %>, <br>
+    <%= planning_application.local_authority.name %>, <br>
+    <%= planning_application.local_authority.enquiries_paragraph %>.
+  </p>
+  <% if @planning_application.refused? %>
+    <h3 class="govuk-heading-s">
+      Appeals to the Secretary of State
+    </h3>
+    <p class="govuk-body">
+      If you are aggrieved by this decision, then you can appeal to the Secretary of State under section 195 of the Town and Country Planning Act 1990 (as amended). Appeals to the Secretary of State regarding this decision may be made online and in accordance with the guidance set out on the Government website at: <a href="https://www.gov.uk/appeal-lawful-development-certificate-decision">https://www.gov.uk/appeal-lawful-development-certificate-decision</a>
+    </p>
+  <% end %>
 </div>
-<br>
