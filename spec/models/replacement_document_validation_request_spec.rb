@@ -63,7 +63,7 @@ RSpec.describe ReplacementDocumentValidationRequest, type: :model do
         create(:replacement_document_validation_request, :pending)
       end
 
-      it "returns replacement_document_validation_request sorted by created at desc (i.e. most recent first)" do
+      it "returns replacement_document_validation_requests that are open or pending" do
         expect(described_class.open_or_pending).to match_array(
           [replacement_document_validation_request1, replacement_document_validation_request3]
         )
@@ -85,7 +85,7 @@ RSpec.describe ReplacementDocumentValidationRequest, type: :model do
         create(:replacement_document_validation_request, old_document: document1)
       end
 
-      it "returns replacement_document_validation_request sorted by created at desc (i.e. most recent first)" do
+      it "returns replacement_document_validation_requests where there is an associated active document" do
         expect(described_class.with_active_document).to match_array(
           [replacement_document_validation_request2, replacement_document_validation_request3]
         )
@@ -94,7 +94,7 @@ RSpec.describe ReplacementDocumentValidationRequest, type: :model do
   end
 
   describe "callbacks" do
-    describe "::before_destroy" do
+    describe "::before_destroy #reset_document_invalidation" do
       let!(:document) do
         create :document, validated: false, invalidated_document_reason: "Invalid"
       end
