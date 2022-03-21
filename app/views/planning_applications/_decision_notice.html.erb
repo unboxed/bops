@@ -46,41 +46,39 @@
 <p class="govuk-body">
   <%= planning_application.public_comment %>
 </p>
-<% if @planning_application.granted? %>
-  <h3 class="govuk-heading-s">
-    This decision is based on the following approved plans:
-  </h3>
-  <% if planning_application.documents_for_decision_notice.any? %>
-    <table class="govuk-table">
-      <caption class="govuk-table__caption govuk-table__caption--m">Planning application related documents</caption>
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header app-custom-class">Document reference</th>
-          <th scope="col" class="govuk-table__header app-custom-class">Description</th>
-          <th scope="col" class="govuk-table__header app-custom-class">Date received</th>
-        </tr>
-      </thead>
-      <tbody class="govuk-table__body">
-        <% planning_application.documents_for_decision_notice.each do |document| %>
-          <% document.numbers.split(",").each do |number| %>
-            <tr class="govuk-table__row">
-              <td class="govuk-table__cell"><%= number %></td>
-              <td class="govuk-table__cell">
-                <% document.tags.each do |tag| %>
-                  <%= tag.upcase %>
-                <% end %>
-              </td>
-              <td class="govuk-table__cell"><%= document.created_at %></td>
-            </tr>
-          <% end %>
+<h3 class="govuk-heading-s">
+  This decision is based on the following approved plans:
+</h3>
+<% if planning_application.documents_for_decision_notice.any? %>
+  <table class="govuk-table">
+    <caption class="govuk-table__caption govuk-table__caption--m">Planning application related documents</caption>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header app-custom-class">Document reference</th>
+        <th scope="col" class="govuk-table__header app-custom-class">Description</th>
+        <th scope="col" class="govuk-table__header app-custom-class">Date received</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% planning_application.documents_for_decision_notice.each do |document| %>
+        <% document.numbers.split(",").each do |number| %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell"><%= number %></td>
+            <td class="govuk-table__cell">
+              <% document.tags.each do |tag| %>
+                <%= tag.upcase %>
+              <% end %>
+            </td>
+            <td class="govuk-table__cell"><%= document.created_at %></td>
+          </tr>
         <% end %>
-      </tbody>
-    </table>
-  <% else %>
-    <p class="govuk-body">
-      No plans specified
-    </p>
-  <% end %>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="govuk-body">
+    No plans specified
+  </p>
 <% end %>
 <h3 class="govuk-heading-s">
   Site location
