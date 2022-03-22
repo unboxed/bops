@@ -1,28 +1,10 @@
 <%= render "validation_requests/validation_requests_breadcrumbs" %>
 <% content_for :title, "Red line boundary" %>
 
-<h2 class="govuk-heading-m">Draw a digital red line boundary</h2>
-<h3 class="govuk-heading-s">Red line site boundary on submission</h3>
-<p class="govuk-body">Site address: <%= @planning_application.full_address %></p>
-
-<%- sitemap_documents = @planning_application.documents.with_tag("Site") %>
-<% if sitemap_documents.none? %>
-  <p class="govuk-body">No document has been tagged as a sitemap for this application</p>
-  <p class="govuk-body"><%= link_to "View all documents", planning_application_documents_path(@planning_application), class: "govuk-link" %></p>
-<% elsif sitemap_documents.one? %>
-  <p class="govuk-body"><%= link_to "View sitemap document", edit_planning_application_document_path(@planning_application, sitemap_documents.first), class: "govuk-link" %></p>
-<% else %>
-  <p class="govuk-body">Multiple documents have been tagged as a sitemap for this application</p>
-  <p class="govuk-body"><%= link_to "View all documents", planning_application_documents_path(@planning_application), class: "govuk-link" %></p>
+<% unless @planning_application.boundary_geojson.present? && @planning_application.officer_can_draw_boundary? %>
+  <%= render "draw_red_line_boundary" %>
 <% end %>
 
-<h3 class="govuk-heading-s">Draw the red line site boundary</h3>
-
-<%= form_with model: @planning_application, url: planning_application_sitemap_path(@planning_application), local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
-  <%= form.hidden_field :boundary_geojson %>
-  <%= render "shared/location_map", locals: { geojson: @planning_application.boundary_geojson, geojson_field: 'planning_application_boundary_geojson' } %>
-  <div class="govuk-button-group govuk-!-margin-top-3">
-    <%= form.govuk_submit "Save" %>
-    <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-  </div>
+<% if @planning_application.boundary_geojson.present? %>
+  <%= render "validate_red_line_boundary" %>
 <% end %>

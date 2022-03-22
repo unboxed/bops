@@ -65,12 +65,22 @@ RSpec.describe "Validation tasks", type: :system do
 
         within("#red-line-boundary-tasks") do
           expect(page).to have_content("Red line boundary")
-          expect(page).to have_link(
-            "Draw red line boundary",
-            href: planning_application_sitemap_path(planning_application)
-          )
-          within(".govuk-tag--grey") do
-            expect(page).to have_content("Not checked yet")
+
+          within("#draw_red_line_boundary") do
+            expect(page).to have_link(
+              "Draw red line boundary",
+              href: planning_application_sitemap_path(planning_application)
+            )
+            within(".govuk-tag--grey") do
+              expect(page).to have_content("Not checked yet")
+            end
+          end
+
+          within("#validate_red_line_boundary") do
+            expect(page).to have_content("Validate red line boundary")
+            within(".govuk-tag--grey") do
+              expect(page).to have_content("Not checked yet")
+            end
           end
         end
 
@@ -125,12 +135,25 @@ RSpec.describe "Validation tasks", type: :system do
 
         within("#red-line-boundary-tasks") do
           expect(page).to have_content("Red line boundary")
-          expect(page).to have_link(
-            "Draw red line boundary",
-            href: planning_application_sitemap_path(planning_application)
-          )
-          within(".govuk-tag--green") do
-            expect(page).to have_content("Checked")
+
+          within("#draw_red_line_boundary") do
+            expect(page).to have_link(
+              "Draw red line boundary",
+              href: planning_application_sitemap_path(planning_application)
+            )
+            within(".govuk-tag--green") do
+              expect(page).to have_content("Checked")
+            end
+          end
+
+          within("#validate_red_line_boundary") do
+            expect(page).to have_link(
+              "Validate red line boundary",
+              href: planning_application_sitemap_path(planning_application)
+            )
+            within(".govuk-tag--grey") do
+              expect(page).to have_content("Not checked yet")
+            end
           end
         end
 

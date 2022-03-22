@@ -3,7 +3,7 @@
     Red line boundary
   </h2>
   <ul class="app-task-list__items">
-    <li class="app-task-list__item">
+    <li id="draw_red_line_boundary" class="app-task-list__item">
       <span class="app-task-list__task-name">
         <%= link_to_unless(@planning_application.boundary_geojson.present? && @planning_application.officer_can_draw_boundary?, "Draw red line boundary", planning_application_sitemap_path(@planning_application), class: "govuk-link" ) %>
       </span>
@@ -15,6 +15,24 @@
       <strong class="govuk-tag govuk-tag--grey app-task-list__task-tag">
         Not checked yet
       </strong>
+      <% end %>
+    </li>
+    <li id="validate_red_line_boundary"  class="app-task-list__item">
+      <span class="app-task-list__task-name">
+        <%= link_to_if(@planning_application.boundary_geojson.present?, "Validate red line boundary", planning_application_sitemap_path(@planning_application), class: "govuk-link" ) %>
+      </span>
+      <% if @planning_application.valid_red_line_boundary %>
+        <strong class="govuk-tag govuk-tag--green app-task-list__task-tag">
+          Valid
+        </strong>
+      <% elsif @planning_application.red_line_boundary_change_validation_requests.open_or_pending.any? %>
+        <strong class="govuk-tag govuk-tag--red app-task-list__task-tag">
+          Invalid
+        </strong>
+      <% else %>
+        <strong class="govuk-tag govuk-tag--grey app-task-list__task-tag">
+          Not checked yet
+        </strong>
       <% end %>
     </li>
   </ul>

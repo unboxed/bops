@@ -47,7 +47,9 @@ Rails.application.routes.draw do
       patch :validate
     end
 
-    resource :sitemap, only: %i[show edit update]
+    resource :sitemap, only: %i[show edit update] do
+      patch :validate
+    end
 
     resources :documents, only: %i[index new create edit update] do
       get :archive
