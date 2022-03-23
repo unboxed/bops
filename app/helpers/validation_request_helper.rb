@@ -3,8 +3,7 @@
 module ValidationRequestHelper
   def options_for_new_request_validations
     [
-      ["create_document", "Request a new document"],
-      ["red_line_boundary", "Request approval to a red line boundary change"]
+      ["create_document", "Request a new document"]
     ]
   end
 
