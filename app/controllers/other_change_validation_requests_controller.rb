@@ -7,7 +7,6 @@ class OtherChangeValidationRequestsController < ValidationRequestsController
   before_action :ensure_planning_application_not_invalidated, only: :edit
   before_action :set_other_validation_request, only: %i[show edit update]
   before_action :validate_fee?, only: %i[new create edit update]
-  before_action :ensure_no_open_or_pending_fee_item_validation_request, only: %i[new create]
 
   def new
     @other_change_validation_request = @planning_application.other_change_validation_requests.new
