@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 class AdditionalDocumentValidationRequest < ApplicationRecord
+  class ResetDocumentsMissingError < StandardError; end
+
   class UploadFilesError < RuntimeError; end
+
   include ValidationRequest
 
   belongs_to :planning_application
@@ -11,6 +14,9 @@ class AdditionalDocumentValidationRequest < ApplicationRecord
 
   validates :document_request_type, presence: { message: "Please fill in the document request type." }
   validates :document_request_reason, presence: { message: "Please fill in the reason for this document request." }
+
+  after_create :set_documents_missing
+  before_destroy :reset_documents_missing
 
   def upload_files!(files)
     transaction do
@@ -26,6 +32,20 @@ class AdditionalDocumentValidationRequest < ApplicationRecord
 
   def can_upload?
     open? && may_close?
+  end
+
+  def set_documents_missing
+    return if planning_application.documents_missing?
+
+    planning_application.update!(documents_missing: true)
+  end
+
+  def reset_documents_missing
+    return if planning_application.additional_document_validation_requests.open_or_pending.excluding(self).any?
+
+    planning_application.update!(documents_missing: nil)
+  rescue ActiveRecord::ActiveRecordError => e
+    raise ResetDocumentsMissingError, e.message
   end
 
   private

@@ -45,73 +45,9 @@
   </div>
 </div>
 
-<% unless @documents.nil? %>
-  <hr/>
-  <table class="govuk-table current-documents">
-    <tbody class="govuk-table__body">
-      <% filter_current(@documents).each do |document| %>
-        <tr class="govuk-table__row">
-          <td class="govuk-table__cell govuk-!-width-one-quarter">
-            <% if document.file.representable? %>
-              <%= link_to image_tag(document.file.representation(resize: "300x212")),
-                          url_for_document(document), target: :_blank %>
-              <% end %>
-            <p class="govuk-body">
-              <%= link_to "View in new window", url_for_document(document), target: :_new, class: "govuk-link" %>
-            </p>
-          </td>
-          <td class="govuk-table__cell govuk-!-width-one-half">
-            <% if document.tags.present? %>
-              <p class="govuk-body">
-                <% document.tags.each do |tag| %>
-                  <% if is_plan_tag(tag) %>
-                    <strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong>
-                  <% end %>
-                <% end %>
-              </p>
-                <% document.tags.each do |tag| %>
-                  <% if is_evidence_tag(tag) %>
-                    <p class="govuk-body">
-                      <strong class="govuk-tag govuk-tag--turquoise">EVIDENCE</strong> <strong class="govuk-tag govuk-tag--turquoise"><%= tag  %></strong><br/>
-                    </p>
-                  <% end %>
-                <% end %>
-            <% end %>
-            <% if document.invalidated_document_reason %>
-              <p class="govuk-body govuk-!-margin-bottom-1 govuk-!-font-weight-bold">
-                Invalid: <%= document.invalidated_document_reason %>
-              </p>
-            <% end %>
-            <p class="govuk-body govuk-!-margin-bottom-1">
-              File name: <%= document.name %>
-            </p>
-            <p class="govuk-body govuk-!-margin-bottom-1">
-              Date received: <%= document.received_at_or_created %>
-            </p>
-            <% if document.numbers.present? %>
-              <p class="govuk-body govuk-!-margin-bottom-1">
-                Document reference(s): <%= document.numbers %>
-              </p>
-            <% end %>
-            <p class="govuk-body govuk-!-margin-bottom-1">
-              Included in decision notice: <%= document.referenced_in_decision_notice? ? "Yes" : "No" %>
-            </p>
-            <p class="govuk-body govuk-!-margin-bottom-1">
-              Public: <%= document.publishable? ? "Yes" : "No" %>
-            </p>
-          </td>
-          <td class="govuk-table__cell">
-              <% if @planning_application.can_validate? %>
-                <p class="govuk-body govuk-!-margin-right-2" style="text-align:right">
-                  <%= link_to "Edit", edit_planning_application_document_path(@planning_application, document), class: "govuk-link" %><br />
-                  <%= link_to "Archive", planning_application_document_archive_path(document_id: document.id), class: "govuk-link" %>
-                </p>
-              <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+<% if @documents.active.any? %>
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+  <%= render "active_documents_table", documents: @documents.active %>
 <% end %>
 
 <h2 class="govuk-heading-m">

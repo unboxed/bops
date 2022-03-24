@@ -1,0 +1,40 @@
+<%= render "validation_requests/validation_requests_breadcrumbs" %>
+<% content_for :title, "Check documents" %>
+
+<div>
+  <h2 class="govuk-heading-l">
+    Check the documents provided
+  </h2>
+
+  <p class="govuk-body-m">
+    Check all necessary documents have been provided and add requests for any missing documents.
+  </p>
+  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+  <p class="govuk-body">
+    <%= link_to "Add a request for a missing document",
+      new_planning_application_additional_document_validation_request_path(@planning_application), class: "govuk-link govuk-body-l" %>
+  </p>
+
+  <% if @additional_document_validation_requests.any? %>
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    <%= render "additional_document_validation_requests/additional_document_validation_requests_table",
+        validation_requests: @additional_document_validation_requests %>
+  <% else %>
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+  <% end %>
+
+  <% if @documents.any? %>
+    <%= render "documents/active_documents_table", documents: @documents %>
+  <% end %>
+
+  <%= form_with model: @planning_application, url: validate_documents_planning_application_path(@planning_application), builder: GOVUKDesignSystemFormBuilder::FormBuilder, local: true do |form| %>
+    <%= form.hidden_field :documents_missing, value: @additional_document_validation_requests.any? %>
+
+    <div class="govuk-button-group">
+      <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+
+      <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+    </div>
+  <% end %>
+</div>

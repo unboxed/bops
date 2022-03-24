@@ -248,16 +248,26 @@ class PlanningApplicationsController < AuthenticationController
     end
   end
 
-  def close_or_cancel_confirmation
-    render :close_or_cancel_confirmation
+  def validation_documents
+    @documents = @planning_application.documents.active
+    @additional_document_validation_requests = @planning_application.additional_document_validation_requests.open_or_pending
+
+    respond_to do |format|
+      format.html
+    end
   end
 
-  def decision_notice
-    render :decision_notice
-  end
-
-  def validation_notice
-    render :validation_notice
+  def validate_documents
+    respond_to do |format|
+      if @planning_application.update(validate_documents_params)
+        format.html do
+          redirect_to planning_application_validation_tasks_path(@planning_application),
+                      notice: validate_documents_notice(@planning_application)
+        end
+      else
+        format.html { render :validation_documents }
+      end
+    end
   end
 
   private
@@ -295,6 +305,10 @@ class PlanningApplicationsController < AuthenticationController
 
   def determination_date_params
     params.require(:planning_application).permit(:determination_date)
+  end
+
+  def validate_documents_params
+    params.require(:planning_application).permit(:documents_missing)
   end
 
   def validation_date_fields
@@ -362,5 +376,13 @@ class PlanningApplicationsController < AuthenticationController
   def redirect_failed_submit_recommendation
     redirect_to submit_recommendation_planning_application_path(@planning_application),
                 alert: "Error submitting recommendation - please contact support."
+  end
+
+  def validate_documents_notice(planning_application)
+    if planning_application.documents_missing?
+      "Documents required are marked as invalid"
+    else
+      "Documents required are marked as valid"
+    end
   end
 end

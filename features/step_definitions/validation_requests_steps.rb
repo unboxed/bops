@@ -14,13 +14,13 @@ end
 
 When("I create a new document validation request for a(n) {string} because {string}") do |type, reason|
   steps %(
-    Given I view the application's validations requests
-    And I press "Add new request"
-    And I choose "Request a new document"
-    And I press "Next"
+    Given I start the validation wizard
+    And I press "Validate required documents are on application"
+    And I press "Add a request for a missing document"
     And I fill in "Please specify the new document type:" with "#{type}"
     And I fill in "the reason" with "#{reason}"
     And I press "Add"
+    And I click link "Review validation requests"
   )
 end
 
@@ -63,12 +63,13 @@ end
 
 Given("I create a(n) additional document validation request with {string}") do |details|
   steps %(
-    Given I add a new validation request
-    And I choose "Request a new document"
-    And I press "Next"
+    Given I start the validation wizard
+    And I press "Validate required documents are on application"
+    And I press "Add a request for a missing document"
     And I fill in "Please specify the new document type:" with "#{details}"
     And I fill in "the reason" with "a valid reason"
     And I press "Add"
+    And I click link "Review validation requests"
   )
 end
 

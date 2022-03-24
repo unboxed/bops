@@ -5,18 +5,62 @@ require "rails_helper"
 RSpec.describe AdditionalDocumentValidationRequest, type: :model do
   include ActionDispatch::TestProcess::FixtureFile
 
-  let(:additional_document_validation_request) { create(:additional_document_validation_request, :open) }
-  let(:api_user) { create(:api_user) }
-  let(:files) do
-    [
-      fixture_file_upload(Rails.root.join("spec/fixtures/images/proposed-floorplan.png"), "proposed-floorplan/png"),
-      fixture_file_upload(Rails.root.join("spec/fixtures/images/proposed-roofplan.pdf"), "proposed-roofplan/pdf")
-    ]
-  end
-
   it_behaves_like "ValidationRequest", described_class, "additional_document_validation_request"
 
+  describe "validations" do
+    subject(:additional_document_validation_request) { described_class.new }
+
+    describe "#user" do
+      it "validates presence" do
+        expect do
+          additional_document_validation_request.valid?
+        end.to change {
+          additional_document_validation_request.errors[:user]
+        }.to ["must exist"]
+      end
+    end
+
+    describe "#planning_application" do
+      it "validates presence" do
+        expect do
+          additional_document_validation_request.valid?
+        end.to change {
+          additional_document_validation_request.errors[:planning_application]
+        }.to ["must exist"]
+      end
+    end
+
+    describe "#document_request_type" do
+      it "validates presence" do
+        expect do
+          additional_document_validation_request.valid?
+        end.to change {
+          additional_document_validation_request.errors[:document_request_type]
+        }.to ["Please fill in the document request type."]
+      end
+    end
+
+    describe "#document_request_reason" do
+      it "validates presence" do
+        expect do
+          additional_document_validation_request.valid?
+        end.to change {
+          additional_document_validation_request.errors[:document_request_reason]
+        }.to ["Please fill in the reason for this document request."]
+      end
+    end
+  end
+
   describe "instance methods" do
+    let(:additional_document_validation_request) { create(:additional_document_validation_request, :open) }
+    let(:api_user) { create(:api_user) }
+    let(:files) do
+      [
+        fixture_file_upload(Rails.root.join("spec/fixtures/images/proposed-floorplan.png"), "proposed-floorplan/png"),
+        fixture_file_upload(Rails.root.join("spec/fixtures/images/proposed-roofplan.pdf"), "proposed-roofplan/pdf")
+      ]
+    end
+
     describe "#upload_files!" do
       before { Current.api_user = api_user }
 
@@ -59,6 +103,53 @@ RSpec.describe AdditionalDocumentValidationRequest, type: :model do
           expect(additional_document_validation_request).to be_closed
           expect(additional_document_validation_request.documents).to eq([])
         end
+      end
+    end
+  end
+
+  describe "callbacks" do
+    describe "::before_destroy #reset_missing_documents" do
+      let!(:planning_application) do
+        create(:planning_application, :not_started, documents_missing: true)
+      end
+      let!(:additional_document_validation_request) do
+        create(:additional_document_validation_request, :pending, planning_application: planning_application)
+      end
+
+      before do
+        additional_document_validation_request.destroy!
+      end
+
+      context "when there are more than one open or pending additional document validation requests" do
+        before do
+          create(:additional_document_validation_request, :pending, planning_application: planning_application)
+        end
+
+        it "does not update documents_missing on the planning application" do
+          expect(planning_application.reload.documents_missing).to eq(true)
+        end
+      end
+
+      context "when there is only one open or pending additional document validation requests" do
+        it "does update and resets the documents_missing on the planning application to nil" do
+          expect(planning_application.reload.documents_missing).to eq(nil)
+        end
+      end
+    end
+
+    describe "::after_create #set_missing_documents" do
+      let!(:planning_application) do
+        create(:planning_application, :not_started)
+      end
+
+      let(:additional_document_validation_request) do
+        create(:additional_document_validation_request, :pending, planning_application: planning_application)
+      end
+
+      it "updates documents_missing on planning application to true" do
+        expect do
+          additional_document_validation_request
+        end.to change(planning_application, :documents_missing).from(nil).to(true)
       end
     end
   end
