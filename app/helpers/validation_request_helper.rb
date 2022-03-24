@@ -1,12 +1,6 @@
 # frozen_string_literal: true
 
 module ValidationRequestHelper
-  def options_for_new_request_validations
-    [
-      ["create_document", "Request a new document"]
-    ]
-  end
-
   def applicant_response(validation_request)
     if validation_request.is_a?(RedLineBoundaryChangeValidationRequest)
       if validation_request.approved?
