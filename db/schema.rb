@@ -245,6 +245,7 @@ ActiveRecord::Schema.define(version: 2022_03_22_121430) do
     t.boolean "constraints_checked", default: false, null: false
     t.boolean "valid_fee"
     t.boolean "valid_red_line_boundary"
+    t.boolean "documents_missing"
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
     t.index ["boundary_created_by_id"], name: "ix_planning_applications_on_boundary_created_by_id"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
