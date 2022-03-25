@@ -240,8 +240,8 @@ ActiveRecord::Schema.define(version: 2022_03_22_121430) do
     t.datetime "closed_at"
     t.jsonb "planx_data"
     t.datetime "determination_date"
-    t.integer "user_role"
     t.boolean "updated_address_or_boundary_geojson", default: false
+    t.integer "user_role"
     t.boolean "constraints_checked", default: false, null: false
     t.boolean "valid_fee"
     t.boolean "valid_red_line_boundary"
