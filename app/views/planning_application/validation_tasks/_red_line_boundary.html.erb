@@ -18,21 +18,28 @@
       <% end %>
     </li>
     <li id="validate_red_line_boundary"  class="app-task-list__item">
-      <span class="app-task-list__task-name">
-        <%= link_to_if(@planning_application.boundary_geojson.present?, "Validate red line boundary", planning_application_sitemap_path(@planning_application), class: "govuk-link" ) %>
-      </span>
-      <% if @planning_application.valid_red_line_boundary %>
-        <strong class="govuk-tag govuk-tag--green app-task-list__task-tag">
-          Valid
-        </strong>
-      <% elsif @planning_application.red_line_boundary_change_validation_requests.open_or_pending.any? %>
-        <strong class="govuk-tag govuk-tag--red app-task-list__task-tag">
-          Invalid
-        </strong>
+      <% if @planning_application.red_line_boundary_change_validation_requests.open_or_pending.any? %>
+        <% @planning_application.red_line_boundary_change_validation_requests.each do |red_line_boundary_change_validation_request| %>
+          <span class="app-task-list__task-name">
+            <%= link_to_if(@planning_application.boundary_geojson.present?, "Validate red line boundary", planning_application_red_line_boundary_change_validation_request_path(@planning_application, red_line_boundary_change_validation_request), class: "govuk-link" ) %>
+          </span>
+          <strong class="govuk-tag govuk-tag--red app-task-list__task-tag">
+            Invalid
+          </strong>
+        <% end %>
       <% else %>
-        <strong class="govuk-tag govuk-tag--grey app-task-list__task-tag">
-          Not checked yet
-        </strong>
+        <span class="app-task-list__task-name">
+          <%= link_to_if(@planning_application.boundary_geojson.present?, "Validate red line boundary", planning_application_sitemap_path(@planning_application), class: "govuk-link" ) %>
+        </span>
+        <% if @planning_application.valid_red_line_boundary %>
+          <strong class="govuk-tag govuk-tag--green app-task-list__task-tag">
+            Valid
+          </strong>
+        <% else %>
+          <strong class="govuk-tag govuk-tag--grey app-task-list__task-tag">
+            Not checked yet
+          </strong>
+        <% end %>
       <% end %>
     </li>
   </ul>

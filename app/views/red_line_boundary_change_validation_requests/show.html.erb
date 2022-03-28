@@ -15,13 +15,20 @@
     <p class="govuk-body govuk-!-margin-bottom-8">
       <strong>Application number:</strong> <%= @planning_application.reference  %>
     </p>
+
+    <h2 class="govuk-heading-m govuk-!-padding-top-6">
+     Current red line boundary
+    </h2>
+    <%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.original_geojson } %>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
     <h2 class="govuk-heading-m">
       Reason change is requested
     </h2>
-    <p class="govuk-body">
+    <p class="govuk-inset-text">
       <%= @red_line_boundary_change_validation_request.reason  %>
     </p>
-    <%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.original_geojson } %>
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
     <h2 class="govuk-heading-m govuk-!-padding-top-6">
      Proposed red line boundary
