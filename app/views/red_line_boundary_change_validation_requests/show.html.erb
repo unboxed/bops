@@ -36,6 +36,8 @@
     <%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.new_geojson } %>
     <div class="govuk-!-padding-top-8">
      <%= link_to "Back", planning_application_validation_requests_path(@planning_application), class: "govuk-button govuk-button--primary" %>
+     <%= link_to "Edit request", edit_planning_application_red_line_boundary_change_validation_request_path(@planning_application, @red_line_boundary_change_validation_request), class: "govuk-button govuk-button--secondary" %>
+     <%= link_to "Delete request", planning_application_red_line_boundary_change_validation_request_path(@planning_application, @red_line_boundary_change_validation_request), method: :delete, data: { confirm: "Are you sure?" }, class: "govuk-button govuk-button--secondary" %>
     </div>
   </div>
 </div>
