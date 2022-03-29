@@ -1,0 +1,34 @@
+<h2 class="govuk-heading-l govuk-!-padding-top-6">
+  Proposed red line boundary change
+</h2>
+<p class="govuk-body govuk-!-margin-bottom-1">
+  <strong>At:</strong> <%= @planning_application.full_address  %>
+</p>
+<p class="govuk-body govuk-!-margin-bottom-1">
+  <strong>Date received:</strong> <%= @planning_application.received_at %>
+</p>
+<p class="govuk-body govuk-!-margin-bottom-8">
+  <strong>Application number:</strong> <%= @planning_application.reference  %>
+</p>
+
+<h2 class="govuk-heading-m govuk-!-padding-top-6">
+ Current red line boundary
+</h2>
+<%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.original_geojson } %>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+<h2 class="govuk-heading-m">
+  Reason change is requested
+</h2>
+<p class="govuk-inset-text">
+  <%= @red_line_boundary_change_validation_request.reason  %>
+</p>
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<h2 class="govuk-heading-m govuk-!-padding-top-6">
+ Proposed red line boundary
+</h2>
+<%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.new_geojson } %>
+
+<%= render "shared/validation_request_show_actions",
+    planning_application: @planning_application, validation_request: @red_line_boundary_change_validation_request %>

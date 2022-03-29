@@ -3,41 +3,13 @@
 <% content_for :title, "Red line boundary change" %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-l govuk-!-padding-top-6">
-      Proposed red line boundary change
-    </h2>
-    <p class="govuk-body govuk-!-margin-bottom-1">
-      <strong>At:</strong> <%= @planning_application.full_address  %>
-    </p>
-    <p class="govuk-body govuk-!-margin-bottom-1">
-      <strong>Date received:</strong> <%= @planning_application.received_at %>
-    </p>
-    <p class="govuk-body govuk-!-margin-bottom-8">
-      <strong>Application number:</strong> <%= @planning_application.reference  %>
-    </p>
 
-    <h2 class="govuk-heading-m govuk-!-padding-top-6">
-     Current red line boundary
-    </h2>
-    <%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.original_geojson } %>
-
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-    <h2 class="govuk-heading-m">
-      Reason change is requested
-    </h2>
-    <p class="govuk-inset-text">
-      <%= @red_line_boundary_change_validation_request.reason  %>
-    </p>
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-
-    <h2 class="govuk-heading-m govuk-!-padding-top-6">
-     Proposed red line boundary
-    </h2>
-    <%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.new_geojson } %>
-    <div class="govuk-!-padding-top-8">
-     <%= link_to "Back", planning_application_validation_requests_path(@planning_application), class: "govuk-button govuk-button--primary" %>
-     <%= link_to "Edit request", edit_planning_application_red_line_boundary_change_validation_request_path(@planning_application, @red_line_boundary_change_validation_request), class: "govuk-button govuk-button--secondary" %>
-     <%= link_to "Delete request", planning_application_red_line_boundary_change_validation_request_path(@planning_application, @red_line_boundary_change_validation_request), method: :delete, data: { confirm: "Are you sure?" }, class: "govuk-button govuk-button--secondary" %>
-    </div>
+    <% if @red_line_boundary_change_validation_request.approved? %>
+      <%= render "applicant_approved_response" %>
+    <% elsif @red_line_boundary_change_validation_request.approved == false %>
+      <%= render "applicant_rejected_response" %>
+    <% else %>
+      <%= render "propose_change" %>
+    <% end %>
   </div>
 </div>

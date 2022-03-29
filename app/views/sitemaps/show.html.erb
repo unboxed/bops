@@ -1,10 +1,8 @@
 <%= render "validation_requests/validation_requests_breadcrumbs" %>
 <% content_for :title, "Red line boundary" %>
 
-<% unless @planning_application.boundary_geojson.present? && @planning_application.officer_can_draw_boundary? %>
-  <%= render "draw_red_line_boundary" %>
-<% end %>
-
-<% if @planning_application.boundary_geojson.present? %>
+<% if @planning_application.boundary_geojson.present? && @planning_application.officer_can_draw_boundary? %>
   <%= render "validate_red_line_boundary" %>
+<% else %>
+  <%= render "draw_red_line_boundary" %>
 <% end %>

@@ -1,0 +1,16 @@
+<h1 class="govuk-heading-l">
+  Applicant approved proposed digital red line boundary
+</h1>
+<h2 class="govuk-heading-m govuk-!-padding-top-6">
+  Proposed red line boundary
+</h2>
+
+<%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.new_geojson } %>
+
+<div class="govuk-inset-text">
+  <strong>Change to red line boundary has been approved by the applicant</strong>
+</div>
+
+<div class="govuk-button-group">
+  <%= link_to "Back", planning_application_validation_requests_path(@planning_application), class: "govuk-button govuk-button--primary" %>
+</div>
