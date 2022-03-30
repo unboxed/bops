@@ -5,7 +5,7 @@ class PlanningApplicationPresenter
 
   attr_reader :template, :planning_application
 
-  delegate :tag, :concat, :link_to, :truncate, to: :template
+  delegate :tag, :concat, :link_to, :truncate, :link_to_if, to: :template
   delegate :to_param, to: :planning_application
 
   include StatusPresenter

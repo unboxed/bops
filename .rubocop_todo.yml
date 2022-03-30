@@ -37,6 +37,7 @@ Metrics/AbcSize:
     - 'app/helpers/audit_helper.rb'
     - 'app/helpers/planning_application_helper.rb'
     - 'app/helpers/validation_request_helper.rb'
+    - 'app/presenters/concerns/validation_tasks/red_line_boundary_presenter.rb'
     - 'db/migrate/20200419000000_create_initial_schema.rb'
 
 # Offense count: 3
