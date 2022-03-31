@@ -56,6 +56,12 @@ class ValidationRequestsController < AuthenticationController
     render plain: "forbidden", status: :forbidden
   end
 
+  def ensure_no_open_or_pending_red_line_boundary_validation_request
+    return unless @planning_application.red_line_boundary_change_validation_requests.open_or_pending.any?
+
+    render plain: "forbidden", status: :forbidden
+  end
+
   def ensure_planning_application_not_invalidated
     return if @planning_application.not_started?
 

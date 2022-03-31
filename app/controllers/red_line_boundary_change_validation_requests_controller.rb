@@ -4,6 +4,7 @@ class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsCont
   include ValidationRequests
 
   before_action :set_red_line_boundary_validation_request, only: %i[show edit update]
+  before_action :ensure_no_open_or_pending_red_line_boundary_validation_request, only: %i[new]
 
   def new
     @red_line_boundary_change_validation_request = @planning_application.red_line_boundary_change_validation_requests.new
