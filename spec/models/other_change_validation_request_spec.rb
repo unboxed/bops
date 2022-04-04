@@ -55,6 +55,12 @@ RSpec.describe OtherChangeValidationRequest, type: :model do
           "Validation failed: An open or pending fee validation request already exists for this planning application."
         )
       end
+
+      it "does not validate for non fee items" do
+        expect do
+          create(:other_change_validation_request, planning_application: planning_application)
+        end.not_to raise_error
+      end
     end
   end
 

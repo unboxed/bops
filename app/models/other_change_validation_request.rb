@@ -44,6 +44,7 @@ class OtherChangeValidationRequest < ApplicationRecord
   end
 
   def ensure_no_open_or_pending_fee_item_validation_request
+    return unless fee_item?
     return unless planning_application.fee_item_validation_requests.open_or_pending.any?
 
     errors.add(:base, "An open or pending fee validation request already exists for this planning application.")
