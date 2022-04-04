@@ -3,7 +3,6 @@
 require "rails_helper"
 
 RSpec.describe RedLineBoundaryChangeValidationRequest, type: :model do
-  # rubocop:disable Layout/LineLength
   it_behaves_like "ValidationRequest", described_class, "red_line_boundary_change_validation_request"
 
   describe "validations" do
@@ -75,5 +74,4 @@ RSpec.describe RedLineBoundaryChangeValidationRequest, type: :model do
       end
     end
   end
-  # rubocop:enable Layout/LineLength
 end

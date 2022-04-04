@@ -1,11 +1,6 @@
 <td class="govuk-table__cell change-request-list">
   Other <%= "(fee)" if other_change_validation_request.fee_item? %>
 </td>
-<% unless other_change_validation_request.cancelled? %>
-  <td class="govuk-table__cell change-request-list">
-    <%= other_change_validation_request.summary %>
-  </td>
-<% end %>
 <td class="govuk-table__cell change-request-list">
-  <%= other_change_validation_request.suggestion %>
+  <%= other_change_validation_request.summary %>
 </td>

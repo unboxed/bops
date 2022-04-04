@@ -1,11 +1,12 @@
 <td class="govuk-table__cell change-request-list">
   New document
 </td>
-<% unless additional_document_validation_request.cancelled? %>
+<% if additional_document_validation_request.cancelled? %>
+  <td class="govuk-table__cell change-request-list">
+    <%= additional_document_validation_request.document_request_reason %>
+  </td>
+<% else %>
   <td class="govuk-table__cell change-request-list">
     <%= additional_document_validation_request.document_request_type %>
   </td>
 <% end %>
-<td class="govuk-table__cell change-request-list">
-  <%= additional_document_validation_request.document_request_reason %>
-</td>

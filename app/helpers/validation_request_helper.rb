@@ -69,6 +69,23 @@ module ValidationRequestHelper
             edit_planning_application_document_path(document.planning_application, document.id))
   end
 
+  def show_request_url(planning_application, validation_request)
+    url = if validation_request.is_a?(AdditionalDocumentValidationRequest)
+            send("validation_documents_planning_application_path", planning_application)
+          else
+            send("planning_application_#{request_type(validation_request)}_path", planning_application,
+                 validation_request)
+          end
+
+    text = planning_application.validated? ? "View" : "View and update"
+
+    link_to text, url
+  end
+
+  def display_request_date_state(validation_request)
+    validation_request.days_until_response_due.positive? ? "green" : "red"
+  end
+
   private
 
   def request_type(validation_request)

@@ -34,8 +34,7 @@ Metrics/MethodLength:
 
 Layout/LineLength:
   Exclude:
-    - spec/presenters/**/*
-    - spec/system/**/*
+    - spec/**/*
 
 # we tend to use update_all in migrations
 Rails/SkipsModelValidations:

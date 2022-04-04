@@ -291,8 +291,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "Start now"
       click_link "Review validation requests"
 
-      expect(page).to have_content("Add all required validation requests for this application. Once all requests have been added, you can invalidate the application and notify the applicant that the application is invalid and they can see all validation requests")
-
       expect(planning_application.status).to eql("not_started")
     end
   end
@@ -304,7 +302,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "Start now"
       click_link "Review validation requests"
 
-      expect(page).to have_content("Add all required validation requests for this application. Once all requests have been added, you can invalidate the application and notify the applicant that the application is invalid and they can see all validation requests")
       expect(page).to have_content("The application has not yet been marked as valid or invalid")
     end
   end
