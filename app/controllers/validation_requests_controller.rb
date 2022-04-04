@@ -8,8 +8,6 @@ class ValidationRequestsController < AuthenticationController
     @cancelled_validation_requests, @active_validation_requests = validation_requests.partition(&:cancelled?)
   end
 
-  def new; end
-
   private
 
   def send_validation_request_email(request)

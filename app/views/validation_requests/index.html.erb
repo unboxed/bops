@@ -124,10 +124,6 @@
           requests
         </p>
       <% end %>
-
-      <% unless @planning_application.validated? %>
-        <%= link_to "Add new request", new_planning_application_validation_request_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-      <% end %>
     </div>
 
     <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
