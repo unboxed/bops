@@ -100,8 +100,7 @@ module ValidationRequest
   def cancel_request!
     transaction do
       cancel!
-      reset_document_invalidation if is_a?(ReplacementDocumentValidationRequest)
-      reset_fee_invalidation if is_a?(OtherChangeValidationRequest) && fee_item?
+      reset_columns
       audit!(activity_type: "#{self.class.name.underscore}_cancelled", activity_information: sequence,
              audit_comment: { cancel_reason: cancel_reason }.to_json)
     end
@@ -160,5 +159,11 @@ module ValidationRequest
       activity_information: sequence.to_s,
       audit_comment: audit_comment
     )
+  end
+
+  def reset_columns
+    reset_document_invalidation if is_a?(ReplacementDocumentValidationRequest)
+    reset_fee_invalidation if is_a?(OtherChangeValidationRequest) && fee_item?
+    reset_documents_missing if is_a?(AdditionalDocumentValidationRequest)
   end
 end

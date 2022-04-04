@@ -1,0 +1,18 @@
+<li id="additional-documents-validation-task">
+  <h2 class="app-task-list__section">
+    Check for missing documents
+  </h2>
+  <ul class="app-task-list__items">
+    <% if @planning_application.validated? %>
+      <li class="app-task-list__item">
+        <span class="app-task-list__task-name">
+          Planning application has already been validated
+        </span>
+      </li>
+    <% else %>
+      <li class="app-task-list__item">
+        <%= @planning_application.additional_document_task_list %>
+      </li>
+    <% end %>
+  </ul>
+</li>

@@ -8,18 +8,6 @@ class ValidationRequestsController < AuthenticationController
     @cancelled_validation_requests, @active_validation_requests = validation_requests.partition(&:cancelled?)
   end
 
-  def new; end
-
-  def create
-    case params[:validation_request]
-    when "create_document"
-      redirect_to new_planning_application_additional_document_validation_request_path
-    else
-      flash.now[:error] = "You must select a validation request type to proceed."
-      render "new"
-    end
-  end
-
   private
 
   def send_validation_request_email(request)

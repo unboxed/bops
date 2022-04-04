@@ -37,6 +37,8 @@ Rails.application.routes.draw do
       get :decision_notice
       get :validation_notice
       get :validation_decision
+      get :validation_documents
+      patch :validate_documents
     end
 
     resource :constraints, only: %i[show edit update] do
@@ -59,7 +61,7 @@ Rails.application.routes.draw do
     end
 
     resources :audits, only: :index
-    resources :validation_requests, only: %i[index new create]
+    resources :validation_requests, only: %i[index]
 
     concern :cancel_validation_requests do
       member do
