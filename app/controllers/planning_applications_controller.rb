@@ -228,23 +228,6 @@ class PlanningApplicationsController < AuthenticationController
     end
   end
 
-  def draw_sitemap; end
-
-  def update_sitemap
-    new_map = @planning_application.boundary_geojson.blank?
-    @planning_application.boundary_geojson = params[:planning_application][:boundary_geojson]
-    @planning_application.boundary_created_by = current_user
-    @planning_application.save!
-
-    if new_map
-      @planning_application.audit_boundary_geojson!("created")
-    else
-      @planning_application.audit_boundary_geojson!("updated")
-    end
-
-    redirect_to @planning_application, notice: "Site boundary has been updated"
-  end
-
   def cancel
     case params[:planning_application][:status]
     when "withdrawn"

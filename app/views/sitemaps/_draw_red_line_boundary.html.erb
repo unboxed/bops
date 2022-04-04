@@ -15,11 +15,11 @@
 
 <h3 class="govuk-heading-s">Draw the red line site boundary</h3>
 
-<%= form_with model: @planning_application, url: update_sitemap_planning_application_path(@planning_application), local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+<%= form_with model: @planning_application, url: planning_application_sitemap_path(@planning_application), local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
   <%= form.hidden_field :boundary_geojson %>
   <%= render "shared/location_map", locals: { geojson: @planning_application.boundary_geojson, geojson_field: 'planning_application_boundary_geojson' } %>
   <div class="govuk-button-group govuk-!-margin-top-3">
     <%= form.govuk_submit "Save" %>
-    <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+    <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
   </div>
 <% end %>

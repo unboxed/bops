@@ -21,6 +21,10 @@ module ValidationTasksPresenter
       ValidationTasks::FeeItemsPresenter.new(@template, @planning_application).task_list_row
     end
 
+    def red_line_boundary_task_list
+      ValidationTasks::RedLineBoundaryPresenter.new(@template, @planning_application).task_list_row
+    end
+
     private
 
     def validation_item_tag

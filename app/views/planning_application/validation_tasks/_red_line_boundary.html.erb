@@ -1,0 +1,24 @@
+<li id="red-line-boundary-tasks">
+  <h2 class="app-task-list__section">
+    Red line boundary
+  </h2>
+  <ul class="app-task-list__items">
+    <li id="draw_red_line_boundary" class="app-task-list__item">
+      <span class="app-task-list__task-name">
+        <%= link_to_unless(@planning_application.boundary_geojson.present? && @planning_application.officer_can_draw_boundary?, "Draw red line boundary", planning_application_sitemap_path(@planning_application), class: "govuk-link" ) %>
+      </span>
+      <% if @planning_application.boundary_geojson.present? %>
+        <strong class="govuk-tag govuk-tag--green app-task-list__task-tag">
+          Checked
+        </strong>
+      <% else %>
+      <strong class="govuk-tag govuk-tag--grey app-task-list__task-tag">
+        Not checked yet
+      </strong>
+      <% end %>
+    </li>
+    <li id="validate_red_line_boundary"  class="app-task-list__item">
+      <%= @planning_application.red_line_boundary_task_list %>
+    </li>
+  </ul>
+</li>

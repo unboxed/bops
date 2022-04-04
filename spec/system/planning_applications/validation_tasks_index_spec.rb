@@ -63,6 +63,27 @@ RSpec.describe "Validation tasks", type: :system do
           end
         end
 
+        within("#red-line-boundary-tasks") do
+          expect(page).to have_content("Red line boundary")
+
+          within("#draw_red_line_boundary") do
+            expect(page).to have_link(
+              "Draw red line boundary",
+              href: planning_application_sitemap_path(planning_application)
+            )
+            within(".govuk-tag--grey") do
+              expect(page).to have_content("Not checked yet")
+            end
+          end
+
+          within("#validate_red_line_boundary") do
+            expect(page).to have_content("Validate red line boundary")
+            within(".govuk-tag--grey") do
+              expect(page).to have_content("Not checked yet")
+            end
+          end
+        end
+
         within("#review-tasks") do
           expect(page).to have_content("Review")
           expect(page).to have_link(
@@ -78,7 +99,8 @@ RSpec.describe "Validation tasks", type: :system do
 
   context "when application has been validated" do
     let!(:planning_application) do
-      create :planning_application, :in_assessment, local_authority: default_local_authority, constraints_checked: true
+      create :planning_application, :in_assessment, :with_boundary_geojson, local_authority: default_local_authority,
+                                                                            constraints_checked: true
     end
 
     it "displays the validation tasks list but no actions to create new requests can be taken" do
@@ -108,6 +130,30 @@ RSpec.describe "Validation tasks", type: :system do
           )
           within(".govuk-tag--green") do
             expect(page).to have_content("Checked")
+          end
+        end
+
+        within("#red-line-boundary-tasks") do
+          expect(page).to have_content("Red line boundary")
+
+          within("#draw_red_line_boundary") do
+            expect(page).to have_link(
+              "Draw red line boundary",
+              href: planning_application_sitemap_path(planning_application)
+            )
+            within(".govuk-tag--green") do
+              expect(page).to have_content("Checked")
+            end
+          end
+
+          within("#validate_red_line_boundary") do
+            expect(page).to have_link(
+              "Validate red line boundary",
+              href: planning_application_sitemap_path(planning_application)
+            )
+            within(".govuk-tag--grey") do
+              expect(page).to have_content("Not checked yet")
+            end
           end
         end
 

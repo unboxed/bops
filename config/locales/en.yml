@@ -58,3 +58,4 @@ en:
       planning_application:
         determination_date: "Enter determination date"
         valid_fee: "Is the fee valid?"
+        valid_red_line_boundary: "Is this red line boundary valid?"

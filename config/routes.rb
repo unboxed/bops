@@ -35,8 +35,6 @@ Rails.application.routes.draw do
       patch :cancel
       get :close_or_cancel_confirmation
       get :decision_notice
-      get :draw_sitemap
-      patch :update_sitemap
       get :validation_notice
       get :validation_decision
     end
@@ -46,6 +44,10 @@ Rails.application.routes.draw do
     end
 
     resource :fee_items, only: %i[show] do
+      patch :validate
+    end
+
+    resource :sitemap, only: %i[show edit update] do
       patch :validate
     end
 

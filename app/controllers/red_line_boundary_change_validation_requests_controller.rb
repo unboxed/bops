@@ -4,6 +4,7 @@ class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsCont
   include ValidationRequests
 
   before_action :set_red_line_boundary_validation_request, only: %i[show edit update]
+  before_action :ensure_no_open_or_pending_red_line_boundary_validation_request, only: %i[new]
 
   def new
     @red_line_boundary_change_validation_request = @planning_application.red_line_boundary_change_validation_requests.new
@@ -19,8 +20,8 @@ class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsCont
     if @red_line_boundary_change_validation_request.save
       email_and_timestamp(@red_line_boundary_change_validation_request) if @planning_application.invalidated?
 
-      flash[:notice] = "Validation request for red line boundary successfully created."
-      redirect_to planning_application_validation_requests_path(@planning_application)
+      redirect_to planning_application_validation_tasks_path(@planning_application),
+                  notice: "Validation request for red line boundary successfully created."
     else
       render :new
     end
@@ -30,7 +31,8 @@ class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsCont
 
   def update
     if @red_line_boundary_change_validation_request.update(red_line_boundary_change_validation_request_params)
-      redirect_to planning_application_validation_requests_path(@planning_application)
+      redirect_to planning_application_validation_tasks_path(@planning_application),
+                  notice: "Validation request for red line boundary successfully updated"
     else
       render :edit
     end

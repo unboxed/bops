@@ -14,8 +14,6 @@ class ValidationRequestsController < AuthenticationController
     case params[:validation_request]
     when "create_document"
       redirect_to new_planning_application_additional_document_validation_request_path
-    when "red_line_boundary"
-      redirect_to new_planning_application_red_line_boundary_change_validation_request_path
     else
       flash.now[:error] = "You must select a validation request type to proceed."
       render "new"
@@ -54,6 +52,12 @@ class ValidationRequestsController < AuthenticationController
 
   def ensure_no_open_or_pending_fee_item_validation_request
     return unless @planning_application.fee_item_validation_requests.open_or_pending.any?
+
+    render plain: "forbidden", status: :forbidden
+  end
+
+  def ensure_no_open_or_pending_red_line_boundary_validation_request
+    return unless @planning_application.red_line_boundary_change_validation_requests.open_or_pending.any?
 
     render plain: "forbidden", status: :forbidden
   end
