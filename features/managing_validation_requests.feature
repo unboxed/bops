@@ -16,7 +16,7 @@ Feature: Managing validation requests
       | type                     | comment                         |
       | additional document      | John                            |
       | other change             | George                          |
-      | red line boundary change | View proposed red line boundary |
+      | red line boundary change | View request red line boundary |
 
   Scenario: As an assessor all my validation requests are initially not sent
     When I view the application's validations requests
@@ -28,18 +28,18 @@ Feature: Managing validation requests
     And I press "Send validation decision"
     And I press "Mark the application as invalid"
     And I view the application's validations requests
-    Then there is a validation request for a "Picture of the dog" that shows "15 days"
-    Then there is a validation request for a "Picture of the cat" that shows "15 days"
+    Then there is a validation request for a "Picture of the dog" that shows "sent"
+    Then there is a validation request for a "Picture of the cat" that shows "sent"
 
   Scenario: As an assessor any request past invalidation is sent immediately
     Given the planning application is invalidated
     When I create a new document validation request for an "Extra request" because "love requests"
-    Then there is a validation request for an "Extra request" that shows "15 days"
+    Then there is a validation request for an "Extra request" that shows "sent"
 
   Scenario: As an assessor I can delete a validation request before invalidating the planning application
     When I view the application's validations requests
-    Then there is a validation request for a "Picture of the dog" that has a link "Delete request"
-    And there is a validation request for a "Picture of the dog" that does not have a link "Cancel request"
+    And I click link "View and update" in table row for "Picture of the dog"
+    Then the page does not contain "Cancel request"
     When I click link "Delete request" in table row for "Picture of the dog"
     And I view the application's validations requests
     Then there is no validation request for a "Picture of the dog"
@@ -48,9 +48,7 @@ Feature: Managing validation requests
     Given the date is 21-10-2021
     And the planning application is invalidated
     When I view the application's validations requests
-    Then there is a validation request for a "Picture of the dog" that has a link "Cancel request"
-    And there is a validation request for a "Picture of the dog" that does not have a link "Delete request"
-    When I cancel a validation request for a "Picture of the dog" with "Dog pic is no longer needed"
+    And I cancel a validation request for a "Picture of the dog" with "Dog pic is no longer needed"
     And I view the application's validations requests
     Then there is a cancelled validation request for a "Dog pic is no longer needed" that shows "21 October 2021"
     And there is no validation request for a "Picture of the dog"

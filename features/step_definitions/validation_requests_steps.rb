@@ -110,7 +110,8 @@ end
 
 Given("I cancel a validation request for a {string} with {string}") do |details, reason|
   steps %(
-    Given I click link "Cancel request" in table row for "#{details}"
+    Given I click link "View and update" in table row for "#{details}"
+    And I click link "Cancel request" in table row for "#{details}"
     Then I fill in "Explain to the applicant why this request is being cancelled" with "#{reason}"
     And I press "Confirm cancellation"
     Then an email is sent to the applicant confirming the validation request cancellation
@@ -120,18 +121,8 @@ end
 Given("I cancel a(n) additional document validation request with {string}") do |details|
   steps %(
     Given I create an additional document validation request with "Picture of funny meme"
+    And I click link "View and update" in table row for "Picture of funny meme"
     And I click link "Cancel request" in table row for "Picture of funny meme"
-    Then I fill in "Explain to the applicant why this request is being cancelled" with "#{details}"
-    And I see the cancel confirmation form actions
-    And I press "Confirm cancellation"
-    Then an email is sent to the applicant confirming the validation request cancellation
-  )
-end
-
-Given("I cancel a description change validation request with {string}") do |details|
-  steps %(
-    Given I create a description change validation request with "A new description"
-    And I click link "Cancel request" in table row for "A new description"
     Then I fill in "Explain to the applicant why this request is being cancelled" with "#{details}"
     And I see the cancel confirmation form actions
     And I press "Confirm cancellation"
@@ -142,7 +133,8 @@ end
 Given("I cancel a(n) other change validation request with {string}") do |details|
   steps %(
     Given I create an other change validation request with "More info needed"
-    And I click link "Cancel request" in table row for "More info needed"
+    And I click link "View and update" in table row for "Other"
+    And I press "Cancel request"
     Then I fill in "Explain to the applicant why this request is being cancelled" with "#{details}"
     And I see the cancel confirmation form actions
     And I press "Confirm cancellation"
@@ -154,7 +146,8 @@ Given("I cancel a red line boundary change validation request with {string}") do
   steps %(
     Given I create a red line boundary change validation request with "boundary change required"
     And I view the application's validations requests
-    And I click link "Cancel request" in table row for "boundary change required"
+    And I click link "View and update" in table row for "Red line boundary changes"
+    And I press "Cancel request"
     Then I fill in "Explain to the applicant why this request is being cancelled" with "#{details}"
     And I see the cancel confirmation form actions
     And I press "Confirm cancellation"

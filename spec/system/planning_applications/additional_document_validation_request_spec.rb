@@ -405,6 +405,16 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       expect(page).not_to have_link("Edit request")
     end
 
+    context "when overdue" do
+      before { travel_to Time.zone.local(2022, 1, 1) }
+
+      it "I can see an overdue request" do
+        visit planning_application_validation_requests_path(planning_application)
+
+        expect(page).to have_content("overdue")
+      end
+    end
+
     context "when applicant has responded" do
       let!(:additional_document_validation_request) do
         create(

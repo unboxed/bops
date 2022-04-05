@@ -37,9 +37,14 @@ RSpec.describe "Requesting other changes to a planning application", type: :syst
 
     click_link "Review validation requests"
 
-    within(".change-requests") do
+    within(".validation-requests-table") do
       expect(page).to have_content("Other")
-      expect(page).to have_content("15 days")
+      expect(page).to have_content("The wrong fee has been paid")
+      expect(page).to have_content("sent")
+      expect(page).to have_link(
+        "View and update",
+        href: planning_application_other_change_validation_request_path(planning_application, OtherChangeValidationRequest.last)
+      )
     end
 
     click_link "Back"
@@ -91,15 +96,28 @@ RSpec.describe "Requesting other changes to a planning application", type: :syst
     click_link "Send validation decision"
     click_link "Start new or view existing requests"
 
-    within(".change-requests") do
-      expect(page).to have_content("Missing information")
-      expect(page).to have_content("Please provide more details about ownership")
+    within(".validation-requests-table") do
+      other_change_validation_request1 = OtherChangeValidationRequest.first
 
-      expect(page).to have_content("Fees outstanding")
-      expect(page).to have_content("Please pay the balance")
-      expect(page).to have_link("View response")
+      within("#other_change_validation_request_#{other_change_validation_request1.id}") do
+        expect(page).to have_content("Missing information")
+        expect(page).to have_content("sent")
+        expect(page).to have_link(
+          "View and update",
+          href: planning_application_other_change_validation_request_path(planning_application, other_change_validation_request1)
+        )
+      end
 
-      expect(page).to have_content("6 days")
+      other_change_validation_request2 = OtherChangeValidationRequest.last
+
+      within("#other_change_validation_request_#{other_change_validation_request2.id}") do
+        expect(page).to have_content("Fees outstanding")
+        expect(page).to have_content("Responded")
+        expect(page).to have_link(
+          "View and update",
+          href: planning_application_other_change_validation_request_path(planning_application, other_change_validation_request2)
+        )
+      end
     end
   end
 

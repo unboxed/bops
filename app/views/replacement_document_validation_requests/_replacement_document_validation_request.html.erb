@@ -1,11 +1,13 @@
 <td class="govuk-table__cell change-request-list">
   Replacement document
 </td>
-<% unless replacement_document_validation_request.cancelled? %>
+<% if replacement_document_validation_request.cancelled? %>
+  <td class="govuk-table__cell change-request-list">
+    <%= replacement_document_validation_request.invalidated_document_reason %>
+  </td>
+<% else %>
   <td class="govuk-table__cell change-request-list limit-column-width">
-    <%= replacement_document_validation_request.old_document.name %>
+    <%= link_to replacement_document_validation_request.old_document.name,
+        edit_planning_application_document_path(@planning_application, replacement_document_validation_request.old_document), class: "govuk-link" %>
   </td>
 <% end %>
-<td class="govuk-table__cell change-request-list">
-  <%= replacement_document_validation_request.invalidated_document_reason %>
-</td>

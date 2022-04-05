@@ -337,14 +337,16 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
         within("#replacement_document_validation_request_#{request.id}") do
           expect(page).to have_content("Replacement document")
           expect(page).to have_content("proposed-first-floor-plan.pdf")
-          expect(page).to have_content("Not valid")
+          expect(page).to have_content("sent")
+          expect(page).to have_link(
+            "View and update",
+            href: planning_application_replacement_document_validation_request_path(planning_application, request)
+          )
         end
         within("#replacement_document_validation_request_#{replacement_document_validation_request.id}") do
           expect(page).to have_content("Replacement document")
           expect(page).to have_content("proposed-floorplan.png")
-          expect(page).to have_content("proposed-first-floor-plan.pdf")
-          expect(page).to have_content("Document is invalid")
-          expect(page).to have_content("Responded 1 January 2021 00:00")
+          expect(page).to have_content("Responded")
         end
 
         click_link "Back"

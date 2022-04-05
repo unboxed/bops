@@ -12,17 +12,18 @@ Feature: Editing validation requests
 
 Scenario: I can edit a document validation request before its been sent
   When I view the application's validations requests
-  And I click link "Edit" in table row for "Picture of the dog"
+  And I click link "View and update" in table row for "Picture of the dog"
+  And I press "Edit request"
   And I fill in "Please specify the new document type:" with "cats instead"
   And I fill in "Please specify the reason you have requested this document?" with "I love me some cats"
   When I press "Update"
   And I view the application's validations requests
   Then the page contains "cats instead"
-  And the page contains "I love me some cats"
 
 Scenario: I can edit an other type of validation request before its been sent
   When I view the application's validations requests
-  And I click link "Edit" in table row for "Time for some changes"
+  And I click link "View and update" in table row for "Time for some changes"
+  And I press "Edit request"
   And I fill in "Tell the applicant another reason why the application is invalid." with "change those manners"
   When I press "Update"
   And I view the application's validations requests
@@ -30,15 +31,17 @@ Scenario: I can edit an other type of validation request before its been sent
 
 Scenario: I can edit a red line boundary request before its been sent
   When I view the application's validations requests
-  And I click link "Edit" in table row for "We shall update some boundaries"
+  And I click link "View and update" in table row for "Red line boundary changes"
+  And I press "Edit request"
   And I fill in "Explain to the applicant why changes are proposed to the red line boundary" with "bound to be changes"
   When I press "Update"
   And I view the application's validations requests
+  And I press "View request red line boundary"
   Then the page contains "bound to be changes"
 
 Scenario: I cannot edit a validation request after its been sent
   When the planning application is invalidated
   And I view the application's validations requests
-  Then the page does not contain "Edit" in table row for "Picture of the dog"
-  And the page does not contain "Edit" in table row for "Time for some changes"
-  And the page does not contain "Edit" in table row for "We shall update some boundaries"
+  And I click link "View and update" in table row for "Picture of the dog"
+  Then the page does not contain "Edit request"
+  And the page contains "Cancel request"
