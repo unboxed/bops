@@ -331,7 +331,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def policy_classes_editable
-    errors.add(:policy_classes, "cannot be added at this stage") if policy_classes_changed? && !in_assessment?
+    errors.add(:policy_classes, "cannot be added at this stage") if policy_classes_changed? && !can_assess?
   end
 
   def documents_for_decision_notice
