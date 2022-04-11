@@ -95,10 +95,20 @@
   <% end %>
 
 
-  <div class="govuk-form-group govuk-!-margin-top-8 govuk-!-width-two-thirds">
-    <%= form.label :payment_reference, class: "govuk-heading-m" %>
+  <div class="govuk-form-group govuk-!-margin-top-8">
+    <h2 class="govuk-heading-m">
+      Fee information
+    </h2>
+    <%= form.label :payment_reference, class: "govuk-label" %>
     <%= form.text_field :payment_reference, class: "govuk-textarea govuk-input" %>
+
+    <%= form.label :payment_amount, class: "govuk-label" %>
+    <div class="govuk-input__wrapper">
+      <div class="govuk-input__prefix" aria-hidden="true">£</div>
+      <%= form.text_field :payment_amount, class: "govuk-textarea govuk-input" %>
+    </div>
   </div>
+
   <div class="govuk-button-group">
     <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
     <%= link_to 'Cancel', planning_applications_path, class: "govuk-button govuk-button--secondary" %>

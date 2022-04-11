@@ -67,6 +67,7 @@ class PlanningApplication < ApplicationRecord
                                            description
                                            proposal_details
                                            payment_reference
+                                           payment_amount
                                            postcode
                                            town
                                            uprn
