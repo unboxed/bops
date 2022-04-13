@@ -6,6 +6,8 @@ class User < ApplicationRecord
   devise :recoverable, :two_factor_authenticatable, :recoverable, :timeoutable,
          :validatable, otp_secret_encryption_key: ENV["OTP_SECRET_ENCRYPTION_KEY"], request_keys: [:subdomains]
 
+  devise :database_authenticatable if Rails.env.development? && ENV["2FA_ENABLED"] != "true"
+
   has_many :decisions, dependent: :restrict_with_exception
   has_many :planning_applications, through: :decisions
   has_many :audits, dependent: :nullify
