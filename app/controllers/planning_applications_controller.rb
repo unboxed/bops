@@ -49,7 +49,10 @@ class PlanningApplicationsController < AuthenticationController
       flash.now[:error] = "Please complete in draft assessment before updating application fields."
     end
 
-    if @planning_application.update(planning_application_params)
+    if params[:set_payment_amount] == "yes"
+      @planning_application.update(payment_amount_params)
+      redirect_to planning_application_fee_items_path(@planning_application, validate_fee: "yes"), notice: "Planning application payment amount was successfully updated."
+    elsif @planning_application.update(planning_application_params)
       redirect_to @planning_application, notice: "Planning application was successfully updated."
     else
       render :edit
@@ -296,6 +299,7 @@ class PlanningApplicationsController < AuthenticationController
                         description
                         proposal_details
                         payment_reference
+                        payment_amount
                         postcode
                         town
                         uprn
@@ -321,6 +325,10 @@ class PlanningApplicationsController < AuthenticationController
     Time.zone.parse(
       validation_date_fields.join("-")
     )
+  end
+
+  def payment_amount_params
+    params[:planning_application] ? params.require(:planning_application).permit(:payment_amount) : params.permit(:payment_amount)
   end
 
   def decision_notice_mail

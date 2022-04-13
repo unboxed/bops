@@ -366,7 +366,9 @@ RSpec.describe "FeeItemsValidation", type: :system do
           expect(page).to have_content(closed_other_change_validation_request.updated_at)
         end
 
-        click_link("Continue")
+        fill_in "planning_application[payment_amount]", with: "35000"
+
+        click_button("Continue")
 
         # Display fee item table
         within(".govuk-table") do
@@ -374,6 +376,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
             expect(page).to have_content("Item")
             expect(page).to have_content("Detail")
           end
+          expect(page).to have_content("£350")
         end
         within(".govuk-fieldset") do
           expect(page).to have_content("Is the fee valid?")
