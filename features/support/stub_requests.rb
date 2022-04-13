@@ -7,7 +7,7 @@ World(MapitHelper)
 World(NotifyHelper)
 
 Before do
-  stub_any_api_request.to_return(api_response(:ok))
+  stub_any_mapit_api_request.to_return(mapit_api_response(:ok))
 
   stub_any_post_sms_notification.to_return(sms_notification_api_response(:ok))
 end

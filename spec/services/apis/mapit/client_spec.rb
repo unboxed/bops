@@ -16,13 +16,13 @@ RSpec.describe Apis::Mapit::Client do
     end
 
     it "removes whitespace from the postcode" do
-      stub = stub_api_request_for("SE220HW")
+      stub = stub_mapit_api_request_for("SE220HW")
       client.call("s e 22 0h w")
       expect(stub).to have_been_requested
     end
 
     it "upcases the postcode" do
-      stub = stub_api_request_for("SE220HW")
+      stub = stub_mapit_api_request_for("SE220HW")
       client.call("se220hw")
       expect(stub).to have_been_requested
     end
