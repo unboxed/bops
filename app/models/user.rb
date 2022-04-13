@@ -23,6 +23,14 @@ class User < ApplicationRecord
     end
   end
 
+  def assign_mobile_number!(number)
+    update!(mobile_number: number)
+  end
+
+  def valid_otp_attempt?(otp_attempt)
+    validate_and_consume_otp!(otp_attempt)
+  end
+
   private
 
   def generate_otp_secret

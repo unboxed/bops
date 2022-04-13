@@ -5,8 +5,17 @@
 Rails.application.routes.draw do
   root to: "planning_applications#index", defaults: { q: "exclude_others" }
 
-  devise_for :users
   mount Rswag::Ui::Engine => "api-docs"
+
+  devise_for :users, controllers: {
+    sessions: "users/sessions"
+  }
+
+  devise_scope :user do
+    get "setup", to: "users/sessions#setup", as: "setup"
+    get "two_factor", to: "users/sessions#two_factor", as: "two_factor"
+    get "resend_code", to: "users/sessions#resend_code", as: "resend_code"
+  end
 
   resources :planning_applications, only: %i[index show new edit create update] do
     resources :policy_classes, except: %i[index edit] do

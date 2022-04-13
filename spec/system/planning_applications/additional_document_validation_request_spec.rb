@@ -15,10 +15,10 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
   before do
     travel_to Time.zone.local(2021, 1, 1)
     sign_in assessor
-    visit planning_application_path(planning_application)
   end
 
   it "allows for a document creation request to be created and sent to the applicant" do
+    visit planning_application_path(planning_application)
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Validate application"
     click_link "Start now"
@@ -406,7 +406,10 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
     end
 
     context "when overdue" do
-      before { travel_to Time.zone.local(2022, 1, 1) }
+      before do
+        travel_to Time.zone.local(2022, 1, 1)
+        sign_in assessor
+      end
 
       it "I can see an overdue request" do
         visit planning_application_validation_requests_path(planning_application)
