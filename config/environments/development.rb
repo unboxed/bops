@@ -70,4 +70,5 @@ Rails.application.configure do
 
   config.hosts << ".bops-care.link"
   config.hosts << "southwark.southwark.web"
+  config.hosts << "southwark.southwark.localhost"
 end
