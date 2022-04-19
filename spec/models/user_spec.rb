@@ -3,6 +3,53 @@
 require "rails_helper"
 
 RSpec.describe User, type: :model do
+  describe "validations" do
+    subject(:user) { described_class.new }
+
+    describe "#local_authority" do
+      it "validates presence" do
+        expect { user.valid? }.to change { user.errors[:local_authority] }.to ["must exist"]
+      end
+    end
+  end
+
+  describe "instance methods" do
+    let(:user) { create(:user) }
+
+    describe "#assign_mobile_number!" do
+      it "updates a user's mobile number" do
+        expect do
+          user.assign_mobile_number!("07766759254")
+        end.to change(user, :mobile_number).to("07766759254")
+      end
+    end
+
+    describe "#valid_otp_attempt?" do
+      it "returns true when a valid otp attempt has been made" do
+        expect(user.valid_otp_attempt?(user.current_otp)).to be(true)
+      end
+
+      it "returns false when an invalid otp attempt has been made" do
+        expect(user.valid_otp_attempt?("123456")).to be(false)
+      end
+    end
+  end
+
+  describe "callbacks" do
+    describe "::before_create #generate_otp_secret" do
+      before do
+        allow(described_class).to receive(:generate_otp_secret).and_return("7YK63IMOL76DMZRGU3KN2CLS")
+      end
+
+      let(:user) { create(:user) }
+
+      it "sets relevant otp fields on the user record" do
+        expect(user.otp_required_for_login).to eq(true)
+        expect(user.otp_secret).to eq("7YK63IMOL76DMZRGU3KN2CLS")
+      end
+    end
+  end
+
   it "creates user successfully" do
     assessor = create(:user, :assessor)
     expect(assessor).to be_valid

@@ -54,6 +54,8 @@ en:
         reason: "List all issues with the document."
       note:
         entry: "Add a note to this application."
+      user:
+        otp_attempt: "Security code"
     legend:
       planning_application:
         determination_date: "Enter determination date"

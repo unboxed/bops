@@ -3,15 +3,15 @@
 module MapitHelper
   BASE_URL = "https://mapit.mysociety.org/postcode"
 
-  def stub_api_request_for(postcode)
+  def stub_mapit_api_request_for(postcode)
     stub_request(:get, "#{BASE_URL}/#{postcode}")
   end
 
-  def stub_any_api_request
+  def stub_any_mapit_api_request
     stub_request(:get, /#{BASE_URL}.*/)
   end
 
-  def api_response(status, body = "default", &block)
+  def mapit_api_response(status, body = "default", &block)
     status = Rack::Utils.status_code(status)
 
     body = if block_given?
@@ -31,7 +31,7 @@ if RSpec.respond_to?(:configure)
     config.include(MapitHelper)
 
     config.before do
-      stub_any_api_request.to_return(api_response(:ok))
+      stub_any_mapit_api_request.to_return(mapit_api_response(:ok))
     end
   end
 end

@@ -9,7 +9,7 @@ RSpec.describe Apis::Mapit::Query do
     context "when the request is successful" do
       context "when a valid postcode is supplied" do
         before do
-          stub_api_request_for("SE220HW").to_return(api_response(:ok, "SE220HW"))
+          stub_mapit_api_request_for("SE220HW").to_return(mapit_api_response(:ok, "SE220HW"))
         end
 
         it "returns an array with ward type and ward name" do
@@ -21,7 +21,7 @@ RSpec.describe Apis::Mapit::Query do
     context "when the request is unsuccessful" do
       context "when a postcode is not found" do
         before do
-          stub_api_request_for("SE110H9").to_return(api_response(:not_found, "no_result"))
+          stub_mapit_api_request_for("SE110H9").to_return(mapit_api_response(:not_found, "no_result"))
         end
 
         it "returns an empty array" do
@@ -31,7 +31,7 @@ RSpec.describe Apis::Mapit::Query do
 
       context "when the API does not respond" do
         before do
-          stub_api_request_for("SE110H9").to_timeout
+          stub_mapit_api_request_for("SE110H9").to_timeout
         end
 
         it "returns an empty array" do
@@ -41,7 +41,7 @@ RSpec.describe Apis::Mapit::Query do
 
       context "when the API is returning an internal server error" do
         before do
-          stub_api_request_for("SE110H9").to_return(api_response(:internal_server_error))
+          stub_mapit_api_request_for("SE110H9").to_return(mapit_api_response(:internal_server_error))
         end
 
         it "returns an empty array" do
@@ -51,7 +51,7 @@ RSpec.describe Apis::Mapit::Query do
 
       context "when the API can't find the resource" do
         before do
-          stub_api_request_for("SE110H9").to_return(api_response(:not_acceptable))
+          stub_mapit_api_request_for("SE110H9").to_return(mapit_api_response(:not_acceptable))
         end
 
         it "returns an empty array" do

@@ -17,5 +17,6 @@ runs:
       env:
         DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
         RAILS_ENV: test
+        OTP_SECRET_ENCRYPTION_KEY: 83ccc50b-3ba9-45d9-8047-9518a935f065
       run: |
         bundle exec rake db:setup
