@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
 class AddDeviseTwoFactorToUsers < ActiveRecord::Migration[6.1]
+  # rubocop:disable Rails/BulkChangeTable
   def change
-    change_table :users, bulk: true do |t|
-      t.string :encrypted_otp_secret
-      t.string :encrypted_otp_secret_iv
-      t.string :encrypted_otp_secret_salt
-      t.integer :consumed_timestep
-      t.boolean :otp_required_for_login
+    add_column :users, :encrypted_otp_secret, :string
+    add_column :users, :encrypted_otp_secret_iv, :string
+    add_column :users, :encrypted_otp_secret_salt, :string
+    add_column :users, :consumed_timestep, :integer
+    add_column :users, :otp_required_for_login, :boolean
 
-      t.index :encrypted_otp_secret, unique: true
+    add_index :users, :encrypted_otp_secret, unique: true
 
-      User.all.find_each do |user|
-        user.update(
-          otp_required_for_login: true,
-          otp_secret: User.generate_otp_secret
-        )
-      end
+    User.all.find_each do |user|
+      user.update(
+        otp_required_for_login: true,
+        otp_secret: User.generate_otp_secret
+      )
     end
   end
+  # rubocop:enable Rails/BulkChangeTable
 end
