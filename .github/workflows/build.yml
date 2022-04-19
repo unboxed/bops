@@ -147,7 +147,6 @@ jobs:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
           RAILS_ENV: test
           SPEC_OPTS: "-f doc -P spec/controllers/*_spec.rb"
-          OTP_SECRET_ENCRYPTION_KEY: ${{ secrets.OTP_SECRET_ENCRYPTION_KEY }}
         run: |
           bundle exec rake spec:controllers
 
@@ -188,7 +187,6 @@ jobs:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
           RAILS_ENV: test
           SPEC_OPTS: "-f doc -P spec/models/**/*_spec.rb"
-          OTP_SECRET_ENCRYPTION_KEY: ${{ secrets.OTP_SECRET_ENCRYPTION_KEY }}
         run: |
           bundle exec rake spec:models
 
@@ -238,7 +236,6 @@ jobs:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
           RAILS_ENV: test
           SPEC_OPTS: "-f doc -P spec/requests/**/*_spec.rb"
-          OTP_SECRET_ENCRYPTION_KEY: ${{ secrets.OTP_SECRET_ENCRYPTION_KEY }}
         run: |
           bundle exec rake spec:requests
 
@@ -279,8 +276,6 @@ jobs:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
           RAILS_ENV: test
           SPEC_OPTS: "-f doc -P spec/{helpers,presenters,mailer,jobs,services}/**/*_spec.rb"
-          NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
-          OTP_SECRET_ENCRYPTION_KEY: ${{ secrets.OTP_SECRET_ENCRYPTION_KEY }}
         run: |
           bundle exec rake spec
 
@@ -335,8 +330,6 @@ jobs:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
           RAILS_ENV: test
           SPEC_OPTS: "-f doc -P spec/system/**/*_spec.rb"
-          NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
-          OTP_SECRET_ENCRYPTION_KEY: ${{ secrets.OTP_SECRET_ENCRYPTION_KEY }}
         run: |
           bundle exec rake spec
 
@@ -391,7 +384,5 @@ jobs:
           CUCUMBER_FORMAT: pretty
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
           RAILS_ENV: test
-          NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
-          OTP_SECRET_ENCRYPTION_KEY: ${{ secrets.OTP_SECRET_ENCRYPTION_KEY }}
         run: |
           bundle exec cucumber

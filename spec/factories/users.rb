@@ -6,7 +6,6 @@ FactoryBot.define do
     name { Faker::Name.name }
     email { Faker::Internet.email }
     password { "password123" }
-    mobile_number { "07656546552" }
   end
 
   trait :assessor do

@@ -1,28 +1,19 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  rescue_from Notifications::Client::NotFoundError, with: :validation_notice_request_error
+  rescue_from Notifications::Client::ServerError, with: :validation_notice_request_error
+  rescue_from Notifications::Client::RequestError, with: :validation_notice_request_error
+  rescue_from Notifications::Client::ClientError, with: :validation_notice_request_error
+  rescue_from Notifications::Client::BadRequestError, with: :validation_notice_request_error
+
   before_action :find_current_local_authority_from_subdomain
   before_action :prevent_caching
   before_action :set_current_user
-  before_action :configure_permitted_parameters, if: :devise_controller?
 
   attr_reader :current_local_authority
 
   helper_method :current_local_authority
-
-  def after_sign_in_path_for(resource)
-    if session[:mobile_number] && !resource.mobile_number?
-      resource.assign_mobile_number!(session[:mobile_number])
-      session.delete(:mobile_number)
-    end
-
-    respond_to do |format|
-      format.html do
-        flash[:notice] = "Signed in successfully."
-        super
-      end
-    end
-  end
 
   protected
 
@@ -32,10 +23,6 @@ class ApplicationController < ActionController::Base
                   .find(params[:planning_application_id] || params[:id])
 
     @planning_application = PlanningApplicationPresenter.new(view_context, application)
-  end
-
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_in, keys: [:otp_attempt])
   end
 
   private
@@ -54,6 +41,13 @@ class ApplicationController < ActionController::Base
 
   def disable_flash_header
     @disable_flash_header = true
+  end
+
+  def validation_notice_request_error(exception)
+    flash[:error] = "Notify was unable to send applicant email. Please contact the applicant directly."
+    flash[:notice] = "Document validation successful. Application is ready for assessment."
+    Appsignal.send_error(exception)
+    render "planning_applications/show"
   end
 
   def set_current_user

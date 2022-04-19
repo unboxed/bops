@@ -1,12 +1,6 @@
 # frozen_string_literal: true
 
 class ValidationRequestsController < AuthenticationController
-  rescue_from Notifications::Client::NotFoundError, with: :validation_notice_request_error
-  rescue_from Notifications::Client::ServerError, with: :validation_notice_request_error
-  rescue_from Notifications::Client::RequestError, with: :validation_notice_request_error
-  rescue_from Notifications::Client::ClientError, with: :validation_notice_request_error
-  rescue_from Notifications::Client::BadRequestError, with: :validation_notice_request_error
-
   before_action :set_planning_application
 
   def index
@@ -60,12 +54,5 @@ class ValidationRequestsController < AuthenticationController
     return if @planning_application.not_started?
 
     render plain: "forbidden", status: :forbidden
-  end
-
-  def validation_notice_request_error(exception)
-    flash[:error] = "Notify was unable to send applicant email. Please contact the applicant directly."
-
-    Appsignal.send_error(exception)
-    render "planning_applications/show"
   end
 end

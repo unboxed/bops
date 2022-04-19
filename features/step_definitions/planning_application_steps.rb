@@ -12,7 +12,7 @@ Given("I am logged in as a(n) {}") do |role|
   step("I am logged out")
 
   southwark = LocalAuthority.find_by(subdomain: "southwark")
-  @officer = FactoryBot.create(:user, role.to_sym, local_authority: southwark, mobile_number: "07788446542")
+  @officer = FactoryBot.create(:user, role.to_sym, local_authority: southwark)
 
   domain = @officer.local_authority.subdomain
 
@@ -25,14 +25,7 @@ Given("I am logged in as a(n) {}") do |role|
   fill_in "Email", with: @officer.email
   fill_in "Password", with: @officer.password
 
-  step("I enter 2FA")
-end
-
-Given("I enter 2FA") do
   click_button "Log in"
-
-  fill_in "Security code", with: @officer.current_otp
-  click_button "Enter code"
 end
 
 Given("my name is {string}") do |name|

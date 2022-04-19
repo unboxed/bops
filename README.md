@@ -64,17 +64,6 @@ http://lambeth.lambeth.localhost:3000/
 http://buckinghamshire.buckinghamshire.localhost:3000/
 ```
 
-## GOV.UK Notify
-
-You should ask for an account to be set up for you on [GOV.UK Notify](https://www.notifications.service.gov.uk/sign-in)
-
-### 2FA
-
-To enable 2FA in development, you must set the env variable `2FA_ENABLED` to `true` and set the keys for `OTP_SECRET_ENCRYPTION_KEY` and `NOTIFY_API_KEY`. You may find this in 1password and within your GOV.UK Notify notify account
-
-These keys are set within [github actions](https://github.com/unboxed/bops/settings/secrets/actions) for our testing and CI builds
-
-
 ## OS maps
 
 To utilise all the map functionality, you will need to set an `OS_VECTOR_TILES_API_KEY` in `.env`
