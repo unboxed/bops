@@ -5,6 +5,7 @@ require "rails_helper"
 RSpec.describe "Planning Application Reviewing", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:reviewer) { create :user, :reviewer, local_authority: default_local_authority }
+  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
   let!(:planning_application) do
     create :planning_application, :awaiting_determination, local_authority: default_local_authority,
                                                            decision: "granted"
@@ -120,5 +121,56 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
     recommendation.reload
     expect(recommendation.reviewer_comment).to eq("Edited reviewer private comment")
+  end
+
+  context "when editing the public comment that appears on the decision notice" do
+    it "as a reviewer I am able to edit" do
+      click_link "Review assessment"
+
+      expect(page).to have_content("Review the recommendation")
+      expect(page).to have_content("The planning officer recommends that the application is granted")
+      expect(page).to have_content("This information will appear on the decision notice:")
+      expect(page).to have_content(planning_application.public_comment)
+
+      click_link "Edit this text"
+      expect(page).to have_current_path(edit_public_comment_planning_application_path(planning_application))
+
+      expect(page).to have_content("Edit the information appearing on the decision notice")
+      expect(page).to have_content("The planning officer recommends that the application is granted")
+      expect(page).to have_content("This information will appear on the decision notice:")
+
+      # Attempt to save without any text input
+      fill_in "This information will appear on the decision notice:", with: ""
+      click_button "Save"
+
+      within(".govuk-form-group--error") do
+        expect(page).to have_content("Please state the reasons why this application is, or is not lawful")
+      end
+
+      fill_in "This information will appear on the decision notice:", with: "This text will appear on the decision notice."
+      click_button "Save"
+      expect(page).to have_content("Planning application was successfully updated.")
+
+      click_link "Review assessment"
+      expect(page).to have_content("This text will appear on the decision notice.")
+
+      # Check audit log
+      click_button "Audit log"
+      click_link "View all audits"
+
+      within("#audit_#{Audit.last.id}") do
+        expect(page).to have_content("Public comment updated")
+        expect(page).to have_text("Changed from: All GDPO compliant Changed to: This text will appear on the decision notice.")
+        expect(page).to have_text(reviewer.name)
+        expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+      end
+    end
+
+    it "as an assessor I am unable to edit" do
+      sign_in assessor
+      visit edit_public_comment_planning_application_path(planning_application)
+
+      expect(page).to have_content("forbidden")
+    end
   end
 end
