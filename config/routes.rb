@@ -38,6 +38,7 @@ Rails.application.routes.draw do
       patch :save_assessment
       patch :assess
       get :review_form
+      get :edit_public_comment
       patch :review
       get :publish
       patch :determine

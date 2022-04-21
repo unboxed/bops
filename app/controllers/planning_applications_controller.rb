@@ -3,7 +3,7 @@
 class PlanningApplicationsController < AuthenticationController
   before_action :set_planning_application, except: %i[new create index]
 
-  before_action :ensure_user_is_reviewer, only: %i[review review_form]
+  before_action :ensure_user_is_reviewer, only: %i[review review_form edit_public_comment]
 
   before_action :set_last_audit, only: %i[show validate_form view_recommendation submit_recommendation publish]
 
@@ -54,6 +54,8 @@ class PlanningApplicationsController < AuthenticationController
       redirect_to planning_application_fee_items_path(@planning_application, validate_fee: "yes"), notice: "Planning application payment amount was successfully updated."
     elsif @planning_application.update(planning_application_params)
       redirect_to @planning_application, notice: "Planning application was successfully updated."
+    elsif params[:edit_action] == "edit_public_comment"
+      render :edit_public_comment
     else
       render :edit
     end
@@ -117,6 +119,12 @@ class PlanningApplicationsController < AuthenticationController
 
   def recommendation_form
     @recommendation = @planning_application.recommendations.last || @planning_application.pending_or_new_recommendation
+  end
+
+  def edit_public_comment
+    respond_to do |format|
+      format.html { render :edit_public_comment }
+    end
   end
 
   def recommend
@@ -301,6 +309,7 @@ class PlanningApplicationsController < AuthenticationController
                         payment_reference
                         payment_amount
                         postcode
+                        public_comment
                         town
                         uprn
                         work_status]

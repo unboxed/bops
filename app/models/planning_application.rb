@@ -69,6 +69,7 @@ class PlanningApplication < ApplicationRecord
                                            payment_reference
                                            payment_amount
                                            postcode
+                                           public_comment
                                            town
                                            uprn
                                            work_status].freeze

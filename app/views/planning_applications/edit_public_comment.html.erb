@@ -1,0 +1,34 @@
+<% content_for :title, "Edit public comment" %>
+
+<%= render "planning_applications/assessment_dashboard" do %>
+  <h2 class="govuk-heading-m govuk-!-padding-top-3">Edit the information appearing on the decision notice</h2>
+
+  <p class="govuk-body">
+    The planning officer recommends that the application is <strong><%= @planning_application.decision %></strong>
+  </p>
+
+  <%= form_with model: @planning_application, local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+    <%= hidden_field_tag(:edit_action, "edit_public_comment") %>
+
+    <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
+      <% if form.object.errors.any? %>
+        <% form.object.errors.each do |error| %>
+          <span id="status-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span>
+            <%= error.type %>
+          </span>
+        <% end %>
+      <% end %>
+     </div>
+
+    <div class="govuk-form-group">
+      <span class="govuk-body">
+        <%= form.label :public_comment, class: "govuk-label--m" %>
+      </span>
+
+      <%= form.text_area :public_comment, class: "govuk-textarea", rows: "9" %>
+    </div>
+
+    <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
+  <% end %>
+<% end %>
