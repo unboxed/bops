@@ -49,15 +49,23 @@ class PlanningApplicationsController < AuthenticationController
       flash.now[:error] = "Please complete in draft assessment before updating application fields."
     end
 
-    if params[:set_payment_amount] == "yes"
-      @planning_application.update(payment_amount_params)
-      redirect_to planning_application_fee_items_path(@planning_application, validate_fee: "yes"), notice: "Planning application payment amount was successfully updated."
-    elsif @planning_application.update(planning_application_params)
-      redirect_to @planning_application, notice: "Planning application was successfully updated."
-    elsif params[:edit_action] == "edit_public_comment"
-      render :edit_public_comment
-    else
-      render :edit
+    respond_to do |format|
+      if @planning_application.update(planning_application_params)
+        format.html { redirect_update_url }
+      else
+        case params[:edit_action]&.to_sym
+        when :edit_public_comment
+          format.html { render :edit_public_comment }
+        when :edit_payment_amount
+          format.html do
+            redirect_to planning_application_other_change_validation_request_path(
+              @planning_application, OtherChangeValidationRequest.find(params[:other_change_validation_request_id])
+            ), alert: @planning_application.errors.messages[:payment_amount].join(", ")
+          end
+        else
+          format.html { render :edit }
+        end
+      end
     end
   end
 
@@ -393,6 +401,14 @@ class PlanningApplicationsController < AuthenticationController
   def redirect_failed_submit_recommendation
     redirect_to submit_recommendation_planning_application_path(@planning_application),
                 alert: "Error submitting recommendation - please contact support."
+  end
+
+  def redirect_update_url
+    if params[:edit_action] == "edit_payment_amount"
+      redirect_to planning_application_fee_items_path(@planning_application, validate_fee: "yes"), notice: "Planning application payment amount was successfully updated."
+    else
+      redirect_to @planning_application, notice: "Planning application was successfully updated."
+    end
   end
 
   def validate_documents_notice(planning_application)

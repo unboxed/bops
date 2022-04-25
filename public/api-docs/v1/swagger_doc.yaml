@@ -55,7 +55,7 @@ paths:
                     returned_at: null
                     work_status: proposed
                     payment_reference: PAY1
-                    payment_amount: 10500
+                    payment_amount: "105.12"
                     awaiting_determination_at: '2020-05-16T06:18:17.540+01:00'
                     in_assessment_at: '2020-05-16T06:18:17.540+01:00'
                     awaiting_correction_at: null

@@ -10,7 +10,7 @@
       </span>
       <ul>
         <% @planning_application.errors.map do |error| %>
-          <li><%= error.type %></li>
+          <li><%= error.message %></li>
         <% end %>
       </ul>
     </span>

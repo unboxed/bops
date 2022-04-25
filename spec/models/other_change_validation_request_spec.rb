@@ -166,6 +166,38 @@ RSpec.describe OtherChangeValidationRequest, type: :model do
           end
         end
       end
+
+      describe "::after_create #set_invalid_payment_amount" do
+        let!(:planning_application) do
+          create(:planning_application, :not_started, payment_amount: 172.36)
+        end
+
+        context "when it is a fee item validation request" do
+          let(:other_change_validation_request) do
+            create(:other_change_validation_request, :pending, fee_item: true,
+                                                               planning_application: planning_application)
+          end
+
+          it "updates the invalid payment amount on the planning application" do
+            expect do
+              other_change_validation_request
+            end.to change(planning_application, :invalid_payment_amount).from(nil).to(172.36)
+          end
+        end
+
+        context "when it is not a fee item validation request" do
+          let(:other_change_validation_request) do
+            create(:other_change_validation_request, :pending, fee_item: false,
+                                                               planning_application: planning_application)
+          end
+
+          it "does not update the invalid payment amount on the planning application" do
+            expect do
+              other_change_validation_request
+            end.not_to change(planning_application, :invalid_payment_amount)
+          end
+        end
+      end
     end
   end
 end

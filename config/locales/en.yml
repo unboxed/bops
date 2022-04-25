@@ -20,6 +20,7 @@ en:
   user:
     officer_role: "Case Officer"
     manager_role: "Manager"
+
   activerecord:
     errors:
       models:
@@ -32,6 +33,11 @@ en:
               unpermitted_tags: "Please choose valid tags"
             numbers:
               missing_numbers: "All documents listed on the decision notice must have a document number"
+        planning_application:
+          attributes:
+            payment_amount:
+              greater_than_or_equal_to: "Payment amount (£) must be greater than or equal to 0"
+              not_a_number: "Payment amount must be a number not exceeding 2 decimal places"
 
   helpers:
     hint:

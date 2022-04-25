@@ -88,6 +88,7 @@ class PlanningApplication < ApplicationRecord
             inclusion: { in: WORK_STATUSES,
                          message: "Work Status should be proposed or existing" }
   validates :application_type, presence: true
+  validates :payment_amount, :invalid_payment_amount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
   validate :applicant_or_agent_email
   validate :documents_validated_at_date
@@ -306,10 +307,6 @@ class PlanningApplication < ApplicationRecord
 
   def last_validation_request_date
     closed_validation_requests.max_by(&:updated_at).updated_at
-  end
-
-  def payment_amount_pounds
-    payment_amount.to_i / 100
   end
 
   def overdue_requests

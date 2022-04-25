@@ -14,6 +14,7 @@ class OtherChangeValidationRequest < ApplicationRecord
   validate :response_is_present?
   validate :ensure_no_open_or_pending_fee_item_validation_request, on: :create
 
+  after_create :set_invalid_payment_amount
   before_update :reset_fee_invalidation, if: :closed?
   before_destroy :reset_fee_invalidation
 
@@ -48,5 +49,11 @@ class OtherChangeValidationRequest < ApplicationRecord
     return unless planning_application.fee_item_validation_requests.open_or_pending.any?
 
     errors.add(:base, "An open or pending fee validation request already exists for this planning application.")
+  end
+
+  def set_invalid_payment_amount
+    return unless fee_item?
+
+    planning_application.update!(invalid_payment_amount: planning_application.payment_amount)
   end
 end

@@ -8,7 +8,7 @@
   <tbody class="govuk-table__body">
     <tr class="govuk-table__row">
       <th scope="row" class="govuk-table__header">Fee</th>
-      <td class="govuk-table__cell">£<%= @planning_application.payment_amount_pounds %></td>
+      <td class="govuk-table__cell"><%= number_to_currency (@planning_application.payment_amount), unit: '£' %></td>
     </tr>
     <tr class="govuk-table__row">
       <th scope="row" class="govuk-table__header">Payment Reference</th>
