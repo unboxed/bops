@@ -16,7 +16,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
         :planning_application, :not_started,
         local_authority: default_local_authority,
         payment_reference: "PAY1",
-        payment_amount: 10_000
+        payment_amount: 112.12
       )
     end
 
@@ -37,7 +37,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
 
           within(rows[0]) do
             expect(page).to have_content("Fee")
-            expect(page).to have_content("£100")
+            expect(page).to have_content("£112.12")
           end
 
           within(rows[1]) do
@@ -246,7 +246,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
         :planning_application, :invalidated,
         local_authority: default_local_authority,
         payment_reference: "PAY1",
-        payment_amount: 10_000,
+        payment_amount: 100.21,
         valid_fee: false
       )
     end
@@ -366,8 +366,12 @@ RSpec.describe "FeeItemsValidation", type: :system do
           expect(page).to have_content(closed_other_change_validation_request.updated_at)
         end
 
-        fill_in "planning_application[payment_amount]", with: "35000"
+        # Fill in bad input
+        fill_in "planning_application[payment_amount]", with: "sss"
+        click_button("Continue")
+        expect(page).to have_content("Payment amount must be a number not exceeding 2 decimal places")
 
+        fill_in "planning_application[payment_amount]", with: "350.22"
         click_button("Continue")
 
         # Display fee item table
@@ -376,7 +380,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
             expect(page).to have_content("Item")
             expect(page).to have_content("Detail")
           end
-          expect(page).to have_content("£350")
+          expect(page).to have_content("£350.22")
         end
         within(".govuk-fieldset") do
           expect(page).to have_content("Is the fee valid?")

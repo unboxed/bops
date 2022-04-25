@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_08_091235) do
+ActiveRecord::Schema.define(version: 2022_04_22_100143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -224,7 +224,7 @@ ActiveRecord::Schema.define(version: 2022_04_08_091235) do
     t.text "constraints", default: [], null: false, array: true
     t.string "change_access_id"
     t.date "expiry_date"
-    t.integer "payment_amount"
+    t.decimal "payment_amount", precision: 10, scale: 2
     t.string "result_flag"
     t.text "result_heading"
     t.text "result_description"
@@ -240,12 +240,13 @@ ActiveRecord::Schema.define(version: 2022_04_08_091235) do
     t.datetime "closed_at"
     t.jsonb "planx_data"
     t.datetime "determination_date"
-    t.boolean "updated_address_or_boundary_geojson", default: false
     t.integer "user_role"
+    t.boolean "updated_address_or_boundary_geojson", default: false
     t.boolean "constraints_checked", default: false, null: false
     t.boolean "valid_fee"
-    t.boolean "valid_red_line_boundary"
     t.boolean "documents_missing"
+    t.boolean "valid_red_line_boundary"
+    t.decimal "invalid_payment_amount", precision: 10, scale: 2
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
     t.index ["boundary_created_by_id"], name: "ix_planning_applications_on_boundary_created_by_id"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"

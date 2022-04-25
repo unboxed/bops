@@ -88,6 +88,7 @@ class PlanningApplication < ApplicationRecord
             inclusion: { in: WORK_STATUSES,
                          message: "Work Status should be proposed or existing" }
   validates :application_type, presence: true
+  validates :payment_amount, :invalid_payment_amount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
   validate :applicant_or_agent_email
   validate :documents_validated_at_date
@@ -308,10 +309,6 @@ class PlanningApplication < ApplicationRecord
     closed_validation_requests.max_by(&:updated_at).updated_at
   end
 
-  def payment_amount_pounds
-    payment_amount.to_i / 100
-  end
-
   def overdue_requests
     validation_requests.select(&:open?).select(&:overdue?)
   end
@@ -435,6 +432,10 @@ class PlanningApplication < ApplicationRecord
     super || Time.zone.today
   end
 
+  def audit_boundary_geojson!(status)
+    audit!(activity_type: "red_line_#{status}", audit_comment: "Red line drawing #{status}")
+  end
+
   def audit_recommendation_approved!
     audit!(activity_type: "approved", audit_comment: recommendations.last.reviewer_comment)
   end
@@ -513,10 +514,7 @@ class PlanningApplication < ApplicationRecord
     return if updated_address_or_boundary_geojson
 
     if saved_changes.keys.intersection(ADDRESS_AND_BOUNDARY_GEOJSON_FIELDS).any?
-      transaction do
-        update!(updated_address_or_boundary_geojson: true)
-        audit!(activity_type: "red_line_created", audit_comment: "Red line drawing created")
-      end
+      update!(updated_address_or_boundary_geojson: true)
     end
   end
 

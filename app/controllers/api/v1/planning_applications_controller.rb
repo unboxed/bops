@@ -38,7 +38,8 @@ module Api
             planx_data: (params[:planx_debug_data].to_json if params[:planx_debug_data].present?),
             api_user: current_api_user,
             audit_log: params.to_json,
-            user_role: params[:user_role].presence
+            user_role: params[:user_role].presence,
+            payment_amount: params[:payment_amount].presence && payment_amount_in_pounds(params[:payment_amount])
           )
         )
 
@@ -96,7 +97,6 @@ module Api
                             proposal_details
                             files
                             payment_reference
-                            payment_amount
                             work_status
                             planx_debug_data]
         params.permit permitted_keys
@@ -131,6 +131,10 @@ module Api
             result_description: params[:result][:description],
             result_override: params[:result][:override] }
         end
+      end
+
+      def payment_amount_in_pounds(amount)
+        amount.to_f / 100
       end
 
       def receipt_notice_mail
