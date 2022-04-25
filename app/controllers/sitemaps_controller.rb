@@ -28,9 +28,14 @@ class SitemapsController < AuthenticationController
   end
 
   def update
+    audit_action = @planning_application.boundary_geojson.blank? ? "created" : "updated"
+
     respond_to do |format|
       if @planning_application.update(boundary_geojson: boundary_geojson_params[:boundary_geojson],
                                       boundary_created_by: current_user)
+
+        @planning_application.audit_boundary_geojson!(audit_action)
+
         format.html do
           redirect_to planning_application_validation_tasks_path(@planning_application),
                       notice: "Site boundary has been updated"
