@@ -29,7 +29,7 @@ gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 4"
 gem "rails", "~> 6.1"
 gem "rswag-ui"
-gem "sassc", "~> 2.1.0"
+gem "sassc", "~> 2.4.0"
 gem "webpacker", "~> 5.4"
 gem "whenever"
 
