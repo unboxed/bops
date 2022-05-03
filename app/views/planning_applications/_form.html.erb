@@ -105,7 +105,7 @@
     <%= form.label :payment_amount, class: "govuk-label" %>
     <div class="govuk-input__wrapper">
       <div class="govuk-input__prefix" aria-hidden="true">£</div>
-      <%= form.text_field :payment_amount, class: "govuk-textarea govuk-input" %>
+      <%= form.text_field :payment_amount, value: number_to_currency(@planning_application.payment_amount, unit: ""), class: "govuk-textarea govuk-input" %>
     </div>
   </div>
 

@@ -107,7 +107,7 @@ RSpec.describe "Creating a planning application", type: :system do
       end
 
       fill_in "Payment reference", with: "232432544"
-      fill_in "planning_application[payment_amount]", with: "104.12"
+      fill_in "planning_application[payment_amount]", with: "104.00"
     end
 
     it "with default proposed status if no status is selected" do
@@ -123,13 +123,23 @@ RSpec.describe "Creating a planning application", type: :system do
       expect(page).to have_text("Work already started: No")
       expect(page).to have_text("Description: Backyard bird hotel")
       expect(page).to have_text("Payment Reference: 232432544")
-      expect(page).to have_text("Payment Amount: £104.12")
+      expect(page).to have_text("Payment Amount: £104.00")
       expect(page).to have_text("Agentina Agentino")
       expect(page).to have_text("agentina@agentino.com")
       expect(page).to have_text("923838484492939")
       expect(page).to have_text("Carlota Corlita")
       expect(page).to have_text("carlota@corlita.com")
       expect(page).to have_text("0777773949494312")
+    end
+
+    it "has the correct format for payment amount in pounds" do
+      click_button "Save"
+
+      visit planning_application_path(PlanningApplication.last.id)
+      click_button "Application information"
+      click_link "Edit details"
+
+      expect(page).to have_field("planning_application[payment_amount]", with: "104.00")
     end
 
     it "with existing status" do

@@ -520,15 +520,30 @@ class PlanningApplication < ApplicationRecord
 
   def attribute_to_audit(attribute_name)
     if attribute_name.eql?("constraints")
-      audit_constraits!(saved_changes)
+      audit_constraints!(saved_changes)
     else
       audit!(activity_type: "updated",
              activity_information: attribute_name.humanize,
-             audit_comment: "Changed from: #{saved_change_to_attribute(attribute_name).first} \r\n Changed to: #{saved_change_to_attribute(attribute_name).second}")
+             audit_comment: audit_comment(attribute_name))
     end
   end
 
-  def audit_constraits!(saved_changes)
+  def audit_comment(attribute_name)
+    original_attribute = saved_change_to_attribute(attribute_name).first
+    new_attribute = saved_change_to_attribute(attribute_name).second
+
+    if attribute_name == "payment_amount"
+      "Changed from: £#{format('%.2f', original_attribute)} \r\n Changed to: £#{format('%.2f', new_attribute)}"
+    else
+      "Changed from: #{original_attribute} \r\n Changed to: #{new_attribute}"
+    end
+  end
+
+  def audit_payment_amount
+    audit_constraints!(saved_changes) if attribute_name.eql?("constraints")
+  end
+
+  def audit_constraints!(saved_changes)
     prev_arr, new_arr = saved_changes[:constraints]
 
     attr_removed = prev_arr - new_arr
