@@ -246,7 +246,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
         :planning_application, :invalidated,
         local_authority: default_local_authority,
         payment_reference: "PAY1",
-        payment_amount: 100.21,
+        payment_amount: 100.00,
         valid_fee: false
       )
     end
@@ -366,6 +366,10 @@ RSpec.describe "FeeItemsValidation", type: :system do
           expect(page).to have_content(closed_other_change_validation_request.updated_at)
         end
 
+        expect(page).to have_content("Total fee paid")
+        expect(page).to have_content("Check any extra fee has been received and update the total fee now paid.")
+        expect(page).to have_field("planning_application[payment_amount]", with: "100.00")
+
         # Fill in bad input
         fill_in "planning_application[payment_amount]", with: "sss"
         click_button("Continue")
@@ -384,6 +388,14 @@ RSpec.describe "FeeItemsValidation", type: :system do
         end
         within(".govuk-fieldset") do
           expect(page).to have_content("Is the fee valid?")
+        end
+
+        visit planning_application_audits_path(planning_application)
+
+        # Check audit log
+        within("#audit_#{Audit.last.id}") do
+          expect(page).to have_content("Payment amount updated")
+          expect(page).to have_content("Changed from: £100.00 Changed to: £350.22")
         end
       end
 
