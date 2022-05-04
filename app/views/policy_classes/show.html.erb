@@ -44,16 +44,10 @@
           <% @policy_class.policies.each do |policy| %>
             <tr class="govuk-table__row">
               <td class="govuk-table__cell">
-                <details class="govuk-details" data-module="govuk-details">
-                  <summary class="govuk-details__summary">
-                    <span class="govuk-details__summary-text">
-                      <%= @policy_class.id %>.<%= policy["id"] %>
-                    </span>
-                  </summary>
-                  <div class="govuk-details__text">
-                    <%= policy["description"] %>
-                  </div>
-                </details>
+                <h3 class="govuk-heading-s"><%= @policy_class.id %>.<%= policy["id"] %></h3>
+                <div class="govuk-body">
+                  <%= policy["description"] %>
+                </div>
               </td>
               <% ["complies", "does_not_comply", "to_be_determined"].each do |status| %>
                 <td class="govuk-table__cell">
