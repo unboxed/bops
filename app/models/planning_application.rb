@@ -533,7 +533,7 @@ class PlanningApplication < ApplicationRecord
     new_attribute = saved_change_to_attribute(attribute_name).second
 
     if attribute_name == "payment_amount"
-      "Changed from: £#{format('%.2f', original_attribute)} \r\n Changed to: £#{format('%.2f', new_attribute)}"
+      "Changed from: £#{format('%.2f', original_attribute.to_f)} \r\n Changed to: £#{format('%.2f', new_attribute.to_f)}"
     else
       "Changed from: #{original_attribute} \r\n Changed to: #{new_attribute}"
     end
