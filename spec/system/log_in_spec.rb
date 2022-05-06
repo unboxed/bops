@@ -131,7 +131,7 @@ RSpec.describe "Sign in", type: :system do
         # mobile number saved to session rather than db at this point
         expect(user.reload.mobile_number).to eq(nil)
 
-        expect(page).to have_content("Enter the code you have recieved by text message")
+        expect(page).to have_content("Enter the code you have received by text message")
         expect(page).to have_content(
           "A 6-digit code has been sent to your mobile phone. This message may take a minute to arrive."
         )
@@ -179,7 +179,7 @@ RSpec.describe "Sign in", type: :system do
 
         visit "/two_factor"
 
-        expect(page).not_to have_content("Enter the code you have recieved by text message")
+        expect(page).not_to have_content("Enter the code you have received by text message")
         expect(page).to have_content("Enter your phone number")
       end
 
@@ -201,7 +201,7 @@ RSpec.describe "Sign in", type: :system do
 
         expect(page).not_to have_content("Enter your phone number")
 
-        expect(page).to have_content("Enter the code you have recieved by text message")
+        expect(page).to have_content("Enter the code you have received by text message")
 
         fill_in "Security code", with: user.current_otp
         click_button "Enter code"
