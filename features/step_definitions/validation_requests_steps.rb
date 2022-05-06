@@ -19,7 +19,7 @@ When("I create a new document validation request for a(n) {string} because {stri
     And I press "Add a request for a missing document"
     And I fill in "Please specify the new document type:" with "#{type}"
     And I fill in "the reason" with "#{reason}"
-    And I press "Add"
+    And I save or send the request
     And I click link "Review validation requests"
   )
 end
@@ -68,7 +68,7 @@ Given("I create a(n) additional document validation request with {string}") do |
     And I press "Add a request for a missing document"
     And I fill in "Please specify the new document type:" with "#{details}"
     And I fill in "the reason" with "a valid reason"
-    And I press "Add"
+    And I save or send the request
     And I click link "Review validation requests"
   )
 end
@@ -79,7 +79,7 @@ Given("I create a(n) other change validation request with {string}") do |details
     And I press "Add an other validation request"
     And I fill in "Tell the applicant" with "#{details}"
     And I fill in "Explain to the applicant" with "Please make the change"
-    And I press "Add"
+    And I save or send the request
     And I click link "Review validation requests"
   )
 end
@@ -95,6 +95,18 @@ Given("I create a red line boundary change validation request with {string}") do
 
   # force a refresh as we've gone under the hood here
   visit current_path
+end
+
+When("I save or send the request") do
+  if @planning_application.reload.invalidated?
+    steps %(
+      And I press "Send request"
+    )
+  else
+    steps %(
+      And I press "Save request"
+    )
+  end
 end
 
 # Cancel validation requests

@@ -138,7 +138,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
       find(".govuk-visually-hidden",
            visible: false).set '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.076715,51.501166],[-0.07695,51.500673],[-0.076,51.500763],[-0.076715,51.501166]]]}}'
       fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: "Coordinates look wrong"
-      click_button "Add"
+      click_button "Send request"
 
       expect(page).to have_content("Validation request for red line boundary successfully created.")
 
@@ -167,14 +167,14 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
 
     it "only accepts a request that contains updated coordinates" do
       find(".govuk-visually-hidden", visible: false).set ""
-      click_button "Add"
+      click_button "Send request"
 
       expect(page).to have_content("Red line drawing must be complete")
     end
 
     it "only accepts a request that contains a reason" do
       fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: " "
-      click_button "Add"
+      click_button "Send request"
 
       expect(page).to have_content("Provide a reason for changes")
     end

@@ -90,7 +90,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
         within(".govuk-radios") { choose "No" }
       end
       click_button "Save"
-      click_button "Add"
+      click_button "Save request"
 
       within(".govuk-error-summary") do
         expect(page).to have_content("There is a problem")
@@ -131,7 +131,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
               with: "Fee is invalid"
       fill_in "Explain to the applicant how the application can be made valid.",
               with: "Update accurate fee"
-      click_button "Add"
+      click_button "Save request"
 
       expect(page).to have_content("Other validation change request successfully created.")
 
