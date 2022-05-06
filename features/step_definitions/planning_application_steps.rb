@@ -68,7 +68,6 @@ Given("the planning application is validated") do
   steps %(
     When I view the planning application
     And I press "Validate application"
-    And I press "Start now"
     And I press "Send validation decision"
     And I press "Mark the application as valid"
     And I fill in "Day" with "#{now.day}"

@@ -25,7 +25,6 @@ Rails.application.routes.draw do
     member do
       get :assign
       patch :assign
-      get :validate_form
       get :confirm_validation
       patch :validate
       patch :invalidate

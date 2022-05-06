@@ -5,7 +5,7 @@ class PlanningApplicationsController < AuthenticationController
 
   before_action :ensure_user_is_reviewer, only: %i[review review_form edit_public_comment]
 
-  before_action :set_last_audit, only: %i[show validate_form view_recommendation submit_recommendation publish]
+  before_action :set_last_audit, only: %i[show view_recommendation submit_recommendation publish]
 
   rescue_from PlanningApplication::WithdrawRecommendationError do |_exception|
     redirect_failed_withdraw_recommendation
@@ -77,8 +77,6 @@ class PlanningApplicationsController < AuthenticationController
       redirect_to @planning_application if @planning_application.save
     end
   end
-
-  def validate_form; end
 
   def confirm_validation
     @planning_application.documents_validated_at ||= if @planning_application.closed_validation_requests.present?

@@ -5,11 +5,7 @@ When("I view the application's validations requests") do
 end
 
 When("I start the validation wizard") do
-  visit validate_form_planning_application_path(@planning_application)
-
-  steps %(
-    Given I press "Start now"
-  )
+  visit planning_application_validation_tasks_path(@planning_application)
 end
 
 When("I create a new document validation request for a(n) {string} because {string}") do |type, reason|
