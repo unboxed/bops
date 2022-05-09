@@ -9,9 +9,9 @@
   </div>
   <div class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-5" id="results-section">
     <% if @planning_application.result_present? %>
-      <h3 class="govuk-heading-m">
+      <h2 class="govuk-heading-m">
         <%= @planning_application.result_flag if @planning_application.result_flag.present? %>
-      </h3>
+      </h2>
 
       <% if @planning_application.updated_address_or_boundary_geojson %>
         <%= render "shared/warning_text",
@@ -41,10 +41,10 @@
           <ol class="govuk-list">
             <li>
               <% @planning_application.flagged_proposal_details(@planning_application.result_flag).each do |proposal_detail| %>
-                <h4 class="govuk-heading-s">
+                <h3 class="govuk-heading-s">
                   <%= display_number(@planning_application.proposal_details, proposal_detail) %>.
                   <%= proposal_detail["question"] %>
-                </h4>
+                </h3>
                <p class="govuk-body">
                 <% proposal_detail["responses"].each do |response| %>
                   <%= response["value"] %>

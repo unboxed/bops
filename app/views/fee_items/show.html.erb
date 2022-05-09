@@ -2,9 +2,9 @@
 <% content_for :title, "Fee validation" %>
 
 <div class="govuk-grid-column-two-thirds">
-  <h2 class="govuk-heading-l">
+  <h1 class="govuk-heading-l">
     Check the fee
-  </h2>
+  </h1>
   <%= render "fee_item_table" %>
 
   <%= form_with model: @planning_application, url: validate_planning_application_fee_items_path(@planning_application), builder: GOVUKDesignSystemFormBuilder::FormBuilder, local: true do |form| %>

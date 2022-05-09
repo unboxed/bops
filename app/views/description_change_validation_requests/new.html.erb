@@ -3,18 +3,18 @@
 <% content_for :title, "Description change" %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-l">
+    <h1 class="govuk-heading-l">
       Request approval to a description change
-    </h2>
+    </h1>
     <p class="govuk-body">
       <strong>At:</strong> <%= @planning_application.full_address  %> <br>
       <strong>Date received:</strong> <%= @planning_application.received_at %> <br>
       <strong>Application number:</strong> <%= @planning_application.reference  %>
     </p>
     <div class="govuk-form-group">
-      <p class="govuk-heading-m">
+      <h2 class="govuk-heading-m">
         Description of work
-      </p>
+      </h2>
       <p class="govuk-body">
         <strong>
           Previous description

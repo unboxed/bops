@@ -3,13 +3,13 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-l govuk-!-padding-top-5">
+    <h1 class="govuk-heading-l govuk-!-padding-top-5">
       <% if @other_change_validation_request.closed? %>
         Check the response to other request <%= "(fee)" if @other_change_validation_request.fee_item? %>
       <% else %>
         View other request <%= "(fee)" if @other_change_validation_request.fee_item? %>
       <% end %>
-    </h2>
+    </h1>
 
     <h2 class="govuk-heading-m">Officer request</h2>
 
