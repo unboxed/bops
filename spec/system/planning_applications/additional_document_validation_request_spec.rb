@@ -35,7 +35,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
     fill_in "Please specify the new document type:", with: "Backyard plans"
     fill_in "Please specify the reason you have requested this document?", with: "Application is missing a rear view."
 
-    click_button "Add"
+    click_button "Send request"
     expect(page).to have_content("Additional document request successfully created.")
 
     click_link "Application"
@@ -183,7 +183,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       visit planning_application_validation_tasks_path(planning_application)
       click_link "Validate required documents are on application"
       click_link "Add a request for a missing document"
-      click_button "Add"
+      click_button "Save request"
 
       within(".govuk-error-message#additional-document-validation-request-document-request-type-error") do
         expect(page).to have_content("Please fill in the document request type.")
@@ -198,7 +198,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       visit planning_application_validation_tasks_path(planning_application)
       click_link "Validate required documents are on application"
       click_link "Add a request for a missing document"
-      click_button "Add"
+      click_button "Save request"
 
       expect(page).to have_content("Request a new document")
 
@@ -213,7 +213,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       fill_in "Please specify the new document type:", with: "Backyard plans"
       fill_in "Please specify the reason you have requested this document?", with: "Application is missing a rear view."
 
-      click_button "Add"
+      click_button "Save request"
 
       expect(page).to have_content("Additional document request successfully created.")
 

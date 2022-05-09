@@ -31,7 +31,7 @@ RSpec.describe "Requesting other changes to a planning application", type: :syst
 
     within(".govuk-button-group") do
       expect(page).to have_link("Back", href: planning_application_validation_tasks_path(planning_application))
-      click_button "Add"
+      click_button "Send request"
     end
 
     click_link "Review validation requests"
@@ -77,7 +77,7 @@ RSpec.describe "Requesting other changes to a planning application", type: :syst
 
     fill_in "Tell the applicant another reason why the application is invalid", with: ""
     fill_in "Explain to the applicant how the application can be made valid", with: ""
-    click_button "Add"
+    click_button "Send request"
 
     expect(page).to have_content("Summary can't be blank")
     expect(page).to have_content("Suggestion can't be blank")

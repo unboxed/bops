@@ -86,6 +86,16 @@ module ValidationRequestHelper
     validation_request.days_until_response_due.positive? ? "green" : "red"
   end
 
+  def submit_button_text(planning_application, action_name)
+    if action_name.eql?("edit")
+      "Update request"
+    elsif planning_application.invalidated?
+      "Send request"
+    else
+      "Save request"
+    end
+  end
+
   private
 
   def request_type(validation_request)
