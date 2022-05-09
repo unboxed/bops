@@ -10,7 +10,6 @@ Feature: Auditing a planning application
     When I view the planning application audit
     Then there is an audit entry containing "Added: validation request (new document#1)"
     And there is an audit log entry in the index accordion with "Added: validation request (new document#1)"
-    And there is an audit log entry in the validate form accordion with "Added: validation request (new document#1)"
 
   Scenario: I can audit the validation requests are sent when the application is invalid
     Given I create an additional document validation request with "Picture of the dog"
@@ -62,7 +61,6 @@ Feature: Auditing a planning application
 
   Scenario: I can view an entry in the audit showing the application being validated
     When I press "Validate application"
-    And I press "Start now"
     And I press "Send validation decision"
     And I press "Mark the application as valid"
     And I set the date inputs to "5/12/2021"

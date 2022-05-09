@@ -128,7 +128,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
       delivered_emails = ActionMailer::Base.deliveries.count
       click_link planning_application.reference
       click_link "Validate application"
-      click_link "Start now"
       click_link "Send validation decision"
       click_button "Mark the application as invalid"
 
@@ -150,7 +149,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
       create :additional_document_validation_request, planning_application: planning_application, state: "open"
       click_link planning_application.reference
       click_link "Validate application"
-      click_link "Start now"
       click_link "Send validation decision"
 
       expect(page).to have_content("This application has 1 unresolved validation request and 1 resolved validation request")
@@ -170,7 +168,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       click_link planning_application.reference
       click_link "Validate application"
-      click_link "Start now"
       click_link "Send validation decision"
 
       expect(page).to have_content("You have marked items as invalid, so you cannot validate this application.")
@@ -182,7 +179,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "shows error if invalid date is sent" do
       click_link new_planning_application.reference
       click_link "Validate application"
-      click_link "Start now"
       click_link "Send validation decision"
       click_link "Mark the application as valid"
 
@@ -200,7 +196,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "shows error if date is empty" do
       click_link new_planning_application.reference
       click_link "Validate application"
-      click_link "Start now"
       click_link "Send validation decision"
       click_link "Mark the application as valid"
 
@@ -218,7 +213,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "shows error if only part of the date is empty" do
       click_link new_planning_application.reference
       click_link "Validate application"
-      click_link "Start now"
       click_link "Send validation decision"
       click_link "Mark the application as valid"
 
@@ -288,7 +282,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "shows correct errors and status when there are no open validation requests" do
       visit planning_application_path(new_planning_application)
       click_link "Validate application"
-      click_link "Start now"
       click_link "Review validation requests"
 
       expect(planning_application.status).to eql("not_started")
@@ -299,7 +292,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "shows text and links when application has not been started" do
       visit planning_application_path(planning_application)
       click_link "Validate application"
-      click_link "Start now"
       click_link "Review validation requests"
 
       expect(page).to have_content("The application has not yet been marked as valid or invalid")
@@ -313,7 +305,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       visit planning_application_path(invalid_planning_application)
       click_link "Validate application"
-      click_link "Start now"
       click_link "Send validation decision"
 
       expect(page).to have_content("The application is marked as invalid. The applicant was notified on #{invalid_planning_application.invalidated_at}")
@@ -329,7 +320,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     it "does not allow you to add requests if application has been validated" do
       click_link "Validate application"
-      click_link "Start now"
       click_link "Send validation decision"
       expect(page).to have_content("The application is marked as valid and cannot be marked as invalid.")
 

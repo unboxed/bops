@@ -1,5 +1,5 @@
 <% add_parent_breadcrumb_link "Home", planning_applications_path %>
-<% add_parent_breadcrumb_link "Application", validate_form_planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
 <% content_for :title, "Description change" %>
 
 <div class="govuk-grid-row">
@@ -28,7 +28,7 @@
         <%= @description_change_request.approved? ? 'Approved' : 'Rejected' %>
       <% end %>
     </p>
-    <%= link_to "Back", validate_form_planning_application_path(@planning_application), class: "govuk-button" %>
+    <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button" %>
     <% if @description_change_request.open? %>
       <%= link_to "Cancel this request", planning_application_description_change_validation_request_cancel_path(@planning_application, @description_change_request), class: "govuk-button govuk-button--secondary", method: :patch  %>
     <% end %>

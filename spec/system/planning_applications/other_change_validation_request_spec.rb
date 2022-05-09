@@ -21,7 +21,6 @@ RSpec.describe "Requesting other changes to a planning application", type: :syst
   it "is possible to create a request for miscellaneous changes" do
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Validate application"
-    click_link "Start now"
     click_link "Add an other validation request"
 
     expect(page).not_to have_content("Request other validation change (fee)")
@@ -74,7 +73,6 @@ RSpec.describe "Requesting other changes to a planning application", type: :syst
 
   it "only accepts a request that contains a summary and suggestion" do
     click_link "Validate application"
-    click_link "Start now"
     click_link "Add an other validation request"
 
     fill_in "Tell the applicant another reason why the application is invalid", with: ""
@@ -92,7 +90,6 @@ RSpec.describe "Requesting other changes to a planning application", type: :syst
                                              created_at: 12.days.ago, notified_at: 12.days.ago, summary: "Fees outstanding", suggestion: "Please pay the balance", response: "paid"
 
     click_link "Validate application"
-    click_link "Start now"
     click_link "Send validation decision"
     click_link "Start new or view existing requests"
 
@@ -129,7 +126,6 @@ RSpec.describe "Requesting other changes to a planning application", type: :syst
 
       visit planning_application_path(new_planning_application)
       click_link "Validate application"
-      click_link "Start now"
       click_link "Send validation decision"
       expect(request.notified_at).to be_nil
 

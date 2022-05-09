@@ -21,7 +21,6 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
     it "I can mark documents as invalid and edit/delete the validation request" do
       click_link "Validate application"
-      click_link "Start now"
 
       within("#document-validation-tasks") do
         within("#document_#{document2.id}") do
@@ -138,7 +137,6 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
     it "I can mark documents as valid" do
       click_link "Validate application"
-      click_link "Start now"
 
       within("#document-validation-tasks") do
         within("#document_#{document1.id}") do
@@ -176,7 +174,6 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       delivered_emails = ActionMailer::Base.deliveries.count
 
       click_link "Validate application"
-      click_link "Start now"
 
       within("#document-validation-tasks") do
         within("#document_#{document2.id}") do
@@ -365,7 +362,6 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
     it "does not allow you to validate documents" do
       click_link "Validate application"
-      click_link "Start now"
 
       within("#document-validation-tasks") do
         expect(page).to have_content("Planning application has already been validated")
@@ -383,7 +379,6 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
     it "does not appear in the validate document list" do
       click_link "Validate application"
-      click_link "Start now"
 
       within("#document-validation-tasks") do
         within("#document_#{document2.id}") do
@@ -408,7 +403,6 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
       it "does show a invalid documents warning" do
         click_link "Validate application"
-        click_link "Start now"
         expect(page).to have_content("Invalid documents: 1")
 
         click_link "Check documents"
@@ -423,7 +417,6 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
       it "does not show a warning" do
         click_link "Validate application"
-        click_link "Start now"
         expect(page).not_to have_content("Invalid documents")
       end
     end
@@ -431,7 +424,6 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     context "when there is no replacement document validation request" do
       it "does not show a warning" do
         click_link "Validate application"
-        click_link "Start now"
         expect(page).not_to have_content("Invalid documents")
       end
     end
@@ -459,7 +451,6 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
     it "updates the notified_at date of an open request when application is invalidated" do
       click_link "Validate application"
-      click_link "Start now"
       click_link "Send validation decision"
       expect(replacement_document_validation_request.notified_at).to be_nil
 
