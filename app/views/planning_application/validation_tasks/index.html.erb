@@ -1,3 +1,7 @@
+<% content_for :page_title do %>
+  Validation tasks - <%= t('page_title') %>
+<% end %>
+
 <% add_parent_breadcrumb_link "Home", planning_applications_path %>
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
 <% content_for :title, "Validation tasks" %>

@@ -1,3 +1,7 @@
+<% content_for :page_title do %>
+  Constraints - <%= t('page_title') %>
+<% end %>
+
 <h1 class="govuk-heading-l">Check the constraints</h1>
 
 <% if @planning_application.api_user.present? %>
