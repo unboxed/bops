@@ -1,3 +1,7 @@
+<% content_for :page_title do %>
+  Assign planning application - <%= t('page_title') %>
+<% end %>
+
 <%= render "planning_applications/assessment_dashboard" do %>
   <% content_for :title, "Assign planning application" %>
   <h2 class="govuk-heading-m">Assign application</h2>

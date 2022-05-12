@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8"/>
-  <title>GOV.UK - BETA BOPs</title>
+  <title><%= content_for?(:page_title) ? yield(:page_title) : t("page_title") %></title>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
