@@ -55,7 +55,7 @@ class Document < ApplicationRecord
 
   TAGS = PLAN_TAGS + EVIDENCE_TAGS
 
-  PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"].freeze
+  PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg", "text/plain"].freeze
 
   validate :tag_values_permitted
   validate :file_content_type_permitted
