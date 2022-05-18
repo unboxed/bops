@@ -46,7 +46,7 @@ class PlanningApplicationsController < AuthenticationController
 
   def update
     if @planning_application.recommendations.last.present? && !@planning_application.recommendations.last.submitted
-      flash.now[:error] = "Please complete in draft assessment before updating application fields."
+      flash.now[:alert] = "Please complete in draft assessment before updating application fields."
     end
 
     respond_to do |format|
@@ -118,7 +118,7 @@ class PlanningApplicationsController < AuthenticationController
       validation_requests = @planning_application.validation_requests
       @cancelled_validation_requests, @active_validation_requests = validation_requests.partition(&:cancelled?)
 
-      flash.now[:error] = "Please create at least one validation request before invalidating"
+      flash.now[:alert] = "Please create at least one validation request before invalidating"
       render "validation_requests/index"
     end
   end

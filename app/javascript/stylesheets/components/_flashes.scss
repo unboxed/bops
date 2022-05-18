@@ -8,14 +8,6 @@
     @include flash;
     color: govuk-colour("green");
   }
-  &.success {
-    @include flash;
-    color: govuk-colour("green");
-  }
-  &.error {
-    @include flash;
-    color: $govuk-error-colour;
-  }
   &.alert {
     @include flash;
     color: $govuk-error-colour;

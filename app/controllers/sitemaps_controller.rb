@@ -18,7 +18,7 @@ class SitemapsController < AuthenticationController
           redirect_to planning_application_validation_tasks_path(@planning_application),
                       notice: "Red line boundary was marked as valid."
         elsif @planning_application.valid_red_line_boundary.nil?
-          flash.now[:error] = "You must first select Valid or Invalid to continue."
+          flash.now[:alert] = "You must first select Valid or Invalid to continue."
           render :show
         else
           redirect_to new_planning_application_red_line_boundary_change_validation_request_path

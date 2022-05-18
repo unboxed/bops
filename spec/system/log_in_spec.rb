@@ -283,7 +283,10 @@ RSpec.describe "Sign in", type: :system do
       travel 7.hours
       visit root_path
       expect(page).not_to have_content(user.name)
-      expect(page).to have_content("Your session expired. Please sign in again to continue.")
+
+      within(".flash") do
+        expect(page).to have_content("Your session expired. Please sign in again to continue.")
+      end
     end
   end
 end
