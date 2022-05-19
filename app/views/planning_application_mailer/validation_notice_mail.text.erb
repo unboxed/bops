@@ -4,13 +4,13 @@
 
 Dear <%= @planning_application.agent_or_applicant_name %>,
 
-Reference No.: <%= @planning_application.reference %>
+Reference No.: <%= @planning_application.reference_in_full %>
 Proposal: <%= @planning_application.description %>
 Site Address: <%= @planning_application.full_address %>
 
 Your application is now valid and has been started from <%= @planning_application.documents_validated_at %>. The description of your development given in the title block above may be different from the one on your application form. Contact us if you would like the description to be amended.
 
-Please quote the planning reference number <%= @planning_application.reference %> when contacting us.
+Please quote the planning reference number <%= @planning_application.reference_in_full %> when contacting us.
 
 We may request additional information and/or revisions before deciding whether the application should be recommended for permission or refusal.
 

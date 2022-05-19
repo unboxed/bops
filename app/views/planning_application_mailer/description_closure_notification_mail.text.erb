@@ -1,10 +1,10 @@
 Dear <%= @planning_application.agent_or_applicant_name %>,
 
-Reference: <%= @planning_application.reference %>
+Reference: <%= @planning_application.reference_in_full %>
 Site address: <%= @planning_application.full_address %>
 Description: <%= @planning_application.description %>
 
-The proposed description change which you were told about 5 business days ago has been automatically accepted. 
+The proposed description change which you were told about 5 business days ago has been automatically accepted.
 To see the updated description please follow the link below:
 
 <%= @planning_application.secure_change_url %>

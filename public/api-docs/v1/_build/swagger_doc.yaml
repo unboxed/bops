@@ -30,7 +30,8 @@ paths:
                 Full:
                   value:
                     id: 10000
-                    application_number: '00010000'
+                    reference: 20-00100-LDCP
+                    reference_in_full: SWK-20-00100-LDCP
                     site:
                       address_1: 11 Abbey Gardens
                       address_2: Southwark
@@ -54,7 +55,7 @@ paths:
                     returned_at: null
                     work_status: proposed
                     payment_reference: PAY1
-                    payment_amount: "105.12"
+                    payment_amount: '105.12'
                     awaiting_determination_at: '2020-05-16T06:18:17.540+01:00'
                     in_assessment_at: '2020-05-16T06:18:17.540+01:00'
                     awaiting_correction_at: null
@@ -109,7 +110,8 @@ paths:
                   value:
                     data:
                       - id: 10000
-                        application_number: '00010000'
+                        reference: 20-00100-LDCP
+                        reference_in_full: SWK-20-00100-LDCP
                         site:
                           address_1: 11 Abbey Gardens
                           address_2: Southwark
@@ -133,7 +135,7 @@ paths:
                         returned_at: null
                         work_status: proposed
                         payment_reference: PAY1
-                        payment_amount: "105.12"
+                        payment_amount: '105.12'
                         awaiting_determination_at: '2020-05-16T06:18:17.540+01:00'
                         in_assessment_at: '2020-05-16T06:18:17.540+01:00'
                         awaiting_correction_at: null

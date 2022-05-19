@@ -136,7 +136,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     it "renders the body" do
       expect(invalidation_mail.body.encoded).to include("http://cookies.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}")
       expect(invalidation_mail.body.encoded).to include("Site Address: #{planning_application.full_address}")
-      expect(invalidation_mail.body.encoded).to include("Reference No.: #{planning_application.reference}")
+      expect(invalidation_mail.body.encoded).to include("Reference No.: #{planning_application.reference_in_full}")
       expect(invalidation_mail.body.encoded).to include("Proposal: #{planning_application.description}")
     end
   end
@@ -165,7 +165,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(validation_mail.body.encoded).to match("issue a decision by #{planning_application.expiry_date}")
       expect(validation_mail.body.encoded).to match("issue a decision by #{planning_application.expiry_date}")
       expect(validation_mail.body.encoded).to match("Site Address: #{planning_application.full_address}")
-      expect(validation_mail.body.encoded).to match("planning reference number #{planning_application.reference}")
+      expect(validation_mail.body.encoded).to match("planning reference number #{planning_application.reference_in_full}")
       expect(validation_mail.body.encoded).to match("Proposal: #{planning_application.description}")
     end
   end
@@ -237,7 +237,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "renders the body" do
       body = cancelled_validation_request_mail.body.encoded
-      expect(body).to include("Application number: #{planning_application.reference}")
+      expect(body).to include("Application number: #{planning_application.reference_in_full}")
       expect(body).to include("Application received: #{planning_application.received_at}")
       expect(body).to include("At: #{planning_application.full_address}")
       expect(body).to include("Hi #{planning_application.agent_or_applicant_name}")
@@ -278,7 +278,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(receipt_mail.body.encoded).to match("If by #{planning_application.target_date}:")
       expect(receipt_mail.body.encoded).to match("Date received: #{planning_application.received_at}")
       expect(receipt_mail.body.encoded).to match("Site address: #{planning_application.full_address}")
-      expect(receipt_mail.body.encoded).to match("Reference: #{planning_application.reference}")
+      expect(receipt_mail.body.encoded).to match("Reference: #{planning_application.reference_in_full}")
       expect(receipt_mail.body.encoded).to match("Description: #{planning_application.description}")
     end
   end
@@ -306,7 +306,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       end
 
       it "renders the body" do
-        expect(description_change_mail.body.encoded).to match("Application number: #{planning_application.reference}")
+        expect(description_change_mail.body.encoded).to match("Application number: #{planning_application.reference_in_full}")
         expect(description_change_mail.body.encoded).to match("Application received: #{planning_application.received_at}")
         expect(description_change_mail.body.encoded).to match("At: #{planning_application.full_address}")
         expect(description_change_mail.body.encoded).to match("the officer working on your planning application has proposed a change to the description of your application.")
@@ -326,7 +326,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       end
 
       it "renders the body" do
-        expect(description_closure_mail.body.encoded).to match("Reference: #{planning_application.reference}")
+        expect(description_closure_mail.body.encoded).to match("Reference: #{planning_application.reference_in_full}")
         expect(description_closure_mail.body.encoded).to match("Site address: #{planning_application.full_address}")
         expect(description_closure_mail.body.encoded).to match("Description: #{planning_application.description}")
         expect(description_closure_mail.body.encoded).to match("The proposed description change which you were told about 5 business days ago has been automatically accepted.")

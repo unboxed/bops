@@ -51,7 +51,8 @@ RSpec.describe "API request to list planning applications", type: :request, show
         get "/api/v1/planning_applications/#{planning_application.id}"
         expect(planning_application_json["status"]).to eq("not_started")
         expect(planning_application_json["id"]).to eq(planning_application.id)
-        expect(planning_application_json["application_number"]).to eq(planning_application.reference)
+        expect(planning_application_json["reference"]).to eq(planning_application.reference)
+        expect(planning_application_json["reference_in_full"]).to eq(planning_application.reference_in_full)
         expect(planning_application_json["application_type"]).to eq("lawfulness_certificate")
         expect(planning_application_json["description"]).to eq(planning_application.description)
         expect(planning_application_json["received_date"]).to eq(json_time_format(planning_application.created_at))
@@ -96,7 +97,8 @@ RSpec.describe "API request to list planning applications", type: :request, show
           get "/api/v1/planning_applications/#{planning_application.id}"
           expect(planning_application_json["status"]).to eq("determined")
           expect(planning_application_json["id"]).to eq(planning_application.id)
-          expect(planning_application_json["application_number"]).to eq(planning_application.reference)
+          expect(planning_application_json["reference"]).to eq(planning_application.reference)
+          expect(planning_application_json["reference_in_full"]).to eq(planning_application.reference_in_full)
           expect(planning_application_json["application_type"]).to eq("lawfulness_certificate")
           expect(planning_application_json["description"]).to eq(planning_application.description)
           expect(planning_application_json["received_date"]).to eq(json_time_format(planning_application.created_at))

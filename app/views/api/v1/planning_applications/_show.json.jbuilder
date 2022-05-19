@@ -35,7 +35,8 @@ if planning_application.user
   json.assigned_user_name planning_application.user.name
   json.assigned_user_role planning_application.user.role
 end
-json.application_number planning_application.reference
+json.reference planning_application.reference
+json.reference_in_full planning_application.reference_in_full
 json.site do
   json.address_1 planning_application.address_1
   json.address_2 planning_application.address_2
