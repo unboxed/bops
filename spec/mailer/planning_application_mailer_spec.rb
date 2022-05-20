@@ -4,17 +4,21 @@ require "rails_helper"
 
 RSpec.describe PlanningApplicationMailer, type: :mailer do
   let(:local_authority) do
-    create :local_authority,
-           name: "Cookie authority",
-           subdomain: "cookies",
-           signatory_name: "Mr. Biscuit",
-           signatory_job_title: "Lord of BiscuitTown",
-           enquiries_paragraph: "reach us on postcode SW50",
-           email_address: "biscuit@somuchbiscuit.com"
+    create(
+      :local_authority,
+      name: "Cookie authority",
+      subdomain: "cookies",
+      signatory_name: "Mr. Biscuit",
+      signatory_job_title: "Lord of BiscuitTown",
+      enquiries_paragraph: "reach us on postcode SW50",
+      email_address: "biscuit@somuchbiscuit.com",
+      council_code: "ABC"
+    )
   end
 
   let!(:reviewer) { create :user, :reviewer, local_authority: local_authority }
   let!(:assessor) { create :user, :assessor, local_authority: local_authority }
+
   let!(:planning_application) do
     create(
       :planning_application,
@@ -22,9 +26,16 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       agent_email: "cookie_crackers@example.com",
       applicant_email: "cookie_crumbs@example.com",
       local_authority: local_authority,
-      decision: "granted"
+      decision: "granted",
+      address_1: "123 High Street", # rubocop:disable Naming/VariableNumber
+      town: "Big City",
+      postcode: "AB3 4EF",
+      description: "Add a chimney stack",
+      created_at: DateTime.new(2022, 5, 1),
+      application_type: "lawfulness_certificate"
     )
   end
+
   let!(:invalid_planning_application) { create(:planning_application, :invalidated) }
 
   let(:host) { "default.example.com" }
@@ -264,22 +275,45 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   describe "#receipt_notice_mail" do
-    let(:receipt_mail) do
-      described_class.receipt_notice_mail(planning_application, host,
-                                          [planning_application.agent_email, planning_application.applicant_email])
+    let(:mail) do
+      described_class.receipt_notice_mail(
+        planning_application,
+        planning_application.agent_email
+      )
     end
 
-    it "renders the headers" do
-      expect(receipt_mail.subject).to eq("We have received your application")
-      expect(receipt_mail.to).to eq([planning_application.agent_email, planning_application.applicant_email])
+    let(:mail_body) { mail.body.encoded }
+
+    it "sets the subject" do
+      expect(mail.subject).to eq(
+        "Lawful Development Certificate application received"
+      )
     end
 
-    it "renders the body" do
-      expect(receipt_mail.body.encoded).to match("If by #{planning_application.target_date}:")
-      expect(receipt_mail.body.encoded).to match("Date received: #{planning_application.received_at}")
-      expect(receipt_mail.body.encoded).to match("Site address: #{planning_application.full_address}")
-      expect(receipt_mail.body.encoded).to match("Reference: #{planning_application.reference_in_full}")
-      expect(receipt_mail.body.encoded).to match("Description: #{planning_application.description}")
+    it "sets the recipients" do
+      expect(mail.to).to contain_exactly("cookie_crackers@example.com")
+    end
+
+    it "includes the reference" do
+      expect(mail_body).to include(
+        "Application reference number: ABC-22-00100-LDCP"
+      )
+    end
+
+    it "includes the description" do
+      expect(mail_body).to include("Project description: Add a chimney stack")
+    end
+
+    it "includes the address" do
+      expect(mail_body).to match("Address: 123 HIGH STREET, BIG CITY, AB3 4EF")
+    end
+
+    it "includes the sent date" do
+      expect(mail_body).to include("Application sent: 1 May 2022")
+    end
+
+    it "includes the received date" do
+      expect(mail_body).to include("Application received: 3 May 2022")
     end
   end
 

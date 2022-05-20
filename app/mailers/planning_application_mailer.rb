@@ -41,14 +41,13 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
     )
   end
 
-  def receipt_notice_mail(planning_application, host, user)
-    @host = host
+  def receipt_notice_mail(planning_application, email)
     @planning_application = planning_application
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "We have received your application",
-      to: user,
+      subject: "Lawful Development Certificate application received",
+      to: email,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
   end
