@@ -365,10 +365,9 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def invalidation_notice_mail
-    PlanningApplicationMailer.invalidation_notice_mail(
-      @planning_application,
-      request.host
-    ).deliver_now
+    PlanningApplicationMailer
+      .invalidation_notice_mail(@planning_application)
+      .deliver_now
   end
 
   def receipt_notice_mail

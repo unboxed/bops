@@ -56,4 +56,8 @@ class PlanningApplicationMailerPreview < ActionMailer::Preview
       PlanningApplication.last
     )
   end
+
+  def invalidation_notice_mail
+    PlanningApplicationMailer.invalidation_notice_mail(PlanningApplication.last)
+  end
 end
