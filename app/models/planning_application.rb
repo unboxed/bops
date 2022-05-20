@@ -39,6 +39,7 @@ class PlanningApplication < ApplicationRecord
 
   before_create :set_key_dates
   before_create :set_change_access_id
+  before_create :set_application_number
 
   after_create :set_ward_information
   after_create :create_audit!
@@ -87,7 +88,7 @@ class PlanningApplication < ApplicationRecord
   validates :work_status,
             inclusion: { in: WORK_STATUSES,
                          message: "Work Status should be proposed or existing" }
-  validates :application_type, presence: true
+  validates :application_type, :application_number, presence: true
   validates :payment_amount, :invalid_payment_amount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
   validate :applicant_or_agent_email
@@ -112,7 +113,15 @@ class PlanningApplication < ApplicationRecord
   end
 
   def reference
-    @reference ||= id.to_s.rjust(8, "0")
+    @reference ||= "#{created_at_year}-#{application_number}-#{application_type_code}"
+  end
+
+  def reference_in_full
+    @reference_in_full ||= "#{local_authority.council_code}-#{reference}"
+  end
+
+  def application_number
+    self[:application_number].to_s.rjust(5, "0")
   end
 
   def correction_provided?
@@ -559,5 +568,17 @@ class PlanningApplication < ApplicationRecord
     if determination_date >= Time.zone.tomorrow
       errors.add(:determination_date, "Determination date must be today or in the past")
     end
+  end
+
+  def set_application_number
+    self.application_number = local_authority.planning_applications.count + 100
+  end
+
+  def created_at_year
+    created_at.strftime("%y")
+  end
+
+  def application_type_code
+    I18n.t(application_type, scope: "application_type_codes")
   end
 end

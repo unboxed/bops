@@ -12,6 +12,8 @@ en:
   application_types:
     full: "Full Householder Application"
     lawfulness_certificate: "Lawful Development Certificate"
+  application_type_codes:
+    lawfulness_certificate: "LDCP"
   archive_reasons:
     scale: "Missing scale bar or north arrow"
     design: "Revise design"

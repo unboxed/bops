@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_22_100143) do
+ActiveRecord::Schema.define(version: 2022_05_10_131942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,6 +150,7 @@ ActiveRecord::Schema.define(version: 2022_04_22_100143) do
     t.string "email_address"
     t.string "reply_to_notify_id"
     t.string "feedback_email"
+    t.string "council_code", null: false
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 
@@ -247,7 +248,9 @@ ActiveRecord::Schema.define(version: 2022_04_22_100143) do
     t.boolean "documents_missing"
     t.boolean "valid_red_line_boundary"
     t.decimal "invalid_payment_amount", precision: 10, scale: 2
+    t.bigint "application_number", null: false
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
+    t.index ["application_number", "local_authority_id"], name: "ix_planning_applications_on_application_number__local_authority", unique: true
     t.index ["boundary_created_by_id"], name: "ix_planning_applications_on_boundary_created_by_id"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
     t.index ["user_id"], name: "index_planning_applications_on_user_id"

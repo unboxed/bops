@@ -39,7 +39,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "Planning application code is correct" do
-      expect(page).to have_text(planning_application.reference)
+      expect(page).to have_text("#{planning_application.created_at.year % 100}-00100-LDCP")
     end
 
     it "Target date is correct and label is turquoise" do

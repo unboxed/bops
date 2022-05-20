@@ -100,6 +100,36 @@ RSpec.describe PlanningApplication, type: :model do
   end
 
   describe "callbacks" do
+    describe "::before_create #set_application_number" do
+      context "when an application number for a given local authority already exists" do
+        let(:local_authority) { create :local_authority }
+        let!(:planning_application) { create :planning_application, local_authority: local_authority }
+
+        before do
+          allow_any_instance_of(described_class).to receive(:set_application_number).and_return(planning_application.application_number)
+        end
+
+        it "raises a non unique error" do
+          expect do
+            create :planning_application, local_authority: local_authority, application_number: 100
+          end.to raise_error(ActiveRecord::RecordNotUnique)
+        end
+      end
+
+      context "when application number is unique for the local authority" do
+        let(:local_authority) { create :local_authority }
+        let(:planning_application1) { create :planning_application, local_authority: local_authority }
+        let(:planning_application2) { create :planning_application, local_authority: local_authority }
+        let(:planning_application3) { create :planning_application }
+
+        it "updates application number successfully" do
+          expect(planning_application1.application_number).to eq("00100")
+          expect(planning_application2.application_number).to eq("00101")
+          expect(planning_application3.application_number).to eq("00100")
+        end
+      end
+    end
+
     describe "::after_create" do
       context "when there is a postcode set" do
         let(:planning_application) { create :planning_application, postcode: "SE22 0HW" }
@@ -153,13 +183,42 @@ RSpec.describe PlanningApplication, type: :model do
     end
   end
 
-  describe "#reference" do
-    it "starts with 0 and then the planning_application ID" do
-      expect(planning_application.reference).to match(/^(?:0+#{planning_application.id})$/)
+  describe "#application_number" do
+    before do
+      planning_application.update(application_number: 130)
     end
 
-    it "has 8 characters length" do
-      expect(planning_application.reference).to match(/^\d{8}$/)
+    it "has a preceeding 0 before the application number" do
+      expect(planning_application.application_number).to match(/^(?:0+130)$/)
+    end
+
+    it "has 5 characters length" do
+      expect(planning_application.application_number).to match(/^\d{5}$/)
+    end
+  end
+
+  describe "#reference" do
+    let(:planning_application) { create(:planning_application, application_type: 0) }
+
+    before do
+      travel_to Time.zone.local(2022, 10, 10)
+    end
+
+    it "returns a string constructed of the council code and reference" do
+      expect(planning_application.reference).to eq("22-00100-LDCP")
+    end
+  end
+
+  describe "#reference_in_full" do
+    let(:local_authority) { create(:local_authority, council_code: "SWK") }
+    let(:planning_application) { create(:planning_application, application_type: 0, local_authority: local_authority) }
+
+    before do
+      travel_to Time.zone.local(2022, 10, 10)
+    end
+
+    it "returns a string constructed of the council code and reference" do
+      expect(planning_application.reference_in_full).to eq("SWK-22-00100-LDCP")
     end
   end
 
