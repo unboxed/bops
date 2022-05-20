@@ -14,6 +14,8 @@ class AddCouncilCodeToLocalAuthorities < ActiveRecord::Migration[6.1]
         local_authority.update(council_code: "SWK")
       when "buckinghamshire"
         local_authority.update(council_code: "BUC")
+      when "ripa"
+        local_authority.update(council_code: "RIPA")
       else
         raise "Did not update the council code for local authority: #{local_authority.name}"
       end
