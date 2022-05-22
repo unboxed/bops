@@ -18,4 +18,14 @@ class PlanningApplicationMailerPreview < ActionMailer::Preview
       planning_application.agent_email
     )
   end
+
+  def decision_notice_mail
+    planning_application = PlanningApplication.last
+
+    PlanningApplicationMailer.decision_notice_mail(
+      planning_application,
+      "https://www.example.com",
+      planning_application.agent_email
+    )
+  end
 end

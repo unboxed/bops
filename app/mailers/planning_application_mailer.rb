@@ -7,12 +7,11 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
 
   def decision_notice_mail(planning_application, host, user)
     @planning_application = planning_application
-    @documents = @planning_application.documents.for_display
     @host = host
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "Lawful Development Certificate: #{@planning_application.decision}",
+      subject: "Decision on your Lawful Development Certificate  application",
       to: user
     )
   end

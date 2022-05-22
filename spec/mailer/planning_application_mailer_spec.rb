@@ -63,46 +63,69 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
   describe "#decision_notice_mail" do
     let(:mail) do
-      described_class.decision_notice_mail(planning_application.reload, host, planning_application.applicant_email)
+      described_class.decision_notice_mail(
+        planning_application,
+        host,
+        planning_application.applicant_email
+      )
     end
 
-    it "renders the headers" do
-      expect(mail.subject).to eq("Lawful Development Certificate: granted")
+    let(:mail_body) { mail.body.encoded }
+
+    it "sets the subject" do
+      expect(mail.subject).to eq(
+        "Decision on your Lawful Development Certificate  application"
+      )
     end
 
-    it "emails the applicant when only the applicant is present" do
-      planning_application.update!(agent_email: "")
-      mail = described_class.decision_notice_mail(planning_application.reload, host,
-                                                  [planning_application.agent_email, planning_application.applicant_email])
-
-      expect(mail.to).to eq([planning_application.applicant_email])
+    it "sets the recipient" do
+      expect(mail.to).to contain_exactly("cookie_crumbs@example.com")
     end
 
-    it "emails both applicant and agent when both are present" do
-      expect(mail.subject).to eq("Lawful Development Certificate: granted")
-      expect(mail.to).to eq([planning_application.applicant_email])
+    it "includes the reference" do
+      expect(mail_body).to include(
+        "Application reference number: ABC-22-00100-LDCP"
+      )
     end
 
-    it "renders the body" do
-      expect(mail.body.encoded).to include("Your Lawful Development Certificate (proposed) has been granted.")
-      expect(mail.body.encoded).to include(decision_notice_api_v1_planning_application_path(planning_application,
-                                                                                            format: "pdf"))
+    it "includes the address" do
+      expect(mail_body).to include(
+        "Address: 123 HIGH STREET, BIG CITY, AB3 4EF"
+      )
+    end
+
+    it "includes the decision" do
+      expect(mail_body).to include(
+        "a decision has been made to grant you a Lawful Development Certificate"
+      )
+    end
+
+    it "includes a link to the decision notice" do
+      expect(mail_body).to include(
+        "http://default.example.com/api/v1/planning_applications/#{planning_application.id}/decision_notice.pdf"
+      )
     end
 
     context "for a rejected application" do
       let(:planning_application) do
-        create :planning_application, :determined, decision: "refused",
-                                                   public_comment: "not valid"
+        create(
+          :planning_application,
+          :determined,
+          decision: "refused",
+          public_comment: "not valid"
+        )
       end
 
-      it "includes the status in the subject" do
-        expect(mail.subject).to eq("Lawful Development Certificate: refused")
+      it "includes the decision" do
+        expect(mail_body).to include(
+          "your application for a Lawful Development Certificate has been refused"
+        )
       end
 
-      it "includes the status in the body" do
-        expect(mail.body.encoded).to include("Your Lawful Development Certificate (proposed) has been refused.")
-        expect(mail.body.encoded).to include(decision_notice_api_v1_planning_application_path(planning_application,
-                                                                                              format: "pdf"))
+      it "includes a link to the decision notice" do
+        expect(mail_body).to include(
+          "http://default.example.com/api/v1/planning_applications/#{planning_application.id}/decision_notice.pdf"
+        )
       end
 
       it "includes the name of the agent in the body if agent is present" do
