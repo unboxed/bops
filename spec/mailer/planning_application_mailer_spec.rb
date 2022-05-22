@@ -370,7 +370,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   context "creating description changes for an undetermined application" do
-    let!(:planning_application) do
+    let(:planning_application) do
       create(
         :planning_application,
         agent_email: "agent@example.com",
@@ -435,22 +435,48 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       end
     end
 
-    describe "# description_closure_notification_mail" do
-      let!(:description_closure_mail) do
-        described_class.description_closure_notification_mail(planning_application, description_change_request)
+    describe "#description_closure_notification_mail" do
+      let(:description_closure_mail) do
+        described_class.description_closure_notification_mail(
+          planning_application,
+          description_change_request
+        )
       end
 
-      it "renders the headers" do
-        expect(description_closure_mail.subject).to eq("Your planning application at: #{planning_application.full_address}")
-        expect(description_closure_mail.to).to eq([planning_application.agent_email])
+      let(:mail_body) { description_closure_mail.body.encoded }
+
+      it "sets the subject" do
+        expect(description_closure_mail.subject).to eq(
+          "Changes to your Lawful Development Certificate application"
+        )
       end
 
-      it "renders the body" do
-        expect(description_closure_mail.body.encoded).to match("Reference: #{planning_application.reference_in_full}")
-        expect(description_closure_mail.body.encoded).to match("Site address: #{planning_application.full_address}")
-        expect(description_closure_mail.body.encoded).to match("Description: #{planning_application.description}")
-        expect(description_closure_mail.body.encoded).to match("The proposed description change which you were told about 5 business days ago has been automatically accepted.")
-        expect(description_closure_mail.body.encoded).to match("To see the updated description please follow the link below:")
+      it "sets the recipient" do
+        expect(description_closure_mail.to).to contain_exactly(
+          "agent@example.com"
+        )
+      end
+
+      it "includes the reference" do
+        expect(mail_body).to include(
+          "Application reference number: ABC-22-00100-LDCP"
+        )
+      end
+
+      it "includes the address" do
+        expect(mail_body).to include(
+          "Address: 123 HIGH STREET, BIG CITY, AB3 4EF"
+        )
+      end
+
+      it "includes the review deadline" do
+        expect(mail_body).to include("17 May 2022")
+      end
+
+      it "includes the validation request url" do
+        expect(mail_body).to include(
+          "http://cookies.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+        )
       end
     end
   end
