@@ -16,11 +16,10 @@ class ValidationRequestsController < AuthenticationController
 
   private
 
-  def send_validation_request_email(request)
-    PlanningApplicationMailer.validation_request_mail(
-      @planning_application,
-      request
-    ).deliver_now
+  def send_validation_request_email
+    PlanningApplicationMailer
+      .validation_request_mail(@planning_application)
+      .deliver_now
   end
 
   def send_description_request_email(request)
@@ -34,7 +33,7 @@ class ValidationRequestsController < AuthenticationController
     if request.is_a?(DescriptionChangeValidationRequest)
       send_description_request_email(request)
     else
-      send_validation_request_email(request)
+      send_validation_request_email
     end
 
     request.mark_as_sent!
