@@ -1,16 +1,19 @@
+Dear <%= @planning_application.agent_or_applicant_name %>,
+
 Application number: <%= @planning_application.reference_in_full %>
-Application received: <%= @planning_application.received_at %>
-At: <%= @planning_application.full_address %>
 
-Hi <%= @planning_application.agent_or_applicant_name %>,
+Address: <%= @planning_application.full_address.upcase %>
 
-<%= @validation_request.user.name %>, the officer working on your planning application has cancelled one of the validation requests(s) on your application. You no longer need to take action for this request.
+We no longer need you to make a change to your application. You do not need to take further action for this request.
 
-To see the reason this request was cancelled and review any remaining validation requests please follow the link below:
+To see why this request was cancelled and review any remaining changes, go to:
 
 <%= @planning_application.secure_change_url %>
 
-If you have no further changes left the officer will shortly review your case to decide if it is valid.
+We cannot continue with your application until you make all the necessary changes.
 
-Yours faithfully,
+If you need help with your application, contact us at <%= @planning_application.local_authority.email_address %>.
+
+Regards,
+
 <%= @planning_application.local_authority.name %>
