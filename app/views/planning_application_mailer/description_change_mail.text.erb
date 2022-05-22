@@ -1,0 +1,19 @@
+Dear <%= @planning_application.agent_or_applicant_name %>,
+
+Application reference number: <%= @planning_application.reference_in_full %>
+
+Address: <%= @planning_application.full_address.upcase %>
+
+We have suggested changes to the project description on your application for a Lawful Development Certificate.
+
+You are invited to review and accept or reject the suggested changes. To review the changes, go to:
+
+<%= @planning_application.secure_change_url %>
+
+If you do not review them by <%= @description_change_request.request_expiry_date.strftime("%-d %B %Y") %>, the changes will be automatically accepted. This is to avoid delays to your application.
+
+If you need help with your application, contact us at <%= @planning_application.local_authority.email_address %>.
+
+Regards,
+
+<%= @planning_application.local_authority.name %>
