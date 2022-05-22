@@ -357,12 +357,10 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def validation_notice_mail
-    @planning_application.applicant_and_agent_email.each do |user|
-      PlanningApplicationMailer.validation_notice_mail(
-        @planning_application,
-        request.host,
-        user
-      ).deliver_now
+    @planning_application.applicant_and_agent_email.each do |email|
+      PlanningApplicationMailer
+        .validation_notice_mail(@planning_application, email)
+        .deliver_now
     end
   end
 
