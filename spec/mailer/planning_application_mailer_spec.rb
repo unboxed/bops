@@ -352,34 +352,68 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   context "creating description changes for an undetermined application" do
-    let!(:undetermined_planning_application) do
-      create :planning_application,
-             local_authority: local_authority
+    let!(:planning_application) do
+      create(
+        :planning_application,
+        agent_email: "agent@example.com",
+        local_authority: local_authority,
+        address_1: "123 High Street", # rubocop:disable Naming/VariableNumber
+        town: "Big City",
+        postcode: "AB3 4EF"
+      )
     end
 
-    let!(:description_change_request) do
-      create :description_change_validation_request,
-             planning_application: undetermined_planning_application,
-             user: assessor
+    let(:description_change_request) do
+      create(
+        :description_change_validation_request,
+        planning_application: planning_application,
+        user: assessor,
+        created_at: DateTime.new(2022, 5, 10)
+      )
     end
 
-    describe "#receipt_notice_mail" do
-      let!(:description_change_mail) do
-        described_class.description_change_mail(planning_application, description_change_request)
+    describe "#description_change_mail" do
+      let(:description_change_mail) do
+        described_class.description_change_mail(
+          planning_application,
+          description_change_request
+        )
       end
 
-      it "renders the headers" do
-        expect(description_change_mail.subject).to eq("Your planning application at: #{planning_application.full_address}")
-        expect(description_change_mail.to).to eq([planning_application.agent_email])
+      let(:mail_body) { description_change_mail.body.encoded }
+
+      it "sets the subject" do
+        expect(description_change_mail.subject).to eq(
+          "Lawful Development Certificate application - suggested changes"
+        )
       end
 
-      it "renders the body" do
-        expect(description_change_mail.body.encoded).to match("Application number: #{planning_application.reference_in_full}")
-        expect(description_change_mail.body.encoded).to match("Application received: #{planning_application.received_at}")
-        expect(description_change_mail.body.encoded).to match("At: #{planning_application.full_address}")
-        expect(description_change_mail.body.encoded).to match("the officer working on your planning application has proposed a change to the description of your application.")
-        expect(description_change_mail.body.encoded).to match("If your response is not received by #{description_change_request.request_expiry_date}")
-        expect(description_change_mail.body.encoded).to match("the proposed description will be automatically accepted as the description of your application.")
+      it "sets the recipient" do
+        expect(description_change_mail.to).to contain_exactly(
+          "agent@example.com"
+        )
+      end
+
+      it "includes the reference" do
+        expect(mail_body).to include(
+          "Application reference number: ABC-22-00100-LDCP"
+        )
+      end
+
+      it "includes the address" do
+        expect(mail_body).to include(
+          "Address: 123 HIGH STREET, BIG CITY, AB3 4EF"
+        )
+      end
+
+      it "includes the validation request url" do
+        expect(mail_body).to include(
+          "http://cookies.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+        )
+      end
+
+      it "includes the request expiry date" do
+        expect(mail_body).to include("17 May 2022")
       end
     end
 

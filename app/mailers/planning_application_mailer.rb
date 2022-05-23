@@ -64,7 +64,7 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "Your planning application at: #{@planning_application.full_address}",
+      subject: "Lawful Development Certificate application - suggested changes",
       to: @planning_application.applicant_and_agent_email.first,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )

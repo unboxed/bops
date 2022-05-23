@@ -28,4 +28,13 @@ class PlanningApplicationMailerPreview < ActionMailer::Preview
       planning_application.agent_email
     )
   end
+
+  def description_change_mail
+    planning_application = PlanningApplication.last
+
+    PlanningApplicationMailer.description_change_mail(
+      planning_application,
+      planning_application.description_change_validation_requests.last
+    )
+  end
 end
