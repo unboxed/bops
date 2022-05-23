@@ -27,13 +27,12 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
     )
   end
 
-  def invalidation_notice_mail(planning_application, host)
-    @host = host
+  def invalidation_notice_mail(planning_application)
     @planning_application = planning_application
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "Your planning application is invalid",
+      subject: "Lawful Development Certificate application - changes needed",
       to: @planning_application.applicant_and_agent_email.first,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )

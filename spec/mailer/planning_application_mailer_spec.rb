@@ -145,13 +145,26 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   describe "#invalidation_notice_mail" do
-    let!(:planning_application) { create(:planning_application, :invalidated, local_authority: local_authority) }
+    let(:planning_application) do
+      create(
+        :planning_application,
+        :invalidated,
+        local_authority: local_authority,
+        address_1: "123 High Street", # rubocop:disable Naming/VariableNumber
+        town: "Big City",
+        postcode: "AB3 4EF"
+      )
+    end
 
     let!(:validation_request) do
       create(:other_change_validation_request, planning_application: planning_application, user: assessor)
     end
 
-    let(:invalidation_mail) { described_class.invalidation_notice_mail(planning_application, host) }
+    let(:invalidation_mail) do
+      described_class.invalidation_notice_mail(planning_application)
+    end
+
+    let(:mail_body) { invalidation_mail.body.encoded }
 
     it "emails only the agent when the agent is present" do
       expect(invalidation_mail.to).to eq([planning_application.agent_email])
@@ -159,20 +172,31 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "emails only the applicant when the agent is missing" do
       planning_application.update!(agent_email: "")
-      mail = described_class.invalidation_notice_mail(planning_application.reload, host)
+      mail = described_class.invalidation_notice_mail(planning_application.reload)
 
       expect(mail.to).to eq([planning_application.applicant_email])
     end
 
-    it "renders the headers" do
-      expect(invalidation_mail.subject).to eq("Your planning application is invalid")
+    it "sets the subject" do
+      expect(invalidation_mail.subject).to eq(
+        "Lawful Development Certificate application - changes needed"
+      )
     end
 
-    it "renders the body" do
-      expect(invalidation_mail.body.encoded).to include("http://cookies.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}")
-      expect(invalidation_mail.body.encoded).to include("Site Address: #{planning_application.full_address}")
-      expect(invalidation_mail.body.encoded).to include("Reference No.: #{planning_application.reference_in_full}")
-      expect(invalidation_mail.body.encoded).to include("Proposal: #{planning_application.description}")
+    it "includes the reference" do
+      expect(mail_body).to include(
+        "Application reference number: ABC-22-00100-LDCP"
+      )
+    end
+
+    it "includes the address" do
+      expect(mail_body).to include("Address: 123 HIGH STREET, BIG CITY, AB3 4EF")
+    end
+
+    it "includes the validation request url" do
+      expect(mail_body).to include(
+        "http://cookies.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+      )
     end
   end
 
