@@ -4,6 +4,16 @@ en:
       one: '1 day remaining'
       zero: '%{count} days overdue'
       other: '%{count} days remaining'
+    emails:
+      subjects:
+        cancelled_validation_request_mail: Update on your application for a Lawful Development Certificate
+        decision_notice_mail: Decision on your Lawful Development Certificate  application
+        description_change_mail: Lawful Development Certificate application - suggested changes
+        description_closure_notification_mail: Changes to your Lawful Development Certificate application
+        invalidation_notice_mail: Lawful Development Certificate application - changes needed
+        receipt_notice_mail: Lawful Development Certificate application received
+        validation_notice_mail: Your application for a Lawful Development Certificate
+        validation_request_mail: Lawful Development Certificate application  - further changes needed
     overdue:
       one: '1 day overdue'
       other: '%{count} days overdue'
