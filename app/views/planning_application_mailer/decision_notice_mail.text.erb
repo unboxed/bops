@@ -1,12 +1,23 @@
 Dear <%= @planning_application.agent_or_applicant_name %>,
 
-Reference: <%= @planning_application.reference_in_full %>
-Site address: <%= @planning_application.full_address %>
-Description: <%= @planning_application.description %>
+Application reference number: <%= @planning_application.reference_in_full %>
 
-Your Lawful Development Certificate (<%= @planning_application.work_status %>) has been <%= @planning_application.decision %>.
+Address: <%= @planning_application.full_address.upcase %>
 
-To see the full decision notice, please visit <%= decision_notice_api_v1_planning_application_url(@planning_application, format: 'pdf', host: @host) %>
+<% if @planning_application.refused? %>
+  We regret to inform you that your application for a Lawful Development Certificate has been refused. For details of our decision, go to:
 
-Yours faithfully,
+  <%= decision_notice_api_v1_planning_application_url(@planning_application, format: 'pdf', host: @host) %>
+
+  To appeal this decision, read [Appeal a decision about a lawful development certificate on GOV.UK](https://www.gov.uk/appeal-lawful-development-certificate-decision).
+<% else %>
+  We are pleased to inform you that a decision has been made to grant you a Lawful Development Certificate. To see your certificate, go to:
+
+  <%= decision_notice_api_v1_planning_application_url(@planning_application, format: 'pdf', host: @host) %>
+<% end %>
+
+If you have any questions about your application, contact us at <%= @planning_application.local_authority.email_address %>.
+
+Regards,
+
 <%= @planning_application.local_authority.name %>
