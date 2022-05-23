@@ -3,7 +3,15 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application Assessment", type: :system do
-  let(:default_local_authority) { create(:local_authority, :default) }
+  let(:default_local_authority) do
+    create(
+      :local_authority,
+      :default,
+      signatory_name: "Jane Smith",
+      signatory_job_title: "Director"
+    )
+  end
+
   let!(:planning_application) do
     create(:planning_application, :awaiting_determination,
            local_authority: default_local_authority,
@@ -66,6 +74,14 @@ RSpec.describe "Planning Application Assessment", type: :system do
           "View decision notice",
           href: decision_notice_planning_application_path(planning_application)
         )
+
+        click_link("View decision notice")
+
+        expect(page).to have_content(
+          "Certificate of Lawful Use or Development Granted"
+        )
+
+        expect(page).to have_content("Jane Smith, Director")
 
         visit planning_application_path(planning_application)
 
