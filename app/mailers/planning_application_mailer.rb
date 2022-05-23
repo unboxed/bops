@@ -17,14 +17,13 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
     )
   end
 
-  def validation_notice_mail(planning_application, host, user)
-    @host = host
+  def validation_notice_mail(planning_application, email)
     @planning_application = planning_application
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "Your planning application has been validated",
-      to: user,
+      subject: "Your application for a Lawful Development Certificate",
+      to: email,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
   end

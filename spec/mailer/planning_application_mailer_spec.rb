@@ -32,7 +32,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       postcode: "AB3 4EF",
       description: "Add a chimney stack",
       created_at: DateTime.new(2022, 5, 1),
-      application_type: "lawfulness_certificate"
+      application_type: "lawfulness_certificate",
+      documents_validated_at: DateTime.new(2022, 10, 1)
     )
   end
 
@@ -154,30 +155,40 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
   describe "#validation_notice_mail" do
     let(:validation_mail) do
-      described_class.validation_notice_mail(planning_application, host,
-                                             [planning_application.agent_email, planning_application.applicant_email])
+      described_class.validation_notice_mail(
+        planning_application,
+        planning_application.agent_email
+      )
     end
 
-    it "renders the headers" do
-      expect(validation_mail.subject).to eq("Your planning application has been validated")
-      expect(validation_mail.to).to eq([planning_application.agent_email, planning_application.applicant_email])
+    let(:mail_body) { validation_mail.body.encoded }
+
+    it "sets the subject" do
+      expect(validation_mail.subject).to eq(
+        "Your application for a Lawful Development Certificate"
+      )
     end
 
-    it "emails only the applicant when the agent is missing" do
-      planning_application.update!(agent_email: "")
-      mail = described_class.validation_notice_mail(planning_application.reload, host,
-                                                    [planning_application.agent_email, planning_application.applicant_email])
-
-      expect(mail.to).to eq([planning_application.applicant_email])
+    it "sets the recipient" do
+      expect(validation_mail.to).to contain_exactly(
+        "cookie_crackers@example.com"
+      )
     end
 
-    it "renders the body" do
-      expect(validation_mail.body.encoded).to match("started from #{planning_application.documents_validated_at}")
-      expect(validation_mail.body.encoded).to match("issue a decision by #{planning_application.expiry_date}")
-      expect(validation_mail.body.encoded).to match("issue a decision by #{planning_application.expiry_date}")
-      expect(validation_mail.body.encoded).to match("Site Address: #{planning_application.full_address}")
-      expect(validation_mail.body.encoded).to match("planning reference number #{planning_application.reference_in_full}")
-      expect(validation_mail.body.encoded).to match("Proposal: #{planning_application.description}")
+    it "includes the reference" do
+      expect(mail_body).to include(
+        "Application reference number: ABC-22-00100-LDCP"
+      )
+    end
+
+    it "includes the address" do
+      expect(mail_body).to include(
+        "Address: 123 HIGH STREET, BIG CITY, AB3 4EF"
+      )
+    end
+
+    it "includes the decision deadline" do
+      expect(mail_body).to include("26 November 2022")
     end
   end
 
