@@ -1,14 +1,17 @@
 Dear <%= @planning_application.agent_or_applicant_name %>,
 
-Reference: <%= @planning_application.reference_in_full %>
-Site address: <%= @planning_application.full_address %>
-Description: <%= @planning_application.description %>
+Application reference number: <%= @planning_application.reference_in_full %>
 
-The proposed description change which you were told about 5 business days ago has been automatically accepted.
-To see the updated description please follow the link below:
+Address: <%= @planning_application.full_address.upcase %>
+
+We have changed the project description on your application for a Lawful Development Certificate. The changes were made automatically because you did not review them by <%= @description_change_request.request_expiry_date.strftime("%-d %B %Y") %>.
+
+To see the updated description, go to:
 
 <%= @planning_application.secure_change_url %>
 
+If you need help with your application, contact us at <%= @planning_application.local_authority.email_address %>.
 
-Yours faithfully,
+Regards,
+
 <%= @planning_application.local_authority.name %>
