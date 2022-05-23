@@ -128,6 +128,24 @@ RSpec.describe PlanningApplication, type: :model do
           expect(planning_application3.application_number).to eq("00100")
         end
       end
+
+      context "when a planning application is deleted" do
+        let(:local_authority) { create :local_authority }
+        let(:planning_application1) { create :planning_application, local_authority: local_authority }
+        let(:planning_application2) { create :planning_application, local_authority: local_authority }
+        let(:planning_application3) { create :planning_application, local_authority: local_authority }
+        let(:planning_application4) { create :planning_application, local_authority: local_authority }
+
+        it "updates the application number incrementing after the existing maximum application number" do
+          expect(planning_application1.application_number).to eq("00100")
+          expect(planning_application2.application_number).to eq("00101")
+          expect(planning_application3.application_number).to eq("00102")
+
+          planning_application2.destroy
+
+          expect(planning_application4.application_number).to eq("00103")
+        end
+      end
     end
 
     describe "::after_create" do

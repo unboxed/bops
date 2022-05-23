@@ -571,7 +571,13 @@ class PlanningApplication < ApplicationRecord
   end
 
   def set_application_number
-    self.application_number = local_authority.planning_applications.count + 100
+    local_authority_planning_applications = local_authority.planning_applications
+
+    self.application_number = if local_authority_planning_applications.any?
+                                local_authority_planning_applications.maximum(:application_number) + 1
+                              else
+                                100
+                              end
   end
 
   def created_at_year
