@@ -166,7 +166,8 @@ end
 Then("an email is sent to the applicant confirming the validation request cancellation") do
   body = ActionMailer::Base.deliveries.last.body.to_s
   expect(body).to include(@planning_application.secure_change_url)
+
   expect(body).to include(
-    "officer working on your planning application has cancelled one of the validation requests(s) on your application."
+    "We no longer need you to make a change to your application."
   )
 end

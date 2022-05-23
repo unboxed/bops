@@ -50,4 +50,10 @@ class PlanningApplicationMailerPreview < ActionMailer::Preview
   def validation_request_mail
     PlanningApplicationMailer.validation_request_mail(PlanningApplication.last)
   end
+
+  def cancelled_validation_request_mail
+    PlanningApplicationMailer.cancelled_validation_request_mail(
+      PlanningApplication.last
+    )
+  end
 end
