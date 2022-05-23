@@ -50,8 +50,15 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
     )
   end
 
-  def validation_request_mail(planning_application, validation_request)
-    build_validation_request_mail(planning_application, validation_request)
+  def validation_request_mail(planning_application)
+    @planning_application = planning_application
+
+    view_mail(
+      NOTIFY_TEMPLATE_ID,
+      subject: "Lawful Development Certificate application  - further changes needed",
+      to: @planning_application.applicant_and_agent_email.first,
+      reply_to_id: @planning_application.local_authority.reply_to_notify_id
+    )
   end
 
   def cancelled_validation_request_mail(planning_application, validation_request)
