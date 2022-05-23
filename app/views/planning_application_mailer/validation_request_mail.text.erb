@@ -1,19 +1,19 @@
-Application number: <%= @planning_application.reference_in_full %>
-Application received: <%= @planning_application.received_at %>
-At: <%= @planning_application.full_address %>
-
 Dear <%= @planning_application.agent_or_applicant_name %>,
 
-<%= @validation_request.user.name %>, the case officer working on your planning application has requested change(s) on your application.
+Application reference number: <%= @planning_application.reference_in_full %>
 
-To review the requested change please follow the link below:
+Address: <%= @planning_application.full_address %>
+
+We need you to make some more changes to your application for a Lawful Development Certificate. We cannot continue with your application until you make these changes.
+
+To make the changes, go to:
 
 <%= @planning_application.secure_change_url %>
 
-We will take no further action on your application until you respond to the requested change(s) at the link above.
+If we do not hear from you we may close your application and send you a refund.
 
-If these change(s) are not received by <%= @validation_request.response_due %>, your application will be returned to you and your payment refunded.
+If you need help with your application, contact us at <%= @planning_application.local_authority.email_address %>.
 
-Yours faithfully,
+Regards,
 
 <%= @planning_application.local_authority.name %>

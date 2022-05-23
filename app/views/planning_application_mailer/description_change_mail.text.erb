@@ -4,11 +4,13 @@ Application reference number: <%= @planning_application.reference_in_full %>
 
 Address: <%= @planning_application.full_address.upcase %>
 
-We have changed the project description on your application for a Lawful Development Certificate. The changes were made automatically because you did not review them by <%= @description_change_request.request_expiry_date.strftime("%-d %B %Y") %>.
+We have suggested changes to the project description on your application for a Lawful Development Certificate.
 
-To see the updated description, go to:
+You are invited to review and accept or reject the suggested changes. To review the changes, go to:
 
 <%= @planning_application.secure_change_url %>
+
+If you do not review them by <%= @description_change_request.request_expiry_date.strftime("%-d %B %Y") %>, the changes will be automatically accepted. This is to avoid delays to your application.
 
 If you need help with your application, contact us at <%= @planning_application.local_authority.email_address %>.
 

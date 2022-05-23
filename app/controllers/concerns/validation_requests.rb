@@ -97,10 +97,9 @@ module ValidationRequests
               "Validation request: #{request_klass_name}, ID: #{request_type_instance.id} must have a cancelled state."
       end
 
-      PlanningApplicationMailer.cancelled_validation_request_mail(
-        @planning_application,
-        request_type_instance
-      ).deliver_now
+      PlanningApplicationMailer
+        .cancelled_validation_request_mail(@planning_application)
+        .deliver_now
     end
   end
 end

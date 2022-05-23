@@ -1,33 +1,33 @@
 Dear <%= @planning_application.agent_or_applicant_name %>,
 
-Reference: <%= @planning_application.reference_in_full %>
-Date of application: <%= @planning_application.created_at.strftime("%e %B %Y - %H:%M:%S") %>
-Date received: <%= @planning_application.received_at %>
+We’ve received your application for a Lawful Development Certificate.
 
-Site address: <%= @planning_application.full_address %>
-Description: <%= @planning_application.description %>
-Application type: <%= @planning_application.type %>
+Here are the details of your application:
+
+Application reference number: <%= @planning_application.reference_in_full %>
+Project description: <%= @planning_application.description %>
+Address: <%= @planning_application.full_address.upcase %>
+Application sent: <%= @planning_application.created_at.strftime("%-d %B %Y") %>
+Application received: <%= @planning_application.received_at.strftime("%-d %B %Y") %>
 
 What happens next:
 
-We are still checking your application for errors or missing information, and ensuring that all plans and documents comply with all statutory requirements. This is the process for accepting your application and should take less than 14 days. We will contact you during this time if needed.
+We will check your application for errors and missing information. This can take up to 14 days but may take longer during busy times.
 
-If your application is valid, then a planning officer may contact you to arrange a site visit.
+If there are no issues with your application, we will start assessing it against the relevant planning policies and legislation.
 
-A planning officer will then make a decision on your application.
+We may contact you or a person of your choosing to arrange a site visit.
 
-If by <%= @planning_application.target_date %>:
+You have the right to appeal to the Secretary of State if by <%= (@planning_application.received_at + 8.weeks).strftime("%-d %B %Y") %>
 
-- you have not been given a decision in writing
 - you have not been told that the application is invalid
+- you have not been given a decision in writing
 - you have not agreed in writing to extend the decision period
 
-Then you can appeal to the Secretary of State under section 195 of the Town and Country Planning Act 1990. This does not apply if your application has already been referred to the Secretary of State. You can find out how to appeal an application for a Lawful Development Certificate here: https://www.gov.uk/appeal-lawful-development-certificate-decision.
+To find out how to appeal an application for a Lawful Development Certificate, go to: https://www.gov.uk/appeal-lawful-development-certificate-decision.
 
-Contact us
-You can contact us at  <%= @planning_application.local_authority.email_address %>.
+If you need help with your application, contact us at <%= @planning_application.local_authority.email_address %>.
 
-Signed: <%= @planning_application.local_authority.signatory_name %>
-<%= @planning_application.local_authority.signatory_job_title %>
+Regards,
 
-Disclaimer: This email does not constitute an approval of any application submitted.
+<%= @planning_application.local_authority.name %>

@@ -357,29 +357,24 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def validation_notice_mail
-    @planning_application.applicant_and_agent_email.each do |user|
-      PlanningApplicationMailer.validation_notice_mail(
-        @planning_application,
-        request.host,
-        user
-      ).deliver_now
+    @planning_application.applicant_and_agent_email.each do |email|
+      PlanningApplicationMailer
+        .validation_notice_mail(@planning_application, email)
+        .deliver_now
     end
   end
 
   def invalidation_notice_mail
-    PlanningApplicationMailer.invalidation_notice_mail(
-      @planning_application,
-      request.host
-    ).deliver_now
+    PlanningApplicationMailer
+      .invalidation_notice_mail(@planning_application)
+      .deliver_now
   end
 
   def receipt_notice_mail
-    @planning_application.applicant_and_agent_email.each do |user|
-      PlanningApplicationMailer.receipt_notice_mail(
-        @planning_application,
-        request.host,
-        user
-      ).deliver_now
+    @planning_application.applicant_and_agent_email.each do |email|
+      PlanningApplicationMailer
+        .receipt_notice_mail(@planning_application, email)
+        .deliver_now
     end
   end
 

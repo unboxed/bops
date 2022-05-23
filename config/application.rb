@@ -44,5 +44,6 @@ module Bops
     config.time_zone = "London"
     config.active_record.default_timezone = :local
     config.active_job.queue_adapter = :delayed_job
+    config.action_mailer.preview_path = Rails.root.join("spec/mailer/previews")
   end
 end

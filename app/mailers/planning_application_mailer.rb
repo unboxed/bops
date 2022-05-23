@@ -7,58 +7,68 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
 
   def decision_notice_mail(planning_application, host, user)
     @planning_application = planning_application
-    @documents = @planning_application.documents.for_display
     @host = host
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "Lawful Development Certificate: #{@planning_application.decision}",
+      subject: "Decision on your Lawful Development Certificate  application",
       to: user
     )
   end
 
-  def validation_notice_mail(planning_application, host, user)
-    @host = host
+  def validation_notice_mail(planning_application, email)
     @planning_application = planning_application
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "Your planning application has been validated",
-      to: user,
+      subject: "Your application for a Lawful Development Certificate",
+      to: email,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
   end
 
-  def invalidation_notice_mail(planning_application, host)
-    @host = host
+  def invalidation_notice_mail(planning_application)
     @planning_application = planning_application
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "Your planning application is invalid",
+      subject: "Lawful Development Certificate application - changes needed",
       to: @planning_application.applicant_and_agent_email.first,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
   end
 
-  def receipt_notice_mail(planning_application, host, user)
-    @host = host
+  def receipt_notice_mail(planning_application, email)
     @planning_application = planning_application
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "We have received your application",
-      to: user,
+      subject: "Lawful Development Certificate application received",
+      to: email,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
   end
 
-  def validation_request_mail(planning_application, validation_request)
-    build_validation_request_mail(planning_application, validation_request)
+  def validation_request_mail(planning_application)
+    @planning_application = planning_application
+
+    view_mail(
+      NOTIFY_TEMPLATE_ID,
+      subject: "Lawful Development Certificate application  - further changes needed",
+      to: @planning_application.applicant_and_agent_email.first,
+      reply_to_id: @planning_application.local_authority.reply_to_notify_id
+    )
   end
 
-  def cancelled_validation_request_mail(planning_application, validation_request)
-    build_validation_request_mail(planning_application, validation_request)
+  def cancelled_validation_request_mail(planning_application)
+    @planning_application = planning_application
+
+    view_mail(
+      NOTIFY_TEMPLATE_ID,
+      subject: "Update on your application for a Lawful Development Certificate",
+      to: @planning_application.applicant_and_agent_email.first,
+      reply_to_id: @planning_application.local_authority.reply_to_notify_id
+    )
   end
 
   def description_change_mail(planning_application, description_change_request)
@@ -67,7 +77,7 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "Your planning application at: #{@planning_application.full_address}",
+      subject: "Lawful Development Certificate application - suggested changes",
       to: @planning_application.applicant_and_agent_email.first,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
@@ -79,21 +89,7 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "Your planning application at: #{@planning_application.full_address}",
-      to: @planning_application.applicant_and_agent_email.first,
-      reply_to_id: @planning_application.local_authority.reply_to_notify_id
-    )
-  end
-
-  private
-
-  def build_validation_request_mail(planning_application, validation_request)
-    @planning_application = planning_application
-    @validation_request = validation_request
-
-    view_mail(
-      NOTIFY_TEMPLATE_ID,
-      subject: "Your planning application at: #{@planning_application.full_address}",
+      subject: "Changes to your Lawful Development Certificate application",
       to: @planning_application.applicant_and_agent_email.first,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
