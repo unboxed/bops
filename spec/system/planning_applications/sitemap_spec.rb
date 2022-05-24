@@ -13,36 +13,61 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
 
   context "when application is not_started" do
     let!(:planning_application) do
-      create :planning_application, :not_started, local_authority: default_local_authority
+      create :planning_application, :not_started, boundary_geojson: boundary_geojson, local_authority: default_local_authority
     end
 
-    it "is possible to create a sitemap" do
-      click_button "Site map"
-      expect(page).to have_content("No digital sitemap provided")
+    context "without boundary geojson" do
+      let(:boundary_geojson) { nil }
 
-      visit planning_application_validation_tasks_path(planning_application)
-      click_link "Draw red line boundary"
+      before do
+        boundary_geojson
+      end
 
-      # When no boundary set, map should be displayed zoomed in at latitiude/longitude if fields present
-      map_selector = find("my-map")
-      expect(map_selector["latitude"]).to eq(planning_application.latitude)
-      expect(map_selector["longitude"]).to eq(planning_application.longitude)
+      it "is possible to create a sitemap" do
+        click_button "Site map"
+        expect(page).to have_content("No digital sitemap provided")
 
-      # JS to emulate a polygon drawn on the map
-      execute_script 'document.getElementById("planning_application_boundary_geojson").setAttribute("value", \'{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.054597,51.537331],[-0.054588,51.537287],[-0.054453,51.537313],[-0.054597,51.537331]]]}}\')'
-      click_button "Save"
+        visit planning_application_validation_tasks_path(planning_application)
+        click_link "Draw red line boundary"
 
-      expect(page).to have_content("Site boundary has been updated")
-      expect(page).not_to have_content("No digital sitemap provided")
+        # When no boundary set, map should be displayed zoomed in at latitiude/longitude if fields present
+        map_selector = find("my-map")
+        expect(map_selector["latitude"]).to eq(planning_application.latitude)
+        expect(map_selector["longitude"]).to eq(planning_application.longitude)
 
-      visit planning_application_path(planning_application)
-      click_button "Site map"
+        # JS to emulate a polygon drawn on the map
+        execute_script 'document.getElementById("planning_application_boundary_geojson").setAttribute("value", \'{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.054597,51.537331],[-0.054588,51.537287],[-0.054453,51.537313],[-0.054597,51.537331]]]}}\')'
+        click_button "Save"
 
-      expect(page).to have_content("Sitemap drawn by Assessor 1")
+        expect(page).to have_content("Site boundary has been updated")
+        expect(page).not_to have_content("No digital sitemap provided")
 
-      click_button "Audit log"
-      click_link "View all audits"
-      expect(page).to have_content("Red line drawing created")
+        visit planning_application_path(planning_application)
+        click_button "Site map"
+
+        expect(page).to have_content("Sitemap drawn by Assessor 1")
+
+        click_button "Audit log"
+        click_link "View all audits"
+        expect(page).to have_content("Red line drawing created")
+      end
+    end
+
+    context "with boundary geojson" do
+      let(:boundary_geojson) { '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.054597,51.537331],[-0.054588,51.537287],[-0.054453,51.537313],[-0.054597,51.537331]]]}}' }
+
+      before do
+        boundary_geojson
+      end
+
+      it "is not possible to edit the sitemap" do
+        click_button "Site map"
+        expect(page).to have_content("Sitemap drawn by Applicant")
+        expect(page).not_to have_content("No digital sitemap provided")
+
+        visit planning_application_validation_tasks_path(planning_application)
+        expect(page).not_to have_link("Draw red line boundary")
+      end
     end
   end
 
@@ -55,21 +80,6 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
       click_button "Site map"
       expect(page).to have_content("No digital sitemap provided")
       expect(page).not_to have_link("Draw digital sitemap")
-    end
-  end
-
-  context "when application is not started and has a boundary" do
-    let!(:planning_application) do
-      create :planning_application, :with_boundary_geojson, :not_started, local_authority: default_local_authority
-    end
-
-    it "is not possible to edit the sitemap" do
-      click_button "Site map"
-      expect(page).to have_content("Sitemap drawn by Applicant")
-      expect(page).not_to have_content("No digital sitemap provided")
-
-      visit planning_application_validation_tasks_path(planning_application)
-      expect(page).not_to have_link("Draw red line boundary")
     end
   end
 
@@ -132,7 +142,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
       click_button "Save"
     end
 
-    it "is possible to create a request to update map boundary" do
+    it "creates a request to update map boundary" do
       delivered_emails = ActionMailer::Base.deliveries.count
 
       find(".govuk-visually-hidden",
@@ -165,18 +175,46 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
       expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
     end
 
-    it "only accepts a request that contains updated coordinates" do
-      find(".govuk-visually-hidden", visible: false).set ""
-      click_button "Send request"
+    context "when red line boundary is not drawn and reason not provided" do
+      before do
+        find(".govuk-visually-hidden", visible: false).set ""
+        fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: " "
+        click_button "Send request"
+      end
 
-      expect(page).to have_content("Red line drawing must be complete")
+      it "throws an error" do
+        expect(page).to have_content("There is a problem")
+        expect(page).to have_content("Red line drawing must be complete")
+        expect(page).to have_content("Provide a reason for changes")
+      end
     end
 
-    it "only accepts a request that contains a reason" do
-      fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: " "
-      click_button "Send request"
+    context "when red line boundary is not drawn" do
+      before do
+        find(".govuk-visually-hidden", visible: false).set ""
+        fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: "Wrong line"
+        click_button "Send request"
+      end
 
-      expect(page).to have_content("Provide a reason for changes")
+      it "throws an error" do
+        expect(page).to have_content("There is a problem")
+        expect(page).to have_content("Red line drawing must be complete")
+        expect(page).not_to have_content("Provide a reason for changes")
+      end
+    end
+
+    context "when reason is not provided" do
+      before do
+        find(".govuk-visually-hidden", visible: false).set '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.076715,51.501166],[-0.07695,51.500673],[-0.076,51.500763],[-0.076715,51.501166]]]}}'
+        fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: ""
+        click_button "Send request"
+      end
+
+      it "throws an error" do
+        expect(page).to have_content("There is a problem")
+        expect(page).not_to have_content("Red line drawing must be complete")
+        expect(page).to have_content("Provide a reason for changes")
+      end
     end
   end
 end
