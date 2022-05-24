@@ -5,4 +5,8 @@ class LocalAuthority < ApplicationRecord
   has_many :planning_applications, dependent: :destroy
 
   validates :council_code, presence: true
+
+  def signatory
+    "#{signatory_name}, #{signatory_job_title}"
+  end
 end
