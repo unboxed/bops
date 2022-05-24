@@ -229,14 +229,19 @@ RSpec.describe PlanningApplication, type: :model do
 
   describe "#reference_in_full" do
     let(:local_authority) { create(:local_authority, council_code: "SWK") }
-    let(:planning_application) { create(:planning_application, application_type: 0, local_authority: local_authority) }
+    let(:planning_application1) { create(:planning_application, application_type: 0, local_authority: local_authority, work_status: "proposed") }
+    let(:planning_application2) { create(:planning_application, application_type: 0, local_authority: local_authority, work_status: "existing") }
 
     before do
       travel_to Time.zone.local(2022, 10, 10)
     end
 
-    it "returns a string constructed of the council code and reference" do
-      expect(planning_application.reference_in_full).to eq("SWK-22-00100-LDCP")
+    it "returns a string constructed of the council code and reference for proposed LDCs" do
+      expect(planning_application1.reference_in_full).to eq("SWK-22-00100-LDCP")
+    end
+
+    it "returns a string constructed of the council code and reference for existing LDCs" do
+      expect(planning_application2.reference_in_full).to eq("SWK-22-00100-LDCE")
     end
   end
 
