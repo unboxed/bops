@@ -585,6 +585,6 @@ class PlanningApplication < ApplicationRecord
   end
 
   def application_type_code
-    I18n.t(application_type, scope: "application_type_codes")
+    I18n.t(work_status, scope: "application_type_codes.#{application_type}")
   end
 end
