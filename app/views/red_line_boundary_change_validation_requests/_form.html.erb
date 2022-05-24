@@ -32,7 +32,8 @@
                                         size: 's',
                                         class: 'govuk-label govuk-label--s govuk-!-padding-bottom-4' },
                                class: "govuk-visually-hidden" %>
-      <%= render "shared/location_map", locals: { geojson: @planning_application.boundary_geojson, geojson_field: 'red-line-boundary-change-validation-request-new-geojson-field' } %>
+
+      <%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.geojson, geojson_field: 'red-line-boundary-change-validation-request-new-geojson-field' } %>
 
       <% if action_name.eql?("edit") %>
         <h2 class="govuk-heading-m govuk-!-padding-top-6">

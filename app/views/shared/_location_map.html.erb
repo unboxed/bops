@@ -19,7 +19,7 @@
   const map = document.querySelector("my-map");
   <% if locals[:geojson_field].present? %>
     map.addEventListener("geojsonChange", ({ detail: geoJSON }) => {
-      document.getElementById("<%= locals[:geojson_field] %>").value = JSON.stringify(geoJSON);
+      document.querySelector("[id^='<%= locals[:geojson_field] %>']").value = JSON.stringify(geoJSON);
     });
   <% end %>
   <% if locals[:in_accordion] == true %>
