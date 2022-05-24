@@ -11,7 +11,7 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "Decision on your Lawful Development Certificate  application",
+      subject: subject(:decision_notice_mail),
       to: user
     )
   end
@@ -21,7 +21,7 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "Your application for a Lawful Development Certificate",
+      subject: subject(:validation_notice_mail),
       to: email,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
@@ -32,7 +32,7 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "Lawful Development Certificate application - changes needed",
+      subject: subject(:invalidation_notice_mail),
       to: @planning_application.applicant_and_agent_email.first,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
@@ -43,7 +43,7 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "Lawful Development Certificate application received",
+      subject: subject(:receipt_notice_mail),
       to: email,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
@@ -54,7 +54,7 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "Lawful Development Certificate application  - further changes needed",
+      subject: subject(:validation_request_mail),
       to: @planning_application.applicant_and_agent_email.first,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
@@ -65,7 +65,7 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "Update on your application for a Lawful Development Certificate",
+      subject: subject(:cancelled_validation_request_mail),
       to: @planning_application.applicant_and_agent_email.first,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
@@ -77,7 +77,7 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "Lawful Development Certificate application - suggested changes",
+      subject: subject(:description_change_mail),
       to: @planning_application.applicant_and_agent_email.first,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
@@ -89,9 +89,15 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
 
     view_mail(
       NOTIFY_TEMPLATE_ID,
-      subject: "Changes to your Lawful Development Certificate application",
+      subject: subject(:description_closure_notification_mail),
       to: @planning_application.applicant_and_agent_email.first,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
+  end
+
+  private
+
+  def subject(key)
+    I18n.t(key, scope: "planning_applications.emails.subjects")
   end
 end
