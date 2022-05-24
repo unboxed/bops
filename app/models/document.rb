@@ -6,6 +6,7 @@ class Document < ApplicationRecord
   belongs_to :planning_application
 
   delegate :audits, to: :planning_application
+  delegate :representable?, to: :file
 
   include Auditable
 

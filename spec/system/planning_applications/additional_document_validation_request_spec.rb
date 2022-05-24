@@ -475,4 +475,28 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       end
     end
   end
+
+  context "when a document has been removed due to a security issue" do
+    let!(:document) do
+      create :document, planning_application: planning_application
+    end
+
+    before do
+      allow_any_instance_of(Document).to receive(:representable?).and_return(false)
+
+      visit planning_application_validation_tasks_path(planning_application)
+      click_link "Validate required documents are on application"
+    end
+
+    it "I can see a warning if a document has been removed due to a security issue" do
+      within(".govuk-warning-text") do
+        expect(page).to have_content("One or more documents that the applicant submitted are not available due to a security issue. Ask the applicant or agent for replacements.")
+      end
+
+      expect(page).to have_content("This document has been removed due to a security issue")
+      expect(page).to have_content("Error: Infected file found")
+      expect(page).to have_content("File name: proposed-floorplan.png")
+      expect(page).to have_content("Date received: #{document.received_at_or_created}")
+    end
+  end
 end
