@@ -36,6 +36,11 @@
           <p class="govuk-body govuk-!-margin-bottom-1">
             File name: <%= document.name %>
           </p>
+          <% if document.applicant_description.present? %>
+            <p class="govuk-body govuk-!-margin-bottom-1">
+              Applicant description: <%= document.applicant_description %>
+            </p>
+          <% end %>
           <p class="govuk-body govuk-!-margin-bottom-1">
             Date received: <%= document.received_at_or_created %>
           </p>
