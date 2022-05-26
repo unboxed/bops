@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  enum role: { assessor: 0, reviewer: 1 }
+  enum role: { assessor: 0, reviewer: 1, administrator: 2 }
 
   devise :recoverable, :two_factor_authenticatable, :recoverable, :timeoutable,
          :validatable, otp_secret_encryption_key: ENV["OTP_SECRET_ENCRYPTION_KEY"], request_keys: [:subdomains]
@@ -14,6 +14,8 @@ class User < ApplicationRecord
   belongs_to :local_authority, optional: false
 
   before_create :generate_otp_secret
+
+  validates :mobile_number, format: { with: /\A\d*\z/ }
 
   def self.find_for_authentication(tainted_conditions)
     if tainted_conditions[:subdomains].present?

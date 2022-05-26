@@ -44,6 +44,30 @@ en:
     southwark: SWK
     buckinghamshire: BUC
     ripa: RIPA
+  users:
+    edit:
+      edit_user: Edit user
+    form:
+      submit: Submit
+    index:
+      users: Users
+      successfully_created: User successfully created
+      successfully_updated: User successfully updated
+    layout:
+      back: Back
+      add_user: Add user
+    new:
+      add_user: Add a new user
+    table:
+      actions: Actions
+      edit: Edit
+      email: Email
+      false: "No"
+      mobile_number: Mobile number
+      name: Name
+      otp_required_for_login: Two factor authentication
+      role: Role
+      true: "Yes"
   activerecord:
     errors:
       models:
@@ -85,6 +109,11 @@ en:
         entry: "Add a note to this application."
       user:
         otp_attempt: "Security code"
+        email: Email
+        mobile_number: Mobile number
+        name: Name
+        password: Password
+        role: Role
     legend:
       planning_application:
         determination_date: "Enter determination date"

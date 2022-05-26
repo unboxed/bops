@@ -30,7 +30,7 @@ buckinghamshire = LocalAuthority.find_or_create_by!(
 
 ApiUser.find_or_create_by!(name: "api_user", token: (ENV["API_TOKEN"] || "123"))
 
-admin_roles = %i[assessor reviewer]
+admin_roles = %i[assessor reviewer administrator]
 local_authorities = [southwark, lambeth, buckinghamshire]
 
 local_authorities.each do |authority|

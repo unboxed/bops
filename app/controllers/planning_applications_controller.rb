@@ -87,7 +87,7 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def validate
-    if validation_date_fields.any?(&:blank?)
+    if validation_date_fields_invalid?
       @planning_application.errors.add(:planning_application, "Please enter a valid date")
       render "confirm_validation"
     elsif @planning_application.open_validation_requests?
@@ -288,6 +288,11 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   private
+
+  def validation_date_fields_invalid?
+    validation_date_fields.any?(&:blank?) ||
+      validation_date_fields.any? { |field| !field.match(/\A[0-9]*\z/) }
+  end
 
   def planning_applications_scope
     @planning_applications_scope ||= current_local_authority.planning_applications.with_user.by_created_at_desc

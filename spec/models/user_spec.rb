@@ -104,4 +104,24 @@ RSpec.describe User, type: :model do
     expect(user_two.save).to be false
     expect(user_two.errors.messages[:email]).to include("has already been taken")
   end
+
+  describe "#mobile_number" do
+    context "when it contains non digits" do
+      let(:user) { build(:user, mobile_number: "not a number") }
+
+      it "is invalid" do
+        expect { user.valid? }
+          .to change { user.errors[:mobile_number] }
+          .to ["is invalid"]
+      end
+    end
+
+    context "when it contains only digits" do
+      let(:user) { build(:user, mobile_number: "01234123123") }
+
+      it "is valid" do
+        expect(user.valid?).to eq(true)
+      end
+    end
+  end
 end

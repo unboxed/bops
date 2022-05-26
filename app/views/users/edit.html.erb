@@ -1,0 +1,6 @@
+<%= render(layout: "layout", locals: { heading: t(".edit_user") }) do %>
+  <%= render(
+    partial: "form",
+    locals: { user: @user, include_password: false }
+  ) %>
+<% end %>

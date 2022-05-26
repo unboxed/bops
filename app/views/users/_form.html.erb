@@ -1,0 +1,20 @@
+<%= form_with model: user, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_fieldset(legend: { text: nil }) do %>
+    <%= form.govuk_text_field :name, class: "govuk-input--width-30" %>
+    <%= form.govuk_text_field :email, class: "govuk-input--width-30" %>
+    <% if local_assigns.fetch(:include_password, true) %>
+      <%= form.govuk_password_field :password, class: "govuk-input--width-30" %>
+    <% end %>
+    <%= form.govuk_text_field :mobile_number, class: "govuk-input--width-30" %>
+    <% unless form.object == current_user %>
+      <%= form.govuk_collection_select(
+        :role,
+        User.roles.keys,
+        :itself,
+        :capitalize
+      ) %>
+    <% end %>
+  <% end %>
+  <%= form.govuk_submit(t(".submit")) %>
+<% end %>

@@ -56,6 +56,33 @@ RSpec.describe "Sign in", type: :system do
       end
     end
 
+    context "when user is an administrator" do
+      let!(:administrator) do
+        create(
+          :user,
+          :administrator,
+          local_authority: default_local_authority,
+          email: "alice@example.com",
+          password: "password"
+        )
+      end
+
+      it "redirects to the users dashboard" do
+        visit(new_user_session_path)
+        fill_in("Email", with: "alice@example.com")
+        fill_in("Password", with: "password")
+        click_button("Log in")
+        fill_in("Security code", with: administrator.current_otp)
+        click_button("Enter code")
+
+        expect(page).to have_current_path(users_path)
+
+        find(:xpath, "//input[@value='Log out']").click
+
+        expect(page).to have_current_path(new_user_session_path)
+      end
+    end
+
     context "a user belonging to a given subdomain" do
       let!(:lambeth) { create :local_authority, :lambeth }
       let!(:southwark) { create :local_authority, :southwark }
