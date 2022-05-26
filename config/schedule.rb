@@ -21,6 +21,7 @@
 
 # Learn more: http://github.com/javan/whenever
 
+env :PATH, ENV["PATH"]
 set :output, "#{Whenever.path}/log/scheduled_jobs.log"
 
 every 1.day, at: "9:00 am" do
