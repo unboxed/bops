@@ -12,6 +12,18 @@ RSpec.describe LocalAuthority, type: :model do
       end
     end
 
+    describe "#name" do
+      it "validates presence" do
+        expect { local_authority.valid? }.to change { local_authority.errors[:name] }.to ["can't be blank"]
+      end
+    end
+
+    describe "#subdomain" do
+      it "validates presence" do
+        expect { local_authority.valid? }.to change { local_authority.errors[:subdomain] }.to ["can't be blank"]
+      end
+    end
+
     describe "#signatory" do
       let(:local_authority) do
         build(
