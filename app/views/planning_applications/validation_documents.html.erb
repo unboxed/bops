@@ -13,6 +13,12 @@
   <p class="govuk-body-m">
     Check all necessary documents have been provided and add requests for any missing documents.
   </p>
+
+  <% unless @documents.any? && @documents.all?(&:representable?) %>
+    <%= render "shared/warning_text",
+        message: "One or more documents that the applicant submitted are not available due to a security issue. Ask the applicant or agent for replacements." %>
+  <% end %>
+
   <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
   <p class="govuk-body">
     <%= link_to "Add a request for a missing document",

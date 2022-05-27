@@ -13,6 +13,8 @@
         </li>
       <% else %>
         <% @planning_application.documents.active.each_with_index do |document, index| %>
+          <% next unless document.representable? %>
+
           <%= content_tag(:li, id: dom_id(document), class: "app-task-list__item") do %>
             <%= @planning_application.document_task_list(document) %>
           <% end %>

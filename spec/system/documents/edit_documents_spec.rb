@@ -44,5 +44,21 @@ RSpec.describe "Edit document", type: :system do
       expect(page).not_to have_content("Is the document valid?")
       expect(page).not_to have_css("#validate-document")
     end
+
+    context "when a document has been removed due to a security issue" do
+      let!(:document) do
+        create :document, planning_application: planning_application
+      end
+
+      before do
+        allow_any_instance_of(Document).to receive(:representable?).and_return(false)
+      end
+
+      it "cannot edit" do
+        visit edit_planning_application_document_path(planning_application, document)
+
+        expect(page).to have_content("forbidden")
+      end
+    end
   end
 end

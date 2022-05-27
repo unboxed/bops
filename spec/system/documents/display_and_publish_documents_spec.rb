@@ -152,5 +152,25 @@ RSpec.describe "Edit document numbers page", type: :system do
         expect(page).to have_content "All documents listed on the decision notice must have a document number"
       end
     end
+
+    context "when a document has been removed due to a security issue" do
+      let!(:document) do
+        create :document, planning_application: planning_application
+      end
+
+      before do
+        allow_any_instance_of(Document).to receive(:representable?).and_return(false)
+
+        click_button "Documents"
+        click_link "Manage documents"
+      end
+
+      it "displays a placeholder image with error information" do
+        expect(page).to have_content("This document has been removed due to a security issue")
+        expect(page).to have_content("Error: Infected file found")
+        expect(page).to have_content("File name: proposed-floorplan.png")
+        expect(page).to have_content("Date received: #{document.received_at_or_created}")
+      end
+    end
   end
 end
