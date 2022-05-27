@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_10_131942) do
+ActiveRecord::Schema.define(version: 2022_05_26_152433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -140,8 +140,8 @@ ActiveRecord::Schema.define(version: 2022_05_10_131942) do
   end
 
   create_table "local_authorities", force: :cascade do |t|
-    t.string "name"
-    t.string "subdomain"
+    t.string "name", null: false
+    t.string "subdomain", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "signatory_name"
