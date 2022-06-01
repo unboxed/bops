@@ -13,12 +13,7 @@ RSpec.describe "Documents index page", type: :system do
   end
 
   let!(:document) do
-    create(
-      :document,
-      :with_file,
-      planning_application: planning_application,
-      applicant_description: "This is the proposed side elevation"
-    )
+    create(:document, :with_file, planning_application: planning_application)
   end
 
   context "as a user who is not logged in" do
@@ -51,12 +46,6 @@ RSpec.describe "Documents index page", type: :system do
 
     it "Document management page does not contain accordion" do
       expect(page).not_to have_text("Application information")
-    end
-
-    it "shows the applicant description" do
-      expect(page).to have_text(
-        "Applicant description: This is the proposed side elevation"
-      )
     end
 
     it "File image opens in new tab" do
