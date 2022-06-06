@@ -25,7 +25,18 @@ en:
   user:
     officer_role: "Case Officer"
     manager_role: "Manager"
-
+  fee_items:
+    fee_item_table:
+      description: Description
+      detail: Detail
+      fee_paid: Fee Paid
+      item: Item
+      payment_reference: Payment Reference
+  other_change_validation_requests:
+    form:
+      labels:
+        suggestion: Tell the applicant how the fee can be made valid.
+        summary: Tell the applicant why the fee is incorrect.
   activerecord:
     errors:
       models:

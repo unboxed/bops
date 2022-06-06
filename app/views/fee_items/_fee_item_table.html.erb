@@ -1,21 +1,30 @@
 <table class="govuk-table">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Item</th>
-      <th scope="col" class="govuk-table__header">Detail</th>
+      <th scope="col" class="govuk-table__header"><%= t(".item") %></th>
+      <th scope="col" class="govuk-table__header"><%= t(".detail") %></th>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
     <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header">Fee</th>
-      <td class="govuk-table__cell"><%= number_to_currency (@planning_application.payment_amount), unit: '£' %></td>
+      <th scope="row" class="govuk-table__header"><%= t(".fee_paid") %></th>
+      <td class="govuk-table__cell">
+        <%= number_to_currency(
+          @planning_application.payment_amount,
+          unit: '£'
+        ) %>
+      </td>
     </tr>
     <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header">Payment Reference</th>
-      <td class="govuk-table__cell"><%= @planning_application.payment_reference %></td>
+      <th scope="row" class="govuk-table__header">
+        <%= t(".payment_reference") %>
+      </th>
+      <td class="govuk-table__cell">
+        <%= @planning_application.payment_reference %>
+      </td>
     </tr>
     <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header">Description</th>
+      <th scope="row" class="govuk-table__header"><%= t(".description") %></th>
       <td class="govuk-table__cell"><%= @planning_application.description %></td>
     </tr>
   </tbody>

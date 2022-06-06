@@ -37,15 +37,28 @@
         </div>
       <% end %>
 
-      <%= form.govuk_text_area :summary,
-                               label: { size: "s", class: "govuk-label govuk-label--s"},
-                               rows: 5,
-                               readonly: @planning_application.validated? %>
+      <%= form.govuk_text_area(
+        :summary,
+        label: {
+          size: "s",
+          class: "govuk-label govuk-label--s",
+          text: (t(".labels.summary") if @validate_fee)
+        },
+        hint: { class: ("make-invisible" if @validate_fee) },
+        rows: 5,
+        readonly: @planning_application.validated?
+      ) %>
 
-      <%= form.govuk_text_area :suggestion,
-                               label: { size: "s", class: "govuk-label govuk-label--s"},
-                               rows: 5,
-                               readonly: @planning_application.validated? %>
+      <%= form.govuk_text_area(
+        :suggestion,
+        label: {
+          size: "s",
+          class: "govuk-label govuk-label--s",
+          text: (t(".labels.suggestion") if @validate_fee)
+        },
+        rows: 5,
+        readonly: @planning_application.validated?
+      ) %>
 
       <%= render "shared/validation_request_form_actions", form: form %>
     <% end %>
