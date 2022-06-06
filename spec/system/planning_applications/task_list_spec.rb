@@ -17,13 +17,13 @@ RSpec.describe "Planning Application show page", type: :system do
       visit planning_application_path(planning_application)
 
       within "#validation-section" do
-        expect(page).to have_link("Validate application")
-        expect(page).not_to have_content("Completed")
+        expect(page).to have_link("Check and validate")
+        expect(page).not_to have_content("Complete")
       end
 
       within "#assess-section" do
         expect(page).not_to have_link("Assess proposal")
-        expect(page).not_to have_content("Completed")
+        expect(page).not_to have_content("Complete")
       end
     end
 
@@ -31,13 +31,13 @@ RSpec.describe "Planning Application show page", type: :system do
       planning_application = create(:planning_application, local_authority: default_local_authority)
       visit planning_application_path(planning_application)
       within "#validation-section" do
-        expect(page).to have_link("Validate application")
-        expect(page).to have_content("Completed")
+        expect(page).to have_link("Check and validate")
+        expect(page).to have_content("Complete")
       end
 
       within "#assess-section" do
         expect(page).to have_link("Assess proposal")
-        expect(page).not_to have_content("Completed")
+        expect(page).not_to have_content("Complete")
         expect(page).not_to have_link("Submit recommendation")
       end
     end
@@ -49,7 +49,7 @@ RSpec.describe "Planning Application show page", type: :system do
 
       within "#assess-section" do
         expect(page).to have_link("Assess proposal")
-        expect(page).to have_content("Completed")
+        expect(page).to have_content("Complete")
         expect(page).to have_link("Submit recommendation")
       end
     end
@@ -60,21 +60,21 @@ RSpec.describe "Planning Application show page", type: :system do
       create(:recommendation, planning_application: planning_application)
       visit planning_application_path(planning_application)
       within "#validation-section" do
-        expect(page).not_to have_link("Validate application")
-        expect(page).to have_content("Completed")
+        expect(page).not_to have_link("Check and validate")
+        expect(page).to have_content("Complete")
       end
 
       within "#assess-section" do
         expect(page).not_to have_link("Assess proposal")
-        expect(page).to have_content("Completed")
+        expect(page).to have_content("Complete")
 
         expect(page).not_to have_link("Submit recommendation")
-        expect(page).to have_content("Completed")
+        expect(page).to have_content("Complete")
       end
 
       within "#review-section" do
         expect(page).to have_link("Review assessment")
-        expect(page).not_to have_content("Completed")
+        expect(page).not_to have_content("Complete")
 
         expect(page).not_to have_link("Publish determination")
         expect(page).not_to have_content("Waiting")
@@ -89,10 +89,10 @@ RSpec.describe "Planning Application show page", type: :system do
 
       within "#review-section" do
         expect(page).to have_link("Review assessment")
-        expect(page).to have_content("Completed")
+        expect(page).to have_content("Complete")
         expect(page).to have_link("Publish determination")
         within(:xpath, '//*[@id="review-section"]/ul/li[2]') do
-          expect(page).not_to have_content("Completed")
+          expect(page).not_to have_content("Complete")
         end
       end
     end
@@ -104,13 +104,13 @@ RSpec.describe "Planning Application show page", type: :system do
       visit planning_application_path(planning_application)
 
       within "#validation-section" do
-        expect(page).to have_link("Validate application")
-        expect(page).to have_content("Completed")
+        expect(page).to have_link("Check and validate")
+        expect(page).to have_content("Complete")
       end
 
       within "#assess-section" do
         expect(page).to have_link("Assess proposal")
-        expect(page).not_to have_content("Completed")
+        expect(page).not_to have_content("Complete")
       end
     end
 
@@ -122,16 +122,16 @@ RSpec.describe "Planning Application show page", type: :system do
       visit planning_application_path(planning_application)
 
       within "#validation-section" do
-        expect(page).to have_link("Validate application")
-        expect(page).to have_content("Completed")
+        expect(page).to have_link("Check and validate")
+        expect(page).to have_content("Complete")
       end
 
       within "#assess-section" do
         expect(page).to have_link("Assess proposal")
-        expect(page).to have_content("Completed")
+        expect(page).to have_content("Complete")
         expect(page).to have_link("Submit recommendation")
         within(:xpath, '//*[@id="assess-section"]/li[2]') do
-          expect(page).not_to have_content("Completed")
+          expect(page).not_to have_content("Complete")
         end
       end
     end
@@ -148,19 +148,19 @@ RSpec.describe "Planning Application show page", type: :system do
       create(:recommendation, planning_application: planning_application)
       visit planning_application_path(planning_application)
       within "#validation-section" do
-        expect(page).not_to have_link("Validate application")
-        expect(page).to have_content("Completed")
+        expect(page).not_to have_link("Check and validate")
+        expect(page).to have_content("Complete")
       end
 
       within "#assess-section" do
         expect(page).not_to have_link("Submit recommendation")
-        expect(page).to have_content("Completed")
+        expect(page).to have_content("Complete")
       end
 
       within "#review-section" do
         expect(page).not_to have_link("Review assessment")
         expect(page).to have_link("View recommendation")
-        expect(page).not_to have_content("Completed")
+        expect(page).not_to have_content("Complete")
 
         expect(page).not_to have_link("Publish determination")
         expect(page).to have_content("Awaiting determination")
@@ -174,17 +174,17 @@ RSpec.describe "Planning Application show page", type: :system do
       visit planning_application_path(planning_application)
 
       within "#validation-section" do
-        expect(page).to have_content("Completed")
+        expect(page).to have_content("Complete")
       end
 
       within "#assess-section" do
         expect(page).not_to have_link("Submit recommendation")
-        expect(page).to have_content("Completed")
+        expect(page).to have_content("Complete")
       end
 
       within "#review-section" do
         expect(page).not_to have_link("Review assessment")
-        expect(page).to have_content("Completed")
+        expect(page).to have_content("Complete")
 
         expect(page).not_to have_link("Publish determination")
         expect(page).to have_content("Waiting")

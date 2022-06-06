@@ -17,3 +17,10 @@ en:
     overdue:
       one: '1 day overdue'
       other: '%{count} days overdue'
+    steps:
+      validation:
+        check_and_validate: Check and validate
+    validation_status:
+      complete: Complete
+      in_progress: In progress
+      not_started: Not started

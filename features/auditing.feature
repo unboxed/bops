@@ -60,7 +60,7 @@ Feature: Auditing a planning application
     And there is not an audit entry containing "Payment reference updated"
 
   Scenario: I can view an entry in the audit showing the application being validated
-    When I press "Validate application"
+    When I press "Check and validate"
     And I press "Send validation decision"
     And I press "Mark the application as valid"
     And I set the date inputs to "5/12/2021"

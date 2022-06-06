@@ -28,6 +28,134 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
     end
   end
 
+  describe "#validation_status_tag" do
+    context "when validation is complete" do
+      let(:planning_application) do
+        build(:planning_application, :in_assessment)
+      end
+
+      it "returns 'complete' tag" do
+        expect(
+          presenter.validation_status_tag
+        ).to eq(
+          "<span class=\"govuk-tag govuk-tag--blue\">Complete</span>"
+        )
+      end
+    end
+
+    context "when validation request is present" do
+      let(:other_change_validation_request) do
+        create(:other_change_validation_request)
+      end
+
+      let(:planning_application) do
+        create(
+          :planning_application,
+          :not_started,
+          other_change_validation_requests: [other_change_validation_request]
+        )
+      end
+
+      it "returns 'in progress' tag" do
+        expect(
+          presenter.validation_status_tag
+        ).to eq(
+          "<span class=\"govuk-tag govuk-tag--blue\">In progress</span>"
+        )
+      end
+    end
+
+    context "when fee is marked as valid" do
+      let(:planning_application) do
+        create(:planning_application, :not_started, valid_fee: true)
+      end
+
+      it "returns 'in progress' tag" do
+        expect(
+          presenter.validation_status_tag
+        ).to eq(
+          "<span class=\"govuk-tag govuk-tag--blue\">In progress</span>"
+        )
+      end
+    end
+
+    context "when red line boundary is marked as valid" do
+      let(:planning_application) do
+        create(
+          :planning_application,
+          :not_started,
+          valid_red_line_boundary: true
+        )
+      end
+
+      it "returns 'in progress' tag" do
+        expect(
+          presenter.validation_status_tag
+        ).to eq(
+          "<span class=\"govuk-tag govuk-tag--blue\">In progress</span>"
+        )
+      end
+    end
+
+    context "when constraints checked" do
+      let(:planning_application) do
+        create(:planning_application, :not_started, constraints_checked: true)
+      end
+
+      it "returns 'in progress' tag" do
+        expect(
+          presenter.validation_status_tag
+        ).to eq(
+          "<span class=\"govuk-tag govuk-tag--blue\">In progress</span>"
+        )
+      end
+    end
+
+    context "when documents checked" do
+      let(:planning_application) do
+        create(:planning_application, :not_started, documents_missing: false)
+      end
+
+      it "returns 'in progress' tag" do
+        expect(
+          presenter.validation_status_tag
+        ).to eq(
+          "<span class=\"govuk-tag govuk-tag--blue\">In progress</span>"
+        )
+      end
+    end
+
+    context "when document marked as validt" do
+      let(:document) { create(:document, validated: true) }
+
+      let(:planning_application) do
+        create(:planning_application, :not_started, documents: [document])
+      end
+
+      it "returns 'in progress' tag" do
+        expect(
+          presenter.validation_status_tag
+        ).to eq(
+          "<span class=\"govuk-tag govuk-tag--blue\">In progress</span>"
+        )
+      end
+    end
+
+    context "when validation not started" do
+      let(:planning_application) do
+        create(:planning_application, :not_started)
+      end
+
+      it "returns 'not started' tag" do
+        expect(
+          presenter.validation_status_tag
+        ).to eq(
+          "<span class=\"govuk-tag govuk-tag--grey\">Not started</span>"
+        )
+      end
+    end
+  end
+
   describe "#next_relevant_date_tag" do
     [
       [:not_started, "Expiry date: ", :expiry_date],
