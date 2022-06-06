@@ -595,4 +595,18 @@ RSpec.describe PlanningApplication, type: :model do
       end
     end
   end
+
+  describe "#invalidation_response_due" do
+    let(:planning_application) do
+      create(:planning_application, invalidated_at: DateTime.new(2020, 6, 5))
+    end
+
+    it "returns date 15 business days after invalidated date" do
+      expect(
+        planning_application.invalidation_response_due
+      ).to eq(
+        Date.new(2020, 6, 26)
+      )
+    end
+  end
 end

@@ -152,7 +152,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         local_authority: local_authority,
         address_1: "123 High Street", # rubocop:disable Naming/VariableNumber
         town: "Big City",
-        postcode: "AB3 4EF"
+        postcode: "AB3 4EF",
+        invalidated_at: DateTime.new(2022, 6, 5)
       )
     end
 
@@ -197,6 +198,10 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(mail_body).to include(
         "http://cookies.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
       )
+    end
+
+    it "includes the invalidation response due date" do
+      expect(mail_body).to include("27 June 2022")
     end
   end
 
