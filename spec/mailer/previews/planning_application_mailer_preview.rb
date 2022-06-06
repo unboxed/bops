@@ -3,13 +3,11 @@
 class PlanningApplicationMailerPreview < ActionMailer::Preview
   def cancelled_validation_request_mail
     PlanningApplicationMailer.cancelled_validation_request_mail(
-      PlanningApplication.last
+      planning_application
     )
   end
 
   def decision_notice_mail
-    planning_application = PlanningApplication.last
-
     PlanningApplicationMailer.decision_notice_mail(
       planning_application,
       "https://www.example.com",
@@ -18,8 +16,6 @@ class PlanningApplicationMailerPreview < ActionMailer::Preview
   end
 
   def description_change_mail
-    planning_application = PlanningApplication.last
-
     PlanningApplicationMailer.description_change_mail(
       planning_application,
       planning_application.description_change_validation_requests.last
@@ -27,8 +23,6 @@ class PlanningApplicationMailerPreview < ActionMailer::Preview
   end
 
   def description_closure_notification_mail
-    planning_application = PlanningApplication.last
-
     PlanningApplicationMailer.description_closure_notification_mail(
       planning_application,
       planning_application.description_change_validation_requests.last
@@ -36,12 +30,10 @@ class PlanningApplicationMailerPreview < ActionMailer::Preview
   end
 
   def invalidation_notice_mail
-    PlanningApplicationMailer.invalidation_notice_mail(PlanningApplication.last)
+    PlanningApplicationMailer.invalidation_notice_mail(planning_application)
   end
 
   def receipt_notice_mail
-    planning_application = PlanningApplication.last
-
     PlanningApplicationMailer.receipt_notice_mail(
       planning_application,
       planning_application.agent_email
@@ -49,8 +41,6 @@ class PlanningApplicationMailerPreview < ActionMailer::Preview
   end
 
   def validation_notice_mail
-    planning_application = PlanningApplication.last
-
     PlanningApplicationMailer.validation_notice_mail(
       planning_application,
       planning_application.agent_email
@@ -58,6 +48,12 @@ class PlanningApplicationMailerPreview < ActionMailer::Preview
   end
 
   def validation_request_mail
-    PlanningApplicationMailer.validation_request_mail(PlanningApplication.last)
+    PlanningApplicationMailer.validation_request_mail(planning_application)
+  end
+
+  private
+
+  def planning_application
+    @planning_application ||= PlanningApplication.last
   end
 end

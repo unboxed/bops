@@ -10,7 +10,7 @@ To make changes, go to:
 
 <%= @planning_application.secure_change_url %>
 
-If no changes are made by 16 September 2021, we may close your application and send you a refund.
+If no changes are made by <%= @planning_application.invalidation_response_due.strftime("%-d %B %Y") %>, we may close your application and send you a refund.
 
 If you need help with your application, contact us at  <%= @planning_application.local_authority.email_address %>.
 
