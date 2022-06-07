@@ -30,5 +30,11 @@
 </h2>
 <%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.new_geojson } %>
 
-<%= render "shared/validation_request_show_actions",
-    planning_application: @planning_application, validation_request: @red_line_boundary_change_validation_request %>
+<%= render(
+ partial: "shared/validation_request_show_actions",
+ locals: {
+   planning_application: @planning_application,
+   validation_request: @red_line_boundary_change_validation_request,
+   include_edit: false
+ }
+) %>

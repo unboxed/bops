@@ -28,16 +28,6 @@ Scenario: I can edit an other type of validation request before its been sent
   And I view the application's validations requests
   Then the page contains "change those manners"
 
-Scenario: I can edit a red line boundary request before its been sent
-  When I view the application's validations requests
-  And I click link "View and update" in table row for "Red line boundary changes"
-  And I press "Edit request"
-  And I fill in "Explain to the applicant why changes are proposed to the red line boundary" with "bound to be changes"
-  When I press "Update"
-  And I view the application's validations requests
-  And I press "View request red line boundary"
-  Then the page contains "bound to be changes"
-
 Scenario: I cannot edit a validation request after its been sent
   When the planning application is invalidated
   And I view the application's validations requests
