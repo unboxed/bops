@@ -3,7 +3,7 @@ Feature: Managing validation requests
     Given I am logged in as an assessor
     And a new planning application
     And I view the planning application
-    When I press "Validate application"
+    When I press "Check and validate"
     And I press "Send validation decision"
     And I create a new document validation request for a "Picture of the dog" because "it would be nice"
     And I create a new document validation request for a "Picture of the cat" because "it would also be nice"

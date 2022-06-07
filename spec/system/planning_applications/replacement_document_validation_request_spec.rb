@@ -20,7 +20,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     let!(:document2) { create(:document, :with_file, planning_application: planning_application) }
 
     it "I can mark documents as invalid and edit/delete the validation request" do
-      click_link "Validate application"
+      click_link "Check and validate"
 
       within("#document-validation-tasks") do
         within("#document_#{document2.id}") do
@@ -136,7 +136,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     end
 
     it "I can mark documents as valid" do
-      click_link "Validate application"
+      click_link "Check and validate"
 
       within("#document-validation-tasks") do
         within("#document_#{document1.id}") do
@@ -173,7 +173,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     it "I can mark documents as invalid and cancel the validation request" do
       delivered_emails = ActionMailer::Base.deliveries.count
 
-      click_link "Validate application"
+      click_link "Check and validate"
 
       within("#document-validation-tasks") do
         within("#document_#{document2.id}") do
@@ -361,7 +361,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     let!(:document1) { create(:document, :with_file, planning_application: planning_application) }
 
     it "does not allow you to validate documents" do
-      click_link "Validate application"
+      click_link "Check and validate"
 
       within("#document-validation-tasks") do
         expect(page).to have_content("Planning application has already been validated")
@@ -378,7 +378,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     let!(:document2) { create(:document, planning_application: planning_application) }
 
     it "does not appear in the validate document list" do
-      click_link "Validate application"
+      click_link "Check and validate"
 
       within("#document-validation-tasks") do
         within("#document_#{document2.id}") do
@@ -402,7 +402,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       end
 
       it "does show a invalid documents warning" do
-        click_link "Validate application"
+        click_link "Check and validate"
         expect(page).to have_content("Invalid documents: 1")
 
         click_link "Check documents"
@@ -416,14 +416,14 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       end
 
       it "does not show a warning" do
-        click_link "Validate application"
+        click_link "Check and validate"
         expect(page).not_to have_content("Invalid documents")
       end
     end
 
     context "when there is no replacement document validation request" do
       it "does not show a warning" do
-        click_link "Validate application"
+        click_link "Check and validate"
         expect(page).not_to have_content("Invalid documents")
       end
     end
@@ -450,7 +450,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     end
 
     it "updates the notified_at date of an open request when application is invalidated" do
-      click_link "Validate application"
+      click_link "Check and validate"
       click_link "Send validation decision"
       expect(replacement_document_validation_request.notified_at).to be_nil
 

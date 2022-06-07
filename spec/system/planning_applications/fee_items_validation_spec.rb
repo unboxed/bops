@@ -36,7 +36,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
           rows = page.all(".govuk-table__row")
 
           within(rows[0]) do
-            expect(page).to have_content("Fee")
+            expect(page).to have_content("Fee Paid")
             expect(page).to have_content("£112.12")
           end
 
@@ -127,10 +127,16 @@ RSpec.describe "FeeItemsValidation", type: :system do
         "This request will be added to the application. The requests will not be sent until the application is marked as invalid."
       )
 
-      fill_in "Tell the applicant another reason why the application is invalid.",
-              with: "Fee is invalid"
-      fill_in "Explain to the applicant how the application can be made valid.",
-              with: "Update accurate fee"
+      fill_in(
+        "Tell the applicant why the fee is incorrect.",
+        with: "Fee is invalid"
+      )
+
+      fill_in(
+        "Tell the applicant how the fee can be made valid.",
+        with: "Update accurate fee"
+      )
+
       click_button "Save request"
 
       expect(page).to have_content("Other validation change request successfully created.")
@@ -198,10 +204,15 @@ RSpec.describe "FeeItemsValidation", type: :system do
           end
         end
 
-        fill_in "Tell the applicant another reason why the application is invalid.",
-                with: "Fee is very invalid"
-        fill_in "Explain to the applicant how the application can be made valid.",
-                with: "Update better fee"
+        fill_in(
+          "Tell the applicant why the fee is incorrect.",
+          with: "Fee is very invalid"
+        )
+
+        fill_in(
+          "Tell the applicant how the fee can be made valid.",
+          with: "Update better fee"
+        )
 
         within(".govuk-button-group") do
           expect(page).to have_link(
