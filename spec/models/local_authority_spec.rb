@@ -22,6 +22,12 @@ RSpec.describe LocalAuthority, type: :model do
       it "validates presence" do
         expect { local_authority.valid? }.to change { local_authority.errors[:subdomain] }.to ["can't be blank"]
       end
+
+      it "raises an error with wrong type" do
+        expect { build(:local_authority, subdomain: "new_name") }
+          .to raise_error(ArgumentError)
+          .with_message(/is not a valid subdomain/)
+      end
     end
 
     describe "#signatory" do
