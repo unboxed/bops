@@ -144,6 +144,13 @@ class Document < ApplicationRecord
     replacement_document_validation_request.try(:reason) || super
   end
 
+  def image_url(resize_to_limit = [1000, 1000])
+    file.representation(resize_to_limit: resize_to_limit).processed.url
+  rescue ActiveStorage::PreviewError => e
+    logger.warn("Image retrieval failed for document ##{id} with error '#{e.message}'")
+    nil
+  end
+
   private
 
   def tag_values_permitted

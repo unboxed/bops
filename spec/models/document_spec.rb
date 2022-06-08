@@ -155,5 +155,52 @@ RSpec.describe Document, type: :model do
         end
       end
     end
+
+    describe "#image_url" do
+      let(:document) { create(:document) }
+
+      context "when image is present" do
+        let(:processed_active_storage_variant) do
+          instance_double(
+            "ActiveStorage::VariantWithRecord",
+            url: "http://www.example.com/test_image"
+          )
+        end
+
+        before do
+          allow_any_instance_of(ActiveStorage::VariantWithRecord)
+            .to receive(:processed)
+            .and_return(processed_active_storage_variant)
+        end
+
+        it "returns the file path to the image" do
+          expect(
+            document.image_url
+          ).to eq(
+            "http://www.example.com/test_image"
+          )
+        end
+      end
+
+      context "when image is missing" do
+        before do
+          allow_any_instance_of(ActiveStorage::VariantWithRecord)
+            .to receive(:processed)
+            .and_raise(ActiveStorage::PreviewError.new("Document stream is empty"))
+        end
+
+        it "returns nil" do
+          expect(document.image_url).to eq(nil)
+        end
+
+        it "logs the error" do
+          expect(Rails.logger)
+            .to receive(:warn)
+            .with("Image retrieval failed for document ##{document.id} with error 'Document stream is empty'")
+
+          document.image_url
+        end
+      end
+    end
   end
 end
