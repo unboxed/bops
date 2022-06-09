@@ -117,10 +117,20 @@ RSpec.describe PlanningApplication, type: :model do
       end
 
       context "when application number is unique for the local authority" do
-        let(:local_authority) { create :local_authority }
-        let(:planning_application1) { create :planning_application, local_authority: local_authority }
-        let(:planning_application2) { create :planning_application, local_authority: local_authority }
-        let(:planning_application3) { create :planning_application }
+        let(:local_authority1) { create(:local_authority, :southwark) }
+        let(:local_authority2) { create(:local_authority, :lambeth) }
+
+        let(:planning_application1) do
+          create(:planning_application, local_authority: local_authority1)
+        end
+
+        let(:planning_application2) do
+          create(:planning_application, local_authority: local_authority1)
+        end
+
+        let(:planning_application3) do
+          create(:planning_application, local_authority: local_authority2)
+        end
 
         it "updates application number successfully" do
           expect(planning_application1.application_number).to eq("00100")

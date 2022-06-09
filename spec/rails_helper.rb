@@ -33,6 +33,6 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :request
 
   config.before type: :request do
-    host!("default.example.com")
+    host!("ripa.example.com")
   end
 end
