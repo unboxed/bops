@@ -95,8 +95,8 @@ RSpec.describe User, type: :model do
   end
 
   it "does not allow for duplicate users in separate domains" do
-    domain_one = create(:local_authority)
-    domain_two = create(:local_authority)
+    domain_one = create(:local_authority, :southwark)
+    domain_two = create(:local_authority, :lambeth)
 
     create(:user, email: "gali@galileo.com", local_authority: domain_one)
     user_two = build(:user, email: "gali@galileo.com", local_authority: domain_two)

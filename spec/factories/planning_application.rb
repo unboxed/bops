@@ -4,7 +4,9 @@ require "faker"
 
 FactoryBot.define do
   factory :planning_application do
-    local_authority
+    local_authority do
+      LocalAuthority.find_by(subdomain: "buckinghamshire") || create(:local_authority)
+    end
     description { Faker::Lorem.unique.sentence }
     status { :in_assessment }
     in_assessment_at { Time.zone.now }

@@ -6,8 +6,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   let(:local_authority) do
     create(
       :local_authority,
+      :default,
       name: "Cookie authority",
-      subdomain: "cookies",
       signatory_name: "Mr. Biscuit",
       signatory_job_title: "Lord of BiscuitTown",
       enquiries_paragraph: "reach us on postcode SW50",
@@ -39,7 +39,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
   let!(:invalid_planning_application) { create(:planning_application, :invalidated) }
 
-  let(:host) { "default.example.com" }
+  let(:host) { "ripa.example.com" }
   let!(:validation_request) do
     create(:other_change_validation_request, planning_application: invalid_planning_application, user: assessor)
   end
@@ -102,7 +102,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes a link to the decision notice" do
       expect(mail_body).to include(
-        "http://default.example.com/api/v1/planning_applications/#{planning_application.id}/decision_notice.pdf"
+        "http://ripa.example.com/api/v1/planning_applications/#{planning_application.id}/decision_notice.pdf"
       )
     end
 
@@ -124,7 +124,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "includes a link to the decision notice" do
         expect(mail_body).to include(
-          "http://default.example.com/api/v1/planning_applications/#{planning_application.id}/decision_notice.pdf"
+          "http://ripa.example.com/api/v1/planning_applications/#{planning_application.id}/decision_notice.pdf"
         )
       end
 
@@ -196,7 +196,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the validation request url" do
       expect(mail_body).to include(
-        "http://cookies.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+        "http://ripa.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
       )
     end
 
@@ -288,7 +288,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the validation request url" do
       expect(mail_body).to include(
-        "http://cookies.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+        "http://ripa.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
       )
     end
 
@@ -346,7 +346,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the validation request url" do
       expect(mail_body).to include(
-        "http://cookies.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+        "http://ripa.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
       )
     end
 
@@ -464,7 +464,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "includes the validation request url" do
         expect(mail_body).to include(
-          "http://cookies.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+          "http://ripa.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
         )
       end
 
@@ -513,7 +513,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "includes the validation request url" do
         expect(mail_body).to include(
-          "http://cookies.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+          "http://ripa.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
         )
       end
     end
