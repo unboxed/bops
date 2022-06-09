@@ -68,7 +68,7 @@ RSpec.describe "Sign in", type: :system do
 
       before do
         @previous_host = Capybara.app_host
-        Capybara.app_host = "http://lambeth_authority.example.com"
+        Capybara.app_host = "http://#{lambeth.subdomain}.example.com"
       end
 
       after do
