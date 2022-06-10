@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :local_authority do
     name { Faker::Name.name }
-    subdomain { Faker::Internet.unique.domain_word }
+    subdomain { "buckinghamshire" }
     council_code { "BUC" }
     signatory_name { Faker::FunnyName.two_word_name }
     signatory_job_title { "Director" }
@@ -18,7 +18,7 @@ FactoryBot.define do
 
     trait :lambeth do
       name { "Lambeth Council Authority" }
-      subdomain { "lambeth_authority" }
+      subdomain { "lambeth" }
       council_code { "LBH" }
       signatory_name { "Christina Thompson" }
       signatory_job_title { "Director of Finance & Property" }
@@ -29,7 +29,7 @@ FactoryBot.define do
 
     trait :southwark do
       name { "Southwark Council Authority" }
-      subdomain { "southwark_authority" }
+      subdomain { "southwark" }
       council_code { "SWK" }
       signatory_name { "Stephen Platts" }
       signatory_job_title { "Director of Planning and Growth" }
