@@ -17,6 +17,9 @@ en:
     overdue:
       one: '1 day overdue'
       other: '%{count} days overdue'
+    policy_consideration_list:
+      other: Other
+      proposal_details: Proposal details
     steps:
       validation:
         check_and_validate: Check and validate
