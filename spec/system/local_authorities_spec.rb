@@ -3,15 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "Accessing correct local authority", type: :system do
-  let!(:lambeth) do
-    LocalAuthority.find_by(subdomain: "lambeth") ||
-      create(:local_authority, :lambeth)
-  end
-
-  let!(:southwark) do
-    LocalAuthority.find_by(subdomain: "southwark") ||
-      create(:local_authority, :southwark)
-  end
+  let!(:lambeth) { create(:local_authority, :lambeth) }
+  let!(:southwark) { create(:local_authority, :southwark) }
 
   context "Lambeth council" do
     before do

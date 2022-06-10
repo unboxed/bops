@@ -57,20 +57,11 @@ RSpec.describe "Sign in", type: :system do
     end
 
     context "a user belonging to a given subdomain" do
-      let!(:lambeth) do
-        LocalAuthority.find_by(subdomain: "lambeth") ||
-          create(:local_authority, :lambeth)
-      end
-
-      let!(:southwark) do
-        LocalAuthority.find_by(subdomain: "southwark") ||
-          create(:local_authority, :southwark)
-      end
-
+      let!(:lambeth) { create :local_authority, :lambeth }
+      let!(:southwark) { create :local_authority, :southwark }
       let(:lambeth_assessor) do
         create :user, :assessor, name: "Lambertina Lamb", password: "Lambsrock18!", local_authority: lambeth
       end
-
       let(:southwark_assessor) do
         create :user, :assessor, name: "Southwarkina Sully", password: "Southwark4ever!", local_authority: southwark
       end
