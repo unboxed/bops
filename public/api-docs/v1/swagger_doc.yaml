@@ -467,6 +467,16 @@ paths:
                               - 'Planning permission / Permission needed'
                       metadata:
                         portal_name: Actitivies
+                    - question: What type of planning application are you making?
+                      responses:
+                        - value: Existing changes
+                      metadata:
+                        portal_name: fee-calculator
+                    - question: What type of changes does the project involve?
+                      responses:
+                        - value: Alteration
+                      metadata:
+                        portal_name: Fee Exemptions
                   constraints:
                     conservation_area: true
                     protected_trees: false

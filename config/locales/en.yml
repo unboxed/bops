@@ -32,6 +32,8 @@ en:
       fee_paid: Fee Paid
       item: Item
       payment_reference: Payment Reference
+    proposal_details_table:
+      related_questions: Related questions from RIPA
   other_change_validation_requests:
     form:
       labels:

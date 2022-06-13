@@ -11,12 +11,28 @@ RSpec.describe "FeeItemsValidation", type: :system do
   end
 
   context "when application is not started" do
+    let(:proposal_details) do
+      [
+        {
+          question: "What type of planning application are you making?",
+          responses: [{ value: "Existing changes" }],
+          metadata: { portal_name: "fee-related" }
+        },
+        {
+          question: "What type of changes does the project involve?",
+          responses: [{ value: "Alteration" }],
+          metadata: { portal_name: "fee-related" }
+        }
+      ].to_json
+    end
+
     let!(:planning_application) do
       create(
         :planning_application, :not_started,
         local_authority: default_local_authority,
         payment_reference: "PAY1",
-        payment_amount: 112.12
+        payment_amount: 112.12,
+        proposal_details: proposal_details
       )
     end
 
@@ -26,7 +42,9 @@ RSpec.describe "FeeItemsValidation", type: :system do
 
       expect(page).to have_content("Check the fee")
 
-      within(".govuk-table") do
+      table = find_all(".govuk-table").first
+
+      within(table) do
         within(".govuk-table__head") do
           expect(page).to have_content("Item")
           expect(page).to have_content("Detail")
@@ -50,6 +68,24 @@ RSpec.describe "FeeItemsValidation", type: :system do
             expect(page).to have_content(planning_application.description)
           end
         end
+      end
+    end
+
+    it "renders fee related proposal details" do
+      visit planning_application_fee_items_path(planning_application)
+
+      table = find_all(".govuk-table").last
+
+      within(table) do
+        rows = find_all(".govuk-table__row")
+
+        expect(rows[0]).to have_content(
+          "What type of planning application are you making?"
+        )
+
+        expect(rows[1]).to have_content(
+          "What type of changes does the project involve?"
+        )
       end
     end
 

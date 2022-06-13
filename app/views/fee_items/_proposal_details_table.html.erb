@@ -1,0 +1,17 @@
+<% if proposal_details.any? %>
+  <table class="govuk-table">
+    <caption class="govuk-table__caption govuk-table__caption--m">
+      <%= t(".related_questions") %>
+    </caption>
+    <% proposal_details.each do |proposal_detail| %>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">
+          <%= proposal_detail.question %>
+        </th>
+        <td class="govuk-table__cell">
+          <%= proposal_detail.responses.first.value %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
