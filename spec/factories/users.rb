@@ -2,7 +2,9 @@
 
 FactoryBot.define do
   factory :user do
-    local_authority
+    local_authority do
+      LocalAuthority.find_by(subdomain: "buckinghamshire") || create(:local_authority)
+    end
     name { Faker::Name.name }
     email { Faker::Internet.email }
     password { "password123" }

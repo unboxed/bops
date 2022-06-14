@@ -19,4 +19,5 @@ runs:
         RAILS_ENV: test
         OTP_SECRET_ENCRYPTION_KEY: 83ccc50b-3ba9-45d9-8047-9518a935f065
       run: |
-        bundle exec rake db:setup
+        bundle exec rake db:create
+        bundle exec rake db:schema:load

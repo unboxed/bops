@@ -10,3 +10,7 @@ end
 After("@e2e") do
   Capybara.server_port = nil
 end
+
+Before do
+  Rails.application.load_seed
+end
