@@ -4,7 +4,7 @@ class LocalAuthority < ApplicationRecord
   has_many :users, dependent: :destroy
   has_many :planning_applications, dependent: :destroy
 
-  validates :name, :subdomain, presence: true
+  validates :subdomain, presence: true
 
   enum subdomain: {
     lambeth: "lambeth",
@@ -19,5 +19,9 @@ class LocalAuthority < ApplicationRecord
 
   def council_code
     I18n.t("council_code.#{subdomain}")
+  end
+
+  def council_name
+    ripa? ? subdomain.capitalize : "#{subdomain.capitalize} Council Authority"
   end
 end

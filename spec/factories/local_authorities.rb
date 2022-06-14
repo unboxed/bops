@@ -2,7 +2,6 @@
 
 FactoryBot.define do
   factory :local_authority do
-    name { Faker::Name.name }
     subdomain { "buckinghamshire" }
     signatory_name { Faker::FunnyName.two_word_name }
     signatory_job_title { "Director" }
@@ -10,12 +9,10 @@ FactoryBot.define do
     email_address { Faker::Internet.email }
 
     trait :default do
-      name { "Default Authority" }
       subdomain { "ripa" }
     end
 
     trait :lambeth do
-      name { "Lambeth Council Authority" }
       subdomain { "lambeth" }
       signatory_name { "Christina Thompson" }
       signatory_job_title { "Director of Finance & Property" }
@@ -25,7 +22,6 @@ FactoryBot.define do
     end
 
     trait :southwark do
-      name { "Southwark Council Authority" }
       subdomain { "southwark" }
       signatory_name { "Stephen Platts" }
       signatory_job_title { "Director of Planning and Growth" }

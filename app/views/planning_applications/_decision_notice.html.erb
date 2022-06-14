@@ -1,6 +1,6 @@
 <div class="decision-notice">
   <span class="govuk-caption-xl">
-    <%= planning_application.local_authority.name %>
+    <%= planning_application.local_authority.council_name %>
   </span>
   <br/>
   <h2 class="govuk-heading-s">
@@ -105,7 +105,7 @@
   </h3>
   <p class="govuk-body">
     <%= planning_application.local_authority.signatory %>, <br>
-    <%= planning_application.local_authority.name %>, <br>
+    <%= planning_application.local_authority.council_name %>, <br>
     <%= planning_application.local_authority.enquiries_paragraph %>.
   </p>
   <% if @planning_application.refused? %>

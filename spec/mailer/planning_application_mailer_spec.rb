@@ -7,7 +7,6 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     create(
       :local_authority,
       :default,
-      name: "Cookie authority",
       signatory_name: "Mr. Biscuit",
       signatory_job_title: "Lord of BiscuitTown",
       enquiries_paragraph: "reach us on postcode SW50",
