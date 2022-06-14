@@ -12,7 +12,25 @@ module ProposalDetailsPresenter
       end
     end
 
+    def grouped_proposal_details
+      @grouped_proposal_details ||= proposal_detail_groups.map do |group|
+        [group, proposal_details_for_group(group)]
+      end
+    end
+
     private
+
+    def proposal_details_for_group(group)
+      proposal_details.select do |proposal_detail|
+        proposal_detail.metadata&.portal_name == group
+      end
+    end
+
+    def proposal_detail_groups
+      proposal_details.map do |proposal_detail|
+        proposal_detail.metadata&.portal_name
+      end.uniq
+    end
 
     def proposal_question(proposal)
       tag.p(class: "govuk-body") do

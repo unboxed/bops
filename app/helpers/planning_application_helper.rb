@@ -55,4 +55,16 @@ module PlanningApplicationHelper
                                         )}"
     end
   end
+
+  def proposal_details_group_id(group)
+    proposal_details_group_name(group).downcase.gsub(/[^0-9a-z]/i, "")
+  end
+
+  def proposal_details_group_title(group)
+    proposal_details_group_name(group).downcase.underscore.humanize
+  end
+
+  def proposal_details_group_name(group)
+    group || t(".other")
+  end
 end

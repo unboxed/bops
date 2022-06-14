@@ -6,22 +6,52 @@ RSpec.describe "Planning Application show page", type: :system do
   let(:documents_validated_at) { 10.business_days.until(Date.current) }
   let!(:api_user) { create :api_user }
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:planning_application) do
-    create :planning_application, description: "Roof extension",
-                                  application_type: "lawfulness_certificate",
-                                  status: :in_assessment,
-                                  documents_validated_at: documents_validated_at,
-                                  local_authority: default_local_authority,
-                                  payment_reference: "PAY123",
-                                  payment_amount: 103.00,
-                                  work_status: "proposed",
-                                  uprn: "00773377",
-                                  address_1: "7 Elm Grove",
-                                  town: "London",
-                                  postcode: "SE15 6UT",
-                                  constraints: ["Conservation Area", "Listed Building"],
-                                  api_user: api_user
+
+  let(:proposal_details) do
+    [
+      {
+        question: "What do you want to do?",
+        responses: [{ value: "Modify or extend" }],
+        metadata: { portal_name: "General" }
+      },
+      {
+        question: "Is the property a house?",
+        responses: [{ value: "Yes" }],
+        metadata: { portal_name: "General" }
+      },
+      {
+        question: "What will the height of the new structure be?",
+        responses: [{ value: "2.5m" }],
+        metadata: { portal_name: "Dimensions" }
+      },
+      {
+        question: "Is the property in a world heritage site?",
+        responses: [{ value: "No" }]
+      }
+    ].to_json
   end
+
+  let!(:planning_application) do
+    create(
+      :planning_application,
+      description: "Roof extension",
+      application_type: "lawfulness_certificate",
+      status: :in_assessment,
+      documents_validated_at: documents_validated_at,
+      local_authority: default_local_authority,
+      payment_reference: "PAY123",
+      payment_amount: 103.00,
+      work_status: "proposed",
+      uprn: "00773377",
+      address_1: "7 Elm Grove",
+      town: "London",
+      postcode: "SE15 6UT",
+      constraints: ["Conservation Area", "Listed Building"],
+      api_user: api_user,
+      proposal_details: proposal_details
+    )
+  end
+
   let(:assessor) { create :user, :assessor, local_authority: default_local_authority }
 
   context "as an assessor" do
@@ -100,14 +130,38 @@ RSpec.describe "Planning Application show page", type: :system do
       expect(page).to have_text("Override")
     end
 
-    it "Result question summary" do
-      click_button "Result from #{api_user.name}"
+    it "displays the proposal details by group" do
+      click_button("Proposal details")
 
-      within(".govuk-accordion__section.result_information") do
-        expect(page).to have_text("1. what are you planning to do?")
-        expect(page).to have_text("demolish")
-        expect(page).to have_text("Details identified by #{api_user.name} as relevant to the result")
-        expect(page).to have_no_text("listed building")
+      within("#proposal-details-section") do
+        click_link("General")
+
+        expect(URI.parse(current_url).fragment).to eq("general")
+
+        group1 = find_all("ol")[0]
+
+        expect(group1).to have_content("What do you want to do?")
+        expect(group1).to have_content("Is the property a house?")
+
+        click_link("Dimensions")
+
+        expect(URI.parse(current_url).fragment).to eq("dimensions")
+
+        group2 = find_all("ol")[1]
+
+        expect(group2).to have_content(
+          "What will the height of the new structure be?"
+        )
+
+        click_link("Other")
+
+        expect(URI.parse(current_url).fragment).to eq("other")
+
+        group3 = find_all("ol")[2]
+
+        expect(group3).to have_content(
+          "Is the property in a world heritage site?"
+        )
       end
     end
 

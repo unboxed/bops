@@ -179,4 +179,83 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
       end
     end
   end
+
+  describe "#grouped_proposal_details" do
+    let(:proposal_details) do
+      [
+        {
+          question: "Question 1",
+          responses: [{ value: "Answer 1" }],
+          metadata: { portal_name: "Group B" }
+        },
+        {
+          question: "Question 2",
+          responses: [{ value: "Answer 2" }],
+          metadata: { portal_name: "Group A" }
+        },
+        {
+          question: "Question 3",
+          responses: [{ value: "Answer 3" }],
+          metadata: { portal_name: "Group B" }
+        },
+        {
+          question: "Question 4",
+          responses: [{ value: "Answer 4" }]
+        }
+      ].to_json
+    end
+
+    let(:planning_application) do
+      create(:planning_application, proposal_details: proposal_details)
+    end
+
+    it "returns proposal details grouped by by portal name" do
+      expect(presenter.grouped_proposal_details).to eq(
+        [
+          [
+            "Group B",
+            [
+              OpenStruct.new(
+                {
+                  question: "Question 1",
+                  responses: [OpenStruct.new({ value: "Answer 1" })],
+                  metadata: OpenStruct.new({ portal_name: "Group B" })
+                }
+              ),
+              OpenStruct.new(
+                {
+                  question: "Question 3",
+                  responses: [OpenStruct.new({ value: "Answer 3" })],
+                  metadata: OpenStruct.new({ portal_name: "Group B" })
+                }
+              )
+            ]
+          ],
+          [
+            "Group A",
+            [
+              OpenStruct.new(
+                {
+                  question: "Question 2",
+                  responses: [OpenStruct.new({ value: "Answer 2" })],
+                  metadata: OpenStruct.new({ portal_name: "Group A" })
+                }
+              )
+            ]
+          ],
+          [
+            nil,
+            [
+              OpenStruct.new(
+                {
+                  question: "Question 4",
+                  responses: [OpenStruct.new({ value: "Answer 4" })]
+                }
+              )
+            ]
+          ]
+        ]
+      )
+    end
+  end
 end
