@@ -258,4 +258,68 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
       )
     end
   end
+
+  describe "#fee_related_proposal_details" do
+    let(:proposal_details) do
+      [
+        {
+          question: "Question 1",
+          responses: [{ value: "Answer 1" }],
+          metadata: { portal_name: "Fee Related Group" }
+        },
+        {
+          question: "Question 2",
+          responses: [{ value: "Answer 2" }],
+          metadata: { portal_name: "group-about-fee" }
+        },
+        {
+          question: "Question 3",
+          responses: [{ value: "Answer 3" }],
+          metadata: { portal_name: "a_fee_group" }
+        },
+        {
+          question: "Question 4",
+          responses: [{ value: "Answer 4" }],
+          metadata: { portal_name: "Other Group" }
+        },
+        {
+          question: "Question 5",
+          responses: [{ value: "Answer 5" }],
+          metadata: { portal_name: "Birdfeed Related" }
+        }
+      ].to_json
+    end
+
+    let(:planning_application) do
+      create(:planning_application, proposal_details: proposal_details)
+    end
+
+    it "returns proposal details with 'fee' in the portal name" do
+      expect(presenter.fee_related_proposal_details).to eq(
+        [
+          OpenStruct.new(
+            {
+              question: "Question 1",
+              responses: [OpenStruct.new({ value: "Answer 1" })],
+              metadata: OpenStruct.new({ portal_name: "Fee Related Group" })
+            }
+          ),
+          OpenStruct.new(
+            {
+              question: "Question 2",
+              responses: [OpenStruct.new({ value: "Answer 2" })],
+              metadata: OpenStruct.new({ portal_name: "group-about-fee" })
+            }
+          ),
+          OpenStruct.new(
+            {
+              question: "Question 3",
+              responses: [OpenStruct.new({ value: "Answer 3" })],
+              metadata: OpenStruct.new({ portal_name: "a_fee_group" })
+            }
+          )
+        ]
+      )
+    end
+  end
 end

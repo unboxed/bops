@@ -12,6 +12,12 @@ module ProposalDetailsPresenter
       end
     end
 
+    def fee_related_proposal_details
+      proposal_details.select do |proposal_detail|
+        proposal_detail.metadata&.portal_name&.match(/(_|\b)fee(_|\b)/i)
+      end
+    end
+
     def grouped_proposal_details
       @grouped_proposal_details ||= proposal_detail_groups.map do |group|
         [group, proposal_details_for_group(group)]
