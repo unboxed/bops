@@ -54,6 +54,24 @@ RSpec.describe "Documents index page", type: :system do
 
       expect(current_url).to include("/rails/active_storage/")
     end
+
+    context "when File image opens in new tab and user log out" do
+      before do
+        click_link "View in new window"
+        page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
+
+        active_storage_url = current_url
+
+        page.driver.browser.switch_to.window(page.driver.browser.window_handles.first)
+        click_on "Log out"
+
+        visit(active_storage_url)
+      end
+
+      it "requires to sign in" do
+        expect(page).to have_text("You need to sign in or sign up before continuing.")
+      end
+    end
   end
 
   context "handling invalid documents" do
