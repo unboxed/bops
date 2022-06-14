@@ -11,8 +11,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       signatory_name: "Mr. Biscuit",
       signatory_job_title: "Lord of BiscuitTown",
       enquiries_paragraph: "reach us on postcode SW50",
-      email_address: "biscuit@somuchbiscuit.com",
-      council_code: "ABC"
+      email_address: "biscuit@somuchbiscuit.com"
     )
   end
 
@@ -84,7 +83,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the reference" do
       expect(mail_body).to include(
-        "Application reference number: ABC-22-00100-LDCP"
+        "Application reference number: RIPA-22-00100-LDCP"
       )
     end
 
@@ -186,7 +185,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the reference" do
       expect(mail_body).to include(
-        "Application reference number: ABC-22-00100-LDCP"
+        "Application reference number: RIPA-22-00100-LDCP"
       )
     end
 
@@ -229,7 +228,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the reference" do
       expect(mail_body).to include(
-        "Application reference number: ABC-22-00100-LDCP"
+        "Application reference number: RIPA-22-00100-LDCP"
       )
     end
 
@@ -276,7 +275,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the reference" do
       expect(mail_body).to include(
-        "Application reference number: ABC-22-00100-LDCP"
+        "Application reference number: RIPA-22-00100-LDCP"
       )
     end
 
@@ -337,7 +336,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "includes the reference" do
-      expect(mail_body).to include("Application number: ABC-22-00100-LDCP")
+      expect(mail_body).to include("Application number: RIPA-22-00100-LDCP")
     end
 
     it "includes the address" do
@@ -386,7 +385,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the reference" do
       expect(mail_body).to include(
-        "Application reference number: ABC-22-00100-LDCP"
+        "Application reference number: RIPA-22-00100-LDCP"
       )
     end
 
@@ -452,7 +451,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "includes the reference" do
         expect(mail_body).to include(
-          "Application reference number: ABC-22-00100-LDCP"
+          "Application reference number: RIPA-22-00100-LDCP"
         )
       end
 
@@ -497,7 +496,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "includes the reference" do
         expect(mail_body).to include(
-          "Application reference number: ABC-22-00100-LDCP"
+          "Application reference number: RIPA-22-00100-LDCP"
         )
       end
 

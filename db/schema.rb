@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_26_152433) do
+ActiveRecord::Schema.define(version: 2022_06_09_115812) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,7 +150,6 @@ ActiveRecord::Schema.define(version: 2022_05_26_152433) do
     t.string "email_address"
     t.string "reply_to_notify_id"
     t.string "feedback_email"
-    t.string "council_code", null: false
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 

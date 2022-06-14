@@ -32,7 +32,7 @@ paths:
                   value: &planning_application
                     id: 10000
                     reference: '20-00100-LDCP'
-                    reference_in_full: 'SWK-20-00100-LDCP'
+                    reference_in_full: 'RIPA-20-00100-LDCP'
                     site:
                       address_1: 11 Abbey Gardens
                       address_2: Southwark

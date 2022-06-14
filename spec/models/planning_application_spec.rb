@@ -238,7 +238,7 @@ RSpec.describe PlanningApplication, type: :model do
   end
 
   describe "#reference_in_full" do
-    let(:local_authority) { create(:local_authority, council_code: "SWK") }
+    let(:local_authority) { create(:local_authority, :southwark) }
     let(:planning_application1) { create(:planning_application, application_type: 0, local_authority: local_authority, work_status: "proposed") }
     let(:planning_application2) { create(:planning_application, application_type: 0, local_authority: local_authority, work_status: "existing") }
 

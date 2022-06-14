@@ -39,6 +39,11 @@ en:
       labels:
         suggestion: Tell the applicant how the fee can be made valid.
         summary: Tell the applicant why the fee is incorrect.
+  council_code:
+    lambeth: LBH
+    southwark: SWK
+    buckinghamshire: BUC
+    ripa: RIPA
   activerecord:
     errors:
       models:

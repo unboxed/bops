@@ -6,12 +6,6 @@ RSpec.describe LocalAuthority, type: :model do
   describe "validations" do
     subject(:local_authority) { described_class.new }
 
-    describe "#council_code" do
-      it "validates presence" do
-        expect { local_authority.valid? }.to change { local_authority.errors[:council_code] }.to ["can't be blank"]
-      end
-    end
-
     describe "#name" do
       it "validates presence" do
         expect { local_authority.valid? }.to change { local_authority.errors[:name] }.to ["can't be blank"]
@@ -34,9 +28,14 @@ RSpec.describe LocalAuthority, type: :model do
       let(:local_authority) do
         build(
           :local_authority,
+          :lambeth,
           signatory_name: "Jane Smith",
           signatory_job_title: "Director"
         )
+      end
+
+      it "#council_code" do
+        expect(local_authority.council_code).to eq("LBH")
       end
 
       it "returns signatory name and job title" do
