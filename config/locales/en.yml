@@ -58,7 +58,6 @@ en:
   helpers:
     hint:
       other_change_validation_request:
-        summary: "Only add one reason for each request."
         suggestion: "Add all information that they will need to complete this action."
     label:
       planning_application:
