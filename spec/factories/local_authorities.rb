@@ -3,13 +3,19 @@
 FactoryBot.define do
   factory :local_authority do
     subdomain { "buckinghamshire" }
-    signatory_name { Faker::FunnyName.two_word_name }
+    signatory_name { Faker::FunnyName.unique.two_word_name }
     signatory_job_title { "Director" }
     enquiries_paragraph { Faker::Lorem.unique.sentence }
     email_address { Faker::Internet.email }
+    feedback_email { "feedback_email@buckinghamshire.gov.uk" }
 
     trait :default do
       subdomain { "ripa" }
+      signatory_name { Faker::FunnyName.unique.two_word_name }
+      signatory_job_title { "Director" }
+      enquiries_paragraph { Faker::Lorem.unique.sentence }
+      email_address { "planning@ripa.uk" }
+      feedback_email { "feedback_email@ripa.uk" }
     end
 
     trait :lambeth do
