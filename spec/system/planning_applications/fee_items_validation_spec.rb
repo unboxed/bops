@@ -21,7 +21,13 @@ RSpec.describe "FeeItemsValidation", type: :system do
         {
           question: "What type of changes does the project involve?",
           responses: [{ value: "Alteration" }],
-          metadata: { portal_name: "fee-related" }
+          metadata: {
+            portal_name: "fee-related",
+            policy_refs: [
+              { text: "The Town and Country Planning Order 2015" },
+              { url: "https://www.example.com/planning/policy/1" }
+            ]
+          }
         }
       ].to_json
     end
@@ -83,9 +89,20 @@ RSpec.describe "FeeItemsValidation", type: :system do
           "What type of planning application are you making?"
         )
 
-        expect(rows[1]).to have_content(
-          "What type of changes does the project involve?"
-        )
+        within(rows[1]) do
+          expect(page).to have_content(
+            "What type of changes does the project involve?"
+          )
+
+          find("span", text: "Related legislation").click
+
+          expect(page).to have_content("The Town and Country Planning Order 2015")
+
+          expect(page).to have_link(
+            "https://www.example.com/planning/policy/1",
+            href: "https://www.example.com/planning/policy/1"
+          )
+        end
       end
     end
 

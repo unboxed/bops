@@ -34,6 +34,7 @@ en:
       payment_reference: Payment Reference
     proposal_details_table:
       related_questions: Related questions from RIPA
+      related_legislation: Related legislation
   other_change_validation_requests:
     form:
       labels:
@@ -68,6 +69,9 @@ en:
       otp_required_for_login: Two factor authentication
       role: Role
       true: "Yes"
+  proposal_details:
+    auto_answered: Auto-answered by RIPA
+    other: Other
   activerecord:
     errors:
       models:

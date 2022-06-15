@@ -34,7 +34,7 @@
           <ol class="govuk-body sub-list" start=<%= start_number %>>
             <% proposal_details.each do |proposal_detail| %>
               <li>
-                <%= @planning_application.proposal_detail_item(proposal_detail) %>
+                <%= proposal_detail_item(proposal_detail) %>
               </li>
             <% end %>
           </ol>
@@ -43,7 +43,7 @@
         <ol class="govuk-list govuk-list--number">
           <% @planning_application.proposal_details.each do |proposal_detail| %>
             <li>
-              <%= @planning_application.proposal_detail_item(proposal_detail) %>
+              <%= proposal_detail_item(proposal_detail) %>
             </li>
           <% end %>
         </ol>

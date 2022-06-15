@@ -542,11 +542,15 @@ paths:
                         - value: Existing changes
                       metadata:
                         portal_name: fee-calculator
+                        policy_refs:
+                          - url: 'http://example.com/planning/policy/1/234/a.html'
                     - question: What type of changes does the project involve?
                       responses:
                         - value: Alteration
                       metadata:
                         portal_name: Fee Exemptions
+                        policy_refs:
+                          - text: The Town and Country Planning (General Permitted Development) (England) Order 2015
                   constraints:
                     conservation_area: true
                     protected_trees: false
