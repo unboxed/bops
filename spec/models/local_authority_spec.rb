@@ -6,21 +6,45 @@ RSpec.describe LocalAuthority, type: :model do
   describe "validations" do
     subject(:local_authority) { described_class.new }
 
-    describe "#council_code" do
-      it "validates presence" do
-        expect { local_authority.valid? }.to change { local_authority.errors[:council_code] }.to ["can't be blank"]
-      end
-    end
-
-    describe "#name" do
-      it "validates presence" do
-        expect { local_authority.valid? }.to change { local_authority.errors[:name] }.to ["can't be blank"]
-      end
-    end
-
     describe "#subdomain" do
       it "validates presence" do
         expect { local_authority.valid? }.to change { local_authority.errors[:subdomain] }.to ["can't be blank"]
+      end
+
+      it "raises an error with wrong type" do
+        expect { build(:local_authority, subdomain: "new_name") }
+          .to raise_error(ArgumentError)
+          .with_message(/is not a valid subdomain/)
+      end
+    end
+
+    describe "#signatory_name" do
+      it "validates presence" do
+        expect { local_authority.valid? }.to change { local_authority.errors[:signatory_name] }.to ["can't be blank"]
+      end
+    end
+
+    describe "#signatory_job_title" do
+      it "validates presence" do
+        expect { local_authority.valid? }.to change { local_authority.errors[:signatory_job_title] }.to ["can't be blank"]
+      end
+    end
+
+    describe "#enquiries_paragraph" do
+      it "validates presence" do
+        expect { local_authority.valid? }.to change { local_authority.errors[:enquiries_paragraph] }.to ["can't be blank"]
+      end
+    end
+
+    describe "#email_address" do
+      it "validates presence" do
+        expect { local_authority.valid? }.to change { local_authority.errors[:email_address] }.to ["can't be blank"]
+      end
+    end
+
+    describe "#feedback_email" do
+      it "validates presence" do
+        expect { local_authority.valid? }.to change { local_authority.errors[:feedback_email] }.to ["can't be blank"]
       end
     end
 
@@ -28,9 +52,14 @@ RSpec.describe LocalAuthority, type: :model do
       let(:local_authority) do
         build(
           :local_authority,
+          :lambeth,
           signatory_name: "Jane Smith",
           signatory_job_title: "Director"
         )
+      end
+
+      it "#council_code" do
+        expect(local_authority.council_code).to eq("LBH")
       end
 
       it "returns signatory name and job title" do

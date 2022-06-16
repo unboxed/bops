@@ -1,6 +1,6 @@
 <div class="validation-notice">
   <span class="govuk-caption-xl">
-    <%= planning_application.local_authority.name %>
+    <%= planning_application.local_authority.council_name %>
   </span>
   <h3 class="govuk-heading-s">
     Town and Country Planning Act 1990 (as amended) <br><br>
@@ -49,7 +49,7 @@
     Any enquiries regarding this document should quote the Application Number and be sent to
     the
     <%= @planning_application.local_authority.signatory_job_title %>,
-    <%= @planning_application.local_authority.name %>,
+    <%= @planning_application.local_authority.council_name %>,
     <%= @planning_application.local_authority.enquiries_paragraph %>
     or by email to <%= @planning_application.local_authority.email_address %>
   </p>
