@@ -9,9 +9,16 @@ RSpec.describe "Planning Application index page", type: :system do
   let!(:planning_application_started) do
     create :planning_application, :awaiting_determination, local_authority: default_local_authority
   end
+
   let!(:planning_application_completed) do
-    create :planning_application, :determined, local_authority: default_local_authority
+    create(
+      :planning_application,
+      :determined,
+      local_authority: default_local_authority,
+      expiry_date: Date.new(2022, 10, 10)
+    )
   end
+
   let(:assessor) { create :user, :assessor, local_authority: default_local_authority }
   let(:reviewer) { create :user, :reviewer, local_authority: default_local_authority }
 
