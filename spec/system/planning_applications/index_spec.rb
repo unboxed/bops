@@ -52,15 +52,42 @@ RSpec.describe "Planning Application index page", type: :system do
         end
       end
 
-      it "Only Planning Applications that are determined are present in this tab" do
-        click_link "Closed"
+      context "when I view the closed tab" do
+        before do
+          click_link "Closed"
+        end
 
-        within("#closed") do
-          expect(page).to have_text("Closed")
-          expect(page).to have_link(planning_application_completed.reference)
-          expect(page).not_to have_link(planning_application_1.reference)
-          expect(page).not_to have_link(planning_application_2.reference)
-          expect(page).not_to have_link(planning_application_started.reference)
+        it "Only Planning Applications that are determined are present in this tab" do
+          within("#closed") do
+            expect(page).to have_text("Closed")
+            expect(page).to have_link(planning_application_completed.reference)
+            expect(page).not_to have_link(planning_application_1.reference)
+            expect(page).not_to have_link(planning_application_2.reference)
+            expect(page).not_to have_link(planning_application_started.reference)
+          end
+        end
+
+        it "I see the relevant table headers and information" do
+          click_link "Closed"
+
+          within("#closed") do
+            expect(page).to have_content("Application number")
+            expect(page).to have_content("Site address")
+            expect(page).to have_content("Application type")
+            expect(page).to have_content("Expiry date")
+            expect(page).to have_content("Status")
+            expect(page).to have_content("Determination date")
+            expect(page).to have_content("Planning officer")
+
+            within("#planning_application_#{planning_application_completed.id}") do
+              expect(page).to have_link("22-00103-LDCP")
+              expect(page).to have_content(planning_application_completed.full_address)
+              expect(page).to have_content("Lawful Development Certificate")
+              expect(page).to have_content("10 Aug")
+              expect(page).to have_content("Granted")
+              expect(page).to have_content("15 Jun")
+            end
+          end
         end
       end
 
@@ -137,7 +164,7 @@ RSpec.describe "Planning Application index page", type: :system do
     end
   end
 
-  context "as an reviewer" do
+  context "as a reviewer" do
     before do
       sign_in reviewer
       visit root_path
