@@ -25,6 +25,11 @@ en:
       warning: Warning
     application_information:
       exempt: Exempt
+    date_input:
+      day: Day
+      error: "Error:"
+      month: Month
+      year: Year
   page_title: "BETA BOPs - GOV.UK"
   statuses:
     not_started: "Not started"

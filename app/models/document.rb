@@ -2,6 +2,9 @@
 
 class Document < ApplicationRecord
   class NotArchiveableError < StandardError; end
+  include DateValidatable
+
+  handle_invalid_dates(:received_at)
 
   belongs_to :planning_application
 

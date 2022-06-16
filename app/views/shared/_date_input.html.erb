@@ -1,0 +1,47 @@
+<div class="govuk-form-group <%= "govuk-form-group--error" if form.object.errors.messages[attribute]&.any?  %>">
+  <fieldset class="govuk-fieldset" role="group" aria-describedby="<%= attribute %>-hint">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+      <%= legend %>
+    </legend>
+    <div id="<%= attribute %>-hint" class="govuk-hint">
+      <%= hint %>
+    </div>
+    <% if form.object.errors.messages[attribute]&.any? %>
+      <% form.object.errors.messages[attribute].each do |message| %>
+        <p id="<%= attribute %>-error" class="govuk-error-message">
+          <span class="govuk-visually-hidden"><%= t(".error") %></span>
+          <%= message %>
+        </p>
+      <% end %>
+    <% end %>
+    <div class="govuk-date-input" id="<%= attribute %>">
+      <%= render(
+        partial: "shared/date_input_item",
+        locals: {
+          form: form,
+          label: t(".day"),
+          field: "#{attribute}_day",
+          error: form.object.errors.messages[attribute]&.any?
+        }
+      ) %>
+      <%= render(
+        partial: "shared/date_input_item",
+        locals: {
+          form: form,
+          label: t(".month"),
+          field: "#{attribute}_month",
+          error: form.object.errors.messages[attribute]&.any?
+        }
+      ) %>
+      <%= render(
+        partial: "shared/date_input_item",
+        locals: {
+          form: form,
+          label: t(".year"),
+          field: "#{attribute}_year",
+          error: form.object.errors.messages[attribute]&.any?
+        }
+      ) %>
+    </div>
+  </fieldset>
+</div>

@@ -95,10 +95,23 @@ class DocumentsController < AuthenticationController
   private
 
   def document_params
-    document_params = params.fetch(:document, {}).permit(:archive_reason, :name, :archived_at,
-                                                         :numbers, :publishable, :referenced_in_decision_notice,
-                                                         :validated, :invalidated_document_reason, :file,
-                                                         :received_at, :created_by, tags: [])
+    document_params = params.fetch(:document, {}).permit(
+      :archive_reason,
+      :name,
+      :archived_at,
+      :numbers,
+      :publishable,
+      :referenced_in_decision_notice,
+      :validated,
+      :invalidated_document_reason,
+      :file,
+      :received_at_day,
+      :received_at_month,
+      :received_at_year,
+      :created_by,
+      tags: []
+    )
+
     document_params[:tags]&.reject!(&:blank?)
     document_params
   end

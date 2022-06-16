@@ -1,0 +1,14 @@
+<div class="govuk-date-input__item">
+  <div class="govuk-form-group">
+    <%= form.label(
+      field,
+      label,
+      class: "govuk-label govuk-date-input__label"
+    ) %>
+    <%= form.text_field(
+      field,
+      value: form.object.send(field),
+      class: "govuk-input govuk-date-input__input govuk-input--width-2 #{"govuk-input--error" if error}"
+    ) %>
+  </div>
+</div>
