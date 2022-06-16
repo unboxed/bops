@@ -83,9 +83,9 @@ RSpec.describe "Planning Application index page", type: :system do
               expect(page).to have_link("22-00103-LDCP")
               expect(page).to have_content(planning_application_completed.full_address)
               expect(page).to have_content("Lawful Development Certificate")
-              expect(page).to have_content("10 Aug")
+              expect(page).to have_content(planning_application_completed.expiry_date.strftime("%e %b"))
               expect(page).to have_content("Granted")
-              expect(page).to have_content("15 Jun")
+              expect(page).to have_content(planning_application_completed.determination_date.strftime("%e %b"))
             end
           end
         end
