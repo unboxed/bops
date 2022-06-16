@@ -12,27 +12,36 @@
       <%= render "shared/warning_text",
         message: "This application has been updated. The proposal details may no longer be accurate. Please check all relevant details have been provided." %>
     <% end %>
-
     <% if @planning_application.proposal_details.any? %>
-      <ul class="govuk-body">
-        <strong>
-          <% @planning_application.grouped_proposal_details.each do |group, _proposal_details| %>
-            <li>
-              <%= link_to(
-                proposal_details_group_title(group),
-                "##{proposal_details_group_id(group)}",
-                class: "govuk-link"
-              ) %>
-            </li>
-          <% end %>
-        </strong>
-      </ul>
-      <% @planning_application.grouped_proposal_details.each do |group, proposal_details| %>
-        <h4 id=<%= proposal_details_group_id(group) %> class="govuk-heading-s">
-          <%= proposal_details_group_title(group) %>
-        </h4>
-        <ol class="govuk-body sub-list">
-          <% proposal_details.each do |proposal_detail| %>
+      <% if ENV["GROUPED_PROPOSAL_DETAILS_FEATURE"] == "true" %>
+        <ul class="govuk-body">
+          <strong>
+            <% @planning_application.grouped_proposal_details.each do |group, _proposal_details| %>
+              <li>
+                <%= link_to(
+                  proposal_details_group_title(group),
+                  "##{proposal_details_group_id(group)}",
+                  class: "govuk-link"
+                ) %>
+              </li>
+            <% end %>
+          </strong>
+        </ul>
+        <% @planning_application.grouped_proposal_details_with_start_numbers.each do |group, proposal_details, start_number| %>
+          <h4 id=<%= proposal_details_group_id(group) %> class="govuk-heading-s">
+            <%= proposal_details_group_title(group) %>
+          </h4>
+          <ol class="govuk-body sub-list" start=<%= start_number %>>
+            <% proposal_details.each do |proposal_detail| %>
+              <li>
+                <%= @planning_application.proposal_detail_item(proposal_detail) %>
+              </li>
+            <% end %>
+          </ol>
+        <% end %>
+      <% else %>
+        <ol class="govuk-list govuk-list--number">
+          <% @planning_application.proposal_details.each do |proposal_detail| %>
             <li>
               <%= @planning_application.proposal_detail_item(proposal_detail) %>
             </li>

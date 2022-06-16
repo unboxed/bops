@@ -18,6 +18,13 @@ module ProposalDetailsPresenter
       end
     end
 
+    def grouped_proposal_details_with_start_numbers
+      grouped_proposal_details.each_with_index.map do |group, index|
+        question_count = grouped_proposal_details.first(index).map(&:last).flatten.count
+        group.dup.push(question_count + 1)
+      end
+    end
+
     def grouped_proposal_details
       @grouped_proposal_details ||= proposal_detail_groups.map do |group|
         [group, proposal_details_for_group(group)]
