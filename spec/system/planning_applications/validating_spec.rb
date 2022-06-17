@@ -189,8 +189,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_button "Mark the application as valid"
 
       new_planning_application.reload
-      # This is stopped by HTML 5 validations, which are hard to test the UI for.
       expect(new_planning_application.status).to eql("not_started")
+      expect(page).to have_content("Please enter a valid date")
     end
 
     it "shows error if date is empty" do

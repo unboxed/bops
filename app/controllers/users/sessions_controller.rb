@@ -13,6 +13,7 @@ module Users
     before_action :find_current_local_authority_from_subdomain
     prepend_before_action :authenticate_with_otp_two_factor, if: :otp_two_factor_enabled?, only: :create
     before_action :find_otp_user, only: %i[setup two_factor resend_code]
+    skip_before_action :enforce_user_permissions
 
     protect_from_forgery with: :exception, prepend: true, except: :destroy
 
