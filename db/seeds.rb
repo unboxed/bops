@@ -38,8 +38,8 @@ local_authorities.each do |authority|
 
   admin_roles.each do |admin_role|
     User.find_or_create_by!(email: "#{authority.subdomain}_#{admin_role}@example.com") do |user|
-      first_name = Faker::Name.unique.first_name
-      last_name = Faker::Name.unique.last_name
+      first_name = Faker::Name.first_name
+      last_name = Faker::Name.last_name
       user.name = "#{first_name} #{last_name}"
       user.local_authority = authority
       if Rails.env.development?
