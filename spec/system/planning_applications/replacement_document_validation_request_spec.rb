@@ -19,6 +19,22 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
     let!(:document1) { create(:document, :with_file, planning_application: planning_application) }
     let!(:document2) { create(:document, :with_file, planning_application: planning_application) }
 
+    it "returns to task list if document is not marked as valid or invalid" do
+      visit(
+        edit_planning_application_document_path(
+          planning_application,
+          document1,
+          validate: "yes"
+        )
+      )
+
+      click_button("Save")
+
+      expect(page).to have_current_path(
+        planning_application_validation_tasks_path(planning_application)
+      )
+    end
+
     it "I can mark documents as invalid and edit/delete the validation request" do
       click_link "Check and validate"
 
