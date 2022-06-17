@@ -1,0 +1,38 @@
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header"><%= t(".name") %></th>
+      <th scope="col" class="govuk-table__header"><%= t(".email") %></th>
+      <th scope="col" class="govuk-table__header">
+        <%= t(".mobile_number") %>
+      </th>
+      <th scope="col" class="govuk-table__header"><%= t(".role") %></th>
+      <th scope="col" class="govuk-table__header">
+        <%= t(".otp_required_for_login") %>
+      </th>
+      <th scope="col" class="govuk-table__header"><%= t(".actions") %></th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <% users.each do |user| %>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header"><%= user.name %></th>
+        <td class="govuk-table__cell"><%= user.email %></td>
+        <td class="govuk-table__cell">
+          <%= number_to_phone(
+            user.mobile_number,
+            delimiter: " ",
+            pattern: /(\d{5})(\d{3})(\d{3})$/
+          ) %>
+        </td>
+        <td class="govuk-table__cell"><%= user.role.capitalize %></td>
+        <td class="govuk-table__cell">
+          <%= t(".#{user.otp_required_for_login}") %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= link_to(t(".edit"), edit_user_path(user), class: "govuk-link") %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :find_current_local_authority_from_subdomain
   before_action :prevent_caching
   before_action :set_current_user
+  before_action :enforce_user_permissions
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   attr_reader :current_local_authority
@@ -58,5 +59,9 @@ class ApplicationController < ActionController::Base
 
   def set_current_user
     Current.user = current_user
+  end
+
+  def enforce_user_permissions
+    redirect_to users_path if current_user&.administrator?
   end
 end
