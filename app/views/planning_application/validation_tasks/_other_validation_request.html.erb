@@ -12,10 +12,7 @@
     <% end %>
     <% @planning_application.other_change_validation_requests.non_fee_item.not_cancelled.each do |other_change_validation_request| %>
       <li class="app-task-list__item">
-        <span class="app-task-list__task-name">
-          <%= link_to "View other validation request ##{other_change_validation_request.sequence}",
-            planning_application_other_change_validation_request_path(@planning_application, other_change_validation_request), class: "govuk-link" %>
-        </span>
+        <%= @planning_application.other_change_task_list(other_change_validation_request) %>
       </li>
     <% end %>
   </ul>
