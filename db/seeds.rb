@@ -42,6 +42,8 @@ local_authorities.each do |authority|
       last_name = Faker::Name.last_name
       user.name = "#{first_name} #{last_name}"
       user.local_authority = authority
+      user.mobile_number = Faker::Base.numerify('07#########')
+
       if Rails.env.development?
         user.password = user.password_confirmation = "password"
       else

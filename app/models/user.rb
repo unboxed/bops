@@ -13,9 +13,10 @@ class User < ApplicationRecord
   has_many :audits, dependent: :nullify
   belongs_to :local_authority, optional: false
 
-  before_create :generate_otp_secret
+  before_validation :generate_otp_secret, on: :create
 
   validates :mobile_number, format: { with: /\A\d*\z/ }
+  validates :mobile_number, presence: true, if: :otp_required_for_login
 
   def self.find_for_authentication(tainted_conditions)
     if tainted_conditions[:subdomains].present?

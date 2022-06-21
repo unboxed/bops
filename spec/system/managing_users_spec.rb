@@ -26,6 +26,7 @@ RSpec.describe "managing users", type: :system do
 
       expect(page).to have_content("Email can't be blank")
       expect(page).to have_content("Password can't be blank")
+      expect(page).to have_content("Mobile number can't be blank")
 
       fill_in("Email", with: "alice")
       fill_in("Mobile number", with: "not a number")
@@ -60,9 +61,11 @@ RSpec.describe "managing users", type: :system do
       row = page.find_all("tr").find { |tr| tr.has_content?("Bella Jones") }
       within(row) { click_link("Edit") }
       fill_in("Email", with: "")
+      fill_in("Mobile number", with: "")
       click_button("Submit")
 
       expect(page).to have_content("Email can't be blank")
+      expect(page).to have_content("Mobile number can't be blank")
 
       fill_in("Email", with: "bella")
       fill_in("Mobile number", with: "not a number")

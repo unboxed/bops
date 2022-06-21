@@ -35,21 +35,6 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe "callbacks" do
-    describe "::before_create #generate_otp_secret" do
-      before do
-        allow(described_class).to receive(:generate_otp_secret).and_return("7YK63IMOL76DMZRGU3KN2CLS")
-      end
-
-      let(:user) { create(:user) }
-
-      it "sets relevant otp fields on the user record" do
-        expect(user.otp_required_for_login).to eq(true)
-        expect(user.otp_secret).to eq("7YK63IMOL76DMZRGU3KN2CLS")
-      end
-    end
-  end
-
   it "creates user successfully" do
     assessor = create(:user, :assessor)
     expect(assessor).to be_valid
@@ -105,7 +90,68 @@ RSpec.describe User, type: :model do
     expect(user_two.errors.messages[:email]).to include("has already been taken")
   end
 
+  describe "#create" do
+    let(:user) { build(:user) }
+
+    before do
+      allow(described_class)
+        .to receive(:generate_otp_secret)
+        .and_return("7YK63IMOL76DMZRGU3KN2CLS")
+    end
+
+    it "sets otp_required_for_login to true" do
+      expect { user.save }
+        .to change(user, :otp_required_for_login)
+        .from(nil)
+        .to(true)
+    end
+
+    it "sets otp_secret" do
+      expect { user.save }
+        .to change(user, :otp_secret)
+        .from(nil)
+        .to("7YK63IMOL76DMZRGU3KN2CLS")
+    end
+
+    context "when mobile_number is blank" do
+      let(:user) { build(:user, mobile_number: nil) }
+
+      it "fails" do
+        expect { user.save }
+          .to change { user.errors[:mobile_number] }
+          .from([])
+          .to ["can't be blank"]
+      end
+    end
+  end
+
   describe "#mobile_number" do
+    context "when one time password required for log in" do
+      let(:user) do
+        build(:user, otp_required_for_login: true, mobile_number: nil)
+      end
+
+      it "is required" do
+        expect { user.valid? }
+          .to change { user.errors[:mobile_number] }
+          .from([])
+          .to ["can't be blank"]
+      end
+    end
+
+    # for convenience some preview users don't require 2FA
+    context "when one time password not required for log in" do
+      let(:user) do
+        create(:user).tap do |u|
+          u.update!(otp_required_for_login: false, mobile_number: nil)
+        end
+      end
+
+      it "is not required" do
+        expect(user.valid?).to eq(true)
+      end
+    end
+
     context "when it contains non digits" do
       let(:user) { build(:user, mobile_number: "not a number") }
 
