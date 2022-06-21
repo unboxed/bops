@@ -68,7 +68,7 @@ module AuthenticateWithOtpTwoFactor
   end
 
   def mobile_number(user)
-    user.try(:mobile_number) || session[:mobile_number]
+    user.try(:mobile_number).presence || session[:mobile_number]
   end
 
   def otp_input?

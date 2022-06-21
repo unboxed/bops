@@ -77,7 +77,7 @@ RSpec.describe "Sign in", type: :system do
 
         expect(page).to have_current_path(users_path)
 
-        find(:xpath, "//input[@value='Log out']").click
+        click_button("Log out")
 
         expect(page).to have_current_path(new_user_session_path)
       end
