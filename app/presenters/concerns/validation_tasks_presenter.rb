@@ -3,10 +3,11 @@
 module ValidationTasksPresenter
   extend ActiveSupport::Concern
 
-  STATUSES = ["Not checked yet", "Invalid", "Valid", "Updated"].freeze
+  STATUSES = ["Not checked yet", "Not started", "Invalid", "Valid", "Updated"].freeze
 
   STATUS_COLOURS = {
     "Not checked yet": "grey",
+    "Not started": "grey",
     Invalid: "red",
     Valid: "green",
     Updated: "yellow"
@@ -31,6 +32,10 @@ module ValidationTasksPresenter
 
     def additional_document_task_list
       ValidationTasks::AdditionalDocumentsPresenter.new(@template, @planning_application).task_list_row
+    end
+
+    def review_task_list
+      ValidationTasks::ReviewPresenter.new(@template, @planning_application).task_list_row
     end
 
     private
