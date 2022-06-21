@@ -40,7 +40,7 @@ RSpec.describe "Constraints", type: :system do
       click_button "Marked as checked"
 
       expect(page).to have_link(
-        "Validate constraints",
+        "Check constraints",
         href: planning_application_constraints_path(planning_application)
       )
       within(".govuk-tag--green") do

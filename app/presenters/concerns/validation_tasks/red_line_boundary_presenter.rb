@@ -27,10 +27,10 @@ module ValidationTasks
       when "Valid"
         valid_link
       when "Not checked yet"
-        link_to_if(planning_application.boundary_geojson.present?, "Validate red line boundary",
+        link_to_if(planning_application.boundary_geojson.present?, "Check red line boundary",
                    planning_application_sitemap_path(planning_application), class: "govuk-link")
       when "Invalid", "Updated"
-        link_to_if(planning_application.boundary_geojson.present?, "Validate red line boundary",
+        link_to_if(planning_application.boundary_geojson.present?, "Check red line boundary",
                    planning_application_red_line_boundary_change_validation_request_path(
                      planning_application, red_line_boundary
                    ), class: "govuk-link")
@@ -69,12 +69,12 @@ module ValidationTasks
 
     def valid_link
       if planning_application.red_line_boundary_change_validation_requests.closed.any?
-        link_to_if(planning_application.boundary_geojson.present?, "Validate red line boundary",
+        link_to_if(planning_application.boundary_geojson.present?, "Check red line boundary",
                    planning_application_red_line_boundary_change_validation_request_path(
                      planning_application, red_line_boundary
                    ), class: "govuk-link")
       else
-        link_to_if(planning_application.boundary_geojson.present?, "Validate red line boundary",
+        link_to_if(planning_application.boundary_geojson.present?, "Check red line boundary",
                    planning_application_sitemap_path(planning_application), class: "govuk-link")
       end
     end

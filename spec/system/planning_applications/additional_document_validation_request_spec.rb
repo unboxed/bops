@@ -21,7 +21,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
     visit planning_application_path(planning_application)
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Check and validate"
-    click_link "Validate required documents are on application"
+    click_link "Check required documents are on application"
     click_link "Add a request for a missing document"
 
     expect(page).to have_content("Request a new document")
@@ -111,7 +111,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
         expect(page).to have_content("Not checked yet")
       end
 
-      click_link "Validate required documents are on application"
+      click_link "Check required documents are on application"
 
       expect(page).to have_content("Check the documents provided")
       expect(page).to have_content("Check all necessary documents have been provided and add requests for any missing documents.")
@@ -166,7 +166,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
     it "I can validate that there are no missing documents" do
       visit planning_application_validation_tasks_path(planning_application)
-      click_link "Validate required documents are on application"
+      click_link "Check required documents are on application"
       click_button "Save"
 
       expect(page).to have_content("Documents required are marked as valid")
@@ -181,7 +181,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
     it "I get validation errors when I omit required information" do
       visit planning_application_validation_tasks_path(planning_application)
-      click_link "Validate required documents are on application"
+      click_link "Check required documents are on application"
       click_link "Add a request for a missing document"
       click_button "Save request"
 
@@ -196,7 +196,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
     it "I can request missing documents meaning the required documents are invalid" do
       visit planning_application_validation_tasks_path(planning_application)
-      click_link "Validate required documents are on application"
+      click_link "Check required documents are on application"
       click_link "Add a request for a missing document"
       click_button "Save request"
 
@@ -224,7 +224,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       expect(planning_application.reload.documents_missing).to be_truthy
       expect(AdditionalDocumentValidationRequest.all.length).to eq(1)
 
-      click_link "Validate required documents are on application"
+      click_link "Check required documents are on application"
 
       additional_document_validation_request = AdditionalDocumentValidationRequest.last
 
@@ -263,7 +263,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
           expect(page).to have_content("Invalid")
         end
 
-        click_link "Validate required documents are on application"
+        click_link "Check required documents are on application"
         click_link "Edit request"
 
         expect(page).to have_current_path(
@@ -286,7 +286,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
           expect(page).to have_content("Invalid")
         end
 
-        click_link "Validate required documents are on application"
+        click_link "Check required documents are on application"
 
         within(".govuk-table#additional-document-validation-requests-table") do
           expect(page).to have_content("New document requested")
@@ -298,7 +298,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
       it "I can delete the additional document validation request" do
         visit planning_application_validation_tasks_path(planning_application)
-        click_link "Validate required documents are on application"
+        click_link "Check required documents are on application"
         accept_confirm(text: "Are you sure?") do
           click_link("Delete request")
         end
@@ -329,7 +329,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
     it "I can view the request" do
       visit planning_application_validation_tasks_path(planning_application)
-      click_link "Validate required documents are on application"
+      click_link "Check required documents are on application"
 
       expect(page).to have_content("Check the documents provided")
 
@@ -357,7 +357,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
     it "I can cancel the request" do
       visit planning_application_validation_tasks_path(planning_application)
-      click_link "Validate required documents are on application"
+      click_link "Check required documents are on application"
       click_link "Cancel request"
 
       fill_in "Explain to the applicant why this request is being cancelled", with: "Mistake"
@@ -434,11 +434,17 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       it "I can see the new document in the validate documents list" do
         visit planning_application_validation_tasks_path(planning_application)
 
+        within("#invalid-items-count") do
+          expect(page).to have_content("Invalid items 0")
+        end
+        within("#updated-items-count") do
+          expect(page).to have_content("Updated items 1")
+        end
         within("#additional-documents-validation-task") do
           expect(page).to have_content("Not checked yet")
         end
 
-        click_link "Validate required documents are on application"
+        click_link "Check required documents are on application"
 
         within(".govuk-table.current-documents") do
           within(".govuk-table__body") do
@@ -485,7 +491,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       allow_any_instance_of(Document).to receive(:representable?).and_return(false)
 
       visit planning_application_validation_tasks_path(planning_application)
-      click_link "Validate required documents are on application"
+      click_link "Check required documents are on application"
     end
 
     it "I can see a warning if a document has been removed due to a security issue" do

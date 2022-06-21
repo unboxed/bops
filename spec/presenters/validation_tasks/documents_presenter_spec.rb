@@ -21,7 +21,7 @@ RSpec.describe ValidationTasks::DocumentsPresenter, type: :presenter do
         html = presenter.task_list_row
 
         expect(html).to include("app-task-list__task-name")
-        expect(html).to include("Validate document - proposed-floorplan.png")
+        expect(html).to include("Check document - proposed-floorplan.png")
         expect(html).to include(
           "/replacement_document_validation_requests/#{replacement_document_validation_request.id}"
         )
@@ -38,7 +38,7 @@ RSpec.describe ValidationTasks::DocumentsPresenter, type: :presenter do
         html = presenter.task_list_row
 
         expect(html).to include("app-task-list__task-name")
-        expect(html).to include("Validate document - proposed-floorplan.png")
+        expect(html).to include("Check document - proposed-floorplan.png")
         expect(html).to include(
           "/planning_applications/#{planning_application.id}/documents/#{document.id}/edit?validate=yes"
         )
@@ -55,7 +55,7 @@ RSpec.describe ValidationTasks::DocumentsPresenter, type: :presenter do
         html = presenter.task_list_row
 
         expect(html).to include("app-task-list__task-name")
-        expect(html).to include("Validate document - proposed-floorplan.png")
+        expect(html).to include("Check document - proposed-floorplan.png")
         expect(html).to include(
           "/planning_applications/#{planning_application.id}/documents/#{document.id}/edit?validate=yes"
         )

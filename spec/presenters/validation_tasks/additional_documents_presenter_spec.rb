@@ -20,7 +20,7 @@ RSpec.describe ValidationTasks::AdditionalDocumentsPresenter, type: :presenter d
         html = presenter.task_list_row
 
         expect(html).to include("app-task-list__task-name")
-        expect(html).to include("Validate required documents are on application")
+        expect(html).to include("Check required documents are on application")
         expect(html).to include(
           "/planning_applications/#{planning_application.id}/validation_documents"
         )
@@ -37,7 +37,7 @@ RSpec.describe ValidationTasks::AdditionalDocumentsPresenter, type: :presenter d
         html = presenter.task_list_row
 
         expect(html).to include("app-task-list__task-name")
-        expect(html).to include("Validate required documents are on application")
+        expect(html).to include("Check required documents are on application")
         expect(html).to include(
           "/planning_applications/#{planning_application.id}/validation_documents"
         )
@@ -52,7 +52,7 @@ RSpec.describe ValidationTasks::AdditionalDocumentsPresenter, type: :presenter d
         html = presenter.task_list_row
 
         expect(html).to include("app-task-list__task-name")
-        expect(html).to include("Validate required documents are on application")
+        expect(html).to include("Check required documents are on application")
         expect(html).to include(
           "/planning_applications/#{planning_application.id}/validation_documents"
         )

@@ -40,7 +40,7 @@ module ValidationTasks
     end
 
     def validate_document_link_text
-      "Validate document - #{truncate document.name.to_s, length: 25}"
+      "Check document - #{truncate document.name.to_s, length: 25}"
     end
 
     def validation_item_status

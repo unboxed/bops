@@ -28,7 +28,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
         end
         within("#document_#{document1.id}") do
           expect(page).to have_content("Not checked yet")
-          click_link("Validate document - #{document1.name}")
+          click_link("Check document - #{document1.name}")
         end
       end
 
@@ -74,7 +74,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
         end
         within("#document_#{document1.id}") do
           expect(page).to have_content("Invalid")
-          click_link("Validate document - #{document1.name}")
+          click_link("Check document - #{document1.name}")
         end
       end
 
@@ -97,14 +97,16 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       within("#document-validation-tasks") do
         within("#document_#{document1.id}") do
           expect(page).to have_content("Invalid")
-          click_link("Validate document - #{document1.name}")
+          click_link("Check document - #{document1.name}")
         end
       end
       accept_confirm(text: "Are you sure?") do
         click_link("Delete request")
       end
       expect(page).to have_content("Validation request was successfully deleted.")
-      expect(page).not_to have_content("Invalid documents")
+      within("#invalid-items-count") do
+        expect(page).to have_content("Invalid items 0")
+      end
 
       # The document returns to "Not checked yet"
       expect(document1.reload.replacement_document_validation_request).to eq(nil)
@@ -113,7 +115,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       within("#document-validation-tasks") do
         within("#document_#{document1.id}") do
           expect(page).to have_content("Not checked yet")
-          click_link("Validate document - #{document1.name}")
+          click_link("Check document - #{document1.name}")
         end
       end
 
@@ -143,7 +145,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
       within("#document-validation-tasks") do
         within("#document_#{document1.id}") do
-          click_link("Validate document - #{document1.name}")
+          click_link("Check document - #{document1.name}")
         end
       end
 
@@ -184,7 +186,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
         end
         within("#document_#{document1.id}") do
           expect(page).to have_content("Not checked yet")
-          click_link("Validate document - #{document1.name}")
+          click_link("Check document - #{document1.name}")
         end
       end
 
@@ -233,7 +235,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       visit planning_application_validation_tasks_path(planning_application)
       within("#document-validation-tasks") do
         within("#document_#{document1.id}") do
-          click_link("Validate document - #{document1.name}")
+          click_link("Check document - #{document1.name}")
         end
       end
 
@@ -313,7 +315,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
           end
           within("#document_#{document_response.id}") do
             expect(page).to have_content("Not checked yet")
-            click_link("Validate document - #{document_response.name.to_s.truncate(25)}")
+            click_link("Check document - #{document_response.name.to_s.truncate(25)}")
           end
         end
 
@@ -392,7 +394,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       within("#document-validation-tasks") do
         within("#document_#{document2.id}") do
           expect(page).to have_content("Not checked yet")
-          expect(page).to have_link("Validate document - #{document2.name}")
+          expect(page).to have_link("Check document - #{document2.name}")
         end
         expect(page).to have_no_css("#document_#{document1.id}")
       end

@@ -95,7 +95,7 @@ RSpec.describe "Requesting other changes to a planning application", type: :syst
 
     click_link "Check and validate"
     click_link "Send validation decision"
-    click_link "Start new or view existing requests"
+    click_link "View existing requests"
 
     within(".validation-requests-table") do
       other_change_validation_request1 = OtherChangeValidationRequest.first

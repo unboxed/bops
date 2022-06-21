@@ -6,7 +6,7 @@ module ValidationTasks
   class AdditionalDocumentsPresenter < PlanningApplicationPresenter
     def task_list_row
       html = tag.span class: "app-task-list__task-name" do
-        concat link_to "Validate required documents are on application",
+        concat link_to "Check required documents are on application",
                        validation_documents_planning_application_path(planning_application), class: "govuk-link"
       end
 

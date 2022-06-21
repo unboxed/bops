@@ -133,7 +133,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
 
     before do
       visit planning_application_validation_tasks_path(planning_application)
-      click_link "Validate red line boundary"
+      click_link "Check red line boundary"
 
       within("fieldset", text: "Is this red line boundary valid?") do
         choose "Invalid"
@@ -152,7 +152,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
 
       expect(page).to have_content("Validation request for red line boundary successfully created.")
 
-      click_link("Validate red line boundary")
+      click_link("Check red line boundary")
       expect(page).to have_content("Coordinates look wrong")
 
       within(".govuk-heading-l") do

@@ -38,9 +38,6 @@
           <%= "The application is marked as invalid. The applicant was notified on #{@planning_application.invalidated_at}" %>
         </strong>
       </p>
-      <p class="govuk-body">
-        <%= link_to "Check documents", planning_application_documents_path(@planning_application), class: "govuk-link" %>
-      </p>
       <h2 class="govuk-heading-m">
         Validation requests
       </h2>
@@ -48,7 +45,7 @@
         <%= validation_request_summary(@planning_application.validation_requests, @planning_application) %>
       </p>
       <p class="govuk-body">
-        <%= link_to "Start new or view existing requests", planning_application_validation_requests_path(@planning_application), class: "govuk-link" %>
+        <%= link_to "View existing requests", planning_application_validation_requests_path(@planning_application), class: "govuk-link" %>
       </p>
       <p class="govuk-body">
         Once the application has been checked and all validation requests resolved, mark the application as valid.
