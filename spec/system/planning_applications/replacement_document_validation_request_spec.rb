@@ -305,8 +305,20 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
         expect(page).not_to have_link("Delete request")
         expect(page).not_to have_link("Edit request")
 
+        expect(page).to have_content("A replacement document has been provided for this request:")
+        expect(page).to have_link(
+          "Check document - #{replacement_document_validation_request.new_document.name}",
+          href: "/planning_applications/#{planning_application.id}/documents/#{replacement_document_validation_request.new_document.id}/edit?validate=yes"
+        )
+
         visit planning_application_validation_tasks_path(planning_application)
-        expect(page).to have_content("This application has 0 unresolved validation requests and 1 resolved validation request")
+
+        within("#invalid-items-count") do
+          expect(page).to have_content("Invalid items 0")
+        end
+        within("#updated-items-count") do
+          expect(page).to have_content("Updated items 0")
+        end
 
         within("#document-validation-tasks") do
           expect(page).not_to have_css("#document_#{document1.id}")
