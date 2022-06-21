@@ -28,7 +28,7 @@ class DocumentsController < AuthenticationController
     respond_to do |format|
       format.html do
         if @document.update(document_params)
-          if !@document.validated? && @validate_document
+          if validate_document? && @document.validated == false
             redirect_to new_planning_application_replacement_document_validation_request_path(document: @document)
           else
             redirect_to redirect_url, notice: "Document has been updated"
@@ -112,7 +112,7 @@ class DocumentsController < AuthenticationController
   end
 
   def validate_document?
-    @validate_document = params[:validate] == "yes"
+    @validate_document ||= params[:validate] == "yes"
   end
 
   def redirect_url
