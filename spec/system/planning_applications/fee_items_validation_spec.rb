@@ -177,6 +177,9 @@ RSpec.describe "FeeItemsValidation", type: :system do
 
       expect(page).to have_content("Other validation change request successfully created.")
 
+      within("#invalid-items-count") do
+        expect(page).to have_content("Invalid items 1")
+      end
       within("#fee-validation-task") do
         expect(page).to have_content("Invalid")
       end
@@ -277,6 +280,9 @@ RSpec.describe "FeeItemsValidation", type: :system do
 
         expect(page).to have_content("Validation request was successfully deleted.")
 
+        within("#invalid-items-count") do
+          expect(page).to have_content("Invalid items 0")
+        end
         within("#fee-validation-task") do
           expect(page).to have_content("Not checked yet")
         end
@@ -361,6 +367,9 @@ RSpec.describe "FeeItemsValidation", type: :system do
 
       click_link "Validation tasks"
 
+      within("#invalid-items-count") do
+        expect(page).to have_content("Invalid items 0")
+      end
       within("#fee-validation-task") do
         expect(page).to have_content("Not checked yet")
       end

@@ -23,6 +23,28 @@ RSpec.describe "Validation tasks", type: :system do
       create :planning_application, :invalidated, local_authority: default_local_authority
     end
 
+    it "displays the basic planning application information" do
+      within("#planning-application-details") do
+        expect(page).to have_content(planning_application.reference)
+        expect(page).to have_content(planning_application.full_address)
+        expect(page).to have_content(planning_application.description)
+        expect(page).to have_content("Invalid")
+      end
+    end
+
+    it "displays the validation tasks item count" do
+      within("#validation-tasks-item-counter") do
+        expect(page).to have_content("Check the application")
+
+        within("#invalid-items-count") do
+          expect(page).to have_content("Invalid items 0")
+        end
+        within("#updated-items-count") do
+          expect(page).to have_content("Updated items 0")
+        end
+      end
+    end
+
     it "displays the validation tasks list" do
       within(".app-task-list") do
         within("#fee-validation-task") do

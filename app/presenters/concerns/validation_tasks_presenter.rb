@@ -13,6 +13,10 @@ module ValidationTasksPresenter
   }.freeze
 
   included do
+    def items_counter
+      ValidationTasks::ItemsCounterPresenter.new(@template, @planning_application).items_count
+    end
+
     def document_task_list(document)
       ValidationTasks::DocumentsPresenter.new(@template, @planning_application, document).task_list_row
     end
