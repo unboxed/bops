@@ -46,6 +46,37 @@ RSpec.describe "managing users", type: :system do
       expect(row).to have_content("alice@example.com")
       expect(row).to have_content("01234 123 123")
       expect(row).to have_content("Assessor")
+
+      click_button("Log out")
+      fill_in("Email", with: "alice@example.com")
+      fill_in("Password", with: "password")
+      click_button("Log in")
+      fill_in("Security code", with: User.last.current_otp)
+      click_button("Enter code")
+
+      expect(page).to have_current_path(root_path)
+    end
+
+    it "allows adding of new user without mobile number" do
+      visit new_user_path
+      fill_in("Name", with: "Alice Smith")
+      fill_in("Email", with: "alice@example.com")
+      fill_in("Password", with: "password")
+      select("Assessor", from: "Role")
+      click_button("Submit")
+
+      expect(page).to have_content("User successfully created")
+
+      click_button("Log out")
+      fill_in("Email", with: "alice@example.com")
+      fill_in("Password", with: "password")
+      click_button("Log in")
+      fill_in("Mobile number", with: "01234123123")
+      click_button("Send code")
+      fill_in("Security code", with: User.last.current_otp)
+      click_button("Enter code")
+
+      expect(page).to have_current_path(root_path)
     end
 
     it "allows editing of existing user" do

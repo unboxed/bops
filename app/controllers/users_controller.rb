@@ -39,6 +39,7 @@ class UsersController < AuthenticationController
     params
       .require(:user)
       .permit(:name, :email, :password, :mobile_number, :role)
+      .transform_values(&:presence)
   end
 
   def set_user
