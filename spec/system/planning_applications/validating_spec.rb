@@ -294,6 +294,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "Check and validate"
       click_link "Review validation requests"
 
+      expect(page).to have_content("The following requests will be sent when the application is invalidated.")
       expect(page).to have_content("The application has not yet been marked as valid or invalid")
     end
   end

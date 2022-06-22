@@ -5,7 +5,7 @@
   <ul class="app-task-list__items">
     <li class="app-task-list__item">
       <span class="app-task-list__task-name">
-        <%= link_to "Validate constraints", planning_application_constraints_path(@planning_application), class: "govuk-link" %>
+        <%= link_to "Check constraints", planning_application_constraints_path(@planning_application), class: "govuk-link" %>
       </span>
       <% if @planning_application.constraints_checked? %>
         <strong class="govuk-tag govuk-tag--green app-task-list__task-tag">

@@ -46,21 +46,23 @@
           </p>
         </div>
 
-        <%= form_with model: @planning_application, local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
-          <div class="govuk-form-group">
-            <h2 class="govuk-heading-m">
-              Total fee paid
-            </h2>
-            <p class="govuk-body">
-              Check any extra fee has been received and update the total fee now paid.
-            </p>
-            <div class="govuk-input__wrapper">
-              <div class="govuk-input__prefix" aria-hidden="true">£</div>
-              <%= form.text_field :payment_amount, value: number_to_currency(@planning_application.payment_amount, unit: ""), class: "govuk-textarea govuk-input" %>
-              <%= hidden_field_tag(:edit_action, "edit_payment_amount") %>
-              <%= hidden_field_tag(:other_change_validation_request_id, @other_change_validation_request.id) %>
-            </div>
-          </div>
+          <%= form_with model: @planning_application, local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+            <% if @other_change_validation_request.fee_item? %>
+              <div class="govuk-form-group">
+                <h2 class="govuk-heading-m">
+                  Total fee paid
+                </h2>
+                <p class="govuk-body">
+                  Check any extra fee has been received and update the total fee now paid.
+                </p>
+                <div class="govuk-input__wrapper">
+                  <div class="govuk-input__prefix" aria-hidden="true">£</div>
+                  <%= form.text_field :payment_amount, value: number_to_currency(@planning_application.payment_amount, unit: ""), class: "govuk-textarea govuk-input" %>
+                  <%= hidden_field_tag(:edit_action, "edit_payment_amount") %>
+                  <%= hidden_field_tag(:other_change_validation_request_id, @other_change_validation_request.id) %>
+                </div>
+              </div>
+            <% end %>
 
           <%= render "shared/validation_request_show_actions",
               planning_application: @planning_application, validation_request: @other_change_validation_request, form: form %>

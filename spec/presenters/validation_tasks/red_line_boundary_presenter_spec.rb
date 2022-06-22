@@ -21,7 +21,7 @@ RSpec.describe ValidationTasks::RedLineBoundaryPresenter, type: :presenter do
         html = presenter.task_list_row
 
         expect(html).to include("app-task-list__task-name")
-        expect(html).to include("Validate red line boundary")
+        expect(html).to include("Check red line boundary")
         expect(html).to include(
           "/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
         )
@@ -38,7 +38,7 @@ RSpec.describe ValidationTasks::RedLineBoundaryPresenter, type: :presenter do
         html = presenter.task_list_row
 
         expect(html).to include("app-task-list__task-name")
-        expect(html).to include("Validate red line boundary")
+        expect(html).to include("Check red line boundary")
         expect(html).to include(
           "/planning_applications/#{planning_application.id}/sitemap"
         )
@@ -56,7 +56,7 @@ RSpec.describe ValidationTasks::RedLineBoundaryPresenter, type: :presenter do
           html = presenter.task_list_row
 
           expect(html).to include("app-task-list__task-name")
-          expect(html).to include("Validate red line boundary")
+          expect(html).to include("Check red line boundary")
           expect(html).to include(
             "/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
           )
@@ -74,7 +74,7 @@ RSpec.describe ValidationTasks::RedLineBoundaryPresenter, type: :presenter do
         html = presenter.task_list_row
 
         expect(html).to include("app-task-list__task-name")
-        expect(html).to include("Validate red line boundary")
+        expect(html).to include("Check red line boundary")
         expect(html).to include(
           "/planning_applications/#{planning_application.id}/sitemap"
         )
@@ -95,7 +95,7 @@ RSpec.describe ValidationTasks::RedLineBoundaryPresenter, type: :presenter do
         html = presenter.task_list_row
 
         expect(html).to include("app-task-list__task-name")
-        expect(html).to include("Validate red line boundary")
+        expect(html).to include("Check red line boundary")
         expect(html).to include(
           "/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests/#{red_line_boundary_change_validation_request.id}"
         )

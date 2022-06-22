@@ -44,7 +44,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
         end
         within("#document_#{document1.id}") do
           expect(page).to have_content("Not checked yet")
-          click_link("Validate document - #{document1.name}")
+          click_link("Check document - #{document1.name}")
         end
       end
 
@@ -81,8 +81,8 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
       expect(page).to have_content("Replacement document validation request successfully created.")
       expect(document1.reload.replacement_document_validation_request).to eq(ReplacementDocumentValidationRequest.last)
-      within(".govuk-error-summary") do
-        expect(page).to have_content("Invalid documents: 1")
+      within("#invalid-items-count") do
+        expect(page).to have_content("Invalid items 1")
       end
       within("#document-validation-tasks") do
         within("#document_#{document2.id}") do
@@ -90,7 +90,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
         end
         within("#document_#{document1.id}") do
           expect(page).to have_content("Invalid")
-          click_link("Validate document - #{document1.name}")
+          click_link("Check document - #{document1.name}")
         end
       end
 
@@ -113,14 +113,16 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       within("#document-validation-tasks") do
         within("#document_#{document1.id}") do
           expect(page).to have_content("Invalid")
-          click_link("Validate document - #{document1.name}")
+          click_link("Check document - #{document1.name}")
         end
       end
       accept_confirm(text: "Are you sure?") do
         click_link("Delete request")
       end
       expect(page).to have_content("Validation request was successfully deleted.")
-      expect(page).not_to have_content("Invalid documents")
+      within("#invalid-items-count") do
+        expect(page).to have_content("Invalid items 0")
+      end
 
       # The document returns to "Not checked yet"
       expect(document1.reload.replacement_document_validation_request).to eq(nil)
@@ -129,7 +131,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       within("#document-validation-tasks") do
         within("#document_#{document1.id}") do
           expect(page).to have_content("Not checked yet")
-          click_link("Validate document - #{document1.name}")
+          click_link("Check document - #{document1.name}")
         end
       end
 
@@ -146,6 +148,9 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
           expect(page).to have_content("Invalid")
         end
       end
+      within("#invalid-items-count") do
+        expect(page).to have_content("Invalid items 1")
+      end
 
       click_link "Send validation decision"
       expect(page).to have_content("You have marked items as invalid, so you cannot validate this application.")
@@ -156,7 +161,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
       within("#document-validation-tasks") do
         within("#document_#{document1.id}") do
-          click_link("Validate document - #{document1.name}")
+          click_link("Check document - #{document1.name}")
         end
       end
 
@@ -197,7 +202,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
         end
         within("#document_#{document1.id}") do
           expect(page).to have_content("Not checked yet")
-          click_link("Validate document - #{document1.name}")
+          click_link("Check document - #{document1.name}")
         end
       end
 
@@ -214,8 +219,8 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       fill_in "List all issues with the document.", with: "Not readable"
       click_button "Send request"
       expect(page).to have_content("Replacement document validation request successfully created.")
-      within(".govuk-error-summary") do
-        expect(page).to have_content("Invalid documents: 1")
+      within("#invalid-items-count") do
+        expect(page).to have_content("Invalid items 1")
       end
       within("#document-validation-tasks") do
         within("#document_#{document1.id}") do
@@ -246,7 +251,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       visit planning_application_validation_tasks_path(planning_application)
       within("#document-validation-tasks") do
         within("#document_#{document1.id}") do
-          click_link("Validate document - #{document1.name}")
+          click_link("Check document - #{document1.name}")
         end
       end
 
@@ -279,6 +284,9 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 2)
 
       visit planning_application_validation_tasks_path(planning_application)
+      within("#invalid-items-count") do
+        expect(page).to have_content("Invalid items 0")
+      end
       expect(page).not_to have_content("Invalid documents")
       within("#document-validation-tasks") do
         within("#document_#{document1.id}") do
@@ -313,8 +321,20 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
         expect(page).not_to have_link("Delete request")
         expect(page).not_to have_link("Edit request")
 
+        expect(page).to have_content("A replacement document has been provided for this request:")
+        expect(page).to have_link(
+          "Check document - #{replacement_document_validation_request.new_document.name}",
+          href: "/planning_applications/#{planning_application.id}/documents/#{replacement_document_validation_request.new_document.id}/edit?validate=yes"
+        )
+
         visit planning_application_validation_tasks_path(planning_application)
-        expect(page).to have_content("This application has 0 unresolved validation requests and 1 resolved validation request")
+
+        within("#invalid-items-count") do
+          expect(page).to have_content("Invalid items 0")
+        end
+        within("#updated-items-count") do
+          expect(page).to have_content("Updated items 0")
+        end
 
         within("#document-validation-tasks") do
           expect(page).not_to have_css("#document_#{document1.id}")
@@ -323,7 +343,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
           end
           within("#document_#{document_response.id}") do
             expect(page).to have_content("Not checked yet")
-            click_link("Validate document - #{document_response.name.to_s.truncate(25)}")
+            click_link("Check document - #{document_response.name.to_s.truncate(25)}")
           end
         end
 
@@ -338,6 +358,9 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
           within("#document_#{document_response.id}") do
             expect(page).to have_content("Invalid")
           end
+        end
+        within("#invalid-items-count") do
+          expect(page).to have_content("Invalid items 1")
         end
 
         request = ReplacementDocumentValidationRequest.last
@@ -399,7 +422,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       within("#document-validation-tasks") do
         within("#document_#{document2.id}") do
           expect(page).to have_content("Not checked yet")
-          expect(page).to have_link("Validate document - #{document2.name}")
+          expect(page).to have_link("Check document - #{document2.name}")
         end
         expect(page).to have_no_css("#document_#{document1.id}")
       end
@@ -418,10 +441,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       end
 
       it "does show a invalid documents warning" do
-        click_link "Check and validate"
-        expect(page).to have_content("Invalid documents: 1")
-
-        click_link "Check documents"
+        visit planning_application_documents_path(planning_application)
         expect(page).to have_content("Invalid documents: 1")
       end
     end
@@ -432,14 +452,14 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       end
 
       it "does not show a warning" do
-        click_link "Check and validate"
+        visit planning_application_documents_path(planning_application)
         expect(page).not_to have_content("Invalid documents")
       end
     end
 
     context "when there is no replacement document validation request" do
       it "does not show a warning" do
-        click_link "Check and validate"
+        visit planning_application_documents_path(planning_application)
         expect(page).not_to have_content("Invalid documents")
       end
     end
@@ -451,6 +471,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       end
 
       it "does not show a warning" do
+        visit planning_application_documents_path(planning_application)
         expect(page).not_to have_content("Invalid documents")
       end
     end

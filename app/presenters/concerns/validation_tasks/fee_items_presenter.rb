@@ -25,10 +25,10 @@ module ValidationTasks
     def validate_link
       case validation_item_status
       when "Valid", "Not checked yet"
-        link_to "Validate fee",
+        link_to "Check fee",
                 planning_application_fee_items_path(planning_application, validate_fee: "yes"), class: "govuk-link"
       when "Invalid", "Updated"
-        link_to "Validate fee",
+        link_to "Check fee",
                 planning_application_other_change_validation_request_path(
                   planning_application, fee_item_validation_request
                 ), class: "govuk-link"

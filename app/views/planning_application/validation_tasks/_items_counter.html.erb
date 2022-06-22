@@ -1,0 +1,21 @@
+<div id="validation-tasks-item-counter">
+  <h1 class="govuk-heading-l">Check the application</h1>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-half" id="invalid-items-count">
+      <p class="govuk-body-l">
+        <strong>Invalid items</strong>
+      </p>
+      <p class="govuk-body-l">
+        <strong><%= @items_counter[:invalid] %></strong>
+      </p>
+    </div>
+    <div class="govuk-grid-column-one-half" id="updated-items-count">
+      <p class="govuk-body-l">
+        <strong>Updated items</strong>
+      </p>
+      <p class="govuk-body-l">
+        <strong><%= @items_counter[:updated] %></strong>
+      </p>
+    </div>
+  </div>
+</div>

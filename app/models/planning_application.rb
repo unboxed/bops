@@ -284,6 +284,10 @@ class PlanningApplication < ApplicationRecord
     validation_requests.filter(&:cancelled?).sort_by(&:cancelled_at).reverse
   end
 
+  def active_validation_requests
+    (replacement_document_validation_requests.with_active_document + additional_document_validation_requests + other_change_validation_requests + red_line_boundary_change_validation_requests).reject(&:cancelled?)
+  end
+
   def open_description_change_requests
     description_change_validation_requests.open
   end

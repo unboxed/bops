@@ -11,6 +11,12 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column">
       <% if @active_validation_requests.any? %>
+        <% if @planning_application.not_started? %>
+          <p class="govuk-body">
+            The following requests will be sent when the application is invalidated.
+          </p>
+        <% end %>
+
         <%= render "validation_requests/table", requests: @active_validation_requests %>
       <% else %>
         <p class="govuk-body">There are no active validation requests.</p>

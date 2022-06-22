@@ -20,7 +20,7 @@ RSpec.describe ValidationTasks::FeeItemsPresenter, type: :presenter do
         html = presenter.task_list_row
 
         expect(html).to include("app-task-list__task-name")
-        expect(html).to include("Validate fee")
+        expect(html).to include("Check fee")
         expect(html).to include(
           "/planning_applications/#{planning_application.id}/other_change_validation_requests/#{other_change_validation_request.id}"
         )
@@ -41,7 +41,7 @@ RSpec.describe ValidationTasks::FeeItemsPresenter, type: :presenter do
         html = presenter.task_list_row
 
         expect(html).to include("app-task-list__task-name")
-        expect(html).to include("Validate fee")
+        expect(html).to include("Check fee")
         expect(html).to include(
           "/planning_applications/#{planning_application.id}/fee_items?validate_fee=yes"
         )
@@ -56,7 +56,7 @@ RSpec.describe ValidationTasks::FeeItemsPresenter, type: :presenter do
         html = presenter.task_list_row
 
         expect(html).to include("app-task-list__task-name")
-        expect(html).to include("Validate fee")
+        expect(html).to include("Check fee")
         expect(html).to include(
           "/planning_applications/#{planning_application.id}/fee_items?validate_fee=yes"
         )
@@ -75,7 +75,7 @@ RSpec.describe ValidationTasks::FeeItemsPresenter, type: :presenter do
         html = presenter.task_list_row
 
         expect(html).to include("app-task-list__task-name")
-        expect(html).to include("Validate fee")
+        expect(html).to include("Check fee")
         expect(html).to include(
           "/planning_applications/#{planning_application.id}/other_change_validation_requests/#{other_change_validation_request.id}"
         )

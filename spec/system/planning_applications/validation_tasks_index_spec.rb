@@ -23,12 +23,34 @@ RSpec.describe "Validation tasks", type: :system do
       create :planning_application, :invalidated, local_authority: default_local_authority
     end
 
+    it "displays the basic planning application information" do
+      within("#planning-application-details") do
+        expect(page).to have_content(planning_application.reference)
+        expect(page).to have_content(planning_application.full_address)
+        expect(page).to have_content(planning_application.description)
+        expect(page).to have_content("Invalid")
+      end
+    end
+
+    it "displays the validation tasks item count" do
+      within("#validation-tasks-item-counter") do
+        expect(page).to have_content("Check the application")
+
+        within("#invalid-items-count") do
+          expect(page).to have_content("Invalid items 0")
+        end
+        within("#updated-items-count") do
+          expect(page).to have_content("Updated items 0")
+        end
+      end
+    end
+
     it "displays the validation tasks list" do
       within(".app-task-list") do
         within("#fee-validation-task") do
           expect(page).to have_content("Fee")
           expect(page).to have_link(
-            "Validate fee",
+            "Check fee",
             href: planning_application_fee_items_path(planning_application, validate_fee: "yes")
           )
         end
@@ -44,7 +66,7 @@ RSpec.describe "Validation tasks", type: :system do
         within("#document-validation-tasks") do
           expect(page).to have_content("Check supplied documents")
           expect(page).to have_link(
-            "Validate document - #{document.name}",
+            "Check document - #{document.name}",
             href: edit_planning_application_document_path(planning_application, document, validate: "yes")
           )
           within(".govuk-tag--grey") do
@@ -55,7 +77,7 @@ RSpec.describe "Validation tasks", type: :system do
         within("#constraints-validation-tasks") do
           expect(page).to have_content("Constraints")
           expect(page).to have_link(
-            "Validate constraints",
+            "Check constraints",
             href: planning_application_constraints_path(planning_application)
           )
           within(".govuk-tag--grey") do
@@ -77,7 +99,7 @@ RSpec.describe "Validation tasks", type: :system do
           end
 
           within("#validate_red_line_boundary") do
-            expect(page).to have_content("Validate red line boundary")
+            expect(page).to have_content("Check red line boundary")
             within(".govuk-tag--grey") do
               expect(page).to have_content("Not checked yet")
             end
@@ -108,7 +130,7 @@ RSpec.describe "Validation tasks", type: :system do
         within("#fee-validation-task") do
           expect(page).to have_content("Fee")
           expect(page).to have_content("Planning application has already been validated")
-          expect(page).not_to have_link("Validate fee")
+          expect(page).not_to have_link("Check fee")
         end
 
         within("#other-change-validation-tasks") do
@@ -119,13 +141,13 @@ RSpec.describe "Validation tasks", type: :system do
         within("#document-validation-tasks") do
           expect(page).to have_content("Check supplied documents")
           expect(page).to have_content("Planning application has already been validated")
-          expect(page).not_to have_link("Validate document - #{document.name}")
+          expect(page).not_to have_link("Check document - #{document.name}")
         end
 
         within("#constraints-validation-tasks") do
           expect(page).to have_content("Constraints")
           expect(page).to have_link(
-            "Validate constraints",
+            "Check constraints",
             href: planning_application_constraints_path(planning_application)
           )
           within(".govuk-tag--green") do
@@ -148,7 +170,7 @@ RSpec.describe "Validation tasks", type: :system do
 
           within("#validate_red_line_boundary") do
             expect(page).to have_link(
-              "Validate red line boundary",
+              "Check red line boundary",
               href: planning_application_sitemap_path(planning_application)
             )
             within(".govuk-tag--grey") do

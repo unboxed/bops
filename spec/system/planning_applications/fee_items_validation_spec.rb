@@ -38,7 +38,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
 
     it "I can see a summary breakdown of the fee when I go to validate" do
       visit planning_application_validation_tasks_path(planning_application)
-      click_link "Validate fee"
+      click_link "Check fee"
 
       expect(page).to have_content("Check the fee")
 
@@ -95,7 +95,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
         expect(page).to have_content("Not checked yet")
       end
 
-      click_link "Validate fee"
+      click_link "Check fee"
 
       within(".govuk-fieldset") do
         expect(page).to have_content("Is the fee valid?")
@@ -117,7 +117,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
 
     it "I get validation errors when I omit required information" do
       visit planning_application_validation_tasks_path(planning_application)
-      click_link "Validate fee"
+      click_link "Check fee"
       click_button "Save"
 
       expect(page).to have_content("You must first select Yes or No to continue.")
@@ -137,7 +137,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
 
     it "I can invalidate the fee item" do
       visit planning_application_validation_tasks_path(planning_application)
-      click_link "Validate fee"
+      click_link "Check fee"
 
       within(".govuk-fieldset") do
         within(".govuk-radios") { choose "No" }
@@ -177,6 +177,9 @@ RSpec.describe "FeeItemsValidation", type: :system do
 
       expect(page).to have_content("Other validation change request successfully created.")
 
+      within("#invalid-items-count") do
+        expect(page).to have_content("Invalid items 1")
+      end
       within("#fee-validation-task") do
         expect(page).to have_content("Invalid")
       end
@@ -184,7 +187,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
       expect(planning_application.reload.valid_fee).to be_falsey
       expect(OtherChangeValidationRequest.all.length).to eq(1)
 
-      click_link "Validate fee"
+      click_link "Check fee"
 
       other_change_validation_request = OtherChangeValidationRequest.last
       expect(page).to have_current_path(
@@ -222,7 +225,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
 
       it "I can edit the fee validation request" do
         visit planning_application_validation_tasks_path(planning_application)
-        click_link "Validate fee"
+        click_link "Check fee"
         click_link "Edit request"
 
         expect(page).to have_current_path(
@@ -259,7 +262,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
 
         expect(page).to have_content("Other validation request successfully updated")
 
-        click_link "Validate fee"
+        click_link "Check fee"
 
         within(".govuk-inset-text") do
           expect(page).to have_content("Reason it is invalid: Fee is very invalid")
@@ -269,7 +272,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
 
       it "I can delete the fee validation request" do
         visit planning_application_validation_tasks_path(planning_application)
-        click_link "Validate fee"
+        click_link "Check fee"
 
         accept_confirm(text: "Are you sure?") do
           click_link("Delete request")
@@ -277,6 +280,9 @@ RSpec.describe "FeeItemsValidation", type: :system do
 
         expect(page).to have_content("Validation request was successfully deleted.")
 
+        within("#invalid-items-count") do
+          expect(page).to have_content("Invalid items 0")
+        end
         within("#fee-validation-task") do
           expect(page).to have_content("Not checked yet")
         end
@@ -307,7 +313,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
 
     it "I can view the request" do
       visit planning_application_validation_tasks_path(planning_application)
-      click_link "Validate fee"
+      click_link "Check fee"
 
       expect(page).to have_content("View other request (fee)")
       expect(page).to have_content("Officer request")
@@ -338,7 +344,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
 
     it "I can cancel the request" do
       visit planning_application_validation_tasks_path(planning_application)
-      click_link "Validate fee"
+      click_link "Check fee"
       click_link "Cancel request"
 
       expect(page).to have_content("Other request to be cancelled (fee)")
@@ -361,6 +367,9 @@ RSpec.describe "FeeItemsValidation", type: :system do
 
       click_link "Validation tasks"
 
+      within("#invalid-items-count") do
+        expect(page).to have_content("Invalid items 0")
+      end
       within("#fee-validation-task") do
         expect(page).to have_content("Not checked yet")
       end
@@ -395,7 +404,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
           expect(page).to have_content("Updated")
         end
 
-        click_link "Validate fee"
+        click_link "Check fee"
 
         expect(page).to have_content("Check the response to other request (fee)")
         expect(page).to have_content("Officer request")

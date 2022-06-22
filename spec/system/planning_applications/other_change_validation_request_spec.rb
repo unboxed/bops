@@ -47,7 +47,11 @@ RSpec.describe "Requesting other changes to a planning application", type: :syst
     end
 
     click_link "Back"
+    within("#invalid-items-count") do
+      expect(page).to have_content("Invalid items 1")
+    end
     within("#other-change-validation-tasks") do
+      expect(page).to have_content("Invalid")
       expect(page).to have_link(
         "View other validation request #1",
         href: planning_application_other_change_validation_request_path(planning_application, OtherChangeValidationRequest.last)
@@ -91,7 +95,7 @@ RSpec.describe "Requesting other changes to a planning application", type: :syst
 
     click_link "Check and validate"
     click_link "Send validation decision"
-    click_link "Start new or view existing requests"
+    click_link "View existing requests"
 
     within(".validation-requests-table") do
       other_change_validation_request1 = OtherChangeValidationRequest.first

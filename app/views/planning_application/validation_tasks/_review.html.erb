@@ -1,0 +1,15 @@
+<li id="review-tasks">
+  <h2 class="app-task-list__section">
+    Review
+  </h2>
+  <ul class="app-task-list__items">
+    <li class="app-task-list__item">
+      <span class="app-task-list__task-name">
+        <%= link_to "Review validation requests", planning_application_validation_requests_path(@planning_application), class: "govuk-link" %>
+      </span>
+    </li>
+    <li class="app-task-list__item">
+      <%= @planning_application.review_task_list %>
+    </li>
+  </ul>
+</li>
