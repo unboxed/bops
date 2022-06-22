@@ -7,7 +7,7 @@ module ValidationTasks
     def task_list_row
       html = tag.span class: "app-task-list__task-name" do
         concat link_to "Send validation decision",
-                       validation_decision_planning_application_path(@planning_application), class: "govuk-link"
+                       validation_decision_planning_application_path(planning_application), class: "govuk-link"
       end
 
       html.concat validation_item_tag

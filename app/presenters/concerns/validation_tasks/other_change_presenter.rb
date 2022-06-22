@@ -16,7 +16,7 @@ module ValidationTasks
       html = tag.span class: "app-task-list__task-name" do
         concat link_to "View other validation request ##{other_change_validation_request.sequence}",
                        planning_application_other_change_validation_request_path(
-                         @planning_application, other_change_validation_request
+                         planning_application, other_change_validation_request
                        ), class: "govuk-link"
       end
 
