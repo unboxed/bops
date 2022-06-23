@@ -12,6 +12,7 @@ Given("I add the policy class(es) {list} to the application") do |classes|
   steps %(
     Given I view the planning application
     And I press "Add assessment area"
+    Then the page has a "Open legislation in new window" link with href "https://www.legislation.gov.uk/uksi/2015/596/schedule/2/made"
     And I choose "Part 1"
     And I press "Continue"
     #{classes_step}
