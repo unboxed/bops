@@ -3,6 +3,8 @@
 class DescriptionChangeValidationRequest < ApplicationRecord
   include ValidationRequest
 
+  RESPONSE_TIME_IN_DAYS = 5
+
   before_create :set_previous_application_description
 
   belongs_to :planning_application
@@ -57,6 +59,10 @@ class DescriptionChangeValidationRequest < ApplicationRecord
       activity_information: sequence,
       audit_comment: Current.user&.name
     )
+  end
+
+  def response_due
+    RESPONSE_TIME_IN_DAYS.business_days.after(created_at).to_date
   end
 
   private
