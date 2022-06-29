@@ -65,10 +65,25 @@ RSpec.describe ValidationRequest, type: :model do
         create(:replacement_document_validation_request, :pending)
       end
 
-      it "returns documents that are not archived" do
+      it "returns non cancelled replacement document requests" do
         expect(ReplacementDocumentValidationRequest.not_cancelled).to match_array(
           [replacement_document_validation_request1, replacement_document_validation_request2,
            replacement_document_validation_request3]
+        )
+      end
+    end
+
+    describe ".post_validation" do
+      before do
+        create(:red_line_boundary_change_validation_request, planning_application: planning_application)
+      end
+
+      let!(:planning_application) { create(:planning_application, :invalidated) }
+      let!(:request2) { create(:red_line_boundary_change_validation_request, :post_validation, planning_application: planning_application) }
+
+      it "returns post validation requests" do
+        expect(RedLineBoundaryChangeValidationRequest.post_validation).to match_array(
+          [request2]
         )
       end
     end

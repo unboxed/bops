@@ -8,6 +8,7 @@ FactoryBot.define do
     proposed_description { "New description" }
     approved { nil }
     rejection_reason { nil }
+    post_validation { false }
 
     trait :pending do
       state { "pending" }
@@ -25,6 +26,10 @@ FactoryBot.define do
       state { "cancelled" }
       cancel_reason { "Made by mistake!" }
       cancelled_at { Time.current }
+    end
+
+    trait :post_validation do
+      post_validation { true }
     end
   end
 end

@@ -3,7 +3,10 @@
 module ValidationRequest
   extend ActiveSupport::Concern
 
-  delegate :audits, to: :planning_application
+  with_options to: :planning_application do
+    delegate :audits
+    delegate :validated?, prefix: :planning_application
+  end
 
   include Auditable
 
@@ -17,15 +20,16 @@ module ValidationRequest
 
   included do
     before_create :set_sequence
-    before_create :ensure_planning_application_not_validated!
 
     before_destroy :ensure_validation_request_destroyable!
+    after_create :set_post_validation!, if: :planning_application_validated?
     after_create :create_audit!
 
     validates :cancel_reason, presence: true, if: :cancelled?
 
     scope :not_cancelled, -> { where(cancelled_at: nil) }
     scope :open_or_pending, -> { open.or(pending) }
+    scope :post_validation, -> { where(post_validation: true) }
 
     include AASM
 
@@ -136,11 +140,10 @@ module ValidationRequest
   end
 
   def ensure_planning_application_not_validated!
-    return if is_a?(DescriptionChangeValidationRequest)
-    return unless planning_application.validated?
+    return unless planning_application_validated?
 
     raise ValidationRequestNotCreatableError,
-          "Cannot create #{self.class.name} when planning application has been validated"
+          "Cannot create #{self.class.name.titleize} when planning application has been validated"
   end
 
   def open_or_pending?
@@ -165,5 +168,9 @@ module ValidationRequest
     reset_document_invalidation if is_a?(ReplacementDocumentValidationRequest)
     reset_fee_invalidation if is_a?(OtherChangeValidationRequest) && fee_item?
     reset_documents_missing if is_a?(AdditionalDocumentValidationRequest)
+  end
+
+  def set_post_validation!
+    update!(post_validation: true)
   end
 end

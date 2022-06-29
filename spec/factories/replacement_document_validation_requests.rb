@@ -7,6 +7,7 @@ FactoryBot.define do
     old_document factory: :document
     reason { "Document is invalid" }
     state { "open" }
+    post_validation { false }
 
     trait :with_response do
       state { "closed" }
@@ -29,6 +30,10 @@ FactoryBot.define do
       state { "cancelled" }
       cancel_reason { "Made by mistake!" }
       cancelled_at { Time.current }
+    end
+
+    trait :post_validation do
+      post_validation { true }
     end
   end
 end

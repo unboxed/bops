@@ -7,6 +7,7 @@ FactoryBot.define do
     state { "open" }
     document_request_type { "Floor plan" }
     document_request_reason { "Missing floor plan" }
+    post_validation { false }
 
     trait :with_documents do
       before(:create) do |additional_document_validation_request|
@@ -30,6 +31,10 @@ FactoryBot.define do
       state { "cancelled" }
       cancel_reason { "Made by mistake!" }
       cancelled_at { Time.current }
+    end
+
+    trait :post_validation do
+      post_validation { true }
     end
   end
 end

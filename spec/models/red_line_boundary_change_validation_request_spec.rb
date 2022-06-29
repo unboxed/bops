@@ -73,5 +73,25 @@ RSpec.describe RedLineBoundaryChangeValidationRequest, type: :model do
         expect(red_line_boundary_change_validation_request.original_geojson).to eq(planning_application.boundary_geojson)
       end
     end
+
+    describe "::after_create #set_post_validation" do
+      context "when a planning application has not been validated" do
+        let(:planning_application) { create(:planning_application, :not_started) }
+        let(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, planning_application: planning_application) }
+
+        it "does not set post validation to true on a red line boundary validation request" do
+          expect(red_line_boundary_change_validation_request.post_validation).to be_falsey
+        end
+      end
+
+      context "when a planning application has been validated" do
+        let(:planning_application) { create(:planning_application, :in_assessment) }
+        let(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, planning_application: planning_application) }
+
+        it "sets post validation to true on a red line boundary validation request" do
+          expect(red_line_boundary_change_validation_request.post_validation).to be_truthy
+        end
+      end
+    end
   end
 end
