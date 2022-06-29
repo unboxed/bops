@@ -638,31 +638,4 @@ RSpec.describe PlanningApplication, type: :model do
       )
     end
   end
-
-  describe "#open_post_validation_requests" do
-    let(:planning_application) { create(:planning_application, :in_assessment) }
-
-    before do
-      create(:red_line_boundary_change_validation_request, :cancelled, :post_validation, planning_application: planning_application)
-      create(:red_line_boundary_change_validation_request, :closed, :post_validation, planning_application: planning_application)
-    end
-
-    context "when there are no open post validation requests" do
-      it "returns an empty array" do
-        expect(planning_application.open_post_validation_requests).to eq([])
-        expect(planning_application).not_to be_open_post_validation_requests
-      end
-    end
-
-    context "when there are open post validation requests" do
-      let!(:red_line_boundary_change_validation_request) do
-        create(:red_line_boundary_change_validation_request, :open, :post_validation, planning_application: planning_application)
-      end
-
-      it "returns the array" do
-        expect(planning_application.open_post_validation_requests).to match_array([red_line_boundary_change_validation_request])
-        expect(planning_application).to be_open_post_validation_requests
-      end
-    end
-  end
 end

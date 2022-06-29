@@ -11,6 +11,8 @@ class PlanningApplication < ApplicationRecord
 
   include PlanningApplicationStatus
 
+  include PlanningApplication::ValidationRequest
+
   enum application_type: { lawfulness_certificate: 0, full: 1 }
 
   enum user_role: { applicant: 0, agent: 1, proxy: 2 }
@@ -274,56 +276,6 @@ class PlanningApplication < ApplicationRecord
 
   def result_present?
     [result_flag, result_heading, result_description, result_override].any?(&:present?)
-  end
-
-  def validation_requests
-    (replacement_document_validation_requests + additional_document_validation_requests + other_change_validation_requests + red_line_boundary_change_validation_requests).sort_by(&:created_at).reverse
-  end
-
-  def cancelled_validation_requests
-    validation_requests.filter(&:cancelled?).sort_by(&:cancelled_at).reverse
-  end
-
-  def active_validation_requests
-    (replacement_document_validation_requests.with_active_document + additional_document_validation_requests + other_change_validation_requests + red_line_boundary_change_validation_requests).reject(&:cancelled?)
-  end
-
-  def open_description_change_requests
-    description_change_validation_requests.open
-  end
-
-  def latest_auto_closed_description_request
-    description_change_validation_requests.order(created_at: :desc).select(&:auto_closed?).first
-  end
-
-  def latest_rejected_description_change
-    description_change_validation_requests.order(created_at: :desc).select(&:rejected?).first
-  end
-
-  # since we can't use the native scopes that AASM provides (because
-  # #validation_requests is actually the method above rather than a
-  # .has_many assocations), add some homemade methods to them.
-  #
-  # application.open_validation_requests => [reqs...]
-  # application.open_validation_requests? => true/false
-  %i[open pending closed].each do |state|
-    selector = "#{state}_validation_requests"
-
-    define_method selector do
-      validation_requests.select(&:"#{state}?".to_sym)
-    end
-
-    define_method "#{selector}?" do
-      send(selector).any?
-    end
-  end
-
-  def last_validation_request_date
-    closed_validation_requests.max_by(&:updated_at).updated_at
-  end
-
-  def overdue_requests
-    validation_requests.select(&:open?).select(&:overdue?)
   end
 
   def invalidation_response_due
