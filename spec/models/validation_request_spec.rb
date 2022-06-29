@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe ValidationRequest, type: :model do
-  let(:request) { create(:additional_document_validation_request, state: "pending") }
+  let(:request) { create(:additional_document_validation_request, :pending) }
 
   before { freeze_time }
 

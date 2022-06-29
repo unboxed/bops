@@ -15,6 +15,8 @@ FactoryBot.define do
     end
 
     trait :pending do
+      planning_application { create :planning_application, :not_started }
+
       state { "pending" }
     end
 
