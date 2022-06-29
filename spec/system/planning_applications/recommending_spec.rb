@@ -192,6 +192,33 @@ RSpec.describe "Planning Application Assessment", type: :system do
         expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
       end
     end
+
+    context "when there are open post validation requests" do
+      let!(:planning_application) { create(:in_assessment_planning_application, local_authority: default_local_authority) }
+      let!(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, :post_validation, planning_application: planning_application) }
+
+      it "prevents me from submitting the planning application" do
+        click_link("In assessment")
+        click_link(planning_application.reference)
+
+        click_link("Assess proposal")
+        choose("Yes")
+        fill_in("State the reasons why this application is, or is not lawful.", with: "This is a public comment")
+        fill_in("Please provide supporting information for your manager.", with: "This is a private assessor comment")
+        click_button("Save and mark as complete")
+
+        click_link("Submit recommendation")
+        click_button("Submit to manager")
+
+        within(".govuk-error-summary") do
+          expect(page).to have_content("There is a problem")
+          expect(page).to have_content("This application has open non-validation requests. Please review open requests and resolve them before submitting to your manager.")
+          expect(page).to have_link("review open requests", href: post_validation_requests_planning_application_validation_requests_path(planning_application))
+        end
+
+        expect(planning_application).to be_in_assessment
+      end
+    end
   end
 
   context "when withdrawing a recommendation" do

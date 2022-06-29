@@ -71,7 +71,7 @@ RSpec.shared_examples "ValidationRequest" do |klass, request_type|
         it "does not raise an error" do
           expect do
             request
-          end.not_to raise_error(ValidationRequest::ValidationRequestNotCreatableError)
+          end.not_to raise_error
         end
       end
     end

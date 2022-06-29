@@ -557,14 +557,32 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     describe "when there is an error" do
-      it "when planning application does not have status in_assessment it raises PlanningApplication::SubmitRecommendationError" do
-        planning_application.update(status: "awaiting_determination")
+      context "when it cannot transition from the current state" do
+        before do
+          planning_application.update(status: "awaiting_determination")
+        end
 
-        expect { planning_application.submit_recommendation! }
-          .to raise_error(PlanningApplication::SubmitRecommendationError, "Event 'submit' cannot transition from 'awaiting_determination'.")
-          .and change(Audit, :count).by(0)
+        it "when planning application does not have status in_assessment it raises PlanningApplication::SubmitRecommendationError" do
+          expect { planning_application.submit_recommendation! }
+            .to raise_error(PlanningApplication::SubmitRecommendationError, "Event 'submit' cannot transition from 'awaiting_determination'.")
+            .and change(Audit, :count).by(0)
 
-        expect(planning_application).to be_awaiting_determination
+          expect(planning_application).to be_awaiting_determination
+        end
+      end
+
+      context "when there are open post validation requests" do
+        before do
+          create(:red_line_boundary_change_validation_request, :post_validation, planning_application: planning_application)
+        end
+
+        it "raises PlanningApplication::SubmitRecommendationError" do
+          expect { planning_application.submit_recommendation! }
+            .to raise_error(PlanningApplication::SubmitRecommendationError, "Event 'submit' cannot transition from 'in_assessment'. Failed callback(s): [:no_open_post_validation_requests?].")
+            .and change(Audit, :count).by(0)
+
+          expect(planning_application).to be_in_assessment
+        end
       end
     end
   end
@@ -618,6 +636,33 @@ RSpec.describe PlanningApplication, type: :model do
       ).to eq(
         Date.new(2020, 6, 26)
       )
+    end
+  end
+
+  describe "#open_post_validation_requests" do
+    let(:planning_application) { create(:planning_application, :in_assessment) }
+
+    before do
+      create(:red_line_boundary_change_validation_request, :cancelled, :post_validation, planning_application: planning_application)
+      create(:red_line_boundary_change_validation_request, :closed, :post_validation, planning_application: planning_application)
+    end
+
+    context "when there are no open post validation requests" do
+      it "returns an empty array" do
+        expect(planning_application.open_post_validation_requests).to eq([])
+        expect(planning_application).not_to be_open_post_validation_requests
+      end
+    end
+
+    context "when there are open post validation requests" do
+      let!(:red_line_boundary_change_validation_request) do
+        create(:red_line_boundary_change_validation_request, :open, :post_validation, planning_application: planning_application)
+      end
+
+      it "returns the array" do
+        expect(planning_application.open_post_validation_requests).to match_array([red_line_boundary_change_validation_request])
+        expect(planning_application).to be_open_post_validation_requests
+      end
     end
   end
 end
