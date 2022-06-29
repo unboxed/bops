@@ -48,16 +48,6 @@ Feature: Creating a description change on the application
     And I press "Send"
     Then the page contains "An open description change already exists for this planning application."
 
-  Scenario: I cannot create a description change request on a determined planning application
-    Given I am logged in as a reviewer
-    And the planning application is determined
-    When I view the planning application
-    And I press "Application information"
-    And I press "Propose a change to the description"
-    And I fill in "Please suggest a new application description" with "Mambo number 10"
-    And I press "Send"
-    Then the page contains "A description change request cannot be submitted for a determined planning application"
-
   Scenario: I can view a notification banner when a request has been auto-closed
     Given I create a description change request with "Add a rooftop cinema"
     And the description change request has been auto-closed after 5 days

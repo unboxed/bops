@@ -67,4 +67,10 @@ class ValidationRequestsController < AuthenticationController
     Appsignal.send_error(exception)
     render "planning_applications/show"
   end
+
+  def ensure_planning_application_is_not_closed_or_cancelled
+    return unless @planning_application.closed_or_cancelled?
+
+    render plain: "forbidden", status: :forbidden
+  end
 end

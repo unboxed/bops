@@ -4,6 +4,7 @@ class OtherChangeValidationRequestsController < ValidationRequestsController
   include ValidationRequests
 
   before_action :ensure_planning_application_not_validated, only: %i[new create edit update]
+  before_action :ensure_planning_application_is_not_closed_or_cancelled, only: %i[new create]
   before_action :ensure_planning_application_not_invalidated, only: :edit
   before_action :set_other_validation_request, only: %i[show edit update]
   before_action :validate_fee?, only: %i[new create edit update]

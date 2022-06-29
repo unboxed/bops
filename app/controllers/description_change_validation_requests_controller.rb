@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class DescriptionChangeValidationRequestsController < ValidationRequestsController
+  before_action :ensure_planning_application_is_not_closed_or_cancelled, only: %i[new create]
   before_action :set_description_change_request, only: %i[show cancel]
 
   def new

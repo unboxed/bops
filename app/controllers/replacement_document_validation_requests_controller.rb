@@ -3,6 +3,7 @@
 class ReplacementDocumentValidationRequestsController < ValidationRequestsController
   include ValidationRequests
 
+  before_action :ensure_planning_application_is_not_closed_or_cancelled, only: %i[new create]
   before_action :set_replacement_document_validation_request, only: %i[edit update]
   before_action :set_document, only: %i[new edit update]
 

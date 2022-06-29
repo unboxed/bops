@@ -6,6 +6,7 @@ module ValidationRequest
   with_options to: :planning_application do
     delegate :audits
     delegate :validated?, prefix: :planning_application
+    delegate :closed_or_cancelled?, prefix: :planning_application
   end
 
   include Auditable
@@ -20,6 +21,7 @@ module ValidationRequest
 
   included do
     before_create :set_sequence
+    before_create :ensure_planning_application_not_closed_or_cancelled!
 
     before_destroy :ensure_validation_request_destroyable!
     after_create :set_post_validation!, if: :planning_application_validated?
@@ -144,6 +146,13 @@ module ValidationRequest
 
     raise ValidationRequestNotCreatableError,
           "Cannot create #{self.class.name.titleize} when planning application has been validated"
+  end
+
+  def ensure_planning_application_not_closed_or_cancelled!
+    return unless planning_application_closed_or_cancelled?
+
+    raise ValidationRequestNotCreatableError,
+          "Cannot create #{self.class.name.titleize} when planning application has been closed or cancelled"
   end
 
   def open_or_pending?
