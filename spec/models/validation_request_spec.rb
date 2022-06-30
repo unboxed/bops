@@ -89,6 +89,62 @@ RSpec.describe ValidationRequest, type: :model do
     end
   end
 
+  describe "callbacks" do
+    describe "::after_create #email_and_timestamp" do
+      let(:replacement_document_validation_request) { create(:replacement_document_validation_request, :pending, planning_application: planning_application) }
+      let(:additional_document_validation_request) { create(:additional_document_validation_request, :pending, planning_application: planning_application) }
+      let(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :pending, planning_application: planning_application) }
+      let(:other_change_validation_request) { create(:replacement_document_validation_request, :pending, planning_application: planning_application) }
+      let(:description_change_validation_request) { create(:description_change_validation_request, :pending, planning_application: planning_application) }
+
+      context "when planning application is not started" do
+        let(:planning_application) { create(:planning_application, :not_started) }
+
+        %w[replacement_document_validation_request additional_document_validation_request red_line_boundary_change_validation_request other_change_validation_request].each do |request|
+          let(:validation_request) { send(request) }
+
+          it "does not send an email or call the mark_as_sent! event for a(n) #{request}" do
+            expect { validation_request }.not_to change(ActionMailer::Base.deliveries, :count)
+
+            expect(validation_request.state).to eq("pending")
+          end
+        end
+
+        it "sends an email and calls the mark_as_sent! event for a description change validation request" do
+          expect(description_change_validation_request.state).to eq("open")
+        end
+      end
+
+      context "when planning application is invalidated" do
+        let(:planning_application) { create(:planning_application, :invalidated) }
+
+        %w[replacement_document_validation_request additional_document_validation_request red_line_boundary_change_validation_request other_change_validation_request description_change_validation_request].each do |request|
+          let(:validation_request) { send(request) }
+
+          it "sends an email and calls the mark_as_sent! event for a(n) #{request}" do
+            expect { validation_request }.to change { ActionMailer::Base.deliveries.count }.by(1)
+
+            expect(validation_request.state).to eq("open")
+          end
+        end
+      end
+
+      context "when planning application has been validated" do
+        let(:planning_application) { create(:planning_application, :in_assessment) }
+
+        %w[red_line_boundary_change_validation_request description_change_validation_request].each do |request|
+          let(:validation_request) { send(request) }
+
+          it "sends an email and calls the mark_as_sent! event for a(n) #{request}" do
+            expect { validation_request }.to change { ActionMailer::Base.deliveries.count }.by(1)
+
+            expect(validation_request.state).to eq("open")
+          end
+        end
+      end
+    end
+  end
+
   describe "instance methods" do
     describe "#cancel_request!" do
       before { Current.user = request.user }

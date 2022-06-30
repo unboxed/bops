@@ -20,8 +20,6 @@ class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsCont
     @red_line_boundary_change_validation_request.user = current_user
 
     if @red_line_boundary_change_validation_request.save
-      email_and_timestamp(@red_line_boundary_change_validation_request) if @planning_application.invalidated?
-
       redirect_to planning_application_validation_tasks_path(@planning_application),
                   notice: "Validation request for red line boundary successfully created."
     else

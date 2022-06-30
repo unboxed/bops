@@ -14,7 +14,6 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
     @current_local_authority = current_local_authority
 
     if @description_change_request.save
-      email_and_timestamp(@description_change_request)
       redirect_to planning_application_path(@planning_application), notice: "Description change request successfully sent."
     else
       render :new

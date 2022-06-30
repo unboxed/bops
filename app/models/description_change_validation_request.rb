@@ -67,6 +67,16 @@ class DescriptionChangeValidationRequest < ApplicationRecord
 
   private
 
+  def create_audit!
+    create_audit_for!("sent")
+  end
+
+  def email_and_timestamp
+    send_description_request_email
+
+    mark_as_sent!
+  end
+
   def audit_api_comment
     if approved?
       { response: "approved" }.to_json

@@ -29,8 +29,6 @@ class OtherChangeValidationRequestsController < ValidationRequestsController
 
     respond_to do |format|
       if @other_change_validation_request.save
-        email_and_timestamp(@other_change_validation_request) if @planning_application.invalidated?
-
         format.html do
           redirect_to planning_application_validation_tasks_path(@planning_application),
                       notice: "Other validation change request successfully created."

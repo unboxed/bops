@@ -25,6 +25,7 @@ module ValidationRequest
 
     before_destroy :ensure_validation_request_destroyable!
     after_create :set_post_validation!, if: :planning_application_validated?
+    after_create :email_and_timestamp, if: :pending?
     after_create :create_audit!
 
     validates :cancel_reason, presence: true, if: :cancelled?
@@ -181,5 +182,26 @@ module ValidationRequest
 
   def set_post_validation!
     update!(post_validation: true)
+  end
+
+  def email_and_timestamp
+    return unless planning_application.validation_complete?
+
+    send_validation_request_email
+
+    mark_as_sent!
+  end
+
+  def send_validation_request_email
+    PlanningApplicationMailer.validation_request_mail(
+      planning_application
+    ).deliver_now
+  end
+
+  def send_description_request_email
+    PlanningApplicationMailer.description_change_mail(
+      planning_application,
+      self
+    ).deliver_now
   end
 end

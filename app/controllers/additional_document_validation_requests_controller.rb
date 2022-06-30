@@ -22,8 +22,6 @@ class AdditionalDocumentValidationRequestsController < ValidationRequestsControl
 
     respond_to do |format|
       if @additional_document_validation_request.save
-        email_and_timestamp(@additional_document_validation_request) if @planning_application.invalidated?
-
         format.html do
           redirect_to planning_application_validation_tasks_path(@planning_application), notice: "Additional document request successfully created."
         end
