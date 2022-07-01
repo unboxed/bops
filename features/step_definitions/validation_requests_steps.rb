@@ -111,7 +111,7 @@ When("I see the cancel confirmation form actions") do
   within(".govuk-button-group") do
     steps %(
       Then the page has button "Confirm cancellation"
-      And the page has a "Back" link with href "#{planning_application_validation_requests_path(@planning_application)}"
+      And the page has a "Back" link
     )
   end
 end

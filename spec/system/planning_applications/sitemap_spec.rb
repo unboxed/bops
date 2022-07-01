@@ -217,4 +217,103 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
       end
     end
   end
+
+  context "when application has been validated" do
+    let!(:planning_application) do
+      create(:planning_application, :in_assessment, :with_boundary_geojson, local_authority: default_local_authority)
+    end
+
+    it "as an officer I can request approval for a change to the red line boundary" do
+      delivered_emails = ActionMailer::Base.deliveries.count
+
+      click_button "Site map"
+      click_link "Request approval for a change to red line boundary"
+
+      # Draw proposed red line boundary
+      find(".govuk-visually-hidden", visible: false).set '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.076715,51.501166],[-0.07695,51.500673],[-0.076,51.500763],[-0.076715,51.501166]]]}}'
+
+      fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: "Amendment request"
+      click_button "Send request"
+      expect(page).to have_content("Validation request for red line boundary successfully created.")
+      expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
+
+      click_button "Audit log"
+      click_link "View all audits"
+
+      within("#audit_#{Audit.last.id}") do
+        expect(page).to have_content("Sent: Post-validation request (red line boundary#1)")
+        expect(page).to have_content(assessor.name)
+        expect(page).to have_content("Reason: Amendment request")
+        expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+      end
+
+      click_link "Application"
+      click_link "Review non-validation requests"
+      within(".validation-requests-table") do
+        expect(page).to have_content("Red line boundary changes")
+      end
+
+      click_link "Back"
+      click_button "Site map"
+      expect(page).not_to have_content("Request approval for a change to red line boundary")
+
+      click_link "View requested red line boundary change"
+      expect(page).to have_content("Current red line boundary")
+      expect(page).to have_content("Amendment request")
+      expect(page).to have_content("Proposed red line boundary")
+
+      # Cancel post validation request
+      click_link "Cancel request"
+
+      fill_in "Explain to the applicant why this request is being cancelled", with: "no longer needed"
+      click_button "Confirm cancellation"
+
+      expect(page).to have_content("Validation request was successfully cancelled.")
+      expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 2)
+
+      within(".cancelled-requests") do
+        expect(page).to have_content("Red line boundary changes")
+      end
+
+      click_link "Back"
+      click_button "Audit log"
+      click_link "View all audits"
+
+      within("#audit_#{Audit.last.id}") do
+        expect(page).to have_content("Cancelled: Post-validation request (red line boundary#1)")
+        expect(page).to have_content(assessor.name)
+        expect(page).to have_content("Reason: no longer needed")
+        expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+      end
+    end
+
+    context "when applicant accepts the response" do
+      let!(:red_line_boundary_change_validation_request) do
+        create(:red_line_boundary_change_validation_request, :closed, approved: true, planning_application: planning_application)
+      end
+
+      it "I can view the accepted response" do
+        visit planning_application_path(planning_application)
+        click_button "Site map"
+        click_link "View applicants response to requested red line boundary change"
+
+        expect(page).to have_content("Applicant approved proposed digital red line boundary")
+      end
+    end
+
+    context "when applicant rejects the response" do
+      let!(:red_line_boundary_change_validation_request) do
+        create(:red_line_boundary_change_validation_request, :closed, rejection_reason: "disagree", approved: false, planning_application: planning_application)
+      end
+
+      it "I can view the rejected response" do
+        visit planning_application_path(planning_application)
+        click_button "Site map"
+        click_link "View applicants response to requested red line boundary change"
+
+        expect(page).to have_content("Applicant rejected this proposed red line boundary")
+        expect(page).to have_content("Reason: disagree")
+      end
+    end
+  end
 end

@@ -20,7 +20,7 @@ class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsCont
     @red_line_boundary_change_validation_request.user = current_user
 
     if @red_line_boundary_change_validation_request.save
-      redirect_to planning_application_validation_tasks_path(@planning_application),
+      redirect_to create_request_redirect_url,
                   notice: "Validation request for red line boundary successfully created."
     else
       render :new

@@ -108,7 +108,7 @@ module ValidationRequest
     transaction do
       cancel!
       reset_columns
-      audit!(activity_type: "#{self.class.name.underscore}_cancelled", activity_information: sequence,
+      audit!(activity_type: "#{self.class.name.underscore}_#{cancel_audit_event}", activity_information: sequence,
              audit_comment: { cancel_reason: cancel_reason }.to_json)
     end
   rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
@@ -134,12 +134,15 @@ module ValidationRequest
   end
 
   def create_audit!
-    if is_a?(DescriptionChangeValidationRequest)
-      create_audit_for!("sent")
-    else
-      event = planning_application.invalidated? ? "sent" : "added"
-      create_audit_for!(event)
-    end
+    event = if planning_application.not_started?
+              "added"
+            elsif post_validation?
+              "sent_post_validation"
+            else
+              "sent"
+            end
+
+    create_audit_for!(event)
   end
 
   def ensure_planning_application_not_validated!
@@ -218,5 +221,9 @@ module ValidationRequest
       planning_application,
       self
     ).deliver_now
+  end
+
+  def cancel_audit_event
+    post_validation ? "cancelled_post_validation" : "cancelled"
   end
 end

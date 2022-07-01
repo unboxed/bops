@@ -60,7 +60,7 @@
       <%= form.govuk_text_area :reason,
                                label: { text: 'Explain to the applicant why changes are proposed to the red line boundary', size: 's', class: 'govuk-label govuk-label--s govuk-!-padding-bottom-4'},
                                rows: 5 %>
-      <%= render "shared/validation_request_form_actions", form: form %>
+      <%= render "shared/validation_request_form_actions", form: form, allow_submit: true %>
     <% end %>
   </div>
 </div>

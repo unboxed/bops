@@ -21,4 +21,52 @@ RSpec.describe PlanningApplicationHelper, type: :helper do
       expect(display_number([25, 84, "proposal", 165, true], 165)).to eq(4)
     end
   end
+
+  describe "#red_line_boundary_post_validation_action_link" do
+    let(:planning_application) { create(:planning_application, :in_assessment) }
+
+    context "when red line boundary change post validation request is open" do
+      let!(:red_line_boundary_change_validation_request) do
+        create(:red_line_boundary_change_validation_request, :open, planning_application: planning_application)
+      end
+
+      it "returns url to view requested red line boundary change" do
+        expect(red_line_boundary_post_validation_action_link(planning_application)).to eq(
+          link_to("View requested red line boundary change", planning_application_red_line_boundary_change_validation_request_path(planning_application, red_line_boundary_change_validation_request), class: "govuk-link")
+        )
+      end
+    end
+
+    context "when red line boundary change post validation request is closed" do
+      let!(:red_line_boundary_change_validation_request) do
+        create(:red_line_boundary_change_validation_request, :closed, planning_application: planning_application)
+      end
+
+      it "returns url to view requested red line boundary change" do
+        expect(red_line_boundary_post_validation_action_link(planning_application)).to eq(
+          link_to("View applicants response to requested red line boundary change", planning_application_red_line_boundary_change_validation_request_path(planning_application, red_line_boundary_change_validation_request), class: "govuk-link")
+        )
+      end
+    end
+
+    context "when red line boundary change post validation request is cancelled" do
+      before do
+        create(:red_line_boundary_change_validation_request, :cancelled, planning_application: planning_application)
+      end
+
+      it "returns url to view requested red line boundary change" do
+        expect(red_line_boundary_post_validation_action_link(planning_application)).to eq(
+          link_to("Request approval for a change to red line boundary", new_planning_application_red_line_boundary_change_validation_request_path(planning_application), class: "govuk-link")
+        )
+      end
+    end
+
+    context "when red line boundary change post validation request does not exist" do
+      it "returns url to view requested red line boundary change" do
+        expect(red_line_boundary_post_validation_action_link(planning_application)).to eq(
+          link_to("Request approval for a change to red line boundary", new_planning_application_red_line_boundary_change_validation_request_path(planning_application), class: "govuk-link")
+        )
+      end
+    end
+  end
 end

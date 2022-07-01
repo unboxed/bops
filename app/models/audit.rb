@@ -39,6 +39,7 @@ class Audit < ApplicationRecord
     replacement_document_validation_request_sent: "replacement_document_validation_request_sent",
     additional_document_validation_request_sent: "additional_document_validation_request_sent",
     red_line_boundary_change_validation_request_sent: "red_line_boundary_change_validation_request_sent",
+    red_line_boundary_change_validation_request_sent_post_validation: "red_line_boundary_change_validation_request_sent_post_validation",
     replacement_document_validation_request_added: "replacement_document_validation_request_added",
     additional_document_validation_request_added: "additional_document_validation_request_added",
     red_line_boundary_change_validation_request_added: "red_line_boundary_change_validation_request_added",
@@ -54,6 +55,7 @@ class Audit < ApplicationRecord
     description_change_validation_request_cancelled: "description_change_validation_request_cancelled",
     other_change_validation_request_cancelled: "other_change_validation_request_cancelled",
     red_line_boundary_change_validation_request_cancelled: "red_line_boundary_change_validation_request_cancelled",
+    red_line_boundary_change_validation_request_cancelled_post_validation: "red_line_boundary_change_validation_request_cancelled_post_validation",
     replacement_document_validation_request_cancelled: "replacement_document_validation_request_cancelled",
     constraints_checked: "constraints_checked"
   }

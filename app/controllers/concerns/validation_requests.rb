@@ -45,11 +45,11 @@ module ValidationRequests
           request_type_instance.assign_attributes(cancel_validation_request_params)
           request_type_instance.cancel_request!
 
-          send_cancelled_validation_request_mail if @planning_application.invalidated?
+          send_cancelled_validation_request_mail unless @planning_application.not_started?
 
           format.html do
-            redirect_to planning_application_validation_requests_path(@planning_application),
-                        notice: "Validation request was successfuly cancelled."
+            redirect_to cancel_redirect_url,
+                        notice: "Validation request was successfully cancelled."
           end
         else
           format.html { redirect_failed_cancel_request }
@@ -100,6 +100,14 @@ module ValidationRequests
       PlanningApplicationMailer
         .cancelled_validation_request_mail(@planning_application)
         .deliver_now
+    end
+
+    def cancel_redirect_url
+      if @planning_application.validated?
+        post_validation_requests_planning_application_validation_requests_path(@planning_application)
+      else
+        planning_application_validation_requests_path(@planning_application)
+      end
     end
   end
 end

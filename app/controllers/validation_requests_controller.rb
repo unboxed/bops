@@ -10,7 +10,6 @@ class ValidationRequestsController < AuthenticationController
 
   before_action :set_planning_application
   before_action :ensure_planning_application_is_validated, only: :post_validation_requests
-  before_action :ensure_planning_application_is_not_closed_or_cancelled, only: %i[new create]
 
   def index
     validation_requests = @planning_application.validation_requests
@@ -71,5 +70,17 @@ class ValidationRequestsController < AuthenticationController
     return unless @planning_application.closed_or_cancelled?
 
     render plain: "forbidden", status: :forbidden
+  end
+
+  def create_request_redirect_url
+    if @planning_application.validated?
+      @planning_application
+    else
+      planning_application_validation_tasks_path(@planning_application)
+    end
+  end
+
+  def redirect_failed_create_request_error(error)
+    redirect_to @planning_application, alert: error.message
   end
 end

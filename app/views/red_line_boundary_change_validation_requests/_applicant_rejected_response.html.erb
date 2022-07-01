@@ -14,6 +14,10 @@
 </div>
 
 <div class="govuk-button-group">
-  <%= link_to "Continue", planning_application_sitemap_path(@planning_application), class: "govuk-button govuk-button--primary" %>
-  <%= link_to "Back", planning_application_validation_requests_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+  <% if @planning_application.validated? %>
+    <%= validation_requests_back_url(classname: "govuk-button") %>
+  <% else %>
+    <%= link_to "Continue", planning_application_sitemap_path(@planning_application), class: "govuk-button" %>
+    <%= validation_requests_back_url(classname: "govuk-button govuk-button--secondary") %>
+  <% end %>
 </div>

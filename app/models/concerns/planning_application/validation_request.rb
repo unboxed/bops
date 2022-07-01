@@ -5,7 +5,7 @@ class PlanningApplication
     extend ActiveSupport::Concern
 
     # since we can't use the native scopes that AASM provides (because
-    # #validation_requests is actually the method above rather than a
+    # #validation_requests is a method we use to load all validation requests rather than a
     # .has_many assocations), add some homemade methods to them.
     #
     # application.open_validation_requests => [reqs...]
