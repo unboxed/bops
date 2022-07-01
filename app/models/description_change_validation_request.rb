@@ -41,10 +41,6 @@ class DescriptionChangeValidationRequest < ApplicationRecord
     end
   end
 
-  def request_expiry_date
-    5.business_days.after(created_at)
-  end
-
   def rejected?
     !approved && rejection_reason.present?
   end

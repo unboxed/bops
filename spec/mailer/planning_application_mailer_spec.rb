@@ -304,6 +304,113 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
   end
 
+  describe "#post_validation_request_mail" do
+    let!(:validation_request) do
+      create(:red_line_boundary_change_validation_request, planning_application: invalid_planning_application, user: assessor)
+    end
+    let(:post_validation_request_mail) do
+      described_class.post_validation_request_mail(planning_application, validation_request)
+    end
+
+    let(:mail_body) { post_validation_request_mail.body.encoded }
+
+    context "when agent is present" do
+      it "emails only the agent when the agent is present" do
+        expect(post_validation_request_mail.to).to eq([planning_application.agent_email])
+      end
+
+      it "includes the name of the agent in the body" do
+        expect(mail_body).to include(planning_application.agent_first_name)
+        expect(mail_body).to include(planning_application.agent_last_name)
+      end
+    end
+
+    context "when agent is missing" do
+      before do
+        planning_application.update!(agent_email: "")
+        planning_application.update!(agent_first_name: "")
+      end
+
+      it "emails only the applicant when the agent is missing" do
+        mail = described_class.post_validation_request_mail(planning_application, validation_request)
+
+        expect(mail.to).to eq([planning_application.applicant_email])
+      end
+
+      it "includes the name of the applicant in the body" do
+        mail = described_class.post_validation_request_mail(planning_application.reload, validation_request)
+
+        expect(mail.body.encoded).to include(planning_application.applicant_first_name)
+        expect(mail.body.encoded).to include(planning_application.applicant_last_name)
+      end
+    end
+
+    context "when there is an assigned officer to the case" do
+      before do
+        planning_application.user = assessor
+      end
+
+      it "includes the information about the validation request being auto accepted" do
+        expect(mail_body).to include(
+          "#{planning_application.user.name}, the officer working on your planning application, has proposed a change to your application."
+        )
+      end
+    end
+
+    context "when there is no assigned officer to the case" do
+      it "includes the information about the validation request being auto accepted" do
+        expect(mail_body).to include(
+          "The officer working on your planning application, has proposed a change to your application."
+        )
+      end
+    end
+
+    it "sets the subject" do
+      expect(post_validation_request_mail.subject).to eq(
+        "Lawful Development Certificate application  - changes needed"
+      )
+    end
+
+    it "sets the recipient" do
+      expect(post_validation_request_mail.to).to contain_exactly(
+        "cookie_crackers@example.com"
+      )
+    end
+
+    it "includes the reference" do
+      expect(mail_body).to include(
+        "Application number: RIPA-22-00100-LDCP"
+      )
+    end
+
+    it "includes the application received at date" do
+      expect(mail_body).to include(
+        "Application received: 3 May 2022"
+      )
+    end
+
+    it "includes the address" do
+      expect(mail_body).to include(
+        "At: 123 High Street, Big City, AB3 4EF"
+      )
+    end
+
+    it "includes the validation request url" do
+      expect(mail_body).to include(
+        "http://ripa.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+      )
+    end
+
+    it "includes the information about the validation request being auto accepted" do
+      expect(mail_body).to include(
+        "If your response is not received by #{validation_request.request_expiry_date.strftime('%-d %B %Y')}, the proposed changes to your application will be automatically accepted."
+      )
+      expect(mail_body).to include(
+        "This is to avoid delays in making a determination on your application."
+      )
+    end
+  end
+
   describe "#cancelled_validation_request_mail" do
     let(:cancelled_validation_request_mail) do
       described_class.cancelled_validation_request_mail(planning_application)

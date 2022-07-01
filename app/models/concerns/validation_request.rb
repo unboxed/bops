@@ -164,6 +164,10 @@ module ValidationRequest
     try(:fee_item?) && closed? && self == planning_application.fee_item_validation_requests.not_cancelled.last
   end
 
+  def request_expiry_date
+    5.business_days.after(created_at)
+  end
+
   private
 
   def create_audit_for!(event)
@@ -187,7 +191,11 @@ module ValidationRequest
   def email_and_timestamp
     return unless planning_application.validation_complete?
 
-    send_validation_request_email
+    if post_validation?
+      send_post_validation_request_email
+    else
+      send_validation_request_email
+    end
 
     mark_as_sent!
   end
@@ -195,6 +203,13 @@ module ValidationRequest
   def send_validation_request_email
     PlanningApplicationMailer.validation_request_mail(
       planning_application
+    ).deliver_now
+  end
+
+  def send_post_validation_request_email
+    PlanningApplicationMailer.post_validation_request_mail(
+      planning_application,
+      self
     ).deliver_now
   end
 

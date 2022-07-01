@@ -33,6 +33,12 @@ class PlanningApplicationMailerPreview < ActionMailer::Preview
     PlanningApplicationMailer.invalidation_notice_mail(planning_application)
   end
 
+  def post_validation_request_mail
+    PlanningApplicationMailer.post_validation_request_mail(
+      planning_application
+    )
+  end
+
   def receipt_notice_mail
     PlanningApplicationMailer.receipt_notice_mail(
       planning_application,

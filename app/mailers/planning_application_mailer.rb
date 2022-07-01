@@ -60,6 +60,18 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
     )
   end
 
+  def post_validation_request_mail(planning_application, validation_request)
+    @planning_application = planning_application
+    @validation_request = validation_request
+
+    view_mail(
+      NOTIFY_TEMPLATE_ID,
+      subject: subject(:post_validation_request_mail),
+      to: @planning_application.applicant_and_agent_email.first,
+      reply_to_id: @planning_application.local_authority.reply_to_notify_id
+    )
+  end
+
   def cancelled_validation_request_mail(planning_application)
     @planning_application = planning_application
 
