@@ -6,38 +6,31 @@ class ValidationRequestsController < AuthenticationController
   rescue_from Notifications::Client::RequestError, with: :validation_notice_request_error
   rescue_from Notifications::Client::ClientError, with: :validation_notice_request_error
   rescue_from Notifications::Client::BadRequestError, with: :validation_notice_request_error
+  rescue_from ValidationRequest::ValidationRequestNotCreatableError, with: :redirect_failed_create_request_error
 
   before_action :set_planning_application
+  before_action :ensure_planning_application_is_validated, only: :post_validation_requests
+  before_action :ensure_planning_application_is_not_closed_or_cancelled, only: %i[new create]
 
   def index
     validation_requests = @planning_application.validation_requests
     @cancelled_validation_requests, @active_validation_requests = validation_requests.partition(&:cancelled?)
+
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def post_validation_requests
+    validation_requests = @planning_application.validation_requests(post_validation: true)
+    @cancelled_validation_requests, @active_validation_requests = validation_requests.partition(&:cancelled?)
+
+    respond_to do |format|
+      format.html { render "index" }
+    end
   end
 
   private
-
-  def send_validation_request_email
-    PlanningApplicationMailer
-      .validation_request_mail(@planning_application)
-      .deliver_now
-  end
-
-  def send_description_request_email(request)
-    PlanningApplicationMailer.description_change_mail(
-      @planning_application,
-      request
-    ).deliver_now
-  end
-
-  def email_and_timestamp(request)
-    if request.is_a?(DescriptionChangeValidationRequest)
-      send_description_request_email(request)
-    else
-      send_validation_request_email
-    end
-
-    request.mark_as_sent!
-  end
 
   def ensure_planning_application_not_validated
     render plain: "forbidden", status: :forbidden and return unless @planning_application.can_validate?
@@ -66,6 +59,12 @@ class ValidationRequestsController < AuthenticationController
 
     Appsignal.send_error(exception)
     render "planning_applications/show"
+  end
+
+  def ensure_planning_application_is_validated
+    return if @planning_application.validated?
+
+    render plain: "forbidden", status: :forbidden
   end
 
   def ensure_planning_application_is_not_closed_or_cancelled

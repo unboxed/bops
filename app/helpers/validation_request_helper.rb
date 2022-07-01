@@ -89,11 +89,15 @@ module ValidationRequestHelper
   def submit_button_text(planning_application, action_name)
     if action_name.eql?("edit")
       "Update request"
-    elsif planning_application.invalidated?
-      "Send request"
-    else
+    elsif planning_application.not_started?
       "Save request"
+    else
+      "Send request"
     end
+  end
+
+  def post_validation_requests_index?
+    action_name == "post_validation_requests"
   end
 
   private
