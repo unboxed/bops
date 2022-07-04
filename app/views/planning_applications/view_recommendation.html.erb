@@ -1,10 +1,6 @@
 <% content_for :page_title do %>
   View recommendation - <%= t('page_title') %>
 <% end %>
-
-<% add_parent_breadcrumb_link "Home", planning_applications_path %>
-<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
-
 <%= render "assessment_dashboard" do %>
   <h2 class="govuk-heading-m">
     View recommendation
