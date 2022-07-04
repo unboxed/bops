@@ -406,4 +406,40 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
       )
     end
   end
+
+  describe "#open_description_change_request" do
+    let(:planning_application) { create(:planning_application) }
+
+    context "when open description_change_validation_request present" do
+      let!(:description_change_validation_request) do
+        create(
+          :description_change_validation_request,
+          :open,
+          planning_application: planning_application
+        )
+      end
+
+      it "returns description_change_validation_request" do
+        expect(
+          planning_application.open_description_change_request
+        ).to eq(
+          description_change_validation_request
+        )
+      end
+    end
+
+    context "when no open description_change_validation_request present" do
+      before do
+        create(
+          :description_change_validation_request,
+          :closed,
+          planning_application: planning_application
+        )
+      end
+
+      it "returns nil" do
+        expect(planning_application.open_description_change_request).to eq(nil)
+      end
+    end
+  end
 end

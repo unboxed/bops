@@ -3,6 +3,10 @@
 module PlanningApplicationDecorator
   extend ActiveSupport::Concern
 
+  def open_description_change_request
+    @open_description_change_request ||= description_change_validation_requests.open.last
+  end
+
   def agent_full_name
     [agent_first_name, agent_last_name].compact.join(" ")
   end

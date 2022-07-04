@@ -35,6 +35,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
           "By determining the application, the applicant will receive this decision notice."
         )
 
+        expect(page).not_to have_content(
+          "Awaiting approval to a description change"
+        )
+
         within("#determination-date") do
           expect(page).to have_content("Enter determination date")
 
@@ -102,6 +106,32 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).to have_text("Application granted on 2 January 2024 (manually inputted date)")
           expect(page).to have_text(reviewer.name)
           expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+        end
+      end
+
+      context "when open description_change_validation_request" do
+        before do
+          create(
+            :description_change_validation_request,
+            :open,
+            planning_application: planning_application,
+            created_at: DateTime.new(2024, 1, 1)
+          )
+        end
+
+        it "shows warning but allows user to determine application" do
+          click_link("Publish determination")
+
+          expect(page).to have_content(
+            "Awaiting approval to a description change (sent on 01/01/2024)"
+          )
+
+          fill_in("Day", with: "2")
+          fill_in("Month", with: "1")
+          fill_in("Year", with: "2024")
+          click_button("Determine application")
+
+          expect(page).to have_content("Decision Notice sent to applicant")
         end
       end
     end
