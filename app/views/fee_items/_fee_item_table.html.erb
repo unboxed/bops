@@ -10,7 +10,7 @@
       <th scope="row" class="govuk-table__header"><%= t(".fee_paid") %></th>
       <td class="govuk-table__cell">
         <%= number_to_currency(
-          @planning_application.payment_amount,
+          @planning_application.payment_amount || 0,
           unit: '£'
         ) %>
       </td>
@@ -20,7 +20,7 @@
         <%= t(".payment_reference") %>
       </th>
       <td class="govuk-table__cell">
-        <%= @planning_application.payment_reference %>
+        <%= @planning_application.payment_reference || t(".exempt")  %>
       </td>
     </tr>
     <tr class="govuk-table__row">
