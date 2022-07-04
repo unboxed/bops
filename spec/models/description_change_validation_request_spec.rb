@@ -24,5 +24,18 @@ RSpec.describe DescriptionChangeValidationRequest, type: :model do
         expect(other_request).not_to be_valid
       end
     end
+
+    describe "#response_due" do
+      let(:request) do
+        build(
+          :description_change_validation_request,
+          created_at: DateTime.new(2022, 6, 20)
+        )
+      end
+
+      it "returns date 5 working days after created_at" do
+        expect(request.response_due).to eq(Date.new(2022, 6, 27))
+      end
+    end
   end
 end
