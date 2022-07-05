@@ -34,9 +34,15 @@
           </div>
         </div>
       <% end %>
-
+      <% if @planning_application.open_description_change_request.present? %>
+        <%= render(
+          partial: "shared/warning_text",
+          locals: {
+            message: t(".awaiting_approval_to", date: @planning_application.open_description_change_request.created_at.strftime("%d/%m/%Y"))
+          }
+        ) %>
+      <% end %>
       <%= form.govuk_date_field :determination_date, id: "determination-date" %>
-
       <%= form.submit "Determine application", class: "govuk-button" %>
     <% end %>
   <% else %>

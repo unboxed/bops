@@ -1,5 +1,7 @@
 en:
   planning_applications:
+    assessment_dashboard:
+      awaiting_approval_to: Awaiting approval to a description change (sent on %{date})
     days_left:
       one: '1 day remaining'
       zero: '%{count} days overdue'
