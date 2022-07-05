@@ -308,6 +308,34 @@ RSpec.describe "FeeItemsValidation", type: :system do
         expect(OtherChangeValidationRequest.all.length).to eq(0)
       end
     end
+
+    context "when no fee paid" do
+      let!(:planning_application) do
+        create(
+          :planning_application, :not_started,
+          local_authority: default_local_authority,
+          payment_reference: nil,
+          payment_amount: nil,
+          proposal_details: proposal_details
+        )
+      end
+
+      it "shows the fee as £0.00" do
+        visit(planning_application_fee_items_path(planning_application))
+
+        fee_paid_row = find_all("tr").find do |row|
+          row.has_content?("Fee Paid")
+        end
+
+        expect(fee_paid_row).to have_content("£0.00")
+
+        payment_reference_row = find_all("tr").find do |row|
+          row.has_content?("Payment Reference")
+        end
+
+        expect(payment_reference_row).to have_content("Exempt")
+      end
+    end
   end
 
   context "when application is invalidated" do

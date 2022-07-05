@@ -29,6 +29,7 @@ en:
     fee_item_table:
       description: Description
       detail: Detail
+      exempt: Exempt
       fee_paid: Fee Paid
       item: Item
       payment_reference: Payment Reference
