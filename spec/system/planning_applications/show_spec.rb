@@ -89,6 +89,11 @@ RSpec.describe "Planning Application show page", type: :system do
       expect(page).to have_text("PAY123")
       expect(page).to have_text("£103.00")
 
+      within("#parish-name") do
+        expect(page).to have_text("Parish:")
+        expect(page).to have_text("Southwark, unparished area")
+      end
+
       within("#ward") do
         expect(page).to have_text("Ward:")
         expect(page).to have_text("South Bermondsey")

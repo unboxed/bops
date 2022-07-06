@@ -167,6 +167,7 @@ RSpec.describe PlanningApplication, type: :model do
 
           expect(planning_application.ward).to eq("South Bermondsey")
           expect(planning_application.ward_type).to eq("London borough ward")
+          expect(planning_application.parish_name).to eq("Southwark, unparished area")
         end
       end
 

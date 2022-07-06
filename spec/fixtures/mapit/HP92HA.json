@@ -1,0 +1,48 @@
+{
+  "postcode": "HP9 2HA",
+  "wgs84_lon": -0.6336388619420956,
+  "wgs84_lat": 51.60653167148054,
+  "coordsyst": "G",
+  "easting": 494719,
+  "northing": 190628,
+  "areas": {
+    "58229": {
+      "id": 58229,
+      "name": "Beaconsfield",
+      "parent_area": 163793,
+      "type": "CPC",
+      "type_name": "Civil parish/community",
+      "country": "E",
+      "country_name": "England",
+      "generation_low": 12,
+      "generation_high": 47,
+      "codes": {
+        "ons": "11UE001",
+        "gss": "E04001580",
+        "unit_id": "11744"
+      },
+      "all_names": {}
+    },
+    "164398": {
+      "id": 164398,
+      "name": "Beaconsfield ward",
+      "parent_area": 163793,
+      "type": "UTW",
+      "type_name": "Unitary Authority ward (UTW)",
+      "country": "E",
+      "country_name": "England",
+      "generation_low": 43,
+      "generation_high": 47,
+      "codes": {
+        "gss": "E05013129",
+        "unit_id": "180349"
+      },
+      "all_names": {}
+    }
+  },
+  "shortcuts": {
+    "WMC": 65687,
+    "ward": 164398,
+    "council": 163793
+  }
+}

@@ -474,10 +474,11 @@ class PlanningApplication < ApplicationRecord
   def set_ward_information
     return if postcode.blank?
 
-    ward_type, ward = Apis::Mapit::Query.new.fetch(postcode)
+    ward_type, ward, parish_name = Apis::Mapit::Query.new.fetch(postcode)
 
     self.ward_type = ward_type
     self.ward = ward
+    self.parish_name = parish_name
     save!
   end
 
