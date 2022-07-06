@@ -1,4 +1,7 @@
 en:
+  shared:
+    application_information:
+      exempt: Exempt
   page_title: "BETA BOPs - GOV.UK"
   statuses:
     not_started: "Not started"

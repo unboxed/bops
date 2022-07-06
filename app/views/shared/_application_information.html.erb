@@ -78,7 +78,7 @@
             <td class="govuk-table__cell"><strong>Payment Reference:</strong></td>
             <td class="govuk-table__cell">
               <p class="govuk-body">
-                <%= @planning_application.payment_reference %>
+                <%= @planning_application.payment_reference || t(".exempt") %>
               </p>
             </td>
           </tr>
@@ -86,7 +86,10 @@
             <td class="govuk-table__cell"><strong>Payment Amount:</strong></td>
             <td class="govuk-table__cell">
               <p class="govuk-body">
-                <%= number_to_currency (@planning_application.payment_amount), unit: '£' %>
+                <%= number_to_currency(
+                  @planning_application.payment_amount || 0,
+                  unit: '£'
+                ) %>
               </p>
             </td>
           </tr>
