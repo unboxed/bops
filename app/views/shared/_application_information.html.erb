@@ -43,6 +43,14 @@
             <td class="govuk-table__cell"><strong>Location:</strong></td>
             <td class="govuk-table__cell"><%= link_to 'View site on Google Maps', map_link(@planning_application.full_address), target: '_blank', class: "govuk-link" %></td>
           </tr>
+          <% if @planning_application.parish_name %>
+            <tr class="govuk-table__row" id="parish-name">
+              <td class="govuk-table__cell"><strong>Parish:</strong></td>
+              <td class="govuk-table__cell">
+                <p class="govuk-body"><%= @planning_application.parish_name %></p>
+              </td>
+            </tr>
+          <% end %>
           <tr class="govuk-table__row" id="ward">
             <td class="govuk-table__cell"><strong>Ward:</strong></td>
             <td class="govuk-table__cell">

@@ -23,6 +23,21 @@
       "generation_low": 33,
       "country_name": "England",
       "type": "LBW"
+    },
+    "164983": {
+      "id": 164983,
+      "name": "Southwark, unparished area",
+      "parent_area": null,
+      "type": "NCP",
+      "type_name": "Non-civil parished area",
+      "country": "E",
+      "country_name": "England",
+      "generation_low": 44,
+      "generation_high": 47,
+      "codes": {
+        "gss": "E43000218"
+      },
+      "all_names": {}
     }
   }
 }

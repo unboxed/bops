@@ -10,10 +10,15 @@ RSpec.describe Apis::Mapit::Query do
       context "when a valid postcode is supplied" do
         before do
           stub_mapit_api_request_for("SE220HW").to_return(mapit_api_response(:ok, "SE220HW"))
+          stub_mapit_api_request_for("HP92HA").to_return(mapit_api_response(:ok, "HP92HA"))
         end
 
-        it "returns an array with ward type and ward name" do
-          expect(query.fetch("SE220HW")).to eq(["London borough ward", "Dulwich Hill"])
+        it "returns an array with ward type, ward name and parish name (type NPC)" do
+          expect(query.fetch("SE220HW")).to eq(["London borough ward", "Dulwich Hill", "Southwark, unparished area"])
+        end
+
+        it "returns an array with ward type, ward name and parish name (type CPC)" do
+          expect(query.fetch("HP92HA")).to eq(["Unitary Authority ward (UTW)", "Beaconsfield ward", "Beaconsfield"])
         end
       end
     end
