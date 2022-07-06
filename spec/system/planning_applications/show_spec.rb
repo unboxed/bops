@@ -111,6 +111,34 @@ RSpec.describe "Planning Application show page", type: :system do
       end
     end
 
+    context "when no fee paid" do
+      let!(:planning_application) do
+        create(
+          :planning_application,
+          local_authority: default_local_authority,
+          payment_reference: nil,
+          payment_amount: nil
+        )
+      end
+
+      it "shows the payment amount as £0.00" do
+        visit planning_application_path(planning_application)
+        click_button "Application information"
+
+        payment_amount_row = find_all("tr").find do |row|
+          row.has_content?("Payment Amount")
+        end
+
+        expect(payment_amount_row).to have_content("£0.00")
+
+        payment_reference_row = find_all("tr").find do |row|
+          row.has_content?("Payment Reference")
+        end
+
+        expect(payment_reference_row).to have_content("Exempt")
+      end
+    end
+
     it "Constraints accordion" do
       click_button "Constraints"
 
