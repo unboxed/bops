@@ -41,7 +41,7 @@ class PlanningApplication < ApplicationRecord
   before_create :set_change_access_id
   before_create :set_application_number
 
-  after_create :set_ward_information
+  after_create :set_ward_and_parish_information
   after_create :create_audit!
   before_update :set_key_dates
   after_update :audit_updated!
@@ -471,7 +471,7 @@ class PlanningApplication < ApplicationRecord
     self.change_access_id = SecureRandom.hex(15)
   end
 
-  def set_ward_information
+  def set_ward_and_parish_information
     return if postcode.blank?
 
     ward_type, ward, parish_name = Apis::Mapit::Query.new.fetch(postcode)
