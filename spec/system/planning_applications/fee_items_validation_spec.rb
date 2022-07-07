@@ -221,11 +221,8 @@ RSpec.describe "FeeItemsValidation", type: :system do
         expect(page).to have_content(other_change_validation_request.created_at)
       end
 
-      within(".govuk-button-group") do
-        expect(page).to have_link(
-          "Back", href: planning_application_validation_tasks_path(planning_application)
-        )
-      end
+      click_link "Back"
+      expect(page).to have_current_path(planning_application_validation_tasks_path(planning_application))
     end
 
     context "when fee item is invalid" do
@@ -271,9 +268,6 @@ RSpec.describe "FeeItemsValidation", type: :system do
         )
 
         within(".govuk-button-group") do
-          expect(page).to have_link(
-            "Back", href: planning_application_validation_tasks_path(planning_application)
-          )
           click_button "Update"
         end
 
@@ -373,9 +367,6 @@ RSpec.describe "FeeItemsValidation", type: :system do
 
       within(".govuk-button-group") do
         expect(page).to have_link(
-          "Back", href: planning_application_validation_tasks_path(planning_application)
-        )
-        expect(page).to have_link(
           "Cancel request",
           href: cancel_confirmation_planning_application_other_change_validation_request_path(
             planning_application, other_change_validation_request
@@ -397,7 +388,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
       fill_in "Explain to the applicant why this request is being cancelled", with: "Mistake"
       click_button "Confirm cancellation"
 
-      expect(page).to have_content("Validation request was successfuly cancelled.")
+      expect(page).to have_content("Validation request was successfully cancelled.")
 
       within(".govuk-table.cancelled-requests") do
         within("#other_change_validation_request_#{other_change_validation_request.id}") do

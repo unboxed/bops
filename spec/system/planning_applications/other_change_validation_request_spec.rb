@@ -30,7 +30,6 @@ RSpec.describe "Requesting other changes to a planning application", type: :syst
             with: "You need to pay £100, which is the correct fee"
 
     within(".govuk-button-group") do
-      expect(page).to have_link("Back", href: planning_application_validation_tasks_path(planning_application))
       click_button "Send request"
     end
 

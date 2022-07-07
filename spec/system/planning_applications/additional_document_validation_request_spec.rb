@@ -274,9 +274,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
         fill_in "Please specify the reason you have requested this document?", with: "Application is missing a floor plan."
 
         within(".govuk-button-group") do
-          expect(page).to have_link(
-            "Back", href: planning_application_validation_tasks_path(planning_application)
-          )
+          expect(page).to have_link("Back")
           click_button "Update"
         end
 
@@ -363,7 +361,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       fill_in "Explain to the applicant why this request is being cancelled", with: "Mistake"
       click_button "Confirm cancellation"
 
-      expect(page).to have_content("Validation request was successfuly cancelled.")
+      expect(page).to have_content("Validation request was successfully cancelled.")
 
       within(".govuk-table.cancelled-requests") do
         within("#additional_document_validation_request_#{additional_document_validation_request.id}") do

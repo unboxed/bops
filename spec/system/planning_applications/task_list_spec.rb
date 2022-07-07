@@ -127,10 +127,11 @@ RSpec.describe "Planning Application show page", type: :system do
       end
 
       within "#assess-section" do
+        expect(page).to have_link("Review non-validation requests")
         expect(page).to have_link("Assess proposal")
         expect(page).to have_content("Complete")
         expect(page).to have_link("Submit recommendation")
-        within(:xpath, '//*[@id="assess-section"]/li[2]') do
+        within(:xpath, '//*[@id="assess-section"]/li[3]') do
           expect(page).not_to have_content("Complete")
         end
       end

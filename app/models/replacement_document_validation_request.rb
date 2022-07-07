@@ -16,6 +16,7 @@ class ReplacementDocumentValidationRequest < ApplicationRecord
 
   delegate :invalidated_document_reason, to: :old_document
 
+  before_create :ensure_planning_application_not_validated!
   before_destroy :reset_document_invalidation
 
   def reset_document_invalidation

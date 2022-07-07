@@ -3,7 +3,11 @@
 module ValidationRequest
   extend ActiveSupport::Concern
 
-  delegate :audits, to: :planning_application
+  with_options to: :planning_application do
+    delegate :audits
+    delegate :validated?, prefix: :planning_application
+    delegate :closed_or_cancelled?, prefix: :planning_application
+  end
 
   include Auditable
 
@@ -17,15 +21,18 @@ module ValidationRequest
 
   included do
     before_create :set_sequence
-    before_create :ensure_planning_application_not_validated!
+    before_create :ensure_planning_application_not_closed_or_cancelled!
 
     before_destroy :ensure_validation_request_destroyable!
+    after_create :set_post_validation!, if: :planning_application_validated?
+    after_create :email_and_timestamp, if: :pending?
     after_create :create_audit!
 
     validates :cancel_reason, presence: true, if: :cancelled?
 
     scope :not_cancelled, -> { where(cancelled_at: nil) }
     scope :open_or_pending, -> { open.or(pending) }
+    scope :post_validation, -> { where(post_validation: true) }
 
     include AASM
 
@@ -101,7 +108,7 @@ module ValidationRequest
     transaction do
       cancel!
       reset_columns
-      audit!(activity_type: "#{self.class.name.underscore}_cancelled", activity_information: sequence,
+      audit!(activity_type: "#{self.class.name.underscore}_#{cancel_audit_event}", activity_information: sequence,
              audit_comment: { cancel_reason: cancel_reason }.to_json)
     end
   rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
@@ -127,20 +134,29 @@ module ValidationRequest
   end
 
   def create_audit!
-    if is_a?(DescriptionChangeValidationRequest)
-      create_audit_for!("sent")
-    else
-      event = planning_application.invalidated? ? "sent" : "added"
-      create_audit_for!(event)
-    end
+    event = if planning_application.not_started?
+              "added"
+            elsif post_validation?
+              "sent_post_validation"
+            else
+              "sent"
+            end
+
+    create_audit_for!(event)
   end
 
   def ensure_planning_application_not_validated!
-    return if is_a?(DescriptionChangeValidationRequest)
-    return unless planning_application.validated?
+    return unless planning_application_validated?
 
     raise ValidationRequestNotCreatableError,
-          "Cannot create #{self.class.name} when planning application has been validated"
+          "Cannot create #{self.class.name.titleize} when planning application has been validated"
+  end
+
+  def ensure_planning_application_not_closed_or_cancelled!
+    return unless planning_application_closed_or_cancelled?
+
+    raise ValidationRequestNotCreatableError,
+          "Cannot create #{self.class.name.titleize} when planning application has been closed or cancelled"
   end
 
   def open_or_pending?
@@ -149,6 +165,10 @@ module ValidationRequest
 
   def active_closed_fee_item?
     try(:fee_item?) && closed? && self == planning_application.fee_item_validation_requests.not_cancelled.last
+  end
+
+  def request_expiry_date
+    5.business_days.after(created_at)
   end
 
   private
@@ -165,5 +185,45 @@ module ValidationRequest
     reset_document_invalidation if is_a?(ReplacementDocumentValidationRequest)
     reset_fee_invalidation if is_a?(OtherChangeValidationRequest) && fee_item?
     reset_documents_missing if is_a?(AdditionalDocumentValidationRequest)
+  end
+
+  def set_post_validation!
+    update!(post_validation: true)
+  end
+
+  def email_and_timestamp
+    return unless planning_application.validation_complete?
+
+    if post_validation?
+      send_post_validation_request_email
+    else
+      send_validation_request_email
+    end
+
+    mark_as_sent!
+  end
+
+  def send_validation_request_email
+    PlanningApplicationMailer.validation_request_mail(
+      planning_application
+    ).deliver_now
+  end
+
+  def send_post_validation_request_email
+    PlanningApplicationMailer.post_validation_request_mail(
+      planning_application,
+      self
+    ).deliver_now
+  end
+
+  def send_description_request_email
+    PlanningApplicationMailer.description_change_mail(
+      planning_application,
+      self
+    ).deliver_now
+  end
+
+  def cancel_audit_event
+    post_validation ? "cancelled_post_validation" : "cancelled"
   end
 end

@@ -60,7 +60,7 @@
         readonly: @planning_application.validated?
       ) %>
 
-      <%= render "shared/validation_request_form_actions", form: form %>
+      <%= render "shared/validation_request_form_actions", form: form, allow_submit: true %>
     <% end %>
   </div>
 </div>

@@ -35,4 +35,28 @@ RSpec.describe "Requesting description changes to a planning application", type:
 
     expect(page).to have_content("Proposed description can't be blank")
   end
+
+  context "when planning application is closed" do
+    let!(:planning_application) do
+      create :planning_application, :closed, local_authority: default_local_authority
+    end
+
+    it "does not show a link to creating a description change request" do
+      visit planning_application_path(planning_application)
+
+      click_button "Application information"
+
+      expect(page).not_to have_link("Propose a change to the description")
+    end
+  end
+
+  context "when planning application is not closed" do
+    it "shows a link to creating a description change request" do
+      visit planning_application_path(planning_application)
+
+      click_button "Application information"
+
+      expect(page).to have_link("Propose a change to the description")
+    end
+  end
 end

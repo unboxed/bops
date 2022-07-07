@@ -12,7 +12,7 @@
 
   <%= render "decision_notice", planning_application: @planning_application %>
 
-  <div class="govuk-button-group">
+  <div class="govuk-button-group govuk-!-padding-top-3">
     <%= form_with model: @planning_application, url: withdraw_recommendation_planning_application_path(@planning_application) do |form| %>
       <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button" %>
       <% if @planning_application.may_withdraw_recommendation? %>

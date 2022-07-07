@@ -6,7 +6,8 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
   let!(:current_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) { create(:planning_application, :invalidated, local_authority: current_local_authority) }
   let!(:assessor) { create(:user, :assessor, local_authority: current_local_authority) }
-  let!(:request) { create(request_type, planning_application: planning_application) }
+  let(:request) { create(request_type, planning_application: planning_application) }
+  let(:document) { create(:document, planning_application: planning_application) }
 
   before do
     allow(LocalAuthority).to receive(:find_by).and_return(current_local_authority)
@@ -86,6 +87,42 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
 
         expect(response).to redirect_to send("cancel_confirmation_planning_application_#{request_type}_path",
                                              planning_application, request)
+      end
+    end
+  end
+
+  describe "#new" do
+    context "when planning application is closed or cancelled" do
+      before do
+        request
+        planning_application.close!
+      end
+
+      it "responds with a 403" do
+        params = {
+          planning_application_id: request.planning_application.id
+        }
+
+        get :new, params: params
+
+        expect(response).to be_forbidden
+      end
+    end
+
+    context "when planning application is not closed or cancelled" do
+      it "responds with a 200" do
+        params = {
+          planning_application_id: planning_application.id
+        }
+
+        if request_type == "replacement_document_validation_request"
+          request.old_document = document
+          params[:document] = request.old_document_id
+        end
+
+        get :new, params: params
+
+        expect(response).to be_ok
       end
     end
   end

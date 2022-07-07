@@ -41,10 +41,6 @@ class DescriptionChangeValidationRequest < ApplicationRecord
     end
   end
 
-  def request_expiry_date
-    5.business_days.after(created_at)
-  end
-
   def rejected?
     !approved && rejection_reason.present?
   end
@@ -66,6 +62,16 @@ class DescriptionChangeValidationRequest < ApplicationRecord
   end
 
   private
+
+  def create_audit!
+    create_audit_for!("sent")
+  end
+
+  def email_and_timestamp
+    send_description_request_email
+
+    mark_as_sent!
+  end
 
   def audit_api_comment
     if approved?

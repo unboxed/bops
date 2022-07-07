@@ -4,6 +4,7 @@ class AdditionalDocumentValidationRequestsController < ValidationRequestsControl
   include ValidationRequests
 
   before_action :set_additional_document_validation_request, only: %i[edit update]
+  before_action :ensure_planning_application_is_not_closed_or_cancelled, only: %i[new create]
   before_action :ensure_planning_application_not_validated, only: %i[new create edit update]
   before_action :ensure_planning_application_not_invalidated, only: :edit
 
@@ -21,8 +22,6 @@ class AdditionalDocumentValidationRequestsController < ValidationRequestsControl
 
     respond_to do |format|
       if @additional_document_validation_request.save
-        email_and_timestamp(@additional_document_validation_request) if @planning_application.invalidated?
-
         format.html do
           redirect_to planning_application_validation_tasks_path(@planning_application), notice: "Additional document request successfully created."
         end

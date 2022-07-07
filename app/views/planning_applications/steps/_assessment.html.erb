@@ -2,6 +2,11 @@
 <ul class="app-task-list__items" id="assess-section">
   <li class="app-task-list__item">
     <span class="app-task-list__task-name">
+      <%= link_to_if(@planning_application.validated?, "Review non-validation requests", post_validation_requests_planning_application_validation_requests_path(@planning_application), class: "govuk-link") %>
+    </span>
+  </li>
+  <li class="app-task-list__item">
+    <span class="app-task-list__task-name">
       <% if @planning_application.can_assess? %>
         <%= link_to "Assess proposal", recommendation_form_planning_application_path(@planning_application), aria: { describedby: "assessment-completed" }, class: "govuk-link" %>
       <% else %>

@@ -12,33 +12,76 @@ RSpec.shared_examples "ValidationRequest" do |klass, request_type|
         request.update!(state: "cancelled")
       end.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Cancel reason can't be blank")
     end
+
+    context "when calling valid?" do
+      subject(:request) { described_class.new }
+
+      describe "#user" do
+        it "validates presence" do
+          expect { request.valid? }.to change { request.errors[:user] }.to ["must exist"]
+        end
+      end
+
+      describe "#planning_application" do
+        it "validates presence" do
+          expect { request.valid? }.to change { request.errors[:planning_application] }.to ["must exist"]
+        end
+      end
+    end
   end
 
   describe "callbacks" do
-    describe "::before_create" do
+    describe "::before_create #set_sequence" do
       it "sets a sequence on the record before it's created" do
         expect(request.sequence).to eq(1)
 
         another_request = create(request_type, planning_application: planning_application)
         expect(another_request.sequence).to eq(2)
       end
+    end
 
-      context "when a planning application has been validated" do
-        let(:planning_application) { create(:planning_application, :in_assessment) }
+    describe "::before_create #ensure_planning_application_not_closed_or_cancelled!" do
+      context "when planning application is cancelled" do
+        let(:planning_application) { create(:planning_application, :withdrawn) }
 
-        it "prevents a #{request_type} validation request from being created" do
+        it "raises an error" do
           expect do
             request
-          end.to raise_error(ValidationRequest::ValidationRequestNotCreatableError,
-                             "Cannot create #{klass.name} when planning application has been validated")
+          end.to raise_error(
+            ValidationRequest::ValidationRequestNotCreatableError, "Cannot create #{klass.name.titleize} when planning application has been closed or cancelled"
+          )
+        end
+      end
+
+      context "when planning application is closed" do
+        let(:planning_application) { create(:planning_application, :closed) }
+
+        it "raises an error" do
+          expect do
+            request
+          end.to raise_error(
+            ValidationRequest::ValidationRequestNotCreatableError, "Cannot create #{klass.name.titleize} when planning application has been closed or cancelled"
+          )
+        end
+      end
+
+      context "when planning application is not closed or cancelled" do
+        let(:planning_application) { create(:planning_application, :invalidated) }
+
+        it "does not raise an error" do
+          expect do
+            request
+          end.not_to raise_error
         end
       end
     end
 
     describe "::before_destroy" do
+      let(:planning_application) { create(:planning_application, :not_started) }
+
       context "with a pending request" do
         let(:request) do
-          create(request_type, state: "pending", planning_application: planning_application)
+          create(request_type, :pending, planning_application: planning_application)
         end
 
         it "destroys the record" do

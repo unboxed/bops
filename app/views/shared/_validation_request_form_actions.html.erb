@@ -9,9 +9,9 @@
 <% end %>
 
 <div class="govuk-button-group">
-  <% if !@planning_application.validated? %>
+  <% if allow_submit %>
     <%= form.govuk_submit submit_button_text(@planning_application, action_name) %>
   <% end %>
 
-  <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+  <%= validation_requests_back_url(classname: "govuk-button govuk-button--secondary") %>
 </div>

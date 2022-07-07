@@ -3,6 +3,7 @@
 class ReplacementDocumentValidationRequestsController < ValidationRequestsController
   include ValidationRequests
 
+  before_action :ensure_planning_application_is_not_closed_or_cancelled, only: %i[new create]
   before_action :set_replacement_document_validation_request, only: %i[edit update]
   before_action :set_document, only: %i[new edit update]
 
@@ -32,7 +33,6 @@ class ReplacementDocumentValidationRequestsController < ValidationRequestsContro
       respond_to do |format|
         if @replacement_document_validation_request.save
           @document.replacement_document_validation_request = @replacement_document_validation_request
-          email_and_timestamp(@replacement_document_validation_request) if @planning_application.invalidated?
 
           format.html { redirect_to planning_application_validation_tasks_path(@planning_application), notice: "Replacement document validation request successfully created." }
         else

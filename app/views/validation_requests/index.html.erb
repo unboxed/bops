@@ -1,11 +1,15 @@
 <% content_for :page_title do %>
-  Validation requests - <%= t('page_title') %>
+  <% if post_validation_requests_index? %>
+    Post validation requests - <%= t('page_title') %>
+  <% else %>
+    Validation requests - <%= t('page_title') %>
+  <% end %>
 <% end %>
 
-<% content_for :title, "Validation requests" %>
+<% content_for :title, post_validation_requests_index? ? "Post-validation requests" : "Validation requests" %>
 <% add_parent_breadcrumb_link "Home", planning_applications_path %>
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
-<% add_parent_breadcrumb_link "Validation tasks", planning_application_validation_tasks_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Validation tasks", planning_application_validation_tasks_path(@planning_application) unless post_validation_requests_index? %>
 
 <div class="govuk-grid-column-full">
   <div class="govuk-grid-row">
@@ -35,6 +39,10 @@
       <% end %>
     </div>
 
-    <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button" %>
+    <% if post_validation_requests_index? %>
+      <%= link_to "Back", @planning_application, class: "govuk-button" %>
+    <% else %>
+      <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button" %>
+    <% end %>
   </div>
 </div>

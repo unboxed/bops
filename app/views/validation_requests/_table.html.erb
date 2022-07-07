@@ -1,5 +1,12 @@
 <table class="govuk-table validation-requests-table">
-  <caption class="govuk-table__caption govuk-table__caption--l">Validation requests</caption>
+  <caption class="govuk-table__caption govuk-table__caption--l">
+    <% if post_validation_requests_index? %>
+      Post-validation requests
+    <% else %>
+      Validation requests
+    <% end %>
+  </caption>
+
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header">
@@ -16,6 +23,7 @@
       </th>
     </tr>
   </thead>
+
   <tbody class="govuk-table__body">
     <% requests.each do |request| %>
       <tr class="govuk-table__row">

@@ -64,6 +64,10 @@ module ValidationRequestHelper
     end
   end
 
+  def validation_requests_back_url(classname: nil)
+    link_to("Back", :back, class: classname)
+  end
+
   def document_url(document)
     link_to(document.name.to_s,
             edit_planning_application_document_path(document.planning_application, document.id))
@@ -89,11 +93,15 @@ module ValidationRequestHelper
   def submit_button_text(planning_application, action_name)
     if action_name.eql?("edit")
       "Update request"
-    elsif planning_application.invalidated?
-      "Send request"
-    else
+    elsif planning_application.not_started?
       "Save request"
+    else
+      "Send request"
     end
+  end
+
+  def post_validation_requests_index?
+    action_name == "post_validation_requests"
   end
 
   private

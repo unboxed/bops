@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 2022_07_06_101605) do
     t.date "notified_at"
     t.text "cancel_reason"
     t.datetime "cancelled_at"
+    t.boolean "post_validation", default: false, null: false
     t.index ["planning_application_id"], name: "index_document_create_requests_on_planning_application_id"
     t.index ["user_id"], name: "index_document_create_requests_on_user_id"
   end
@@ -110,6 +111,7 @@ ActiveRecord::Schema.define(version: 2022_07_06_101605) do
     t.text "cancel_reason"
     t.datetime "cancelled_at"
     t.boolean "auto_closed", default: false
+    t.boolean "post_validation", default: false, null: false
     t.index ["planning_application_id"], name: "index_description_change_requests_on_planning_application_id"
     t.index ["user_id"], name: "index_description_change_requests_on_user_id"
   end
@@ -176,6 +178,7 @@ ActiveRecord::Schema.define(version: 2022_07_06_101605) do
     t.text "cancel_reason"
     t.datetime "cancelled_at"
     t.boolean "fee_item", default: false
+    t.boolean "post_validation", default: false, null: false
     t.index ["planning_application_id"], name: "ix_other_change_validation_requests_on_planning_application_id"
     t.index ["user_id"], name: "ix_other_change_validation_requests_on_user_id"
   end
@@ -286,6 +289,7 @@ ActiveRecord::Schema.define(version: 2022_07_06_101605) do
     t.text "cancel_reason"
     t.datetime "cancelled_at"
     t.json "original_geojson"
+    t.boolean "post_validation", default: false, null: false
   end
 
   create_table "replacement_document_validation_requests", force: :cascade do |t|
@@ -301,6 +305,7 @@ ActiveRecord::Schema.define(version: 2022_07_06_101605) do
     t.text "cancel_reason"
     t.datetime "cancelled_at"
     t.text "reason"
+    t.boolean "post_validation", default: false, null: false
     t.index ["new_document_id"], name: "index_document_change_requests_on_new_document_id"
     t.index ["old_document_id"], name: "index_document_change_requests_on_old_document_id"
     t.index ["planning_application_id"], name: "index_document_change_requests_on_planning_application_id"

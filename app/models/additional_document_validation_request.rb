@@ -15,6 +15,7 @@ class AdditionalDocumentValidationRequest < ApplicationRecord
   validates :document_request_type, presence: { message: "Please fill in the document request type." }
   validates :document_request_reason, presence: { message: "Please fill in the reason for this document request." }
 
+  before_create :ensure_planning_application_not_validated!
   after_create :set_documents_missing
   before_destroy :reset_documents_missing
 

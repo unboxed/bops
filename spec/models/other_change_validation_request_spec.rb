@@ -12,16 +12,6 @@ RSpec.describe OtherChangeValidationRequest, type: :model do
 
     before { other_change_validation_request.planning_application = planning_application }
 
-    describe "#user" do
-      it "validates presence" do
-        expect do
-          other_change_validation_request.valid?
-        end.to change {
-          other_change_validation_request.errors[:user]
-        }.to ["must exist"]
-      end
-    end
-
     describe "#summary" do
       it "validates presence" do
         expect do
@@ -195,6 +185,22 @@ RSpec.describe OtherChangeValidationRequest, type: :model do
             expect do
               other_change_validation_request
             end.not_to change(planning_application, :invalid_payment_amount)
+          end
+        end
+      end
+
+      describe "::before_create #ensure_planning_application_not_validated!" do
+        context "when a planning application has been validated" do
+          let(:planning_application) { create(:planning_application, :in_assessment) }
+          let(:other_change_validation_request) do
+            create :other_change_validation_request, planning_application: planning_application
+          end
+
+          it "prevents an other_change_validation_request from being created" do
+            expect do
+              other_change_validation_request
+            end.to raise_error(ValidationRequest::ValidationRequestNotCreatableError,
+                               "Cannot create Other Change Validation Request when planning application has been validated")
           end
         end
       end

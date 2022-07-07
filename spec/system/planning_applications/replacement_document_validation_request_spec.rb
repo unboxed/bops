@@ -67,7 +67,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
         "Applicants will be able to see this advice about how to prepare plans (Opens in a new window or tab)",
         href: public_planning_guides_path
       )
-      expect(page).to have_link("Back", href: planning_application_validation_tasks_path(planning_application))
+      expect(page).to have_link("Back")
 
       # Reason must be present
       click_button "Save request"
@@ -101,7 +101,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
         expect(page).to have_content("This is very invalid")
         expect(page).to have_content(document1.replacement_document_validation_request.created_at.to_formatted_s(:day_month_year))
       end
-      expect(page).to have_link("Back", href: planning_application_validation_tasks_path(planning_application))
+      expect(page).to have_link("Back")
 
       # Edit the request
       click_link "Edit request"
@@ -266,7 +266,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       click_link "Cancel request"
       fill_in "Explain to the applicant why this request is being cancelled", with: "mistake"
       click_button "Confirm cancellation"
-      expect(page).to have_content("Validation request was successfuly cancelled.")
+      expect(page).to have_content("Validation request was successfully cancelled.")
       expect(document1.reload.replacement_document_validation_request).to eq(nil)
       expect(document1.invalidated_document_reason).to eq(nil)
       expect(document1.validated).to eq(nil)

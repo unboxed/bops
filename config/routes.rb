@@ -72,7 +72,9 @@ Rails.application.routes.draw do
     end
 
     resources :audits, only: :index
-    resources :validation_requests, only: %i[index]
+    resources :validation_requests, only: %i[index] do
+      get :post_validation_requests, on: :collection
+    end
 
     concern :cancel_validation_requests do
       member do

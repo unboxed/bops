@@ -14,6 +14,7 @@ class OtherChangeValidationRequest < ApplicationRecord
   validate :response_is_present?
   validate :ensure_no_open_or_pending_fee_item_validation_request, on: :create
 
+  before_create :ensure_planning_application_not_validated!
   after_create :set_invalid_payment_amount
   before_update :reset_fee_invalidation, if: :closed?
   before_destroy :reset_fee_invalidation

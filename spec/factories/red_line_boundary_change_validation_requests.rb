@@ -34,8 +34,11 @@ FactoryBot.define do
     end
     reason { "Boundary incorrect" }
     approved { nil }
+    post_validation { false }
 
     trait :pending do
+      planning_application { create :planning_application, :not_started }
+
       state { "pending" }
     end
 
@@ -51,6 +54,10 @@ FactoryBot.define do
       state { "cancelled" }
       cancel_reason { "Made by mistake!" }
       cancelled_at { Time.current }
+    end
+
+    trait :post_validation do
+      post_validation { true }
     end
   end
 end

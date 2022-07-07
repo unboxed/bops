@@ -1,11 +1,15 @@
 # frozen_string_literal: true
 
 class PlanningApplicationsController < AuthenticationController
+  include ActionView::Helpers::SanitizeHelper
+
   before_action :set_planning_application, except: %i[new create index]
 
   before_action :ensure_user_is_reviewer, only: %i[review review_form edit_public_comment]
 
   before_action :set_last_audit, only: %i[show view_recommendation submit_recommendation publish]
+
+  before_action :ensure_no_open_post_validation_requests, only: %i[submit]
 
   rescue_from PlanningApplication::WithdrawRecommendationError do |_exception|
     redirect_failed_withdraw_recommendation
@@ -414,6 +418,15 @@ class PlanningApplicationsController < AuthenticationController
       "Documents required are marked as invalid"
     else
       "Documents required are marked as valid"
+    end
+  end
+
+  def ensure_no_open_post_validation_requests
+    if @planning_application.open_post_validation_requests?
+      flash.now[:error] = sanitize "This application has open non-validation requests. Please
+        #{view_context.link_to 'review open requests',
+                               post_validation_requests_planning_application_validation_requests_path(@planning_application)} and resolve them before submitting to your manager."
+      render :submit_recommendation and return
     end
   end
 end
