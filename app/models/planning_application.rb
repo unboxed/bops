@@ -126,10 +126,6 @@ class PlanningApplication < ApplicationRecord
     self[:application_number].to_s.rjust(5, "0")
   end
 
-  def correction_provided?
-    awaiting_correction?
-  end
-
   def reviewer_disagrees_with_assessor?
     awaiting_correction?
   end

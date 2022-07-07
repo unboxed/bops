@@ -1,5 +1,7 @@
 en:
   shared:
+    alert_banner:
+      warning: Warning
     application_information:
       exempt: Exempt
   page_title: "BETA BOPs - GOV.UK"

@@ -2,6 +2,13 @@ en:
   planning_applications:
     assessment_dashboard:
       awaiting_approval_to: Awaiting approval to a description change (sent on %{date})
+    index:
+      assessor_alert:
+        one: Your manager has requested corrections on <strong>%{count} application.</strong>
+        other: Your manager has requested corrections on <strong>%{count} applications.</strong>
+      reviewer_alert:
+        one: You have <strong>%{count} application</strong> returned to you with corrections.
+        other: You have <strong>%{count} applications</strong> returned to you with corrections.
     days_left:
       one: '1 day remaining'
       zero: '%{count} days overdue'

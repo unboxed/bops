@@ -21,6 +21,43 @@ RSpec.describe "Planning Application index page", type: :system do
       visit root_path
     end
 
+    context "when a planning application is awaiting correction" do
+      before do
+        create(
+          :planning_application,
+          :awaiting_correction,
+          local_authority: default_local_authority
+        )
+      end
+
+      it "renders alert message" do
+        visit root_path
+
+        expect(page).to have_content(
+          "Your manager has requested corrections on 1 application."
+        )
+      end
+    end
+
+    context "when multiple planning applications are awaiting correction" do
+      before do
+        create_list(
+          :planning_application,
+          2,
+          :awaiting_correction,
+          local_authority: default_local_authority
+        )
+      end
+
+      it "renders alert message" do
+        visit root_path
+
+        expect(page).to have_content(
+          "Your manager has requested corrections on 2 applications."
+        )
+      end
+    end
+
     context "viewing tabs" do
       it "Planning Application status bar is present" do
         within(:planning_applications_status_tab) do
@@ -168,6 +205,43 @@ RSpec.describe "Planning Application index page", type: :system do
     before do
       sign_in reviewer
       visit root_path
+    end
+
+    context "when planning application is awaiting correction" do
+      before do
+        create(
+          :planning_application,
+          :awaiting_correction,
+          local_authority: default_local_authority
+        )
+      end
+
+      it "renders alert message" do
+        visit root_path
+
+        expect(page).to have_content(
+          "You have 1 application returned to you with corrections."
+        )
+      end
+    end
+
+    context "when multiple planning applications are awaiting correction" do
+      before do
+        create_list(
+          :planning_application,
+          2,
+          :awaiting_correction,
+          local_authority: default_local_authority
+        )
+      end
+
+      it "renders alert message" do
+        visit root_path
+
+        expect(page).to have_content(
+          "You have 2 applications returned to you with corrections."
+        )
+      end
     end
 
     it "Planning Application status bar is present and does not show In Assessment by default" do

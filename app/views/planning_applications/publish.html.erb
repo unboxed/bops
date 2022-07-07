@@ -36,7 +36,7 @@
       <% end %>
       <% if @planning_application.open_description_change_request.present? %>
         <%= render(
-          partial: "shared/warning_text",
+          partial: "shared/alert_banner",
           locals: {
             message: t(".awaiting_approval_to", date: @planning_application.open_description_change_request.created_at.strftime("%d/%m/%Y"))
           }
