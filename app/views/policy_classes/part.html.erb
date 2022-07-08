@@ -9,7 +9,11 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with(url: new_planning_application_policy_class_path(@planning_application), method: :get) do |form| %>
+    <%= form_with(
+      url: new_planning_application_policy_class_path(@planning_application),
+      method: :get,
+      html: { data: unsaved_changes_data }
+    ) do |form| %>
       <div class="govuk-form-group">
         <fieldset class="govuk-fieldset">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">

@@ -33,7 +33,11 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <%= form_with method: :put, scope: "policies" do |form| %>
+    <%= form_with(
+      method: :put,
+      scope: "policies",
+      html: { data: unsaved_changes_data }
+    ) do |form| %>
       <table class="govuk-table">
         <caption class="govuk-table__caption govuk-table__caption--l"><%= @policy_class %></caption>
         <thead class="govuk-table__head">

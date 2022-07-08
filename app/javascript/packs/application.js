@@ -11,3 +11,5 @@ require("@rails/activestorage").start();
 import "@opensystemslab/map";
 
 const images = require.context('../images', true)
+
+import "controllers"
