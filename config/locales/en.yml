@@ -51,6 +51,12 @@ en:
     southwark: SWK
     buckinghamshire: BUC
     ripa: RIPA
+  description_change_validation_requests:
+    description_change_validation_request:
+      change_description: Change description
+      description_change: Description change
+      new_description: "New description:"
+      proposed_description: "Propsed description:"
   users:
     edit:
       edit_user: Edit user

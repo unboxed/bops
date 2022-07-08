@@ -68,6 +68,19 @@ RSpec.describe "Validation tasks", type: :system do
         create(:red_line_boundary_change_validation_request, :closed, planning_application: planning_application)
         create(:red_line_boundary_change_validation_request, :cancelled, planning_application: planning_application)
 
+        create(
+          :description_change_validation_request,
+          :cancelled,
+          planning_application: planning_application,
+          proposed_description: "New description 1"
+        )
+
+        create(
+          :description_change_validation_request,
+          planning_application: planning_application,
+          proposed_description: "New description 2"
+        )
+
         visit planning_application_validation_requests_path(planning_application)
       end
 
@@ -75,16 +88,20 @@ RSpec.describe "Validation tasks", type: :system do
         expect(page).not_to have_content("Red line boundary changes")
         expect(page).not_to have_content("View request red line boundary")
         expect(page).not_to have_content("Cancelled requests")
+        expect(page).not_to have_content("New description 1")
+        expect(page).not_to have_content("New description 2")
 
         # check post valiation requests table
         visit post_validation_requests_planning_application_validation_requests_path(planning_application)
         within(".validation-requests-table") do
           expect(page).to have_content("Red line boundary changes")
           expect(page).to have_content("View request red line boundary")
+          expect(page).to have_content("New description 2")
         end
 
         within(".cancelled-requests") do
           expect(page).to have_content("Red line boundary changes")
+          expect(page).to have_content("New description 1")
         end
       end
     end

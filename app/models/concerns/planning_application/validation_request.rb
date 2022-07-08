@@ -31,9 +31,16 @@ class PlanningApplication
       end
     end
 
-    def validation_requests(post_validation: false)
-      (replacement_document_validation_requests + additional_document_validation_requests + other_change_validation_requests + red_line_boundary_change_validation_requests)
-        .send(enumerable_method(post_validation), &:post_validation?).sort_by(&:created_at).reverse
+    def validation_requests(post_validation: false, include_description_change_validation_requests: false)
+      request_types = validation_request_types(
+        include_description_change: include_description_change_validation_requests
+      )
+
+      requests = request_types.map do |request_type|
+        send("#{request_type}_validation_requests").where(post_validation: post_validation)
+      end
+
+      requests.flatten.sort_by(&:created_at).reverse
     end
 
     def active_validation_requests(post_validation: false)
@@ -69,6 +76,16 @@ class PlanningApplication
 
     def enumerable_method(post_validation)
       post_validation ? "select" : "reject"
+    end
+
+    def validation_request_types(include_description_change: true)
+      [
+        :additional_document,
+        (:description_change if include_description_change),
+        :other_change,
+        :red_line_boundary_change,
+        :replacement_document
+      ].compact
     end
   end
 end
