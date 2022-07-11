@@ -21,7 +21,11 @@ class ValidationRequestsController < AuthenticationController
   end
 
   def post_validation_requests
-    validation_requests = @planning_application.validation_requests(post_validation: true)
+    validation_requests = @planning_application.validation_requests(
+      post_validation: true,
+      include_description_change_validation_requests: true
+    )
+
     @cancelled_validation_requests, @active_validation_requests = validation_requests.partition(&:cancelled?)
 
     respond_to do |format|
