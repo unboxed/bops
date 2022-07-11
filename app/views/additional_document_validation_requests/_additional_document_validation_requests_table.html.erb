@@ -21,7 +21,7 @@
         </td>
         <td class="govuk-table__cell govuk-!-width-one-sixth">
           <% if validation_request.open_or_pending? %>
-            <% if @planning_application.invalidated? %>
+            <% if validation_request.can_cancel? %>
               <%= cancel_confirmation_request_url(@planning_application, validation_request, classname: "govuk-link govuk-!-display-block") %>
             <% end %>
 

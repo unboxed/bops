@@ -133,18 +133,114 @@ RSpec.describe AdditionalDocumentValidationRequest, type: :model do
       end
     end
 
-    describe "::before_create #ensure_planning_application_not_validated!" do
-      context "when a planning application has been validated" do
-        let(:planning_application) { create(:planning_application, :in_assessment) }
-        let(:additional_document_validation_request) do
-          create :additional_document_validation_request, planning_application: planning_application
+    describe "#can_cancel?" do
+      context "when request is open" do
+        let(:request) do
+          create(
+            :additional_document_validation_request,
+            :open,
+            planning_application: planning_application
+          )
         end
 
-        it "prevents a additional_document_validation_request from being created" do
-          expect do
-            additional_document_validation_request
-          end.to raise_error(ValidationRequest::ValidationRequestNotCreatableError,
-                             "Cannot create Additional Document Validation Request when planning application has been validated")
+        context "when planning application is invalidated" do
+          let(:planning_application) do
+            create(:planning_application, :invalidated)
+          end
+
+          it "returns true" do
+            expect(request.can_cancel?).to eq(true)
+          end
+        end
+
+        context "when planning application is not invalidated" do
+          let(:planning_application) do
+            create(:planning_application, :not_started)
+          end
+
+          it "returns false" do
+            expect(request.can_cancel?).to eq(false)
+          end
+        end
+
+        context "when request is post validation" do
+          let(:planning_application) do
+            create(:planning_application, :in_assessment)
+          end
+
+          it "returns true" do
+            expect(request.can_cancel?).to eq(true)
+          end
+        end
+      end
+
+      context "when request is pending" do
+        let(:request) do
+          create(
+            :additional_document_validation_request,
+            :pending,
+            planning_application: planning_application
+          )
+        end
+
+        context "when planning application is invalidated" do
+          let(:planning_application) do
+            create(:planning_application, :invalidated)
+          end
+
+          it "returns true" do
+            expect(request.can_cancel?).to eq(true)
+          end
+        end
+
+        context "when planning application is not invalidated" do
+          let(:planning_application) do
+            create(:planning_application, :not_started)
+          end
+
+          it "returns false" do
+            expect(request.can_cancel?).to eq(false)
+          end
+        end
+
+        context "when request is post validation" do
+          let(:planning_application) do
+            create(:planning_application, :in_assessment)
+          end
+
+          it "returns true" do
+            expect(request.can_cancel?).to eq(true)
+          end
+        end
+      end
+
+      context "when request is not open or pending" do
+        let(:request) do
+          create(
+            :additional_document_validation_request,
+            :closed,
+            planning_application: planning_application
+          )
+        end
+
+        context "when planning application is invalidated" do
+          let(:planning_application) do
+            create(:planning_application, :invalidated)
+          end
+
+          it "returns false" do
+            expect(request.can_cancel?).to eq(false)
+          end
+        end
+
+        context "when request is post validation" do
+          let(:planning_application) do
+            create(:planning_application, :in_assessment)
+          end
+
+          it "returns false" do
+            expect(request.can_cancel?).to eq(false)
+          end
         end
       end
     end

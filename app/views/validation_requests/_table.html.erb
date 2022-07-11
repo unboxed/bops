@@ -1,15 +1,4 @@
 <table class="govuk-table validation-requests-table">
-  <caption class="govuk-table__caption govuk-table__caption--l">
-    <% if post_validation_requests_index? %>
-      Post-validation requests
-      <p class="govuk-body-m govuk-!-padding-top-3">
-        For redline and description requests, the applicant can reject or accept these changes within 5 working days, after that these requests will be automatically accepted.
-      </p>
-    <% else %>
-      Validation requests
-    <% end %>
-  </caption>
-
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header">
@@ -51,7 +40,7 @@
           </td>
 
           <td class="govuk-table__cell">
-            <%= show_request_url(@planning_application, request) %>
+            <%= show_validation_request_link(@planning_application, request) %>
           </td>
         <% end %>
       </tr>

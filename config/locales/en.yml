@@ -1,4 +1,25 @@
 en:
+  additional_document_validation_requests:
+    create:
+      success: Additional document request successfully created.
+  audits:
+    types:
+      additional_document_validation_request_sent_post_validation:
+        document: "Document:"
+        reason: "Reason:"
+  documents:
+    index:
+      request_a_new: Request a new document
+      upload_document: Upload document
+  validation_requests:
+    index:
+      for_new_document: For new document requests, requests will remain open until responded, cancelled or the application is decided.
+      for_redline_and: For redline and description requests, the applicant can reject or accept these changes within 5 working days. After that these requests will be automatically accepted.
+      post_validation_requests: Post-validation requests
+      validation_requests: Validation requests
+    table:
+      view: View
+      view_and_update: View and update
   shared:
     alert_banner:
       warning: Warning

@@ -23,7 +23,10 @@ class AdditionalDocumentValidationRequestsController < ValidationRequestsControl
     respond_to do |format|
       if @additional_document_validation_request.save
         format.html do
-          redirect_to planning_application_validation_tasks_path(@planning_application), notice: "Additional document request successfully created."
+          redirect_to(
+            create_request_redirect_url,
+            notice: I18n.t("additional_document_validation_requests.create.success")
+          )
         end
       else
         format.html { render :new }
@@ -57,5 +60,13 @@ class AdditionalDocumentValidationRequestsController < ValidationRequestsControl
 
   def set_additional_document_validation_request
     @additional_document_validation_request = @planning_application.additional_document_validation_requests.find(params[:id])
+  end
+
+  def cancel_redirect_url
+    if @planning_application.validated?
+      @planning_application
+    else
+      planning_application_validation_requests_path(@planning_application)
+    end
   end
 end
