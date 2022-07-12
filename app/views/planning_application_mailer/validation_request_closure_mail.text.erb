@@ -1,0 +1,19 @@
+Application reference number: <%= @planning_application.reference_in_full %>
+
+Application received: <%= @planning_application.received_at.strftime("%-d %B %Y") %>
+
+At: <%= @planning_application.full_address.upcase %>
+
+Dear <%= @planning_application.agent_or_applicant_name %>,
+
+A proposed change to your application which you were told about 5 days ago has been automatically accepted as we have not had a response from you.
+
+To see the change please follow the link below:
+
+<%= @planning_application.secure_change_url %>
+
+If you have any questions, send them to <%= @planning_application.local_authority.email_address %> and someone will get back to you.
+
+Yours faithfully,
+
+<%= @planning_application.local_authority.council_name %>

@@ -24,6 +24,7 @@ en:
         validation_notice_mail: Your application for a Lawful Development Certificate
         validation_request_mail: Lawful Development Certificate application  - further changes needed
         post_validation_request_mail: Lawful Development Certificate application  - changes needed
+        validation_request_closure_mail: Changes to your Lawful Development Certificate application
     overdue:
       one: '1 day overdue'
       other: '%{count} days overdue'

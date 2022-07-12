@@ -623,4 +623,78 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       end
     end
   end
+
+  describe "#validation_request_closure_mail" do
+    let(:validation_request_closure_mail) do
+      described_class.validation_request_closure_mail(planning_application)
+    end
+
+    let(:mail_body) { validation_request_closure_mail.body.encoded }
+
+    it "emails only the agent when the agent is present" do
+      expect(validation_request_closure_mail.to).to eq([planning_application.agent_email])
+    end
+
+    it "emails only the applicant when the agent is missing" do
+      planning_application.update!(agent_email: "")
+      mail = described_class.validation_request_closure_mail(planning_application)
+
+      expect(mail.to).to eq([planning_application.applicant_email])
+    end
+
+    it "sets the subject" do
+      expect(validation_request_closure_mail.subject).to eq(
+        "Changes to your Lawful Development Certificate application"
+      )
+    end
+
+    it "sets the recipient" do
+      expect(validation_request_closure_mail.to).to contain_exactly(
+        "cookie_crackers@example.com"
+      )
+    end
+
+    it "includes the reference" do
+      expect(mail_body).to include(
+        "Application reference number: RIPA-22-00100-LDCP"
+      )
+    end
+
+    it "includes the address" do
+      expect(mail_body).to include(
+        "At: 123 HIGH STREET, BIG CITY, AB3 4EF"
+      )
+    end
+
+    it "includes the main text body" do
+      expect(mail_body).to include(
+        "A proposed change to your application which you were told about 5 days ago has been automatically accepted as we have not had a response from you."
+      )
+    end
+
+    it "includes the validation request url" do
+      expect(mail_body).to include(
+        "http://ripa.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+      )
+    end
+
+    it "includes the response email" do
+      expect(mail_body).to include(
+        "If you have any questions, send them to #{planning_application.local_authority.email_address} and someone will get back to you."
+      )
+    end
+
+    it "includes the name of the agent in the body if agent is present" do
+      expect(validation_request_closure_mail.body.encoded).to include(planning_application.agent_first_name)
+      expect(validation_request_closure_mail.body.encoded).to include(planning_application.agent_last_name)
+    end
+
+    it "includes the name of the applicant in the body if no agent is present" do
+      planning_application.update!(agent_first_name: "")
+      mail = described_class.validation_request_closure_mail(planning_application.reload)
+
+      expect(mail.body.encoded).to include(planning_application.applicant_first_name)
+      expect(mail.body.encoded).to include(planning_application.applicant_last_name)
+    end
+  end
 end

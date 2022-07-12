@@ -298,6 +298,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
         click_link "View applicants response to requested red line boundary change"
 
         expect(page).to have_content("Applicant approved proposed digital red line boundary")
+        expect(page).to have_content("Change to red line boundary has been approved by the applicant")
       end
     end
 
@@ -313,6 +314,31 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
 
         expect(page).to have_content("Applicant rejected this proposed red line boundary")
         expect(page).to have_content("Reason: disagree")
+      end
+    end
+
+    context "when request has been auto closed" do
+      let!(:red_line_boundary_change_validation_request) do
+        create(:red_line_boundary_change_validation_request, :open, planning_application: planning_application)
+      end
+
+      before do
+        red_line_boundary_change_validation_request.auto_close_request!
+      end
+
+      it "I can view the accepted response" do
+        visit planning_application_path(planning_application)
+        click_button "Site map"
+        click_link "View applicants response to requested red line boundary change"
+
+        expect(page).to have_content("Change to red line boundary was auto closed and approved after being open for more than 5 business days")
+
+        visit planning_application_audits_path(planning_application)
+
+        within("#audit_#{Audit.last.id}") do
+          expect(page).to have_content("Request was auto-closed and approved after being open for 5 business days.")
+          expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+        end
       end
     end
   end

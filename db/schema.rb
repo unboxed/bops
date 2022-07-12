@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_06_101605) do
+ActiveRecord::Schema.define(version: 2022_07_12_102525) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(version: 2022_07_06_101605) do
     t.datetime "cancelled_at"
     t.boolean "auto_closed", default: false
     t.boolean "post_validation", default: false, null: false
+    t.datetime "auto_closed_at"
     t.index ["planning_application_id"], name: "index_description_change_requests_on_planning_application_id"
     t.index ["user_id"], name: "index_description_change_requests_on_user_id"
   end
@@ -290,6 +291,8 @@ ActiveRecord::Schema.define(version: 2022_07_06_101605) do
     t.datetime "cancelled_at"
     t.json "original_geojson"
     t.boolean "post_validation", default: false, null: false
+    t.boolean "auto_closed", default: false, null: false
+    t.datetime "auto_closed_at"
   end
 
   create_table "replacement_document_validation_requests", force: :cascade do |t|

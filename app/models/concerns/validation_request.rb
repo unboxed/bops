@@ -33,6 +33,7 @@ module ValidationRequest
     scope :not_cancelled, -> { where(cancelled_at: nil) }
     scope :open_or_pending, -> { open.or(pending) }
     scope :post_validation, -> { where(post_validation: true) }
+    scope :open_change_created_over_5_business_days_ago, -> { open.where("created_at <= ?", 5.business_days.ago) }
 
     include AASM
 
@@ -60,14 +61,8 @@ module ValidationRequest
         end
       end
 
-      event :auto_approve do
+      event :auto_close do
         transitions from: :open, to: :closed
-
-        after do
-          planning_application.update!(description: proposed_description)
-          update!(approved: true, auto_closed: true)
-          audit!(activity_type: "auto_closed")
-        end
       end
 
       event :close do
@@ -169,6 +164,17 @@ module ValidationRequest
 
   def request_expiry_date
     5.business_days.after(created_at)
+  end
+
+  def auto_close_request!
+    transaction do
+      auto_close!
+      update_planning_application_for_auto_closed_request!
+      update!(approved: true, auto_closed: true, auto_closed_at: Time.current)
+      audit!(activity_type: "auto_closed")
+    end
+  rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
+    Appsignal.send_error(e.message)
   end
 
   private

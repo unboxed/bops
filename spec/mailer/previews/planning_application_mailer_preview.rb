@@ -57,6 +57,10 @@ class PlanningApplicationMailerPreview < ActionMailer::Preview
     PlanningApplicationMailer.validation_request_mail(planning_application)
   end
 
+  def validation_request_closure_mail
+    PlanningApplicationMailer.validation_request_closure_mail(planning_application)
+  end
+
   private
 
   def planning_application

@@ -20,7 +20,7 @@ RSpec.describe ValidationRequest, type: :model do
       it_behaves_like "ValidationRequestStateMachineTransitions", request_type, "closed", %i[]
 
       it_behaves_like "ValidationRequestStateMachineEvents", request_type, "pending", %i[mark_as_sent cancel]
-      it_behaves_like "ValidationRequestStateMachineEvents", request_type, "open", %i[cancel auto_approve]
+      it_behaves_like "ValidationRequestStateMachineEvents", request_type, "open", %i[cancel auto_close]
       it_behaves_like "ValidationRequestStateMachineEvents", request_type, "cancelled", %i[]
       it_behaves_like "ValidationRequestStateMachineEvents", request_type, "closed", %i[]
     end
@@ -273,6 +273,60 @@ RSpec.describe ValidationRequest, type: :model do
 
         it "returns true when it is the latest record" do
           expect(validation_request2.active_closed_fee_item?).to eq(true)
+        end
+      end
+    end
+
+    describe "#auto_close_request!" do
+      let(:request) { create(:red_line_boundary_change_validation_request, :open) }
+
+      describe "when successful" do
+        it "auto closes the request and creates an audit record" do
+          expect { request.auto_close_request! }
+            .to change(request, :auto_closed_at)
+            .from(nil).to(Time.current)
+            .and change(request, :state)
+            .from("open").to("closed")
+            .and change(request, :auto_closed).from(false).to(true)
+
+          expect(Audit.last).to have_attributes(
+            planning_application_id: request.planning_application.id,
+            activity_type: "auto_closed"
+          )
+        end
+      end
+
+      describe "when there is an AASM::InvalidTransition error" do
+        let!(:request) { create(:red_line_boundary_change_validation_request, :pending) }
+
+        it "sends the error to Appsignal" do
+          expect(Appsignal).to receive(:send_error).with("Event 'auto_close' cannot transition from 'pending'.")
+
+          expect { request.auto_close_request! }
+            .to change(Audit, :count).by(0)
+
+          expect(request.reload).to be_pending
+          expect(request.reload.auto_closed).to eq(false)
+          expect(request.reload.auto_closed_at).to eq(nil)
+          expect(request.reload.planning_application.boundary_geojson).not_to eq(request.reload.new_geojson)
+        end
+      end
+
+      describe "when there is an ActiveRecord error" do
+        before do
+          allow(request).to receive(:update!).and_raise(ActiveRecord::ActiveRecordError)
+        end
+
+        it "sends the error to Appsignal" do
+          expect(Appsignal).to receive(:send_error).with("ActiveRecord::ActiveRecordError")
+
+          expect { request.auto_close_request! }
+            .to change(Audit, :count).by(0)
+
+          expect(request.reload).to be_open
+          expect(request.reload.auto_closed).to eq(false)
+          expect(request.reload.auto_closed_at).to eq(nil)
+          expect(request.reload.planning_application.boundary_geojson).not_to eq(request.reload.new_geojson)
         end
       end
     end
