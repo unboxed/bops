@@ -77,6 +77,8 @@ RSpec.describe "Document uploads", type: :system do
     end
 
     context "when a date is entered" do
+      # extract into shared examples?
+
       before do
         visit planning_application_documents_path(planning_application)
         click_link("Upload document")

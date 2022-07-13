@@ -10,29 +10,40 @@ module DateValidatable
   class_methods do
     def handle_invalid_dates(*attributes)
       attributes.each do |attribute|
-        attr_accessor "#{attribute}_day"
-        attr_accessor "#{attribute}_month"
-        attr_accessor "#{attribute}_year"
-
-        define_method("#{attribute}_is_valid") do
-          values = [
-            send("#{attribute}_year"),
-            send("#{attribute}_month"),
-            send("#{attribute}_day")
-          ]
-
-          return if values.all?(&:blank?)
-
-          integers = values.map(&:to_i)
-
-          unless values.all?(&:present?) && integers.all?(&:positive?) && Date.valid_date?(*integers)
-            errors.add(attribute, "is invalid") and return
-          end
-
-          send("#{attribute}=", Date.new(*integers))
-        end
+        define_attr_accessors(attribute)
+        define_attribute_is_valid(attribute)
       end
 
+      define_all_dates_are_valid(attributes)
+    end
+
+    def define_attr_accessors(attribute)
+      attr_accessor "#{attribute}_day"
+      attr_accessor "#{attribute}_month"
+      attr_accessor "#{attribute}_year"
+    end
+
+    def define_attribute_is_valid(attribute)
+      define_method("#{attribute}_is_valid") do
+        values = [
+          send("#{attribute}_year"),
+          send("#{attribute}_month"),
+          send("#{attribute}_day")
+        ]
+
+        return if values.all?(&:blank?)
+
+        integers = values.map(&:to_i)
+
+        if are_valid_values?(values, integers)
+          send("#{attribute}=", Date.new(*integers))
+        else
+          errors.add(attribute, I18n.t("errors.messages.invalid"))
+        end
+      end
+    end
+
+    def define_all_dates_are_valid(attributes)
       define_method(:all_dates_are_valid) do
         attributes.each do |attribute|
           send("#{attribute}_is_valid")
@@ -40,7 +51,10 @@ module DateValidatable
       end
     end
   end
-end
 
-# to do:
-# split #handle_invalid_dates into smaller methods
+  def are_valid_values?(values, integers)
+    values.all?(&:present?) &&
+      integers.all?(&:positive?) &&
+      Date.valid_date?(*integers)
+  end
+end

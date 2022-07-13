@@ -203,4 +203,9 @@ RSpec.describe Document, type: :model do
       end
     end
   end
+
+  it_behaves_like("DateValidateable") do
+    let(:subject) { build(:document) }
+    let(:attribute) { :received_at }
+  end
 end
