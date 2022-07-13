@@ -23,6 +23,6 @@ class LocalAuthority < ApplicationRecord
   end
 
   def council_name
-    ripa? ? subdomain.capitalize : "#{subdomain.capitalize} Council Authority"
+    ripa? ? subdomain.capitalize : "#{subdomain.capitalize} Council"
   end
 end

@@ -11,11 +11,11 @@ class DropNameToLocalAuthorities < ActiveRecord::Migration[6.1]
     LocalAuthority.find_each do |local_authority|
       case local_authority.subdomain
       when "lambeth"
-        local_authority.update(name: "Lambeth Council Authority")
+        local_authority.update(name: "Lambeth Council")
       when "southwark"
-        local_authority.update(name: "Southwark Council Authority")
+        local_authority.update(name: "Southwark Council")
       when "buckinghamshire"
-        local_authority.update(name: "Buckinghamshire Council Authority")
+        local_authority.update(name: "Buckinghamshire Council")
       when "ripa"
         local_authority.update(name: "Ripa")
       else
