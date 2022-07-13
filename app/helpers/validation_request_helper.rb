@@ -29,10 +29,6 @@ module ValidationRequestHelper
     end
   end
 
-  def request_closed_at(validation_request)
-    validation_request.updated_at if validation_request.closed?
-  end
-
   def edit_request_url(planning_application, validation_request, classname: nil)
     link_to "Edit request",
             send("edit_planning_application_#{request_type(validation_request)}_path", planning_application,

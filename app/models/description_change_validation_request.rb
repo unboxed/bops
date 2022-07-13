@@ -15,7 +15,6 @@ class DescriptionChangeValidationRequest < ApplicationRecord
   validate :allows_only_one_open_description_change, on: :create
   validate :planning_application_has_not_been_determined, on: :create
 
-  scope :open_change_created_over_5_business_days_ago, -> { open.where("created_at <= ?", 5.business_days.ago) }
   scope :responded, -> { closed.where(cancelled_at: nil, auto_closed: false).order(created_at: :asc) }
 
   def rejected_reason_is_present?
@@ -59,6 +58,10 @@ class DescriptionChangeValidationRequest < ApplicationRecord
 
   def response_due
     RESPONSE_TIME_IN_DAYS.business_days.after(created_at).to_date
+  end
+
+  def update_planning_application_for_auto_closed_request!
+    planning_application.update!(description: proposed_description)
   end
 
   private

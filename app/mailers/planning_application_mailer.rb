@@ -107,6 +107,17 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
     )
   end
 
+  def validation_request_closure_mail(planning_application)
+    @planning_application = planning_application
+
+    view_mail(
+      NOTIFY_TEMPLATE_ID,
+      subject: subject(:validation_request_closure_mail),
+      to: @planning_application.applicant_and_agent_email.first,
+      reply_to_id: @planning_application.local_authority.reply_to_notify_id
+    )
+  end
+
   private
 
   def subject(key)

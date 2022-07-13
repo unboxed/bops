@@ -36,7 +36,7 @@ When("I cancel the existing description change request") do
 end
 
 When("the description change request has been auto-closed after 5 days") do
-  @planning_application.description_change_validation_requests.last.auto_approve!
+  @planning_application.description_change_validation_requests.last.auto_close_request!
 end
 
 When("the request has been responded to") do

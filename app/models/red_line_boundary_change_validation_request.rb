@@ -24,6 +24,10 @@ class RedLineBoundaryChangeValidationRequest < ApplicationRecord
     new_geojson.presence || planning_application.boundary_geojson
   end
 
+  def update_planning_application_for_auto_closed_request!
+    planning_application.update!(boundary_geojson: new_geojson)
+  end
+
   private
 
   def set_original_geojson
