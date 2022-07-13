@@ -67,4 +67,12 @@ RSpec.describe LocalAuthority, type: :model do
       end
     end
   end
+
+  describe "#council_name" do
+    let(:southwark) { create(:local_authority, :southwark) }
+
+    it "has Southwark Council council_name" do
+      expect(southwark.council_name).to eq("Southwark Council")
+    end
+  end
 end
