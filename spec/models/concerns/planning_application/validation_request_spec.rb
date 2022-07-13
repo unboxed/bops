@@ -111,4 +111,36 @@ RSpec.describe PlanningApplication::ValidationRequest do
       end
     end
   end
+
+  describe ".pre_validation" do
+    let(:pre_validation_planning_application) do
+      create(:planning_application, :not_started)
+    end
+
+    let(:pre_validation_request) do
+      create(
+        :additional_document_validation_request,
+        planning_application: pre_validation_planning_application
+      )
+    end
+
+    let(:post_validation_planning_application) do
+      create(:planning_application, :in_assessment)
+    end
+
+    before do
+      create(
+        :additional_document_validation_request,
+        planning_application: post_validation_planning_application
+      )
+    end
+
+    it "returns only pre validation requests" do
+      expect(
+        AdditionalDocumentValidationRequest.pre_validation
+      ).to contain_exactly(
+        pre_validation_request
+      )
+    end
+  end
 end

@@ -30,34 +30,73 @@ RSpec.describe ValidationRequestHelper, type: :helper do
     end
   end
 
-  describe "#show_request_url" do
-    let(:additional_document_validation_request) do
-      create(:additional_document_validation_request, planning_application: planning_application)
+  describe "#show_validation_request_link" do
+    let(:request) do
+      create(
+        :red_line_boundary_change_validation_request,
+        planning_application: planning_application
+      )
     end
 
-    context "when planning application has not been validated yet" do
-      it "returns the show request url for additional document validation requests" do
-        url = "<a href=\"/planning_applications/#{planning_application.id}/validation_documents\">View and update</a>"
+    before do
+      helper.instance_variable_set(:@virtual_path, "validation_requests.table")
+    end
 
-        expect(show_request_url(planning_application, additional_document_validation_request)).to eq(url)
+    context "when planning application has not been validated" do
+      it "returns link to request page" do
+        expect(
+          helper.show_validation_request_link(planning_application, request)
+        ).to eq(
+          "<a href=\"/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests/#{request.id}\">View and update</a>"
+        )
       end
 
-      it "returns the show request url for a validation request" do
-        url = "<a href=\"/planning_applications/#{planning_application.id}/other_change_validation_requests/#{request.id}\">View and update</a>"
+      context "when request is for additional document" do
+        let(:request) do
+          create(
+            :additional_document_validation_request,
+            planning_application: planning_application
+          )
+        end
 
-        expect(show_request_url(planning_application, request)).to eq(url)
+        it "returns link to validation documents page" do
+          expect(
+            helper.show_validation_request_link(planning_application, request)
+          ).to eq(
+            "<a href=\"/planning_applications/#{planning_application.id}/validation_documents\">View and update</a>"
+          )
+        end
       end
     end
 
     context "when planning application has been validated" do
-      before do
-        planning_application.close!
+      let(:planning_application) do
+        create(:planning_application, :in_assessment)
       end
 
-      it "returns the show request url for a validation request" do
-        url = "<a href=\"/planning_applications/#{planning_application.id}/other_change_validation_requests/#{request.id}\">View</a>"
+      it "returns link to request page" do
+        expect(
+          helper.show_validation_request_link(planning_application, request)
+        ).to eq(
+          "<a href=\"/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests/#{request.id}\">View</a>"
+        )
+      end
 
-        expect(show_request_url(planning_application, request)).to eq(url)
+      context "when request is for additional document" do
+        let(:request) do
+          create(
+            :additional_document_validation_request,
+            planning_application: planning_application
+          )
+        end
+
+        it "returns link to documents page" do
+          expect(
+            helper.show_validation_request_link(planning_application, request)
+          ).to eq(
+            "<a href=\"/planning_applications/#{planning_application.id}/documents\">View</a>"
+          )
+        end
       end
     end
   end

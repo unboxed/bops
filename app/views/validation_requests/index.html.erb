@@ -20,7 +20,13 @@
             The following requests will be sent when the application is invalidated.
           </p>
         <% end %>
-
+        <% if post_validation_requests_index? %>
+          <h1 class="govuk-heading-l"><%= t(".post_validation_requests") %></h1>
+          <p class="govuk-body"><%= t(".for_redline_and") %></p>
+          <p class="govuk-body"><%= t(".for_new_document") %></p>
+        <% else %>
+          <h1 class="govuk-heading-l"><%= t(".validation_requests") %></h1>
+        <% end %>
         <%= render "validation_requests/table", requests: @active_validation_requests %>
       <% else %>
         <p class="govuk-body">There are no active validation requests.</p>

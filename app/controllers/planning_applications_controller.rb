@@ -271,7 +271,10 @@ class PlanningApplicationsController < AuthenticationController
 
   def validation_documents
     @documents = @planning_application.documents.active
-    @additional_document_validation_requests = @planning_application.additional_document_validation_requests.open_or_pending
+    @additional_document_validation_requests = @planning_application
+                                               .additional_document_validation_requests
+                                               .pre_validation
+                                               .open_or_pending
 
     respond_to do |format|
       format.html

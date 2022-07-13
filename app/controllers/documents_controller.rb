@@ -12,6 +12,10 @@ class DocumentsController < AuthenticationController
 
   def index
     @documents = @planning_application.documents
+    @additional_document_validation_requests = @planning_application
+                                               .additional_document_validation_requests
+                                               .post_validation
+                                               .open_or_pending
 
     respond_to do |format|
       format.html

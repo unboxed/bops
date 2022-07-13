@@ -21,7 +21,7 @@ When("I create a new document validation request for a(n) {string} because {stri
 end
 
 Then("there is a validation request for a(n) {string} that shows {string}") do |request_details, status|
-  table = page.find(:table, "Validation requests")
+  table = page.find(".validation-requests-table")
 
   expect(table).to have_selector(:table_row, "Detail" => request_details, "Status" => status)
 end
@@ -45,7 +45,7 @@ Then("there is a cancelled validation request for a(n) {string} that shows {stri
 end
 
 Then("there is no validation request for a {string}") do |request_details|
-  table = page.find(:table, "Validation requests")
+  table = page.find(".validation-requests-table")
 
   expect(table).to_not have_selector(:table_row, "Detail" => request_details)
 end

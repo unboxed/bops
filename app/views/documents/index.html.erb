@@ -40,17 +40,43 @@
       Check all documents to ensure they support the information provided by the applicant and add tags to indicate the document contents.
     </p>
   </div>
-  <div class="govuk-grid-column-one-third" style="text-align: right">
-    <% if @planning_application.can_validate? %>
-      <%= link_to "Upload document", new_planning_application_document_path(@planning_application), role: "button", class: "govuk-button", data: { module: "govuk-button" } %>
-    <% else %>
-      <%= tag.button "Upload document", disabled: "disabled", "aria-disabled": true, class: "govuk-button govuk-button--disabled", data: { module: "govuk-button" } %>
-    <% end %>
-  </div>
 </div>
-
+<div class="govuk-button-group">
+  <% if @planning_application.validated? %>
+    <%= link_to(
+       t(".request_a_new"),
+       new_planning_application_additional_document_validation_request_path(@planning_application),
+       role: "button",
+       class: "govuk-button",
+       data: { module: "govuk-button" }
+    ) %>
+  <% end %>
+  <% if @planning_application.can_validate? %>
+    <%= link_to(
+       t(".upload_document"),
+       new_planning_application_document_path(@planning_application),
+       role: "button",
+       class: "govuk-button #{"govuk-button--secondary" if @planning_application.validated?}",
+       data: { module: "govuk-button" }
+    ) %>
+  <% else %>
+    <%= tag.button(
+       t(".upload_document"),
+       disabled: true,
+       "aria-disabled": true,
+       class: "govuk-button govuk-button--disabled #{"govuk-button--secondary" if @planning_application.validated?}",
+       data: { module: "govuk-button" }
+    ) %>
+  <% end %>
+</div>
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+<% if @additional_document_validation_requests.any? %>
+  <%= render(
+    partial: "additional_document_validation_requests/additional_document_validation_requests_table",
+    locals: { validation_requests: @additional_document_validation_requests }
+  ) %>
+<% end %>
 <% if @documents.active.any? %>
-  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
   <%= render "active_documents_table", documents: @documents.active %>
 <% end %>
 

@@ -34,6 +34,7 @@ module ValidationRequest
     scope :open_or_pending, -> { open.or(pending) }
     scope :post_validation, -> { where(post_validation: true) }
     scope :open_change_created_over_5_business_days_ago, -> { open.where("created_at <= ?", 5.business_days.ago) }
+    scope :pre_validation, -> { where(post_validation: false) }
 
     include AASM
 
@@ -108,10 +109,6 @@ module ValidationRequest
     end
   rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
     raise RecordCancelError, e.message
-  end
-
-  def can_cancel?
-    may_cancel? && planning_application.invalidated?
   end
 
   def ensure_validation_request_destroyable!
