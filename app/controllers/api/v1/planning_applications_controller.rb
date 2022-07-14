@@ -59,7 +59,8 @@ module Api
             end
           end
         end
-      rescue Errors::WrongFileTypeError, Errors::GetFileError, ActiveRecord::RecordInvalid, ArgumentError => e
+      rescue Errors::WrongFileTypeError, Errors::GetFileError, ActiveRecord::RecordInvalid, ArgumentError,
+             NoMethodError => e
         send_failed_response(e)
       end
 
@@ -83,22 +84,24 @@ module Api
       private
 
       def planning_application_params
-        permitted_keys = %i[application_type
-                            description
-                            applicant_first_name
-                            applicant_last_name
-                            applicant_phone
-                            applicant_email
-                            agent_first_name
-                            agent_last_name
-                            agent_phone
-                            agent_email
-                            user_role
-                            proposal_details
-                            files
-                            payment_reference
-                            work_status
-                            planx_debug_data]
+        permitted_keys = [:application_type,
+                          :description,
+                          :applicant_first_name,
+                          :applicant_last_name,
+                          :applicant_phone,
+                          :applicant_email,
+                          :agent_first_name,
+                          :agent_last_name,
+                          :agent_phone,
+                          :agent_email,
+                          :user_role,
+                          :proposal_details,
+                          :files,
+                          :payment_reference,
+                          :work_status,
+                          :planx_debug_data,
+                          { feedback: %i[result find_property planning_constraints] }]
+
         params.permit permitted_keys
       end
 
