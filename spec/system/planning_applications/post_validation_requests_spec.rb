@@ -231,4 +231,32 @@ RSpec.describe "post validation requests", type: :system do
       expect(page).to have_content("forbidden")
     end
   end
+
+  context "when the application is awaiting determination" do
+    let(:planning_application) do
+      create(
+        :planning_application,
+        :awaiting_determination,
+        local_authority: default_local_authority
+      )
+    end
+
+    it "lets the assessor create an additional document request" do
+      click_button("Documents")
+      click_link("Manage documents")
+      click_link("Request a new document")
+      fill_in("Please specify the new document type:", with: "Floor plan")
+
+      fill_in(
+        "Please specify the reason you have requested this document?",
+        with: "Existing document inaccurate"
+      )
+
+      click_button("Send request")
+
+      expect(page).to have_content(
+        "Additional document request successfully created."
+      )
+    end
+  end
 end
