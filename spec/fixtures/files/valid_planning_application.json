@@ -1056,5 +1056,10 @@
         }
       ]
     }
-  ]
+  ],
+  "feedback": {
+    "result": "feedback about the result",
+    "find_property": "feedback about the property",
+    "planning_constraints": "feedback about the constraints"
+  }
 }

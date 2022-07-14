@@ -67,6 +67,18 @@ RSpec.describe "Creating a planning application via the API", type: :request, sh
         expect(JSON.parse(planning_application.planx_data)).to be_a(Hash)
       end
 
+      it "saves the feedback as a hash" do
+        post_with(params: permitted_development_json)
+
+        expect(PlanningApplication.last.feedback).to eq(
+          {
+            "result" => "feedback about the result",
+            "find_property" => "feedback about the property",
+            "planning_constraints" => "feedback about the constraints"
+          }
+        )
+      end
+
       it "sends the receipt email" do
         post_with(params: permitted_development_json)
 

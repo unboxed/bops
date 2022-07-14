@@ -399,6 +399,10 @@ paths:
                   agent_phone: '237878889'
                   agent_email: agent@example.com
                   user_role: agent
+                  feedback:
+                    result: feedback about the result
+                    find_property: feedback about the property
+                    planning_constraints: feedback about the constraints
                   result:
                     flag: Planning permission / Permission needed
                     heading: It looks like these changes will need planning permission
