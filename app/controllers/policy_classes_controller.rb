@@ -4,7 +4,9 @@ class PolicyClassesController < PlanningApplicationsController
   before_action :set_planning_application
   before_action :set_policy_class, only: %i[show update destroy]
 
-  def part; end
+  def part
+    @part_number = params[:part]&.to_i
+  end
 
   def new
     @part = params[:part]
