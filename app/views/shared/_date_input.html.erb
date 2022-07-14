@@ -14,33 +14,17 @@
       </p>
     <% end %>
     <div class="govuk-date-input" id="<%= attribute %>">
-      <%= render(
-        partial: "shared/date_input_item",
-        locals: {
-          form: form,
-          label: t(".day"),
-          field: "#{attribute}_day",
-          error: error_messages.any?
-        }
-      ) %>
-      <%= render(
-        partial: "shared/date_input_item",
-        locals: {
-          form: form,
-          label: t(".month"),
-          field: "#{attribute}_month",
-          error: error_messages.any?
-        }
-      ) %>
-      <%= render(
-        partial: "shared/date_input_item",
-        locals: {
-          form: form,
-          label: t(".year"),
-          field: "#{attribute}_year",
-          error: error_messages.any?
-        }
-      ) %>
+      <% %i[day month year].each do |value| %>
+        <%= render(
+          partial: "shared/date_input_item",
+          locals: {
+            form: form,
+            label: t(".#{value}"),
+            field: "#{attribute}_#{value}",
+            error: error_messages.any?
+          }
+        ) %>
+      <% end %>
     </div>
   </fieldset>
 </div>
