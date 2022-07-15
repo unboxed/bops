@@ -28,6 +28,11 @@ RSpec.describe "Edit document", type: :system do
       visit planning_application_documents_path(planning_application)
     end
 
+    it "displays the planning application address and reference" do
+      expect(page).to have_content(planning_application.full_address.upcase)
+      expect(page).to have_content(planning_application.reference)
+    end
+
     it "with wrong format document" do
       visit edit_planning_application_document_path(planning_application, document)
 

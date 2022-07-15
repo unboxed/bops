@@ -39,8 +39,9 @@ RSpec.describe "Edit document numbers page", type: :system do
         click_link "Manage documents"
       end
 
-      it "Assessor can see content for the right application" do
-        expect(page).to have_text(planning_application.reference)
+      it "displays the planning application address and reference" do
+        expect(page).to have_content(planning_application.full_address.upcase)
+        expect(page).to have_content(planning_application.reference)
       end
 
       it "Assessor can see information about the document" do

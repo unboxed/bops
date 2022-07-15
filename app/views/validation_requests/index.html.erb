@@ -27,7 +27,10 @@
         <% else %>
           <h1 class="govuk-heading-l"><%= t(".validation_requests") %></h1>
         <% end %>
+
+        <%= render "shared/planning_application_address_and_reference" %>
         <%= render "validation_requests/table", requests: @active_validation_requests %>
+
       <% else %>
         <p class="govuk-body">There are no active validation requests.</p>
       <% end %>

@@ -1,4 +1,7 @@
 <h1 class="govuk-heading-l">Check the digital red line boundary</h1>
+
+<%= render "shared/planning_application_address_and_reference" %>
+
 <%= render "shared/location_map", locals: { in_accordion: true, geojson: @planning_application.boundary_geojson } %>
 
 <br>

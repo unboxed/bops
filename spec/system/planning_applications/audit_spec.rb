@@ -26,6 +26,11 @@ RSpec.describe "Auditing changes to a planning application", type: :system do
     click_link "View all audits"
   end
 
+  it "displays the planning application address and reference" do
+    expect(page).to have_content(planning_application.full_address.upcase)
+    expect(page).to have_content(planning_application.reference)
+  end
+
   it "displays details of other change validation request in the audit log" do
     expect(page).to have_text("Received: request for change (other validation#1)")
     expect(page).to have_text("I have sent the fee")

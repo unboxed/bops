@@ -8,13 +8,11 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
-      Request approval to a description change
+      Description change
     </h1>
-    <p class="govuk-body">
-      <strong>At:</strong> <%= @planning_application.full_address  %> <br>
-      <strong>Date received:</strong> <%= @planning_application.received_at %> <br>
-      <strong>Application number:</strong> <%= @planning_application.reference  %>
-    </p>
+
+    <%= render "shared/planning_application_address_and_reference" %>
+
     <div class="govuk-form-group">
       <h2 class="govuk-heading-m">
         Description of work

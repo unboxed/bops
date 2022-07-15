@@ -23,6 +23,14 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
         boundary_geojson
       end
 
+      it "displays the planning application address and reference" do
+        visit planning_application_validation_tasks_path(planning_application)
+        click_link "Draw red line boundary"
+
+        expect(page).to have_content(planning_application.full_address.upcase)
+        expect(page).to have_content(planning_application.reference)
+      end
+
       it "is possible to create a sitemap" do
         click_button "Site map"
         expect(page).to have_content("No digital sitemap provided")
@@ -144,6 +152,9 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
 
     it "creates a request to update map boundary" do
       delivered_emails = ActionMailer::Base.deliveries.count
+
+      expect(page).to have_content(planning_application.full_address.upcase)
+      expect(page).to have_content(planning_application.reference)
 
       find(".govuk-visually-hidden",
            visible: false).set '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-0.076715,51.501166],[-0.07695,51.500673],[-0.076,51.500763],[-0.076715,51.501166]]]}}'
