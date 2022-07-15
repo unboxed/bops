@@ -154,3 +154,9 @@ and running:
 ```
 swagger-cli bundle public/api-docs/v1/swagger_doc.yaml --outfile public/api-docs/v1/_build/swagger_doc.yaml --type yaml
 ```
+
+## Javascript
+
+We are using [Stimulus](https://stimulus.hotwired.dev) to handle our minimal JavaScript requirements.
+
+After adding a new Stimulus controller run `./bin/rails stimulus:manifest:update`. Alternatively you can create the controller with `./bin/rails generate stimulus controllerName`.

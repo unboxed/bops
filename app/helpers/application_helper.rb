@@ -12,4 +12,12 @@ module ApplicationHelper
   def accessible_time(datetime)
     tag.time(datetime.strftime("%e %B %G at %R%P"), { datetime: datetime.iso8601 })
   end
+
+  def unsaved_changes_data
+    {
+      controller: "unsaved-changes",
+      action: "beforeunload@window->unsaved-changes#handleBeforeUnload submit->unsaved-changes#handleSubmit",
+      unsaved_changes_target: "form"
+    }
+  end
 end

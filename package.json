@@ -2,6 +2,7 @@
   "name": "bops",
   "private": true,
   "dependencies": {
+    "@hotwired/stimulus": "^3.0.1",
     "@opensystemslab/map": "^0.5.5",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",

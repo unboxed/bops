@@ -30,6 +30,7 @@ gem "puma", "~> 4"
 gem "rails", "~> 6.1"
 gem "rswag-ui"
 gem "sassc", "~> 2.4.0"
+gem "stimulus-rails"
 gem "webpacker", "~> 5.4"
 gem "whenever"
 
