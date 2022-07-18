@@ -10,7 +10,14 @@ module ProposalDetailsHelper
   end
 
   def proposal_details_group_name(group)
-    group || t("proposal_details.other")
+    case group
+    when "_root"
+      t("proposal_details.main")
+    when nil
+      t("proposal_details.other")
+    else
+      group
+    end
   end
 
   def proposal_detail_item(proposal_detail)

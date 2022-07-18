@@ -104,6 +104,7 @@ en:
       true: "Yes"
   proposal_details:
     auto_answered: Auto-answered by RIPA
+    main: Main
     other: Other
   activerecord:
     errors:
