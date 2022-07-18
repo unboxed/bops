@@ -36,7 +36,7 @@ module Api
           end
 
           @red_line_boundary_change_validation_request.create_api_audit!
-
+          @planning_application.send_update_notification_to_assessor
           render json: { message: "Validation request updated" }, status: :ok
         else
           render json: { message: "Unable to update request. Please ensure rejection_reason is present if approved is false." },

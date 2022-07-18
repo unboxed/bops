@@ -164,7 +164,16 @@ RSpec.describe PlanningApplicationStatus do
     end
 
     context "when request_correction is called it sets application to awaiting_correction" do
-      subject(:planning_application) { create :planning_application, :awaiting_determination, decision: "granted" }
+      let(:user) { create(:user) }
+
+      let(:planning_application) do
+        create(
+          :planning_application,
+          :awaiting_determination,
+          decision: "granted",
+          user: user
+        )
+      end
 
       before do
         # Set timestamp to differentiate from now
@@ -181,6 +190,18 @@ RSpec.describe PlanningApplicationStatus do
           planning_application.request_correction
           expect(planning_application.send("awaiting_correction_at")).to eql(Time.zone.now)
         end
+      end
+
+      it "sends notification to assigned user" do
+        expect { planning_application.request_correction }
+          .to have_enqueued_job
+          .on_queue("mailers")
+          .with(
+            "UserMailer",
+            "update_notification_mail",
+            "deliver_now",
+            args: [planning_application, user.email]
+          )
       end
     end
 

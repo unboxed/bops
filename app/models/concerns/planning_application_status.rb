@@ -81,6 +81,8 @@ module PlanningApplicationStatus
       event :request_correction do
         transitions from: :awaiting_determination, to: :awaiting_correction,
                     after: proc { |comment| audit!(activity_type: "challenged", audit_comment: comment) }
+
+        after { send_update_notification_to_assessor }
       end
 
       event :return do

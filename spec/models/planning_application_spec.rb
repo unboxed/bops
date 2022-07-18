@@ -530,7 +530,19 @@ RSpec.describe PlanningApplication, type: :model do
   end
 
   describe "#submit_recommendation!" do
-    let(:planning_application) { create(:planning_application, :in_assessment, decision: "granted") }
+    let(:local_authority) do
+      create(:local_authority, reviewer_group_email: "reviewers@example.com")
+    end
+
+    let(:planning_application) do
+      create(
+        :planning_application,
+        :in_assessment,
+        decision: "granted",
+        local_authority: local_authority
+      )
+    end
+
     let(:recommendation) { create(:recommendation, planning_application: planning_application, submitted: "false") }
     let(:user) { create(:user) }
 
@@ -553,6 +565,18 @@ RSpec.describe PlanningApplication, type: :model do
           activity_type: "submitted",
           user: user
         )
+      end
+
+      it "sends notification to reviewers" do
+        expect { planning_application.submit_recommendation! }
+          .to have_enqueued_job
+          .on_queue("mailers")
+          .with(
+            "UserMailer",
+            "update_notification_mail",
+            "deliver_now",
+            args: [planning_application, "reviewers@example.com"]
+          )
       end
     end
 
@@ -636,6 +660,84 @@ RSpec.describe PlanningApplication, type: :model do
       ).to eq(
         Date.new(2020, 6, 26)
       )
+    end
+  end
+
+  describe "#assign" do
+    let(:planning_application) { create(:planning_application) }
+    let(:user) { create(:user) }
+
+    it "sends notification to assigned user" do
+      expect { planning_application.assign(user) }
+        .to have_enqueued_job
+        .on_queue("mailers")
+        .with(
+          "UserMailer",
+          "update_notification_mail",
+          "deliver_now",
+          args: [planning_application, user.email]
+        )
+    end
+  end
+
+  describe "#send_update_notification_to_assessor" do
+    let(:user) { create(:user) }
+    let(:planning_application) { create(:planning_application, user: user) }
+
+    it "sends notification to assigned user" do
+      expect { planning_application.send_update_notification_to_assessor }
+        .to have_enqueued_job
+        .on_queue("mailers")
+        .with(
+          "UserMailer",
+          "update_notification_mail",
+          "deliver_now",
+          args: [planning_application, user.email]
+        )
+    end
+
+    context "no user assigned" do
+      let(:planning_application) { create(:planning_application, user: nil) }
+
+      it "does not send notificationr" do
+        expect do
+          planning_application.send_update_notification_to_assessor
+        end.not_to have_enqueued_job
+      end
+    end
+  end
+
+  describe "#send_update_notification_to_reviewers" do
+    let(:local_authority) do
+      create(:local_authority, reviewer_group_email: "reviewers@example.com")
+    end
+
+    let(:planning_application) do
+      create(:planning_application, local_authority: local_authority)
+    end
+
+    it "sends notification to reviewer group email" do
+      expect { planning_application.send_update_notification_to_reviewers }
+        .to have_enqueued_job
+        .on_queue("mailers")
+        .with(
+          "UserMailer",
+          "update_notification_mail",
+          "deliver_now",
+          args: [planning_application, "reviewers@example.com"]
+        )
+    end
+
+    context "no reviewer group email" do
+      let(:local_authority) do
+        create(:local_authority, reviewer_group_email: nil)
+      end
+
+      it "does not send notificationr" do
+        expect do
+          planning_application.send_update_notification_to_reviewers
+        end.not_to have_enqueued_job
+      end
     end
   end
 end

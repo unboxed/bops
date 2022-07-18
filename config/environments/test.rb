@@ -46,6 +46,8 @@ Rails.application.configure do
     from: "mail@example.com"
   }
 
+  config.action_mailer.default_url_options = { host: "bops.services" }
+
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 

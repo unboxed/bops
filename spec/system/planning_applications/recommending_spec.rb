@@ -3,11 +3,22 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application Assessment", type: :system do
-  let!(:default_local_authority) { create(:local_authority, :default) }
+  let!(:default_local_authority) do
+    create(
+      :local_authority,
+      :default,
+      reviewer_group_email: "reviewers@example.com"
+    )
+  end
+
   let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
 
   let!(:planning_application) do
-    create :planning_application, local_authority: default_local_authority
+    create(
+      :planning_application,
+      local_authority: default_local_authority,
+      created_at: DateTime.new(2022, 1, 1)
+    )
   end
 
   before do
@@ -56,6 +67,17 @@ RSpec.describe "Planning Application Assessment", type: :system do
         click_button "Submit to manager"
 
         expect(page).to have_content("Recommendation was successfully submitted.")
+
+        perform_enqueued_jobs
+        update_notification = ActionMailer::Base.deliveries.last
+
+        expect(update_notification.to).to contain_exactly(
+          "reviewers@example.com"
+        )
+
+        expect(update_notification.subject).to eq(
+          "BoPS case RIPA-22-00100-LDCP has a new update"
+        )
 
         planning_application.reload
         expect(planning_application.status).to eq("awaiting_determination")

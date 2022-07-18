@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-class PlanningApplicationMailer < Mail::Notify::Mailer
+class PlanningApplicationMailer < ApplicationMailer
   helper :planning_application
-
-  NOTIFY_TEMPLATE_ID = "7cb31359-e913-4590-a458-3d0cefd0d283"
 
   def decision_notice_mail(planning_application, host, user)
     @planning_application = planning_application
@@ -116,11 +114,5 @@ class PlanningApplicationMailer < Mail::Notify::Mailer
       to: @planning_application.applicant_and_agent_email.first,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
-  end
-
-  private
-
-  def subject(key)
-    I18n.t(key, scope: "planning_applications.emails.subjects")
   end
 end

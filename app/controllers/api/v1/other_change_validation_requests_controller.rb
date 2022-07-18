@@ -32,7 +32,7 @@ module Api
         if params[:data][:response].present? && @other_change_validation_request.update(response: params[:data][:response])
           @other_change_validation_request.update!(state: "closed")
           @other_change_validation_request.create_api_audit!
-
+          @planning_application.send_update_notification_to_assessor
           render json: { message: "Change request updated" }, status: :ok
         else
           render json: { message: "Unable to update request. Please ensure response is present" }, status: :bad_request

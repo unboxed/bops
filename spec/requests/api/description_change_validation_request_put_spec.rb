@@ -4,8 +4,33 @@ require "rails_helper"
 
 RSpec.describe "API request to list validation requests", type: :request, show_exceptions: true do
   let!(:api_user) { create :api_user }
+
+  let(:path) do
+    "/api/v1/planning_applications/#{planning_application.id}/description_change_validation_requests/#{description_change_validation_request.id}"
+  end
+
+  let(:params) do
+    {
+      change_access_id: planning_application.change_access_id,
+      data: { approved: true }
+    }
+  end
+
+  let(:headers) do
+    { Authorization: "Bearer #{api_user.token}" }
+  end
+
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:planning_application) { create(:planning_application, local_authority: default_local_authority) }
+  let(:user) { create(:user) }
+
+  let!(:planning_application) do
+    create(
+      :planning_application,
+      user: user,
+      local_authority: default_local_authority
+    )
+  end
+
   let!(:description_change_validation_request) do
     create(:description_change_validation_request,
            planning_application: planning_application,
@@ -33,9 +58,7 @@ RSpec.describe "API request to list validation requests", type: :request, show_e
   }'
 
   it "successfully accepts an approval" do
-    patch "/api/v1/planning_applications/#{planning_application.id}/description_change_validation_requests/#{description_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
-          params: approved_json,
-          headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
+    patch(path, params: params, headers: headers)
 
     expect(response).to be_successful
 
@@ -48,6 +71,18 @@ RSpec.describe "API request to list validation requests", type: :request, show_e
     expect(Audit.all.last.activity_type).to eq("description_change_validation_request_received")
     expect(Audit.all.last.audit_comment).to eq({ response: "approved" }.to_json)
     expect(Audit.all.last.activity_information).to eq("1")
+  end
+
+  it "sends notification to assigned user" do
+    expect { patch(path, params: params, headers: headers) }
+      .to have_enqueued_job
+      .on_queue("mailers")
+      .with(
+        "UserMailer",
+        "update_notification_mail",
+        "deliver_now",
+        args: [planning_application, user.email]
+      )
   end
 
   it "successfully accepts a rejection" do

@@ -7,7 +7,17 @@ RSpec.describe "API request to patch document validation requests", type: :reque
 
   let!(:api_user) { create :api_user }
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:planning_application) { create(:planning_application, :invalidated, local_authority: default_local_authority) }
+  let(:user) { create(:user) }
+
+  let!(:planning_application) do
+    create(
+      :planning_application,
+      :invalidated,
+      user: user,
+      local_authority: default_local_authority
+    )
+  end
+
   let!(:document) do
     create(:document, :with_file, :public, planning_application: planning_application, validated: false,
                                            invalidated_document_reason: "Not readable")
@@ -19,10 +29,27 @@ RSpec.describe "API request to patch document validation requests", type: :reque
            old_document: document)
   end
 
+  let(:path) do
+    "/api/v1/planning_applications/#{planning_application.id}/replacement_document_validation_requests/#{replacement_document_validation_request.id}"
+  end
+
+  let(:file) do
+    fixture_file_upload("../images/proposed-floorplan.png", "image/png")
+  end
+
+  let(:params) do
+    {
+      change_access_id: planning_application.change_access_id,
+      new_file: file
+    }
+  end
+
+  let(:headers) do
+    { Authorization: "Bearer #{api_user.token}" }
+  end
+
   it "successfully accepts a new document and archives the old document" do
-    patch "/api/v1/planning_applications/#{planning_application.id}/replacement_document_validation_requests/#{replacement_document_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
-          params: { new_file: fixture_file_upload("../images/proposed-floorplan.png", "image/png") },
-          headers: { Authorization: "Bearer #{api_user.token}" }
+    patch(path, params: params, headers: headers)
 
     expect(response).to be_successful
 
@@ -38,6 +65,18 @@ RSpec.describe "API request to patch document validation requests", type: :reque
     expect(Audit.all.last.activity_type).to eq("replacement_document_validation_request_received")
     expect(Audit.all.last.audit_comment).to eq("proposed-floorplan.png")
     expect(Audit.all.last.activity_information).to eq("1")
+  end
+
+  it "sends notification to assigned user" do
+    expect { patch(path, params: params, headers: headers) }
+      .to have_enqueued_job
+      .on_queue("mailers")
+      .with(
+        "UserMailer",
+        "update_notification_mail",
+        "deliver_now",
+        args: [planning_application, user.email]
+      )
   end
 
   it "rejects wrong document types" do

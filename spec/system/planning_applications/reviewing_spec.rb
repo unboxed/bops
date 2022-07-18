@@ -3,13 +3,22 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application Reviewing", type: :system do
-  let!(:default_local_authority) { create(:local_authority, :default) }
+  let(:default_local_authority) { create(:local_authority, :default) }
   let!(:reviewer) { create :user, :reviewer, local_authority: default_local_authority }
   let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
+  let(:user) { create(:user) }
+
   let!(:planning_application) do
-    create :planning_application, :awaiting_determination, local_authority: default_local_authority,
-                                                           decision: "granted"
+    create(
+      :planning_application,
+      :awaiting_determination,
+      local_authority: default_local_authority,
+      decision: "granted",
+      created_at: DateTime.new(2022, 1, 1),
+      user: user
+    )
   end
+
   let!(:previous_recommendation) do
     create :recommendation, :reviewed,
            planning_application: planning_application,
@@ -61,7 +70,6 @@ RSpec.describe "Planning Application Reviewing", type: :system do
   end
 
   it "can be rejected" do
-    delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Review assessment"
     choose "No"
     fill_in "Review comment", with: "Reviewer private comment"
@@ -73,7 +81,15 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     expect(planning_application.recommendations.last.reviewer).to eq(reviewer)
     expect(planning_application.recommendations.last.reviewed_at).not_to be_nil
     expect(planning_application.recommendations.last.reviewer_comment).to eq("Reviewer private comment")
-    expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails)
+
+    perform_enqueued_jobs
+    update_notification = ActionMailer::Base.deliveries.last
+
+    expect(update_notification.to).to contain_exactly(user.email)
+
+    expect(update_notification.subject).to eq(
+      "BoPS case RIPA-22-00100-LDCP has a new update"
+    )
 
     click_button "Audit log"
     click_link "View all audits"
