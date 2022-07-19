@@ -37,7 +37,8 @@ RSpec.describe "Additional document validation requests API", type: :request, sh
               "document_request_reason" => "Missing floor plan",
               "cancel_reason" => nil,
               "cancelled_at" => nil,
-              "documents" => []
+              "documents" => [],
+              "post_validation" => false
             },
             {
               "id" => additional_document_validation_request2.id,
@@ -53,7 +54,8 @@ RSpec.describe "Additional document validation requests API", type: :request, sh
                   "name" => "proposed-floorplan.png",
                   "url" => json["data"][1]["documents"][0]["url"]
                 }
-              ]
+              ],
+              "post_validation" => false
             },
             {
               "id" => additional_document_validation_request3.id,
@@ -64,7 +66,8 @@ RSpec.describe "Additional document validation requests API", type: :request, sh
               "document_request_reason" => "Missing floor plan",
               "cancel_reason" => "Made by mistake!",
               "cancelled_at" => json_time_format(additional_document_validation_request3.cancelled_at),
-              "documents" => []
+              "documents" => [],
+              "post_validation" => false
             }
           ]
         )
@@ -105,7 +108,8 @@ RSpec.describe "Additional document validation requests API", type: :request, sh
             "document_request_reason" => "Missing floor plan",
             "cancel_reason" => nil,
             "cancelled_at" => nil,
-            "documents" => []
+            "documents" => [],
+            "post_validation" => false
           }
         )
       end
