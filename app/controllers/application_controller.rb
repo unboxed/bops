@@ -62,6 +62,6 @@ class ApplicationController < ActionController::Base
   end
 
   def enforce_user_permissions
-    redirect_to users_path if current_user&.administrator?
+    redirect_to administrator_dashboard_path if current_user&.administrator?
   end
 end

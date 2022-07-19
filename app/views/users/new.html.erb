@@ -1,3 +1,6 @@
-<%= render(layout: "layout", locals: { heading: t(".add_user") }) do %>
+<%= render(
+  layout: "shared/administrator_layout",
+  locals: { heading: t(".add_user") }
+) do %>
   <%= render(partial: "form", locals: { user: @user }) %>
 <% end %>

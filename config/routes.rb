@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     get "resend_code", to: "users/sessions#resend_code", as: "resend_code"
   end
 
-  resources :users, only: %i[new create index edit update]
+  resources :users, only: %i[new create edit update]
 
   resources :planning_applications, only: %i[index show new edit create update] do
     resources :policy_classes, except: %i[index edit] do
@@ -128,4 +128,12 @@ Rails.application.routes.draw do
   end
 
   get :healthcheck, to: proc { [200, {}, %w[OK]] }
+
+  resources :local_authorities, only: %i[edit update]
+
+  resource(
+    :administrator_dashboard,
+    only: %i[show],
+    controller: :administrator_dashboard
+  )
 end
