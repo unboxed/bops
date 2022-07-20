@@ -20,4 +20,12 @@ module ApplicationHelper
       unsaved_changes_target: "form"
     }
   end
+
+  def home_path
+    if controller_path == "public/planning_guides"
+      public_planning_guides_path
+    else
+      root_path
+    end
+  end
 end

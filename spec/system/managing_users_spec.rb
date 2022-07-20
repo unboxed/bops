@@ -47,7 +47,7 @@ RSpec.describe "managing users", type: :system do
       expect(row).to have_content("01234 123 123")
       expect(row).to have_content("Assessor")
 
-      click_button("Log out")
+      click_link("Log out")
       fill_in("Email", with: "alice@example.com")
       fill_in("Password", with: "password")
       click_button("Log in")
@@ -67,7 +67,7 @@ RSpec.describe "managing users", type: :system do
 
       expect(page).to have_content("User successfully created")
 
-      click_button("Log out")
+      click_link("Log out")
       fill_in("Email", with: "alice@example.com")
       fill_in("Password", with: "password")
       click_button("Log in")

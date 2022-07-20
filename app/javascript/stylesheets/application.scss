@@ -140,3 +140,33 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
 .sub-list {
   line-height: 2;
 }
+
+.govuk-header__link--homepage {
+  margin-bottom: 10px;
+
+  &:hover {
+    margin-bottom: 7px;
+  }
+
+  &:focus {
+    margin-bottom: 10px;
+  }
+}
+
+.header-session-info {
+  display: flex;
+  align-items: center;
+
+  @media (min-width: 768px) {
+    float: right;
+  }
+
+  .govuk-header__link {
+    font-weight: normal;
+    margin-left: 10px;
+
+    @media (min-width: 768px) {
+      margin-left: 0;
+    }
+  }
+}
