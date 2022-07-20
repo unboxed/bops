@@ -12,12 +12,12 @@ RSpec.describe "Planning Application show page", type: :system do
       {
         question: "What do you want to do?",
         responses: [{ value: "Modify or extend" }],
-        metadata: { portal_name: "General" }
+        metadata: { portal_name: "_root" }
       },
       {
         question: "Is the property a house?",
         responses: [{ value: "Yes" }],
-        metadata: { portal_name: "General" }
+        metadata: { portal_name: "_root" }
       },
       {
         question: "What will the height of the new structure be?",
@@ -167,9 +167,9 @@ RSpec.describe "Planning Application show page", type: :system do
       click_button("Proposal details")
 
       within("#proposal-details-section") do
-        click_link("General")
+        click_link("Main")
 
-        expect(URI.parse(current_url).fragment).to eq("general")
+        expect(URI.parse(current_url).fragment).to eq("main")
 
         group1 = find_all("ol")[0]
 
