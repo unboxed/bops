@@ -1,9 +1,0 @@
-<%= render(layout: "layout", locals: { heading: t(".users"), back_button: false }) do %>
-  <%= render(partial: "table", locals: { users: @users }) %>
-  <%= link_to(
-    t(".add_user"),
-    new_user_path,
-    class: "govuk-button",
-    data: { module: "govuk-button" }
-  ) %>
-<% end %>

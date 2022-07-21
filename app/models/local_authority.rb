@@ -7,6 +7,12 @@ class LocalAuthority < ApplicationRecord
   validates :subdomain, :signatory_name, :signatory_job_title, :enquiries_paragraph, :email_address, :feedback_email,
             presence: true
 
+  validates(
+    :reviewer_group_email,
+    format: { with: URI::MailTo::EMAIL_REGEXP },
+    allow_blank: true
+  )
+
   enum subdomain: {
     lambeth: "lambeth",
     southwark: "southwark",

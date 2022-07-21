@@ -5,3 +5,13 @@ RSpec::Matchers.define(:have_image_displayed) do |image_name|
     object.has_css?("img[src*=\"#{image_name}\"]")
   end
 end
+
+RSpec::Matchers.define(:have_row_for) do |content, options|
+  include SystemSpecHelpers
+
+  match do |element|
+    row = row_with_content(content, element)
+    with = options&.fetch(:with, nil)
+    with.present? ? row.has_content?(with) : row.present?
+  end
+end

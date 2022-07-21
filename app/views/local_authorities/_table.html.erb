@@ -1,0 +1,22 @@
+<table class="govuk-table">
+  <caption class="govuk-table__caption govuk-table__caption--m">
+    <%= t(".local_authority") %>
+  </caption>
+  <tbody class="govuk-table__body">
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">
+          <%= t(".reviewer_group_email") %>
+        </th>
+        <td class="govuk-table__cell">
+          <%= local_authority.reviewer_group_email %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= link_to(
+            t(".edit"),
+            edit_local_authority_path(local_authority),
+            class: "govuk-link"
+          ) %>
+        </td>
+      </tr>
+  </tbody>
+</table>

@@ -37,4 +37,5 @@ RSpec.configure do |config|
   end
 
   config.include(ActiveJob::TestHelper)
+  config.include(SystemSpecHelpers)
 end

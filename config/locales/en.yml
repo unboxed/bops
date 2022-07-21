@@ -3,6 +3,20 @@ en:
     header:
       back_office_planning: "Back-office Planning System"
       log_out: Log out
+  administrator_dashboard:
+    show:
+      administrator_dashboard: Administrator dashboard
+      local_authority_successfully_updated: Council information successfully updated
+      user_successfully_created: User successfully created
+      user_successfully_updated: User successfully updated
+  local_authorities:
+    edit:
+      edit_local_authority: Edit council information
+      submit: Submit
+    table:
+      edit: Edit
+      local_authority: Council information
+      reviewer_group_email: Manager group email
   emails:
     subjects:
       cancelled_validation_request_mail: Update on your application for a Lawful Development Certificate
@@ -43,6 +57,11 @@ en:
       view: View
       view_and_update: View and update
   shared:
+    administrator_layout:
+      add_user: Add user
+      back: Back
+      reviewer_group_email: Manager group email
+      submit: Submit
     alert_banner:
       warning: Warning
     application_information:
@@ -105,13 +124,6 @@ en:
       edit_user: Edit user
     form:
       submit: Submit
-    index:
-      users: Users
-      successfully_created: User successfully created
-      successfully_updated: User successfully updated
-    layout:
-      back: Back
-      add_user: Add user
     new:
       add_user: Add a new user
     table:
@@ -124,6 +136,7 @@ en:
       otp_required_for_login: Two factor authentication
       role: Role
       true: "Yes"
+      users: Users
   proposal_details:
     auto_answered: Auto-answered by RIPA
     main: Main

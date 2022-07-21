@@ -6,6 +6,38 @@ RSpec.describe LocalAuthority, type: :model do
   describe "validations" do
     subject(:local_authority) { described_class.new }
 
+    describe "#reviewer_group_email" do
+      context "when blank" do
+        let(:local_authority) do
+          build(:local_authority, reviewer_group_email: nil)
+        end
+
+        it "is valid" do
+          expect(local_authority.valid?).to eq(true)
+        end
+      end
+
+      context "when a valid email" do
+        let(:local_authority) do
+          build(:local_authority, reviewer_group_email: "list@example.com")
+        end
+
+        it "is valid" do
+          expect(local_authority.valid?).to eq(true)
+        end
+      end
+
+      context "when not a valid email" do
+        let(:local_authority) do
+          build(:local_authority, reviewer_group_email: "qwerty")
+        end
+
+        it "is invalid" do
+          expect(local_authority.valid?).to eq(false)
+        end
+      end
+    end
+
     describe "#subdomain" do
       it "validates presence" do
         expect { local_authority.valid? }.to change { local_authority.errors[:subdomain] }.to ["can't be blank"]

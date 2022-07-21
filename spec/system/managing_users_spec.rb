@@ -20,7 +20,7 @@ RSpec.describe "managing users", type: :system do
     end
 
     it "allows adding of new user" do
-      visit users_path
+      visit(administrator_dashboard_path)
       click_link("Add user")
       click_button("Submit")
 
@@ -42,7 +42,7 @@ RSpec.describe "managing users", type: :system do
       click_button("Submit")
 
       expect(page).to have_content("User successfully created")
-      row = page.find_all("tr").find { |tr| tr.has_content?("Alice Smith") }
+      row = row_with_content("Alice Smith")
       expect(row).to have_content("alice@example.com")
       expect(row).to have_content("01234 123 123")
       expect(row).to have_content("Assessor")
@@ -87,8 +87,8 @@ RSpec.describe "managing users", type: :system do
         local_authority: local_authority
       )
 
-      visit users_path
-      row = page.find_all("tr").find { |tr| tr.has_content?("Bella Jones") }
+      visit(administrator_dashboard_path)
+      row = row_with_content("Bella Jones")
       within(row) { click_link("Edit") }
       fill_in("Email", with: "")
       click_button("Submit")
@@ -109,40 +109,18 @@ RSpec.describe "managing users", type: :system do
       click_button("Submit")
 
       expect(page).to have_content("User successfully updated")
-      row = page.find_all("tr").find { |tr| tr.has_content?("Belle Jones") }
+      row = row_with_content("Belle Jones")
       expect(row).to have_content("belle@example.com")
       expect(row).to have_content("01234 456 456")
       expect(row).to have_content("Assessor")
     end
 
     it "does not allow current user to update own role" do
-      visit users_path
-      row = page.find_all("tr").find { |tr| tr.has_content?("Carrie Taylor") }
+      visit(administrator_dashboard_path)
+      row = row_with_content("Carrie Taylor")
       within(row) { click_link("Edit") }
 
       expect(page).not_to have_field("Role")
-    end
-  end
-
-  context "when current user is assessor" do
-    let(:current_user) do
-      create(:user, :assessor, local_authority: local_authority)
-    end
-
-    it "does not allow access to dashboard" do
-      visit users_path
-      expect(page).to have_current_path(root_path)
-    end
-  end
-
-  context "when current user is reviewer" do
-    let(:current_user) do
-      create(:user, :reviewer, local_authority: local_authority)
-    end
-
-    it "does not allow access to dashboard" do
-      visit users_path
-      expect(page).to have_current_path(root_path)
     end
   end
 end
