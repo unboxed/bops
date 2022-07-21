@@ -37,7 +37,7 @@ RSpec.describe "Documents index page", type: :system do
     end
 
     it "Application address is displayed on page" do
-      expect(page).to have_text "7 Elm Grove"
+      expect(page).to have_text planning_application.full_address.upcase
     end
 
     it "File image is the only one on the page" do

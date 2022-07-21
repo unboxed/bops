@@ -18,6 +18,14 @@ RSpec.describe "Requesting other changes to a planning application", type: :syst
     visit planning_application_path(planning_application)
   end
 
+  it "displays the planning application address and reference" do
+    click_link "Check and validate"
+    click_link "Add an other validation request"
+
+    expect(page).to have_content(planning_application.full_address.upcase)
+    expect(page).to have_content(planning_application.reference)
+  end
+
   it "is possible to create a request for miscellaneous changes" do
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Check and validate"

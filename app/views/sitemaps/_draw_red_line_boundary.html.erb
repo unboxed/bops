@@ -1,6 +1,8 @@
-<h2 class="govuk-heading-m">Draw a digital red line boundary</h2>
+<h1 class="govuk-heading-l">Draw a digital red line boundary</h1>
+
+<%= render "shared/planning_application_address_and_reference" %>
+
 <h3 class="govuk-heading-s">Red line site boundary on submission</h3>
-<p class="govuk-body">Site address: <%= @planning_application.full_address %></p>
 
 <%- sitemap_documents = @planning_application.documents.with_tag("Site") %>
 <% if sitemap_documents.none? %>

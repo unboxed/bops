@@ -36,6 +36,9 @@ RSpec.describe "post validation requests", type: :system do
 
       click_link("Review non-validation requests")
 
+      expect(page).to have_content(planning_application.full_address.upcase)
+      expect(page).to have_content(planning_application.reference)
+
       within(".validation-requests-table") do
         expect(page).to have_content("Floor plan")
       end

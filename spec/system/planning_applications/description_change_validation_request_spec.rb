@@ -18,6 +18,14 @@ RSpec.describe "Requesting description changes to a planning application", type:
     visit planning_application_path(planning_application)
   end
 
+  it "displays the planning application address and reference" do
+    click_button "Application information"
+    click_link "Propose a change to the description"
+
+    expect(page).to have_content(planning_application.full_address.upcase)
+    expect(page).to have_content(planning_application.reference)
+  end
+
   it "is possible to create a request to update description" do
     visit new_planning_application_description_change_validation_request_path(planning_application)
 

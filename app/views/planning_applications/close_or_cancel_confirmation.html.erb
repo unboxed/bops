@@ -7,16 +7,12 @@
 
 <% content_for :title, "Close or cancel application" %>
 
-<div class="govuk-grid-row">
+<h1 class="govuk-heading-l">Close or cancel application</h2>
+
+<%= render "shared/planning_application_address_and_reference" %>
+
+<div class="govuk-grid-row"></div>
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l govuk-!-margin-bottom-3">
-      <%= @planning_application.reference %>
-    </h1>
-
-    <p class="govuk-body">
-      <%= @planning_application.full_address %>
-    </p>
-
     <%= form_with model: @planning_application, url: cancel_planning_application_path(@planning_application), local: true do |form| %>
       <div class="govuk-form-group">
         <fieldset class="govuk-fieldset">

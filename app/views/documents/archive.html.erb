@@ -10,20 +10,16 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <div class="govuk-breadcrumbs" style="margin-bottom: 20px;">
+    <div class="govuk-breadcrumbs">
       <ol class="govuk-breadcrumbs__list">
         <li class="govuk-breadcrumbs__list-item" aria-current="page"></li>
       </ol>
     </div>
-    <h1 class="govuk-heading-l" style="margin-bottom: 7px;">
-      <%= @planning_application.reference %>
-    </h1>
-    <h2 class="govuk-heading-m" style="margin-bottom: 75px;">
-      <%= @planning_application.full_address %>
-    </h2>
-    <h2 class="govuk-heading-m" style="margin-bottom: 75px;">
-      Archive document
-    </h2>
+
+    <h1 class="govuk-heading-l">Archive document</h2>
+
+    <%= render "shared/planning_application_address_and_reference" %>
+
     <p class="govuk-body  govuk-!-padding-top-1" >
       File name: <%= @document.name %>
     </p>

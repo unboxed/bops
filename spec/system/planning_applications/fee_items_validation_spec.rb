@@ -42,6 +42,14 @@ RSpec.describe "FeeItemsValidation", type: :system do
       )
     end
 
+    it "displays the planning application address and reference" do
+      visit planning_application_validation_tasks_path(planning_application)
+      click_link "Check fee"
+
+      expect(page).to have_content(planning_application.full_address.upcase)
+      expect(page).to have_content(planning_application.reference)
+    end
+
     it "I can see a summary breakdown of the fee when I go to validate" do
       visit planning_application_validation_tasks_path(planning_application)
       click_link "Check fee"

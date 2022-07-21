@@ -2,30 +2,35 @@
   Assign planning application - <%= t('page_title') %>
 <% end %>
 
-<%= render "planning_applications/assessment_dashboard" do %>
-  <% content_for :title, "Assign planning application" %>
-  <h2 class="govuk-heading-m">Assign application</h2>
-  <p class="govuk-body">
-    Please select the officer you wish to assign this application to.
-  </p>
-  <%= form_for @planning_application, url: assign_planning_application_path(@planning_application) do |form| %>
-    <fieldset class="govuk-fieldset">
-      <div class="govuk-radios govuk-radios--small">
-        <div class="govuk-radios__item">
-          <%= form.radio_button :user_id, 0, class: "govuk-radios__input" %>
-          <%= form.label :user_id, "Unassigned", value: 0, class: "govuk-label govuk-radios__label" %>
-        </div>
+<% add_parent_breadcrumb_link "Home", planning_applications_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
 
-        <% current_local_authority.users.each do |user| %>
-          <div class="govuk-radios__item">
-            <%= form.radio_button :user_id, user.id, class: "govuk-radios__input" %>
-            <%= form.label :user_id, user.name, value: user.id, class: "govuk-label govuk-radios__label" %>
-          </div>
-        <% end %>
+<% content_for :title, "Assign planning application" %>
+
+<h1 class="govuk-heading-l">Assign planning application</h2>
+
+<%= render "shared/planning_application_address_and_reference" %>
+
+<p class="govuk-body">
+  Please select the officer you wish to assign this application to.
+</p>
+<%= form_for @planning_application, url: assign_planning_application_path(@planning_application) do |form| %>
+  <fieldset class="govuk-fieldset">
+    <div class="govuk-radios govuk-radios--small">
+      <div class="govuk-radios__item">
+        <%= form.radio_button :user_id, 0, class: "govuk-radios__input" %>
+        <%= form.label :user_id, "Unassigned", value: 0, class: "govuk-label govuk-radios__label" %>
       </div>
-    </fieldset>
-    <p>
-      <%= form.submit "Confirm", class: "govuk-button", data: { module: "govuk-button" } %>
-    </p>
-  <% end %>
+
+      <% current_local_authority.users.each do |user| %>
+        <div class="govuk-radios__item">
+          <%= form.radio_button :user_id, user.id, class: "govuk-radios__input" %>
+          <%= form.label :user_id, user.name, value: user.id, class: "govuk-label govuk-radios__label" %>
+        </div>
+      <% end %>
+    </div>
+  </fieldset>
+  <p>
+    <%= form.submit "Confirm", class: "govuk-button", data: { module: "govuk-button" } %>
+  </p>
 <% end %>

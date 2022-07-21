@@ -16,6 +16,11 @@ RSpec.describe "Constraints", type: :system do
     visit planning_application_constraints_path(planning_application)
   end
 
+  it "displays the planning application address and reference" do
+    expect(page).to have_content(planning_application.full_address.upcase)
+    expect(page).to have_content(planning_application.reference)
+  end
+
   context "when application is not started or invalidated" do
     it "displays the constraints" do
       within(".govuk-heading-l") do

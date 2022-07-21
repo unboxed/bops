@@ -4,6 +4,8 @@
 
 <h1 class="govuk-heading-l">Check the constraints</h1>
 
+<%= render "shared/planning_application_address_and_reference" %>
+
 <% if @planning_application.api_user.present? %>
   <h2 class="govuk-heading-m">Constraints identified by <%= @planning_application.api_user.name %></h2>
 <% end %>
