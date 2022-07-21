@@ -88,10 +88,7 @@ RSpec.describe "post validation requests", type: :system do
       it "lets the assessor cancel the request" do
         click_button("Documents")
         click_link("Manage documents")
-
-        document_row = find_all("tr").find do |row|
-          row.has_content?("Document requested: Floor plan")
-        end
+        document_row = row_with_content("Document requested: Floor plan")
 
         within(document_row) do
           click_link("Cancel request")

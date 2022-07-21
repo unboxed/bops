@@ -125,17 +125,8 @@ RSpec.describe "Planning Application show page", type: :system do
         visit planning_application_path(planning_application)
         click_button "Application information"
 
-        payment_amount_row = find_all("tr").find do |row|
-          row.has_content?("Payment Amount")
-        end
-
-        expect(payment_amount_row).to have_content("£0.00")
-
-        payment_reference_row = find_all("tr").find do |row|
-          row.has_content?("Payment Reference")
-        end
-
-        expect(payment_reference_row).to have_content("Exempt")
+        expect(page).to have_row_for("Payment Amount", with: "£0.00")
+        expect(page).to have_row_for("Payment Reference", with: "Exempt")
       end
     end
 

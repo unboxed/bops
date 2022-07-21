@@ -42,7 +42,7 @@ RSpec.describe "managing users", type: :system do
       click_button("Submit")
 
       expect(page).to have_content("User successfully created")
-      row = page.find_all("tr").find { |tr| tr.has_content?("Alice Smith") }
+      row = row_with_content("Alice Smith")
       expect(row).to have_content("alice@example.com")
       expect(row).to have_content("01234 123 123")
       expect(row).to have_content("Assessor")
@@ -88,7 +88,7 @@ RSpec.describe "managing users", type: :system do
       )
 
       visit(administrator_dashboard_path)
-      row = page.find_all("tr").find { |tr| tr.has_content?("Bella Jones") }
+      row = row_with_content("Bella Jones")
       within(row) { click_link("Edit") }
       fill_in("Email", with: "")
       click_button("Submit")
@@ -109,7 +109,7 @@ RSpec.describe "managing users", type: :system do
       click_button("Submit")
 
       expect(page).to have_content("User successfully updated")
-      row = page.find_all("tr").find { |tr| tr.has_content?("Belle Jones") }
+      row = row_with_content("Belle Jones")
       expect(row).to have_content("belle@example.com")
       expect(row).to have_content("01234 456 456")
       expect(row).to have_content("Assessor")
@@ -117,7 +117,7 @@ RSpec.describe "managing users", type: :system do
 
     it "does not allow current user to update own role" do
       visit(administrator_dashboard_path)
-      row = page.find_all("tr").find { |tr| tr.has_content?("Carrie Taylor") }
+      row = row_with_content("Carrie Taylor")
       within(row) { click_link("Edit") }
 
       expect(page).not_to have_field("Role")
