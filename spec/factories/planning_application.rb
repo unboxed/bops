@@ -219,6 +219,16 @@ FactoryBot.define do
       end
     end
 
+    trait :with_feedback do
+      feedback do
+        {
+          "result" => "feedback about the result",
+          "find_property" => "feedback about the property",
+          "planning_constraints" => "feedback about the constraints"
+        }
+      end
+    end
+
     factory :not_started_planning_application do
       status { :not_started }
 

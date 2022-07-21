@@ -17,6 +17,17 @@
           message: "This application has been updated. Please check the constraints are correct." %>
       <% end %>
 
+      <% if planning_constraints_feedback = @planning_application.feedback["planning_constraints"] %>
+        <%= render "shared/warning_text",
+          message: "The applicant or agent believes the constraints are inaccurate." %>
+
+        <p class="govuk-body">
+          <strong>Reason given:</strong> These are the inaccuracies. Taken from "planning_constraints": "<%= planning_constraints_feedback %>"
+        </p>
+
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+      <% end %>
+
       <%= render "constraints/info" %>
     </div>
   </div>
