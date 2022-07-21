@@ -1,0 +1,42 @@
+# frozen_string_literal: true
+
+require "rails_helper"
+
+RSpec.describe UserMailer, type: :mailer do
+  describe "#update_notification_mail" do
+    let(:planning_application) do
+      create(:planning_application, created_at: DateTime.new(2022, 5, 1))
+    end
+
+    let(:mail) do
+      described_class.update_notification_mail(
+        planning_application,
+        "assessor@example.com"
+      )
+    end
+
+    let(:mail_body) { mail.body.encoded }
+
+    it "sets subject" do
+      expect(mail.subject).to eq(
+        "BoPS case BUC-22-00100-LDCP has a new update"
+      )
+    end
+
+    it "sets recipient" do
+      expect(mail.to).to contain_exactly("assessor@example.com")
+    end
+
+    it "includes planning application reference" do
+      expect(mail_body).to include(
+        "BoPS case BUC-22-00100-LDCP has a new update."
+      )
+    end
+
+    it "includes plannng application url" do
+      expect(mail_body).to include(
+        "http://buckinghamshire.bops.services/planning_applications/#{planning_application.id}"
+      )
+    end
+  end
+end

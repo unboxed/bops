@@ -7,17 +7,43 @@ RSpec.describe "API request to patch document create requests", type: :request, 
 
   let!(:api_user) { create :api_user }
   let!(:default_local_authority) { build(:local_authority, :default) }
-  let!(:planning_application) { create(:planning_application, :invalidated, local_authority: default_local_authority) }
+  let(:user) { create(:user) }
+
+  let!(:planning_application) do
+    create(
+      :planning_application,
+      :invalidated,
+      local_authority: default_local_authority,
+      user: user
+    )
+  end
 
   let!(:additional_document_validation_request) do
     create(:additional_document_validation_request,
            planning_application: planning_application)
   end
 
+  let(:path) do
+    "/api/v1/planning_applications/#{planning_application.id}/additional_document_validation_requests/#{additional_document_validation_request.id}"
+  end
+
+  let(:file) do
+    fixture_file_upload("../images/proposed-floorplan.png", "image/png")
+  end
+
+  let(:params) do
+    {
+      change_access_id: planning_application.change_access_id,
+      files: [file]
+    }
+  end
+
+  let(:headers) do
+    { Authorization: "Bearer #{api_user.token}" }
+  end
+
   it "successfully accepts a new document" do
-    patch "/api/v1/planning_applications/#{planning_application.id}/additional_document_validation_requests/#{additional_document_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
-          params: { files: [fixture_file_upload("../images/proposed-floorplan.png", "image/png")] },
-          headers: { Authorization: "Bearer #{api_user.token}" }
+    patch(path, params: params, headers: headers)
 
     expect(response).to be_successful
 
@@ -30,6 +56,18 @@ RSpec.describe "API request to patch document create requests", type: :request, 
     expect(Audit.all.last.activity_type).to eq("additional_document_validation_request_received")
     expect(Audit.all.last.audit_comment).to eq("proposed-floorplan.png")
     expect(Audit.all.last.activity_information).to eq("1")
+  end
+
+  it "sends notification to assigned user" do
+    expect { patch(path, params: params, headers: headers) }
+      .to have_enqueued_job
+      .on_queue("mailers")
+      .with(
+        "UserMailer",
+        "update_notification_mail",
+        "deliver_now",
+        args: [planning_application, user.email]
+      )
   end
 
   it "rejects wrong document types" do

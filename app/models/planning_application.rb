@@ -30,6 +30,9 @@ class PlanningApplication < ApplicationRecord
     has_many :notes, -> { by_created_at_desc }, inverse_of: :planning_application
   end
 
+  delegate :reviewer_group_email, to: :local_authority
+  delegate :email, to: :user, prefix: true, allow_nil: true
+
   belongs_to :user, optional: true
   belongs_to :api_user, optional: true
   belongs_to :boundary_created_by, class_name: "User", optional: true
@@ -365,6 +368,8 @@ class PlanningApplication < ApplicationRecord
         audit_comment: { assessor_comment: recommendations.last.assessor_comment }.to_json
       )
     end
+
+    send_update_notification_to_reviewers
   rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
     raise SubmitRecommendationError, e.message
   end
@@ -385,8 +390,8 @@ class PlanningApplication < ApplicationRecord
 
   def assign(user)
     self.user = user
-
     audit!(activity_type: "assigned", activity_information: self.user&.name)
+    send_update_notification_to_assessor
   end
 
   def determination_date
@@ -408,7 +413,21 @@ class PlanningApplication < ApplicationRecord
     end
   end
 
+  def send_update_notification_to_assessor
+    send_update_notification(user_email)
+  end
+
+  def send_update_notification_to_reviewers
+    send_update_notification(reviewer_group_email)
+  end
+
   private
+
+  def send_update_notification(to)
+    return if to.blank?
+
+    UserMailer.update_notification_mail(self, to).deliver_later
+  end
 
   def set_key_dates
     self.expiry_date = 56.days.after(documents_validated_at || received_at)

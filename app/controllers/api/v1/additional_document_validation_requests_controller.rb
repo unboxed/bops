@@ -40,7 +40,7 @@ module Api
 
         if @additional_document_validation_request.can_upload?
           @additional_document_validation_request.upload_files!(params[:files])
-
+          @planning_application.send_update_notification_to_assessor
           render json: { message: "Validation request updated" }, status: :ok
         else
           render_failed_request

@@ -35,4 +35,6 @@ RSpec.configure do |config|
   config.before type: :request do
     host!("ripa.example.com")
   end
+
+  config.include(ActiveJob::TestHelper)
 end

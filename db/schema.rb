@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_13_114018) do
+ActiveRecord::Schema.define(version: 2022_07_18_150755) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -152,6 +152,7 @@ ActiveRecord::Schema.define(version: 2022_07_13_114018) do
     t.string "email_address", null: false
     t.string "reply_to_notify_id"
     t.string "feedback_email", null: false
+    t.string "reviewer_group_email"
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 
@@ -198,6 +199,7 @@ ActiveRecord::Schema.define(version: 2022_07_13_114018) do
     t.datetime "in_assessment_at"
     t.datetime "awaiting_correction_at"
     t.jsonb "proposal_details"
+    t.jsonb "audit_log"
     t.string "agent_first_name"
     t.string "agent_last_name"
     t.string "agent_phone"
@@ -251,7 +253,6 @@ ActiveRecord::Schema.define(version: 2022_07_13_114018) do
     t.decimal "invalid_payment_amount", precision: 10, scale: 2
     t.bigint "application_number", null: false
     t.string "parish_name"
-    t.jsonb "audit_log"
     t.jsonb "feedback", default: {}
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
     t.index ["application_number", "local_authority_id"], name: "ix_planning_applications_on_application_number__local_authority", unique: true

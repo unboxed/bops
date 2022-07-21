@@ -3,6 +3,24 @@ en:
     header:
       back_office_planning: "Back-office Planning System"
       log_out: Log out
+  emails:
+    subjects:
+      cancelled_validation_request_mail: Update on your application for a Lawful Development Certificate
+      decision_notice_mail: Decision on your Lawful Development Certificate  application
+      description_change_mail: Lawful Development Certificate application - suggested changes
+      description_closure_notification_mail: Changes to your Lawful Development Certificate application
+      invalidation_notice_mail: Lawful Development Certificate application - changes needed
+      receipt_notice_mail: Lawful Development Certificate application received
+      validation_notice_mail: Your application for a Lawful Development Certificate
+      validation_request_mail: Lawful Development Certificate application  - further changes needed
+      post_validation_request_mail: Lawful Development Certificate application  - changes needed
+      update_notification_mail: BoPS case %{reference} has a new update
+      validation_request_closure_mail: Changes to your Lawful Development Certificate application
+  user_mailer:
+    update_notification_mail:
+      bops_case_reference: BoPS case %{reference} has a new update.
+      bops_updates: BoPS updates
+      view_reference_on: View %{reference} on BoPS
   additional_document_validation_requests:
     create:
       success: Additional document request successfully created.
