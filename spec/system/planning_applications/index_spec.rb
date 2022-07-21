@@ -133,7 +133,7 @@ RSpec.describe "Planning Application index page", type: :system do
       end
 
       it "User can log out from index page" do
-        click_button "Log out"
+        click_link "Log out"
 
         expect(page).to have_current_path(/sign_in/)
         expect(page).to have_content("You need to sign in or sign up before continuing.")

@@ -1,24 +1,14 @@
-<% if current_user && controller_path != "public/planning_guides" %>
-  <% if current_page?(planning_applications_path(@planning_application)) %>
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full">
-        <%= button_to 'Log out', destroy_user_session_path, method: :delete, class: "govuk-button_link", dataModule:"govuk-button" %>
+<% if current_user.present? && controller_path != "public/planning_guides" %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="govuk-breadcrumbs">
+        <ol class="govuk-breadcrumbs__list">
+          <%= render(
+            partial: "create_breadcrumb_navigation",
+            locals: { nav: nav }
+          ) %>
+        </ol>
       </div>
     </div>
-  <% else %>
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-        <div class="govuk-breadcrumbs">
-          <ol class="govuk-breadcrumbs__list">
-            <%= render "create_breadcrumb_navigation", nav: nav %>
-          </ol>
-        </div>
-      </div>
-      <div class="govuk-grid-column-one-third">
-        <% if user_signed_in? %>
-          <%= button_to 'Log out', destroy_user_session_path, method: :delete, class: "govuk-button_link", dataModule:"govuk-button" %>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
+  </div>
 <% end %>

@@ -13,7 +13,7 @@ RSpec.describe "Creating a planning application", type: :system do
   end
 
   it "prevents a logged out user from accessing the form" do
-    click_button "Log out"
+    click_link "Log out"
     visit new_planning_application_path(default_local_authority)
 
     expect(page).to have_text("You need to sign in or sign up before continuing.")
@@ -57,7 +57,7 @@ RSpec.describe "Creating a planning application", type: :system do
   end
 
   it "allows for an application to be created by a reviewer, using minimum details" do
-    click_button "Log out"
+    click_link "Log out"
     sign_in reviewer1
     visit root_path
 

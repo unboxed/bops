@@ -12,9 +12,12 @@ RSpec.describe "Planning guides", type: :system do
 
     it "the planning guide index page is publicy accessible" do
       expect(page).to have_content("Find out how to create a valid plan")
-      within(".govuk-header__content") do
-        expect(page).to have_link("Back-office Planning System: #{default_local_authority.council_name}",
-                                  href: public_planning_guides_path)
+
+      within("header") do
+        expect(page).to have_link(
+          "Ripa Back-office Planning System",
+          href: public_planning_guides_path
+        )
       end
 
       within(".govuk-grid-column-two-thirds") do
@@ -169,9 +172,12 @@ RSpec.describe "Planning guides", type: :system do
 
     it "is accessible" do
       expect(page).to have_content("Find out how to create a valid plan")
-      within(".govuk-header__content") do
-        expect(page).to have_link("Back-office Planning System: #{default_local_authority.council_name}",
-                                  href: public_planning_guides_path)
+
+      within("header") do
+        expect(page).to have_link(
+          "Ripa Back-office Planning System",
+          href: public_planning_guides_path
+        )
       end
     end
   end

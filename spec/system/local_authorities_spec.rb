@@ -19,8 +19,8 @@ RSpec.describe "Accessing correct local authority", type: :system do
     it "visit namespaced path" do
       visit root_path
 
-      expect(page.body).to have_content("Lambeth Council")
-      expect(page.body).not_to have_content("Southwark Council")
+      expect(page).to have_content("Lambeth Back-office Planning System")
+      expect(page).not_to have_content("Southwark Back-office Planning System")
     end
   end
 

@@ -1,4 +1,8 @@
 en:
+  application:
+    header:
+      back_office_planning: "Back-office Planning System"
+      log_out: Log out
   additional_document_validation_requests:
     create:
       success: Additional document request successfully created.

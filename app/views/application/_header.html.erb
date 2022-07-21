@@ -1,11 +1,28 @@
-<header class="govuk-header  with-proposition " role="banner" data-module="govuk-header">
+<header class="govuk-header" role="banner" data-module="govuk-header">
   <div class="govuk-header__container govuk-width-container">
-    <div class="govuk-header__content">
-      <% if controller_path == "public/planning_guides" %>
-        <%= link_to "Back-office Planning System: #{current_local_authority.council_name}", public_planning_guides_path, class: "govuk-header__link govuk-header__link--service-name" %>
-      <% else %>
-        <%= link_to "Back-office Planning System: #{current_local_authority.council_name}", root_path, class: "govuk-header__link govuk-header__link--service-name" %>
-      <% end %>
-    </div>
+    <%= link_to(
+      home_path,
+      class: "govuk-header__link govuk-header__link--homepage"
+    ) do %>
+      <span class="govuk-header__product-name">
+        <strong><%= current_local_authority.subdomain.capitalize %></strong>
+        <%= t(".back_office_planning") %>
+      </span>
+    <% end %>
+    <% if current_user.present? %>
+      <div class="header-session-info">
+        <div class="govuk-header__navigation-item">
+          <strong><%= current_user.name %></strong>
+        </div>
+        <div class="govuk-header__navigation-item">
+          <%= link_to(
+             t(".log_out"),
+             destroy_user_session_path,
+             method: :delete,
+             class: "govuk-header__link"
+          ) %>
+        </div>
+      </div>
+    <% end %>
   </div>
 </header>
