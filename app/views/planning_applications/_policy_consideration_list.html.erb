@@ -12,6 +12,18 @@
       <%= render "shared/warning_text",
         message: "This application has been updated. The proposal details may no longer be accurate. Please check all relevant details have been provided." %>
     <% end %>
+
+    <% if find_property_feedback = @planning_application.feedback["find_property"] %>
+      <%= render "shared/warning_text",
+        message: "The applicant or agent believes the information about the property is inaccurate." %>
+
+      <p class="govuk-body">
+        <strong>Reason given:</strong> These are the inaccuracies. Taken from "find_property": "<%= find_property_feedback %>"
+      </p>
+
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    <% end %>
+
     <% if @planning_application.proposal_details.any? %>
       <% if ENV["GROUPED_PROPOSAL_DETAILS_FEATURE"] == "enabled" %>
         <ul class="govuk-body">

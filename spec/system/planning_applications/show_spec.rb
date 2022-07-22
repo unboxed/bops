@@ -369,4 +369,42 @@ RSpec.describe "Planning Application show page", type: :system do
       end
     end
   end
+
+  context "when there is feedback from the applicant/agent on the planning application" do
+    let!(:planning_application) { create(:planning_application, :with_feedback, local_authority: default_local_authority) }
+
+    before do
+      sign_in assessor
+      visit planning_application_path(planning_application)
+    end
+
+    it "displays a warning message and the feedback text" do
+      click_button "Result from application"
+      within("#results-section") do
+        within(".govuk-warning-text") do
+          expect(page).to have_content("! Warning The applicant or agent believes this result is inaccurate.")
+        end
+
+        expect(page).to have_content("Reason given: This is the reason that someone thought this was inaccurate. Taken from \"result\": \"feedback about the result\"")
+      end
+
+      click_button "Proposal details"
+      within("#proposal-details-section") do
+        within(".govuk-warning-text") do
+          expect(page).to have_content("! Warning The applicant or agent believes the information about the property is inaccurate.")
+        end
+
+        expect(page).to have_content("Reason given: These are the inaccuracies. Taken from \"find_property\": \"feedback about the property\"")
+      end
+
+      click_button "Constraints"
+      within("#constraints-section") do
+        within(".govuk-warning-text") do
+          expect(page).to have_content("! Warning The applicant or agent believes the constraints are inaccurate.")
+        end
+
+        expect(page).to have_content("Reason given: These are the inaccuracies. Taken from \"planning_constraints\": \"feedback about the constraints\"")
+      end
+    end
+  end
 end
