@@ -35,6 +35,11 @@ en:
       bops_case_reference: BoPS case %{reference} has a new update.
       bops_updates: BoPS updates
       view_reference_on: View %{reference} on BoPS
+  search:
+    form:
+      find_an_application: Find an application
+      search: Search
+      you_can_search: You can search by application number
   additional_document_validation_requests:
     create:
       success: Additional document request successfully created.

@@ -8,8 +8,7 @@ class User < ApplicationRecord
 
   devise :database_authenticatable if Rails.env.development? && ENV["2FA_ENABLED"] != "true"
 
-  has_many :decisions, dependent: :restrict_with_exception
-  has_many :planning_applications, through: :decisions
+  has_many :planning_applications, dependent: :nullify
   has_many :audits, dependent: :nullify
   belongs_to :local_authority, optional: false
 

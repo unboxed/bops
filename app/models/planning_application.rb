@@ -45,7 +45,7 @@ class PlanningApplication < ApplicationRecord
   before_create :set_key_dates
   before_create :set_change_access_id
   before_create :set_application_number
-
+  after_create :set_reference
   after_create :set_ward_and_parish_information
   after_create :create_audit!
   before_update :set_key_dates
@@ -115,10 +115,6 @@ class PlanningApplication < ApplicationRecord
 
   def days_overdue
     expiry_date.business_days_until(Time.previous_business_day(Date.current))
-  end
-
-  def reference
-    @reference ||= "#{created_at_year}-#{application_number}-#{application_type_code}"
   end
 
   def reference_in_full
@@ -422,6 +418,14 @@ class PlanningApplication < ApplicationRecord
   end
 
   private
+
+  def set_reference
+    self.reference = [
+      created_at_year,
+      application_number,
+      application_type_code
+    ].join("-")
+  end
 
   def send_update_notification(to)
     return if to.blank?

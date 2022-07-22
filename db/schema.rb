@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_18_150755) do
+ActiveRecord::Schema.define(version: 2022_07_22_101202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -199,7 +199,6 @@ ActiveRecord::Schema.define(version: 2022_07_18_150755) do
     t.datetime "in_assessment_at"
     t.datetime "awaiting_correction_at"
     t.jsonb "proposal_details"
-    t.jsonb "audit_log"
     t.string "agent_first_name"
     t.string "agent_last_name"
     t.string "agent_phone"
@@ -253,11 +252,14 @@ ActiveRecord::Schema.define(version: 2022_07_18_150755) do
     t.decimal "invalid_payment_amount", precision: 10, scale: 2
     t.bigint "application_number", null: false
     t.string "parish_name"
+    t.jsonb "audit_log"
     t.jsonb "feedback", default: {}
+    t.string "reference"
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
     t.index ["application_number", "local_authority_id"], name: "ix_planning_applications_on_application_number__local_authority", unique: true
     t.index ["boundary_created_by_id"], name: "ix_planning_applications_on_boundary_created_by_id"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
+    t.index ["reference"], name: "ix_planning_applications_on_reference"
     t.index ["user_id"], name: "index_planning_applications_on_user_id"
   end
 

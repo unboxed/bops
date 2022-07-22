@@ -50,6 +50,13 @@
       <%= render "planning_application_table", planning_applications: @planning_applications.awaiting_determination, planning_application_status: "awaiting_determination", title: "Awaiting determination" %>
       <%= render "planning_application_table", planning_applications: @planning_applications.awaiting_correction, planning_application_status: "awaiting_correction", title: "Corrections requested" unless current_user.assessor?%>
       <%= render "planning_application_table", planning_applications: @planning_applications.closed, planning_application_status: "closed", title: "Closed" %>
+      <%= render(
+         "planning_application_table",
+         planning_applications: @planning_applications,
+         planning_application_status: "all",
+         title: all_applications_tab_title,
+         search: @search
+      ) %>
     </div>
   </div>
 </div>

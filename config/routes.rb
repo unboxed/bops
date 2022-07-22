@@ -136,4 +136,6 @@ Rails.application.routes.draw do
     only: %i[show],
     controller: :administrator_dashboard
   )
+
+  resources :searches, only: %i[create]
 end

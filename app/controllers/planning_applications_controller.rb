@@ -25,6 +25,8 @@ class PlanningApplicationsController < AuthenticationController
                              else
                                planning_applications_scope
                              end
+
+    @search = Search.new
   end
 
   def show; end

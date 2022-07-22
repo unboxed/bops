@@ -10,7 +10,11 @@ RSpec.shared_examples "validate and invalidate" do
 
   it "can be validated and displays link to notification" do
     delivered_emails = ActionMailer::Base.deliveries.count
-    click_link planning_application.reference
+
+    within("#not_started_and_invalid") do
+      click_link(planning_application.reference)
+    end
+
     click_link "Check and validate"
     click_link "Start now"
     click_link "Send validation decision"
@@ -45,7 +49,10 @@ RSpec.shared_examples "validate and invalidate" do
     create :additional_document_validation_request, planning_application: planning_application, state: "open",
                                                     created_at: 12.days.ago
 
-    click_link planning_application.reference
+    within("#not_started_and_invalid") do
+      click_link(planning_application.reference)
+    end
+
     click_button "Documents"
     click_link "Manage documents"
     click_link "Archive"
@@ -67,7 +74,10 @@ RSpec.shared_examples "validate and invalidate" do
            state: "closed",
            updated_at: Time.zone.today - 3.days)
 
-    click_link planning_application.reference
+    within("#not_started_and_invalid") do
+      click_link(planning_application.reference)
+    end
+
     click_link "Check and validate"
 
     expect(page).to have_field("Day", with: additional_document_validation_request.updated_at.strftime("%-d"))
@@ -126,7 +136,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
                                                       created_at: 12.days.ago
 
       delivered_emails = ActionMailer::Base.deliveries.count
-      click_link planning_application.reference
+
+      within("#not_started_and_invalid") do
+        click_link(planning_application.reference)
+      end
+
       click_link "Check and validate"
       click_link "Send validation decision"
       click_button "Mark the application as invalid"
@@ -147,7 +161,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     it "shows error if trying to mark as valid when open validation request exists on planning application" do
       create :additional_document_validation_request, planning_application: planning_application, state: "open"
-      click_link planning_application.reference
+
+      within("#not_started_and_invalid") do
+        click_link(planning_application.reference)
+      end
+
       click_link "Check and validate"
       click_link "Send validation decision"
 
@@ -166,7 +184,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
              planning_application: planning_application,
              validated: false, invalidated_document_reason: "Missing a lazy Suzan"
 
-      click_link planning_application.reference
+      within("#not_started_and_invalid") do
+        click_link(planning_application.reference)
+      end
+
       click_link "Check and validate"
       click_link "Send validation decision"
 
@@ -177,7 +198,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     it "shows error if invalid date is sent" do
-      click_link new_planning_application.reference
+      within("#not_started_and_invalid") do
+        click_link(new_planning_application.reference)
+      end
+
       click_link "Check and validate"
       click_link "Send validation decision"
       click_link "Mark the application as valid"
@@ -194,7 +218,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     it "shows error if date is empty" do
-      click_link new_planning_application.reference
+      within("#not_started_and_invalid") do
+        click_link(new_planning_application.reference)
+      end
+
       click_link "Check and validate"
       click_link "Send validation decision"
       click_link "Mark the application as valid"
@@ -211,7 +238,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     it "shows error if only part of the date is empty" do
-      click_link new_planning_application.reference
+      within("#not_started_and_invalid") do
+        click_link(new_planning_application.reference)
+      end
+
       click_link "Check and validate"
       click_link "Send validation decision"
       click_link "Mark the application as valid"
@@ -248,7 +278,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     it "shows edit, upload and archive links for documents" do
-      click_link planning_application.reference
+      within("#not_started_and_invalid") do
+        click_link(planning_application.reference)
+      end
+
       click_button "Documents"
       click_link "Manage documents"
 

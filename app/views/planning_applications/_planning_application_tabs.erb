@@ -19,5 +19,16 @@
     <li class="govuk-tabs__list-item" role="presentation">
       <%= link_to "Closed", "#closed", class: "govuk-tabs__tab", role: "tab", "aria-controls":"closed", "aria-selected": false, tabindex: 4 %>
     </li>
+    <li class="govuk-tabs__list-item" role="presentation">
+      <%= link_to(
+         all_applications_tab_title,
+         "#all",
+         class: "govuk-tabs__tab",
+         role: "tab",
+         aria_controls: "all",
+         aria_selected: false,
+         tabindex: 5
+      ) %>
+    </li>
   </ul>
 </div>
