@@ -5,6 +5,9 @@
   useScaleBarStyle
   <% if locals[:geojson].present? %>
     geojsonData='<%= locals[:geojson].is_a?(Hash) ? locals[:geojson].to_json : JSON.parse(locals[:geojson]).to_json.html_safe %>'
+    <% if locals[:invalid_red_line_boundary].present? %>
+      geojsonColor='#515151'
+    <% end %>
   <% elsif @planning_application.latitude && @planning_application.longitude %>
     zoom="19"
     latitude='<%= @planning_application.latitude %>'
