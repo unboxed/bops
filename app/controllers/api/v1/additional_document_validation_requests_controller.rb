@@ -56,8 +56,10 @@ module Api
       end
 
       def check_files_size
-        if params[:files].map(&:size).sum > 30.megabytes
-          render json: { message: "The total file size must be 30MB or less" }, status: :bad_request
+        params[:files].each do |file|
+          if file_size_over_30mb?(file)
+            render json: { message: "The file: '#{file.original_filename}' exceeds the limit of 30mb. Each file must be 30MB or less" }, status: :bad_request
+          end
         end
       end
 

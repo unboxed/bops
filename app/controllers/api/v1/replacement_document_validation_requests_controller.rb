@@ -47,6 +47,18 @@ module Api
 
       private
 
+      def check_file_type
+        unless Document::PERMITTED_CONTENT_TYPES.include? params[:new_file].content_type
+          render json: { message: "The file type must be JPEG, PNG or PDF" }, status: :bad_request
+        end
+      end
+
+      def check_file_size
+        if file_size_over_30mb?(params[:new_file])
+          render json: { message: "The file must be 30MB or less" }, status: :bad_request
+        end
+      end
+
       def check_file_params_are_present
         if params[:new_file].blank?
           render json: { message: "A file must be selected to proceed." }, status: :bad_request
