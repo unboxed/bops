@@ -11,7 +11,7 @@ RSpec.shared_examples "validate and invalidate" do
   it "can be validated and displays link to notification" do
     delivered_emails = ActionMailer::Base.deliveries.count
 
-    within("#not_started_and_invalid") do
+    within(selected_govuk_tab) do
       click_link(planning_application.reference)
     end
 
@@ -49,7 +49,7 @@ RSpec.shared_examples "validate and invalidate" do
     create :additional_document_validation_request, planning_application: planning_application, state: "open",
                                                     created_at: 12.days.ago
 
-    within("#not_started_and_invalid") do
+    within(selected_govuk_tab) do
       click_link(planning_application.reference)
     end
 
@@ -74,7 +74,7 @@ RSpec.shared_examples "validate and invalidate" do
            state: "closed",
            updated_at: Time.zone.today - 3.days)
 
-    within("#not_started_and_invalid") do
+    within(selected_govuk_tab) do
       click_link(planning_application.reference)
     end
 
@@ -137,7 +137,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       delivered_emails = ActionMailer::Base.deliveries.count
 
-      within("#not_started_and_invalid") do
+      within(selected_govuk_tab) do
         click_link(planning_application.reference)
       end
 
@@ -162,7 +162,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "shows error if trying to mark as valid when open validation request exists on planning application" do
       create :additional_document_validation_request, planning_application: planning_application, state: "open"
 
-      within("#not_started_and_invalid") do
+      within(selected_govuk_tab) do
         click_link(planning_application.reference)
       end
 
@@ -184,7 +184,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
              planning_application: planning_application,
              validated: false, invalidated_document_reason: "Missing a lazy Suzan"
 
-      within("#not_started_and_invalid") do
+      within(selected_govuk_tab) do
         click_link(planning_application.reference)
       end
 
@@ -198,7 +198,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     it "shows error if invalid date is sent" do
-      within("#not_started_and_invalid") do
+      within(selected_govuk_tab) do
         click_link(new_planning_application.reference)
       end
 
@@ -218,7 +218,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     it "shows error if date is empty" do
-      within("#not_started_and_invalid") do
+      within(selected_govuk_tab) do
         click_link(new_planning_application.reference)
       end
 
@@ -238,7 +238,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     it "shows error if only part of the date is empty" do
-      within("#not_started_and_invalid") do
+      within(selected_govuk_tab) do
         click_link(new_planning_application.reference)
       end
 
@@ -278,7 +278,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     it "shows edit, upload and archive links for documents" do
-      within("#not_started_and_invalid") do
+      within(selected_govuk_tab) do
         click_link(planning_application.reference)
       end
 

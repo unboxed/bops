@@ -14,10 +14,6 @@ RSpec.describe PlanningApplicationSearch do
 
     let!(:planning_application2) { create(:planning_application) }
 
-    let(:planning_applications) do
-      PlanningApplication.all
-    end
-
     let(:search) do
       described_class.new(
         query: query,

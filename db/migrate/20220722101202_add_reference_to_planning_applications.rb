@@ -4,7 +4,7 @@ class AddReferenceToPlanningApplications < ActiveRecord::Migration[6.1]
   class PlanningApplication < ApplicationRecord
     def set_reference
       self.reference = [
-        created_at_year,
+        created_at.strftime("%y"),
         application_number,
         application_type_code
       ].join("-")
@@ -16,10 +16,6 @@ class AddReferenceToPlanningApplications < ActiveRecord::Migration[6.1]
 
     def application_number
       self[:application_number].to_s.rjust(5, "0")
-    end
-
-    def created_at_year
-      created_at.strftime("%y")
     end
 
     def application_type_code
@@ -41,6 +37,8 @@ class AddReferenceToPlanningApplications < ActiveRecord::Migration[6.1]
       planning_application.set_reference
       planning_application.save!
     end
+
+    change_column_null :planning_applications, :application_number, false
   end
 
   def down

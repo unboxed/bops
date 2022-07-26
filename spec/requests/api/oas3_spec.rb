@@ -78,6 +78,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
   end
 
   it "successfully returns the listing of applications as specified" do
+    travel_to(DateTime.new(2020, 5, 14))
     planning_application_hash = example_response_hash_for("/api/v1/planning_applications", "get", 200,
                                                           "Full")["data"].first
 
@@ -98,9 +99,11 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
       api_v1_planning_application_document_url(planning_application, planning_application_document)
 
     expect(JSON.parse(response.body)).to eq(expected_response)
+    travel_back
   end
 
   it "successfully returns an application as specified" do
+    travel_to(DateTime.new(2020, 5, 14))
     planning_application_hash = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "Full")
     planning_application = PlanningApplication.create! planning_application_hash.except("reference", "reference_in_full",
                                                                                         "received_date", "documents", "site").merge(local_authority: default_local_authority)
@@ -117,5 +120,6 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
     expected_response["documents"].first["url"] =
       api_v1_planning_application_document_url(planning_application, planning_application_document)
     expect(JSON.parse(response.body)).to eq(expected_response)
+    travel_back
   end
 end

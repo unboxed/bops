@@ -42,10 +42,10 @@ class PlanningApplication < ApplicationRecord
   scope :with_user, -> { preload(:user) }
   scope :for_user_and_null_users, ->(user_id) { where(user_id: [user_id, nil]) }
 
+  before_validation :set_application_number, on: :create
+  before_validation :set_reference, on: :create
   before_create :set_key_dates
   before_create :set_change_access_id
-  before_create :set_application_number
-  after_create :set_reference
   after_create :set_ward_and_parish_information
   after_create :create_audit!
   before_update :set_key_dates
@@ -93,7 +93,7 @@ class PlanningApplication < ApplicationRecord
   validates :work_status,
             inclusion: { in: WORK_STATUSES,
                          message: "Work Status should be proposed or existing" }
-  validates :application_type, :application_number, presence: true
+  validates :application_type, :application_number, :reference, presence: true
   validates :payment_amount, :invalid_payment_amount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
   validate :applicant_or_agent_email
@@ -421,7 +421,7 @@ class PlanningApplication < ApplicationRecord
 
   def set_reference
     self.reference = [
-      created_at_year,
+      Date.current.strftime("%y"),
       application_number,
       application_type_code
     ].join("-")
@@ -554,10 +554,6 @@ class PlanningApplication < ApplicationRecord
                               else
                                 100
                               end
-  end
-
-  def created_at_year
-    created_at.strftime("%y")
   end
 
   def application_type_code

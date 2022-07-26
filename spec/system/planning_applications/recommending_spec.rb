@@ -31,7 +31,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       it "can create a new recommendation, edit it, and submit it" do
         click_link "In assessment"
 
-        within("#under_assessment") do
+        within(selected_govuk_tab) do
           click_link(planning_application.reference)
         end
 
@@ -103,7 +103,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "errors if no public comment is provided when providing rejection recommendation" do
       click_link "In assessment"
 
-      within("#under_assessment") do
+      within(selected_govuk_tab) do
         click_link(planning_application.reference)
       end
 
@@ -121,7 +121,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "errors if no decision given" do
       click_link "In assessment"
 
-      within("#under_assessment") do
+      within(selected_govuk_tab) do
         click_link(planning_application.reference)
       end
 
@@ -147,7 +147,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "displays the previous recommendations" do
       click_link "In assessment"
 
-      within("#under_assessment") do
+      within(selected_govuk_tab) do
         click_link(planning_application.reference)
       end
 
@@ -188,7 +188,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "can only be submitted when a planning application is in assessment" do
       click_link("In assessment")
 
-      within("#under_assessment") do
+      within(selected_govuk_tab) do
         click_link(planning_application.reference)
       end
 
@@ -241,7 +241,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       it "prevents me from submitting the planning application" do
         click_link("In assessment")
 
-        within("#under_assessment") do
+        within(selected_govuk_tab) do
           click_link(planning_application.reference)
         end
 
@@ -273,7 +273,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "can only be withdrawn when a planning application is awaiting determination" do
       click_link("Awaiting determination")
 
-      within("#awaiting_determination") do
+      within(selected_govuk_tab) do
         click_link(planning_application.reference)
       end
 
@@ -317,7 +317,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       it "can create a new recommendation,saves it and come back later" do
         click_link "In assessment"
 
-        within("#under_assessment") do
+        within(selected_govuk_tab) do
           click_link(planning_application.reference)
         end
 
@@ -344,7 +344,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "errors if no decision given" do
       click_link "In assessment"
 
-      within("#under_assessment") do
+      within(selected_govuk_tab) do
         click_link(planning_application.reference)
       end
 
