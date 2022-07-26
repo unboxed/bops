@@ -390,6 +390,19 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
         expect(page).to have_content("This application has 1 unresolved validation request and 1 resolved validation request")
       end
+
+      it "can see reason why a replacement document was requested once the request is complete" do
+        click_link "Check and validate"
+        click_link "Check document - #{replacement_document_validation_request.new_document.name.to_s.truncate(25)}"
+
+        expect(page).to have_content("This document replaced: #{replacement_document_validation_request.old_document.name}")
+        expect(page).to have_link(
+          replacement_document_validation_request.old_document.name,
+          href: edit_planning_application_document_path(planning_application, replacement_document_validation_request.old_document)
+        )
+        expect(page).to have_content("Reason this replacement document was requested: Document is invalid")
+        expect(page).to have_content("Applicant accepted request and uploaded this document.")
+      end
     end
   end
 

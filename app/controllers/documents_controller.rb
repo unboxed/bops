@@ -9,6 +9,7 @@ class DocumentsController < AuthenticationController
   before_action :ensure_document_edits_unlocked, only: %i[new edit update archive unarchive]
   before_action :ensure_blob_is_representable, only: %i[edit update archive unarchive]
   before_action :validate_document?, only: %i[edit update]
+  before_action :replacement_document_validation_request, only: %i[edit update]
 
   def index
     @documents = @planning_application.documents
@@ -117,6 +118,11 @@ class DocumentsController < AuthenticationController
 
   def validate_document?
     @validate_document ||= params[:validate] == "yes"
+  end
+
+  def replacement_document_validation_request
+    @replacement_document_validation_request ||=
+      ReplacementDocumentValidationRequest.find_by(new_document_id: @document.id)
   end
 
   def redirect_url

@@ -39,14 +39,30 @@
       <strong>Date received:</strong> <%= @document.received_at_or_created %>
     </p>
 
-    <p class="govuk-body">
-      <strong>Applicant reason for submitting document:</strong>
-      <% if @document.applicant_description.present? %>
-        <%= @document.applicant_description %>
-      <% else %>
-        No reason submitted
-      <% end %>
-    </p>
+    <% if @replacement_document_validation_request %>
+      <p class="govuk-body">
+        <strong>This document replaced:</strong>
+        <%= link_to @replacement_document_validation_request.old_document.name, edit_planning_application_document_path(@planning_application, @replacement_document_validation_request.old_document), target: :_new, class: "govuk-link" %>
+      </p>
+
+      <p class="govuk-body">
+        <strong>Reason this replacement document was requested:</strong> <%= @replacement_document_validation_request.invalidated_document_reason %>
+      </p>
+
+      <p class="govuk-body">
+        <strong>Applicant accepted request and uploaded this document.</strong>
+      </p>
+    <% else %>
+      <p class="govuk-body">
+        <strong>Applicant reason for submitting document:</strong>
+
+        <% if @document.applicant_description.present? %>
+          <%= @document.applicant_description %>
+        <% else %>
+          No reason submitted
+        <% end %>
+      </p>
+    <% end %>
 
     <p class="govuk-body">
       <%= created_by(@document)  %>
