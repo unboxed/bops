@@ -30,7 +30,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
     context "with no previous recommendations" do
       it "can create a new recommendation, edit it, and submit it" do
         click_link "In assessment"
-        click_link planning_application.reference
+
+        within(selected_govuk_tab) do
+          click_link(planning_application.reference)
+        end
+
         click_link "Assess proposal"
         choose "Yes"
         fill_in "State the reasons why this application is, or is not lawful.", with: "This is a public comment"
@@ -98,7 +102,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     it "errors if no public comment is provided when providing rejection recommendation" do
       click_link "In assessment"
-      click_link planning_application.reference
+
+      within(selected_govuk_tab) do
+        click_link(planning_application.reference)
+      end
+
       click_link "Assess proposal"
       choose "No"
       fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
@@ -112,7 +120,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     it "errors if no decision given" do
       click_link "In assessment"
-      click_link planning_application.reference
+
+      within(selected_govuk_tab) do
+        click_link(planning_application.reference)
+      end
+
       click_link "Assess proposal"
       click_button "Save and mark as complete"
 
@@ -134,7 +146,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     it "displays the previous recommendations" do
       click_link "In assessment"
-      click_link planning_application.reference
+
+      within(selected_govuk_tab) do
+        click_link(planning_application.reference)
+      end
+
       click_link "Assess proposal"
 
       within ".recommendations" do
@@ -171,7 +187,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
   context "when submitting a recommendation" do
     it "can only be submitted when a planning application is in assessment" do
       click_link("In assessment")
-      click_link(planning_application.reference)
+
+      within(selected_govuk_tab) do
+        click_link(planning_application.reference)
+      end
 
       click_link("Assess proposal")
       choose("Yes")
@@ -221,7 +240,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       it "prevents me from submitting the planning application" do
         click_link("In assessment")
-        click_link(planning_application.reference)
+
+        within(selected_govuk_tab) do
+          click_link(planning_application.reference)
+        end
 
         click_link("Assess proposal")
         choose("Yes")
@@ -250,7 +272,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     it "can only be withdrawn when a planning application is awaiting determination" do
       click_link("Awaiting determination")
-      click_link(planning_application.reference)
+
+      within(selected_govuk_tab) do
+        click_link(planning_application.reference)
+      end
+
       click_link("View recommendation")
 
       within(".govuk-button-group") do
@@ -290,7 +316,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
     context "with no previous recommendations" do
       it "can create a new recommendation,saves it and come back later" do
         click_link "In assessment"
-        click_link planning_application.reference
+
+        within(selected_govuk_tab) do
+          click_link(planning_application.reference)
+        end
+
         click_link "Assess proposal"
         choose "Yes"
         fill_in "State the reasons why this application is, or is not lawful.", with: "This is a public comment"
@@ -313,7 +343,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     it "errors if no decision given" do
       click_link "In assessment"
-      click_link planning_application.reference
+
+      within(selected_govuk_tab) do
+        click_link(planning_application.reference)
+      end
+
       click_link "Assess proposal"
       click_button "Save and come back later"
 

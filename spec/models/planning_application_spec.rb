@@ -156,6 +156,21 @@ RSpec.describe PlanningApplication, type: :model do
           expect(planning_application4.application_number).to eq("00103")
         end
       end
+
+      describe "#reference" do
+        let(:planning_application) do
+          build(:planning_application, work_status: "proposed")
+        end
+
+        it "is set when application is created" do
+          travel_to(DateTime.new(2022, 1, 1)) do
+            expect { planning_application.save }
+              .to change(planning_application, :reference)
+              .from(nil)
+              .to("22-00100-LDCP")
+          end
+        end
+      end
     end
 
     describe "::after_create" do
@@ -223,18 +238,6 @@ RSpec.describe PlanningApplication, type: :model do
 
     it "has 5 characters length" do
       expect(planning_application.application_number).to match(/^\d{5}$/)
-    end
-  end
-
-  describe "#reference" do
-    let(:planning_application) { create(:planning_application, application_type: 0) }
-
-    before do
-      travel_to Time.zone.local(2022, 10, 10)
-    end
-
-    it "returns a string constructed of the council code and reference" do
-      expect(planning_application.reference).to eq("22-00100-LDCP")
     end
   end
 

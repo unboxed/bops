@@ -170,3 +170,13 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
     }
   }
 }
+
+.search-form-inputs {
+  display: flex;
+
+  button {
+    height: fit-content;
+    margin-left: 10px;
+    align-self: flex-end;
+  }
+}

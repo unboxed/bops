@@ -1,5 +1,8 @@
 en:
   planning_applications:
+    tabs:
+      all_applications: All applications
+      all_your_applications: All your applications
     assessment_dashboard:
       awaiting_approval_to: Awaiting approval to a description change (sent on %{date})
     index:
