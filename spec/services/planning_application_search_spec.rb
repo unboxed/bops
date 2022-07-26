@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Search do
+RSpec.describe PlanningApplicationSearch do
   describe "#results" do
     let!(:planning_application1) do
       create(
@@ -14,17 +14,19 @@ RSpec.describe Search do
 
     let!(:planning_application2) { create(:planning_application) }
 
-    let(:planning_application_ids) do
-      [planning_application1.id, planning_application2.id]
+    let(:planning_applications) do
+      PlanningApplication.all
+    end
+
+    let(:search) do
+      described_class.new(
+        query: query,
+        planning_applications: PlanningApplication.all
+      )
     end
 
     context "when query is full reference" do
-      let(:search) do
-        described_class.new(
-          query: "22-00100-LDCP",
-          planning_application_ids: planning_application_ids
-        )
-      end
+      let(:query) { "22-00100-LDCP" }
 
       it "returns correct planning applications" do
         expect(search.results).to contain_exactly(planning_application1)
@@ -32,12 +34,15 @@ RSpec.describe Search do
     end
 
     context "when query is part of reference" do
-      let(:search) do
-        described_class.new(
-          query: "00100",
-          planning_application_ids: planning_application_ids
-        )
+      let(:query) { "00100" }
+
+      it "returns correct planning applications" do
+        expect(search.results).to contain_exactly(planning_application1)
       end
+    end
+
+    context "when query is in wrong case" do
+      let(:query) { "22-00100-ldcp" }
 
       it "returns correct planning applications" do
         expect(search.results).to contain_exactly(planning_application1)
@@ -45,12 +50,7 @@ RSpec.describe Search do
     end
 
     context "when query is blank" do
-      let(:search) do
-        described_class.new(
-          query: nil,
-          planning_application_ids: planning_application_ids
-        )
-      end
+      let(:query) { nil }
 
       it "returns all planning applications" do
         expect(search.results).to contain_exactly(
@@ -64,6 +64,14 @@ RSpec.describe Search do
         expect(search.errors.full_messages).to contain_exactly(
           "Query can't be blank"
         )
+      end
+    end
+
+    context "when query is has no matches" do
+      let(:query) { "qwerty" }
+
+      it "returns no planning applications" do
+        expect(search.results).to be_empty
       end
     end
   end

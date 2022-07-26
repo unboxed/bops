@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "managing users", type: :system do
+RSpec.describe "searching planning applications", type: :system do
   let(:local_authority) { create(:local_authority, :default) }
   let(:user) { create(:user, :assessor, local_authority: local_authority) }
 
@@ -33,7 +33,11 @@ RSpec.describe "managing users", type: :system do
       visit(planning_applications_path(q: "exclude_others"))
       click_link("All your applications")
 
-      within("#all") do
+      selected_tab = find("div[class='govuk-tabs__panel']")
+      expect(selected_tab).to have_content("All your applications")
+
+      within(selected_tab) do
+        expect(page).not_to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
@@ -41,7 +45,10 @@ RSpec.describe "managing users", type: :system do
 
       click_button("Search")
 
-      within("#all") do
+      selected_tab = find("div[class='govuk-tabs__panel']")
+      expect(selected_tab).to have_content("All your applications")
+
+      within(selected_tab) do
         expect(page).to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
@@ -51,7 +58,25 @@ RSpec.describe "managing users", type: :system do
       fill_in("Find an application", with: "00100")
       click_button("Search")
 
-      within("#all") do
+      selected_tab = find("div[class='govuk-tabs__panel']")
+      expect(selected_tab).to have_content("All your applications")
+
+      within(selected_tab) do
+        expect(page).not_to have_content("Query can't be blank")
+        expect(page).to have_content(planning_application1.reference)
+        expect(page).not_to have_content(planning_application2.reference)
+        expect(page).not_to have_content(planning_application3.reference)
+      end
+
+      search_url = current_url
+      visit(root_path)
+      visit(search_url)
+
+      selected_tab = find("div[class='govuk-tabs__panel']")
+      expect(selected_tab).to have_content("All your applications")
+
+      within(selected_tab) do
+        expect(page).not_to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
@@ -64,7 +89,11 @@ RSpec.describe "managing users", type: :system do
       visit(planning_applications_path)
       click_link("All applications")
 
-      within("#all") do
+      selected_tab = find("div[class='govuk-tabs__panel']")
+      expect(selected_tab).to have_content("All applications")
+
+      within(selected_tab) do
+        expect(page).not_to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
         expect(page).to have_content(planning_application3.reference)
@@ -72,7 +101,10 @@ RSpec.describe "managing users", type: :system do
 
       click_button("Search")
 
-      within("#all") do
+      selected_tab = find("div[class='govuk-tabs__panel']")
+      expect(selected_tab).to have_content("All applications")
+
+      within(selected_tab) do
         expect(page).to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
@@ -82,7 +114,25 @@ RSpec.describe "managing users", type: :system do
       fill_in("Find an application", with: "00100")
       click_button("Search")
 
-      within("#all") do
+      selected_tab = find("div[class='govuk-tabs__panel']")
+      expect(selected_tab).to have_content("All applications")
+
+      within(selected_tab) do
+        expect(page).not_to have_content("Query can't be blank")
+        expect(page).to have_content(planning_application1.reference)
+        expect(page).not_to have_content(planning_application2.reference)
+        expect(page).not_to have_content(planning_application3.reference)
+      end
+
+      search_url = current_url
+      visit(root_path)
+      visit(search_url)
+
+      selected_tab = find("div[class='govuk-tabs__panel']")
+      expect(selected_tab).to have_content("All applications")
+
+      within(selected_tab) do
+        expect(page).not_to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)

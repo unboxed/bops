@@ -1,8 +1,12 @@
-<div class="govuk-tabs__panel" id="<%= planning_application_status %>" data-controller="search">
+<div class="govuk-tabs__panel" id="<%= planning_application_status %>">
   <% if local_assigns.fetch(:search, nil).present? %>
     <%= render(
       partial: "search/form",
-      locals: { search: search, planning_applications: planning_applications }
+      locals: {
+        search: search,
+        planning_applications: planning_applications,
+        tab_id: planning_application_status
+      }
     ) %>
   <% end %>
   <h1 class="govuk-heading-l"><%= title %></h1>

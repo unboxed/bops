@@ -255,11 +255,12 @@ ActiveRecord::Schema.define(version: 2022_07_22_101202) do
     t.jsonb "audit_log"
     t.jsonb "feedback", default: {}
     t.string "reference"
+    t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
     t.index ["application_number", "local_authority_id"], name: "ix_planning_applications_on_application_number__local_authority", unique: true
     t.index ["boundary_created_by_id"], name: "ix_planning_applications_on_boundary_created_by_id"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
-    t.index ["reference"], name: "ix_planning_applications_on_reference"
+    t.index ["reference", "local_authority_id"], name: "ix_planning_applications_on_reference__local_authority_id", unique: true
     t.index ["user_id"], name: "index_planning_applications_on_user_id"
   end
 

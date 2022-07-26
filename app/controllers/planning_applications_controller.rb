@@ -26,7 +26,13 @@ class PlanningApplicationsController < AuthenticationController
                                planning_applications_scope
                              end
 
-    @search = Search.new
+    @search = if params[:planning_application_search].present?
+                PlanningApplicationSearch.new(
+                  planning_application_search_params
+                )
+              else
+                PlanningApplicationSearch.new
+              end
   end
 
   def show; end
@@ -297,6 +303,13 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   private
+
+  def planning_application_search_params
+    params
+      .require(:planning_application_search)
+      .permit(:query)
+      .merge(planning_applications: @planning_applications)
+  end
 
   def validation_date_fields_invalid?
     validation_date_fields.any?(&:blank?) ||

@@ -1,16 +1,10 @@
 <%= form_with(
   model: search,
   builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-  data: { action: "submit->search#handleSubmit" }
+  method: :get,
+  url: "#{planning_applications_path}##{tab_id}"
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
-  <% planning_applications.pluck(:id).each do |id| %>
-    <%= form.hidden_field(
-      :planning_application_ids,
-      multiple: true,
-      value: id
-    ) %>
-  <% end %>
   <div class="search-form-inputs">
     <%= form.govuk_fieldset(legend: { text: nil }) do %>
       <%= form.govuk_text_field(
@@ -20,6 +14,7 @@
         hint: { text: t(".you_can_search") }
       ) %>
     <% end %>
+    <%= hidden_field_tag(:q, params[:q]) %>
     <%= form.govuk_submit(t(".search")) %>
   </div>
 <% end %>

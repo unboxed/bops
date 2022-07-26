@@ -52,7 +52,7 @@
       <%= render "planning_application_table", planning_applications: @planning_applications.closed, planning_application_status: "closed", title: "Closed" %>
       <%= render(
          "planning_application_table",
-         planning_applications: @planning_applications,
+         planning_applications: (@search.query ? @search.results : @planning_applications),
          planning_application_status: "all",
          title: all_applications_tab_title,
          search: @search
