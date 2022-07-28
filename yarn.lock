@@ -946,10 +946,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@opensystemslab/map@^0.5.5":
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/@opensystemslab/map/-/map-0.5.5.tgz#f56798edb3e7cd6b332267e433a775f6f0ee5362"
-  integrity sha512-ul/5ZtFHUTb7dbM1THS9Lv1l3rNA0YN/UtG+e3lS4hPQVeH0FnZXMGp4UcT4QsuddLeF7J5qXGnL3NhNwDNJ0g==
+"@opensystemslab/map@^0.5.7":
+  version "0.5.7"
+  resolved "https://registry.yarnpkg.com/@opensystemslab/map/-/map-0.5.7.tgz#da5db69907639846bf798b7a1eebbd0b43cf04f5"
+  integrity sha512-rV3cZNtQZrI+8V1CtoMtkw1aRc4VtSKu0D21mPLQkwjdS6JP5rhuDyZXuv9Gnvhwe2K/Vo70LALrelAHjVGhTw==
   dependencies:
     "@turf/union" "^6.5.0"
     accessible-autocomplete "^2.0.4"

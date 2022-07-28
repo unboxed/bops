@@ -12,6 +12,10 @@
     zoom="19"
     latitude='<%= @planning_application.latitude %>'
     longitude='<%= @planning_application.longitude %>'
+    showMarker
+    markerLatitude="<%= @planning_application.latitude %>"
+    markerLongitude="<%= @planning_application.longitude %>"
+    markerImage="pin"
   <% end %>
   <% if locals[:geojson_field].present?  %>
     drawMode="true"
