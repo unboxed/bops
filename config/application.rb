@@ -44,6 +44,12 @@ module Bops
     config.time_zone = "London"
     config.active_record.default_timezone = :local
     config.active_job.queue_adapter = :delayed_job
+
+    # Add additional exceptions to the rescue responses
+    config.action_dispatch.rescue_responses.merge!(
+      "ActiveStorage::NotPermittedContentType" => :unsupported_media_type
+    )
+
     config.action_mailer.preview_path = Rails.root.join("spec/mailer/previews")
   end
 end
