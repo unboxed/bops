@@ -16,9 +16,9 @@ ActiveSupport.on_load(:active_storage_blob) do
       before_create :content_type_permitted
 
       def content_type_permitted
-        return if Document::PERMITTED_CONTENT_TYPES.include? file.blob.content_type
+        return if Document::PERMITTED_CONTENT_TYPES.include? content_type
 
-        raise NotPermittedContentType, "#{file.blob.content_type} is not permitted"
+        raise NotPermittedContentType, "#{content_type} is not permitted"
       end
     end
   end
