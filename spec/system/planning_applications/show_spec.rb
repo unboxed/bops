@@ -385,7 +385,7 @@ RSpec.describe "Planning Application show page", type: :system do
           expect(page).to have_content("! Warning The applicant or agent believes this result is inaccurate.")
         end
 
-        expect(page).to have_content("Reason given: This is the reason that someone thought this was inaccurate. Taken from \"result\": \"feedback about the result\"")
+        expect(page).to have_content("Reason given: \"feedback about the result\"")
       end
 
       click_button "Proposal details"
@@ -394,7 +394,7 @@ RSpec.describe "Planning Application show page", type: :system do
           expect(page).to have_content("! Warning The applicant or agent believes the information about the property is inaccurate.")
         end
 
-        expect(page).to have_content("Reason given: These are the inaccuracies. Taken from \"find_property\": \"feedback about the property\"")
+        expect(page).to have_content("Reason given: \"feedback about the property\"")
       end
 
       click_button "Constraints"
@@ -403,7 +403,7 @@ RSpec.describe "Planning Application show page", type: :system do
           expect(page).to have_content("! Warning The applicant or agent believes the constraints are inaccurate.")
         end
 
-        expect(page).to have_content("Reason given: These are the inaccuracies. Taken from \"planning_constraints\": \"feedback about the constraints\"")
+        expect(page).to have_content("Reason given: \"feedback about the constraints\"")
       end
     end
   end
