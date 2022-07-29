@@ -7,4 +7,9 @@ class UserMailer < ApplicationMailer
     subject = subject(:update_notification_mail, reference: @reference)
     view_mail(NOTIFY_TEMPLATE_ID, subject: subject, to: to)
   end
+
+  def otp_mail(user)
+    @otp = user.current_otp
+    view_mail(NOTIFY_TEMPLATE_ID, subject: subject(:otp_mail), to: user.email)
+  end
 end

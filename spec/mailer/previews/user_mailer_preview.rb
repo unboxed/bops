@@ -7,4 +7,8 @@ class UserMailerPreview < ActionMailer::Preview
       User.last.email
     )
   end
+
+  def otp_mail
+    UserMailer.otp_mail(User.last)
+  end
 end

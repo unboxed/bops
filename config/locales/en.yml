@@ -24,6 +24,7 @@ en:
       description_change_mail: Lawful Development Certificate application - suggested changes
       description_closure_notification_mail: Changes to your Lawful Development Certificate application
       invalidation_notice_mail: Lawful Development Certificate application - changes needed
+      otp_mail: Back Office Planning System verification code
       receipt_notice_mail: Lawful Development Certificate application received
       validation_notice_mail: Your application for a Lawful Development Certificate
       validation_request_mail: Lawful Development Certificate application  - further changes needed
@@ -31,6 +32,8 @@ en:
       update_notification_mail: BoPS case %{reference} has a new update
       validation_request_closure_mail: Changes to your Lawful Development Certificate application
   user_mailer:
+    otp_mail:
+      otp_is_your: "%{otp} is your Back Office Planning System verification code."
     update_notification_mail:
       bops_case_reference: BoPS case %{reference} has a new update.
       bops_updates: BoPS updates
@@ -128,6 +131,8 @@ en:
     edit:
       edit_user: Edit user
     form:
+      email: Email
+      sms: SMS
       submit: Submit
     new:
       add_user: Add a new user
@@ -138,8 +143,10 @@ en:
       false: "No"
       mobile_number: Mobile number
       name: Name
+      otp_delivery_method: Verification code delivery method
       otp_required_for_login: Two factor authentication
       role: Role
+      sms: SMS
       true: "Yes"
       users: Users
   proposal_details:
@@ -187,6 +194,7 @@ en:
         entry: "Add a note to this application."
       user:
         otp_attempt: "Security code"
+        otp_delivery_method: Verification code delivery method
         email: Email
         mobile_number: Mobile number
         name: Name

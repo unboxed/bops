@@ -39,4 +39,25 @@ RSpec.describe UserMailer, type: :mailer do
       )
     end
   end
+
+  describe "#otp_mail" do
+    let(:user) { create(:user, email: "jane@example.com") }
+    let(:mail) { described_class.otp_mail(user) }
+
+    it "sets subject" do
+      expect(mail.subject).to eq(
+        "Back Office Planning System verification code"
+      )
+    end
+
+    it "sets recipient" do
+      expect(mail.to).to contain_exactly("jane@example.com")
+    end
+
+    it "includes user's current otp" do
+      expect(mail.body.encoded).to include(
+        "#{user.current_otp} is your Back Office Planning System verification code."
+      )
+    end
+  end
 end

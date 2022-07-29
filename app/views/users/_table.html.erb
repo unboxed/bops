@@ -13,6 +13,9 @@
       <th scope="col" class="govuk-table__header">
         <%= t(".otp_required_for_login") %>
       </th>
+      <th scope="col" class="govuk-table__header">
+        <%= t(".otp_delivery_method") %>
+      </th>
       <th scope="col" class="govuk-table__header"><%= t(".actions") %></th>
     </tr>
   </thead>
@@ -31,6 +34,9 @@
         <td class="govuk-table__cell"><%= user.role.capitalize %></td>
         <td class="govuk-table__cell">
           <%= t(".#{user.otp_required_for_login}") %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= t(".#{user.otp_delivery_method}")%>
         </td>
         <td class="govuk-table__cell">
           <%= link_to(t(".edit"), edit_user_path(user), class: "govuk-link") %>

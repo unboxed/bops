@@ -38,6 +38,7 @@ RSpec.describe "managing users", type: :system do
       fill_in("Email", with: "alice@example.com")
       fill_in("Password", with: "password")
       fill_in("Mobile number", with: "01234123123")
+      select("Email", from: "Verification code delivery method")
       select("Assessor", from: "Role")
       click_button("Submit")
 
@@ -45,6 +46,7 @@ RSpec.describe "managing users", type: :system do
       row = row_with_content("Alice Smith")
       expect(row).to have_content("alice@example.com")
       expect(row).to have_content("01234 123 123")
+      expect(row).to have_content("Email")
       expect(row).to have_content("Assessor")
 
       click_link("Log out")
@@ -84,7 +86,8 @@ RSpec.describe "managing users", type: :system do
         :user,
         :reviewer,
         name: "Bella Jones",
-        local_authority: local_authority
+        local_authority: local_authority,
+        otp_delivery_method: :email
       )
 
       visit(administrator_dashboard_path)
@@ -105,6 +108,7 @@ RSpec.describe "managing users", type: :system do
       fill_in("Name", with: "Belle Jones")
       fill_in("Email", with: "belle@example.com")
       fill_in("Mobile number", with: "01234456456")
+      select("SMS", from: "Verification code delivery method")
       select("Assessor", from: "Role")
       click_button("Submit")
 
@@ -112,6 +116,7 @@ RSpec.describe "managing users", type: :system do
       row = row_with_content("Belle Jones")
       expect(row).to have_content("belle@example.com")
       expect(row).to have_content("01234 456 456")
+      expect(row).to have_content("SMS")
       expect(row).to have_content("Assessor")
     end
 
