@@ -2,6 +2,7 @@
 
 Rails.application.config.to_prepare do
   ActiveStorage::DiskController.include ActiveStorage::Authorize
+  ActiveStorage::DirectUploadsController.include ActiveStorage::Authorize
   ActiveStorage::Blobs::RedirectController.include ActiveStorage::Authorize
   ActiveStorage::Blobs::ProxyController.include ActiveStorage::Authorize
   ActiveStorage::Representations::RedirectController.include ActiveStorage::Authorize
