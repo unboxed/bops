@@ -160,6 +160,8 @@ en:
               missing_numbers: "All documents listed on the decision notice must have a document number"
         planning_application:
           attributes:
+            base:
+              no_boundary_geojson: "This application does not have a digital sitemap and cannot be validated. Please <a href='%{path}'>create a digital site map</a> before validating this application."
             payment_amount:
               greater_than_or_equal_to: "Payment amount (£) must be greater than or equal to 0"
               not_a_number: "Payment amount must be a number not exceeding 2 decimal places"

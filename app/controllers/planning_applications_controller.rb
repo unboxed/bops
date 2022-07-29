@@ -101,14 +101,21 @@ class PlanningApplicationsController < AuthenticationController
   def validate
     if validation_date_fields_invalid?
       @planning_application.errors.add(:planning_application, "Please enter a valid date")
-      render "confirm_validation"
     elsif @planning_application.open_validation_requests?
       @planning_application.errors.add(:planning_application,
                                        "Planning application cannot be validated if open validation requests exist.")
-      render "confirm_validation"
     elsif @planning_application.invalid_documents.present?
       @planning_application.errors.add(:planning_application,
                                        "This application has an invalid document. You cannot validate an application with invalid documents.")
+    elsif @planning_application.boundary_geojson.blank?
+      @planning_application.errors.add(
+        :base,
+        :no_boundary_geojson,
+        path: planning_application_sitemap_path(@planning_application)
+      )
+    end
+
+    if @planning_application.errors.any?
       render "confirm_validation"
     else
       @planning_application.documents_validated_at = date_from_params

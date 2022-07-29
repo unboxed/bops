@@ -43,6 +43,7 @@ Given("a new planning application") do
   @planning_application = FactoryBot.create(
     :planning_application,
     :not_started,
+    :with_boundary_geojson,
     local_authority: @officer.local_authority
   )
 end
