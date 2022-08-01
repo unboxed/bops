@@ -130,6 +130,66 @@ RSpec.describe "Planning Application Assessment", type: :system do
     visit root_path
   end
 
+  context "when planning application has no boundary geojson" do
+    let(:application) do
+      create(
+        :planning_application,
+        :not_started,
+        local_authority: default_local_authority,
+        boundary_geojson: nil
+      )
+    end
+
+    let(:boundary_geojson) do
+      {
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "Polygon",
+          coordinates: [
+            [
+              [-0.054597, 51.537331],
+              [-0.054588, 51.537287],
+              [-0.054453, 51.537313],
+              [-0.054597, 51.537331]
+            ]
+          ]
+        }
+      }.to_json
+    end
+
+    it "blocks validation until boundary geojson has been added" do
+      visit(confirm_validation_planning_application_path(application))
+      click_button("Mark the application as valid")
+
+      expect(page).to have_content(
+        "This application does not have a digital sitemap and cannot be validated. Please create a digital site map before validating this application."
+      )
+
+      click_link("create a digital site map")
+
+      expect(page).to have_content("Draw a digital red line boundary")
+
+      execute_script(
+        "document.getElementById(
+          'planning_application_boundary_geojson'
+        ).setAttribute(
+          'value',
+          '#{boundary_geojson}'
+        )"
+      )
+
+      click_button("Save")
+      click_link("Send validation decision")
+      click_link("Mark the application as valid")
+      click_button("Mark the application as valid")
+
+      expect(page).to have_content(
+        "Application is ready for assessment and an email notification has been sent."
+      )
+    end
+  end
+
   context "Checking documents from Not Started status" do
     it "can be invalidated and email is sent when there is an open validation request" do
       create :additional_document_validation_request, planning_application: planning_application, state: "pending",
