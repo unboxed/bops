@@ -23,7 +23,11 @@
     <%= @planning_application.public_comment %>
   </p>
 
-  <%= link_to "Edit this text", edit_public_comment_planning_application_path(@planning_application), class: "govuk-link" %>
+  <%= link_to(
+    t(".edit_information_on"),
+    edit_public_comment_planning_application_path(@planning_application),
+    class: "govuk-link"
+  ) %>
 
   <%= render "recommendations", { recommendations: @planning_application.recommendations } %>
 

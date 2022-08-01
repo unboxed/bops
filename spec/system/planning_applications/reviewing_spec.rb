@@ -148,7 +148,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
       expect(page).to have_content("This information will appear on the decision notice:")
       expect(page).to have_content(planning_application.public_comment)
 
-      click_link "Edit this text"
+      click_link "Edit information on the decision notice"
       expect(page).to have_current_path(edit_public_comment_planning_application_path(planning_application))
 
       expect(page).to have_content("Edit the information appearing on the decision notice")

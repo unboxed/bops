@@ -5,6 +5,7 @@ en:
       all_your_applications: All your applications
     assessment_dashboard:
       awaiting_approval_to: Awaiting approval to a description change (sent on %{date})
+      edit_information_on: Edit information on the decision notice
     index:
       assessor_alert:
         one: Your manager has requested corrections on <strong>%{count} application.</strong>
