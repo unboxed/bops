@@ -61,6 +61,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     expect(page).not_to have_content("Assigned to:")
     expect(page).not_to have_content("Process Application")
     expect(page).not_to have_content("Review Assessment")
+    perform_enqueued_jobs
     expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 2)
     click_link("View decision notice")
     expect(page).to have_content("We certify that on the date of the application")

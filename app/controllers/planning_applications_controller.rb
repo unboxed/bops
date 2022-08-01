@@ -48,7 +48,7 @@ class PlanningApplicationsController < AuthenticationController
     @planning_application.assign_attributes(local_authority: current_local_authority)
 
     if @planning_application.save
-      receipt_notice_mail if @planning_application.applicant_and_agent_email.any?
+      @planning_application.send_receipt_notice_mail
 
       redirect_to planning_application_documents_path(@planning_application), notice: "Planning application was successfully created."
     else
@@ -120,7 +120,7 @@ class PlanningApplicationsController < AuthenticationController
     else
       @planning_application.documents_validated_at = date_from_params
       @planning_application.start!
-      validation_notice_mail
+      @planning_application.send_validation_notice_mail
 
       redirect_to @planning_application, notice: "Application is ready for assessment and an email notification has been sent."
     end
@@ -130,7 +130,7 @@ class PlanningApplicationsController < AuthenticationController
     if @planning_application.may_invalidate?
       @planning_application.invalidate!
 
-      invalidation_notice_mail
+      @planning_application.send_invalidation_notice_mail
 
       redirect_to @planning_application, notice: "Application has been invalidated and email has been sent"
     else
@@ -253,7 +253,7 @@ class PlanningApplicationsController < AuthenticationController
       if @planning_application.valid?
         @planning_application.determine!
 
-        decision_notice_mail
+        @planning_application.send_decision_notice_mail(host: request.host)
 
         format.html do
           redirect_to @planning_application, notice: "Decision Notice sent to applicant"
@@ -378,38 +378,6 @@ class PlanningApplicationsController < AuthenticationController
 
   def payment_amount_params
     params[:planning_application] ? params.require(:planning_application).permit(:payment_amount) : params.permit(:payment_amount)
-  end
-
-  def decision_notice_mail
-    @planning_application.applicant_and_agent_email.each do |user|
-      PlanningApplicationMailer.decision_notice_mail(
-        @planning_application,
-        request.host,
-        user
-      ).deliver_now
-    end
-  end
-
-  def validation_notice_mail
-    @planning_application.applicant_and_agent_email.each do |email|
-      PlanningApplicationMailer
-        .validation_notice_mail(@planning_application, email)
-        .deliver_now
-    end
-  end
-
-  def invalidation_notice_mail
-    PlanningApplicationMailer
-      .invalidation_notice_mail(@planning_application)
-      .deliver_now
-  end
-
-  def receipt_notice_mail
-    @planning_application.applicant_and_agent_email.each do |email|
-      PlanningApplicationMailer
-        .receipt_notice_mail(@planning_application, email)
-        .deliver_now
-    end
   end
 
   def ensure_user_is_reviewer

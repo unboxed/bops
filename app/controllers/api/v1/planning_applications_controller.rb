@@ -54,9 +54,8 @@ module Api
             )
 
             send_success_response
-            if @planning_application.agent_email.present? || @planning_application.applicant_email.present?
-              receipt_notice_mail
-            end
+
+            @planning_application.send_receipt_notice_mail
           end
         end
       rescue Errors::WrongFileTypeError, Errors::GetFileError, ActiveRecord::RecordInvalid, ArgumentError,
@@ -138,14 +137,6 @@ module Api
 
       def payment_amount_in_pounds(amount)
         amount.to_f / 100
-      end
-
-      def receipt_notice_mail
-        @planning_application.applicant_and_agent_email.each do |email|
-          PlanningApplicationMailer
-            .receipt_notice_mail(@planning_application, email)
-            .deliver_now
-        end
       end
     end
   end

@@ -210,6 +210,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       planning_application.reload
       expect(planning_application.status).to eq("invalidated")
 
+      perform_enqueued_jobs
       expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 1)
     end
   end
