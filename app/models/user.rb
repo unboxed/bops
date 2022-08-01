@@ -3,6 +3,8 @@
 class User < ApplicationRecord
   enum role: { assessor: 0, reviewer: 1, administrator: 2 }
 
+  enum otp_delivery_method: { sms: 0, email: 1 }
+
   devise :recoverable, :two_factor_authenticatable, :recoverable, :timeoutable,
          :validatable, otp_secret_encryption_key: ENV["OTP_SECRET_ENCRYPTION_KEY"], request_keys: [:subdomains]
 
@@ -32,6 +34,19 @@ class User < ApplicationRecord
 
   def valid_otp_attempt?(otp_attempt)
     validate_and_consume_otp!(otp_attempt)
+  end
+
+  def send_otp(session_mobile_number)
+    if send_otp_by_sms?
+      number = mobile_number.presence || session_mobile_number
+      TwoFactor::SmsNotification.new(number, current_otp).deliver!
+    else
+      UserMailer.otp_mail(self).deliver_now
+    end
+  end
+
+  def send_otp_by_sms?
+    otp_delivery_method == "sms"
   end
 
   private

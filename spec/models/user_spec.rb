@@ -124,4 +124,92 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe "#send_otp_by_sms?" do
+    context "when otp_delivery_method is sms" do
+      let(:user) { build(:user, otp_delivery_method: :sms) }
+
+      it "returns true" do
+        expect(user.send_otp_by_sms?).to eq(true)
+      end
+    end
+
+    context "when otp_delivery_method is email" do
+      let(:user) { build(:user, otp_delivery_method: :email) }
+
+      it "returns false" do
+        expect(user.send_otp_by_sms?).to eq(false)
+      end
+    end
+  end
+
+  describe "#send_otp" do
+    let(:session_mobile_number) { "07717123123" }
+
+    context "when otp_delivery_method is email" do
+      let(:user) do
+        create(:user, otp_delivery_method: :email, email: "jane@example.com")
+      end
+
+      let(:email) { ActionMailer::Base.deliveries.last }
+
+      before { user.send_otp(session_mobile_number) }
+
+      it "sends email to correct address" do
+        expect(email.to).to contain_exactly("jane@example.com")
+      end
+
+      it "sends correct otp" do
+        expect(email.body.encoded).to include(user.current_otp)
+      end
+    end
+
+    context "when otp_delivery_method is sms" do
+      let(:user) do
+        create(:user, otp_delivery_method: :sms, mobile_number: "07717456456")
+      end
+
+      let(:expected_args) do
+        {
+          template_id: "701e32b3-2c8c-4c16-9a1b-c883ef6aedee",
+          phone_number: "07717456456",
+          personalisation: {
+            otp: user.current_otp
+          }
+        }
+      end
+
+      it "sends sms with correct information to user mobile number" do
+        expect_any_instance_of(Notifications::Client)
+          .to receive(:send_sms)
+          .with(expected_args)
+
+        user.send_otp(session_mobile_number)
+      end
+
+      context "when mobile number is blank" do
+        let(:user) do
+          create(:user, otp_delivery_method: :sms, mobile_number: nil)
+        end
+
+        let(:expected_args) do
+          {
+            template_id: "701e32b3-2c8c-4c16-9a1b-c883ef6aedee",
+            phone_number: "07717123123",
+            personalisation: {
+              otp: user.current_otp
+            }
+          }
+        end
+
+        it "returns sms with otp to session mobile number" do
+          expect_any_instance_of(Notifications::Client)
+            .to receive(:send_sms)
+            .with(expected_args)
+
+          user.send_otp(session_mobile_number)
+        end
+      end
+    end
+  end
 end

@@ -273,6 +273,96 @@ RSpec.describe "Sign in", type: :system do
       end
     end
 
+    context "when otp delivery method is set to email" do
+      let(:user) do
+        create(
+          :user,
+          local_authority: default_local_authority,
+          otp_delivery_method: :email,
+          password: "password"
+        )
+      end
+
+      it "sends otp via email" do
+        visit(root_path)
+        fill_in("Email", with: user.email)
+        fill_in("Password", with: "password")
+        click_button("Log in")
+
+        email = ActionMailer::Base.deliveries.last
+
+        expect(email.subject).to eq(
+          "Back Office Planning System verification code"
+        )
+
+        current_otp = email.body.encoded[/\d{6}/]
+        fill_in("Security code", with: current_otp)
+        click_button("Enter code")
+
+        expect(page).to have_content("Signed in successfully.")
+      end
+
+      it "resends otp via email" do
+        visit(root_path)
+        fill_in("Email", with: user.email)
+        fill_in("Password", with: "password")
+        click_button("Log in")
+
+        travel_to(1.1.minutes.from_now) do
+          click_link("Resend code")
+
+          expect(page).to have_content(
+            "You have been sent another verification code."
+          )
+
+          emails = ActionMailer::Base.deliveries
+          expect(emails.count).to eq(2)
+          email = emails.last
+
+          expect(email.subject).to eq(
+            "Back Office Planning System verification code"
+          )
+
+          current_otp = email.body.encoded[/\d{6}/]
+          fill_in("Security code", with: current_otp)
+          click_button("Enter code")
+
+          expect(page).to have_content("Signed in successfully.")
+        end
+      end
+
+      context "when mobile number is not set" do
+        let(:user) do
+          create(
+            :user,
+            local_authority: default_local_authority,
+            otp_delivery_method: :email,
+            password: "password",
+            mobile_number: nil
+          )
+        end
+
+        it "does not ask for mobile number" do
+          visit(root_path)
+          fill_in("Email", with: user.email)
+          fill_in("Password", with: "password")
+          click_button("Log in")
+
+          email = ActionMailer::Base.deliveries.last
+
+          expect(email.subject).to eq(
+            "Back Office Planning System verification code"
+          )
+
+          current_otp = email.body.encoded[/\d{6}/]
+          fill_in("Security code", with: current_otp)
+          click_button("Enter code")
+
+          expect(page).to have_content("Signed in successfully.")
+        end
+      end
+    end
+
     context "when I do not have two factor enabled" do
       let!(:user) { create :user, local_authority: default_local_authority }
 

@@ -26,7 +26,7 @@ module Users
     end
 
     def two_factor
-      render "devise/sessions/setup" unless mobile_number(@user)
+      render "devise/sessions/setup" if mobile_number_needed?(@user)
 
       respond_to do |format|
         format.html
@@ -37,7 +37,7 @@ module Users
       if can_resend_code?
         flash.now[:alert] = "Please wait at least a minute before resending your verification code."
       else
-        TwoFactor::SmsNotification.new(mobile_number(@user), @user.current_otp).deliver!
+        @user.send_otp(session[:mobile_number])
         session[:last_code_sent_at] = Time.current
         flash.now[:notice] = "You have been sent another verification code."
       end

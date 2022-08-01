@@ -12,10 +12,10 @@ module AuthenticateWithOtpTwoFactor
 
     save_user_session(user)
 
-    if mobile_number(user)
-      send_and_prompt_for_otp_two_factor(user)
-    else
+    if mobile_number_needed?(user)
       redirect_to setup_path
+    else
+      send_and_prompt_for_otp_two_factor(user)
     end
   end
 
@@ -31,7 +31,7 @@ module AuthenticateWithOtpTwoFactor
     if session[:failed_otp_attempt]
       session.delete(:failed_otp_attempt)
     else
-      TwoFactor::SmsNotification.new(mobile_number(user), user.current_otp).deliver!
+      user.send_otp(session[:mobile_number])
       session[:last_code_sent_at] = Time.current
 
       redirect_to two_factor_path
@@ -65,6 +65,10 @@ module AuthenticateWithOtpTwoFactor
     elsif user_params[:email]
       find_current_local_authority.users.find_by(email: user_params[:email])
     end
+  end
+
+  def mobile_number_needed?(user)
+    user.send_otp_by_sms? && mobile_number(user).blank?
   end
 
   def mobile_number(user)

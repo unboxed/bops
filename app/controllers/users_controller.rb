@@ -40,10 +40,11 @@ class UsersController < AuthenticationController
   private
 
   def user_params
-    params
-      .require(:user)
-      .permit(:name, :email, :password, :mobile_number, :role)
-      .transform_values(&:presence)
+    params.require(:user).permit(permitted_params).transform_values(&:presence)
+  end
+
+  def permitted_params
+    %i[name email otp_delivery_method password mobile_number role]
   end
 
   def set_user

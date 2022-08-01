@@ -28,4 +28,10 @@ module ApplicationHelper
       root_path
     end
   end
+
+  def otp_delivery_method_options
+    User.otp_delivery_methods.keys.map do |key|
+      OpenStruct.new(id: key, name: t(".#{key}"))
+    end
+  end
 end
