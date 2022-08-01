@@ -13,6 +13,8 @@ class PlanningApplication < ApplicationRecord
 
   include PlanningApplication::ValidationRequest
 
+  include PlanningApplication::Notification
+
   enum application_type: { lawfulness_certificate: 0, full: 1 }
 
   enum user_role: { applicant: 0, agent: 1, proxy: 2 }
@@ -409,14 +411,6 @@ class PlanningApplication < ApplicationRecord
     end
   end
 
-  def send_update_notification_to_assessor
-    send_update_notification(user_email)
-  end
-
-  def send_update_notification_to_reviewers
-    send_update_notification(reviewer_group_email)
-  end
-
   private
 
   def set_reference
@@ -425,12 +419,6 @@ class PlanningApplication < ApplicationRecord
       application_number,
       application_type_code
     ].join("-")
-  end
-
-  def send_update_notification(to)
-    return if to.blank?
-
-    UserMailer.update_notification_mail(self, to).deliver_later
   end
 
   def set_key_dates

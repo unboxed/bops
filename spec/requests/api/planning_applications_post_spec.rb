@@ -81,9 +81,11 @@ RSpec.describe "Creating a planning application via the API", type: :request, sh
 
       it "sends the receipt email" do
         post_with(params: permitted_development_json)
+        perform_enqueued_jobs
 
         email = ActionMailer::Base.deliveries.last
         expect(email.body).to include(PlanningApplication.all[0].reference)
+        expect(email.body).to include("We’ve received your application for a Lawful Development Certificate.")
       end
 
       it "downloads and saves the plan against the planning application" do
