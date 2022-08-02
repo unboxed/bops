@@ -289,6 +289,14 @@ RSpec.describe "Sign in", type: :system do
         fill_in("Password", with: "password")
         click_button("Log in")
 
+        expect(page).to have_content(
+          "Enter the code you have received by email"
+        )
+
+        expect(page).to have_content(
+          "A 6-digit code has been sent to your email account. This message may take a minute to arrive."
+        )
+
         email = ActionMailer::Base.deliveries.last
 
         expect(email.subject).to eq(

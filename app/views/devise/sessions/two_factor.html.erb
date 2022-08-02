@@ -5,10 +5,12 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
-      Enter the code you have received by text message
+      <%= t(".#{@user.otp_delivery_method}.enter_the_code") %>
     </h1>
 
-    <p class="govuk-body">A 6-digit code has been sent to your mobile phone. This message may take a minute to arrive.</p>
+    <p class="govuk-body">
+      <%= t(".#{@user.otp_delivery_method}.a_six_digit") %>
+    </p>
 
     <div class=" govuk-form-group ">
       <%= form_for(@user, as: :user, url: user_session_path, method: :post) do |form| %>
