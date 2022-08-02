@@ -71,6 +71,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
   end
 
   it "can be rejected" do
+    travel_to(Date.new(2022))
     click_link "Review assessment"
     choose "No"
     fill_in "Review comment", with: "Reviewer private comment"
@@ -98,6 +99,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     expect(page).to have_text("Recommendation challenged")
     expect(page).to have_text("Reviewer private comment")
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+
+    travel_back
   end
 
   it "cannot be rejected without a review comment" do
