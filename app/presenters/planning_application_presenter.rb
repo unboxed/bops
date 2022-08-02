@@ -28,4 +28,8 @@ class PlanningApplicationPresenter
   def respond_to_missing?(symbol, include_private = false)
     super || planning_application.respond_to?(symbol)
   end
+
+  def outcome_date
+    send("#{status}_at")
+  end
 end

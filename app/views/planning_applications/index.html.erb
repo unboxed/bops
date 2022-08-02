@@ -49,7 +49,11 @@
       <%= render "planning_application_table", planning_applications: @planning_applications.under_assessment, planning_application_status: "under_assessment", title: "In assessment" unless exclude_others? && current_user.reviewer?  %>
       <%= render "planning_application_table", planning_applications: @planning_applications.awaiting_determination, planning_application_status: "awaiting_determination", title: "Awaiting determination" %>
       <%= render "planning_application_table", planning_applications: @planning_applications.awaiting_correction, planning_application_status: "awaiting_correction", title: "Corrections requested" unless current_user.assessor?%>
-      <%= render "planning_application_table", planning_applications: @planning_applications.closed, planning_application_status: "closed", title: "Closed" %>
+      <%= render(
+        "closed_planning_applications_table",
+        planning_applications: @planning_applications.closed,
+        planning_application_status: "closed"
+      ) %>
       <%= render(
          "planning_application_table",
          planning_applications: (@search.query ? @search.results : @planning_applications),

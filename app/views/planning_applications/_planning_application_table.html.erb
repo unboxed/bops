@@ -21,7 +21,7 @@
     </thead>
 
     <tbody class="govuk-table__body">
-      <% planning_applications.map { |p| PlanningApplicationPresenter.new(self, p) }.each do |planning_application| %>
+      <% planning_application_presenters(self, planning_applications).each do |planning_application| %>
         <%= content_tag(:tr, id: dom_id(planning_application), class: "govuk-table__row") do %>
           <td class="govuk-table__cell">
             <%= link_to planning_application.reference, planning_application, class: "govuk-link" %>
@@ -29,11 +29,9 @@
           <td class="govuk-table__cell"><%= planning_application.full_address %></td>
           <td class="govuk-table__cell"><%= t("application_types.#{planning_application.application_type}") %></td>
           <td class="govuk-table__cell"><%= planning_application.expiry_date.strftime("%e %b") %></td>
-          <% if planning_application_status != "closed" %>
-            <td class="govuk-table__cell">
-              <%= planning_application.remaining_days_status_tag %>
-            </td>
-          <% end %>
+          <td class="govuk-table__cell">
+            <%= planning_application.remaining_days_status_tag %>
+          </td>
           <% if planning_application_status != "awaiting_determination" %>
             <td class="govuk-table__cell">
               <%= planning_application.status_tag %>
@@ -41,9 +39,6 @@
           <% end %>
           <% if planning_application_status == "awaiting_determination" %>
             <td class="govuk-table__cell"><%= planning_application.awaiting_determination_at.strftime("%e %b") %></td>
-          <% end %>
-          <% if planning_application_status == "closed" %>
-            <td class="govuk-table__cell"><%= planning_application.determination_date.strftime("%e %b") if planning_application.determination_date %></td>
           <% end %>
           <td class="govuk-table__cell">
             <% if planning_application.user %>
