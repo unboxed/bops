@@ -4,9 +4,7 @@ require "rails_helper"
 
 RSpec.describe UserMailer, type: :mailer do
   describe "#update_notification_mail" do
-    let(:planning_application) do
-      create(:planning_application, created_at: DateTime.new(2022, 5, 1))
-    end
+    let(:planning_application) { create(:planning_application) }
 
     let(:mail) do
       described_class.update_notification_mail(
@@ -18,9 +16,11 @@ RSpec.describe UserMailer, type: :mailer do
     let(:mail_body) { mail.body.encoded }
 
     it "sets subject" do
-      expect(mail.subject).to eq(
-        "BoPS case BUC-22-00100-LDCP has a new update"
-      )
+      travel_to(Date.new(2022)) do
+        expect(mail.subject).to eq(
+          "BoPS case BUC-22-00100-LDCP has a new update"
+        )
+      end
     end
 
     it "sets recipient" do
@@ -28,9 +28,11 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it "includes planning application reference" do
-      expect(mail_body).to include(
-        "BoPS case BUC-22-00100-LDCP has a new update."
-      )
+      travel_to(Date.new(2022)) do
+        expect(mail_body).to include(
+          "BoPS case BUC-22-00100-LDCP has a new update."
+        )
+      end
     end
 
     it "includes plannng application url" do

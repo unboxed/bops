@@ -18,12 +18,12 @@ RSpec.describe "assigning planning application", type: :system do
   let(:planning_application) do
     create(
       :planning_application,
-      local_authority: local_authority,
-      created_at: DateTime.new(2022, 1, 1)
+      local_authority: local_authority
     )
   end
 
   it "lets a planning application be assigned to a user" do
+    travel_to(Date.new(2022))
     sign_in(reviewer)
     visit(assign_planning_application_path(planning_application))
     choose("Jane Smith")
@@ -39,5 +39,7 @@ RSpec.describe "assigning planning application", type: :system do
     expect(update_notification.subject).to eq(
       "BoPS case RIPA-22-00100-LDCP has a new update"
     )
+
+    travel_back
   end
 end

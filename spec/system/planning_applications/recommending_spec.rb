@@ -29,6 +29,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   context "when clicking Save and mark as complete" do
     context "with no previous recommendations" do
       it "can create a new recommendation, edit it, and submit it" do
+        travel_to(Date.new(2022))
         click_link "In assessment"
 
         within(selected_govuk_tab) do
@@ -97,6 +98,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
         expect(page).to have_text(assessor.name)
         expect(page).to have_text("Assessor comment: Edited private assessor comment")
         expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+
+        travel_back
       end
     end
 
