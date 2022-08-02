@@ -264,6 +264,12 @@ class PlanningApplicationsController < AuthenticationController
     end
   end
 
+  def decision_notice
+    respond_to do |format|
+      format.html
+    end
+  end
+
   def cancel
     case params[:planning_application][:status]
     when "withdrawn"

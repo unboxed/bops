@@ -1,93 +1,100 @@
 <div class="decision-notice">
-  <span class="govuk-caption-xl">
-    <%= planning_application.local_authority.council_name %>
-  </span>
-  <br/>
-  <h2 class="govuk-heading-s">
-    Town and Country Planning Act 1990 (as amended): sections 191 and 192 <br>
-    Town and Country Planning (Development Management Procedure) (England) Order 2015 (as amended): Article 39
-  </h2>
-  <h2 class="govuk-heading-m">
-    Certificate of Lawful Use or Development <%= "Decision Notice" if @planning_application.refused? %><br/>
-    <strong><%= planning_application.decision.capitalize %></strong>
-  </h2>
-  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-  <dl class="govuk-summary-list govuk-summary-list--no-border">
-    <%
-      {
-        "Applicant" => planning_application.applicant_name,
-        "Application number" => planning_application.reference,
-        "Application received" => planning_application.received_at,
-        "Decision date" => planning_application.determination_date || "TBD",
-        "Site address" => planning_application.full_address,
-        "Use/development" => planning_application.description,
-      }.each do |key, value|
-    %>
-      <div class="govuk-summary-list__column">
-        <dt class="govuk-summary-list__key">
-          <%= key %>
-        </dt>
-      </div>
-      <div class="govuk-summary-list__column">
-        <dt class="govuk-summary-list__value">
-          <%= value %>
-        </dt>
-      </div>
-    <% end %>
-  </dl>
-  <p class="govuk-body">
-    We certify that on the date of the application, the <%= @planning_application.work_status %> use or operations described in the application and supporting plans were <%= @planning_application.granted? ? "lawful" : "not lawful" %> for the purposes of <%= @planning_application.work_status == "proposed" ? "S.192" : "S.191" %> of the Town and Country Planning Act 1990.
-  </p>
-  <p class="govuk-body">
-    <strong>
-      The proposal <%= @planning_application.granted? ? "complies" : "does not comply" %> due to the following reason(s):
-    </strong>
-  </p>
-  <p class="govuk-body">
-    <%= planning_application.public_comment %>
-  </p>
-  <h3 class="govuk-heading-s">
-    This decision is based on the following approved plans:
-  </h3>
-  <% if planning_application.documents_for_decision_notice.any? %>
-    <table class="govuk-table">
-      <caption class="govuk-table__caption govuk-table__caption--m">Planning application related documents</caption>
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header app-custom-class">Document reference</th>
-          <th scope="col" class="govuk-table__header app-custom-class">Description</th>
-          <th scope="col" class="govuk-table__header app-custom-class">Date received</th>
-        </tr>
-      </thead>
-      <tbody class="govuk-table__body">
-        <% planning_application.documents_for_decision_notice.each do |document| %>
-          <% document.numbers.split(",").each do |number| %>
-            <tr class="govuk-table__row">
-              <td class="govuk-table__cell"><%= number %></td>
-              <td class="govuk-table__cell">
-                <% document.tags.each do |tag| %>
-                  <%= tag.upcase %>
-                <% end %>
-              </td>
-              <td class="govuk-table__cell"><%= document.created_at %></td>
-            </tr>
-          <% end %>
-        <% end %>
-      </tbody>
-    </table>
-  <% else %>
+  <div class="decision-notice-main-section">
+    <span class="govuk-caption-xl">
+      <%= planning_application.local_authority.council_name %>
+    </span>
+    <br/>
+    <h2 class="govuk-heading-s">
+      Town and Country Planning Act 1990 (as amended): sections 191 and 192 <br>
+      Town and Country Planning (Development Management Procedure) (England) Order 2015 (as amended): Article 39
+    </h2>
+    <h2 class="govuk-heading-m">
+      Certificate of Lawful Use or Development <%= "Decision Notice" if @planning_application.refused? %><br/>
+      <strong><%= planning_application.decision.capitalize %></strong>
+    </h2>
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+    <dl class="govuk-summary-list govuk-summary-list--no-border">
+      <%
+        {
+          "Applicant" => planning_application.applicant_name,
+          "Application number" => planning_application.reference,
+          "Application received" => planning_application.received_at,
+          "Decision date" => planning_application.determination_date || "TBD",
+          "Site address" => planning_application.full_address,
+          "Use/development" => planning_application.description,
+        }.each do |key, value|
+      %>
+        <div class="govuk-summary-list__column">
+          <dt class="govuk-summary-list__key">
+            <%= key %>
+          </dt>
+        </div>
+        <div class="govuk-summary-list__column">
+          <dt class="govuk-summary-list__value">
+            <%= value %>
+          </dt>
+        </div>
+      <% end %>
+    </dl>
     <p class="govuk-body">
-      No plans specified
+      We certify that on the date of the application, the <%= @planning_application.work_status %> use or operations described in the application and supporting plans were <%= @planning_application.granted? ? "lawful" : "not lawful" %> for the purposes of <%= @planning_application.work_status == "proposed" ? "S.192" : "S.191" %> of the Town and Country Planning Act 1990.
     </p>
-  <% end %>
-  <h3 class="govuk-heading-s">
-    Site location
-  </h3>
-  <% if @planning_application.boundary_geojson.present? %>
-    <%= render "shared/location_map", locals: { geojson: @planning_application.boundary_geojson } %>
-  <% else %>
-    <p class="govuk-body">No digital sitemap provided</p>
-  <% end %>
+    <p class="govuk-body">
+      <strong>
+        The proposal <%= @planning_application.granted? ? "complies" : "does not comply" %> due to the following reason(s):
+      </strong>
+    </p>
+    <p class="govuk-body">
+      <%= planning_application.public_comment %>
+    </p>
+    <h3 class="govuk-heading-s">
+      This decision is based on the following approved plans:
+    </h3>
+    <% if planning_application.documents_for_decision_notice.any? %>
+      <table class="govuk-table">
+        <caption class="govuk-table__caption govuk-table__caption--m">Planning application related documents</caption>
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header app-custom-class">Document reference</th>
+            <th scope="col" class="govuk-table__header app-custom-class">Description</th>
+            <th scope="col" class="govuk-table__header app-custom-class">Date received</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <% planning_application.documents_for_decision_notice.each do |document| %>
+            <% document.numbers.split(",").each do |number| %>
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell"><%= number %></td>
+                <td class="govuk-table__cell">
+                  <% document.tags.each do |tag| %>
+                    <%= tag.upcase %>
+                  <% end %>
+                </td>
+                <td class="govuk-table__cell"><%= document.created_at %></td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p class="govuk-body">
+        No plans specified
+      </p>
+    <% end %>
+  </div>
+
+  <div class="decision-notice-map-section govuk-!-padding-bottom-3">
+    <h3 class="govuk-heading-s">
+      Site location
+    </h3>
+
+    <% if @planning_application.boundary_geojson.present? %>
+      <%= render "shared/location_map", locals: { geojson: @planning_application.boundary_geojson } %>
+    <% else %>
+      <p class="govuk-body">No digital sitemap provided</p>
+    <% end %>
+  </div>
+
   <h3 class="govuk-heading-s">
     Notes:
   </h3>

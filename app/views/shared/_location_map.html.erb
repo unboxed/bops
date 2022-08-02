@@ -20,6 +20,10 @@
   <% if locals[:geojson_field].present?  %>
     drawMode="true"
   <% end %>
+  <% if @blank_layout %>
+    hideResetControl="true"
+    staticMode="true"
+  <% end %>
 ></my-map>
 
 <script>
