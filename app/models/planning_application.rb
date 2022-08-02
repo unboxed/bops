@@ -260,7 +260,7 @@ class PlanningApplication < ApplicationRecord
   def secure_change_url
     protocol = Rails.env.production? ? "https" : "http"
 
-    "#{protocol}://#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}"
+    public_url_enabled? ? "#{protocol}://#{public_url}" : "#{protocol}://#{internal_url}"
   end
 
   def invalid_documents_without_validation_request
@@ -546,5 +546,17 @@ class PlanningApplication < ApplicationRecord
 
   def application_type_code
     I18n.t(work_status, scope: "application_type_codes.#{application_type}")
+  end
+
+  def public_url
+    "#{ENV['APPLICANTS_APP_HOST']}.#{local_authority.subdomain}.gov.uk/validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}"
+  end
+
+  def internal_url
+    "#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}"
+  end
+
+  def public_url_enabled?
+    ENV.fetch("PUBLIC_URL_ENABLED", "false") == "true"
   end
 end
