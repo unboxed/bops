@@ -90,40 +90,101 @@ RSpec.describe "Planning Application index page", type: :system do
       end
 
       context "when I view the closed tab" do
-        before do
-          click_link "Closed"
+        let!(:determined_planning_application) do
+          create(
+            :planning_application,
+            :determined,
+            decision: :granted,
+            determined_at: DateTime.new(2022, 8, 1),
+            address_1: "1 Long Lane",
+            town: "London",
+            postcode: "AB3 4EF",
+            description: "Add a fence",
+            local_authority: default_local_authority
+          )
         end
 
-        it "Only Planning Applications that are determined are present in this tab" do
-          within("#closed") do
-            expect(page).to have_text("Closed")
-            expect(page).to have_link(planning_application_completed.reference)
-            expect(page).not_to have_link(planning_application_1.reference)
-            expect(page).not_to have_link(planning_application_2.reference)
-            expect(page).not_to have_link(planning_application_started.reference)
+        let!(:withdrawn_planning_application) do
+          create(
+            :planning_application,
+            :withdrawn,
+            withdrawn_at: DateTime.new(2022, 8, 2),
+            address_1: "2 Long Lane",
+            town: "London",
+            postcode: "AB3 4EF",
+            description: "Add a window",
+            local_authority: default_local_authority
+          )
+        end
+
+        let!(:returned_planning_application) do
+          create(
+            :planning_application,
+            :returned,
+            returned_at: DateTime.new(2022, 8, 3),
+            address_1: "3 Long Lane",
+            town: "London",
+            postcode: "AB3 4EF",
+            description: "Add a chimney",
+            local_authority: default_local_authority
+          )
+        end
+
+        let!(:closed_planning_application) do
+          create(
+            :planning_application,
+            :closed,
+            closed_at: DateTime.new(2022, 8, 4),
+            address_1: "4 Long Lane",
+            town: "London",
+            postcode: "AB3 4EF",
+            description: "Add an attic",
+            local_authority: default_local_authority
+          )
+        end
+
+        before do
+          visit(planning_applications_path)
+          click_link("Closed")
+        end
+
+        it "shows determined application" do
+          within(selected_govuk_tab) do
+            row = row_with_content(determined_planning_application.reference)
+            expect(row).to have_content("Granted")
+            expect(row).to have_content("1 Aug")
+            expect(row).to have_content("1 Long Lane, London, AB3 4EF")
+            expect(row).to have_content("Add a fence")
           end
         end
 
-        it "I see the relevant table headers and information" do
-          click_link "Closed"
+        it "shows withdrawn application" do
+          within(selected_govuk_tab) do
+            row = row_with_content(withdrawn_planning_application.reference)
+            expect(row).to have_content("Withdrawn")
+            expect(row).to have_content("2 Aug")
+            expect(row).to have_content("2 Long Lane, London, AB3 4EF")
+            expect(row).to have_content("Add a window")
+          end
+        end
 
-          within("#closed") do
-            expect(page).to have_content("Application number")
-            expect(page).to have_content("Site address")
-            expect(page).to have_content("Application type")
-            expect(page).to have_content("Expiry date")
-            expect(page).to have_content("Status")
-            expect(page).to have_content("Determination date")
-            expect(page).to have_content("Planning officer")
+        it "shows returned application" do
+          within(selected_govuk_tab) do
+            row = row_with_content(returned_planning_application.reference)
+            expect(row).to have_content("Returned")
+            expect(row).to have_content("3 Aug")
+            expect(row).to have_content("3 Long Lane, London, AB3 4EF")
+            expect(row).to have_content("Add a chimney")
+          end
+        end
 
-            within("#planning_application_#{planning_application_completed.id}") do
-              expect(page).to have_link("22-00103-LDCP")
-              expect(page).to have_content(planning_application_completed.full_address)
-              expect(page).to have_content("Lawful Development Certificate")
-              expect(page).to have_content(planning_application_completed.expiry_date.strftime("%e %b"))
-              expect(page).to have_content("Granted")
-              expect(page).to have_content(planning_application_completed.determination_date.strftime("%e %b"))
-            end
+        it "shows closed application" do
+          within(selected_govuk_tab) do
+            row = row_with_content(closed_planning_application.reference)
+            expect(row).to have_content("Closed")
+            expect(row).to have_content("4 Aug")
+            expect(row).to have_content("4 Long Lane, London, AB3 4EF")
+            expect(row).to have_content("Add an attic")
           end
         end
       end

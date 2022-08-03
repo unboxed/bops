@@ -11,11 +11,6 @@ module PlanningApplicationStatusHelper
       "Status"
     ]
 
-    if planning_application_status.eql?("closed")
-      options << "Determination date"
-      options.delete("Days left to expiry")
-    end
-
     if planning_application_status.eql?("awaiting_determination")
       options << "Recommendation date"
       options.delete("Status")
