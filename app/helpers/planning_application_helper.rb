@@ -73,4 +73,10 @@ module PlanningApplicationHelper
       link_to "Request approval for a change to red line boundary", new_planning_application_red_line_boundary_change_validation_request_path(planning_application), class: "govuk-link"
     end
   end
+
+  def show_map_pin?(planning_application, data)
+    (data[:geojson].blank? || data[:invalid_red_line_boundary].present?) &&
+      planning_application.latitude.present? &&
+      planning_application.longitude.present?
+  end
 end
