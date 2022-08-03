@@ -55,10 +55,8 @@
         planning_application_status: "closed"
       ) %>
       <%= render(
-         "planning_application_table",
+         "all_planning_applications_table",
          planning_applications: (@search.query ? @search.results : @planning_applications),
-         planning_application_status: "all",
-         title: all_applications_tab_title,
          search: @search
       ) %>
     </div>
