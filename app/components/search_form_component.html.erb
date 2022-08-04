@@ -2,7 +2,7 @@
   model: search,
   builder: GOVUKDesignSystemFormBuilder::FormBuilder,
   method: :get,
-  url: "#{planning_applications_path}##{tab_id}"
+  url: "#{planning_applications_path}##{panel_type}"
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <div class="search-form-inputs">
@@ -14,7 +14,9 @@
         hint: { text: t(".you_can_search") }
       ) %>
     <% end %>
-    <%= hidden_field_tag(:q, params[:q]) %>
+    <% if exclude_others %>
+      <%= hidden_field_tag(:q, "exclude_others") %>
+    <% end %>
     <%= form.govuk_submit(t(".search")) %>
   </div>
 <% end %>

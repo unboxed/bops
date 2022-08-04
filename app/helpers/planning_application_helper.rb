@@ -79,10 +79,4 @@ module PlanningApplicationHelper
       planning_application.latitude.present? &&
       planning_application.longitude.present?
   end
-
-  def planning_application_presenters(template, planning_applications)
-    planning_applications.map do |planning_application|
-      PlanningApplicationPresenter.new(template, planning_application)
-    end
-  end
 end

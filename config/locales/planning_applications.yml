@@ -1,19 +1,5 @@
 en:
   planning_applications:
-    all_planning_applications_table:
-      application_number: Application number
-      description: Description
-      expiry_date: Expiry date
-      planning_officer: Planning officer
-      site_address: Site address
-      status: Status
-    closed_planning_applications_table:
-      application_number: Application number
-      closed: Closed
-      description: Description
-      outcome: Outcome
-      outcome_date: Outcome date
-      site_address: Site address
     tabs:
       all_applications: All applications
       all_your_applications: All your applications

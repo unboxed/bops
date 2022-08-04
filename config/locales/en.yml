@@ -3,6 +3,26 @@ en:
     applicant: Applicant / Agent via %{api_user_name}
     deleted: User deleted
     system: Automated by the system
+  planning_application_panel_component:
+    all: All
+    all_applications: All applications
+    all_your_applications: All your applications
+    application_type_name: Application type
+    awaiting_correction: Corrections requested
+    awaiting_determination: Awaiting determination
+    closed: Closed
+    description: Description
+    formatted_awaiting_determination_at: Recommendation date
+    formatted_expiry_date: Expiry date
+    formatted_outcome_date: Outcome date
+    full_address: Site address
+    not_started_and_invalid: Not started
+    outcome: Outcome
+    reference: Application number
+    remaining_days_status_tag: Days left to expiry
+    status_tag: Status
+    under_assessment: In assessment
+    user_name: Planning officer
   application:
     header:
       back_office_planning: "Back-office Planning System"
@@ -42,11 +62,10 @@ en:
       bops_case_reference: BoPS case %{reference} has a new update.
       bops_updates: BoPS updates
       view_reference_on: View %{reference} on BoPS
-  search:
-    form:
-      find_an_application: Find an application
-      search: Search
-      you_can_search: You can search by application number or description
+  search_form_component:
+    find_an_application: Find an application
+    search: Search
+    you_can_search: You can search by application number or description
   additional_document_validation_requests:
     create:
       success: Additional document request successfully created.
