@@ -2,7 +2,12 @@
   <%= link_to image_tag(document.file.representation(resize: resize), style: "max-width:100%"),
       url_for_document(document), target: :_blank %>
   <p class="govuk-body">
-    <%= link_to "View in new window", url_for_document(document), target: :_new, class: "govuk-link" %>
+    <%= link_to(
+      t(".view_in_new"),
+      url_for_document(document),
+      target: :_blank,
+      class: "govuk-link"
+    ) %>
   </p>
 <% else %>
   <div class="govuk-grid-column-one-third">

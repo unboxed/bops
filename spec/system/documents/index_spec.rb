@@ -54,6 +54,49 @@ RSpec.describe "Documents index page", type: :system do
 
       expect(current_url).to include("/rails/active_storage/")
     end
+
+    context "when there is more than one document" do
+      let(:file2) do
+        Rack::Test::UploadedFile.new(
+          Rails.root.join("spec/fixtures/images/proposed-roofplan.png"),
+          "proposed-roofplan/png"
+        )
+      end
+
+      let!(:document2) do
+        create(
+          :document,
+          planning_application: planning_application,
+          file: file2
+        )
+      end
+
+      it "opens each file in a new tab" do
+        visit(planning_application_documents_path(planning_application))
+
+        window1 = window_opened_by do
+          row = row_with_content("proposed-floorplan.png")
+          within(row) { click_link("View in new window") }
+        end
+
+        within_window(window1) do
+          expect(current_url).to include("proposed-floorplan.png")
+        end
+
+        window2 = window_opened_by do
+          row = row_with_content("proposed-roofplan.png")
+          within(row) { click_link("View in new window") }
+        end
+
+        within_window(window1) do
+          expect(current_url).to include("proposed-floorplan.png")
+        end
+
+        within_window(window2) do
+          expect(current_url).to include("proposed-roofplan.png")
+        end
+      end
+    end
   end
 
   context "handling invalid documents" do
