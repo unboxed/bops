@@ -6,7 +6,7 @@ class ValidationRequestsController < AuthenticationController
   rescue_from Notifications::Client::RequestError, with: :validation_notice_request_error
   rescue_from Notifications::Client::ClientError, with: :validation_notice_request_error
   rescue_from Notifications::Client::BadRequestError, with: :validation_notice_request_error
-  rescue_from ValidationRequest::ValidationRequestNotCreatableError, with: :redirect_failed_create_request_error
+  rescue_from ValidationRequestable::ValidationRequestNotCreatableError, with: :redirect_failed_create_request_error
 
   before_action :set_planning_application
   before_action :ensure_planning_application_is_validated, only: :post_validation_requests

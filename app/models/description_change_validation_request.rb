@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DescriptionChangeValidationRequest < ApplicationRecord
-  include ValidationRequest
+  include ValidationRequestable
 
   RESPONSE_TIME_IN_DAYS = 5
 

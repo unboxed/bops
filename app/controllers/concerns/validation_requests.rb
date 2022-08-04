@@ -7,7 +7,7 @@ module ValidationRequests
     before_action :set_planning_application
     before_action :set_validation_request
 
-    rescue_from ValidationRequest::RecordCancelError do |_exception|
+    rescue_from ValidationRequestable::RecordCancelError do |_exception|
       redirect_failed_cancel_request
     end
 
@@ -93,7 +93,7 @@ module ValidationRequests
 
     def send_cancelled_validation_request_mail
       unless request_type_instance.cancelled?
-        raise ValidationRequest::CancelledEmailError,
+        raise ValidationRequestable::CancelledEmailError,
               "Validation request: #{request_klass_name}, ID: #{request_type_instance.id} must have a cancelled state."
       end
 

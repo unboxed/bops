@@ -5,7 +5,7 @@ class AdditionalDocumentValidationRequest < ApplicationRecord
 
   class UploadFilesError < RuntimeError; end
 
-  include ValidationRequest
+  include ValidationRequestable
 
   belongs_to :planning_application
   belongs_to :user

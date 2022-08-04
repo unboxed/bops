@@ -74,7 +74,7 @@ Metrics/ModuleLength:
   Exclude:
     - 'app/helpers/planning_application_helper.rb'
     - 'app/helpers/audit_helper.rb'
-    - 'app/models/concerns/validation_request.rb'
+    - 'app/models/concerns/validation_requestable.rb'
 
 # Offense count: 4
 # Configuration parameters: IgnoredMethods, Max.

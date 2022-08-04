@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class RedLineBoundaryChangeValidationRequest < ApplicationRecord
-  include ValidationRequest
+  include ValidationRequestable
 
   belongs_to :planning_application
   belongs_to :user
