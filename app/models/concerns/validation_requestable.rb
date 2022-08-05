@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ValidationRequest
+module ValidationRequestable
   extend ActiveSupport::Concern
 
   with_options to: :planning_application do
@@ -20,13 +20,17 @@ module ValidationRequest
   class ValidationRequestNotCreatableError < StandardError; end
 
   included do
+    has_one :validation_request, as: :requestable, dependent: :destroy
+
     before_create :set_sequence
     before_create :ensure_planning_application_not_closed_or_cancelled!
 
     before_destroy :ensure_validation_request_destroyable!
+
     after_create :set_post_validation!, if: :planning_application_validated?
     after_create :email_and_timestamp, if: :pending?
     after_create :create_audit!
+    after_create :create_validation_request!
 
     validates :cancel_reason, presence: true, if: :cancelled?
 
@@ -149,6 +153,10 @@ module ValidationRequest
 
     raise ValidationRequestNotCreatableError,
           "Cannot create #{self.class.name.titleize} when planning application has been closed or cancelled"
+  end
+
+  def create_validation_request!
+    ValidationRequest.create!(requestable_id: id, requestable_type: self.class)
   end
 
   def open_or_pending?

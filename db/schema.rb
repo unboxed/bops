@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_29_131545) do
+ActiveRecord::Schema.define(version: 2022_08_04_122218) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -342,6 +342,14 @@ ActiveRecord::Schema.define(version: 2022_07_29_131545) do
     t.index ["encrypted_otp_secret"], name: "ix_users_on_encrypted_otp_secret", unique: true
     t.index ["local_authority_id"], name: "index_users_on_local_authority_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "validation_requests", force: :cascade do |t|
+    t.bigint "requestable_id", null: false
+    t.string "requestable_type", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["requestable_type", "requestable_id"], name: "ix_validation_requests_on_requestable_type__requestable_id", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

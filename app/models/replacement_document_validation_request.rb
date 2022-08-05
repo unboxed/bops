@@ -3,7 +3,7 @@
 class ReplacementDocumentValidationRequest < ApplicationRecord
   class ResetDocumentInvalidationError < StandardError; end
 
-  include ValidationRequest
+  include ValidationRequestable
 
   belongs_to :planning_application
   belongs_to :user

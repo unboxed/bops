@@ -48,7 +48,7 @@ RSpec.shared_examples "ValidationRequest" do |klass, request_type|
           expect do
             request
           end.to raise_error(
-            ValidationRequest::ValidationRequestNotCreatableError, "Cannot create #{klass.name.titleize} when planning application has been closed or cancelled"
+            ValidationRequestable::ValidationRequestNotCreatableError, "Cannot create #{klass.name.titleize} when planning application has been closed or cancelled"
           )
         end
       end
@@ -60,7 +60,7 @@ RSpec.shared_examples "ValidationRequest" do |klass, request_type|
           expect do
             request
           end.to raise_error(
-            ValidationRequest::ValidationRequestNotCreatableError, "Cannot create #{klass.name.titleize} when planning application has been closed or cancelled"
+            ValidationRequestable::ValidationRequestNotCreatableError, "Cannot create #{klass.name.titleize} when planning application has been closed or cancelled"
           )
         end
       end
@@ -73,6 +73,12 @@ RSpec.shared_examples "ValidationRequest" do |klass, request_type|
             request
           end.not_to raise_error
         end
+      end
+    end
+
+    describe "::after_create #create_validation_request!" do
+      it "creates a validation request record with the associated requested id and type" do
+        expect(request.validation_request).to eq(ValidationRequest.find_by(requestable_id: request.id, requestable_type: klass.to_s))
       end
     end
 
@@ -93,10 +99,25 @@ RSpec.shared_examples "ValidationRequest" do |klass, request_type|
         it "raises an error" do
           expect do
             request.destroy!
-          end.to raise_error(ValidationRequest::NotDestroyableError,
+          end.to raise_error(ValidationRequestable::NotDestroyableError,
                              "Only requests that are pending can be destroyed")
         end
       end
+    end
+  end
+
+  context "when a #{request_type} is destroyed" do
+    let(:planning_application) { create(:planning_application, :not_started) }
+    let!(:request) do
+      create(request_type, :pending, planning_application: planning_application)
+    end
+
+    it "also destroys the associated polymorphic validation request record" do
+      request.destroy!
+
+      expect do
+        ValidationRequest.find_by!(requestable_id: request.id)
+      end.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end
