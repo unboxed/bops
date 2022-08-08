@@ -30,7 +30,8 @@ class Audit < ApplicationRecord
     started: "started",
     withdrawn: "withdrawn",
     closed: "closed",
-    auto_closed: "auto_closed",
+    red_line_boundary_change_validation_request_auto_closed: "red_line_boundary_change_validation_request_auto_closed",
+    description_change_validation_request_auto_closed: "description_change_validation_request_auto_closed",
     document_invalidated: "document_invalidated",
     document_changed_to_validated: "document_changed_to_validated",
     document_received_at_changed: "document_received_at_changed",
@@ -63,4 +64,19 @@ class Audit < ApplicationRecord
   }
 
   validates :activity_type, presence: true
+
+  def validation_request
+    return if request_type.blank?
+
+    request_type.find_by(
+      planning_application: planning_application,
+      sequence: activity_information
+    )
+  end
+
+  private
+
+  def request_type
+    activity_type.try(:[], /[a-z|_]+_request/)&.camelize&.constantize
+  end
 end

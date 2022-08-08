@@ -51,6 +51,10 @@ en:
       additional_document_validation_request_sent_post_validation:
         document: "Document:"
         reason: "Reason:"
+      description_change_validation_request_auto_closed:
+        auto_closed_validation: "Auto-closed: validation request (description#%{sequence})"
+      red_line_boundary_change_validation_request_auto_closed:
+        auto_closed_validation: "Auto-closed: validation request (red line boundary#%{sequence})"
   documents:
     document_row_image:
       view_in_new: View in new window

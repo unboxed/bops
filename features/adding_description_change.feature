@@ -65,4 +65,4 @@ Feature: Creating a description change on the application
     When the description request has been auto-closed
     And I view the planning application
     Then the page contains "Add a ball pit"
-    And there is an audit entry containing "Request was auto-closed and approved after being open for 5 business days."
+    And there is an audit entry containing "Auto-closed: validation request (description#1)"

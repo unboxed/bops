@@ -1,0 +1,10 @@
+<%= link_to(
+  t(
+    ".auto_closed_validation",
+    sequence: locals[:item].validation_request.sequence
+  ),
+  planning_application_description_change_validation_request_path(
+    locals[:item].planning_application,
+    locals[:item].validation_request
+  )
+) %>

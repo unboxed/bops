@@ -49,4 +49,58 @@ RSpec.describe "Auditing changes to a planning application", type: :system do
     expect(page).to have_text("floor_plan.pdf")
     expect(page).to have_text("Applicant / Agent via Api Wizard")
   end
+
+  context "when red line boundary change request is auto closed" do
+    let(:planning_application) do
+      create(:planning_application, local_authority: default_local_authority)
+    end
+
+    let(:validation_request) do
+      create(
+        :red_line_boundary_change_validation_request,
+        planning_application: planning_application
+      )
+    end
+
+    before { validation_request.auto_close_request! }
+
+    it "shows correct information with link to request" do
+      visit(planning_application_audits_path(planning_application))
+      click_link("Auto-closed: validation request (red line boundary#1)")
+
+      expect(page).to have_current_path(
+        planning_application_red_line_boundary_change_validation_request_path(
+          planning_application,
+          validation_request
+        )
+      )
+    end
+  end
+
+  context "when description change request is auto closed" do
+    let(:planning_application) do
+      create(:planning_application, local_authority: default_local_authority)
+    end
+
+    let(:validation_request) do
+      create(
+        :description_change_validation_request,
+        planning_application: planning_application
+      )
+    end
+
+    before { validation_request.auto_close_request! }
+
+    it "shows correct information with link to request" do
+      visit(planning_application_audits_path(planning_application))
+      click_link("Auto-closed: validation request (description#1)")
+
+      expect(page).to have_current_path(
+        planning_application_description_change_validation_request_path(
+          planning_application,
+          validation_request
+        )
+      )
+    end
+  end
 end
