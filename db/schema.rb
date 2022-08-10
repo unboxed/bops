@@ -199,6 +199,7 @@ ActiveRecord::Schema.define(version: 2022_08_04_122218) do
     t.datetime "in_assessment_at"
     t.datetime "awaiting_correction_at"
     t.jsonb "proposal_details"
+    t.jsonb "audit_log"
     t.string "agent_first_name"
     t.string "agent_last_name"
     t.string "agent_phone"
@@ -252,7 +253,6 @@ ActiveRecord::Schema.define(version: 2022_08_04_122218) do
     t.decimal "invalid_payment_amount", precision: 10, scale: 2
     t.bigint "application_number", null: false
     t.string "parish_name"
-    t.jsonb "audit_log"
     t.jsonb "feedback", default: {}
     t.string "reference"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
