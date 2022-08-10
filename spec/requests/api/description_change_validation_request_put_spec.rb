@@ -68,9 +68,6 @@ RSpec.describe "API request to list validation requests", type: :request, show_e
     expect(description_change_validation_request.approved).to eq(true)
     expect(description_change_validation_request.approved).to eq(true)
     expect(planning_application.description).to eq("new roof")
-    expect(Audit.all.last.activity_type).to eq("description_change_validation_request_received")
-    expect(Audit.all.last.audit_comment).to eq({ response: "approved" }.to_json)
-    expect(Audit.all.last.activity_information).to eq("1")
   end
 
   it "sends notification to assigned user" do
@@ -83,6 +80,17 @@ RSpec.describe "API request to list validation requests", type: :request, show_e
         "deliver_now",
         args: [planning_application, user.email]
       )
+  end
+
+  it "creates audit associated with API user" do
+    patch(path, params: params, headers: headers)
+
+    expect(planning_application.audits.reload.last).to have_attributes(
+      activity_type: "description_change_validation_request_received",
+      audit_comment: { response: "approved" }.to_json,
+      activity_information: "1",
+      api_user: api_user
+    )
   end
 
   it "successfully accepts a rejection" do

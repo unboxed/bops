@@ -63,13 +63,17 @@ RSpec.describe "API request to patch document validation requests", type: :reque
     expect(red_line_boundary_change_validation_request.approved).to eq(true)
     expect(red_line_boundary_change_validation_request.approved).to eq(true)
     expect(planning_application.boundary_geojson).to eq(red_line_boundary_change_validation_request.new_geojson)
+  end
 
-    red_line_boundary_change_validation_request.reload
-    planning_application.reload
+  it "creates audit associated with API user" do
+    patch(path, params: params, headers: headers)
 
-    expect(Audit.all.last.activity_type).to eq("red_line_boundary_change_validation_request_received")
-    expect(Audit.all.last.audit_comment).to eq({ response: "approved" }.to_json)
-    expect(Audit.all.last.activity_information).to eq("1")
+    expect(planning_application.audits.reload.last).to have_attributes(
+      activity_type: "red_line_boundary_change_validation_request_received",
+      audit_comment: { response: "approved" }.to_json,
+      activity_information: "1",
+      api_user: api_user
+    )
   end
 
   it "sends notification to assigned user" do

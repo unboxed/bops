@@ -5,6 +5,10 @@ require "rails_helper"
 RSpec.describe PlanningApplication, type: :model do
   subject(:planning_application) { create :planning_application }
 
+  it_behaves_like("Auditable") do
+    let(:subject) { create(:planning_application) }
+  end
+
   describe "validations" do
     describe "#determination_date" do
       it "validates that date is not in the future" do

@@ -7,6 +7,10 @@ RSpec.describe AdditionalDocumentValidationRequest, type: :model do
 
   it_behaves_like "ValidationRequest", described_class, "additional_document_validation_request"
 
+  it_behaves_like("Auditable") do
+    let(:subject) { create(:additional_document_validation_request) }
+  end
+
   describe "validations" do
     subject(:additional_document_validation_request) { described_class.new }
 

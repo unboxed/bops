@@ -58,9 +58,17 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
     planning_application.reload
     expect(other_change_validation_request.state).to eq("closed")
     expect(other_change_validation_request.response).to eq("I will send an extra payment")
-    expect(Audit.all.last.activity_type).to eq("other_change_validation_request_received")
-    expect(Audit.all.last.audit_comment).to eq({ response: "I will send an extra payment" }.to_json)
-    expect(Audit.all.last.activity_information).to eq("1")
+  end
+
+  it "creates audit associated with API user" do
+    patch(path, params: params, headers: headers)
+
+    expect(planning_application.audits.reload.last).to have_attributes(
+      activity_type: "other_change_validation_request_received",
+      audit_comment: { response: "I will send an extra payment" }.to_json,
+      activity_information: "1",
+      api_user: api_user
+    )
   end
 
   it "sends notification to assigned user" do

@@ -66,6 +66,12 @@ RSpec.describe "Auditing changes to a planning application", type: :system do
 
     it "shows correct information with link to request" do
       visit(planning_application_audits_path(planning_application))
+
+      expect(page).to have_row_for(
+        "Auto-closed: validation request (red line boundary#1)",
+        with: "Automated by the system"
+      )
+
       click_link("Auto-closed: validation request (red line boundary#1)")
 
       expect(page).to have_current_path(
@@ -93,6 +99,12 @@ RSpec.describe "Auditing changes to a planning application", type: :system do
 
     it "shows correct information with link to request" do
       visit(planning_application_audits_path(planning_application))
+
+      expect(page).to have_row_for(
+        "Auto-closed: validation request (description#1)",
+        with: "Automated by the system"
+      )
+
       click_link("Auto-closed: validation request (description#1)")
 
       expect(page).to have_current_path(

@@ -109,14 +109,34 @@ module AuditHelper
     end
   end
 
-  def define_audit_user(audit)
+  def audit_user_name(audit)
     if audit.api_user.present?
-      audit.activity_type.include?("received") ? "Applicant / Agent via #{audit.api_user.name}" : audit.api_user.name
+      audit_api_user_name(audit)
     elsif audit.user.present?
       audit.user.name
+    elsif audit.automated_activity?
+      t("audit_user_name.system")
     else
-      "User deleted"
+      t("audit_user_name.deleted")
     end
+  end
+
+  def audit_api_user_name(audit)
+    if applicant_activity_types.include?(audit.activity_type)
+      t("audit_user_name.applicant", api_user_name: audit.api_user.name)
+    else
+      audit.api_user.name
+    end
+  end
+
+  def applicant_activity_types
+    %w[
+      description_change_validation_request_received
+      replacement_document_validation_request_received
+      additional_document_validation_request_received
+      red_line_boundary_change_validation_request_received
+      other_change_validation_request_received
+    ]
   end
 
   def audit_entry_template(audit)
