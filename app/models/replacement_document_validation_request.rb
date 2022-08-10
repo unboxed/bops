@@ -15,12 +15,17 @@ class ReplacementDocumentValidationRequest < ApplicationRecord
   scope :with_active_document, -> { joins(:old_document).where(documents: { archived_at: nil }) }
 
   delegate :invalidated_document_reason, to: :old_document
+  delegate :validated?, :archived?, to: :new_document, prefix: :new_document
 
   before_create :ensure_planning_application_not_validated!
+  before_create :reset_replacement_document_validation_request_update_counter!
   before_destroy :reset_document_invalidation
 
   def reset_document_invalidation
-    old_document.update!(invalidated_document_reason: nil, validated: nil)
+    transaction do
+      self.class.closed.find_by(new_document_id: old_document_id)&.update_counter!
+      old_document.update!(invalidated_document_reason: nil, validated: nil)
+    end
   rescue ActiveRecord::ActiveRecordError => e
     raise ResetDocumentInvalidationError, e.message
   end
@@ -34,5 +39,11 @@ class ReplacementDocumentValidationRequest < ApplicationRecord
   def audit_comment
     { old_document: old_document.name,
       reason: invalidated_document_reason }.to_json
+  end
+
+  def reset_replacement_document_validation_request_update_counter!
+    request = ReplacementDocumentValidationRequest.find_by(new_document_id: old_document_id)
+
+    request&.reset_update_counter!
   end
 end

@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe PlanningApplication::ValidationRequest do
+RSpec.describe PlanningApplication::ValidationRequests do
   describe "#open_post_validation_requests" do
     let(:planning_application) { create(:planning_application, :in_assessment) }
 

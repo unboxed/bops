@@ -42,6 +42,7 @@ module ValidationRequestable
     scope :with_validation_request, -> { includes(:validation_request) }
 
     delegate :closed_at, to: :validation_request
+    delegate :update_counter?, to: :validation_request
 
     include AASM
 
@@ -65,6 +66,7 @@ module ValidationRequestable
         transitions from: %i[open pending], to: :cancelled
 
         after do
+          reset_update_counter!
           update!(cancelled_at: Time.current)
         end
       end
@@ -77,6 +79,7 @@ module ValidationRequestable
         transitions from: :open, to: :closed
 
         after do
+          update_counter! unless post_validation?
           validation_request.update!(closed_at: Time.current)
         end
       end
@@ -190,6 +193,20 @@ module ValidationRequestable
     Appsignal.send_error(e.message)
   end
 
+  def reset_update_counter!
+    return if post_validation?
+
+    validation_request.update!(update_counter: false)
+  end
+
+  def update_counter!
+    unless is_a?(ReplacementDocumentValidationRequest) || is_a?(RedLineBoundaryChangeValidationRequest) || is_a?(OtherChangeValidationRequest)
+      return
+    end
+
+    validation_request.update!(update_counter: true)
+  end
+
   private
 
   def create_audit_for!(event)
@@ -204,6 +221,7 @@ module ValidationRequestable
     reset_document_invalidation if is_a?(ReplacementDocumentValidationRequest)
     reset_fee_invalidation if is_a?(OtherChangeValidationRequest) && fee_item?
     reset_documents_missing if is_a?(AdditionalDocumentValidationRequest)
+    reset_red_line_boundary_invalidation if is_a?(RedLineBoundaryChangeValidationRequest)
   end
 
   def set_post_validation!

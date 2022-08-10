@@ -432,12 +432,6 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       it "I can see the new document in the validate documents list" do
         visit planning_application_validation_tasks_path(planning_application)
 
-        within("#invalid-items-count") do
-          expect(page).to have_content("Invalid items 0")
-        end
-        within("#updated-items-count") do
-          expect(page).to have_content("Updated items 1")
-        end
         within("#additional-documents-validation-task") do
           expect(page).to have_content("Not checked yet")
         end

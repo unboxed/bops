@@ -352,6 +352,7 @@ ActiveRecord::Schema.define(version: 2022_08_11_080557) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "planning_application_id"
     t.datetime "closed_at"
+    t.boolean "update_counter", default: false, null: false
     t.index ["planning_application_id"], name: "ix_validation_requests_on_planning_application_id"
     t.index ["requestable_type", "requestable_id"], name: "ix_validation_requests_on_requestable_type__requestable_id", unique: true
   end

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class RedLineBoundaryChangeValidationRequest < ApplicationRecord
+  class ResetRedLineBoundaryInvalidationError < StandardError; end
+
   include ValidationRequestable
 
   belongs_to :planning_application
@@ -12,6 +14,9 @@ class RedLineBoundaryChangeValidationRequest < ApplicationRecord
   validate :rejected_reason_is_present?
 
   before_create :set_original_geojson
+  before_create -> { reset_validation_requests_update_counter!(planning_application.red_line_boundary_change_validation_requests) }
+
+  delegate :reset_validation_requests_update_counter!, to: :planning_application
 
   def rejected_reason_is_present?
     if approved == false && rejection_reason.blank?
@@ -26,6 +31,15 @@ class RedLineBoundaryChangeValidationRequest < ApplicationRecord
 
   def update_planning_application_for_auto_closed_request!
     planning_application.update!(boundary_geojson: new_geojson)
+  end
+
+  def reset_red_line_boundary_invalidation
+    transaction do
+      planning_application.red_line_boundary_change_validation_requests.closed.max_by(&:closed_at)&.update_counter!
+      planning_application.update!(valid_red_line_boundary: nil)
+    end
+  rescue ActiveRecord::ActiveRecordError => e
+    raise ResetRedLineBoundaryInvalidationError, e.message
   end
 
   private

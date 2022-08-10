@@ -3,6 +3,8 @@
 class OtherChangeValidationRequest < ApplicationRecord
   class ResetFeeInvalidationError < StandardError; end
 
+  class UpdateCounterError < StandardError; end
+
   include ValidationRequestable
 
   belongs_to :planning_application
@@ -15,12 +17,18 @@ class OtherChangeValidationRequest < ApplicationRecord
   validate :ensure_no_open_or_pending_fee_item_validation_request, on: :create
 
   before_create :ensure_planning_application_not_validated!
+  before_create lambda {
+                  reset_validation_requests_update_counter!(planning_application.fee_item_validation_requests)
+                }, if: :fee_item?
+
   after_create :set_invalid_payment_amount
   before_update :reset_fee_invalidation, if: :closed?
   before_destroy :reset_fee_invalidation
 
   scope :fee_item, -> { where(fee_item: true) }
   scope :non_fee_item, -> { where(fee_item: false) }
+
+  delegate :reset_validation_requests_update_counter!, to: :planning_application
 
   def response_is_present?
     errors.add(:base, "some suggestion error here") if closed? && response.blank?
@@ -29,7 +37,10 @@ class OtherChangeValidationRequest < ApplicationRecord
   def reset_fee_invalidation
     return unless fee_item?
 
-    planning_application.update!(valid_fee: nil)
+    transaction do
+      planning_application.fee_item_validation_requests.closed.max_by(&:closed_at)&.update_counter! if cancelled?
+      planning_application.update!(valid_fee: nil)
+    end
   rescue ActiveRecord::ActiveRecordError => e
     raise ResetFeeInvalidationError, e.message
   end

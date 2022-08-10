@@ -25,6 +25,7 @@ class Document < ApplicationRecord
 
   has_one_attached :file, dependent: :destroy
   after_create :create_audit!
+  before_update :reset_replacement_document_validation_request_update_counter!
   after_update :audit_updated!
 
   PLAN_TAGS = %w[
@@ -184,5 +185,13 @@ class Document < ApplicationRecord
   def audit_date_comment
     { previous_received_date: saved_change_to_received_at.first,
       updated_received_date: saved_change_to_received_at.second }.to_json
+  end
+
+  def reset_replacement_document_validation_request_update_counter!
+    return unless validated? || archived?
+
+    if (request = ReplacementDocumentValidationRequest.find_by(new_document_id: id))
+      request.reset_update_counter!
+    end
   end
 end

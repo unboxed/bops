@@ -101,6 +101,45 @@ RSpec.describe Document, type: :model do
     end
   end
 
+  describe "callbacks" do
+    describe "::before_update #reset_replacement_document_validation_request_update_counter!" do
+      let(:planning_application) { create(:planning_application, :invalidated) }
+      let!(:document) { create(:document) }
+      let(:replacement_document_validation_request1) do
+        create :replacement_document_validation_request, :open, planning_application: planning_application, new_document: document
+      end
+      let(:replacement_document_validation_request2) do
+        create :replacement_document_validation_request, :open, planning_application: planning_application, old_document: document
+      end
+
+      before { replacement_document_validation_request1.close! }
+
+      context "when document is validated" do
+        before { document.update(validated: true) }
+
+        it "resets the update counter on the previous request where its new document is associated" do
+          expect(replacement_document_validation_request1.validation_request.update_counter).to eq(true)
+
+          replacement_document_validation_request2
+
+          expect(replacement_document_validation_request1.validation_request.reload.update_counter).to eq(false)
+        end
+      end
+
+      context "when document is archived" do
+        before { document.update(archived_at: Time.current) }
+
+        it "resets the update counter on the previous request where its new document is associated" do
+          expect(replacement_document_validation_request1.validation_request.update_counter).to eq(true)
+
+          replacement_document_validation_request2
+
+          expect(replacement_document_validation_request1.validation_request.reload.update_counter).to eq(false)
+        end
+      end
+    end
+  end
+
   describe "instance methods" do
     describe "#archive" do
       context "when document can be archived" do

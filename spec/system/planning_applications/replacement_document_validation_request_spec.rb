@@ -342,7 +342,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
             expect(page).to have_content("Not checked yet")
           end
           within("#document_#{document_response.id}") do
-            expect(page).to have_content("Not checked yet")
+            expect(page).to have_content("Updated")
             click_link("Check document - #{document_response.name.to_s.truncate(25)}")
           end
         end

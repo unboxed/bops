@@ -169,16 +169,84 @@ RSpec.describe ValidationRequestable, type: :model do
           let!(:planning_application) do
             create(:planning_application, :invalidated, valid_fee: false)
           end
-          let!(:request) do
-            create(:other_change_validation_request, :open, fee_item: true, planning_application: planning_application)
+          let!(:request1) do
+            create(:other_change_validation_request, :open, fee_item: true, planning_application: planning_application, response: "ok")
+          end
+          let(:request2) do
+            create(:other_change_validation_request, :open, fee_item: true, planning_application: planning_application, response: "ok")
           end
 
           it "resets the fee invalidation on the planning application" do
-            request.assign_attributes(cancel_reason: "Cancel reason")
+            request1.assign_attributes(cancel_reason: "Cancel reason")
 
             expect do
-              request.cancel_request!
-            end.to change(request.planning_application, :valid_fee).from(false).to(nil)
+              request1.cancel_request!
+            end.to change(request1.planning_application, :valid_fee).from(false).to(nil)
+          end
+
+          it "resets the update counter on the previously closed request" do
+            request1.close!
+            expect(request1.validation_request.update_counter).to eq(true)
+
+            expect(request2.validation_request.update_counter).to eq(false)
+            expect(request1.validation_request.reload.update_counter).to eq(false)
+
+            request2.assign_attributes(cancel_reason: "Cancel reason")
+            request2.cancel_request!
+            expect(request2.validation_request.update_counter).to eq(false)
+            expect(request1.validation_request.reload.update_counter).to eq(true)
+          end
+        end
+
+        context "when it is replacement document validation request" do
+          let!(:planning_application) do
+            create(:planning_application, :invalidated)
+          end
+          let!(:document) { create(:document) }
+          let(:request1) { create :replacement_document_validation_request, :open, planning_application: planning_application, new_document: document }
+          let(:request2) { create :replacement_document_validation_request, :open, planning_application: planning_application, old_document: document }
+
+          before do
+            request1.close!
+          end
+
+          it "when request is cancelled it updates the counter of the previously closed request to true" do
+            expect(request1.validation_request.update_counter).to eq(true)
+            expect(request2.validation_request.update_counter).to eq(false)
+            expect(request1.validation_request.reload.update_counter).to eq(false)
+
+            request2.assign_attributes(cancel_reason: "Cancel reason")
+            request2.cancel_request!
+            expect(request2.validation_request.update_counter).to eq(false)
+            expect(request1.validation_request.reload.update_counter).to eq(true)
+          end
+        end
+
+        context "when it is a red line boundary request" do
+          let!(:planning_application) do
+            create(:planning_application, :invalidated, valid_red_line_boundary: false)
+          end
+          let(:request1) { create :red_line_boundary_change_validation_request, :open, planning_application: planning_application }
+          let(:request2) { create :red_line_boundary_change_validation_request, :open, planning_application: planning_application }
+
+          it "resets the valid_red_line_boundary on the planning application" do
+            request1.assign_attributes(cancel_reason: "Cancel reason")
+
+            expect do
+              request1.cancel_request!
+            end.to change(request1.planning_application, :valid_red_line_boundary).from(false).to(nil)
+          end
+
+          it "when request is cancelled it updates the counter of the previously closed request to true" do
+            request1.close!
+            expect(request1.validation_request.update_counter).to eq(true)
+            expect(request2.validation_request.update_counter).to eq(false)
+            expect(request1.validation_request.reload.update_counter).to eq(false)
+
+            request2.assign_attributes(cancel_reason: "Cancel reason")
+            request2.cancel_request!
+            expect(request2.validation_request.update_counter).to eq(false)
+            expect(request1.validation_request.reload.update_counter).to eq(true)
           end
         end
       end
@@ -328,6 +396,69 @@ RSpec.describe ValidationRequestable, type: :model do
           expect(request.reload.auto_closed_at).to eq(nil)
           expect(request.reload.planning_application.boundary_geojson).not_to eq(request.reload.new_geojson)
         end
+      end
+    end
+
+    describe "#reset_update_counter!" do
+      context "when the request is post validation" do
+        let(:request) { create(:red_line_boundary_change_validation_request, :post_validation) }
+
+        it "does not reset the update counter" do
+          expect(request.validation_request).not_to receive(:update!)
+
+          request.reset_update_counter!
+        end
+      end
+
+      context "when the request is not post validation" do
+        let(:request) { create(:red_line_boundary_change_validation_request, :open) }
+
+        it "does not reset the update counter" do
+          expect(request.validation_request).to receive(:update!)
+
+          request.reset_update_counter!
+        end
+      end
+    end
+
+    describe "#update_counter!" do
+      let!(:planning_application) { create(:planning_application, :invalidated) }
+      let(:fee_item_validation_request) do
+        create(:other_change_validation_request, :fee, :closed, planning_application: planning_application)
+      end
+
+      %w[
+        additional_document_validation_request
+        description_change_validation_request
+        other_change_validation_request
+        red_line_boundary_change_validation_request
+        replacement_document_validation_request
+      ].each do |validation_request|
+        let(validation_request) { create(validation_request, :closed, planning_application: planning_application) }
+      end
+
+      it "does not update counter for a description change validation request" do
+        expect(description_change_validation_request.validation_request).not_to receive(:update!)
+
+        description_change_validation_request.update_counter!
+      end
+
+      it "does not update counter for an additional document validation request" do
+        expect(additional_document_validation_request.validation_request).not_to receive(:update!)
+
+        additional_document_validation_request.update_counter!
+      end
+
+      it "updates the counter" do
+        expect(red_line_boundary_change_validation_request.validation_request).to receive(:update!).with(update_counter: true)
+        expect(other_change_validation_request.validation_request).to receive(:update!).with(update_counter: true)
+        expect(fee_item_validation_request.validation_request).to receive(:update!).with(update_counter: true)
+        expect(replacement_document_validation_request.validation_request).to receive(:update!).with(update_counter: true)
+
+        red_line_boundary_change_validation_request.update_counter!
+        other_change_validation_request.update_counter!
+        fee_item_validation_request.update_counter!
+        replacement_document_validation_request.update_counter!
       end
     end
   end
