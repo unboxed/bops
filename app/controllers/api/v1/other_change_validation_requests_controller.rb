@@ -30,7 +30,7 @@ module Api
         @other_change_validation_request = @planning_application.other_change_validation_requests.where(id: params[:id]).first
 
         if params[:data][:response].present? && @other_change_validation_request.update(response: params[:data][:response])
-          @other_change_validation_request.update!(state: "closed")
+          @other_change_validation_request.close!
           @other_change_validation_request.create_api_audit!
           @planning_application.send_update_notification_to_assessor
           render json: { message: "Change request updated" }, status: :ok

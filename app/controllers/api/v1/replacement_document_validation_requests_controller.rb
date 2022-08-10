@@ -33,7 +33,8 @@ module Api
       def update
         @replacement_document_validation_request = @planning_application.replacement_document_validation_requests.find_by(id: params[:id])
         new_document = @planning_application.documents.create!(file: params[:new_file])
-        @replacement_document_validation_request.update!(state: "closed", new_document: new_document)
+        @replacement_document_validation_request.update!(new_document: new_document)
+        @replacement_document_validation_request.close!
 
         if @replacement_document_validation_request.save
           archive_old_document

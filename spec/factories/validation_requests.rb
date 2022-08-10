@@ -2,6 +2,7 @@
 
 FactoryBot.define do
   factory :validation_request do
+    planning_application
     for_other_change_validation_request
 
     trait :for_other_change_validation_request do

@@ -39,6 +39,9 @@ module ValidationRequestable
     scope :post_validation, -> { where(post_validation: true) }
     scope :open_change_created_over_5_business_days_ago, -> { open.where("created_at <= ?", 5.business_days.ago) }
     scope :pre_validation, -> { where(post_validation: false) }
+    scope :with_validation_request, -> { includes(:validation_request) }
+
+    delegate :closed_at, to: :validation_request
 
     include AASM
 
@@ -72,6 +75,10 @@ module ValidationRequestable
 
       event :close do
         transitions from: :open, to: :closed
+
+        after do
+          validation_request.update!(closed_at: Time.current)
+        end
       end
     end
 
@@ -156,7 +163,8 @@ module ValidationRequestable
   end
 
   def create_validation_request!
-    ValidationRequest.create!(requestable_id: id, requestable_type: self.class)
+    ValidationRequest.create!(requestable_id: id, requestable_type: self.class,
+                              planning_application: planning_application)
   end
 
   def open_or_pending?

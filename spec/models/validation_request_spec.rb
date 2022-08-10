@@ -18,6 +18,12 @@ RSpec.describe ValidationRequest, type: :model do
       end
     end
 
+    describe "#planning_application" do
+      it "validates presence and inclusion" do
+        expect { validation_request.valid? }.to change { validation_request.errors[:planning_application] }.to ["must exist"]
+      end
+    end
+
     context "when there is existing record with identical requestable_id and requestable_type" do
       let(:validation_request) { create(:validation_request) }
 

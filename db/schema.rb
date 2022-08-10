@@ -350,6 +350,9 @@ ActiveRecord::Schema.define(version: 2022_08_11_080557) do
     t.string "requestable_type", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "planning_application_id"
+    t.datetime "closed_at"
+    t.index ["planning_application_id"], name: "ix_validation_requests_on_planning_application_id"
     t.index ["requestable_type", "requestable_id"], name: "ix_validation_requests_on_requestable_type__requestable_id", unique: true
   end
 
@@ -380,4 +383,5 @@ ActiveRecord::Schema.define(version: 2022_08_11_080557) do
   add_foreign_key "replacement_document_validation_requests", "documents", column: "old_document_id"
   add_foreign_key "replacement_document_validation_requests", "planning_applications"
   add_foreign_key "replacement_document_validation_requests", "users"
+  add_foreign_key "validation_requests", "planning_applications"
 end

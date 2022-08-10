@@ -77,8 +77,10 @@ RSpec.shared_examples "ValidationRequest" do |klass, request_type|
     end
 
     describe "::after_create #create_validation_request!" do
-      it "creates a validation request record with the associated requested id and type" do
-        expect(request.validation_request).to eq(ValidationRequest.find_by(requestable_id: request.id, requestable_type: klass.to_s))
+      it "creates a validation request record with the associated requested id, type and planning application" do
+        expect(request.validation_request).to eq(
+          ValidationRequest.find_by(requestable_id: request.id, requestable_type: klass.to_s, planning_application_id: request.planning_application_id)
+        )
       end
     end
 
@@ -118,6 +120,22 @@ RSpec.shared_examples "ValidationRequest" do |klass, request_type|
       expect do
         ValidationRequest.find_by!(requestable_id: request.id)
       end.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+
+  describe "events" do
+    let!(:request) { create(request_type, :open, planning_application: planning_application) }
+
+    before { freeze_time }
+
+    describe "#close" do
+      it "sets a closed_at timestamp on the associated validation request" do
+        request.update(response: "a response") if request_type == "other_change_validation_request"
+        request.close!
+
+        expect(request.state).to eq("closed")
+        expect(request.closed_at).to eq(Time.current)
+      end
     end
   end
 end
