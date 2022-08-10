@@ -66,6 +66,9 @@ en:
     table:
       view: View
       view_and_update: View and update
+  planning_applications:
+    confirm_validation:
+      validate_application: Validate application
   shared:
     administrator_layout:
       add_user: Add user

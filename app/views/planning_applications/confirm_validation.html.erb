@@ -1,14 +1,14 @@
 <% content_for :page_title do %>
-  Validate application - <%= t('page_title') %>
+  <%= t('.validate_application') %> -  <%= t('page_title') %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", planning_applications_path %>
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
-<% content_for :title, "Validate application" %>
+<% content_for :title, t('.validate_application') %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">Validate Application</h1>
+    <h1 class="govuk-heading-l"><%= t('.validate_application') %></h1>
 
     <%= render "shared/planning_application_address_and_reference" %>
 
