@@ -215,7 +215,6 @@ ActiveRecord::Schema.define(version: 2022_08_15_130202) do
     t.datetime "returned_at"
     t.string "payment_reference"
     t.text "closed_or_cancellation_comment"
-    t.date "documents_validated_at"
     t.string "work_status", default: "proposed"
     t.string "decision"
     t.text "public_comment"
