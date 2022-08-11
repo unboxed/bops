@@ -91,11 +91,7 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def confirm_validation
-    @planning_application.validated_at ||= if @planning_application.closed_validation_requests.present?
-                                             @planning_application.last_validation_request_date
-                                           else
-                                             @planning_application.created_at
-                                           end
+    @planning_application.default_validated_at
   end
 
   def validate

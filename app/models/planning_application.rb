@@ -411,6 +411,14 @@ class PlanningApplication < ApplicationRecord
     end
   end
 
+  def default_validated_at
+    self.validated_at ||= if closed_validation_requests.present?
+                            last_validation_request_date
+                          else
+                            created_at
+                          end
+  end
+
   private
 
   def set_reference
