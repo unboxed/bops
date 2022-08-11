@@ -333,7 +333,7 @@ RSpec.describe PlanningApplication, type: :model do
 
     describe "#target_date" do
       context "when there were no documents validated" do
-        before { planning_application.update!(documents_validated_at: nil) }
+        before { planning_application.update!(validated_at: nil) }
 
         it "is set as received at + 35 days" do
           expect(planning_application.target_date).to eq(35.days.after(planning_application.received_at).to_date)
@@ -341,17 +341,17 @@ RSpec.describe PlanningApplication, type: :model do
       end
 
       context "when there are validated documents" do
-        before { planning_application.update!(documents_validated_at: 1.week.ago) }
+        before { planning_application.update!(validated_at: 1.week.ago) }
 
-        it "is set to documents_validated_at + 35 days" do
-          expect(planning_application.target_date).to eq(35.days.after(planning_application.documents_validated_at).to_date)
+        it "is set to validated_at + 35 days" do
+          expect(planning_application.target_date).to eq(35.days.after(planning_application.validated_at).to_date)
         end
       end
     end
 
     describe "#expiry_date" do
       context "when there were no documents validated" do
-        before { planning_application.update!(documents_validated_at: nil) }
+        before { planning_application.update!(validated_at: nil) }
 
         it "is set as received_at + 56 days" do
           expect(planning_application.expiry_date).to eq(56.days.after(planning_application.received_at).to_date)
@@ -359,11 +359,11 @@ RSpec.describe PlanningApplication, type: :model do
       end
 
       context "when there are validated documents" do
-        before { planning_application.update!(documents_validated_at: 1.week.ago) }
+        before { planning_application.update!(validated_at: 1.week.ago) }
 
-        it "is set to documents_validated_at + 56 days" do
-          planning_application.update!(documents_validated_at: 1.week.ago)
-          expect(planning_application.expiry_date).to eq(56.days.after(planning_application.documents_validated_at).to_date)
+        it "is set to validated_at + 56 days" do
+          planning_application.update!(validated_at: 1.week.ago)
+          expect(planning_application.expiry_date).to eq(56.days.after(planning_application.validated_at).to_date)
         end
       end
     end

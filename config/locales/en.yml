@@ -66,6 +66,9 @@ en:
     table:
       view: View
       view_and_update: View and update
+  planning_applications:
+    confirm_validation:
+      validate_application: Validate application
   shared:
     administrator_layout:
       add_user: Add user
@@ -209,3 +212,4 @@ en:
         determination_date: "Enter determination date"
         valid_fee: "Is the fee valid?"
         valid_red_line_boundary: "Is this red line boundary valid?"
+        validated_at: "Valid from"

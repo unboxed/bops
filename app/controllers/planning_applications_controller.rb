@@ -91,11 +91,7 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def confirm_validation
-    @planning_application.documents_validated_at ||= if @planning_application.closed_validation_requests.present?
-                                                       @planning_application.last_validation_request_date
-                                                     else
-                                                       @planning_application.created_at
-                                                     end
+    @planning_application.default_validated_at
   end
 
   def validate
@@ -118,7 +114,7 @@ class PlanningApplicationsController < AuthenticationController
     if @planning_application.errors.any?
       render "confirm_validation"
     else
-      @planning_application.documents_validated_at = date_from_params
+      @planning_application.validated_at = date_from_params
       @planning_application.start!
       @planning_application.send_validation_notice_mail
 
@@ -371,9 +367,9 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def validation_date_fields
-    [params[:planning_application]["documents_validated_at(3i)"],
-     params[:planning_application]["documents_validated_at(2i)"],
-     params[:planning_application]["documents_validated_at(1i)"]]
+    [params[:planning_application]["validated_at(3i)"],
+     params[:planning_application]["validated_at(2i)"],
+     params[:planning_application]["validated_at(1i)"]]
   end
 
   def date_from_params

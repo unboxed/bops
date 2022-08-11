@@ -31,7 +31,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       description: "Add a chimney stack",
       created_at: DateTime.new(2022, 5, 1),
       application_type: "lawfulness_certificate",
-      documents_validated_at: DateTime.new(2022, 10, 1)
+      validated_at: DateTime.new(2022, 10, 1)
     )
   end
 
