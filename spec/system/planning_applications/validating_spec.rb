@@ -20,6 +20,7 @@ RSpec.shared_examples "validate and invalidate" do
     click_link "Send validation decision"
     click_link "Mark the application as valid"
 
+    expect(page).to have_content("Valid from")
     fill_in "Day", with: "03"
     fill_in "Month", with: "12"
     fill_in "Year", with: "2021"
