@@ -30,7 +30,7 @@ RSpec.shared_examples "validate and invalidate" do
 
     planning_application.reload
     expect(planning_application.status).to eq("in_assessment")
-    expect(planning_application.documents_validated_at).to eq(Date.new(2021, 12, 3))
+    expect(planning_application.validated_at).to eq(Date.new(2021, 12, 3))
 
     expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 2)
 
@@ -42,7 +42,7 @@ RSpec.shared_examples "validate and invalidate" do
     expect(page).to have_content(planning_application.reference)
     expect(page).to have_content(planning_application.full_address)
     expect(page).to have_content("Your application is now valid")
-    expect(page).to have_content(planning_application.documents_validated_at)
+    expect(page).to have_content(planning_application.validated_at)
   end
 
   it "allows document edit, archive and upload after invalidation" do
@@ -88,9 +88,9 @@ RSpec.shared_examples "validate and invalidate" do
   it "displays a validation date of when the documents where validated if no closed validation requests exist" do
     visit validate_form_planning_application_path(second_planning_application)
 
-    expect(page).to have_field("Day", with: second_planning_application.documents_validated_at.strftime("%-d"))
-    expect(page).to have_field("Month", with: second_planning_application.documents_validated_at.strftime("%-m"))
-    expect(page).to have_field("Year", with: second_planning_application.documents_validated_at.strftime("%Y"))
+    expect(page).to have_field("Day", with: second_planning_application.validated_at.strftime("%-d"))
+    expect(page).to have_field("Month", with: second_planning_application.validated_at.strftime("%-m"))
+    expect(page).to have_field("Year", with: second_planning_application.validated_at.strftime("%Y"))
   end
 
   it "allows for the user to input a validation date manually" do
@@ -103,7 +103,7 @@ RSpec.shared_examples "validate and invalidate" do
     click_button "Mark the application as valid"
 
     second_planning_application.reload
-    expect(second_planning_application.documents_validated_at.to_s).to eq("2022-06-03")
+    expect(second_planning_application.validated_at.to_s).to eq("2022-06-03")
   end
 end
 

@@ -99,7 +99,7 @@ class PlanningApplication < ApplicationRecord
   validates :payment_amount, :invalid_payment_amount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
   validate :applicant_or_agent_email
-  validate :documents_validated_at_date
+  validate :validated_at_date
   validate :public_comment_present
   validate :decision_with_recommendations
   validate :policy_classes_editable
@@ -422,8 +422,8 @@ class PlanningApplication < ApplicationRecord
   end
 
   def set_key_dates
-    self.expiry_date = 56.days.after(documents_validated_at || received_at)
-    self.target_date = 35.days.after(documents_validated_at || received_at)
+    self.expiry_date = 56.days.after(validated_at || received_at)
+    self.target_date = 35.days.after(validated_at || received_at)
   end
 
   def set_change_access_id
@@ -441,14 +441,14 @@ class PlanningApplication < ApplicationRecord
     save!
   end
 
-  def documents_validated_at_date
-    if in_assessment? && !documents_validated_at.is_a?(Date)
+  def validated_at_date
+    if in_assessment? && !validated_at.to_date.is_a?(Date)
       errors.add(:planning_application, "Please enter a valid date")
     end
   end
 
   def has_validation_date?
-    !documents_validated_at.nil?
+    !validated_at.nil?
   end
 
   def public_comment_present

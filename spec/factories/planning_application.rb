@@ -10,7 +10,7 @@ FactoryBot.define do
     description { Faker::Lorem.unique.sentence }
     status { :in_assessment }
     in_assessment_at { Time.zone.now }
-    documents_validated_at { Time.zone.today }
+    validated_at { Time.zone.today }
     work_status { :proposed }
     agent_first_name { Faker::Name.first_name }
     agent_last_name { Faker::Name.last_name }
@@ -83,13 +83,13 @@ FactoryBot.define do
     end
 
     trait :not_started do
-      status                    { :not_started }
-      documents_validated_at    { nil }
+      status { :not_started }
+      validated_at { nil }
     end
 
     trait :in_assessment do
-      status                    { :in_assessment }
-      documents_validated_at    { Time.zone.now }
+      status { :in_assessment }
+      validated_at { Time.zone.now }
 
       after(:create) do |pa|
         pa.target_date = Date.current + 7.weeks

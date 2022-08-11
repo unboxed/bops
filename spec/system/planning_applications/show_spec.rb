@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application show page", type: :system do
-  let(:documents_validated_at) { 10.business_days.until(Date.current) }
+  let(:validated_at) { 10.business_days.until(Date.current) }
   let!(:api_user) { create :api_user }
   let!(:default_local_authority) { create(:local_authority, :default) }
 
@@ -37,7 +37,7 @@ RSpec.describe "Planning Application show page", type: :system do
       description: "Roof extension",
       application_type: "lawfulness_certificate",
       status: :in_assessment,
-      documents_validated_at: documents_validated_at,
+      validated_at: validated_at,
       local_authority: default_local_authority,
       payment_reference: "PAY123",
       payment_amount: 103.00,
@@ -230,7 +230,7 @@ RSpec.describe "Planning Application show page", type: :system do
   end
 
   context "as an assessor when target date is within a week" do
-    let(:documents_validated_at) { 40.business_days.until(Date.current) }
+    let(:validated_at) { 40.business_days.until(Date.current) }
 
     before do
       sign_in assessor
