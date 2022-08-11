@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_04_122218) do
+ActiveRecord::Schema.define(version: 2022_08_11_080557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -255,6 +255,7 @@ ActiveRecord::Schema.define(version: 2022_08_04_122218) do
     t.string "parish_name"
     t.jsonb "feedback", default: {}
     t.string "reference"
+    t.datetime "validated_at"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
     t.index ["application_number", "local_authority_id"], name: "ix_planning_applications_on_application_number__local_authority", unique: true
