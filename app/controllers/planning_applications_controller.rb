@@ -343,15 +343,13 @@ class PlanningApplicationsController < AuthenticationController
                         agent_email
                         county
                         constraints
-                        created_at(3i)
-                        created_at(2i)
-                        created_at(1i)
                         description
                         proposal_details
                         payment_reference
                         payment_amount
                         postcode
                         public_comment
+                        received_at
                         town
                         uprn
                         work_status]

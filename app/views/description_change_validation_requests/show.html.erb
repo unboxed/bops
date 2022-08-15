@@ -13,7 +13,7 @@
     </h1>
     <p class="govuk-body">
       <strong>At:</strong> <%= @planning_application.full_address  %> <br>
-      <strong>Date received:</strong> <%= @planning_application.created_at.strftime("%e %B %Y") %> <br>
+      <strong>Date received:</strong> <%= @planning_application.received_at.strftime("%e %B %Y") %> <br>
       <strong>Application number:</strong> <%= @planning_application.reference  %>
     </p>
 
