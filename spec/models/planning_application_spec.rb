@@ -361,8 +361,18 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     describe "#received_at" do
-      it "returns the correct business day for the application's created_at" do
-        expect(planning_application.received_at).to eq Date.tomorrow
+      context "when received_at is not set" do
+        it "returns the correct business day for the application's created_at" do
+          expect(planning_application.received_at).to eq Time.zone.local(2021, 9, 24, 9)
+        end
+      end
+
+      context "when received_at is set" do
+        before { planning_application.update!(received_at: date) }
+
+        it "returns the received_at datetime" do
+          expect(planning_application.received_at).to eq date
+        end
       end
     end
 

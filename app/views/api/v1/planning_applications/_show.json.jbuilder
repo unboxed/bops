@@ -47,7 +47,7 @@ json.site do
   json.latitude planning_application.latitude
   json.longitude planning_application.longitude
 end
-json.received_date planning_application.created_at
+json.received_date planning_application.received_at
 json.decision planning_application.decision if planning_application.determined?
 json.constraints planning_application.constraints if planning_application.constraints
 json.documents planning_application.documents.for_publication do |document|

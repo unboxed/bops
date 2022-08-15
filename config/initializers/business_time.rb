@@ -11,7 +11,7 @@ module Bops
   module TimeExtensions
     module ClassMethods
       def next_immediate_business_day(time)
-        Time.roll_forward(time).to_date
+        Time.roll_forward(time).to_datetime
       end
     end
   end

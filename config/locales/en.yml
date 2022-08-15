@@ -218,6 +218,7 @@ en:
     legend:
       planning_application:
         determination_date: "Enter determination date"
+        received_at: "Date received"
         valid_fee: "Is the fee valid?"
         valid_red_line_boundary: "Is this red line boundary valid?"
         validated_at: "Valid from"

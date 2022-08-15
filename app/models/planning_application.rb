@@ -303,7 +303,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def received_at
-    Time.next_immediate_business_day(created_at)
+    super || (Time.next_immediate_business_day(created_at) if created_at)
   end
 
   # FIXME: it is unclear how the constraits are parsed/mapped from an
