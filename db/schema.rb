@@ -257,6 +257,7 @@ ActiveRecord::Schema.define(version: 2022_08_11_080557) do
     t.string "reference"
     t.datetime "validated_at"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
+    t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
     t.index ["application_number", "local_authority_id"], name: "ix_planning_applications_on_application_number__local_authority", unique: true
     t.index ["boundary_created_by_id"], name: "ix_planning_applications_on_boundary_created_by_id"

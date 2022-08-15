@@ -11,28 +11,41 @@ RSpec.describe "searching planning applications", type: :system do
   end
 
   let!(:planning_application1) do
-    create(:planning_application, user: user, local_authority: local_authority)
+    create(
+      :planning_application,
+      user: user,
+      local_authority: local_authority,
+      description: "Add a chimney stack"
+    )
   end
 
   let!(:planning_application2) do
-    create(:planning_application, user: nil, local_authority: local_authority)
+    create(
+      :planning_application,
+      user: nil,
+      local_authority: local_authority,
+      description: "Add a patio"
+    )
   end
 
   let!(:planning_application3) do
     create(
       :planning_application,
       user: other_user,
-      local_authority: local_authority
+      local_authority: local_authority,
+      description: "Add a skylight"
     )
   end
 
   before { sign_in(user) }
 
-  context "when users views her own planning applications" do
-    it "allows user to search planning applications by reference" do
+  context "when user views her own planning applications" do
+    before do
       visit(planning_applications_path(q: "exclude_others"))
       click_link("All your applications")
+    end
 
+    it "allows user to search planning applications by reference" do
       within(selected_govuk_tab) do
         expect(page).to have_content("All your applications")
         expect(page).not_to have_content("Query can't be blank")
@@ -74,13 +87,25 @@ RSpec.describe "searching planning applications", type: :system do
         expect(page).not_to have_content(planning_application3.reference)
       end
     end
+
+    it "allows user to search planning applications by description" do
+      fill_in("Find an application", with: "chimney")
+      click_button("Search")
+
+      within(selected_govuk_tab) do
+        expect(page).to have_content(planning_application1.reference)
+        expect(page).not_to have_content(planning_application2.reference)
+      end
+    end
   end
 
   context "when user views all planning applications" do
-    it "allows user to search planning applications by reference" do
+    before do
       visit(planning_applications_path)
       click_link("All applications")
+    end
 
+    it "allows user to search planning applications by reference" do
       within(selected_govuk_tab) do
         expect(page).to have_content("All applications")
         expect(page).not_to have_content("Query can't be blank")
@@ -117,6 +142,17 @@ RSpec.describe "searching planning applications", type: :system do
       within(selected_govuk_tab) do
         expect(page).to have_content("All applications")
         expect(page).not_to have_content("Query can't be blank")
+        expect(page).to have_content(planning_application1.reference)
+        expect(page).not_to have_content(planning_application2.reference)
+        expect(page).not_to have_content(planning_application3.reference)
+      end
+    end
+
+    it "allows user to search planning applications by description" do
+      fill_in("Find an application", with: "chimney")
+      click_button("Search")
+
+      within(selected_govuk_tab) do
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)

@@ -189,6 +189,64 @@ RSpec.describe "Planning Application index page", type: :system do
         end
       end
 
+      context "when I view the 'All applications' tab" do
+        let!(:planning_application) do
+          create(
+            :planning_application,
+            :not_started,
+            address_1: "1 Long Lane",
+            town: "London",
+            postcode: "AB3 4EF",
+            description: "Add a fence",
+            created_at: DateTime.new(2022, 1, 1),
+            local_authority: default_local_authority
+          )
+        end
+
+        it "shows relevant application details" do
+          visit(planning_applications_path)
+          click_link("All applications")
+
+          within(selected_govuk_tab) do
+            expect(page).to have_content("All applications")
+            row = row_with_content(planning_application.reference)
+            expect(row).to have_content("Not started")
+            expect(row).to have_content("1 Mar")
+            expect(row).to have_content("1 Long Lane, London, AB3 4EF")
+            expect(row).to have_content("Add a fence")
+          end
+        end
+      end
+
+      context "when I view the 'All your applications' tab" do
+        let!(:planning_application) do
+          create(
+            :planning_application,
+            :not_started,
+            address_1: "1 Long Lane",
+            town: "London",
+            postcode: "AB3 4EF",
+            description: "Add a fence",
+            created_at: DateTime.new(2022, 1, 1),
+            local_authority: default_local_authority
+          )
+        end
+
+        it "shows relevant application details" do
+          visit(planning_applications_path(q: "exclude_others"))
+          click_link("All your applications")
+
+          within(selected_govuk_tab) do
+            expect(page).to have_content("All your applications")
+            row = row_with_content(planning_application.reference)
+            expect(row).to have_content("Not started")
+            expect(row).to have_content("1 Mar")
+            expect(row).to have_content("1 Long Lane, London, AB3 4EF")
+            expect(row).to have_content("Add a fence")
+          end
+        end
+      end
+
       it "Breadcrumbs are not displayed" do
         expect(find(".govuk-breadcrumbs__list").text).to be_empty
       end

@@ -8,11 +8,14 @@ RSpec.describe PlanningApplicationSearch do
       create(
         :planning_application,
         work_status: "proposed",
-        created_at: DateTime.new(2022, 1, 1)
+        created_at: DateTime.new(2022, 1, 1),
+        description: "Add a chimney stack."
       )
     end
 
-    let!(:planning_application2) { create(:planning_application) }
+    let!(:planning_application2) do
+      create(:planning_application, description: "Something else entirely")
+    end
 
     let(:search) do
       described_class.new(
@@ -21,27 +24,114 @@ RSpec.describe PlanningApplicationSearch do
       )
     end
 
-    context "when query is full reference" do
-      let(:query) { "22-00100-LDCP" }
+    context "when query matches description" do
+      context "when query is full description" do
+        let(:query) { "Add a chimney stack." }
 
-      it "returns correct planning applications" do
-        expect(search.results).to contain_exactly(planning_application1)
+        it "returns correct planning applications" do
+          expect(search.results).to contain_exactly(planning_application1)
+        end
+      end
+
+      context "when query is part of description" do
+        let(:query) { "chimney" }
+
+        it "returns correct planning applications" do
+          expect(search.results).to contain_exactly(planning_application1)
+        end
+      end
+
+      context "when query is non-adjacent words from description" do
+        let(:query) { "add stack" }
+
+        it "returns correct planning applications" do
+          expect(search.results).to contain_exactly(planning_application1)
+        end
+      end
+
+      context "when query is in wrong case" do
+        let(:query) { "Chimney" }
+
+        it "returns correct planning applications" do
+          expect(search.results).to contain_exactly(planning_application1)
+        end
+      end
+
+      context "when query contains plurals instead of singulars" do
+        let(:query) { "chimneys stacks" }
+
+        it "returns correct planning applications" do
+          expect(search.results).to contain_exactly(planning_application1)
+        end
+      end
+
+      context "when query contains additional words" do
+        let(:query) { "orange chimney stack" }
+
+        it "returns correct planning applications" do
+          expect(search.results).to contain_exactly(planning_application1)
+        end
+      end
+
+      context "when more than one application matches query" do
+        let!(:planning_application2) do
+          create(:planning_application, description: "Add stack")
+        end
+
+        let!(:planning_application3) do
+          create(:planning_application, description: "Add orange chimney stack")
+        end
+
+        let(:query) { "orange chimney stack" }
+
+        it "returns planning applications ranked by closest match" do
+          expect(search.results).to eq(
+            [
+              planning_application3,
+              planning_application1,
+              planning_application2
+            ]
+          )
+        end
       end
     end
 
-    context "when query is part of reference" do
-      let(:query) { "00100" }
+    context "when query matches reference" do
+      context "when query is full reference" do
+        let(:query) { "22-00100-LDCP" }
 
-      it "returns correct planning applications" do
-        expect(search.results).to contain_exactly(planning_application1)
+        it "returns correct planning applications" do
+          expect(search.results).to contain_exactly(planning_application1)
+        end
+
+        it "does not search for matching descriptions" do
+          allow(search)
+            .to receive(:records_matching_reference)
+            .and_call_original
+
+          allow(search).to receive(:records_matching_description)
+
+          search.results
+
+          expect(search).to have_received(:records_matching_reference)
+          expect(search).not_to have_received(:records_matching_description)
+        end
       end
-    end
 
-    context "when query is in wrong case" do
-      let(:query) { "22-00100-ldcp" }
+      context "when query is part of reference" do
+        let(:query) { "00100" }
 
-      it "returns correct planning applications" do
-        expect(search.results).to contain_exactly(planning_application1)
+        it "returns correct planning applications" do
+          expect(search.results).to contain_exactly(planning_application1)
+        end
+      end
+
+      context "when query is in wrong case" do
+        let(:query) { "22-00100-ldcp" }
+
+        it "returns correct planning applications" do
+          expect(search.results).to contain_exactly(planning_application1)
+        end
       end
     end
 
