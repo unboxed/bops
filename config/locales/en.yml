@@ -1,4 +1,8 @@
 en:
+  audit_user_name:
+    applicant: Applicant / Agent via %{api_user_name}
+    deleted: User deleted
+    system: Automated by the system
   application:
     header:
       back_office_planning: "Back-office Planning System"

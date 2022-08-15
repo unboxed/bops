@@ -5,6 +5,10 @@ require "rails_helper"
 RSpec.describe OtherChangeValidationRequest, type: :model do
   it_behaves_like "ValidationRequest", described_class, "other_change_validation_request"
 
+  it_behaves_like("Auditable") do
+    let(:subject) { create(:other_change_validation_request) }
+  end
+
   describe "validations" do
     subject(:other_change_validation_request) { described_class.new }
 

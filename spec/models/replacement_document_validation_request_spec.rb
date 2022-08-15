@@ -5,6 +5,10 @@ require "rails_helper"
 RSpec.describe ReplacementDocumentValidationRequest, type: :model do
   it_behaves_like "ValidationRequest", described_class, "replacement_document_validation_request"
 
+  it_behaves_like("Auditable") do
+    let(:subject) { create(:replacement_document_validation_request) }
+  end
+
   describe "validations" do
     subject(:replacement_document_validation_request) { described_class.new }
 

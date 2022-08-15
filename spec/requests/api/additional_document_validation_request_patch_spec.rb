@@ -52,10 +52,17 @@ RSpec.describe "API request to patch document create requests", type: :request, 
 
     expect(additional_document_validation_request.state).to eq("closed")
     expect(additional_document_validation_request.documents.last).to be_a(Document)
+  end
 
-    expect(Audit.all.last.activity_type).to eq("additional_document_validation_request_received")
-    expect(Audit.all.last.audit_comment).to eq("proposed-floorplan.png")
-    expect(Audit.all.last.activity_information).to eq("1")
+  it "creates audit associated with API user" do
+    patch(path, params: params, headers: headers)
+
+    expect(planning_application.audits.reload.last).to have_attributes(
+      activity_type: "additional_document_validation_request_received",
+      audit_comment: "proposed-floorplan.png",
+      activity_information: "1",
+      api_user: api_user
+    )
   end
 
   it "sends notification to assigned user" do

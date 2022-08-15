@@ -5,6 +5,10 @@ require "rails_helper"
 RSpec.describe Document, type: :model do
   subject(:document) { FactoryBot.build :document }
 
+  it_behaves_like("Auditable") do
+    let(:subject) { create(:document) }
+  end
+
   describe "scopes" do
     describe ".active" do
       let!(:active_document) { create :document }

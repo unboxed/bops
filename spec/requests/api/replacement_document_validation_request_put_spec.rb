@@ -61,10 +61,35 @@ RSpec.describe "API request to patch document validation requests", type: :reque
     expect(replacement_document_validation_request.new_document).to be_a(Document)
     expect(document.archived_at).not_to eq(nil)
     expect(document.archive_reason).to eq("Applicant has provived a replacement document.")
+  end
 
-    expect(Audit.all.last.activity_type).to eq("replacement_document_validation_request_received")
-    expect(Audit.all.last.audit_comment).to eq("proposed-floorplan.png")
-    expect(Audit.all.last.activity_information).to eq("1")
+  it "creates request received audit associated with API user" do
+    patch(path, params: params, headers: headers)
+
+    audit = planning_application
+            .audits
+            .where(activity_type: "replacement_document_validation_request_received")
+            .last
+
+    expect(audit).to have_attributes(
+      audit_comment: "proposed-floorplan.png",
+      activity_information: "1",
+      api_user: api_user
+    )
+  end
+
+  it "creates document uploaded audit associated with API user" do
+    patch(path, params: params, headers: headers)
+
+    audit = planning_application
+            .audits
+            .where(activity_type: "uploaded")
+            .last
+
+    expect(audit).to have_attributes(
+      activity_information: "proposed-floorplan.png",
+      api_user: api_user
+    )
   end
 
   it "sends notification to assigned user" do

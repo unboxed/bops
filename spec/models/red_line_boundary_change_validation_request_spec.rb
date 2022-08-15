@@ -5,6 +5,10 @@ require "rails_helper"
 RSpec.describe RedLineBoundaryChangeValidationRequest, type: :model do
   it_behaves_like "ValidationRequest", described_class, "red_line_boundary_change_validation_request"
 
+  it_behaves_like("Auditable") do
+    let(:subject) { create(:red_line_boundary_change_validation_request) }
+  end
+
   describe "validations" do
     subject(:red_line_boundary_change_validation_request) { described_class.new }
 

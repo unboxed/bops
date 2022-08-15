@@ -48,14 +48,15 @@ module Api
       private
 
       def authenticate
-        authenticate_or_request_with_http_token do |token, _options|
+        api_user = authenticate_or_request_with_http_token do |token, _options|
           ApiUser.find_by(token: token)
         end
+
+        Current.api_user = api_user
       end
 
       def current_api_user
         @current_api_user ||= authenticate
-        Current.api_user = @current_api_user
       end
 
       protected
