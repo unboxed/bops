@@ -54,6 +54,25 @@ RSpec.describe RedLineBoundaryChangeValidationRequest, type: :model do
       end
     end
 
+    describe "::before_create #reset_validation_requests_update_counter" do
+      let(:local_authority) { create :local_authority }
+      let!(:planning_application) { create :planning_application, :invalidated, local_authority: local_authority }
+      let(:red_line_boundary_change_validation_request1) { create(:red_line_boundary_change_validation_request, :open, planning_application: planning_application) }
+      let(:red_line_boundary_change_validation_request2) { create(:red_line_boundary_change_validation_request, :open, planning_application: planning_application) }
+
+      context "when there is a closed red line boundary change request and another request is made" do
+        before { red_line_boundary_change_validation_request1.close! }
+
+        it "resets the update counter on the latest closed request" do
+          expect(red_line_boundary_change_validation_request1.update_counter?).to eq(true)
+
+          red_line_boundary_change_validation_request2
+
+          expect(red_line_boundary_change_validation_request1.reload.update_counter?).to eq(false)
+        end
+      end
+    end
+
     describe "::after_create #set_post_validation" do
       context "when a planning application has not been validated" do
         let(:planning_application) { create(:planning_application, :not_started) }
@@ -71,6 +90,18 @@ RSpec.describe RedLineBoundaryChangeValidationRequest, type: :model do
         it "sets post validation to true on a red line boundary validation request" do
           expect(red_line_boundary_change_validation_request.post_validation).to be_truthy
         end
+      end
+    end
+  end
+
+  describe "events" do
+    let!(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open) }
+
+    describe "#close" do
+      it "sets updated_counter to true on the associated validation request" do
+        red_line_boundary_change_validation_request.close!
+
+        expect(red_line_boundary_change_validation_request.update_counter?).to eq(true)
       end
     end
   end

@@ -30,7 +30,7 @@ module Api
         @red_line_boundary_change_validation_request = @planning_application.red_line_boundary_change_validation_requests.find(params[:id])
 
         if @red_line_boundary_change_validation_request.update(red_line_boundary_change_params)
-          @red_line_boundary_change_validation_request.update!(state: "closed")
+          @red_line_boundary_change_validation_request.close!
           if @red_line_boundary_change_validation_request.approved?
             @planning_application.update!(boundary_geojson: @red_line_boundary_change_validation_request.new_geojson)
           end

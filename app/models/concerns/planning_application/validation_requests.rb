@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PlanningApplication
-  module ValidationRequest
+  module ValidationRequests
     extend ActiveSupport::Concern
 
     # since we can't use the native scopes that AASM provides (because
@@ -44,7 +44,7 @@ class PlanningApplication
     end
 
     def active_validation_requests(post_validation: false)
-      (replacement_document_validation_requests.with_active_document + additional_document_validation_requests + other_change_validation_requests + red_line_boundary_change_validation_requests)
+      (replacement_document_validation_requests + additional_document_validation_requests + other_change_validation_requests + red_line_boundary_change_validation_requests)
         .reject(&:cancelled?).send(enumerable_method(post_validation), &:post_validation?)
     end
 
@@ -66,6 +66,12 @@ class PlanningApplication
 
     def overdue_requests
       validation_requests.select(&:open?).select(&:overdue?)
+    end
+
+    def reset_validation_requests_update_counter!(requests)
+      return unless requests.any?
+
+      requests.pre_validation.with_validation_request.filter(&:update_counter?).each(&:reset_update_counter!)
     end
 
     private

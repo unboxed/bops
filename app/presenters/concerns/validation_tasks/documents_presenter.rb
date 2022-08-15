@@ -24,7 +24,7 @@ module ValidationTasks
 
     def validate_link
       case validation_item_status
-      when "Valid", "Not checked yet"
+      when "Valid", "Not checked yet", "Updated"
         link_to validate_document_link_text,
                 edit_planning_application_document_path(
                   planning_application, document, validate: "yes"
@@ -48,6 +48,8 @@ module ValidationTasks
                  "Valid"
                elsif document.replacement_document_validation_request.try(:open_or_pending?)
                  "Invalid"
+               elsif replacement_document_validation_request(document)
+                 "Updated"
                else
                  "Not checked yet"
                end
@@ -55,6 +57,11 @@ module ValidationTasks
       raise "Status: #{status} is not included in the permitted list" unless STATUSES.include?(status)
 
       status
+    end
+
+    def replacement_document_validation_request(document)
+      @replacement_document_validation_request ||=
+        ReplacementDocumentValidationRequest.find_by(new_document_id: document.id)
     end
   end
 end

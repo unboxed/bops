@@ -105,5 +105,38 @@ RSpec.describe ReplacementDocumentValidationRequest, type: :model do
         end
       end
     end
+
+    describe "::before_create #reset_replacement_document_validation_request_update_counter!" do
+      let(:planning_application) { create(:planning_application, :invalidated) }
+      let!(:document) { create(:document) }
+      let(:replacement_document_validation_request1) do
+        create :replacement_document_validation_request, :open, planning_application: planning_application, new_document: document
+      end
+      let(:replacement_document_validation_request2) do
+        create :replacement_document_validation_request, :open, planning_application: planning_application, old_document: document
+      end
+
+      before { replacement_document_validation_request1.close! }
+
+      it "resets the update counter on the previous request where its new document is associated" do
+        expect(replacement_document_validation_request1.validation_request.update_counter).to eq(true)
+
+        replacement_document_validation_request2
+
+        expect(replacement_document_validation_request1.validation_request.reload.update_counter).to eq(false)
+      end
+    end
+  end
+
+  describe "events" do
+    let!(:replacement_document_validation_request) { create(:replacement_document_validation_request, :open) }
+
+    describe "#close" do
+      it "sets updated_counter to true on the associated validation request" do
+        replacement_document_validation_request.close!
+
+        expect(replacement_document_validation_request.update_counter?).to eq(true)
+      end
+    end
   end
 end

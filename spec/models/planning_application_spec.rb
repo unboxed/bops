@@ -198,6 +198,37 @@ RSpec.describe PlanningApplication, type: :model do
       end
     end
 
+    describe "::before_update #reset_validation_requests_update_counter" do
+      let(:local_authority) { create :local_authority }
+      let!(:planning_application) { create :planning_application, :invalidated, local_authority: local_authority }
+      let(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, planning_application: planning_application) }
+      let(:fee_item_validation_request) { create(:other_change_validation_request, :fee, :open, planning_application: planning_application, response: "a response") }
+
+      context "when the red line boundary is made valid" do
+        before { red_line_boundary_change_validation_request.close! }
+
+        it "resets the update counter on the latest closed request" do
+          expect(red_line_boundary_change_validation_request.update_counter?).to eq(true)
+
+          planning_application.update!(valid_red_line_boundary: true)
+
+          expect(red_line_boundary_change_validation_request.reload.update_counter?).to eq(false)
+        end
+      end
+
+      context "when the fee item is made valid" do
+        before { fee_item_validation_request.close! }
+
+        it "resets the update counter on the latest closed request" do
+          expect(fee_item_validation_request.update_counter?).to eq(true)
+
+          planning_application.update!(valid_fee: true)
+
+          expect(fee_item_validation_request.reload.update_counter?).to eq(false)
+        end
+      end
+    end
+
     describe "::after_update" do
       context "when there is an update to any address or boundary geojson fields" do
         it "sets the updated_address_or_boundary_geojson to true" do

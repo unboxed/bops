@@ -64,5 +64,30 @@ RSpec.describe ValidationTasks::DocumentsPresenter, type: :presenter do
         )
       end
     end
+
+    context "when a replacement document request is updated" do
+      let!(:replacement_document_validation_request) do
+        create(:replacement_document_validation_request, :closed, :with_response, planning_application: planning_application)
+      end
+      let!(:document) { replacement_document_validation_request.new_document }
+
+      before do
+        # When new document is sent by the applicant the original document is archived
+        replacement_document_validation_request.old_document.archive("replaced by new document")
+      end
+
+      it "the task list row shows not checked yet status html" do
+        html = presenter.task_list_row
+
+        expect(html).to include("app-task-list__task-name")
+        expect(html).to include("Check document - proposed-floorplan.png")
+        expect(html).to include(
+          "/planning_applications/#{planning_application.id}/documents/#{document.id}/edit?validate=yes"
+        )
+        expect(html).to include(
+          "<strong class=\"govuk-tag govuk-tag--yellow app-task-list__task-tag\">Updated</strong>"
+        )
+      end
+    end
   end
 end

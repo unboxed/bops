@@ -11,7 +11,7 @@ class PlanningApplication < ApplicationRecord
 
   include PlanningApplicationStatus
 
-  include PlanningApplication::ValidationRequest
+  include PlanningApplication::ValidationRequests
 
   include PlanningApplication::Notification
 
@@ -30,6 +30,7 @@ class PlanningApplication < ApplicationRecord
     has_many :additional_document_validation_requests
     has_many :red_line_boundary_change_validation_requests
     has_many :notes, -> { by_created_at_desc }, inverse_of: :planning_application
+    has_many :requests, class_name: "ValidationRequest"
   end
 
   delegate :reviewer_group_email, to: :local_authority
@@ -51,6 +52,8 @@ class PlanningApplication < ApplicationRecord
   after_create :set_ward_and_parish_information
   after_create :create_audit!
   before_update :set_key_dates
+  before_update -> { reset_validation_requests_update_counter!(red_line_boundary_change_validation_requests) }, if: :valid_red_line_boundary?
+  before_update -> { reset_validation_requests_update_counter!(fee_item_validation_requests) }, if: :valid_fee?
   after_update :audit_updated!
   after_update :address_or_boundary_geojson_updated?
 

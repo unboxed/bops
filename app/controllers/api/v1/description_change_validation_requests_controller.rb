@@ -30,7 +30,7 @@ module Api
         @description_change_validation_request = @planning_application.description_change_validation_requests.where(id: params[:id]).first
 
         if @description_change_validation_request.update(description_change_params)
-          @description_change_validation_request.update!(state: "closed")
+          @description_change_validation_request.close!
           if @description_change_validation_request.approved?
             @planning_application.update!(description: @description_change_validation_request.proposed_description)
           end

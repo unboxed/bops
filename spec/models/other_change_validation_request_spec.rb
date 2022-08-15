@@ -206,4 +206,55 @@ RSpec.describe OtherChangeValidationRequest, type: :model do
       end
     end
   end
+
+  describe "callbacks" do
+    describe "::before_create #reset_validation_requests_update_counter" do
+      let(:local_authority) { create :local_authority }
+      let!(:planning_application) { create :planning_application, :invalidated, local_authority: local_authority }
+      let(:fee_item_validation_request1) { create(:other_change_validation_request, :open, :fee, planning_application: planning_application, response: "ok") }
+      let(:fee_item_validation_request2) { create(:other_change_validation_request, :open, :fee, planning_application: planning_application, response: "ok") }
+
+      context "when there is a closed fee item change request and a new request is made" do
+        before { fee_item_validation_request1.close! }
+
+        it "resets the update counter on the latest closed request" do
+          expect(fee_item_validation_request1.update_counter?).to eq(true)
+
+          fee_item_validation_request2
+
+          expect(fee_item_validation_request1.reload.update_counter?).to eq(false)
+        end
+      end
+
+      context "when the request is not a fee item" do
+        let(:other_change_validation_request1) { create(:other_change_validation_request, :open, planning_application: planning_application, response: "ok") }
+        let(:other_change_validation_request2) { create(:other_change_validation_request, :open, planning_application: planning_application, response: "ok") }
+
+        before { other_change_validation_request1.close! }
+
+        it "does not reset the update counter on the latest closed request" do
+          expect(other_change_validation_request1.update_counter?).to eq(true)
+
+          fee_item_validation_request2
+
+          expect(other_change_validation_request1.reload.update_counter?).to eq(true)
+        end
+      end
+    end
+  end
+
+  describe "events" do
+    let!(:other_change_validation_request) { create(:other_change_validation_request, :open, response: "ok") }
+    let!(:fee_item_validation_request) { create(:other_change_validation_request, :fee, :open, response: "ok") }
+
+    describe "#close" do
+      it "sets updated_counter to true on the associated validation request" do
+        other_change_validation_request.close!
+        fee_item_validation_request.close!
+
+        expect(other_change_validation_request.update_counter?).to eq(true)
+        expect(fee_item_validation_request.update_counter?).to eq(true)
+      end
+    end
+  end
 end

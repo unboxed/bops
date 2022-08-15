@@ -22,11 +22,11 @@ module ValidationTasks
     attr_reader :validation_requests
 
     def invalid_items_count
-      validation_requests.filter(&:open_or_pending?).count
+      validation_requests.filter(&:open_or_pending?).length
     end
 
     def updated_items_count
-      validation_requests.filter(&:closed?).count
+      planning_application.requests.where(update_counter: true).length
     end
   end
 end
