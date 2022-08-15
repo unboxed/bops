@@ -8,6 +8,10 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
 @import "planning_applications";
 @import "components/documents";
 
+html * {
+  font-family: open-sans, sans-serif !important;
+}
+
 .noborder {
   border-bottom: none !important;
 }
