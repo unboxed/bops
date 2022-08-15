@@ -187,7 +187,11 @@ module ValidationRequestable
       auto_close!
       update_planning_application_for_auto_closed_request!
       update!(approved: true, auto_closed: true, auto_closed_at: Time.current)
-      audit!(activity_type: "auto_closed")
+
+      audit!(
+        activity_type: "#{self.class.name.underscore}_auto_closed",
+        activity_information: sequence
+      )
     end
   rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
     Appsignal.send_error(e.message)

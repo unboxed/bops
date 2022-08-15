@@ -346,20 +346,60 @@ RSpec.describe ValidationRequestable, type: :model do
     end
 
     describe "#auto_close_request!" do
-      let(:request) { create(:red_line_boundary_change_validation_request, :open) }
+      let(:planning_application) { create(:planning_application) }
 
-      describe "when successful" do
-        it "auto closes the request and creates an audit record" do
-          expect { request.auto_close_request! }
-            .to change(request, :auto_closed_at)
-            .from(nil).to(Time.current)
-            .and change(request, :state)
-            .from("open").to("closed")
-            .and change(request, :auto_closed).from(false).to(true)
+      let(:request) do
+        create(
+          :red_line_boundary_change_validation_request,
+          :open,
+          planning_application: planning_application
+        )
+      end
 
-          expect(Audit.last).to have_attributes(
-            planning_application_id: request.planning_application.id,
-            activity_type: "auto_closed"
+      it "updates state to 'closed'" do
+        expect { request.auto_close_request! }
+          .to change(request, :state)
+          .from("open").to("closed")
+      end
+
+      it "updates auto_closed_at to current time" do
+        expect { request.auto_close_request! }
+          .to change(request, :auto_closed_at)
+          .from(nil).to(Time.current)
+      end
+
+      it "updates auto_closed to true" do
+        expect { request.auto_close_request! }
+          .to change(request, :auto_closed)
+          .from(false).to(true)
+      end
+
+      it "creates audit with correct information" do
+        request.auto_close_request!
+
+        expect(planning_application.audits.reload.last).to have_attributes(
+          activity_type: "red_line_boundary_change_validation_request_auto_closed",
+          activity_information: "1"
+        )
+      end
+
+      context "when request is for description change" do
+        let(:request) do
+          create(
+            :description_change_validation_request,
+            :open,
+            planning_application: planning_application
+          )
+        end
+
+        it "creates audit with correct information" do
+          request.auto_close_request!
+
+          audit = planning_application.audits.reload.last
+
+          expect(audit).to have_attributes(
+            activity_type: "description_change_validation_request_auto_closed",
+            activity_information: "1"
           )
         end
       end

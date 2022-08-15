@@ -34,7 +34,9 @@ RSpec.describe CloseRedLineBoundaryChangeValidationRequestJob, type: :job do
 
       audit = red_line_boundary_change_validation_request.reload.audits.max
 
-      expect(audit.activity_type).to eq("auto_closed")
+      expect(audit.activity_type).to eq(
+        "red_line_boundary_change_validation_request_auto_closed"
+      )
     end
   end
 

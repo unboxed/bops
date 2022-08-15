@@ -360,7 +360,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
         visit planning_application_audits_path(planning_application)
 
         within("#audit_#{Audit.last.id}") do
-          expect(page).to have_content("Request was auto-closed and approved after being open for 5 business days.")
+          expect(page).to have_content("Auto-closed: validation request (red line boundary#1)")
           expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
         end
       end
