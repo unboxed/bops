@@ -1,27 +1,27 @@
 # frozen_string_literal: true
 
 module ProposalDetailsHelper
-  def proposal_details_group_id(group)
-    proposal_details_group_name(group).downcase.gsub(/[^0-9a-z]/i, "")
+  def proposal_details_group_id(portal_name)
+    proposal_details_group_name(portal_name).downcase.gsub(/[^0-9a-z]/i, "")
   end
 
-  def proposal_details_group_title(group)
-    proposal_details_group_name(group).downcase.underscore.humanize
+  def proposal_details_group_title(portal_name)
+    proposal_details_group_name(portal_name).downcase.underscore.humanize
   end
 
-  def proposal_details_group_name(group)
-    case group
+  def proposal_details_group_name(portal_name)
+    case portal_name
     when "_root"
       t("proposal_details.main")
     when nil
       t("proposal_details.other")
     else
-      group
+      portal_name
     end
   end
 
   def proposal_detail_item(proposal_detail)
-    tag.p(class: "govuk-body") do
+    tag.div do
       concat(proposal_detail_question(proposal_detail.question))
       concat(proposal_detail_responses(proposal_detail.responses))
       concat(proposal_detail_metadata(proposal_detail.metadata))
@@ -37,7 +37,7 @@ module ProposalDetailsHelper
   end
 
   def proposal_detail_metadata(metadata)
-    return if metadata.nil?
+    return if metadata.blank?
 
     tag.div do
       concat(proposal_detail_notes(metadata.notes))

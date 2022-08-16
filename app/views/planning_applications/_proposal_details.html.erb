@@ -1,0 +1,47 @@
+<div data-controller="requests">
+  <%= render(
+    partial: "planning_applications/filter_proposal_details_form",
+    locals: { planning_application: planning_application }
+  ) %>
+  <p class="govuk-body">
+    <%= t(".the_proposal_details") %>
+  </p>
+  <ul class="govuk-body proposal-details-list">
+    <strong>
+      <% planning_application.filtered_proposal_detail_groups_with_numbers.each do |group| %>
+        <li>
+          <%= link_to(
+            proposal_details_group_title(group.portal_name),
+            "##{proposal_details_group_id(group.portal_name)}",
+            class: "govuk-link"
+          ) %>
+        </li>
+      <% end %>
+    </strong>
+  </ul>
+  <% planning_application.filtered_proposal_detail_groups_with_numbers.each do |group| %>
+    <div class="proposal-details-sub-heading">
+      <h4 class="govuk-heading-s" id=<%= proposal_details_group_id(group.portal_name) %>>
+        <%= proposal_details_group_title(group.portal_name) %>
+      </h4>
+      <div>
+        <%= render(
+          partial: "shared/back_to_top_link",
+          locals: { target_id: "#accordion-default-heading-3" }
+        ) %>
+      </div>
+    </div>
+    <ul class="govuk-body proposal-details-sub-list">
+      <% group.proposal_details.each do |proposal_detail| %>
+        <li class="proposal-detail">
+          <div>
+            <p class="govuk-body">
+              <%= "#{proposal_detail.number}.&nbsp".html_safe %>
+            </p>
+          </div>
+          <%= proposal_detail_item(proposal_detail) %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>

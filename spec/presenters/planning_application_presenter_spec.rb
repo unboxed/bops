@@ -180,85 +180,6 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
     end
   end
 
-  describe "#grouped_proposal_details" do
-    let(:proposal_details) do
-      [
-        {
-          question: "Question 1",
-          responses: [{ value: "Answer 1" }],
-          metadata: { portal_name: "Group B" }
-        },
-        {
-          question: "Question 2",
-          responses: [{ value: "Answer 2" }],
-          metadata: { portal_name: "Group A" }
-        },
-        {
-          question: "Question 3",
-          responses: [{ value: "Answer 3" }],
-          metadata: { portal_name: "Group B" }
-        },
-        {
-          question: "Question 4",
-          responses: [{ value: "Answer 4" }]
-        }
-      ].to_json
-    end
-
-    let(:planning_application) do
-      create(:planning_application, proposal_details: proposal_details)
-    end
-
-    it "returns proposal details grouped by by portal name" do
-      expect(presenter.grouped_proposal_details).to eq(
-        [
-          [
-            "Group B",
-            [
-              OpenStruct.new(
-                {
-                  question: "Question 1",
-                  responses: [OpenStruct.new({ value: "Answer 1" })],
-                  metadata: OpenStruct.new({ portal_name: "Group B" })
-                }
-              ),
-              OpenStruct.new(
-                {
-                  question: "Question 3",
-                  responses: [OpenStruct.new({ value: "Answer 3" })],
-                  metadata: OpenStruct.new({ portal_name: "Group B" })
-                }
-              )
-            ]
-          ],
-          [
-            "Group A",
-            [
-              OpenStruct.new(
-                {
-                  question: "Question 2",
-                  responses: [OpenStruct.new({ value: "Answer 2" })],
-                  metadata: OpenStruct.new({ portal_name: "Group A" })
-                }
-              )
-            ]
-          ],
-          [
-            nil,
-            [
-              OpenStruct.new(
-                {
-                  question: "Question 4",
-                  responses: [OpenStruct.new({ value: "Answer 4" })]
-                }
-              )
-            ]
-          ]
-        ]
-      )
-    end
-  end
-
   describe "#fee_related_proposal_details" do
     let(:proposal_details) do
       [
@@ -323,13 +244,13 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
     end
   end
 
-  describe "#grouped_proposal_details_with_start_numbers" do
+  describe "#filtered_proposal_detail_groups_with_numbers" do
     let(:proposal_details) do
       [
         {
           question: "Question 1",
           responses: [{ value: "Answer 1" }],
-          metadata: { portal_name: "Group A" }
+          metadata: { portal_name: "Group A", auto_answered: true }
         },
         {
           question: "Question 2",
@@ -339,7 +260,7 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
         {
           question: "Question 3",
           responses: [{ value: "Answer 3" }],
-          metadata: { portal_name: "Group B" }
+          metadata: { portal_name: "Group B", auto_answered: true }
         },
         {
           question: "Question 4",
@@ -353,57 +274,89 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
       create(:planning_application, proposal_details: proposal_details)
     end
 
-    it "returns proposal detail groups with start numbers" do
-      expect(presenter.grouped_proposal_details_with_start_numbers).to eq(
+    it "returns numbered proposal details grouped by portal name" do
+      expect(presenter.filtered_proposal_detail_groups_with_numbers).to eq(
         [
-          [
-            "Group A",
-            [
+          OpenStruct.new(
+            portal_name: "Group A",
+            proposal_details: [
               OpenStruct.new(
-                {
-                  question: "Question 1",
-                  responses: [OpenStruct.new({ value: "Answer 1" })],
-                  metadata: OpenStruct.new({ portal_name: "Group A" })
-                }
+                question: "Question 1",
+                responses: [OpenStruct.new(value: "Answer 1")],
+                metadata: OpenStruct.new(
+                  portal_name: "Group A",
+                  auto_answered: true
+                ),
+                number: 1
               ),
               OpenStruct.new(
-                {
-                  question: "Question 2",
-                  responses: [OpenStruct.new({ value: "Answer 2" })],
-                  metadata: OpenStruct.new({ portal_name: "Group A" })
-                }
+                question: "Question 2",
+                responses: [OpenStruct.new(value: "Answer 2")],
+                metadata: OpenStruct.new(portal_name: "Group A"),
+                number: 2
               )
-            ],
-            1
-          ],
-          [
-            "Group B",
-            [
+            ]
+          ),
+          OpenStruct.new(
+            portal_name: "Group B",
+            proposal_details: [
               OpenStruct.new(
-                {
-                  question: "Question 3",
-                  responses: [OpenStruct.new({ value: "Answer 3" })],
-                  metadata: OpenStruct.new({ portal_name: "Group B" })
-                }
+                question: "Question 3",
+                responses: [OpenStruct.new(value: "Answer 3")],
+                metadata: OpenStruct.new(
+                  portal_name: "Group B",
+                  auto_answered: true
+                ),
+                number: 3
               )
-            ],
-            3
-          ],
-          [
-            "Group C",
-            [
+            ]
+          ),
+          OpenStruct.new(
+            portal_name: "Group C",
+            proposal_details: [
               OpenStruct.new(
-                {
-                  question: "Question 4",
-                  responses: [OpenStruct.new({ value: "Answer 4" })],
-                  metadata: OpenStruct.new({ portal_name: "Group C" })
-                }
+                question: "Question 4",
+                responses: [OpenStruct.new(value: "Answer 4")],
+                metadata: OpenStruct.new(portal_name: "Group C"),
+                number: 4
               )
-            ],
-            4
-          ]
+            ]
+          )
         ]
       )
+    end
+
+    context "when hide_auto_answered_proposal_details is true" do
+      before { presenter.hide_auto_answered_proposal_details = true }
+
+      it "excludes auto answered proposal details" do
+        expect(presenter.filtered_proposal_detail_groups_with_numbers).to eq(
+          [
+            OpenStruct.new(
+              portal_name: "Group A",
+              proposal_details: [
+                OpenStruct.new(
+                  question: "Question 2",
+                  responses: [OpenStruct.new(value: "Answer 2")],
+                  metadata: OpenStruct.new(portal_name: "Group A"),
+                  number: 2
+                )
+              ]
+            ),
+            OpenStruct.new(
+              portal_name: "Group C",
+              proposal_details: [
+                OpenStruct.new(
+                  question: "Question 4",
+                  responses: [OpenStruct.new(value: "Answer 4")],
+                  metadata: OpenStruct.new(portal_name: "Group C"),
+                  number: 4
+                )
+              ]
+            )
+          ]
+        )
+      end
     end
   end
 

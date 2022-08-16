@@ -12,7 +12,7 @@ RSpec.describe "Planning Application show page", type: :system do
       {
         question: "What do you want to do?",
         responses: [{ value: "Modify or extend" }],
-        metadata: { portal_name: "_root" }
+        metadata: { portal_name: "_root", auto_answered: true }
       },
       {
         question: "Is the property a house?",
@@ -22,7 +22,7 @@ RSpec.describe "Planning Application show page", type: :system do
       {
         question: "What will the height of the new structure be?",
         responses: [{ value: "2.5m" }],
-        metadata: { portal_name: "Dimensions" }
+        metadata: { portal_name: "Dimensions", auto_answered: true }
       },
       {
         question: "Is the property in a world heritage site?",
@@ -160,32 +160,72 @@ RSpec.describe "Planning Application show page", type: :system do
       within("#proposal-details-section") do
         click_link("Main")
 
-        expect(URI.parse(current_url).fragment).to eq("main")
+        expect(current_url).to have_target_id("main")
 
-        group1 = find_all("ol")[0]
+        group1 = find_all(".proposal-details-sub-list")[0]
 
-        expect(group1).to have_content("What do you want to do?")
-        expect(group1).to have_content("Is the property a house?")
+        expect(group1).to have_content("1.  What do you want to do?")
+        expect(group1).to have_content("2.  Is the property a house?")
 
         click_link("Dimensions")
 
-        expect(URI.parse(current_url).fragment).to eq("dimensions")
+        expect(current_url).to have_target_id("dimensions")
 
-        group2 = find_all("ol")[1]
+        group2 = find_all(".proposal-details-sub-list")[1]
 
         expect(group2).to have_content(
-          "What will the height of the new structure be?"
+          "3.  What will the height of the new structure be?"
         )
 
         click_link("Other")
 
-        expect(URI.parse(current_url).fragment).to eq("other")
+        expect(current_url).to have_target_id("other")
 
-        group3 = find_all("ol")[2]
+        group3 = find_all(".proposal-details-sub-list")[2]
 
         expect(group3).to have_content(
-          "Is the property in a world heritage site?"
+          "4.  Is the property in a world heritage site?"
         )
+      end
+    end
+
+    it "lets user filter out auto answered proposal_details" do
+      click_button("Proposal details")
+
+      within("#proposal-details-section") do
+        check("View ONLY applicant answers, hide 'Auto-answered by RIPA")
+
+        expect(page).to have_link("Main")
+        expect(page).not_to have_link("Dimensions")
+        expect(page).to have_link("Other")
+
+        group1 = find_all(".proposal-details-sub-list")[0]
+        expect(group1).not_to have_content("1.  What do you want to do?")
+        expect(group1).to have_content("2.  Is the property a house?")
+
+        expect(page).not_to have_content(
+          "3.  What will the height of the new structure be?"
+        )
+
+        group2 = find_all(".proposal-details-sub-list")[1]
+
+        expect(group2).to have_content(
+          "4.  Is the property in a world heritage site?"
+        )
+      end
+    end
+
+    it "lets user navigate back to top of proposal details section" do
+      click_button("Proposal details")
+
+      within("#proposal-details-section") do
+        click_link("Dimensions")
+
+        expect(current_url).to have_target_id("dimensions")
+
+        first(:link, "Back to top").click
+
+        expect(current_url).to have_target_id("accordion-default-heading-3")
       end
     end
 

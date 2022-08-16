@@ -140,10 +140,6 @@ html * {
   max-width: 150px;
 }
 
-.sub-list {
-  line-height: 2;
-}
-
 .govuk-header__link--homepage {
   margin-bottom: 10px;
 
@@ -199,4 +195,43 @@ html * {
   &:last-child {
     border-bottom: none;
   }
+}
+.proposal-details-list {
+  list-style: none;
+  padding-inline-start: 0;
+
+  a {
+    font-weight: 400;
+    line-height: 40px;
+  }
+}
+
+.proposal-details-sub-list {
+  list-style: none;
+  padding-inline-start: 20px;
+  line-height: 2;
+}
+
+.proposal-detail {
+  display: flex;
+}
+
+.filter-proposal-details-form {
+  .govuk-fieldset__legend {
+    display: none;
+  }
+}
+
+.back-to-top-link {
+  display: flex;
+  align-items: center;
+
+  p {
+    margin: 0 0 0 10px;
+  }
+}
+
+.proposal-details-sub-heading {
+  display: flex;
+  justify-content: space-between;
 }

@@ -232,6 +232,8 @@ en:
       warning: Warning
     application_information:
       exempt: Exempt
+    back_to_top_link:
+      back_to_top: Back to top
   statuses:
     awaiting_correction: Corrections requested
     awaiting_determination: Awaiting determination
