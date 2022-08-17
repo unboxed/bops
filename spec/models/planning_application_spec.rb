@@ -426,6 +426,8 @@ RSpec.describe PlanningApplication, type: :model do
     context "when the application is valid" do
       context "when there have been validation requests" do
         before do
+          travel_to(DateTime.new(2022, 8, 17))
+
           [
             [3.days.ago, :closed],
             [2.days.ago, :cancelled],
