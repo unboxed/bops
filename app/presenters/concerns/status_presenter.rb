@@ -32,6 +32,8 @@ module StatusPresenter
       end
     end
 
+    alias_method :outcome, :status_tag
+
     def next_relevant_date_tag
       tag.strong(next_date_label) + tag.span(next_date)
     end

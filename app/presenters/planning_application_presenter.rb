@@ -32,4 +32,12 @@ class PlanningApplicationPresenter
   def outcome_date
     send("#{status}_at")
   end
+
+  def application_type_name
+    I18n.t("application_types.#{application_type}")
+  end
+
+  %i[awaiting_determination_at expiry_date outcome_date].each do |date|
+    define_method("formatted_#{date}") { send(date).strftime("%e %b") }
+  end
 end

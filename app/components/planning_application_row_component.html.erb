@@ -1,0 +1,11 @@
+<tr class="govuk-table__row" id=<%= dom_id(planning_application) %>>
+  <% attributes.each do |attribute| %>
+    <td class="govuk-table__cell">
+      <%= link_to_if(
+        attribute == :reference,
+        planning_application.send(attribute),
+        planning_application
+      ) %>
+    </td>
+  <% end %>
+</tr>

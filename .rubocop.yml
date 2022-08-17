@@ -62,3 +62,7 @@ RSpec/AnyInstance:
 
 RSpec/MessageSpies:
   Enabled: false
+
+Lint/MissingSuper:
+  Exclude:
+    - app/components/*.rb

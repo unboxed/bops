@@ -35,6 +35,7 @@ class PlanningApplication < ApplicationRecord
 
   delegate :reviewer_group_email, to: :local_authority
   delegate :email, to: :user, prefix: true, allow_nil: true
+  delegate :name, to: :user, prefix: true, allow_nil: true
 
   belongs_to :user, optional: true
   belongs_to :api_user, optional: true

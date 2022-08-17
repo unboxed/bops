@@ -44,20 +44,13 @@
         Contents
       </h2>
       <%= render "planning_application_tabs" %>
-
-      <%= render "planning_application_table", planning_applications: @planning_applications.not_started_and_invalid, planning_application_status: "not_started_and_invalid", title: "Not started" unless exclude_others? && current_user.reviewer?  %>
-      <%= render "planning_application_table", planning_applications: @planning_applications.under_assessment, planning_application_status: "under_assessment", title: "In assessment" unless exclude_others? && current_user.reviewer?  %>
-      <%= render "planning_application_table", planning_applications: @planning_applications.awaiting_determination, planning_application_status: "awaiting_determination", title: "Awaiting determination" %>
-      <%= render "planning_application_table", planning_applications: @planning_applications.awaiting_correction, planning_application_status: "awaiting_correction", title: "Corrections requested" unless current_user.assessor?%>
       <%= render(
-        "closed_planning_applications_table",
-        planning_applications: @planning_applications.closed,
-        planning_application_status: "closed"
-      ) %>
-      <%= render(
-         "all_planning_applications_table",
-         planning_applications: (@search.query ? @search.results : @planning_applications),
-         search: @search
+        PlanningApplicationPanelsComponent.new(
+          planning_applications: @planning_applications,
+          search: @search,
+          current_user: current_user,
+          exclude_others: exclude_others?
+        )
       ) %>
     </div>
   </div>
