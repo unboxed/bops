@@ -81,7 +81,7 @@ end
 Given("the planning application is assessed") do
   steps %(
     Given I view the planning application
-    And I press "Assess proposal"
+    And I press "Assess recommendation"
     And I choose "Yes"
     And I fill in "State the reasons why" with "a valid reason"
     And I fill in "supporting information" with "looks legit"
@@ -181,7 +181,7 @@ Given "a draft assessment on the planning application" do
   steps %(
     Given the planning application is validated
     And I view the planning application
-    And I press "Assess proposal"
+    And I press "Assess recommendation"
     When I fill in "State the reasons why this application is, or is not lawful." with "Lawful as can be"
     And I fill in "Please provide supporting information for your manager." with "I'm hoping you feel supported"
     And I press "Save and come back later"

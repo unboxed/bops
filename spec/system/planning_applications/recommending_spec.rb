@@ -11,13 +11,21 @@ RSpec.describe "Planning Application Assessment", type: :system do
     )
   end
 
-  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
+  let!(:assessor) do
+    create(
+      :user,
+      :assessor,
+      local_authority: default_local_authority,
+      name: "Alice Aplin"
+    )
+  end
 
   let!(:planning_application) do
     create(
       :planning_application,
       local_authority: default_local_authority,
-      created_at: DateTime.new(2022, 1, 1)
+      created_at: DateTime.new(2022, 1, 1),
+      public_comment: nil
     )
   end
 
@@ -36,7 +44,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           click_link(planning_application.reference)
         end
 
-        click_link "Assess proposal"
+        click_link "Assess recommendation"
         choose "Yes"
         fill_in "State the reasons why this application is, or is not lawful.", with: "This is a public comment"
         fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
@@ -48,7 +56,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         expect(planning_application.recommendations.first.assessor_comment).to eq("This is a private assessor comment")
         expect(planning_application.decision).to eq("granted")
 
-        click_link "Assess proposal"
+        click_link "Assess recommendation"
         expect(page).to have_checked_field("Yes")
         expect(page).to have_field("Please provide supporting information for your manager.",
                                    with: "This is a private assessor comment")
@@ -103,37 +111,15 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
     end
 
-    it "errors if no public comment is provided when providing rejection recommendation" do
-      click_link "In assessment"
-
-      within(selected_govuk_tab) do
-        click_link(planning_application.reference)
-      end
-
-      click_link "Assess proposal"
-      choose "No"
-      fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
-      fill_in "State the reasons why this application is, or is not lawful.", with: ""
-      click_button "Save and mark as complete"
-
-      expect(page).to have_content("Please state the reasons why this application is, or is not lawful")
-
-      expect(planning_application.status).to eq("in_assessment")
-    end
-
-    it "errors if no decision given" do
-      click_link "In assessment"
-
-      within(selected_govuk_tab) do
-        click_link(planning_application.reference)
-      end
-
-      click_link "Assess proposal"
-      click_button "Save and mark as complete"
+    it "shows errors if decision and public comment are blank" do
+      visit(recommendation_form_planning_application_path(planning_application))
+      click_button("Save and mark as complete")
 
       expect(page).to have_content("Please select Yes or No")
 
-      expect(planning_application.status).to eq("in_assessment")
+      expect(page).to have_content(
+        "Please state the reasons why this application is, or is not lawful"
+      )
     end
   end
 
@@ -154,7 +140,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         click_link(planning_application.reference)
       end
 
-      click_link "Assess proposal"
+      click_link "Assess recommendation"
 
       within ".recommendations" do
         expect(page).to have_content("I disagree")
@@ -173,7 +159,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(planning_application.recommendations.last.assessor_comment).to eq("This is a private assessor comment")
       expect(planning_application.decision).to eq("granted")
 
-      click_link "Assess proposal"
+      click_link "Assess recommendation"
 
       within ".recommendations" do
         expect(page).to have_content("I disagree")
@@ -195,7 +181,12 @@ RSpec.describe "Planning Application Assessment", type: :system do
         click_link(planning_application.reference)
       end
 
-      click_link("Assess proposal")
+      click_link("Assess recommendation")
+
+      expect(page).to have_content(
+        "No legislation assessed for this application"
+      )
+
       choose("Yes")
       fill_in("State the reasons why this application is, or is not lawful.", with: "This is a public comment")
       fill_in("Please provide supporting information for your manager.", with: "This is a private assessor comment")
@@ -248,7 +239,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           click_link(planning_application.reference)
         end
 
-        click_link("Assess proposal")
+        click_link("Assess recommendation")
         choose("Yes")
         fill_in("State the reasons why this application is, or is not lawful.", with: "This is a public comment")
         fill_in("Please provide supporting information for your manager.", with: "This is a private assessor comment")
@@ -324,7 +315,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           click_link(planning_application.reference)
         end
 
-        click_link "Assess proposal"
+        click_link "Assess recommendation"
         choose "Yes"
         fill_in "State the reasons why this application is, or is not lawful.", with: "This is a public comment"
         fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
@@ -336,7 +327,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         expect(planning_application.recommendations.first.assessor_comment).to eq("This is a private assessor comment")
         expect(planning_application.decision).to eq("granted")
 
-        click_link "Assess proposal"
+        click_link "Assess recommendation"
         expect(page).to have_checked_field("Yes")
         expect(page).to have_content("This is a public comment")
         expect(page).to have_field("Please provide supporting information for your manager.",
@@ -351,12 +342,106 @@ RSpec.describe "Planning Application Assessment", type: :system do
         click_link(planning_application.reference)
       end
 
-      click_link "Assess proposal"
+      click_link "Assess recommendation"
       click_button "Save and come back later"
 
       expect(page).not_to have_content("Please select Yes or No")
 
       expect(planning_application.status).to eq("in_assessment")
+    end
+
+    context "when officer assesses legislation" do
+      it "shows assessed legislation on recommendation page" do
+        visit(planning_application_path(planning_application))
+        click_link("Add assessment area")
+        choose("Part 1 - Development within the curtilage of a dwellinghouse")
+        click_button("Continue")
+        check("Class D - porches")
+        click_button("Add classes")
+        click_link("Part 1, Class D")
+        choose("policies_1a_complies")
+        choose("policies_1b_complies")
+        choose("policies_1c_complies")
+        choose("policies_1d_complies")
+        choose("policies_1e_to_be_determined")
+        click_button("Save assessments")
+        click_link("Assess recommendation")
+
+        expect(page).to have_content("To be determined")
+
+        click_link("Part 1, Class D - porches")
+        choose("policies_1e_does_not_comply")
+        click_button("Save assessments")
+        click_link("Assess recommendation")
+
+        expect(page).to have_content("Does not comply")
+
+        expect(page).to have_content(
+          "Development is not permitted by Class D if the dwellinghouse is built under Part 20 of this Schedule (construction of new dwellinghouses)"
+        )
+
+        click_link("Part 1, Class D - porches")
+        choose("policies_1e_complies")
+        click_button("Save assessments")
+        click_link("Assess recommendation")
+
+        expect(page).to have_content("Complies")
+      end
+    end
+
+    context "when assessor submits recommendation and reviewer requests changes" do
+      let(:reviewer) do
+        create(
+          :user,
+          :reviewer,
+          local_authority: default_local_authority,
+          name: "Bella Brook"
+        )
+      end
+
+      it "displays recommendation events" do
+        travel_to(Time.zone.local(2022, 8, 23, 9))
+
+        visit(
+          recommendation_form_planning_application_path(planning_application)
+        )
+
+        choose("Yes")
+
+        fill_in(
+          "State the reasons why this application is, or is not lawful.",
+          with: "Application valid."
+        )
+
+        fill_in(
+          "Please provide supporting information for your manager.",
+          with: "Requirements met."
+        )
+
+        click_button("Save and mark as complete")
+        click_link("Submit recommendation")
+        click_button("Submit to manager")
+        sign_in(reviewer)
+        visit(review_form_planning_application_path(planning_application))
+        choose("No")
+        fill_in("Review comment", with: "Requirements not met.")
+        click_button("Save")
+        click_link("Assess recommendation")
+
+        events = find_all(".recommendation-event")
+
+        within(events[0]) do
+          expect(page).to have_content("Submitted recommendation")
+          expect(page).to have_content("by Alice Aplin, 23 Aug 2022 at 09:00am")
+          expect(page).to have_content("Requirements met.")
+        end
+
+        within(events[1]) do
+          expect(page).to have_content("Recommendation queried")
+          expect(page).to have_content("by Bella Brook, 23 Aug 2022 at 09:00am")
+          expect(page).to have_content("Requirements not met.")
+        end
+      end
     end
   end
 

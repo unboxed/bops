@@ -4,9 +4,6 @@ FactoryBot.define do
   factory :policy_class do
     id { "A" }
     name { Faker::Lorem.sentence }
-
-    after(:build) do |_, policy_class|
-      policy_class.policies = attributes_for_list(:policy_reference, 3)
-    end
+    policies { attributes_for_list(:policy_reference, 3) }
   end
 end

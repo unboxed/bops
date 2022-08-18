@@ -16,9 +16,13 @@ en:
           attributes:
             base:
               no_boundary_geojson: This application does not have a digital sitemap and cannot be validated. Please <a href='%{path}'>create a digital site map</a> before validating this application.
+            decision:
+              blank: Please select Yes or No
             payment_amount:
               greater_than_or_equal_to: Payment amount (£) must be greater than or equal to 0
               not_a_number: Payment amount must be a number not exceeding 2 decimal places
+            public_comment:
+              blank: Please state the reasons why this application is, or is not lawful
   additional_document_validation_requests:
     create:
       success: Additional document request successfully created.

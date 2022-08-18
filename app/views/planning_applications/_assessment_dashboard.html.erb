@@ -6,7 +6,10 @@
   <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
 <% end %>
 
-<%= render "proposal_header" %>
+<%= render(
+  partial: "proposal_header",
+  locals: { heading: local_assigns.fetch(:heading, nil) }
+) %>
 
 <div class="govuk-grid-column-two-thirds">
   <% if @planning_application.validation_requests %>
