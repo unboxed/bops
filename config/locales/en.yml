@@ -1,8 +1,156 @@
+---
 en:
+  activerecord:
+    errors:
+      models:
+        document:
+          attributes:
+            file:
+              missing_file: Please choose a file
+              unsupported_file_type: The selected file must be a PDF, JPG or PNG
+            numbers:
+              missing_numbers: All documents listed on the decision notice must have a document number
+            tags:
+              unpermitted_tags: Please choose valid tags
+        planning_application:
+          attributes:
+            base:
+              no_boundary_geojson: This application does not have a digital sitemap and cannot be validated. Please <a href='%{path}'>create a digital site map</a> before validating this application.
+            payment_amount:
+              greater_than_or_equal_to: Payment amount (£) must be greater than or equal to 0
+              not_a_number: Payment amount must be a number not exceeding 2 decimal places
+  additional_document_validation_requests:
+    create:
+      success: Additional document request successfully created.
+  administrator_dashboard:
+    show:
+      administrator_dashboard: Administrator dashboard
+      local_authority_successfully_updated: Council information successfully updated
+      user_successfully_created: User successfully created
+      user_successfully_updated: User successfully updated
+  application:
+    header:
+      back_office_planning: Back-office Planning System
+      log_out: Log out
+  application_type_codes:
+    lawfulness_certificate:
+      existing: LDCE
+      proposed: LDCP
+  application_types:
+    full: Full Householder Application
+    lawfulness_certificate: Lawful Development Certificate
+  archive_reasons:
+    design: Revise design
+    dimensions: Revise dimensions
+    other: Other
+    scale: Missing scale bar or north arrow
   audit_user_name:
     applicant: Applicant / Agent via %{api_user_name}
     deleted: User deleted
     system: Automated by the system
+  audits:
+    types:
+      additional_document_validation_request_sent_post_validation:
+        document: 'Document:'
+        reason: 'Reason:'
+      description_change_validation_request_auto_closed:
+        auto_closed_validation: 'Auto-closed: validation request (description#%{sequence})'
+      red_line_boundary_change_validation_request_auto_closed:
+        auto_closed_validation: 'Auto-closed: validation request (red line boundary#%{sequence})'
+  council_code:
+    buckinghamshire: BUC
+    lambeth: LBH
+    ripa: RIPA
+    southwark: SWK
+  description_change_validation_requests:
+    description_change_validation_request:
+      change_description: Change description
+      description_change: Description change
+      new_description: 'New description:'
+      proposed_description: 'Propsed description:'
+  documents:
+    document_row_image:
+      view_in_new: View in new window
+    index:
+      request_a_new: Request a new document
+      upload_document: Upload document
+  emails:
+    subjects:
+      cancelled_validation_request_mail: Update on your application for a Lawful Development Certificate
+      decision_notice_mail: Decision on your Lawful Development Certificate  application
+      description_change_mail: Lawful Development Certificate application - suggested changes
+      description_closure_notification_mail: Changes to your Lawful Development Certificate application
+      invalidation_notice_mail: Lawful Development Certificate application - changes needed
+      otp_mail: Back Office Planning System verification code
+      post_validation_request_mail: Lawful Development Certificate application  - changes needed
+      receipt_notice_mail: Lawful Development Certificate application received
+      update_notification_mail: BoPS case %{reference} has a new update
+      validation_notice_mail: Your application for a Lawful Development Certificate
+      validation_request_closure_mail: Changes to your Lawful Development Certificate application
+      validation_request_mail: Lawful Development Certificate application  - further changes needed
+  fee_items:
+    fee_item_table:
+      description: Description
+      detail: Detail
+      exempt: Exempt
+      fee_paid: Fee Paid
+      item: Item
+      payment_reference: Payment Reference
+    proposal_details_table:
+      related_legislation: Related legislation
+      related_questions: Related questions from RIPA
+  helpers:
+    hint:
+      other_change_validation_request:
+        suggestion: Add all information that they will need to complete this action.
+    label:
+      additional_document_validation_request:
+        cancel_reason: Explain to the applicant why this request is being cancelled
+      description_change_validation_request:
+        cancel_reason: Explain to the applicant why this request is being cancelled
+      note:
+        entry: Add a note to this application.
+      other_change_validation_request:
+        cancel_reason: Explain to the applicant why this request is being cancelled
+        suggestion: Explain to the applicant how the application can be made valid.
+        summary: Tell the applicant another reason why the application is invalid.
+      planning_application:
+        closed_or_cancellation_comment: Provide a reason
+        public_comment: 'This information will appear on the decision notice:'
+      red_line_boundary_change_validation_request:
+        cancel_reason: Explain to the applicant why this request is being cancelled
+      replacement_document_validation_request:
+        cancel_reason: Explain to the applicant why this request is being cancelled
+        reason: List all issues with the document.
+      user:
+        email: Email
+        mobile_number: Mobile number
+        name: Name
+        otp_attempt: Security code
+        otp_delivery_method: Verification code delivery method
+        password: Password
+        role: Role
+    legend:
+      planning_application:
+        determination_date: Enter determination date
+        received_at: Date received
+        valid_fee: Is the fee valid?
+        valid_red_line_boundary: Is this red line boundary valid?
+        validated_at: Valid from
+  local_authorities:
+    edit:
+      edit_local_authority: Edit council information
+      submit: Submit
+    table:
+      edit: Edit
+      local_authority: Council information
+      reviewer_group_email: Manager group email
+  other_change_validation_requests:
+    form:
+      labels:
+        suggestion: Tell the applicant how the fee can be made valid.
+        summary: Tell the applicant why the fee is incorrect.
+  page_title: BETA BOPs - GOV.UK
   planning_application_panel_component:
     all: All
     all_applications: All applications
@@ -23,79 +171,17 @@ en:
     status_tag: Status
     under_assessment: In assessment
     user_name: Planning officer
-  application:
-    header:
-      back_office_planning: "Back-office Planning System"
-      log_out: Log out
-  administrator_dashboard:
-    show:
-      administrator_dashboard: Administrator dashboard
-      local_authority_successfully_updated: Council information successfully updated
-      user_successfully_created: User successfully created
-      user_successfully_updated: User successfully updated
-  local_authorities:
-    edit:
-      edit_local_authority: Edit council information
-      submit: Submit
-    table:
-      edit: Edit
-      local_authority: Council information
-      reviewer_group_email: Manager group email
-  emails:
-    subjects:
-      cancelled_validation_request_mail: Update on your application for a Lawful Development Certificate
-      decision_notice_mail: Decision on your Lawful Development Certificate  application
-      description_change_mail: Lawful Development Certificate application - suggested changes
-      description_closure_notification_mail: Changes to your Lawful Development Certificate application
-      invalidation_notice_mail: Lawful Development Certificate application - changes needed
-      otp_mail: Back Office Planning System verification code
-      receipt_notice_mail: Lawful Development Certificate application received
-      validation_notice_mail: Your application for a Lawful Development Certificate
-      validation_request_mail: Lawful Development Certificate application  - further changes needed
-      post_validation_request_mail: Lawful Development Certificate application  - changes needed
-      update_notification_mail: BoPS case %{reference} has a new update
-      validation_request_closure_mail: Changes to your Lawful Development Certificate application
-  user_mailer:
-    otp_mail:
-      otp_is_your: "%{otp} is your Back Office Planning System verification code."
-    update_notification_mail:
-      bops_case_reference: BoPS case %{reference} has a new update.
-      bops_updates: BoPS updates
-      view_reference_on: View %{reference} on BoPS
+  planning_applications:
+    confirm_validation:
+      validate_application: Validate application
+  proposal_details:
+    auto_answered: Auto-answered by RIPA
+    main: Main
+    other: Other
   search_form_component:
     find_an_application: Find an application
     search: Search
     you_can_search: You can search by application number or description
-  additional_document_validation_requests:
-    create:
-      success: Additional document request successfully created.
-  audits:
-    types:
-      additional_document_validation_request_sent_post_validation:
-        document: "Document:"
-        reason: "Reason:"
-      description_change_validation_request_auto_closed:
-        auto_closed_validation: "Auto-closed: validation request (description#%{sequence})"
-      red_line_boundary_change_validation_request_auto_closed:
-        auto_closed_validation: "Auto-closed: validation request (red line boundary#%{sequence})"
-  documents:
-    document_row_image:
-      view_in_new: View in new window
-    index:
-      request_a_new: Request a new document
-      upload_document: Upload document
-  validation_requests:
-    index:
-      for_new_document: For new document requests, requests will remain open until responded, cancelled or the application is decided.
-      for_redline_and: For redline and description requests, the applicant can reject or accept these changes within 5 working days. After that these requests will be automatically accepted.
-      post_validation_requests: Post-validation requests
-      validation_requests: Validation requests
-    table:
-      view: View
-      view_and_update: View and update
-  planning_applications:
-    confirm_validation:
-      validate_application: Validate application
   shared:
     administrator_layout:
       add_user: Add user
@@ -106,59 +192,26 @@ en:
       warning: Warning
     application_information:
       exempt: Exempt
-  page_title: "BETA BOPs - GOV.UK"
   statuses:
-    not_started: "Not started"
-    invalidated: "Invalidated"
-    in_assessment: "In assessment"
-    awaiting_determination: "Awaiting determination"
-    awaiting_correction: "Corrections requested"
-    returned: "Returned"
-    withdrawn: "Withdrawn"
-    determined: "Determined"
-  application_types:
-    full: "Full Householder Application"
-    lawfulness_certificate: "Lawful Development Certificate"
-  application_type_codes:
-    lawfulness_certificate:
-      proposed: "LDCP"
-      existing: "LDCE"
-  archive_reasons:
-    scale: "Missing scale bar or north arrow"
-    design: "Revise design"
-    dimensions: "Revise dimensions"
-    other: "Other"
-  user_not_authorized: "You are not authorized to perform this action."
+    awaiting_correction: Corrections requested
+    awaiting_determination: Awaiting determination
+    determined: Determined
+    in_assessment: In assessment
+    invalidated: Invalidated
+    not_started: Not started
+    returned: Returned
+    withdrawn: Withdrawn
   user:
-    officer_role: "Case Officer"
-    manager_role: "Manager"
-  fee_items:
-    fee_item_table:
-      description: Description
-      detail: Detail
-      exempt: Exempt
-      fee_paid: Fee Paid
-      item: Item
-      payment_reference: Payment Reference
-    proposal_details_table:
-      related_questions: Related questions from RIPA
-      related_legislation: Related legislation
-  other_change_validation_requests:
-    form:
-      labels:
-        suggestion: Tell the applicant how the fee can be made valid.
-        summary: Tell the applicant why the fee is incorrect.
-  council_code:
-    lambeth: LBH
-    southwark: SWK
-    buckinghamshire: BUC
-    ripa: RIPA
-  description_change_validation_requests:
-    description_change_validation_request:
-      change_description: Change description
-      description_change: Description change
-      new_description: "New description:"
-      proposed_description: "Propsed description:"
+    manager_role: Manager
+    officer_role: Case Officer
+  user_mailer:
+    otp_mail:
+      otp_is_your: "%{otp} is your Back Office Planning System verification code."
+    update_notification_mail:
+      bops_case_reference: BoPS case %{reference} has a new update.
+      bops_updates: BoPS updates
+      view_reference_on: View %{reference} on BoPS
+  user_not_authorized: You are not authorized to perform this action.
   users:
     edit:
       edit_user: Edit user
@@ -172,72 +225,21 @@ en:
       actions: Actions
       edit: Edit
       email: Email
-      false: "No"
+      'false': 'No'
       mobile_number: Mobile number
       name: Name
       otp_delivery_method: Verification code delivery method
       otp_required_for_login: Two factor authentication
       role: Role
       sms: SMS
-      true: "Yes"
+      'true': 'Yes'
       users: Users
-  proposal_details:
-    auto_answered: Auto-answered by RIPA
-    main: Main
-    other: Other
-  activerecord:
-    errors:
-      models:
-        document:
-          attributes:
-            file:
-              unsupported_file_type: "The selected file must be a PDF, JPG or PNG"
-              missing_file: "Please choose a file"
-            tags:
-              unpermitted_tags: "Please choose valid tags"
-            numbers:
-              missing_numbers: "All documents listed on the decision notice must have a document number"
-        planning_application:
-          attributes:
-            base:
-              no_boundary_geojson: "This application does not have a digital sitemap and cannot be validated. Please <a href='%{path}'>create a digital site map</a> before validating this application."
-            payment_amount:
-              greater_than_or_equal_to: "Payment amount (£) must be greater than or equal to 0"
-              not_a_number: "Payment amount must be a number not exceeding 2 decimal places"
-
-  helpers:
-    hint:
-      other_change_validation_request:
-        suggestion: "Add all information that they will need to complete this action."
-    label:
-      planning_application:
-        closed_or_cancellation_comment: "Provide a reason"
-        public_comment: "This information will appear on the decision notice:"
-      additional_document_validation_request: &cancel_reason
-        cancel_reason: "Explain to the applicant why this request is being cancelled"
-      description_change_validation_request: *cancel_reason
-      other_change_validation_request:
-        cancel_reason: "Explain to the applicant why this request is being cancelled"
-        summary: "Tell the applicant another reason why the application is invalid."
-        suggestion: "Explain to the applicant how the application can be made valid."
-      red_line_boundary_change_validation_request: *cancel_reason
-      replacement_document_validation_request:
-        cancel_reason: "Explain to the applicant why this request is being cancelled"
-        reason: "List all issues with the document."
-      note:
-        entry: "Add a note to this application."
-      user:
-        otp_attempt: "Security code"
-        otp_delivery_method: Verification code delivery method
-        email: Email
-        mobile_number: Mobile number
-        name: Name
-        password: Password
-        role: Role
-    legend:
-      planning_application:
-        determination_date: "Enter determination date"
-        received_at: "Date received"
-        valid_fee: "Is the fee valid?"
-        valid_red_line_boundary: "Is this red line boundary valid?"
-        validated_at: "Valid from"
+  validation_requests:
+    index:
+      for_new_document: For new document requests, requests will remain open until responded, cancelled or the application is decided.
+      for_redline_and: For redline and description requests, the applicant can reject or accept these changes within 5 working days. After that these requests will be automatically accepted.
+      post_validation_requests: Post-validation requests
+      validation_requests: Validation requests
+    table:
+      view: View
+      view_and_update: View and update
