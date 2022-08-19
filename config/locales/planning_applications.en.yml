@@ -1,11 +1,13 @@
+---
 en:
   planning_applications:
-    tabs:
-      all_applications: All applications
-      all_your_applications: All your applications
     assessment_dashboard:
       awaiting_approval_to: Awaiting approval to a description change (sent on %{date})
       edit_information_on: Edit information on the decision notice
+    days_left:
+      one: 1 day remaining
+      other: "%{count} days remaining"
+      zero: "%{count} days overdue"
     index:
       assessor_alert:
         one: Your manager has requested corrections on <strong>%{count} application.</strong>
@@ -13,18 +15,17 @@ en:
       reviewer_alert:
         one: You have <strong>%{count} application</strong> returned to you with corrections.
         other: You have <strong>%{count} applications</strong> returned to you with corrections.
-    days_left:
-      one: '1 day remaining'
-      zero: '%{count} days overdue'
-      other: '%{count} days remaining'
     overdue:
-      one: '1 day overdue'
-      other: '%{count} days overdue'
+      one: 1 day overdue
+      other: "%{count} days overdue"
     policy_consideration_list:
       proposal_details: Proposal details
     steps:
       validation:
         check_and_validate: Check and validate
+    tabs:
+      all_applications: All applications
+      all_your_applications: All your applications
     validation_status:
       complete: Complete
       in_progress: In progress

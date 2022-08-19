@@ -1,0 +1,22 @@
+base_locale: en
+data:
+  read:
+    - config/locales/%{locale}.yml
+    - config/locales/*.%{locale}.yml
+    - config/locales/**/*.%{locale}.yml
+  yaml:
+    write:
+      line_width: -1
+search:
+  relative_roots:
+    - app/controllers
+    - app/components
+    - app/helpers
+    - app/mailers
+    - app/presenters
+    - app/views
+  exclude:
+    - app/assets/images
+    - app/assets/fonts
+    - app/assets/videos
+    - app/assets/builds
