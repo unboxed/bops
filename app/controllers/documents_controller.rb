@@ -24,6 +24,8 @@ class DocumentsController < AuthenticationController
   end
 
   def edit
+    set_return_to_session
+
     respond_to do |format|
       format.html { render :edit }
     end
@@ -46,6 +48,8 @@ class DocumentsController < AuthenticationController
   end
 
   def archive
+    set_return_to_session
+
     respond_to do |format|
       format.html
     end
@@ -83,7 +87,7 @@ class DocumentsController < AuthenticationController
 
     if @document.archived?
       flash[:notice] = "#{@document.name} has been archived"
-      redirect_to planning_application_documents_path
+      redirect_to(return_to_session || planning_application_documents_path(@planning_application))
     else
       flash[:alert] = "There was an error with archiving #{@document.name}"
       render :archive
@@ -128,6 +132,8 @@ class DocumentsController < AuthenticationController
   def redirect_url
     if @validate_document
       planning_application_validation_tasks_path(@planning_application)
+    elsif session[:return_to]
+      return_to_session
     else
       planning_application_documents_path(@planning_application)
     end
@@ -135,5 +141,13 @@ class DocumentsController < AuthenticationController
 
   def ensure_blob_is_representable
     render plain: "forbidden", status: :forbidden and return unless @document.representable?
+  end
+
+  def set_return_to_session
+    session[:return_to] ||= request.referer
+  end
+
+  def return_to_session
+    session.delete(:return_to)
   end
 end
