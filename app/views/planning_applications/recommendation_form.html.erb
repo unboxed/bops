@@ -12,6 +12,25 @@
   </p>
 
   <%= render "recommendations", { recommendations: @planning_application.recommendations.reviewed } %>
+
+  <div id="decision-notice-documents">
+    <p class="govuk-body">
+      <strong>Documents included in the decision notice</strong>
+      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+    </p>
+
+    <% if @planning_application.documents_for_decision_notice.any? %>
+      <ul class="govuk-list">
+        <% @planning_application.documents_for_decision_notice.each do |document| %>
+          <li><%= link_to document_name_and_reference(document), edit_planning_application_document_path(document.planning_application, document.id), target: :_blank %></li>
+          <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="govuk-body">No documents listed on decision notice.</p>
+    <% end %>
+  </div>
+
   <%= form_for @planning_application, url: recommend_planning_application_path(@planning_application) do |form| %>
     <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
       <p class="govuk-body">

@@ -24,4 +24,8 @@ module DocumentHelper
       "This document was uploaded by #{document.api_user.name}"
     end
   end
+
+  def document_name_and_reference(document)
+    "#{document.name}#{document.numbers? ? " - #{document.numbers}" : ''}"
+  end
 end
