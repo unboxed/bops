@@ -19,7 +19,7 @@
       <% if @validate_document %>
         <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
       <% else %>
-        <%= link_to "Back", planning_application_documents_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+        <%= link_to "Back", :back, class: "govuk-button govuk-button--secondary" %>
       <% end %>
     </div>
   </div>

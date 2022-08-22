@@ -3,7 +3,7 @@
     <% documents.each do |document| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell govuk-!-width-one-quarter">
-          <%= render "documents/document_row_image", document: document, resize: "500x500", width: 180, height: 120 %>
+          <%= render "documents/document_row_image", document: document, resize: "500x500", width: 180, height: 120, edit_and_archive: false %>
         </td>
 
         <td class="govuk-table__cell govuk-!-width-one-half">

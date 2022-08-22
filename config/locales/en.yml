@@ -71,6 +71,8 @@ en:
   documents:
     document_row_image:
       view_in_new: View in new window
+      edit: Edit
+      archive: Archive
     index:
       request_a_new: Request a new document
       upload_document: Upload document

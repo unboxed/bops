@@ -65,5 +65,104 @@ RSpec.describe "Edit document", type: :system do
         expect(page).to have_content("forbidden")
       end
     end
+
+    context "when editing/archiving document from the documents accordian section" do
+      it "can edit document and return back to the planning applications index page" do
+        visit planning_application_path(planning_application)
+        click_button "Documents"
+
+        within(".scroll-docs") do
+          click_link "Edit"
+        end
+
+        fill_in "numbers", with: "DOCREF123"
+
+        click_button "Save"
+
+        expect(page).to have_content("Document has been updated")
+        expect(page).to have_current_path(planning_application_path(planning_application))
+      end
+
+      it "can archive document and return back to the planning applications index page" do
+        visit planning_application_path(planning_application)
+        click_button "Documents"
+
+        within(".scroll-docs") do
+          click_link "Archive"
+        end
+
+        fill_in "archive_reason", with: "an archive reason"
+
+        click_button "Archive"
+
+        expect(page).to have_content("#{document.name} has been archived")
+        expect(page).to have_current_path(planning_application_path(planning_application))
+      end
+
+      it "the back button returns to the planning applications index page" do
+        visit planning_application_path(planning_application)
+        click_button "Documents"
+
+        within(".scroll-docs") do
+          click_link "Edit"
+        end
+
+        click_link "Back"
+        expect(page).to have_current_path(planning_application_path(planning_application))
+      end
+    end
+
+    context "when editing/archiving document from the documents index" do
+      it "can edit document and return back to the documents index page" do
+        within(".current-documents") do
+          click_link "Edit"
+        end
+
+        fill_in "numbers", with: "DOCREF123"
+
+        click_button "Save"
+
+        expect(page).to have_content("Document has been updated")
+        expect(page).to have_current_path(planning_application_documents_path(planning_application))
+      end
+
+      it "can archive document and return back to the documents index page" do
+        within(".current-documents") do
+          click_link "Archive"
+        end
+
+        fill_in "archive_reason", with: "an archive reason"
+
+        click_button "Archive"
+
+        expect(page).to have_content("#{document.name} has been archived")
+        expect(page).to have_current_path(planning_application_documents_path(planning_application))
+      end
+
+      it "the back button returns to the documents index page" do
+        within(".current-documents") do
+          click_link "Edit"
+        end
+
+        click_link "Back"
+        expect(page).to have_current_path(planning_application_documents_path(planning_application))
+      end
+    end
+
+    context "when visiting the edit/archive url directly" do
+      it "edit returns to the documents index page" do
+        visit edit_planning_application_document_path(planning_application, document)
+
+        click_button "Save"
+        expect(page).to have_current_path(planning_application_documents_path(planning_application))
+      end
+
+      it "arhive returns to the documents index page" do
+        visit planning_application_document_archive_path(planning_application, document)
+
+        click_button "Archive"
+        expect(page).to have_current_path(planning_application_documents_path(planning_application))
+      end
+    end
   end
 end
