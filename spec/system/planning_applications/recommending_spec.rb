@@ -359,4 +359,54 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(planning_application.status).to eq("in_assessment")
     end
   end
+
+  context "when displaying documents included in the decision notice" do
+    context "when there are documents" do
+      let!(:decision_notice_document1) do
+        create(:document, :referenced, numbers: "A", planning_application: planning_application)
+      end
+
+      let!(:decision_notice_document2) do
+        create(:document, :referenced, numbers: "B", planning_application: planning_application)
+      end
+
+      let!(:non_decision_notice_document) do
+        create(:document, referenced_in_decision_notice: false, numbers: "C", planning_application: planning_application)
+      end
+
+      let!(:archived_document) do
+        create(:document, :referenced, :archived, numbers: "D", planning_application: planning_application)
+      end
+
+      it "displays the documents to be referenced in the decision notice" do
+        visit recommendation_form_planning_application_path(planning_application)
+
+        within("#decision-notice-documents") do
+          expect(page).to have_content("Documents included in the decision notice")
+          expect(page).to have_link(
+            "#{decision_notice_document1.name} - A",
+            href: edit_planning_application_document_path(decision_notice_document1.planning_application, decision_notice_document1.id)
+          )
+          expect(page).to have_link(
+            "#{decision_notice_document2.name} - B",
+            href: edit_planning_application_document_path(decision_notice_document2.planning_application, decision_notice_document2.id)
+          )
+
+          expect(page).not_to have_content("#{non_decision_notice_document.name} - C")
+          expect(page).not_to have_content("#{archived_document.name} - D")
+        end
+      end
+    end
+
+    context "when there are no documents" do
+      it "displays there are no documents text" do
+        visit recommendation_form_planning_application_path(planning_application)
+
+        within("#decision-notice-documents") do
+          expect(page).to have_content("Documents included in the decision notice")
+          expect(page).to have_content("No documents listed on decision notice.")
+        end
+      end
+    end
+  end
 end
