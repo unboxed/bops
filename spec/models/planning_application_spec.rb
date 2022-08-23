@@ -889,4 +889,33 @@ RSpec.describe PlanningApplication, type: :model do
       end
     end
   end
+
+  describe "#existing_or_new_recommendation" do
+    let(:planning_application) { create(:planning_application) }
+
+    context "when planning application has no recommendation" do
+      it "returns new recommendation" do
+        expect(
+          planning_application.existing_or_new_recommendation
+        ).to have_attributes(
+          planning_application_id: planning_application.id,
+          id: nil
+        )
+      end
+    end
+
+    context "when planning application has existing recommendation" do
+      let!(:recommendation) do
+        create(:recommendation, planning_application: planning_application)
+      end
+
+      it "returns new recommendation" do
+        expect(
+          planning_application.existing_or_new_recommendation
+        ).to eq(
+          recommendation
+        )
+      end
+    end
+  end
 end

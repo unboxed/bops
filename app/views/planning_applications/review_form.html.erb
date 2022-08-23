@@ -29,7 +29,10 @@
     class: "govuk-link"
   ) %>
 
-  <%= render "recommendations", { recommendations: @planning_application.recommendations } %>
+  <%= render(
+    "recommendations/events",
+    { recommendations: @planning_application.recommendations }
+  ) %>
 
   <%= form_for @recommendation, url: review_planning_application_path(@planning_application) do |form| %>
     <% if form.object.errors.any? %>

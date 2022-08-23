@@ -138,32 +138,9 @@ class PlanningApplicationsController < AuthenticationController
     end
   end
 
-  def recommendation_form
-    @recommendation = @planning_application.recommendations.last || @planning_application.pending_or_new_recommendation
-  end
-
   def edit_public_comment
     respond_to do |format|
       format.html { render :edit_public_comment }
-    end
-  end
-
-  def recommend
-    @recommendation = @planning_application.pending_or_new_recommendation
-
-    @planning_application.assign_attributes(
-      recommendation_params.except(:recommendations_attributes)
-    )
-
-    @recommendation.assign_attributes(
-      recommendation_params[:recommendations_attributes]["0"]
-    )
-
-    if @planning_application.save && @recommendation.save
-      @planning_application.assess!
-      redirect_to @planning_application
-    else
-      render :recommendation_form
     end
   end
 
@@ -195,12 +172,6 @@ class PlanningApplicationsController < AuthenticationController
         format.html { redirect_failed_withdraw_recommendation }
       end
     end
-  end
-
-  def save_assessment
-    @planning_application.assign_attributes(recommendation_params)
-    @planning_application.save_assessment
-    redirect_to @planning_application
   end
 
   def submit
@@ -329,22 +300,6 @@ class PlanningApplicationsController < AuthenticationController
 
   def planning_applications_scope
     @planning_applications_scope ||= current_local_authority.planning_applications.with_user.by_created_at_desc
-  end
-
-  def recommendation_params
-    params
-      .require(:planning_application)
-      .permit(permitted_recommendation_keys)
-      .to_h
-      .deep_merge(recommendations_attributes: { "0": { assessor: current_user } })
-  end
-
-  def permitted_recommendation_keys
-    [
-      :public_comment,
-      :decision,
-      { recommendations_attributes: %i[assessor_comment] }
-    ]
   end
 
   def planning_application_params

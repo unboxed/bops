@@ -14,31 +14,21 @@
     }
   ) %>
   <%= render(
-     partial: "recommendations",
+     partial: "events",
      locals: { recommendations: @planning_application.recommendations.reviewed }
   ) %>
-  <div id="decision-notice-documents">
-    <p class="govuk-body">
-      <strong>Documents included in the decision notice</strong>
-      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-    </p>
-
-    <% if @planning_application.documents_for_decision_notice.any? %>
-      <ul class="govuk-list">
-        <% @planning_application.documents_for_decision_notice.each do |document| %>
-          <li><%= link_to document_name_and_reference(document), edit_planning_application_document_path(document.planning_application, document.id), target: :_blank %></li>
-          <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-        <% end %>
-      </ul>
-    <% else %>
-      <p class="govuk-body">No documents listed on decision notice.</p>
-    <% end %>
-  </div>
+  <%= render(
+     partial: "documents",
+     locals: {
+       planning_application: @planning_application,
+       documents: @planning_application.documents_for_decision_notice
+     }
+  ) %>
   <h2 class="govuk-heading-m"><%= t(".assess_recommendation") %></h2>
   <%= form_with(
-    model: @planning_application,
-    url: recommend_planning_application_path(@planning_application),
+    model: @recommendation,
     builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+    url: planning_application_recommendations_path(@planning_application)
   ) do |form| %>
     <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
     <%= form.govuk_collection_radio_buttons(
@@ -56,7 +46,7 @@
         locals: { message: t(".this_information_will") }
       ) %>
       <% if form.object.errors[:public_comment].any? %>
-        <p id="planning-application-public-comment-field-error" class="govuk-error-message">
+        <p id="recommendation-form-public-comment-field-error" class="govuk-error-message">
           <span class="govuk-visually-hidden">
             <%= t(".error") %>
           </span>
@@ -69,14 +59,12 @@
         rows: 9
       ) %>
     </div>
-    <%= form.fields_for(:recommendations, @recommendation) do |fields| %>
-      <%= fields.govuk_text_area(
-        :assessor_comment,
-        label: { text: t(".please_provide_supporting"), size: "s" },
-        hint: { text: t(".this_information_will_not") },
-        rows: 9
-      ) %>
-    <% end %>
+    <%= form.govuk_text_area(
+      :assessor_comment,
+      label: { text: t(".please_provide_supporting"), size: "s" },
+      hint: { text: t(".this_information_will_not") },
+      rows: 9
+    ) %>
     <div class="govuk-button-group">
       <% if @planning_application.assessment_submitted? %>
         <%= form.govuk_submit(t(".update_assessment")) %>
@@ -85,7 +73,6 @@
         <%= form.submit(
           t(".save_and_come"),
           class: "govuk-button govuk-button--secondary",
-          formaction: "save_assessment",
           data: { module: "govuk-button" }
         ) %>
       <% end %>

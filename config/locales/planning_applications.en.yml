@@ -29,12 +29,6 @@ en:
       reviewer_alert:
         one: You have <strong>%{count} application</strong> returned to you with corrections.
         other: You have <strong>%{count} applications</strong> returned to you with corrections.
-    legislation:
-      complies: Complies
-      does_not_comply: Does not comply
-      in_assessment: To be determined
-      legislation: Legislation
-      no_legislation_assessed: No legislation assessed for this application
     overdue:
       one: 1 day overdue
       other: "%{count} days overdue"
@@ -42,14 +36,6 @@ en:
       proposal_details: Proposal details
     proposal_header:
       application_number: 'Application number:'
-    recommendation_event:
-      by_name_at: by %{name}, %{date} at %{time}
-    recommendation_form:
-      assess_recommendation: Assess recommendation
-    recommendations:
-      assessor_reviewer_audit: Assessor/reviewer audit
-      recommendation_queried: Recommendation queried
-      submitted_recommendation: Submitted recommendation
     steps:
       assessment:
         assess_recommendation: Assess recommendation

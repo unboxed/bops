@@ -1,5 +1,14 @@
 ---
 en:
+  activemodel:
+    errors:
+      models:
+        recommendation_form:
+          attributes:
+            decision:
+              blank: Please select Yes or No
+            public_comment:
+              blank: Please state the reasons why this application is, or is not lawful
   activerecord:
     errors:
       models:
@@ -74,9 +83,9 @@ en:
       proposed_description: 'Propsed description:'
   documents:
     document_row_image:
-      view_in_new: View in new window
-      edit: Edit
       archive: Archive
+      edit: Edit
+      view_in_new: View in new window
     index:
       request_a_new: Request a new document
       upload_document: Upload document
@@ -184,6 +193,25 @@ en:
     auto_answered: Auto-answered by RIPA
     main: Main
     other: Other
+  recommendations:
+    documents:
+      documents_included_in: Documents included in the decision notice
+      no_documents_listed: No documents listed on decision notice.
+    event:
+      by_name_at: by %{name}, %{date} at %{time}
+    events:
+      assessor_reviewer_audit: Assessor/reviewer audit
+      new: Assess recommendation
+      recommendation_queried: Recommendation queried
+      submitted_recommendation: Submitted recommendation
+    legislation:
+      complies: Complies
+      does_not_comply: Does not comply
+      in_assessment: To be determined
+      legislation: Legislation
+      no_legislation_assessed: No legislation assessed for this application.
+    new:
+      assess_recommendation: Assess recommendation
   search_form_component:
     find_an_application: Find an application
     search: Search

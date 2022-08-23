@@ -24,19 +24,18 @@ Rails.application.routes.draw do
       get :part, on: :new
     end
 
+    resources :recommendations, only: %i[new create]
+
     member do
       get :assign
       patch :assign
       get :confirm_validation
       patch :validate
       patch :invalidate
-      get :recommendation_form
-      patch :recommend
       get :submit_recommendation
       get :view_recommendation
       patch :submit
       patch :withdraw_recommendation
-      patch :save_assessment
       patch :assess
       get :review_form
       get :edit_public_comment

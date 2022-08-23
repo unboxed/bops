@@ -112,7 +112,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     it "shows errors if decision and public comment are blank" do
-      visit(recommendation_form_planning_application_path(planning_application))
+      visit(new_planning_application_recommendation_path(planning_application))
       click_button("Save and mark as complete")
 
       expect(page).to have_content("Please select Yes or No")
@@ -184,7 +184,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link("Assess recommendation")
 
       expect(page).to have_content(
-        "No legislation assessed for this application"
+        "No legislation assessed for this application."
       )
 
       choose("Yes")
@@ -403,7 +403,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         travel_to(Time.zone.local(2022, 8, 23, 9))
 
         visit(
-          recommendation_form_planning_application_path(planning_application)
+          new_planning_application_recommendation_path(planning_application)
         )
 
         choose("Yes")
@@ -464,7 +464,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       it "displays the documents to be referenced in the decision notice" do
-        visit recommendation_form_planning_application_path(planning_application)
+        visit new_planning_application_recommendation_path(planning_application)
 
         within("#decision-notice-documents") do
           expect(page).to have_content("Documents included in the decision notice")
@@ -485,7 +485,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     context "when there are no documents" do
       it "displays there are no documents text" do
-        visit recommendation_form_planning_application_path(planning_application)
+        visit new_planning_application_recommendation_path(planning_application)
 
         within("#decision-notice-documents") do
           expect(page).to have_content("Documents included in the decision notice")
