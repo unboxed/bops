@@ -5,7 +5,7 @@
   <div class="recommendations govuk-inset-text">
     <% recommendations.each do |recommendation| %>
       <%= render(
-        partial: "recommendation_event",
+        partial: "recommendations/event",
         locals: {
           action: t(".submitted_recommendation"),
           name: recommendation.assessor.name,
@@ -15,7 +15,7 @@
       ) %>
       <% if recommendation.reviewed? %>
         <%= render(
-          partial: "recommendation_event",
+          partial: "recommendations/event",
           locals: {
             action: t(".recommendation_queried"),
             name: recommendation.reviewer.name,

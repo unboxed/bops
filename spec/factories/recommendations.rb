@@ -20,4 +20,8 @@ FactoryBot.define do
     reviewer_comment { "Reviewer Comment" }
     reviewed_at { Time.zone.now }
   end
+
+  trait :with_planning_application do
+    planning_application
+  end
 end

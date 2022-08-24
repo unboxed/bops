@@ -241,6 +241,10 @@ class PlanningApplication < ApplicationRecord
     recommendations.pending_review.last || recommendations.build
   end
 
+  def existing_or_new_recommendation
+    recommendations.last || recommendations.build
+  end
+
   def proposal_details
     JSON.parse(self[:proposal_details] || "[]", object_class: OpenStruct)
   end

@@ -1,0 +1,20 @@
+<div id="decision-notice-documents">
+  <h2 class="govuk-heading-m"><%= t(".documents_included_in") %></h2>
+  <% if documents.any? %>
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+    <ul class="govuk-list">
+      <% documents.each do |document| %>
+        <li>
+          <%= link_to(
+            document_name_and_reference(document),
+            edit_planning_application_document_path(planning_application, document.id),
+            target: :_blank
+          ) %>
+        </li>
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="govuk-body"><%= t(".no_documents_listed") %></p>
+  <% end %>
+</div>
