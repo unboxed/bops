@@ -5,6 +5,7 @@ en:
       assess_recommendation: Assess recommendation
       awaiting_approval_to: Awaiting approval to a description change (sent on %{date})
       back: Back
+      do_you_agree: Do you agree with the recommendation?
       edit_information_on: Edit information on the decision notice
       error: 'Error:'
       is_the_use: Is the use or operation lawful?

@@ -206,7 +206,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def can_review_assessment?
-    awaiting_determination?
+    awaiting_determination? && Current.user.reviewer?
   end
 
   def review_assessment_complete?
@@ -408,10 +408,6 @@ class PlanningApplication < ApplicationRecord
 
   def audit_boundary_geojson!(status)
     audit!(activity_type: "red_line_#{status}", audit_comment: "Red line drawing #{status}")
-  end
-
-  def audit_recommendation_approved!
-    audit!(activity_type: "approved", audit_comment: recommendations.last.reviewer_comment)
   end
 
   def constraints_checked!

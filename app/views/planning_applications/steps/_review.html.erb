@@ -4,8 +4,8 @@
     <li class="app-task-list__item">
       <span class="app-task-list__task-name">
         <% if @planning_application.can_review_assessment? && current_user.reviewer? %>
-          <%= link_to "Review assessment", review_form_planning_application_path(@planning_application), aria: { describedby: "review_assessment-completed" }, class: "govuk-link" %>
-        <% elsif @planning_application.can_review_assessment? && !current_user.reviewer? %>
+          <%= link_to "Review assessment", edit_planning_application_recommendations_path(@planning_application), aria: { describedby: "review_assessment-completed" }, class: "govuk-link" %>
+        <% elsif @planning_application.awaiting_determination? && !current_user.reviewer? %>
           <%= link_to "View recommendation", view_recommendation_planning_application_path(@planning_application), aria: { describedby: "review_assessment-completed" }, class: "govuk-link" %>
         <% else %>
           Review assessment
@@ -13,7 +13,7 @@
       </span>
       <% if @planning_application.review_assessment_complete? %>
         <%= tag.strong "Completed", id: "review_assessment-completed", class: "govuk-tag app-task-list__task-tag" %>
-      <% elsif @planning_application.can_review_assessment? && current_user.assessor? %>
+      <% elsif @planning_application.awaiting_determination? && current_user.assessor? %>
         <%= tag.strong "Awaiting determination", id: "review_assessment-waiting", class: "govuk-tag app-task-list__task-tag govuk-tag--grey" %>
       <% end %>
     </li>

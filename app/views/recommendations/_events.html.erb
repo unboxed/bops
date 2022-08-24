@@ -1,7 +1,7 @@
 <% if recommendations.any? %>
-  <h3 class="govuk-heading-m">
+  <h2 class="govuk-heading-m">
     <%= t(".assessor_reviewer_audit") %>
-  </h3>
+  </h2>
   <div class="recommendations govuk-inset-text">
     <% recommendations.each do |recommendation| %>
       <%= render(
