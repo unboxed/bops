@@ -1,7 +1,22 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <span class="govuk-caption-l"><%= @planning_application.reference %></span>
-    <h1 class="govuk-heading-l"><%= @planning_application.full_address %></h1>
+    <% if local_assigns.fetch(:heading, nil).present? %>
+      <h1 class="govuk-heading-l"><%= heading %></h1>
+      <p class="govuk-body govuk-!-font-size-24 govuk-!-font-weight-bold">
+        <%= @planning_application.full_address.upcase %>
+      </p>
+      <p class="govuk-body govuk-!-font-size-24">
+        <%= t(".application_number") %>
+        <span class="govuk-!-font-weight-bold">
+          <%= @planning_application.reference %>
+        </span>
+      </p>
+    <% else %>
+      <span class="govuk-caption-l">
+        <%= @planning_application.reference %>
+      </span>
+      <h1 class="govuk-heading-l"><%= @planning_application.full_address %></h1>
+    <% end %>
 
     <p class="govuk-body"><%= @planning_application.status_tag %></p>
 

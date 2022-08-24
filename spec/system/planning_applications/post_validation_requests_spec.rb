@@ -63,7 +63,7 @@ RSpec.describe "post validation requests", type: :system do
       end
 
       it "does not let the assessor submit a recommendation" do
-        click_link("Assess proposal")
+        click_link("Assess recommendation")
         choose("Yes")
 
         fill_in(

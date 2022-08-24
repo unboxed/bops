@@ -5,6 +5,6 @@ FactoryBot.define do
     id { Faker::Alphanumeric.alpha(number: 3) }
     description { Faker::Lorem.paragraph }
 
-    initialize_with { attributes }
+    initialize_with { attributes.stringify_keys }
   end
 end

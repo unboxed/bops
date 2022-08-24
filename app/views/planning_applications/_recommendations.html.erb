@@ -1,27 +1,28 @@
-<% if recommendations.present? %>
+<% if recommendations.any? %>
+  <h3 class="govuk-heading-m">
+    <%= t(".assessor_reviewer_audit") %>
+  </h3>
   <div class="recommendations govuk-inset-text">
     <% recommendations.each do |recommendation| %>
-      <div class="recommendation">
-        <p class="govuk-body">
-          <strong>Submitted recommendation</strong> by <%= recommendation.assessor.name %><br />
-          <%= accessible_time recommendation.created_at %>
-        </p>
-
-        <p class="govuk-body comment">
-          <%= recommendation.assessor_comment %>
-        </p>
-      </div>
+      <%= render(
+        partial: "recommendation_event",
+        locals: {
+          action: t(".submitted_recommendation"),
+          name: recommendation.assessor.name,
+          datetime:  recommendation.created_at,
+          comment: recommendation.assessor_comment
+        }
+      ) %>
       <% if recommendation.reviewed? %>
-        <div class="recommendation">
-          <p class="govuk-body">
-            <strong>Recommendation challenged</strong> by <%= recommendation.reviewer.name %> <br />
-            <%= accessible_time recommendation.reviewed_at %>
-          </p>
-
-          <p class="govuk-body comment">
-            <%= recommendation.reviewer_comment %>
-          </p>
-        </div>
+        <%= render(
+          partial: "recommendation_event",
+          locals: {
+            action: t(".recommendation_queried"),
+            name: recommendation.reviewer.name,
+            datetime: recommendation.reviewed_at,
+            comment: recommendation.reviewer_comment
+          }
+        ) %>
       <% end %>
     <% end %>
   </div>

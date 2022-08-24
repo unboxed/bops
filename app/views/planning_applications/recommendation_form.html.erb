@@ -1,18 +1,22 @@
 <% content_for :page_title do %>
-  Assess proposal - <%= t('page_title') %>
+ <%= t(".assess_recommendation") %> - <%= t("page_title") %>
 <% end %>
-
-<% content_for :title, "Assess proposal" %>
-
-<%= render "planning_applications/assessment_dashboard" do %>
-  <h2 class="govuk-heading-m govuk-!-padding-top-3">Assess the proposal</h2>
-
-  <p class="govuk-body">
-    Please check all the information and evidence provided by the applicant.
-  </p>
-
-  <%= render "recommendations", { recommendations: @planning_application.recommendations.reviewed } %>
-
+<% content_for(:title, t(".assess_recommendation")) %>
+<%= render(
+  layout: "planning_applications/assessment_dashboard",
+  locals: { heading: t(".assess_recommendation") }
+) do %>
+  <%= render(
+    partial: "legislation",
+    locals: {
+      planning_application: @planning_application,
+      policy_classes: @planning_application.policy_classes
+    }
+  ) %>
+  <%= render(
+     partial: "recommendations",
+     locals: { recommendations: @planning_application.recommendations.reviewed }
+  ) %>
   <div id="decision-notice-documents">
     <p class="govuk-body">
       <strong>Documents included in the decision notice</strong>
@@ -30,66 +34,66 @@
       <p class="govuk-body">No documents listed on decision notice.</p>
     <% end %>
   </div>
-
-  <%= form_for @planning_application, url: recommend_planning_application_path(@planning_application) do |form| %>
-    <div class="govuk-form-group <%= form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
-      <p class="govuk-body">
-        <br>
-        <strong>Is the use or operation lawful?</strong>
-      </p>
-      <% if form.object.errors.any? %>
-        <% form.object.errors.each do |error| %>
-          <span id="status-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span>
-            <%= error.type %>
+  <h2 class="govuk-heading-m"><%= t(".assess_recommendation") %></h2>
+  <%= form_with(
+    model: @planning_application,
+    url: recommend_planning_application_path(@planning_application),
+    builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+  ) do |form| %>
+    <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+    <%= form.govuk_collection_radio_buttons(
+      :decision,
+      [[:granted, t(".yes")], [:refused, t(".no")]],
+      :first,
+      :last,
+      legend: { text: t(".is_the_use"), size: "s" }
+    ) %>
+    <div class="govuk-form-group <%= "govuk-form-group--error" if form.object.errors[:public_comment].any? %>">
+      <%= form.label(:public_comment, t(".state_the_reason"), class: "govuk-label govuk-label--s") %>
+      <div class="govuk-hint"><%= t(".refer_to_the") %></div>
+      <%= render(
+        partial: "shared/warning_text",
+        locals: { message: t(".this_information_will") }
+      ) %>
+      <% if form.object.errors[:public_comment].any? %>
+        <p id="planning-application-public-comment-field-error" class="govuk-error-message">
+          <span class="govuk-visually-hidden">
+            <%= t(".error") %>
           </span>
-        <% end %>
+          <%= form.object.errors[:public_comment].first %>
+        </p>
       <% end %>
-     <div class="govuk-form-group">
-      <div class="govuk-radios" data-module="govuk-radios">
-        <div class="govuk-radios govuk-radios--small">
-          <div class="govuk-radios__item">
-            <%= form.radio_button :decision, "granted", class: "govuk-radios__input", id:"status-granted-conditional", "aria-controls": "conditional-status-granted-conditional", "aria-expanded": "false" %>
-            <%= form.label :decision_granted, "Yes", class: "govuk-label govuk-radios__label", for: "status-granted-conditional" %>
-          </div>
-          <div class="govuk-radios__item">
-            <%= form.radio_button :decision, "refused", class: "govuk-radios__input", id: "status-refused-conditional", "aria-controls": "conditional-status-refused-conditional", "aria-expanded": "false" %>
-            <%= form.label :decision_refused, "No", class: "govuk-label govuk-radios__label govuk-!-margin-bottom-3", for: "status-refused-conditional" %>
-          </div>
-        </div>
-      </div>
-     </div>
-      <div class="govuk-form-group">
-        <span class="govuk-body">
-          <%= form.label :public_comment, "State the reasons why this application is, or is not lawful.", class: "govuk-label govuk-!-font-weight-bold" %>
-        </span>
-        <p class="govuk-body">
-          Refer to the specific permitted development rights being evoked.
-        </p>
-        <p class="govuk-body">
-          This information <strong>will</strong> appear on the decision notice.
-        </p>
-        <%= form.text_area :public_comment, class: "govuk-textarea", rows: "9" %>
-      </div>
+      <%= form.text_area(
+        :public_comment,
+        class: "govuk-textarea #{"govuk-textarea--error" if form.object.errors[:public_comment].any?}",
+        rows: 9
+      ) %>
     </div>
-    <div class="govuk-form-group">
-      <p class="govuk-body">
-        <%= label_tag :recommendation_assessor_comment, "Please provide supporting information for your manager.", class: "govuk-label govuk-!-font-weight-bold" %>
-      </p>
-      <p class="govuk-body">
-        This information <strong>will not</strong> appear on the decision notice or the public register, however FOI still apply.
-      </p>
-      <%= text_area_tag "recommendation[assessor_comment]", @recommendation.assessor_comment, class: "govuk-textarea", rows: "7" %>
-    </div>
-    <div class="govuk-!-padding-top-4">
-    <% if @planning_application.assessment_complete? || @planning_application.awaiting_correction? %>
-      <%= form.submit "Update assessment", class: "govuk-button", data: { module: "govuk-button" } %>
-      <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-    <% else %>
-      <%= form.submit "Save and mark as complete", class: "govuk-button", data: { module: "govuk-button" } %>
-      <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", formaction: "save_assessment", data: { module: "govuk-button" } %>
-      <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+    <%= form.fields_for(:recommendations, @recommendation) do |fields| %>
+      <%= fields.govuk_text_area(
+        :assessor_comment,
+        label: { text: t(".please_provide_supporting"), size: "s" },
+        hint: { text: t(".this_information_will_not") },
+        rows: 9
+      ) %>
     <% end %>
+    <div class="govuk-button-group">
+      <% if @planning_application.assessment_submitted? %>
+        <%= form.govuk_submit(t(".update_assessment")) %>
+      <% else %>
+        <%= form.govuk_submit(t(".save_and_mark")) %>
+        <%= form.submit(
+          t(".save_and_come"),
+          class: "govuk-button govuk-button--secondary",
+          formaction: "save_assessment",
+          data: { module: "govuk-button" }
+        ) %>
+      <% end %>
+      <%= link_to(
+        t(".back"),
+        planning_application_path(@planning_application),
+        class: "govuk-button govuk-button--secondary"
+      ) %>
     </div>
   <% end %>
 <% end %>

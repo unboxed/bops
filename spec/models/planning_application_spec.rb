@@ -811,4 +811,82 @@ RSpec.describe PlanningApplication, type: :model do
       end
     end
   end
+
+  describe "#assessment_submitted?" do
+    context "when planning application is awaiting correction" do
+      let(:planning_application) do
+        create(:planning_application, :awaiting_correction)
+      end
+
+      it "returns true" do
+        expect(planning_application.assessment_submitted?).to eq(true)
+      end
+    end
+
+    context "when planning application is awaiting determination" do
+      let(:planning_application) do
+        create(:planning_application, :awaiting_determination)
+      end
+
+      it "returns true" do
+        expect(planning_application.assessment_submitted?).to eq(true)
+      end
+    end
+
+    context "when planning application is determined" do
+      let(:planning_application) { create(:planning_application, :determined) }
+
+      it "returns true" do
+        expect(planning_application.assessment_submitted?).to eq(true)
+      end
+    end
+
+    context "when planning application is in assessment" do
+      let(:planning_application) do
+        create(:planning_application, :in_assessment)
+      end
+
+      it "returns false" do
+        expect(planning_application.assessment_submitted?).to eq(false)
+      end
+    end
+
+    context "when recommendation is pending review" do
+      let(:planning_application) do
+        create(:planning_application, :in_assessment)
+      end
+
+      let!(:recommendation) do
+        create(
+          :recommendation,
+          planning_application: planning_application,
+          reviewer: nil
+        )
+      end
+
+      it "returns true" do
+        expect(planning_application.assessment_submitted?).to eq(true)
+      end
+
+      context "when planning application is not started" do
+        let(:planning_application) do
+          create(:planning_application, :not_started)
+        end
+
+        it "returns false" do
+          expect(planning_application.assessment_submitted?).to eq(false)
+        end
+      end
+
+      context "when planning application state is 'assessment in progress'" do
+        let(:planning_application) do
+          create(:planning_application, :assessment_in_progress)
+        end
+
+        it "returns false" do
+          expect(planning_application.assessment_submitted?).to eq(false)
+        end
+      end
+    end
+  end
 end

@@ -7,11 +7,12 @@
   </li>
   <li class="app-task-list__item">
     <span class="app-task-list__task-name">
-      <% if @planning_application.can_assess? %>
-        <%= link_to "Assess proposal", recommendation_form_planning_application_path(@planning_application), aria: { describedby: "assessment-completed" }, class: "govuk-link" %>
-      <% else %>
-        Assess proposal
-      <% end %>
+      <%= link_to_if(
+        @planning_application.can_assess?,
+        t(".assess_recommendation"),
+        recommendation_form_planning_application_path(@planning_application),
+        class: "govuk-link"
+      ) %>
     </span>
     <% if @planning_application.assessment_complete? %>
       <%= tag.strong "Completed", id: "validation-completed", class: "govuk-tag app-task-list__task-tag" %>

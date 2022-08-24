@@ -5,7 +5,6 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
 @import "components/task_list";
 @import "proposal";
 @import "decision_notice";
-@import "planning_applications";
 @import "components/documents";
 
 html * {
@@ -182,5 +181,22 @@ html * {
     height: fit-content;
     margin-left: 10px;
     align-self: flex-end;
+  }
+}
+
+.policy {
+  margin-left: 30px;
+}
+
+.policy-class-title, .policy-description {
+  margin-bottom: 3px;
+}
+
+.recommendation-event {
+  margin-top: 15px;
+  border-bottom: 1px solid $govuk-border-colour;
+
+  &:last-child {
+    border-bottom: none;
   }
 }

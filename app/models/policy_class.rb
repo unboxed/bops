@@ -37,11 +37,21 @@ class PolicyClass
     end
   end
 
+  %w[in_assessment does_not_comply complies].each do |potential_status|
+    define_method("#{potential_status}?") do
+      status == potential_status.tr("_", " ")
+    end
+  end
+
   def status
-    return "in assessment" if policies.any? { |p| p["status"] == "to_be_determined" }
-    return "does not comply" if policies.any? { |p| p["status"] == "does_not_comply" }
+    return "in assessment" if policies_in_assessment.any?
+    return "does not comply" if non_compliant_policies.any?
 
     "complies"
+  end
+
+  def non_compliant_policies
+    policies_with_status("does_not_comply")
   end
 
   def as_json(_options = nil)
@@ -68,5 +78,15 @@ class PolicyClass
     else
       part == other.part && id == other.id
     end
+  end
+
+  private
+
+  def policies_in_assessment
+    policies_with_status("to_be_determined")
+  end
+
+  def policies_with_status(status)
+    policies.select { |policy| policy["status"] == status }
   end
 end

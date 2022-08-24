@@ -1,0 +1,13 @@
+<div class="recommendation-event">
+  <p class="govuk-body">
+    <span class="govuk-!-font-weight-bold"><%= action %></span>
+    <br>
+    <%= t(
+      ".by_name_at",
+      name: name,
+      date: datetime.strftime("%-d  %b %Y"),
+      time: datetime.strftime("%I:%M%P")
+    ) %>
+  </p>
+  <p class="govuk-body"><%= comment %></p>
+</div>

@@ -22,7 +22,7 @@ RSpec.describe "Planning Application show page", type: :system do
       end
 
       within "#assess-section" do
-        expect(page).not_to have_link("Assess proposal")
+        expect(page).not_to have_link("Assess recommendation")
         expect(page).not_to have_content("Complete")
       end
     end
@@ -36,7 +36,7 @@ RSpec.describe "Planning Application show page", type: :system do
       end
 
       within "#assess-section" do
-        expect(page).to have_link("Assess proposal")
+        expect(page).to have_link("Assess recommendation")
         expect(page).not_to have_content("Complete")
         expect(page).not_to have_link("Submit recommendation")
       end
@@ -48,7 +48,7 @@ RSpec.describe "Planning Application show page", type: :system do
       visit planning_application_path(planning_application)
 
       within "#assess-section" do
-        expect(page).to have_link("Assess proposal")
+        expect(page).to have_link("Assess recommendation")
         expect(page).to have_content("Complete")
         expect(page).to have_link("Submit recommendation")
       end
@@ -65,7 +65,7 @@ RSpec.describe "Planning Application show page", type: :system do
       end
 
       within "#assess-section" do
-        expect(page).not_to have_link("Assess proposal")
+        expect(page).not_to have_link("Assess recommendation")
         expect(page).to have_content("Complete")
 
         expect(page).not_to have_link("Submit recommendation")
@@ -109,7 +109,7 @@ RSpec.describe "Planning Application show page", type: :system do
       end
 
       within "#assess-section" do
-        expect(page).to have_link("Assess proposal")
+        expect(page).to have_link("Assess recommendation")
         expect(page).not_to have_content("Complete")
       end
     end
@@ -128,7 +128,7 @@ RSpec.describe "Planning Application show page", type: :system do
 
       within "#assess-section" do
         expect(page).to have_link("Review non-validation requests")
-        expect(page).to have_link("Assess proposal")
+        expect(page).to have_link("Assess recommendation")
         expect(page).to have_content("Complete")
         expect(page).to have_link("Submit recommendation")
         within(:xpath, '//*[@id="assess-section"]/li[3]') do

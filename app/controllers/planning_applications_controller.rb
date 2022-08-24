@@ -150,8 +150,15 @@ class PlanningApplicationsController < AuthenticationController
 
   def recommend
     @recommendation = @planning_application.pending_or_new_recommendation
-    @planning_application.assign_attributes(params.require(:planning_application).permit(:decision, :public_comment))
-    @recommendation.assign_attributes(params.require(:recommendation).permit(:assessor_comment).merge(assessor: current_user))
+
+    @planning_application.assign_attributes(
+      recommendation_params.except(:recommendations_attributes)
+    )
+
+    @recommendation.assign_attributes(
+      recommendation_params[:recommendations_attributes]["0"]
+    )
+
     if @planning_application.save && @recommendation.save
       @planning_application.assess!
       redirect_to @planning_application
@@ -191,13 +198,8 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def save_assessment
-    @planning_application.public_comment = params[:planning_application][:public_comment]
-    @planning_application.decision = params[:planning_application][:decision]
-    recommendation = @planning_application.recommendations.build(assessor: current_user)
-    recommendation.assessor_comment = params[:recommendation][:assessor_comment]
-
+    @planning_application.assign_attributes(recommendation_params)
     @planning_application.save_assessment
-
     redirect_to @planning_application
   end
 
@@ -327,6 +329,22 @@ class PlanningApplicationsController < AuthenticationController
 
   def planning_applications_scope
     @planning_applications_scope ||= current_local_authority.planning_applications.with_user.by_created_at_desc
+  end
+
+  def recommendation_params
+    params
+      .require(:planning_application)
+      .permit(permitted_recommendation_keys)
+      .to_h
+      .deep_merge(recommendations_attributes: { "0": { assessor: current_user } })
+  end
+
+  def permitted_recommendation_keys
+    [
+      :public_comment,
+      :decision,
+      { recommendations_attributes: %i[assessor_comment] }
+    ]
   end
 
   def planning_application_params

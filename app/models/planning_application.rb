@@ -58,6 +58,8 @@ class PlanningApplication < ApplicationRecord
   after_update :audit_updated!
   after_update :address_or_boundary_geojson_updated?
 
+  accepts_nested_attributes_for :recommendations
+
   WORK_STATUSES = %w[proposed existing].freeze
 
   PLANNING_APPLICATION_PERMITTED_KEYS = %w[address_1
@@ -423,6 +425,10 @@ class PlanningApplication < ApplicationRecord
                           end
   end
 
+  def assessment_submitted?
+    assessment_complete? || awaiting_correction?
+  end
+
   private
 
   def set_reference
@@ -464,9 +470,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def public_comment_present
-    if decision_present? && public_comment.blank?
-      errors.add(:planning_application, "Please state the reasons why this application is, or is not lawful")
-    end
+    errors.add(:public_comment, :blank) if public_comment.blank? && recommendations.any?
   end
 
   def decision_present?
@@ -474,7 +478,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def decision_with_recommendations
-    errors.add(:planning_application, "Please select Yes or No") if decision.nil? && recommendations.any?
+    errors.add(:decision, :blank) if decision.blank? && recommendations.any?
   end
 
   def applicant_or_agent_email
