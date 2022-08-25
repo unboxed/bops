@@ -279,7 +279,7 @@ jobs:
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
           RAILS_ENV: test
-          SPEC_OPTS: "-f doc -P spec/{helpers,presenters,mailer,jobs,services}/**/*_spec.rb"
+          SPEC_OPTS: "-f doc -P spec/{helpers,presenters,mailer,jobs,services,translations}/**/*_spec.rb"
           NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
           OTP_SECRET_ENCRYPTION_KEY: ${{ secrets.OTP_SECRET_ENCRYPTION_KEY }}
         run: |
