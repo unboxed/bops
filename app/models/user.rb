@@ -52,7 +52,6 @@ class User < ApplicationRecord
   private
 
   def generate_otp_secret
-    self.otp_required_for_login = true
     self.otp_secret = self.class.generate_otp_secret
   end
 end
