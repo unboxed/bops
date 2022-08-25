@@ -177,7 +177,7 @@ html * {
 .search-form-inputs {
   display: flex;
 
-  button {
+  button, a {
     height: fit-content;
     margin-left: 10px;
     align-self: flex-end;
