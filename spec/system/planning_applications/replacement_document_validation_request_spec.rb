@@ -397,7 +397,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
         expect(page).to have_content("This document replaced: #{replacement_document_validation_request.old_document.name}")
         expect(page).to have_link(
-          replacement_document_validation_request.old_document.name,
+          replacement_document_validation_request.old_document.name.to_s,
           href: edit_planning_application_document_path(planning_application, replacement_document_validation_request.old_document)
         )
         expect(page).to have_content("Reason this replacement document was requested: Document is invalid")
