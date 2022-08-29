@@ -15,6 +15,8 @@ class PlanningApplication < ApplicationRecord
 
   include PlanningApplication::Notification
 
+  DAYS_TO_EXPIRE = 56
+
   enum application_type: { lawfulness_certificate: 0, full: 1 }
 
   enum user_role: { applicant: 0, agent: 1, proxy: 2 }
@@ -444,7 +446,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def set_key_dates
-    self.expiry_date = 56.days.after(validated_at || received_at)
+    self.expiry_date = DAYS_TO_EXPIRE.days.after(validated_at || received_at)
     self.target_date = 35.days.after(validated_at || received_at)
   end
 
