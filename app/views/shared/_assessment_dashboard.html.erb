@@ -7,25 +7,30 @@
 <% end %>
 
 <%= render(
-  partial: "planning_applications/proposal_header",
+  partial: "shared/proposal_header",
   locals: { heading: local_assigns.fetch(:heading, nil) }
 ) %>
 
 <div class="govuk-grid-column-two-thirds">
   <% if @planning_application.validation_requests %>
-    <%= render "overdue_banner" if @planning_application.overdue_requests.present? %>
+    <% if @planning_application.overdue_requests.present? %>
+      <%= render "shared/overdue_banner" %>
+    <% end %>
     <% if @planning_application.closed_validation_requests.any? %>
-      <%= render "planning_applications/response_banner" %>
+      <%= render "shared/response_banner" %>
     <% end %>
   <% end %>
-  <%= render "description_response_banner" if @planning_application.description_change_validation_requests.responded.present? %>
-  <%= render "description_change_auto_closed_banner" if @planning_application.latest_auto_closed_description_request.present? %>
+  <% if @planning_application.description_change_validation_requests.responded.present? %>
+    <%= render "shared/description_response_banner" %>
+  <% end %>
+  <% if @planning_application.latest_auto_closed_description_request.present? %>
+    <%= render "shared/description_change_auto_closed_banner" %>
+  <% end %>
 </div>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds application">
     <%= render "shared/application_information" %>
-
     <%= yield %>
   </div>
   <div class="govuk-grid-column-one-third supporting">
