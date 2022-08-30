@@ -59,7 +59,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   before do
-    ENV["APPLICANTS_APP_HOST"] = "example.com"
+    allow(ENV).to receive(:[])
+    allow(ENV).to receive(:[]).with("APPLICANTS_APP_HOST").and_return("example.com")
   end
 
   describe "#decision_notice_mail" do
