@@ -195,22 +195,29 @@ RSpec.describe "Planning Application show page", type: :system do
       within("#proposal-details-section") do
         check("View ONLY applicant answers, hide 'Auto-answered by RIPA")
 
-        expect(page).to have_link("Main")
-        expect(page).not_to have_link("Dimensions")
-        expect(page).to have_link("Other")
+        expect(page).to have_text(:visible, "Main")
+        expect(page).not_to have_text(:visible, "Dimensions")
+        expect(page).to have_text(:visible, "Other")
 
-        group1 = find_all(".proposal-details-sub-list")[0]
-        expect(group1).not_to have_content("1.  What do you want to do?")
-        expect(group1).to have_content("2.  Is the property a house?")
+        groups = find_all(".proposal-details-sub-list", visible: true)
+        group1 = groups[0]
+        group2 = groups[1]
 
-        expect(page).not_to have_content(
-          "3.  What will the height of the new structure be?"
+        expect(group1).not_to have_text(
+          :visible,
+          "1. \nWhat do you want to do?"
         )
 
-        group2 = find_all(".proposal-details-sub-list")[1]
+        expect(group1).to have_text(:visible, "2. \nIs the property a house?")
 
-        expect(group2).to have_content(
-          "4.  Is the property in a world heritage site?"
+        expect(page).not_to have_text(
+          :visible,
+          "3. \nWhat will the height of the new structure be?"
+        )
+
+        expect(group2).to have_text(
+          :visible,
+          "4. \nIs the property in a world heritage site?"
         )
       end
     end

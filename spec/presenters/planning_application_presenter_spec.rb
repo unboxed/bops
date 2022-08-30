@@ -244,7 +244,7 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
     end
   end
 
-  describe "#filtered_proposal_detail_groups_with_numbers" do
+  describe "#formatted_proposal_detail_groups" do
     let(:proposal_details) do
       [
         {
@@ -275,7 +275,7 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
     end
 
     it "returns numbered proposal details grouped by portal name" do
-      expect(presenter.filtered_proposal_detail_groups_with_numbers).to eq(
+      expect(presenter.formatted_proposal_detail_groups).to eq(
         [
           OpenStruct.new(
             portal_name: "Group A",
@@ -287,15 +287,18 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
                   portal_name: "Group A",
                   auto_answered: true
                 ),
-                number: 1
+                number: 1,
+                auto_answered: true
               ),
               OpenStruct.new(
                 question: "Question 2",
                 responses: [OpenStruct.new(value: "Answer 2")],
                 metadata: OpenStruct.new(portal_name: "Group A"),
-                number: 2
+                number: 2,
+                auto_answered: false
               )
-            ]
+            ],
+            auto_answered: false
           ),
           OpenStruct.new(
             portal_name: "Group B",
@@ -307,9 +310,11 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
                   portal_name: "Group B",
                   auto_answered: true
                 ),
-                number: 3
+                number: 3,
+                auto_answered: true
               )
-            ]
+            ],
+            auto_answered: true
           ),
           OpenStruct.new(
             portal_name: "Group C",
@@ -318,45 +323,14 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
                 question: "Question 4",
                 responses: [OpenStruct.new(value: "Answer 4")],
                 metadata: OpenStruct.new(portal_name: "Group C"),
-                number: 4
+                number: 4,
+                auto_answered: false
               )
-            ]
+            ],
+            auto_answered: false
           )
         ]
       )
-    end
-
-    context "when hide_auto_answered_proposal_details is true" do
-      before { presenter.hide_auto_answered_proposal_details = true }
-
-      it "excludes auto answered proposal details" do
-        expect(presenter.filtered_proposal_detail_groups_with_numbers).to eq(
-          [
-            OpenStruct.new(
-              portal_name: "Group A",
-              proposal_details: [
-                OpenStruct.new(
-                  question: "Question 2",
-                  responses: [OpenStruct.new(value: "Answer 2")],
-                  metadata: OpenStruct.new(portal_name: "Group A"),
-                  number: 2
-                )
-              ]
-            ),
-            OpenStruct.new(
-              portal_name: "Group C",
-              proposal_details: [
-                OpenStruct.new(
-                  question: "Question 4",
-                  responses: [OpenStruct.new(value: "Answer 4")],
-                  metadata: OpenStruct.new(portal_name: "Group C"),
-                  number: 4
-                )
-              ]
-            )
-          ]
-        )
-      end
     end
   end
 

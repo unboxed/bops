@@ -216,12 +216,6 @@ html * {
   display: flex;
 }
 
-.filter-proposal-details-form {
-  .govuk-fieldset__legend {
-    display: none;
-  }
-}
-
 .back-to-top-link {
   display: flex;
   align-items: center;
@@ -234,4 +228,8 @@ html * {
 .proposal-details-sub-heading {
   display: flex;
   justify-content: space-between;
+}
+
+.display-none {
+  display: none;
 }

@@ -27,8 +27,6 @@ Rails.application.routes.draw do
     resources :recommendations, only: %i[new create update]
     resource :recommendations, only: %i[edit]
 
-    resources :filtered_proposal_details, only: %i[create]
-
     member do
       get :assign
       patch :assign
