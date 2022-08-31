@@ -70,6 +70,7 @@ Rails.application.routes.draw do
     end
 
     resources :audits, only: :index
+
     resources :validation_requests, only: %i[index] do
       get :post_validation_requests, on: :collection
     end
@@ -97,6 +98,8 @@ Rails.application.routes.draw do
       resources :notes, only: %i[index create]
 
       resources :validation_tasks, only: :index
+
+      resources :assessment_tasks, only: :index
     end
   end
 

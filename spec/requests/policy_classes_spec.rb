@@ -51,11 +51,8 @@ RSpec.describe "Policy classes", type: :request, show_exceptions: true do
       }
 
       post planning_application_policy_classes_path(planning_application), params: params
-      expect(response).to redirect_to new_planning_application_policy_class_path(planning_application, part: 1)
 
-      follow_redirect!
-
-      expect(response.body).to include "Policy classes cannot be added at this stage"
+      expect(response).to be_forbidden
     end
   end
 end

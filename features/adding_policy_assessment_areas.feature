@@ -7,7 +7,7 @@ Feature: Adding policy assessment area to the application
   Scenario: As an assessor I cannot assess an application if it hasn't been validated
     Given a new planning application
     When I view the planning application
-    Then the page does not have a "Add assessment area" link
+    Then the page does not have a "Check and assess" link
 
   Scenario: As an assessor I can add classes to a validated application
     Given I add the policy classes "AA, B, F" to the application
@@ -23,6 +23,7 @@ Feature: Adding policy assessment area to the application
   Scenario: As an assessor I cannot remove or edit policy classes once the application is assessed
     Given  I add the policy class "AA" to the application
     And the planning application is assessed
+    And I press "Check and assess"
     When I press "Part 1, Class A"
     Then I can't press the "Remove class from assessment" button
     And I can't press the "Save assessments" button

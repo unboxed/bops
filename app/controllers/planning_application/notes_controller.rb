@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PlanningApplication
-  class NotesController < ApplicationController
+  class NotesController < AuthenticationController
     before_action :set_planning_application
 
     def index
