@@ -55,9 +55,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
         click_button("Determine application")
 
-        within(".govuk-error-summary") do
+        within(find_all(".govuk-error-summary").last) do
           expect(page).to have_content("Determination date must be today or in the past")
         end
+
         within(".govuk-error-message") do
           expect(page).to have_content("Determination date must be today or in the past")
         end

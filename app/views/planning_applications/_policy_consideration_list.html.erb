@@ -1,7 +1,7 @@
 <div class="govuk-accordion__section">
   <div class="govuk-accordion__section-header">
     <h3 class="govuk-accordion__section-heading">
-      <button type="button" id="accordion-default-heading-2" aria-controls="accordion-default-heading-3" class="govuk-accordion__section-button" aria-expanded="false">
+      <button type="button" id="accordion-default-heading-3" aria-controls="accordion-default-heading-3" class="govuk-accordion__section-button" aria-expanded="false">
         <%= t(".proposal_details") %>
       </button>
         <span class="govuk-accordion__icon" aria-hidden="true"></span>
@@ -25,41 +25,11 @@
     <% end %>
 
     <% if @planning_application.proposal_details.any? %>
-      <% if ENV["GROUPED_PROPOSAL_DETAILS_FEATURE"] == "enabled" %>
-        <ul class="govuk-body">
-          <strong>
-            <% @planning_application.grouped_proposal_details.each do |group, _proposal_details| %>
-              <li>
-                <%= link_to(
-                  proposal_details_group_title(group),
-                  "##{proposal_details_group_id(group)}",
-                  class: "govuk-link"
-                ) %>
-              </li>
-            <% end %>
-          </strong>
-        </ul>
-        <% @planning_application.grouped_proposal_details_with_start_numbers.each do |group, proposal_details, start_number| %>
-          <h4 id=<%= proposal_details_group_id(group) %> class="govuk-heading-s">
-            <%= proposal_details_group_title(group) %>
-          </h4>
-          <ol class="govuk-body sub-list" start=<%= start_number %>>
-            <% proposal_details.each do |proposal_detail| %>
-              <li>
-                <%= proposal_detail_item(proposal_detail) %>
-              </li>
-            <% end %>
-          </ol>
-        <% end %>
-      <% else %>
-        <ol class="govuk-list govuk-list--number">
-          <% @planning_application.proposal_details.each do |proposal_detail| %>
-            <li>
-              <%= proposal_detail_item(proposal_detail) %>
-            </li>
-          <% end %>
-        </ol>
-      <% end %>
+      <%= render(
+        ProposalDetailsComponent.new(
+          proposal_details: @planning_application.proposal_details
+        )
+      ) %>
     <% end %>
   </div>
 </div>

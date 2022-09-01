@@ -15,3 +15,7 @@ RSpec::Matchers.define(:have_row_for) do |content, options|
     with.present? ? row.has_content?(with) : row.present?
   end
 end
+
+RSpec::Matchers.define(:have_target_id) do |target_id|
+  match { |url| URI.parse(url).fragment == target_id }
+end
