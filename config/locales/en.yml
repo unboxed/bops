@@ -192,8 +192,9 @@ en:
   planning_applications:
     confirm_validation:
       validate_application: Validate application
-  proposal_details:
+  proposal_detail_component:
     auto_answered: Auto-answered by RIPA
+  proposal_details:
     main: Main
     other: Other
   proposal_details_component:

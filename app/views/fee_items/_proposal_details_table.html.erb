@@ -18,7 +18,9 @@
                 </span>
               </summary>
               <div class="govuk-details__text">
-                <%= proposal_detail_policy_refs(proposal_detail.metadata.policy_refs) %>
+                <%= formatted_policy_refs(
+                  proposal_detail.metadata.policy_refs
+                ) %>
               </div>
             </details>
           <% end %>

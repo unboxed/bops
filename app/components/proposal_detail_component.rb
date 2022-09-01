@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ProposalDetailComponent < ViewComponent::Base
-  include ProposalDetailsHelper
-
   def initialize(proposal_detail:)
     @proposal_detail = proposal_detail
   end
@@ -11,9 +9,29 @@ class ProposalDetailComponent < ViewComponent::Base
 
   attr_reader :proposal_detail
 
-  delegate :number, :metadata, to: :proposal_detail
+  delegate :number, :question, :responses, :metadata, to: :proposal_detail
+
+  delegate(
+    :auto_answered,
+    :policy_refs,
+    :notes,
+    to: :metadata,
+    allow_nil: true
+  )
 
   def auto_answered?
-    metadata&.auto_answered.present?
+    auto_answered.present?
+  end
+
+  def formatted_policy_refs
+    return if policy_refs.blank?
+
+    refs = policy_refs.map do |ref|
+      url = ref.url
+      text = ref.text
+      link_to_if(url.present?, (url || text), url, class: "govuk-link")
+    end
+
+    refs.join(", ").html_safe # rubocop:disable Rails/OutputSafety
   end
 end

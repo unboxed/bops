@@ -4,5 +4,19 @@
   class: "proposal-detail"
 ) do %>
   <div><p class="govuk-body"><%= "#{number}." %>&nbsp</p></div>
-  <%= proposal_detail_item(proposal_detail) %>
+  <div>
+    <p class="govuk-body govuk-!-font-weight-bold"><%= question %></p>
+    <p class="govuk-body"><%= responses.map(&:value).compact.join(", ") %></p>
+    <% if metadata.present? %>
+      <div>
+        <% if notes.present? %>
+          <p><em><%= notes %></em></p>
+        <% end %>
+        <% if auto_answered? %>
+          <p><em><%= t(".auto_answered") %></em></p>
+        <% end %>
+        <%= formatted_policy_refs %>
+      </div>
+    <% end %>
+  </div>
 <% end %>
