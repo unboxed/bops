@@ -50,6 +50,7 @@ local_authorities.each do |authority|
           "$2a$11$uvtPXUB2CmO8WEYm7ajHf.XhZtBsclT/sT45ijLMIELShaZvceW5."
       end
       user.role = admin_role
+      user.otp_required_for_login = false
     end
   end
 end
