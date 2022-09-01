@@ -10,4 +10,9 @@ class SearchFormComponent < ViewComponent::Base
   private
 
   attr_reader :search, :panel_type, :exclude_others
+
+  def clear_search_url
+    q = exclude_others ? "exclude_others" : nil
+    planning_applications_path(anchor: panel_type, q: q)
+  end
 end

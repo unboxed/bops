@@ -2,7 +2,8 @@
   model: search,
   builder: GOVUKDesignSystemFormBuilder::FormBuilder,
   method: :get,
-  url: "#{planning_applications_path}##{panel_type}"
+  url: planning_applications_path(anchor: panel_type),
+  data: { controller: "clear-form" }
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <div class="search-form-inputs">
@@ -18,5 +19,11 @@
       <%= hidden_field_tag(:q, "exclude_others") %>
     <% end %>
     <%= form.govuk_submit(t(".search")) %>
+    <%= link_to(
+      t(".clear_search"),
+      clear_search_url,
+      class: "govuk-button govuk-button--secondary",
+      data: { action: "click->clear-form#handleClick" }
+    ) %>
   </div>
 <% end %>

@@ -86,6 +86,17 @@ RSpec.describe "searching planning applications", type: :system do
         expect(page).not_to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
       end
+
+      click_link("Clear search")
+
+      expect(find_field("Find an application").value).to eq("")
+
+      within(selected_govuk_tab) do
+        expect(page).to have_content("All your applications")
+        expect(page).to have_content(planning_application1.reference)
+        expect(page).to have_content(planning_application2.reference)
+        expect(page).not_to have_content(planning_application3.reference)
+      end
     end
 
     it "allows user to search planning applications by description" do
@@ -96,6 +107,27 @@ RSpec.describe "searching planning applications", type: :system do
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
       end
+    end
+
+    it "allows user to clear form without submitting it" do
+      fill_in("Find an application", with: "abc")
+      click_link("Clear search")
+
+      expect(find_field("Find an application").value).to eq("")
+
+      within(selected_govuk_tab) do
+        expect(page).to have_content("All your applications")
+        expect(page).to have_content(planning_application1.reference)
+        expect(page).to have_content(planning_application2.reference)
+        expect(page).not_to have_content(planning_application3.reference)
+      end
+    end
+
+    it "shows message when there are no search results" do
+      fill_in("Find an application", with: "something else entirely")
+      click_button("Search")
+
+      expect(page).to have_content("No planning applications match your search")
     end
   end
 
@@ -146,6 +178,17 @@ RSpec.describe "searching planning applications", type: :system do
         expect(page).not_to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
       end
+
+      click_link("Clear search")
+
+      expect(find_field("Find an application").value).to eq("")
+
+      within(selected_govuk_tab) do
+        expect(page).to have_content("All applications")
+        expect(page).to have_content(planning_application1.reference)
+        expect(page).to have_content(planning_application2.reference)
+        expect(page).to have_content(planning_application3.reference)
+      end
     end
 
     it "allows user to search planning applications by description" do
@@ -157,6 +200,27 @@ RSpec.describe "searching planning applications", type: :system do
         expect(page).not_to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
       end
+    end
+
+    it "allows user to clear form without submitting it" do
+      fill_in("Find an application", with: "abc")
+      click_link("Clear search")
+
+      expect(find_field("Find an application").value).to eq("")
+
+      within(selected_govuk_tab) do
+        expect(page).to have_content("All applications")
+        expect(page).to have_content(planning_application1.reference)
+        expect(page).to have_content(planning_application2.reference)
+        expect(page).to have_content(planning_application3.reference)
+      end
+    end
+
+    it "shows message when there are no search results" do
+      fill_in("Find an application", with: "something else entirely")
+      click_button("Search")
+
+      expect(page).to have_content("No planning applications match your search")
     end
   end
 end

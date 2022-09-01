@@ -179,6 +179,7 @@ en:
     formatted_expiry_date: Expiry date
     formatted_outcome_date: Outcome date
     full_address: Site address
+    no_planning_applications: No planning applications match your search
     not_started_and_invalid: Not started
     outcome: Outcome
     reference: Application number
@@ -213,6 +214,7 @@ en:
     new:
       assess_recommendation: Assess recommendation
   search_form_component:
+    clear_search: Clear search
     find_an_application: Find an application
     search: Search
     you_can_search: You can search by application number or description
