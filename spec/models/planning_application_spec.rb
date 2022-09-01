@@ -793,21 +793,19 @@ RSpec.describe PlanningApplication, type: :model do
   end
 
   describe "#secure_change_url" do
-    before do
-      ENV["APPLICANTS_APP_HOST"] = "example.com"
-    end
-
     it "returns the internal_url" do
+      allow(ENV).to receive(:[])
+      allow(ENV).to receive(:[]).with("APPLICANTS_APP_HOST").and_return("example.com")
+
       expect(planning_application.secure_change_url).to match("http://buckinghamshire.example.com/validation_requests")
     end
 
     context "when ENV['PUBLIC_URL_ENABLED'] is set to true" do
-      before do
-        ENV["PUBLIC_URL_ENABLED"] = "true"
-        ENV["APPLICANTS_APP_HOST"] = "planning"
-      end
-
       it "returns the public_url" do
+        allow(ENV).to receive(:[])
+        allow(ENV).to receive(:[]).with("APPLICANTS_APP_HOST").and_return("planning")
+        allow(ENV).to receive(:fetch).with("PUBLIC_URL_ENABLED", "false").and_return("true")
+
         expect(planning_application.secure_change_url).to match("http://planning.buckinghamshire.gov.uk/validation_requests")
       end
     end
