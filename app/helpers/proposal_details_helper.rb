@@ -1,25 +1,6 @@
 # frozen_string_literal: true
 
 module ProposalDetailsHelper
-  def proposal_details_group_id(portal_name)
-    proposal_details_group_name(portal_name).downcase.gsub(/[^0-9a-z]/i, "")
-  end
-
-  def proposal_details_group_title(portal_name)
-    proposal_details_group_name(portal_name).downcase.underscore.humanize
-  end
-
-  def proposal_details_group_name(portal_name)
-    case portal_name
-    when "_root"
-      t("proposal_details.main")
-    when nil
-      t("proposal_details.other")
-    else
-      portal_name
-    end
-  end
-
   def proposal_detail_item(proposal_detail)
     tag.div do
       concat(proposal_detail_question(proposal_detail.question))

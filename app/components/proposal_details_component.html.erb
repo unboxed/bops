@@ -1,0 +1,33 @@
+<div data-controller="show-hide">
+  <div class="govuk-form-group">
+    <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+      <div class="govuk-checkboxes__item">
+        <%= check_box_tag(
+          :hide_auto_answered,
+          1,
+          false,
+          class: "govuk-checkboxes__input",
+          data: { action: "change->show-hide#handleChange" }
+        ) %>
+        <%= label_tag(
+          :hide_auto_answered,
+          t(".view_only_applicant"),
+          class: "govuk-label govuk-checkboxes__label",
+        ) %>
+      </div>
+    </div>
+  </div>
+  <p class="govuk-body">
+    <%= t(".the_proposal_details") %>
+  </p>
+  <ul class="govuk-body proposal-details-list">
+    <strong>
+      <% groups.each do |group| %>
+        <%= render(ProposalDetailsLinkComponent.new(group: group)) %>
+      <% end %>
+    </strong>
+  </ul>
+  <% groups.each do |group| %>
+    <%= render(ProposalDetailsGroupComponent.new(group: group)) %>
+  <% end %>
+</div>

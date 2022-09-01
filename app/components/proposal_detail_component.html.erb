@@ -1,0 +1,8 @@
+<%= content_tag(
+  "li",
+  data: { show_hide_target: ("hideable" if auto_answered?) },
+  class: "proposal-detail"
+) do %>
+  <div><p class="govuk-body"><%= "#{number}." %>&nbsp</p></div>
+  <%= proposal_detail_item(proposal_detail) %>
+<% end %>

@@ -196,10 +196,15 @@ en:
     auto_answered: Auto-answered by RIPA
     main: Main
     other: Other
+  proposal_details_component:
+    the_proposal_details: The proposal details are grouped under the following categories
+    view_only_applicant: View ONLY applicant answers, hide 'Auto-answered by RIPA'
   recommendations:
     documents:
       documents_included_in: Documents included in the decision notice
       no_documents_listed: No documents listed on decision notice.
+    edit:
+      review_recommendation: Review the recommendation
     event:
       by_name_at: by %{name}, %{date} at %{time}
     events:
@@ -213,8 +218,6 @@ en:
       in_assessment: To be determined
       legislation: Legislation
       no_legislation_assessed: No legislation assessed for this application.
-    edit:
-      review_recommendation: Review the recommendation
     new:
       assess_recommendation: Assess recommendation
   search_form_component:

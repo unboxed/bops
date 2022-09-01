@@ -26,8 +26,9 @@
 
     <% if @planning_application.proposal_details.any? %>
       <%= render(
-        partial: "planning_applications/proposal_details",
-        locals: { planning_application: @planning_application }
+        ProposalDetailsComponent.new(
+          proposal_details: @planning_application.proposal_details
+        )
       ) %>
     <% end %>
   </div>

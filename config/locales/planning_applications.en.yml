@@ -23,8 +23,6 @@ en:
       one: 1 day remaining
       other: "%{count} days remaining"
       zero: "%{count} days overdue"
-    filter_proposal_details_checkbox:
-      view_only_applicant: View ONLY applicant answers, hide 'Auto-answered by RIPA'
     index:
       assessor_alert:
         one: Your manager has requested corrections on <strong>%{count} application.</strong>
@@ -37,8 +35,6 @@ en:
       other: "%{count} days overdue"
     policy_consideration_list:
       proposal_details: Proposal details
-    proposal_details:
-      the_proposal_details: The proposal details are grouped under the following categories
     proposal_header:
       application_number: 'Application number:'
     steps:
