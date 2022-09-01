@@ -132,6 +132,8 @@ en:
       planning_application:
         closed_or_cancellation_comment: Provide a reason
         public_comment: 'This information will appear on the decision notice:'
+      recommendation:
+        reviewer_comment: Review comment
       red_line_boundary_change_validation_request:
         cancel_reason: Explain to the applicant why this request is being cancelled
       replacement_document_validation_request:
@@ -211,6 +213,8 @@ en:
       in_assessment: To be determined
       legislation: Legislation
       no_legislation_assessed: No legislation assessed for this application.
+    edit:
+      review_recommendation: Review the recommendation
     new:
       assess_recommendation: Assess recommendation
   search_form_component:

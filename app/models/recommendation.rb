@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class Recommendation < ApplicationRecord
+  class ReviewRecommendationError < StandardError; end
+
+  include Auditable
+
   belongs_to :planning_application
   belongs_to :assessor, class_name: "User", optional: true
   belongs_to :reviewer, class_name: "User", optional: true
@@ -11,7 +15,7 @@ class Recommendation < ApplicationRecord
 
   validate :reviewer_comment_is_present?
 
-  attr_accessor :agree
+  delegate :audits, to: :planning_application
 
   def current_recommendation?
     planning_application.recommendations.last == self
@@ -24,6 +28,22 @@ class Recommendation < ApplicationRecord
       reviewer.present?
     end
   end
+
+  def review!
+    transaction do
+      update!(reviewed_at: Time.current, reviewer: Current.user)
+
+      if challenged?
+        planning_application.request_correction!(reviewer_comment)
+      else
+        audit!(activity_type: "approved", audit_comment: reviewer_comment)
+      end
+    end
+  rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
+    raise ReviewRecommendationError, e.message
+  end
+
+  private
 
   def reviewer_comment_is_present?
     if challenged? && !reviewer_comment?

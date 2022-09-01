@@ -24,7 +24,8 @@ Rails.application.routes.draw do
       get :part, on: :new
     end
 
-    resources :recommendations, only: %i[new create]
+    resources :recommendations, only: %i[new create update]
+    resource :recommendations, only: %i[edit]
 
     member do
       get :assign
@@ -37,9 +38,7 @@ Rails.application.routes.draw do
       patch :submit
       patch :withdraw_recommendation
       patch :assess
-      get :review_form
       get :edit_public_comment
-      patch :review
       get :publish
       patch :determine
       patch :cancel

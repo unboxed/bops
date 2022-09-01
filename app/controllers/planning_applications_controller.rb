@@ -5,7 +5,7 @@ class PlanningApplicationsController < AuthenticationController
 
   before_action :set_planning_application, except: %i[new create index]
 
-  before_action :ensure_user_is_reviewer, only: %i[review review_form edit_public_comment]
+  before_action :ensure_user_is_reviewer, only: %i[edit_public_comment]
 
   before_action :set_last_audit, only: %i[show view_recommendation submit_recommendation publish]
 
@@ -188,31 +188,6 @@ class PlanningApplicationsController < AuthenticationController
     end
   end
 
-  def review_form
-    @recommendation = @planning_application.recommendations.last
-  end
-
-  def review
-    @recommendation = @planning_application.recommendations.last
-    @recommendation.update!(reviewer_comment: params[:recommendation][:reviewer_comment], reviewed_at: Time.zone.now,
-                            reviewer: current_user)
-
-    case params[:recommendation][:agree]
-    when "No"
-      @recommendation.assign_attributes(challenged: true)
-      if @recommendation.save
-        @planning_application.request_correction!(@recommendation.reviewer_comment)
-        redirect_to @planning_application
-      else
-        render :review_form
-      end
-    when "Yes"
-      @recommendation.update!(challenged: false)
-      @planning_application.audit_recommendation_approved!
-      redirect_to @planning_application
-    end
-  end
-
   def publish; end
 
   def determine
@@ -351,10 +326,6 @@ class PlanningApplicationsController < AuthenticationController
 
   def payment_amount_params
     params[:planning_application] ? params.require(:planning_application).permit(:payment_amount) : params.permit(:payment_amount)
-  end
-
-  def ensure_user_is_reviewer
-    render plain: "forbidden", status: :forbidden and return unless current_user.reviewer?
   end
 
   def set_last_audit

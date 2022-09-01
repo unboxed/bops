@@ -41,13 +41,15 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Review assessment"
 
+    expect(page).to have_content("Review the recommendation")
+
     within ".recommendations" do
       expect(page).to have_content("First assessor comment")
       expect(page).to have_content("First reviewer comment")
       expect(page).to have_content("New assessor comment")
     end
 
-    choose "Yes"
+    find("#recommendation_challenged_false").click
     fill_in "Review comment", with: "Reviewer private comment"
     click_button "Save"
     click_link "Publish determination"
@@ -73,7 +75,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
   it "can be rejected" do
     travel_to(Date.new(2022))
     click_link "Review assessment"
-    choose "No"
+    find("#recommendation_challenged_true").click
     fill_in "Review comment", with: "Reviewer private comment"
     click_button "Save"
     expect(page).not_to have_link("Publish determination")
@@ -105,14 +107,19 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
   it "cannot be rejected without a review comment" do
     click_link "Review assessment"
-    choose "No"
+    find("#recommendation_challenged_true").click
     click_button "Save"
-    expect(page).to have_content("Please include a comment for the case officer to indicate why the recommendation has been challenged.")
+
+    find_all(".govuk-error-summary").each do |error|
+      within(error) do
+        expect(page).to have_content("Please include a comment for the case officer to indicate why the recommendation has been challenged.")
+      end
+    end
   end
 
   it "can be accepted without a review comment" do
     click_link "Review assessment"
-    choose "Yes"
+    find("#recommendation_challenged_false").click
     click_button "Save"
     click_link "Publish determination"
     click_button "Determine application"
@@ -135,7 +142,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
     expect(page).to have_field("Review comment", with: "Reviewer private comment")
 
-    choose "No"
+    find("#recommendation_challenged_true").click
     fill_in "Review comment", with: "Edited reviewer private comment"
     click_button "Save"
 
@@ -149,7 +156,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
       expect(page).to have_content("Review the recommendation")
       expect(page).to have_content("The planning officer recommends that the application is granted")
-      expect(page).to have_content("This information will appear on the decision notice:")
+      within(".govuk-warning-text") do
+        expect(page).to have_content("This information will appear on the decision notice:")
+      end
       expect(page).to have_content(planning_application.public_comment)
 
       click_link "Edit information on the decision notice"

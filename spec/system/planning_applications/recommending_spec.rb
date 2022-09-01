@@ -422,8 +422,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
         click_link("Submit recommendation")
         click_button("Submit to manager")
         sign_in(reviewer)
-        visit(review_form_planning_application_path(planning_application))
-        choose("No")
+        visit(edit_planning_application_recommendations_path(planning_application))
+        find("#recommendation_challenged_true").click
         fill_in("Review comment", with: "Requirements not met.")
         click_button("Save")
         click_link("Assess recommendation")
