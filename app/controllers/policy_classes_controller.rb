@@ -46,7 +46,10 @@ class PolicyClassesController < PlanningApplicationsController
 
   def update
     if @policy_class.update(policy_class_params)
-      redirect_to @planning_application, notice: "Successfully updated policy class"
+      redirect_to(
+        planning_application_assessment_tasks_path(@planning_application),
+        notice: t(".successfully_updated_policy")
+      )
     else
       render :show
     end
@@ -65,7 +68,9 @@ class PolicyClassesController < PlanningApplicationsController
   end
 
   def policy_class_params
-    params.require(:policy_class).permit(policies_attributes: %i[id status])
+    params
+      .require(:policy_class)
+      .permit(policies_attributes: [:id, :status, { comment_attributes: [:text] }])
   end
 
   def set_policy_class

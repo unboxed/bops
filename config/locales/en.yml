@@ -192,6 +192,14 @@ en:
   planning_applications:
     confirm_validation:
       validate_application: Validate application
+  policy_classes:
+    show:
+      add_comment: Add comment
+      class_title: Class title - %{policy_class}
+      comment_added_on: Comment added on %{created_at} by %{user}
+      comment_updated_on: Comment updated on %{updated_at} by %{user}
+    update:
+      successfully_updated_policy: Successfully updated policy class
   proposal_detail_component:
     auto_answered: Auto-answered by RIPA
   proposal_details:

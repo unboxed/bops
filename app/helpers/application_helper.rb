@@ -34,4 +34,30 @@ module ApplicationHelper
       OpenStruct.new(id: key, name: t(".#{key}"))
     end
   end
+
+  def policy_comment_label(comment)
+    if comment.persisted?
+      existing_policy_comment_label(comment)
+    else
+      t(".add_comment")
+    end
+  end
+
+  def existing_policy_comment_label(comment)
+    user = comment.user.name
+
+    if comment.edited?
+      t(
+        ".comment_updated_on",
+        updated_at: comment.updated_at.strftime("%d %b %Y"),
+        user: user
+      )
+    else
+      t(
+        ".comment_added_on",
+        created_at: comment.created_at.strftime("%d %b %Y"),
+        user: user
+      )
+    end
+  end
 end
