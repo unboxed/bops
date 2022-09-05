@@ -27,7 +27,7 @@ module AssessmentTasks
     def policy_class_link
       link_to(
         policy_class,
-        planning_application_policy_class_path(planning_application, id: policy_class.to_param),
+        planning_application_policy_class_path(planning_application, policy_class),
         class: "govuk-link"
       )
     end

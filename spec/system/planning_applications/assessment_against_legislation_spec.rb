@@ -43,7 +43,7 @@ RSpec.describe "assessment against legislation", type: :system do
     click_link("Part 1, Class A")
     click_link("Back")
     click_link("Part 1, Class A")
-    choose("policies_1a_complies")
+    choose("policy_class_policies_attributes_0_status_complies")
     dismiss_confirm { click_link("Back") }
     click_button("Save assessments")
 

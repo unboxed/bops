@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_25_142642) do
+ActiveRecord::Schema.define(version: 2022_09_05_134840) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -235,7 +235,7 @@ ActiveRecord::Schema.define(version: 2022_08_25_142642) do
     t.string "result_override"
     t.bigint "api_user_id"
     t.bigint "boundary_created_by_id"
-    t.jsonb "policy_classes", default: [], array: true
+    t.jsonb "policy_classes_bak", default: [], array: true
     t.datetime "assessment_in_progress_at"
     t.string "ward"
     t.string "ward_type"
@@ -265,6 +265,28 @@ ActiveRecord::Schema.define(version: 2022_08_25_142642) do
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
     t.index ["reference", "local_authority_id"], name: "ix_planning_applications_on_reference__local_authority_id", unique: true
     t.index ["user_id"], name: "index_planning_applications_on_user_id"
+  end
+
+  create_table "policies", force: :cascade do |t|
+    t.string "section", null: false
+    t.string "description", null: false
+    t.integer "status", null: false
+    t.bigint "policy_class_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["policy_class_id"], name: "ix_policies_on_policy_class_id"
+  end
+
+  create_table "policy_classes", force: :cascade do |t|
+    t.string "schedule", null: false
+    t.integer "part", null: false
+    t.string "section", null: false
+    t.string "url"
+    t.string "name", null: false
+    t.bigint "planning_application_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["planning_application_id"], name: "ix_policy_classes_on_planning_application_id"
   end
 
   create_table "recommendations", force: :cascade do |t|
