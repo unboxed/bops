@@ -3,6 +3,7 @@
 class PolicyClassesController < PlanningApplicationsController
   before_action :set_planning_application
   before_action :set_policy_class, only: %i[show update destroy]
+  before_action :ensure_can_assess_planning_application, only: %i[part new create]
 
   def part
     @part_number = params[:part]&.to_i
@@ -34,7 +35,8 @@ class PolicyClassesController < PlanningApplicationsController
     @planning_application.policy_classes += classes
 
     if @planning_application.save
-      redirect_to @planning_application, notice: "Policy classes have been successfully added"
+      redirect_to planning_application_assessment_tasks_path(@planning_application),
+                  notice: "Policy classes have been successfully added"
     else
       redirect_to new_planning_application_policy_class_path(@planning_application, part: params[:part]),
                   alert: @planning_application.errors.full_messages
@@ -81,5 +83,9 @@ class PolicyClassesController < PlanningApplicationsController
 
   def set_planning_application
     @planning_application = current_local_authority.planning_applications.find(params[:planning_application_id])
+  end
+
+  def ensure_can_assess_planning_application
+    render plain: "forbidden", status: :forbidden and return unless @planning_application.can_assess?
   end
 end

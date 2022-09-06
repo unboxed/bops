@@ -431,6 +431,10 @@ class PlanningApplication < ApplicationRecord
     assessment_complete? || awaiting_correction?
   end
 
+  def no_policy_classes_after_assessment?
+    assessment_complete? && policy_classes.none?
+  end
+
   private
 
   def set_reference

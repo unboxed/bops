@@ -40,6 +40,7 @@ en:
     steps:
       assessment:
         assess_recommendation: Assess recommendation
+        check_and_assess: Check and assess
       validation:
         check_and_validate: Check and validate
     tabs:

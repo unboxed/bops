@@ -1,0 +1,35 @@
+<% content_for :page_title do %>
+  Assess the application - <%= t('page_title') %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", planning_applications_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% content_for :title, "Assess application" %>
+
+<h1 class="govuk-heading-l">Assess the application</h1>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds" id="planning-application-details">
+    <span class="govuk-caption-l"><%= @planning_application.reference %></span>
+    <h1 class="govuk-heading-l"><%= @planning_application.full_address %></h1>
+
+    <p class="govuk-body"><%= @planning_application.status_tag %></p>
+
+    <p class="govuk-body">
+      <%= @planning_application.type_and_work_status %>: <%= @planning_application.description %>
+    </p>
+
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <ol class="app-task-list">
+      <%= render "check_consistency" %>
+
+      <%= render "assess_against_legislation" %>
+    </ol>
+
+    <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+  </div>
+</div>

@@ -353,6 +353,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     context "when officer assesses legislation" do
       it "shows assessed legislation on recommendation page" do
         visit(planning_application_path(planning_application))
+        click_link("Check and assess")
         click_link("Add assessment area")
         choose("Part 1 - Development within the curtilage of a dwellinghouse")
         click_button("Continue")

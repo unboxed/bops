@@ -11,6 +11,7 @@ class PlanningApplicationPresenter
   include StatusPresenter
   include ProposalDetailsPresenter
   include ValidationTasksPresenter
+  include AssessmentTasksPresenter
 
   def initialize(template, planning_application)
     @template = template

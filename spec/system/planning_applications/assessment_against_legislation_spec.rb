@@ -18,6 +18,7 @@ RSpec.describe "assessment against legislation", type: :system do
   before do
     sign_in(assessor)
     visit planning_application_path(planning_application)
+    click_link("Check and assess")
   end
 
   it "warns the user about unsaved changes" do
