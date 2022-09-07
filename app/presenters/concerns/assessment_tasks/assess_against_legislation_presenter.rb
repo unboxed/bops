@@ -33,7 +33,10 @@ module AssessmentTasks
     end
 
     def policy_class_tag
-      tag.strong policy_class.status, class: class_for_policy_class_status(policy_class.status)
+      tag.strong(
+        I18n.t("policy_classes.#{policy_class.status}"),
+        class: "govuk-tag app-task-list__task-tag #{"govuk-tag--blue" if policy_class.complete?}"
+      )
     end
   end
 end

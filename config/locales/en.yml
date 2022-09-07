@@ -193,6 +193,8 @@ en:
     confirm_validation:
       validate_application: Validate application
   policy_classes:
+    complete: Complete
+    in_assessment: In assessment
     show:
       add_comment: Add comment
       class_title: Class title - %{policy_class}
@@ -224,9 +226,9 @@ en:
     legislation:
       complies: Complies
       does_not_comply: Does not comply
-      in_assessment: To be determined
       legislation: Legislation
       no_legislation_assessed: No legislation assessed for this application.
+      to_be_determined: To be determined
     new:
       assess_recommendation: Assess recommendation
   search_form_component:
