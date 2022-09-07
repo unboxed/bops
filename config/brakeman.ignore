@@ -43,7 +43,7 @@
     {
       "warning_type": "Dynamic Render Path",
       "warning_code": 15,
-      "fingerprint": "994ddfe9be5cc79bcc8889a6ecb3da1781fbbaaf13d2a5cc8284c5ad863cd743",
+      "fingerprint": "bc252b9b594089c7492188504c3b8331debd7a434a65264bc6296abc69e2094a",
       "check_name": "Render",
       "message": "Render path contains parameter value",
       "file": "app/views/shared/_supporting_information.html.erb",
@@ -68,15 +68,15 @@
           "line": 5,
           "file": "app/views/planning_applications/show.html.erb",
           "rendered": {
-            "name": "planning_applications/_assessment_dashboard",
-            "file": "app/views/planning_applications/_assessment_dashboard.html.erb"
+            "name": "shared/_assessment_dashboard",
+            "file": "app/views/shared/_assessment_dashboard.html.erb"
           }
         },
         {
           "type": "template",
-          "name": "planning_applications/_assessment_dashboard",
-          "line": 27,
-          "file": "app/views/planning_applications/_assessment_dashboard.html.erb",
+          "name": "shared/_assessment_dashboard",
+          "line": 37,
+          "file": "app/views/shared/_assessment_dashboard.html.erb",
           "rendered": {
             "name": "shared/_supporting_information",
             "file": "app/views/shared/_supporting_information.html.erb"
@@ -112,6 +112,6 @@
       "note": ""
     }
   ],
-  "updated": "2022-08-12 00:35:40 +0200",
+  "updated": "2022-08-30 15:40:26 +0200",
   "brakeman_version": "5.1.1"
 }

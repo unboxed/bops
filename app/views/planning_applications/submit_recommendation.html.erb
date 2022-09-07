@@ -4,7 +4,7 @@
 
 <% content_for :title, "Submit recommendation" %>
 
-<%= render "planning_applications/assessment_dashboard" do %>
+<%= render "shared/assessment_dashboard" do %>
   <h2 class="govuk-heading-m">Submit Recommendation</h2>
   <p class="govuk-body">The following decision notice has been created based on your answers.</p>
   <%= render "decision_notice", planning_application: @planning_application %>

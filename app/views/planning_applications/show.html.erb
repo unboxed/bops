@@ -2,7 +2,7 @@
   Planning Application - <%= t('page_title') %>
 <% end %>
 
-<%= render "assessment_dashboard" do %>
+<%= render "shared/assessment_dashboard" do %>
   <% if @planning_application.in_progress? %>
     <%= render 'application_steps' %>
   <% end %>
