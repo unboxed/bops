@@ -1,15 +1,12 @@
 # frozen_string_literal: true
 
-class PolicyClass
-  include ActiveModel::Model
-  include ActiveModel::Attributes
-  include ActiveModel::Dirty
+class PolicyClass < ApplicationRecord
+  belongs_to :planning_application
+  has_many :policies, dependent: :destroy
 
-  attribute :id
-  attribute :name
-  attribute :part
-  attribute :policies
-  attribute :url
+  accepts_nested_attributes_for :policies
+
+  validates :name, :part, :section, :schedule, presence: true
 
   class << self
     def all_parts
@@ -19,21 +16,9 @@ class PolicyClass
     end
 
     def classes_for_part(part)
-      number = part.to_i
-
-      all_parts[number][:classes]
-        .map { |h| PolicyClass.new(h) }
-        .each { |c| c.stamp_part!(number) }
-    end
-  end
-
-  def stamp_part!(number)
-    self.part = number.to_i
-  end
-
-  def stamp_status!
-    policies.each do |policy|
-      policy["status"] = "to_be_determined"
+      all_parts[part.to_i][:classes].map do |attributes|
+        PolicyClass.new(attributes)
+      end
     end
   end
 
@@ -44,14 +29,10 @@ class PolicyClass
   end
 
   def status
-    return "in assessment" if policies_in_assessment.any?
-    return "does not comply" if non_compliant_policies.any?
+    return "in assessment" if policies.to_be_determined.any?
+    return "does not comply" if policies.does_not_comply.any?
 
     "complies"
-  end
-
-  def non_compliant_policies
-    policies_with_status("does_not_comply")
   end
 
   def as_json(_options = nil)
@@ -59,17 +40,7 @@ class PolicyClass
   end
 
   def to_s
-    "Part #{part}, Class #{id}"
-  end
-
-  # NOTE: this is a method that is normally provided and overriden in
-  # the scope of ActiveRecord. Since this is an ActiveModel, stick to
-  # the naming and call it manually from the controller; it joins the
-  # part and the ID of the policy class together, since we store them
-  # flat on PlanningApplication and thus we cannot distinguish them on
-  # their IDs alone.
-  def to_param
-    [part, id].join("-")
+    "Part #{part}, Class #{section}"
   end
 
   def ==(other)
@@ -78,15 +49,5 @@ class PolicyClass
     else
       part == other.part && id == other.id
     end
-  end
-
-  private
-
-  def policies_in_assessment
-    policies_with_status("to_be_determined")
-  end
-
-  def policies_with_status(status)
-    policies.select { |policy| policy["status"] == status }
   end
 end

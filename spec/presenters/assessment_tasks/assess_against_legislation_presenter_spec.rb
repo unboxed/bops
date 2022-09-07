@@ -24,7 +24,7 @@ RSpec.describe AssessmentTasks::AssessAgainstLegislationPresenter, type: :presen
         expect(html).to include(
           link_to(
             policy_class,
-            planning_application_policy_class_path(planning_application, id: policy_class.to_param),
+            planning_application_policy_class_path(planning_application, policy_class),
             class: "govuk-link"
           )
         )
@@ -40,7 +40,7 @@ RSpec.describe AssessmentTasks::AssessAgainstLegislationPresenter, type: :presen
         build(:policy_class, policies: [policy])
       end
 
-      let(:policy) { build(:policy_reference, status: "does_not_comply") }
+      let(:policy) { build(:policy, :does_not_comply) }
 
       before { planning_application.policy_classes += [policy_class] }
 
@@ -52,7 +52,7 @@ RSpec.describe AssessmentTasks::AssessAgainstLegislationPresenter, type: :presen
         expect(html).to include(
           link_to(
             policy_class,
-            planning_application_policy_class_path(planning_application, id: policy_class.to_param),
+            planning_application_policy_class_path(planning_application, policy_class),
             class: "govuk-link"
           )
         )
@@ -68,7 +68,7 @@ RSpec.describe AssessmentTasks::AssessAgainstLegislationPresenter, type: :presen
         build(:policy_class, policies: [policy])
       end
 
-      let(:policy) { build(:policy_reference, status: "to_be_determined") }
+      let(:policy) { build(:policy, :to_be_determined) }
 
       before { planning_application.policy_classes += [policy_class] }
 
@@ -80,7 +80,7 @@ RSpec.describe AssessmentTasks::AssessAgainstLegislationPresenter, type: :presen
         expect(html).to include(
           link_to(
             policy_class,
-            planning_application_policy_class_path(planning_application, id: policy_class.to_param),
+            planning_application_policy_class_path(planning_application, policy_class),
             class: "govuk-link"
           )
         )

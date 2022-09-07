@@ -35,8 +35,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <%= form_with(
-      method: :put,
-      scope: "policies",
+      model: [@planning_application, @policy_class],
       html: { data: unsaved_changes_data }
     ) do |form| %>
       <table class="govuk-table">
@@ -50,24 +49,37 @@
           </tr>
         </thead>
         <tbody class="govuk-table__body">
-          <% @policy_class.policies.each do |policy| %>
+          <%= form.fields_for(
+            :policies,
+            @policy_class.policies.order(:section)
+          ) do |policy_form| %>
             <tr class="govuk-table__row">
               <td class="govuk-table__cell">
-                <h3 class="govuk-heading-s"><%= @policy_class.id %>.<%= policy["id"] %></h3>
+                <h3 class="govuk-heading-s">
+                  <%= "#{form.object.section}.#{policy_form.object.section}" %>
+                </h3>
                 <div class="govuk-body">
-                  <%= policy["description"] %>
+                  <%= policy_form.object.description %>
                 </div>
               </td>
-              <% ["complies", "does_not_comply", "to_be_determined"].each do |status| %>
+              <% Policy.statuses.each_key do |status| %>
                 <td class="govuk-table__cell">
                   <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset">
                       <div class="govuk-radios" data-module="govuk-radios">
                         <div class="govuk-radios govuk-radios--small">
                           <div class="govuk-radios__item">
-                            <%= form.radio_button policy["id"], status, class: "govuk-radios__input", checked: status == policy["status"], disabled: @planning_application.assessment_complete? %>
-                            <%= form.label policy["id"], value: status, class: "govuk-label govuk-radios__label " do %>
-                            <% end %>
+                            <%= policy_form.radio_button(
+                              :status,
+                              status,
+                              class: "govuk-radios__input",
+                              disabled: @planning_application.assessment_complete?
+                            ) %>
+                            <%= policy_form.label(
+                              :status,
+                              "&nbsp;".html_safe,
+                              class: "govuk-label govuk-radios__label"
+                            ) %>
                           </div>
                         </div>
                       </div>

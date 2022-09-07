@@ -35,7 +35,12 @@
             </p>
           </div>
           <div class="govuk-checkboxes">
-            <%= form.collection_check_boxes :policy_classes, PolicyClass.classes_for_part(@part), :id, :name do |b| %>
+            <%= form.collection_check_boxes(
+              :policy_classes,
+              PolicyClass.classes_for_part(@part),
+              :section,
+              :name
+            ) do |b| %>
               <div class="govuk-checkboxes__item">
                 <% if @planning_application.policy_classes.include?(b.object) %>
                   <%= b.check_box(class: "govuk-checkboxes__input", disabled: true, checked: true) %>

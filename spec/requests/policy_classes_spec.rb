@@ -11,8 +11,6 @@ RSpec.describe "Policy classes", type: :request, show_exceptions: true do
   let!(:assessor) { create(:user, :assessor, local_authority: current_local_authority) }
 
   before do
-    policy_class.stamp_part!(1)
-
     sign_in assessor
   end
 

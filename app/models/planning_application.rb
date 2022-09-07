@@ -33,6 +33,7 @@ class PlanningApplication < ApplicationRecord
     has_many :red_line_boundary_change_validation_requests
     has_many :notes, -> { by_created_at_desc }, inverse_of: :planning_application
     has_many :requests, class_name: "ValidationRequest"
+    has_many :policy_classes, dependent: :destroy
   end
 
   delegate :reviewer_group_email, to: :local_authority
@@ -110,10 +111,7 @@ class PlanningApplication < ApplicationRecord
   validate :validated_at_date
   validate :public_comment_present
   validate :decision_with_recommendations
-  validate :policy_classes_editable
   validate :determination_date_is_not_in_the_future
-
-  attribute :policy_classes, :policy_class, array: true
 
   def timestamp_status_change
     update("#{aasm.to_state}_at": Time.zone.now)
@@ -301,10 +299,6 @@ class PlanningApplication < ApplicationRecord
     else
       "#{applicant_first_name} #{applicant_last_name}"
     end
-  end
-
-  def policy_classes_editable
-    errors.add(:policy_classes, "cannot be added at this stage") if policy_classes_changed? && !can_assess?
   end
 
   def documents_for_decision_notice

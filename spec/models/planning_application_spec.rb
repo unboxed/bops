@@ -479,23 +479,6 @@ RSpec.describe PlanningApplication, type: :model do
     end
   end
 
-  describe "policy_classes" do
-    context "when the application is not assessable anymore" do
-      let(:planning_application) { create(:planning_application, :determined) }
-      let(:policy_class) { build(:policy_class) }
-
-      before do
-        policy_class.stamp_part!(1)
-      end
-
-      it "is invalid" do
-        planning_application.policy_classes += [policy_class]
-
-        expect(planning_application).not_to be_valid
-      end
-    end
-  end
-
   # rubocop:disable Rails/SkipsModelValidations
   describe "days left/past" do
     let(:planning_application) { create(:planning_application) }

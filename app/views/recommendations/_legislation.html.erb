@@ -16,7 +16,7 @@
     </strong>
   </p>
   <% if policy_class.does_not_comply? %>
-    <% policy_class.non_compliant_policies.each do |policy| %>
+    <% policy_class.policies.does_not_comply.each do |policy| %>
       <div class="policy">
         <h5 class="govuk-heading-s">
           <%= "#{policy_class.id}.#{policy["id"]}" %>
