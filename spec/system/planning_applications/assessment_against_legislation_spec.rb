@@ -141,6 +141,7 @@ RSpec.describe "assessment against legislation", type: :system do
   end
 
   it "lets the user save draft and then mark as complete" do
+    travel_to(Time.zone.local(2022, 9, 1))
     visit(planning_application_path(planning_application))
     click_link("Check and assess")
     click_link("Add assessment area")
@@ -183,5 +184,29 @@ RSpec.describe "assessment against legislation", type: :system do
     end
 
     expect(task_list_item).to have_content("Complete")
+
+    click_link("Part 1, Class D")
+    expect(page).to have_content("Comment added on 01 Sep 2022 by Alice Smith")
+    expect(page).to have_content("Test comment")
+
+    expect(page).not_to have_field(
+      "Comment added on 01 Sep 2022 by Alice Smith",
+      with: "Test comment"
+    )
+
+    expect(page).not_to have_selector(
+      "#policy_class_policies_attributes_0_status_does_not_comply"
+    )
+
+    click_link("Edit assessment")
+
+    expect(page).to have_field(
+      "Comment added on 01 Sep 2022 by Alice Smith",
+      with: "Test comment"
+    )
+
+    expect(page).to have_selector(
+      "#policy_class_policies_attributes_0_status_does_not_comply"
+    )
   end
 end

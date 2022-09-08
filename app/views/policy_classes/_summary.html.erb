@@ -1,0 +1,44 @@
+<% content_for :page_title do %>
+  <%= t(".assess") %> - <%= t("page_title") %>
+<% end %>
+<% add_parent_breadcrumb_link(t(".home"), planning_applications_path) %>
+<% add_parent_breadcrumb_link(
+  t(".application"),
+  planning_application_path(planning_application)
+) %>
+<% content_for(:title, t(".assess")) %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <%= t(
+        ".assess_policy_class",
+        part: policy_class.part,
+        class: policy_class.section
+      ) %>
+    </h1>
+    <h2 class="govuk-heading-m">
+      <%= t(".class_title", policy_class: policy_class.name) %>
+    </h2>
+    <p class="govuk-body">
+      <%= t(
+        ".please_indicate_if",
+        part: policy_class.part,
+        class: policy_class.section
+      ) %>
+    <p class="govuk-body">
+      <%= link_to(
+        t(".open_legislation_in"),
+        policy_class.url,
+        class: "govuk-link",
+        target: "_blank"
+      ) %>
+    </p>
+    <%= button_to(
+        t(".remove_class_from"),
+        nil,
+        method: :delete,
+        class: "govuk-button govuk-button--warning",
+        disabled: planning_application.assessment_complete?
+    ) %>
+  </div>
+</div>

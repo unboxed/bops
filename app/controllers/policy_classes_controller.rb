@@ -2,7 +2,7 @@
 
 class PolicyClassesController < PlanningApplicationsController
   before_action :set_planning_application
-  before_action :set_policy_class, only: %i[show update destroy]
+  before_action :set_policy_class, only: %i[edit show update destroy]
   before_action :ensure_can_assess_planning_application, only: %i[part new create]
 
   def part
@@ -42,6 +42,8 @@ class PolicyClassesController < PlanningApplicationsController
     end
   end
 
+  def edit; end
+
   def show; end
 
   def update
@@ -51,7 +53,7 @@ class PolicyClassesController < PlanningApplicationsController
         notice: t(".successfully_updated_policy")
       )
     else
-      render :show
+      render :edit
     end
   end
 

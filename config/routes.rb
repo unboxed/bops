@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   resources :users, only: %i[new create edit update]
 
   resources :planning_applications, only: %i[index show new edit create update] do
-    resources :policy_classes, except: %i[index edit] do
+    resources :policy_classes, except: %i[index] do
       get :part, on: :new
     end
 

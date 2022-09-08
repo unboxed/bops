@@ -45,8 +45,8 @@ class PolicyClass < ApplicationRecord
   private
 
   def all_policies_are_determined
-    if policies.any?(&:to_be_determined?)
-      errors.add(:status, :policies_to_be_determined)
-    end
+    return if policies.none?(&:to_be_determined?)
+
+    errors.add(:status, :policies_to_be_determined)
   end
 end

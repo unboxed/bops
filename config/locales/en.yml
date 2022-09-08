@@ -12,10 +12,6 @@ en:
   activerecord:
     errors:
       models:
-        policy_class:
-          attributes:
-            status:
-              policies_to_be_determined: All policies must be assessed
         document:
           attributes:
             file:
@@ -36,6 +32,10 @@ en:
               not_a_number: Payment amount must be a number not exceeding 2 decimal places
             public_comment:
               blank: Please state the reasons why this application is, or is not lawful
+        policy_class:
+          attributes:
+            status:
+              policies_to_be_determined: All policies must be assessed
   additional_document_validation_requests:
     create:
       success: Additional document request successfully created.
@@ -198,14 +198,29 @@ en:
       validate_application: Validate application
   policy_classes:
     complete: Complete
-    in_assessment: In assessment
-    show:
+    form:
       add_comment: Add comment
-      class_title: Class title - %{policy_class}
+      back: Back
       comment_added_on: Comment added on %{created_at} by %{user}
       comment_updated_on: Comment updated on %{updated_at} by %{user}
-      save_and_mark: Save and mark as complete
+      complies: Complies
+      does_not_comply: Does not comply
+      edit_assessment: Edit assessment
+      policy_reference: Policy reference
       save_and_come: Save and come back later
+      save_and_mark: Save and mark as complete
+      table_caption: Part %{part}, Class %{class} - %{name}
+      to_be_determined: To be determined
+    in_assessment: In assessment
+    summary:
+      application: Application
+      assess: Assess
+      assess_policy_class: Assess - Part %{part}, Class %{class}
+      class_title: Class title - %{policy_class}
+      home: Home
+      open_legislation_in: Open legislation in new window
+      please_indicate_if: Please indicate if the application complies, does not comply, or is not applicable to each of the policies. Policies are defined in the Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part %{part}, Class %{class}.
+      remove_class_from: Remove class from assessment
     update:
       successfully_updated_policy: Successfully updated policy class
   proposal_detail_component:

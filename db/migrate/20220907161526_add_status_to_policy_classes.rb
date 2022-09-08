@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddStatusToPolicyClasses < ActiveRecord::Migration[6.1]
   def up
     add_column :policy_classes, :status, :integer

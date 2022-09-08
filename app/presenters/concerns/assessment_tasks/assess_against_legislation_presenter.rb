@@ -27,15 +27,29 @@ module AssessmentTasks
     def policy_class_link
       link_to(
         policy_class,
-        planning_application_policy_class_path(planning_application, policy_class),
+        policy_class_path,
         class: "govuk-link"
       )
+    end
+
+    def policy_class_path
+      if policy_class.complete?
+        planning_application_policy_class_path(
+          planning_application,
+          policy_class
+        )
+      else
+        edit_planning_application_policy_class_path(
+          planning_application,
+          policy_class
+        )
+      end
     end
 
     def policy_class_tag
       tag.strong(
         I18n.t("policy_classes.#{policy_class.status}"),
-        class: "govuk-tag app-task-list__task-tag #{"govuk-tag--blue" if policy_class.complete?}"
+        class: "govuk-tag app-task-list__task-tag #{'govuk-tag--blue' if policy_class.complete?}"
       )
     end
   end
