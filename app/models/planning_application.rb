@@ -429,6 +429,10 @@ class PlanningApplication < ApplicationRecord
     assessment_complete? && policy_classes.none?
   end
 
+  def has_policy_class?(section)
+    policy_classes.pluck(:section).include?(section)
+  end
+
   private
 
   def set_reference

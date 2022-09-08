@@ -66,6 +66,28 @@ RSpec.describe "assessment against legislation", type: :system do
     expect(page).to have_content("Successfully updated policy class")
   end
 
+  it "lets the user add policy classes once only" do
+    click_link("Add assessment area")
+    choose("Part 1 - Development within the curtilage of a dwellinghouse")
+    click_button("Continue")
+    check("Class D - porches")
+    click_button("Add classes")
+
+    expect(page).to have_content("Part 1, Class D").once
+
+    click_link("Add assessment area")
+    choose("Part 1 - Development within the curtilage of a dwellinghouse")
+    click_button("Continue")
+
+    expect(page).to have_checked_field("Class D - porches", disabled: true)
+
+    check("Class G - chimneys, flues etc on a dwellinghouse")
+    click_button("Add classes")
+
+    expect(page).to have_content("Part 1, Class D").once
+    expect(page).to have_content("Part 1, Class G").once
+  end
+
   it "displays the class title" do
     click_link("Add assessment area")
     choose("Part 1 - Development within the curtilage of a dwellinghouse")

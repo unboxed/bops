@@ -900,4 +900,28 @@ RSpec.describe PlanningApplication, type: :model do
       end
     end
   end
+
+  describe "#has_policy_class?" do
+    let(:planning_application) { create(:planning_application) }
+
+    context "when planning application has policy class" do
+      before do
+        create(
+          :policy_class,
+          section: "1A",
+          planning_application: planning_application
+        )
+      end
+
+      it "returns true" do
+        expect(planning_application.has_policy_class?("1A")).to eq(true)
+      end
+    end
+
+    context "when planning application does not have policy class" do
+      it "returns false" do
+        expect(planning_application.has_policy_class?("1A")).to eq(false)
+      end
+    end
+  end
 end
