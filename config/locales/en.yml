@@ -196,6 +196,11 @@ en:
   planning_applications:
     confirm_validation:
       validate_application: Validate application
+  policy_class_component:
+    complies: Complies
+    does_not_comply: Does not comply
+    policy_class_name: Part %{part}, Class %{class} - %{name}
+    to_be_determined: To be determined
   policy_classes:
     complete: Complete
     form:
@@ -245,11 +250,8 @@ en:
       recommendation_queried: Recommendation queried
       submitted_recommendation: Submitted recommendation
     legislation:
-      complies: Complies
-      does_not_comply: Does not comply
       legislation: Legislation
       no_legislation_assessed: No legislation assessed for this application.
-      to_be_determined: To be determined
     new:
       assess_recommendation: Assess recommendation
   search_form_component:

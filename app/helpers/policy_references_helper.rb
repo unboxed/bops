@@ -12,14 +12,4 @@ module PolicyReferencesHelper
 
     refs.join(", ").html_safe # rubocop:disable Rails/OutputSafety
   end
-
-  def policies_summary(policies)
-    if policies.to_be_determined.any?
-      t(".to_be_determined")
-    elsif policies.does_not_comply.any?
-      t(".does_not_comply")
-    else
-      t(".complies")
-    end
-  end
 end

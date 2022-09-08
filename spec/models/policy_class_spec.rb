@@ -35,11 +35,11 @@ RSpec.describe PolicyClass, type: :model do
     end
 
     context "when all policies are determined" do
-      let(:policy) { create(:policy, :complies) }
+      let(:policy) { build(:policy, :complies) }
 
       context "when status is complete" do
         let(:policy_class) do
-          create(:policy_class, :complete, policies: [policy])
+          build(:policy_class, :complete, policies: [policy])
         end
 
         it "returns true" do
@@ -49,7 +49,7 @@ RSpec.describe PolicyClass, type: :model do
 
       context "when status is in_assessment" do
         let(:policy_class) do
-          create(:policy_class, :in_assessment, policies: [policy])
+          build(:policy_class, :in_assessment, policies: [policy])
         end
 
         it "returns true" do
@@ -59,11 +59,11 @@ RSpec.describe PolicyClass, type: :model do
     end
 
     context "when some policies are to be determined" do
-      let(:policy) { create(:policy, :to_be_determined) }
+      let(:policy) { build(:policy, :to_be_determined) }
 
       context "when status is complete" do
         let(:policy_class) do
-          create(:policy_class, :complete, policies: [policy])
+          build(:policy_class, :complete, policies: [policy])
         end
 
         it "returns false" do
@@ -80,7 +80,7 @@ RSpec.describe PolicyClass, type: :model do
 
       context "when status is in_assessment" do
         let(:policy_class) do
-          create(:policy_class, :in_assessment, policies: [policy])
+          build(:policy_class, :in_assessment, policies: [policy])
         end
 
         it "returns true" do

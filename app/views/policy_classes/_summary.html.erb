@@ -35,7 +35,7 @@
     </p>
     <%= button_to(
         t(".remove_class_from"),
-        nil,
+        planning_application_policy_class_path(planning_application, policy_class),
         method: :delete,
         class: "govuk-button govuk-button--warning",
         disabled: planning_application.assessment_complete?

@@ -1,0 +1,17 @@
+<h4 class="govuk-body policy-class-title">
+  <%= link_to(
+    t(".policy_class_name", part: part, class: section, name: name),
+    path,
+    class: "govuk-link"
+  ) %>
+</h4>
+<p class="govuk-body"><strong><%= policies_summary %></strong></p>
+<% if policies.to_be_determined.none? %>
+  <% policies.does_not_comply.each do |policy| %>
+    <div class="policy">
+      <h5 class="govuk-heading-s"><%= "#{section}.#{policy.section}" %></h5>
+      <p class="govuk-body policy-description"><%= policy.description %></p>
+      <p class="govuk-body"><strong><%= t(".does_not_comply") %></strong></p>
+    </div>
+  <% end %>
+<% end %>
