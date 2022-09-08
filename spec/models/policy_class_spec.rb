@@ -29,107 +29,64 @@ RSpec.describe PolicyClass, type: :model do
     end
   end
 
-  describe "#complies?" do
-    let(:policy_class) do
-      create(:policy_class, policies: [policy1, policy2, policy3])
-    end
-
-    let(:policy1) { create(:policy, :complies) }
-    let(:policy2) { create(:policy, :complies) }
-    let(:policy3) { create(:policy, :complies) }
-
-    context "when all policies are complies" do
-      it "returns true" do
-        expect(policy_class.complies?).to eq(true)
-      end
-    end
-
-    context "when a policy does not comply" do
-      let(:policy3) { create(:policy, :does_not_comply) }
-
-      it "returns false" do
-        expect(policy_class.complies?).to eq(false)
-      end
-    end
-
-    context "when a policy is to be determined" do
-      let(:policy3) { create(:policy, :to_be_determined) }
-
-      it "returns false" do
-        expect(policy_class.complies?).to eq(false)
-      end
-    end
-  end
-
-  describe "#does_not_comply?" do
-    let(:policy_class) do
-      create(:policy_class, policies: [policy1, policy2, policy3])
-    end
-
-    let(:policy1) { create(:policy, :complies) }
-    let(:policy2) { create(:policy, :complies) }
-    let(:policy3) { create(:policy, :complies) }
-
-    context "when all policies are complies" do
-      it "returns false" do
-        expect(policy_class.does_not_comply?).to eq(false)
-      end
-    end
-
-    context "when a policy does not comply" do
-      let(:policy3) { create(:policy, :does_not_comply) }
-
-      it "returns true" do
-        expect(policy_class.does_not_comply?).to eq(true)
-      end
-    end
-
-    context "when a policy is do be determined" do
-      let(:policy2) { create(:policy, :does_not_comply) }
-      let(:policy3) { create(:policy, :to_be_determined) }
-
-      it "returns false" do
-        expect(policy_class.does_not_comply?).to eq(false)
-      end
-    end
-  end
-
-  describe "#in_assessment?" do
-    let(:policy_class) do
-      create(:policy_class, policies: [policy1, policy2, policy3])
-    end
-
-    let(:policy1) { create(:policy, :complies) }
-    let(:policy2) { create(:policy, :complies) }
-    let(:policy3) { create(:policy, :complies) }
-
-    context "when all policies are complies" do
-      it "returns false" do
-        expect(policy_class.in_assessment?).to eq(false)
-      end
-    end
-
-    context "when a policy does not comply" do
-      let(:policy3) { create(:policy, :does_not_comply) }
-
-      it "returns false" do
-        expect(policy_class.in_assessment?).to eq(false)
-      end
-    end
-
-    context "when a policy is do be determined" do
-      let(:policy2) { create(:policy, :does_not_comply) }
-      let(:policy3) { create(:policy, :to_be_determined) }
-
-      it "returns false" do
-        expect(policy_class.in_assessment?).to eq(true)
-      end
-    end
-  end
-
-  describe "validation" do
+  describe "#valid?" do
     it "has a valid factory" do
       expect(build(:policy_class)).to be_valid
+    end
+
+    context "when all policies are determined" do
+      let(:policy) { create(:policy, :complies) }
+
+      context "when status is complete" do
+        let(:policy_class) do
+          create(:policy_class, :complete, policies: [policy])
+        end
+
+        it "returns true" do
+          expect(policy_class.valid?).to eq(true)
+        end
+      end
+
+      context "when status is in_assessment" do
+        let(:policy_class) do
+          create(:policy_class, :in_assessment, policies: [policy])
+        end
+
+        it "returns true" do
+          expect(policy_class.valid?).to eq(true)
+        end
+      end
+    end
+
+    context "when some policies are to be determined" do
+      let(:policy) { create(:policy, :to_be_determined) }
+
+      context "when status is complete" do
+        let(:policy_class) do
+          create(:policy_class, :complete, policies: [policy])
+        end
+
+        it "returns false" do
+          expect(policy_class.valid?).to eq(false)
+        end
+
+        it "sets error message" do
+          policy_class.valid?
+          expect(policy_class.errors.messages[:status]).to contain_exactly(
+            "All policies must be assessed"
+          )
+        end
+      end
+
+      context "when status is in_assessment" do
+        let(:policy_class) do
+          create(:policy_class, :in_assessment, policies: [policy])
+        end
+
+        it "returns true" do
+          expect(policy_class.valid?).to eq(true)
+        end
+      end
     end
   end
 end

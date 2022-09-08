@@ -12,7 +12,7 @@
   </h4>
   <p class="govuk-body">
     <strong>
-      <%= policies_status(policy_class.policies) %>
+      <%= policies_summary(policy_class.policies) %>
     </strong>
   </p>
   <% if policy_class.policies.to_be_determined.none? %>

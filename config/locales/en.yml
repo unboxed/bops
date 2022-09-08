@@ -12,6 +12,10 @@ en:
   activerecord:
     errors:
       models:
+        policy_class:
+          attributes:
+            status:
+              policies_to_be_determined: All policies must be assessed
         document:
           attributes:
             file:
@@ -200,6 +204,8 @@ en:
       class_title: Class title - %{policy_class}
       comment_added_on: Comment added on %{created_at} by %{user}
       comment_updated_on: Comment updated on %{updated_at} by %{user}
+      save_and_mark: Save and mark as complete
+      save_and_come: Save and come back later
     update:
       successfully_updated_policy: Successfully updated policy class
   proposal_detail_component:

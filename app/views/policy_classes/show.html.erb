@@ -41,6 +41,7 @@
       html: { data: unsaved_changes_data },
       builder: GOVUKDesignSystemFormBuilder::FormBuilder
     ) do |form| %>
+      <%= form.govuk_error_summary %>
       <table class="govuk-table">
         <caption class="govuk-table__caption govuk-table__caption--l"><%= @policy_class %> - <%= @policy_class.name %></caption>
         <thead class="govuk-table__head">
@@ -52,10 +53,7 @@
           </tr>
         </thead>
         <tbody class="govuk-table__body">
-          <%= form.fields_for(
-            :policies,
-            @policy_class.policies.order(:section)
-          ) do |policy_form| %>
+          <%= form.fields_for(:policies) do |policy_form| %>
             <tr class="govuk-table__row">
               <td class="govuk-table__cell">
                 <h3 class="govuk-heading-s">
@@ -109,7 +107,16 @@
       </table>
 
       <div class="govuk-button-group">
-        <%= form.submit "Save assessments", class: "govuk-button", disabled: @planning_application.assessment_complete? %>
+        <%= form.submit(
+          t(".save_and_mark"),
+          class: "govuk-button",
+          disabled: @planning_application.assessment_complete?
+        ) %>
+        <%= form.submit(
+          t(".save_and_come"),
+          class: "govuk-button govuk-button--secondary",
+          disabled: @planning_application.assessment_complete?
+        ) %>
         <%= link_to "Back", :back, class: "govuk-button govuk-button--secondary" %>
       </div>
     <% end %>

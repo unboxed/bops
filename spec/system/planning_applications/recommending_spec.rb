@@ -365,7 +365,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         choose("policy_class_policies_attributes_2_status_complies")
         choose("policy_class_policies_attributes_3_status_complies")
         choose("policy_class_policies_attributes_4_status_to_be_determined")
-        click_button("Save assessments")
+        click_button("Save and come back later")
         click_link("Application")
         click_link("Assess recommendation")
 
@@ -373,7 +373,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
         click_link("Part 1, Class D - porches")
         choose("policy_class_policies_attributes_4_status_does_not_comply")
-        click_button("Save assessments")
+        click_button("Save and come back later")
         click_link("Application")
         click_link("Assess recommendation")
 
@@ -385,7 +385,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
         click_link("Part 1, Class D - porches")
         choose("policy_class_policies_attributes_4_status_complies")
-        click_button("Save assessments")
+        click_button("Save and come back later")
         click_link("Application")
         click_link("Assess recommendation")
 

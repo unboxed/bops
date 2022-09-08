@@ -71,6 +71,7 @@ class PolicyClassesController < PlanningApplicationsController
     params
       .require(:policy_class)
       .permit(policies_attributes: [:id, :status, { comment_attributes: [:text] }])
+      .merge(status: status)
   end
 
   def set_policy_class
@@ -83,5 +84,13 @@ class PolicyClassesController < PlanningApplicationsController
 
   def ensure_can_assess_planning_application
     render plain: "forbidden", status: :forbidden and return unless @planning_application.can_assess?
+  end
+
+  def status
+    if params[:commit].downcase.match(/mark as complete/).present?
+      :complete
+    else
+      :in_assessment
+    end
   end
 end

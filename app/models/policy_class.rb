@@ -8,6 +8,8 @@ class PolicyClass < ApplicationRecord
 
   validates :name, :part, :section, :schedule, presence: true
 
+  validate :all_policies_are_determined, if: :complete?
+
   enum status: { in_assessment: 0, complete: 1 }, _default: :in_assessment
 
   class << self
@@ -37,6 +39,14 @@ class PolicyClass < ApplicationRecord
       part == other[:part] && id == other[:id]
     else
       part == other.part && id == other.id
+    end
+  end
+
+  private
+
+  def all_policies_are_determined
+    if policies.any?(&:to_be_determined?)
+      errors.add(:status, :policies_to_be_determined)
     end
   end
 end

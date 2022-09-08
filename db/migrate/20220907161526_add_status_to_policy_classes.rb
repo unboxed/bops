@@ -15,6 +15,8 @@ class AddStatusToPolicyClasses < ActiveRecord::Migration[6.1]
       SET status = 1
       WHERE status IS NULL;"
     )
+
+    change_column_null :policy_classes, :status, false
   end
 
   def down

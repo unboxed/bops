@@ -4,6 +4,8 @@ class Policy < ApplicationRecord
   belongs_to :policy_class
   has_one :comment, dependent: :destroy
 
+  default_scope { order(:section) }
+
   accepts_nested_attributes_for(
     :comment,
     update_only: true,
