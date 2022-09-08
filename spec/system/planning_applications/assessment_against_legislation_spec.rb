@@ -13,7 +13,23 @@ RSpec.describe "assessment against legislation", type: :system do
     )
   end
 
-  let(:assessor) { create :user, :assessor, local_authority: local_authority }
+  let(:assessor) do
+    create(
+      :user,
+      :assessor,
+      local_authority: local_authority,
+      name: "Alice Smith"
+    )
+  end
+
+  let(:assessor2) do
+    create(
+      :user,
+      :assessor,
+      local_authority: local_authority,
+      name: "Bella Jones"
+    )
+  end
 
   before do
     sign_in(assessor)
@@ -76,5 +92,51 @@ RSpec.describe "assessment against legislation", type: :system do
     within(".govuk-table caption") do
       expect(page).to have_content("Part 1, Class B - additions etc to the roof of a dwellinghouse")
     end
+  end
+
+  it "lets the user add and update comments" do
+    travel_to(Time.zone.local(2022, 9, 1))
+    click_link("Add assessment area")
+    choose("Part 1 - Development within the curtilage of a dwellinghouse")
+    click_button("Continue")
+    check("Class D - porches")
+    click_button("Add classes")
+    click_link("Part 1, Class D")
+
+    within(row_with_content("D.1a")) do
+      fill_in("Add comment", with: "New comment")
+    end
+
+    click_button("Save assessments")
+    click_link("Part 1, Class D")
+
+    expect(row_with_content("D.1a")).to have_field(
+      "Comment added on 01 Sep 2022 by Alice Smith",
+      with: "New comment"
+    )
+
+    expect(row_with_content("D.1b")).to have_field("Add comment", with: "")
+
+    click_link("Log out")
+    travel_to(Time.zone.local(2022, 9, 2))
+    sign_in(assessor2)
+    visit planning_application_path(planning_application)
+    click_link("Check and assess")
+    click_link("Part 1, Class D")
+
+    within(row_with_content("D.1a")) do
+      fill_in(
+        "Comment added on 01 Sep 2022 by Alice Smith",
+        with: "Updated comment"
+      )
+    end
+
+    click_button("Save assessments")
+    click_link("Part 1, Class D")
+
+    expect(row_with_content("D.1a")).to have_field(
+      "Comment updated on 02 Sep 2022 by Bella Jones",
+      with: "Updated comment"
+    )
   end
 end

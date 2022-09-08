@@ -2,6 +2,13 @@
 
 class Policy < ApplicationRecord
   belongs_to :policy_class
+  has_one :comment, dependent: :destroy
+
+  accepts_nested_attributes_for(
+    :comment,
+    update_only: true,
+    reject_if: proc { |attributes| attributes[:text].blank? }
+  )
 
   validates :description, :section, :status, presence: true
 
@@ -11,4 +18,8 @@ class Policy < ApplicationRecord
   )
 
   statuses.each_key { |status| scope status, -> { where(status: status) } }
+
+  def existing_or_new_comment
+    comment || build_comment
+  end
 end

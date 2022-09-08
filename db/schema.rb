@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_05_134840) do
+ActiveRecord::Schema.define(version: 2022_09_07_112857) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,16 @@ ActiveRecord::Schema.define(version: 2022_09_05_134840) do
     t.index ["api_user_id"], name: "index_audits_on_api_user_id"
     t.index ["planning_application_id"], name: "index_audits_on_planning_application_id"
     t.index ["user_id"], name: "index_audits_on_user_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "text", null: false
+    t.bigint "user_id"
+    t.bigint "policy_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["policy_id"], name: "ix_comments_on_policy_id"
+    t.index ["user_id"], name: "ix_comments_on_user_id"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|

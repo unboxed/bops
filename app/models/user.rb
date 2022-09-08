@@ -12,6 +12,7 @@ class User < ApplicationRecord
 
   has_many :planning_applications, dependent: :nullify
   has_many :audits, dependent: :nullify
+  has_many :comments, dependent: :nullify
   belongs_to :local_authority, optional: false
 
   before_create :generate_otp_secret
