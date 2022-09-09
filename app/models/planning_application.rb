@@ -33,7 +33,13 @@ class PlanningApplication < ApplicationRecord
     has_many :red_line_boundary_change_validation_requests
     has_many :notes, -> { by_created_at_desc }, inverse_of: :planning_application
     has_many :requests, class_name: "ValidationRequest"
-    has_many :policy_classes, dependent: :destroy
+
+    has_many(
+      :policy_classes,
+      -> { order(:section) },
+      dependent: :destroy,
+      inverse_of: :planning_application
+    )
   end
 
   delegate :reviewer_group_email, to: :local_authority

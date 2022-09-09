@@ -231,4 +231,66 @@ RSpec.describe "assessment against legislation", type: :system do
       "#policy_class_policies_attributes_0_status_does_not_comply"
     )
   end
+
+  it "lets the user scroll between policy classes" do
+    travel_to(Time.zone.local(2022, 9, 1))
+    visit(planning_application_path(planning_application))
+    click_link("Check and assess")
+    click_link("Add assessment area")
+    choose("Part 1 - Development within the curtilage of a dwellinghouse")
+    click_button("Continue")
+    check("Class D - porches")
+
+    check(
+      "Class F - hard surfaces incidental to the enjoyment of a dwellinghouse"
+    )
+
+    click_button("Add classes")
+    click_link("Part 1, Class D")
+
+    expect(page).not_to have_content("Save changes and view previous class")
+
+    within(row_with_content("D.1a")) do
+      fill_in("Add comment", with: "Test comment")
+    end
+
+    click_button("Save changes and view next class")
+
+    expect(page).to have_content("Part 1, Class F")
+    expect(page).not_to have_content("Save changes and view next class")
+
+    click_button("Save changes and view previous class")
+
+    expect(page).to have_content("Part 1, Class D")
+
+    expect(page).to have_field(
+      "Comment added on 01 Sep 2022 by Alice Smith",
+      with: "Test comment"
+    )
+
+    choose("policy_class_policies_attributes_0_status_complies")
+    choose("policy_class_policies_attributes_1_status_complies")
+    choose("policy_class_policies_attributes_2_status_complies")
+    choose("policy_class_policies_attributes_3_status_complies")
+    choose("policy_class_policies_attributes_4_status_complies")
+    click_button("Save and mark as complete")
+    click_link("Part 1, Class F")
+    choose("policy_class_policies_attributes_0_status_complies")
+    choose("policy_class_policies_attributes_1_status_complies")
+    choose("policy_class_policies_attributes_2_status_complies")
+    choose("policy_class_policies_attributes_3_status_complies")
+    click_button("Save and mark as complete")
+    click_link("Part 1, Class D")
+
+    expect(page).not_to have_content("View previous class")
+
+    click_link("View next class")
+
+    expect(page).to have_content("Part 1, Class F")
+    expect(page).not_to have_content("View next class")
+
+    click_link("View previous class")
+
+    expect(page).to have_content("Part 1, Class D")
+  end
 end

@@ -237,3 +237,46 @@ html * {
 .policy-comment-title {
   margin-bottom: 0
 }
+
+.button-as-link {
+  border: none;
+  background: none;
+  color: #1d70b8;
+  font-size: 16px;
+  text-decoration: underline;
+
+  &:active {
+    color: #0b0c0c;
+  }
+
+  &:hover {
+    color: #003078;
+  }
+
+  &:focus {
+    color: #0b0c0c;
+    background-color: #ffdd00;
+    box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c;
+    text-decoration: none;
+    outline: none;
+  }
+}
+
+.policy-class-scroll-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #b1b4b6;
+  margin-bottom: 30px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+}
+
+.next-policy-class-link {
+  @media (min-width: 768px) {
+    margin-left: auto;
+  }
+}

@@ -48,22 +48,29 @@ class PolicyClassesController < PlanningApplicationsController
 
   def update
     if @policy_class.update(policy_class_params)
-      redirect_to(
-        planning_application_assessment_tasks_path(@planning_application),
-        notice: t(".successfully_updated_policy")
-      )
+      redirect_to(post_update_path, notice: t(".successfully_updated_policy"))
     else
       render :edit
     end
   end
 
   def destroy
-    @planning_application.policy_classes.delete(@policy_class)
+    @planning_application.policy_classes.delete(@policy_class.id)
 
     redirect_to @planning_application, notice: "Policy class has been removed." if @planning_application.save
   end
 
   private
+
+  def post_update_path
+    if commit_matches?(/view previous/)
+      @policy_class.previous.default_path
+    elsif commit_matches?(/view next/)
+      @policy_class.next.default_path
+    else
+      planning_application_assessment_tasks_path(@planning_application)
+    end
+  end
 
   def planning_application_params
     params.permit(:part, policy_classes: [])
@@ -77,7 +84,9 @@ class PolicyClassesController < PlanningApplicationsController
   end
 
   def set_policy_class
-    @policy_class = @planning_application.policy_classes.find(params[:id])
+    @policy_class = PolicyClassPresenter.new(
+      @planning_application.policy_classes.find(params[:id])
+    )
   end
 
   def set_planning_application
@@ -89,10 +98,10 @@ class PolicyClassesController < PlanningApplicationsController
   end
 
   def status
-    if params[:commit].downcase.match(/mark as complete/).present?
-      :complete
-    else
-      :in_assessment
-    end
+    commit_matches?(/mark as complete/) ? :complete : :in_assessment
+  end
+
+  def commit_matches?(regex)
+    params[:commit].downcase.match(regex).present?
   end
 end

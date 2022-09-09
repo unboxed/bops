@@ -214,8 +214,12 @@ en:
       policy_reference: Policy reference
       save_and_come: Save and come back later
       save_and_mark: Save and mark as complete
+      save_changes_and_view_next: Save changes and view next class
+      save_changes_and_view_previous: Save changes and view previous class
       table_caption: Part %{part}, Class %{class} - %{name}
       to_be_determined: To be determined
+      view_next_class: View next class
+      view_previous_class: View previous class
     in_assessment: In assessment
     summary:
       application: Application
@@ -226,6 +230,7 @@ en:
       open_legislation_in: Open legislation in new window
       please_indicate_if: Please indicate if the application complies, does not comply, or is not applicable to each of the policies. Policies are defined in the Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part %{part}, Class %{class}.
       remove_class_from: Remove class from assessment
+    title: Part %{part}, Class %{class}
     update:
       successfully_updated_policy: Successfully updated policy class
   proposal_detail_component:
