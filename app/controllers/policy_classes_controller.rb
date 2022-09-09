@@ -2,7 +2,7 @@
 
 class PolicyClassesController < PlanningApplicationsController
   before_action :set_planning_application
-  before_action :set_policy_class, only: %i[show update destroy]
+  before_action :set_policy_class, only: %i[edit show update destroy]
   before_action :ensure_can_assess_planning_application, only: %i[part new create]
 
   def part
@@ -42,6 +42,8 @@ class PolicyClassesController < PlanningApplicationsController
     end
   end
 
+  def edit; end
+
   def show; end
 
   def update
@@ -51,7 +53,7 @@ class PolicyClassesController < PlanningApplicationsController
         notice: t(".successfully_updated_policy")
       )
     else
-      render :show
+      render :edit
     end
   end
 
@@ -71,6 +73,7 @@ class PolicyClassesController < PlanningApplicationsController
     params
       .require(:policy_class)
       .permit(policies_attributes: [:id, :status, { comment_attributes: [:text] }])
+      .merge(status: status)
   end
 
   def set_policy_class
@@ -83,5 +86,13 @@ class PolicyClassesController < PlanningApplicationsController
 
   def ensure_can_assess_planning_application
     render plain: "forbidden", status: :forbidden and return unless @planning_application.can_assess?
+  end
+
+  def status
+    if params[:commit].downcase.match(/mark as complete/).present?
+      :complete
+    else
+      :in_assessment
+    end
   end
 end

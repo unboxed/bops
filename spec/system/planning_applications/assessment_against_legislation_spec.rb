@@ -61,7 +61,7 @@ RSpec.describe "assessment against legislation", type: :system do
     click_link("Part 1, Class A")
     choose("policy_class_policies_attributes_0_status_complies")
     dismiss_confirm { click_link("Back") }
-    click_button("Save assessments")
+    click_button("Save and come back later")
 
     expect(page).to have_content("Successfully updated policy class")
   end
@@ -129,7 +129,7 @@ RSpec.describe "assessment against legislation", type: :system do
       fill_in("Add comment", with: "New comment")
     end
 
-    click_button("Save assessments")
+    click_button("Save and come back later")
     click_link("Part 1, Class D")
 
     expect(row_with_content("D.1a")).to have_field(
@@ -153,12 +153,82 @@ RSpec.describe "assessment against legislation", type: :system do
       )
     end
 
-    click_button("Save assessments")
+    click_button("Save and come back later")
     click_link("Part 1, Class D")
 
     expect(row_with_content("D.1a")).to have_field(
       "Comment updated on 02 Sep 2022 by Bella Jones",
       with: "Updated comment"
+    )
+  end
+
+  it "lets the user save draft and then mark as complete" do
+    travel_to(Time.zone.local(2022, 9, 1))
+    visit(planning_application_path(planning_application))
+    click_link("Check and assess")
+    click_link("Add assessment area")
+    choose("Part 1 - Development within the curtilage of a dwellinghouse")
+    click_button("Continue")
+    check("Class D - porches")
+    click_button("Add classes")
+    click_link("Part 1, Class D")
+
+    within(row_with_content("D.1a")) do
+      fill_in("Add comment", with: "Test comment")
+    end
+
+    choose("policy_class_policies_attributes_0_status_complies")
+    choose("policy_class_policies_attributes_1_status_complies")
+    choose("policy_class_policies_attributes_2_status_complies")
+    choose("policy_class_policies_attributes_3_status_complies")
+    click_button("Save and mark as complete")
+
+    expect(page).to have_content("All policies must be assessed")
+
+    click_button("Save and come back later")
+
+    expect(page).to have_content("Successfully updated policy class")
+
+    task_list_item = find_all("li").find do |list_item|
+      list_item.has_content?("Part 1, Class D")
+    end
+
+    expect(task_list_item).to have_content("In assessment")
+
+    click_link("Part 1, Class D")
+    choose("policy_class_policies_attributes_4_status_complies")
+    click_button("Save and mark as complete")
+
+    expect(page).to have_content("Successfully updated policy class")
+
+    task_list_item = find_all("li").find do |list_item|
+      list_item.has_content?("Part 1, Class D")
+    end
+
+    expect(task_list_item).to have_content("Complete")
+
+    click_link("Part 1, Class D")
+    expect(page).to have_content("Comment added on 01 Sep 2022 by Alice Smith")
+    expect(page).to have_content("Test comment")
+
+    expect(page).not_to have_field(
+      "Comment added on 01 Sep 2022 by Alice Smith",
+      with: "Test comment"
+    )
+
+    expect(page).not_to have_selector(
+      "#policy_class_policies_attributes_0_status_does_not_comply"
+    )
+
+    click_link("Edit assessment")
+
+    expect(page).to have_field(
+      "Comment added on 01 Sep 2022 by Alice Smith",
+      with: "Test comment"
+    )
+
+    expect(page).to have_selector(
+      "#policy_class_policies_attributes_0_status_does_not_comply"
     )
   end
 end

@@ -1,0 +1,127 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= form_with(
+      model: [planning_application, policy_class],
+      html: { data: unsaved_changes_data },
+      builder: GOVUKDesignSystemFormBuilder::FormBuilder
+    ) do |form| %>
+      <%= form.govuk_error_summary %>
+      <table class="govuk-table">
+        <caption class="govuk-table__caption govuk-table__caption--l">
+          <%= t(
+            ".table_caption",
+            part: policy_class.part,
+            class: policy_class.section,
+            name: policy_class.name
+          ) %>
+        </caption>
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header govuk-!-width-one-half">
+              <%= t(".policy_reference") %>
+            </th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter-width">
+              <%= t(".complies") %>
+            </th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter-width">
+              <%= t(".does_not_comply") %>
+            </th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter-width">
+              <%= t(".to_be_determined") %>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <%= form.fields_for(:policies) do |policy_form| %>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">
+                <h3 class="govuk-heading-s">
+                  <%= "#{form.object.section}.#{policy_form.object.section}" %>
+                </h3>
+                <p class="govuk-body">
+                  <%= policy_form.object.description %>
+                </p>
+                <% if editable %>
+                  <%= policy_form.fields_for(
+                    :comment,
+                    policy_form.object.existing_or_new_comment
+                  ) do |comment_form| %>
+                    <%= comment_form.govuk_text_area(
+                      :text,
+                      label: {
+                        text: policy_comment_label(comment_form.object),
+                        size: "s"
+                      },
+                      rows: 2
+                    ) %>
+                  <% end %>
+                <% elsif comment = policy_form.object.comment.presence %>
+                  <h4 class="govuk-heading-s policy-comment-title">
+                    <%=existing_policy_comment_label(comment)%>
+                  </h4>
+                  <p class="govuk-body"><%= comment.text %></p>
+                <% end %>
+              </td>
+              <% Policy.statuses.each_key do |status| %>
+                <td class="govuk-table__cell">
+                  <% if editable || policy_form.object.status == status %>
+                    <div class="govuk-form-group">
+                      <fieldset class="govuk-fieldset">
+                        <div class="govuk-radios" data-module="govuk-radios">
+                          <div class="govuk-radios govuk-radios--small">
+                            <div class="govuk-radios__item">
+                              <%= policy_form.radio_button(
+                                :status,
+                                status,
+                                class: "govuk-radios__input",
+                                disabled: planning_application.assessment_complete?
+                              ) %>
+                              <%= policy_form.label(
+                                :status,
+                                "&nbsp;".html_safe,
+                                class: "govuk-label govuk-radios__label"
+                              ) %>
+                            </div>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </div>
+                  <% end %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="govuk-button-group">
+        <% if editable %>
+          <%= form.submit(
+            t(".save_and_mark"),
+            class: "govuk-button",
+            disabled: planning_application.assessment_complete?
+          ) %>
+          <%= form.submit(
+            t(".save_and_come"),
+            class: "govuk-button govuk-button--secondary",
+            disabled: planning_application.assessment_complete?
+          ) %>
+        <% end %>
+        <%= link_to(
+          t(".back"),
+          :back,
+          class: "govuk-button govuk-button--secondary"
+        ) %>
+        <% if !editable %>
+          <%= link_to(
+            t(".edit_assessment"),
+            edit_planning_application_policy_class_path(
+              planning_application,
+              policy_class
+            ),
+            class: "govuk-link"
+          ) %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

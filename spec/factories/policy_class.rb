@@ -8,5 +8,13 @@ FactoryBot.define do
     name { Faker::Lorem.sentence }
     url { "https://www.example.com" }
     planning_application
+
+    trait :complies do
+      status { :complies }
+    end
+
+    trait :in_assessment do
+      status { :in_assessment }
+    end
   end
 end

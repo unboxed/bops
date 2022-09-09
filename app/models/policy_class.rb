@@ -8,6 +8,10 @@ class PolicyClass < ApplicationRecord
 
   validates :name, :part, :section, :schedule, presence: true
 
+  validate :all_policies_are_determined, if: :complete?
+
+  enum status: { in_assessment: 0, complete: 1 }, _default: :in_assessment
+
   class << self
     def all_parts
       # NOTE: we might do multiple schedules at some point in the
@@ -20,19 +24,6 @@ class PolicyClass < ApplicationRecord
         PolicyClass.new(attributes)
       end
     end
-  end
-
-  %w[in_assessment does_not_comply complies].each do |potential_status|
-    define_method("#{potential_status}?") do
-      status == potential_status.tr("_", " ")
-    end
-  end
-
-  def status
-    return "in assessment" if policies.to_be_determined.any?
-    return "does not comply" if policies.does_not_comply.any?
-
-    "complies"
   end
 
   def as_json(_options = nil)
@@ -49,5 +40,13 @@ class PolicyClass < ApplicationRecord
     else
       part == other.part && id == other.id
     end
+  end
+
+  private
+
+  def all_policies_are_determined
+    return if policies.none?(&:to_be_determined?)
+
+    errors.add(:status, :policies_to_be_determined)
   end
 end
