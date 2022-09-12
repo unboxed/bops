@@ -93,6 +93,36 @@
           <% end %>
         </tbody>
       </table>
+      <div class="policy-class-scroll-links">
+        <% if policy_class.previous.present? %>
+          <% if editable && !planning_application.assessment_complete? %>
+            <%= form.submit(
+              t(".save_changes_and_view_previous"),
+              class: "button-as-link"
+            ) %>
+          <% else %>
+            <%= link_to(
+              t(".view_previous_class"),
+              policy_class.previous.default_path,
+              class: "govuk-link"
+            ) %>
+          <% end %>
+        <% end %>
+        <% if policy_class.next.present? %>
+          <% if editable %>
+            <%= form.submit(
+              t(".save_changes_and_view_next"),
+              class: "button-as-link next-policy-class-link"
+            ) %>
+          <% else %>
+            <%= link_to(
+              t(".view_next_class"),
+              policy_class.next.default_path,
+              class: "govuk-link next-policy-class-link"
+            ) %>
+          <% end %>
+        <% end %>
+      </div>
       <div class="govuk-button-group">
         <% if editable %>
           <%= form.submit(

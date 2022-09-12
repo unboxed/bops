@@ -12,7 +12,13 @@ RSpec.describe AssessmentTasks::AssessAgainstLegislationPresenter, type: :presen
 
   describe "#task_list_row" do
     context "when policy class status is 'complete'" do
-      let(:policy_class) { create(:policy_class, :complete) }
+      let(:policy_class) do
+        create(
+          :policy_class,
+          :complete,
+          planning_application: planning_application
+        )
+      end
 
       it "the task list row shows invalid status html" do
         html = presenter.task_list_row
@@ -20,11 +26,7 @@ RSpec.describe AssessmentTasks::AssessAgainstLegislationPresenter, type: :presen
         expect(html).to include("app-task-list__task-name")
 
         expect(html).to include(
-          link_to(
-            policy_class,
-            planning_application_policy_class_path(planning_application, policy_class),
-            class: "govuk-link"
-          )
+          "<a class=\"govuk-link\" href=\"/planning_applications/#{planning_application.id}/policy_classes/#{policy_class.id}\">Part 1, Class A</a>"
         )
 
         expect(html).to include(
@@ -34,7 +36,13 @@ RSpec.describe AssessmentTasks::AssessAgainstLegislationPresenter, type: :presen
     end
 
     context "when policy class status is 'in_assessment'" do
-      let(:policy_class) { create(:policy_class, :in_assessment) }
+      let(:policy_class) do
+        create(
+          :policy_class,
+          :in_assessment,
+          planning_application: planning_application
+        )
+      end
 
       it "the task list row shows invalid status html" do
         html = presenter.task_list_row
@@ -42,11 +50,7 @@ RSpec.describe AssessmentTasks::AssessAgainstLegislationPresenter, type: :presen
         expect(html).to include("app-task-list__task-name")
 
         expect(html).to include(
-          link_to(
-            policy_class,
-            edit_planning_application_policy_class_path(planning_application, policy_class),
-            class: "govuk-link"
-          )
+          "<a class=\"govuk-link\" href=\"/planning_applications/#{planning_application.id}/policy_classes/#{policy_class.id}/edit\">Part 1, Class A</a>"
         )
 
         expect(html).to include(

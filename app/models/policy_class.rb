@@ -30,16 +30,20 @@ class PolicyClass < ApplicationRecord
     attributes.as_json
   end
 
-  def to_s
-    "Part #{part}, Class #{section}"
-  end
-
   def ==(other)
     if other.is_a? Hash
       part == other[:part] && id == other[:id]
     else
       part == other.part && id == other.id
     end
+  end
+
+  def previous
+    @previous ||= planning_application.policy_classes.where("section < ?", section).last
+  end
+
+  def next
+    @next ||= planning_application.policy_classes.where("section > ?", section).first
   end
 
   private

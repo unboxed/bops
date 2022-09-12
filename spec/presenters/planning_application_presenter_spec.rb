@@ -10,12 +10,9 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
   let(:context) { ActionView::Base.new }
   let!(:planning_application) { create(:not_started_planning_application) }
 
-  it "delegates missing methods to its application" do
-    expect(presenter.id).to eq planning_application.id
-  end
-
-  it "advertises the methods it responds to" do
-    expect(presenter).to respond_to :id
+  it_behaves_like "Presentable" do
+    let(:presented) { create(:planning_application) }
+    let(:presenter) { described_class.new(view, presented) }
   end
 
   describe "#status_tag" do

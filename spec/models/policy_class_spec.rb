@@ -89,4 +89,56 @@ RSpec.describe PolicyClass, type: :model do
       end
     end
   end
+
+  describe "#next" do
+    let(:planning_application) { create(:planning_application) }
+
+    let(:policy_class) do
+      create(
+        :policy_class,
+        section: "1b",
+        planning_application: planning_application
+      )
+    end
+
+    before do
+      %w[1a 2a 2b].each do |section|
+        create(
+          :policy_class,
+          section: section,
+          planning_application: planning_application
+        )
+      end
+    end
+
+    it "returns next policy class for the application ordered by section" do
+      expect(policy_class.next.section).to eq("2a")
+    end
+  end
+
+  describe "#previous" do
+    let(:planning_application) { create(:planning_application) }
+
+    let(:policy_class) do
+      create(
+        :policy_class,
+        section: "2a",
+        planning_application: planning_application
+      )
+    end
+
+    before do
+      %w[1a 1b 2b].each do |section|
+        create(
+          :policy_class,
+          section: section,
+          planning_application: planning_application
+        )
+      end
+    end
+
+    it "returns previous policy class for the application ordered by section" do
+      expect(policy_class.previous.section).to eq("1b")
+    end
+  end
 end

@@ -2,7 +2,7 @@
 
 class PolicyClassComponent < ViewComponent::Base
   def initialize(policy_class:)
-    @policy_class = policy_class
+    @policy_class = PolicyClassPresenter.new(policy_class)
   end
 
   private
@@ -15,20 +15,9 @@ class PolicyClassComponent < ViewComponent::Base
     :part,
     :planning_application,
     :policies,
-    :complete?,
+    :default_path,
     to: :policy_class
   )
-
-  def path
-    if complete?
-      planning_application_policy_class_path(planning_application, policy_class)
-    else
-      edit_planning_application_policy_class_path(
-        planning_application,
-        policy_class
-      )
-    end
-  end
 
   def policies_summary
     if policies.to_be_determined.any?
