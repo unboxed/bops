@@ -1,0 +1,34 @@
+<%= content_tag(
+  :div,
+  class: "govuk-form-group comment-form",
+  data: { controller: "delete-record" }
+) do %>
+  <%= label_tag(
+    "policy-class-policies-attributes-#{policy_index}-comment-attributes-text-field",
+    policy_comment_label(comment),
+    class: "govuk-label govuk-label--s"
+  ) %>
+  <%= text_area_tag(
+    "policy_class[policies_attributes][#{policy_index}][comment_attributes][text]",
+    comment.text,
+    id: "policy-class-policies-attributes-#{policy_index}-comment-attributes-text-field",
+    class: "govuk-textarea",
+    rows: 2
+  ) %>
+  <% if comment.persisted? %>
+    <%= button_tag(
+      t(".delete_comment"),
+      class: "button-as-link",
+      type: "button",
+      data: {
+        action: "click->delete-record#handleClick",
+        delete_record_path: planning_application_policy_class_policy_comment_path(
+          planning_application,
+          policy_class,
+          policy,
+          policy_index: policy_index
+        )
+      }
+    ) %>
+  <% end %>
+<% end %>

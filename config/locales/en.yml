@@ -202,12 +202,14 @@ en:
     policy_class_name: Part %{part}, Class %{class} - %{name}
     to_be_determined: To be determined
   policy_classes:
+    add_comment: Add comment
+    comment_added_on: Comment added on %{created_at} by %{user}
+    comment_form:
+      delete_comment: Delete comment
+    comment_updated_on: Comment updated on %{updated_at} by %{user}
     complete: Complete
     form:
-      add_comment: Add comment
       back: Back
-      comment_added_on: Comment added on %{created_at} by %{user}
-      comment_updated_on: Comment updated on %{updated_at} by %{user}
       complies: Complies
       does_not_comply: Does not comply
       edit_assessment: Edit assessment

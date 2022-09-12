@@ -22,6 +22,10 @@ Rails.application.routes.draw do
   resources :planning_applications, only: %i[index show new edit create update] do
     resources :policy_classes, except: %i[index] do
       get :part, on: :new
+
+      resources :policies, only: [] do
+        resource :comment, only: %i[destroy]
+      end
     end
 
     resources :recommendations, only: %i[new create update]
