@@ -39,24 +39,24 @@ module ApplicationHelper
     if comment.persisted?
       existing_policy_comment_label(comment)
     else
-      t(".add_comment")
+      t("policy_classes.add_comment")
     end
   end
 
   def existing_policy_comment_label(comment)
-    user = comment.user.name
+    user_name = comment.user_name
 
     if comment.edited?
       t(
-        ".comment_updated_on",
+        "policy_classes.comment_updated_on",
         updated_at: comment.updated_at.strftime("%d %b %Y"),
-        user: user
+        user: user_name
       )
     else
       t(
-        ".comment_added_on",
+        "policy_classes.comment_added_on",
         created_at: comment.created_at.strftime("%d %b %Y"),
-        user: user
+        user: user_name
       )
     end
   end

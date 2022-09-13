@@ -67,11 +67,7 @@ RSpec.describe "assessment against legislation", type: :system do
   end
 
   it "lets the user add policy classes once only" do
-    click_link("Add assessment area")
-    choose("Part 1 - Development within the curtilage of a dwellinghouse")
-    click_button("Continue")
-    check("Class D - porches")
-    click_button("Add classes")
+    add_policy_classes(["Class D - porches"])
 
     expect(page).to have_content("Part 1, Class D").once
 
@@ -89,18 +85,12 @@ RSpec.describe "assessment against legislation", type: :system do
   end
 
   it "displays the class title" do
-    click_link("Add assessment area")
-    choose("Part 1 - Development within the curtilage of a dwellinghouse")
-    click_button("Continue")
-
-    check(
-      "Class A - enlargement, improvement or other alteration of a dwellinghouse"
+    add_policy_classes(
+      [
+        "Class A - enlargement, improvement or other alteration of a dwellinghouse",
+        "Class B - additions etc to the roof of a dwellinghouse"
+      ]
     )
-    check(
-      "Class B - additions etc to the roof of a dwellinghouse"
-    )
-
-    click_button("Add classes")
 
     click_link("Part 1, Class A")
     expect(page).to have_content("Class title - enlargement, improvement or other alteration of a dwellinghouse")
@@ -118,11 +108,7 @@ RSpec.describe "assessment against legislation", type: :system do
 
   it "lets the user add and update comments" do
     travel_to(Time.zone.local(2022, 9, 1))
-    click_link("Add assessment area")
-    choose("Part 1 - Development within the curtilage of a dwellinghouse")
-    click_button("Continue")
-    check("Class D - porches")
-    click_button("Add classes")
+    add_policy_classes(["Class D - porches"])
     click_link("Part 1, Class D")
 
     within(row_with_content("D.1a")) do
@@ -164,13 +150,7 @@ RSpec.describe "assessment against legislation", type: :system do
 
   it "lets the user save draft and then mark as complete" do
     travel_to(Time.zone.local(2022, 9, 1))
-    visit(planning_application_path(planning_application))
-    click_link("Check and assess")
-    click_link("Add assessment area")
-    choose("Part 1 - Development within the curtilage of a dwellinghouse")
-    click_button("Continue")
-    check("Class D - porches")
-    click_button("Add classes")
+    add_policy_classes(["Class D - porches"])
     click_link("Part 1, Class D")
 
     within(row_with_content("D.1a")) do
@@ -234,18 +214,14 @@ RSpec.describe "assessment against legislation", type: :system do
 
   it "lets the user scroll between policy classes" do
     travel_to(Time.zone.local(2022, 9, 1))
-    visit(planning_application_path(planning_application))
-    click_link("Check and assess")
-    click_link("Add assessment area")
-    choose("Part 1 - Development within the curtilage of a dwellinghouse")
-    click_button("Continue")
-    check("Class D - porches")
 
-    check(
-      "Class F - hard surfaces incidental to the enjoyment of a dwellinghouse"
+    add_policy_classes(
+      [
+        "Class D - porches",
+        "Class F - hard surfaces incidental to the enjoyment of a dwellinghouse"
+      ]
     )
 
-    click_button("Add classes")
     click_link("Part 1, Class D")
 
     expect(page).not_to have_content("Save changes and view previous class")
@@ -292,5 +268,46 @@ RSpec.describe "assessment against legislation", type: :system do
     click_link("View previous class")
 
     expect(page).to have_content("Part 1, Class D")
+  end
+
+  it "lets the user delete comments" do
+    travel_to(Time.zone.local(2022, 9, 1))
+    add_policy_classes(["Class D - porches"])
+    click_link("Part 1, Class D")
+
+    within(row_with_content("D.1a")) do
+      fill_in("Add comment", with: "Test comment")
+    end
+
+    click_button("Save and come back later")
+    click_link("Part 1, Class D")
+
+    within(row_with_content("D.1a")) do
+      expect(page).to have_field(
+        "Comment added on 01 Sep 2022 by Alice Smith",
+        with: "Test comment"
+      )
+
+      click_button("Delete comment")
+      fill_in("Add comment", with: "New comment")
+    end
+
+    click_button("Save and come back later")
+    click_link("Part 1, Class D")
+
+    within(row_with_content("D.1a")) do
+      expect(page).to have_field(
+        "Comment added on 01 Sep 2022 by Alice Smith",
+        with: "New comment"
+      )
+    end
+  end
+
+  def add_policy_classes(policy_classes)
+    click_link("Add assessment area")
+    choose("Part 1 - Development within the curtilage of a dwellinghouse")
+    click_button("Continue")
+    policy_classes.each { |policy_class| check(policy_class) }
+    click_button("Add classes")
   end
 end

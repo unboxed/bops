@@ -241,6 +241,7 @@ html * {
 .button-as-link {
   border: none;
   background: none;
+  padding: 0;
   color: #1d70b8;
   font-size: 16px;
   text-decoration: underline;
@@ -278,5 +279,13 @@ html * {
 .next-policy-class-link {
   @media (min-width: 768px) {
     margin-left: auto;
+  }
+}
+
+.govuk-form-group.comment-form {
+  margin-bottom: 10px;
+
+  .govuk-textarea {
+    margin-bottom: 10px;
   }
 }

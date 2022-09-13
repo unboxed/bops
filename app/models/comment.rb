@@ -8,6 +8,8 @@ class Comment < ApplicationRecord
 
   before_save :set_user
 
+  delegate :name, to: :user, prefix: true, allow_nil: true
+
   def edited?
     created_at != updated_at
   end

@@ -42,19 +42,16 @@
                   <%= policy_form.object.description %>
                 </p>
                 <% if editable %>
-                  <%= policy_form.fields_for(
-                    :comment,
-                    policy_form.object.existing_or_new_comment
-                  ) do |comment_form| %>
-                    <%= comment_form.govuk_text_area(
-                      :text,
-                      label: {
-                        text: policy_comment_label(comment_form.object),
-                        size: "s"
-                      },
-                      rows: 2
-                    ) %>
-                  <% end %>
+                  <%= render(
+                    partial: "comment_form",
+                    locals: {
+                      planning_application: planning_application,
+                      policy_class: policy_class,
+                      policy: policy_form.object,
+                      comment: policy_form.object.existing_or_new_comment,
+                      policy_index: policy_form.options[:child_index]
+                    }
+                  ) %>
                 <% elsif comment = policy_form.object.comment.presence %>
                   <h4 class="govuk-heading-s policy-comment-title">
                     <%=existing_policy_comment_label(comment)%>
