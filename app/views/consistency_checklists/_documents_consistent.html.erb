@@ -1,0 +1,33 @@
+<%= form.govuk_radio_buttons_fieldset(
+  :documents_consistent,
+  legend: { text: t(".are_the_plans"), size: "s" }
+) do %>
+  <% if can_edit %>
+    <%= form.govuk_radio_button(
+      :documents_consistent,
+      :yes,
+      label: { text: t(".yes") },
+      link_errors: true
+    ) %>
+    <%= form.govuk_radio_button(
+      :documents_consistent,
+      :no,
+      label: { text: t(".no") }
+    ) do %>
+      <%= form.submit(t(".request_a_new"), class: "button-as-link") %>
+    <% end %>
+  <% else %>
+    <%= form.govuk_radio_button(
+      :documents_consistent,
+      consistency_checklist.documents_consistent,
+      label: { text: t(".#{consistency_checklist.documents_consistent}") },
+      disabled: true
+    ) %>
+  <% end %>
+  <% planning_application.additional_document_validation_requests.post_validation.order(:created_at).each do |request| %>
+    <%= render(
+      partial: "additional_document_validation_request",
+      locals: { request: request, planning_application: planning_application }
+    ) %>
+  <% end %>
+<% end %>

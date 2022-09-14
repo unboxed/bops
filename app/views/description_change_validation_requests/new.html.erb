@@ -60,7 +60,11 @@
       rows: 5 %>
         <div class="govuk-button-group">
           <%= form.govuk_submit "Send" %>
-          <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+          <%= link_to(
+            "Back",
+            :back,
+            class: "govuk-button govuk-button--secondary"
+          ) %>
         </div>
       <% end %>
     </div>

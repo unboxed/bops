@@ -1,0 +1,13 @@
+<%= render(
+  layout: "introduction",
+  locals: { planning_application: @planning_application }
+) do %>
+  <%= render(
+    partial: "form",
+    locals: {
+      planning_application: @planning_application,
+      consistency_checklist: @consistency_checklist,
+      can_edit: true
+    }
+  ) %>
+<% end %>

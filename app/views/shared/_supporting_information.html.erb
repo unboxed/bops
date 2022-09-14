@@ -175,7 +175,7 @@
     </div>
   </div>
 </div>
-<% if @planning_application.in_progress? %>
+<% if @planning_application.in_progress? && local_assigns.fetch(:show_cancel_link, true) %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full cancel">
       <p class="govuk-body">

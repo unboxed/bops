@@ -1,12 +1,21 @@
 <li id="check-consistency-assessment-tasks">
   <h2 class="app-task-list__section">
-    Check consistency
+    <%= t(".check_application") %>
   </h2>
   <ul class="app-task-list__items">
     <li class="app-task-list__item">
       <span class="app-task-list__task-name">
-        Description, documents and proposal details
+        <%= link_to(
+        t(".description_documents_and"),
+        consistency_checklist_path(consistency_checklist),
+        class: "govuk-link"
+        ) %>
       </span>
+      <%= content_tag(
+      :strong,
+      t(".#{consistency_checklist&.status || 'in_assessment'}"),
+      class: "govuk-tag app-task-list__task-tag #{'govuk-tag--blue' if consistency_checklist&.complete?}"
+      ) %>
     </li>
     <li class="app-task-list__item">
       <span class="app-task-list__task-name">

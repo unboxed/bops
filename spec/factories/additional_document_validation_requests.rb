@@ -10,8 +10,13 @@ FactoryBot.define do
     post_validation { false }
 
     trait :with_documents do
-      before(:create) do |additional_document_validation_request|
-        additional_document_validation_request.documents << create(:document)
+      before(:create) do |request|
+        document = create(
+          :document,
+          planning_application: request.planning_application
+        )
+
+        request.documents << document
       end
     end
 

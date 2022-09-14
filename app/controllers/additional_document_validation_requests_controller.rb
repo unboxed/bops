@@ -7,6 +7,7 @@ class AdditionalDocumentValidationRequestsController < ValidationRequestsControl
   before_action :ensure_planning_application_is_not_closed_or_cancelled, only: %i[new create]
   before_action :ensure_planning_application_not_validated, only: %i[edit update]
   before_action :ensure_planning_application_not_invalidated, only: :edit
+  before_action :set_return_to, only: %i[new]
 
   def new
     @additional_document_validation_request = @planning_application.additional_document_validation_requests.new
@@ -24,7 +25,7 @@ class AdditionalDocumentValidationRequestsController < ValidationRequestsControl
       if @additional_document_validation_request.save
         format.html do
           redirect_to(
-            create_request_redirect_url,
+            (session.delete(:return_to) || create_request_redirect_url),
             notice: I18n.t("additional_document_validation_requests.create.success")
           )
         end

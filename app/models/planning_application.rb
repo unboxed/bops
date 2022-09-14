@@ -41,6 +41,8 @@ class PlanningApplication < ApplicationRecord
       dependent: :destroy,
       inverse_of: :planning_application
     )
+
+    has_one :consistency_checklist, dependent: :destroy
   end
 
   delegate :reviewer_group_email, to: :local_authority

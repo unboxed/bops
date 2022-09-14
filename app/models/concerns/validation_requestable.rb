@@ -211,7 +211,18 @@ module ValidationRequestable
     validation_request.update!(update_counter: true)
   end
 
+  def sent_by
+    audits.find_by(activity_type: send_events, activity_information: sequence).user
+  end
+
   private
+
+  def send_events
+    [
+      "#{self.class.name.underscore}_sent_post_validation",
+      "#{self.class.name.underscore}_sent"
+    ]
+  end
 
   def create_audit_for!(event)
     audit!(

@@ -1,0 +1,58 @@
+<%= form_with(
+  model: [planning_application, consistency_checklist],
+  url: planning_application_consistency_checklist_path(planning_application),
+  builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+  class: "consistency-checklist-form"
+) do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= render(
+    partial: "description_matches_documents",
+    locals: {
+      form: form,
+      consistency_checklist: consistency_checklist,
+      planning_application: planning_application,
+      can_edit: can_edit
+    }
+  ) %>
+  <%= render(
+    partial: "documents_consistent",
+    locals: {
+      form: form,
+      consistency_checklist: consistency_checklist,
+      planning_application: planning_application,
+      can_edit: can_edit
+    }
+  ) %>
+  <%= render(
+    partial: "proposal_details_match_documents",
+    locals: {
+      form: form,
+      can_edit: can_edit,
+      consistency_checklist: consistency_checklist
+    }
+  ) %>
+  <div class="govuk-button-group">
+    <% if can_edit %>
+      <%= form.submit(
+        t(".save_and_mark"),
+        class: "govuk-button"
+      ) %>
+      <%= form.submit(
+        t(".save_and_come"),
+        class: "govuk-button govuk-button--secondary"
+      ) %>
+    <% end %>
+    <%= link_to(
+      t(".back"),
+      planning_application_assessment_tasks_path(planning_application),
+      class: "govuk-button govuk-button--secondary"
+    ) %>
+    <% unless can_edit %>
+      <%= link_to(
+        t(".edit_check_description"),
+        edit_planning_application_consistency_checklist_path(planning_application),
+        class: "govuk-link"
+      ) %>
+    <% end %>
+  </div>
+<% end %>
