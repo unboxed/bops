@@ -1,0 +1,110 @@
+name: Testing
+on:
+  workflow_call:
+    inputs:
+      exclude:
+        type: string
+        required: false
+        default: ""
+      include:
+        type: string
+        required: false
+        default: "spec/**/*_spec.rb"
+      name:
+        type: string
+        required: true
+      node-version:
+        type: string
+        default: "14"
+      ruby-version:
+        type: string
+        default: "2.7.5"
+      test-runner:
+        type: string
+        default: rspec
+
+    secrets:
+      NOTIFY_API_KEY:
+        required: true
+      OTP_SECRET_ENCRYPTION_KEY:
+        required: true
+
+jobs:
+  tests:
+    name: ${{ inputs.name }}
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        ports: ["5432:5432"]
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      memcached:
+        image: memcached:1.5.16
+        ports: ["11211:11211"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ inputs.ruby-version }}
+          bundler-cache: true
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        if: hashFiles('yarn.lock') != ''
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: "yarn"
+
+      - name: Install packages
+        run: |
+          yarn install --frozen-lockfile
+
+      - name: Install file previewing tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ghostscript poppler-utils
+
+      - name: Install postgres client
+        shell: bash
+        run: |
+          sudo apt-get -yqq install libpq-dev
+
+      - name: Setup test database
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
+          RAILS_ENV: test
+        run: |
+          bundle exec rake db:create db:schema:load
+
+      - name: Run rspec specs
+        if: ${{ inputs.test-runner == 'rspec' }}
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
+          RAILS_ENV: test
+          NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
+          OTP_SECRET_ENCRYPTION_KEY: ${{ secrets.OTP_SECRET_ENCRYPTION_KEY }}
+          SPEC_OPTS: '-f doc  --exclude "${{ inputs.exclude }}" --pattern "${{ inputs.include }}"'
+        run: |
+          bundle exec rake spec
+
+      - name: Run cucumber specs
+        if: ${{ inputs.test-runner == 'cucumber' }}
+        env:
+          CUCUMBER_FORMAT: pretty
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
+          RAILS_ENV: test
+          NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
+          OTP_SECRET_ENCRYPTION_KEY: ${{ secrets.OTP_SECRET_ENCRYPTION_KEY }}
+        run: |
+          bundle exec cucumber

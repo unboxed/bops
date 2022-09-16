@@ -4,396 +4,101 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  bundle-audit:
-    runs-on: ubuntu-latest
-
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-      memcached:
-        image: memcached:1.5.16
-        ports: ["11211:11211"]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup Ruby 2.7.5
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7.5
-          bundler-cache: true
-
-      - name: Setup
-        uses: ./.github/actions/setup
-
-      - name: Check bundle for known CVEs
-        run: |
-          bundle exec bundle-audit
-
   brakeman:
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/linters.yml
+    with:
+      brakeman: true
 
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-      memcached:
-        image: memcached:1.5.16
-        ports: ["11211:11211"]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup Ruby 2.7.5
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7.5
-          bundler-cache: true
-
-      - name: Setup
-        uses: ./.github/actions/setup
-
-      - name: Analyse code for vulnerabilities
-        run: bundle exec brakeman
+  bundle-audit:
+    uses: ./.github/workflows/linters.yml
+    with:
+      bundler-audit: true
 
   rubocop:
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/linters.yml
+    with:
+      rubocop: true
 
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-      memcached:
-        image: memcached:1.5.16
-        ports: ["11211:11211"]
+  specs-models-1:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "1"
+      include: "spec/models/**/[a-p]*_spec.rb"
+    secrets: inherit
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  specs-models-2:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "2"
+      include: "spec/models/**/[q-z]*_spec.rb"
+    secrets: inherit
 
-      - name: Setup Ruby 2.7.5
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7.5
-          bundler-cache: true
+  specs-controllers:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "all"
+      include: "spec/controllers/*_spec.rb"
+    secrets: inherit
 
-      - name: Setup
-        uses: ./.github/actions/setup
+  specs-requests:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "all"
+      include: "spec/requests/**/*_spec.rb"
+    secrets: inherit
 
-      - name: Analyse code for formatting
-        run: bundle exec rubocop
+  specs-other:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "all"
+      include: "spec/{helpers,presenters,mailer,jobs,services,translations}/**/*_spec.rb"
+    secrets: inherit
 
-  spec-controllers:
-    runs-on: ubuntu-latest
+  system-test-1:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "1"
+      include: "spec/system/**/a[a-s]*_spec.rb"
+    secrets: inherit
 
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-      memcached:
-        image: memcached:1.5.16
-        ports: ["11211:11211"]
+  system-test-2:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "2"
+      include: "spec/system/**/a[t-z]*_spec.rb"
+    secrets: inherit
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  system-test-3:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "3"
+      include: "spec/system/**/[b-f]*_spec.rb"
+    secrets: inherit
 
-      - name: Setup Ruby 2.7.5
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7.5
-          bundler-cache: true
+  system-test-4:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "4"
+      include: "spec/system/**/[g-k]*_spec.rb"
+    secrets: inherit
 
-      - name: Setup
-        uses: ./.github/actions/setup
+  system-test-5:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "5"
+      include: "spec/system/**/[l-r]*_spec.rb"
+    secrets: inherit
 
-      - name: Run specs
-        env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
-          RAILS_ENV: test
-          SPEC_OPTS: "-f doc -P spec/controllers/*_spec.rb"
-          OTP_SECRET_ENCRYPTION_KEY: ${{ secrets.OTP_SECRET_ENCRYPTION_KEY }}
-        run: |
-          bundle exec rake spec:controllers
-
-  spec-models:
-    runs-on: ubuntu-latest
-
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-      memcached:
-        image: memcached:1.5.16
-        ports: ["11211:11211"]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup Ruby 2.7.5
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7.5
-          bundler-cache: true
-
-      - name: Setup
-        uses: ./.github/actions/setup
-
-      - name: Run specs
-        env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
-          RAILS_ENV: test
-          SPEC_OPTS: "-f doc -P spec/models/**/*_spec.rb"
-          OTP_SECRET_ENCRYPTION_KEY: ${{ secrets.OTP_SECRET_ENCRYPTION_KEY }}
-          NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
-        run: |
-          bundle exec rake spec:models
-
-  spec-requests:
-    runs-on: ubuntu-latest
-
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-      memcached:
-        image: memcached:1.5.16
-        ports: ["11211:11211"]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup Ruby 2.7.5
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7.5
-          bundler-cache: true
-
-      - name: Install Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: "14"
-          cache: "yarn"
-
-      - name: Install JS deps
-        run: yarn install
-
-      - name: Setup
-        uses: ./.github/actions/setup
-
-      - name: Run specs
-        env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
-          RAILS_ENV: test
-          SPEC_OPTS: "-f doc -P spec/requests/**/*_spec.rb"
-          OTP_SECRET_ENCRYPTION_KEY: ${{ secrets.OTP_SECRET_ENCRYPTION_KEY }}
-        run: |
-          bundle exec rake spec:requests
-
-  spec-other:
-    runs-on: ubuntu-latest
-
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-      memcached:
-        image: memcached:1.5.16
-        ports: ["11211:11211"]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup Ruby 2.7.5
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7.5
-          bundler-cache: true
-
-      - name: Setup
-        uses: ./.github/actions/setup
-
-      - name: Run specs
-        env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
-          RAILS_ENV: test
-          SPEC_OPTS: "-f doc -P spec/{helpers,presenters,mailer,jobs,services,translations}/**/*_spec.rb"
-          NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
-          OTP_SECRET_ENCRYPTION_KEY: ${{ secrets.OTP_SECRET_ENCRYPTION_KEY }}
-        run: |
-          bundle exec rake spec
-
-  spec-system:
-    runs-on: ubuntu-latest
-
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-      memcached:
-        image: memcached:1.5.16
-        ports: ["11211:11211"]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup Ruby 2.7.5
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7.5
-          bundler-cache: true
-
-      - name: Install Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: "14"
-          cache: "yarn"
-
-      - name: Install JS deps
-        run: yarn install
-
-      - name: Install file previewing tools
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ghostscript poppler-utils
-
-      - name: Setup
-        uses: ./.github/actions/setup
-
-      - name: Run specs
-        env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
-          RAILS_ENV: test
-          SPEC_OPTS: "-f doc -P spec/system/**/*_spec.rb"
-          NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
-          OTP_SECRET_ENCRYPTION_KEY: ${{ secrets.OTP_SECRET_ENCRYPTION_KEY }}
-          GROUPED_PROPOSAL_DETAILS_FEATURE: ${{ secrets.GROUPED_PROPOSAL_DETAILS_FEATURE }}
-        run: |
-          bundle exec rake spec
+  system-test-6:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "6"
+      include: "spec/system/**/[s-z]*_spec.rb"
+    secrets: inherit
 
   cucumber:
-    runs-on: ubuntu-latest
-
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-      memcached:
-        image: memcached:1.5.16
-        ports: ["11211:11211"]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup Ruby 2.7.5
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7.5
-          bundler-cache: true
-
-      - name: Install Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: "14"
-          cache: "yarn"
-
-      - name: Install JS deps
-        run: yarn install
-
-      - name: Install file previewing tools
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ghostscript poppler-utils
-
-      - name: Setup
-        uses: ./.github/actions/setup
-
-      - name: Run cucumber specs
-        env:
-          CUCUMBER_FORMAT: pretty
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
-          RAILS_ENV: test
-          NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
-          OTP_SECRET_ENCRYPTION_KEY: ${{ secrets.OTP_SECRET_ENCRYPTION_KEY }}
-        run: |
-          bundle exec cucumber
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "all"
+      test-runner: "cucumber"
+    secrets: inherit
