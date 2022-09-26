@@ -2,7 +2,7 @@
   <div class="govuk-accordion__section-header">
     <h3 class="govuk-accordion__section-heading">
       <button type="button" id="accordion-default-heading-5" aria-controls="accordion-default-heading-5" class="govuk-accordion__section-button" aria-expanded="false">
-        Result from <%= @planning_application.api_user.present? ? @planning_application.api_user.name : "application" %>
+        Pre-assessment outcome
       </button>
       <span class="govuk-accordion__icon" aria-hidden="true"></span>
     </h3>
@@ -47,7 +47,7 @@
       <% end %>
         <% if @planning_application.flagged_proposal_details(@planning_application.result_flag).present? %>
           <p class="govuk-body">
-            <strong> Details identified <%= @planning_application.api_user.present? ? "by #{@planning_application.api_user.name}" : "" %> as relevant to the result</strong>
+            <strong> Details identified as relevant to the result</strong>
           </p>
           <ol class="govuk-list">
             <li>
@@ -68,7 +68,7 @@
     <% else %>
       <p class='govuk-body'>
         <strong>No result</strong><br>
-        <%= @planning_application.api_user.present? ? "#{@planning_application.api_user.name} did not provide a result for this application" : "The application was not assessed on submission" %>
+        The application was not assessed on submission
       </p>
     <% end %>
   </div>

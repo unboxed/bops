@@ -146,7 +146,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "Result summary" do
-      click_button "Result from #{api_user.name}"
+      click_button "Pre-assessment outcome"
 
       expect(page).to have_text("Planning permission / Permission needed")
       expect(page).to have_text(planning_application.result_heading)
@@ -320,20 +320,11 @@ RSpec.describe "Planning Application show page", type: :system do
       visit planning_application_path(planning_application)
     end
 
-    it "displays the correct text in the result accordion when no API user is given" do
-      click_button "Result from application"
+    it "displays the correct text in the result accordion" do
+      click_button "Pre-assessment outcome"
 
       expect(page).to have_text("No result")
       expect(page).to have_text("The application was not assessed on submission")
-    end
-
-    it "displays the correct text in the result accordion when API user is present" do
-      planning_application.update!(api_user: api_user)
-      visit planning_application_path(planning_application)
-      click_button "Result from #{api_user.name}"
-
-      expect(page).to have_text("No result")
-      expect(page).to have_text("#{api_user.name} did not provide a result for this application")
     end
   end
 
@@ -373,7 +364,7 @@ RSpec.describe "Planning Application show page", type: :system do
         expect(page).to have_no_css("#govuk-warning-text")
       end
 
-      click_button "Result from application"
+      click_button "Pre-assessment outcome"
       within("#results-section") do
         expect(page).to have_no_css("#govuk-warning-text")
       end
@@ -400,7 +391,7 @@ RSpec.describe "Planning Application show page", type: :system do
         expect(page).to have_content("This application has been updated. Please check the site map is correct.")
       end
 
-      click_button "Result from application"
+      click_button "Pre-assessment outcome"
       within("#results-section .govuk-warning-text") do
         expect(page).to have_content("! Warning This application has been updated. The result may no longer be accurate.")
       end
@@ -426,7 +417,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "displays a warning message and the feedback text" do
-      click_button "Result from application"
+      click_button "Pre-assessment outcome"
       within("#results-section") do
         within(".govuk-warning-text") do
           expect(page).to have_content("! Warning The applicant or agent believes this result is inaccurate.")
