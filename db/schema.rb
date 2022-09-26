@@ -356,6 +356,17 @@ ActiveRecord::Schema.define(version: 2022_09_07_161526) do
     t.index ["user_id"], name: "index_document_change_requests_on_user_id"
   end
 
+  create_table "summary_of_works", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.bigint "user_id", null: false
+    t.text "entry"
+    t.string "status", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["planning_application_id"], name: "ix_summary_of_works_on_planning_application_id"
+    t.index ["user_id"], name: "ix_summary_of_works_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -419,5 +430,7 @@ ActiveRecord::Schema.define(version: 2022_09_07_161526) do
   add_foreign_key "replacement_document_validation_requests", "documents", column: "old_document_id"
   add_foreign_key "replacement_document_validation_requests", "planning_applications"
   add_foreign_key "replacement_document_validation_requests", "users"
+  add_foreign_key "summary_of_works", "planning_applications"
+  add_foreign_key "summary_of_works", "users"
   add_foreign_key "validation_requests", "planning_applications"
 end

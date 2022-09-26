@@ -1,0 +1,30 @@
+<div class="govuk-body">
+  <p><strong>Create a summary of the works</strong></p>
+
+  <%= render "shared/warning_text",
+      message: "This information WILL be made public" %>
+
+  <p>You can include:</p>
+  <ul>
+    <li>
+      A list of the works involved in the project, such as alterations and extensions
+    </li>
+    <li>Key dimension</li>
+    <li>Materials used in external works</li>
+    <li>Specific features you want to draw attention to</li>
+    <li>Details of a proposed use, such as opening hours</li>
+  </ul>
+</div>
+
+<%= form_with model: [@planning_application, @summary_of_work], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+  <%= form.govuk_text_area :entry, label: nil, rows: 10 %>
+
+  <div class="govuk-button-group">
+    <%= form.submit "Save and mark as complete", class: "govuk-button", data: { module: "govuk-button" } %>
+    <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
+
+    <%= link_to "Back", :back, class: "govuk-button govuk-button--secondary" %>
+  </div>
+<% end %>

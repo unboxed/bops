@@ -1,0 +1,112 @@
+# frozen_string_literal: true
+
+require "rails_helper"
+
+RSpec.describe "Summary of works", type: :system do
+  let!(:default_local_authority) { create(:local_authority, :default) }
+  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
+
+  let!(:planning_application) do
+    create :planning_application, :in_assessment, local_authority: default_local_authority
+  end
+
+  before do
+    sign_in assessor
+    visit planning_application_path(planning_application)
+  end
+
+  context "when planning application is in assessment" do
+    before do
+      click_link "Check and assess"
+    end
+
+    it "I can view the information on the summary of works page" do
+      within("#assessment-information-tasks") do
+        expect(page).to have_content("Not started")
+        click_link "Summary of works"
+      end
+
+      expect(page).to have_content("Add summary of works")
+      expect(page).to have_content(planning_application.reference)
+      expect(page).to have_content(planning_application.full_address.upcase)
+
+      within(".govuk-warning-text") do
+        expect(page).to have_content("This information WILL be made public")
+      end
+    end
+
+    it "there is a validation error when submitting an empty text field" do
+      click_link "Summary of works"
+
+      click_button "Save and mark as complete"
+      within(".govuk-error-summary") do
+        expect(page).to have_content "Entry can't be blank"
+      end
+
+      click_button "Save and come back later"
+      within(".govuk-error-summary") do
+        expect(page).to have_content "Entry can't be blank"
+      end
+    end
+
+    it "I can save and come back later when adding or editing a summary of work" do
+      click_link "Summary of works"
+
+      fill_in "summary_of_work[entry]", with: "A draft entry for the summary of works"
+      click_button "Save and come back later"
+
+      expect(page).to have_content("Summary of works was successfully created.")
+
+      within("#assessment-information-tasks") do
+        expect(page).to have_content("In progress")
+      end
+
+      click_link "Summary of works"
+      expect(page).to have_content("Edit summary of works")
+      expect(page).to have_content("A draft entry for the summary of works")
+
+      click_button "Save and come back later"
+      expect(page).to have_content("Summary of works was successfully updated.")
+
+      within("#assessment-information-tasks") do
+        expect(page).to have_content("In progress")
+      end
+    end
+
+    it "I can save and mark as complete when adding a summary of work" do
+      click_link "Summary of works"
+
+      fill_in "summary_of_work[entry]", with: "A complete entry for the summary of works"
+      click_button "Save and mark as complete"
+
+      expect(page).to have_content("Summary of works was successfully created.")
+
+      within("#assessment-information-tasks") do
+        expect(page).to have_content("Complete")
+      end
+
+      click_link "Summary of works"
+      expect(page).to have_content("Summary of works")
+      expect(page).to have_content("A complete entry for the summary of works")
+
+      expect(page).to have_link(
+        "Edit summary of work",
+        href: edit_planning_application_summary_of_work_path(planning_application, SummaryOfWork.last)
+      )
+    end
+  end
+
+  context "when planning application has not been validated yet" do
+    let!(:planning_application) do
+      create :planning_application, :not_started, local_authority: default_local_authority
+    end
+
+    it "does not allow me to visit the page" do
+      expect(page).not_to have_link("Summary of works")
+
+      visit new_planning_application_summary_of_work_path(planning_application)
+
+      expect(page).to have_content("forbidden")
+    end
+  end
+end

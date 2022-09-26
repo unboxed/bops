@@ -1,0 +1,35 @@
+<% content_for :page_title do %>
+  Summary of works - <%= t('page_title') %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", planning_applications_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Assess application", planning_application_assessment_tasks_path(@planning_application) %>
+
+<% content_for :title, "Summary" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l govuk-!-margin-top-7">
+      Summary of works
+    </h1>
+
+    <%= render "shared/planning_application_address_and_reference" %>
+
+    <div class="govuk-body">
+      <p><strong>Summary of works</strong></p>
+
+      <%= render "shared/warning_text",
+          message: "This information WILL be made public" %>
+
+      <p><%= @summary_of_work.entry %></p>
+    </div>
+
+    <div class="govuk-button-group">
+      <%= link_to "Back", :back, class: "govuk-button govuk-button--secondary" %>
+
+      <%= link_to "Edit summary of work", edit_planning_application_summary_of_work_path(@planning_application, @summary_of_work), class: "govuk-link" %>
+    </div>
+  </div>
+</div>
+
