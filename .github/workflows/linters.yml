@@ -1,0 +1,48 @@
+name: Verify
+on:
+  workflow_call:
+    inputs:
+      brakeman:
+        type: boolean
+        default: false
+      bundler-audit:
+        type: boolean
+        default: false
+      rubocop:
+        type: boolean
+        default: false
+      ruby-version:
+        type: string
+        default: "2.7.5"
+
+jobs:
+  linters:
+    name: Linters
+    runs-on: ubuntu-latest
+    env:
+      BUNDLE_WITHOUT: development
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ inputs.ruby-version }}
+          bundler-cache: true
+
+      - name: Run linters - RuboCop
+        if: ${{ inputs.rubocop == true }}
+        run: |
+          ${{ inputs.run-before-linters }}
+          bundle exec rubocop --parallel
+
+      - name: Run security checks - brakeman
+        if: ${{ inputs.brakeman == true }}
+        run: |
+          bundle exec brakeman -q -w2
+
+      - name: Run security checks - bundler-audit
+        if: ${{ inputs.bundler-audit == true }}
+        run: |
+          bundle exec bundler-audit --update
