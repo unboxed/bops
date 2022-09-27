@@ -21,6 +21,7 @@ RSpec.describe "Assessment tasks", type: :system do
       within(".app-task-list") do
         within("#check-consistency-assessment-tasks") do
           expect(page).to have_content("Description, documents and proposal details")
+          expect(page).to have_link("History")
         end
 
         within("#assess-against-legislation-tasks") do
@@ -41,6 +42,7 @@ RSpec.describe "Assessment tasks", type: :system do
       within(".app-task-list") do
         within("#check-consistency-assessment-tasks") do
           expect(page).to have_content("Description, documents and proposal details")
+          expect(page).to have_link("History")
         end
 
         within("#assess-against-legislation-tasks") do
