@@ -118,6 +118,9 @@ en:
     proposal_details_table:
       related_legislation: Related legislation
       related_questions: Related questions from RIPA
+  form_actions:
+    save_and_come_back_later: Save and come back later
+    save_and_mark_as_complete: Save and mark as complete
   helpers:
     hint:
       other_change_validation_request:

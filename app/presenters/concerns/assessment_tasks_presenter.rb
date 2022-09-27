@@ -9,5 +9,11 @@ module AssessmentTasksPresenter
         @template, @planning_application, policy_class
       ).task_list_row
     end
+
+    def summary_of_works_tasklist
+      AssessmentTasks::SummaryOfWorksPresenter.new(
+        @template, @planning_application
+      ).task_list_row
+    end
   end
 end

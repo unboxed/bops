@@ -104,6 +104,8 @@ Rails.application.routes.draw do
       resources :validation_tasks, only: :index
 
       resources :assessment_tasks, only: :index
+
+      resources :summary_of_works, only: %i[new edit create show update]
     end
   end
 
