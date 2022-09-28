@@ -31,6 +31,7 @@ Metrics/AbcSize:
     - 'app/controllers/documents_controller.rb'
     - 'app/controllers/other_change_validation_requests_controller.rb'
     - 'app/controllers/planning_applications_controller.rb'
+    - 'app/controllers/planning_application/assessment_details_controller.rb'
     - 'app/controllers/policy_classes_controller.rb'
     - 'app/controllers/red_line_boundary_change_validation_requests_controller.rb'
     - 'app/controllers/replacement_document_validation_requests_controller.rb'

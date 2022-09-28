@@ -3,8 +3,10 @@
     Add assessment information
   </h2>
   <ul class="app-task-list__items">
-    <li class="app-task-list__item">
-      <%= @planning_application.summary_of_works_tasklist %>
-    </li>
+    <% AssessmentDetail.categories.keys.each do |category| %>
+      <li class="app-task-list__item" id="<%= category %>-tasklist-item">
+        <%= @planning_application.assessment_detail_tasklist(category) %>
+      </li>
+    <% end %>
   </ul>
 </li>

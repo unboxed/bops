@@ -71,6 +71,19 @@ en:
     dimensions: Revise dimensions
     other: Other
     scale: Missing scale bar or north arrow
+  assessment_details:
+    additional_evidence: Additional evidence
+    additional_evidence_successfully_created: Additional evidence was successfully created.
+    additional_evidence_successfully_updated: Additional evidence was successfully updated.
+    edit_additional_evidence: Edit additional evidence
+    edit_summary_of_work: Edit summary of works
+    new_additional_evidence: Add detail of additional evidence
+    new_summary_of_work: Create a summary of the works
+    show_additional_evidence: Detail of additional evidence
+    show_summary_of_work: Summary of works
+    summary_of_work: Summary
+    summary_of_work_successfully_created: Summary of works was successfully created.
+    summary_of_work_successfully_updated: Summary of works was successfully updated.
   audit_user_name:
     applicant: Applicant / Agent via %{api_user_name}
     deleted: User deleted

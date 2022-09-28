@@ -1,0 +1,22 @@
+<% content_for :page_title do %>
+  <%= t("assessment_details.new_#{@category}") %> - <%= t('page_title') %>
+<% end %>
+
+<%= render(
+  partial: "shared/assessment_task_breadcrumbs",
+  locals: { planning_application: @planning_application  }
+) %>
+
+<% content_for :title, t("assessment_details.#{@category}") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l govuk-!-margin-top-7">
+      <%= t("assessment_details.new_#{@category}") %>
+    </h1>
+
+    <%= render "shared/planning_application_address_and_reference" %>
+
+    <%= render "form", planning_application: @planning_application, category: @category %>
+  </div>
+</div>

@@ -33,7 +33,7 @@ class PlanningApplication < ApplicationRecord
     has_many :red_line_boundary_change_validation_requests
     has_many :notes, -> { by_created_at_desc }, inverse_of: :planning_application
     has_many :requests, class_name: "ValidationRequest"
-    has_many :summary_of_works, -> { by_created_at_desc }, inverse_of: :planning_application
+    has_many :assessment_details, -> { by_created_at_desc }, inverse_of: :planning_application
 
     has_many(
       :policy_classes,

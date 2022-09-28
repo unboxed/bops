@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_14_061734) do
+ActiveRecord::Schema.define(version: 2022_09_28_141056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,18 @@ ActiveRecord::Schema.define(version: 2022_09_14_061734) do
     t.string "token", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "assessment_details", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.bigint "user_id", null: false
+    t.text "entry"
+    t.string "status", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "category", null: false
+    t.index ["planning_application_id"], name: "ix_assessment_details_on_planning_application_id"
+    t.index ["user_id"], name: "ix_assessment_details_on_user_id"
   end
 
   create_table "audits", force: :cascade do |t|
@@ -368,17 +380,6 @@ ActiveRecord::Schema.define(version: 2022_09_14_061734) do
     t.index ["user_id"], name: "index_document_change_requests_on_user_id"
   end
 
-  create_table "summary_of_works", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
-    t.bigint "user_id", null: false
-    t.text "entry"
-    t.string "status", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["planning_application_id"], name: "ix_summary_of_works_on_planning_application_id"
-    t.index ["user_id"], name: "ix_summary_of_works_on_user_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -419,6 +420,8 @@ ActiveRecord::Schema.define(version: 2022_09_14_061734) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "additional_document_validation_requests", "planning_applications"
   add_foreign_key "additional_document_validation_requests", "users"
+  add_foreign_key "assessment_details", "planning_applications"
+  add_foreign_key "assessment_details", "users"
   add_foreign_key "audits", "api_users"
   add_foreign_key "audits", "planning_applications"
   add_foreign_key "audits", "users"
@@ -442,7 +445,5 @@ ActiveRecord::Schema.define(version: 2022_09_14_061734) do
   add_foreign_key "replacement_document_validation_requests", "documents", column: "old_document_id"
   add_foreign_key "replacement_document_validation_requests", "planning_applications"
   add_foreign_key "replacement_document_validation_requests", "users"
-  add_foreign_key "summary_of_works", "planning_applications"
-  add_foreign_key "summary_of_works", "users"
   add_foreign_key "validation_requests", "planning_applications"
 end

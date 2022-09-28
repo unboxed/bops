@@ -110,6 +110,8 @@ Rails.application.routes.draw do
       resources :assessment_tasks, only: :index
 
       resources :summary_of_works, only: %i[new edit create show update]
+
+      resources :assessment_details, only: %i[new edit create show update]
     end
   end
 
