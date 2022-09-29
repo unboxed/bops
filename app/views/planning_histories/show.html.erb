@@ -1,0 +1,19 @@
+<% content_for :page_title do %>
+  Planning History - <%= t('page_title') %>
+<% end %>
+
+<h1 class="govuk-heading-l">Review the planning history</h1>
+
+<p class="govuk-body">
+  <strong>Planning application for UPRN <%= @planning_application.uprn %></strong>
+</p>
+
+<% if @planning_history.empty? %>
+  <p class="govuk-body">
+    There is no planning history for this property
+  </p>
+<% else %>
+  <%= render "table" %>
+<% end %>
+
+<%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button" %>

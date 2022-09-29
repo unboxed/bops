@@ -98,6 +98,8 @@ Rails.application.routes.draw do
       patch :cancel
     end
 
+    resource :planning_history, only: :show
+
     scope module: :planning_application do
       resources :notes, only: %i[index create]
 

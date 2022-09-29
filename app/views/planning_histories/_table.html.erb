@@ -1,0 +1,43 @@
+<table class="govuk-table planning-history-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">
+        Date
+      </th>
+      <th scope="col" class="govuk-table__header">
+        Application number
+      </th>
+      <th scope="col" class="govuk-table__header">
+        Description
+      </th>
+      <th scope="col" class="govuk-table__header">
+        Recommendation
+      </th>
+      <th scope="col" class="govuk-table__header">
+        View on public access
+      </th>
+    </tr>
+  </thead>
+
+  <tbody class="govuk-table__body">
+    <% @planning_history.each do |planning_application| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          <%= planning_application["decision_issued_at"].to_date %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= planning_application["reference"] %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= planning_application["proposal_details"] %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= planning_application["decision"] %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= link_to "View", planning_application["view_documents"] , class: "govuk-link" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
