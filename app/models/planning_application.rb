@@ -440,6 +440,10 @@ class PlanningApplication < ApplicationRecord
     policy_classes.pluck(:section).include?(section)
   end
 
+  def planning_history_enabled?
+    ENV.fetch("PLANNING_HISTORY_ENABLED", "false") == "true"
+  end
+
   private
 
   def set_reference

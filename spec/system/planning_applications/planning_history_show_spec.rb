@@ -8,6 +8,8 @@ RSpec.describe "Planning History", type: :system do
 
   before do
     sign_in assessor
+
+    ENV["PLANNING_HISTORY_ENABLED"] = "true"
   end
 
   context "when planning application's property uprn has planning history" do
@@ -20,7 +22,7 @@ RSpec.describe "Planning History", type: :system do
       click_link "History"
     end
 
-    it "displays the assessment tasks list" do
+    it "displays a table with relevants planning historical applications" do
       within(".govuk-table.planning-history-table") do
         within(".govuk-table__head") do
           within(all(".govuk-table__row").first) do
