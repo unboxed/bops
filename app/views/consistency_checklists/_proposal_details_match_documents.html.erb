@@ -1,0 +1,39 @@
+<%= form.govuk_radio_buttons_fieldset(
+  :proposal_details_match_documents,
+  legend: { text: t(".are_the_proposal"), size: "s" }
+) do %>
+  <% if can_edit %>
+    <%= form.govuk_radio_button(
+      :proposal_details_match_documents,
+      :yes,
+      label: { text: t(".yes") },
+      link_errors: true
+    ) %>
+    <%= form.govuk_radio_button(
+      :proposal_details_match_documents,
+      :no,
+      label: { text: t(".no") }
+    ) do %>
+      <% form.govuk_text_area(
+        :proposal_details_match_documents_comment,
+        label: { text: t(".how_are_the") },
+        rows: 6
+      ) %>
+    <% end %>
+  <% else %>
+    <%= form.govuk_radio_button(
+      :proposal_details_match_documents,
+      consistency_checklist.proposal_details_match_documents,
+      label: {
+        text: t(".#{consistency_checklist.proposal_details_match_documents}")
+      },
+      disabled: true
+    ) %>
+  <% end %>
+<% end %>
+<% unless can_edit || consistency_checklist.proposal_details_match_documents_yes?  %>
+  <h4 class="govuk-heading-s"><%= t(".how_are_the") %></h4>
+  <p class="govuk-body">
+    <%= consistency_checklist.proposal_details_match_documents_comment %>
+  <p>
+<% end %>

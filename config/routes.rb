@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   resources :users, only: %i[new create edit update]
 
   resources :planning_applications, only: %i[index show new edit create update] do
+    resource(:consistency_checklist, only: %i[new create edit update show])
+
     resources :policy_classes, except: %i[index] do
       get :part, on: :new
 

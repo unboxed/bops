@@ -25,8 +25,12 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <ol class="app-task-list">
-      <%= render "check_consistency" %>
-
+      <%= render(
+        partial: "check_consistency",
+        locals: {
+          consistency_checklist: @planning_application.consistency_checklist
+        }
+      ) %>
       <%= render "assessment_information" %>
 
       <%= render "assess_against_legislation" %>

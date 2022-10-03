@@ -1,0 +1,43 @@
+<%= form.govuk_radio_buttons_fieldset(
+  :description_matches_documents,
+  legend: { text: t(".does_the_description"), size: "s" }
+) do %>
+  <% if can_edit %>
+    <%= form.govuk_radio_button(
+      :description_matches_documents,
+      :yes,
+      label: { text: t(".yes") },
+      link_errors: true
+    ) %>
+    <%= form.govuk_radio_button(
+      :description_matches_documents,
+      :no,
+      label: { text: t(".no") }
+    ) do %>
+      <% unless planning_application.description_change_validation_requests.open.any? %>
+        <%= form.submit(
+          t(".request_a_change"),
+          class: "button-as-link"
+        ) %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <%= form.govuk_radio_button(
+      :description_matches_documents,
+      consistency_checklist.description_matches_documents,
+      label: {
+        text: t(".#{consistency_checklist.description_matches_documents}")
+      },
+      disabled: true
+    ) %>
+  <% end %>
+  <% if request = planning_application.description_change_validation_requests.post_validation.order(:created_at).last.presence %>
+    <%= render(
+      partial: "description_change_validation_request",
+      locals: {
+        request: request,
+        planning_application: planning_application
+      }
+    ) %>
+  <% end %>
+<% end %>

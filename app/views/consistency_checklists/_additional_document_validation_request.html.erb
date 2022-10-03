@@ -1,0 +1,29 @@
+<p class="govuk-body-s">
+  <%= t(".requested_a_new", name: request.sent_by&.name) %><br>
+  <%= request.document_request_type %><br>
+  <%= t(".reason", reason: request.document_request_reason) %><br>
+  <%= t(".requested", time: request.created_at) %><br>
+  <% if request.cancelled? %>
+    <%= t(".cancelled", time: request.cancelled_at) %><br>
+  <% elsif document = request.document.presence %>
+    <%= t(".responded", time: document.created_at) %><br>
+    <%= link_to(
+      t(".view_new_document"),
+      planning_application_documents_path(
+        planning_application,
+        anchor: dom_id(document)
+      ),
+      class: "govuk-link"
+    ) %>
+  <% end %>
+</p>
+<% if request.open? %>
+  <%= link_to(
+    t(".view_and_edit"),
+    planning_application_documents_path(
+      planning_application,
+      anchor: dom_id(request)
+    ),
+    class: "govuk-link"
+  ) %>
+<% end %>

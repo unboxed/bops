@@ -52,6 +52,10 @@ class AdditionalDocumentValidationRequest < ApplicationRecord
     may_cancel? && (planning_application.invalidated? || post_validation?)
   end
 
+  def document
+    @document ||= documents.order(:created_at).last
+  end
+
   private
 
   def audit_upload_files!

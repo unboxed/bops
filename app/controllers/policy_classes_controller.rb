@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PolicyClassesController < PlanningApplicationsController
+  include CommitMatchable
+
   before_action :set_planning_application
   before_action :set_policy_class, only: %i[edit show update destroy]
   before_action :ensure_can_assess_planning_application, only: %i[part new create]
@@ -99,9 +101,5 @@ class PolicyClassesController < PlanningApplicationsController
 
   def status
     commit_matches?(/mark as complete/) ? :complete : :in_assessment
-  end
-
-  def commit_matches?(regex)
-    params[:commit].downcase.match(regex).present?
   end
 end

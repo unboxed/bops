@@ -289,3 +289,14 @@ html * {
     margin-bottom: 10px;
   }
 }
+
+.consistency-checklist-form {
+  .govuk-radios__conditional {
+    margin-bottom: 0
+  }
+
+  .govuk-body-s {
+    margin-top: 20px;
+    margin-bottom: 0px;
+  }
+}

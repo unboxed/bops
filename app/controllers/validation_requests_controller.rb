@@ -35,6 +35,12 @@ class ValidationRequestsController < AuthenticationController
 
   private
 
+  def set_return_to
+    return if params[:consistency_checklist].blank?
+
+    session[:return_to] = edit_planning_application_consistency_checklist_path(@planning_application)
+  end
+
   def ensure_planning_application_not_validated
     render plain: "forbidden", status: :forbidden and return unless @planning_application.can_validate?
   end

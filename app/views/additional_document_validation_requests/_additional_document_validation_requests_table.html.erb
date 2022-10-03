@@ -1,7 +1,7 @@
 <table class="govuk-table" id="additional-document-validation-requests-table">
   <tbody class="govuk-table__body">
     <% validation_requests.each do |validation_request| %>
-      <tr class="govuk-table__row">
+      <tr class="govuk-table__row" id=<%= dom_id(validation_request) %>>
         <td class="govuk-table__cell govuk-!-width-one-third">
           <%= image_pack_tag("placeholder/blank_image.png", alt: "Blank image", width: 180, height: 220) %>
         </td>

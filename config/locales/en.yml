@@ -12,6 +12,16 @@ en:
   activerecord:
     errors:
       models:
+        consistency_checklist:
+          attributes:
+            description_matches_documents:
+              not_determined: Determine whether the description matches the development or use in the plans
+              open_description_change_requests: Description change requests must be closed or cancelled
+            documents_consistent:
+              not_determined: Determine whether the plans are consistent with each other
+              open_additional_document_requests: Additional document requests must be closed or cancelled
+            proposal_details_match_documents:
+              not_determined: Determine whether the proposal details are consistent with the plans
         document:
           attributes:
             file:
@@ -74,6 +84,48 @@ en:
         auto_closed_validation: 'Auto-closed: validation request (description#%{sequence})'
       red_line_boundary_change_validation_request_auto_closed:
         auto_closed_validation: 'Auto-closed: validation request (red line boundary#%{sequence})'
+  consistency_checklists:
+    additional_document_validation_request:
+      cancelled: Cancelled %{time}
+      reason: 'Reason: %{reason}'
+      requested: Requested %{time}
+      requested_a_new: "%{name} requested a new document"
+      responded: Responded %{time}
+      view_and_edit: View and edit request
+      view_new_document: View new document
+    create:
+      successfully_updated_application: Successfully updated application checklist
+    description_change_validation_request:
+      accepted: Accepted %{time}
+      cancelled: Cancelled %{time}
+      proposed: Proposed %{time}
+      proposed_description: 'Proposed description: %{description}'
+      requested_a_new: "%{name} requested a new description"
+      view_and_edit: View and edit request
+    description_matches_documents:
+      does_the_description: Does the description match the development or use in the plans?
+      'no': 'No'
+      request_a_change: Request a change to the description
+      'yes': 'Yes'
+    documents_consistent:
+      are_the_plans: Are the plans consistent with each other?
+      'no': 'No'
+      request_a_new: Request a new document
+      'yes': 'Yes'
+    form:
+      back: Back
+      edit_check_description: Edit check description, documents and proposal
+      save_and_come: Save and come back later
+      save_and_mark: Save and mark as complete
+    introduction:
+      check_description_documents: Check description, documents, proposal details
+    proposal_details_match_documents:
+      are_the_proposal: Are the proposal details consistent with the plans?
+      how_are_the: How are the proposal details inconsistent?
+      'no': 'No'
+      'yes': 'Yes'
+    update:
+      successfully_updated_application: Successfully updated application checklist
   council_code:
     buckinghamshire: BUC
     lambeth: LBH
@@ -175,6 +227,13 @@ en:
         suggestion: Tell the applicant how the fee can be made valid.
         summary: Tell the applicant why the fee is incorrect.
   page_title: BETA BOPs - GOV.UK
+  planning_application:
+    assessment_tasks:
+      check_consistency:
+        check_application: Check application
+        complete: Complete
+        description_documents_and: Description, documents and proposal details
+        in_assessment: In assessment
   planning_application_panel_component:
     all: All
     all_applications: All applications
@@ -299,6 +358,10 @@ en:
       this_information_will_not: This information WILL NOT appear on the decision notice or the public register, however FOI still apply.
       update_assessment: Update assessment
       'yes': 'Yes'
+    assessment_task_breadcrumbs:
+      application: Application
+      assess_application: Assess application
+      home: Home
     back_to_top_link:
       back_to_top: Back to top
     proposal_header:
