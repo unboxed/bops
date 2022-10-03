@@ -23,14 +23,28 @@ jobs:
     uses: ./.github/workflows/testing.yml
     with:
       name: "1"
-      include: "spec/models/**/[a-p]*_spec.rb"
+      include: "spec/models/**/[a-l]*_spec.rb"
     secrets: inherit
 
   specs-models-2:
     uses: ./.github/workflows/testing.yml
     with:
       name: "2"
-      include: "spec/models/**/[q-z]*_spec.rb"
+      include: "spec/models/**/[m-n]*_spec.rb"
+    secrets: inherit
+
+  specs-models-3:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "3"
+      include: "spec/models/**/[q-u]*_spec.rb"
+    secrets: inherit
+
+  specs-models-4:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "4"
+      include: "spec/models/**/[v-z]*_spec.rb"
     secrets: inherit
 
   specs-controllers:
@@ -40,60 +54,137 @@ jobs:
       include: "spec/controllers/*_spec.rb"
     secrets: inherit
 
-  specs-requests:
+  specs-requests-1:
     uses: ./.github/workflows/testing.yml
     with:
-      name: "all"
-      include: "spec/requests/**/*_spec.rb"
+      name: "1"
+      include: "spec/requests/**/[a-n]*_spec.rb"
     secrets: inherit
 
-  specs-other:
+  specs-requests-2:
     uses: ./.github/workflows/testing.yml
     with:
-      name: "all"
-      include: "spec/{helpers,presenters,mailer,jobs,services,translations}/**/*_spec.rb"
+      name: "2"
+      include: "spec/requests/**/[o-z]*_spec.rb"
+    secrets: inherit
+
+  specs-other-1:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "1"
+      include: "spec/{helpers,presenters,mailer,jobs}/**/*_spec.rb"
+    secrets: inherit
+
+  specs-other-2:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "2"
+      include: "spec/{services,translations}/**/*_spec.rb"
     secrets: inherit
 
   system-test-1:
     uses: ./.github/workflows/testing.yml
     with:
       name: "1"
-      include: "spec/system/**/a[a-s]*_spec.rb"
+      include: "spec/system/**/a[a-r]*_spec.rb"
     secrets: inherit
 
   system-test-2:
     uses: ./.github/workflows/testing.yml
     with:
       name: "2"
-      include: "spec/system/**/a[t-z]*_spec.rb"
+      include: "spec/system/**/a[s]*_spec.rb"
     secrets: inherit
 
   system-test-3:
     uses: ./.github/workflows/testing.yml
     with:
       name: "3"
-      include: "spec/system/**/[b-f]*_spec.rb"
+      include: "spec/system/**/a[t-z]*_spec.rb"
     secrets: inherit
 
   system-test-4:
     uses: ./.github/workflows/testing.yml
     with:
       name: "4"
-      include: "spec/system/**/[g-k]*_spec.rb"
+      include: "spec/system/**/[b-d]*_spec.rb"
     secrets: inherit
 
   system-test-5:
     uses: ./.github/workflows/testing.yml
     with:
       name: "5"
-      include: "spec/system/**/[l-r]*_spec.rb"
+      include: "spec/system/**/[e-h]*_spec.rb"
     secrets: inherit
 
   system-test-6:
     uses: ./.github/workflows/testing.yml
     with:
       name: "6"
-      include: "spec/system/**/[s-z]*_spec.rb"
+      include: "spec/system/**/i[a-n]*_spec.rb"
+    secrets: inherit
+
+  system-test-7:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "7"
+      include: "spec/system/**/i[o-z]*_spec.rb"
+    secrets: inherit
+
+  system-test-8:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "8"
+      include: "spec/system/**/[j-l]*_spec.rb"
+    secrets: inherit
+
+  system-test-9:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "9"
+      include: "spec/system/**/[m-n]*_spec.rb"
+    secrets: inherit
+
+  system-test-10:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "10"
+      include: "spec/system/**/[o-q]*_spec.rb"
+    secrets: inherit
+
+  system-test-11:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "11"
+      include: "spec/system/**/r[a-l]*_spec.rb"
+    secrets: inherit
+
+  system-test-12:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "12"
+      include: "spec/system/**/r[m-z]*_spec.rb"
+    secrets: inherit
+
+  system-test-13:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "13"
+      include: "spec/system/**/s[a-g]*_spec.rb"
+    secrets: inherit
+
+  system-test-14:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "14"
+      include: "spec/system/**/s[h-z]*_spec.rb"
+    secrets: inherit
+
+  system-test-15:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "15"
+      include: "spec/system/**/[t-z]*_spec.rb"
     secrets: inherit
 
   cucumber:
