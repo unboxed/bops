@@ -84,6 +84,19 @@ RSpec.describe "assessment against legislation", type: :system do
     expect(page).to have_content("Part 1, Class G").once
   end
 
+  it "lets the user remove policy class" do
+    add_policy_classes(["Class D - porches"])
+    expect(page).to have_content("Part 1, Class D").once
+
+    click_link("Part 1, Class D")
+
+    accept_confirm do
+      click_button("Remove class from assessment")
+    end
+
+    expect(page).to have_content("Policy class has been removed.")
+  end
+
   it "displays the class title" do
     add_policy_classes(
       [
