@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  attr_reader :back_path
+
+  def back_link(classname: "govuk-button govuk-button--secondary")
+    link_to(t("back"), back_path, class: classname)
+  end
+
   def url_for_document(document)
     if document.published?
       api_v1_planning_application_document_url(document.planning_application, document)

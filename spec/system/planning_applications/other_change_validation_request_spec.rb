@@ -92,6 +92,12 @@ RSpec.describe "Requesting other changes to a planning application", type: :syst
 
     expect(page).to have_content("Summary can't be blank")
     expect(page).to have_content("Suggestion can't be blank")
+
+    click_link("Back")
+
+    expect(page).to have_current_path(
+      planning_application_validation_tasks_path(planning_application)
+    )
   end
 
   it "lists the current change requests and their statuses" do

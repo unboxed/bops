@@ -84,6 +84,7 @@ en:
         auto_closed_validation: 'Auto-closed: validation request (description#%{sequence})'
       red_line_boundary_change_validation_request_auto_closed:
         auto_closed_validation: 'Auto-closed: validation request (red line boundary#%{sequence})'
+  back: Back
   consistency_checklists:
     additional_document_validation_request:
       cancelled: Cancelled %{time}
@@ -273,7 +274,6 @@ en:
     comment_updated_on: Comment updated on %{updated_at} by %{user}
     complete: Complete
     form:
-      back: Back
       complies: Complies
       does_not_comply: Does not comply
       edit_assessment: Edit assessment
@@ -333,7 +333,6 @@ en:
   shared:
     administrator_layout:
       add_user: Add user
-      back: Back
       reviewer_group_email: Manager group email
       submit: Submit
     alert_banner:

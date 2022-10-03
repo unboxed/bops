@@ -60,10 +60,6 @@ module ValidationRequestHelper
     end
   end
 
-  def validation_requests_back_url(classname: nil)
-    link_to("Back", :back, class: classname)
-  end
-
   def document_url(document)
     link_to(document.name.to_s,
             edit_planning_application_document_path(document.planning_application, document.id))

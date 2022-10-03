@@ -12,6 +12,5 @@
   <% if allow_submit %>
     <%= form.govuk_submit submit_button_text(@planning_application, action_name) %>
   <% end %>
-
-  <%= validation_requests_back_url(classname: "govuk-button govuk-button--secondary") %>
+  <%= back_link %>
 </div>

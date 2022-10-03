@@ -24,7 +24,6 @@
   <div class="govuk-button-group">
     <%= form.submit "Save and mark as complete", class: "govuk-button", data: { module: "govuk-button" } %>
     <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
-
-    <%= link_to "Back", :back, class: "govuk-button govuk-button--secondary" %>
+    <%= back_link %>
   </div>
 <% end %>

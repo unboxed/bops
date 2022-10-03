@@ -23,7 +23,6 @@
 
   <div class="govuk-button-group">
     <%= form.submit "Confirm cancellation", class: "govuk-button", data: { module: "govuk-button" } %>
-
-    <%= validation_requests_back_url(classname: "govuk-button govuk-button--secondary") %>
+    <%= back_link %>
   </div>
 <% end %>
