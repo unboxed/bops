@@ -60,11 +60,7 @@
       rows: 5 %>
         <div class="govuk-button-group">
           <%= form.govuk_submit "Send" %>
-          <%= link_to(
-            "Back",
-            :back,
-            class: "govuk-button govuk-button--secondary"
-          ) %>
+          <%= back_link %>
         </div>
       <% end %>
     </div>

@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :set_current_user
   before_action :enforce_user_permissions
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :set_back_path
 
   attr_reader :current_local_authority
 
@@ -40,6 +41,11 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def set_back_path
+    session[:back_path] = request.referer if request.get?
+    @back_path = session[:back_path]
+  end
 
   def find_current_local_authority_from_subdomain
     unless @current_local_authority ||= LocalAuthority.find_by(subdomain: request.subdomains.first)

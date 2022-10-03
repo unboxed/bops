@@ -15,9 +15,9 @@
 
 <div class="govuk-button-group">
   <% if @planning_application.validated? %>
-    <%= validation_requests_back_url(classname: "govuk-button") %>
+    <%= back_link(classname: "govuk-button") %>
   <% else %>
     <%= link_to "Continue", planning_application_sitemap_path(@planning_application), class: "govuk-button" %>
-    <%= validation_requests_back_url(classname: "govuk-button govuk-button--secondary") %>
+    <%= back_link %>
   <% end %>
 </div>

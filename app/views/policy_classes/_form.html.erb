@@ -133,11 +133,7 @@
             disabled: planning_application.assessment_complete?
           ) %>
         <% end %>
-        <%= link_to(
-          t(".back"),
-          :back,
-          class: "govuk-button govuk-button--secondary"
-        ) %>
+        <%= back_link %>
         <% if !editable %>
           <%= link_to(
             t(".edit_assessment"),

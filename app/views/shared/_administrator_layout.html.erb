@@ -1,6 +1,6 @@
 <div class="govuk-width-container">
   <% if local_assigns.fetch(:back_button, true) %>
-    <%= link_to(t(".back"), :back, class: "govuk-back-link") %>
+    <%= back_link(classname: "govuk-back-link") %>
   <% end %>
   <main class="govuk-main-wrapper">
     <div class="govuk-grid-row">

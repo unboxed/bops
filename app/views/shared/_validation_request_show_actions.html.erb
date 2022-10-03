@@ -6,7 +6,7 @@
       <%= link_to "Continue", planning_application_fee_items_path(planning_application, validate_fee: "yes"), class: "govuk-button" %>
     <% end %>
   <% end %>
-  <%= validation_requests_back_url(classname: "govuk-button #{"govuk-button--secondary" if show_continue_link}") %>
+  <%= back_link(classname: "govuk-button #{"govuk-button--secondary" if show_continue_link}") %>
 
   <% if validation_request.open_or_pending? %>
     <% if planning_application.validation_complete? %>
