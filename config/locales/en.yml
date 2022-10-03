@@ -199,6 +199,8 @@ en:
   planning_applications:
     confirm_validation:
       validate_application: Validate application
+    submit_recommendation:
+      review_and_submit_recommendation: Review and submit recommendation
   policy_class_component:
     complies: Complies
     does_not_comply: Does not comply

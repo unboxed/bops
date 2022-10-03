@@ -4,8 +4,8 @@
 
 <% content_for :title, "Submit recommendation" %>
 
-<%= render "shared/assessment_dashboard" do %>
-  <h2 class="govuk-heading-m">Submit Recommendation</h2>
+<%= render layout: "shared/assessment_dashboard", locals: { heading: t(".review_and_submit_recommendation") } do %>
+  <h2 class="govuk-heading-m">Decision notice</h2>
   <p class="govuk-body">The following decision notice has been created based on your answers.</p>
   <%= render "decision_notice", planning_application: @planning_application %>
   <p class="govuk-body">
@@ -18,7 +18,19 @@
     </strong>
    If your manager disagrees with your recommendation they will send it back to you to make changes.
   </p>
-  <%= form_with model: @planning_application, url: submit_planning_application_path(@planning_application), local: true do |form| %>
-    <%= form.submit "Submit to manager", class: "govuk-button", data: { module: "govuk-button" } %>
-  <% end %>
+  <div class="govuk-button-group">
+    <%= form_with model: @planning_application, url: submit_planning_application_path(@planning_application), local: true do |form| %>
+      <%= form.submit "Submit recommendation", class: "govuk-button", data: { module: "govuk-button" } %>
+      <%= link_to(
+        "Edit recommendation",
+        new_planning_application_recommendation_path(@planning_application),
+       class: "govuk-button govuk-button--secondary"
+      ) %>
+      <%= link_to(
+        t(".back"),
+        planning_application_path(@planning_application),
+        class: "govuk-button govuk-button--secondary"
+      ) %>
+    <% end %>
+  </div>
 <% end %>

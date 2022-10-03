@@ -77,7 +77,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         expect(page).to have_content("not lawful")
         expect(page).to have_content("aggrieved")
 
-        click_button "Submit to manager"
+        click_button "Submit recommendation"
 
         expect(page).to have_content("Recommendation was successfully submitted.")
 
@@ -193,7 +193,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_button("Save and mark as complete")
 
       click_link("Submit recommendation")
-      click_button("Submit to manager")
+      click_button("Submit recommendation")
 
       expect(page).to have_content("Recommendation was successfully submitted.")
       expect(page).to have_current_path(planning_application_path(planning_application))
@@ -228,6 +228,46 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
     end
 
+    it "allows navigation to assess recommendation page" do
+      click_link("In assessment")
+
+      within(selected_govuk_tab) do
+        click_link(planning_application.reference)
+      end
+
+      click_link("Assess recommendation")
+
+      choose("Yes")
+      fill_in("State the reasons why this application is, or is not lawful.", with: "This is a public comment")
+      click_button("Save and mark as complete")
+
+      click_link("Submit recommendation")
+
+      click_link("Edit recommendation")
+
+      expect(page).to have_title("Assess recommendation")
+    end
+
+    it "allows navigation back to the planning application page" do
+      click_link("In assessment")
+
+      within(selected_govuk_tab) do
+        click_link(planning_application.reference)
+      end
+
+      click_link("Assess recommendation")
+
+      choose("Yes")
+      fill_in("State the reasons why this application is, or is not lawful.", with: "This is a public comment")
+      click_button("Save and mark as complete")
+
+      click_link("Submit recommendation")
+
+      click_link("Back")
+
+      expect(page).to have_title("Planning Application")
+    end
+
     context "when there are open post validation requests" do
       let!(:planning_application) { create(:in_assessment_planning_application, local_authority: default_local_authority) }
       let!(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, :post_validation, planning_application: planning_application) }
@@ -246,7 +286,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         click_button("Save and mark as complete")
 
         click_link("Submit recommendation")
-        click_button("Submit to manager")
+        click_button("Submit recommendation")
 
         within(".govuk-error-summary") do
           expect(page).to have_content("There is a problem")
@@ -283,7 +323,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       expect(page).to have_content("Recommendation was successfully withdrawn.")
       expect(page).to have_current_path(submit_recommendation_planning_application_path(planning_application))
-      expect(page).to have_button("Submit to manager")
+      expect(page).to have_button("Submit recommendation")
       expect(page).not_to have_button("Withdraw recommendation")
       expect(planning_application.reload.status).to eq("in_assessment")
 
@@ -424,7 +464,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
         click_button("Save and mark as complete")
         click_link("Submit recommendation")
-        click_button("Submit to manager")
+        click_button("Submit recommendation")
         sign_in(reviewer)
         visit(edit_planning_application_recommendations_path(planning_application))
         find("#recommendation_challenged_true").click

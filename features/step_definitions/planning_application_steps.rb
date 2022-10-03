@@ -94,7 +94,7 @@ Given("a recommendation is submitted for the planning application") do
     Given the planning application is validated
     And the planning application is assessed
     And I press "Submit recommendation"
-    And I press "Submit to manager"
+    And I press "Submit recommendation"
   )
 end
 

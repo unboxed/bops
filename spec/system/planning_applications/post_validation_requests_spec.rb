@@ -78,7 +78,7 @@ RSpec.describe "post validation requests", type: :system do
 
         click_button("Save and mark as complete")
         click_link("Submit recommendation")
-        click_button("Submit to manager")
+        click_button("Submit recommendation")
 
         expect(page).to have_content(
           "This application has open non-validation requests."
