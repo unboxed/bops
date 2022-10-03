@@ -5,7 +5,7 @@ require "faraday"
 module Apis
   module Paapi
     class Client
-      HOST = "https://staging.paapi.services/api/v1"
+      HOST = ENV.fetch("PAAPI_URL", "https://staging.paapi.services/api/v1").freeze
       TIMEOUT = 5
 
       def call(uprn)
