@@ -26,9 +26,18 @@ RSpec.describe "Summary of works", type: :system do
         click_link "Summary of works"
       end
 
+      within(".govuk-breadcrumbs__list") do
+        expect(page).to have_content("Summary")
+      end
+
+      expect(page).to have_current_path(
+        new_planning_application_assessment_detail_path(planning_application, category: "summary_of_work")
+      )
+
       expect(page).to have_content("Add summary of works")
       expect(page).to have_content(planning_application.reference)
       expect(page).to have_content(planning_application.full_address.upcase)
+      expect(page).to have_content("You can include:")
 
       within(".govuk-warning-text") do
         expect(page).to have_content("This information WILL be made public")
@@ -52,7 +61,7 @@ RSpec.describe "Summary of works", type: :system do
     it "I can save and come back later when adding or editing a summary of work" do
       click_link "Summary of works"
 
-      fill_in "summary_of_work[entry]", with: "A draft entry for the summary of works"
+      fill_in "assessment_detail[entry]", with: "A draft entry for the summary of works"
       click_button "Save and come back later"
 
       expect(page).to have_content("Summary of works was successfully created.")
@@ -65,6 +74,10 @@ RSpec.describe "Summary of works", type: :system do
       expect(page).to have_content("Edit summary of works")
       expect(page).to have_content("A draft entry for the summary of works")
 
+      within(".govuk-breadcrumbs__list") do
+        expect(page).to have_content("Edit summary of works")
+      end
+
       click_button "Save and come back later"
       expect(page).to have_content("Summary of works was successfully updated.")
 
@@ -76,7 +89,7 @@ RSpec.describe "Summary of works", type: :system do
     it "I can save and mark as complete when adding a summary of work" do
       click_link "Summary of works"
 
-      fill_in "summary_of_work[entry]", with: "A complete entry for the summary of works"
+      fill_in "assessment_detail[entry]", with: "A complete entry for the summary of works"
       click_button "Save and mark as complete"
 
       expect(page).to have_content("Summary of works was successfully created.")
@@ -91,7 +104,7 @@ RSpec.describe "Summary of works", type: :system do
 
       expect(page).to have_link(
         "Edit summary of work",
-        href: edit_planning_application_summary_of_work_path(planning_application, SummaryOfWork.last)
+        href: edit_planning_application_assessment_detail_path(planning_application, AssessmentDetail.summary_of_work.last)
       )
     end
   end
@@ -104,7 +117,7 @@ RSpec.describe "Summary of works", type: :system do
     it "does not allow me to visit the page" do
       expect(page).not_to have_link("Summary of works")
 
-      visit new_planning_application_summary_of_work_path(planning_application)
+      visit new_planning_application_assessment_detail_path(planning_application)
 
       expect(page).to have_content("forbidden")
     end

@@ -10,9 +10,9 @@ module AssessmentTasksPresenter
       ).task_list_row
     end
 
-    def summary_of_works_tasklist
-      AssessmentTasks::SummaryOfWorksPresenter.new(
-        @template, @planning_application
+    def assessment_detail_tasklist(category)
+      AssessmentTasks::AssessmentDetailPresenter.new(
+        @template, @planning_application, category
       ).task_list_row
     end
   end
