@@ -100,6 +100,6 @@ class PolicyClassesController < PlanningApplicationsController
   end
 
   def status
-    commit_matches?(/mark as complete/) ? :complete : :in_assessment
+    mark_as_complete? ? :complete : :in_assessment
   end
 end

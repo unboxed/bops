@@ -120,21 +120,17 @@
           <% end %>
         <% end %>
       </div>
-      <div class="govuk-button-group">
-        <% if editable %>
-          <%= form.submit(
-            t(".save_and_mark"),
-            class: "govuk-button",
+      <% if editable %>
+        <%= render(
+          partial: "shared/submit_buttons",
+          locals: {
+            form: form,
             disabled: planning_application.assessment_complete?
-          ) %>
-          <%= form.submit(
-            t(".save_and_come"),
-            class: "govuk-button govuk-button--secondary",
-            disabled: planning_application.assessment_complete?
-          ) %>
-        <% end %>
-        <%= back_link %>
-        <% if !editable %>
+          }
+        ) %>
+      <% else %>
+        <div class="govuk-button-group">
+          <%= back_link %>
           <%= link_to(
             t(".edit_assessment"),
             edit_planning_application_policy_class_path(
@@ -143,8 +139,8 @@
             ),
             class: "govuk-link"
           ) %>
-        <% end %>
-      </div>
+        </div>
+      <% end %>
     <% end %>
   </div>
 </div>

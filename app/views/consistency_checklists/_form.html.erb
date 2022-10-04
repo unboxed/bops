@@ -31,28 +31,16 @@
       consistency_checklist: consistency_checklist
     }
   ) %>
-  <div class="govuk-button-group">
-    <% if can_edit %>
-      <%= form.submit(
-        t(".save_and_mark"),
-        class: "govuk-button"
-      ) %>
-      <%= form.submit(
-        t(".save_and_come"),
-        class: "govuk-button govuk-button--secondary"
-      ) %>
-    <% end %>
-    <%= link_to(
-      t(".back"),
-      planning_application_assessment_tasks_path(planning_application),
-      class: "govuk-button govuk-button--secondary"
-    ) %>
-    <% unless can_edit %>
+  <% if can_edit %>
+    <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+  <% else %>
+    <div class="govuk-button-group">
+      <%= back_link %>
       <%= link_to(
         t(".edit_check_description"),
         edit_planning_application_consistency_checklist_path(planning_application),
         class: "govuk-link"
       ) %>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
 <% end %>
