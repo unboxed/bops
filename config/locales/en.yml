@@ -76,11 +76,17 @@ en:
     additional_evidence_successfully_created: Additional evidence was successfully created.
     additional_evidence_successfully_updated: Additional evidence was successfully updated.
     edit_additional_evidence: Edit additional evidence
+    edit_site_description: Edit site description
     edit_summary_of_work: Edit summary of works
     new_additional_evidence: Add detail of additional evidence
+    new_site_description: Create a description of the site
     new_summary_of_work: Create a summary of the works
     show_additional_evidence: Detail of additional evidence
+    show_site_description: Site description
     show_summary_of_work: Summary of works
+    site_description: Site description
+    site_description_successfully_created: Site description was successfully created.
+    site_description_successfully_updated: Site description was successfully updated.
     summary_of_work: Summary
     summary_of_work_successfully_created: Summary of works was successfully created.
     summary_of_work_successfully_updated: Summary of works was successfully updated.

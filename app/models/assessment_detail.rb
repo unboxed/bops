@@ -11,15 +11,22 @@ class AssessmentDetail < ApplicationRecord
 
   enum category: {
     summary_of_work: "summary_of_work",
-    additional_evidence: "additional_evidence"
+    additional_evidence: "additional_evidence",
+    site_description: "site_description"
   }
 
   validates :status, presence: true
-  validates :entry, presence: true, if: :summary_of_work?
+  validates :entry, presence: true, if: :validate_entry_presence?
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
 
   categories.each do |category|
     scope :"#{category}", -> { where(category: category) }
+  end
+
+  private
+
+  def validate_entry_presence?
+    summary_of_work? || site_description?
   end
 end

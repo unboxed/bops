@@ -7,6 +7,7 @@ class PolicyClassPresenter
 
   def initialize(policy_class)
     @policy_class = policy_class
+    @planning_application = policy_class.planning_application
   end
 
   def previous
@@ -27,5 +28,5 @@ class PolicyClassPresenter
 
   private
 
-  attr_reader :policy_class
+  attr_reader :policy_class, :planning_application
 end

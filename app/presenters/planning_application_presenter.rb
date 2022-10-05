@@ -3,11 +3,7 @@
 class PlanningApplicationPresenter
   include Presentable
 
-  attr_reader :template, :planning_application
-
   presents :planning_application
-
-  delegate :tag, :concat, :link_to, :truncate, :link_to_if, to: :template
 
   include StatusPresenter
   include ProposalDetailsPresenter

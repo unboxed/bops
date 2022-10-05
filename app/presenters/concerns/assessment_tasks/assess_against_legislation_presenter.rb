@@ -3,14 +3,15 @@
 module AssessmentTasks
   extend ActiveSupport::Concern
 
-  class AssessAgainstLegislationPresenter < PlanningApplicationPresenter
+  class AssessAgainstLegislationPresenter
+    include Presentable
     include PolicyReferencesHelper
 
     attr_reader :policy_class
 
     def initialize(template, planning_application, policy_class)
-      super(template, planning_application)
-
+      @planning_application = planning_application
+      @template = template
       @policy_class = PolicyClassPresenter.new(policy_class)
     end
 

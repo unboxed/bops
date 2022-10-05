@@ -4,6 +4,9 @@ module Presentable
   extend ActiveSupport::Concern
   include Rails.application.routes.url_helpers
 
+  attr_reader :template, :planning_application
+
+  delegate :tag, :concat, :link_to, :truncate, :link_to_if, to: :template
   delegate :to_param, to: :presented
 
   class_methods do

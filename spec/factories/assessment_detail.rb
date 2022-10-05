@@ -20,5 +20,9 @@ FactoryBot.define do
     trait :additional_evidence do
       category { "additional_evidence" }
     end
+
+    trait :site_description do
+      category { "site_description" }
+    end
   end
 end
