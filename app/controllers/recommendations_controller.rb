@@ -87,7 +87,7 @@ class RecommendationsController < AuthenticationController
     params
       .require(:recommendation_form)
       .permit(:decision, :public_comment, :assessor_comment)
-      .merge(assessor: current_user, save_progress: commit_matches?(/save/))
+      .merge(assessor: current_user, save_progress: save_progress?)
   end
 
   def render_failed_edit(error)

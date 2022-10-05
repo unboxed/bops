@@ -65,22 +65,13 @@
       hint: { text: t(".this_information_will_not") },
       rows: 9
     ) %>
-    <div class="govuk-button-group">
-      <% if @planning_application.assessment_submitted? %>
+    <% if @planning_application.assessment_submitted? %>
+      <div class="govuk-button-group">
         <%= form.govuk_submit(t(".update_assessment")) %>
-      <% else %>
-        <%= form.govuk_submit(t(".save_and_mark")) %>
-        <%= form.submit(
-          t(".save_and_come"),
-          class: "govuk-button govuk-button--secondary",
-          data: { module: "govuk-button" }
-        ) %>
-      <% end %>
-      <%= link_to(
-        t(".back"),
-        planning_application_path(@planning_application),
-        class: "govuk-button govuk-button--secondary"
-      ) %>
-    </div>
+        <%= back_link %>
+      </div>
+    <% else %>
+      <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+    <% end %>
   <% end %>
 <% end %>

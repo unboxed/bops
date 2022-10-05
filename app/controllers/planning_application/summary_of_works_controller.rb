@@ -2,6 +2,8 @@
 
 class PlanningApplication
   class SummaryOfWorksController < AuthenticationController
+    include CommitMatchable
+
     before_action :set_planning_application
     before_action :ensure_planning_application_is_validated
     before_action :set_summary_of_work, only: %i[show edit update]
@@ -83,10 +85,6 @@ class PlanningApplication
 
     def summary_of_works_params
       params.require(:summary_of_work).permit(:entry)
-    end
-
-    def save_progress?
-      params[:commit] == I18n.t("form_actions.save_and_come_back_later")
     end
 
     def status

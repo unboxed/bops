@@ -20,10 +20,5 @@
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
   <%= form.govuk_text_area :entry, label: nil, rows: 10 %>
-
-  <div class="govuk-button-group">
-    <%= form.submit "Save and mark as complete", class: "govuk-button", data: { module: "govuk-button" } %>
-    <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
-    <%= back_link %>
-  </div>
+  <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
 <% end %>
