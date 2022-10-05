@@ -13,9 +13,18 @@ class Recommendation < ApplicationRecord
   scope :reviewed, -> { where.not(reviewer_id: nil) }
   scope :submitted, -> { where(submitted: true) }
 
-  validate :reviewer_comment_is_present?
+  validate :reviewer_comment_is_present?, if: :review_complete?
 
   delegate :audits, to: :planning_application
+
+  enum(
+    status: {
+      assessment_in_progress: 0,
+      assessment_complete: 1,
+      review_in_progress: 2,
+      review_complete: 3
+    }
+  )
 
   def current_recommendation?
     planning_application.recommendations.last == self

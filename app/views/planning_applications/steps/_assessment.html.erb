@@ -14,10 +14,12 @@
         class: "govuk-link"
       ) %>
     </span>
-    <% if @planning_application.assessment_complete? %>
-      <%= tag.strong "Completed", id: "validation-completed", class: "govuk-tag app-task-list__task-tag" %>
-    <% elsif @planning_application.assessment_in_progress? %>
-      <%= tag.strong "In progress", id: "assessment-in-progress", class: "govuk-tag app-task-list__task-tag" %>
+    <% if @planning_application.can_assess? && @planning_application.recommendation.blank? %>
+      <%= not_started_tag %>
+    <% elsif @planning_application.recommendation_assessment_in_progress? %>
+      <%= in_progress_tag %>
+    <% elsif @planning_application.recommendation.present? && !@planning_application.recommendation.challenged %>
+      <%= complete_tag %>
     <% end %>
   </li>
   <li class="app-task-list__item">

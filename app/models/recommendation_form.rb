@@ -3,15 +3,17 @@
 class RecommendationForm
   include ActiveModel::Model
 
-  attr_accessor :recommendation, :save_progress
+  attr_accessor :recommendation
 
   validates :decision, :public_comment, presence: true
 
   delegate(
     :planning_application,
     :assessor_comment,
+    :assessment_in_progress?,
     "assessor_comment=",
     "assessor=",
+    "status=",
     to: :recommendation
   )
 
@@ -24,10 +26,10 @@ class RecommendationForm
   )
 
   def save
-    return false unless save_progress || valid?
+    return false unless assessment_in_progress? || valid?
 
     ActiveRecord::Base.transaction do
-      if save_progress
+      if assessment_in_progress?
         planning_application.save_assessment
         recommendation.save(validate: false)
       else

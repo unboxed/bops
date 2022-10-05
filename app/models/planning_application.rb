@@ -24,7 +24,13 @@ class PlanningApplication < ApplicationRecord
   with_options dependent: :destroy do
     has_many :audits, -> { by_created_at }, inverse_of: :planning_application
     has_many :documents, -> { with_file_attachment.by_created_at }, inverse_of: :planning_application
-    has_many :recommendations
+
+    has_many(
+      :recommendations,
+      -> { order :created_at },
+      inverse_of: :planning_application
+    )
+
     has_many :description_change_validation_requests
     has_many :replacement_document_validation_requests
     has_many :other_change_validation_requests
@@ -444,6 +450,14 @@ class PlanningApplication < ApplicationRecord
 
   def planning_history_enabled?
     ENV.fetch("PLANNING_HISTORY_ENABLED", "false") == "true"
+  end
+
+  Recommendation.statuses.each_key do |status|
+    delegate("#{status}?", to: :recommendation, prefix: true, allow_nil: true)
+  end
+
+  def recommendation
+    @recommendation ||= recommendations.last
   end
 
   private

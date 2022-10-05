@@ -76,4 +76,22 @@ module ApplicationHelper
       planning_application_consistency_checklist_path
     end
   end
+
+  def not_started_tag
+    tag.strong(
+      t("not_started"),
+      class: "govuk-tag govuk-tag--grey app-task-list__task-tag"
+    )
+  end
+
+  def in_progress_tag
+    tag.strong(t("in_progress"), class: "govuk-tag app-task-list__task-tag")
+  end
+
+  def complete_tag
+    tag.strong(
+      t("complete"),
+      class: "govuk-tag govuk-tag--blue app-task-list__task-tag"
+    )
+  end
 end

@@ -15,6 +15,71 @@ RSpec.describe Recommendation, type: :model do
     end
   end
 
+  describe "#valid?" do
+    let(:recommendation) do
+      build(
+        :recommendation,
+        :with_planning_application,
+        status: status,
+        challenged: challenged,
+        reviewer_comment: reviewer_comment
+      )
+    end
+
+    context "when status is 'review_complete'" do
+      let(:status) { :review_complete }
+
+      context "when challenged is true" do
+        let(:challenged) { true }
+
+        context "when reviewer comment is blank" do
+          let(:reviewer_comment) { nil }
+
+          it "returns false" do
+            expect(recommendation.valid?).to eq(false)
+          end
+
+          it "sets error message" do
+            recommendation.valid?
+
+            expect(
+              recommendation.errors.messages[:base]
+            ).to contain_exactly(
+              "Please include a comment for the case officer to indicate why the recommendation has been challenged."
+            )
+          end
+        end
+
+        context "when reviewer comment is present" do
+          let(:reviewer_comment) { "qwerty" }
+
+          it "returns true" do
+            expect(recommendation.valid?).to eq(true)
+          end
+        end
+      end
+
+      context "when challenged is false and reviewer comment is blank" do
+        let(:challenged) { false }
+        let(:reviewer_comment) { nil }
+
+        it "returns true" do
+          expect(recommendation.valid?).to eq(true)
+        end
+      end
+    end
+
+    context "when status is not 'review_complete', challenged is true and reviewer comment is blank" do
+      let(:status) { :review_in_progress }
+      let(:challenged) { true }
+      let(:reviewer_comment) { nil }
+
+      it "returns true" do
+        expect(recommendation.valid?).to eq(true)
+      end
+    end
+  end
+
   describe "instance methods" do
     let!(:reviewer) { create :user, :reviewer, local_authority: default_local_authority }
     let!(:planning_application) { create(:planning_application, :awaiting_determination, decision: "granted") }
@@ -65,7 +130,10 @@ RSpec.describe Recommendation, type: :model do
 
       context "when there is an ActiveRecord::ActiveRecordError" do
         it "raises a Recommendation::ReviewRecommendationError" do
-          recommendation.assign_attributes(challenged: true)
+          recommendation.assign_attributes(
+            challenged: true,
+            status: :review_complete
+          )
 
           expect { recommendation.review! }
             .to raise_error(Recommendation::ReviewRecommendationError, "Validation failed: Please include a comment for the case officer to indicate why the recommendation has been challenged.")

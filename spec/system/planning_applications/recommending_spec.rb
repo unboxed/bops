@@ -20,6 +20,15 @@ RSpec.describe "Planning Application Assessment", type: :system do
     )
   end
 
+  let(:reviewer) do
+    create(
+      :user,
+      :reviewer,
+      local_authority: default_local_authority,
+      name: "Bella Brook"
+    )
+  end
+
   let!(:planning_application) do
     create(
       :planning_application,
@@ -434,15 +443,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     context "when assessor submits recommendation and reviewer requests changes" do
-      let(:reviewer) do
-        create(
-          :user,
-          :reviewer,
-          local_authority: default_local_authority,
-          name: "Bella Brook"
-        )
-      end
-
       it "displays recommendation events" do
         travel_to(Time.zone.local(2022, 8, 23, 9))
 
@@ -469,7 +469,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         visit(edit_planning_application_recommendations_path(planning_application))
         find("#recommendation_challenged_true").click
         fill_in("Review comment", with: "Requirements not met.")
-        click_button("Save")
+        click_button("Save and mark as complete")
         click_link("Assess recommendation")
 
         events = find_all(".recommendation-event")
@@ -537,5 +537,112 @@ RSpec.describe "Planning Application Assessment", type: :system do
         end
       end
     end
+  end
+
+  it "shows the correct status tags at each stage" do
+    visit(planning_application_path(planning_application))
+
+    expect(assess_list_item).to have_content("Not started")
+
+    click_link("Assess recommendation")
+    choose("Yes")
+
+    fill_in(
+      "State the reasons why this application is, or is not lawful.",
+      with: "Application valid."
+    )
+
+    fill_in(
+      "Please provide supporting information for your manager.",
+      with: "Requirements met."
+    )
+
+    click_button("Save and come back later")
+
+    expect(assess_list_item).to have_content("In progress")
+
+    click_link("Assess recommendation")
+    click_button("Save and mark as complete")
+
+    expect(assess_list_item).to have_content("Complete")
+
+    ["Not started", "In progress", "Complete"].each do |status|
+      expect(review_list_item).not_to have_content(status)
+    end
+
+    click_link("Submit recommendation")
+    click_button("Submit recommendation")
+
+    expect(view_list_item).to have_content("Awaiting determination")
+
+    sign_in(reviewer)
+    visit(planning_application_path(planning_application))
+
+    expect(review_list_item).to have_content("Not started")
+
+    click_link("Review assessment")
+    choose("recommendation_challenged_true")
+    fill_in("Review comment", with: "Application invalid")
+    click_button("Save and come back later")
+
+    expect(review_list_item).to have_content("In progress")
+
+    click_link("Review assessment")
+    click_button("Save and mark as complete")
+
+    expect(review_list_item).to have_content("Complete")
+
+    ["Not started", "In progress", "Complete"].each do |status|
+      expect(assess_list_item).not_to have_content(status)
+    end
+
+    sign_in(assessor)
+    visit(planning_application_path(planning_application))
+
+    click_link("Assess recommendation")
+
+    fill_in(
+      "State the reasons why this application is, or is not lawful.",
+      with: "Amended reason."
+    )
+
+    click_button("Update")
+
+    expect(assess_list_item).to have_content("Complete")
+
+    click_link("Submit recommendation")
+    click_button("Submit recommendation")
+
+    expect(view_list_item).to have_content("Awaiting determination")
+
+    sign_in(reviewer)
+    visit(planning_application_path(planning_application))
+
+    expect(review_list_item).to have_content("Not started")
+
+    click_link("Review assessment")
+    choose("recommendation_challenged_false")
+    fill_in("Review comment", with: "Application valid")
+    click_button("Save and mark as complete")
+
+    expect(assess_list_item).to have_content("Complete")
+    expect(review_list_item).to have_content("Complete")
+
+    sign_in(assessor)
+    visit(planning_application_path(planning_application))
+
+    expect(view_list_item).to have_content("Complete")
+  end
+
+  def assess_list_item
+    find("li", text: "Assess recommendation")
+  end
+
+  def review_list_item
+    find("li", text: "Review assessment")
+  end
+
+  def view_list_item
+    find("li", text: "View recommendation")
   end
 end

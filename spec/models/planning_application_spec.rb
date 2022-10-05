@@ -924,4 +924,148 @@ RSpec.describe PlanningApplication, type: :model do
       end
     end
   end
+
+  describe "#recommendation_assessment_in_progress?" do
+    let(:planning_application) { create(:planning_application) }
+
+    let!(:recommendation) do
+      create(
+        :recommendation,
+        planning_application: planning_application,
+        status: status
+      )
+    end
+
+    context "recommendation has status of 'assessment_in_progress'" do
+      let(:status) { :assessment_in_progress }
+
+      it "returns true" do
+        expect(
+          planning_application.recommendation_assessment_in_progress?
+        ).to eq(
+          true
+        )
+      end
+    end
+
+    context "recommendation does not have status of 'assessment_in_progress'" do
+      let(:status) { :assessment_complete }
+
+      it "returns false" do
+        expect(
+          planning_application.recommendation_assessment_in_progress?
+        ).to eq(
+          false
+        )
+      end
+    end
+  end
+
+  describe "#recommendation_assessment_complete?" do
+    let(:planning_application) { create(:planning_application) }
+
+    let!(:recommendation) do
+      create(
+        :recommendation,
+        planning_application: planning_application,
+        status: status
+      )
+    end
+
+    context "recommendation has status of 'assessment_complete'" do
+      let(:status) { :assessment_complete }
+
+      it "returns true" do
+        expect(
+          planning_application.recommendation_assessment_complete?
+        ).to eq(
+          true
+        )
+      end
+    end
+
+    context "recommendation does not have status of 'assessment_complete'" do
+      let(:status) { :assessment_in_progress }
+
+      it "returns false" do
+        expect(
+          planning_application.recommendation_assessment_complete?
+        ).to eq(
+          false
+        )
+      end
+    end
+  end
+
+  describe "#recommendation_review_in_progress?" do
+    let(:planning_application) { create(:planning_application) }
+
+    let!(:recommendation) do
+      create(
+        :recommendation,
+        planning_application: planning_application,
+        status: status
+      )
+    end
+
+    context "recommendation has status of 'review_in_progress'" do
+      let(:status) { :review_in_progress }
+
+      it "returns true" do
+        expect(
+          planning_application.recommendation_review_in_progress?
+        ).to eq(
+          true
+        )
+      end
+    end
+
+    context "recommendation does not have status of 'review_in_progress'" do
+      let(:status) { :assessment_complete }
+
+      it "returns false" do
+        expect(
+          planning_application.recommendation_review_in_progress?
+        ).to eq(
+          false
+        )
+      end
+    end
+  end
+
+  describe "#recommendation_review_complete?" do
+    let(:planning_application) { create(:planning_application) }
+
+    let!(:recommendation) do
+      create(
+        :recommendation,
+        planning_application: planning_application,
+        status: status
+      )
+    end
+
+    context "recommendation has status of 'review_complete'" do
+      let(:status) { :review_complete }
+
+      it "returns true" do
+        expect(
+          planning_application.recommendation_review_complete?
+        ).to eq(
+          true
+        )
+      end
+    end
+
+    context "recommendation does not have status of 'review_complete'" do
+      let(:status) { :assessment_complete }
+
+      it "returns false" do
+        expect(
+          planning_application.recommendation_review_complete?
+        ).to eq(
+          false
+        )
+      end
+    end
+  end
 end

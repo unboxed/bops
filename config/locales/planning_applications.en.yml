@@ -21,6 +21,8 @@ en:
       assessment:
         assess_recommendation: Assess recommendation
         check_and_assess: Check and assess
+      review:
+        awaiting_determination: Awaiting determination
       validation:
         check_and_validate: Check and validate
     tabs:
