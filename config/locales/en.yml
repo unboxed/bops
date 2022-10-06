@@ -75,10 +75,13 @@ en:
     additional_evidence: Additional evidence
     additional_evidence_successfully_created: Additional evidence was successfully created.
     additional_evidence_successfully_updated: Additional evidence was successfully updated.
+    completed: Complete
     edit_additional_evidence: Edit additional evidence
     edit_summary_of_work: Edit summary of works
+    in_progress: In progress
     new_additional_evidence: Add detail of additional evidence
     new_summary_of_work: Create a summary of the works
+    not_started: Not started
     show_additional_evidence: Detail of additional evidence
     show_summary_of_work: Summary of works
     summary_of_work: Summary
