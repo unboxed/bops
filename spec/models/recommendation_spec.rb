@@ -164,4 +164,43 @@ RSpec.describe Recommendation, type: :model do
       end
     end
   end
+
+  describe "#submitted_and_unchallenged?" do
+    let(:recommendation) do
+      build(
+        :recommendation,
+        submitted: submitted,
+        challenged: challenged
+      )
+    end
+
+    context "when recommendation is not submitted" do
+      let(:submitted) { false }
+      let(:challenged) { false }
+
+      it "returns false" do
+        expect(recommendation.submitted_and_unchallenged?).to eq(false)
+      end
+    end
+
+    context "when recommendation is submitted" do
+      let(:submitted) { true }
+
+      context "when recommendation is not challenged" do
+        let(:challenged) { false }
+
+        it "returns true" do
+          expect(recommendation.submitted_and_unchallenged?).to eq(true)
+        end
+      end
+
+      context "when recommendation is challenged" do
+        let(:challenged) { true }
+
+        it "returns true" do
+          expect(recommendation.submitted_and_unchallenged?).to eq(false)
+        end
+      end
+    end
+  end
 end

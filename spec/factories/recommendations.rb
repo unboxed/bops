@@ -19,6 +19,7 @@ FactoryBot.define do
     reviewer { association :user, :reviewer }
     reviewer_comment { "Reviewer Comment" }
     reviewed_at { Time.zone.now }
+    status { :review_complete }
   end
 
   trait :with_planning_application do

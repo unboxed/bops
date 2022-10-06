@@ -24,11 +24,12 @@ RSpec.describe "checking consistency", type: :system do
 
   before do
     sign_in(user)
-    visit(planning_application_assessment_tasks_path(planning_application))
+    visit(planning_application_path(planning_application))
   end
 
   it "lets user save draft or mark as complete" do
-    expect(task_list_item).to have_content("Not started")
+    expect(list_item("Check and assess")).to have_content("Not started")
+    click_link("Check and assess")
     click_link("Description, documents and proposal details")
     click_button("Save and mark as complete")
 
@@ -106,10 +107,15 @@ RSpec.describe "checking consistency", type: :system do
 
     expect(page).to have_content("How are the proposal details inconsistent?")
     expect(page).to have_content("Reason for inconsistencty")
+
+    click_link("Application")
+
+    expect(list_item("Check and assess")).to have_content("In progress")
   end
 
   it "lets the user request a description change" do
     travel_to(Time.zone.local(2022, 9, 15, 12))
+    click_link("Check and assess")
     click_link("Description, documents and proposal details")
 
     form_group1 = form_group_with_legend(
@@ -215,6 +221,7 @@ RSpec.describe "checking consistency", type: :system do
 
   it "lets the user request an additional document" do
     travel_to(Time.zone.local(2022, 9, 15, 12))
+    click_link("Check and assess")
     click_link("Description, documents and proposal details")
 
     form_group1 = form_group_with_legend(
@@ -278,6 +285,7 @@ RSpec.describe "checking consistency", type: :system do
     end
 
     it "lets the user navigate to the document" do
+      click_link("Check and assess")
       click_link("Description, documents and proposal details")
       click_link("View new document")
       expect(page).to have_content("File name: proposed-floorplan.png")
