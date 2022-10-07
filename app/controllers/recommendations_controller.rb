@@ -47,7 +47,7 @@ class RecommendationsController < AuthenticationController
       if @recommendation.review_complete?
         @recommendation.review!
       else
-        @recommendation.save!
+        render :edit and return unless @recommendation.save
       end
 
       format.html do
