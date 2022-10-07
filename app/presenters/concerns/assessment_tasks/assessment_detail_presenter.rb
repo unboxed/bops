@@ -3,10 +3,12 @@
 module AssessmentTasks
   extend ActiveSupport::Concern
 
-  class AssessmentDetailPresenter < PlanningApplicationPresenter
-    def initialize(template, planning_application, category)
-      super(template, planning_application)
+  class AssessmentDetailPresenter
+    include Presentable
 
+    def initialize(template, planning_application, category)
+      @planning_application = planning_application
+      @template = template
       @assessment_detail = planning_application.assessment_details.send(category).first
       @status = assessment_detail&.status || "not_started"
       @category = category

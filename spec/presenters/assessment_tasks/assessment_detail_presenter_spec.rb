@@ -149,4 +149,74 @@ RSpec.describe AssessmentTasks::AssessmentDetailPresenter, type: :presenter do
       end
     end
   end
+
+  context "when site description" do
+    let(:category) { "site_description" }
+
+    describe "#task_list_row" do
+      context "when not started" do
+        it "the task list row shows invalid status html" do
+          html = presenter.task_list_row
+
+          expect(html).to include("app-task-list__task-name")
+
+          expect(html).to include(
+            link_to(
+              "Site description",
+              new_planning_application_assessment_detail_path(planning_application, category: "site_description"),
+              class: "govuk-link"
+            )
+          )
+
+          expect(html).to include(
+            "<strong class=\"govuk-tag govuk-tag--grey app-task-list__task-tag\">Not started</strong>"
+          )
+        end
+      end
+
+      context "when completed" do
+        let!(:site_description) { create(:assessment_detail, :site_description, planning_application: planning_application) }
+
+        it "the task list row shows invalid status html" do
+          html = presenter.task_list_row
+
+          expect(html).to include("app-task-list__task-name")
+
+          expect(html).to include(
+            link_to(
+              "Site description",
+              planning_application_assessment_detail_path(planning_application, site_description),
+              class: "govuk-link"
+            )
+          )
+
+          expect(html).to include(
+            "<strong class=\"govuk-tag govuk-tag--blue app-task-list__task-tag\">Completed</strong>"
+          )
+        end
+      end
+
+      context "when in progress" do
+        let!(:site_description) { create(:assessment_detail, :site_description, :in_progress, planning_application: planning_application) }
+
+        it "the task list row shows invalid status html" do
+          html = presenter.task_list_row
+
+          expect(html).to include("app-task-list__task-name")
+
+          expect(html).to include(
+            link_to(
+              "Site description",
+              edit_planning_application_assessment_detail_path(planning_application, site_description),
+              class: "govuk-link"
+            )
+          )
+
+          expect(html).to include(
+            "<strong class=\"govuk-tag app-task-list__task-tag\">In progress</strong>"
+          )
+        end
+      end
+    end
+  end
 end

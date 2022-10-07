@@ -1,0 +1,22 @@
+<div class="govuk-body">
+  <% unless action_name == "show" %>
+    <p><strong>Create a desciption of the site</strong></p>
+  <% else %>
+    <p><strong>Description of the site</strong></p>
+  <% end %>
+
+  <%= render "shared/warning_text",
+      message: "This information WILL be made public" %>
+
+  <% unless action_name == "show" %>
+    <p>You can include:</p>
+    <ul>
+      <li>
+        Describe buildings already on the site
+      </li>
+      <li>Relationships to neighbouring buildings</li>
+      <li>Relevant constraints, such as trees or classified roads</li>
+      <li>Main uses of land in the surrounding area</li>
+    </ul>
+  <% end %>
+</div>
