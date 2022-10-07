@@ -65,11 +65,7 @@
         <%= form.label :reviewer_comment, class: "govuk-label" %>
         <%= form.text_area :reviewer_comment, class: "govuk-textarea", rows: "5" %>
       </div>
-
-      <div class="govuk-button-group">
-        <%= form.govuk_submit "Save" %>
-        <%= back_link %>
-      </div>
+      <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
     <% end %>
   <% end %>
 <% end %>

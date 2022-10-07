@@ -51,7 +51,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
     find("#recommendation_challenged_false").click
     fill_in "Review comment", with: "Reviewer private comment"
-    click_button "Save"
+    click_button "Save and mark as complete"
     click_link "Publish determination"
     click_button "Determine application"
 
@@ -77,7 +77,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     click_link "Review assessment"
     find("#recommendation_challenged_true").click
     fill_in "Review comment", with: "Reviewer private comment"
-    click_button "Save"
+    click_button "Save and mark as complete"
     expect(page).not_to have_link("Publish determination")
 
     planning_application.reload
@@ -108,7 +108,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
   it "cannot be rejected without a review comment" do
     click_link "Review assessment"
     find("#recommendation_challenged_true").click
-    click_button "Save"
+    click_button "Save and mark as complete"
 
     find_all(".govuk-error-summary").each do |error|
       within(error) do
@@ -120,7 +120,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
   it "can be accepted without a review comment" do
     click_link "Review assessment"
     find("#recommendation_challenged_false").click
-    click_button "Save"
+    click_button "Save and mark as complete"
     click_link "Publish determination"
     click_button "Determine application"
 
@@ -144,7 +144,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
     find("#recommendation_challenged_true").click
     fill_in "Review comment", with: "Edited reviewer private comment"
-    click_button "Save"
+    click_button "Save and mark as complete"
 
     recommendation.reload
     expect(recommendation.reviewer_comment).to eq("Edited reviewer private comment")

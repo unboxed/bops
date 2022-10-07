@@ -98,6 +98,7 @@ en:
       red_line_boundary_change_validation_request_auto_closed:
         auto_closed_validation: 'Auto-closed: validation request (red line boundary#%{sequence})'
   back: Back
+  complete: Complete
   consistency_checklists:
     additional_document_validation_request:
       cancelled: Cancelled %{time}
@@ -225,6 +226,7 @@ en:
         valid_fee: Is the fee valid?
         valid_red_line_boundary: Is this red line boundary valid?
         validated_at: Valid from
+  in_progress: In progress
   local_authorities:
     edit:
       edit_local_authority: Edit council information
@@ -233,6 +235,7 @@ en:
       edit: Edit
       local_authority: Council information
       reviewer_group_email: Manager group email
+  not_started: Not started
   other_change_validation_requests:
     form:
       labels:

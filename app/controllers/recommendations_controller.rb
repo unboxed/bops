@@ -43,7 +43,12 @@ class RecommendationsController < AuthenticationController
   def update
     respond_to do |format|
       @recommendation.assign_attributes(recommendation_params)
-      @recommendation.review!
+
+      if @recommendation.review_complete?
+        @recommendation.review!
+      else
+        @recommendation.save!
+      end
 
       format.html do
         redirect_to @planning_application, notice: "Recommendation was successfully reviewed."
@@ -80,14 +85,25 @@ class RecommendationsController < AuthenticationController
   end
 
   def recommendation_params
-    params.require(:recommendation).permit(:reviewer_comment, :challenged)
+    params
+      .require(:recommendation)
+      .permit(:reviewer_comment, :challenged)
+      .merge(status: recommendation_status)
+  end
+
+  def recommendation_status
+    save_progress? ? :review_in_progress : :review_complete
   end
 
   def recommendation_form_params
     params
       .require(:recommendation_form)
       .permit(:decision, :public_comment, :assessor_comment)
-      .merge(assessor: current_user, save_progress: save_progress?)
+      .merge(assessor: current_user, status: recommendation_form_status)
+  end
+
+  def recommendation_form_status
+    save_progress? ? :assessment_in_progress : :assessment_complete
   end
 
   def render_failed_edit(error)

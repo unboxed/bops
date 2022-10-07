@@ -11,10 +11,17 @@
           Review assessment
         <% end %>
       </span>
-      <% if @planning_application.review_assessment_complete? %>
-        <%= tag.strong "Completed", id: "review_assessment-completed", class: "govuk-tag app-task-list__task-tag" %>
-      <% elsif @planning_application.awaiting_determination? && current_user.assessor? %>
-        <%= tag.strong "Awaiting determination", id: "review_assessment-waiting", class: "govuk-tag app-task-list__task-tag govuk-tag--grey" %>
+      <% if @planning_application.recommendation_review_complete? %>
+        <%= complete_tag %>
+      <% elsif current_user.reviewer? && @planning_application.recommendation_review_in_progress? %>
+        <%= in_progress_tag %>
+      <% elsif current_user.reviewer? && @planning_application.awaiting_determination? %>
+        <%= not_started_tag %>
+      <% elsif current_user.assessor? && @planning_application.awaiting_determination? %>
+        <%= tag.strong(
+          t(".awaiting_determination"),
+          class: "govuk-tag app-task-list__task-tag"
+        ) %>
       <% end %>
     </li>
     <li class="app-task-list__item">

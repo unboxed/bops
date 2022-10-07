@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_28_141056) do
+ActiveRecord::Schema.define(version: 2022_10_04_110545) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -335,6 +335,7 @@ ActiveRecord::Schema.define(version: 2022_09_28_141056) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "challenged"
     t.boolean "submitted"
+    t.integer "status", default: 0, null: false
     t.index ["assessor_id"], name: "index_recommendations_on_assessor_id"
     t.index ["planning_application_id"], name: "index_recommendations_on_planning_application_id"
     t.index ["reviewer_id"], name: "index_recommendations_on_reviewer_id"

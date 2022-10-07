@@ -24,4 +24,20 @@ FactoryBot.define do
   trait :with_planning_application do
     planning_application
   end
+
+  trait :assessment_in_progress do
+    status { :assessment_in_progress }
+  end
+
+  trait :assessment_complete do
+    status { :assessment_complete }
+  end
+
+  trait :review_in_progress do
+    status { :review_in_progress }
+  end
+
+  trait :review_complete do
+    status { :review_complete }
+  end
 end

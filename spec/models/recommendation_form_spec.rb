@@ -15,7 +15,7 @@ RSpec.describe RecommendationForm do
     let(:recommendation) { planning_application.recommendations.build }
     let(:assessor) { create(:user, :assessor) }
 
-    context "when save_progress is false" do
+    context "when status is 'assessment_complete'" do
       let(:planning_application) do
         create(
           :planning_application,
@@ -33,7 +33,7 @@ RSpec.describe RecommendationForm do
           public_comment: "GDPO compliant",
           assessor_comment: "LGTM",
           assessor: assessor,
-          save_progress: false
+          status: :assessment_complete
         )
       end
 
@@ -66,7 +66,8 @@ RSpec.describe RecommendationForm do
             decision: :granted,
             public_comment: nil,
             assessor_comment: "LGTM",
-            assessor: assessor
+            assessor: assessor,
+            status: :assessment_complete
           )
         end
 
@@ -107,7 +108,8 @@ RSpec.describe RecommendationForm do
             decision: nil,
             public_comment: "GDPO compliant",
             assessor_comment: "LGTM",
-            assessor: assessor
+            assessor: assessor,
+            status: :assessment_complete
           )
         end
 
@@ -141,7 +143,7 @@ RSpec.describe RecommendationForm do
       end
     end
 
-    context "when save_progress is true" do
+    context "when status is 'assessment_in_progress'" do
       let(:planning_application) do
         create(
           :planning_application,
@@ -159,7 +161,7 @@ RSpec.describe RecommendationForm do
           public_comment: "GDPO compliant",
           assessor_comment: "LGTM",
           assessor: assessor,
-          save_progress: true
+          status: :assessment_in_progress
         )
       end
 
@@ -193,7 +195,7 @@ RSpec.describe RecommendationForm do
             public_comment: nil,
             assessor_comment: "LGTM",
             assessor: assessor,
-            save_progress: true
+            status: :assessment_in_progress
           )
         end
 
@@ -224,7 +226,7 @@ RSpec.describe RecommendationForm do
             public_comment: "GDPO compliant",
             assessor_comment: "LGTM",
             assessor: assessor,
-            save_progress: true
+            status: :assessment_in_progress
           )
         end
 
