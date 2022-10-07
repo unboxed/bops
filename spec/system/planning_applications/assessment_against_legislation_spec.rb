@@ -34,10 +34,10 @@ RSpec.describe "assessment against legislation", type: :system do
   before do
     sign_in(assessor)
     visit planning_application_path(planning_application)
-    click_link("Check and assess")
   end
 
   it "warns the user about unsaved changes" do
+    click_link("Check and assess")
     click_link("Add assessment area")
     click_link("Back")
     click_link("Add assessment area")
@@ -67,6 +67,7 @@ RSpec.describe "assessment against legislation", type: :system do
   end
 
   it "lets the user add policy classes once only" do
+    click_link("Check and assess")
     add_policy_classes(["Class D - porches"])
 
     expect(page).to have_content("Part 1, Class D").once
@@ -85,6 +86,7 @@ RSpec.describe "assessment against legislation", type: :system do
   end
 
   it "lets the user remove policy class" do
+    click_link("Check and assess")
     add_policy_classes(["Class D - porches"])
     expect(page).to have_content("Part 1, Class D").once
 
@@ -98,6 +100,8 @@ RSpec.describe "assessment against legislation", type: :system do
   end
 
   it "displays the class title" do
+    click_link("Check and assess")
+
     add_policy_classes(
       [
         "Class A - enlargement, improvement or other alteration of a dwellinghouse",
@@ -121,6 +125,7 @@ RSpec.describe "assessment against legislation", type: :system do
 
   it "lets the user add and update comments" do
     travel_to(Time.zone.local(2022, 9, 1))
+    click_link("Check and assess")
     add_policy_classes(["Class D - porches"])
     click_link("Part 1, Class D")
 
@@ -163,6 +168,10 @@ RSpec.describe "assessment against legislation", type: :system do
 
   it "lets the user save draft and then mark as complete" do
     travel_to(Time.zone.local(2022, 9, 1))
+
+    expect(list_item("Check and assess")).to have_content("Not started")
+
+    click_link("Check and assess")
     add_policy_classes(["Class D - porches"])
     click_link("Part 1, Class D")
 
@@ -223,10 +232,16 @@ RSpec.describe "assessment against legislation", type: :system do
     expect(page).to have_selector(
       "#policy_class_policies_attributes_0_status_does_not_comply"
     )
+
+    click_link("Application")
+
+    expect(list_item("Check and assess")).to have_content("In progress")
   end
 
   it "lets the user scroll between policy classes" do
     travel_to(Time.zone.local(2022, 9, 1))
+
+    click_link("Check and assess")
 
     add_policy_classes(
       [
@@ -285,6 +300,7 @@ RSpec.describe "assessment against legislation", type: :system do
 
   it "lets the user delete comments" do
     travel_to(Time.zone.local(2022, 9, 1))
+    click_link("Check and assess")
     add_policy_classes(["Class D - porches"])
     click_link("Part 1, Class D")
 

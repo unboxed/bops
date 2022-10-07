@@ -15,6 +15,8 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
     let(:presenter) { described_class.new(view, presented) }
   end
 
+  it_behaves_like "AssessmentTasksPresenter"
+
   describe "#status_tag" do
     context "when an application is in the invalidated state" do
       let(:planning_application) { create(:invalidated_planning_application) }

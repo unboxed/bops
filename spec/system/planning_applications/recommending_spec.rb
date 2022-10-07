@@ -89,6 +89,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         click_button "Submit recommendation"
 
         expect(page).to have_content("Recommendation was successfully submitted.")
+        expect(list_item("Assess recommendation")).to have_content("Complete")
 
         perform_enqueued_jobs
         update_notification = ActionMailer::Base.deliveries.last
@@ -542,7 +543,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
   it "shows the correct status tags at each stage" do
     visit(planning_application_path(planning_application))
 
-    expect(assess_list_item).to have_content("Not started")
+    expect(list_item("Assess recommendation")).to have_content("Not started")
 
     click_link("Assess recommendation")
     choose("Yes")
@@ -559,41 +560,41 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     click_button("Save and come back later")
 
-    expect(assess_list_item).to have_content("In progress")
+    expect(list_item("Assess recommendation")).to have_content("In progress")
 
     click_link("Assess recommendation")
     click_button("Save and mark as complete")
 
-    expect(assess_list_item).to have_content("Complete")
+    expect(list_item("Assess recommendation")).to have_content("Complete")
 
     ["Not started", "In progress", "Complete"].each do |status|
-      expect(review_list_item).not_to have_content(status)
+      expect(list_item("Review assessment")).not_to have_content(status)
     end
 
     click_link("Submit recommendation")
     click_button("Submit recommendation")
 
-    expect(view_list_item).to have_content("Awaiting determination")
+    expect(list_item("View recommendation")).to have_content("Awaiting determination")
 
     sign_in(reviewer)
     visit(planning_application_path(planning_application))
 
-    expect(review_list_item).to have_content("Not started")
+    expect(list_item("Review assessment")).to have_content("Not started")
 
     click_link("Review assessment")
     choose("recommendation_challenged_true")
     fill_in("Review comment", with: "Application invalid")
     click_button("Save and come back later")
 
-    expect(review_list_item).to have_content("In progress")
+    expect(list_item("Review assessment")).to have_content("In progress")
 
     click_link("Review assessment")
     click_button("Save and mark as complete")
 
-    expect(review_list_item).to have_content("Complete")
+    expect(list_item("Review assessment")).to have_content("Complete")
 
     ["Not started", "In progress", "Complete"].each do |status|
-      expect(assess_list_item).not_to have_content(status)
+      expect(list_item("Assess recommendation")).not_to have_content(status)
     end
 
     sign_in(assessor)
@@ -608,41 +609,29 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     click_button("Update")
 
-    expect(assess_list_item).to have_content("Complete")
+    expect(list_item("Assess recommendation")).to have_content("Complete")
 
     click_link("Submit recommendation")
     click_button("Submit recommendation")
 
-    expect(view_list_item).to have_content("Awaiting determination")
+    expect(list_item("View recommendation")).to have_content("Awaiting determination")
 
     sign_in(reviewer)
     visit(planning_application_path(planning_application))
 
-    expect(review_list_item).to have_content("Not started")
+    expect(list_item("Review assessment")).to have_content("Not started")
 
     click_link("Review assessment")
     choose("recommendation_challenged_false")
     fill_in("Review comment", with: "Application valid")
     click_button("Save and mark as complete")
 
-    expect(assess_list_item).to have_content("Complete")
-    expect(review_list_item).to have_content("Complete")
+    expect(list_item("Assess recommendation")).to have_content("Complete")
+    expect(list_item("Review assessment")).to have_content("Complete")
 
     sign_in(assessor)
     visit(planning_application_path(planning_application))
 
-    expect(view_list_item).to have_content("Complete")
-  end
-
-  def assess_list_item
-    find("li", text: "Assess recommendation")
-  end
-
-  def review_list_item
-    find("li", text: "Review assessment")
-  end
-
-  def view_list_item
-    find("li", text: "View recommendation")
+    expect(list_item("View recommendation")).to have_content("Complete")
   end
 end

@@ -16,11 +16,9 @@ RSpec.describe "Summary of works", type: :system do
   end
 
   context "when planning application is in assessment" do
-    before do
-      click_link "Check and assess"
-    end
-
     it "I can view the information on the summary of works page" do
+      click_link "Check and assess"
+
       within("#assessment-information-tasks") do
         expect(page).to have_content("Not started")
         click_link "Summary of works"
@@ -45,6 +43,7 @@ RSpec.describe "Summary of works", type: :system do
     end
 
     it "there is a validation error when submitting an empty text field" do
+      click_link "Check and assess"
       click_link "Summary of works"
 
       click_button "Save and mark as complete"
@@ -59,6 +58,8 @@ RSpec.describe "Summary of works", type: :system do
     end
 
     it "I can save and come back later when adding or editing a summary of work" do
+      expect(list_item("Check and assess")).to have_content("Not started")
+      click_link "Check and assess"
       click_link "Summary of works"
 
       fill_in "assessment_detail[entry]", with: "A draft entry for the summary of works"
@@ -84,9 +85,14 @@ RSpec.describe "Summary of works", type: :system do
       within("#assessment-information-tasks") do
         expect(page).to have_content("In progress")
       end
+
+      click_link("Application")
+
+      expect(list_item("Check and assess")).to have_content("In progress")
     end
 
     it "I can save and mark as complete when adding a summary of work" do
+      click_link "Check and assess"
       click_link "Summary of works"
 
       fill_in "assessment_detail[entry]", with: "A complete entry for the summary of works"

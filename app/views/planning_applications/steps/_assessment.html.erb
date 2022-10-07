@@ -31,6 +31,13 @@
         class: "govuk-link"
       ) %>
     </span>
+    <% if @planning_application.recommendation&.submitted_and_unchallenged? %>
+      <%= complete_tag %>
+    <% elsif @planning_application.assessment_tasklist_in_progress? %>
+      <%= in_progress_tag %>
+    <% elsif @planning_application.validated? %>
+      <%= not_started_tag %>
+    <% end %>
   </li>
   <li class="app-task-list__item">
     <span class="app-task-list__task-name">

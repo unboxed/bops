@@ -16,4 +16,10 @@ module AssessmentTasksPresenter
       ).task_list_row
     end
   end
+
+  def assessment_tasklist_in_progress?
+    policy_classes.any? ||
+      consistency_checklist.present? ||
+      assessment_details.any?
+  end
 end

@@ -52,6 +52,10 @@ class Recommendation < ApplicationRecord
     raise ReviewRecommendationError, e.message
   end
 
+  def submitted_and_unchallenged?
+    submitted? && !challenged
+  end
+
   private
 
   def reviewer_comment_is_present?
