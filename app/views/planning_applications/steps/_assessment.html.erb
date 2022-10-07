@@ -41,7 +41,7 @@
       <% end %>
     </span>
     <% if @planning_application.submit_recommendation_complete? %>
-      <%= tag.strong "Completed", id: "submit_recommendation-completed", class: "govuk-tag app-task-list__task-tag" %>
+      <%= complete_tag %>
     <% end %>
   </li>
 </ul>

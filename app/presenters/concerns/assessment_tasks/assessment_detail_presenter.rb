@@ -8,7 +8,7 @@ module AssessmentTasks
       super(template, planning_application)
 
       @assessment_detail = planning_application.assessment_details.send(category).first
-      @status = assessment_details_status
+      @status = assessment_detail&.status || "not_started"
       @category = category
     end
 
@@ -46,14 +46,8 @@ module AssessmentTasks
       classes = ["#{govuk_tag_class} app-task-list__task-tag"]
 
       tag.strong class: classes do
-        status
+        I18n.t("assessment_details.#{status}")
       end
-    end
-
-    def assessment_details_status
-      return "Not started" unless assessment_detail
-
-      assessment_detail.status.humanize
     end
 
     def govuk_tag_class

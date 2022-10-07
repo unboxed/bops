@@ -11,11 +11,13 @@
         class: "govuk-link"
         ) %>
       </span>
-      <%= content_tag(
-      :strong,
-      t(".#{consistency_checklist&.status || 'in_assessment'}"),
-      class: "govuk-tag app-task-list__task-tag #{'govuk-tag--blue' if consistency_checklist&.complete?}"
-      ) %>
+      <% if consistency_checklist.blank? %>
+        <%= not_started_tag %>
+      <% elsif consistency_checklist.in_assessment? %>
+        <%= in_progress_tag %>
+      <% else %>
+        <%= complete_tag %>
+      <% end %>
     </li>
     <% if @planning_application.planning_history_enabled? %>
       <li class="app-task-list__item">

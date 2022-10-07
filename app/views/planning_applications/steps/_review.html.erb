@@ -33,7 +33,7 @@
         <% end %>
       </span>
       <% if @planning_application.publish_complete? %>
-        <%= tag.strong "Completed", id: "publish-completed", class: "govuk-tag app-task-list__task-tag" %>
+        <%= complete_tag %>
       <% elsif @planning_application.can_publish? && current_user.assessor? %>
         <%= tag.strong "Waiting", id: "review_assessment-waiting", class: "govuk-tag app-task-list__task-tag" %>
       <% end %>

@@ -51,7 +51,7 @@ RSpec.describe AssessmentTasks::AssessmentDetailPresenter, type: :presenter do
           )
 
           expect(html).to include(
-            "<strong class=\"govuk-tag govuk-tag--blue app-task-list__task-tag\">Completed</strong>"
+            "<strong class=\"govuk-tag govuk-tag--blue app-task-list__task-tag\">Complete</strong>"
           )
         end
       end
@@ -121,7 +121,7 @@ RSpec.describe AssessmentTasks::AssessmentDetailPresenter, type: :presenter do
           )
 
           expect(html).to include(
-            "<strong class=\"govuk-tag govuk-tag--blue app-task-list__task-tag\">Completed</strong>"
+            "<strong class=\"govuk-tag govuk-tag--blue app-task-list__task-tag\">Complete</strong>"
           )
         end
       end

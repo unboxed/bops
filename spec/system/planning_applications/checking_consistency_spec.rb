@@ -28,6 +28,7 @@ RSpec.describe "checking consistency", type: :system do
   end
 
   it "lets user save draft or mark as complete" do
+    expect(task_list_item).to have_content("Not started")
     click_link("Description, documents and proposal details")
     click_button("Save and mark as complete")
 
@@ -58,11 +59,7 @@ RSpec.describe "checking consistency", type: :system do
 
     expect(page).to have_content("Successfully updated application checklist")
 
-    task_list_item = task_list_item_with_name(
-      "Description, documents and proposal details"
-    )
-
-    expect(task_list_item).to have_content("In assessment")
+    expect(task_list_item).to have_content("In progress")
 
     click_link("Description, documents and proposal details")
 
@@ -80,10 +77,6 @@ RSpec.describe "checking consistency", type: :system do
     click_button("Save and mark as complete")
 
     expect(page).to have_content("Successfully updated application checklist")
-
-    task_list_item = task_list_item_with_name(
-      "Description, documents and proposal details"
-    )
 
     expect(task_list_item).to have_content("Complete")
 
@@ -295,7 +288,8 @@ RSpec.describe "checking consistency", type: :system do
     find("legend", text: legend).find(:xpath, "..")
   end
 
-  def task_list_item_with_name(name)
-    find("span", text: name).find(:xpath, "..")
+  def task_list_item
+    text = "Description, documents and proposal details"
+    find("span", text: text).find(:xpath, "..")
   end
 end
