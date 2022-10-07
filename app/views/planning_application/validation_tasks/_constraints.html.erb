@@ -7,15 +7,11 @@
       <span class="app-task-list__task-name">
         <%= link_to "Check constraints", planning_application_constraints_path(@planning_application), class: "govuk-link" %>
       </span>
-      <% if @planning_application.constraints_checked? %>
-        <strong class="govuk-tag govuk-tag--green app-task-list__task-tag">
-          Checked
-        </strong>
-      <% else %>
-        <strong class="govuk-tag govuk-tag--grey app-task-list__task-tag">
-          Not checked yet
-        </strong>
-      <% end %>
+      <%= render(
+        ConstraintsStatusTagComponent.new(
+          planning_application: @planning_application
+        )
+      ) %>
     </li>
   </ul>
 </li>
