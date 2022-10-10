@@ -12,7 +12,8 @@ class AssessmentDetail < ApplicationRecord
   enum category: {
     summary_of_work: "summary_of_work",
     additional_evidence: "additional_evidence",
-    site_description: "site_description"
+    site_description: "site_description",
+    past_applications: "past_applications"
   }
 
   validates :status, presence: true
@@ -27,6 +28,8 @@ class AssessmentDetail < ApplicationRecord
   private
 
   def validate_entry_presence?
-    summary_of_work? || site_description?
+    summary_of_work? ||
+      site_description? ||
+      (past_applications? && completed?)
   end
 end

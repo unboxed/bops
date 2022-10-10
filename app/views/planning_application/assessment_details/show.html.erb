@@ -20,14 +20,23 @@
     <div class="govuk-body">
       <%= render "planning_application/assessment_details/#{@assessment_detail.category}/information", category: @assessment_detail.category %>
 
-      <p><%= simple_format(@assessment_detail.entry) %></p>
+      <%= render(
+        partial: "#{assessment_detail_fields_partial_path(@assessment_detail.category)}/fields",
+        locals: { assessment_detail: @assessment_detail }
+      ) %>
     </div>
 
     <div class="govuk-button-group">
       <%= back_link %>
 
-      <%= link_to t("assessment_details.edit_#{@assessment_detail.category}"), edit_planning_application_assessment_detail_path(@planning_application, @assessment_detail), class: "govuk-link" %>
+      <%= link_to(
+        t(".edit_#{@assessment_detail.category}"),
+        edit_planning_application_assessment_detail_path(
+          @planning_application,
+          @assessment_detail
+        ),
+        class: "govuk-link"
+      )%>
     </div>
   </div>
 </div>
-

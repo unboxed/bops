@@ -10,6 +10,6 @@ module SystemSpecHelpers
   end
 
   def list_item(text)
-    find("li", text: text)
+    find("li", text: text, match: :prefer_exact)
   end
 end

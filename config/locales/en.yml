@@ -77,14 +77,20 @@ en:
     additional_evidence_successfully_updated: Additional evidence was successfully updated.
     completed: Complete
     edit_additional_evidence: Edit additional evidence
+    edit_past_applications: History
     edit_site_description: Edit site description
     edit_summary_of_work: Edit summary of works
     in_progress: In progress
     new_additional_evidence: Add detail of additional evidence
+    new_past_applications: History
     new_site_description: Create a description of the site
     new_summary_of_work: Create a summary of the works
     not_started: Not started
+    past_applications: History
+    past_applications_successfully_created: History successfully added.
+    past_applications_successfully_updated: History successfully updated.
     show_additional_evidence: Detail of additional evidence
+    show_past_applications: History
     show_site_description: Site description
     show_summary_of_work: Summary of works
     site_description: Site description
@@ -93,6 +99,11 @@ en:
     summary_of_work: Summary
     summary_of_work_successfully_created: Summary of works was successfully created.
     summary_of_work_successfully_updated: Summary of works was successfully updated.
+    task_list:
+      additional_evidence: Additional evidence
+      past_applications: History
+      site_description: Site description
+      summary_of_work: Summary of works
   audit_user_name:
     applicant: Applicant / Agent via %{api_user_name}
     deleted: User deleted
@@ -249,11 +260,25 @@ en:
         summary: Tell the applicant why the fee is incorrect.
   page_title: BETA BOPs - GOV.UK
   planning_application:
+    assessment_details:
+      past_applications:
+        form_fields:
+          application_reference_numbers: Application reference number(s)
+          relevant_information: Relevant information
+        information:
+          summary_of_the: Summary of the relevant historical applications
+          this_information_will: This information WILL be made public
+      show:
+        edit_additional_evidence: Edit additional evidence
+        edit_past_applications: Edit history
+        edit_site_description: Edit site description
+        edit_summary_of_work: Edit summary of work
     assessment_tasks:
       check_consistency:
         check_application: Check application
         complete: Complete
         description_documents_and: Description, documents and proposal details
+        history: History
         in_assessment: In assessment
   planning_application_panel_component:
     all: All

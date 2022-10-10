@@ -73,9 +73,7 @@ module AssessmentTasks
     end
 
     def category_text
-      return category.humanize.pluralize if category == "summary_of_work"
-
-      category.humanize
+      I18n.t("assessment_details.task_list.#{category}")
     end
   end
 end

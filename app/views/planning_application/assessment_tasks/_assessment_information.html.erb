@@ -3,7 +3,7 @@
     Add assessment information
   </h2>
   <ul class="app-task-list__items">
-    <% AssessmentDetail.categories.keys.each do |category| %>
+    <% AssessmentDetail.categories.keys.excluding("past_applications").each do |category| %>
       <li class="app-task-list__item" id="<%= category %>-tasklist-item">
         <%= @planning_application.assessment_detail_tasklist(category) %>
       </li>

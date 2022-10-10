@@ -1,9 +1,14 @@
 <%= render "planning_application/assessment_details/#{category}/information", category: category %>
 
 <%= form_with model: [@planning_application, @assessment_detail], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary(
+    presenter: assessment_detail_error_presenter(category)
+  ) %>
 
-  <%= form.govuk_text_area :entry, label: nil, rows: 10 %>
+  <%= render(
+    partial: "#{assessment_detail_fields_partial_path(category)}/form_fields",
+    locals: { form: form }
+  ) %>
 
   <%= form.hidden_field :category, value: category %>
 
