@@ -1,0 +1,6 @@
+<% if status.present? %>
+  <%= tag.strong(
+    t("status_tag_component.#{status}"),
+    class: "govuk-tag #{colour_class} app-task-list__task-tag"
+  ) %>
+<% end %>

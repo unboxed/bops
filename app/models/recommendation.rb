@@ -53,7 +53,11 @@ class Recommendation < ApplicationRecord
   end
 
   def submitted_and_unchallenged?
-    submitted? && !challenged
+    submitted? && unchallenged?
+  end
+
+  def unchallenged?
+    !challenged
   end
 
   private

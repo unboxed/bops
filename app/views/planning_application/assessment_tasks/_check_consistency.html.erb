@@ -11,13 +11,11 @@
         class: "govuk-link"
         ) %>
       </span>
-      <% if consistency_checklist.blank? %>
-        <%= not_started_tag %>
-      <% elsif consistency_checklist.in_assessment? %>
-        <%= in_progress_tag %>
-      <% else %>
-        <%= complete_tag %>
-      <% end %>
+      <%= render(
+        ConsistencyChecklistStatusTagComponent.new(
+          consistency_checklist: consistency_checklist
+        )
+      ) %>
     </li>
     <% if @planning_application.planning_history_enabled? %>
       <li class="app-task-list__item">
