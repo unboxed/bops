@@ -30,10 +30,10 @@
       <% end %>
 
       <p class="govuk-body">
-        <strong><%= @planning_application.result_heading if @planning_application.result_heading.present? %></strong>
+        <strong><%= simple_format(@planning_application.result_heading) if @planning_application.result_heading.present? %></strong>
       </p>
       <p class="govuk-body">
-        <%= @planning_application.result_description if @planning_application.result_description.present? %>
+        <%= simple_format(@planning_application.result_description) if @planning_application.result_description.present? %>
       </p>
       <% if @planning_application.result_override.present? %>
         <p class="govuk-body">

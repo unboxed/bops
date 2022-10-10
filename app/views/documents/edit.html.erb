@@ -46,7 +46,7 @@
       </p>
 
       <p class="govuk-body">
-        <strong>Reason this replacement document was requested:</strong> <%= @replacement_document_validation_request.invalidated_document_reason %>
+        <strong>Reason this replacement document was requested:</strong> <%= simple_format(@replacement_document_validation_request.invalidated_document_reason) %>
       </p>
 
       <p class="govuk-body">
@@ -57,7 +57,7 @@
         <strong>Applicant reason for submitting document:</strong>
 
         <% if @document.applicant_description.present? %>
-          <%= @document.applicant_description %>
+          <%= simple_format(@document.applicant_description) %>
         <% else %>
           No reason submitted
         <% end %>

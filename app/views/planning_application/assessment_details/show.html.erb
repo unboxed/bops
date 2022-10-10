@@ -20,7 +20,7 @@
     <div class="govuk-body">
       <%= render "planning_application/assessment_details/#{@assessment_detail.category}/information", category: @assessment_detail.category %>
 
-      <p><%= @assessment_detail.entry %></p>
+      <p><%= simple_format(@assessment_detail.entry) %></p>
     </div>
 
     <div class="govuk-button-group">

@@ -25,7 +25,7 @@
     </tr>
     <tr class="govuk-table__row">
       <th scope="row" class="govuk-table__header"><%= t(".description") %></th>
-      <td class="govuk-table__cell"><%= @planning_application.description %></td>
+      <td class="govuk-table__cell"><%= simple_format(@planning_application.description) %></td>
     </tr>
   </tbody>
 </table>

@@ -10,7 +10,7 @@
           action: t(".submitted_recommendation"),
           name: recommendation.assessor.name,
           datetime:  recommendation.created_at,
-          comment: recommendation.assessor_comment
+          comment: simple_format(recommendation.assessor_comment)
         }
       ) %>
       <% if recommendation.reviewed? %>
@@ -20,7 +20,7 @@
             action: t(".recommendation_queried"),
             name: recommendation.reviewer.name,
             datetime: recommendation.reviewed_at,
-            comment: recommendation.reviewer_comment
+            comment: simple_format(recommendation.reviewer_comment)
           }
         ) %>
       <% end %>

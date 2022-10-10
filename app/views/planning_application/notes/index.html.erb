@@ -34,7 +34,7 @@
               <%= note.user.name %> on <%= note.created_at %>
             </p>
             <p class="govuk-body">
-              <%= note.entry %>
+              <%= simple_format(note.entry) %>
             </p>
           <% end %>
         <% end %>
