@@ -16,8 +16,8 @@
     <% end %>
   <% end %>
   <% if document.invalidated_document_reason %>
-    <p class="govuk-body govuk-!-margin-bottom-1 govuk-!-font-weight-bold">
-      Invalid: <%= document.invalidated_document_reason %>
+    <p class="govuk-body govuk-!-margin-bottom-1">
+      Invalid: <strong><%= simple_format(document.invalidated_document_reason) %></strong>
     </p>
   <% end %>
   <p class="govuk-body govuk-!-margin-bottom-1">

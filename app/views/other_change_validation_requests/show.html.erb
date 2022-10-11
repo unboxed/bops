@@ -27,10 +27,10 @@
 
     <div class="govuk-inset-text">
       <p class="govuk-body">
-        <strong> Reason it is invalid: </strong> <%= @other_change_validation_request.summary  %>
+        <strong> Reason it is invalid: </strong> <%= simple_format(@other_change_validation_request.summary) %>
       </p>
       <p class="govuk-body">
-        <strong> How it can be made valid: </strong> <%= @other_change_validation_request.suggestion %>
+        <strong> How it can be made valid: </strong> <%= simple_format(@other_change_validation_request.suggestion) %>
       </p>
       <p class="govuk-body">
       <%= @other_change_validation_request.created_at %>

@@ -20,7 +20,7 @@
     <%= render "shared/warning_text", message: "This information will appear on the decision notice:" %>
   </p>
   <p class="govuk-body">
-    <%= @planning_application.public_comment %>
+    <%= simple_format(@planning_application.public_comment) %>
   </p>
 
   <%= link_to(

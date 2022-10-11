@@ -26,7 +26,7 @@
     <% else %>
       <h1 class="govuk-heading-l">Edit application</h2>
 
-      <p class="govuk-body"><%= @planning_application.description %></p>
+      <p class="govuk-body"><%= simple_format(@planning_application.description) %></p>
       <%= render "shared/planning_application_address_and_reference" %>
       <p class="govuk-body">
         <% if @planning_application.open_description_change_requests.any? %>
