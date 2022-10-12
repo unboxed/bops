@@ -1,0 +1,9 @@
+<%= form.govuk_text_field(
+  :entry,
+  label: { text: t(".application_reference_numbers") }
+) %>
+<%= form.govuk_text_area(
+  :additional_information,
+  label: { text: t(".relevant_information") },
+  rows: 8
+)  %>

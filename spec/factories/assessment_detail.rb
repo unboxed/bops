@@ -24,5 +24,9 @@ FactoryBot.define do
     trait :site_description do
       category { "site_description" }
     end
+
+    trait :past_applications do
+      category { "past_applications" }
+    end
   end
 end

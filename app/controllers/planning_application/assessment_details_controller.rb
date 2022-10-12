@@ -86,7 +86,9 @@ class PlanningApplication
     end
 
     def assessment_details_params
-      params.require(:assessment_detail).permit(:entry, :category)
+      params
+        .require(:assessment_detail)
+        .permit(:entry, :category, :additional_information)
     end
 
     def save_progress?

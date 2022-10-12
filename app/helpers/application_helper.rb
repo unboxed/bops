@@ -76,4 +76,20 @@ module ApplicationHelper
       planning_application_consistency_checklist_path
     end
   end
+
+  def assessment_detail_error_presenter(category)
+    if category == "past_applications"
+      PastApplicationsErrorPresenter
+    else
+      ErrorPresenter
+    end
+  end
+
+  def assessment_detail_fields_partial_path(category)
+    if category == "past_applications"
+      "planning_application/assessment_details/past_applications"
+    else
+      "planning_application/assessment_details"
+    end
+  end
 end

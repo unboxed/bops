@@ -30,22 +30,6 @@ RSpec.describe "Assessment tasks", type: :system do
         end
       end
     end
-
-    context "when planning_history Feature flag is missing" do
-      before do
-        allow(ENV).to receive(:fetch).with("PLANNING_HISTORY_ENABLED", "false").and_return("false")
-      end
-
-      it "does not include the History link" do
-        visit planning_application_assessment_tasks_path(planning_application)
-
-        within(".app-task-list") do
-          within("#check-consistency-assessment-tasks") do
-            expect(page).not_to have_link("History")
-          end
-        end
-      end
-    end
   end
 
   context "when I cannot assess the planning application" do

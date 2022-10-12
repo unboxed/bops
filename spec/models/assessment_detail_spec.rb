@@ -4,14 +4,19 @@ require "rails_helper"
 
 RSpec.describe AssessmentDetail, type: :model do
   describe "validations" do
-    let(:summary_of_work) { described_class.new }
-    let(:additional_evidence) { described_class.new }
-    let(:site_description) { described_class.new }
-
     describe "#entry" do
       let(:summary_of_work) { create(:assessment_detail, :summary_of_work, entry: "") }
       let(:additional_evidence) { create(:assessment_detail, :additional_evidence, entry: "") }
       let(:site_description) { create(:assessment_detail, :site_description, entry: "") }
+
+      let(:past_applications) do
+        create(
+          :assessment_detail,
+          :past_applications,
+          entry: "",
+          status: status
+        )
+      end
 
       it "validates presence for summary of work" do
         expect { summary_of_work }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Entry can't be blank")
@@ -24,10 +29,29 @@ RSpec.describe AssessmentDetail, type: :model do
       it "validates presence for for site description" do
         expect { site_description }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Entry can't be blank")
       end
+
+      context "when status is completed" do
+        let(:status) { :completed }
+
+        it "validates presence for assessment_detail" do
+          expect { past_applications }.to raise_error(
+            ActiveRecord::RecordInvalid,
+            "Validation failed: Entry can't be blank"
+          )
+        end
+      end
+
+      context "when status is in_progress" do
+        let(:status) { :in_progress }
+
+        it "does not validates presence for assessment_detail" do
+          expect { past_applications }.not_to raise_error
+        end
+      end
     end
 
     described_class.categories.each_key do |category_type|
-      let(:category) { send(category_type) }
+      let(:category) { described_class.new(category: category_type) }
 
       describe "#status" do
         it "validates presence" do

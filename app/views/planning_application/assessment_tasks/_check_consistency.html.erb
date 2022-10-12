@@ -17,12 +17,20 @@
         )
       ) %>
     </li>
-    <% if @planning_application.planning_history_enabled? %>
-      <li class="app-task-list__item">
+    <li class="app-task-list__item">
+      <% if @planning_application.planning_history_enabled? %>
         <span class="app-task-list__task-name">
-          <%= link_to "History", planning_application_planning_history_path(@planning_application), class: "govuk-link" %>
+          <%= link_to(
+            t(".history"),
+            planning_application_planning_history_path(@planning_application),
+            class: "govuk-link"
+          ) %>
         </span>
-      </li>
-    <% end %>
+      <% else %>
+        <%= @planning_application.assessment_detail_tasklist(
+          :past_applications
+        ) %>
+      <% end %>
+    </li>
   </ul>
 </li>
