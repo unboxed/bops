@@ -12,6 +12,10 @@ en:
   activerecord:
     errors:
       models:
+        assessment_detail:
+          attributes:
+            base:
+              no_consultees_added: Consultees must be added
         consistency_checklist:
           attributes:
             description_matches_documents:
@@ -76,12 +80,17 @@ en:
     additional_evidence_successfully_created: Additional evidence was successfully created.
     additional_evidence_successfully_updated: Additional evidence was successfully updated.
     completed: Complete
+    consultation_summary: Add consultation details
+    consultation_summary_successfully_created: Consultation summary successfully added.
+    consultation_summary_successfully_updated: Consultation summary successfully updated.
     edit_additional_evidence: Edit additional evidence
+    edit_consultation_summary: Add consultation details
     edit_past_applications: History
     edit_site_description: Edit site description
     edit_summary_of_work: Edit summary of works
     in_progress: In progress
     new_additional_evidence: Add detail of additional evidence
+    new_consultation_summary: Add consultation details
     new_past_applications: History
     new_site_description: Create a description of the site
     new_summary_of_work: Create a summary of the works
@@ -90,6 +99,7 @@ en:
     past_applications_successfully_created: History successfully added.
     past_applications_successfully_updated: History successfully updated.
     show_additional_evidence: Detail of additional evidence
+    show_consultation_summary: Consultation details
     show_past_applications: History
     show_site_description: Site description
     show_summary_of_work: Summary of works
@@ -101,6 +111,7 @@ en:
     summary_of_work_successfully_updated: Summary of works was successfully updated.
     task_list:
       additional_evidence: Additional evidence
+      consultation_summary: Summary of consultation
       past_applications: History
       site_description: Site description
       summary_of_work: Summary of works
@@ -212,6 +223,8 @@ en:
     label:
       additional_document_validation_request:
         cancel_reason: Explain to the applicant why this request is being cancelled
+      consultee:
+        name: Enter a new consultee
       description_change_validation_request:
         cancel_reason: Explain to the applicant why this request is being cancelled
       note:
@@ -261,6 +274,23 @@ en:
   page_title: BETA BOPs - GOV.UK
   planning_application:
     assessment_details:
+      consultation_summary:
+        consultee_form:
+          add_consultee: Add consultee
+          external_consultee: External consultee
+          internal_consultee: Internal consultee
+        consultee_table:
+          external: External
+          internal: Internal
+          remove_from_list: Remove from list
+        consultees:
+          list_who_was: List who was consulted about this application
+        fields:
+          summary_of_consultation: Summary of consultation responses
+          this_information_will: This information WILL be made public
+        form_fields:
+          summary_of_consultation: Summary of consultation responses
+          this_information_will: This information WILL be made public
       past_applications:
         form_fields:
           application_reference_numbers: Application reference number(s)
@@ -270,6 +300,7 @@ en:
           this_information_will: This information WILL be made public
       show:
         edit_additional_evidence: Edit additional evidence
+        edit_consultation_summary: Edit consultation details
         edit_past_applications: Edit history
         edit_site_description: Edit site description
         edit_summary_of_work: Edit summary of work

@@ -78,16 +78,16 @@ module ApplicationHelper
   end
 
   def assessment_detail_error_presenter(category)
-    if category == "past_applications"
-      PastApplicationsErrorPresenter
+    if %w[past_applications consultation_summary].include?(category)
+      "#{category.camelize}ErrorPresenter".constantize
     else
       ErrorPresenter
     end
   end
 
   def assessment_detail_fields_partial_path(category)
-    if category == "past_applications"
-      "planning_application/assessment_details/past_applications"
+    if %w[past_applications consultation_summary].include?(category)
+      "planning_application/assessment_details/#{category}"
     else
       "planning_application/assessment_details"
     end

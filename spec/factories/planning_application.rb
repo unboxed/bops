@@ -213,6 +213,12 @@ FactoryBot.define do
       end
     end
 
+    trait :with_consultees do
+      after(:create) do |planning_application|
+        create_list(:consultee, 3, planning_application: planning_application)
+      end
+    end
+
     trait :with_recommendation do
       after(:create) do |planning_application|
         create(:recommendation, planning_application: planning_application)

@@ -13,7 +13,11 @@ class ErrorPresenter
 
   private
 
+  attr_reader :error_messages
+
   def formatted_message(message, attribute)
+    attribute = attributes_map[attribute] || attribute
+
     if message.match(/\A[A-Z].+\Z/)
       message
     else
@@ -21,5 +25,7 @@ class ErrorPresenter
     end
   end
 
-  attr_reader :error_messages
+  def attributes_map
+    {}
+  end
 end

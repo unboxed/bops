@@ -1,0 +1,28 @@
+<table class="govuk-table" data-controller="delete-record">
+  <tbody class="govuk-table__body">
+    <% planning_application.consultees.select(&:persisted?).each do |consultee| %>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header"><%= consultee.name %></th>
+        <td class="govuk-table__cell">
+          <%= consultee.external? ? t(".external") : t(".internal")  %>
+        </td>
+        <% unless read_only %>
+          <td class="govuk-table__cell">
+            <%= button_tag(
+              t(".remove_from_list"),
+              class: "button-as-link",
+              type: "button",
+              data: {
+                action: "click->delete-record#handleClick",
+                delete_record_path: planning_application_consultee_path(
+                  planning_application,
+                  consultee
+                )
+              }
+            ) %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

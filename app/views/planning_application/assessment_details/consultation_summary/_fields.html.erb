@@ -1,0 +1,8 @@
+<p class="govuk-body govuk-!-font-weight-bold">
+  <%= t(".summary_of_consultation") %>
+</p>
+<%= render(
+  partial: "shared/warning_text",
+  locals: { message: t(".this_information_will") }
+) %>
+<p class="govuk-body"><%= simple_format(assessment_detail.entry) %></p>

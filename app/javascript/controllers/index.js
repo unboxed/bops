@@ -9,5 +9,8 @@ application.register("delete-record", DeleteRecordController)
 import ShowHideController from "./show_hide_controller.js"
 application.register("show-hide", ShowHideController)
 
+import SubmitFormController from "./submit_form_controller.js"
+application.register("submit-form", SubmitFormController)
+
 import UnsavedChangesController from "./unsaved_changes_controller.js"
 application.register("unsaved-changes", UnsavedChangesController)

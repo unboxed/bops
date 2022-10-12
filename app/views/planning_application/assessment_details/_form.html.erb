@@ -1,4 +1,8 @@
-<%= render "planning_application/assessment_details/#{category}/information", category: category %>
+<%= render(
+  "planning_application/assessment_details/#{category}/information",
+  category: category,
+  read_only: false
+) %>
 
 <%= form_with model: [@planning_application, @assessment_detail], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
   <%= form.govuk_error_summary(
