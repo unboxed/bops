@@ -50,6 +50,7 @@ class PlanningApplication < ApplicationRecord
     )
 
     has_one :consistency_checklist, dependent: :destroy
+    has_one :permitted_development_right, dependent: :destroy
   end
 
   delegate :reviewer_group_email, to: :local_authority

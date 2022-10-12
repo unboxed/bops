@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_11_115140) do
+ActiveRecord::Schema.define(version: 2022_10_11_144528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -228,6 +228,16 @@ ActiveRecord::Schema.define(version: 2022_10_11_115140) do
     t.boolean "post_validation", default: false, null: false
     t.index ["planning_application_id"], name: "ix_other_change_validation_requests_on_planning_application_id"
     t.index ["user_id"], name: "ix_other_change_validation_requests_on_user_id"
+  end
+
+  create_table "permitted_development_rights", force: :cascade do |t|
+    t.string "status", null: false
+    t.boolean "removed"
+    t.text "removed_reason"
+    t.bigint "planning_application_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["planning_application_id"], name: "ix_permitted_development_rights_on_planning_application_id"
   end
 
   create_table "planning_applications", force: :cascade do |t|

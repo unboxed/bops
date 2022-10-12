@@ -1,17 +1,16 @@
 # frozen_string_literal: true
 
 class PlanningApplication
-  class AssessmentDetailsController < AuthenticationController
+  class PermittedDevelopmentRightsController < AuthenticationController
     include CommitMatchable
     include PlanningApplicationAssessable
 
     before_action :set_planning_application
     before_action :ensure_planning_application_is_validated
-    before_action :set_assessment_detail, only: %i[show edit update]
+    before_action :set_permitted_development_right, only: %i[show edit update]
 
     def new
-      @assessment_detail = @planning_application.assessment_details.new
-      @category = params[:category]
+      @permitted_development_right = @planning_application.build_permitted_development_right
 
       respond_to do |format|
         format.html
@@ -19,19 +18,19 @@ class PlanningApplication
     end
 
     def create
-      @assessment_detail = @planning_application.assessment_details.new(assessment_details_params).tap do |record|
-        record.user = current_user
+      @permitted_development_right = @planning_application.build_permitted_development_right(
+        permitted_development_right_params
+      ).tap do |record|
         record.status = status
       end
 
       respond_to do |format|
-        if @assessment_detail.save
+        if @permitted_development_right.save
           format.html do
             redirect_to planning_application_assessment_tasks_path(@planning_application),
-                        notice: I18n.t("assessment_details.#{@assessment_detail.category}_successfully_created")
+                        notice: I18n.t("permitted_development_rights.successfully_created")
           end
         else
-          @category = @assessment_detail.category
           format.html { render :new }
         end
       end
@@ -50,13 +49,13 @@ class PlanningApplication
     end
 
     def update
-      @assessment_detail.assign_attributes(user: current_user, status: status)
+      @permitted_development_right.assign_attributes(status: status)
 
       respond_to do |format|
-        if @assessment_detail.update(assessment_details_params)
+        if @permitted_development_right.update(permitted_development_right_params)
           format.html do
             redirect_to planning_application_assessment_tasks_path(@planning_application),
-                        notice: I18n.t("assessment_details.#{@assessment_detail.category}_successfully_updated")
+                        notice: I18n.t("permitted_development_rights.successfully_updated")
           end
         else
           format.html { render :edit }
@@ -70,8 +69,8 @@ class PlanningApplication
       @planning_application = planning_applications_scope.find(planning_application_id)
     end
 
-    def set_assessment_detail
-      @assessment_detail = @planning_application.assessment_details.find(assessment_detail_id)
+    def set_permitted_development_right
+      @permitted_development_right = @planning_application.permitted_development_right
     end
 
     def planning_applications_scope
@@ -82,18 +81,21 @@ class PlanningApplication
       Integer(params[:planning_application_id])
     end
 
-    def assessment_detail_id
-      Integer(params[:id])
-    end
-
-    def assessment_details_params
-      params
-        .require(:assessment_detail)
-        .permit(:entry, :category, :additional_information)
+    def permitted_development_right_params
+      params.require(:permitted_development_right).permit(:removed, :removed_reason)
     end
 
     def status
-      save_progress? ? "in_progress" : "completed"
+      return "in_progress" if save_progress?
+
+      case permitted_development_right_params[:removed]
+      when "true"
+        "removed"
+      when "false"
+        "checked"
+      else
+        raise ArgumentError, "#{permitted_development_right_params[:removed]} is not a valid status"
+      end
     end
   end
 end

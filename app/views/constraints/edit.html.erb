@@ -60,7 +60,7 @@
 
       <div class="govuk-button-group">
         <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
-        <%= link_to 'Cancel', planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+        <%= back_link %>
       </div>
     </div>
   <% end %>

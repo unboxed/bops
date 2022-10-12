@@ -114,6 +114,8 @@ Rails.application.routes.draw do
       resources :summary_of_works, only: %i[new edit create show update]
 
       resources :assessment_details, only: %i[new edit create show update]
+
+      resources :permitted_development_rights, only: %i[new create edit update show]
     end
   end
 
