@@ -2,7 +2,7 @@
 
 module SystemSpecHelpers
   def row_with_content(content, element = page)
-    element.find_all("tr").find { |tr| tr.has_content?(content) }
+    element.find("tr", text: content)
   end
 
   def selected_govuk_tab

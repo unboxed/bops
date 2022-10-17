@@ -18,6 +18,16 @@ RSpec.describe AssessmentDetail, type: :model do
         )
       end
 
+      let(:consultation_summary) do
+        create(
+          :assessment_detail,
+          :consultation_summary,
+          :with_consultees,
+          entry: "",
+          status: status
+        )
+      end
+
       it "validates presence for summary of work" do
         expect { summary_of_work }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Entry can't be blank")
       end
@@ -33,8 +43,15 @@ RSpec.describe AssessmentDetail, type: :model do
       context "when status is completed" do
         let(:status) { :completed }
 
-        it "validates presence for assessment_detail" do
+        it "validates presence for past_applications" do
           expect { past_applications }.to raise_error(
+            ActiveRecord::RecordInvalid,
+            "Validation failed: Entry can't be blank"
+          )
+        end
+
+        it "validates presence for consultation_summary" do
+          expect { consultation_summary }.to raise_error(
             ActiveRecord::RecordInvalid,
             "Validation failed: Entry can't be blank"
           )
@@ -44,8 +61,12 @@ RSpec.describe AssessmentDetail, type: :model do
       context "when status is in_progress" do
         let(:status) { :in_progress }
 
-        it "does not validates presence for assessment_detail" do
+        it "does not validates presence for past_applications" do
           expect { past_applications }.not_to raise_error
+        end
+
+        it "does not validates presence for consultation_summary" do
+          expect { consultation_summary }.not_to raise_error
         end
       end
     end
@@ -72,15 +93,112 @@ RSpec.describe AssessmentDetail, type: :model do
       end
 
       describe "scopes" do
+        let(:planning_application) do
+          if category_type == "consultation_summary"
+            create(:planning_application, :with_consultees)
+          else
+            create(:planning_application)
+          end
+        end
+
         describe ".by_created_at_desc" do
-          let!(:"#{category_type}1") { create(:assessment_detail, :"#{category_type}", created_at: Time.zone.now - 1.day) }
-          let!(:"#{category_type}2") { create(:assessment_detail, :"#{category_type}", created_at: Time.zone.now) }
-          let!(:"#{category_type}3") { create(:assessment_detail, :"#{category_type}", created_at: Time.zone.now - 2.days) }
+          let!("#{category_type}1") do
+            create(
+              :assessment_detail,
+              :"#{category_type}",
+              created_at: Time.zone.now - 1.day,
+              planning_application: planning_application
+            )
+          end
+
+          let!("#{category_type}2") do
+            create(
+              :assessment_detail,
+              :"#{category_type}",
+              created_at: Time.zone.now,
+              planning_application: planning_application
+            )
+          end
+
+          let!("#{category_type}3") do
+            create(
+              :assessment_detail,
+              :"#{category_type}",
+              created_at: Time.zone.now - 2.days,
+              planning_application: planning_application
+            )
+          end
 
           it "returns #{category_type} sorted by created at desc (i.e. most recent first)" do
             expect(described_class.by_created_at_desc).to eq([send("#{category_type}2"), send("#{category_type}1"), send("#{category_type}3")])
           end
         end
+      end
+    end
+  end
+
+  describe "#valid?" do
+    let(:assessment_detail) do
+      build(
+        :assessment_detail,
+        status: status,
+        category: category,
+        planning_application: planning_application
+      )
+    end
+
+    context "when status is 'completed'" do
+      let(:status) { :completed }
+
+      context "when category is 'consultation_summary'" do
+        let(:category) { :consultation_summary }
+
+        context "when there are no consultees" do
+          let(:planning_application) { create(:planning_application) }
+
+          it "returns false" do
+            expect(assessment_detail.valid?).to eq(false)
+          end
+
+          it "sets error message" do
+            assessment_detail.valid?
+
+            expect(
+              assessment_detail.errors.messages[:base]
+            ).to contain_exactly(
+              "Consultees must be added"
+            )
+          end
+        end
+
+        context "when there are consultees" do
+          let(:planning_application) do
+            create(:planning_application, :with_consultees)
+          end
+
+          it "returns true" do
+            expect(assessment_detail.valid?).to eq(true)
+          end
+        end
+      end
+
+      context "when category is not 'consultation_summary' and there are no consultees" do
+        let(:category) { :summary_of_work }
+        let(:planning_application) { create(:planning_application) }
+
+        it "returns true" do
+          expect(assessment_detail.valid?).to eq(true)
+        end
+      end
+    end
+
+    context "when status is 'in_progress', category is 'consultation_summary' and there are no consultees" do
+      let(:status) { :in_progress }
+      let(:category) { :summary_of_work }
+      let(:planning_application) { create(:planning_application) }
+
+      it "returns true" do
+        expect(assessment_detail.valid?).to eq(true)
       end
     end
   end

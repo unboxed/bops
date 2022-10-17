@@ -3,11 +3,6 @@
 class PastApplicationsErrorPresenter < ErrorPresenter
   private
 
-  def formatted_message(message, attribute)
-    attribute = attributes_map[attribute] || attribute
-    super(message, attribute)
-  end
-
   def attributes_map
     {
       entry: :application_reference_numbers,

@@ -18,7 +18,11 @@
     <%= render "shared/planning_application_address_and_reference" %>
 
     <div class="govuk-body">
-      <%= render "planning_application/assessment_details/#{@assessment_detail.category}/information", category: @assessment_detail.category %>
+      <%= render(
+        "planning_application/assessment_details/#{@assessment_detail.category}/information",
+        category: @assessment_detail.category,
+        read_only: true
+      ) %>
 
       <%= render(
         partial: "#{assessment_detail_fields_partial_path(@assessment_detail.category)}/fields",

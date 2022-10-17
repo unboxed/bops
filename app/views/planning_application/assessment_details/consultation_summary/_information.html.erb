@@ -1,0 +1,8 @@
+<%= render(
+  partial: "planning_application/assessment_details/consultation_summary/consultees",
+  locals: {
+    planning_application: @planning_application,
+    consultee: @planning_application.consultees.new,
+    read_only: read_only
+  }
+) %>

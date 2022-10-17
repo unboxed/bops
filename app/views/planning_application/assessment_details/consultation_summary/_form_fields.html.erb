@@ -1,0 +1,10 @@
+<%= label_tag(
+  "assessment-detail-entry-field",
+  t(".summary_of_consultation"),
+  class: "govuk-label govuk-!-font-weight-bold"
+) %>
+<%= render(
+  partial: "shared/warning_text",
+  locals: { message: t(".this_information_will") }
+) %>
+<%= form.govuk_text_area :entry, label: nil, rows: 10 %>

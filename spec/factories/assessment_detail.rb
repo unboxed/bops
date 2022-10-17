@@ -9,24 +9,14 @@ FactoryBot.define do
     status { "completed" }
     entry { "This is a description about the summary of works" }
 
-    trait :in_progress do
-      status { "in_progress" }
+    AssessmentDetail.categories.each_key do |category|
+      trait category do
+        category { category }
+      end
     end
 
-    trait :summary_of_work do
-      category { "summary_of_work" }
-    end
-
-    trait :additional_evidence do
-      category { "additional_evidence" }
-    end
-
-    trait :site_description do
-      category { "site_description" }
-    end
-
-    trait :past_applications do
-      category { "past_applications" }
+    trait :with_consultees do
+      planning_application { create(:planning_application, :with_consultees) }
     end
   end
 end
