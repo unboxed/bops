@@ -19,7 +19,7 @@ RSpec.describe "Planning History", type: :system do
 
     before do
       visit planning_application_assessment_tasks_path(planning_application)
-      click_link "History"
+      click_link "History search (in testing)"
     end
 
     it "displays a table with relevants planning historical applications" do
@@ -108,7 +108,7 @@ RSpec.describe "Planning History", type: :system do
 
     before do
       visit planning_application_assessment_tasks_path(planning_application)
-      click_link "History"
+      click_link "History search (in testing)"
     end
 
     it "displays no planning history for this property" do

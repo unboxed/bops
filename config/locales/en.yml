@@ -112,7 +112,7 @@ en:
     task_list:
       additional_evidence: Additional evidence
       consultation_summary: Summary of consultation
-      past_applications: History
+      past_applications: History (manual)
       site_description: Site description
       summary_of_work: Summary of works
   audit_user_name:
@@ -309,7 +309,7 @@ en:
         check_application: Check application
         complete: Complete
         description_documents_and: Description, documents and proposal details
-        history: History
+        history: History search (in testing)
         in_assessment: In assessment
   planning_application_panel_component:
     all: All
