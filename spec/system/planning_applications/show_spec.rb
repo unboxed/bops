@@ -260,13 +260,13 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "Application information accordion is minimised by default" do
-      within(".govuk-grid-column-two-thirds.application") do
+      within(find_all(".govuk-accordion").first) do
         expect(page).to have_button("Open all")
       end
     end
 
     it "Supporting information accordion is minimised by default" do
-      within(".govuk-grid-column-one-third.supporting") do
+      within(find_all(".govuk-accordion").last) do
         expect(page).to have_button("Open all")
       end
     end

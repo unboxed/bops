@@ -338,6 +338,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(planning_application.reload.status).to eq("in_assessment")
 
       # Check latest audit
+      click_link "Application"
       click_button "Audit log"
       within("#latest-audit") do
         expect(page).to have_content("Recommendation withdrawn")

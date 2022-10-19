@@ -1068,4 +1068,86 @@ RSpec.describe PlanningApplication, type: :model do
       end
     end
   end
+
+  describe "#summary_of_work" do
+    let(:planning_application) { create(:planning_application) }
+
+    let!(:assessment_detail) do
+      create(
+        :assessment_detail,
+        :summary_of_work,
+        planning_application: planning_application
+      )
+    end
+
+    it "returns assessment detail with category 'summary_of_work'" do
+      expect(planning_application.summary_of_work).to eq(assessment_detail)
+    end
+  end
+
+  describe "#additional_evidence" do
+    let(:planning_application) { create(:planning_application) }
+
+    let!(:assessment_detail) do
+      create(
+        :assessment_detail,
+        :additional_evidence,
+        planning_application: planning_application
+      )
+    end
+
+    it "returns assessment detail with category 'additional_evidence'" do
+      expect(planning_application.additional_evidence).to eq(assessment_detail)
+    end
+  end
+
+  describe "#site_description" do
+    let(:planning_application) { create(:planning_application) }
+
+    let!(:assessment_detail) do
+      create(
+        :assessment_detail,
+        :site_description,
+        planning_application: planning_application
+      )
+    end
+
+    it "returns assessment detail with category 'site_description'" do
+      expect(planning_application.site_description).to eq(assessment_detail)
+    end
+  end
+
+  describe "#past_applications" do
+    let(:planning_application) { create(:planning_application) }
+
+    let!(:assessment_detail) do
+      create(
+        :assessment_detail,
+        :past_applications,
+        planning_application: planning_application
+      )
+    end
+
+    it "returns assessment detail with category 'past_applications'" do
+      expect(planning_application.past_applications).to eq(assessment_detail)
+    end
+  end
+
+  describe "#consultation_summary" do
+    let(:planning_application) do
+      create(:planning_application, :with_consultees)
+    end
+
+    let!(:assessment_detail) do
+      create(
+        :assessment_detail,
+        :consultation_summary,
+        planning_application: planning_application
+      )
+    end
+
+    it "returns assessment detail with category 'consulation_summary'" do
+      expect(planning_application.consultation_summary).to eq(assessment_detail)
+    end
+  end
 end
