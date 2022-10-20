@@ -12,7 +12,7 @@
         <% end %>
       </span>
       <%= render(
-        ReviewRecommendationStatusTagComponent.new(
+        StatusTags::ReviewRecommendationComponent.new(
           planning_application: @planning_application,
           user: current_user
         )
@@ -27,7 +27,7 @@
         <% end %>
       </span>
       <%= render(
-        PublishDeterminationStatusTagComponent.new(
+        StatusTags::PublishDeterminationComponent.new(
           planning_application: @planning_application,
           user: current_user
         )

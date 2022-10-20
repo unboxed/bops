@@ -8,7 +8,7 @@
         <%= link_to "Check constraints", planning_application_constraints_path(@planning_application), class: "govuk-link" %>
       </span>
       <%= render(
-        ConstraintsStatusTagComponent.new(
+        StatusTags::ConstraintsComponent.new(
           planning_application: @planning_application
         )
       ) %>

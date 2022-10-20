@@ -8,6 +8,7 @@ RSpec.describe "Assessment tasks", type: :system do
 
   before do
     sign_in assessor
+    allow(ENV).to receive(:fetch).and_call_original
     allow(ENV).to receive(:fetch).with("PLANNING_HISTORY_ENABLED", "false").and_return("true")
   end
 

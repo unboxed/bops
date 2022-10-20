@@ -115,14 +115,6 @@ en:
       past_applications: History (manual)
       site_description: Site description
       summary_of_work: Summary of works
-  assessment_report_component:
-    constraints_including_article: Constraints including Article 4 direction(s)
-    consultation_documents: Consultation documents
-    documents_included_in: Documents included in decision notice
-    legislation: Legislation
-    location_description: Location description
-    planning_history: Planning history
-    summary_of_works: Summary of works
   assessment_report_downloads:
     show:
       assessment_report: Assessment report
@@ -322,37 +314,77 @@ en:
         description_documents_and: Description, documents and proposal details
         history: History search (in testing)
         in_assessment: In assessment
-  planning_application_panel_component:
-    all: All
-    all_applications: All applications
-    all_your_applications: All your applications
-    application_type_name: Application type
-    awaiting_correction: Corrections requested
-    awaiting_determination: Awaiting determination
-    closed: Closed
-    description: Description
-    formatted_awaiting_determination_at: Recommendation date
-    formatted_expiry_date: Expiry date
-    formatted_outcome_date: Outcome date
-    full_address: Site address
-    no_planning_applications: No planning applications match your search
-    not_started_and_invalid: Not started
-    outcome: Outcome
-    reference: Application number
-    remaining_days_status_tag: Days left to expiry
-    status_tag: Status
-    under_assessment: In assessment
-    user_name: Planning officer
   planning_applications:
+    assessment_report_component:
+      constraints_including_article: Constraints including Article 4 direction(s)
+      consultation_documents: Consultation documents
+      documents_included_in: Documents included in decision notice
+      legislation: Legislation
+      location_description: Location description
+      planning_history: Planning history
+      summary_of_works: Summary of works
     confirm_validation:
       validate_application: Validate application
+    days_left:
+      one: 1 day remaining
+      other: "%{count} days remaining"
+      zero: "%{count} days overdue"
+    index:
+      assessor_alert:
+        one: Your manager has requested corrections on <strong>%{count} application.</strong>
+        other: Your manager has requested corrections on <strong>%{count} applications.</strong>
+      reviewer_alert:
+        one: You have <strong>%{count} application</strong> returned to you with corrections.
+        other: You have <strong>%{count} applications</strong> returned to you with corrections.
+    overdue:
+      one: 1 day overdue
+      other: "%{count} days overdue"
+    panel_component:
+      all: All
+      all_applications: All applications
+      all_your_applications: All your applications
+      application_type_name: Application type
+      awaiting_correction: Corrections requested
+      awaiting_determination: Awaiting determination
+      closed: Closed
+      description: Description
+      formatted_awaiting_determination_at: Recommendation date
+      formatted_expiry_date: Expiry date
+      formatted_outcome_date: Outcome date
+      full_address: Site address
+      no_planning_applications: No planning applications match your search
+      not_started_and_invalid: Not started
+      outcome: Outcome
+      reference: Application number
+      remaining_days_status_tag: Days left to expiry
+      status_tag: Status
+      under_assessment: In assessment
+      user_name: Planning officer
+    policy_consideration_list:
+      proposal_details: Proposal details
+    search_form_component:
+      clear_search: Clear search
+      find_an_application: Find an application
+      search: Search
+      you_can_search: You can search by application number or description
+    steps:
+      assessment:
+        assess_recommendation: Assess recommendation
+        check_and_assess: Check and assess
+      validation:
+        check_and_validate: Check and validate
     submit_recommendation:
       review_and_submit_recommendation: Review and submit recommendation
-  policy_class_component:
-    complies: Complies
-    does_not_comply: Does not comply
-    policy_class_name: Part %{part}, Class %{class} - %{name}
-    to_be_determined: To be determined
+    submit_recommendation_accordion:
+      assessment_report: Assessment report
+      download_assessment_report: Download assessment report as PDF
+    tabs:
+      all_applications: All applications
+      all_your_applications: All your applications
+    validation_status:
+      complete: Complete
+      in_progress: In progress
+      not_started: Not started
   policy_classes:
     add_comment: Add comment
     comment_added_on: Comment added on %{created_at} by %{user}
@@ -381,17 +413,22 @@ en:
       open_legislation_in: Open legislation in new window
       please_indicate_if: Please indicate if the application complies, does not comply, or is not applicable to each of the policies. Policies are defined in the Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part %{part}, Class %{class}.
       remove_class_from: Remove class from assessment
+    summary_component:
+      complies: Complies
+      does_not_comply: Does not comply
+      policy_class_name: Part %{part}, Class %{class} - %{name}
+      to_be_determined: To be determined
     title: Part %{part}, Class %{class}
     update:
       successfully_updated_policy: Successfully updated policy class
-  proposal_detail_component:
-    auto_answered: Auto-answered by RIPA
   proposal_details:
+    list_component:
+      the_proposal_details: The proposal details are grouped under the following categories
+      view_only_applicant: View ONLY applicant answers, hide 'Auto-answered by RIPA'
     main: Main
     other: Other
-  proposal_details_component:
-    the_proposal_details: The proposal details are grouped under the following categories
-    view_only_applicant: View ONLY applicant answers, hide 'Auto-answered by RIPA'
+    summary_component:
+      auto_answered: Auto-answered by RIPA
   recommendations:
     documents:
       documents_included_in: Documents included in the decision notice
@@ -410,11 +447,6 @@ en:
       no_legislation_assessed: No legislation assessed for this application.
     new:
       assess_recommendation: Assess recommendation
-  search_form_component:
-    clear_search: Clear search
-    find_an_application: Find an application
-    search: Search
-    you_can_search: You can search by application number or description
   shared:
     administrator_layout:
       add_user: Add user

@@ -45,7 +45,7 @@
       </h2>
       <%= render "planning_application_tabs" %>
       <%= render(
-        PlanningApplicationPanelsComponent.new(
+        PlanningApplications::PanelsComponent.new(
           planning_applications: @planning_applications,
           search: @search,
           current_user: current_user,
