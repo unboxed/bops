@@ -1,0 +1,57 @@
+<% if constraints.any? %>
+  <h3 class="govuk-heading-m"><%= t(".constraints_including_article") %></h3>
+  <ul class="govuk-list govuk-list--bullet">
+    <% constraints.each do |constraint| %>
+      <li><%= constraint.humanize %></li>
+    <% end %>
+  </ul>
+<% end %>
+<% if past_applications.present? %>
+  <h3 class="govuk-heading-m"><%= t(".planning_history") %></h3>
+  <h4 class="govuk-heading-s"><%= past_applications.entry %></h4>
+  <%= simple_format(
+    past_applications.additional_information,
+    class: "govuk-body"
+  ) %>
+<% end %>
+<% if summary_of_work.present? %>
+  <h3 class="govuk-heading-m"><%= t(".summary_of_works") %></h3>
+  <%= simple_format(summary_of_work.entry, class: "govuk-body") %>
+<% end %>
+<% if site_description.present? %>
+  <h3 class="govuk-heading-m"><%= t(".location_description") %></h3>
+  <%= simple_format(site_description.entry, class: "govuk-body") %>
+<% end %>
+<% if consultation_summary.present? %>
+  <h3 class="govuk-heading-m"><%= t(".consultation_documents") %></h3>
+  <ul class="govuk-list govuk-list--bullet">
+    <% consultees.each do |consultee| %>
+      <li><%= "#{consultee.name} (#{consultee.origin})" %></li>
+    <% end %>
+  </ul>
+  <%= simple_format(consultation_summary.entry, class: "govuk-body") %>
+<% end %>
+<% if policy_classes.any? %>
+  <h3 class="govuk-heading-m"><%= t(".legislation") %></h3>
+  <% policy_classes.each do |policy_class| %>
+    <%= render(PolicyClassComponent.new(policy_class: policy_class)) %>
+  <% end %>
+<% end %>
+<h3 class="govuk-heading-m"><%= t(".documents_included_in") %></h3>
+<% if documents.any? %>
+  <table class="govuk-table">
+    <tbody class="govuk-table__body">
+      <% documents.each do |document| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <%= link_to(
+            document.name,
+            planning_application_documents_path(planning_application, anchor: dom_id(document)),
+            class: "govuk-body govuk-link"
+            ) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

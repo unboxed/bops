@@ -10,7 +10,9 @@ FactoryBot.define do
     planning_application
 
     trait :complies do
-      status { :complies }
+      after(:create) do |policy_class|
+        create(:policy, :complies, policy_class: policy_class)
+      end
     end
 
     trait :in_assessment do

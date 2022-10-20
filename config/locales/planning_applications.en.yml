@@ -23,6 +23,9 @@ en:
         check_and_assess: Check and assess
       validation:
         check_and_validate: Check and validate
+    submit_recommendation_accordion:
+      assessment_report: Assessment report
+      download_assessment_report: Download assessment report as PDF
     tabs:
       all_applications: All applications
       all_your_applications: All your applications

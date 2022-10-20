@@ -453,6 +453,12 @@ class PlanningApplication < ApplicationRecord
     ENV.fetch("PLANNING_HISTORY_ENABLED", "false") == "true"
   end
 
+  AssessmentDetail.categories.each_key do |category|
+    define_method(category) do
+      assessment_details.find_by(category: category)
+    end
+  end
+
   Recommendation.statuses.each_key do |status|
     delegate("#{status}?", to: :recommendation, prefix: true, allow_nil: true)
   end

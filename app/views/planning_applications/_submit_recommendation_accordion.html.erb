@@ -1,0 +1,27 @@
+<div class="govuk-accordion single-section-accordion" data-module="govuk-accordion">
+  <div class="govuk-accordion__section ">
+    <div class="govuk-accordion__section-header">
+      <h2 class="govuk-accordion__section-heading">
+        <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+          <%= t(".assessment_report") %>
+        </span>
+      </h2>
+    </div>
+    <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
+      <%= render(
+        AssessmentReportComponent.new(
+          planning_application: planning_application
+        )
+      ) %>
+      <%= link_to(
+        t(".download_assessment_report"),
+        planning_application_assessment_report_download_path(
+          planning_application,
+          format: "pdf"
+        ),
+        target: "_blank",
+        class: "govuk-body govuk-link"
+      ) %>
+    </div>
+  </div>
+</div>

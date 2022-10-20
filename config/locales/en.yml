@@ -115,6 +115,17 @@ en:
       past_applications: History (manual)
       site_description: Site description
       summary_of_work: Summary of works
+  assessment_report_component:
+    constraints_including_article: Constraints including Article 4 direction(s)
+    consultation_documents: Consultation documents
+    documents_included_in: Documents included in decision notice
+    legislation: Legislation
+    location_description: Location description
+    planning_history: Planning history
+    summary_of_works: Summary of works
+  assessment_report_downloads:
+    show:
+      assessment_report: Assessment report
   audit_user_name:
     applicant: Applicant / Agent via %{api_user_name}
     deleted: User deleted

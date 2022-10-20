@@ -246,4 +246,32 @@ RSpec.describe Document, type: :model do
       end
     end
   end
+
+  describe ".referenced_in_decision_notice" do
+    context "when referenced_in_decision_notice is true" do
+      let(:document) do
+        create(:document, referenced_in_decision_notice: true, numbers: "REF1")
+      end
+
+      it "includes document" do
+        expect(
+          described_class.referenced_in_decision_notice
+        ).to include(
+          document
+        )
+      end
+    end
+
+    context "when referenced_in_decision_notice is false" do
+      let(:document) { create(:document, referenced_in_decision_notice: false) }
+
+      it "includes document" do
+        expect(
+          described_class.referenced_in_decision_notice
+        ).not_to include(
+          document
+        )
+      end
+    end
+  end
 end

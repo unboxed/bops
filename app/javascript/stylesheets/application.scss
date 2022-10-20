@@ -300,3 +300,9 @@ html * {
     margin-bottom: 0px;
   }
 }
+
+.single-section-accordion {
+  .govuk-accordion__controls {
+    display: none;
+  }
+}

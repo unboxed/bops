@@ -4,7 +4,17 @@
 
 <% content_for :title, "Submit recommendation" %>
 
-<%= render layout: "shared/assessment_dashboard", locals: { heading: t(".review_and_submit_recommendation") } do %>
+<%= render(
+  layout: "shared/assessment_dashboard",
+  locals: {
+    heading: t(".review_and_submit_recommendation"),
+    show_accordian: false
+  }
+) do %>
+  <%= render(
+    partial: "submit_recommendation_accordion",
+    locals: { planning_application: @planning_application }
+  ) %>
   <h2 class="govuk-heading-m">Decision notice</h2>
   <p class="govuk-body">The following decision notice has been created based on your answers.</p>
   <%= render "decision_notice", planning_application: @planning_application %>

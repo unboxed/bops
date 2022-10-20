@@ -77,6 +77,11 @@ class Document < ApplicationRecord
   scope :with_tag, ->(tag) { where("tags @> ?", "\"#{tag}\"") }
   scope :with_file_attachment, -> { includes(file_attachment: :blob) }
 
+  scope(
+    :referenced_in_decision_notice,
+    -> { where(referenced_in_decision_notice: true) }
+  )
+
   before_create do
     self.api_user ||= Current.api_user
     self.user ||= Current.user
