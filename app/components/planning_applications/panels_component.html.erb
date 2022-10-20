@@ -1,0 +1,16 @@
+<% panel_types.each do |panel_type| %>
+  <%= render(
+    PlanningApplications::PanelComponent.new(
+      planning_applications: planning_applications.send(panel_type),
+      type: panel_type
+    )
+  ) %>
+<% end %>
+<%= render(
+  PlanningApplications::PanelComponent.new(
+    planning_applications: all_planning_applications,
+    type: :all,
+    search: search,
+    exclude_others: exclude_others
+  )
+) %>

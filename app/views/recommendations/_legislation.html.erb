@@ -3,5 +3,5 @@
   <p class="govuk-body"><%= t(".no_legislation_assessed") %></p>
 <% end %>
 <% policy_classes.each do |policy_class| %>
-  <%= render(PolicyClassComponent.new(policy_class: policy_class)) %>
+  <%= render(PolicyClasses::SummaryComponent.new(policy_class: policy_class)) %>
 <% end %>

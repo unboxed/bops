@@ -15,7 +15,7 @@
       ) %>
     </span>
     <%= render(
-      AssessRecommendationStatusTagComponent.new(
+      StatusTags::AssessRecommendationComponent.new(
         planning_application: @planning_application
       )
     ) %>
@@ -30,7 +30,7 @@
       ) %>
     </span>
     <%= render(
-      CheckAndAssessStatusTagComponent.new(
+      StatusTags::CheckAndAssessComponent.new(
         planning_application: @planning_application
       )
     ) %>
@@ -44,7 +44,7 @@
       <% end %>
     </span>
     <%= render(
-      SubmitRecommendationStatusTagComponent.new(
+      StatusTags::SubmitRecommendationComponent.new(
         planning_application: @planning_application
       )
     ) %>
