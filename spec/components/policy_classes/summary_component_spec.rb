@@ -11,7 +11,7 @@ RSpec.describe PolicyClasses::SummaryComponent, type: :component do
     before do
       summary_component.instance_variable_set(
         :@virtual_path,
-        "summary_component"
+        "policy_classes.summary_component"
       )
     end
 
