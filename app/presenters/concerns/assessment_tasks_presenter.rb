@@ -15,11 +15,18 @@ module AssessmentTasksPresenter
         @template, @planning_application, category
       ).task_list_row
     end
+
+    def permitted_development_right_tasklist
+      AssessmentTasks::PermittedDevelopmentRightPresenter.new(
+        @template, @planning_application
+      ).task_list_row
+    end
   end
 
   def assessment_tasklist_in_progress?
     policy_classes.any? ||
       consistency_checklist.present? ||
-      assessment_details.any?
+      assessment_details.any? ||
+      permitted_development_right.present?
   end
 end

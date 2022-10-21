@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ValidationRequestsController < AuthenticationController
+  include PlanningApplicationAssessable
+
   rescue_from Notifications::Client::NotFoundError, with: :validation_notice_request_error
   rescue_from Notifications::Client::ServerError, with: :validation_notice_request_error
   rescue_from Notifications::Client::RequestError, with: :validation_notice_request_error
@@ -68,12 +70,6 @@ class ValidationRequestsController < AuthenticationController
 
     Appsignal.send_error(exception)
     render "planning_applications/show"
-  end
-
-  def ensure_planning_application_is_validated
-    return if @planning_application.validated?
-
-    render plain: "forbidden", status: :forbidden
   end
 
   def ensure_planning_application_is_not_closed_or_cancelled

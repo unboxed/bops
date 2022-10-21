@@ -1,0 +1,30 @@
+<%= form_with model: [@planning_application, @permitted_development_right],
+              local: true,
+              builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+              class: "govuk-!-margin-top-7" do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+  <%= form.govuk_radio_buttons_fieldset(
+    :removed,
+    legend: { size: "s" }
+  ) do %>
+    <%= form.govuk_radio_button(
+      :removed, true, checked: @permitted_development_right.removed, label: { text: "Yes" }
+    ) do %>
+      <%= form.govuk_text_area(
+        :removed_reason, rows: 6
+      ) %>
+    <% end %>
+
+    <%= form.govuk_radio_button(
+      :removed, false, checked: !@permitted_development_right.removed, label: { text: "No" }
+    ) %>
+  <% end %>
+
+  <div class="govuk-button-group">
+    <%= form.submit "Save and mark as complete", class: "govuk-button", data: { module: "govuk-button" } %>
+    <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
+
+    <%= back_link %>
+  </div>
+<% end %>

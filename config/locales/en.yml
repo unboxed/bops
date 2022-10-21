@@ -236,6 +236,8 @@ en:
         cancel_reason: Explain to the applicant why this request is being cancelled
         suggestion: Explain to the applicant how the application can be made valid.
         summary: Tell the applicant another reason why the application is invalid.
+      permitted_development_right:
+        removed_reason: Describe how permitted development rights have been removed
       planning_application:
         closed_or_cancellation_comment: Provide a reason
         public_comment: 'This information will appear on the decision notice:'
@@ -255,6 +257,8 @@ en:
         password: Password
         role: Role
     legend:
+      permitted_development_right:
+        removed: Have the permitted development rights relevant for this application been removed?
       planning_application:
         determination_date: Enter determination date
         received_at: Date received
@@ -275,6 +279,13 @@ en:
         suggestion: Tell the applicant how the fee can be made valid.
         summary: Tell the applicant why the fee is incorrect.
   page_title: BETA BOPs - GOV.UK
+  permitted_development_rights:
+    checked: Checked
+    in_progress: In progress
+    not_started: Not started
+    removed: Removed
+    successfully_created: Permitted development rights response was successfully created
+    successfully_updated: Permitted development rights response was successfully updated
   planning_application:
     assessment_details:
       consultation_summary:
@@ -314,6 +325,7 @@ en:
         description_documents_and: Description, documents and proposal details
         history: History search (in testing)
         in_assessment: In assessment
+        permitted_development_rights: Permitted development rights
   planning_applications:
     assessment_report_component:
       constraints_including_article: Constraints including Article 4 direction(s)

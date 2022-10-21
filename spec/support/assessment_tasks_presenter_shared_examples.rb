@@ -48,5 +48,18 @@ RSpec.shared_examples "AssessmentTasksPresenter" do
         expect(presenter.assessment_tasklist_in_progress?).to eq(true)
       end
     end
+
+    context "when permitted development right is present" do
+      before do
+        create(
+          :permitted_development_right,
+          planning_application: planning_application
+        )
+      end
+
+      it "returns true" do
+        expect(presenter.assessment_tasklist_in_progress?).to eq(true)
+      end
+    end
   end
 end
