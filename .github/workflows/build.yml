@@ -51,7 +51,7 @@ jobs:
     uses: ./.github/workflows/testing.yml
     with:
       name: "all"
-      include: "spec/{helpers,presenters,mailer,jobs,services,translations}/**/*_spec.rb"
+      include: "spec/{components,helpers,presenters,mailer,jobs,services,translations}/**/*_spec.rb"
     secrets: inherit
 
   system-test-1:
