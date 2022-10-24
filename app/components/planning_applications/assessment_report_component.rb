@@ -2,13 +2,14 @@
 
 module PlanningApplications
   class AssessmentReportComponent < ViewComponent::Base
-    def initialize(planning_application:)
+    def initialize(planning_application:, show_additional_evidence: false)
       @planning_application = planning_application
+      @show_additional_evidence = show_additional_evidence
     end
 
     private
 
-    attr_reader :planning_application
+    attr_reader :planning_application, :show_additional_evidence
 
     delegate(
       :constraints,
@@ -18,11 +19,13 @@ module PlanningApplications
       :consultation_summary,
       :consultees,
       :policy_classes,
+      :permitted_development_right,
+      :additional_evidence,
       to: :planning_application
     )
 
     def documents
-      planning_application.documents.referenced_in_decision_notice
+      planning_application.documents_for_decision_notice
     end
   end
 end

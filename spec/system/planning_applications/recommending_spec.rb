@@ -541,6 +541,70 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
   end
 
+  context "when there are assessment details" do
+    let!(:summary_of_work) { create(:assessment_detail, :summary_of_work, entry: "A summary of work entry", planning_application: planning_application) }
+    let!(:additional_evidence) { create(:assessment_detail, :additional_evidence, entry: "An additional evidence entry", planning_application: planning_application) }
+    let!(:site_description) { create(:assessment_detail, :site_description, entry: "A site description entry", planning_application: planning_application) }
+    let!(:past_applications) { create(:assessment_detail, :past_applications, entry: "An entry for planning history", additional_information: "REF123", planning_application: planning_application) }
+    let!(:permitted_development_right) { create(:permitted_development_right, :removed, planning_application: planning_application) }
+
+    it "shows the relevant assessment details when assessing the recommendation" do
+      visit new_planning_application_recommendation_path(planning_application)
+
+      within("#constraints-section") do
+        expect(page).to have_content("Constraints including Article 4 direction(s)")
+        expect(page).to have_content("Conservation area Listed building")
+        expect(page).to have_link("Edit constraints")
+      end
+
+      within("#past-applications-section") do
+        expect(page).to have_content("Planning history")
+        expect(page).to have_content("REF123")
+        expect(page).to have_content("An entry for planning history")
+      end
+
+      within("#summary-of-works-section") do
+        expect(page).to have_content("Summary of works")
+        expect(page).to have_content("A summary of work entry")
+      end
+
+      within("#site-description-section") do
+        expect(page).to have_content("Location description")
+        expect(page).to have_content("A site description entry")
+      end
+
+      within("#additional-evidence-section") do
+        expect(page).to have_content("Additional evidence")
+        expect(page).to have_content("An additional evidence entry")
+      end
+
+      within("#permitted-development-rights-section") do
+        expect(page).to have_content("Have the permitted development rights relevant for this application been removed?")
+        expect(page).to have_content("Yes")
+        expect(page).to have_content("Removal reason")
+      end
+    end
+
+    it "does not show additional evidence when reviewing and submitting the recommendation" do
+      visit new_planning_application_recommendation_path(planning_application)
+      choose "Yes"
+
+      fill_in "State the reasons why this application is, or is not lawful.", with: "This is a public comment"
+      fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
+      click_button "Save and mark as complete"
+
+      visit submit_recommendation_planning_application_path(planning_application)
+      expect(page).to have_css("#constraints-section")
+      expect(page).to have_css("#past-applications-section")
+      expect(page).to have_css("#summary-of-works-section")
+      expect(page).to have_css("#site-description-section")
+      expect(page).to have_css("#permitted-development-rights-section")
+
+      expect(page).not_to have_css("#additional-evidence-section")
+      expect(page).not_to have_content("Additional evidence")
+    end
+  end
+
   it "shows the correct status tags at each stage" do
     visit(planning_application_path(planning_application))
 

@@ -4,27 +4,19 @@
 <% content_for(:title, t(".assess_recommendation")) %>
 <%= render(
   layout: "shared/assessment_dashboard",
-  locals: { heading: t(".assess_recommendation") }
+  locals: { heading: t(".assess_recommendation"), show_accordian: false }
 ) do %>
+  <h2 class="govuk-heading-l govuk-!-padding-top-5"><%= t(".assess_proposal") %></h2>
   <%= render(
-    partial: "legislation",
-    locals: {
+    PlanningApplications::AssessmentReportComponent.new(
       planning_application: @planning_application,
-      policy_classes: @planning_application.policy_classes
-    }
+      show_additional_evidence: true
+    )
   ) %>
   <%= render(
      partial: "events",
      locals: { recommendations: @planning_application.recommendations.reviewed }
   ) %>
-  <%= render(
-     partial: "documents",
-     locals: {
-       planning_application: @planning_application,
-       documents: @planning_application.documents_for_decision_notice
-     }
-  ) %>
-  <h2 class="govuk-heading-m"><%= t(".assess_recommendation") %></h2>
   <%= form_with(
     model: @recommendation,
     builder: GOVUKDesignSystemFormBuilder::FormBuilder,

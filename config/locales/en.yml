@@ -328,11 +328,15 @@ en:
         permitted_development_rights: Permitted development rights
   planning_applications:
     assessment_report_component:
+      additional_evidence: Additional evidence
       constraints_including_article: Constraints including Article 4 direction(s)
       consultation_documents: Consultation documents
-      documents_included_in: Documents included in decision notice
+      documents_included_in: Documents included in the decision notice
+      have_the_permitted_development_rights: Have the permitted development rights relevant for this application been removed?
       legislation: Legislation
       location_description: Location description
+      no_documents_listed: No documents listed on decision notice.
+      no_legislation_assessed: No legislation assessed for this application.
       planning_history: Planning history
       summary_of_works: Summary of works
     confirm_validation:
@@ -469,6 +473,7 @@ en:
     application_information:
       exempt: Exempt
     assessment_dashboard:
+      assess_proposal: Assess the proposal
       assess_recommendation: Assess recommendation
       awaiting_approval_to: Awaiting approval to a description change (sent on %{date})
       back: Back

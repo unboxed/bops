@@ -61,6 +61,13 @@ RSpec.describe "viewing assessment report", type: :system do
     )
 
     create(
+      :assessment_detail,
+      :additional_evidence,
+      planning_application: planning_application,
+      entry: "This is the additional evidence."
+    )
+
+    create(
       :consultee,
       planning_application: planning_application,
       name: "Alice Smith",
@@ -100,6 +107,8 @@ RSpec.describe "viewing assessment report", type: :system do
     expect(page).to have_content("Part 1, Class A - Window boxes")
     expect(page).to have_content("Complies")
     expect(page).to have_content(document.name)
+
+    expect(page).not_to have_content("This is the additional evidence.")
 
     expect(page).to have_link(
       "Download assessment report as PDF",

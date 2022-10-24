@@ -130,8 +130,8 @@ RSpec.describe "assessment against legislation", type: :system do
     click_link("Part 1, Class D")
     within(".govuk-accordion__section") do
       click_button("Constraints")
-      expect(page).to have_content("Conservation Area")
-      expect(page).to have_content("Listed Building")
+      expect(page).to have_content("Conservation area")
+      expect(page).to have_content("Listed building")
     end
   end
 

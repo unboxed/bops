@@ -5,7 +5,7 @@
 <% else %>
   <ul class="govuk-list govuk-list--bullet">
     <% @planning_application.constraints.each do |constraint| %>
-      <li><%= constraint %></li>
+      <li><%= constraint.humanize %></li>
     <% end %>
   </ul>
 <% end %>
