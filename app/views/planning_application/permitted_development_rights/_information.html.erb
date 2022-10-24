@@ -7,6 +7,12 @@
 <%= render "shared/warning_text",
     message: "This information WILL be made public" %>
 
-<%= render "constraints" %>
+<section id="constraints-section">
+  <h2 class="govuk-heading-m">
+    Constraints - including Article 4 direction(s)
+  </h2>
+
+  <%= render "shared/constraints" %>
+</section>
 
 <%= render "planning_history" %>
