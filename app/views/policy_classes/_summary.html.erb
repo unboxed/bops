@@ -16,9 +16,18 @@
         class: policy_class.section
       ) %>
     </h1>
-    <h2 class="govuk-heading-m">
+    <h2 class="govuk-heading-m govuk-!-padding-bottom-3">
       <%= t(".class_title", policy_class: policy_class.name) %>
     </h2>
+    <%= render "shared/planning_application_address_and_reference" %>
+    <%= button_to(
+        t(".remove_class_from"),
+        planning_application_policy_class_path(planning_application, policy_class),
+        method: :delete,
+        data: { confirm: "This action cannot be undone.\nAre you sure you want to remove this class?" },
+        class: "govuk-button govuk-button--warning",
+        disabled: planning_application.assessment_complete?
+    ) %>
     <p class="govuk-body">
       <%= t(
         ".please_indicate_if",
@@ -33,13 +42,8 @@
         target: "_blank"
       ) %>
     </p>
-    <%= button_to(
-        t(".remove_class_from"),
-        planning_application_policy_class_path(planning_application, policy_class),
-        method: :delete,
-        data: { confirm: "This action cannot be undone.\nAre you sure you want to remove this class?" },
-        class: "govuk-button govuk-button--warning",
-        disabled: planning_application.assessment_complete?
-    ) %>
+    <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+      <%= render "shared/accordian_section", heading: "Constraints", content: "shared/constraints" %>
+    </div>
   </div>
 </div>

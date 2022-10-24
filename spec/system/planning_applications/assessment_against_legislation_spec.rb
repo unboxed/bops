@@ -123,6 +123,18 @@ RSpec.describe "assessment against legislation", type: :system do
     end
   end
 
+  it "displays the constraints" do
+    click_link("Check and assess")
+    add_policy_classes(["Class D - porches"])
+
+    click_link("Part 1, Class D")
+    within(".govuk-accordion__section") do
+      click_button("Constraints")
+      expect(page).to have_content("Conservation Area")
+      expect(page).to have_content("Listed Building")
+    end
+  end
+
   it "lets the user add and update comments" do
     travel_to(Time.zone.local(2022, 9, 1))
     click_link("Check and assess")
