@@ -53,7 +53,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     fill_in "Review comment", with: "Reviewer private comment"
     click_button "Save and mark as complete"
     click_link "Publish determination"
-    click_button "Determine application"
+    click_button "Publish determination"
 
     planning_application.reload
     expect(planning_application.status).to eq("determined")
@@ -122,7 +122,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     find("#recommendation_challenged_false").click
     click_button "Save and mark as complete"
     click_link "Publish determination"
-    click_button "Determine application"
+    click_button "Publish determination"
 
     planning_application.reload
     expect(planning_application.status).to eq("determined")

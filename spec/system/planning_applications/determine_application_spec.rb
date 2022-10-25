@@ -53,7 +53,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           fill_in "Year", with: "2024"
         end
 
-        click_button("Determine application")
+        click_button("Publish determination")
 
         within(find_all(".govuk-error-summary").last) do
           expect(page).to have_content("Determination date must be today or in the past")
@@ -70,7 +70,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           fill_in "Year", with: "2024"
         end
 
-        click_button("Determine application")
+        click_button("Publish determination")
 
         expect(page).to have_content("Decision Notice sent to applicant")
 
@@ -110,6 +110,14 @@ RSpec.describe "Planning Application Assessment", type: :system do
         end
       end
 
+      it "I can navigate back" do
+        click_link("Publish determination")
+
+        click_link("Back")
+
+        expect(page).to have_title "Planning Application"
+      end
+
       context "when open description_change_validation_request" do
         before do
           create(
@@ -130,7 +138,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           fill_in("Day", with: "2")
           fill_in("Month", with: "1")
           fill_in("Year", with: "2024")
-          click_button("Determine application")
+          click_button("Publish determination")
 
           expect(page).to have_content("Decision Notice sent to applicant")
         end
