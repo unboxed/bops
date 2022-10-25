@@ -105,7 +105,7 @@ Given("the planning application is determined") do
     And I choose "Yes" for "Do you agree with the recommendation?"
     And I press "Save"
     And I press "Publish determination"
-    And I press "Determine application"
+    And I press "Publish determination"
   )
 end
 
