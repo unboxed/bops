@@ -124,7 +124,7 @@ RSpec.describe "assessment against legislation", type: :system do
       end
     end
 
-    it "displays the constraints" do
+    it "displays the constraints with edit" do
       click_link("Check and assess")
       add_policy_classes(["Class D - porches"])
 
@@ -133,6 +133,9 @@ RSpec.describe "assessment against legislation", type: :system do
         click_button("Constraints")
         expect(page).to have_content("Conservation area")
         expect(page).to have_content("Listed building")
+
+        expect(page).to have_link("Edit constraints",
+                                  href: edit_planning_application_constraints_path(planning_application))
       end
     end
 
@@ -342,6 +345,36 @@ RSpec.describe "assessment against legislation", type: :system do
           "Comment added on 01 Sep 2022 by Alice Smith",
           with: "New comment"
         )
+      end
+    end
+  end
+
+  context "when I'm signed in as a reviewer" do
+    let!(:reviewer) do
+      create(
+        :user,
+        :reviewer,
+        local_authority: local_authority
+      )
+    end
+
+    before do
+      sign_in(reviewer)
+      visit planning_application_path(planning_application)
+    end
+
+    it "displays the constraints without edit" do
+      click_link("Check and assess")
+      add_policy_classes(["Class D - porches"])
+
+      click_link("Part 1, Class D")
+      within(".govuk-accordion__section") do
+        click_button("Constraints")
+        expect(page).to have_content("Conservation area")
+        expect(page).to have_content("Listed building")
+
+        expect(page).not_to have_link("Edit constraints",
+                                      href: edit_planning_application_constraints_path(planning_application))
       end
     end
   end
