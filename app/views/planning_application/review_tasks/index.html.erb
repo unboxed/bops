@@ -1,0 +1,61 @@
+<% content_for :page_title do %>
+  Review and sign-off - <%= t('page_title') %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", planning_applications_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% content_for :title, "Review and sign-off" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l"><%= t(".review_and_sign_off") %></h1>
+      <p class="govuk-body govuk-!-font-size-24 govuk-!-font-weight-bold">
+        <%= @planning_application.full_address.upcase %>
+      </p>
+      <p class="govuk-body govuk-!-font-size-24">
+        <%= t("shared.proposal_header.application_number") %>
+        <span class="govuk-!-font-weight-bold">
+          <%= @planning_application.reference %>
+        </span>
+      </p>
+
+    <p class="govuk-body"><%= @planning_application.status_tag %></p>
+
+    <% if @planning_application.closed? %>
+      <p class="govuk-body">
+        <strong>Reason for being closed:</strong>
+        <%= simple_format(@planning_application.closed_or_cancellation_comment) %>
+      </p>
+    <% end %>
+
+    <p class="govuk-body">
+      <%= @planning_application.type_and_work_status %>: <%= @planning_application.description %>
+    </p>
+  </div>
+</div>
+
+<%= render "flash_content" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h2 class="app-task-list__section">
+      Review assessment
+    </h2>
+    <ul class="app-task-list__items">
+      <li class="app-task-list__item">
+        <span class="app-task-list__task-name">
+          <%= link_to "Sign-off recommendation",
+                      edit_planning_application_recommendations_path(@planning_application),
+                      aria: { describedby: "review_assessment-completed" },
+                      class: "govuk-link" %>
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+  </div>
+</div>

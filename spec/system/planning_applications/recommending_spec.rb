@@ -633,7 +633,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     expect(list_item("Assess recommendation")).to have_content("Complete")
 
     ["Not started", "In progress", "Complete"].each do |status|
-      expect(list_item("Review assessment")).not_to have_content(status)
+      expect(list_item("View recommendation")).not_to have_content(status)
     end
 
     click_link("Submit recommendation")
@@ -644,19 +644,21 @@ RSpec.describe "Planning Application Assessment", type: :system do
     sign_in(reviewer)
     visit(planning_application_path(planning_application))
 
-    expect(list_item("Review assessment")).to have_content("Not started")
+    expect(list_item("Review and sign-off")).to have_content("Not started")
 
-    click_link("Review assessment")
+    click_link("Review and sign-off")
+    click_link("Sign-off recommendation")
     choose("recommendation_challenged_true")
     fill_in("Review comment", with: "Application invalid")
     click_button("Save and come back later")
 
-    expect(list_item("Review assessment")).to have_content("In progress")
+    expect(list_item("Review and sign-off")).to have_content("In progress")
 
-    click_link("Review assessment")
+    click_link("Review and sign-off")
+    click_link("Sign-off recommendation")
     click_button("Save and mark as complete")
 
-    expect(list_item("Review assessment")).to have_content("Complete")
+    expect(list_item("Review and sign-off")).to have_content("Complete")
 
     ["Not started", "In progress", "Complete"].each do |status|
       expect(list_item("Assess recommendation")).not_to have_content(status)
@@ -684,15 +686,16 @@ RSpec.describe "Planning Application Assessment", type: :system do
     sign_in(reviewer)
     visit(planning_application_path(planning_application))
 
-    expect(list_item("Review assessment")).to have_content("Not started")
+    expect(list_item("Review and sign-off")).to have_content("Not started")
 
-    click_link("Review assessment")
+    click_link("Review and sign-off")
+    click_link("Sign-off recommendation")
     choose("recommendation_challenged_false")
     fill_in("Review comment", with: "Application valid")
     click_button("Save and mark as complete")
 
     expect(list_item("Assess recommendation")).to have_content("Complete")
-    expect(list_item("Review assessment")).to have_content("Complete")
+    expect(list_item("Review and sign-off")).to have_content("Complete")
 
     sign_in(assessor)
     visit(planning_application_path(planning_application))

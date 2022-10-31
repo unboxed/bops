@@ -73,7 +73,7 @@ RSpec.describe "Planning Application show page", type: :system do
       end
 
       within "#review-section" do
-        expect(page).to have_link("Review assessment")
+        expect(page).to have_link("Review and sign-off")
         expect(page).not_to have_content("Complete")
 
         expect(page).not_to have_link("Publish determination")
@@ -88,7 +88,7 @@ RSpec.describe "Planning Application show page", type: :system do
       visit planning_application_path(planning_application)
 
       within "#review-section" do
-        expect(page).to have_link("Review assessment")
+        expect(page).to have_link("Review and sign-off")
         expect(page).to have_content("Complete")
         expect(page).to have_link("Publish determination")
         within(:xpath, '//*[@id="review-section"]/ul/li[2]') do
@@ -166,7 +166,7 @@ RSpec.describe "Planning Application show page", type: :system do
       end
 
       within "#review-section" do
-        expect(page).not_to have_link("Review assessment")
+        expect(page).not_to have_link("Review and sign-off")
         expect(page).to have_link("View recommendation")
         expect(page).not_to have_content("Complete")
 
@@ -191,7 +191,7 @@ RSpec.describe "Planning Application show page", type: :system do
       end
 
       within "#review-section" do
-        expect(page).not_to have_link("Review assessment")
+        expect(page).not_to have_link("Review and sign-off")
         expect(page).to have_content("Complete")
 
         expect(page).not_to have_link("Publish determination")

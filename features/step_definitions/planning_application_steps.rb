@@ -98,17 +98,6 @@ Given("a recommendation is submitted for the planning application") do
   )
 end
 
-Given("the planning application is determined") do
-  steps %(
-    Given a recommendation is submitted for the planning application
-    And I press "Review assessment"
-    And I choose "Yes" for "Do you agree with the recommendation?"
-    And I press "Save"
-    And I press "Publish determination"
-    And I press "Publish determination"
-  )
-end
-
 When("I view the planning application") do
   visit planning_application_path(@planning_application)
 end
