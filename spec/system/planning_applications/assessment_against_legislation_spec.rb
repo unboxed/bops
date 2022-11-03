@@ -199,6 +199,7 @@ RSpec.describe "assessment against legislation", type: :system do
       choose("policy_class_policies_attributes_1_status_complies")
       choose("policy_class_policies_attributes_2_status_complies")
       choose("policy_class_policies_attributes_3_status_complies")
+      choose("policy_class_policies_attributes_4_status_complies")
       click_button("Save and mark as complete")
 
       expect(page).to have_content("All policies must be assessed")
@@ -214,7 +215,7 @@ RSpec.describe "assessment against legislation", type: :system do
       expect(task_list_item).to have_content("In assessment")
 
       click_link("Part 1, Class D")
-      choose("policy_class_policies_attributes_4_status_complies")
+      choose("policy_class_policies_attributes_5_status_complies")
       click_button("Save and mark as complete")
 
       expect(page).to have_content("Successfully updated policy class")
@@ -293,12 +294,14 @@ RSpec.describe "assessment against legislation", type: :system do
       choose("policy_class_policies_attributes_2_status_complies")
       choose("policy_class_policies_attributes_3_status_complies")
       choose("policy_class_policies_attributes_4_status_complies")
+      choose("policy_class_policies_attributes_5_status_complies")
       click_button("Save and mark as complete")
       click_link("Part 1, Class F")
       choose("policy_class_policies_attributes_0_status_complies")
       choose("policy_class_policies_attributes_1_status_complies")
       choose("policy_class_policies_attributes_2_status_complies")
       choose("policy_class_policies_attributes_3_status_complies")
+      choose("policy_class_policies_attributes_4_status_complies")
       click_button("Save and mark as complete")
       click_link("Part 1, Class D")
 

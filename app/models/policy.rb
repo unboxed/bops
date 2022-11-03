@@ -12,7 +12,7 @@ class Policy < ApplicationRecord
     reject_if: proc { |attributes| attributes[:text].blank? }
   )
 
-  validates :description, :section, :status, presence: true
+  validates :description, :status, presence: true
 
   enum(
     status: { complies: 0, does_not_comply: 1, to_be_determined: 2 },

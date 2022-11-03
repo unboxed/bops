@@ -14,6 +14,11 @@ en:
               name: enlargement, improvement or other alteration of a dwellinghouse
               policies_attributes:
                 -
+                  section: ""
+                  description: |
+                    The enlargement, improvement or other alteration
+                    of a dwellinghouse.
+                -
                   section: 1a
                   description: |
                     Development is not permitted by Class A if
@@ -270,6 +275,22 @@ en:
               name: enlargement of a dwellinghouse by construction of additional storeys
               policies_attributes:
                 -
+                  section: ""
+                  description: |
+                    The enlargement of a dwellinghouse consisting of
+                    the construction of—
+
+                    (a) up to two additional storeys, where the
+                    existing dwellinghouse consists of two or more
+                    storeys; or
+
+                    (b) one additional storey, where the existing
+                    dwellinghouse consists of one storey,
+                    immediately above the topmost storey of the
+                    dwellinghouse, together with any engineering
+                    operations reasonably necessary for the purpose
+                    of that construction.
+                -
                   section: 1a
                   description: |
                     Development is not permitted by Class AA if
@@ -434,6 +455,11 @@ en:
               name: additions etc to the roof of a dwellinghouse
               policies_attributes:
                 -
+                  section: ""
+                  description: |
+                    The enlargement of a dwellinghouse consisting of
+                    an addition or alteration to its roof.
+                -
                   section: 1a
                   description: |
                     "Development is not permitted by Class B if
@@ -571,6 +597,11 @@ en:
               name: other alterations to the roof of a dwellinghouse
               policies_attributes:
                 -
+                  section: ""
+                  description: |
+                    Any other alteration to the roof of a
+                    dwellinghouse
+                -
                   section: 1a
                   description: |
                     "Development is not permitted by Class C if
@@ -637,6 +668,10 @@ en:
               url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-d-porches
               name: porches
               policies_attributes:
+                - section: ""
+                  description: |
+                    The erection or construction of a porch outside
+                    any external door of a dwellinghouse.
                 -
                   section: 1a
                   description: |
@@ -677,6 +712,21 @@ en:
               url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-e-buildings-etc-incidental-to-the-enjoyment-of-a-dwellinghouse
               name: buildings etc incidental to the enjoyment of a dwellinghouse
               policies_attributes:
+                -
+                  section: ""
+                  description: |
+                    The provision within the curtilage of the
+                    dwellinghouse of—
+
+                    (a) any building or enclosure, swimming or other
+                       pool required for a purpose incidental to the
+                       enjoyment of the dwellinghouse as such, or the
+                       maintenance, improvement or other alteration
+                       of such a building or enclosure; or
+
+                    (b) a container used for domestic heating
+                       purposes for the storage of oil or liquid
+                       petroleum gas.
                 -
                   section: 1a
                   description: |
@@ -827,6 +877,18 @@ en:
               name: hard surfaces incidental to the enjoyment of a dwellinghouse
               policies_attributes:
                 -
+                  section: ""
+                  description: |
+                    Development consisting of—
+
+                    (a) the provision within the curtilage of a
+                    dwellinghouse of a hard surface for any purpose
+                    incidental to the enjoyment of the dwellinghouse
+                    as such; or
+
+                    (b) the replacement in whole or in part of such
+                    a surface.
+                -
                   section: 1a
                   description: |
                     Development is not permitted by Class F if
@@ -870,6 +932,12 @@ en:
               name: chimneys, flues etc on a dwellinghouse
               url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-g-chimneys-flues-etc-on-a-dwellinghouse
               policies_attributes:
+                -
+                  section: ""
+                  description: |
+                    The installation, alteration or replacement of a
+                    chimney, flue or soil and vent pipe on a
+                    dwellinghouse.
                 -
                   section: 1a
                   description: |

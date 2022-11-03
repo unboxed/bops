@@ -22,8 +22,8 @@ RSpec.describe PolicyClass, type: :model do
     it "builds policies associated with each policy class" do
       expect(policy_class.policies.first).to have_attributes(
         id: nil,
-        section: "1a",
-        description: "Development is not permitted by Class A if\npermission to use the dwellinghouse as a\ndwellinghouse has been granted only by virtue of\nClass M, MA, N, P, PA or Q of Part 3 of this\nSchedule (changes of use);\n",
+        section: "",
+        description: "The enlargement, improvement or other alteration\nof a dwellinghouse.\n",
         status: "to_be_determined"
       )
     end
