@@ -430,7 +430,7 @@ en:
               schedule: "Schedule 1"
               part: 1
               section: B
-              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-a-enlargement-improvement-or-other-alteration-of-a-dwellinghouse
+              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-b-additions-etc-to-the-roof-of-a-dwellinghouse
               name: additions etc to the roof of a dwellinghouse
               policies_attributes:
                 -
@@ -567,7 +567,7 @@ en:
               schedule: "Schedule 1"
               part: 1
               section: C
-              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-c-other-alterations-to-the-roof-of-a-dwellinghouse/made
+              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-c-other-alterations-to-the-roof-of-a-dwellinghouse
               name: other alterations to the roof of a dwellinghouse
               policies_attributes:
                 -
@@ -634,7 +634,7 @@ en:
               schedule: "Schedule 1"
               part: 1
               section: D
-              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-d-porches/made
+              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-d-porches
               name: porches
               policies_attributes:
                 -
@@ -674,7 +674,7 @@ en:
               schedule: "Schedule 1"
               part: 1
               section: E
-              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-e-buildings-etc-incidental-to-the-enjoyment-of-a-dwellinghouse/made
+              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-e-buildings-etc-incidental-to-the-enjoyment-of-a-dwellinghouse
               name: buildings etc incidental to the enjoyment of a dwellinghouse
               policies_attributes:
                 -
@@ -823,7 +823,7 @@ en:
               schedule: "Schedule 1"
               part: 1
               section: F
-              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-f-hard-surfaces-incidental-to-the-enjoyment-of-a-dwellinghouse/made
+              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-f-hard-surfaces-incidental-to-the-enjoyment-of-a-dwellinghouse
               name: hard surfaces incidental to the enjoyment of a dwellinghouse
               policies_attributes:
                 -
@@ -868,7 +868,7 @@ en:
               part: 1
               section: G
               name: chimneys, flues etc on a dwellinghouse
-              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-g-chimneys-flues-etc-on-a-dwellinghouse/made
+              url: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/1/crossheading/class-g-chimneys-flues-etc-on-a-dwellinghouse
               policies_attributes:
                 -
                   section: 1a
