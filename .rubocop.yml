@@ -16,6 +16,11 @@ AllCops:
     - 'bops-applicants/**/*'
     - 'lib/package_builder.rb'
 
+Layout/LineLength:
+  Exclude:
+    - spec/**/*
+    - db/migrate/*_update_policy_class_urls.rb
+
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
@@ -31,10 +36,6 @@ Metrics/BlockLength:
 
 Metrics/MethodLength:
   Max: 20
-
-Layout/LineLength:
-  Exclude:
-    - spec/**/*
 
 # we tend to use update_all in migrations
 Rails/SkipsModelValidations:
