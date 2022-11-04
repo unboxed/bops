@@ -39,7 +39,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
   it "can be accepted" do
     delivered_emails = ActionMailer::Base.deliveries.count
-    click_link "Review assessment"
+    click_link "Review and sign-off"
+    click_link "Sign-off recommendation"
 
     expect(page).to have_content("Review the recommendation")
 
@@ -62,7 +63,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     expect(planning_application.recommendations.last.reviewer_comment).to eq("Reviewer private comment")
     expect(page).not_to have_content("Assigned to:")
     expect(page).not_to have_content("Process Application")
-    expect(page).not_to have_content("Review Assessment")
+    expect(page).not_to have_content("Review and sign-off")
     perform_enqueued_jobs
     expect(ActionMailer::Base.deliveries.count).to eq(delivered_emails + 2)
     click_link("View decision notice")
@@ -74,7 +75,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
   it "can be rejected" do
     travel_to(Date.new(2022))
-    click_link "Review assessment"
+    click_link "Review and sign-off"
+    click_link "Sign-off recommendation"
+
     find("#recommendation_challenged_true").click
     fill_in "Review comment", with: "Reviewer private comment"
     click_button "Save and mark as complete"
@@ -106,7 +109,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
   end
 
   it "cannot be rejected without a review comment" do
-    click_link "Review assessment"
+    click_link "Review and sign-off"
+    click_link "Sign-off recommendation"
+
     find("#recommendation_challenged_true").click
     click_button "Save and mark as complete"
 
@@ -118,7 +123,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
   end
 
   it "can be accepted without a review comment" do
-    click_link "Review assessment"
+    click_link "Review and sign-off"
+    click_link "Sign-off recommendation"
+
     find("#recommendation_challenged_false").click
     click_button "Save and mark as complete"
     click_link "Publish determination"
@@ -131,7 +138,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
   it "can edit an existing review of an assessment" do
     recommendation = create :recommendation, :reviewed, planning_application: planning_application,
                                                         reviewer_comment: "Reviewer private comment"
-    click_link "Review assessment"
+    click_link "Review and sign-off"
+    click_link "Sign-off recommendation"
 
     within ".recommendations" do
       expect(page).to have_content("First assessor comment")
@@ -152,7 +160,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
   context "when editing the public comment that appears on the decision notice" do
     it "as a reviewer I am able to edit" do
-      click_link "Review assessment"
+      click_link "Review and sign-off"
+      click_link "Sign-off recommendation"
 
       expect(page).to have_content("Review the recommendation")
       expect(page).to have_content("The planning officer recommends that the application is granted")
@@ -180,7 +189,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
       click_button "Save"
       expect(page).to have_content("Planning application was successfully updated.")
 
-      click_link "Review assessment"
+      click_link "Review and sign-off"
+      click_link "Sign-off recommendation"
+
       expect(page).to have_content("This text will appear on the decision notice.")
 
       # Check audit log
