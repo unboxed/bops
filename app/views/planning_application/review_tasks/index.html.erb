@@ -48,7 +48,14 @@
                       edit_planning_application_recommendations_path(@planning_application),
                       aria: { describedby: "review_assessment-completed" },
                       class: "govuk-link" %>
+
         </span>
+        <%= render(
+        StatusTags::ReviewRecommendationComponent.new(
+          planning_application: @planning_application,
+          user: current_user
+        )
+      )%>
       </li>
     </ul>
   </div>

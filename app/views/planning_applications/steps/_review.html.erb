@@ -17,12 +17,7 @@
           <% end %>
         <% end %>
       </span>
-      <%= render(
-        StatusTags::ReviewRecommendationComponent.new(
-          planning_application: @planning_application,
-          user: current_user
-        )
-      )%>
+
     </li>
     <li class="app-task-list__item">
       <span class="app-task-list__task-name">
