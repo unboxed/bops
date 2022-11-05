@@ -415,15 +415,10 @@ en:
       delete_comment: Delete comment
     comment_updated_on: Comment updated on %{updated_at} by %{user}
     complete: Complete
-    form:
-      complies: Complies
-      does_not_comply: Does not comply
+    form_controls:
       edit_assessment: Edit assessment
-      policy_reference: Policy reference
       save_changes_and_view_next: Save changes and view next class
       save_changes_and_view_previous: Save changes and view previous class
-      table_caption: Part %{part}, Class %{class} - %{name}
-      to_be_determined: To be determined
       view_next_class: View next class
       view_previous_class: View previous class
     in_assessment: In assessment
@@ -440,6 +435,12 @@ en:
       complies: Complies
       does_not_comply: Does not comply
       policy_class_name: Part %{part}, Class %{class} - %{name}
+      to_be_determined: To be determined
+    table:
+      complies: Complies
+      does_not_comply: Does not comply
+      policy_reference: Policy reference
+      table_caption: Part %{part}, Class %{class} - %{name}
       to_be_determined: To be determined
     title: Part %{part}, Class %{class}
     update:
