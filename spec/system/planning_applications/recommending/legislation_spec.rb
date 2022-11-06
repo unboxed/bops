@@ -75,4 +75,62 @@ RSpec.describe "Planning Application Assessment Legislation", type: :system do
 
     expect(page).to have_content("Complies")
   end
+
+  context "when uncommented" do
+    it "excludes 'more details' when complying or to_be_determined" do
+      policy_class = create(:policy_class,
+                            part: 1,
+                            section: "T",
+                            planning_application: planning_application)
+      create(:policy,
+             :complies,
+             section: "1A",
+             policy_class: policy_class)
+
+      create(:policy,
+             :to_be_determined,
+             section: "1A",
+             policy_class: policy_class)
+
+      visit(new_planning_application_recommendation_path(planning_application))
+
+      expect(page).to have_selector "h1", text: "Assess recommendation"
+      expect(page).not_to have_content("View commented legislation for class T")
+    end
+
+    it "includes 'more details' when clause does not comply" do
+      policy_class = create(:policy_class,
+                            part: 1,
+                            section: "T",
+                            planning_application: planning_application)
+      create(:policy,
+             :does_not_comply,
+             section: "1A",
+             policy_class: policy_class)
+
+      visit(new_planning_application_recommendation_path(planning_application))
+
+      expect(page).to have_selector "h1", text: "Assess recommendation"
+      expect(page).to have_content("View commented legislation for class T")
+    end
+  end
+
+  context "when commented" do
+    it "shows legislation paragraphs that comply" do
+      policy_class = create(:policy_class,
+                            part: 1,
+                            section: "T",
+                            planning_application: planning_application)
+      policy = create(:policy,
+                      :complies,
+                      section: "1M",
+                      policy_class: policy_class)
+      create(:comment, policy: policy)
+
+      visit(new_planning_application_recommendation_path(planning_application))
+
+      expect(page).to have_content("Complies")
+      expect(page).to have_content("View commented legislation for class T")
+    end
+  end
 end

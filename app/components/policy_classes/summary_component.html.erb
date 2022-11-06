@@ -15,3 +15,24 @@
     </div>
   <% end %>
 <% end %>
+
+<% if policies.commented_or_does_not_comply.any? %>
+  <details class="govuk-details" data-module="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        <%= "View commented legislation for class #{section}" %>
+      </span>
+    </summary>
+    <div class="govuk-details__text">
+      <%= render(partial: "policy_classes/form",
+                 locals: {
+                   planning_application: planning_application,
+                   policy_class: @policy_class,
+                   policies: @policy_class.policies.commented_or_does_not_comply,
+                   show_controls: false,
+                   editable: false
+                 })
+      %>
+    </div>
+  </details>
+<% end %>
