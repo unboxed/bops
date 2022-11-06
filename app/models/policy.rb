@@ -21,6 +21,12 @@ class Policy < ApplicationRecord
 
   statuses.each_key { |status| scope status, -> { where(status: status) } }
 
+  scope :with_a_comment, -> { joins(:comment) }
+
+  def self.commented_or_does_not_comply
+    (does_not_comply | with_a_comment).sort_by(&:section)
+  end
+
   def existing_or_new_comment
     comment || build_comment
   end
