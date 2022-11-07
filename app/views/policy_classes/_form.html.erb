@@ -39,7 +39,7 @@
                   <%= "#{form.object.section}.#{policy_form.object.section}" %>
                 </h3>
                 <p class="govuk-body">
-                  <%= policy_form.object.description %>
+                  <%= simple_format(policy_form.object.description) %>
                 </p>
                 <% if editable %>
                   <%= render(
