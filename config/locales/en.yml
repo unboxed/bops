@@ -46,6 +46,8 @@ en:
               not_a_number: Payment amount must be a number not exceeding 2 decimal places
             public_comment:
               blank: Please state the reasons why this application is, or is not lawful
+            review_documents_for_recommendation_status:
+              inclusion: "%{attribute} must be Not started, In progress or Complete"
         policy_class:
           attributes:
             status:

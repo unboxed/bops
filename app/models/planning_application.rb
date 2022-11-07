@@ -116,11 +116,15 @@ class PlanningApplication < ApplicationRecord
                                            uprn
                                            boundary_geojson].freeze
 
+  PROGRESS_STATUSES = %w[not_started in_progress complete].freeze
+
   private_constant :PLANNING_APPLICATION_PERMITTED_KEYS
 
   validates :work_status,
             inclusion: { in: WORK_STATUSES,
                          message: "Work Status should be proposed or existing" }
+  validates :review_documents_for_recommendation_status,
+            inclusion: { in: PROGRESS_STATUSES }
   validates :application_type, :application_number, :reference, presence: true
   validates :payment_amount, :invalid_payment_amount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 

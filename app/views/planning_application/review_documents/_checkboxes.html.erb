@@ -1,0 +1,20 @@
+<div class="govuk-form-group">
+  <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+    <div class="govuk-checkboxes__item">
+      <div class="govuk-checkboxes__item">
+        <%= check_box_tag(
+          "#{field}_document_ids[]",
+          document.id,
+          document.send(field),
+          class: "govuk-checkboxes__input",
+          id: "#{field}_document_#{document.id}",
+          ) %>
+        <%= label_tag(
+          "#{field}_document_#{document.id}",
+          "",
+          class: "govuk-label govuk-checkboxes__label",
+        ) %>
+      </div>
+    </div>
+  </div>
+</div>

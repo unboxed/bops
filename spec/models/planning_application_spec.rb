@@ -59,6 +59,18 @@ RSpec.describe PlanningApplication, type: :model do
         expect { planning_application.valid? }.not_to(change { planning_application.errors[:payment_amount] })
       end
     end
+
+    describe "#review_documents_for_recommendation_status" do
+      it "validates the type of status" do
+        planning_application = build(:planning_application, review_documents_for_recommendation_status: "bad_status")
+
+        expect do
+          planning_application.valid?
+        end.to change {
+          planning_application.errors[:review_documents_for_recommendation_status]
+        }.to ["Review documents for recommendation status must be Not started, In progress or Complete"]
+      end
+    end
   end
 
   describe "associations" do

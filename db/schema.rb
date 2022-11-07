@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_11_144528) do
+ActiveRecord::Schema.define(version: 2022_11_07_110702) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -311,6 +311,7 @@ ActiveRecord::Schema.define(version: 2022_10_11_144528) do
     t.string "reference"
     t.datetime "validated_at"
     t.datetime "received_at"
+    t.string "review_documents_for_recommendation_status", default: "not_started", null: false
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
