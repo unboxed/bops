@@ -401,50 +401,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(planning_application.status).to eq("in_assessment")
     end
 
-    context "when officer assesses legislation" do
-      it "shows assessed legislation on recommendation page" do
-        visit(planning_application_path(planning_application))
-        click_link("Check and assess")
-        click_link("Add assessment area")
-        choose("Part 1 - Development within the curtilage of a dwellinghouse")
-        click_button("Continue")
-        check("Class D - porches")
-        click_button("Add classes")
-        click_link("Part 1, Class D")
-        choose("policy_class_policies_attributes_0_status_complies")
-        choose("policy_class_policies_attributes_1_status_complies")
-        choose("policy_class_policies_attributes_2_status_complies")
-        choose("policy_class_policies_attributes_3_status_complies")
-        choose("policy_class_policies_attributes_4_status_complies")
-        choose("policy_class_policies_attributes_5_status_to_be_determined")
-        click_button("Save and come back later")
-        click_link("Application")
-        click_link("Assess recommendation")
-
-        expect(page).to have_content("To be determined")
-
-        click_link("Part 1, Class D - porches")
-        choose("policy_class_policies_attributes_5_status_does_not_comply")
-        click_button("Save and come back later")
-        click_link("Application")
-        click_link("Assess recommendation")
-
-        expect(page).to have_content("Does not comply")
-
-        expect(page).to have_content(
-          "Development is not permitted by Class D if the dwellinghouse is built under Part 20 of this Schedule (construction of new dwellinghouses)"
-        )
-
-        click_link("Part 1, Class D - porches")
-        choose("policy_class_policies_attributes_5_status_complies")
-        click_button("Save and come back later")
-        click_link("Application")
-        click_link("Assess recommendation")
-
-        expect(page).to have_content("Complies")
-      end
-    end
-
     context "when assessor submits recommendation and reviewer requests changes" do
       it "displays recommendation events" do
         travel_to(Time.zone.local(2022, 8, 23, 9))
