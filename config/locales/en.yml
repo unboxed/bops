@@ -426,7 +426,6 @@ en:
       application: Application
       assess: Assess
       assess_policy_class: Assess - Part %{part}, Class %{class}
-      class_title: Class title - %{policy_class}
       home: Home
       open_legislation_in: Open legislation in new window
       please_indicate_if: Please indicate if the application complies, does not comply, or is not applicable to each of the policies. Policies are defined in the Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part %{part}, Class %{class}.

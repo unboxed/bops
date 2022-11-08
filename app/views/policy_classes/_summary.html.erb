@@ -17,7 +17,7 @@
       ) %>
     </h1>
     <h2 class="govuk-heading-m govuk-!-padding-bottom-3">
-      <%= t(".class_title", policy_class: policy_class.name) %>
+      <%= policy_class.name.upcase_first %>
     </h2>
     <%= render "shared/planning_application_address_and_reference" %>
     <%= button_to(
