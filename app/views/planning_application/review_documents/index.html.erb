@@ -73,6 +73,12 @@
               <% end %>
             <% end %>
           <% end %>
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell" colspan="100%">
+              <%= link_to "Manage documents", planning_application_documents_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+            </td>
+          </tr>
         </tbody>
       </table>
 

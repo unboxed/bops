@@ -63,6 +63,8 @@ RSpec.describe "Review documents for recommendation", type: :system do
         expect(page).to have_button("Save and come back later")
         expect(page).to have_link("Back")
       end
+
+      expect(page).to have_link("Manage documents", href: planning_application_documents_path(planning_application))
     end
 
     it "I can only view active documents on the review documents for recommendation page" do
