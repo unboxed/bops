@@ -113,11 +113,13 @@ Rails.application.routes.draw do
 
       resources :review_tasks, only: :index
 
-      resources :summary_of_works, only: %i[new edit create show update]
-
       resources :assessment_details, only: %i[new edit create show update]
 
       resources :permitted_development_rights, only: %i[new create edit update show]
+
+      resources :review_documents, only: %i[index] do
+        patch :update, on: :collection
+      end
     end
   end
 

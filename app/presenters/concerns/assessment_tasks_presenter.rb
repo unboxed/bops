@@ -16,6 +16,12 @@ module AssessmentTasksPresenter
       ).task_list_row
     end
 
+    def review_documents_tasklist
+      AssessmentTasks::ReviewDocumentsPresenter.new(
+        @template, @planning_application
+      ).task_list_row
+    end
+
     def permitted_development_right_tasklist
       AssessmentTasks::PermittedDevelopmentRightPresenter.new(
         @template, @planning_application

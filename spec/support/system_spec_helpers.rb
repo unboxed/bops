@@ -12,4 +12,8 @@ module SystemSpecHelpers
   def list_item(text)
     find("li", text: text, match: :prefer_exact)
   end
+
+  def find_checkbox_by_id(id)
+    find(".govuk-checkboxes__item ##{id}")
+  end
 end

@@ -1,0 +1,87 @@
+<% content_for :page_title do %>
+  Review documents for recommendation - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+  partial: "shared/assessment_task_breadcrumbs",
+  locals: { planning_application: @planning_application  }
+) %>
+
+<% content_for :title, "Review documents" %>
+
+<div class="govuk-width-container">
+  <h1 class="govuk-heading-l">
+    Review documents for recommendation
+  </h1>
+
+  <%= render "shared/planning_application_address_and_reference" %>
+
+  <p class="govuk-body"><%= @planning_application.status_tag %></p>
+
+  <p class="govuk-body">
+    <%= @planning_application.type_and_work_status %>: <%= @planning_application.description %>
+  </p>
+
+  <p class="govuk-body">
+    <strong>All documents need a reference to be on the decision notice or made public</strong>
+  </p>
+
+  <% if @documents.empty? %>
+    <p class="govuk-body">There are no active documents.</p>
+  <% else %>
+    <%= form_with(
+      builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+      method: :patch,
+      multiple: true,
+      url: planning_application_review_documents_path(@planning_application),
+    ) do |form| %>
+      <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header govuk-!-width-two-thirds" colspan="2">Documents</th>
+            <th scope="col" class="govuk-table__header text-align-centre">On decision notice</th>
+            <th scope="col" class="govuk-table__header text-align-centre">Public</th>
+          </tr>
+        </thead>
+
+        <tbody class="govuk-table__body">
+          <% @documents.each do |document| %>
+            <%= content_tag(:tr, id: dom_id(document)) do %>
+              <td class="govuk-table__cell"><%= document.numbers.presence || document.file.filename %></td>
+              <td class="govuk-table__cell">
+                <% if document.tags.present? %>
+                  <% document.tags.each do |tag| %>
+                    <strong class="govuk-tag govuk-tag--turquoise govuk-!-margin-bottom-1"><%= tag %></strong>
+                  <% end %>
+                <% else %>
+                  <p class="govuk-body govuk govuk-!-margin-bottom-1">
+                    <em>No tags added</em>
+                  </p>
+                <% end %>
+              </td>
+              <% if document.numbers.presence %>
+                <td class="govuk-table__cell">
+                  <%= render "checkboxes", document: document, field: "referenced_in_decision_notice" %>
+                </td>
+                <td class="govuk-table__cell">
+                  <%= render "checkboxes", document: document, field: "publishable" %>
+                </td>
+              <% else %>
+                <td class="govuk-table__cell text-align-centre" colspan="2">
+                  <%= link_to "Add document reference", edit_planning_application_document_path(@planning_application, document), class: "govuk-link" %>
+                </td>
+              <% end %>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+
+      <div class="govuk-button-group">
+        <%= form.submit "Save and mark as complete", class: "govuk-button", data: { module: "govuk-button" } %>
+        <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
+
+        <%= back_link %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
