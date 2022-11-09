@@ -429,6 +429,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         find("#recommendation_challenged_true").click
         fill_in("Review comment", with: "Requirements not met.")
         click_button("Save and mark as complete")
+        click_link("Back")
         click_link("Assess recommendation")
 
         events = find_all(".recommendation-event")
@@ -609,12 +610,14 @@ RSpec.describe "Planning Application Assessment", type: :system do
     fill_in("Review comment", with: "Application invalid")
     click_button("Save and come back later")
 
+    click_link("Back")
     expect(list_item("Review and sign-off")).to have_content("In progress")
 
     click_link("Review and sign-off")
     click_link("Sign-off recommendation")
     click_button("Save and mark as complete")
 
+    click_link("Back")
     expect(list_item("Review and sign-off")).to have_content("Complete")
 
     ["Not started", "In progress", "Complete"].each do |status|
@@ -651,8 +654,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
     fill_in("Review comment", with: "Application valid")
     click_button("Save and mark as complete")
 
-    expect(list_item("Assess recommendation")).to have_content("Complete")
+    click_link("Back")
     expect(list_item("Review and sign-off")).to have_content("Complete")
+
+    expect(list_item("Assess recommendation")).to have_content("Complete")
 
     sign_in(assessor)
     visit(planning_application_path(planning_application))

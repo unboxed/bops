@@ -53,6 +53,11 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     find("#recommendation_challenged_false").click
     fill_in "Review comment", with: "Reviewer private comment"
     click_button "Save and mark as complete"
+
+    expect(page).to have_selector("h1", text: "Review and sign-off")
+    expect(page).to have_content("Recommendation was successfully reviewed.")
+    click_link "Back"
+
     click_link "Publish determination"
     click_button "Publish determination"
 
@@ -81,6 +86,11 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     find("#recommendation_challenged_true").click
     fill_in "Review comment", with: "Reviewer private comment"
     click_button "Save and mark as complete"
+
+    expect(page).to have_content("Recommendation was successfully reviewed.")
+    click_link "Back"
+
+    expect(page).to have_content("Publish determination")
     expect(page).not_to have_link("Publish determination")
 
     planning_application.reload
@@ -128,6 +138,10 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
     find("#recommendation_challenged_false").click
     click_button "Save and mark as complete"
+
+    expect(page).to have_content("Recommendation was successfully reviewed.")
+    click_link "Back"
+
     click_link "Publish determination"
     click_button "Publish determination"
 
@@ -153,6 +167,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     find("#recommendation_challenged_true").click
     fill_in "Review comment", with: "Edited reviewer private comment"
     click_button "Save and mark as complete"
+
+    expect(page).to have_content("Recommendation was successfully reviewed.")
 
     recommendation.reload
     expect(recommendation.reviewer_comment).to eq("Edited reviewer private comment")
