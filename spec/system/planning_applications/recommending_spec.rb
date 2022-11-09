@@ -605,11 +605,15 @@ RSpec.describe "Planning Application Assessment", type: :system do
     expect(list_item("Review and sign-off")).to have_content("Not started")
 
     click_link("Review and sign-off")
+
+    expect(list_item("Sign-off recommendation")).to have_content("Not started")
+
     click_link("Sign-off recommendation")
     choose("recommendation_challenged_true")
     fill_in("Review comment", with: "Application invalid")
     click_button("Save and come back later")
 
+    expect(list_item("Sign-off recommendation")).to have_content("In progress")
     click_link("Back")
     expect(list_item("Review and sign-off")).to have_content("In progress")
 
@@ -617,6 +621,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     click_link("Sign-off recommendation")
     click_button("Save and mark as complete")
 
+    expect(list_item("Sign-off recommendation")).to have_content("Complete")
     click_link("Back")
     expect(list_item("Review and sign-off")).to have_content("Complete")
 
@@ -654,6 +659,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     fill_in("Review comment", with: "Application valid")
     click_button("Save and mark as complete")
 
+    expect(list_item("Sign-off recommendation")).to have_content("Complete")
     click_link("Back")
     expect(list_item("Review and sign-off")).to have_content("Complete")
 
