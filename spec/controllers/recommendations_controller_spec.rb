@@ -57,7 +57,7 @@ RSpec.describe RecommendationsController, type: :controller do
       post :update, params: params
 
       expect(response).to redirect_to(
-        planning_application_path(planning_application)
+        planning_application_review_tasks_path(planning_application)
       )
     end
 

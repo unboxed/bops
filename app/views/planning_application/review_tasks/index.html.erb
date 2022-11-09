@@ -37,7 +37,7 @@
 <%= render "flash_content" %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
+  <div class="govuk-grid-column-two-thirds">
     <h2 class="app-task-list__section">
       Review assessment
     </h2>
@@ -49,6 +49,12 @@
                       aria: { describedby: "review_assessment-completed" },
                       class: "govuk-link" %>
         </span>
+        <%= render(
+              StatusTags::SignoffRecommendationComponent.new(
+                planning_application: @planning_application,
+                user: current_user
+              )
+        )%>
       </li>
     </ul>
   </div>

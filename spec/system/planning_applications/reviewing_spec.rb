@@ -40,6 +40,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
   it "can be accepted" do
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Review and sign-off"
+    expect(list_item("Sign-off recommendation")).to have_content("Not started")
+
     click_link "Sign-off recommendation"
 
     expect(page).to have_content("Review the recommendation")
@@ -53,6 +55,14 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     find("#recommendation_challenged_false").click
     fill_in "Review comment", with: "Reviewer private comment"
     click_button "Save and mark as complete"
+
+    expect(page).to have_selector("h1", text: "Review and sign-off")
+    expect(page).to have_content("Recommendation was successfully reviewed.")
+
+    expect(list_item("Sign-off recommendation")).to have_content("Complete")
+
+    click_link "Back"
+
     click_link "Publish determination"
     click_button "Publish determination"
 
@@ -76,11 +86,21 @@ RSpec.describe "Planning Application Reviewing", type: :system do
   it "can be rejected" do
     travel_to(Date.new(2022))
     click_link "Review and sign-off"
+
+    expect(list_item("Sign-off recommendation")).to have_content("Not started")
+
     click_link "Sign-off recommendation"
 
     find("#recommendation_challenged_true").click
     fill_in "Review comment", with: "Reviewer private comment"
     click_button "Save and mark as complete"
+
+    expect(page).to have_content("Recommendation was successfully reviewed.")
+    expect(list_item("Sign-off recommendation")).to have_content("Complete")
+
+    click_link "Back"
+
+    expect(page).to have_content("Publish determination")
     expect(page).not_to have_link("Publish determination")
 
     planning_application.reload
@@ -128,6 +148,12 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
     find("#recommendation_challenged_false").click
     click_button "Save and mark as complete"
+
+    expect(page).to have_content("Recommendation was successfully reviewed.")
+    expect(list_item("Sign-off recommendation")).to have_content("Complete")
+
+    click_link "Back"
+
     click_link "Publish determination"
     click_button "Publish determination"
 
@@ -153,6 +179,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     find("#recommendation_challenged_true").click
     fill_in "Review comment", with: "Edited reviewer private comment"
     click_button "Save and mark as complete"
+
+    expect(page).to have_content("Recommendation was successfully reviewed.")
+    expect(list_item("Sign-off recommendation")).to have_content("Complete")
 
     recommendation.reload
     expect(recommendation.reviewer_comment).to eq("Edited reviewer private comment")

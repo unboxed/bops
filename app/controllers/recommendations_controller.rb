@@ -51,7 +51,8 @@ class RecommendationsController < AuthenticationController
       end
 
       format.html do
-        redirect_to @planning_application, notice: "Recommendation was successfully reviewed."
+        redirect_to planning_application_review_tasks_path(@planning_application),
+                    notice: "Recommendation was successfully reviewed."
       end
     end
   end
