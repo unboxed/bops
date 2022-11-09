@@ -9,7 +9,7 @@ class UploadDocumentsService
   def call
     files&.each do |file_params|
       filename = file_params[:filename]
-      file = URI.parse(filename).open
+      file = URI.parse(filename).open("api-key" => ENV["PLANX_FILE_API_KEY"])
 
       raise Api::V1::Errors::WrongFileTypeError.new(nil, filename) if forbidden?(file.content_type)
 
