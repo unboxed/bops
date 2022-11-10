@@ -5,7 +5,7 @@ class PlanningApplicationsController < AuthenticationController
 
   before_action :set_planning_application, except: %i[new create index]
 
-  before_action :ensure_user_is_reviewer, only: %i[edit_public_comment]
+  before_action :ensure_user_is_reviewer_checking_assessment, only: %i[edit_public_comment]
 
   before_action :set_last_audit, only: %i[show view_recommendation submit_recommendation publish]
 

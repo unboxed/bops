@@ -72,6 +72,10 @@ class ApplicationController < ActionController::Base
   end
 
   def ensure_user_is_reviewer
+    render plain: "forbidden", status: :forbidden and return unless Current.user.reviewer?
+  end
+
+  def ensure_user_is_reviewer_checking_assessment
     render plain: "forbidden", status: :forbidden and return unless @planning_application.can_review_assessment?
   end
 end

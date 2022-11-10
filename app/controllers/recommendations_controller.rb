@@ -5,7 +5,7 @@ class RecommendationsController < AuthenticationController
 
   before_action :set_planning_application, only: %i[new create]
   before_action :set_planning_application_with_recommendations, only: %i[edit update]
-  before_action :ensure_user_is_reviewer, only: %i[update edit]
+  before_action :ensure_user_is_reviewer_checking_assessment, only: %i[update edit]
   before_action :set_recommendations, only: %i[update edit]
   before_action :set_recommendation, only: :update
 
