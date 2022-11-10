@@ -58,6 +58,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
     expect(page).to have_selector("h1", text: "Review and sign-off")
     expect(page).to have_content("Recommendation was successfully reviewed.")
+    expect(page).to have_link("Sign-off recommendation",
+                              href: edit_planning_application_recommendations_path(planning_application))
 
     expect(list_item("Sign-off recommendation")).to have_content("Complete")
 
@@ -97,6 +99,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
     expect(page).to have_content("Recommendation was successfully reviewed.")
     expect(list_item("Sign-off recommendation")).to have_content("Complete")
+    expect(page).to have_text("Sign-off recommendation")
+    expect(page).not_to have_link("Sign-off recommendation",
+                                  href: edit_planning_application_recommendations_path(planning_application))
 
     click_link "Back"
 
