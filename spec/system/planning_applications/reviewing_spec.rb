@@ -245,6 +245,10 @@ RSpec.describe "Planning Application Reviewing", type: :system do
       visit edit_public_comment_planning_application_path(planning_application)
 
       expect(page).to have_content("forbidden")
+
+      visit planning_application_review_tasks_path(planning_application)
+
+      expect(page).to have_content("forbidden")
     end
   end
 end

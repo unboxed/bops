@@ -71,6 +71,10 @@ class ApplicationController < ActionController::Base
     redirect_to administrator_dashboard_path if current_user&.administrator?
   end
 
+  def ensure_user_is_reviewer
+    render plain: "forbidden", status: :forbidden and return unless Current.user.reviewer?
+  end
+
   def ensure_user_is_reviewer_checking_assessment
     render plain: "forbidden", status: :forbidden and return unless @planning_application.can_review_assessment?
   end
