@@ -42,6 +42,22 @@
       Review assessment
     </h2>
     <ul class="app-task-list__items">
+      <% @planning_application.policy_classes.each do |policy_class| %>
+        <li class="app-task-list__item">
+          <span class="app-task-list__task-name">
+            <%= link_to(
+                  "Review assessment of Part #{policy_class.part}, Class #{policy_class.section}",
+                  edit_planning_application_review_policy_class_path(@planning_application, policy_class),
+                  aria: { describedby: "Review assessment of Part 1, Class D" },
+                  class: "govuk-link") %>
+          </span>
+          <%= render(
+                StatusTags::ReviewPolicyClassComponent.new(
+                  policy_class: policy_class
+                )
+          )%>
+        </li>
+      <% end %>
       <li class="app-task-list__item">
         <span class="app-task-list__task-name">
           <%= link_to_if(
