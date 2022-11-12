@@ -23,6 +23,9 @@ Capybara.register_driver :chrome_headless do |app|
 end
 
 RSpec.configure do |config|
+  config.include ViewComponent::TestHelpers, type: :component
+  config.include Capybara::RSpecMatchers, type: :component
+
   config.before :all, type: :system do
     Capybara.automatic_label_click = true
     Capybara.enable_aria_label = true
