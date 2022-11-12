@@ -26,7 +26,7 @@ RSpec.describe AssessmentTasks::AssessAgainstLegislationPresenter, type: :presen
         expect(html).to include("app-task-list__task-name")
 
         expect(html).to include(
-          "<a class=\"govuk-link\" href=\"/planning_applications/#{planning_application.id}/policy_classes/#{policy_class.id}\">Part 1, Class A</a>"
+          "<a class=\"govuk-link\" href=\"/planning_applications/#{planning_application.id}/policy_classes/#{policy_class.id}\">Part 1, Class #{policy_class.section}</a>"
         )
 
         expect(html).to include(
@@ -50,7 +50,7 @@ RSpec.describe AssessmentTasks::AssessAgainstLegislationPresenter, type: :presen
         expect(html).to include("app-task-list__task-name")
 
         expect(html).to include(
-          "<a class=\"govuk-link\" href=\"/planning_applications/#{planning_application.id}/policy_classes/#{policy_class.id}/edit\">Part 1, Class A</a>"
+          "<a class=\"govuk-link\" href=\"/planning_applications/#{planning_application.id}/policy_classes/#{policy_class.id}/edit\">Part 1, Class #{policy_class.section}</a>"
         )
 
         expect(html).to include(
