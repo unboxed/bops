@@ -113,7 +113,7 @@ Rails.application.routes.draw do
 
       resources :review_tasks, only: :index
 
-      resources :review_policy_classes, only: %i[edit update]
+      resources :review_policy_classes, only: %i[edit update show]
 
       resources :assessment_details, only: %i[new edit create show update]
 
