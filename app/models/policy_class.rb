@@ -12,6 +12,8 @@ class PolicyClass < ApplicationRecord
 
   enum status: { in_assessment: 0, complete: 1 }, _default: :in_assessment
 
+  enum review_status: { not_checked_yet: 0, complete: 1 }, _default: :not_checked_yet, _prefix: true
+
   class << self
     def all_parts
       # NOTE: we might do multiple schedules at some point in the

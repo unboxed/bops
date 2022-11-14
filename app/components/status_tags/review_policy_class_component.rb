@@ -11,7 +11,7 @@ module StatusTags
     attr_reader :planning_application
 
     def status
-      :not_checked_yet
+      @policy_class.review_status.to_sym
     end
   end
 end

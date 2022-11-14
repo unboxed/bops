@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_07_110702) do
+ActiveRecord::Schema.define(version: 2022_11_13_231927) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -342,6 +342,7 @@ ActiveRecord::Schema.define(version: 2022_11_07_110702) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "status", null: false
+    t.integer "review_status"
     t.index ["planning_application_id"], name: "ix_policy_classes_on_planning_application_id"
   end
 
