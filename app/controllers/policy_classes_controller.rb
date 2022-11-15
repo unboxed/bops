@@ -91,10 +91,6 @@ class PolicyClassesController < PlanningApplicationsController
     )
   end
 
-  def set_planning_application
-    @planning_application = current_local_authority.planning_applications.find(params[:planning_application_id])
-  end
-
   def ensure_can_assess_planning_application
     render plain: "forbidden", status: :forbidden and return unless @planning_application.can_assess?
   end

@@ -415,8 +415,11 @@ en:
       delete_comment: Delete comment
     comment_updated_on: Comment updated on %{updated_at} by %{user}
     complete: Complete
-    form_controls:
+    controls:
       edit_assessment: Edit assessment
+      view_next_class: View next class
+      view_previous_class: View previous class
+    form_controls:
       save_changes_and_view_next: Save changes and view next class
       save_changes_and_view_previous: Save changes and view previous class
       view_next_class: View next class
@@ -435,7 +438,7 @@ en:
       does_not_comply: Does not comply
       policy_class_name: Part %{part}, Class %{class} - %{name}
       to_be_determined: To be determined
-    table:
+    table_head:
       complies: Complies
       does_not_comply: Does not comply
       policy_reference: Policy reference

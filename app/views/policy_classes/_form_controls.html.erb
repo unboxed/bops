@@ -1,51 +1,39 @@
-<div class="policy-class-scroll-links">
-  <% if policy_class.previous.present? %>
-    <% if editable && !planning_application.assessment_complete? %>
-      <%= form.submit(
-            t(".save_changes_and_view_previous"),
-            class: "button-as-link"
-          ) %>
-    <% else %>
-      <%= link_to(
-            t(".view_previous_class"),
-            policy_class.previous.default_path,
-            class: "govuk-link"
-          ) %>
-    <% end %>
-  <% end %>
-  <% if policy_class.next.present? %>
-    <% if editable %>
-      <%= form.submit(
-            t(".save_changes_and_view_next"),
-            class: "button-as-link next-policy-class-link"
-          ) %>
-    <% else %>
-      <%= link_to(
-            t(".view_next_class"),
-            policy_class.next.default_path,
-            class: "govuk-link next-policy-class-link"
-          ) %>
-    <% end %>
-  <% end %>
-</div>
-<% if editable %>
-  <%= render(
-        partial: "shared/submit_buttons",
-        locals: {
-          form: form,
-          disabled: planning_application.assessment_complete?
-        }
-      ) %>
-<% else %>
-  <div class="govuk-button-group">
-    <%= back_link %>
-    <%= link_to(
-          t(".edit_assessment"),
-          edit_planning_application_policy_class_path(
-            planning_application,
-            policy_class
-          ),
+<% if planning_application.multiple_policy_classes? %>
+  <div class="policy-class-scroll-links">
+    <% if policy_class.previous.present? %>
+      <% if planning_application.assessment_complete? %>
+        <%= link_to(
+          t(".view_previous_class"),
+          policy_class.previous.default_path,
           class: "govuk-link"
         ) %>
+      <% else %>
+        <%= form.submit(
+          t(".save_changes_and_view_previous"),
+          class: "button-as-link"
+        ) %>
+      <% end %>
+    <% end %>
+    <% if policy_class.next.present? %>
+      <% if planning_application.assessment_complete? %>
+        <%= link_to(
+          t(".view_next_class"),
+          policy_class.next.default_path,
+          class: "govuk-link next-policy-class-link"
+        ) %>
+      <% else %>
+        <%= form.submit(
+          t(".save_changes_and_view_next"),
+          class: "button-as-link next-policy-class-link"
+        ) %>
+      <% end %>
+    <% end %>
   </div>
 <% end %>
+<%= render(
+  partial: "shared/submit_buttons",
+  locals: {
+    form: form,
+    disabled: planning_application.assessment_complete?
+  }
+) %>
