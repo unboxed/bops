@@ -7,7 +7,9 @@ class PlanningApplication
     before_action :ensure_user_is_reviewer
     before_action :set_policy_class, only: %i[edit update]
 
-    def edit; end
+    def edit
+      @policy_class.build_review_policy_class if @policy_class.review_policy_class.nil?
+    end
 
     def update
       if @policy_class.update(policy_class_params)
@@ -27,11 +29,15 @@ class PlanningApplication
     end
 
     def policy_class_params
+      # params.require(:policy_class).permit!
       params
         .require(:policy_class)
-        .permit(policies_attributes: [:id, :status, :review_status, { comment_attributes: [:text] }])
-        .merge(review_status: review_status)
-    end
+        .permit(policies_attributes: [:id, :status, { comment_attributes: [:text] }],
+                review_policy_class_attributes: {:id, :mark, :status}
+        # I want review_status added into the review_policy_class_attributes
+      end
+
+
 
     def review_status
       mark_as_complete? ? :complete : :not_checked_yet

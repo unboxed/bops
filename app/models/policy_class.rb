@@ -3,8 +3,9 @@
 class PolicyClass < ApplicationRecord
   belongs_to :planning_application
   has_many :policies, dependent: :destroy
+  has_one :review_policy_class, dependent: :destroy
 
-  accepts_nested_attributes_for :policies
+  accepts_nested_attributes_for :policies, :review_policy_class
 
   validates :name, :part, :section, :schedule, presence: true
 

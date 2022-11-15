@@ -119,15 +119,13 @@
         </tbody>
       </table>
 
-      <%= form.govuk_radio_button(
-        :policy_class_status, true, checked: @policy_class.status, label: { text: "Accept" }
-      ) %>
+      <%= form.fields_for :review_policy_class, @policy_class.review_policy_class do |builder| %>
+        <%= builder.govuk_radio_button(
+          :mark, :accept, checked: @policy_class.review_policy_class.mark == "accept", label: { text: "Accept" }
+        ) %>
 
-      <%= form.govuk_radio_button(
-            :policy_class_status, false, checked: @policy_class.status, label: { text: "Return to officer with comment" }
-          ) do %>
-        <%= form.govuk_text_area(
-              :removed_reason, rows: 6
+        <%= builder.govuk_radio_button(
+              :mark, :return_to_officer, checked: @policy_class.review_policy_class.mark == "return_to_officer", label: { text: "Return to officer with comment" }
             ) %>
       <% end %>
 

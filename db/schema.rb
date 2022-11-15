@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_13_231927) do
+ActiveRecord::Schema.define(version: 2022_11_15_072126) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -342,7 +342,6 @@ ActiveRecord::Schema.define(version: 2022_11_13_231927) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "status", null: false
-    t.integer "review_status"
     t.index ["planning_application_id"], name: "ix_policy_classes_on_planning_application_id"
   end
 
@@ -401,6 +400,15 @@ ActiveRecord::Schema.define(version: 2022_11_13_231927) do
     t.index ["old_document_id"], name: "index_document_change_requests_on_old_document_id"
     t.index ["planning_application_id"], name: "index_document_change_requests_on_planning_application_id"
     t.index ["user_id"], name: "index_document_change_requests_on_user_id"
+  end
+
+  create_table "review_policy_classes", force: :cascade do |t|
+    t.integer "mark"
+    t.bigint "policy_class_id", null: false
+    t.integer "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["policy_class_id"], name: "ix_review_policy_classes_on_policy_class_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -468,5 +476,6 @@ ActiveRecord::Schema.define(version: 2022_11_13_231927) do
   add_foreign_key "replacement_document_validation_requests", "documents", column: "old_document_id"
   add_foreign_key "replacement_document_validation_requests", "planning_applications"
   add_foreign_key "replacement_document_validation_requests", "users"
+  add_foreign_key "review_policy_classes", "policy_classes"
   add_foreign_key "validation_requests", "planning_applications"
 end
