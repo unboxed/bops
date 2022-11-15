@@ -1,0 +1,24 @@
+<caption class="govuk-table__caption govuk-table__caption--l">
+  <%= t(
+    ".table_caption",
+    part: policy_class.part,
+    class: policy_class.section,
+    name: policy_class.name
+  ) %>
+</caption>
+<thead class="govuk-table__head">
+  <tr class="govuk-table__row">
+    <th scope="col" class="govuk-table__header govuk-!-width-one-half">
+      <%= t(".policy_reference") %>
+    </th>
+    <th scope="col" class="govuk-table__header govuk-!-width-one-quarter-width">
+      <%= t(".complies") %>
+    </th>
+    <th scope="col" class="govuk-table__header govuk-!-width-one-quarter-width">
+      <%= t(".does_not_comply") %>
+    </th>
+    <th scope="col" class="govuk-table__header govuk-!-width-one-quarter-width">
+      <%= t(".to_be_determined") %>
+    </th>
+  </tr>
+</thead>

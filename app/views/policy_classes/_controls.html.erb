@@ -1,0 +1,29 @@
+<% if planning_application.multiple_policy_classes? %>
+  <div class="policy-class-scroll-links">
+    <% if policy_class.previous.present? %>
+      <%= link_to(
+        t(".view_previous_class"),
+        policy_class.previous.default_path,
+        class: "govuk-link"
+      ) %>
+    <% end %>
+    <% if policy_class.next.present? %>
+      <%= link_to(
+        t(".view_next_class"),
+        policy_class.next.default_path,
+        class: "govuk-link next-policy-class-link"
+      ) %>
+    <% end %>
+  </div>
+<% end %>
+<div class="govuk-button-group">
+  <%= back_link %>
+  <%= link_to(
+    t(".edit_assessment"),
+    edit_planning_application_policy_class_path(
+      planning_application,
+      policy_class
+    ),
+    class: "govuk-link"
+  ) %>
+</div>

@@ -35,4 +35,8 @@ module AssessmentTasksPresenter
       assessment_details.any? ||
       permitted_development_right.present?
   end
+
+  def multiple_policy_classes?
+    policy_classes.count > 1
+  end
 end

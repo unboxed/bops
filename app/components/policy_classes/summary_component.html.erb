@@ -24,14 +24,14 @@
       </span>
     </summary>
     <div class="govuk-details__text">
-      <%= render(partial: "policy_classes/form",
-                 locals: {
-                   planning_application: planning_application,
-                   policy_class: @policy_class,
-                   policies: @policy_class.policies.commented_or_does_not_comply,
-                   show_controls: false,
-                   editable: false
-                 })
+      <%= render(
+        partial: "policy_classes/table",
+        locals: {
+          planning_application: planning_application,
+          policy_class: @policy_class,
+          policies: @policy_class.policies.commented_or_does_not_comply,
+        }
+       )
       %>
     </div>
   </details>
