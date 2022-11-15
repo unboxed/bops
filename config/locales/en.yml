@@ -384,6 +384,9 @@ en:
         in_assessment: In assessment
         permitted_development_rights: Permitted development rights
     review_policy_classes:
+      comment:
+        edit_comment: Edit comment
+        update: Update
       edit:
         application: Application
         complies: Complies
@@ -518,12 +521,6 @@ en:
       does_not_comply: Does not comply
       policy_class_name: Part %{part}, Class %{class} - %{name}
       to_be_determined: To be determined
-    table_head:
-      complies: Complies
-      does_not_comply: Does not comply
-      policy_reference: Policy reference
-      table_caption: Part %{part}, Class %{class} - %{name}
-      to_be_determined: To be determined
     title: Part %{part}, Class %{class}
     to_be_reviewed: To be reviewed
     update:
@@ -588,6 +585,13 @@ en:
       home: Home
     back_to_top_link:
       back_to_top: Back to top
+    policy_classes:
+      table_head:
+        complies: Complies
+        does_not_comply: Does not comply
+        policy_reference: Policy reference
+        table_caption: Part %{part}, Class %{class} - %{name}
+        to_be_determined: To be determined
     proposal_header:
       application_number: 'Application number:'
     review_task_breadcrumbs:

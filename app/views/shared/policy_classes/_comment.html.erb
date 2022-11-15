@@ -1,0 +1,6 @@
+<% if comment.present? %>
+  <h4 class="govuk-heading-s policy-comment-title">
+    <%= existing_policy_comment_label(comment) %>
+  </h4>
+  <p class="govuk-body"><%= simple_format(comment.text) %></p>
+<% end %>
