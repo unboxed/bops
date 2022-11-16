@@ -55,7 +55,8 @@ RSpec.describe Policy, type: :model do
       policy = create(:policy,
                       :complies,
                       section: "1A")
-      create(:comment, policy: policy)
+
+      create(:comment, commentable: policy)
 
       expect(described_class.with_a_comment).to eq [policy]
     end
@@ -93,7 +94,8 @@ RSpec.describe Policy, type: :model do
         policy = create(:policy,
                         status,
                         section: "1A")
-        create(:comment, policy: policy)
+
+        create(:comment, commentable: policy)
 
         expect(described_class.commented_or_does_not_comply).to eq [policy]
       end
@@ -106,7 +108,8 @@ RSpec.describe Policy, type: :model do
       first_section = create(:policy,
                              :complies,
                              section: "1A")
-      create(:comment, policy: first_section)
+
+      create(:comment, commentable: first_section)
 
       expect(described_class.commented_or_does_not_comply).to eq [first_section, last_section]
     end

@@ -2,7 +2,7 @@
 
 class Comment < ApplicationRecord
   belongs_to :user, optional: true
-  belongs_to :policy
+  belongs_to :commentable, polymorphic: true
 
   validates :text, presence: true
 
