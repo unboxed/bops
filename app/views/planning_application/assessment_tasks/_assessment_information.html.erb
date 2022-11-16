@@ -4,9 +4,12 @@
   </h2>
   <ul class="app-task-list__items">
     <% AssessmentDetail.categories.keys.excluding("past_applications").each do |category| %>
-      <li class="app-task-list__item" id="<%= category %>-tasklist-item">
-        <%= @planning_application.assessment_detail_tasklist(category) %>
-      </li>
+      <%= render(
+        TaskListItems::AssessmentDetailComponent.new(
+          planning_application: @planning_application,
+          category: category
+        )
+      ) %>
     <% end %>
   </ul>
 </li>

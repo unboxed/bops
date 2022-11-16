@@ -1,0 +1,6 @@
+<li class="app-task-list__item">
+  <span class="app-task-list__task-name">
+    <%= link_to_if(link_active?, link_text, link_path, class: "govuk-link") %>
+  </span>
+  <%= render(status_tag_component) %>
+</li>

@@ -458,9 +458,23 @@ class PlanningApplication < ApplicationRecord
     ENV.fetch("PLANNING_HISTORY_ENABLED", "false") == "true"
   end
 
+  def rejected_assessment_detail(category:)
+    return unless recommendation&.rejected?
+
+    assessment_details.where(
+      category: category,
+      status: :review_complete,
+      review_status: :rejected
+    ).first
+  end
+
   AssessmentDetail.categories.each_key do |category|
     define_method(category) do
-      assessment_details.find_by(category: category)
+      assessment_details.where(category: category).first
+    end
+
+    define_method("existing_or_new_#{category}") do
+      send(category) || assessment_details.new(category: category)
     end
   end
 

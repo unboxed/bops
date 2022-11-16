@@ -92,4 +92,9 @@ module ApplicationHelper
       "planning_application/assessment_details"
     end
   end
+
+  def new_assessment_detail_title(category:, update:)
+    action = update ? :update : :new
+    t("assessment_details.#{action}_#{category}")
+  end
 end

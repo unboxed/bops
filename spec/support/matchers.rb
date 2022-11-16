@@ -16,6 +16,16 @@ RSpec::Matchers.define(:have_row_for) do |content, options|
   end
 end
 
+RSpec::Matchers.define(:have_list_item_for) do |content, options|
+  include SystemSpecHelpers
+
+  match do |element|
+    list_item = list_item(content, element)
+    with = options&.fetch(:with, nil)
+    with.present? ? list_item.has_content?(with) : list_item.present?
+  end
+end
+
 RSpec::Matchers.define(:have_target_id) do |target_id|
   match { |url| URI.parse(url).fragment == target_id }
 end

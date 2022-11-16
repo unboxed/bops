@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  <%= t("assessment_details.new_#{@category}") %> - <%= t('page_title') %>
+  <%= new_assessment_detail_title(category: @category, update: @rejected_assessment_detail.present?) %> - <%= t("page_title") %>
 <% end %>
 
 <%= render(
@@ -12,11 +12,18 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l govuk-!-margin-top-7">
-      <%= t("assessment_details.new_#{@category}") %>
+      <%= new_assessment_detail_title(
+        category: @category,
+        update: @rejected_assessment_detail.present?
+      ) %>
     </h1>
 
     <%= render "shared/planning_application_address_and_reference" %>
-
-    <%= render "form", planning_application: @planning_application, category: @category %>
+    <%= render(
+      "form",
+      planning_application: @planning_application,
+      category: @category,
+      rejected_assessment_detail: @rejected_assessment_detail
+    ) %>
   </div>
 </div>

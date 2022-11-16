@@ -1,0 +1,78 @@
+<%= form_with(
+  model: assessment_details_review,
+  url: planning_application_assessment_details_review_path(planning_application),
+  method: :put,
+  builder: GOVUKDesignSystemFormBuilder::FormBuilder
+) do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <% AssessmentDetailsReview::ASSESSMENT_DETAILS.each_with_index do |assessment_detail, index| %>
+    <% unless index == 0 %>
+      <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
+    <% end %>
+    <%= form.govuk_radio_buttons_fieldset(
+      "#{assessment_detail}_review_status".to_sym,
+      legend: { text: t(".#{assessment_detail}") }
+    ) do %>
+      <%= render(
+        StatusTags::ReviewerAssessmentDetailComponent.new(
+          assessment_detail: form.object.send(assessment_detail)
+        )
+      ) %>
+      <% if assessment_detail == :consultation_summary %>
+        <%= render(
+          partial: "consultees",
+          locals: { consultees: planning_application.consultees }
+        ) %>
+        <h3><%= t(".summary_of_consultee") %><h3>
+      <% end %>
+      <%= simple_format(
+        form.object.send("#{assessment_detail}_entry"),
+        { class: "govuk-body" }
+      ) %>
+      <%= form.govuk_radio_button(
+        "#{assessment_detail}_review_status",
+        :accepted,
+        label: { text: t(".accept") },
+        disabled: disabled
+      ) %>
+      <%= form.govuk_radio_button(
+        "#{assessment_detail}_review_status",
+        :edited_and_accepted,
+        label: { text: t(".edit_to_accept") },
+        disabled: disabled
+      ) do %>
+        <%= form.govuk_text_area(
+          "#{assessment_detail}_entry".to_sym,
+          label: { text: t(".update_#{assessment_detail}") },
+          disabled: disabled
+        ) %>
+      <% end %>
+      <%= form.govuk_radio_button(
+        "#{assessment_detail}_review_status",
+        :rejected,
+        label: { text: t(".return_to_officer") },
+        disabled: disabled
+      ) do %>
+        <%= form.govuk_text_area(
+          "#{assessment_detail}_comment_text".to_sym,
+          label: { text: t(".explain_to_the") },
+          disabled: disabled
+        ) %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% if disabled %>
+    <div class="govuk-button-group">
+      <%= back_link %>
+      <%= link_to(
+        t(".edit_review"),
+        edit_planning_application_assessment_details_review_path(
+          planning_application
+        ),
+        class: "govuk-link"
+      ) %>
+    </div>
+  <% else %>
+    <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+  <% end %>
+<% end %>

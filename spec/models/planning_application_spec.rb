@@ -1081,6 +1081,234 @@ RSpec.describe PlanningApplication, type: :model do
     end
   end
 
+  describe "#rejected_assessment_detail" do
+    let(:planning_application) { create(:planning_application) }
+    let(:status) { :review_complete }
+    let(:review_status) { :rejected }
+    let(:challenged) { true }
+    let(:recommendation_status) { :review_complete }
+
+    let!(:assessment_detail) do
+      create(
+        :assessment_detail,
+        :summary_of_work,
+        planning_application: planning_application,
+        status: status,
+        review_status: review_status
+      )
+    end
+
+    before do
+      create(
+        :recommendation,
+        planning_application: planning_application,
+        challenged: challenged,
+        status: recommendation_status,
+        reviewer_comment: "challenged"
+      )
+    end
+
+    context "when recommendation and assessment detail are both rejected" do
+      it "returns assessment_detail" do
+        expect(
+          planning_application.rejected_assessment_detail(
+            category: :summary_of_work
+          )
+        ).to eq(assessment_detail)
+      end
+    end
+
+    context "when recommendation not challenged" do
+      let(:challenged) { false }
+
+      it "returns nil" do
+        expect(
+          planning_application.rejected_assessment_detail(
+            category: :summary_of_work
+          )
+        ).to eq(nil)
+      end
+    end
+
+    context "when recommendation review not complete" do
+      let(:recommendation_status) { :review_in_progress }
+
+      it "returns nil" do
+        expect(
+          planning_application.rejected_assessment_detail(
+            category: :summary_of_work
+          )
+        ).to eq(nil)
+      end
+    end
+
+    context "when assessment_detail accepted" do
+      let(:review_status) { :accepted }
+
+      it "returns nil" do
+        expect(
+          planning_application.rejected_assessment_detail(
+            category: :summary_of_work
+          )
+        ).to eq(nil)
+      end
+    end
+
+    context "when assessment_detail review not complete" do
+      let(:status) { :review_in_progress }
+
+      it "returns nil" do
+        expect(
+          planning_application.rejected_assessment_detail(
+            category: :summary_of_work
+          )
+        ).to eq(nil)
+      end
+    end
+  end
+
+  describe "#existing_or_new_summary_of_work" do
+    let(:planning_application) { create(:planning_application) }
+
+    context "when record exists" do
+      let!(:assessment_detail) do
+        create(
+          :assessment_detail,
+          :summary_of_work,
+          planning_application: planning_application
+        )
+      end
+
+      it "returns record" do
+        expect(
+          planning_application.existing_or_new_summary_of_work
+        ).to eq(assessment_detail)
+      end
+    end
+
+    context "when record does not exist" do
+      it "builds record with correct category" do
+        expect(
+          planning_application.existing_or_new_summary_of_work
+        ).to have_attributes(category: "summary_of_work")
+      end
+    end
+  end
+
+  describe "#existing_or_new_additional_evidence" do
+    let(:planning_application) { create(:planning_application) }
+
+    context "when record exists" do
+      let!(:assessment_detail) do
+        create(
+          :assessment_detail,
+          :additional_evidence,
+          planning_application: planning_application
+        )
+      end
+
+      it "returns record" do
+        expect(
+          planning_application.existing_or_new_additional_evidence
+        ).to eq(assessment_detail)
+      end
+    end
+
+    context "when record does not exist" do
+      it "builds record with correct category" do
+        expect(
+          planning_application.existing_or_new_additional_evidence
+        ).to have_attributes(category: "additional_evidence")
+      end
+    end
+  end
+
+  describe "#existing_or_new_consultation_summary" do
+    let(:planning_application) { create(:planning_application) }
+
+    before { create(:consultee, planning_application: planning_application) }
+
+    context "when record exists" do
+      let!(:assessment_detail) do
+        create(
+          :assessment_detail,
+          :consultation_summary,
+          planning_application: planning_application
+        )
+      end
+
+      it "returns record" do
+        expect(
+          planning_application.existing_or_new_consultation_summary
+        ).to eq(assessment_detail)
+      end
+    end
+
+    context "when record does not exist" do
+      it "builds record with correct category" do
+        expect(
+          planning_application.existing_or_new_consultation_summary
+        ).to have_attributes(category: "consultation_summary")
+      end
+    end
+  end
+
+  describe "#existing_or_new_site_description" do
+    let(:planning_application) { create(:planning_application) }
+
+    context "when record exists" do
+      let!(:assessment_detail) do
+        create(
+          :assessment_detail,
+          :site_description,
+          planning_application: planning_application
+        )
+      end
+
+      it "returns record" do
+        expect(
+          planning_application.existing_or_new_site_description
+        ).to eq(assessment_detail)
+      end
+    end
+
+    context "when record does not exist" do
+      it "builds record with correct category" do
+        expect(
+          planning_application.existing_or_new_site_description
+        ).to have_attributes(category: "site_description")
+      end
+    end
+  end
+
+  describe "#existing_or_new_past_applications" do
+    let(:planning_application) { create(:planning_application) }
+
+    context "when record exists" do
+      let!(:assessment_detail) do
+        create(
+          :assessment_detail,
+          :past_applications,
+          planning_application: planning_application
+        )
+      end
+
+      it "returns record" do
+        expect(
+          planning_application.existing_or_new_past_applications
+        ).to eq(assessment_detail)
+      end
+    end
+
+    context "when record does not exist" do
+      it "builds record with correct category" do
+        expect(
+          planning_application.existing_or_new_past_applications
+        ).to have_attributes(category: "past_applications")
+      end
+    end
+  end
+
   describe "#summary_of_work" do
     let(:planning_application) { create(:planning_application) }
 
@@ -1088,11 +1316,21 @@ RSpec.describe PlanningApplication, type: :model do
       create(
         :assessment_detail,
         :summary_of_work,
-        planning_application: planning_application
+        planning_application: planning_application,
+        created_at: 1.day.ago
       )
     end
 
-    it "returns assessment detail with category 'summary_of_work'" do
+    before do
+      create(
+        :assessment_detail,
+        :summary_of_work,
+        planning_application: planning_application,
+        created_at: 2.days.ago
+      )
+    end
+
+    it "returns most recente assessment detail with category 'summary_of_work'" do
       expect(planning_application.summary_of_work).to eq(assessment_detail)
     end
   end
@@ -1104,11 +1342,21 @@ RSpec.describe PlanningApplication, type: :model do
       create(
         :assessment_detail,
         :additional_evidence,
-        planning_application: planning_application
+        planning_application: planning_application,
+        created_at: 1.day.ago
       )
     end
 
-    it "returns assessment detail with category 'additional_evidence'" do
+    before do
+      create(
+        :assessment_detail,
+        :additional_evidence,
+        planning_application: planning_application,
+        created_at: 2.days.ago
+      )
+    end
+
+    it "returns most recent assessment detail with category 'additional_evidence'" do
       expect(planning_application.additional_evidence).to eq(assessment_detail)
     end
   end
@@ -1120,11 +1368,21 @@ RSpec.describe PlanningApplication, type: :model do
       create(
         :assessment_detail,
         :site_description,
-        planning_application: planning_application
+        planning_application: planning_application,
+        created_at: 1.day.ago
       )
     end
 
-    it "returns assessment detail with category 'site_description'" do
+    before do
+      create(
+        :assessment_detail,
+        :site_description,
+        planning_application: planning_application,
+        created_at: 2.days.ago
+      )
+    end
+
+    it "returns most recent assessment detail with category 'site_description'" do
       expect(planning_application.site_description).to eq(assessment_detail)
     end
   end
@@ -1136,11 +1394,21 @@ RSpec.describe PlanningApplication, type: :model do
       create(
         :assessment_detail,
         :past_applications,
-        planning_application: planning_application
+        planning_application: planning_application,
+        created_at: 1.day.ago
       )
     end
 
-    it "returns assessment detail with category 'past_applications'" do
+    before do
+      create(
+        :assessment_detail,
+        :past_applications,
+        planning_application: planning_application,
+        created_at: 2.days.ago
+      )
+    end
+
+    it "returns most recent assessment detail with category 'past_applications'" do
       expect(planning_application.past_applications).to eq(assessment_detail)
     end
   end
@@ -1150,16 +1418,26 @@ RSpec.describe PlanningApplication, type: :model do
       create(:planning_application, :with_consultees)
     end
 
-    let!(:assessment_detail) do
+    let!(:assessment_detail1) do
       create(
         :assessment_detail,
         :consultation_summary,
-        planning_application: planning_application
+        planning_application: planning_application,
+        created_at: 1.day.ago
       )
     end
 
-    it "returns assessment detail with category 'consulation_summary'" do
-      expect(planning_application.consultation_summary).to eq(assessment_detail)
+    let!(:assessment_detail2) do
+      create(
+        :assessment_detail,
+        :consultation_summary,
+        planning_application: planning_application,
+        created_at: 2.days.ago
+      )
+    end
+
+    it "returns most recent assessment detail with category 'consultation_summary'" do
+      expect(planning_application.consultation_summary).to eq(assessment_detail1)
     end
   end
 end

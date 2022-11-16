@@ -9,8 +9,8 @@ module SystemSpecHelpers
     find("div[class='govuk-tabs__panel']")
   end
 
-  def list_item(text)
-    find("li", text: text, match: :prefer_exact)
+  def list_item(text, element = page)
+    element.find("li", text: text, match: :prefer_exact)
   end
 
   def find_checkbox_by_id(id)

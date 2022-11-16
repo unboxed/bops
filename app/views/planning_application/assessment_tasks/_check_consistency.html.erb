@@ -17,11 +17,12 @@
         )
       ) %>
     </li>
-    <li class="app-task-list__item">
-      <%= @planning_application.assessment_detail_tasklist(
-        :past_applications
-      ) %>
-    </li>
+    <%= render(
+      TaskListItems::AssessmentDetailComponent.new(
+        planning_application: @planning_application,
+        category: :past_applications
+      )
+    ) %>
     <% if @planning_application.planning_history_enabled? %>
       <li class="app-task-list__item">
         <span class="app-task-list__task-name">

@@ -10,12 +10,6 @@ module AssessmentTasksPresenter
       ).task_list_row
     end
 
-    def assessment_detail_tasklist(category)
-      AssessmentTasks::AssessmentDetailPresenter.new(
-        @template, @planning_application, category
-      ).task_list_row
-    end
-
     def review_documents_tasklist
       AssessmentTasks::ReviewDocumentsPresenter.new(
         @template, @planning_application

@@ -240,4 +240,35 @@ RSpec.describe Recommendation, type: :model do
       end
     end
   end
+
+  describe "#rejected?" do
+    let(:recommendation) do
+      build(:recommendation, challenged: challenged, status: status)
+    end
+
+    let(:challenged) { true }
+    let(:status) { :review_complete }
+
+    context "when status is 'review_complete' and challenged is true" do
+      it "returns true" do
+        expect(recommendation.rejected?).to eq(true)
+      end
+    end
+
+    context "when status is 'review_complete' and challenged is false" do
+      let(:challenged) { false }
+
+      it "returns false" do
+        expect(recommendation.rejected?).to eq(false)
+      end
+    end
+
+    context "when status is not 'review_complete' and challenged is true" do
+      let(:status) { :review_in_progress }
+
+      it "returns false" do
+        expect(recommendation.rejected?).to eq(false)
+      end
+    end
+  end
 end
