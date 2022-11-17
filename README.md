@@ -160,3 +160,8 @@ swagger-cli bundle public/api-docs/v1/swagger_doc.yaml --outfile public/api-docs
 We are using [Stimulus](https://stimulus.hotwired.dev) to handle our minimal JavaScript requirements.
 
 After adding a new Stimulus controller run `./bin/rails stimulus:manifest:update`. Alternatively you can create the controller with `./bin/rails generate stimulus controllerName`.
+
+
+## Front end components
+
+As much as possible, we follow the GOV.UK Design System. You will find most of the HTML components you need [here](https://design-system.service.gov.uk/get-started). For help with forms we use the [GOV.UK Ruby on Rails Form Builder gem](https://govuk-form-builder.netlify.app). See [here](https://github.com/unboxed/bops/blob/main/app/views/users/_form.html.erb) for a simple example of implementation.
