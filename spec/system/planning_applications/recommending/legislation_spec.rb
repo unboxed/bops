@@ -125,7 +125,8 @@ RSpec.describe "Planning Application Assessment Legislation", type: :system do
                       :complies,
                       section: "1M",
                       policy_class: policy_class)
-      create(:comment, policy: policy)
+
+      create(:comment, commentable: policy)
 
       visit(new_planning_application_recommendation_path(planning_application))
 

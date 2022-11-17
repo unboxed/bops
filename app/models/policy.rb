@@ -2,7 +2,7 @@
 
 class Policy < ApplicationRecord
   belongs_to :policy_class
-  has_one :comment, dependent: :destroy
+  has_one :comment, as: :commentable, dependent: :destroy
 
   default_scope { order(:section) }
 

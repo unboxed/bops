@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :comment do
     text { Faker::Lorem.paragraph }
-    policy
+    association :commentable, factory: :policy
     user
   end
 end
