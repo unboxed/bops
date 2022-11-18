@@ -32,7 +32,7 @@ module AssessmentTasks
     def permitted_development_right_link_url
       case status.humanize
 
-      when "Not started"
+      when "Not started", "To be reviewed"
         new_planning_application_permitted_development_right_path(planning_application)
       when "In progress"
         edit_planning_application_permitted_development_right_path(planning_application, permitted_development_right)
@@ -66,7 +66,7 @@ module AssessmentTasks
         "green"
       when "Removed"
         "red"
-      when "In progress"
+      when "In progress", "To be reviewed"
         nil
       else
         raise ArgumentError, "The status provided: '#{status}' is not valid"

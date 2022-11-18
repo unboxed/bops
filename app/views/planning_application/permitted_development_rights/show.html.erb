@@ -13,7 +13,11 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render "information" %>
 
-    <p class="govuk-body"><strong>Have the permitted development rights relevant for this application been removed?</strong></p>
+    <%= render "previous", permitted_development_rights: @permitted_development_rights %>
+
+    <p class="govuk-body govuk-!-padding-top-5">
+      <strong>Have the permitted development rights relevant for this application been removed?</strong>
+    </p>
 
     <% if @permitted_development_right.removed %>
       <p class="govuk-body"><strong>Yes</strong></p>
@@ -22,14 +26,22 @@
       <p class="govuk-body"><strong>No</strong></p>
     <% end %>
 
+    <% if @permitted_development_right.accepted && @permitted_development_right.reviewed_at %>
+      <p class="govuk-body">
+        <strong><%= @permitted_development_right.reviewer.name %> accepted this response on <%= @permitted_development_right.reviewed_at %></strong>
+      </p>
+    <% end %>
+
     <div class="govuk-button-group">
       <%= back_link %>
 
-      <%= link_to(
-        "Edit permitted development rights",
-        edit_planning_application_permitted_development_right_path(@planning_application),
-        class: "govuk-link"
-      ) %>
+      <% unless @permitted_development_right.accepted %>
+        <%= link_to(
+          "Edit permitted development rights",
+          edit_planning_application_permitted_development_right_path(@planning_application),
+          class: "govuk-link"
+        ) %>
+      <% end %>
     </div>
   </div>
 </div>

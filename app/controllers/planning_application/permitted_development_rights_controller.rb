@@ -4,6 +4,7 @@ class PlanningApplication
   class PermittedDevelopmentRightsController < AuthenticationController
     include CommitMatchable
     include PlanningApplicationAssessable
+    include PermittedDevelopmentRights
 
     rescue_from PermittedDevelopmentRight::NotCreatableError, with: :redirect_failed_create_error
 
@@ -70,14 +71,6 @@ class PlanningApplication
 
     def set_planning_application
       @planning_application = planning_applications_scope.find(planning_application_id)
-    end
-
-    def set_permitted_development_right
-      @permitted_development_right = @planning_application.permitted_development_right
-    end
-
-    def set_permitted_development_rights
-      @permitted_development_rights = @planning_application.permitted_development_rights.returned
     end
 
     def planning_applications_scope

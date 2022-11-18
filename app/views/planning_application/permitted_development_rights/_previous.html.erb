@@ -1,0 +1,19 @@
+<% if permitted_development_rights.any? %>
+  <details class="govuk-details govuk-!-padding-top-5" data-module="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        See previous permitted development checks
+      </span>
+    </summary>
+    <div class="govuk-details__text">
+      <% permitted_development_rights.each do |permitted_development_right| %>
+        <p><strong><%= permitted_development_right.reviewer.name %> marked this for review</strong></p>
+        <p><%= permitted_development_right.reviewed_at %></p>
+        <% if permitted_development_right.removed %>
+          <p class="govuk-body"><%= permitted_development_right.removed_reason %></p>
+        <% end %>
+        <p><em>Reviewer comment: <%= permitted_development_right.reviewer_comment %></em></p>
+      <% end %>
+    </div>
+  </details>
+<% end %>

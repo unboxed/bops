@@ -12,7 +12,7 @@ RSpec.describe AssessmentTasks::PermittedDevelopmentRightPresenter, type: :prese
 
   describe "#task_list_row" do
     context "when not started" do
-      it "the task list row shows invalid status html" do
+      it "the task list row shows the not started status html" do
         html = presenter.task_list_row
 
         expect(html).to include("app-task-list__task-name")
@@ -34,7 +34,7 @@ RSpec.describe AssessmentTasks::PermittedDevelopmentRightPresenter, type: :prese
     context "when checked" do
       let!(:permitted_development_right) { create(:permitted_development_right, :checked, planning_application: planning_application) }
 
-      it "the task list row shows invalid status html" do
+      it "the task list row shows the checked status html" do
         html = presenter.task_list_row
 
         expect(html).to include("app-task-list__task-name")
@@ -56,7 +56,7 @@ RSpec.describe AssessmentTasks::PermittedDevelopmentRightPresenter, type: :prese
     context "when removed" do
       let!(:permitted_development_right) { create(:permitted_development_right, :removed, planning_application: planning_application) }
 
-      it "the task list row shows invalid status html" do
+      it "the task list row shows the removed status html" do
         html = presenter.task_list_row
 
         expect(html).to include("app-task-list__task-name")
@@ -78,7 +78,7 @@ RSpec.describe AssessmentTasks::PermittedDevelopmentRightPresenter, type: :prese
     context "when in progress" do
       let!(:permitted_development_right) { create(:permitted_development_right, :in_progress, planning_application: planning_application) }
 
-      it "the task list row shows invalid status html" do
+      it "the task list row shows the in progress status html" do
         html = presenter.task_list_row
 
         expect(html).to include("app-task-list__task-name")
@@ -93,6 +93,32 @@ RSpec.describe AssessmentTasks::PermittedDevelopmentRightPresenter, type: :prese
 
         expect(html).to include(
           "<strong class=\"govuk-tag app-task-list__task-tag\">In progress</strong>"
+        )
+      end
+    end
+
+    context "when to be reviewed" do
+      let!(:planning_application) { create(:planning_application, :awaiting_determination) }
+
+      before do
+        create(:permitted_development_right, :to_be_reviewed, planning_application: planning_application)
+      end
+
+      it "the task list row shows the to be reviewed status html" do
+        html = presenter.task_list_row
+
+        expect(html).to include("app-task-list__task-name")
+
+        expect(html).to include(
+          link_to(
+            "Permitted development rights",
+            new_planning_application_permitted_development_right_path(planning_application),
+            class: "govuk-link"
+          )
+        )
+
+        expect(html).to include(
+          "<strong class=\"govuk-tag app-task-list__task-tag\">To be reviewed</strong>"
         )
       end
     end

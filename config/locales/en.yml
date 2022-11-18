@@ -240,6 +240,7 @@ en:
         summary: Tell the applicant another reason why the application is invalid.
       permitted_development_right:
         removed_reason: Describe how permitted development rights have been removed
+        reviewer_comment: Explain to the assessor why this needs reviewing
       planning_application:
         closed_or_cancellation_comment: Provide a reason
         public_comment: 'This information will appear on the decision notice:'
@@ -260,6 +261,7 @@ en:
         role: Role
     legend:
       permitted_development_right:
+        accepted: Have the permitted development rights relevant for this application been removed?
         removed: Have the permitted development rights relevant for this application been removed?
       planning_application:
         determination_date: Enter determination date
@@ -286,8 +288,13 @@ en:
     in_progress: In progress
     not_started: Not started
     removed: Removed
+    review_assessment_error: You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen
+    review_complete: Complete
+    review_in_progress: In progress
+    review_not_started: Not started
     successfully_created: Permitted development rights response was successfully created
     successfully_updated: Permitted development rights response was successfully updated
+    to_be_reviewed: To be reviewed
   planning_application:
     assessment_details:
       consultation_summary:
@@ -507,6 +514,10 @@ en:
       back_to_top: Back to top
     proposal_header:
       application_number: 'Application number:'
+    review_task_breadcrumbs:
+      application: Application
+      home: Home
+      review_application: Review
   status_tag_component:
     awaiting_determination: Awaiting determination
     checked: Checked
