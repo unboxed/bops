@@ -5,12 +5,16 @@ class PlanningApplication
     include CommitMatchable
     include PlanningApplicationAssessable
 
+    rescue_from PermittedDevelopmentRight::NotCreatableError, with: :redirect_failed_create_error
+
     before_action :set_planning_application
     before_action :ensure_planning_application_is_validated
     before_action :set_permitted_development_right, only: %i[show edit update]
+    before_action :set_permitted_development_rights, only: %i[new show edit]
+    before_action :ensure_permitted_development_right_is_editable, only: %i[edit update]
 
     def new
-      @permitted_development_right = @planning_application.build_permitted_development_right
+      @permitted_development_right = @planning_application.permitted_development_rights.new
 
       respond_to do |format|
         format.html
@@ -18,21 +22,19 @@ class PlanningApplication
     end
 
     def create
-      @permitted_development_right = @planning_application.build_permitted_development_right(
+      @permitted_development_right = @planning_application.permitted_development_rights.new(
         permitted_development_right_params
       ).tap do |record|
         record.status = status
+        record.assessor = current_user
       end
 
-      respond_to do |format|
-        if @permitted_development_right.save
-          format.html do
-            redirect_to planning_application_assessment_tasks_path(@planning_application),
-                        notice: I18n.t("permitted_development_rights.successfully_created")
-          end
-        else
-          format.html { render :new }
-        end
+      if @permitted_development_right.save
+        redirect_to planning_application_assessment_tasks_path(@planning_application),
+                    notice: I18n.t("permitted_development_rights.successfully_created")
+      else
+        set_permitted_development_rights
+        render :new
       end
     end
 
@@ -49,7 +51,7 @@ class PlanningApplication
     end
 
     def update
-      @permitted_development_right.assign_attributes(status: status)
+      @permitted_development_right.assign_attributes(status: status, assessor: current_user)
 
       respond_to do |format|
         if @permitted_development_right.update(permitted_development_right_params)
@@ -58,6 +60,7 @@ class PlanningApplication
                         notice: I18n.t("permitted_development_rights.successfully_updated")
           end
         else
+          set_permitted_development_rights
           format.html { render :edit }
         end
       end
@@ -73,8 +76,12 @@ class PlanningApplication
       @permitted_development_right = @planning_application.permitted_development_right
     end
 
+    def set_permitted_development_rights
+      @permitted_development_rights = @planning_application.permitted_development_rights.returned
+    end
+
     def planning_applications_scope
-      current_local_authority.planning_applications
+      current_local_authority.planning_applications.includes(:permitted_development_rights)
     end
 
     def planning_application_id
@@ -96,6 +103,16 @@ class PlanningApplication
       else
         raise ArgumentError, "#{permitted_development_right_params[:removed]} is not a valid status"
       end
+    end
+
+    def ensure_permitted_development_right_is_editable
+      return unless @permitted_development_right.accepted? || @permitted_development_right.to_be_reviewed?
+
+      render plain: "forbidden", status: :forbidden
+    end
+
+    def redirect_failed_create_error(error)
+      redirect_to planning_application_assessment_tasks_path(@planning_application), alert: error.message
     end
   end
 end

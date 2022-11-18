@@ -3,24 +3,26 @@
 class PermittedDevelopmentRight < ApplicationRecord
   belongs_to :planning_application
 
-  enum status: {
-    in_progress: "in_progress",
-    checked: "checked",
-    removed: "removed"
-  }
+  with_options class_name: "User", optional: true do
+    belongs_to :assessor
+    belongs_to :reviewer
+  end
 
   with_options presence: true do
-    validates :status
+    validates :status, :review_status
     validates :removed_reason, if: :removed
   end
 
-  before_update :reset_removed_reason, if: :removed_changed?
+  enum status: {
+    in_progress: "in_progress",
+    checked: "checked",
+    removed: "removed",
+    to_be_reviewed: "to_be_reviewed"
+  }
 
-  private
-
-  def reset_removed_reason
-    return unless removed_was && removed_reason
-
-    update!(removed_reason: nil)
-  end
+  enum review_status: {
+    review_not_started: "review_not_started",
+    review_in_progress: "review_in_progress",
+    review_complete: "review_complete"
+  }
 end
