@@ -65,7 +65,7 @@ class PermittedDevelopmentRight < ApplicationRecord
 
   def planning_application_can_review_assessment
     return unless reviewed_at_changed?
-    return if planning_application.awaiting_determination?
+    return if planning_application.can_review_permitted_development_rights?
 
     errors.add(
       :base,
