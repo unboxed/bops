@@ -1,0 +1,21 @@
+<h1 class="govuk-heading-l govuk-!-margin-top-7">
+  Check permitted development rights
+</h1>
+
+<%= render "shared/planning_application_address_and_reference" %>
+
+<p class="govuk-body"><%= @planning_application.status_tag %></p>
+
+<p class="govuk-body">
+  <%= @planning_application.type_and_work_status %>: <%= @planning_application.description %>
+</p>
+
+<p class="govuk-body">
+  <%= @planning_application.next_relevant_date_tag %>
+
+  <% if @planning_application.in_progress? %>
+    <span class="govuk-!-margin-left-1">
+      <%= @planning_application.remaining_days_status_tag %>
+    </span>
+  <% end %>
+</p>

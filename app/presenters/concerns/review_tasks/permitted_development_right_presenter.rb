@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module AssessmentTasks
+module ReviewTasks
   extend ActiveSupport::Concern
 
   class PermittedDevelopmentRightPresenter
@@ -10,7 +10,7 @@ module AssessmentTasks
       @planning_application = planning_application
       @template = template
       @permitted_development_right = planning_application.permitted_development_right
-      @status = @permitted_development_right&.status || "not_started"
+      @status = @permitted_development_right.review_status
     end
 
     def task_list_row
@@ -32,12 +32,11 @@ module AssessmentTasks
     def permitted_development_right_link_url
       case status.humanize
 
-      when "Not started", "To be reviewed"
-        new_planning_application_permitted_development_right_path(planning_application)
-      when "In progress"
-        edit_planning_application_permitted_development_right_path(planning_application, permitted_development_right)
-      when "Checked", "Removed"
-        planning_application_permitted_development_right_path(planning_application, permitted_development_right)
+      when "Review not started"
+        edit_planning_application_review_permitted_development_right_path(planning_application,
+                                                                          permitted_development_right)
+      when "Review in progress", "Review complete"
+        planning_application_review_permitted_development_right_path(planning_application, permitted_development_right)
       else
         raise ArgumentError, "The status provided: '#{status}' is not valid"
       end
@@ -60,13 +59,11 @@ module AssessmentTasks
     def permitted_development_right_status_colour
       case status.humanize
 
-      when "Not started"
+      when "Review not started"
         "grey"
-      when "Checked"
-        "green"
-      when "Removed"
-        "red"
-      when "In progress", "To be reviewed"
+      when "Review complete"
+        "blue"
+      when "Review in progress"
         nil
       else
         raise ArgumentError, "The status provided: '#{status}' is not valid"

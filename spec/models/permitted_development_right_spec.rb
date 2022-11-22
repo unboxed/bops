@@ -3,6 +3,8 @@
 require "rails_helper"
 
 RSpec.describe PermittedDevelopmentRight, type: :model do
+  let!(:planning_application) { create(:planning_application) }
+
   describe "validations" do
     subject(:permitted_development_right) { described_class.new }
 
@@ -28,28 +30,141 @@ RSpec.describe PermittedDevelopmentRight, type: :model do
     end
 
     describe "#status" do
+      before { permitted_development_right.planning_application = planning_application }
+
       it "validates presence" do
         expect { permitted_development_right.valid? }.to change { permitted_development_right.errors[:status] }.to ["can't be blank"]
       end
     end
 
-    describe "#planning_application" do
-      it "validates presence" do
-        expect { permitted_development_right.valid? }.to change { permitted_development_right.errors[:planning_application] }.to ["must exist"]
+    describe "#review_status" do
+      before { permitted_development_right.planning_application = planning_application }
+
+      it "validates presence of default status" do
+        expect(permitted_development_right.review_status).to eq("review_not_started")
+      end
+    end
+
+    describe "#reviewer_is_present?" do
+      let(:permitted_development_right) { create(:permitted_development_right, reviewer_comment: "comment") }
+
+      it "validates that a reviewer is present when the permitted development right has been reviewed" do
+        expect do
+          permitted_development_right
+        end.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Reviewer must be present when returning to officer with a comment")
+      end
+    end
+
+    describe "#planning_application_can_review_assessment" do
+      let(:planning_application) { create(:planning_application, :determined) }
+      let(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application: planning_application) }
+
+      it "validates that planning_application can review assessment" do
+        expect do
+          permitted_development_right
+        end.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen")
       end
     end
   end
 
   describe "callbacks" do
-    describe "::before_update #reset_removed_reason" do
-      context "when choosing 'No' after previously providing a reason for removing the permitted development rights" do
+    let!(:reviewer) { create(:user, :reviewer) }
+
+    describe "::before_update #set_status_to_be_reviewed" do
+      context "when a reviewer comment has been added" do
         let(:permitted_development_right) { create(:permitted_development_right, :removed) }
 
-        it "sets the removed reason to nil" do
+        it "sets the status for the assessor to be reviewed" do
           expect do
-            permitted_development_right.update!(removed: false)
-          end.to change(permitted_development_right, :removed_reason).from("Removal reason").to(nil)
+            permitted_development_right.update!(reviewer_comment: "Comment", reviewer: reviewer)
+          end.to change(permitted_development_right, :status).from("removed").to("to_be_reviewed")
         end
+      end
+
+      context "when no reviewer comment has been added" do
+        let(:permitted_development_right) { create(:permitted_development_right, :removed) }
+
+        it "does not update the status" do
+          expect do
+            permitted_development_right.update!(accepted: true, reviewer: reviewer)
+          end.not_to change(permitted_development_right, :status).from("removed")
+        end
+      end
+    end
+
+    describe "::before_update #set_reviewer_edited" do
+      context "when reviewer accepts but edits the reason for removing the permitted development rights" do
+        let(:permitted_development_right) { create(:permitted_development_right, :removed, reviewer: reviewer) }
+
+        it "sets reviewer edited to true" do
+          expect do
+            permitted_development_right.update!(removed_reason: "another reason", accepted: true)
+          end.to change(permitted_development_right, :reviewer_edited).from(false).to(true)
+        end
+      end
+
+      context "when reviewer accepts but does not edit the reason for removing the permitted development rights" do
+        let(:permitted_development_right) { create(:permitted_development_right, :removed, reviewer: reviewer) }
+
+        it "does not set reviewer edited to true" do
+          expect do
+            permitted_development_right.update!(accepted: true)
+          end.not_to change(permitted_development_right, :reviewer_edited).from(false)
+        end
+      end
+    end
+
+    describe "::before_create #ensure_no_open_permitted_development_right_response!" do
+      context "when there is already an open permitted development right response to be reviewed" do
+        let(:new_permitted_development_right) { create(:permitted_development_right, planning_application: planning_application) }
+
+        before { create(:permitted_development_right, planning_application: planning_application) }
+
+        it "raises an error" do
+          expect do
+            new_permitted_development_right
+          end.to raise_error(described_class::NotCreatableError, "Cannot create a permitted development right response when there is already an open response")
+        end
+      end
+
+      context "when there is no open permitted development right response to be reviewed" do
+        let(:permitted_development_right) { create(:permitted_development_right, :removed, reviewer: reviewer, planning_application: planning_application) }
+
+        it "does not raise an error" do
+          expect do
+            permitted_development_right
+          end.not_to raise_error
+        end
+      end
+    end
+  end
+
+  describe "scopes" do
+    let!(:reviewer) { create(:user, :reviewer) }
+
+    describe ".with_reviewer_comment" do
+      before do
+        create(:permitted_development_right, accepted: false, reviewer_comment: nil)
+        create(:permitted_development_right, accepted: true)
+      end
+
+      let!(:permitted_development_right) { create(:permitted_development_right, reviewer_comment: "comment", reviewer: reviewer) }
+
+      it "returns permitted development rights where there is a review comment" do
+        expect(described_class.with_reviewer_comment).to eq([permitted_development_right])
+      end
+    end
+
+    describe ".returned" do
+      before do
+        create(:permitted_development_right, accepted: false, reviewer_comment: nil)
+        create(:permitted_development_right, accepted: true)
+      end
+
+      let!(:permitted_development_right) { create(:permitted_development_right, accepted: false, reviewer_comment: "comment", reviewer: reviewer) }
+
+      it "returns rejected permitted development right responses" do
+        expect(described_class.returned).to eq([permitted_development_right])
       end
     end
   end

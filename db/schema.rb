@@ -238,7 +238,16 @@ ActiveRecord::Schema.define(version: 2022_11_16_104134) do
     t.bigint "planning_application_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "review_status", default: "review_not_started", null: false
+    t.text "reviewer_comment"
+    t.boolean "reviewer_edited", default: false, null: false
+    t.boolean "accepted", default: false, null: false
+    t.datetime "reviewed_at"
+    t.bigint "assessor_id"
+    t.bigint "reviewer_id"
+    t.index ["assessor_id"], name: "ix_permitted_development_rights_on_assessor_id"
     t.index ["planning_application_id"], name: "ix_permitted_development_rights_on_planning_application_id"
+    t.index ["reviewer_id"], name: "ix_permitted_development_rights_on_reviewer_id"
   end
 
   create_table "planning_applications", force: :cascade do |t|
@@ -458,6 +467,8 @@ ActiveRecord::Schema.define(version: 2022_11_16_104134) do
   add_foreign_key "notes", "users"
   add_foreign_key "other_change_validation_requests", "planning_applications"
   add_foreign_key "other_change_validation_requests", "users"
+  add_foreign_key "permitted_development_rights", "users", column: "assessor_id"
+  add_foreign_key "permitted_development_rights", "users", column: "reviewer_id"
   add_foreign_key "planning_applications", "api_users"
   add_foreign_key "planning_applications", "users"
   add_foreign_key "planning_applications", "users", column: "boundary_created_by_id"
