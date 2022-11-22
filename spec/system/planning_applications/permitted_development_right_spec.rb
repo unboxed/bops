@@ -257,14 +257,12 @@ RSpec.describe "Permitted development right", type: :system do
 
   context "when signed in as a reviewer" do
     let!(:planning_application) do
-      create :planning_application, :in_assessment, decision: "granted", local_authority: default_local_authority
+      create :planning_application, :awaiting_determination, local_authority: default_local_authority
     end
 
     before do
       sign_in reviewer
-      create(:recommendation, planning_application: planning_application, submitted: "false")
       Current.user = reviewer
-      planning_application.submit_recommendation!
       create(:permitted_development_right, planning_application: planning_application)
       visit planning_application_path(planning_application)
     end
@@ -437,6 +435,36 @@ RSpec.describe "Permitted development right", type: :system do
 
           expect(page).to have_text("#{permitted_development_right2.reviewer.name} marked this for review")
           expect(page).to have_text(permitted_development_right2.reviewed_at.to_s)
+        end
+      end
+
+      context "when reviewer has signed off and agreed with the recommendation" do
+        let!(:recommendation) do
+          create(:recommendation,
+                 planning_application: planning_application,
+                 assessor_comment: "New assessor comment",
+                 submitted: true)
+        end
+
+        before { planning_application.recommendations << recommendation }
+
+        it "I cannot edit the permitted development right" do
+          click_link "Review and sign-off"
+          click_link "Sign-off recommendation"
+
+          find("#recommendation_challenged_false").click
+          fill_in "Review comment", with: "Reviewer comment"
+          click_button "Save and mark as complete"
+
+          click_link "Permitted development rights"
+
+          choose "Return to officer with comment"
+          fill_in "permitted_development_right[reviewer_comment]", with: "My review comment"
+
+          click_button "Save and mark as complete"
+          expect(page).to have_content(
+            "You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen"
+          )
         end
       end
     end

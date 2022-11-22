@@ -56,13 +56,66 @@ RSpec.describe PermittedDevelopmentRight, type: :model do
     end
 
     describe "#planning_application_can_review_assessment" do
-      let(:planning_application) { create(:planning_application, :determined) }
-      let(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application: planning_application) }
+      context "when planning application is determined" do
+        let(:planning_application) { create(:planning_application, :determined) }
+        let(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application: planning_application) }
 
-      it "validates that planning_application can review assessment" do
-        expect do
-          permitted_development_right
-        end.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen")
+        it "validates that planning_application can review assessment and raises an error" do
+          expect do
+            permitted_development_right
+          end.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen")
+        end
+      end
+
+      context "when planning application is awaiting determination" do
+        let(:planning_application) { create(:planning_application, :awaiting_determination) }
+
+        context "when planning application has no recommendation" do
+          let(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application: planning_application) }
+
+          it "validates that planning_application can review assessment and does not raise an error" do
+            expect do
+              permitted_development_right
+            end.not_to raise_error
+          end
+        end
+
+        context "when planning application has a recommendation that is agreed by the reviewer" do
+          let(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application: planning_application) }
+
+          before { create(:recommendation, challenged: false, planning_application: planning_application) }
+
+          it "validates that planning_application can review assessment and raises an error" do
+            expect do
+              permitted_development_right
+            end.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen")
+          end
+        end
+
+        context "when planning application has a recommendation that is challenged by the reviewer" do
+          let(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application: planning_application) }
+
+          before { create(:recommendation, challenged: true, planning_application: planning_application) }
+
+          it "validates that planning_application can review assessment and does not raise an error" do
+            expect do
+              permitted_development_right
+            end.not_to raise_error
+          end
+        end
+      end
+
+      context "when planning application is awaiting correction" do
+        let(:planning_application) { create(:planning_application, :awaiting_correction) }
+        let(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application: planning_application) }
+
+        before { create(:recommendation, challenged: true, planning_application: planning_application) }
+
+        it "validates that planning_application can review assessment and does not raise an error" do
+          expect do
+            permitted_development_right
+          end.not_to raise_error
+        end
       end
     end
   end
