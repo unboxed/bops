@@ -74,6 +74,10 @@ class PlanningApplication
       requests.pre_validation.with_validation_request.filter(&:update_counter?).each(&:reset_update_counter!)
     end
 
+    def all_open_post_validation_requests
+      validation_requests(post_validation: true, include_description_change_validation_requests: true).select(&:open?)
+    end
+
     private
 
     def no_open_post_validation_requests?

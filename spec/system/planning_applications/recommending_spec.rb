@@ -670,4 +670,62 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     expect(list_item("View recommendation")).to have_content("Complete")
   end
+
+  context "when there are post-validation requests" do
+    before { freeze_time }
+
+    context "with an open red line boundary request" do
+      let!(:post_validation_red_line_boundary_change_validation_request) do
+        create(:red_line_boundary_change_validation_request, :post_validation, :open, planning_application: planning_application)
+      end
+
+      it "displays a warning message with a link to the post validation requests table" do
+        visit new_planning_application_recommendation_path(planning_application)
+
+        within(".moj-banner__message") do
+          expect(page).to have_content("There are outstanding change requests (last request #{Time.current}")
+          expect(page).to have_link(
+            "View all requests", href: post_validation_requests_planning_application_validation_requests_path(planning_application)
+          )
+        end
+      end
+    end
+
+    context "with an open description change request" do
+      let!(:post_description_change_validation_request) do
+        create(:description_change_validation_request, :post_validation, :open, planning_application: planning_application)
+      end
+
+      it "displays a warning message with a link to the post validation requests table" do
+        visit new_planning_application_recommendation_path(planning_application)
+
+        within(".moj-banner__message") do
+          expect(page).to have_content("There are outstanding change requests (last request #{Time.current}")
+          expect(page).to have_link(
+            "View all requests", href: post_validation_requests_planning_application_validation_requests_path(planning_application)
+          )
+        end
+      end
+    end
+
+    context "with a closed change request" do
+      let!(:post_validation_red_line_boundary_change_validation_request) do
+        create(:red_line_boundary_change_validation_request, :post_validation, :closed, planning_application: planning_application)
+      end
+
+      it "does not display any warning message" do
+        visit new_planning_application_recommendation_path(planning_application)
+
+        expect(page).not_to have_css(".moj-banner__message")
+      end
+    end
+
+    context "with no request" do
+      it "does not display any warning message" do
+        visit new_planning_application_recommendation_path(planning_application)
+
+        expect(page).not_to have_css(".moj-banner__message")
+      end
+    end
+  end
 end
