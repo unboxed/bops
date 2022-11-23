@@ -1,6 +1,9 @@
 <% content_for :page_title do %>
   <%= t(".check_description_documents") %> - <%= t("page_title") %>
 <% end %>
+
+<% content_for :title, t(".check_description_documents") %>
+
 <%= render(
   partial: "shared/assessment_task_breadcrumbs",
   locals: { planning_application: @planning_application  }
