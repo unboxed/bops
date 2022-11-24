@@ -60,6 +60,10 @@ class Recommendation < ApplicationRecord
     !challenged
   end
 
+  def accepted?
+    review_complete? && challenged == false
+  end
+
   private
 
   def reviewer_comment_is_present?

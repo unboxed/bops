@@ -476,12 +476,6 @@ class PlanningApplication < ApplicationRecord
     permitted_development_rights.last
   end
 
-  def can_review_permitted_development_rights?
-    return awaiting_determination? unless recommendation
-
-    (awaiting_determination? || awaiting_correction?) && recommendation.challenged?
-  end
-
   private
 
   def set_reference
