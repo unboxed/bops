@@ -203,4 +203,41 @@ RSpec.describe Recommendation, type: :model do
       end
     end
   end
+
+  describe "#accepted?" do
+    let(:recommendation) do
+      build(
+        :recommendation,
+        status: status,
+        challenged: challenged
+      )
+    end
+
+    context "when recommendation is not challenged but does not have a review_complete status" do
+      let(:status) { "review_in_progress" }
+      let(:challenged) { false }
+
+      it "returns false" do
+        expect(recommendation.accepted?).to eq(false)
+      end
+    end
+
+    context "when recommendation has a review_complete status but is challenged" do
+      let(:status) { "review_complete" }
+      let(:challenged) { true }
+
+      it "returns false" do
+        expect(recommendation.accepted?).to eq(false)
+      end
+    end
+
+    context "when recommendation has a review_complete status and is not challenged" do
+      let(:status) { "review_complete" }
+      let(:challenged) { false }
+
+      it "returns true" do
+        expect(recommendation.accepted?).to eq(true)
+      end
+    end
+  end
 end
