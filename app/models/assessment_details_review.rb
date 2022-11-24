@@ -102,7 +102,7 @@ class AssessmentDetailsReview
   private
 
   def recommendation_not_accepted
-    return unless planning_application.recommendation.accepted?
+    return unless planning_application.last_recommendation_accepted?
 
     errors.add(:base, :recommendation_accepted)
   end

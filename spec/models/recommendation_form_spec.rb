@@ -50,7 +50,7 @@ RSpec.describe RecommendationForm do
 
         it "updates recommendation" do
           expect(
-            planning_application.reload.recommendations.last
+            planning_application.reload.recommendation
           ).to have_attributes(
             assessor: assessor,
             assessor_comment: "LGTM"
@@ -178,7 +178,7 @@ RSpec.describe RecommendationForm do
 
         it "updates recommendation" do
           expect(
-            planning_application.reload.recommendations.last
+            planning_application.reload.recommendation
           ).to have_attributes(
             assessor: assessor,
             assessor_comment: "LGTM"
@@ -209,7 +209,7 @@ RSpec.describe RecommendationForm do
 
         it "updates recommendation" do
           expect(
-            planning_application.reload.recommendations.last
+            planning_application.reload.recommendation
           ).to have_attributes(
             assessor: assessor,
             assessor_comment: "LGTM"
@@ -240,7 +240,7 @@ RSpec.describe RecommendationForm do
 
         it "updates recommendation" do
           expect(
-            planning_application.reload.recommendations.last
+            planning_application.reload.recommendation
           ).to have_attributes(
             assessor: assessor,
             assessor_comment: "LGTM"

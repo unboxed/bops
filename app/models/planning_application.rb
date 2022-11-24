@@ -263,7 +263,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def existing_or_new_recommendation
-    recommendations.last || recommendations.build
+    recommendation || recommendations.build
   end
 
   def proposal_details
@@ -390,7 +390,7 @@ class PlanningApplication < ApplicationRecord
         planning_application_id: id,
         user: Current.user,
         activity_type: "submitted",
-        audit_comment: { assessor_comment: recommendations.last.assessor_comment }.to_json
+        audit_comment: { assessor_comment: recommendation.assessor_comment }.to_json
       )
     end
 
@@ -484,6 +484,12 @@ class PlanningApplication < ApplicationRecord
 
   def recommendation
     @recommendation ||= recommendations.last
+  end
+
+  def last_recommendation_accepted?
+    return false unless recommendation
+
+    recommendation.accepted?
   end
 
   def permitted_development_right

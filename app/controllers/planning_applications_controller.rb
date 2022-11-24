@@ -57,7 +57,7 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def update
-    if @planning_application.recommendations.last.present? && !@planning_application.recommendations.last.submitted
+    if @planning_application.recommendation.present? && !@planning_application.recommendation.submitted
       flash.now[:alert] = "Please complete in draft assessment before updating application fields."
     end
 
@@ -155,8 +155,8 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def view_recommendation
-    @assessor_name = @planning_application.recommendations.last.assessor.name
-    @recommended_date = @planning_application.recommendations.last.created_at.strftime("%d %b %Y")
+    @assessor_name = @planning_application.recommendation.assessor.name
+    @recommended_date = @planning_application.recommendation.created_at.strftime("%d %b %Y")
   end
 
   def withdraw_recommendation

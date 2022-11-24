@@ -70,9 +70,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
     planning_application.reload
     expect(planning_application.status).to eq("determined")
-    expect(planning_application.recommendations.last.reviewer).to eq(reviewer)
-    expect(planning_application.recommendations.last.reviewed_at).not_to be_nil
-    expect(planning_application.recommendations.last.reviewer_comment).to eq("Reviewer private comment")
+    expect(planning_application.recommendation.reviewer).to eq(reviewer)
+    expect(planning_application.recommendation.reviewed_at).not_to be_nil
+    expect(planning_application.recommendation.reviewer_comment).to eq("Reviewer private comment")
     expect(page).not_to have_content("Assigned to:")
     expect(page).not_to have_content("Process Application")
     expect(page).not_to have_content("Review and sign-off")
@@ -110,9 +110,9 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
     planning_application.reload
     expect(planning_application.status).to eq("awaiting_correction")
-    expect(planning_application.recommendations.last.reviewer).to eq(reviewer)
-    expect(planning_application.recommendations.last.reviewed_at).not_to be_nil
-    expect(planning_application.recommendations.last.reviewer_comment).to eq("Reviewer private comment")
+    expect(planning_application.recommendation.reviewer).to eq(reviewer)
+    expect(planning_application.recommendation.reviewed_at).not_to be_nil
+    expect(planning_application.recommendation.reviewer_comment).to eq("Reviewer private comment")
 
     perform_enqueued_jobs
     update_notification = ActionMailer::Base.deliveries.last
