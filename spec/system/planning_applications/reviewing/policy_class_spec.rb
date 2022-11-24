@@ -161,6 +161,22 @@ RSpec.describe "Planning Application Reviewing Policy Class", type: :system do
       end
     end
 
+    it "displays policy class navigation" do
+      prv = create(:policy_class, section: "A", planning_application: planning_application)
+      policy_class = create(:policy_class, section: "B", planning_application: planning_application)
+      nxt = create(:policy_class, section: "C", planning_application: planning_application)
+      create(:policy, policy_class: policy_class)
+      visit(planning_application_review_tasks_path(planning_application))
+
+      expect(page).to have_selector("h1", text: "Review and sign-off")
+      click_on "Review assessment of Part 1, Class B"
+
+      expect(page).to have_link "View previous class",
+                                href: edit_planning_application_review_policy_class_path(planning_application, prv)
+      expect(page).to have_link "View next class",
+                                href: edit_planning_application_review_policy_class_path(planning_application, nxt)
+    end
+
     it "can display errors" do
       policy_class = create(:policy_class, section: "A", planning_application: planning_application)
       create(:policy, policy_class: policy_class)

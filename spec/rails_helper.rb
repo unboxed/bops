@@ -38,4 +38,5 @@ RSpec.configure do |config|
 
   config.include(ActiveJob::TestHelper)
   config.include(SystemSpecHelpers)
+  config.include Rails.application.routes.url_helpers
 end

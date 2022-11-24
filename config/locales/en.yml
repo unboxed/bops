@@ -64,6 +64,10 @@ en:
           attributes:
             status:
               policies_to_be_determined: All policies must be assessed
+        review_policy_class:
+          attributes:
+            base:
+              recommendation_accepted: You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen
   additional_document_validation_requests:
     create:
       success: Additional document request successfully created.
@@ -400,8 +404,6 @@ en:
         review_heading: Review - Part%{part}, Class %{class}
         table_caption: Part %{part}, Class %{class} - %{name}
         to_be_determined: To be determined
-        view_next_class: View next class
-        view_previous_class: View previous class
       show:
         application: Application
         home: Home
@@ -551,6 +553,10 @@ en:
       no_legislation_assessed: No legislation assessed for this application.
     new:
       assess_recommendation: Assess recommendation
+  review_policy_classes:
+    navigation_component:
+      view_next_class: View next class
+      view_previous_class: View previous class
   shared:
     administrator_layout:
       add_user: Add user
