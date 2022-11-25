@@ -36,6 +36,10 @@ Layout/LineLength:
   Exclude:
     - spec/**/*
 
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - spec/models/review_policy_class_spec.rb
+
 # we tend to use update_all in migrations
 Rails/SkipsModelValidations:
   Exclude:
@@ -44,6 +48,10 @@ Rails/SkipsModelValidations:
 # Rspec
 RSpec/MultipleExpectations:
   Enabled: false
+
+Rails/NotNullColumn:
+  Exclude:
+    - db/migrate/20221116234525_add_review_mark_to_review_policy_classes.rb
 
 RSpec/ExampleLength:
   Enabled: false

@@ -20,13 +20,13 @@ RSpec.describe AssessmentTasks::AssessAgainstLegislationPresenter, type: :presen
         )
       end
 
-      it "the task list row shows invalid status html" do
+      it "displays the task list row" do
         html = presenter.task_list_row
 
         expect(html).to include("app-task-list__task-name")
 
         expect(html).to include(
-          "<a class=\"govuk-link\" href=\"/planning_applications/#{planning_application.id}/policy_classes/#{policy_class.id}\">Part 1, Class A</a>"
+          "<a class=\"govuk-link\" href=\"/planning_applications/#{planning_application.id}/policy_classes/#{policy_class.id}\">Part 1, Class #{policy_class.section}</a>"
         )
 
         expect(html).to include(
@@ -44,17 +44,41 @@ RSpec.describe AssessmentTasks::AssessAgainstLegislationPresenter, type: :presen
         )
       end
 
-      it "the task list row shows invalid status html" do
+      it "displays the task list row" do
         html = presenter.task_list_row
 
         expect(html).to include("app-task-list__task-name")
 
         expect(html).to include(
-          "<a class=\"govuk-link\" href=\"/planning_applications/#{planning_application.id}/policy_classes/#{policy_class.id}/edit\">Part 1, Class A</a>"
+          "<a class=\"govuk-link\" href=\"/planning_applications/#{planning_application.id}/policy_classes/#{policy_class.id}/edit\">Part 1, Class #{policy_class.section}</a>"
         )
 
         expect(html).to include(
           "<strong class=\"govuk-tag app-task-list__task-tag \">In assessment</strong>"
+        )
+      end
+    end
+
+    context "when policy class status is 'to_be_reviewed'" do
+      let(:policy_class) do
+        create(
+          :policy_class,
+          status: :to_be_reviewed,
+          planning_application: planning_application
+        )
+      end
+
+      it "displays the task list row" do
+        html = presenter.task_list_row
+
+        expect(html).to include("app-task-list__task-name")
+
+        expect(html).to include(
+          "<a class=\"govuk-link\" href=\"/planning_applications/#{planning_application.id}/policy_classes/#{policy_class.id}/edit\">Part 1, Class #{policy_class.section}</a>"
+        )
+
+        expect(html).to include(
+          "<strong class=\"govuk-tag app-task-list__task-tag govuk-tag--yellow\">To be reviewed</strong>"
         )
       end
     end

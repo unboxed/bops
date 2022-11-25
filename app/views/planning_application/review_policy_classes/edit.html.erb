@@ -1,0 +1,125 @@
+<% content_for :page_title do %>
+  <%= t(".review") %> - <%= t("page_title") %>
+<% end %>
+<% add_parent_breadcrumb_link(t(".home"), planning_applications_path) %>
+<% add_parent_breadcrumb_link(
+     t(".application"),
+     planning_application_path(@planning_application)
+   ) %>
+<% content_for(:title, t(".review")) %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <%= t(
+            ".review_heading",
+            part: @policy_class.part,
+            class: @policy_class.section
+          ) %>
+    </h1>
+    <h2 class="govuk-heading-m govuk-!-padding-bottom-3">
+      <%= @policy_class.name.upcase_first %>
+    </h2>
+    <%= render "shared/planning_application_address_and_reference" %>
+    <p class="govuk-body">
+      <%= t(
+            ".please_indicate_if",
+            part: @policy_class.part,
+            class: @policy_class.section
+          ) %>
+    <p class="govuk-body">
+      <%= link_to(
+            t(".open_legislation_in"),
+            @policy_class.url,
+            class: "govuk-link",
+            target: "_blank"
+          ) %>
+    </p>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= form_with(
+          model: [@planning_application, @policy_class],
+          url: planning_application_review_policy_class_path(@planning_application, @policy_class),
+          html: { data: unsaved_changes_data },
+          builder: GOVUKDesignSystemFormBuilder::FormBuilder
+        ) do |form| %>
+      <table class="govuk-table">
+        <%= render(partial: "policy_classes/table_head", locals: { policy_class: @policy_class }) %>
+        <tbody class="govuk-table__body">
+        <%= form.fields_for(:policies) do |policy_form| %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <h3 class="govuk-heading-s">
+                <%= "#{form.object.section}.#{policy_form.object.section}" %>
+              </h3>
+              <p class="govuk-body">
+                <%= simple_format(policy_form.object.description) %>
+              </p>
+              <% if comment = policy_form.object.comment.presence %>
+                <h4 class="govuk-heading-s policy-comment-title">
+                  <%= existing_policy_comment_label(comment) %>
+                </h4>
+                <p class="govuk-body"><%= simple_format(comment.text) %></p>
+              <% end %>
+            </td>
+            <% Policy.statuses.each_key do |status| %>
+              <td class="govuk-table__cell">
+                <div class="govuk-form-group">
+                  <fieldset class="govuk-fieldset">
+                    <div class="govuk-radios" data-module="govuk-radios">
+                      <div class="govuk-radios govuk-radios--small">
+                        <div class="govuk-radios__item">
+                          <%= policy_form.radio_button(
+                                :status,
+                                status,
+                                class: "govuk-radios__input",
+                                disabled: @planning_application.assessment_complete?
+                              ) %>
+                          <%= policy_form.label(
+                                :status,
+                                "&nbsp;".html_safe,
+                                class: "govuk-label govuk-radios__label"
+                              ) %>
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+      <%= form.fields_for :review_policy_class, @policy_class.review_policy_class do |review_form| %>
+        <div class="govuk-form-group <%= review_form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
+          <fieldset class="govuk-fieldset">
+            <% if review_form.object.errors.any? %>
+              <% review_form.object.errors.each do |error| %>
+                <p id="status-error" class="govuk-error-message">
+                  <span class="govuk-visually-hidden">Error:</span><%= error.message %>
+                </p>
+              <% end %>
+            <% end %>
+
+            <div class="govuk-radios" data-module="govuk-radios">
+              <%= review_form.govuk_radio_button(:mark, :accept, label: { text: "Accept" }) %>
+              <%= review_form.govuk_radio_button(
+                :mark, :return_to_officer_with_comment, label: { text: "Return to officer with comment" }
+              ) do %>
+                <%= review_form.govuk_text_area(
+                      :comment,
+                      label: { text: "Explain to the assessor why this needs reviewing" },
+                      rows: 6
+                    ) %>
+              <% end %>
+            </div>
+          </fieldset>
+        </div>
+      <% end %>
+      <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+    <% end %>
+  </div>
+</div>
