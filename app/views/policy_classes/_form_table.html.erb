@@ -1,5 +1,8 @@
 <table class="govuk-table">
-  <%= render(partial: "table_head", locals: { policy_class: policy_class }) %>
+  <%= render(
+    partial: "shared/policy_classes/table_head",
+    locals: { policy_class: policy_class }
+  ) %>
   <tbody class="govuk-table__body">
     <%= form.fields_for(:policies) do |policy_form| %>
       <tr class="govuk-table__row">

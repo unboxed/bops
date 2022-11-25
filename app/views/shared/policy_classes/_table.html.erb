@@ -1,6 +1,6 @@
 <table class="govuk-table">
   <%= render(
-    partial: "policy_classes/table_head",
+    partial: "shared/policy_classes/table_head",
     locals: { policy_class: policy_class }
   ) %>
   <tbody class="govuk-table__body">
@@ -13,12 +13,18 @@
           <p class="govuk-body">
             <%= simple_format(policy.description) %>
           </p>
-          <% if comment = policy.comment.presence %>
-            <h4 class="govuk-heading-s policy-comment-title">
-              <%=existing_policy_comment_label(comment)%>
-            </h4>
-            <p class="govuk-body"><%= simple_format(comment.text) %></p>
-          <% end %>
+          <%= render(
+            partial: local_assigns.fetch(
+              :comment_partial,
+              "shared/policy_classes/comment"
+            ),
+            locals: {
+              planning_application: planning_application,
+              policy_class: policy_class,
+              policy: policy,
+              comment: policy.comment
+            }
+          ) %>
         </td>
         <% Policy.statuses.each_key do |status| %>
           <td class="govuk-table__cell">

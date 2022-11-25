@@ -2,13 +2,30 @@
 
 class CommentsController < AuthenticationController
   def destroy
-    policy.comment.destroy
-    render(json: { partial: comment_form })
+    comment.destroy
+    render(json: { partial: destroy_comment_form })
+  end
+
+  def update
+    comment.update(comment_params)
+    render(json: { partial: update_comment_form })
   end
 
   private
 
-  def comment_form
+  def update_comment_form
+    render_to_string(
+      partial: "planning_application/review_policy_classes/comment",
+      locals: {
+        planning_application: planning_application,
+        policy_class: policy_class,
+        policy: policy,
+        comment: comment
+      }
+    )
+  end
+
+  def destroy_comment_form
     render_to_string(
       partial: "policy_classes/comment_form",
       locals: {
@@ -16,6 +33,14 @@ class CommentsController < AuthenticationController
         policy_index: params[:policy_index]
       }
     )
+  end
+
+  def comment_params
+    params.require(:comment).permit(:text)
+  end
+
+  def comment
+    @comment ||= policy.comment
   end
 
   def policy

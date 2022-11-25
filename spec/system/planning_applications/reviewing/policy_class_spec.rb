@@ -4,7 +4,16 @@ require "rails_helper"
 
 RSpec.describe "Planning Application Reviewing Policy Class", type: :system do
   let(:default_local_authority) { create(:local_authority, :default) }
-  let(:reviewer) { create :user, :reviewer, local_authority: default_local_authority }
+
+  let(:reviewer) do
+    create(
+      :user,
+      :reviewer,
+      local_authority: default_local_authority,
+      name: "Charlize The Reviever"
+    )
+  end
+
   let!(:assessor) { create :user, name: "Chuck The Assessor", local_authority: default_local_authority }
   let!(:planning_application) do
     create(
@@ -75,19 +84,80 @@ RSpec.describe "Planning Application Reviewing Policy Class", type: :system do
       expect(list_item("Part 1, Class A")).to have_content("To be reviewed")
     end
 
-    it "displays policy_class with comments" do
-      travel_to Time.zone.local(2020, 10, 15, 12, 0, 1) do
+    context "when the assessor has added comments" do
+      let(:policy_class) do
+        create(
+          :policy_class,
+          section: "A",
+          name: "Roof",
+          planning_application: planning_application
+        )
+      end
+
+      let(:policy) do
+        create(
+          :policy,
+          policy_class: policy_class,
+          description: "Policy description"
+        )
+      end
+
+      before do
         Current.user = assessor
-        policy_class = create(:policy_class, section: "A", name: "Roof", planning_application: planning_application)
-        policy = create(:policy, policy_class: policy_class, description: "Policy description")
-        create(:comment, commentable: policy, text: "policy comment", user: assessor)
+
+        create(
+          :comment,
+          commentable: policy,
+          text: "policy comment",
+          created_at: Time.zone.local(2020, 10, 15),
+          updated_at: Time.zone.local(2020, 10, 15)
+        )
+
+        sign_in(reviewer)
+        visit(planning_application_review_tasks_path(planning_application))
+        click_on("Review assessment of Part 1, Class A")
+      end
+
+      it "displays policy_class with comments" do
         visit(planning_application_review_tasks_path(planning_application))
         click_on "Review assessment of Part 1, Class A"
 
         expect(page).to have_text("Part 1, Class A - Roof")
         expect(page).to have_selector("p", text: "Policy description")
-        expect(page).to have_text("15 Oct 2020 by Chuck The Assessor")
+
+        expect(page).to have_text(
+          "Comment added on 15 Oct 2020 by Chuck The Assessor"
+        )
+
         expect(page).to have_text("policy comment")
+      end
+
+      it "allows the reviewer to edit comments" do
+        travel_to(Time.zone.local(2020, 10, 16)) do
+          click_button("Edit comment")
+
+          fill_in(
+            "Comment added on 15 Oct 2020 by Chuck The Assessor",
+            with: ""
+          )
+
+          click_button("Update")
+
+          expect(page).to have_content("Text can't be blank")
+
+          fill_in(
+            "Comment added on 15 Oct 2020 by Chuck The Assessor",
+            with: "edited policy comment"
+          )
+
+          click_button("Update")
+
+          expect(page).to have_content(
+            "Comment updated on 16 Oct 2020 by Charlize The Reviever"
+          )
+
+          expect(page).to have_content("edited policy comment")
+        end
       end
     end
 
