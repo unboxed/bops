@@ -20,8 +20,6 @@ class PlanningApplication
 
     def create
       @assessment_detail = @planning_application.assessment_details.new(assessment_details_params).tap do |record|
-        record.user = current_user
-        record.status = status
         record.reviewer_verdict = :updated if @rejected_assessment_detail.present?
       end
 
@@ -53,8 +51,6 @@ class PlanningApplication
     end
 
     def update
-      @assessment_detail.assign_attributes(user: current_user, status: status)
-
       respond_to do |format|
         if @assessment_detail.update(assessment_details_params)
           format.html do
@@ -101,10 +97,11 @@ class PlanningApplication
       params
         .require(:assessment_detail)
         .permit(:entry, :category, :additional_information)
+        .merge(assessment_status: assessment_status, user: current_user)
     end
 
-    def status
-      save_progress? ? :assessment_in_progress : :assessment_complete
+    def assessment_status
+      save_progress? ? :in_progress : :complete
     end
 
     def created_notice

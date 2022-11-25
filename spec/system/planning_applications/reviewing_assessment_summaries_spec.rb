@@ -26,7 +26,7 @@ RSpec.describe "reviewing assessment summaries", type: :system do
       create(
         :assessment_detail,
         :summary_of_work,
-        status: :assessment_complete,
+        assessment_status: :complete,
         planning_application: planning_application,
         user: assessor,
         entry: "summary of works"
@@ -35,7 +35,7 @@ RSpec.describe "reviewing assessment summaries", type: :system do
       create(
         :assessment_detail,
         :site_description,
-        status: :assessment_complete,
+        assessment_status: :complete,
         planning_application: planning_application,
         user: assessor,
         entry: "site description"
@@ -46,7 +46,7 @@ RSpec.describe "reviewing assessment summaries", type: :system do
       create(
         :assessment_detail,
         :consultation_summary,
-        status: :assessment_complete,
+        assessment_status: :complete,
         planning_application: planning_application,
         user: assessor,
         entry: "consultation summary"
@@ -55,7 +55,7 @@ RSpec.describe "reviewing assessment summaries", type: :system do
       create(
         :assessment_detail,
         :additional_evidence,
-        status: :assessment_complete,
+        assessment_status: :complete,
         planning_application: planning_application,
         user: assessor,
         entry: "additional evidence"

@@ -10,13 +10,13 @@ RSpec.describe TaskListItems::AssessmentDetailsReviewComponent, type: :component
   before do
     create(
       :assessment_detail,
-      status: status,
+      review_status: review_status,
       planning_application: planning_application
     )
   end
 
   context "when the assessment details review is complete" do
-    let(:status) { :review_complete }
+    let(:review_status) { :complete }
 
     before do
       render_inline(
@@ -33,7 +33,7 @@ RSpec.describe TaskListItems::AssessmentDetailsReviewComponent, type: :component
   end
 
   context "when the assessment details review is not complete" do
-    let(:status) { :review_in_progress }
+    let(:review_status) { :in_progress }
 
     before do
       render_inline(

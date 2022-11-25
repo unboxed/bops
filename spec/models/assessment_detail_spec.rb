@@ -14,7 +14,7 @@ RSpec.describe AssessmentDetail, type: :model do
           :assessment_detail,
           :past_applications,
           entry: "",
-          status: status
+          assessment_status: assessment_status
         )
       end
 
@@ -24,7 +24,7 @@ RSpec.describe AssessmentDetail, type: :model do
           :consultation_summary,
           :with_consultees,
           entry: "",
-          status: status
+          assessment_status: assessment_status
         )
       end
 
@@ -40,8 +40,8 @@ RSpec.describe AssessmentDetail, type: :model do
         expect { site_description }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Entry can't be blank")
       end
 
-      context "when status is assessment_complete" do
-        let(:status) { :assessment_complete }
+      context "when assessment_status is complete" do
+        let(:assessment_status) { :complete }
 
         it "validates presence for past_applications" do
           expect { past_applications }.to raise_error(
@@ -58,8 +58,8 @@ RSpec.describe AssessmentDetail, type: :model do
         end
       end
 
-      context "when status is assessment_in_progress" do
-        let(:status) { :assessment_in_progress }
+      context "when assessment_status is in_progress" do
+        let(:assessment_status) { :in_progress }
 
         it "does not validates presence for past_applications" do
           expect { past_applications }.not_to raise_error
@@ -74,9 +74,9 @@ RSpec.describe AssessmentDetail, type: :model do
     described_class.categories.each_key do |category_type|
       let(:category) { described_class.new(category: category_type) }
 
-      describe "#status" do
+      describe "#assessment_status" do
         it "validates presence" do
-          expect { category.valid? }.to change { category.errors[:status] }.to ["can't be blank"]
+          expect { category.valid? }.to change { category.errors[:assessment_status] }.to ["can't be blank"]
         end
       end
 
@@ -143,7 +143,7 @@ RSpec.describe AssessmentDetail, type: :model do
     let(:assessment_detail) do
       build(
         :assessment_detail,
-        status: status,
+        assessment_status: assessment_status,
         category: category,
         planning_application: planning_application,
         reviewer_verdict: reviewer_verdict,
@@ -151,7 +151,7 @@ RSpec.describe AssessmentDetail, type: :model do
       )
     end
 
-    let(:status) { :assessment_complete }
+    let(:assessment_status) { :complete }
     let(:category) { :summary_of_work }
     let(:reviewer_verdict) { nil }
     let(:entry) { "entry" }
@@ -194,8 +194,8 @@ RSpec.describe AssessmentDetail, type: :model do
       end
     end
 
-    context "when status is 'assessment_complete'" do
-      let(:status) { :assessment_complete }
+    context "when assessment_status is 'complete'" do
+      let(:assessment_status) { :complete }
 
       context "when category is 'consultation_summary'" do
         let(:category) { :consultation_summary }
@@ -239,8 +239,8 @@ RSpec.describe AssessmentDetail, type: :model do
       end
     end
 
-    context "when status is 'assessment_in_progress', category is 'consultation_summary' and there are no consultees" do
-      let(:status) { :assessment_in_progress }
+    context "when assessment_status is 'progress', category is 'consultation_summary' and there are no consultees" do
+      let(:assessment_status) { :in_progress }
       let(:category) { :summary_of_work }
       let(:planning_application) { create(:planning_application) }
 
@@ -264,11 +264,11 @@ RSpec.describe AssessmentDetail, type: :model do
   end
 
   describe "#update_required?" do
-    context "when status is 'review_complete' and reviewer_verdict is 'rejected'" do
+    context "when review_status is 'rcomplete' and reviewer_verdict is 'rejected'" do
       let(:assessment_detail) do
         build(
           :assessment_detail,
-          status: :review_complete,
+          review_status: :complete,
           reviewer_verdict: :rejected
         )
       end
@@ -278,11 +278,11 @@ RSpec.describe AssessmentDetail, type: :model do
       end
     end
 
-    context "when status is 'review_complete' and reviewer_verdict is not 'rejected'" do
+    context "when reveiw_status is 'complete' and reviewer_verdict is not 'rejected'" do
       let(:assessment_detail) do
         build(
           :assessment_detail,
-          status: :review_complete,
+          review_status: :complete,
           reviewer_verdict: :accepted
         )
       end
@@ -292,11 +292,11 @@ RSpec.describe AssessmentDetail, type: :model do
       end
     end
 
-    context "when status is not 'review_complete' and reviewer_verdict is 'rejected'" do
+    context "when review_status is not 'complete' and reviewer_verdict is 'rejected'" do
       let(:assessment_detail) do
         build(
           :assessment_detail,
-          status: :review_in_progress,
+          review_status: :in_progress,
           reviewer_verdict: :rejected
         )
       end

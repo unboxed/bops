@@ -463,7 +463,7 @@ class PlanningApplication < ApplicationRecord
 
     assessment_details.where(
       category: category,
-      status: :review_complete,
+      review_status: :complete,
       reviewer_verdict: :rejected
     ).first
   end

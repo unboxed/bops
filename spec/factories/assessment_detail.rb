@@ -6,7 +6,7 @@ FactoryBot.define do
     user
 
     category { "summary_of_work" }
-    status { "assessment_complete" }
+    assessment_status { :complete }
     entry { "This is a description about the summary of works" }
 
     AssessmentDetail.categories.each_key do |category|

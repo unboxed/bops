@@ -40,12 +40,12 @@ module TaskListItems
     end
 
     def status
-      if assessment_detail.blank?
+      if update_required?
+        :to_be_reviewed
+      elsif not_started?
         :not_started
       elsif assessment_detail.assessment_in_progress?
         :in_progress
-      elsif update_required?
-        :to_be_reviewed
       else
         :complete
       end
@@ -53,7 +53,11 @@ module TaskListItems
 
     def update_required?
       planning_application.recommendation&.rejected? &&
-        assessment_detail.update_required?
+        assessment_detail&.update_required?
+    end
+
+    def not_started?
+      assessment_detail.blank? || assessment_detail.assessment_not_started?
     end
 
     def assessment_detail

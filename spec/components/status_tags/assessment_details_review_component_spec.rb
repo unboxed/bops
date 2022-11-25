@@ -4,7 +4,8 @@ require "rails_helper"
 
 RSpec.describe StatusTags::AssessmentDetailsReviewComponent, type: :component do
   let(:planning_application) { create(:planning_application) }
-  let(:status) { :assessment_complete }
+  let(:review_status) { nil }
+  let(:assessment_status) { :complete }
   let(:reviewer_verdict) { :accepted }
 
   before do
@@ -12,7 +13,8 @@ RSpec.describe StatusTags::AssessmentDetailsReviewComponent, type: :component do
       :assessment_detail,
       planning_application: planning_application,
       reviewer_verdict: reviewer_verdict,
-      status: status
+      review_status: review_status,
+      assessment_status: assessment_status
     )
   end
 
@@ -31,7 +33,7 @@ RSpec.describe StatusTags::AssessmentDetailsReviewComponent, type: :component do
   end
 
   context "when the review is complete" do
-    let(:status) { :review_complete }
+    let(:review_status) { :complete }
 
     before do
       render_inline(
@@ -45,7 +47,7 @@ RSpec.describe StatusTags::AssessmentDetailsReviewComponent, type: :component do
   end
 
   context "when the review is in progress" do
-    let(:status) { :review_in_progress }
+    let(:review_status) { :in_progress }
 
     before do
       render_inline(
