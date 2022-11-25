@@ -1,1 +1,6 @@
-<%= form.govuk_text_area :entry, label: nil, rows: 10 %>
+<%= form.govuk_text_area(
+  :entry,
+  label: nil,
+  rows: 10,
+  value: rejected_assessment_detail&.entry
+) %>

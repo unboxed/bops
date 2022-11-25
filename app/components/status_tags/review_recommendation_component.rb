@@ -2,6 +2,8 @@
 
 module StatusTags
   class ReviewRecommendationComponent < StatusTags::BaseComponent
+    include AssessmentDetailable
+
     def initialize(planning_application:, user:)
       @planning_application = planning_application
       @user = user
@@ -20,7 +22,9 @@ module StatusTags
     end
 
     def reviewer_status
-      if planning_application.recommendation_review_in_progress?
+      if assessment_details.any?(&:updated?)
+        :updated
+      elsif in_progress?
         :in_progress
       elsif planning_application.awaiting_determination?
         :not_started
@@ -29,6 +33,11 @@ module StatusTags
 
     def assessor_status
       :awaiting_determination if planning_application.awaiting_determination?
+    end
+
+    def in_progress?
+      planning_application.recommendation_review_in_progress? ||
+        assessment_details.any?(&:review_status)
     end
   end
 end

@@ -40,8 +40,8 @@ RSpec.describe AssessmentDetail, type: :model do
         expect { site_description }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Entry can't be blank")
       end
 
-      context "when status is completed" do
-        let(:status) { :completed }
+      context "when status is assessment_complete" do
+        let(:status) { :assessment_complete }
 
         it "validates presence for past_applications" do
           expect { past_applications }.to raise_error(
@@ -58,8 +58,8 @@ RSpec.describe AssessmentDetail, type: :model do
         end
       end
 
-      context "when status is in_progress" do
-        let(:status) { :in_progress }
+      context "when status is assessment_in_progress" do
+        let(:status) { :assessment_in_progress }
 
         it "does not validates presence for past_applications" do
           expect { past_applications }.not_to raise_error
@@ -138,17 +138,64 @@ RSpec.describe AssessmentDetail, type: :model do
   end
 
   describe "#valid?" do
+    let(:planning_application) { create(:planning_application) }
+
     let(:assessment_detail) do
       build(
         :assessment_detail,
         status: status,
         category: category,
-        planning_application: planning_application
+        planning_application: planning_application,
+        review_status: review_status,
+        entry: entry
       )
     end
 
-    context "when status is 'completed'" do
-      let(:status) { :completed }
+    let(:status) { :assessment_complete }
+    let(:category) { :summary_of_work }
+    let(:review_status) { nil }
+    let(:entry) { "entry" }
+
+    context "when entry is blank" do
+      let(:entry) { nil }
+
+      context "when review_status is 'accepted'" do
+        let(:review_status) { :accepted }
+
+        it "returns true" do
+          expect(assessment_detail.valid?).to eq(true)
+        end
+      end
+
+      context "when review_status is 'rejected'" do
+        let(:review_status) { :rejected }
+
+        it "returns true" do
+          expect(assessment_detail.valid?).to eq(true)
+        end
+      end
+
+      context "when review_status is 'edited_and_accepted'" do
+        let(:review_status) { :edited_and_accepted }
+
+        it "returns false" do
+          expect(assessment_detail.valid?).to eq(false)
+        end
+
+        it "sets error message" do
+          assessment_detail.valid?
+
+          expect(
+            assessment_detail.errors.messages[:entry]
+          ).to contain_exactly(
+            "can't be blank"
+          )
+        end
+      end
+    end
+
+    context "when status is 'assessment_complete'" do
+      let(:status) { :assessment_complete }
 
       context "when category is 'consultation_summary'" do
         let(:category) { :consultation_summary }
@@ -192,13 +239,92 @@ RSpec.describe AssessmentDetail, type: :model do
       end
     end
 
-    context "when status is 'in_progress', category is 'consultation_summary' and there are no consultees" do
-      let(:status) { :in_progress }
+    context "when status is 'assessment_in_progress', category is 'consultation_summary' and there are no consultees" do
+      let(:status) { :assessment_in_progress }
       let(:category) { :summary_of_work }
       let(:planning_application) { create(:planning_application) }
 
       it "returns true" do
         expect(assessment_detail.valid?).to eq(true)
+      end
+    end
+
+    context "when no user is specified" do
+      let(:user) { create(:user) }
+      let(:assessment_detail) { build(:assessment_detail, user: nil) }
+
+      before { Current.user = user }
+
+      it "sets user to current user" do
+        assessment_detail.valid?
+
+        expect(assessment_detail.user).to eq(user)
+      end
+    end
+  end
+
+  describe "#update_required?" do
+    context "when status is 'review_complete' and review_status is 'rejected'" do
+      let(:assessment_detail) do
+        build(
+          :assessment_detail,
+          status: :review_complete,
+          review_status: :rejected
+        )
+      end
+
+      it "returns true" do
+        expect(assessment_detail.update_required?).to eq(true)
+      end
+    end
+
+    context "when status is 'review_complete' and review_status is not 'rejected'" do
+      let(:assessment_detail) do
+        build(
+          :assessment_detail,
+          status: :review_complete,
+          review_status: :accepted
+        )
+      end
+
+      it "returns true" do
+        expect(assessment_detail.update_required?).to eq(false)
+      end
+    end
+
+    context "when status is not 'review_complete' and review_status is 'rejected'" do
+      let(:assessment_detail) do
+        build(
+          :assessment_detail,
+          status: :review_in_progress,
+          review_status: :rejected
+        )
+      end
+
+      it "returns true" do
+        expect(assessment_detail.update_required?).to eq(false)
+      end
+    end
+  end
+
+  describe "#existing_or_new_comment" do
+    let(:assessment_detail) { create(:assessment_detail) }
+
+    context "when there is no existing comment" do
+      it "returns new comment" do
+        expect(
+          assessment_detail.existing_or_new_comment
+        ).to be_instance_of(
+          Comment
+        )
+      end
+    end
+
+    context "when there is an existing comment" do
+      let!(:comment) { create(:comment, commentable: assessment_detail) }
+
+      it "returns comment" do
+        expect(assessment_detail.existing_or_new_comment).to eq(comment)
       end
     end
   end

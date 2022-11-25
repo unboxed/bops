@@ -41,10 +41,13 @@
     <h2 class="app-task-list__section">
       Review assessment
     </h2>
-
     <ul class="app-task-list__items">
       <%= render "permitted_development_rights" if @planning_application.permitted_development_right %>
-
+      <%= render(
+        TaskListItems::AssessmentDetailsReviewComponent.new(
+          planning_application: @planning_application,
+        )
+      )%>
       <%= render "sign_off_recommendation" %>
     </ul>
   </div>

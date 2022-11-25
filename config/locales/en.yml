@@ -3,6 +3,18 @@ en:
   activemodel:
     errors:
       models:
+        assessment_details_review:
+          attributes:
+            additional_evidence_entry:
+              not_changed: must be edited
+            base:
+              recommendation_accepted: You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen
+            consultation_summary_entry:
+              not_changed: must be edited
+            site_description_entry:
+              not_changed: must be edited
+            summary_of_work_entry:
+              not_changed: must be edited
         recommendation_form:
           attributes:
             decision:
@@ -81,7 +93,6 @@ en:
     additional_evidence: Additional evidence
     additional_evidence_successfully_created: Additional evidence was successfully created.
     additional_evidence_successfully_updated: Additional evidence was successfully updated.
-    completed: Complete
     consultation_summary: Add consultation details
     consultation_summary_successfully_created: Consultation summary successfully added.
     consultation_summary_successfully_updated: Consultation summary successfully updated.
@@ -90,7 +101,6 @@ en:
     edit_past_applications: History
     edit_site_description: Edit site description
     edit_summary_of_work: Edit summary of works
-    in_progress: In progress
     new_additional_evidence: Add detail of additional evidence
     new_consultation_summary: Add consultation details
     new_past_applications: History
@@ -111,12 +121,50 @@ en:
     summary_of_work: Summary
     summary_of_work_successfully_created: Summary of works was successfully created.
     summary_of_work_successfully_updated: Summary of works was successfully updated.
-    task_list:
+    update_additional_evidence: Update additional evidence
+    update_consultation_summary: Update consultation details
+    update_site_description: Update site description
+    update_summary_of_work: Update summary of works
+  assessment_details_reviews:
+    breadcrumbs:
+      application: Application
+      home: Home
+      review: Review
+      review_assessment_summaries: Review assessment summaries
+    consultees:
+      external: External
+      internal: Internal
+      list_of_who: List of who was consulted about this application
+    form:
+      accept: Accept
       additional_evidence: Additional evidence
-      consultation_summary: Summary of consultation
-      past_applications: History (manual)
+      consultation_summary: Consultation
+      edit_review: Edit review
+      edit_to_accept: Edit to accept
+      explain_to_the: Explain to the assessor why this needs reviewing
+      return_to_officer: Return to officer with comment
       site_description: Site description
+      summary_of_consultee: Summary of consultee responses
       summary_of_work: Summary of works
+      update_additional_evidence: Update additional evidence
+      update_consultation_summary: Update consultation summary
+      update_site_description: Update site description
+      update_summary_of_work: Update summary of works
+    information:
+      assessor_recommendation: Assessor recommendation
+      assessor_remarks: Assessor remarks
+      granted: To grant
+      refused: To refuse
+      review_assessment_summaries: Review assessment summaries
+      this_information_will: This information WILL be made public
+    previous_assessment_details:
+      see_previous_summaries: See previous summaries
+      user_marked_this: "%{user} marked this for review"
+      user_updated_additional_evidence: "%{user} updated additional evidence"
+      user_updated_consultation_summary: "%{user} updated consultation summary"
+      user_updated_site_description: "%{user} updated site description"
+      user_updated_summary_of_work: "%{user} updated summary of works"
+    saved: Review saved
   assessment_report_downloads:
     show:
       assessment_report: Assessment report
@@ -527,6 +575,8 @@ en:
     in_progress: In progress
     not_checked_yet: Not checked yet
     not_started: Not started
+    to_be_reviewed: To be reviewed
+    updated: Updated
     waiting: Waiting
   statuses:
     awaiting_correction: Corrections requested
@@ -537,6 +587,15 @@ en:
     not_started: Not started
     returned: Returned
     withdrawn: Withdrawn
+  task_list_items:
+    assessment_detail_component:
+      additional_evidence: Additional evidence
+      consultation_summary: Summary of consultation
+      past_applications: History (manual)
+      site_description: Site description
+      summary_of_work: Summary of works
+    assessment_details_review_component:
+      review_assessment_summaries: Review assessment summaries
   user:
     manager_role: Manager
     officer_role: Case Officer

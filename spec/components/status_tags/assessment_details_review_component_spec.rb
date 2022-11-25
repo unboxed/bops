@@ -1,0 +1,74 @@
+# frozen_string_literal: true
+
+require "rails_helper"
+
+RSpec.describe StatusTags::AssessmentDetailsReviewComponent, type: :component do
+  let(:planning_application) { create(:planning_application) }
+  let(:status) { :assessment_complete }
+  let(:review_status) { :accepted }
+
+  before do
+    create(
+      :assessment_detail,
+      planning_application: planning_application,
+      review_status: review_status,
+      status: status
+    )
+  end
+
+  context "when an assessment detail has been updated" do
+    let(:review_status) { :updated }
+
+    before do
+      render_inline(
+        described_class.new(planning_application: planning_application)
+      )
+    end
+
+    it "renders 'Updated' status" do
+      expect(page).to have_content("Updated")
+    end
+  end
+
+  context "when the review is complete" do
+    let(:status) { :review_complete }
+
+    before do
+      render_inline(
+        described_class.new(planning_application: planning_application)
+      )
+    end
+
+    it "renders 'Checked' status" do
+      expect(page).to have_content("Checked")
+    end
+  end
+
+  context "when the review is in progress" do
+    let(:status) { :review_in_progress }
+
+    before do
+      render_inline(
+        described_class.new(planning_application: planning_application)
+      )
+    end
+
+    it "renders 'In progress' status" do
+      expect(page).to have_content("In progress")
+    end
+  end
+
+  context "when the review has not been started" do
+    let(:review_status) { nil }
+
+    before do
+      render_inline(
+        described_class.new(planning_application: planning_application)
+      )
+    end
+
+    it "renders 'Not stated' status" do
+      expect(page).to have_content("Not started")
+    end
+  end
+end

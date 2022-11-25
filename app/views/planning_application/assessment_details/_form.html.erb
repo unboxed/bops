@@ -11,7 +11,13 @@
 
   <%= render(
     partial: "#{assessment_detail_fields_partial_path(category)}/form_fields",
-    locals: { form: form }
+    locals: {
+      form: form,
+      rejected_assessment_detail: local_assigns.fetch(
+        :rejected_assessment_detail,
+        nil
+      )
+    }
   ) %>
 
   <%= form.hidden_field :category, value: category %>

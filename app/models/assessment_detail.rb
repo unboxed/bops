@@ -3,10 +3,20 @@
 class AssessmentDetail < ApplicationRecord
   belongs_to :planning_application
   belongs_to :user
+  has_one :comment, as: :commentable, dependent: :destroy
 
   enum status: {
-    in_progress: "in_progress",
-    completed: "completed"
+    assessment_in_progress: "assessment_in_progress",
+    assessment_complete: "assessment_complete",
+    review_in_progress: "review_in_progress",
+    review_complete: "review_complete"
+  }
+
+  enum review_status: {
+    updated: "updated",
+    accepted: "accepted",
+    edited_and_accepted: "edited_and_accepted",
+    rejected: "rejected"
   }
 
   enum category: {
@@ -16,6 +26,8 @@ class AssessmentDetail < ApplicationRecord
     past_applications: "past_applications",
     consultation_summary: "consultation_summary"
   }
+
+  before_validation :set_user
 
   validates :status, presence: true
   validates :entry, presence: true, if: :validate_entry_presence?
@@ -30,15 +42,31 @@ class AssessmentDetail < ApplicationRecord
     scope :"#{category}", -> { where(category: category) }
   end
 
+  def existing_or_new_comment
+    comment || build_comment
+  end
+
+  def update_required?
+    review_complete? && rejected?
+  end
+
   private
 
   def validate_entry_presence?
+    return false if accepted? || rejected?
+
     summary_of_work? ||
       site_description? ||
-      (completed? && (past_applications? || consultation_summary?))
+      (assessment_complete? && (past_applications? || consultation_summary?))
   end
 
   def consultees_added
-    errors.add(:base, :no_consultees_added) if completed? && consultees.none?
+    return if !assessment_complete? || consultees.any?
+
+    errors.add(:base, :no_consultees_added)
+  end
+
+  def set_user
+    self.user = user || Current.user
   end
 end

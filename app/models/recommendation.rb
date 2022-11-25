@@ -64,6 +64,10 @@ class Recommendation < ApplicationRecord
     review_complete? && challenged == false
   end
 
+  def rejected?
+    review_complete? && challenged?
+  end
+
   private
 
   def reviewer_comment_is_present?
