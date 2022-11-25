@@ -10,7 +10,7 @@
       <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
     <% end %>
     <%= form.govuk_radio_buttons_fieldset(
-      "#{assessment_detail}_review_status".to_sym,
+      "#{assessment_detail}_reviewer_verdict".to_sym,
       legend: { text: t(".#{assessment_detail}") }
     ) do %>
       <%= render(
@@ -30,13 +30,13 @@
         { class: "govuk-body" }
       ) %>
       <%= form.govuk_radio_button(
-        "#{assessment_detail}_review_status",
+        "#{assessment_detail}_reviewer_verdict",
         :accepted,
         label: { text: t(".accept") },
         disabled: disabled
       ) %>
       <%= form.govuk_radio_button(
-        "#{assessment_detail}_review_status",
+        "#{assessment_detail}_reviewer_verdict",
         :edited_and_accepted,
         label: { text: t(".edit_to_accept") },
         disabled: disabled
@@ -48,7 +48,7 @@
         ) %>
       <% end %>
       <%= form.govuk_radio_button(
-        "#{assessment_detail}_review_status",
+        "#{assessment_detail}_reviewer_verdict",
         :rejected,
         label: { text: t(".return_to_officer") },
         disabled: disabled

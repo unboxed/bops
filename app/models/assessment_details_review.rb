@@ -35,8 +35,8 @@ class AssessmentDetailsReview
     end
 
     delegate(
-      :review_status,
-      "review_status=",
+      :reviewer_verdict,
+      "reviewer_verdict=",
       :entry,
       "entry=",
       to: assessment_detail,
@@ -46,7 +46,7 @@ class AssessmentDetailsReview
     delegate(:text, "text=", to: "#{assessment_detail}_comment", prefix: true)
 
     validates(
-      "#{assessment_detail}_review_status",
+      "#{assessment_detail}_reviewer_verdict",
       presence: true,
       if: :status_complete?
     )
@@ -54,30 +54,30 @@ class AssessmentDetailsReview
     validates(
       "#{assessment_detail}_comment_text",
       presence: true,
-      if: "#{assessment_detail}_review_status_rejected?".to_sym
+      if: "#{assessment_detail}_reviewer_verdict_rejected?".to_sym
     )
 
     validates(
       "#{assessment_detail}_entry",
       presence: true,
-      if: "#{assessment_detail}_review_status_edited_and_accepted?".to_sym
+      if: "#{assessment_detail}_reviewer_verdict_edited_and_accepted?".to_sym
     )
 
     validate(
       "#{assessment_detail}_entry_changed".to_sym,
-      if: "#{assessment_detail}_review_status_edited_and_accepted?".to_sym
+      if: "#{assessment_detail}_reviewer_verdict_edited_and_accepted?".to_sym
     )
 
-    define_method("#{assessment_detail}_review_status_rejected?") do
-      send("#{assessment_detail}_review_status") == "rejected"
+    define_method("#{assessment_detail}_reviewer_verdict_rejected?") do
+      send("#{assessment_detail}_reviewer_verdict") == "rejected"
     end
 
-    define_method("#{assessment_detail}_review_status_edited_and_accepted?") do
-      send("#{assessment_detail}_review_status") == "edited_and_accepted"
+    define_method("#{assessment_detail}_reviewer_verdict_edited_and_accepted?") do
+      send("#{assessment_detail}_reviewer_verdict") == "edited_and_accepted"
     end
 
     define_method("#{assessment_detail}_entry_changed") do
-      return if !send(assessment_detail).review_status_changed? || send(assessment_detail).entry_changed?
+      return if !send(assessment_detail).reviewer_verdict_changed? || send(assessment_detail).entry_changed?
 
       errors.add("#{assessment_detail}_entry", :not_changed)
     end
@@ -89,7 +89,7 @@ class AssessmentDetailsReview
     ActiveRecord::Base.transaction do
       run_callbacks :save do
         assessment_details.each do |assessment_detail|
-          next if assessment_detail.review_status.blank?
+          next if assessment_detail.reviewer_verdict.blank?
 
           assessment_detail.save!
         end
@@ -111,7 +111,7 @@ class AssessmentDetailsReview
     assessment_details.each do |assessment_detail|
       if status_complete?
         assessment_detail.status = :review_complete
-      elsif assessment_detail.review_status.present?
+      elsif assessment_detail.reviewer_verdict.present?
         assessment_detail.status = :review_in_progress
       end
     end

@@ -1084,7 +1084,7 @@ RSpec.describe PlanningApplication, type: :model do
   describe "#rejected_assessment_detail" do
     let(:planning_application) { create(:planning_application) }
     let(:status) { :review_complete }
-    let(:review_status) { :rejected }
+    let(:reviewer_verdict) { :rejected }
     let(:challenged) { true }
     let(:recommendation_status) { :review_complete }
 
@@ -1094,7 +1094,7 @@ RSpec.describe PlanningApplication, type: :model do
         :summary_of_work,
         planning_application: planning_application,
         status: status,
-        review_status: review_status
+        reviewer_verdict: reviewer_verdict
       )
     end
 
@@ -1143,7 +1143,7 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     context "when assessment_detail accepted" do
-      let(:review_status) { :accepted }
+      let(:reviewer_verdict) { :accepted }
 
       it "returns nil" do
         expect(

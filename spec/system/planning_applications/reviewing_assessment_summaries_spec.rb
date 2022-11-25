@@ -82,15 +82,15 @@ RSpec.describe "reviewing assessment summaries", type: :system do
       click_button("Save and mark as complete")
 
       expect(page).to have_content(
-        "Additional evidence review status can't be blank"
+        "Additional evidence reviewer verdict can't be blank"
       )
 
       expect(page).to have_content(
-        "Site description review status can't be blank"
+        "Site description reviewer verdict can't be blank"
       )
 
       expect(page).to have_content(
-        "Consultation summary review status can't be blank"
+        "Consultation summary reviewer verdict can't be blank"
       )
 
       click_button("Save and come back later")
@@ -297,15 +297,15 @@ RSpec.describe "reviewing assessment summaries", type: :system do
       click_button("Save and mark as complete")
 
       expect(page).to have_content(
-        "Additional evidence review status can't be blank"
+        "Additional evidence reviewer verdict can't be blank"
       )
 
       expect(page).to have_content(
-        "Site description review status can't be blank"
+        "Site description reviewer verdict can't be blank"
       )
 
       expect(page).to have_content(
-        "Consultation summary review status can't be blank"
+        "Consultation summary reviewer verdict can't be blank"
       )
 
       click_button("Save and come back later")

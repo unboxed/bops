@@ -37,7 +37,7 @@ module StatusTags
 
     def in_progress?
       planning_application.recommendation_review_in_progress? ||
-        assessment_details.any?(&:review_status)
+        assessment_details.any?(&:reviewer_verdict)
     end
   end
 end

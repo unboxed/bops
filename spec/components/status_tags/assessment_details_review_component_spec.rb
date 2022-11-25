@@ -5,19 +5,19 @@ require "rails_helper"
 RSpec.describe StatusTags::AssessmentDetailsReviewComponent, type: :component do
   let(:planning_application) { create(:planning_application) }
   let(:status) { :assessment_complete }
-  let(:review_status) { :accepted }
+  let(:reviewer_verdict) { :accepted }
 
   before do
     create(
       :assessment_detail,
       planning_application: planning_application,
-      review_status: review_status,
+      reviewer_verdict: reviewer_verdict,
       status: status
     )
   end
 
   context "when an assessment detail has been updated" do
-    let(:review_status) { :updated }
+    let(:reviewer_verdict) { :updated }
 
     before do
       render_inline(
@@ -59,7 +59,7 @@ RSpec.describe StatusTags::AssessmentDetailsReviewComponent, type: :component do
   end
 
   context "when the review has not been started" do
-    let(:review_status) { nil }
+    let(:reviewer_verdict) { nil }
 
     before do
       render_inline(

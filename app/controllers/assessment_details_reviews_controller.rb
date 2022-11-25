@@ -41,7 +41,7 @@ class AssessmentDetailsReviewsController < AuthenticationController
   def permitted_attributes
     AssessmentDetailsReview::ASSESSMENT_DETAILS.map do |assessment_detail|
       [
-        "#{assessment_detail}_review_status",
+        "#{assessment_detail}_reviewer_verdict",
         "#{assessment_detail}_entry",
         "#{assessment_detail}_comment_text"
       ]

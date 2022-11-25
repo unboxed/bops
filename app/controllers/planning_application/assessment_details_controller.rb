@@ -22,7 +22,7 @@ class PlanningApplication
       @assessment_detail = @planning_application.assessment_details.new(assessment_details_params).tap do |record|
         record.user = current_user
         record.status = status
-        record.review_status = :updated if @rejected_assessment_detail.present?
+        record.reviewer_verdict = :updated if @rejected_assessment_detail.present?
       end
 
       respond_to do |format|

@@ -34,7 +34,7 @@ RSpec.describe TaskListItems::AssessmentDetailComponent, type: :component do
         :summary_of_work,
         planning_application: planning_application,
         status: :review_complete,
-        review_status: :rejected
+        reviewer_verdict: :rejected
       )
 
       create(

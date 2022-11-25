@@ -146,37 +146,37 @@ RSpec.describe AssessmentDetail, type: :model do
         status: status,
         category: category,
         planning_application: planning_application,
-        review_status: review_status,
+        reviewer_verdict: reviewer_verdict,
         entry: entry
       )
     end
 
     let(:status) { :assessment_complete }
     let(:category) { :summary_of_work }
-    let(:review_status) { nil }
+    let(:reviewer_verdict) { nil }
     let(:entry) { "entry" }
 
     context "when entry is blank" do
       let(:entry) { nil }
 
-      context "when review_status is 'accepted'" do
-        let(:review_status) { :accepted }
+      context "when reviewer_verdict is 'accepted'" do
+        let(:reviewer_verdict) { :accepted }
 
         it "returns true" do
           expect(assessment_detail.valid?).to eq(true)
         end
       end
 
-      context "when review_status is 'rejected'" do
-        let(:review_status) { :rejected }
+      context "when reviewer_verdict is 'rejected'" do
+        let(:reviewer_verdict) { :rejected }
 
         it "returns true" do
           expect(assessment_detail.valid?).to eq(true)
         end
       end
 
-      context "when review_status is 'edited_and_accepted'" do
-        let(:review_status) { :edited_and_accepted }
+      context "when reviewer_verdict is 'edited_and_accepted'" do
+        let(:reviewer_verdict) { :edited_and_accepted }
 
         it "returns false" do
           expect(assessment_detail.valid?).to eq(false)
@@ -264,12 +264,12 @@ RSpec.describe AssessmentDetail, type: :model do
   end
 
   describe "#update_required?" do
-    context "when status is 'review_complete' and review_status is 'rejected'" do
+    context "when status is 'review_complete' and reviewer_verdict is 'rejected'" do
       let(:assessment_detail) do
         build(
           :assessment_detail,
           status: :review_complete,
-          review_status: :rejected
+          reviewer_verdict: :rejected
         )
       end
 
@@ -278,12 +278,12 @@ RSpec.describe AssessmentDetail, type: :model do
       end
     end
 
-    context "when status is 'review_complete' and review_status is not 'rejected'" do
+    context "when status is 'review_complete' and reviewer_verdict is not 'rejected'" do
       let(:assessment_detail) do
         build(
           :assessment_detail,
           status: :review_complete,
-          review_status: :accepted
+          reviewer_verdict: :accepted
         )
       end
 
@@ -292,12 +292,12 @@ RSpec.describe AssessmentDetail, type: :model do
       end
     end
 
-    context "when status is not 'review_complete' and review_status is 'rejected'" do
+    context "when status is not 'review_complete' and reviewer_verdict is 'rejected'" do
       let(:assessment_detail) do
         build(
           :assessment_detail,
           status: :review_in_progress,
-          review_status: :rejected
+          reviewer_verdict: :rejected
         )
       end
 

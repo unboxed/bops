@@ -12,7 +12,7 @@ class AssessmentDetail < ApplicationRecord
     review_complete: "review_complete"
   }
 
-  enum review_status: {
+  enum reviewer_verdict: {
     updated: "updated",
     accepted: "accepted",
     edited_and_accepted: "edited_and_accepted",
