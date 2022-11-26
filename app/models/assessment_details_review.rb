@@ -109,8 +109,7 @@ class AssessmentDetailsReview
 
   def set_statuses
     assessment_details.each do |assessment_detail|
-      assessment_detail.review_status = status if assessment_detail.reviewer_verdict.present?
-      assessment_detail.assessment_status = :not_started if assessment_detail.new_record?
+      assessment_detail.review_status = status
     end
   end
 

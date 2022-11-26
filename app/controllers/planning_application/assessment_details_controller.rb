@@ -19,9 +19,7 @@ class PlanningApplication
     end
 
     def create
-      @assessment_detail = @planning_application.assessment_details.new(assessment_details_params).tap do |record|
-        record.reviewer_verdict = :updated if @rejected_assessment_detail.present?
-      end
+      @assessment_detail = @planning_application.assessment_details.new(assessment_details_params)
 
       respond_to do |format|
         if @assessment_detail.save
@@ -70,6 +68,8 @@ class PlanningApplication
     end
 
     def set_rejected_assessment_detail
+      return unless @planning_application.recommendation&.rejected?
+
       @rejected_assessment_detail = @planning_application.rejected_assessment_detail(category: @category)
     end
 
@@ -97,7 +97,7 @@ class PlanningApplication
       params
         .require(:assessment_detail)
         .permit(:entry, :category, :additional_information)
-        .merge(assessment_status: assessment_status, user: current_user)
+        .merge(assessment_status: assessment_status)
     end
 
     def assessment_status

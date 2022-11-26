@@ -459,8 +459,6 @@ class PlanningApplication < ApplicationRecord
   end
 
   def rejected_assessment_detail(category:)
-    return unless recommendation&.rejected?
-
     assessment_details.where(
       category: category,
       review_status: :complete,

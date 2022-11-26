@@ -13,7 +13,7 @@ module StatusTags
     attr_reader :planning_application
 
     def status
-      if assessment_details.any?(&:updated?)
+      if assessment_details_updated?
         :updated
       elsif assessment_details_review_complete?
         :checked

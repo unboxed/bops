@@ -2,6 +2,8 @@
 
 module TaskListItems
   class AssessmentDetailComponent < TaskListItems::BaseComponent
+    include AssessmentDetailable
+
     def initialize(planning_application:, category:)
       @planning_application = planning_application
       @category = category
@@ -40,7 +42,7 @@ module TaskListItems
     end
 
     def status
-      if update_required?
+      if assessment_detail_update_required?(assessment_detail)
         :to_be_reviewed
       elsif not_started?
         :not_started
@@ -49,11 +51,6 @@ module TaskListItems
       else
         :complete
       end
-    end
-
-    def update_required?
-      planning_application.recommendation&.rejected? &&
-        assessment_detail&.update_required?
     end
 
     def not_started?

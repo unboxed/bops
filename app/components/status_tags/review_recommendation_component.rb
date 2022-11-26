@@ -22,7 +22,7 @@ module StatusTags
     end
 
     def reviewer_status
-      if assessment_details.any?(&:updated?)
+      if assessment_details_updated?
         :updated
       elsif in_progress?
         :in_progress

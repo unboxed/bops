@@ -15,6 +15,7 @@
     ) do %>
       <%= render(
         StatusTags::ReviewerAssessmentDetailComponent.new(
+          planning_application: planning_application,
           assessment_detail: form.object.send(assessment_detail)
         )
       ) %>
@@ -27,7 +28,7 @@
       <% end %>
       <%= simple_format(
         form.object.send("#{assessment_detail}_entry"),
-        { class: "govuk-body" }
+        { class: "govuk-body govuk-!-margin-top-2" }
       ) %>
       <%= form.govuk_radio_button(
         "#{assessment_detail}_reviewer_verdict",

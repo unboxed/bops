@@ -77,7 +77,12 @@ RSpec.describe "reviewing assessment summaries", type: :system do
       )
 
       click_link("Review assessment summaries")
-      within(find("fieldset", text: "Summary of works")) { choose("Accept") }
+
+      within(find("fieldset", text: "Summary of works")) do
+        expect(find(".govuk-tag")).to have_content("Complete")
+
+        choose("Accept")
+      end
 
       click_button("Save and mark as complete")
 
@@ -168,6 +173,12 @@ RSpec.describe "reviewing assessment summaries", type: :system do
       choose("recommendation_challenged_true")
       fill_in("Review comment", with: "recommendation challenged")
       click_button("Save and mark as complete")
+      click_link("Review assessment summaries")
+
+      within(find("fieldset", text: "Consultation")) do
+        expect(find(".govuk-tag")).to have_content("To be reviewed")
+      end
+
       click_link("Log out")
       sign_in(assessor)
       visit(planning_application_path(planning_application))
@@ -224,13 +235,25 @@ RSpec.describe "reviewing assessment summaries", type: :system do
       click_link("Review assessment summaries")
       expect(page).to have_content("updated consultation summary")
 
-      within(find("fieldset", text: "Consultation")) { choose("Accept") }
+      within(find("fieldset", text: "Consultation")) do
+        expect(find(".govuk-tag")).to have_content("Updated")
+
+        choose("Accept")
+      end
+
       click_button("Save and mark as complete")
 
       expect(page).to have_list_item_for(
         "Review assessment summaries", with: "Checked"
       )
 
+      click_link("Review assessment summaries")
+
+      within(find("fieldset", text: "Consultation")) do
+        expect(find(".govuk-tag")).to have_content("Complete")
+      end
+
+      click_link("Review")
       click_link("Sign-off recommendation")
       choose("recommendation_challenged_false")
       click_button("Save and mark as complete")
@@ -292,7 +315,12 @@ RSpec.describe "reviewing assessment summaries", type: :system do
       )
 
       click_link("Review assessment summaries")
-      within(find("fieldset", text: "Summary of works")) { choose("Accept") }
+
+      within(find("fieldset", text: "Summary of works")) do
+        expect(find(".govuk-tag")).to have_content("Not started")
+
+        choose("Accept")
+      end
 
       click_button("Save and mark as complete")
 

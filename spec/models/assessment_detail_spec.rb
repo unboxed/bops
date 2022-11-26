@@ -71,14 +71,14 @@ RSpec.describe AssessmentDetail, type: :model do
       end
     end
 
+    describe "#assessment_status" do
+      it "defaults to 'not_started'" do
+        expect(described_class.new.assessment_status).to eq("not_started")
+      end
+    end
+
     described_class.categories.each_key do |category_type|
       let(:category) { described_class.new(category: category_type) }
-
-      describe "#assessment_status" do
-        it "validates presence" do
-          expect { category.valid? }.to change { category.errors[:assessment_status] }.to ["can't be blank"]
-        end
-      end
 
       describe "#user" do
         it "validates presence" do

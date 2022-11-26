@@ -11,6 +11,7 @@ class AssessmentDetail < ApplicationRecord
       in_progress: "in_progress",
       complete: "complete"
     },
+    _default: "not_started",
     _prefix: "assessment"
   )
 
@@ -23,7 +24,6 @@ class AssessmentDetail < ApplicationRecord
   )
 
   enum reviewer_verdict: {
-    updated: "updated",
     accepted: "accepted",
     edited_and_accepted: "edited_and_accepted",
     rejected: "rejected"
@@ -58,6 +58,10 @@ class AssessmentDetail < ApplicationRecord
 
   def update_required?
     review_complete? && rejected?
+  end
+
+  def review_required?
+    assessment_complete? && reviewer_verdict.blank?
   end
 
   private

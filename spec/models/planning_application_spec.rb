@@ -1085,8 +1085,6 @@ RSpec.describe PlanningApplication, type: :model do
     let(:planning_application) { create(:planning_application) }
     let(:review_status) { :complete }
     let(:reviewer_verdict) { :rejected }
-    let(:challenged) { true }
-    let(:recommendation_status) { :review_complete }
 
     let!(:assessment_detail) do
       create(
@@ -1098,47 +1096,13 @@ RSpec.describe PlanningApplication, type: :model do
       )
     end
 
-    before do
-      create(
-        :recommendation,
-        planning_application: planning_application,
-        challenged: challenged,
-        status: recommendation_status,
-        reviewer_comment: "challenged"
-      )
-    end
-
-    context "when recommendation and assessment detail are both rejected" do
+    context "when assessment detail is rejected" do
       it "returns assessment_detail" do
         expect(
           planning_application.rejected_assessment_detail(
             category: :summary_of_work
           )
         ).to eq(assessment_detail)
-      end
-    end
-
-    context "when recommendation not challenged" do
-      let(:challenged) { false }
-
-      it "returns nil" do
-        expect(
-          planning_application.rejected_assessment_detail(
-            category: :summary_of_work
-          )
-        ).to eq(nil)
-      end
-    end
-
-    context "when recommendation review not complete" do
-      let(:recommendation_status) { :review_in_progress }
-
-      it "returns nil" do
-        expect(
-          planning_application.rejected_assessment_detail(
-            category: :summary_of_work
-          )
-        ).to eq(nil)
       end
     end
 
