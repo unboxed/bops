@@ -311,7 +311,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def applicant_and_agent_email
-    [agent_email, applicant_email].reject(&:blank?)
+    [agent_email, applicant_email].compact_blank
   end
 
   def agent_or_applicant_name
