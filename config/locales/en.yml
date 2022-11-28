@@ -110,6 +110,18 @@ en:
     past_applications: History
     past_applications_successfully_created: History successfully added.
     past_applications_successfully_updated: History successfully updated.
+    previous_summaries_component:
+      see_previous_summaries: See previous summaries
+    previous_summary_component:
+      user_created_additional_evidence: "%{user} created additional evidence"
+      user_created_consultation_summary: "%{user} created consultation summary"
+      user_created_site_description: "%{user} created site description"
+      user_created_summary_of_work: "%{user} created summary of works"
+      user_marked_this: "%{user} marked this for review"
+      user_updated_additional_evidence: "%{user} updated additional evidence"
+      user_updated_consultation_summary: "%{user} updated consultation summary"
+      user_updated_site_description: "%{user} updated site description"
+      user_updated_summary_of_work: "%{user} updated summary of works"
     show_additional_evidence: Detail of additional evidence
     show_consultation_summary: Consultation details
     show_past_applications: History
@@ -157,13 +169,6 @@ en:
       refused: To refuse
       review_assessment_summaries: Review assessment summaries
       this_information_will: This information WILL be made public
-    previous_assessment_details:
-      see_previous_summaries: See previous summaries
-      user_marked_this: "%{user} marked this for review"
-      user_updated_additional_evidence: "%{user} updated additional evidence"
-      user_updated_consultation_summary: "%{user} updated consultation summary"
-      user_updated_site_description: "%{user} updated site description"
-      user_updated_summary_of_work: "%{user} updated summary of works"
     saved: Review saved
   assessment_report_downloads:
     show:

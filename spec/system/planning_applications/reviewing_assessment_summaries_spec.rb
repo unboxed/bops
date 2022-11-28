@@ -4,8 +4,24 @@ require "rails_helper"
 
 RSpec.describe "reviewing assessment summaries", type: :system do
   let(:local_authority) { create(:local_authority, :default) }
-  let!(:assessor) { create(:user, :assessor, local_authority: local_authority) }
-  let!(:reviewer) { create(:user, :reviewer, local_authority: local_authority) }
+
+  let!(:assessor) do
+    create(
+      :user,
+      :assessor,
+      local_authority: local_authority,
+      name: "Alice Smith"
+    )
+  end
+
+  let!(:reviewer) do
+    create(
+      :user,
+      :reviewer,
+      local_authority: local_authority,
+      name: "Bella Jones"
+    )
+  end
 
   let!(:planning_application) do
     create(
@@ -17,7 +33,12 @@ RSpec.describe "reviewing assessment summaries", type: :system do
   end
 
   before do
-    create(:recommendation, planning_application: planning_application)
+    create(
+      :recommendation,
+      planning_application: planning_application,
+      created_at: Time.zone.local(2022, 11, 27, 12, 30)
+    )
+
     sign_in(reviewer)
   end
 
@@ -49,7 +70,8 @@ RSpec.describe "reviewing assessment summaries", type: :system do
         assessment_status: :complete,
         planning_application: planning_application,
         user: assessor,
-        entry: "consultation summary"
+        entry: "consultation summary",
+        created_at: Time.zone.local(2022, 11, 27, 12, 15)
       )
 
       create(
@@ -63,6 +85,7 @@ RSpec.describe "reviewing assessment summaries", type: :system do
     end
 
     it "allows reviewer to submit correctly filled out form" do
+      travel_to(Time.zone.local(2022, 11, 28, 12, 30))
       visit(planning_application_review_tasks_path(planning_application))
 
       expect(page).to have_list_item_for(
@@ -237,6 +260,13 @@ RSpec.describe "reviewing assessment summaries", type: :system do
 
       within(find("fieldset", text: "Consultation")) do
         expect(find(".govuk-tag")).to have_content("Updated")
+
+        find("span", text: "See previous summaries").click
+
+        expect(page).to have_content("Alice Smith created consultation summary")
+        expect(page).to have_content("27 November 2022 12:15")
+        expect(page).to have_content("Bella Jones marked this for review")
+        expect(page).to have_content("28 November 2022 12:30")
 
         choose("Accept")
       end

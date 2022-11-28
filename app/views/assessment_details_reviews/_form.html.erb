@@ -30,6 +30,12 @@
         form.object.send("#{assessment_detail}_entry"),
         { class: "govuk-body govuk-!-margin-top-2" }
       ) %>
+      <%= render(
+        AssessmentDetails::PreviousSummariesComponent.new(
+          planning_application: planning_application,
+          category: assessment_detail
+        )
+      ) %>
       <%= form.govuk_radio_button(
         "#{assessment_detail}_reviewer_verdict",
         :accepted,
