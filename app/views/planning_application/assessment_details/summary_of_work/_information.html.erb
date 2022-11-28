@@ -7,7 +7,10 @@
 
   <%= render "shared/warning_text",
       message: "This information WILL be made public" %>
-
+  <%= render(
+    partial: "comment",
+    locals: { comment: rejected_assessment_detail&.comment }
+  ) %>
   <% unless action_name == "show" %>
     <p>You can include:</p>
     <ul>

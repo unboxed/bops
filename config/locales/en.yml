@@ -350,6 +350,8 @@ en:
     to_be_reviewed: To be reviewed
   planning_application:
     assessment_details:
+      comment:
+        user_marked_this: "%{user} marked this for review"
       consultation_summary:
         consultee_form:
           add_consultee: Add consultee

@@ -21,7 +21,8 @@
       <%= render(
         "planning_application/assessment_details/#{@assessment_detail.category}/information",
         category: @assessment_detail.category,
-        read_only: true
+        read_only: true,
+        rejected_assessment_detail: nil
       ) %>
 
       <%= render(

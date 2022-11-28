@@ -17,6 +17,11 @@
 
     <%= render "shared/planning_application_address_and_reference" %>
 
-    <%= render "form", planning_application: @planning_application, category: @assessment_detail.category %>
+    <%= render(
+      "form",
+      planning_application: @planning_application,
+      category: @assessment_detail.category,
+      rejected_assessment_detail: nil
+    ) %>
   </div>
 </div>

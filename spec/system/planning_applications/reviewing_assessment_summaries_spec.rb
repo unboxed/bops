@@ -218,6 +218,10 @@ RSpec.describe "reviewing assessment summaries", type: :system do
 
       click_link("Summary of consultation")
 
+      expect(page).to have_content("Bella Jones marked this for review")
+      expect(page).to have_content("28 November 2022 12:30")
+      expect(page).to have_content("consultation comment")
+
       expect(page).to have_field(
         "assessment-detail-entry-field",
         with: "consultation summary"
