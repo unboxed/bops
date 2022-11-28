@@ -1083,32 +1083,20 @@ RSpec.describe PlanningApplication, type: :model do
 
   describe "#rejected_assessment_detail" do
     let(:planning_application) { create(:planning_application) }
-    let(:status) { :review_complete }
-    let(:review_status) { :rejected }
-    let(:challenged) { true }
-    let(:recommendation_status) { :review_complete }
+    let(:review_status) { :complete }
+    let(:reviewer_verdict) { :rejected }
 
     let!(:assessment_detail) do
       create(
         :assessment_detail,
         :summary_of_work,
         planning_application: planning_application,
-        status: status,
-        review_status: review_status
+        review_status: review_status,
+        reviewer_verdict: reviewer_verdict
       )
     end
 
-    before do
-      create(
-        :recommendation,
-        planning_application: planning_application,
-        challenged: challenged,
-        status: recommendation_status,
-        reviewer_comment: "challenged"
-      )
-    end
-
-    context "when recommendation and assessment detail are both rejected" do
+    context "when assessment detail is rejected" do
       it "returns assessment_detail" do
         expect(
           planning_application.rejected_assessment_detail(
@@ -1118,32 +1106,8 @@ RSpec.describe PlanningApplication, type: :model do
       end
     end
 
-    context "when recommendation not challenged" do
-      let(:challenged) { false }
-
-      it "returns nil" do
-        expect(
-          planning_application.rejected_assessment_detail(
-            category: :summary_of_work
-          )
-        ).to eq(nil)
-      end
-    end
-
-    context "when recommendation review not complete" do
-      let(:recommendation_status) { :review_in_progress }
-
-      it "returns nil" do
-        expect(
-          planning_application.rejected_assessment_detail(
-            category: :summary_of_work
-          )
-        ).to eq(nil)
-      end
-    end
-
     context "when assessment_detail accepted" do
-      let(:review_status) { :accepted }
+      let(:reviewer_verdict) { :accepted }
 
       it "returns nil" do
         expect(
@@ -1155,7 +1119,7 @@ RSpec.describe PlanningApplication, type: :model do
     end
 
     context "when assessment_detail review not complete" do
-      let(:status) { :review_in_progress }
+      let(:review_status) { :in_progress }
 
       it "returns nil" do
         expect(

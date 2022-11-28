@@ -26,7 +26,7 @@ RSpec.describe "reviewing assessment summaries", type: :system do
       create(
         :assessment_detail,
         :summary_of_work,
-        status: :assessment_complete,
+        assessment_status: :complete,
         planning_application: planning_application,
         user: assessor,
         entry: "summary of works"
@@ -35,7 +35,7 @@ RSpec.describe "reviewing assessment summaries", type: :system do
       create(
         :assessment_detail,
         :site_description,
-        status: :assessment_complete,
+        assessment_status: :complete,
         planning_application: planning_application,
         user: assessor,
         entry: "site description"
@@ -46,7 +46,7 @@ RSpec.describe "reviewing assessment summaries", type: :system do
       create(
         :assessment_detail,
         :consultation_summary,
-        status: :assessment_complete,
+        assessment_status: :complete,
         planning_application: planning_application,
         user: assessor,
         entry: "consultation summary"
@@ -55,7 +55,7 @@ RSpec.describe "reviewing assessment summaries", type: :system do
       create(
         :assessment_detail,
         :additional_evidence,
-        status: :assessment_complete,
+        assessment_status: :complete,
         planning_application: planning_application,
         user: assessor,
         entry: "additional evidence"
@@ -77,20 +77,25 @@ RSpec.describe "reviewing assessment summaries", type: :system do
       )
 
       click_link("Review assessment summaries")
-      within(find("fieldset", text: "Summary of works")) { choose("Accept") }
+
+      within(find("fieldset", text: "Summary of works")) do
+        expect(find(".govuk-tag")).to have_content("Complete")
+
+        choose("Accept")
+      end
 
       click_button("Save and mark as complete")
 
       expect(page).to have_content(
-        "Additional evidence review status can't be blank"
+        "Additional evidence reviewer verdict can't be blank"
       )
 
       expect(page).to have_content(
-        "Site description review status can't be blank"
+        "Site description reviewer verdict can't be blank"
       )
 
       expect(page).to have_content(
-        "Consultation summary review status can't be blank"
+        "Consultation summary reviewer verdict can't be blank"
       )
 
       click_button("Save and come back later")
@@ -168,6 +173,12 @@ RSpec.describe "reviewing assessment summaries", type: :system do
       choose("recommendation_challenged_true")
       fill_in("Review comment", with: "recommendation challenged")
       click_button("Save and mark as complete")
+      click_link("Review assessment summaries")
+
+      within(find("fieldset", text: "Consultation")) do
+        expect(find(".govuk-tag")).to have_content("To be reviewed")
+      end
+
       click_link("Log out")
       sign_in(assessor)
       visit(planning_application_path(planning_application))
@@ -224,13 +235,25 @@ RSpec.describe "reviewing assessment summaries", type: :system do
       click_link("Review assessment summaries")
       expect(page).to have_content("updated consultation summary")
 
-      within(find("fieldset", text: "Consultation")) { choose("Accept") }
+      within(find("fieldset", text: "Consultation")) do
+        expect(find(".govuk-tag")).to have_content("Updated")
+
+        choose("Accept")
+      end
+
       click_button("Save and mark as complete")
 
       expect(page).to have_list_item_for(
         "Review assessment summaries", with: "Checked"
       )
 
+      click_link("Review assessment summaries")
+
+      within(find("fieldset", text: "Consultation")) do
+        expect(find(".govuk-tag")).to have_content("Complete")
+      end
+
+      click_link("Review")
       click_link("Sign-off recommendation")
       choose("recommendation_challenged_false")
       click_button("Save and mark as complete")
@@ -292,20 +315,25 @@ RSpec.describe "reviewing assessment summaries", type: :system do
       )
 
       click_link("Review assessment summaries")
-      within(find("fieldset", text: "Summary of works")) { choose("Accept") }
+
+      within(find("fieldset", text: "Summary of works")) do
+        expect(find(".govuk-tag")).to have_content("Not started")
+
+        choose("Accept")
+      end
 
       click_button("Save and mark as complete")
 
       expect(page).to have_content(
-        "Additional evidence review status can't be blank"
+        "Additional evidence reviewer verdict can't be blank"
       )
 
       expect(page).to have_content(
-        "Site description review status can't be blank"
+        "Site description reviewer verdict can't be blank"
       )
 
       expect(page).to have_content(
-        "Consultation summary review status can't be blank"
+        "Consultation summary reviewer verdict can't be blank"
       )
 
       click_button("Save and come back later")

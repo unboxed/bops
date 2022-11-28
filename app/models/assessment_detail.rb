@@ -5,15 +5,25 @@ class AssessmentDetail < ApplicationRecord
   belongs_to :user
   has_one :comment, as: :commentable, dependent: :destroy
 
-  enum status: {
-    assessment_in_progress: "assessment_in_progress",
-    assessment_complete: "assessment_complete",
-    review_in_progress: "review_in_progress",
-    review_complete: "review_complete"
-  }
+  enum(
+    assessment_status: {
+      not_started: "not_started",
+      in_progress: "in_progress",
+      complete: "complete"
+    },
+    _default: "not_started",
+    _prefix: "assessment"
+  )
 
-  enum review_status: {
-    updated: "updated",
+  enum(
+    review_status: {
+      in_progress: "in_progress",
+      complete: "complete"
+    },
+    _prefix: "review"
+  )
+
+  enum reviewer_verdict: {
     accepted: "accepted",
     edited_and_accepted: "edited_and_accepted",
     rejected: "rejected"
@@ -29,7 +39,7 @@ class AssessmentDetail < ApplicationRecord
 
   before_validation :set_user
 
-  validates :status, presence: true
+  validates :assessment_status, presence: true
   validates :entry, presence: true, if: :validate_entry_presence?
 
   validate :consultees_added, if: :consultation_summary?
@@ -48,6 +58,10 @@ class AssessmentDetail < ApplicationRecord
 
   def update_required?
     review_complete? && rejected?
+  end
+
+  def review_required?
+    assessment_complete? && reviewer_verdict.blank?
   end
 
   private

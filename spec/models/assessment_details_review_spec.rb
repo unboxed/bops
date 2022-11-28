@@ -32,7 +32,7 @@ RSpec.describe AssessmentDetailsReview do
           :summary_of_work,
           planning_application: planning_application,
           entry: "summary of work",
-          status: :assessment_complete
+          assessment_status: :complete
         )
       end
 
@@ -42,7 +42,7 @@ RSpec.describe AssessmentDetailsReview do
           :additional_evidence,
           planning_application: planning_application,
           entry: "additional evidence",
-          status: :assessment_complete
+          assessment_status: :complete
         )
       end
 
@@ -52,7 +52,7 @@ RSpec.describe AssessmentDetailsReview do
           :consultation_summary,
           planning_application: planning_application,
           entry: "consultation summary",
-          status: :assessment_complete
+          assessment_status: :complete
         )
       end
 
@@ -62,61 +62,61 @@ RSpec.describe AssessmentDetailsReview do
           :site_description,
           planning_application: planning_application,
           entry: "site description",
-          status: :assessment_complete
+          assessment_status: :complete
         )
       end
 
       before { assessment_details_review.save }
 
       context "when status is 'in progress'" do
-        context "when review status 'accepted'" do
+        context "when reviewer verdict 'accepted'" do
           let(:params) do
             {
               status: :in_progress,
-              summary_of_work_review_status: :accepted,
-              additional_evidence_review_status: :accepted,
-              site_description_review_status: :accepted,
-              consultation_summary_review_status: :accepted
+              summary_of_work_reviewer_verdict: :accepted,
+              additional_evidence_reviewer_verdict: :accepted,
+              site_description_reviewer_verdict: :accepted,
+              consultation_summary_reviewer_verdict: :accepted
             }
           end
 
           it "updates summary of work" do
             expect(summary_of_work.reload).to have_attributes(
-              review_status: "accepted",
-              status: "review_in_progress"
+              reviewer_verdict: "accepted",
+              review_status: "in_progress"
             )
           end
 
           it "updates additional evidence" do
             expect(additional_evidence.reload).to have_attributes(
-              review_status: "accepted",
-              status: "review_in_progress"
+              reviewer_verdict: "accepted",
+              review_status: "in_progress"
             )
           end
 
           it "updates site description" do
             expect(site_description.reload).to have_attributes(
-              review_status: "accepted",
-              status: "review_in_progress"
+              reviewer_verdict: "accepted",
+              review_status: "in_progress"
             )
           end
 
           it "updates consultation summmary" do
             expect(consultation_summary.reload).to have_attributes(
-              review_status: "accepted",
-              status: "review_in_progress"
+              reviewer_verdict: "accepted",
+              review_status: "in_progress"
             )
           end
         end
 
-        context "when review status 'rejected' and comment text is present" do
+        context "when reviewer verdict 'rejected' and comment text is present" do
           let(:params) do
             {
               status: :in_progress,
-              summary_of_work_review_status: :rejected,
-              site_description_review_status: :rejected,
-              additional_evidence_review_status: :rejected,
-              consultation_summary_review_status: :rejected,
+              summary_of_work_reviewer_verdict: :rejected,
+              site_description_reviewer_verdict: :rejected,
+              additional_evidence_reviewer_verdict: :rejected,
+              consultation_summary_reviewer_verdict: :rejected,
               summary_of_work_comment_text: "summary of work comment",
               site_description_comment_text: "site description comment",
               additional_evidence_comment_text: "additional evidence comment",
@@ -126,29 +126,29 @@ RSpec.describe AssessmentDetailsReview do
 
           it "updates summary of work" do
             expect(summary_of_work.reload).to have_attributes(
-              review_status: "rejected",
-              status: "review_in_progress"
+              reviewer_verdict: "rejected",
+              review_status: "in_progress"
             )
           end
 
           it "updates additional evidence" do
             expect(additional_evidence.reload).to have_attributes(
-              review_status: "rejected",
-              status: "review_in_progress"
+              reviewer_verdict: "rejected",
+              review_status: "in_progress"
             )
           end
 
           it "updates site description" do
             expect(site_description.reload).to have_attributes(
-              review_status: "rejected",
-              status: "review_in_progress"
+              reviewer_verdict: "rejected",
+              review_status: "in_progress"
             )
           end
 
           it "updates consultation summary" do
             expect(consultation_summary.reload).to have_attributes(
-              review_status: "rejected",
-              status: "review_in_progress"
+              reviewer_verdict: "rejected",
+              review_status: "in_progress"
             )
           end
 
@@ -177,14 +177,14 @@ RSpec.describe AssessmentDetailsReview do
           end
         end
 
-        context "when review status is 'rejected' and comment text is blank" do
+        context "when reviewer verdict is 'rejected' and comment text is blank" do
           let(:params) do
             {
               status: :in_progress,
-              summary_of_work_review_status: :rejected,
-              site_description_review_status: :rejected,
-              additional_evidence_review_status: :rejected,
-              consultation_summary_review_status: :rejected,
+              summary_of_work_reviewer_verdict: :rejected,
+              site_description_reviewer_verdict: :rejected,
+              additional_evidence_reviewer_verdict: :rejected,
+              consultation_summary_reviewer_verdict: :rejected,
               summary_of_work_comment_text: "",
               site_description_comment_text: "",
               additional_evidence_comment_text: "",
@@ -225,14 +225,14 @@ RSpec.describe AssessmentDetailsReview do
           end
         end
 
-        context "when review status 'edited and accepted' and entry is present" do
+        context "when reviewer verdict 'edited and accepted' and entry is present" do
           let(:params) do
             {
               status: :in_progress,
-              summary_of_work_review_status: :edited_and_accepted,
-              site_description_review_status: :edited_and_accepted,
-              additional_evidence_review_status: :edited_and_accepted,
-              consultation_summary_review_status: :edited_and_accepted,
+              summary_of_work_reviewer_verdict: :edited_and_accepted,
+              site_description_reviewer_verdict: :edited_and_accepted,
+              additional_evidence_reviewer_verdict: :edited_and_accepted,
+              consultation_summary_reviewer_verdict: :edited_and_accepted,
               summary_of_work_entry: "edited summary of work",
               site_description_entry: "edited site description",
               additional_evidence_entry: "edited additional evidence",
@@ -242,45 +242,45 @@ RSpec.describe AssessmentDetailsReview do
 
           it "updates summary of work" do
             expect(summary_of_work.reload).to have_attributes(
-              review_status: "edited_and_accepted",
-              status: "review_in_progress",
+              reviewer_verdict: "edited_and_accepted",
+              review_status: "in_progress",
               entry: "edited summary of work"
             )
           end
 
           it "updates site description" do
             expect(site_description.reload).to have_attributes(
-              review_status: "edited_and_accepted",
-              status: "review_in_progress",
+              reviewer_verdict: "edited_and_accepted",
+              review_status: "in_progress",
               entry: "edited site description"
             )
           end
 
           it "updates additional evidence" do
             expect(additional_evidence.reload).to have_attributes(
-              review_status: "edited_and_accepted",
-              status: "review_in_progress",
+              reviewer_verdict: "edited_and_accepted",
+              review_status: "in_progress",
               entry: "edited additional evidence"
             )
           end
 
           it "updates consultation summary" do
             expect(consultation_summary.reload).to have_attributes(
-              review_status: "edited_and_accepted",
-              status: "review_in_progress",
+              reviewer_verdict: "edited_and_accepted",
+              review_status: "in_progress",
               entry: "edited consultation summary"
             )
           end
         end
 
-        context "when review status 'edited and accepted' and entry is blank" do
+        context "when reviewer verdict 'edited and accepted' and entry is blank" do
           let(:params) do
             {
               status: :in_progress,
-              summary_of_work_review_status: :edited_and_accepted,
-              site_description_review_status: :edited_and_accepted,
-              additional_evidence_review_status: :edited_and_accepted,
-              consultation_summary_review_status: :edited_and_accepted,
+              summary_of_work_reviewer_verdict: :edited_and_accepted,
+              site_description_reviewer_verdict: :edited_and_accepted,
+              additional_evidence_reviewer_verdict: :edited_and_accepted,
+              consultation_summary_reviewer_verdict: :edited_and_accepted,
               summary_of_work_entry: "",
               site_description_entry: "",
               additional_evidence_entry: "",
@@ -321,14 +321,14 @@ RSpec.describe AssessmentDetailsReview do
           end
         end
 
-        context "when review status 'edited and accepted' and entry not edited" do
+        context "when reviewer verdict is 'edited and accepted' and entry not edited" do
           let(:params) do
             {
               status: :in_progress,
-              summary_of_work_review_status: :edited_and_accepted,
-              site_description_review_status: :edited_and_accepted,
-              additional_evidence_review_status: :edited_and_accepted,
-              consultation_summary_review_status: :edited_and_accepted,
+              summary_of_work_reviewer_verdict: :edited_and_accepted,
+              site_description_reviewer_verdict: :edited_and_accepted,
+              additional_evidence_reviewer_verdict: :edited_and_accepted,
+              consultation_summary_reviewer_verdict: :edited_and_accepted,
               summary_of_work_entry: "summary of work",
               site_description_entry: "site description",
               additional_evidence_entry: "additional evidence",
@@ -369,14 +369,14 @@ RSpec.describe AssessmentDetailsReview do
           end
         end
 
-        context "when review status is nil" do
+        context "when reviewer verdict is nil" do
           let(:params) do
             {
               status: :in_progress,
-              summary_of_work_review_status: nil,
-              additional_evidence_review_status: :accepted,
-              site_description_review_status: :accepted,
-              consultation_summary_review_status: :accepted
+              summary_of_work_reviewer_verdict: nil,
+              additional_evidence_reviewer_verdict: :accepted,
+              site_description_reviewer_verdict: :accepted,
+              consultation_summary_reviewer_verdict: :accepted
             }
           end
 
@@ -391,17 +391,17 @@ RSpec.describe AssessmentDetailsReview do
           let(:params) do
             {
               status: :complete,
-              summary_of_work_review_status: :accepted,
-              additional_evidence_review_status: :accepted,
-              site_description_review_status: :accepted,
-              consultation_summary_review_status: :accepted
+              summary_of_work_reviewer_verdict: :accepted,
+              additional_evidence_reviewer_verdict: :accepted,
+              site_description_reviewer_verdict: :accepted,
+              consultation_summary_reviewer_verdict: :accepted
             }
           end
 
           it "updates summary of work" do
             expect(summary_of_work.reload).to have_attributes(
-              review_status: "accepted",
-              status: "review_complete"
+              reviewer_verdict: "accepted",
+              review_status: "complete"
             )
           end
         end
@@ -410,16 +410,16 @@ RSpec.describe AssessmentDetailsReview do
           let(:params) do
             {
               status: :complete,
-              summary_of_work_review_status: nil,
-              additional_evidence_review_status: :accepted,
-              site_description_review_status: :accepted,
-              consultation_summary_review_status: :accepted
+              summary_of_work_reviewer_verdict: nil,
+              additional_evidence_reviewer_verdict: :accepted,
+              site_description_reviewer_verdict: :accepted,
+              consultation_summary_reviewer_verdict: :accepted
             }
           end
 
           it "sets an error" do
             expect(
-              assessment_details_review.errors.messages[:summary_of_work_review_status]
+              assessment_details_review.errors.messages[:summary_of_work_reviewer_verdict]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -432,14 +432,14 @@ RSpec.describe AssessmentDetailsReview do
       before { assessment_details_review.save }
 
       context "when status is 'in progress'" do
-        context "when review status 'accepted'" do
+        context "when reviewer verdict 'accepted'" do
           let(:params) do
             {
               status: :in_progress,
-              summary_of_work_review_status: :accepted,
-              additional_evidence_review_status: :accepted,
-              site_description_review_status: :accepted,
-              consultation_summary_review_status: :accepted
+              summary_of_work_reviewer_verdict: :accepted,
+              additional_evidence_reviewer_verdict: :accepted,
+              site_description_reviewer_verdict: :accepted,
+              consultation_summary_reviewer_verdict: :accepted
             }
           end
 
@@ -447,8 +447,8 @@ RSpec.describe AssessmentDetailsReview do
             expect(
               planning_application.reload.summary_of_work
             ).to have_attributes(
-              review_status: "accepted",
-              status: "review_in_progress"
+              reviewer_verdict: "accepted",
+              review_status: "in_progress"
             )
           end
 
@@ -456,8 +456,8 @@ RSpec.describe AssessmentDetailsReview do
             expect(
               planning_application.reload.additional_evidence
             ).to have_attributes(
-              review_status: "accepted",
-              status: "review_in_progress"
+              reviewer_verdict: "accepted",
+              review_status: "in_progress"
             )
           end
 
@@ -465,8 +465,8 @@ RSpec.describe AssessmentDetailsReview do
             expect(
               planning_application.reload.site_description
             ).to have_attributes(
-              review_status: "accepted",
-              status: "review_in_progress"
+              reviewer_verdict: "accepted",
+              review_status: "in_progress"
             )
           end
 
@@ -474,20 +474,20 @@ RSpec.describe AssessmentDetailsReview do
             expect(
               planning_application.reload.consultation_summary
             ).to have_attributes(
-              review_status: "accepted",
-              status: "review_in_progress"
+              reviewer_verdict: "accepted",
+              review_status: "in_progress"
             )
           end
         end
 
-        context "when review status is 'rejected' and comment text is present" do
+        context "when reviewer verdict is 'rejected' and comment text is present" do
           let(:params) do
             {
               status: :in_progress,
-              summary_of_work_review_status: :rejected,
-              site_description_review_status: :rejected,
-              additional_evidence_review_status: :rejected,
-              consultation_summary_review_status: :rejected,
+              summary_of_work_reviewer_verdict: :rejected,
+              site_description_reviewer_verdict: :rejected,
+              additional_evidence_reviewer_verdict: :rejected,
+              consultation_summary_reviewer_verdict: :rejected,
               summary_of_work_comment_text: "summary of work comment",
               site_description_comment_text: "site description comment",
               additional_evidence_comment_text: "additional evidence comment",
@@ -499,8 +499,8 @@ RSpec.describe AssessmentDetailsReview do
             expect(
               planning_application.reload.summary_of_work
             ).to have_attributes(
-              review_status: "rejected",
-              status: "review_in_progress"
+              reviewer_verdict: "rejected",
+              review_status: "in_progress"
             )
           end
 
@@ -508,8 +508,8 @@ RSpec.describe AssessmentDetailsReview do
             expect(
               planning_application.reload.additional_evidence
             ).to have_attributes(
-              review_status: "rejected",
-              status: "review_in_progress"
+              reviewer_verdict: "rejected",
+              review_status: "in_progress"
             )
           end
 
@@ -517,8 +517,8 @@ RSpec.describe AssessmentDetailsReview do
             expect(
               planning_application.reload.site_description
             ).to have_attributes(
-              review_status: "rejected",
-              status: "review_in_progress"
+              reviewer_verdict: "rejected",
+              review_status: "in_progress"
             )
           end
 
@@ -526,8 +526,8 @@ RSpec.describe AssessmentDetailsReview do
             expect(
               planning_application.reload.consultation_summary
             ).to have_attributes(
-              review_status: "rejected",
-              status: "review_in_progress"
+              reviewer_verdict: "rejected",
+              review_status: "in_progress"
             )
           end
 
@@ -564,14 +564,14 @@ RSpec.describe AssessmentDetailsReview do
           end
         end
 
-        context "when review status is 'rejected' and comment text is blank" do
+        context "when reviewer verdict is 'rejected' and comment text is blank" do
           let(:params) do
             {
               status: :in_progress,
-              summary_of_work_review_status: :rejected,
-              site_description_review_status: :rejected,
-              additional_evidence_review_status: :rejected,
-              consultation_summary_review_status: :rejected,
+              summary_of_work_reviewer_verdict: :rejected,
+              site_description_reviewer_verdict: :rejected,
+              additional_evidence_reviewer_verdict: :rejected,
+              consultation_summary_reviewer_verdict: :rejected,
               summary_of_work_comment_text: "",
               site_description_comment_text: "",
               additional_evidence_comment_text: "",
@@ -612,14 +612,14 @@ RSpec.describe AssessmentDetailsReview do
           end
         end
 
-        context "when review status 'edited and accepted' and entry is present" do
+        context "when reviewer verdict is 'edited and accepted' and entry is present" do
           let(:params) do
             {
               status: :in_progress,
-              summary_of_work_review_status: :edited_and_accepted,
-              site_description_review_status: :edited_and_accepted,
-              additional_evidence_review_status: :edited_and_accepted,
-              consultation_summary_review_status: :edited_and_accepted,
+              summary_of_work_reviewer_verdict: :edited_and_accepted,
+              site_description_reviewer_verdict: :edited_and_accepted,
+              additional_evidence_reviewer_verdict: :edited_and_accepted,
+              consultation_summary_reviewer_verdict: :edited_and_accepted,
               summary_of_work_entry: "edited summary of work",
               site_description_entry: "edited site description",
               additional_evidence_entry: "edited additional evidence",
@@ -631,8 +631,8 @@ RSpec.describe AssessmentDetailsReview do
             expect(
               planning_application.reload.summary_of_work
             ).to have_attributes(
-              review_status: "edited_and_accepted",
-              status: "review_in_progress",
+              reviewer_verdict: "edited_and_accepted",
+              review_status: "in_progress",
               entry: "edited summary of work"
             )
           end
@@ -641,8 +641,8 @@ RSpec.describe AssessmentDetailsReview do
             expect(
               planning_application.reload.site_description
             ).to have_attributes(
-              review_status: "edited_and_accepted",
-              status: "review_in_progress",
+              reviewer_verdict: "edited_and_accepted",
+              review_status: "in_progress",
               entry: "edited site description"
             )
           end
@@ -651,8 +651,8 @@ RSpec.describe AssessmentDetailsReview do
             expect(
               planning_application.reload.additional_evidence
             ).to have_attributes(
-              review_status: "edited_and_accepted",
-              status: "review_in_progress",
+              reviewer_verdict: "edited_and_accepted",
+              review_status: "in_progress",
               entry: "edited additional evidence"
             )
           end
@@ -661,21 +661,21 @@ RSpec.describe AssessmentDetailsReview do
             expect(
               planning_application.reload.consultation_summary
             ).to have_attributes(
-              review_status: "edited_and_accepted",
-              status: "review_in_progress",
+              reviewer_verdict: "edited_and_accepted",
+              review_status: "in_progress",
               entry: "edited consultation summary"
             )
           end
         end
 
-        context "when review status is 'edited and accepted' and entry is blank" do
+        context "when reviewer verdict is 'edited and accepted' and entry is blank" do
           let(:params) do
             {
               status: :in_progress,
-              summary_of_work_review_status: :edited_and_accepted,
-              site_description_review_status: :edited_and_accepted,
-              additional_evidence_review_status: :edited_and_accepted,
-              consultation_summary_review_status: :edited_and_accepted,
+              summary_of_work_reviewer_verdict: :edited_and_accepted,
+              site_description_reviewer_verdict: :edited_and_accepted,
+              additional_evidence_reviewer_verdict: :edited_and_accepted,
+              consultation_summary_reviewer_verdict: :edited_and_accepted,
               summary_of_work_entry: "",
               site_description_entry: "",
               additional_evidence_entry: "",
@@ -716,14 +716,14 @@ RSpec.describe AssessmentDetailsReview do
           end
         end
 
-        context "when any review status is nil" do
+        context "when any reviewer verdict is nil" do
           let(:params) do
             {
               status: :in_progress,
-              summary_of_work_review_status: nil,
-              additional_evidence_review_status: :accepted,
-              site_description_review_status: :accepted,
-              consultation_summary_review_status: :accepted
+              summary_of_work_reviewer_verdict: nil,
+              additional_evidence_reviewer_verdict: :accepted,
+              site_description_reviewer_verdict: :accepted,
+              consultation_summary_reviewer_verdict: :accepted
             }
           end
 
@@ -734,14 +734,14 @@ RSpec.describe AssessmentDetailsReview do
       end
 
       context "when status is 'complete'" do
-        context "when all review statuses are present" do
+        context "when all reviewer verdicts are present" do
           let(:params) do
             {
               status: :complete,
-              summary_of_work_review_status: :accepted,
-              additional_evidence_review_status: :accepted,
-              site_description_review_status: :accepted,
-              consultation_summary_review_status: :accepted
+              summary_of_work_reviewer_verdict: :accepted,
+              additional_evidence_reviewer_verdict: :accepted,
+              site_description_reviewer_verdict: :accepted,
+              consultation_summary_reviewer_verdict: :accepted
             }
           end
 
@@ -749,26 +749,26 @@ RSpec.describe AssessmentDetailsReview do
             expect(
               planning_application.reload.summary_of_work
             ).to have_attributes(
-              review_status: "accepted",
-              status: "review_complete"
+              reviewer_verdict: "accepted",
+              review_status: "complete"
             )
           end
         end
 
-        context "when any review status is nil" do
+        context "when any reviewer verdict is nil" do
           let(:params) do
             {
               status: :complete,
-              summary_of_work_review_status: nil,
-              additional_evidence_review_status: :accepted,
-              site_description_review_status: :accepted,
-              consultation_summary_review_status: :accepted
+              summary_of_work_reviewer_verdict: nil,
+              additional_evidence_reviewer_verdict: :accepted,
+              site_description_reviewer_verdict: :accepted,
+              consultation_summary_reviewer_verdict: :accepted
             }
           end
 
           it "sets an error" do
             expect(
-              assessment_details_review.errors.messages[:summary_of_work_review_status]
+              assessment_details_review.errors.messages[:summary_of_work_reviewer_verdict]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -781,10 +781,10 @@ RSpec.describe AssessmentDetailsReview do
       let(:params) do
         {
           status: :complete,
-          summary_of_work_review_status: :accepted,
-          additional_evidence_review_status: :accepted,
-          site_description_review_status: :accepted,
-          consultation_summary_review_status: :rejected,
+          summary_of_work_reviewer_verdict: :accepted,
+          additional_evidence_reviewer_verdict: :accepted,
+          site_description_reviewer_verdict: :accepted,
+          consultation_summary_reviewer_verdict: :rejected,
           consultation_summary_comment_text: "consultation summary comment"
         }
       end

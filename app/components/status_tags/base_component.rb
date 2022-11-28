@@ -10,6 +10,14 @@ module StatusTags
 
     attr_reader :status
 
+    def html_classes
+      [
+        "govuk-tag",
+        colour_class,
+        ("app-task-list__task-tag" if task_list?)
+      ].compact.join(" ")
+    end
+
     def colour_class
       case status
       when :not_started, :not_checked_yet

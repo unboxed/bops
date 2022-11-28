@@ -33,8 +33,8 @@ RSpec.describe TaskListItems::AssessmentDetailComponent, type: :component do
         :assessment_detail,
         :summary_of_work,
         planning_application: planning_application,
-        status: :review_complete,
-        review_status: :rejected
+        review_status: :complete,
+        reviewer_verdict: :rejected
       )
 
       create(
@@ -71,7 +71,7 @@ RSpec.describe TaskListItems::AssessmentDetailComponent, type: :component do
         :assessment_detail,
         :summary_of_work,
         planning_application: planning_application,
-        status: :assessment_in_progress
+        assessment_status: :in_progress
       )
     end
 
@@ -102,7 +102,7 @@ RSpec.describe TaskListItems::AssessmentDetailComponent, type: :component do
         :assessment_detail,
         :summary_of_work,
         planning_application: planning_application,
-        status: :assessment_complete
+        assessment_status: :complete
       )
     end
 
