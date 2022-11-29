@@ -12,7 +12,7 @@ RSpec.describe "Assessment tasks", type: :system do
     allow(ENV).to receive(:fetch).with("PLANNING_HISTORY_ENABLED", "false").and_return("true")
   end
 
-  context "when I can assess the planning application" do
+  context "when the planning application is in_assessment, I can assess the planning application" do
     let!(:planning_application) do
       create :planning_application, :in_assessment, local_authority: default_local_authority
     end
@@ -33,7 +33,7 @@ RSpec.describe "Assessment tasks", type: :system do
     end
   end
 
-  context "when I cannot assess the planning application" do
+  context "when the planning application is invalidated, I cannot assess the planning application" do
     let!(:planning_application) do
       create :planning_application, :invalidated, local_authority: default_local_authority
     end
@@ -49,7 +49,7 @@ RSpec.describe "Assessment tasks", type: :system do
 
         within("#assess-against-legislation-tasks") do
           expect(page).not_to have_link("Add assessment area")
-          expect(page).to have_content("Add assessment area")
+          expect(page).not_to have_content("Add assessment area")
         end
       end
     end

@@ -17,11 +17,10 @@
       <% end %>
     <% end %>
 
-    <% unless @planning_application.assessment_complete? %>
+    <% if @planning_application.can_assess? %>
       <li class="app-task-list__item">
         <span class="app-task-list__task-name">
-          <%= link_to_if(
-            @planning_application.can_assess?,
+          <%= link_to(
             "Add assessment area",
             part_new_planning_application_policy_class_path(@planning_application),
             class: "govuk-link"
