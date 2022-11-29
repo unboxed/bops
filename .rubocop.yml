@@ -71,6 +71,9 @@ RSpec/AnyInstance:
 RSpec/MessageSpies:
   Enabled: false
 
+RSpec/StubbedMock:
+  Enabled: false
+
 Lint/MissingSuper:
   Exclude:
     - app/components/**/*.rb
