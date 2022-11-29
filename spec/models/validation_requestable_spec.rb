@@ -348,7 +348,7 @@ RSpec.describe ValidationRequestable, type: :model do
     describe "#auto_close_request!" do
       let(:planning_application) { create(:planning_application) }
 
-      let(:request) do
+      let!(:request) do
         create(
           :red_line_boundary_change_validation_request,
           :open,
@@ -375,6 +375,7 @@ RSpec.describe ValidationRequestable, type: :model do
       end
 
       it "creates audit with correct information" do
+        travel_to(5.minutes.from_now)
         request.auto_close_request!
 
         expect(planning_application.audits.reload.last).to have_attributes(
