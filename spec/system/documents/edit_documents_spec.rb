@@ -2,17 +2,17 @@
 
 require "rails_helper"
 
-RSpec.describe "Edit document", type: :system do
+RSpec.describe "Edit document" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) do
-    create :planning_application,
-           local_authority: default_local_authority
+    create(:planning_application,
+           local_authority: default_local_authority)
   end
   let!(:document) do
-    create :document, :with_file, planning_application: planning_application,
-                                  applicant_description: "This file shows the drawing"
+    create(:document, :with_file, planning_application: planning_application,
+                                  applicant_description: "This file shows the drawing")
   end
-  let(:assessor) { create :user, :assessor, local_authority: default_local_authority }
+  let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   context "as a user who is not logged in" do
     it "User cannot see edit_numbers page" do
@@ -52,7 +52,7 @@ RSpec.describe "Edit document", type: :system do
 
     context "when a document has been removed due to a security issue" do
       let!(:document) do
-        create :document, planning_application: planning_application
+        create(:document, planning_application: planning_application)
       end
 
       before do

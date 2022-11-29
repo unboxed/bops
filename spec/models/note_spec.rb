@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Note, type: :model do
+RSpec.describe Note do
   describe "validations" do
     subject(:note) { described_class.new }
 

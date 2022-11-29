@@ -2,10 +2,10 @@
 
 require "rails_helper"
 
-RSpec.describe "Sign in", type: :system do
+RSpec.describe "Sign in" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let(:assessor) { create :user, :assessor, name: "Lorrine Krajcik", local_authority: default_local_authority }
-  let(:reviewer) { create :user, :reviewer, name: "Harley Dicki", local_authority: default_local_authority }
+  let(:assessor) { create(:user, :assessor, name: "Lorrine Krajcik", local_authority: default_local_authority) }
+  let(:reviewer) { create(:user, :reviewer, name: "Harley Dicki", local_authority: default_local_authority) }
 
   it "ensure we can perform a healthcheck" do
     visit healthcheck_path
@@ -84,13 +84,13 @@ RSpec.describe "Sign in", type: :system do
     end
 
     context "a user belonging to a given subdomain" do
-      let!(:lambeth) { create :local_authority, :lambeth }
-      let!(:southwark) { create :local_authority, :southwark }
+      let!(:lambeth) { create(:local_authority, :lambeth) }
+      let!(:southwark) { create(:local_authority, :southwark) }
       let(:lambeth_assessor) do
-        create :user, :assessor, name: "Lambertina Lamb", password: "Lambsrock18!", local_authority: lambeth
+        create(:user, :assessor, name: "Lambertina Lamb", password: "Lambsrock18!", local_authority: lambeth)
       end
       let(:southwark_assessor) do
-        create :user, :assessor, name: "Southwarkina Sully", password: "Southwark4ever!", local_authority: southwark
+        create(:user, :assessor, name: "Southwarkina Sully", password: "Southwark4ever!", local_authority: southwark)
       end
 
       before do
@@ -142,7 +142,7 @@ RSpec.describe "Sign in", type: :system do
     end
 
     context "when I do not have a mobile number" do
-      let!(:user) { create :user, local_authority: default_local_authority, mobile_number: nil }
+      let!(:user) { create(:user, local_authority: default_local_authority, mobile_number: nil) }
 
       it "prompts me to enter a mobile number first before receiving my OTP" do
         click_button "Log in"
@@ -156,7 +156,7 @@ RSpec.describe "Sign in", type: :system do
         click_button "Send code"
 
         # mobile number saved to session rather than db at this point
-        expect(user.reload.mobile_number).to eq(nil)
+        expect(user.reload.mobile_number).to be_nil
 
         expect(page).to have_content("Enter the code you have received by text message")
         expect(page).to have_content(
@@ -195,7 +195,7 @@ RSpec.describe "Sign in", type: :system do
 
           expect(page).to have_content("Notify was unable to send sms with error: Notifications::Client::BadRequestError: ValidationError: phone_number Must not contain letters or symbols.")
           expect(page).to have_content("Enter your phone number")
-          expect(user.reload.mobile_number).to eq(nil)
+          expect(user.reload.mobile_number).to be_nil
         end
       end
 
@@ -220,7 +220,7 @@ RSpec.describe "Sign in", type: :system do
     end
 
     context "when I have a mobile number" do
-      let!(:user) { create :user, local_authority: default_local_authority, mobile_number: "07765445412" }
+      let!(:user) { create(:user, local_authority: default_local_authority, mobile_number: "07765445412") }
 
       it "immediately send me my OTP" do
         expect(TwoFactor::SmsNotification).to receive(:new).with("07765445412", user.current_otp).and_call_original
@@ -372,7 +372,7 @@ RSpec.describe "Sign in", type: :system do
     end
 
     context "when I do not have two factor enabled" do
-      let!(:user) { create :user, local_authority: default_local_authority }
+      let!(:user) { create(:user, local_authority: default_local_authority) }
 
       before do
         user.update!(otp_required_for_login: false)
@@ -389,7 +389,7 @@ RSpec.describe "Sign in", type: :system do
   end
 
   context "user session" do
-    let!(:user) { create :user, local_authority: default_local_authority }
+    let!(:user) { create(:user, local_authority: default_local_authority) }
 
     before do
       sign_in user

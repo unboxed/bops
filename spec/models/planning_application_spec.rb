@@ -2,11 +2,11 @@
 
 require "rails_helper"
 
-RSpec.describe PlanningApplication, type: :model do
-  subject(:planning_application) { create :planning_application }
+RSpec.describe PlanningApplication do
+  subject(:planning_application) { create(:planning_application) }
 
   it_behaves_like("Auditable") do
-    let(:subject) { create(:planning_application) }
+    subject { create(:planning_application) }
   end
 
   describe "validations" do
@@ -118,8 +118,8 @@ RSpec.describe PlanningApplication, type: :model do
   describe "callbacks" do
     describe "::before_create #set_application_number" do
       context "when an application number for a given local authority already exists" do
-        let(:local_authority) { create :local_authority }
-        let!(:planning_application) { create :planning_application, local_authority: local_authority }
+        let(:local_authority) { create(:local_authority) }
+        let!(:planning_application) { create(:planning_application, local_authority: local_authority) }
 
         before do
           allow_any_instance_of(described_class).to receive(:set_application_number).and_return(planning_application.application_number)
@@ -127,7 +127,7 @@ RSpec.describe PlanningApplication, type: :model do
 
         it "raises a non unique error" do
           expect do
-            create :planning_application, local_authority: local_authority, application_number: 100
+            create(:planning_application, local_authority: local_authority, application_number: 100)
           end.to raise_error(ActiveRecord::RecordNotUnique)
         end
       end
@@ -156,11 +156,11 @@ RSpec.describe PlanningApplication, type: :model do
       end
 
       context "when a planning application is deleted" do
-        let(:local_authority) { create :local_authority }
-        let(:planning_application1) { create :planning_application, local_authority: local_authority }
-        let(:planning_application2) { create :planning_application, local_authority: local_authority }
-        let(:planning_application3) { create :planning_application, local_authority: local_authority }
-        let(:planning_application4) { create :planning_application, local_authority: local_authority }
+        let(:local_authority) { create(:local_authority) }
+        let(:planning_application1) { create(:planning_application, local_authority: local_authority) }
+        let(:planning_application2) { create(:planning_application, local_authority: local_authority) }
+        let(:planning_application3) { create(:planning_application, local_authority: local_authority) }
+        let(:planning_application4) { create(:planning_application, local_authority: local_authority) }
 
         it "updates the application number incrementing after the existing maximum application number" do
           expect(planning_application1.application_number).to eq("00100")
@@ -191,7 +191,7 @@ RSpec.describe PlanningApplication, type: :model do
 
     describe "::after_create" do
       context "when there is a postcode set" do
-        let(:planning_application) { create :planning_application, postcode: "SE22 0HW" }
+        let(:planning_application) { create(:planning_application, postcode: "SE22 0HW") }
 
         it "calls the mapit API and sets the ward information" do
           expect_any_instance_of(Apis::Mapit::Client).to receive(:call).with("SE22 0HW").and_call_original
@@ -203,20 +203,20 @@ RSpec.describe PlanningApplication, type: :model do
       end
 
       context "when there is no postcode set" do
-        let(:planning_application) { create :planning_application, postcode: nil }
+        let(:planning_application) { create(:planning_application, postcode: nil) }
 
         it "does not call the mapit API" do
           expect_any_instance_of(Apis::Mapit::Client).not_to receive(:call)
 
-          expect(planning_application.ward).to eq(nil)
-          expect(planning_application.ward_type).to eq(nil)
+          expect(planning_application.ward).to be_nil
+          expect(planning_application.ward_type).to be_nil
         end
       end
     end
 
     describe "::before_update #reset_validation_requests_update_counter" do
-      let(:local_authority) { create :local_authority }
-      let!(:planning_application) { create :planning_application, :invalidated, local_authority: local_authority }
+      let(:local_authority) { create(:local_authority) }
+      let!(:planning_application) { create(:planning_application, :invalidated, local_authority: local_authority) }
       let(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, planning_application: planning_application) }
       let(:fee_item_validation_request) { create(:other_change_validation_request, :fee, :open, planning_application: planning_application, response: "a response") }
 
@@ -224,11 +224,11 @@ RSpec.describe PlanningApplication, type: :model do
         before { red_line_boundary_change_validation_request.close! }
 
         it "resets the update counter on the latest closed request" do
-          expect(red_line_boundary_change_validation_request.update_counter?).to eq(true)
+          expect(red_line_boundary_change_validation_request.update_counter?).to be(true)
 
           planning_application.update!(valid_red_line_boundary: true)
 
-          expect(red_line_boundary_change_validation_request.reload.update_counter?).to eq(false)
+          expect(red_line_boundary_change_validation_request.reload.update_counter?).to be(false)
         end
       end
 
@@ -236,11 +236,11 @@ RSpec.describe PlanningApplication, type: :model do
         before { fee_item_validation_request.close! }
 
         it "resets the update counter on the latest closed request" do
-          expect(fee_item_validation_request.update_counter?).to eq(true)
+          expect(fee_item_validation_request.update_counter?).to be(true)
 
           planning_application.update!(valid_fee: true)
 
-          expect(fee_item_validation_request.reload.update_counter?).to eq(false)
+          expect(fee_item_validation_request.reload.update_counter?).to be(false)
         end
       end
     end
@@ -250,7 +250,7 @@ RSpec.describe PlanningApplication, type: :model do
         it "sets the updated_address_or_boundary_geojson to true" do
           planning_application.update!(address_1: "")
 
-          expect(planning_application.updated_address_or_boundary_geojson).to eq(true)
+          expect(planning_application.updated_address_or_boundary_geojson).to be(true)
         end
       end
 
@@ -258,7 +258,7 @@ RSpec.describe PlanningApplication, type: :model do
         it "does not set the updated_address_or_boundary_geojson to true" do
           planning_application.update!(agent_first_name: "Agent first name")
 
-          expect(planning_application.updated_address_or_boundary_geojson).to eq(false)
+          expect(planning_application.updated_address_or_boundary_geojson).to be(false)
         end
       end
     end
@@ -310,27 +310,27 @@ RSpec.describe PlanningApplication, type: :model do
     it "returns false if no values are given" do
       planning_application.update!(agent_first_name: "", agent_last_name: "", agent_phone: "", agent_email: "")
 
-      expect(planning_application.reload.agent?).to eq false
+      expect(planning_application.reload.agent?).to be false
     end
 
     it "returns true if only name is given" do
       planning_application.update!(agent_first_name: "first", agent_last_name: "last", agent_phone: "", agent_email: "")
 
-      expect(planning_application.agent?).to eq true
+      expect(planning_application.agent?).to be true
     end
 
     it "returns true if name and email are given" do
       planning_application.update!(agent_first_name: "first", agent_last_name: "last",
                                    agent_phone: "", agent_email: "agent@example.com")
 
-      expect(planning_application.agent?).to eq true
+      expect(planning_application.agent?).to be true
     end
 
     it "returns true if name and phone are given" do
       planning_application.update!(agent_first_name: "first", agent_last_name: "last",
                                    agent_phone: "34433454", agent_email: "")
 
-      expect(planning_application.agent?).to eq true
+      expect(planning_application.agent?).to be true
     end
   end
 
@@ -339,28 +339,28 @@ RSpec.describe PlanningApplication, type: :model do
       planning_application.update!(applicant_first_name: "", applicant_last_name: "",
                                    applicant_phone: "", applicant_email: "")
 
-      expect(planning_application.applicant?).to eq false
+      expect(planning_application.applicant?).to be false
     end
 
     it "returns true if only name is given" do
       planning_application.update!(applicant_first_name: "first", applicant_last_name: "last",
                                    applicant_phone: "", applicant_email: "")
 
-      expect(planning_application.applicant?).to eq true
+      expect(planning_application.applicant?).to be true
     end
 
     it "returns true if name and email are given" do
       planning_application.update!(applicant_first_name: "first", applicant_last_name: "last",
                                    applicant_phone: "", applicant_email: "applicant@example.com")
 
-      expect(planning_application.applicant?).to eq true
+      expect(planning_application.applicant?).to be true
     end
 
     it "returns true if name and phone are given" do
       planning_application.update!(applicant_first_name: "first", applicant_last_name: "last",
                                    applicant_phone: "34433454", applicant_email: "")
 
-      expect(planning_application.applicant?).to eq true
+      expect(planning_application.applicant?).to be true
     end
   end
 
@@ -635,7 +635,7 @@ RSpec.describe PlanningApplication, type: :model do
         it "when planning application does not have status in_assessment it raises PlanningApplication::SubmitRecommendationError" do
           expect { planning_application.submit_recommendation! }
             .to raise_error(PlanningApplication::SubmitRecommendationError, "Event 'submit' cannot transition from 'awaiting_determination'.")
-            .and change(Audit, :count).by(0)
+            .and not_change(Audit, :count)
 
           expect(planning_application).to be_awaiting_determination
         end
@@ -649,7 +649,7 @@ RSpec.describe PlanningApplication, type: :model do
         it "raises PlanningApplication::SubmitRecommendationError" do
           expect { planning_application.submit_recommendation! }
             .to raise_error(PlanningApplication::SubmitRecommendationError, "Event 'submit' cannot transition from 'in_assessment'. Failed callback(s): [:no_open_post_validation_requests?].")
-            .and change(Audit, :count).by(0)
+            .and not_change(Audit, :count)
 
           expect(planning_application).to be_in_assessment
         end
@@ -688,7 +688,7 @@ RSpec.describe PlanningApplication, type: :model do
 
         expect { planning_application.withdraw_last_recommendation! }
           .to raise_error(PlanningApplication::WithdrawRecommendationError, "Event 'withdraw_recommendation' cannot transition from 'determined'.")
-          .and change(Audit, :count).by(0)
+          .and not_change(Audit, :count)
 
         expect(planning_application).to be_determined
       end
@@ -813,7 +813,7 @@ RSpec.describe PlanningApplication, type: :model do
       end
 
       it "returns true" do
-        expect(planning_application.assessment_submitted?).to eq(true)
+        expect(planning_application.assessment_submitted?).to be(true)
       end
     end
 
@@ -823,7 +823,7 @@ RSpec.describe PlanningApplication, type: :model do
       end
 
       it "returns true" do
-        expect(planning_application.assessment_submitted?).to eq(true)
+        expect(planning_application.assessment_submitted?).to be(true)
       end
     end
 
@@ -831,7 +831,7 @@ RSpec.describe PlanningApplication, type: :model do
       let(:planning_application) { create(:planning_application, :determined) }
 
       it "returns true" do
-        expect(planning_application.assessment_submitted?).to eq(true)
+        expect(planning_application.assessment_submitted?).to be(true)
       end
     end
 
@@ -841,7 +841,7 @@ RSpec.describe PlanningApplication, type: :model do
       end
 
       it "returns false" do
-        expect(planning_application.assessment_submitted?).to eq(false)
+        expect(planning_application.assessment_submitted?).to be(false)
       end
     end
 
@@ -859,7 +859,7 @@ RSpec.describe PlanningApplication, type: :model do
       end
 
       it "returns true" do
-        expect(planning_application.assessment_submitted?).to eq(true)
+        expect(planning_application.assessment_submitted?).to be(true)
       end
 
       context "when planning application is not started" do
@@ -868,7 +868,7 @@ RSpec.describe PlanningApplication, type: :model do
         end
 
         it "returns false" do
-          expect(planning_application.assessment_submitted?).to eq(false)
+          expect(planning_application.assessment_submitted?).to be(false)
         end
       end
 
@@ -878,7 +878,7 @@ RSpec.describe PlanningApplication, type: :model do
         end
 
         it "returns false" do
-          expect(planning_application.assessment_submitted?).to eq(false)
+          expect(planning_application.assessment_submitted?).to be(false)
         end
       end
     end
@@ -926,13 +926,13 @@ RSpec.describe PlanningApplication, type: :model do
       end
 
       it "returns true" do
-        expect(planning_application.has_policy_class?("1A")).to eq(true)
+        expect(planning_application.has_policy_class?("1A")).to be(true)
       end
     end
 
     context "when planning application does not have policy class" do
       it "returns false" do
-        expect(planning_application.has_policy_class?("1A")).to eq(false)
+        expect(planning_application.has_policy_class?("1A")).to be(false)
       end
     end
   end
@@ -954,7 +954,7 @@ RSpec.describe PlanningApplication, type: :model do
       it "returns true" do
         expect(
           planning_application.recommendation_assessment_in_progress?
-        ).to eq(
+        ).to be(
           true
         )
       end
@@ -966,7 +966,7 @@ RSpec.describe PlanningApplication, type: :model do
       it "returns false" do
         expect(
           planning_application.recommendation_assessment_in_progress?
-        ).to eq(
+        ).to be(
           false
         )
       end
@@ -990,7 +990,7 @@ RSpec.describe PlanningApplication, type: :model do
       it "returns true" do
         expect(
           planning_application.recommendation_assessment_complete?
-        ).to eq(
+        ).to be(
           true
         )
       end
@@ -1002,7 +1002,7 @@ RSpec.describe PlanningApplication, type: :model do
       it "returns false" do
         expect(
           planning_application.recommendation_assessment_complete?
-        ).to eq(
+        ).to be(
           false
         )
       end
@@ -1026,7 +1026,7 @@ RSpec.describe PlanningApplication, type: :model do
       it "returns true" do
         expect(
           planning_application.recommendation_review_in_progress?
-        ).to eq(
+        ).to be(
           true
         )
       end
@@ -1038,7 +1038,7 @@ RSpec.describe PlanningApplication, type: :model do
       it "returns false" do
         expect(
           planning_application.recommendation_review_in_progress?
-        ).to eq(
+        ).to be(
           false
         )
       end
@@ -1062,7 +1062,7 @@ RSpec.describe PlanningApplication, type: :model do
       it "returns true" do
         expect(
           planning_application.recommendation_review_complete?
-        ).to eq(
+        ).to be(
           true
         )
       end
@@ -1074,7 +1074,7 @@ RSpec.describe PlanningApplication, type: :model do
       it "returns false" do
         expect(
           planning_application.recommendation_review_complete?
-        ).to eq(
+        ).to be(
           false
         )
       end
@@ -1167,7 +1167,7 @@ RSpec.describe PlanningApplication, type: :model do
           planning_application.rejected_assessment_detail(
             category: :summary_of_work
           )
-        ).to eq(nil)
+        ).to be_nil
       end
     end
 
@@ -1179,7 +1179,7 @@ RSpec.describe PlanningApplication, type: :model do
           planning_application.rejected_assessment_detail(
             category: :summary_of_work
           )
-        ).to eq(nil)
+        ).to be_nil
       end
     end
   end

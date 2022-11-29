@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe ReviewPolicyClass, type: :model do
+RSpec.describe ReviewPolicyClass do
   let(:review_policy_class) { build(:review_policy_class) }
 
   describe "#valid?" do

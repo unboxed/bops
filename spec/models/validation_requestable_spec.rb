@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe ValidationRequestable, type: :model do
+RSpec.describe ValidationRequestable do
   let(:request) { create(:additional_document_validation_request, :pending) }
 
   before { freeze_time }
@@ -186,15 +186,15 @@ RSpec.describe ValidationRequestable, type: :model do
 
           it "resets the update counter on the previously closed request" do
             request1.close!
-            expect(request1.validation_request.update_counter).to eq(true)
+            expect(request1.validation_request.update_counter).to be(true)
 
-            expect(request2.validation_request.update_counter).to eq(false)
-            expect(request1.validation_request.reload.update_counter).to eq(false)
+            expect(request2.validation_request.update_counter).to be(false)
+            expect(request1.validation_request.reload.update_counter).to be(false)
 
             request2.assign_attributes(cancel_reason: "Cancel reason")
             request2.cancel_request!
-            expect(request2.validation_request.update_counter).to eq(false)
-            expect(request1.validation_request.reload.update_counter).to eq(true)
+            expect(request2.validation_request.update_counter).to be(false)
+            expect(request1.validation_request.reload.update_counter).to be(true)
           end
         end
 
@@ -203,22 +203,22 @@ RSpec.describe ValidationRequestable, type: :model do
             create(:planning_application, :invalidated)
           end
           let!(:document) { create(:document) }
-          let(:request1) { create :replacement_document_validation_request, :open, planning_application: planning_application, new_document: document }
-          let(:request2) { create :replacement_document_validation_request, :open, planning_application: planning_application, old_document: document }
+          let(:request1) { create(:replacement_document_validation_request, :open, planning_application: planning_application, new_document: document) }
+          let(:request2) { create(:replacement_document_validation_request, :open, planning_application: planning_application, old_document: document) }
 
           before do
             request1.close!
           end
 
           it "when request is cancelled it updates the counter of the previously closed request to true" do
-            expect(request1.validation_request.update_counter).to eq(true)
-            expect(request2.validation_request.update_counter).to eq(false)
-            expect(request1.validation_request.reload.update_counter).to eq(false)
+            expect(request1.validation_request.update_counter).to be(true)
+            expect(request2.validation_request.update_counter).to be(false)
+            expect(request1.validation_request.reload.update_counter).to be(false)
 
             request2.assign_attributes(cancel_reason: "Cancel reason")
             request2.cancel_request!
-            expect(request2.validation_request.update_counter).to eq(false)
-            expect(request1.validation_request.reload.update_counter).to eq(true)
+            expect(request2.validation_request.update_counter).to be(false)
+            expect(request1.validation_request.reload.update_counter).to be(true)
           end
         end
 
@@ -226,8 +226,8 @@ RSpec.describe ValidationRequestable, type: :model do
           let!(:planning_application) do
             create(:planning_application, :invalidated, valid_red_line_boundary: false)
           end
-          let(:request1) { create :red_line_boundary_change_validation_request, :open, planning_application: planning_application }
-          let(:request2) { create :red_line_boundary_change_validation_request, :open, planning_application: planning_application }
+          let(:request1) { create(:red_line_boundary_change_validation_request, :open, planning_application: planning_application) }
+          let(:request2) { create(:red_line_boundary_change_validation_request, :open, planning_application: planning_application) }
 
           it "resets the valid_red_line_boundary on the planning application" do
             request1.assign_attributes(cancel_reason: "Cancel reason")
@@ -239,14 +239,14 @@ RSpec.describe ValidationRequestable, type: :model do
 
           it "when request is cancelled it updates the counter of the previously closed request to true" do
             request1.close!
-            expect(request1.validation_request.update_counter).to eq(true)
-            expect(request2.validation_request.update_counter).to eq(false)
-            expect(request1.validation_request.reload.update_counter).to eq(false)
+            expect(request1.validation_request.update_counter).to be(true)
+            expect(request2.validation_request.update_counter).to be(false)
+            expect(request1.validation_request.reload.update_counter).to be(false)
 
             request2.assign_attributes(cancel_reason: "Cancel reason")
             request2.cancel_request!
-            expect(request2.validation_request.update_counter).to eq(false)
-            expect(request1.validation_request.reload.update_counter).to eq(true)
+            expect(request2.validation_request.update_counter).to be(false)
+            expect(request1.validation_request.reload.update_counter).to be(true)
           end
         end
       end
@@ -255,10 +255,10 @@ RSpec.describe ValidationRequestable, type: :model do
         it "when no cancel reason it raises ValidationRequestable::RecordCancelError" do
           expect { request.cancel_request! }
             .to raise_error(ValidationRequestable::RecordCancelError, "Validation failed: Cancel reason can't be blank")
-            .and change(Audit, :count).by(0)
+            .and not_change(Audit, :count)
 
           expect(request).to be_pending
-          expect(request.cancelled_at).to eq(nil)
+          expect(request.cancelled_at).to be_nil
         end
 
         it "when request is in closed state it raises ValidationRequestable::RecordCancelError" do
@@ -267,10 +267,10 @@ RSpec.describe ValidationRequestable, type: :model do
 
           expect { request.cancel_request! }
             .to raise_error(ValidationRequestable::RecordCancelError, "Event 'cancel' cannot transition from 'closed'.")
-            .and change(Audit, :count).by(0)
+            .and not_change(Audit, :count)
 
           expect(request).to be_closed
-          expect(request.cancelled_at).to eq(nil)
+          expect(request.cancelled_at).to be_nil
         end
       end
     end
@@ -306,7 +306,7 @@ RSpec.describe ValidationRequestable, type: :model do
         let!(:validation_request) { create(:replacement_document_validation_request) }
 
         it "returns nil" do
-          expect(validation_request.active_closed_fee_item?).to eq(nil)
+          expect(validation_request.active_closed_fee_item?).to be_nil
         end
       end
 
@@ -314,7 +314,7 @@ RSpec.describe ValidationRequestable, type: :model do
         let!(:validation_request) { create(:other_change_validation_request, fee_item: false) }
 
         it "returns false" do
-          expect(validation_request.active_closed_fee_item?).to eq(false)
+          expect(validation_request.active_closed_fee_item?).to be(false)
         end
       end
 
@@ -322,7 +322,7 @@ RSpec.describe ValidationRequestable, type: :model do
         let!(:validation_request) { create(:other_change_validation_request, :open, fee_item: true) }
 
         it "returns false" do
-          expect(validation_request.active_closed_fee_item?).to eq(false)
+          expect(validation_request.active_closed_fee_item?).to be(false)
         end
       end
 
@@ -336,11 +336,11 @@ RSpec.describe ValidationRequestable, type: :model do
         end
 
         it "returns false when it is not the latest record" do
-          expect(validation_request1.active_closed_fee_item?).to eq(false)
+          expect(validation_request1.active_closed_fee_item?).to be(false)
         end
 
         it "returns true when it is the latest record" do
-          expect(validation_request2.active_closed_fee_item?).to eq(true)
+          expect(validation_request2.active_closed_fee_item?).to be(true)
         end
       end
     end
@@ -412,11 +412,11 @@ RSpec.describe ValidationRequestable, type: :model do
           expect(Appsignal).to receive(:send_error).with("Event 'auto_close' cannot transition from 'pending'.")
 
           expect { request.auto_close_request! }
-            .to change(Audit, :count).by(0)
+            .not_to change(Audit, :count)
 
           expect(request.reload).to be_pending
-          expect(request.reload.auto_closed).to eq(false)
-          expect(request.reload.auto_closed_at).to eq(nil)
+          expect(request.reload.auto_closed).to be(false)
+          expect(request.reload.auto_closed_at).to be_nil
           expect(request.reload.planning_application.boundary_geojson).not_to eq(request.reload.new_geojson)
         end
       end
@@ -430,11 +430,11 @@ RSpec.describe ValidationRequestable, type: :model do
           expect(Appsignal).to receive(:send_error).with("ActiveRecord::ActiveRecordError")
 
           expect { request.auto_close_request! }
-            .to change(Audit, :count).by(0)
+            .not_to change(Audit, :count)
 
           expect(request.reload).to be_open
-          expect(request.reload.auto_closed).to eq(false)
-          expect(request.reload.auto_closed_at).to eq(nil)
+          expect(request.reload.auto_closed).to be(false)
+          expect(request.reload.auto_closed_at).to be_nil
           expect(request.reload.planning_application.boundary_geojson).not_to eq(request.reload.new_geojson)
         end
       end

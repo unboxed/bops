@@ -2,10 +2,10 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning Application Reviewing", type: :system do
+RSpec.describe "Planning Application Reviewing" do
   let(:default_local_authority) { create(:local_authority, :default) }
-  let!(:reviewer) { create :user, :reviewer, local_authority: default_local_authority }
-  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
+  let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
+  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
   let(:user) { create(:user) }
 
   let!(:planning_application) do
@@ -20,16 +20,16 @@ RSpec.describe "Planning Application Reviewing", type: :system do
   end
 
   let!(:previous_recommendation) do
-    create :recommendation, :reviewed,
+    create(:recommendation, :reviewed,
            planning_application: planning_application,
            assessor_comment: "First assessor comment",
-           reviewer_comment: "First reviewer comment"
+           reviewer_comment: "First reviewer comment")
   end
   let!(:recommendation) do
-    create :recommendation,
+    create(:recommendation,
            planning_application: planning_application,
            assessor_comment: "New assessor comment",
-           submitted: true
+           submitted: true)
   end
 
   before do
@@ -52,7 +52,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
       expect(page).to have_content("New assessor comment")
     end
 
-    find("#recommendation_challenged_false").click
+    find_by_id("recommendation_challenged_false").click
     fill_in "Review comment", with: "Reviewer private comment"
     click_button "Save and mark as complete"
 
@@ -93,7 +93,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
     click_link "Sign-off recommendation"
 
-    find("#recommendation_challenged_true").click
+    find_by_id("recommendation_challenged_true").click
     fill_in "Review comment", with: "Reviewer private comment"
     click_button "Save and mark as complete"
 
@@ -137,7 +137,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     click_link "Review and sign-off"
     click_link "Sign-off recommendation"
 
-    find("#recommendation_challenged_true").click
+    find_by_id("recommendation_challenged_true").click
     click_button "Save and mark as complete"
 
     find_all(".govuk-error-summary").each do |error|
@@ -151,7 +151,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
     click_link "Review and sign-off"
     click_link "Sign-off recommendation"
 
-    find("#recommendation_challenged_false").click
+    find_by_id("recommendation_challenged_false").click
     click_button "Save and mark as complete"
 
     expect(page).to have_content("Recommendation was successfully reviewed.")
@@ -167,8 +167,8 @@ RSpec.describe "Planning Application Reviewing", type: :system do
   end
 
   it "can edit an existing review of an assessment" do
-    recommendation = create :recommendation, :reviewed, planning_application: planning_application,
-                                                        reviewer_comment: "Reviewer private comment"
+    recommendation = create(:recommendation, :reviewed, planning_application: planning_application,
+                                                        reviewer_comment: "Reviewer private comment")
     click_link "Review and sign-off"
     click_link "Sign-off recommendation"
 
@@ -181,7 +181,7 @@ RSpec.describe "Planning Application Reviewing", type: :system do
 
     expect(page).to have_field("Review comment", with: "Reviewer private comment")
 
-    find("#recommendation_challenged_true").click
+    find_by_id("recommendation_challenged_true").click
     fill_in "Review comment", with: "Edited reviewer private comment"
     click_button "Save and mark as complete"
 

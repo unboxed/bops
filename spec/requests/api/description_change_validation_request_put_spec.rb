@@ -2,8 +2,8 @@
 
 require "rails_helper"
 
-RSpec.describe "API request to list validation requests", type: :request, show_exceptions: true do
-  let!(:api_user) { create :api_user }
+RSpec.describe "API request to list validation requests", show_exceptions: true do
+  let!(:api_user) { create(:api_user) }
 
   let(:path) do
     "/api/v1/planning_applications/#{planning_application.id}/description_change_validation_requests/#{description_change_validation_request.id}"
@@ -65,8 +65,8 @@ RSpec.describe "API request to list validation requests", type: :request, show_e
     description_change_validation_request.reload
     planning_application.reload
     expect(description_change_validation_request.state).to eq("closed")
-    expect(description_change_validation_request.approved).to eq(true)
-    expect(description_change_validation_request.approved).to eq(true)
+    expect(description_change_validation_request.approved).to be(true)
+    expect(description_change_validation_request.approved).to be(true)
     expect(planning_application.description).to eq("new roof")
   end
 
@@ -102,7 +102,7 @@ RSpec.describe "API request to list validation requests", type: :request, show_e
 
     description_change_validation_request.reload
     expect(description_change_validation_request.state).to eq("closed")
-    expect(description_change_validation_request.approved).to eq(false)
+    expect(description_change_validation_request.approved).to be(false)
     expect(description_change_validation_request.rejection_reason).to eq("The description is unclear")
     expect(Audit.all.last.activity_type).to eq("description_change_validation_request_received")
     expect(Audit.all.last.audit_comment).to eq({ response: "rejected", reason: "The description is unclear" }.to_json)
@@ -114,7 +114,7 @@ RSpec.describe "API request to list validation requests", type: :request, show_e
           params: rejected_json_missing_reason,
           headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
 
-    expect(response.status).to eq(400)
+    expect(response).to have_http_status(:bad_request)
   end
 
   it "returns a 401 if API key is wrong" do
@@ -122,7 +122,7 @@ RSpec.describe "API request to list validation requests", type: :request, show_e
           params: approved_json,
           headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer BEAR_THE_BEARER" }
 
-    expect(response.status).to eq(401)
+    expect(response).to have_http_status(:unauthorized)
   end
 
   it "returns a 401 if change_access_id is wrong" do
@@ -130,6 +130,6 @@ RSpec.describe "API request to list validation requests", type: :request, show_e
           params: approved_json,
           headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
 
-    expect(response.status).to eq(401)
+    expect(response).to have_http_status(:unauthorized)
   end
 end

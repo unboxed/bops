@@ -2,9 +2,9 @@
 
 require "rails_helper"
 
-RSpec.describe "API request to list planning applications", type: :request, show_exceptions: true do
+RSpec.describe "API request to list planning applications", show_exceptions: true do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let(:reviewer) { create :user, :reviewer }
+  let(:reviewer) { create(:user, :reviewer) }
 
   describe "format" do
     let(:access_control_allow_origin) { response.headers["Access-Control-Allow-Origin"] }
@@ -54,7 +54,7 @@ RSpec.describe "API request to list planning applications", type: :request, show
         expect(planning_application_json["received_date"]).to eq(json_time_format(planning_application.received_at))
         expect(planning_application_json["determined_at"]).to eq(json_time_format(planning_application.determined_at))
         expect(planning_application_json["determination_date"]).to eq(planning_application.determination_date.to_s(:db))
-        expect(planning_application_json["decision"]).to eq(nil)
+        expect(planning_application_json["decision"]).to be_nil
         expect(planning_application_json["target_date"]).to eq(planning_application.target_date.to_s(:db))
         expect(planning_application_json["started_at"]).to eq(json_time_format(planning_application.started_at))
         expect(planning_application_json["created_at"]).to eq(json_time_format(planning_application.created_at))

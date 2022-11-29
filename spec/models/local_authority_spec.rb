@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe LocalAuthority, type: :model do
+RSpec.describe LocalAuthority do
   describe "validations" do
     subject(:local_authority) { described_class.new }
 
@@ -13,7 +13,7 @@ RSpec.describe LocalAuthority, type: :model do
         end
 
         it "is valid" do
-          expect(local_authority.valid?).to eq(true)
+          expect(local_authority.valid?).to be(true)
         end
       end
 
@@ -23,7 +23,7 @@ RSpec.describe LocalAuthority, type: :model do
         end
 
         it "is valid" do
-          expect(local_authority.valid?).to eq(true)
+          expect(local_authority.valid?).to be(true)
         end
       end
 
@@ -33,7 +33,7 @@ RSpec.describe LocalAuthority, type: :model do
         end
 
         it "is invalid" do
-          expect(local_authority.valid?).to eq(false)
+          expect(local_authority.valid?).to be(false)
         end
       end
     end

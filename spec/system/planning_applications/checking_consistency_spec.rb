@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "checking consistency", type: :system do
+RSpec.describe "checking consistency" do
   let(:local_authority) { create(:local_authority, :default) }
 
   let(:user) do
@@ -83,14 +83,14 @@ RSpec.describe "checking consistency", type: :system do
 
     click_link("Description, documents and proposal details")
 
-    field1 = find(
-      "#consistency-checklist-description-matches-documents-yes-field"
+    field1 = find_by_id(
+      "consistency-checklist-description-matches-documents-yes-field"
     )
 
-    field2 = find("#consistency-checklist-documents-consistent-yes-field")
+    field2 = find_by_id("consistency-checklist-documents-consistent-yes-field")
 
-    field3 = find(
-      "#consistency-checklist-proposal-details-match-documents-no-field"
+    field3 = find_by_id(
+      "consistency-checklist-proposal-details-match-documents-no-field"
     )
 
     expect(field1).to be_disabled

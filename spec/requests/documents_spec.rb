@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Documents", type: :request, show_exceptions: true do
+RSpec.describe "Documents", show_exceptions: true do
   let!(:current_local_authority) { create(:local_authority, :default) }
   let!(:other_local_authority) { create(:local_authority) }
 

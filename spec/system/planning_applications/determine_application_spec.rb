@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning Application Assessment", type: :system do
+RSpec.describe "Planning Application Assessment" do
   let(:default_local_authority) do
     create(
       :local_authority,
@@ -43,9 +43,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).to have_content("Enter determination date")
 
           # Date form field is prefilled with today's date
-          expect(find("#planning_application_determination_date_3i").value).to eq("1")
-          expect(find("#planning_application_determination_date_2i").value).to eq("2")
-          expect(find("#planning_application_determination_date_1i").value).to eq("2024")
+          expect(find_by_id("planning_application_determination_date_3i").value).to eq("1")
+          expect(find_by_id("planning_application_determination_date_2i").value).to eq("2")
+          expect(find_by_id("planning_application_determination_date_1i").value).to eq("2024")
 
           # Enter date in the future
           fill_in "Day", with: "03"

@@ -2,15 +2,15 @@
 
 require "rails_helper"
 
-RSpec.describe "Requesting other changes to a planning application", type: :system do
+RSpec.describe "Requesting other changes to a planning application" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
+  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create :planning_application, :invalidated, local_authority: default_local_authority
+    create(:planning_application, :invalidated, local_authority: default_local_authority)
   end
 
-  let!(:api_user) { create :api_user, name: "Api Wizard" }
+  let!(:api_user) { create(:api_user, name: "Api Wizard") }
 
   before do
     travel_to Time.zone.local(2021, 1, 1)
@@ -101,10 +101,10 @@ RSpec.describe "Requesting other changes to a planning application", type: :syst
   end
 
   it "lists the current change requests and their statuses" do
-    create :other_change_validation_request, planning_application: planning_application, state: "open",
-                                             created_at: 12.days.ago, notified_at: 12.days.ago, summary: "Missing information", suggestion: "Please provide more details about ownership"
-    create :other_change_validation_request, planning_application: planning_application, state: "closed",
-                                             created_at: 12.days.ago, notified_at: 12.days.ago, summary: "Fees outstanding", suggestion: "Please pay the balance", response: "paid"
+    create(:other_change_validation_request, planning_application: planning_application, state: "open",
+                                             created_at: 12.days.ago, notified_at: 12.days.ago, summary: "Missing information", suggestion: "Please provide more details about ownership")
+    create(:other_change_validation_request, planning_application: planning_application, state: "closed",
+                                             created_at: 12.days.ago, notified_at: 12.days.ago, summary: "Fees outstanding", suggestion: "Please pay the balance", response: "paid")
 
     click_link "Check and validate"
     click_link "Send validation decision"
@@ -137,9 +137,9 @@ RSpec.describe "Requesting other changes to a planning application", type: :syst
 
   context "Invalidation updates other change validation request" do
     it "updates the notified_at date of an open request when application is invalidated" do
-      new_planning_application = create :planning_application, :not_started, local_authority: default_local_authority
-      request = create :other_change_validation_request, planning_application: new_planning_application, state: "pending",
-                                                         created_at: 12.days.ago
+      new_planning_application = create(:planning_application, :not_started, local_authority: default_local_authority)
+      request = create(:other_change_validation_request, planning_application: new_planning_application, state: "pending",
+                                                         created_at: 12.days.ago)
 
       visit planning_application_path(new_planning_application)
       click_link "Check and validate"

@@ -2,13 +2,13 @@
 
 require "rails_helper"
 
-RSpec.describe AdditionalDocumentValidationRequest, type: :model do
+RSpec.describe AdditionalDocumentValidationRequest do
   include ActionDispatch::TestProcess::FixtureFile
 
   it_behaves_like "ValidationRequest", described_class, "additional_document_validation_request"
 
   it_behaves_like("Auditable") do
-    let(:subject) { create(:additional_document_validation_request) }
+    subject { create(:additional_document_validation_request) }
   end
 
   it_behaves_like("ValidationRequestable")
@@ -83,7 +83,7 @@ RSpec.describe AdditionalDocumentValidationRequest, type: :model do
           expect { additional_document_validation_request.upload_files!(files) }
             .to raise_error(AdditionalDocumentValidationRequest::UploadFilesError,
                             "Event 'close' cannot transition from 'closed'.")
-            .and change(Audit, :count).by(0)
+            .and not_change(Audit, :count)
 
           additional_document_validation_request.reload
           expect(additional_document_validation_request).to be_closed
@@ -112,13 +112,13 @@ RSpec.describe AdditionalDocumentValidationRequest, type: :model do
         end
 
         it "does not update documents_missing on the planning application" do
-          expect(planning_application.reload.documents_missing).to eq(true)
+          expect(planning_application.reload.documents_missing).to be(true)
         end
       end
 
       context "when there is only one open or pending additional document validation requests" do
         it "does update and resets the documents_missing on the planning application to nil" do
-          expect(planning_application.reload.documents_missing).to eq(nil)
+          expect(planning_application.reload.documents_missing).to be_nil
         end
       end
     end
@@ -155,7 +155,7 @@ RSpec.describe AdditionalDocumentValidationRequest, type: :model do
           end
 
           it "returns true" do
-            expect(request.can_cancel?).to eq(true)
+            expect(request.can_cancel?).to be(true)
           end
         end
 
@@ -165,7 +165,7 @@ RSpec.describe AdditionalDocumentValidationRequest, type: :model do
           end
 
           it "returns false" do
-            expect(request.can_cancel?).to eq(false)
+            expect(request.can_cancel?).to be(false)
           end
         end
 
@@ -175,7 +175,7 @@ RSpec.describe AdditionalDocumentValidationRequest, type: :model do
           end
 
           it "returns true" do
-            expect(request.can_cancel?).to eq(true)
+            expect(request.can_cancel?).to be(true)
           end
         end
       end
@@ -195,7 +195,7 @@ RSpec.describe AdditionalDocumentValidationRequest, type: :model do
           end
 
           it "returns true" do
-            expect(request.can_cancel?).to eq(true)
+            expect(request.can_cancel?).to be(true)
           end
         end
 
@@ -205,7 +205,7 @@ RSpec.describe AdditionalDocumentValidationRequest, type: :model do
           end
 
           it "returns false" do
-            expect(request.can_cancel?).to eq(false)
+            expect(request.can_cancel?).to be(false)
           end
         end
 
@@ -215,7 +215,7 @@ RSpec.describe AdditionalDocumentValidationRequest, type: :model do
           end
 
           it "returns true" do
-            expect(request.can_cancel?).to eq(true)
+            expect(request.can_cancel?).to be(true)
           end
         end
       end
@@ -235,7 +235,7 @@ RSpec.describe AdditionalDocumentValidationRequest, type: :model do
           end
 
           it "returns false" do
-            expect(request.can_cancel?).to eq(false)
+            expect(request.can_cancel?).to be(false)
           end
         end
 
@@ -245,7 +245,7 @@ RSpec.describe AdditionalDocumentValidationRequest, type: :model do
           end
 
           it "returns false" do
-            expect(request.can_cancel?).to eq(false)
+            expect(request.can_cancel?).to be(false)
           end
         end
       end

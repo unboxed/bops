@@ -274,7 +274,7 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
       end
 
       it "returns nil" do
-        expect(planning_application.open_description_change_request).to eq(nil)
+        expect(planning_application.open_description_change_request).to be_nil
       end
     end
   end
@@ -289,7 +289,7 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
 
     context "when there is a single policy class" do
       it "returns false" do
-        expect(presenter.multiple_policy_classes?).to eq(false)
+        expect(presenter.multiple_policy_classes?).to be(false)
       end
     end
 
@@ -299,7 +299,7 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
       end
 
       it "returns true" do
-        expect(presenter.multiple_policy_classes?).to eq(true)
+        expect(presenter.multiple_policy_classes?).to be(true)
       end
     end
   end

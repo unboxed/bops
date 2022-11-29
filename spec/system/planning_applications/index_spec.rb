@@ -2,18 +2,18 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning Application index page", type: :system do
+RSpec.describe "Planning Application index page" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:planning_application_1) { create :planning_application, local_authority: default_local_authority }
-  let!(:planning_application_2) { create :planning_application, local_authority: default_local_authority }
+  let!(:planning_application_1) { create(:planning_application, local_authority: default_local_authority) }
+  let!(:planning_application_2) { create(:planning_application, local_authority: default_local_authority) }
   let!(:planning_application_started) do
-    create :planning_application, :awaiting_determination, local_authority: default_local_authority
+    create(:planning_application, :awaiting_determination, local_authority: default_local_authority)
   end
   let!(:planning_application_completed) do
-    create :planning_application, :determined, local_authority: default_local_authority
+    create(:planning_application, :determined, local_authority: default_local_authority)
   end
-  let(:assessor) { create :user, :assessor, local_authority: default_local_authority }
-  let(:reviewer) { create :user, :reviewer, local_authority: default_local_authority }
+  let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
+  let(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
 
   context "as an assessor" do
     before do
@@ -260,11 +260,11 @@ RSpec.describe "Planning Application index page", type: :system do
     end
 
     context "restricted views" do
-      let!(:second_assessor) { create :user, :assessor, local_authority: default_local_authority }
+      let!(:second_assessor) { create(:user, :assessor, local_authority: default_local_authority) }
       let!(:other_assessor_planning_application) do
-        create :planning_application, user_id: second_assessor.id, local_authority: default_local_authority
+        create(:planning_application, user_id: second_assessor.id, local_authority: default_local_authority)
       end
-      let(:recommendation) { create :recommendation, planning_application: other_assessor_planning_application }
+      let(:recommendation) { create(:recommendation, planning_application: other_assessor_planning_application) }
 
       it "On login, assessor gets redirected to a view with its own and unassigned Planning Applications" do
         within("#under_assessment") do

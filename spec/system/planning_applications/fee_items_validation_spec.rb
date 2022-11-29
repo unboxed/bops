@@ -2,9 +2,9 @@
 
 require "rails_helper"
 
-RSpec.describe "FeeItemsValidation", type: :system do
+RSpec.describe "FeeItemsValidation" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
+  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   before do
     sign_in assessor

@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Policy classes", type: :request, show_exceptions: true do
+RSpec.describe "Policy classes", show_exceptions: true do
   let!(:current_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) do
     create(:planning_application, :in_assessment, local_authority: current_local_authority)

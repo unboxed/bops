@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe ValidationRequest, type: :model do
+RSpec.describe ValidationRequest do
   describe "validations" do
     subject(:validation_request) { described_class.new }
 

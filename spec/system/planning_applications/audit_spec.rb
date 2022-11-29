@@ -2,23 +2,23 @@
 
 require "rails_helper"
 
-RSpec.describe "Auditing changes to a planning application", type: :system do
+RSpec.describe "Auditing changes to a planning application" do
   let(:default_local_authority) { create(:local_authority, :default) }
-  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
+  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create :planning_application, :invalidated, local_authority: default_local_authority
+    create(:planning_application, :invalidated, local_authority: default_local_authority)
   end
 
-  let!(:api_user) { create :api_user, name: "Api Wizard" }
+  let!(:api_user) { create(:api_user, name: "Api Wizard") }
 
   before do
-    create :audit, planning_application_id: planning_application.id,
-                   activity_type: "red_line_boundary_change_validation_request_received", activity_information: 1, audit_comment: { response: "rejected", reason: "The boundary was too small" }.to_json, api_user: api_user
-    create :audit, planning_application_id: planning_application.id,
-                   activity_type: "other_change_validation_request_received", activity_information: 1, audit_comment: { response: "I have sent the fee" }.to_json, api_user: api_user
-    create :audit, planning_application_id: planning_application.id,
-                   activity_type: "replacement_document_validation_request_received", activity_information: 1, audit_comment: "floor_plan.pdf", api_user: api_user
+    create(:audit, planning_application_id: planning_application.id,
+                   activity_type: "red_line_boundary_change_validation_request_received", activity_information: 1, audit_comment: { response: "rejected", reason: "The boundary was too small" }.to_json, api_user: api_user)
+    create(:audit, planning_application_id: planning_application.id,
+                   activity_type: "other_change_validation_request_received", activity_information: 1, audit_comment: { response: "I have sent the fee" }.to_json, api_user: api_user)
+    create(:audit, planning_application_id: planning_application.id,
+                   activity_type: "replacement_document_validation_request_received", activity_information: 1, audit_comment: "floor_plan.pdf", api_user: api_user)
 
     sign_in assessor
     visit planning_application_path(planning_application)

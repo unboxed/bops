@@ -2,15 +2,15 @@
 
 require "rails_helper"
 
-RSpec.describe "Documents index page", type: :system do
+RSpec.describe "Documents index page" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let(:assessor) { create :user, :assessor, local_authority: default_local_authority }
-  let(:reviewer) { create :user, :reviewer, local_authority: default_local_authority }
+  let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
+  let(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create :planning_application,
+    create(:planning_application,
            local_authority: default_local_authority,
-           address_1: "Elm Grove"
+           address_1: "Elm Grove")
   end
 
   let(:document_tags) do
@@ -18,33 +18,33 @@ RSpec.describe "Documents index page", type: :system do
   end
 
   let!(:document) do
-    create :document, :with_file,
+    create(:document, :with_file,
            planning_application: planning_application,
-           tags: document_tags
+           tags: document_tags)
   end
 
   let!(:not_started_planning_application) do
-    create :planning_application, :not_started,
+    create(:planning_application, :not_started,
            local_authority: default_local_authority,
-           address_1: "Elm Grove"
+           address_1: "Elm Grove")
   end
 
   let!(:not_started_document) do
-    create :document, :with_file,
+    create(:document, :with_file,
            planning_application: not_started_planning_application,
-           tags: document_tags
+           tags: document_tags)
   end
 
   let!(:awaiting_determination_planning_application) do
-    create :planning_application, :awaiting_determination,
+    create(:planning_application, :awaiting_determination,
            local_authority: default_local_authority,
-           address_1: "Elm Grove"
+           address_1: "Elm Grove")
   end
 
   let!(:awaiting_document) do
-    create :document, :with_file,
+    create(:document, :with_file,
            planning_application: awaiting_determination_planning_application,
-           tags: document_tags
+           tags: document_tags)
   end
 
   context "as a user who is not logged in" do
@@ -101,7 +101,7 @@ RSpec.describe "Documents index page", type: :system do
         expect(page).to have_link "Application"
         expect(page).to have_link "Home"
         expect(page).to have_text "Archive"
-        expect(page).to have_no_link "Archive"
+        expect(page).not_to have_link "Archive"
       end
     end
 
@@ -221,7 +221,7 @@ RSpec.describe "Documents index page", type: :system do
     end
 
     it "Archive button is not visible" do
-      expect(page).to have_no_link("Archive")
+      expect(page).not_to have_link("Archive")
     end
   end
 
@@ -245,7 +245,7 @@ RSpec.describe "Documents index page", type: :system do
 
   context "when a document has been removed due to a security issue" do
     let!(:document) do
-      create :document, planning_application: planning_application
+      create(:document, planning_application: planning_application)
     end
 
     before do

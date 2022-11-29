@@ -35,7 +35,7 @@ RSpec.describe ProposalDetails::SummaryComponent, type: :component do
   describe "#auto_answered?" do
     context "when question was auto answered" do
       it "returns true" do
-        expect(summary_component.send(:auto_answered?)).to eq(true)
+        expect(summary_component.send(:auto_answered?)).to be(true)
       end
     end
 
@@ -43,7 +43,7 @@ RSpec.describe ProposalDetails::SummaryComponent, type: :component do
       let(:auto_answered) { false }
 
       it "returns false" do
-        expect(summary_component.send(:auto_answered?)).to eq(false)
+        expect(summary_component.send(:auto_answered?)).to be(false)
       end
     end
   end
@@ -63,9 +63,7 @@ RSpec.describe ProposalDetails::SummaryComponent, type: :component do
       it "returns nil" do
         expect(
           summary_component.send(:formatted_policy_refs)
-        ).to eq(
-          nil
-        )
+        ).to be_nil
       end
     end
   end

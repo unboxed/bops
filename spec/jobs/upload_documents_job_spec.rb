@@ -2,11 +2,11 @@
 
 require "rails_helper"
 
-RSpec.describe UploadDocumentsJob, type: :job do
-  let!(:planning_application) { create :planning_application }
+RSpec.describe UploadDocumentsJob do
+  let!(:planning_application) { create(:planning_application) }
   let(:document) do
-    create :document, :with_file, :with_tags,
-           planning_application: planning_application
+    create(:document, :with_file, :with_tags,
+           planning_application: planning_application)
   end
 
   describe "#perform" do

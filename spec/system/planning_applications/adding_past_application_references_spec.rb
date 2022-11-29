@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "adding past application references", type: :system do
+RSpec.describe "adding past application references" do
   let(:default_local_authority) { create(:local_authority, :default) }
 
   let!(:assessor) do

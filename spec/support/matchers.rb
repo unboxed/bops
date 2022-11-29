@@ -29,3 +29,5 @@ end
 RSpec::Matchers.define(:have_target_id) do |target_id|
   match { |url| URI.parse(url).fragment == target_id }
 end
+
+RSpec::Matchers.define_negated_matcher :not_change, :change

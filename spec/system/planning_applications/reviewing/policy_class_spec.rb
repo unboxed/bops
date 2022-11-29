@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning Application Reviewing Policy Class", type: :system do
+RSpec.describe "Planning Application Reviewing Policy Class" do
   let(:default_local_authority) { create(:local_authority, :default) }
 
   let(:reviewer) do
@@ -14,7 +14,7 @@ RSpec.describe "Planning Application Reviewing Policy Class", type: :system do
     )
   end
 
-  let!(:assessor) { create :user, name: "Chuck The Assessor", local_authority: default_local_authority }
+  let!(:assessor) { create(:user, name: "Chuck The Assessor", local_authority: default_local_authority) }
   let!(:planning_application) do
     create(
       :planning_application,

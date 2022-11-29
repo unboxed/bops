@@ -9,7 +9,7 @@ RSpec.shared_examples "AssessmentTasksPresenter" do
 
     context "when no assessment tasks objects are present" do
       it "returns false" do
-        expect(presenter.assessment_tasklist_in_progress?).to eq(false)
+        expect(presenter.assessment_tasklist_in_progress?).to be(false)
       end
     end
 
@@ -19,7 +19,7 @@ RSpec.shared_examples "AssessmentTasksPresenter" do
       end
 
       it "returns true" do
-        expect(presenter.assessment_tasklist_in_progress?).to eq(true)
+        expect(presenter.assessment_tasklist_in_progress?).to be(true)
       end
     end
 
@@ -32,7 +32,7 @@ RSpec.shared_examples "AssessmentTasksPresenter" do
       end
 
       it "returns true" do
-        expect(presenter.assessment_tasklist_in_progress?).to eq(true)
+        expect(presenter.assessment_tasklist_in_progress?).to be(true)
       end
     end
 
@@ -45,7 +45,7 @@ RSpec.shared_examples "AssessmentTasksPresenter" do
       end
 
       it "returns true" do
-        expect(presenter.assessment_tasklist_in_progress?).to eq(true)
+        expect(presenter.assessment_tasklist_in_progress?).to be(true)
       end
     end
 
@@ -58,7 +58,7 @@ RSpec.shared_examples "AssessmentTasksPresenter" do
       end
 
       it "returns true" do
-        expect(presenter.assessment_tasklist_in_progress?).to eq(true)
+        expect(presenter.assessment_tasklist_in_progress?).to be(true)
       end
     end
   end

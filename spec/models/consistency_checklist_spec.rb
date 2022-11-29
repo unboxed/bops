@@ -2,12 +2,12 @@
 
 require "rails_helper"
 
-RSpec.describe ConsistencyChecklist, type: :model do
+RSpec.describe ConsistencyChecklist do
   describe "#valid?" do
     let(:planning_application) { build(:planning_application) }
 
     it "is true for factory" do
-      expect(build(:consistency_checklist).valid?).to eq(true)
+      expect(build(:consistency_checklist).valid?).to be(true)
     end
 
     context "when status is 'complete'" do
@@ -30,7 +30,7 @@ RSpec.describe ConsistencyChecklist, type: :model do
         end
 
         it "returns false" do
-          expect(consistency_checklist.valid?).to eq(false)
+          expect(consistency_checklist.valid?).to be(false)
         end
 
         it "sets error message" do
@@ -54,7 +54,7 @@ RSpec.describe ConsistencyChecklist, type: :model do
         end
 
         it "returns false" do
-          expect(consistency_checklist.valid?).to eq(false)
+          expect(consistency_checklist.valid?).to be(false)
         end
 
         it "sets error message" do
@@ -84,7 +84,7 @@ RSpec.describe ConsistencyChecklist, type: :model do
         end
 
         it "returns true" do
-          expect(consistency_checklist.valid?).to eq(true)
+          expect(consistency_checklist.valid?).to be(true)
         end
       end
 
@@ -100,7 +100,7 @@ RSpec.describe ConsistencyChecklist, type: :model do
         end
 
         it "returns false" do
-          expect(consistency_checklist.valid?).to eq(false)
+          expect(consistency_checklist.valid?).to be(false)
         end
 
         it "sets error message" do
@@ -126,7 +126,7 @@ RSpec.describe ConsistencyChecklist, type: :model do
         end
 
         it "returns false" do
-          expect(consistency_checklist.valid?).to eq(false)
+          expect(consistency_checklist.valid?).to be(false)
         end
 
         it "sets error message" do
@@ -152,7 +152,7 @@ RSpec.describe ConsistencyChecklist, type: :model do
         end
 
         it "returns false" do
-          expect(consistency_checklist.valid?).to eq(false)
+          expect(consistency_checklist.valid?).to be(false)
         end
 
         it "sets error message" do
@@ -176,7 +176,7 @@ RSpec.describe ConsistencyChecklist, type: :model do
         end
 
         it "returns true" do
-          expect(consistency_checklist.valid?).to eq(true)
+          expect(consistency_checklist.valid?).to be(true)
         end
       end
     end
@@ -201,7 +201,7 @@ RSpec.describe ConsistencyChecklist, type: :model do
         end
 
         it "returns true" do
-          expect(consistency_checklist.valid?).to eq(true)
+          expect(consistency_checklist.valid?).to be(true)
         end
       end
 
@@ -215,7 +215,7 @@ RSpec.describe ConsistencyChecklist, type: :model do
         end
 
         it "returns true" do
-          expect(consistency_checklist.valid?).to eq(true)
+          expect(consistency_checklist.valid?).to be(true)
         end
       end
 
@@ -231,7 +231,7 @@ RSpec.describe ConsistencyChecklist, type: :model do
         end
 
         it "returns true" do
-          expect(consistency_checklist.valid?).to eq(true)
+          expect(consistency_checklist.valid?).to be(true)
         end
       end
 
@@ -247,7 +247,7 @@ RSpec.describe ConsistencyChecklist, type: :model do
         end
 
         it "returns true" do
-          expect(consistency_checklist.valid?).to eq(true)
+          expect(consistency_checklist.valid?).to be(true)
         end
       end
 
@@ -263,7 +263,7 @@ RSpec.describe ConsistencyChecklist, type: :model do
         end
 
         it "returns true" do
-          expect(consistency_checklist.valid?).to eq(true)
+          expect(consistency_checklist.valid?).to be(true)
         end
       end
     end

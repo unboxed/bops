@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe AssessmentDetail, type: :model do
+RSpec.describe AssessmentDetail do
   describe "validations" do
     describe "#entry" do
       let(:summary_of_work) { create(:assessment_detail, :summary_of_work, entry: "") }
@@ -163,7 +163,7 @@ RSpec.describe AssessmentDetail, type: :model do
         let(:reviewer_verdict) { :accepted }
 
         it "returns true" do
-          expect(assessment_detail.valid?).to eq(true)
+          expect(assessment_detail.valid?).to be(true)
         end
       end
 
@@ -171,7 +171,7 @@ RSpec.describe AssessmentDetail, type: :model do
         let(:reviewer_verdict) { :rejected }
 
         it "returns true" do
-          expect(assessment_detail.valid?).to eq(true)
+          expect(assessment_detail.valid?).to be(true)
         end
       end
 
@@ -179,7 +179,7 @@ RSpec.describe AssessmentDetail, type: :model do
         let(:reviewer_verdict) { :edited_and_accepted }
 
         it "returns false" do
-          expect(assessment_detail.valid?).to eq(false)
+          expect(assessment_detail.valid?).to be(false)
         end
 
         it "sets error message" do
@@ -204,7 +204,7 @@ RSpec.describe AssessmentDetail, type: :model do
           let(:planning_application) { create(:planning_application) }
 
           it "returns false" do
-            expect(assessment_detail.valid?).to eq(false)
+            expect(assessment_detail.valid?).to be(false)
           end
 
           it "sets error message" do
@@ -224,7 +224,7 @@ RSpec.describe AssessmentDetail, type: :model do
           end
 
           it "returns true" do
-            expect(assessment_detail.valid?).to eq(true)
+            expect(assessment_detail.valid?).to be(true)
           end
         end
       end
@@ -234,7 +234,7 @@ RSpec.describe AssessmentDetail, type: :model do
         let(:planning_application) { create(:planning_application) }
 
         it "returns true" do
-          expect(assessment_detail.valid?).to eq(true)
+          expect(assessment_detail.valid?).to be(true)
         end
       end
     end
@@ -245,7 +245,7 @@ RSpec.describe AssessmentDetail, type: :model do
       let(:planning_application) { create(:planning_application) }
 
       it "returns true" do
-        expect(assessment_detail.valid?).to eq(true)
+        expect(assessment_detail.valid?).to be(true)
       end
     end
 
@@ -274,7 +274,7 @@ RSpec.describe AssessmentDetail, type: :model do
       end
 
       it "returns true" do
-        expect(assessment_detail.update_required?).to eq(true)
+        expect(assessment_detail.update_required?).to be(true)
       end
     end
 
@@ -288,7 +288,7 @@ RSpec.describe AssessmentDetail, type: :model do
       end
 
       it "returns true" do
-        expect(assessment_detail.update_required?).to eq(false)
+        expect(assessment_detail.update_required?).to be(false)
       end
     end
 
@@ -302,7 +302,7 @@ RSpec.describe AssessmentDetail, type: :model do
       end
 
       it "returns true" do
-        expect(assessment_detail.update_required?).to eq(false)
+        expect(assessment_detail.update_required?).to be(false)
       end
     end
   end

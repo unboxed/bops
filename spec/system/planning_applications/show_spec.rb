@@ -2,9 +2,9 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning Application show page", type: :system do
+RSpec.describe "Planning Application show page" do
   let(:validated_at) { 10.business_days.until(Date.current) }
-  let!(:api_user) { create :api_user }
+  let!(:api_user) { create(:api_user) }
   let!(:default_local_authority) { create(:local_authority, :default) }
 
   let(:proposal_details) do
@@ -52,7 +52,7 @@ RSpec.describe "Planning Application show page", type: :system do
     )
   end
 
-  let(:assessor) { create :user, :assessor, local_authority: default_local_authority }
+  let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   context "as an assessor" do
     before do
@@ -287,7 +287,7 @@ RSpec.describe "Planning Application show page", type: :system do
     it "Breadcrumbs contain reference to Application overview which is not linked" do
       within(find(".govuk-breadcrumbs__list", match: :first)) do
         expect(page).to have_text "Application"
-        expect(page).to have_no_link "Application"
+        expect(page).not_to have_link "Application"
       end
     end
 
@@ -311,8 +311,8 @@ RSpec.describe "Planning Application show page", type: :system do
 
   context "when no result fields are present" do
     let!(:planning_application) do
-      create :planning_application, :without_result,
-             local_authority: default_local_authority
+      create(:planning_application, :without_result,
+             local_authority: default_local_authority)
     end
 
     before do
@@ -361,22 +361,22 @@ RSpec.describe "Planning Application show page", type: :system do
       # No warning text before an update
       click_button "Site map"
       within("#site-map-section") do
-        expect(page).to have_no_css("#govuk-warning-text")
+        expect(page).not_to have_css("#govuk-warning-text")
       end
 
       click_button "Pre-assessment outcome"
       within("#results-section") do
-        expect(page).to have_no_css("#govuk-warning-text")
+        expect(page).not_to have_css("#govuk-warning-text")
       end
 
       click_button "Proposal details"
       within("#proposal-details-section") do
-        expect(page).to have_no_css("#govuk-warning-text")
+        expect(page).not_to have_css("#govuk-warning-text")
       end
 
       click_button "Constraints"
       within("#constraints-section") do
-        expect(page).to have_no_css("#govuk-warning-text")
+        expect(page).not_to have_css("#govuk-warning-text")
       end
 
       # Update address

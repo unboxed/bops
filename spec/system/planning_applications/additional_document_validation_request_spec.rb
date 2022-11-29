@@ -2,15 +2,15 @@
 
 require "rails_helper"
 
-RSpec.describe "Requesting a new document for a planning application", type: :system do
+RSpec.describe "Requesting a new document for a planning application" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
+  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create :planning_application, :invalidated, local_authority: default_local_authority
+    create(:planning_application, :invalidated, local_authority: default_local_authority)
   end
 
-  let!(:api_user) { create :api_user, name: "Api Wizard" }
+  let!(:api_user) { create(:api_user, name: "Api Wizard") }
 
   before do
     travel_to Time.zone.local(2021, 1, 1)
@@ -50,8 +50,8 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
   end
 
   it "displays the details of the received request in the audit log" do
-    create :audit, planning_application_id: planning_application.id,
-                   activity_type: "additional_document_validation_request_received", activity_information: 1, audit_comment: "roof_plan.pdf", api_user: api_user
+    create(:audit, planning_application_id: planning_application.id,
+                   activity_type: "additional_document_validation_request_received", activity_information: 1, audit_comment: "roof_plan.pdf", api_user: api_user)
 
     sign_in assessor
     visit planning_application_path(planning_application)
@@ -66,7 +66,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
   context "Invalidation updates additional document validation request" do
     it "updates the notified_at date of an open request when application is invalidated" do
-      new_planning_application = create :planning_application, :not_started, local_authority: default_local_authority
+      new_planning_application = create(:planning_application, :not_started, local_authority: default_local_authority)
 
       request = create(
         :additional_document_validation_request,
@@ -175,7 +175,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
         expect(page).to have_content("Valid")
       end
 
-      expect(planning_application.reload.documents_missing).to eq(false)
+      expect(planning_application.reload.documents_missing).to be(false)
       expect(AdditionalDocumentValidationRequest.all.length).to eq(0)
     end
 
@@ -315,7 +315,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
   context "when application is invalidated" do
     let!(:planning_application) do
-      create :planning_application, :invalidated, local_authority: default_local_authority, documents_missing: true
+      create(:planning_application, :invalidated, local_authority: default_local_authority, documents_missing: true)
     end
 
     let!(:additional_document_validation_request) do
@@ -476,7 +476,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
   context "when a document has been removed due to a security issue" do
     let!(:document) do
-      create :document, planning_application: planning_application
+      create(:document, planning_application: planning_application)
     end
 
     before do

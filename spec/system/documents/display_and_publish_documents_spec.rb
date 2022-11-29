@@ -2,13 +2,13 @@
 
 require "rails_helper"
 
-RSpec.describe "Edit document numbers page", type: :system do
+RSpec.describe "Edit document numbers page" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) do
-    create :planning_application,
-           local_authority: default_local_authority
+    create(:planning_application,
+           local_authority: default_local_authority)
   end
-  let(:assessor) { create :user, :assessor, local_authority: default_local_authority }
+  let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   context "as an assessor" do
     before do
@@ -20,18 +20,18 @@ RSpec.describe "Edit document numbers page", type: :system do
       let!(:tag) { Document::TAGS.first }
 
       let!(:proposed_document_1) do
-        create :document, :with_file, :with_tags,
-               planning_application: planning_application
+        create(:document, :with_file, :with_tags,
+               planning_application: planning_application)
       end
 
       let!(:proposed_document_2) do
-        create :document, :with_file,
-               planning_application: planning_application
+        create(:document, :with_file,
+               planning_application: planning_application)
       end
 
       let!(:archived_document) do
-        create :document, :with_file, :archived,
-               planning_application: planning_application
+        create(:document, :with_file, :archived,
+               planning_application: planning_application)
       end
 
       before do
@@ -156,7 +156,7 @@ RSpec.describe "Edit document numbers page", type: :system do
 
     context "when a document has been removed due to a security issue" do
       let!(:document) do
-        create :document, planning_application: planning_application
+        create(:document, planning_application: planning_application)
       end
 
       before do
