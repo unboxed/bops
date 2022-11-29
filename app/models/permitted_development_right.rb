@@ -64,8 +64,7 @@ class PermittedDevelopmentRight < ApplicationRecord
   end
 
   def planning_application_can_review_assessment
-    return unless reviewed_at_changed?
-    return unless planning_application.recommendation.try(:accepted?)
+    return unless planning_application.last_recommendation_accepted?
 
     errors.add(
       :base,

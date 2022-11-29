@@ -334,7 +334,7 @@ RSpec.describe PlanningApplicationStatus do
         it "sets the recommendation to submitted" do
           planning_application.submit
 
-          expect(planning_application.recommendations.last.submitted).to eq(true)
+          expect(planning_application.recommendation.submitted).to eq(true)
         end
 
         it "sets the timestamp for awaiting_determination_at to now" do
@@ -371,7 +371,7 @@ RSpec.describe PlanningApplicationStatus do
       it "sets recommendation submitted to false" do
         planning_application.withdraw_recommendation
 
-        expect(planning_application.recommendations.last.submitted).to eq(false)
+        expect(planning_application.recommendation.submitted).to eq(false)
       end
 
       it "sets the timestamp for awaiting_determination_at to now" do

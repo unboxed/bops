@@ -166,7 +166,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       planning_application.reload
       expect(planning_application.recommendations.count).to eq(2)
       expect(planning_application.public_comment).to eq("This is so granted and GDPO everything")
-      expect(planning_application.recommendations.last.assessor_comment).to eq("This is a private assessor comment")
+      expect(planning_application.recommendation.assessor_comment).to eq("This is a private assessor comment")
       expect(planning_application.decision).to eq("granted")
 
       click_link "Assess recommendation"

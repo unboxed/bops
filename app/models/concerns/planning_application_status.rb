@@ -109,13 +109,13 @@ module PlanningApplicationStatus
       event :submit do
         transitions from: :in_assessment, to: :awaiting_determination,
                     guards: %i[decision_present? no_open_post_validation_requests?] do
-          after { recommendations.last.update!(submitted: true) }
+          after { recommendation.update!(submitted: true) }
         end
       end
 
       event :withdraw_recommendation do
         transitions from: :awaiting_determination, to: :in_assessment do
-          after { recommendations.last.update!(submitted: false) }
+          after { recommendation.update!(submitted: false) }
         end
       end
 

@@ -54,6 +54,8 @@
           html: { data: unsaved_changes_data },
           builder: GOVUKDesignSystemFormBuilder::FormBuilder
         ) do |form| %>
+      <%= render(ReviewPolicyClasses::NavigationComponent.new(policy_class: @policy_class)) %>
+
       <%= form.fields_for :review_policy_class, @policy_class.review_policy_class do |review_form| %>
         <div class="govuk-form-group <%= review_form.object.errors.any? ? 'govuk-form-group--error' : '' %>">
           <fieldset class="govuk-fieldset">

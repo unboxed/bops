@@ -7,7 +7,7 @@ RSpec.describe ReviewPolicyClass, type: :model do
 
   describe "#valid?" do
     it "is true for factory" do
-      expect(review_policy_class.valid?).to eq(true)
+      expect(review_policy_class.valid?).to be(true)
     end
   end
 
@@ -31,6 +31,26 @@ RSpec.describe ReviewPolicyClass, type: :model do
         validation_request.mark = :accept
 
         expect { validation_request.valid? }.not_to change { validation_request.errors[:comment] }
+      end
+    end
+
+    describe "#recommendation_not_accepted" do
+      it "errors if recommendation accepted" do
+        allow_any_instance_of(described_class).to receive(:last_recommendation_accepted?).and_return(true)
+
+        expect { validation_request.valid? }.to change { validation_request.errors[:base] }.to ["You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen"]
+      end
+
+      it "does not errors if recommendation not accepted" do
+        allow_any_instance_of(described_class).to receive(:last_recommendation_accepted?).and_return(false)
+
+        expect { validation_request.valid? }.not_to change { validation_request.errors[:base] }
+      end
+
+      it "does not errors if recommendation has not been asked" do
+        allow_any_instance_of(described_class).to receive(:last_recommendation_accepted?).and_return(nil)
+
+        expect { validation_request.valid? }.not_to change { validation_request.errors[:base] }
       end
     end
   end

@@ -602,7 +602,7 @@ RSpec.describe PlanningApplication, type: :model do
       it "submits the recommendation and creates an audit record" do
         expect { planning_application.submit_recommendation! }
           .to change(planning_application, :status).from("in_assessment").to("awaiting_determination")
-                                                   .and change(planning_application.recommendations.reload.last, :submitted).from(false).to(true)
+                                                   .and change(planning_application.recommendation.reload, :submitted).from(false).to(true)
 
         expect(planning_application.awaiting_determination_at).to eq(Time.current)
 
@@ -670,7 +670,7 @@ RSpec.describe PlanningApplication, type: :model do
       it "withdraws the recommendation and creates an audit record" do
         expect { planning_application.withdraw_last_recommendation! }
           .to change(planning_application, :status).from("awaiting_determination").to("in_assessment")
-                                                   .and change(planning_application.recommendations.reload.last, :submitted).from(true).to(false)
+                                                   .and change(planning_application.recommendation.reload, :submitted).from(true).to(false)
 
         expect(planning_application.in_assessment_at).to eq(Time.current)
 
@@ -1077,6 +1077,59 @@ RSpec.describe PlanningApplication, type: :model do
         ).to eq(
           false
         )
+      end
+    end
+  end
+
+  describe "#last_recommendation_accepted?" do
+    let(:local_authority) do
+      create(:local_authority, reviewer_group_email: "reviewers@example.com")
+    end
+
+    let(:planning_application) do
+      create(
+        :planning_application,
+        :review_in_progress,
+        :in_assessment,
+        local_authority: local_authority
+      )
+    end
+
+    context "when challenged or challenge unasked" do
+      %i[true nil].each do |challenge|
+        %i[assessment_in_progress assessment_complete review_in_progress review_complete].each do |status|
+          it "returns false when #{status} and the last recommendation when challenge is #{challenge}" do
+            create(:recommendation,
+                   status: status,
+                   challenged: challenge,
+                   reviewer_comment: "Nope",
+                   planning_application: planning_application)
+
+            expect(planning_application.last_recommendation_accepted?).to be false
+          end
+        end
+      end
+    end
+
+    context "when unchallenged" do
+      %i[assessment_in_progress assessment_complete review_in_progress].each do |status|
+        it "returns false when #{status} and the last recommendation is challenged" do
+          create(:recommendation,
+                 status: status,
+                 challenged: false,
+                 planning_application: planning_application)
+
+          expect(planning_application.last_recommendation_accepted?).to be false
+        end
+      end
+
+      it "returns true when the last recommendation is accepted" do
+        create(:recommendation,
+               status: :review_complete,
+               challenged: false,
+               planning_application: planning_application)
+
+        expect(planning_application.last_recommendation_accepted?).to be true
       end
     end
   end

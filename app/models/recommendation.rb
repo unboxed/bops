@@ -27,7 +27,7 @@ class Recommendation < ApplicationRecord
   )
 
   def current_recommendation?
-    planning_application.recommendations.last == self
+    planning_application.recommendation == self
   end
 
   def reviewed?
