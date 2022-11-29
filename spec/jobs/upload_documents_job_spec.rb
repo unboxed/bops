@@ -13,7 +13,7 @@ RSpec.describe UploadDocumentsJob, type: :job do
     let!(:service) { double }
 
     it "calls UploadDocumentsService" do
-      allow(service).to receive(:call).and_return(service)
+      expect(service).to receive(:call)
 
       allow(UploadDocumentsService).to receive(:new)
         .with(
@@ -21,9 +21,9 @@ RSpec.describe UploadDocumentsJob, type: :job do
           planning_application: planning_application
         ).and_return(service)
 
-      perform_job do
+      perform_enqueued_jobs do
         described_class.perform_later(
-          files: files,
+          files: document,
           planning_application: planning_application
         )
       end
