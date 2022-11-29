@@ -28,7 +28,7 @@ class SplitAssessmentDetailsStatus < ActiveRecord::Migration[6.1]
       "UPDATE assessment_details
       SET assessment_status = 'complete'
       WHERE assessment_status
-      IN ('assessment_in_progress', 'review_in_progress', 'review_complete');"
+      IN ('assessment_complete', 'review_in_progress', 'review_complete');"
     )
   end
 
