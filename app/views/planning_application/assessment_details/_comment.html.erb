@@ -1,0 +1,9 @@
+<% if comment.present? %>
+  <div class="govuk-inset-text">
+    <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">
+      <%= t(".user_marked_this", user: comment.user.name) %>
+    </p>
+    <p class="govuk-body govuk-!-margin-top-1"><%= comment.created_at %></p>
+    <%= simple_format(comment.text, { class: "govuk-body italic" }) %>
+  </div>
+<% end %>

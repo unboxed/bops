@@ -2,7 +2,10 @@
   <strong class="govuk-!-padding-bottom-3">What is the impact of any additional evidence on the application?</strong>
 
   <p class="govuk-!-padding-bottom-3">This information will <strong>NOT</strong> be made public.</p>
-
+  <%= render(
+    partial: "comment",
+    locals: { comment: rejected_assessment_detail&.comment }
+  ) %>
   <% unless action_name == "show" %>
     <p>Optional. Enter any additional information that will impact the assessment of this application.</p>
   <% end %>

@@ -7,6 +7,10 @@
   partial: "shared/warning_text",
   locals: { message: t(".this_information_will") }
 ) %>
+<%= render(
+  partial: "comment",
+  locals: { comment: rejected_assessment_detail&.comment }
+) %>
 <%= form.govuk_text_area(
   :entry,
   label: nil,

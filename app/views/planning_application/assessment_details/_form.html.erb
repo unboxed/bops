@@ -1,7 +1,8 @@
 <%= render(
   "planning_application/assessment_details/#{category}/information",
   category: category,
-  read_only: false
+  read_only: false,
+  rejected_assessment_detail: rejected_assessment_detail
 ) %>
 
 <%= form_with model: [@planning_application, @assessment_detail], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
@@ -13,10 +14,7 @@
     partial: "#{assessment_detail_fields_partial_path(category)}/form_fields",
     locals: {
       form: form,
-      rejected_assessment_detail: local_assigns.fetch(
-        :rejected_assessment_detail,
-        nil
-      )
+      rejected_assessment_detail: rejected_assessment_detail
     }
   ) %>
 
