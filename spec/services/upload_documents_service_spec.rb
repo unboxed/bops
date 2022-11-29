@@ -3,23 +3,52 @@
 require "rails_helper"
 
 RSpec.describe UploadDocumentsService, type: :service do
-  let!(:planning_application) { create :planning_application }
-  let(:document) do
-    create :document, :with_file, :with_tags,
-           planning_application: planning_application
-  end
-
   describe "#call" do
-    let!(:service) { double }
+    let(:planning_application) { create(:planning_application) }
 
-    it "calls UploadDocumentsService" do
-      allow(service).to receive(:call).and_return(service)
+    let(:files) do
+      [
+        {
+          filename: "https://example.com/proposed-floorplan.png",
+          applicant_description: "first floor plan",
+          tags: ["Floor"]
+        }
+      ]
+    end
 
-      allow(described_class).to receive(:new)
-        .with(
-          files: document,
-          planning_application: planning_application
-        ).and_return(service)
+    let(:service) do
+      described_class.new(
+        files: files,
+        planning_application: planning_application
+      )
+    end
+
+    let(:file_path) do
+      Rails.root.join("spec/fixtures/images/proposed-floorplan.png")
+    end
+
+    let(:response) do
+      {
+        status: 200,
+        body: File.open(file_path),
+        headers: { "Content-Type": "image/png" }
+      }
+    end
+
+    before do
+      stub_request(:get, "https://example.com/proposed-floorplan.png")
+        .to_return(response)
+    end
+
+    it "creates a new document" do
+      expect { service.call }
+        .to change { planning_application.documents.count }
+        .by(1)
+
+      expect(planning_application.documents.last).to have_attributes(
+        tags: ["Floor"],
+        applicant_description: "first floor plan"
+      )
     end
   end
 end
