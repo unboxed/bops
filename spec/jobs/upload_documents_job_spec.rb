@@ -3,29 +3,95 @@
 require "rails_helper"
 
 RSpec.describe UploadDocumentsJob, type: :job do
-  let!(:planning_application) { create :planning_application }
-  let(:document) do
-    create :document, :with_file, :with_tags,
-           planning_application: planning_application
-  end
-
   describe "#perform" do
-    let!(:service) { double }
+    let(:planning_application) { create(:planning_application) }
 
-    it "calls UploadDocumentsService" do
-      expect(service).to receive(:call)
+    let(:files) do
+      [
+        {
+          filename: "https://example.com/proposed-floorplan.png",
+          applicant_description: "first floor plan",
+          tags: ["Floor"]
+        }
+      ]
+    end
 
-      allow(UploadDocumentsService).to receive(:new)
-        .with(
-          files: document,
-          planning_application: planning_application
-        ).and_return(service)
+    let(:file_path) do
+      Rails.root.join("spec/fixtures/images/proposed-floorplan.png")
+    end
 
+    let(:response) do
+      {
+        status: 200,
+        body: File.open(file_path),
+        headers: { "Content-Type": "image/png" }
+      }
+    end
+
+    before do
+      stub_request(:get, "https://example.com/proposed-floorplan.png")
+        .to_return(response)
+    end
+
+    def perform_job
       perform_enqueued_jobs do
         described_class.perform_later(
-          files: document,
+          files: files,
           planning_application: planning_application
         )
+      end
+    end
+
+    it "creates a new document" do
+      expect { perform_job }
+        .to change { planning_application.documents.count }
+        .by(1)
+    end
+
+    it "saves document attributes correctly" do
+      perform_job
+
+      expect(planning_application.documents.last).to have_attributes(
+        tags: ["Floor"],
+        applicant_description: "first floor plan"
+      )
+    end
+
+    it "saves filename correctly" do
+      perform_job
+
+      expect(
+        planning_application.documents.last.file.blob.filename
+      ).to eq(
+        "proposed-floorplan.png"
+      )
+    end
+
+    context "when the file type is not allowed" do
+      let(:response) do
+        {
+          status: 200,
+          body: File.open(file_path),
+          headers: { "Content-Type": "text/plain" }
+        }
+      end
+
+      it "raises an error" do
+        # rubocop:disable RSpec/UnspecifiedException
+        expect { perform_job }.to raise_error
+        # rubocop:enable RSpec/UnspecifiedException
+      end
+    end
+
+    context "when the request to retrieve the file fails" do
+      before do
+        allow(URI).to receive(:parse).and_raise(OpenURI::HTTPError)
+      end
+
+      it "raises an error" do
+        # rubocop:disable RSpec/UnspecifiedException
+        expect { perform_job }.to raise_error
+        # rubocop:enable RSpec/UnspecifiedException
       end
     end
   end
