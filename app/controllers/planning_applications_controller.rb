@@ -82,12 +82,12 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def assign
-    if request.patch?
-      user = params[:planning_application][:user_id].eql?("0") ? nil : current_local_authority.users.find(params[:planning_application][:user_id])
-      @planning_application.assign(user)
+    return unless request.patch?
 
-      redirect_to @planning_application if @planning_application.save
-    end
+    user = params[:planning_application][:user_id].eql?("0") ? nil : current_local_authority.users.find(params[:planning_application][:user_id])
+    @planning_application.assign(user)
+
+    redirect_to @planning_application if @planning_application.save
   end
 
   def confirm_validation
@@ -359,11 +359,11 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def ensure_no_open_post_validation_requests
-    if @planning_application.open_post_validation_requests?
-      flash.now[:error] = sanitize "This application has open non-validation requests. Please
+    return unless @planning_application.open_post_validation_requests?
+
+    flash.now[:error] = sanitize "This application has open non-validation requests. Please
         #{view_context.link_to 'review open requests',
                                post_validation_requests_planning_application_validation_requests_path(@planning_application)} and resolve them before submitting to your manager."
-      render :submit_recommendation and return
-    end
+    render :submit_recommendation and return
   end
 end

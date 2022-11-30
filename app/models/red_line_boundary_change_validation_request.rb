@@ -19,10 +19,10 @@ class RedLineBoundaryChangeValidationRequest < ApplicationRecord
   delegate :reset_validation_requests_update_counter!, to: :planning_application
 
   def rejected_reason_is_present?
-    if approved == false && rejection_reason.blank?
-      errors.add(:base,
-                 "Please include a comment for the case officer to indicate why the red line boundary change has been rejected.")
-    end
+    return unless approved == false && rejection_reason.blank?
+
+    errors.add(:base,
+               "Please include a comment for the case officer to indicate why the red line boundary change has been rejected.")
   end
 
   def geojson

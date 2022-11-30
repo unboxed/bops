@@ -115,24 +115,24 @@ module Api
       end
 
       def site_params
-        if params[:site]
-          { uprn: params[:site][:uprn],
-            address_1: params[:site][:address_1],
-            address_2: params[:site][:address_2],
-            town: params[:site][:town],
-            postcode: params[:site][:postcode],
-            latitude: params[:site][:latitude],
-            longitude: params[:site][:longitude] }
-        end
+        return unless params[:site]
+
+        { uprn: params[:site][:uprn],
+          address_1: params[:site][:address_1],
+          address_2: params[:site][:address_2],
+          town: params[:site][:town],
+          postcode: params[:site][:postcode],
+          latitude: params[:site][:latitude],
+          longitude: params[:site][:longitude] }
       end
 
       def result_params
-        if params[:result]
-          { result_flag: params[:result][:flag],
-            result_heading: params[:result][:heading],
-            result_description: params[:result][:description],
-            result_override: params[:result][:override] }
-        end
+        return unless params[:result]
+
+        { result_flag: params[:result][:flag],
+          result_heading: params[:result][:heading],
+          result_description: params[:result][:description],
+          result_override: params[:result][:override] }
       end
 
       def payment_amount_in_pounds(amount)

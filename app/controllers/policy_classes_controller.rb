@@ -14,10 +14,10 @@ class PolicyClassesController < PlanningApplicationsController
   def new
     @part = params[:part]
 
-    if @part.blank?
-      redirect_to part_new_planning_application_policy_class_path(@planning_application),
-                  alert: "Please choose one of the policy parts"
-    end
+    return if @part.present?
+
+    redirect_to part_new_planning_application_policy_class_path(@planning_application),
+                alert: "Please choose one of the policy parts"
   end
 
   def create

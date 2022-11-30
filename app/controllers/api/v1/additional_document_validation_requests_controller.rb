@@ -50,9 +50,9 @@ module Api
       private
 
       def check_files_params_are_present
-        if params[:files].empty?
-          render json: { message: "At least one file must be selected to proceed." }, status: :bad_request
-        end
+        return unless params[:files].empty?
+
+        render json: { message: "At least one file must be selected to proceed." }, status: :bad_request
       end
 
       def check_files_size
@@ -64,9 +64,9 @@ module Api
       end
 
       def check_files_type
-        if params[:files].any? { |file| Document::PERMITTED_CONTENT_TYPES.exclude? file.content_type }
-          render json: { message: "The file type must be JPEG, PNG or PDF" }, status: :bad_request
-        end
+        return unless params[:files].any? { |file| Document::PERMITTED_CONTENT_TYPES.exclude? file.content_type }
+
+        render json: { message: "The file type must be JPEG, PNG or PDF" }, status: :bad_request
       end
     end
   end

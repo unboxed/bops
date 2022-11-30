@@ -55,9 +55,9 @@ module ValidationRequestHelper
   def edit_validation_request_url(planning_application, validation_request)
     type = request_type(validation_request)
 
-    unless type.eql?("replacement_document_validation_request")
-      link_to "Edit", [:edit, planning_application, validation_request]
-    end
+    return if type.eql?("replacement_document_validation_request")
+
+    link_to "Edit", [:edit, planning_application, validation_request]
   end
 
   def document_url(document)
