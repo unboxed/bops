@@ -14,6 +14,7 @@ module Users
     prepend_before_action :authenticate_with_otp_two_factor, if: :otp_two_factor_enabled?, only: :create
     before_action :find_otp_user, only: %i[setup two_factor resend_code]
     skip_before_action :enforce_user_permissions
+    before_action :set_mobile_number_form, only: %i[setup two_factor]
 
     protect_from_forgery with: :exception, prepend: true, except: :destroy
 
@@ -46,6 +47,10 @@ module Users
     end
 
     private
+
+    def set_mobile_number_form
+      @mobile_number_form = MobileNumberForm.new
+    end
 
     def find_otp_user
       @user = find_current_local_authority.users.find_by(id: session[:otp_user_id])

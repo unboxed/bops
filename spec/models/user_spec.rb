@@ -3,6 +3,11 @@
 require "rails_helper"
 
 RSpec.describe User do
+  it_behaves_like("PhoneNumberValidator") do
+    let(:record) { build(:user) }
+    let(:attribute) { :mobile_number }
+  end
+
   describe "validations" do
     subject(:user) { described_class.new }
 
@@ -105,21 +110,11 @@ RSpec.describe User do
     expect(user_two.errors.messages[:email]).to include("has already been taken")
   end
 
-  describe "#mobile_number" do
-    context "when it contains non digits" do
-      let(:user) { build(:user, mobile_number: "not a number") }
+  describe "#valid?" do
+    context "when mobile number is blank" do
+      let(:user) { build(:user, mobile_number: nil) }
 
-      it "is invalid" do
-        expect { user.valid? }
-          .to change { user.errors[:mobile_number] }
-          .to ["is invalid"]
-      end
-    end
-
-    context "when it contains only digits" do
-      let(:user) { build(:user, mobile_number: "01234123123") }
-
-      it "is valid" do
+      it "returns true" do
         expect(user.valid?).to be(true)
       end
     end
