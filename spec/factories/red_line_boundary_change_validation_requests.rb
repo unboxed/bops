@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :red_line_boundary_change_validation_request do
-    planning_application { create :planning_application, :invalidated }
+    planning_application { create(:planning_application, :invalidated) }
     user
     state { "open" }
     new_geojson do
@@ -37,7 +37,7 @@ FactoryBot.define do
     post_validation { false }
 
     trait :pending do
-      planning_application { create :planning_application, :not_started }
+      planning_application { create(:planning_application, :not_started) }
 
       state { "pending" }
     end

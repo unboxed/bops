@@ -2,12 +2,12 @@
 
 require "rails_helper"
 
-RSpec.describe "Summary of works", type: :system do
+RSpec.describe "Summary of works" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
+  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create :planning_application, :in_assessment, local_authority: default_local_authority
+    create(:planning_application, :in_assessment, local_authority: default_local_authority)
   end
 
   before do
@@ -117,7 +117,7 @@ RSpec.describe "Summary of works", type: :system do
 
   context "when planning application has not been validated yet" do
     let!(:planning_application) do
-      create :planning_application, :not_started, local_authority: default_local_authority
+      create(:planning_application, :not_started, local_authority: default_local_authority)
     end
 
     it "does not allow me to visit the page" do

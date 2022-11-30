@@ -2,12 +2,12 @@
 
 require "rails_helper"
 
-RSpec.describe Comment, type: :model do
+RSpec.describe Comment do
   describe "#valid?" do
     let(:comment) { build(:comment) }
 
     it "is true for factory" do
-      expect(comment.valid?).to eq(true)
+      expect(comment.valid?).to be(true)
     end
   end
 
@@ -16,7 +16,7 @@ RSpec.describe Comment, type: :model do
       let(:comment) { create(:comment) }
 
       it "returns false" do
-        expect(comment.edited?).to eq(false)
+        expect(comment.edited?).to be(false)
       end
     end
 
@@ -24,7 +24,7 @@ RSpec.describe Comment, type: :model do
       let(:comment) { create(:comment, created_at: 1.day.ago) }
 
       it "returns true" do
-        expect(comment.edited?).to eq(true)
+        expect(comment.edited?).to be(true)
       end
     end
   end

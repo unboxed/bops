@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :replacement_document_validation_request do
-    planning_application { create :planning_application, :invalidated }
+    planning_application { create(:planning_application, :invalidated) }
     user
     old_document factory: :document
     reason { "Document is invalid" }
@@ -15,7 +15,7 @@ FactoryBot.define do
     end
 
     trait :pending do
-      planning_application { create :planning_application, :not_started }
+      planning_application { create(:planning_application, :not_started) }
 
       state { "pending" }
     end

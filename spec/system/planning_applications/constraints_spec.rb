@@ -2,13 +2,13 @@
 
 require "rails_helper"
 
-RSpec.describe "Constraints", type: :system do
-  let!(:api_user) { create :api_user, name: "ApiUser" }
+RSpec.describe "Constraints" do
+  let!(:api_user) { create(:api_user, name: "ApiUser") }
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
+  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create :planning_application, :invalidated, local_authority: default_local_authority, api_user: api_user
+    create(:planning_application, :invalidated, local_authority: default_local_authority, api_user: api_user)
   end
 
   before do

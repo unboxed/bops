@@ -2,12 +2,12 @@
 
 require "rails_helper"
 
-RSpec.describe "Validation tasks", type: :system do
+RSpec.describe "Validation tasks" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
+  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create :planning_application, :invalidated, local_authority: default_local_authority
+    create(:planning_application, :invalidated, local_authority: default_local_authority)
   end
   let!(:document) do
     create(:document, :with_file, planning_application: planning_application)
@@ -20,7 +20,7 @@ RSpec.describe "Validation tasks", type: :system do
 
   context "when application is not started or invalidated" do
     let!(:planning_application) do
-      create :planning_application, :invalidated, local_authority: default_local_authority
+      create(:planning_application, :invalidated, local_authority: default_local_authority)
     end
 
     it "displays the basic planning application information" do
@@ -121,8 +121,8 @@ RSpec.describe "Validation tasks", type: :system do
 
   context "when application has been validated" do
     let!(:planning_application) do
-      create :planning_application, :in_assessment, :with_boundary_geojson, local_authority: default_local_authority,
-                                                                            constraints_checked: true
+      create(:planning_application, :in_assessment, :with_boundary_geojson, local_authority: default_local_authority,
+                                                                            constraints_checked: true)
     end
 
     it "displays the validation tasks list but no actions to create new requests can be taken" do

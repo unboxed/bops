@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "administrator dashboard", type: :system do
+RSpec.describe "administrator dashboard" do
   let(:local_authority) { create(:local_authority, :default) }
 
   context "when user is administrator" do

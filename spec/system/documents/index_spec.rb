@@ -2,14 +2,14 @@
 
 require "rails_helper"
 
-RSpec.describe "Documents index page", type: :system do
+RSpec.describe "Documents index page" do
   let(:default_local_authority) { create(:local_authority, :default) }
-  let(:assessor) { create :user, :assessor, local_authority: default_local_authority }
+  let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create :planning_application,
+    create(:planning_application,
            local_authority: default_local_authority,
-           address_1: "7 Elm Grove"
+           address_1: "7 Elm Grove")
   end
 
   let!(:document) do
@@ -101,15 +101,15 @@ RSpec.describe "Documents index page", type: :system do
 
   context "handling invalid documents" do
     let!(:planning_application) do
-      create :planning_application, :invalidated, local_authority: default_local_authority
+      create(:planning_application, :invalidated, local_authority: default_local_authority)
     end
     let!(:invalid_document) do
-      create :document, :with_file, planning_application: planning_application,
-                                    validated: false, invalidated_document_reason: "Document is invalid"
+      create(:document, :with_file, planning_application: planning_application,
+                                    validated: false, invalidated_document_reason: "Document is invalid")
     end
     let!(:replacement_document_validation_request) do
-      create :replacement_document_validation_request, planning_application: planning_application,
-                                                       old_document: invalid_document
+      create(:replacement_document_validation_request, planning_application: planning_application,
+                                                       old_document: invalid_document)
     end
 
     before do

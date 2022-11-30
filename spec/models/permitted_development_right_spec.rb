@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe PermittedDevelopmentRight, type: :model do
+RSpec.describe PermittedDevelopmentRight do
   let!(:planning_application) { create(:planning_application) }
 
   describe "validations" do

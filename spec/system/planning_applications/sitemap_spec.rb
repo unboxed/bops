@@ -2,9 +2,9 @@
 
 require "rails_helper"
 
-RSpec.describe "Drawing a sitemap on a planning application", type: :system do
+RSpec.describe "Drawing a sitemap on a planning application" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority, name: "Assessor 1" }
+  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority, name: "Assessor 1") }
 
   before do
     sign_in assessor
@@ -13,7 +13,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
 
   context "when application is not_started" do
     let!(:planning_application) do
-      create :planning_application, :not_started, boundary_geojson: boundary_geojson, local_authority: default_local_authority
+      create(:planning_application, :not_started, boundary_geojson: boundary_geojson, local_authority: default_local_authority)
     end
 
     context "without boundary geojson" do
@@ -84,7 +84,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
 
   context "when application is already validated but has no boundary" do
     let!(:planning_application) do
-      create :planning_application, local_authority: default_local_authority
+      create(:planning_application, local_authority: default_local_authority)
     end
 
     it "is not possible to create a sitemap" do
@@ -96,9 +96,9 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
 
   context "linking to sitemap documents" do
     let!(:planning_application) do
-      create :planning_application, :not_started, local_authority: default_local_authority
+      create(:planning_application, :not_started, local_authority: default_local_authority)
     end
-    let!(:document_notsitemap) { create :document, tags: %w[Plan], planning_application: planning_application }
+    let!(:document_notsitemap) { create(:document, tags: %w[Plan], planning_application: planning_application) }
 
     context "with 0 documents tagged with sitemap" do
       it "links to all documents" do
@@ -111,7 +111,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
     end
 
     context "with 1 document tagged with sitemap" do
-      let!(:document1) { create :document, tags: %w[Site], planning_application: planning_application }
+      let!(:document1) { create(:document, tags: %w[Site], planning_application: planning_application) }
 
       it "links to that documents" do
         visit planning_application_validation_tasks_path(planning_application)
@@ -122,8 +122,8 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
     end
 
     context "with 2 document tagged with sitemap" do
-      let!(:document1) { create :document, tags: %w[Site], planning_application: planning_application }
-      let!(:document2) { create :document, tags: %w[Site], planning_application: planning_application }
+      let!(:document1) { create(:document, tags: %w[Site], planning_application: planning_application) }
+      let!(:document2) { create(:document, tags: %w[Site], planning_application: planning_application) }
 
       it "links to all documents" do
         visit planning_application_validation_tasks_path(planning_application)
@@ -137,10 +137,10 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system do
 
   context "requesting map changes to a planning application" do
     let!(:planning_application) do
-      create :planning_application, :invalidated, :with_boundary_geojson, local_authority: default_local_authority
+      create(:planning_application, :invalidated, :with_boundary_geojson, local_authority: default_local_authority)
     end
 
-    let!(:api_user) { create :api_user, name: "Api Wizard" }
+    let!(:api_user) { create(:api_user, name: "Api Wizard") }
 
     before do
       visit planning_application_validation_tasks_path(planning_application)

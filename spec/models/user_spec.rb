@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe User, type: :model do
+RSpec.describe User do
   describe "validations" do
     subject(:user) { described_class.new }
 
@@ -44,7 +44,7 @@ RSpec.describe User, type: :model do
       let(:user) { create(:user) }
 
       it "sets relevant otp fields on the user record" do
-        expect(user.otp_required_for_login).to eq(true)
+        expect(user.otp_required_for_login).to be(true)
         expect(user.otp_secret).to eq("7YK63IMOL76DMZRGU3KN2CLS")
       end
     end
@@ -120,7 +120,7 @@ RSpec.describe User, type: :model do
       let(:user) { build(:user, mobile_number: "01234123123") }
 
       it "is valid" do
-        expect(user.valid?).to eq(true)
+        expect(user.valid?).to be(true)
       end
     end
   end
@@ -130,7 +130,7 @@ RSpec.describe User, type: :model do
       let(:user) { build(:user, otp_delivery_method: :sms) }
 
       it "returns true" do
-        expect(user.send_otp_by_sms?).to eq(true)
+        expect(user.send_otp_by_sms?).to be(true)
       end
     end
 
@@ -138,7 +138,7 @@ RSpec.describe User, type: :model do
       let(:user) { build(:user, otp_delivery_method: :email) }
 
       it "returns false" do
-        expect(user.send_otp_by_sms?).to eq(false)
+        expect(user.send_otp_by_sms?).to be(false)
       end
     end
   end

@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe ApiUser, type: :model do
+RSpec.describe ApiUser do
   it "creates api user successfully" do
     api_consumer = create(:api_user)
     expect(api_consumer).to be_valid

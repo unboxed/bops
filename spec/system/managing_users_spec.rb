@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "managing users", type: :system do
+RSpec.describe "managing users" do
   let(:local_authority) { create(:local_authority, :default) }
 
   before do

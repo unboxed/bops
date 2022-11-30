@@ -2,12 +2,12 @@
 
 require "rails_helper"
 
-RSpec.describe Policy, type: :model do
+RSpec.describe Policy do
   describe "#valid?" do
     let(:policy) { build(:policy) }
 
     it "is true for factory" do
-      expect(policy.valid?).to eq(true)
+      expect(policy.valid?).to be(true)
     end
   end
 
@@ -80,7 +80,7 @@ RSpec.describe Policy, type: :model do
     end
 
     %i[complies to_be_determined].each do |status|
-      it "excludes policies that " do
+      it "excludes policies that" do
         create(:policy,
                status,
                section: "1A")

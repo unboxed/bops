@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Recommendation, type: :model do
+RSpec.describe Recommendation do
   let(:default_local_authority) { create(:local_authority, :default) }
 
   describe "validations" do
@@ -36,7 +36,7 @@ RSpec.describe Recommendation, type: :model do
           let(:reviewer_comment) { nil }
 
           it "returns false" do
-            expect(recommendation.valid?).to eq(false)
+            expect(recommendation.valid?).to be(false)
           end
 
           it "sets error message" do
@@ -54,7 +54,7 @@ RSpec.describe Recommendation, type: :model do
           let(:reviewer_comment) { "qwerty" }
 
           it "returns true" do
-            expect(recommendation.valid?).to eq(true)
+            expect(recommendation.valid?).to be(true)
           end
         end
       end
@@ -64,7 +64,7 @@ RSpec.describe Recommendation, type: :model do
         let(:reviewer_comment) { nil }
 
         it "returns true" do
-          expect(recommendation.valid?).to eq(true)
+          expect(recommendation.valid?).to be(true)
         end
       end
     end
@@ -75,13 +75,13 @@ RSpec.describe Recommendation, type: :model do
       let(:reviewer_comment) { nil }
 
       it "returns true" do
-        expect(recommendation.valid?).to eq(true)
+        expect(recommendation.valid?).to be(true)
       end
     end
   end
 
   describe "instance methods" do
-    let!(:reviewer) { create :user, :reviewer, local_authority: default_local_authority }
+    let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
     let!(:planning_application) { create(:planning_application, :awaiting_determination, decision: "granted") }
     let(:recommendation) { create(:recommendation, planning_application: planning_application) }
 
@@ -137,11 +137,11 @@ RSpec.describe Recommendation, type: :model do
 
           expect { recommendation.review! }
             .to raise_error(Recommendation::ReviewRecommendationError, "Validation failed: Please include a comment for the case officer to indicate why the recommendation has been challenged.")
-            .and change(Audit, :count).by(0)
+            .and not_change(Audit, :count)
 
           recommendation.reload
-          expect(recommendation.reviewed_at).to eq(nil)
-          expect(recommendation.reviewer).to eq(nil)
+          expect(recommendation.reviewed_at).to be_nil
+          expect(recommendation.reviewer).to be_nil
           expect(recommendation.planning_application.status).to eq("awaiting_determination")
         end
       end
@@ -154,11 +154,11 @@ RSpec.describe Recommendation, type: :model do
 
           expect { recommendation.review! }
             .to raise_error(Recommendation::ReviewRecommendationError, "Event 'request_correction' cannot transition from 'in_assessment'.")
-            .and change(Audit, :count).by(0)
+            .and not_change(Audit, :count)
 
           recommendation.reload
-          expect(recommendation.reviewed_at).to eq(nil)
-          expect(recommendation.reviewer).to eq(nil)
+          expect(recommendation.reviewed_at).to be_nil
+          expect(recommendation.reviewer).to be_nil
           expect(planning_application.status).to eq("in_assessment")
         end
       end
@@ -179,7 +179,7 @@ RSpec.describe Recommendation, type: :model do
       let(:challenged) { false }
 
       it "returns false" do
-        expect(recommendation.submitted_and_unchallenged?).to eq(false)
+        expect(recommendation.submitted_and_unchallenged?).to be(false)
       end
     end
 
@@ -190,7 +190,7 @@ RSpec.describe Recommendation, type: :model do
         let(:challenged) { false }
 
         it "returns true" do
-          expect(recommendation.submitted_and_unchallenged?).to eq(true)
+          expect(recommendation.submitted_and_unchallenged?).to be(true)
         end
       end
 
@@ -198,7 +198,7 @@ RSpec.describe Recommendation, type: :model do
         let(:challenged) { true }
 
         it "returns true" do
-          expect(recommendation.submitted_and_unchallenged?).to eq(false)
+          expect(recommendation.submitted_and_unchallenged?).to be(false)
         end
       end
     end
@@ -218,7 +218,7 @@ RSpec.describe Recommendation, type: :model do
       let(:challenged) { false }
 
       it "returns false" do
-        expect(recommendation.accepted?).to eq(false)
+        expect(recommendation.accepted?).to be(false)
       end
     end
 
@@ -227,7 +227,7 @@ RSpec.describe Recommendation, type: :model do
       let(:challenged) { true }
 
       it "returns false" do
-        expect(recommendation.accepted?).to eq(false)
+        expect(recommendation.accepted?).to be(false)
       end
     end
 
@@ -236,7 +236,7 @@ RSpec.describe Recommendation, type: :model do
       let(:challenged) { false }
 
       it "returns true" do
-        expect(recommendation.accepted?).to eq(true)
+        expect(recommendation.accepted?).to be(true)
       end
     end
   end
@@ -251,7 +251,7 @@ RSpec.describe Recommendation, type: :model do
 
     context "when status is 'review_complete' and challenged is true" do
       it "returns true" do
-        expect(recommendation.rejected?).to eq(true)
+        expect(recommendation.rejected?).to be(true)
       end
     end
 
@@ -259,7 +259,7 @@ RSpec.describe Recommendation, type: :model do
       let(:challenged) { false }
 
       it "returns false" do
-        expect(recommendation.rejected?).to eq(false)
+        expect(recommendation.rejected?).to be(false)
       end
     end
 
@@ -267,7 +267,7 @@ RSpec.describe Recommendation, type: :model do
       let(:status) { :review_in_progress }
 
       it "returns false" do
-        expect(recommendation.rejected?).to eq(false)
+        expect(recommendation.rejected?).to be(false)
       end
     end
   end

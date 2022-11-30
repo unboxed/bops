@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning Application Assessment Legislation", type: :system do
+RSpec.describe "Planning Application Assessment Legislation" do
   let!(:default_local_authority) do
     create(
       :local_authority,

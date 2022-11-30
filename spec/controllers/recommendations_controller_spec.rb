@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe RecommendationsController, type: :controller do
+RSpec.describe RecommendationsController do
   describe "#update" do
     let(:local_authority) { create(:local_authority, :default) }
 

@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning Application Assessment", type: :system do
+RSpec.describe "Planning Application Assessment" do
   let!(:default_local_authority) do
     create(
       :local_authority,
@@ -135,12 +135,12 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "with previous recommendations" do
     let!(:planning_application) do
-      create :planning_application, :awaiting_correction, local_authority: default_local_authority
+      create(:planning_application, :awaiting_correction, local_authority: default_local_authority)
     end
 
     let!(:recommendation) do
-      create :recommendation, :reviewed, planning_application: planning_application,
-                                         reviewer_comment: "I disagree", assessor_comment: "This looks good"
+      create(:recommendation, :reviewed, planning_application: planning_application,
+                                         reviewer_comment: "I disagree", assessor_comment: "This looks good")
     end
 
     it "displays the previous recommendations" do
@@ -426,7 +426,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         click_button("Submit recommendation")
         sign_in(reviewer)
         visit(edit_planning_application_recommendations_path(planning_application))
-        find("#recommendation_challenged_true").click
+        find_by_id("recommendation_challenged_true").click
         fill_in("Review comment", with: "Requirements not met.")
         click_button("Save and mark as complete")
         click_link("Back")

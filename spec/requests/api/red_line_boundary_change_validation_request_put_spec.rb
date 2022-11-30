@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "API request to patch document validation requests", type: :request, show_exceptions: true do
+RSpec.describe "API request to patch document validation requests", show_exceptions: true do
   include ActionDispatch::TestProcess::FixtureFile
   let!(:default_local_authority) { create(:local_authority, :default) }
 
@@ -21,7 +21,7 @@ RSpec.describe "API request to patch document validation requests", type: :reque
     { Authorization: "Bearer #{api_user.token}" }
   end
 
-  let!(:api_user) { create :api_user }
+  let!(:api_user) { create(:api_user) }
   let(:user) { create(:user) }
 
   let!(:planning_application) do
@@ -60,8 +60,8 @@ RSpec.describe "API request to patch document validation requests", type: :reque
     planning_application.reload
 
     expect(red_line_boundary_change_validation_request.state).to eq("closed")
-    expect(red_line_boundary_change_validation_request.approved).to eq(true)
-    expect(red_line_boundary_change_validation_request.approved).to eq(true)
+    expect(red_line_boundary_change_validation_request.approved).to be(true)
+    expect(red_line_boundary_change_validation_request.approved).to be(true)
     expect(planning_application.boundary_geojson).to eq(red_line_boundary_change_validation_request.new_geojson)
   end
 
@@ -97,7 +97,7 @@ RSpec.describe "API request to patch document validation requests", type: :reque
 
     red_line_boundary_change_validation_request.reload
     expect(red_line_boundary_change_validation_request.state).to eq("closed")
-    expect(red_line_boundary_change_validation_request.approved).to eq(false)
+    expect(red_line_boundary_change_validation_request.approved).to be(false)
     expect(red_line_boundary_change_validation_request.rejection_reason).to eq("The boundary is incorrect")
     expect(Audit.all.last.activity_type).to eq("red_line_boundary_change_validation_request_received")
     expect(Audit.all.last.audit_comment).to eq({ response: "rejected", reason: "The boundary is incorrect" }.to_json)
@@ -109,6 +109,6 @@ RSpec.describe "API request to patch document validation requests", type: :reque
           params: rejected_json_missing_reason,
           headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
 
-    expect(response.status).to eq(400)
+    expect(response).to have_http_status(:bad_request)
   end
 end

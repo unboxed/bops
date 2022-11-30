@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.shared_examples "validate and invalidate" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:second_planning_application) do
-    create :planning_application, :not_started, local_authority: default_local_authority
+    create(:planning_application, :not_started, local_authority: default_local_authority)
   end
 
   it "can be validated and displays link to notification" do
@@ -47,8 +47,8 @@ RSpec.shared_examples "validate and invalidate" do
   end
 
   it "allows document edit, archive and upload after invalidation" do
-    create :additional_document_validation_request, planning_application: planning_application, state: "open",
-                                                    created_at: 12.days.ago
+    create(:additional_document_validation_request, planning_application: planning_application, state: "open",
+                                                    created_at: 12.days.ago)
 
     within(selected_govuk_tab) do
       click_link(planning_application.reference)
@@ -108,23 +108,23 @@ RSpec.shared_examples "validate and invalidate" do
   end
 end
 
-RSpec.describe "Planning Application Assessment", type: :system do
+RSpec.describe "Planning Application Assessment" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
+  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create :planning_application, :not_started, local_authority: default_local_authority
+    create(:planning_application, :not_started, local_authority: default_local_authority)
   end
 
   let!(:additional_document_validation_request) do
-    create :additional_document_validation_request, planning_application: planning_application, state: "closed"
+    create(:additional_document_validation_request, planning_application: planning_application, state: "closed")
   end
 
   let!(:document) do
-    create :document, :with_file, :with_tags, planning_application: planning_application
+    create(:document, :with_file, :with_tags, planning_application: planning_application)
   end
 
-  let!(:new_planning_application) { create :planning_application, :not_started, local_authority: default_local_authority }
+  let!(:new_planning_application) { create(:planning_application, :not_started, local_authority: default_local_authority) }
 
   before do
     sign_in assessor
@@ -193,8 +193,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "Checking documents from Not Started status" do
     it "can be invalidated and email is sent when there is an open validation request" do
-      create :additional_document_validation_request, planning_application: planning_application, state: "pending",
-                                                      created_at: 12.days.ago
+      create(:additional_document_validation_request, planning_application: planning_application, state: "pending",
+                                                      created_at: 12.days.ago)
 
       delivered_emails = ActionMailer::Base.deliveries.count
 
@@ -218,11 +218,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "Checking documents from Invalidated status" do
     let!(:planning_application) do
-      create :planning_application, :invalidated, local_authority: default_local_authority
+      create(:planning_application, :invalidated, local_authority: default_local_authority)
     end
 
     it "shows error if trying to mark as valid when open validation request exists on planning application" do
-      create :additional_document_validation_request, planning_application: planning_application, state: "open"
+      create(:additional_document_validation_request, planning_application: planning_application, state: "open")
 
       within(selected_govuk_tab) do
         click_link(planning_application.reference)
@@ -242,9 +242,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "Planning application does not transition when expected inputs are not sent" do
     it "shows an error when invalid documents are present" do
-      create :document, :with_file,
+      create(:document, :with_file,
              planning_application: planning_application,
-             validated: false, invalidated_document_reason: "Missing a lazy Suzan"
+             validated: false, invalidated_document_reason: "Missing a lazy Suzan")
 
       within(selected_govuk_tab) do
         click_link(planning_application.reference)
@@ -355,7 +355,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "Planning application is in determined state" do
     let!(:determined_planning_application) do
-      create :planning_application, :determined, local_authority: default_local_authority
+      create(:planning_application, :determined, local_authority: default_local_authority)
     end
 
     it "does not show validate form" do
@@ -396,8 +396,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
   context "Application invalidated" do
     it "does not show the invalidate button when application is invalid" do
-      invalid_planning_application = create :planning_application, :invalidated,
-                                            local_authority: default_local_authority
+      invalid_planning_application = create(:planning_application, :invalidated,
+                                            local_authority: default_local_authority)
 
       visit planning_application_path(invalid_planning_application)
       click_link "Check and validate"

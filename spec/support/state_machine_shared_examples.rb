@@ -37,7 +37,7 @@ RSpec.shared_examples "PlanningApplicationStateMachineTransitions" do |state, va
     end
 
     invalid_states.each do |invalid_state|
-      it "planning_application does not allow transition from '#{state}'  to '#{invalid_state}'" do
+      it "planning_application does not allow transition from '#{state}' to '#{invalid_state}'" do
         expect(validation_request).not_to allow_transition_to(invalid_state)
       end
     end

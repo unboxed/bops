@@ -2,8 +2,8 @@
 
 require "rails_helper"
 
-RSpec.describe "Creating a planning application via the API", type: :request, show_exceptions: true do
-  let!(:api_user) { create :api_user }
+RSpec.describe "Creating a planning application via the API", show_exceptions: true do
+  let!(:api_user) { create(:api_user) }
 
   before { create(:local_authority, :default) }
 
@@ -37,13 +37,13 @@ RSpec.describe "Creating a planning application via the API", type: :request, sh
       it "returns a 400 response" do
         post_with(params: json)
 
-        expect(response.status).to eq(400)
+        expect(response).to have_http_status(:bad_request)
       end
 
       it "returns 401 if user is not authenticated" do
         post_with(params: json, headers: { Authorization: "Bearer dasfdsafdsaf" })
 
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(:unauthorized)
       end
 
       it "renders failure message" do
@@ -60,7 +60,7 @@ RSpec.describe "Creating a planning application via the API", type: :request, sh
       it "saves a valid planning application" do
         post_with(params: permitted_development_json)
 
-        expect(response.status).to eq 200
+        expect(response).to have_http_status :ok
 
         planning_application = PlanningApplication.last
         expect(planning_application).to be_valid
@@ -97,7 +97,7 @@ RSpec.describe "Creating a planning application via the API", type: :request, sh
       it "returns a 200 response" do
         post "/api/v1/planning_applications", params: permitted_development_json,
                                               headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
       end
 
       it "renders success message" do
@@ -110,7 +110,7 @@ RSpec.describe "Creating a planning application via the API", type: :request, sh
       it "returns 401 if user is not authenticated" do
         post "/api/v1/planning_applications", params: permitted_development_json,
                                               headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer dasfdsafdsaf" }
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(:unauthorized)
       end
     end
 
@@ -127,7 +127,7 @@ RSpec.describe "Creating a planning application via the API", type: :request, sh
       it "returns a 200 response" do
         post "/api/v1/planning_applications", params: minimal_development_json,
                                               headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
       end
 
       it "renders success message" do
@@ -140,13 +140,13 @@ RSpec.describe "Creating a planning application via the API", type: :request, sh
       it "returns 401 if user is not authenticated" do
         post "/api/v1/planning_applications", params: minimal_development_json,
                                               headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer dasfdsafdsaf" }
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(:unauthorized)
       end
 
       it "returns 401 if no authorization is supplied" do
         post "/api/v1/planning_applications", params: minimal_development_json,
                                               headers: { "CONTENT-TYPE": "application/json" }
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(:unauthorized)
         expect(response.body).to eq('{"error":"HTTP Token: Access denied."}')
       end
     end
@@ -165,7 +165,7 @@ RSpec.describe "Creating a planning application via the API", type: :request, sh
       it "raises an error" do
         post_with(params: minimal_development_json)
 
-        expect(response.status).to eq 400
+        expect(response).to have_http_status :bad_request
         expect(response.body).to eq(
           "{\"message\":\"The document: 'proposed-first-floor-plan.pdf' at location: 'https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf' does not exist or is forbidden\"}"
         )
@@ -186,7 +186,7 @@ RSpec.describe "Creating a planning application via the API", type: :request, sh
       it "rejects the application" do
         post_with(params: minimal_development_json)
 
-        expect(response.status).to eq 400
+        expect(response).to have_http_status :bad_request
         expect(response.body).to eq('{"message":"The document \"proposed-first-floor-plan.pdf\" doesn\'t match our accepted file types"}')
       end
 

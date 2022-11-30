@@ -3,9 +3,9 @@
 require "rails_helper"
 require "openapi3_parser"
 
-RSpec.describe "The Open API Specification document", type: :request, show_exceptions: true do
+RSpec.describe "The Open API Specification document", show_exceptions: true do
   let!(:document) { Openapi3Parser.load_file(Rails.root.join("public/api-docs/v1/_build/swagger_doc.yaml")) }
-  let!(:api_user) { create :api_user }
+  let!(:api_user) { create(:api_user) }
   let!(:default_local_authority) { create(:local_authority, :default) }
 
   def example_request_json_for(path, http_method, example_name)
@@ -21,7 +21,7 @@ RSpec.describe "The Open API Specification document", type: :request, show_excep
   end
 
   it "is a valid oas3 document" do
-    expect(document.valid?).to eq(true)
+    expect(document.valid?).to be(true)
   end
 
   it "successfully creates the Minimum application as per the oas3 definition" do

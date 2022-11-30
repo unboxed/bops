@@ -2,11 +2,11 @@
 
 require "rails_helper"
 
-RSpec.describe OtherChangeValidationRequest, type: :model do
+RSpec.describe OtherChangeValidationRequest do
   it_behaves_like "ValidationRequest", described_class, "other_change_validation_request"
 
   it_behaves_like("Auditable") do
-    let(:subject) { create(:other_change_validation_request) }
+    subject { create(:other_change_validation_request) }
   end
 
   describe "validations" do
@@ -111,7 +111,7 @@ RSpec.describe OtherChangeValidationRequest, type: :model do
           before { other_change_validation_request.update(state: "closed", response: "A response") }
 
           it "updates and resets the valid_fee to nil on the planning application" do
-            expect(planning_application.reload.valid_fee).to eq(nil)
+            expect(planning_application.reload.valid_fee).to be_nil
           end
         end
 
@@ -124,7 +124,7 @@ RSpec.describe OtherChangeValidationRequest, type: :model do
           before { other_change_validation_request.update(summary: "bla") }
 
           it "updates and resets the valid_fee to nil on the planning application" do
-            expect(planning_application.reload.valid_fee).to eq(false)
+            expect(planning_application.reload.valid_fee).to be(false)
           end
         end
       end
@@ -145,7 +145,7 @@ RSpec.describe OtherChangeValidationRequest, type: :model do
           end
 
           it "updates and resets the valid_fee to nil on the planning application" do
-            expect(planning_application.reload.valid_fee).to eq(nil)
+            expect(planning_application.reload.valid_fee).to be_nil
           end
         end
 
@@ -156,7 +156,7 @@ RSpec.describe OtherChangeValidationRequest, type: :model do
           end
 
           it "does not update the valid_fee on the planning application" do
-            expect(planning_application.reload.valid_fee).to eq(false)
+            expect(planning_application.reload.valid_fee).to be(false)
           end
         end
       end
@@ -197,7 +197,7 @@ RSpec.describe OtherChangeValidationRequest, type: :model do
         context "when a planning application has been validated" do
           let(:planning_application) { create(:planning_application, :in_assessment) }
           let(:other_change_validation_request) do
-            create :other_change_validation_request, planning_application: planning_application
+            create(:other_change_validation_request, planning_application: planning_application)
           end
 
           it "prevents an other_change_validation_request from being created" do
@@ -213,8 +213,8 @@ RSpec.describe OtherChangeValidationRequest, type: :model do
 
   describe "callbacks" do
     describe "::before_create #reset_validation_requests_update_counter" do
-      let(:local_authority) { create :local_authority }
-      let!(:planning_application) { create :planning_application, :invalidated, local_authority: local_authority }
+      let(:local_authority) { create(:local_authority) }
+      let!(:planning_application) { create(:planning_application, :invalidated, local_authority: local_authority) }
       let(:fee_item_validation_request1) { create(:other_change_validation_request, :open, :fee, planning_application: planning_application, response: "ok") }
       let(:fee_item_validation_request2) { create(:other_change_validation_request, :open, :fee, planning_application: planning_application, response: "ok") }
 
@@ -222,11 +222,11 @@ RSpec.describe OtherChangeValidationRequest, type: :model do
         before { fee_item_validation_request1.close! }
 
         it "resets the update counter on the latest closed request" do
-          expect(fee_item_validation_request1.update_counter?).to eq(true)
+          expect(fee_item_validation_request1.update_counter?).to be(true)
 
           fee_item_validation_request2
 
-          expect(fee_item_validation_request1.reload.update_counter?).to eq(false)
+          expect(fee_item_validation_request1.reload.update_counter?).to be(false)
         end
       end
 
@@ -237,11 +237,11 @@ RSpec.describe OtherChangeValidationRequest, type: :model do
         before { other_change_validation_request1.close! }
 
         it "does not reset the update counter on the latest closed request" do
-          expect(other_change_validation_request1.update_counter?).to eq(true)
+          expect(other_change_validation_request1.update_counter?).to be(true)
 
           fee_item_validation_request2
 
-          expect(other_change_validation_request1.reload.update_counter?).to eq(true)
+          expect(other_change_validation_request1.reload.update_counter?).to be(true)
         end
       end
     end
@@ -256,8 +256,8 @@ RSpec.describe OtherChangeValidationRequest, type: :model do
         other_change_validation_request.close!
         fee_item_validation_request.close!
 
-        expect(other_change_validation_request.update_counter?).to eq(true)
-        expect(fee_item_validation_request.update_counter?).to eq(true)
+        expect(other_change_validation_request.update_counter?).to be(true)
+        expect(fee_item_validation_request.update_counter?).to be(true)
       end
     end
   end

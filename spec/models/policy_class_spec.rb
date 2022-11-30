@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe PolicyClass, type: :model do
+RSpec.describe PolicyClass do
   let(:policy_class) { create(:policy_class) }
 
   describe "#classes_for_part" do
@@ -43,7 +43,7 @@ RSpec.describe PolicyClass, type: :model do
         end
 
         it "returns true" do
-          expect(policy_class.valid?).to eq(true)
+          expect(policy_class.valid?).to be(true)
         end
       end
 
@@ -53,7 +53,7 @@ RSpec.describe PolicyClass, type: :model do
         end
 
         it "returns true" do
-          expect(policy_class.valid?).to eq(true)
+          expect(policy_class.valid?).to be(true)
         end
       end
     end
@@ -67,7 +67,7 @@ RSpec.describe PolicyClass, type: :model do
         end
 
         it "returns false" do
-          expect(policy_class.valid?).to eq(false)
+          expect(policy_class.valid?).to be(false)
         end
 
         it "sets error message" do
@@ -84,7 +84,7 @@ RSpec.describe PolicyClass, type: :model do
         end
 
         it "returns true" do
-          expect(policy_class.valid?).to eq(true)
+          expect(policy_class.valid?).to be(true)
         end
       end
     end

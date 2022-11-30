@@ -11,7 +11,7 @@ FactoryBot.define do
     post_validation { false }
 
     trait :pending do
-      planning_application { create :planning_application, :not_started }
+      planning_application { create(:planning_application, :not_started) }
 
       state { "pending" }
     end

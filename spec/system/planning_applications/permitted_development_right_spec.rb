@@ -2,13 +2,13 @@
 
 require "rails_helper"
 
-RSpec.describe "Permitted development right", type: :system do
+RSpec.describe "Permitted development right" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
-  let!(:reviewer) { create :user, :reviewer, local_authority: default_local_authority }
+  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
+  let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create :planning_application, :in_assessment, local_authority: default_local_authority
+    create(:planning_application, :in_assessment, local_authority: default_local_authority)
   end
 
   before do
@@ -162,7 +162,7 @@ RSpec.describe "Permitted development right", type: :system do
 
       context "when there has been a rejected review" do
         let!(:planning_application) do
-          create :planning_application, :awaiting_determination, local_authority: default_local_authority
+          create(:planning_application, :awaiting_determination, local_authority: default_local_authority)
         end
         let!(:permitted_development_right) { create(:permitted_development_right, :to_be_reviewed, planning_application: planning_application) }
 
@@ -200,7 +200,7 @@ RSpec.describe "Permitted development right", type: :system do
 
       context "when there is an accepted review" do
         let!(:planning_application) do
-          create :planning_application, :awaiting_determination, local_authority: default_local_authority
+          create(:planning_application, :awaiting_determination, local_authority: default_local_authority)
         end
         let!(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application: planning_application) }
 
@@ -217,7 +217,7 @@ RSpec.describe "Permitted development right", type: :system do
 
       context "when there is an incomplete review" do
         let!(:planning_application) do
-          create :planning_application, :awaiting_determination, local_authority: default_local_authority
+          create(:planning_application, :awaiting_determination, local_authority: default_local_authority)
         end
 
         before do
@@ -257,7 +257,7 @@ RSpec.describe "Permitted development right", type: :system do
 
   context "when signed in as a reviewer" do
     let!(:planning_application) do
-      create :planning_application, :awaiting_determination, local_authority: default_local_authority
+      create(:planning_application, :awaiting_determination, local_authority: default_local_authority)
     end
 
     before do
@@ -340,7 +340,7 @@ RSpec.describe "Permitted development right", type: :system do
             click_link "Permitted development rights"
           end
 
-          expect(PermittedDevelopmentRight.last.reviewer_edited).to eq(true)
+          expect(PermittedDevelopmentRight.last.reviewer_edited).to be(true)
           expect(page).to have_content("Edited comment")
         end
       end
@@ -371,8 +371,8 @@ RSpec.describe "Permitted development right", type: :system do
           click_link "Permitted development rights"
         end
 
-        expect(find("#permitted-development-right-accepted-true-field").disabled?).to eq(true)
-        expect(find("#permitted-development-right-accepted-field").disabled?).to eq(true)
+        expect(find_by_id("permitted-development-right-accepted-true-field").disabled?).to be(true)
+        expect(find_by_id("permitted-development-right-accepted-field").disabled?).to be(true)
 
         click_link("Edit check permitted development rights")
         choose "Return to officer with comment"
@@ -394,8 +394,8 @@ RSpec.describe "Permitted development right", type: :system do
           click_link "Permitted development rights"
         end
 
-        expect(find("#permitted-development-right-accepted-true-field").selected?).to eq(true)
-        expect(find("#permitted-development-right-accepted-field").selected?).to eq(false)
+        expect(find_by_id("permitted-development-right-accepted-true-field").selected?).to be(true)
+        expect(find_by_id("permitted-development-right-accepted-field").selected?).to be(false)
       end
 
       it "I can save and mark as complete when adding my review to reject the permitted development right response" do
@@ -412,8 +412,8 @@ RSpec.describe "Permitted development right", type: :system do
           click_link "Permitted development rights"
         end
 
-        expect(find("#permitted-development-right-accepted-true-field").selected?).to eq(false)
-        expect(find("#permitted-development-right-accepted-field").selected?).to eq(true)
+        expect(find_by_id("permitted-development-right-accepted-true-field").selected?).to be(false)
+        expect(find_by_id("permitted-development-right-accepted-field").selected?).to be(true)
       end
 
       context "with previous permitted development right responses" do
@@ -452,7 +452,7 @@ RSpec.describe "Permitted development right", type: :system do
           click_link "Review and sign-off"
           click_link "Sign-off recommendation"
 
-          find("#recommendation_challenged_false").click
+          find_by_id("recommendation_challenged_false").click
           fill_in "Review comment", with: "Reviewer comment"
           click_button "Save and mark as complete"
 
@@ -472,7 +472,7 @@ RSpec.describe "Permitted development right", type: :system do
 
   context "when planning application has not been validated yet" do
     let!(:planning_application) do
-      create :planning_application, :not_started, local_authority: default_local_authority
+      create(:planning_application, :not_started, local_authority: default_local_authority)
     end
 
     it "does not allow me to visit the page" do

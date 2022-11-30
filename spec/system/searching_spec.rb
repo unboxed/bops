@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "searching planning applications", type: :system do
+RSpec.describe "searching planning applications" do
   let(:local_authority) { create(:local_authority, :default) }
   let(:user) { create(:user, :assessor, local_authority: local_authority) }
 

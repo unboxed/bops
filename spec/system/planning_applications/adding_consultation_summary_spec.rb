@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "adding consultation summary", type: :system do
+RSpec.describe "adding consultation summary" do
   let(:default_local_authority) { create(:local_authority, :default) }
 
   let!(:assessor) do

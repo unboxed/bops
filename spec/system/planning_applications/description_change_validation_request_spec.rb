@@ -2,15 +2,15 @@
 
 require "rails_helper"
 
-RSpec.describe "Requesting description changes to a planning application", type: :system do
+RSpec.describe "Requesting description changes to a planning application" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
+  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create :planning_application, :not_started, local_authority: default_local_authority
+    create(:planning_application, :not_started, local_authority: default_local_authority)
   end
 
-  let!(:api_user) { create :api_user, name: "Api Wizard" }
+  let!(:api_user) { create(:api_user, name: "Api Wizard") }
 
   before do
     travel_to Time.zone.local(2021, 1, 1)
@@ -46,7 +46,7 @@ RSpec.describe "Requesting description changes to a planning application", type:
 
   context "when planning application is closed" do
     let!(:planning_application) do
-      create :planning_application, :closed, local_authority: default_local_authority
+      create(:planning_application, :closed, local_authority: default_local_authority)
     end
 
     it "does not show a link to creating a description change request" do

@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :other_change_validation_request do
-    planning_application { create :planning_application, :invalidated }
+    planning_application { create(:planning_application, :invalidated) }
     user
     state { "open" }
     summary { "Incorrect fee" }
@@ -14,7 +14,7 @@ FactoryBot.define do
     end
 
     trait :pending do
-      planning_application { create :planning_application, :not_started }
+      planning_application { create(:planning_application, :not_started) }
 
       state { "pending" }
     end

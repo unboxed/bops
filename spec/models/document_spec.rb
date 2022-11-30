@@ -2,17 +2,17 @@
 
 require "rails_helper"
 
-RSpec.describe Document, type: :model do
-  subject(:document) { FactoryBot.build :document }
+RSpec.describe Document do
+  subject(:document) { build(:document) }
 
   it_behaves_like("Auditable") do
-    let(:subject) { create(:document) }
+    subject { create(:document) }
   end
 
   describe "scopes" do
     describe ".active" do
-      let!(:active_document) { create :document }
-      let!(:archived_document) { create :document, :archived }
+      let!(:active_document) { create(:document) }
+      let!(:archived_document) { create(:document, :archived) }
 
       it "returns documents that are not archived" do
         expect(described_class.active).to match_array([active_document])
@@ -110,10 +110,10 @@ RSpec.describe Document, type: :model do
       let(:planning_application) { create(:planning_application, :invalidated) }
       let!(:document) { create(:document) }
       let(:replacement_document_validation_request1) do
-        create :replacement_document_validation_request, :open, planning_application: planning_application, new_document: document
+        create(:replacement_document_validation_request, :open, planning_application: planning_application, new_document: document)
       end
       let(:replacement_document_validation_request2) do
-        create :replacement_document_validation_request, :open, planning_application: planning_application, old_document: document
+        create(:replacement_document_validation_request, :open, planning_application: planning_application, old_document: document)
       end
 
       before { replacement_document_validation_request1.close! }
@@ -122,11 +122,11 @@ RSpec.describe Document, type: :model do
         before { document.update(validated: true) }
 
         it "resets the update counter on the previous request where its new document is associated" do
-          expect(replacement_document_validation_request1.validation_request.update_counter).to eq(true)
+          expect(replacement_document_validation_request1.validation_request.update_counter).to be(true)
 
           replacement_document_validation_request2
 
-          expect(replacement_document_validation_request1.validation_request.reload.update_counter).to eq(false)
+          expect(replacement_document_validation_request1.validation_request.reload.update_counter).to be(false)
         end
       end
 
@@ -134,11 +134,11 @@ RSpec.describe Document, type: :model do
         before { document.update(archived_at: Time.current) }
 
         it "resets the update counter on the previous request where its new document is associated" do
-          expect(replacement_document_validation_request1.validation_request.update_counter).to eq(true)
+          expect(replacement_document_validation_request1.validation_request.update_counter).to be(true)
 
           replacement_document_validation_request2
 
-          expect(replacement_document_validation_request1.validation_request.reload.update_counter).to eq(false)
+          expect(replacement_document_validation_request1.validation_request.reload.update_counter).to be(false)
         end
       end
     end
@@ -154,7 +154,7 @@ RSpec.describe Document, type: :model do
         end
 
         it "is able to be archived with valid reason" do
-          expect(document.archived_at).not_to be(nil)
+          expect(document.archived_at).not_to be_nil
         end
 
         it "returns true when archived? method called" do
@@ -164,7 +164,7 @@ RSpec.describe Document, type: :model do
 
       context "when document cannot be archived" do
         let!(:replacement_document_validation_request) do
-          create :replacement_document_validation_request, old_document: document
+          create(:replacement_document_validation_request, old_document: document)
         end
 
         before { document.replacement_document_validation_request = replacement_document_validation_request }
@@ -182,7 +182,7 @@ RSpec.describe Document, type: :model do
     describe "#invalidated_document_reason" do
       context "when there is an associated replacement_document_validation_request" do
         let!(:replacement_document_validation_request) do
-          create :replacement_document_validation_request, old_document: document, reason: "invalid!"
+          create(:replacement_document_validation_request, old_document: document, reason: "invalid!")
         end
 
         it "calls the super method" do
@@ -205,7 +205,7 @@ RSpec.describe Document, type: :model do
       context "when image is present" do
         let(:processed_active_storage_variant) do
           instance_double(
-            "ActiveStorage::VariantWithRecord",
+            ActiveStorage::VariantWithRecord,
             url: "http://www.example.com/test_image"
           )
         end
@@ -233,7 +233,7 @@ RSpec.describe Document, type: :model do
         end
 
         it "returns nil" do
-          expect(document.image_url).to eq(nil)
+          expect(document.image_url).to be_nil
         end
 
         it "logs the error" do

@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "viewing assessment report", type: :system do
+RSpec.describe "viewing assessment report" do
   let(:local_authority) { create(:local_authority, :default) }
 
   let!(:assessor) do

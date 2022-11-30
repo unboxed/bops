@@ -3,6 +3,8 @@
 require "rails_helper"
 
 RSpec.shared_examples "ProposalDetailsGroupable" do
+  subject { described_class.new(group: group) }
+
   let(:portal_name) { "unformatted name" }
 
   let(:proposal_detail1) do
@@ -33,12 +35,10 @@ RSpec.shared_examples "ProposalDetailsGroupable" do
     )
   end
 
-  let(:subject) { described_class.new(group: group) }
-
   describe "#auto_answered?" do
     context "when not all proposal_details auto answered" do
       it "returns false" do
-        expect(subject.send(:auto_answered?)).to eq(false)
+        expect(subject.send(:auto_answered?)).to be(false)
       end
     end
 
@@ -56,7 +56,7 @@ RSpec.shared_examples "ProposalDetailsGroupable" do
       end
 
       it "returns true" do
-        expect(subject.send(:auto_answered?)).to eq(true)
+        expect(subject.send(:auto_answered?)).to be(true)
       end
     end
   end

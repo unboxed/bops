@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Swagger index file", type: :system do
+RSpec.describe "Swagger index file" do
   before do
     visit "/api-docs/index.html"
   end

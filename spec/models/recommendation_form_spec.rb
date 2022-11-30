@@ -7,7 +7,7 @@ RSpec.describe RecommendationForm do
 
   describe "#valid?" do
     it "is true for factory" do
-      expect(recommendation_form.valid?).to eq(true)
+      expect(recommendation_form.valid?).to be(true)
     end
   end
 
@@ -72,7 +72,7 @@ RSpec.describe RecommendationForm do
         end
 
         it "returns false" do
-          expect(recommendation_form.save).to eq(false)
+          expect(recommendation_form.save).to be(false)
         end
 
         it "sets error message" do
@@ -114,7 +114,7 @@ RSpec.describe RecommendationForm do
         end
 
         it "returns false" do
-          expect(recommendation_form.save).to eq(false)
+          expect(recommendation_form.save).to be(false)
         end
 
         it "sets error message" do

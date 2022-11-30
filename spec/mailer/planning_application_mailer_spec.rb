@@ -14,8 +14,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     )
   end
 
-  let!(:reviewer) { create :user, :reviewer, local_authority: local_authority }
-  let!(:assessor) { create :user, :assessor, local_authority: local_authority }
+  let!(:reviewer) { create(:user, :reviewer, local_authority: local_authority) }
+  let!(:assessor) { create(:user, :assessor, local_authority: local_authority) }
 
   let(:planning_application) do
     create(
@@ -46,16 +46,16 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   let(:document_with_tags) do
-    create :document, :with_tags,
+    create(:document, :with_tags,
            planning_application: planning_application,
            numbers: "proposed_number_1, proposed_number_2",
-           referenced_in_decision_notice: true
+           referenced_in_decision_notice: true)
   end
 
   let(:archived_document_with_tags) do
-    create :document, :archived, :with_tags,
+    create(:document, :archived, :with_tags,
            planning_application: planning_application,
-           numbers: "archived_number"
+           numbers: "archived_number")
   end
 
   before do

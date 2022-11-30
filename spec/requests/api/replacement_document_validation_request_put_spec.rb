@@ -2,10 +2,10 @@
 
 require "rails_helper"
 
-RSpec.describe "API request to patch document validation requests", type: :request, show_exceptions: true do
+RSpec.describe "API request to patch document validation requests", show_exceptions: true do
   include ActionDispatch::TestProcess::FixtureFile
 
-  let!(:api_user) { create :api_user }
+  let!(:api_user) { create(:api_user) }
   let!(:default_local_authority) { create(:local_authority, :default) }
   let(:user) { create(:user) }
 
@@ -59,7 +59,7 @@ RSpec.describe "API request to patch document validation requests", type: :reque
 
     expect(replacement_document_validation_request.state).to eq("closed")
     expect(replacement_document_validation_request.new_document).to be_a(Document)
-    expect(document.archived_at).not_to eq(nil)
+    expect(document.archived_at).not_to be_nil
     expect(document.archive_reason).to eq("Applicant has provived a replacement document.")
   end
 
@@ -119,7 +119,7 @@ RSpec.describe "API request to patch document validation requests", type: :reque
           params: "{}",
           headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
 
-    expect(response.status).to eq(400)
+    expect(response).to have_http_status(:bad_request)
   end
 
   it "returns a 400 if the file size exceeds 30mb" do
@@ -131,6 +131,6 @@ RSpec.describe "API request to patch document validation requests", type: :reque
           headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
 
     expect(json).to eq({ "message" => "The file must be 30MB or less" })
-    expect(response.status).to eq(400)
+    expect(response).to have_http_status(:bad_request)
   end
 end

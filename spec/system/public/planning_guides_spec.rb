@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning guides", type: :system do
+RSpec.describe "Planning guides" do
   let!(:default_local_authority) { create(:local_authority, :default) }
 
   context "when not logged in" do

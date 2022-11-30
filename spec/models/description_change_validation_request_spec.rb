@@ -2,9 +2,9 @@
 
 require "rails_helper"
 
-RSpec.describe DescriptionChangeValidationRequest, type: :model do
+RSpec.describe DescriptionChangeValidationRequest do
   it_behaves_like("Auditable") do
-    let(:subject) { create(:description_change_validation_request) }
+    subject { create(:description_change_validation_request) }
   end
 
   it_behaves_like("ValidationRequestable")

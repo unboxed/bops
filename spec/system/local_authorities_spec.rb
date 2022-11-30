@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Accessing correct local authority", type: :system do
+RSpec.describe "Accessing correct local authority" do
   let!(:lambeth) { create(:local_authority, :lambeth) }
   let!(:southwark) { create(:local_authority, :southwark) }
 

@@ -2,9 +2,9 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning History", type: :system do
+RSpec.describe "Planning History" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
+  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   before do
     sign_in assessor
@@ -14,7 +14,7 @@ RSpec.describe "Planning History", type: :system do
 
   context "when planning application's property uprn has planning history" do
     let!(:planning_application) do
-      create :planning_application, :in_assessment, uprn: "100081043511", local_authority: default_local_authority
+      create(:planning_application, :in_assessment, uprn: "100081043511", local_authority: default_local_authority)
     end
 
     before do
@@ -103,7 +103,7 @@ RSpec.describe "Planning History", type: :system do
 
   context "when planning application's property uprn has not planning history" do
     let!(:planning_application) do
-      create :planning_application, :invalidated, uprn: "10008104351", local_authority: default_local_authority
+      create(:planning_application, :invalidated, uprn: "10008104351", local_authority: default_local_authority)
     end
 
     before do

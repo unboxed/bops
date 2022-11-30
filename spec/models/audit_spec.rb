@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Audit, type: :model do
+RSpec.describe Audit do
   describe "validations" do
     subject(:audit) { described_class.new }
 
@@ -37,7 +37,7 @@ RSpec.describe Audit, type: :model do
 
       context "when there is no associated request" do
         it "returns nil" do
-          expect(audit.validation_request).to eq(nil)
+          expect(audit.validation_request).to be_nil
         end
       end
     end

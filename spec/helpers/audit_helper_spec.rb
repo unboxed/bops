@@ -2,14 +2,14 @@
 
 require "rails_helper"
 
-RSpec.describe AuditHelper, type: :helper do
+RSpec.describe AuditHelper do
   describe "#activity" do
-    let(:assessor) { create :user, name: "Polly" }
-    let(:assigned_audit) { create :audit, activity_type: "assigned", activity_information: "Maria" }
-    let(:approved_audit) { create :audit, activity_type: "assessed" }
-    let(:challenged_audit) { create :audit, activity_type: "challenged" }
-    let(:created_audit) { create :audit, activity_type: "created", activity_information: assessor.name }
-    let(:document_archived_audit) { create :audit, activity_type: "archived" }
+    let(:assessor) { create(:user, name: "Polly") }
+    let(:assigned_audit) { create(:audit, activity_type: "assigned", activity_information: "Maria") }
+    let(:approved_audit) { create(:audit, activity_type: "assessed") }
+    let(:challenged_audit) { create(:audit, activity_type: "challenged") }
+    let(:created_audit) { create(:audit, activity_type: "created", activity_information: assessor.name) }
+    let(:document_archived_audit) { create(:audit, activity_type: "archived") }
 
     it "returns the correct wording for an assessed audit" do
       expect(activity(approved_audit.activity_type)).to eq("Recommendation assessed")
@@ -41,7 +41,7 @@ RSpec.describe AuditHelper, type: :helper do
         red_line_boundary_change_validation_request_cancelled
         replacement_document_validation_request_cancelled
       ].each do |validation_request|
-        let(validation_request) { create :audit, activity_type: validation_request }
+        let(validation_request) { create(:audit, activity_type: validation_request) }
       end
 
       it "returns the correct wording for additional_document_validation_request_cancelled audit" do
@@ -81,14 +81,14 @@ RSpec.describe AuditHelper, type: :helper do
   end
 
   describe "#audit_entry_template" do
-    let(:assessor) { create :user, name: "Polly" }
+    let(:assessor) { create(:user, name: "Polly") }
     let(:validation_request_cancelled_audit) do
-      create :audit, activity_type: "additional_document_validation_request_cancelled"
+      create(:audit, activity_type: "additional_document_validation_request_cancelled")
     end
-    let(:validation_request_audit) { create :audit, activity_type: "other_change_validation_request_added" }
-    let(:document_received_at_changed) { create :audit, activity_type: "document_received_at_changed" }
-    let(:submitted_audit) { create :audit, activity_type: "submitted" }
-    let(:random_audit) { create :audit, activity_type: "created" }
+    let(:validation_request_audit) { create(:audit, activity_type: "other_change_validation_request_added") }
+    let(:document_received_at_changed) { create(:audit, activity_type: "document_received_at_changed") }
+    let(:submitted_audit) { create(:audit, activity_type: "submitted") }
+    let(:random_audit) { create(:audit, activity_type: "created") }
 
     it "returns the correct audit activity type for a cancelled validation request" do
       expect(audit_entry_template(validation_request_cancelled_audit)).to eq("validation_request_cancelled")

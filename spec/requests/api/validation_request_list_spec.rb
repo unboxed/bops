@@ -2,8 +2,8 @@
 
 require "rails_helper"
 
-RSpec.describe "API request to list validation requests", type: :request, show_exceptions: true do
-  let!(:api_user) { create :api_user }
+RSpec.describe "API request to list validation requests", show_exceptions: true do
+  let!(:api_user) { create(:api_user) }
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) { create(:planning_application, :invalidated, local_authority: default_local_authority) }
   let!(:description_change_validation_request) do
@@ -75,12 +75,12 @@ RSpec.describe "API request to list validation requests", type: :request, show_e
   it "returns a 401 if API key is wrong" do
     get "/api/v1/planning_applications/#{planning_application.id}/validation_requests?change_access_id=#{planning_application.change_access_id}",
         headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer bipbopboop" }
-    expect(response.status).to eq(401)
+    expect(response).to have_http_status(:unauthorized)
   end
 
   it "returns a 401 if change_access_id is wrong" do
     get "/api/v1/planning_applications/#{planning_application.id}/validation_requests?change_access_id=fffffff",
         headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
-    expect(response.status).to eq(401)
+    expect(response).to have_http_status(:unauthorized)
   end
 end

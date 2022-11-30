@@ -3,18 +3,18 @@
 require "rails_helper"
 
 RSpec.describe PlanningApplicationStatus do
-  subject(:planning_application) { create :planning_application }
+  subject(:planning_application) { create(:planning_application) }
 
   describe "states" do
     let(:proposed_document1) do
-      create :document, :with_tags,
+      create(:document, :with_tags,
              planning_application: planning_application,
-             numbers: "number"
+             numbers: "number")
     end
 
     let(:description_change_validation_request) do
-      create :description_change_validation_request, planning_application: planning_application, state: "open",
-                                                     created_at: 12.days.ago
+      create(:description_change_validation_request, planning_application: planning_application, state: "open",
+                                                     created_at: 12.days.ago)
     end
 
     context "when not started" do
@@ -57,7 +57,7 @@ RSpec.describe PlanningApplicationStatus do
     end
 
     context "when I start the application" do
-      subject(:planning_application) { create :planning_application, :not_started }
+      subject(:planning_application) { create(:planning_application, :not_started) }
 
       before do
         # Set timestamp to differentiate from now
@@ -81,12 +81,12 @@ RSpec.describe PlanningApplicationStatus do
     end
 
     describe "work_status" do
-      subject(:planning_application) { create :planning_application, :not_started }
+      subject(:planning_application) { create(:planning_application, :not_started) }
 
       let(:proposed_drawing1) do
-        create :document, :with_tags,
+        create(:document, :with_tags,
                planning_application: planning_application,
-               numbers: "number"
+               numbers: "number")
       end
 
       it "sets work_status to proposed" do
@@ -100,7 +100,7 @@ RSpec.describe PlanningApplicationStatus do
     end
 
     context "when I return the application from invalidated" do
-      subject(:planning_application) { create :planning_application, :invalidated }
+      subject(:planning_application) { create(:planning_application, :invalidated) }
 
       before do
         # Set timestamp to differentiate from now
@@ -139,7 +139,7 @@ RSpec.describe PlanningApplicationStatus do
     end
 
     context "when I invalidate the application from not_started" do
-      subject(:planning_application) { create :planning_application, :not_started }
+      subject(:planning_application) { create(:planning_application, :not_started) }
 
       before do
         create(
@@ -206,7 +206,7 @@ RSpec.describe PlanningApplicationStatus do
     end
 
     context "when I determine the application" do
-      subject(:planning_application) { create :planning_application, :awaiting_determination, decision: "granted" }
+      subject(:planning_application) { create(:planning_application, :awaiting_determination, decision: "granted") }
 
       before do
         # Set timestamp to differentiate from now
@@ -228,7 +228,7 @@ RSpec.describe PlanningApplicationStatus do
     end
 
     context "when I withdraw the application from not_started" do
-      subject(:planning_application) { create :planning_application, :not_started }
+      subject(:planning_application) { create(:planning_application, :not_started) }
 
       before do
         # Set timestamp to differentiate from now
@@ -251,7 +251,7 @@ RSpec.describe PlanningApplicationStatus do
     end
 
     context "when I withdraw the application from in_assessment" do
-      subject(:planning_application) { create :planning_application }
+      subject(:planning_application) { create(:planning_application) }
 
       before do
         # Set timestamp to differentiate from now
@@ -274,7 +274,7 @@ RSpec.describe PlanningApplicationStatus do
     end
 
     context "when I withdraw the application from awaiting_determination" do
-      subject(:planning_application) { create :planning_application, :awaiting_determination, decision: "granted" }
+      subject(:planning_application) { create(:planning_application, :awaiting_determination, decision: "granted") }
 
       before do
         # Set timestamp to differentiate from now
@@ -297,7 +297,7 @@ RSpec.describe PlanningApplicationStatus do
     end
 
     context "when I withdraw the application from awaiting_correction" do
-      subject(:planning_application) { create :planning_application, :awaiting_correction, decision: "granted" }
+      subject(:planning_application) { create(:planning_application, :awaiting_correction, decision: "granted") }
 
       before do
         # Set timestamp to differentiate from now
@@ -334,7 +334,7 @@ RSpec.describe PlanningApplicationStatus do
         it "sets the recommendation to submitted" do
           planning_application.submit
 
-          expect(planning_application.recommendation.submitted).to eq(true)
+          expect(planning_application.recommendation.submitted).to be(true)
         end
 
         it "sets the timestamp for awaiting_determination_at to now" do
@@ -347,7 +347,7 @@ RSpec.describe PlanningApplicationStatus do
       end
 
       context "when decision is not present" do
-        let(:planning_application) { create :planning_application, :in_assessment }
+        let(:planning_application) { create(:planning_application, :in_assessment) }
 
         it "guards against decision not being present" do
           expect do
@@ -371,7 +371,7 @@ RSpec.describe PlanningApplicationStatus do
       it "sets recommendation submitted to false" do
         planning_application.withdraw_recommendation
 
-        expect(planning_application.recommendation.submitted).to eq(false)
+        expect(planning_application.recommendation.submitted).to be(false)
       end
 
       it "sets the timestamp for awaiting_determination_at to now" do

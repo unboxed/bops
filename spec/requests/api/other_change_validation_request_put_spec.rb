@@ -2,8 +2,8 @@
 
 require "rails_helper"
 
-RSpec.describe "API request to list change requests", type: :request, show_exceptions: true do
-  let!(:api_user) { create :api_user }
+RSpec.describe "API request to list change requests", show_exceptions: true do
+  let!(:api_user) { create(:api_user) }
 
   let(:path) do
     "/api/v1/planning_applications/#{planning_application.id}/other_change_validation_requests/#{other_change_validation_request.id}"
@@ -88,7 +88,7 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
           params: missing_response,
           headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
 
-    expect(response.status).to eq(400)
+    expect(response).to have_http_status(:bad_request)
   end
 
   it "returns a 401 if API key is wrong" do
@@ -96,7 +96,7 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
           params: valid_response,
           headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer BEAR_THE_BEARER" }
 
-    expect(response.status).to eq(401)
+    expect(response).to have_http_status(:unauthorized)
   end
 
   it "returns a 401 if change_access_id is wrong" do
@@ -104,6 +104,6 @@ RSpec.describe "API request to list change requests", type: :request, show_excep
           params: valid_response,
           headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
 
-    expect(response.status).to eq(401)
+    expect(response).to have_http_status(:unauthorized)
   end
 end

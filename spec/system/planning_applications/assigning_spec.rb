@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "assigning planning application", type: :system do
+RSpec.describe "assigning planning application" do
   let(:local_authority) { create(:local_authority, :default) }
   let(:reviewer) { create(:user, :reviewer, local_authority: local_authority) }
 

@@ -2,11 +2,11 @@
 
 require "rails_helper"
 
-RSpec.describe RedLineBoundaryChangeValidationRequest, type: :model do
+RSpec.describe RedLineBoundaryChangeValidationRequest do
   it_behaves_like "ValidationRequest", described_class, "red_line_boundary_change_validation_request"
 
   it_behaves_like("Auditable") do
-    let(:subject) { create(:red_line_boundary_change_validation_request) }
+    subject { create(:red_line_boundary_change_validation_request) }
   end
 
   describe "validations" do
@@ -59,8 +59,8 @@ RSpec.describe RedLineBoundaryChangeValidationRequest, type: :model do
     end
 
     describe "::before_create #reset_validation_requests_update_counter" do
-      let(:local_authority) { create :local_authority }
-      let!(:planning_application) { create :planning_application, :invalidated, local_authority: local_authority }
+      let(:local_authority) { create(:local_authority) }
+      let!(:planning_application) { create(:planning_application, :invalidated, local_authority: local_authority) }
       let(:red_line_boundary_change_validation_request1) { create(:red_line_boundary_change_validation_request, :open, planning_application: planning_application) }
       let(:red_line_boundary_change_validation_request2) { create(:red_line_boundary_change_validation_request, :open, planning_application: planning_application) }
 
@@ -68,11 +68,11 @@ RSpec.describe RedLineBoundaryChangeValidationRequest, type: :model do
         before { red_line_boundary_change_validation_request1.close! }
 
         it "resets the update counter on the latest closed request" do
-          expect(red_line_boundary_change_validation_request1.update_counter?).to eq(true)
+          expect(red_line_boundary_change_validation_request1.update_counter?).to be(true)
 
           red_line_boundary_change_validation_request2
 
-          expect(red_line_boundary_change_validation_request1.reload.update_counter?).to eq(false)
+          expect(red_line_boundary_change_validation_request1.reload.update_counter?).to be(false)
         end
       end
     end
@@ -105,7 +105,7 @@ RSpec.describe RedLineBoundaryChangeValidationRequest, type: :model do
       it "sets updated_counter to true on the associated validation request" do
         red_line_boundary_change_validation_request.close!
 
-        expect(red_line_boundary_change_validation_request.update_counter?).to eq(true)
+        expect(red_line_boundary_change_validation_request.update_counter?).to be(true)
       end
     end
   end

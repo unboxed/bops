@@ -2,9 +2,9 @@
 
 require "rails_helper"
 
-RSpec.describe "Assessment tasks", type: :system do
+RSpec.describe "Assessment tasks" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:assessor) { create :user, :assessor, local_authority: default_local_authority }
+  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   before do
     sign_in assessor
@@ -14,7 +14,7 @@ RSpec.describe "Assessment tasks", type: :system do
 
   context "when the planning application is in_assessment, I can assess the planning application" do
     let!(:planning_application) do
-      create :planning_application, :in_assessment, local_authority: default_local_authority
+      create(:planning_application, :in_assessment, local_authority: default_local_authority)
     end
 
     it "displays the assessment tasks list" do
@@ -35,7 +35,7 @@ RSpec.describe "Assessment tasks", type: :system do
 
   context "when the planning application is invalidated, I cannot assess the planning application" do
     let!(:planning_application) do
-      create :planning_application, :invalidated, local_authority: default_local_authority
+      create(:planning_application, :invalidated, local_authority: default_local_authority)
     end
 
     it "displays the assessment tasks list" do

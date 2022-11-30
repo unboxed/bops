@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Requesting document changes to a planning application", type: :system do
+RSpec.describe "Requesting document changes to a planning application" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
@@ -14,7 +14,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
   context "before an application has been invalidated" do
     let!(:planning_application) do
-      create :planning_application, :not_started, local_authority: default_local_authority
+      create(:planning_application, :not_started, local_authority: default_local_authority)
     end
     let!(:document1) { create(:document, :with_file, planning_application: planning_application) }
     let!(:document2) { create(:document, :with_file, planning_application: planning_application) }
@@ -125,9 +125,9 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       end
 
       # The document returns to "Not checked yet"
-      expect(document1.reload.replacement_document_validation_request).to eq(nil)
-      expect(document1.invalidated_document_reason).to eq(nil)
-      expect(document1.validated).to eq(nil)
+      expect(document1.reload.replacement_document_validation_request).to be_nil
+      expect(document1.invalidated_document_reason).to be_nil
+      expect(document1.validated).to be_nil
       within("#document-validation-tasks") do
         within("#document_#{document1.id}") do
           expect(page).to have_content("Not checked yet")
@@ -267,9 +267,9 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       fill_in "Explain to the applicant why this request is being cancelled", with: "mistake"
       click_button "Confirm cancellation"
       expect(page).to have_content("Validation request was successfully cancelled.")
-      expect(document1.reload.replacement_document_validation_request).to eq(nil)
-      expect(document1.invalidated_document_reason).to eq(nil)
-      expect(document1.validated).to eq(nil)
+      expect(document1.reload.replacement_document_validation_request).to be_nil
+      expect(document1.invalidated_document_reason).to be_nil
+      expect(document1.validated).to be_nil
 
       click_link "Application"
       click_button "Audit log"
@@ -366,7 +366,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
         request = ReplacementDocumentValidationRequest.last
         expect(document_response.replacement_document_validation_request).to eq(request)
         expect(request.old_document).to eq(document_response)
-        expect(request.new_document).to eq(nil)
+        expect(request.new_document).to be_nil
 
         click_link "Review validation requests"
 
@@ -437,7 +437,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
           expect(page).to have_content("Not checked yet")
           expect(page).to have_link("Check document - #{document2.name}")
         end
-        expect(page).to have_no_css("#document_#{document1.id}")
+        expect(page).not_to have_css("#document_#{document1.id}")
       end
     end
   end

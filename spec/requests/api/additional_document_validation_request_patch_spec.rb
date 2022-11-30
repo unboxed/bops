@@ -2,10 +2,10 @@
 
 require "rails_helper"
 
-RSpec.describe "API request to patch document create requests", type: :request, show_exceptions: true do
+RSpec.describe "API request to patch document create requests", show_exceptions: true do
   include ActionDispatch::TestProcess::FixtureFile
 
-  let!(:api_user) { create :api_user }
+  let!(:api_user) { create(:api_user) }
   let!(:default_local_authority) { build(:local_authority, :default) }
   let(:user) { create(:user) }
 
@@ -94,7 +94,7 @@ RSpec.describe "API request to patch document create requests", type: :request, 
           headers: { Authorization: "Bearer #{api_user.token}" }
 
     expect(json).to eq({ "message" => "At least one file must be selected to proceed." })
-    expect(response.status).to eq(400)
+    expect(response).to have_http_status(:bad_request)
   end
 
   it "returns a 400 if the file size exceeds 30mb" do
@@ -106,6 +106,6 @@ RSpec.describe "API request to patch document create requests", type: :request, 
           headers: { Authorization: "Bearer #{api_user.token}" }
 
     expect(json).to eq({ "message" => "The file: 'proposed-floorplan.png' exceeds the limit of 30mb. Each file must be 30MB or less" })
-    expect(response.status).to eq(400)
+    expect(response).to have_http_status(:bad_request)
   end
 end

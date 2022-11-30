@@ -2,11 +2,11 @@
 
 require "rails_helper"
 
-RSpec.describe ReplacementDocumentValidationRequest, type: :model do
+RSpec.describe ReplacementDocumentValidationRequest do
   it_behaves_like "ValidationRequest", described_class, "replacement_document_validation_request"
 
   it_behaves_like("Auditable") do
-    let(:subject) { create(:replacement_document_validation_request) }
+    subject { create(:replacement_document_validation_request) }
   end
 
   describe "validations" do
@@ -80,17 +80,17 @@ RSpec.describe ReplacementDocumentValidationRequest, type: :model do
   describe "callbacks" do
     describe "::before_destroy #reset_document_invalidation" do
       let!(:document) do
-        create :document, validated: false, invalidated_document_reason: "Invalid"
+        create(:document, validated: false, invalidated_document_reason: "Invalid")
       end
       let!(:replacement_document_validation_request) do
-        create :replacement_document_validation_request, :pending, old_document: document
+        create(:replacement_document_validation_request, :pending, old_document: document)
       end
 
       before { replacement_document_validation_request.destroy! }
 
       it "updates and resets the validation fields on the associated document" do
-        expect(document.reload.invalidated_document_reason).to eq(nil)
-        expect(document.validated).to eq(nil)
+        expect(document.reload.invalidated_document_reason).to be_nil
+        expect(document.validated).to be_nil
       end
     end
 
@@ -98,7 +98,7 @@ RSpec.describe ReplacementDocumentValidationRequest, type: :model do
       context "when a planning application has been validated" do
         let(:planning_application) { create(:planning_application, :in_assessment) }
         let(:replacement_document_validation_request) do
-          create :replacement_document_validation_request, planning_application: planning_application
+          create(:replacement_document_validation_request, planning_application: planning_application)
         end
 
         it "prevents a replacement_document_validation_request from being created" do
@@ -114,20 +114,20 @@ RSpec.describe ReplacementDocumentValidationRequest, type: :model do
       let(:planning_application) { create(:planning_application, :invalidated) }
       let!(:document) { create(:document) }
       let(:replacement_document_validation_request1) do
-        create :replacement_document_validation_request, :open, planning_application: planning_application, new_document: document
+        create(:replacement_document_validation_request, :open, planning_application: planning_application, new_document: document)
       end
       let(:replacement_document_validation_request2) do
-        create :replacement_document_validation_request, :open, planning_application: planning_application, old_document: document
+        create(:replacement_document_validation_request, :open, planning_application: planning_application, old_document: document)
       end
 
       before { replacement_document_validation_request1.close! }
 
       it "resets the update counter on the previous request where its new document is associated" do
-        expect(replacement_document_validation_request1.validation_request.update_counter).to eq(true)
+        expect(replacement_document_validation_request1.validation_request.update_counter).to be(true)
 
         replacement_document_validation_request2
 
-        expect(replacement_document_validation_request1.validation_request.reload.update_counter).to eq(false)
+        expect(replacement_document_validation_request1.validation_request.reload.update_counter).to be(false)
       end
     end
   end
@@ -139,7 +139,7 @@ RSpec.describe ReplacementDocumentValidationRequest, type: :model do
       it "sets updated_counter to true on the associated validation request" do
         replacement_document_validation_request.close!
 
-        expect(replacement_document_validation_request.update_counter?).to eq(true)
+        expect(replacement_document_validation_request.update_counter?).to be(true)
       end
     end
   end
