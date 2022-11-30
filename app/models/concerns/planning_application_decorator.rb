@@ -12,7 +12,7 @@ module PlanningApplicationDecorator
   end
 
   def agent_contact_details
-    [agent_full_name, agent_phone, agent_email].reject(&:blank?)
+    [agent_full_name, agent_phone, agent_email].compact_blank
   end
 
   def applicant_full_name
@@ -20,7 +20,7 @@ module PlanningApplicationDecorator
   end
 
   def applicant_contact_details
-    [applicant_full_name, applicant_phone, applicant_email].reject(&:blank?)
+    [applicant_full_name, applicant_phone, applicant_email].compact_blank
   end
 
   def applicant_name

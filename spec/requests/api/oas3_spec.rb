@@ -4,7 +4,7 @@ require "rails_helper"
 require "openapi3_parser"
 
 RSpec.describe "The Open API Specification document", show_exceptions: true do
-  let!(:document) { Openapi3Parser.load_file(Rails.root.join("public/api-docs/v1/_build/swagger_doc.yaml")) }
+  let!(:document) { Openapi3Parser.load_file(Rails.public_path.join("api-docs/v1/_build/swagger_doc.yaml")) }
   let!(:api_user) { create(:api_user) }
   let!(:default_local_authority) { create(:local_authority, :default) }
 
@@ -38,7 +38,7 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
     stub_request(:get, "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf")
       .to_return(
         status: 200,
-        body: File.read(Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf")),
+        body: Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf").read,
         headers: { "Content-Type" => "application/pdf" }
       )
     expect do
@@ -87,7 +87,7 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
 
     planning_application.update!(planning_application_hash["site"])
     planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url")) do |document|
-      document.file.attach(io: File.open(Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf")),
+      document.file.attach(io: Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf").open,
                            filename: "roofplan")
       document.publishable = true
     end
@@ -109,7 +109,7 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
                                                                                         "received_date", "documents", "site").merge(local_authority: default_local_authority)
     planning_application.update!(planning_application_hash["site"])
     planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url")) do |document|
-      document.file.attach(io: File.open(Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf")),
+      document.file.attach(io: Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf").open,
                            filename: "roofplan")
       document.publishable = true
     end

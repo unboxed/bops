@@ -9,6 +9,12 @@ class OtherChangeValidationRequestsController < ValidationRequestsController
   before_action :set_other_validation_request, only: %i[show edit update]
   before_action :validate_fee?, only: %i[new create edit update]
 
+  def show
+    respond_to do |format|
+      format.html
+    end
+  end
+
   def new
     @other_change_validation_request = @planning_application.other_change_validation_requests.new
 
@@ -17,9 +23,13 @@ class OtherChangeValidationRequestsController < ValidationRequestsController
     end
   end
 
-  def show
+  def edit
     respond_to do |format|
-      format.html
+      if @other_change_validation_request.closed?
+        format.html { render plain: "Not Found", status: :not_found }
+      else
+        format.html { render :edit }
+      end
     end
   end
 
@@ -35,16 +45,6 @@ class OtherChangeValidationRequestsController < ValidationRequestsController
         end
       else
         format.html { render :new, validate_fee: params[:validate_fee] }
-      end
-    end
-  end
-
-  def edit
-    respond_to do |format|
-      if @other_change_validation_request.closed?
-        format.html { render plain: "Not Found", status: :not_found }
-      else
-        format.html { render :edit }
       end
     end
   end

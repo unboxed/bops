@@ -57,6 +57,10 @@ Rails/NotNullColumn:
   Exclude:
     - db/migrate/20221116234525_add_review_mark_to_review_policy_classes.rb
 
+Rails/RedundantPresenceValidationOnBelongsTo:
+  Exclude:
+    - app/models/validation_request.rb
+
 RSpec/ExampleLength:
   Enabled: false
 

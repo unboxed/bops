@@ -6,12 +6,12 @@ class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsCont
   before_action :ensure_no_open_or_pending_red_line_boundary_validation_request, only: %i[new]
   before_action :ensure_planning_application_is_not_closed_or_cancelled, only: %i[new create]
 
-  def new
-    @red_line_boundary_change_validation_request = @planning_application.red_line_boundary_change_validation_requests.new
-  end
-
   def show
     @red_line_boundary_change_validation_request = @planning_application.red_line_boundary_change_validation_requests.find(params[:id])
+  end
+
+  def new
+    @red_line_boundary_change_validation_request = @planning_application.red_line_boundary_change_validation_requests.new
   end
 
   def create

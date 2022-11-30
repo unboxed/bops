@@ -20,9 +20,9 @@ RSpec.describe Document do
     end
 
     describe ".by_created_at" do
-      let!(:document1) { create(:document, created_at: Time.zone.now - 1.day) }
+      let!(:document1) { create(:document, created_at: 1.day.ago) }
       let!(:document2) { create(:document, created_at: Time.zone.now) }
-      let!(:document3) { create(:document, created_at: Time.zone.now - 2.days) }
+      let!(:document3) { create(:document, created_at: 2.days.ago) }
 
       it "returns document sorted by created at" do
         expect(described_class.by_created_at).to eq([document3, document1, document2])
@@ -63,7 +63,7 @@ RSpec.describe Document do
 
     it "is valid for a png file content type" do
       document.file.attach(
-        io: File.open(Rails.root.join("spec/fixtures/images/existing-roofplan.pdf")),
+        io: Rails.root.join("spec/fixtures/images/existing-roofplan.pdf").open,
         filename: "existing-roofplan.png",
         content_type: "image/png"
       )
@@ -73,7 +73,7 @@ RSpec.describe Document do
 
     it "is valid for a pdf file content type" do
       document.file.attach(
-        io: File.open(Rails.root.join("spec/fixtures/images/existing-roofplan.pdf")),
+        io: Rails.root.join("spec/fixtures/images/existing-roofplan.pdf").open,
         filename: "existing-roofplan.pdf",
         content_type: "application/pdf"
       )
@@ -83,7 +83,7 @@ RSpec.describe Document do
 
     it "is invalid for an unpermitted file content type" do
       document.file.attach(
-        io: File.open(Rails.root.join("spec/fixtures/images/bmp.bmp")),
+        io: Rails.root.join("spec/fixtures/images/bmp.bmp").open,
         filename: "bmp.bmp",
         content_type: "image/bmp"
       )

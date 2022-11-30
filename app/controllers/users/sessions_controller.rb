@@ -54,7 +54,7 @@ module Users
     end
 
     def can_resend_code?
-      session[:last_code_sent_at] && session[:last_code_sent_at] > (Time.current - 1.minute)
+      session[:last_code_sent_at] && session[:last_code_sent_at] > (1.minute.ago)
     end
 
     def notify_error(exception)

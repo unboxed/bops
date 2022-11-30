@@ -9,6 +9,8 @@ class UsersController < AuthenticationController
     @user = current_local_authority.users.new
   end
 
+  def edit; end
+
   def create
     @user = current_local_authority.users.new(user_params)
 
@@ -22,8 +24,6 @@ class UsersController < AuthenticationController
       render :new
     end
   end
-
-  def edit; end
 
   def update
     if @user.update(user_params)

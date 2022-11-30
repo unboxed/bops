@@ -17,6 +17,12 @@ class AdditionalDocumentValidationRequestsController < ValidationRequestsControl
     end
   end
 
+  def edit
+    respond_to do |format|
+      format.html
+    end
+  end
+
   def create
     @additional_document_validation_request = @planning_application.additional_document_validation_requests.new(additional_document_validation_request_params)
     @additional_document_validation_request.user = current_user
@@ -32,12 +38,6 @@ class AdditionalDocumentValidationRequestsController < ValidationRequestsControl
       else
         format.html { render :new }
       end
-    end
-  end
-
-  def edit
-    respond_to do |format|
-      format.html
     end
   end
 

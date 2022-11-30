@@ -12,7 +12,7 @@ RSpec.describe PlanningApplication do
   describe "validations" do
     describe "#determination_date" do
       it "validates that date is not in the future" do
-        planning_application = build(:planning_application, determination_date: Time.current + 1.day)
+        planning_application = build(:planning_application, determination_date: 1.day.from_now)
 
         expect do
           planning_application.valid?
@@ -28,7 +28,7 @@ RSpec.describe PlanningApplication do
       end
 
       it "does not raise a validation error if date is in the past" do
-        planning_application = build(:planning_application, determination_date: Time.current - 1.day)
+        planning_application = build(:planning_application, determination_date: 1.day.ago)
 
         expect { planning_application.valid? }.not_to(change { planning_application.errors[:determination_date] })
       end
@@ -91,9 +91,9 @@ RSpec.describe PlanningApplication do
 
   describe "scopes" do
     describe ".by_created_at_desc" do
-      let!(:planning_application1) { create(:planning_application, created_at: Time.zone.now - 1.day) }
+      let!(:planning_application1) { create(:planning_application, created_at: 1.day.ago) }
       let!(:planning_application2) { create(:planning_application, created_at: Time.zone.now) }
-      let!(:planning_application3) { create(:planning_application, created_at: Time.zone.now - 2.days) }
+      let!(:planning_application3) { create(:planning_application, created_at: 2.days.ago) }
 
       it "returns planning applications sorted by created at desc (i.e. most recent first)" do
         expect(described_class.by_created_at_desc).to eq([planning_application2, planning_application1, planning_application3])
@@ -484,9 +484,9 @@ RSpec.describe PlanningApplication do
 
     context "when there is a determination date set in the db" do
       it "returns the determination date" do
-        planning_application.update(determination_date: Time.current - 5.days)
+        planning_application.update(determination_date: 5.days.ago)
 
-        expect(planning_application.determination_date).to eq(Time.current - 5.days)
+        expect(planning_application.determination_date).to eq(5.days.ago)
       end
     end
   end

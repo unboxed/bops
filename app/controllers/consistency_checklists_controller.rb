@@ -6,9 +6,13 @@ class ConsistencyChecklistsController < AuthenticationController
   before_action :set_planning_application
   before_action :set_consistency_checklist, except: %i[new create]
 
+  def show; end
+
   def new
     @consistency_checklist = @planning_application.build_consistency_checklist
   end
+
+  def edit; end
 
   def create
     @consistency_checklist = @planning_application.build_consistency_checklist(
@@ -25,8 +29,6 @@ class ConsistencyChecklistsController < AuthenticationController
     end
   end
 
-  def edit; end
-
   def update
     if @consistency_checklist.update(consistency_checklist_params)
       redirect_to(
@@ -37,8 +39,6 @@ class ConsistencyChecklistsController < AuthenticationController
       render :new
     end
   end
-
-  def show; end
 
   private
 
