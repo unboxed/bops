@@ -108,11 +108,11 @@ class Document < ApplicationRecord
       raise NotArchiveableError, "Cannot archive document with an open or pending validation request"
     end
 
-    unless archived?
-      transaction do
-        update!(archive_reason: archive_reason, archived_at: Time.zone.now)
-        audit!(activity_type: "archived", activity_information: file.filename, audit_comment: archive_reason)
-      end
+    return if archived?
+
+    transaction do
+      update!(archive_reason: archive_reason, archived_at: Time.zone.now)
+      audit!(activity_type: "archived", activity_information: file.filename, audit_comment: archive_reason)
     end
   end
 
@@ -132,17 +132,17 @@ class Document < ApplicationRecord
   end
 
   def audit_updated!
-    if saved_changes?
-      if saved_change_to_attribute?("received_at")
-        audit!(activity_type: "document_received_at_changed", activity_information: file.filename,
-               audit_comment: audit_date_comment)
-      end
-      if saved_change_to_attribute?(:validated, from: false, to: true)
-        audit!(activity_type: "document_changed_to_validated", activity_information: file.filename)
-      elsif saved_change_to_attribute?(:validated, to: false)
-        audit!(activity_type: "document_invalidated", activity_information: file.filename,
-               audit_comment: invalidated_document_reason)
-      end
+    return unless saved_changes?
+
+    if saved_change_to_attribute?("received_at")
+      audit!(activity_type: "document_received_at_changed", activity_information: file.filename,
+             audit_comment: audit_date_comment)
+    end
+    if saved_change_to_attribute?(:validated, from: false, to: true)
+      audit!(activity_type: "document_changed_to_validated", activity_information: file.filename)
+    elsif saved_change_to_attribute?(:validated, to: false)
+      audit!(activity_type: "document_invalidated", activity_information: file.filename,
+             audit_comment: invalidated_document_reason)
     end
   end
 
@@ -178,9 +178,9 @@ class Document < ApplicationRecord
   end
 
   def created_date_is_in_the_past
-    if received_at.present? && received_at > Time.zone.today
-      errors.add(:received_at, "Date must be today or earlier. You cannot insert a future date.")
-    end
+    return unless received_at.present? && received_at > Time.zone.today
+
+    errors.add(:received_at, "Date must be today or earlier. You cannot insert a future date.")
   end
 
   def create_audit!
@@ -195,8 +195,8 @@ class Document < ApplicationRecord
   def reset_replacement_document_validation_request_update_counter!
     return unless validated? || archived?
 
-    if (request = ReplacementDocumentValidationRequest.find_by(new_document_id: id))
-      request.reset_update_counter!
-    end
+    return unless (request = ReplacementDocumentValidationRequest.find_by(new_document_id: id))
+
+    request.reset_update_counter!
   end
 end

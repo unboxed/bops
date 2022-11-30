@@ -48,9 +48,9 @@ class ApplicationController < ActionController::Base
   end
 
   def find_current_local_authority_from_subdomain
-    unless @current_local_authority ||= LocalAuthority.find_by(subdomain: request.subdomains.first)
-      render plain: "No Local Authority Found", status: :not_found
-    end
+    return if @current_local_authority ||= LocalAuthority.find_by(subdomain: request.subdomains.first)
+
+    render plain: "No Local Authority Found", status: :not_found
   end
 
   def prevent_caching

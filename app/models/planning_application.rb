@@ -525,9 +525,9 @@ class PlanningApplication < ApplicationRecord
   end
 
   def validated_at_date
-    if in_assessment? && !validated_at.to_date.is_a?(Date)
-      errors.add(:planning_application, "Please enter a valid date")
-    end
+    return unless in_assessment? && !validated_at.to_date.is_a?(Date)
+
+    errors.add(:planning_application, "Please enter a valid date")
   end
 
   def has_validation_date?
@@ -555,21 +555,21 @@ class PlanningApplication < ApplicationRecord
   end
 
   def audit_updated!
-    if saved_changes?
-      saved_changes.keys.intersection(PLANNING_APPLICATION_PERMITTED_KEYS).map do |attribute_name|
-        next if saved_change_to_attribute(attribute_name).all?(&:blank?)
+    return unless saved_changes?
 
-        attribute_to_audit(attribute_name)
-      end
+    saved_changes.keys.intersection(PLANNING_APPLICATION_PERMITTED_KEYS).map do |attribute_name|
+      next if saved_change_to_attribute(attribute_name).all?(&:blank?)
+
+      attribute_to_audit(attribute_name)
     end
   end
 
   def address_or_boundary_geojson_updated?
     return if updated_address_or_boundary_geojson
 
-    if saved_changes.keys.intersection(ADDRESS_AND_BOUNDARY_GEOJSON_FIELDS).any?
-      update!(updated_address_or_boundary_geojson: true)
-    end
+    return unless saved_changes.keys.intersection(ADDRESS_AND_BOUNDARY_GEOJSON_FIELDS).any?
+
+    update!(updated_address_or_boundary_geojson: true)
   end
 
   def attribute_to_audit(attribute_name)
@@ -610,9 +610,9 @@ class PlanningApplication < ApplicationRecord
   def determination_date_is_not_in_the_future
     return unless determination_date_changed?
 
-    if determination_date >= Time.zone.tomorrow
-      errors.add(:determination_date, "Determination date must be today or in the past")
-    end
+    return unless determination_date >= Time.zone.tomorrow
+
+    errors.add(:determination_date, "Determination date must be today or in the past")
   end
 
   def set_application_number

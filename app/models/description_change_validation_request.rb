@@ -18,10 +18,10 @@ class DescriptionChangeValidationRequest < ApplicationRecord
   scope :responded, -> { closed.where(cancelled_at: nil, auto_closed: false).order(created_at: :asc) }
 
   def rejected_reason_is_present?
-    if approved == false && rejection_reason.blank?
-      errors.add(:base,
-                 "Please include a comment for the case officer to indicate why the description change has been rejected.")
-    end
+    return unless approved == false && rejection_reason.blank?
+
+    errors.add(:base,
+               "Please include a comment for the case officer to indicate why the description change has been rejected.")
   end
 
   def set_previous_application_description
@@ -29,15 +29,15 @@ class DescriptionChangeValidationRequest < ApplicationRecord
   end
 
   def allows_only_one_open_description_change
-    if planning_application.open_description_change_requests.any?
-      errors.add(:base, "An open description change already exists for this planning application.")
-    end
+    return unless planning_application.open_description_change_requests.any?
+
+    errors.add(:base, "An open description change already exists for this planning application.")
   end
 
   def planning_application_has_not_been_determined
-    if planning_application.determined?
-      errors.add(:base, "A description change request cannot be submitted for a determined planning application.")
-    end
+    return unless planning_application.determined?
+
+    errors.add(:base, "A description change request cannot be submitted for a determined planning application.")
   end
 
   def rejected?
