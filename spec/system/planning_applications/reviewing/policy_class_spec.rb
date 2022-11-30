@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning Application Reviewing Policy Class" do
+RSpec.describe "Reviewing Policy Class" do
   let(:default_local_authority) { create(:local_authority, :default) }
 
   let(:reviewer) do

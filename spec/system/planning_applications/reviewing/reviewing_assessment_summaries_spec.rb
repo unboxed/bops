@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "reviewing assessment summaries" do
+RSpec.describe "Reviewing assessment summaries" do
   let(:local_authority) { create(:local_authority, :default) }
 
   let!(:assessor) do
