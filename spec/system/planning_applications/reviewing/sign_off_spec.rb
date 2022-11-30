@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning Application Reviewing" do
+RSpec.describe "Reviewing sign-off" do
   let(:default_local_authority) { create(:local_authority, :default) }
   let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
@@ -19,25 +19,22 @@ RSpec.describe "Planning Application Reviewing" do
     )
   end
 
-  let!(:previous_recommendation) do
-    create(:recommendation, :reviewed,
-           planning_application: planning_application,
-           assessor_comment: "First assessor comment",
-           reviewer_comment: "First reviewer comment")
-  end
-  let!(:recommendation) do
-    create(:recommendation,
-           planning_application: planning_application,
-           assessor_comment: "New assessor comment",
-           submitted: true)
-  end
-
   before do
     sign_in reviewer
     visit planning_application_path(planning_application)
   end
 
   it "can be accepted" do
+    create(:recommendation, :reviewed,
+           planning_application: planning_application,
+           assessor_comment: "First assessor comment",
+           reviewer_comment: "First reviewer comment")
+
+    create(:recommendation,
+           planning_application: planning_application,
+           assessor_comment: "New assessor comment",
+           submitted: true)
+
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Review and sign-off"
     expect(list_item("Sign-off recommendation")).to have_content("Not started")
@@ -86,6 +83,11 @@ RSpec.describe "Planning Application Reviewing" do
   end
 
   it "can be rejected" do
+    create(:recommendation,
+           planning_application: planning_application,
+           assessor_comment: "New assessor comment",
+           submitted: true)
+
     travel_to(Date.new(2022))
     click_link "Review and sign-off"
 
@@ -134,6 +136,11 @@ RSpec.describe "Planning Application Reviewing" do
   end
 
   it "cannot be rejected without a review comment" do
+    create(:recommendation,
+           planning_application: planning_application,
+           assessor_comment: "New assessor comment",
+           submitted: true)
+
     click_link "Review and sign-off"
     click_link "Sign-off recommendation"
 
@@ -148,6 +155,11 @@ RSpec.describe "Planning Application Reviewing" do
   end
 
   it "can be accepted without a review comment" do
+    create(:recommendation,
+           planning_application: planning_application,
+           assessor_comment: "New assessor comment",
+           submitted: true)
+
     click_link "Review and sign-off"
     click_link "Sign-off recommendation"
 
@@ -173,9 +185,6 @@ RSpec.describe "Planning Application Reviewing" do
     click_link "Sign-off recommendation"
 
     within ".recommendations" do
-      expect(page).to have_content("First assessor comment")
-      expect(page).to have_content("First reviewer comment")
-      expect(page).to have_content("New assessor comment")
       expect(page).not_to have_content("Reviewer private comment")
     end
 
@@ -194,6 +203,11 @@ RSpec.describe "Planning Application Reviewing" do
 
   context "when editing the public comment that appears on the decision notice" do
     it "as a reviewer I am able to edit" do
+      create(:recommendation,
+             planning_application: planning_application,
+             assessor_comment: "New assessor comment",
+             submitted: true)
+
       click_link "Review and sign-off"
       click_link "Sign-off recommendation"
 
