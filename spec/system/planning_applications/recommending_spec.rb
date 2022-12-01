@@ -445,6 +445,8 @@ RSpec.describe "Planning Application Assessment" do
         visit(edit_planning_application_recommendations_path(planning_application))
         choose("No")
 
+        expect(page).to have_text "Case currently assigned to: Alice Aplin"
+
         fill_in(
           "Explain to the officer why the case is being returned",
           with: "Requirements not met."
