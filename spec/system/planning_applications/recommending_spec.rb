@@ -53,7 +53,8 @@ RSpec.describe "Planning Application Assessment" do
           click_link(planning_application.reference)
         end
 
-        click_link "Assess recommendation"
+        click_link("Check and assess")
+        click_link("Make draft recommendation")
         choose "Yes"
         fill_in "State the reasons why this application is, or is not lawful.", with: "This is a public comment"
         fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
@@ -65,7 +66,7 @@ RSpec.describe "Planning Application Assessment" do
         expect(planning_application.recommendations.first.assessor_comment).to eq("This is a private assessor comment")
         expect(planning_application.decision).to eq("granted")
 
-        click_link "Assess recommendation"
+        click_link("Make draft recommendation")
         expect(page).to have_checked_field("Yes")
         expect(page).to have_field("Please provide supporting information for your manager.",
                                    with: "This is a private assessor comment")
@@ -150,7 +151,8 @@ RSpec.describe "Planning Application Assessment" do
         click_link(planning_application.reference)
       end
 
-      click_link "Assess recommendation"
+      click_link("Check and assess")
+      click_link("Make draft recommendation")
 
       within ".recommendations" do
         expect(page).to have_content("I disagree")
@@ -169,7 +171,7 @@ RSpec.describe "Planning Application Assessment" do
       expect(planning_application.recommendation.assessor_comment).to eq("This is a private assessor comment")
       expect(planning_application.decision).to eq("granted")
 
-      click_link "Assess recommendation"
+      click_link("Make draft recommendation")
 
       within ".recommendations" do
         expect(page).to have_content("I disagree")
@@ -191,7 +193,8 @@ RSpec.describe "Planning Application Assessment" do
         click_link(planning_application.reference)
       end
 
-      click_link("Assess recommendation")
+      click_link("Check and assess")
+      click_link("Make draft recommendation")
 
       expect(page).to have_content(
         "No legislation assessed for this application."
@@ -245,7 +248,8 @@ RSpec.describe "Planning Application Assessment" do
         click_link(planning_application.reference)
       end
 
-      click_link("Assess recommendation")
+      click_link("Check and assess")
+      click_link("Make draft recommendation")
 
       choose("Yes")
       fill_in("State the reasons why this application is, or is not lawful.", with: "This is a public comment")
@@ -265,7 +269,8 @@ RSpec.describe "Planning Application Assessment" do
         click_link(planning_application.reference)
       end
 
-      click_link("Assess recommendation")
+      click_link("Check and assess")
+      click_link("Make draft recommendation")
 
       choose("Yes")
       fill_in("State the reasons why this application is, or is not lawful.", with: "This is a public comment")
@@ -289,7 +294,8 @@ RSpec.describe "Planning Application Assessment" do
           click_link(planning_application.reference)
         end
 
-        click_link("Assess recommendation")
+        click_link("Check and assess")
+        click_link("Make draft recommendation")
         choose("Yes")
         fill_in("State the reasons why this application is, or is not lawful.", with: "This is a public comment")
         fill_in("Please provide supporting information for your manager.", with: "This is a private assessor comment")
@@ -366,7 +372,8 @@ RSpec.describe "Planning Application Assessment" do
           click_link(planning_application.reference)
         end
 
-        click_link "Assess recommendation"
+        click_link("Check and assess")
+        click_link("Make draft recommendation")
         choose "Yes"
         fill_in "State the reasons why this application is, or is not lawful.", with: "This is a public comment"
         fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
@@ -378,7 +385,7 @@ RSpec.describe "Planning Application Assessment" do
         expect(planning_application.recommendations.first.assessor_comment).to eq("This is a private assessor comment")
         expect(planning_application.decision).to eq("granted")
 
-        click_link "Assess recommendation"
+        click_link("Make draft recommendation")
         expect(page).to have_checked_field("Yes")
         expect(page).to have_content("This is a public comment")
         expect(page).to have_field("Please provide supporting information for your manager.",
@@ -393,7 +400,8 @@ RSpec.describe "Planning Application Assessment" do
         click_link(planning_application.reference)
       end
 
-      click_link "Assess recommendation"
+      click_link("Check and assess")
+      click_link("Make draft recommendation")
       click_button "Save and come back later"
 
       expect(page).not_to have_content("Please select Yes or No")
@@ -430,7 +438,8 @@ RSpec.describe "Planning Application Assessment" do
         fill_in("Review comment", with: "Requirements not met.")
         click_button("Save and mark as complete")
         click_link("Back")
-        click_link("Assess recommendation")
+        click_link("Check and assess")
+        click_link("Make draft recommendation")
 
         events = find_all(".recommendation-event")
 
@@ -568,7 +577,8 @@ RSpec.describe "Planning Application Assessment" do
 
     expect(list_item("Assess recommendation")).to have_content("Not started")
 
-    click_link("Assess recommendation")
+    click_link("Check and assess")
+    click_link("Make draft recommendation")
     choose("Yes")
 
     fill_in(
@@ -585,7 +595,8 @@ RSpec.describe "Planning Application Assessment" do
 
     expect(list_item("Assess recommendation")).to have_content("In progress")
 
-    click_link("Assess recommendation")
+    click_link("Check and assess")
+    click_link("Make draft recommendation")
     click_button("Save and mark as complete")
 
     expect(list_item("Assess recommendation")).to have_content("Complete")
@@ -632,7 +643,8 @@ RSpec.describe "Planning Application Assessment" do
     sign_in(assessor)
     visit(planning_application_path(planning_application))
 
-    click_link("Assess recommendation")
+    click_link("Check and assess")
+    click_link("Make draft recommendation")
 
     fill_in(
       "State the reasons why this application is, or is not lawful.",

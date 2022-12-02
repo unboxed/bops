@@ -6,5 +6,20 @@
     <li class="app-task-list__item">
       <%= @planning_application.review_documents_tasklist %>
     </li>
+    <li class="app-task-list__item">
+      <span class="app-task-list__task-name">
+        <%= link_to_if(
+          @planning_application.can_assess?,
+          "Make draft recommendation",
+          new_planning_application_recommendation_path(@planning_application),
+          class: "govuk-link"
+        ) %>
+      </span>
+      <%= render(
+        StatusTags::AssessRecommendationComponent.new(
+          planning_application: @planning_application
+        )
+      ) %>
+    </li>
   </ul>
 </li>

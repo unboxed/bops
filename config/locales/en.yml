@@ -553,7 +553,6 @@ en:
       you_can_search: You can search by application number or description
     steps:
       assessment:
-        assess_recommendation: Assess recommendation
         check_and_assess: Check and assess
       validation:
         check_and_validate: Check and validate

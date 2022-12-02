@@ -51,7 +51,8 @@ RSpec.describe "Planning Application Assessment Legislation" do
     choose("policy_class_policies_attributes_5_status_to_be_determined")
     click_button("Save and come back later")
     click_link("Application")
-    click_link("Assess recommendation")
+    click_link("Check and assess")
+    click_link("Make draft recommendation")
 
     expect(page).to have_content("To be determined")
 
@@ -59,7 +60,8 @@ RSpec.describe "Planning Application Assessment Legislation" do
     choose("policy_class_policies_attributes_5_status_does_not_comply")
     click_button("Save and come back later")
     click_link("Application")
-    click_link("Assess recommendation")
+    click_link("Check and assess")
+    click_link("Make draft recommendation")
 
     expect(page).to have_content("Does not comply")
 
@@ -71,7 +73,8 @@ RSpec.describe "Planning Application Assessment Legislation" do
     choose("policy_class_policies_attributes_5_status_complies")
     click_button("Save and come back later")
     click_link("Application")
-    click_link("Assess recommendation")
+    click_link("Check and assess")
+    click_link("Make draft recommendation")
 
     expect(page).to have_content("Complies")
   end
