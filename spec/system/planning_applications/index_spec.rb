@@ -58,7 +58,7 @@ RSpec.describe "Planning Application index page" do
       end
     end
 
-    context "viewing tabs" do
+    context "when viewing tabs" do
       it "Planning Application status bar is present" do
         within(:planning_applications_status_tab) do
           expect(page).to have_link "In assessment"
@@ -259,7 +259,7 @@ RSpec.describe "Planning Application index page" do
       end
     end
 
-    context "restricted views" do
+    context "with restricted views" do
       let!(:second_assessor) { create(:user, :assessor, local_authority: default_local_authority) }
       let!(:other_assessor_planning_application) do
         create(:planning_application, user_id: second_assessor.id, local_authority: default_local_authority)

@@ -110,7 +110,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       )
     end
 
-    context "for a rejected application" do
+    context "with a rejected application" do
       let(:planning_application) do
         create(
           :planning_application,
@@ -530,7 +530,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
   end
 
-  context "creating description changes for an undetermined application" do
+  context "when creating description changes for an undetermined application" do
     let(:planning_application) do
       create(
         :planning_application,

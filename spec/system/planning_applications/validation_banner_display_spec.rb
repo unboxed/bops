@@ -6,7 +6,7 @@ RSpec.describe "Validation banners" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) { create(:planning_application, :invalidated, local_authority: default_local_authority) }
 
-  context "Validation request banners are displayed correctly when open request is overdue" do
+  context "when validation request banners are displayed correctly when open request is overdue" do
     let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
     let!(:replacement_document_validation_request) do
       create(:replacement_document_validation_request, planning_application: planning_application, state: "open")
@@ -33,7 +33,7 @@ RSpec.describe "Validation banners" do
     end
   end
 
-  context "Validation warning banner is not displayed when request is closed" do
+  context "when validation warning banner is not displayed when request is closed" do
     let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
     let!(:replacement_document_validation_request) do
       create(:replacement_document_validation_request, planning_application: planning_application, state: "closed")

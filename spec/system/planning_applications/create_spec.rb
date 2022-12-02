@@ -77,7 +77,7 @@ RSpec.describe "Creating a planning application" do
     visit planning_application_path(PlanningApplication.last.id)
   end
 
-  context "it allows for a full application to be completed" do
+  context "when it allows a full application to be completed" do
     before do
       click_link "Add new application"
 

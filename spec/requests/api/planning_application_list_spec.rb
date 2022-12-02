@@ -36,7 +36,7 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
       expect(data).to be_empty
     end
 
-    context "for a new planning application" do
+    context "with a new planning application" do
       let!(:planning_application) do
         create(:planning_application, :not_started, local_authority: default_local_authority, decision: "granted")
       end
@@ -86,7 +86,7 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
         expect(data.size).to eq(1)
       end
 
-      context "for a granted planning application" do
+      context "when granted planning application" do
         let!(:planning_application) do
           create(:planning_application, :determined, local_authority: default_local_authority, decision: "granted")
         end

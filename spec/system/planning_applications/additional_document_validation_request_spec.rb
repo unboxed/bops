@@ -64,7 +64,7 @@ RSpec.describe "Requesting a new document for a planning application" do
     expect(page).to have_text("Applicant / Agent via Api Wizard")
   end
 
-  context "Invalidation updates additional document validation request" do
+  context "when invalidation updates an additional document validation request" do
     it "updates the notified_at date of an open request when application is invalidated" do
       new_planning_application = create(:planning_application, :not_started, local_authority: default_local_authority)
 

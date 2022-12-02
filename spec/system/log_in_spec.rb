@@ -31,7 +31,7 @@ RSpec.describe "Sign in" do
     expect(page).not_to have_text("Signed in successfully.")
   end
 
-  context "users with valid credentials" do
+  context "as a user with valid credentials" do
     context "as an assessor" do
       before do
         sign_in assessor
@@ -83,7 +83,7 @@ RSpec.describe "Sign in" do
       end
     end
 
-    context "a user belonging to a given subdomain" do
+    context "with a user belonging to a given subdomain" do
       let!(:lambeth) { create(:local_authority, :lambeth) }
       let!(:southwark) { create(:local_authority, :southwark) }
       let(:lambeth_assessor) do
@@ -133,7 +133,7 @@ RSpec.describe "Sign in" do
     end
   end
 
-  context "signing in with two factor authentication" do
+  context "when signing in with two factor authentication" do
     before do
       visit root_path
 
@@ -440,7 +440,7 @@ RSpec.describe "Sign in" do
     end
   end
 
-  context "user session" do
+  context "with user session" do
     let!(:user) { create(:user, local_authority: default_local_authority) }
 
     before do
