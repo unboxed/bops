@@ -14,7 +14,7 @@ RSpec.describe "Document uploads" do
   let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
   let(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
 
-  context "for an assessor" do
+  context "as an assessor" do
     before { sign_in assessor }
 
     context "when the application is under assessment" do

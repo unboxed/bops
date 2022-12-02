@@ -191,7 +191,7 @@ RSpec.describe "Planning Application Assessment" do
     end
   end
 
-  context "Checking documents from Not Started status" do
+  context "when checking documents from Not Started status" do
     it "can be invalidated and email is sent when there is an open validation request" do
       create(:additional_document_validation_request, planning_application: planning_application, state: "pending",
                                                       created_at: 12.days.ago)
@@ -216,7 +216,7 @@ RSpec.describe "Planning Application Assessment" do
     end
   end
 
-  context "Checking documents from Invalidated status" do
+  context "when checking documents from Invalidated status" do
     let!(:planning_application) do
       create(:planning_application, :invalidated, local_authority: default_local_authority)
     end
@@ -240,7 +240,7 @@ RSpec.describe "Planning Application Assessment" do
     end
   end
 
-  context "Planning application does not transition when expected inputs are not sent" do
+  context "when planning application does not transition when expected inputs are not sent" do
     it "shows an error when invalid documents are present" do
       create(:document, :with_file,
              planning_application: planning_application,
@@ -353,7 +353,7 @@ RSpec.describe "Planning Application Assessment" do
     end
   end
 
-  context "Planning application is in determined state" do
+  context "when planning application is in determined state" do
     let!(:determined_planning_application) do
       create(:planning_application, :determined, local_authority: default_local_authority)
     end
@@ -373,7 +373,7 @@ RSpec.describe "Planning Application Assessment" do
     end
   end
 
-  context "Invalidation with no requests" do
+  context "with invalidation with no requests" do
     it "shows correct errors and status when there are no open validation requests" do
       visit planning_application_path(new_planning_application)
       click_link "Check and validate"
@@ -383,7 +383,7 @@ RSpec.describe "Planning Application Assessment" do
     end
   end
 
-  context "Application not started" do
+  context "when application not started" do
     it "shows text and links when application has not been started" do
       visit planning_application_path(planning_application)
       click_link "Check and validate"
@@ -394,7 +394,7 @@ RSpec.describe "Planning Application Assessment" do
     end
   end
 
-  context "Application invalidated" do
+  context "when application invalidated" do
     it "does not show the invalidate button when application is invalid" do
       invalid_planning_application = create(:planning_application, :invalidated,
                                             local_authority: default_local_authority)
@@ -407,7 +407,7 @@ RSpec.describe "Planning Application Assessment" do
     end
   end
 
-  context "Application validated" do
+  context "when application validated" do
     before do
       planning_application = create(:planning_application, :in_assessment, local_authority: default_local_authority)
 

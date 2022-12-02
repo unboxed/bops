@@ -94,7 +94,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
     end
   end
 
-  context "linking to sitemap documents" do
+  context "when linking to sitemap documents" do
     let!(:planning_application) do
       create(:planning_application, :not_started, local_authority: default_local_authority)
     end
@@ -135,7 +135,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
     end
   end
 
-  context "requesting map changes to a planning application" do
+  context "when requesting map changes to a planning application" do
     let!(:planning_application) do
       create(:planning_application, :invalidated, :with_boundary_geojson, local_authority: default_local_authority)
     end

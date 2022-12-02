@@ -490,7 +490,7 @@ RSpec.describe "Requesting document changes to a planning application" do
     end
   end
 
-  context "Invalidation updates replacement document validation request" do
+  context "when invalidation updates replacement document validates request" do
     let!(:planning_application) do
       create(:planning_application, :not_started, local_authority: default_local_authority)
     end

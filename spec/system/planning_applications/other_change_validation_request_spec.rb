@@ -135,7 +135,7 @@ RSpec.describe "Requesting other changes to a planning application" do
     end
   end
 
-  context "Invalidation updates other change validation request" do
+  context "when invalidation updates other change validation request" do
     it "updates the notified_at date of an open request when application is invalidated" do
       new_planning_application = create(:planning_application, :not_started, local_authority: default_local_authority)
       request = create(:other_change_validation_request, planning_application: new_planning_application, state: "pending",

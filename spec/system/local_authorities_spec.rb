@@ -6,7 +6,7 @@ RSpec.describe "Accessing correct local authority" do
   let!(:lambeth) { create(:local_authority, :lambeth) }
   let!(:southwark) { create(:local_authority, :southwark) }
 
-  context "Lambeth council" do
+  context "with Lambeth council" do
     before do
       @previous_host = Capybara.app_host
       Capybara.app_host = "http://#{lambeth.subdomain}.example.com"
@@ -24,7 +24,7 @@ RSpec.describe "Accessing correct local authority" do
     end
   end
 
-  context "Non existent council" do
+  context "with non existent council" do
     before do
       @previous_host = Capybara.app_host
       Capybara.app_host = "http://biscuits.example.com"

@@ -76,6 +76,14 @@ RSpec/MultipleMemoizedHelpers:
 RSpec/AnyInstance:
   Enabled: false
 
+RSpec/ContextWording:
+  Prefixes:
+    - as
+    - before
+    - when
+    - with
+    - without
+
 RSpec/MessageSpies:
   Enabled: false
 

@@ -742,10 +742,10 @@ RSpec.describe PlanningApplication do
         )
     end
 
-    context "no user assigned" do
+    context "with no user assigned" do
       let(:planning_application) { create(:planning_application, user: nil) }
 
-      it "does not send notificationr" do
+      it "does not send notification" do
         expect do
           planning_application.send_update_notification_to_assessor
         end.not_to have_enqueued_job
@@ -774,12 +774,12 @@ RSpec.describe PlanningApplication do
         )
     end
 
-    context "no reviewer group email" do
+    context "with no reviewer group email" do
       let(:local_authority) do
         create(:local_authority, reviewer_group_email: nil)
       end
 
-      it "does not send notificationr" do
+      it "does not send notification" do
         expect do
           planning_application.send_update_notification_to_reviewers
         end.not_to have_enqueued_job
@@ -948,7 +948,7 @@ RSpec.describe PlanningApplication do
       )
     end
 
-    context "recommendation has status of 'assessment_in_progress'" do
+    context "when recommendation has status of 'assessment_in_progress'" do
       let(:status) { :assessment_in_progress }
 
       it "returns true" do
@@ -960,7 +960,7 @@ RSpec.describe PlanningApplication do
       end
     end
 
-    context "recommendation does not have status of 'assessment_in_progress'" do
+    context "when recommendation does not have status of 'assessment_in_progress'" do
       let(:status) { :assessment_complete }
 
       it "returns false" do
@@ -984,7 +984,7 @@ RSpec.describe PlanningApplication do
       )
     end
 
-    context "recommendation has status of 'assessment_complete'" do
+    context "when recommendation has status of 'assessment_complete'" do
       let(:status) { :assessment_complete }
 
       it "returns true" do
@@ -996,7 +996,7 @@ RSpec.describe PlanningApplication do
       end
     end
 
-    context "recommendation does not have status of 'assessment_complete'" do
+    context "when recommendation does not have status of 'assessment_complete'" do
       let(:status) { :assessment_in_progress }
 
       it "returns false" do
@@ -1020,7 +1020,7 @@ RSpec.describe PlanningApplication do
       )
     end
 
-    context "recommendation has status of 'review_in_progress'" do
+    context "when recommendation has status of 'review_in_progress'" do
       let(:status) { :review_in_progress }
 
       it "returns true" do
@@ -1032,7 +1032,7 @@ RSpec.describe PlanningApplication do
       end
     end
 
-    context "recommendation does not have status of 'review_in_progress'" do
+    context "when recommendation does not have status of 'review_in_progress'" do
       let(:status) { :assessment_complete }
 
       it "returns false" do
@@ -1056,7 +1056,7 @@ RSpec.describe PlanningApplication do
       )
     end
 
-    context "recommendation has status of 'review_complete'" do
+    context "when recommendation has status of 'review_complete'" do
       let(:status) { :review_complete }
 
       it "returns true" do
@@ -1068,7 +1068,7 @@ RSpec.describe PlanningApplication do
       end
     end
 
-    context "recommendation does not have status of 'review_complete'" do
+    context "when recommendation does not have status of 'review_complete'" do
       let(:status) { :assessment_complete }
 
       it "returns false" do

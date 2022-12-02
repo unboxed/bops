@@ -46,7 +46,7 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
       expect(planning_application_json).to eq({ "message" => "Unable to find record" })
     end
 
-    context "for a new planning application" do
+    context "with a new planning application" do
       it "returns the accurate data" do
         get "/api/v1/planning_applications/#{planning_application.id}"
         expect(planning_application_json["status"]).to eq("not_started")
@@ -85,7 +85,7 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
         expect(planning_application_json["documents"]).to eq([])
       end
 
-      context "for a granted planning application" do
+      context "when granted planning application" do
         let!(:planning_application) do
           create(:planning_application, :determined, local_authority: default_local_authority, decision: "granted")
         end

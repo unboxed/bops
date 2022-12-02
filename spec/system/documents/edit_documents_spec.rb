@@ -157,7 +157,7 @@ RSpec.describe "Edit document" do
         expect(page).to have_current_path(planning_application_documents_path(planning_application))
       end
 
-      it "arhive returns to the documents index page" do
+      it "archive returns to the documents index page" do
         visit planning_application_document_archive_path(planning_application, document)
 
         click_button "Archive"

@@ -99,7 +99,7 @@ RSpec.describe "Documents index page" do
     end
   end
 
-  context "handling invalid documents" do
+  context "when handling invalid documents" do
     let!(:planning_application) do
       create(:planning_application, :invalidated, local_authority: default_local_authority)
     end

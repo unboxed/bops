@@ -79,7 +79,7 @@ RSpec.describe "Documents index page" do
     end
   end
 
-  context "Archiving journey" do
+  context "when archiving journey" do
     before do
       sign_in assessor
       visit planning_application_path(planning_application)
@@ -138,7 +138,7 @@ RSpec.describe "Documents index page" do
     end
   end
 
-  context "restore from archive" do
+  context "when restoring from archive" do
     it "Archived document can be restored" do
       sign_in assessor
       visit planning_application_path(planning_application)
@@ -188,7 +188,7 @@ RSpec.describe "Documents index page" do
     end
   end
 
-  context "Application that has not been started" do
+  context "with an application that has not been started" do
     before do
       sign_in assessor
       visit planning_application_path(not_started_planning_application)
@@ -212,7 +212,7 @@ RSpec.describe "Documents index page" do
     end
   end
 
-  context "Application that is awaiting determination" do
+  context "with an application that is awaiting determination" do
     before do
       sign_in assessor
       visit planning_application_path(awaiting_determination_planning_application)
