@@ -20,18 +20,4 @@
       )
     ) %>
   </li>
-  <li class="app-task-list__item">
-    <span class="app-task-list__task-name">
-      <% if @planning_application.can_submit_recommendation? %>
-        <%= link_to "Submit recommendation", submit_recommendation_planning_application_path(@planning_application), aria: { describedby: "submit_recommendation-completed" }, class: "govuk-link" %>
-      <% else %>
-        Submit recommendation
-      <% end %>
-    </span>
-    <%= render(
-      StatusTags::SubmitRecommendationComponent.new(
-        planning_application: @planning_application
-      )
-    ) %>
-  </li>
 </ul>
