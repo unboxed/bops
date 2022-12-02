@@ -142,7 +142,18 @@ RSpec.describe "Sign in" do
     end
 
     context "when I do not have a mobile number" do
-      let!(:user) { create(:user, local_authority: default_local_authority, mobile_number: nil) }
+      let!(:user) do
+        create(
+          :user,
+          local_authority: default_local_authority,
+          mobile_number: nil,
+          name: "Alice Smith"
+        )
+      end
+
+      let(:administrator) do
+        create(:user, :administrator, local_authority: default_local_authority)
+      end
 
       it "prompts me to enter a mobile number first before receiving my OTP" do
         click_button "Log in"
@@ -175,6 +186,47 @@ RSpec.describe "Sign in" do
 
         # mobile now saved to the db after successful login
         expect(user.reload.mobile_number).to eq("07722865843")
+      end
+
+      it "shows error message if mobile number is invalid" do
+        click_button("Log in")
+        fill_in("Mobile number", with: "qwerty")
+        click_button("Send code")
+
+        expect(page).to have_content("Mobile number is invalid")
+
+        fill_in("Mobile number", with: "07722865843")
+        click_button("Send code")
+        fill_in("Security code", with: user.current_otp)
+        click_button("Enter code")
+
+        expect(page).to have_content("Signed in successfully.")
+
+        click_link("Log out")
+        sign_in(administrator)
+        visit(administrator_dashboard_path)
+
+        expect(page).to have_row_for("Alice Smith", with: "07722 865 843")
+      end
+
+      it "shows error message if mobile number is blank" do
+        click_button("Log in")
+        click_button("Send code")
+
+        expect(page).to have_content("Mobile number can't be blank")
+
+        fill_in("Mobile number", with: "07722865843")
+        click_button("Send code")
+        fill_in("Security code", with: user.current_otp)
+        click_button("Enter code")
+
+        expect(page).to have_content("Signed in successfully.")
+
+        click_link("Log out")
+        sign_in(administrator)
+        visit(administrator_dashboard_path)
+
+        expect(page).to have_row_for("Alice Smith", with: "07722 865 843")
       end
 
       context "when there is an error from Notify" do

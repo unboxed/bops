@@ -17,7 +17,7 @@ class User < ApplicationRecord
 
   before_create :generate_otp_secret
 
-  validates :mobile_number, format: { with: /\A\d*\z/ }
+  validates :mobile_number, phone_number: true
 
   def self.find_for_authentication(tainted_conditions)
     if tainted_conditions[:subdomains].present?

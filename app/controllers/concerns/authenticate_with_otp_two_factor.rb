@@ -4,6 +4,8 @@ module AuthenticateWithOtpTwoFactor
   extend ActiveSupport::Concern
 
   def authenticate_with_otp_two_factor
+    return unless valid_mobile_number?
+
     user = self.resource = find_user
 
     authenticate_user_with_otp_two_factor(user) if otp_input?
@@ -20,6 +22,16 @@ module AuthenticateWithOtpTwoFactor
   end
 
   private
+
+  def valid_mobile_number?
+    return true unless user_params.keys.include?("mobile_number")
+
+    @mobile_number_form = MobileNumberForm.new(user_params)
+    return true if @mobile_number_form.valid?
+
+    find_current_local_authority_from_subdomain
+    render "devise/sessions/setup" and return false
+  end
 
   def save_user_session(user)
     session[:otp_user_id] = user.id

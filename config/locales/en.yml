@@ -289,6 +289,8 @@ en:
         name: Enter a new consultee
       description_change_validation_request:
         cancel_reason: Explain to the applicant why this request is being cancelled
+      mobile_number_form:
+        mobile_number: Mobile number
       note:
         entry: Add a note to this application.
       other_change_validation_request:
