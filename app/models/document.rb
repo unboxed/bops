@@ -68,19 +68,17 @@ class Document < ApplicationRecord
   scope :by_created_at, -> { order(created_at: :asc) }
   scope :active, -> { where(archived_at: nil) }
   scope :invalidated, -> { where(validated: false) }
-  scope :referenced, -> { where(referenced_in_decision_notice: true) }
-  scope :publishable, -> { where(publishable: true) }
-
-  scope :for_publication, -> { active.publishable }
-  scope :for_display, -> { active.referenced }
-
-  scope :with_tag, ->(tag) { where("tags @> ?", "\"#{tag}\"") }
-  scope :with_file_attachment, -> { includes(file_attachment: :blob) }
-
   scope(
     :referenced_in_decision_notice,
     -> { where(referenced_in_decision_notice: true) }
   )
+  scope :publishable, -> { where(publishable: true) }
+
+  scope :for_publication, -> { active.publishable }
+  scope :for_display, -> { active.referenced_in_decision_notice }
+
+  scope :with_tag, ->(tag) { where("tags @> ?", "\"#{tag}\"") }
+  scope :with_file_attachment, -> { includes(file_attachment: :blob) }
 
   before_create do
     self.api_user ||= Current.api_user

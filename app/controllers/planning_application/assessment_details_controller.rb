@@ -10,9 +10,21 @@ class PlanningApplication
     before_action :set_assessment_detail, only: %i[show edit update]
     before_action :set_category, :set_rejected_assessment_detail, only: %i[new create]
 
+    def show
+      respond_to do |format|
+        format.html
+      end
+    end
+
     def new
       @assessment_detail = @planning_application.assessment_details.new
 
+      respond_to do |format|
+        format.html
+      end
+    end
+
+    def edit
       respond_to do |format|
         format.html
       end
@@ -33,18 +45,6 @@ class PlanningApplication
           @category = @assessment_detail.category
           format.html { render :new }
         end
-      end
-    end
-
-    def show
-      respond_to do |format|
-        format.html
-      end
-    end
-
-    def edit
-      respond_to do |format|
-        format.html
       end
     end
 

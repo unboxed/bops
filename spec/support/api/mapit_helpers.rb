@@ -19,7 +19,7 @@ module MapitHelper
            elsif body == "no_result"
              []
            else
-             File.read(Rails.root.join("spec", "fixtures", "mapit", "#{body}.json"))
+             Rails.root.join("spec", "fixtures", "mapit", "#{body}.json").read
            end
 
     { status: status, body: body }

@@ -23,11 +23,26 @@ class DocumentsController < AuthenticationController
     end
   end
 
+  def new
+    @document = @planning_application.documents.build
+  end
+
   def edit
     set_return_to_session
 
     respond_to do |format|
       format.html { render :edit }
+    end
+  end
+
+  def create
+    @document = @planning_application.documents.build(document_params)
+
+    if @document.save
+      flash[:notice] = "#{@document.file.filename} has been uploaded."
+      redirect_to planning_application_documents_path
+    else
+      render :new
     end
   end
 
@@ -65,21 +80,6 @@ class DocumentsController < AuthenticationController
     end
 
     redirect_to action: :index
-  end
-
-  def new
-    @document = @planning_application.documents.build
-  end
-
-  def create
-    @document = @planning_application.documents.build(document_params)
-
-    if @document.save
-      flash[:notice] = "#{@document.file.filename} has been uploaded."
-      redirect_to planning_application_documents_path
-    else
-      render :new
-    end
   end
 
   def confirm_archive

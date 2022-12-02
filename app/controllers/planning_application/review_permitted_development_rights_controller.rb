@@ -11,13 +11,13 @@ class PlanningApplication
     before_action :set_permitted_development_right, only: %i[show edit update]
     before_action :set_permitted_development_rights, only: %i[show edit]
 
-    def edit
+    def show
       respond_to do |format|
         format.html
       end
     end
 
-    def show
+    def edit
       respond_to do |format|
         format.html
       end

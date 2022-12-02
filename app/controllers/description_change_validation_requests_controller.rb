@@ -5,6 +5,8 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
   before_action :set_description_change_request, only: %i[show cancel]
   before_action :set_return_to, only: %i[new show]
 
+  def show; end
+
   def new
     @description_change_request = @planning_application.description_change_validation_requests.new
   end
@@ -23,8 +25,6 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
       render :new
     end
   end
-
-  def show; end
 
   def cancel
     DescriptionChangeValidationRequest.transaction do

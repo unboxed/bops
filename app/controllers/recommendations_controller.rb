@@ -19,6 +19,14 @@ class RecommendationsController < AuthenticationController
     )
   end
 
+  def edit
+    @recommendation = @recommendations.last
+
+    respond_to do |format|
+      format.html
+    end
+  end
+
   def create
     @recommendation = RecommendationForm.new(
       recommendation: @planning_application.pending_or_new_recommendation,
@@ -29,14 +37,6 @@ class RecommendationsController < AuthenticationController
       redirect_to(@planning_application)
     else
       render :new
-    end
-  end
-
-  def edit
-    @recommendation = @recommendations.last
-
-    respond_to do |format|
-      format.html
     end
   end
 

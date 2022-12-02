@@ -106,7 +106,7 @@ RSpec.describe AssessmentDetail do
             create(
               :assessment_detail,
               :"#{category_type}",
-              created_at: Time.zone.now - 1.day,
+              created_at: 1.day.ago,
               planning_application: planning_application
             )
           end
@@ -124,7 +124,7 @@ RSpec.describe AssessmentDetail do
             create(
               :assessment_detail,
               :"#{category_type}",
-              created_at: Time.zone.now - 2.days,
+              created_at: 2.days.ago,
               planning_application: planning_application
             )
           end

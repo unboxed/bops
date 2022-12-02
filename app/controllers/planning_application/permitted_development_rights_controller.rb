@@ -14,9 +14,21 @@ class PlanningApplication
     before_action :set_permitted_development_rights, only: %i[new show edit]
     before_action :ensure_permitted_development_right_is_editable, only: %i[edit update]
 
+    def show
+      respond_to do |format|
+        format.html
+      end
+    end
+
     def new
       @permitted_development_right = @planning_application.permitted_development_rights.new
 
+      respond_to do |format|
+        format.html
+      end
+    end
+
+    def edit
       respond_to do |format|
         format.html
       end
@@ -36,18 +48,6 @@ class PlanningApplication
       else
         set_permitted_development_rights
         render :new
-      end
-    end
-
-    def show
-      respond_to do |format|
-        format.html
-      end
-    end
-
-    def edit
-      respond_to do |format|
-        format.html
       end
     end
 

@@ -27,9 +27,9 @@ RSpec.describe Note do
 
   describe "scopes" do
     describe ".by_created_at_desc" do
-      let!(:notes1) { create(:note, created_at: Time.zone.now - 1.day) }
+      let!(:notes1) { create(:note, created_at: 1.day.ago) }
       let!(:notes2) { create(:note, created_at: Time.zone.now) }
-      let!(:notes3) { create(:note, created_at: Time.zone.now - 2.days) }
+      let!(:notes3) { create(:note, created_at: 2.days.ago) }
 
       it "returns notes sorted by created at desc (i.e. most recent first)" do
         expect(described_class.by_created_at_desc).to eq([notes2, notes1, notes3])

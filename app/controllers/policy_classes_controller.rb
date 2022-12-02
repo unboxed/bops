@@ -11,6 +11,8 @@ class PolicyClassesController < PlanningApplicationsController
     @part_number = params[:part]&.to_i
   end
 
+  def show; end
+
   def new
     @part = params[:part]
 
@@ -20,8 +22,10 @@ class PolicyClassesController < PlanningApplicationsController
                 alert: "Please choose one of the policy parts"
   end
 
+  def edit; end
+
   def create
-    class_ids = planning_application_params[:policy_classes].reject(&:blank?)
+    class_ids = planning_application_params[:policy_classes].compact_blank
 
     if class_ids.empty?
       redirect_to new_planning_application_policy_class_path(@planning_application, part: params[:part]),
@@ -43,10 +47,6 @@ class PolicyClassesController < PlanningApplicationsController
                   alert: @planning_application.errors.full_messages
     end
   end
-
-  def edit; end
-
-  def show; end
 
   def update
     if @policy_class.update(policy_class_params)

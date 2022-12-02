@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class CommentsController < AuthenticationController
-  def destroy
-    comment.destroy
-    render(json: { partial: destroy_comment_form })
-  end
-
   def update
     comment.update(comment_params)
     render(json: { partial: update_comment_form })
+  end
+
+  def destroy
+    comment.destroy
+    render(json: { partial: destroy_comment_form })
   end
 
   private

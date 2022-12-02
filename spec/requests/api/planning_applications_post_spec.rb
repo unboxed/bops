@@ -23,7 +23,7 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
       stub_request(:get, "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf")
         .to_return(
           status: 200,
-          body: File.read(Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf")),
+          body: Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf").read,
           headers: { "Content-Type" => "application/pdf" }
         )
     end
