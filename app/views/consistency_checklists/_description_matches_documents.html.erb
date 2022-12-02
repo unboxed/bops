@@ -16,7 +16,7 @@
     ) do %>
       <% unless planning_application.description_change_validation_requests.open.any? %>
         <%= form.submit(
-          t(".request_a_change"),
+          t("consistency_checklists.request_description_change"),
           class: "button-as-link"
         ) %>
       <% end %>
@@ -31,13 +31,11 @@
       disabled: true
     ) %>
   <% end %>
-  <% if request = planning_application.description_change_validation_requests.post_validation.order(:created_at).last.presence %>
-    <%= render(
-      partial: "description_change_validation_request",
-      locals: {
-        request: request,
-        planning_application: planning_application
-      }
-    ) %>
-  <% end %>
+  <%= render(
+    partial: "description_change_validation_request",
+    locals: {
+      request: planning_application.description_change_validation_request(post_validation: true),
+      planning_application: planning_application
+    }
+  ) %>
 <% end %>

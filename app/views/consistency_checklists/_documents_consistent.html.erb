@@ -14,7 +14,10 @@
       :no,
       label: { text: t(".no") }
     ) do %>
-      <%= form.submit(t(".request_a_new"), class: "button-as-link") %>
+      <%= form.submit(
+        t("consistency_checklists.request_additional_document"),
+        class: "button-as-link"
+      ) %>
     <% end %>
   <% else %>
     <%= form.govuk_radio_button(

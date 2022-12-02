@@ -6,6 +6,15 @@
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <%= render(
+    partial: "site_map_correct",
+    locals: {
+      form: form,
+      consistency_checklist: consistency_checklist,
+      planning_application: planning_application,
+      can_edit: can_edit
+    }
+  ) %>
+  <%= render(
     partial: "description_matches_documents",
     locals: {
       form: form,

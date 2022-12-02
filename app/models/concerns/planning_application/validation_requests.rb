@@ -78,6 +78,12 @@ class PlanningApplication
       validation_requests(post_validation: true, include_description_change_validation_requests: true).select(&:open?)
     end
 
+    ValidationRequest::VALIDATION_REQUEST_TYPES.map(&:underscore).each do |type|
+      define_method(type) do |post_validation = false|
+        send(type.pluralize).order(:created_at).where(post_validation: post_validation).last
+      end
+    end
+
     private
 
     def no_open_post_validation_requests?

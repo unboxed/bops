@@ -38,6 +38,9 @@ en:
               open_additional_document_requests: Additional document requests must be closed or cancelled
             proposal_details_match_documents:
               not_determined: Determine whether the proposal details are consistent with the plans
+            site_map_correct:
+              not_determined: Determine whether the red line on the site map is correct
+              open_red_line_boundary_requests: Red line boundary change requests must be closed or cancelled
         document:
           attributes:
             file:
@@ -212,12 +215,10 @@ en:
     description_matches_documents:
       does_the_description: Does the description match the development or use in the plans?
       'no': 'No'
-      request_a_change: Request a change to the description
       'yes': 'Yes'
     documents_consistent:
       are_the_plans: Are the plans consistent with each other?
       'no': 'No'
-      request_a_new: Request a new document
       'yes': 'Yes'
     form:
       back: Back
@@ -227,6 +228,20 @@ en:
     proposal_details_match_documents:
       are_the_proposal: Are the proposal details consistent with the plans?
       how_are_the: How are the proposal details inconsistent?
+      'no': 'No'
+      'yes': 'Yes'
+    red_line_boundary_change_validation_request:
+      accepted: Accepted
+      cancelled: Cancelled
+      proposed: Proposed
+      proposed_a_new: "%{user} proposed a new red line boundary"
+      reason: 'Reason:'
+      view_and_edit: View and edit request
+    request_additional_document: Request a new document
+    request_description_change: Request a change to the description
+    request_red_line_boundary_change: Request a change to the red line boundary
+    site_map_correct:
+      is_the_red: Is the red line on the site map correct for the site and proposed works?
       'no': 'No'
       'yes': 'Yes'
     update:
@@ -562,6 +577,9 @@ en:
       no_legislation_assessed: No legislation assessed for this application.
     new:
       assess_recommendation: Assess recommendation
+  red_line_boundary_change_validation_requests:
+    create:
+      validation_request_for: Validation request for red line boundary successfully created.
   review_policy_classes:
     navigation_component:
       view_next_class: View next class

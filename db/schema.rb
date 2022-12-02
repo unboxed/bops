@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_25_171818) do
+ActiveRecord::Schema.define(version: 2022_12_02_120121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,13 +110,14 @@ ActiveRecord::Schema.define(version: 2022_11_25_171818) do
 
   create_table "consistency_checklists", force: :cascade do |t|
     t.integer "status", null: false
-    t.integer "description_matches_documents", null: false
-    t.integer "documents_consistent", null: false
-    t.integer "proposal_details_match_documents", null: false
+    t.integer "description_matches_documents", default: 0, null: false
+    t.integer "documents_consistent", default: 0, null: false
+    t.integer "proposal_details_match_documents", default: 0, null: false
     t.text "proposal_details_match_documents_comment"
     t.bigint "planning_application_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "site_map_correct", default: 0, null: false
     t.index ["planning_application_id"], name: "ix_consistency_checklists_on_planning_application_id"
   end
 

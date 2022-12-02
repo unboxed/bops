@@ -1,0 +1,24 @@
+<% if request.present? %>
+  <p class="govuk-body-s">
+    <%= t(".proposed_a_new", user: request.sent_by.name) %><br>
+    <%= t(".reason") %> <%= request.reason %><br>
+    <%= t(".proposed") %> <%= request.created_at %><br>
+    <% if request.auto_closed? %>
+      <%= t(".accepted") %> <%= request.auto_closed_at %>
+    <% elsif request.approved? %>
+      <%= t(".accepted") %> <%= request.closed_at %>
+    <% elsif request.cancelled? %>
+      <%= t(".cancelled") %> <%= request.cancelled_at %>
+    <% end %>
+  </p>
+  <% if request.open? %>
+    <%= link_to(
+      t(".view_and_edit"),
+      planning_application_red_line_boundary_change_validation_request_path(
+        planning_application,
+        request
+      ),
+      class: "govuk-link"
+    ) %>
+  <% end %>
+<% end %>
