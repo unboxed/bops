@@ -23,7 +23,6 @@ Feature: Adding policy assessment area to the application
   Scenario: As an assessor I cannot remove or edit policy classes once the application is assessed
     Given  I add the policy class "AA" to the application
     And the planning application is assessed
-    And I press "Check and assess"
     When I press "Part 1, Class A"
     Then I can't press the "Remove class from assessment" button
     And I can't press the "Save and mark as complete" button

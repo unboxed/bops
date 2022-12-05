@@ -90,7 +90,14 @@ RSpec.describe "Planning Application Assessment" do
         click_button "Submit recommendation"
 
         expect(page).to have_content("Recommendation was successfully submitted.")
-        expect(list_item("Assess recommendation")).to have_content("Complete")
+
+        within "#assess-section" do
+          click_link "Check and assess"
+        end
+
+        within "#complete-assessment-tasks" do
+          expect(list_item("Make draft recommendation")).to have_content("Complete")
+        end
 
         perform_enqueued_jobs
         update_notification = ActionMailer::Base.deliveries.last
@@ -105,6 +112,8 @@ RSpec.describe "Planning Application Assessment" do
 
         planning_application.reload
         expect(planning_application.status).to eq("awaiting_determination")
+
+        visit planning_application_path(planning_application)
         click_link "View recommendation"
         expect(page).to have_text("Recommendations submitted by #{planning_application.recommendations.first.assessor.name}")
 
@@ -573,11 +582,10 @@ RSpec.describe "Planning Application Assessment" do
   end
 
   it "shows the correct status tags at each stage" do
-    visit(planning_application_path(planning_application))
+    visit planning_application_assessment_tasks_path(planning_application)
 
-    expect(list_item("Assess recommendation")).to have_content("Not started")
+    expect(list_item("Make draft recommendation")).to have_content("Not started")
 
-    click_link("Check and assess")
     click_link("Make draft recommendation")
     choose("Yes")
 
@@ -593,20 +601,23 @@ RSpec.describe "Planning Application Assessment" do
 
     click_button("Save and come back later")
 
-    expect(list_item("Assess recommendation")).to have_content("In progress")
+    expect(list_item("Make draft recommendation")).to have_content("In progress")
 
-    click_link("Check and assess")
     click_link("Make draft recommendation")
     click_button("Save and mark as complete")
 
-    expect(list_item("Assess recommendation")).to have_content("Complete")
+    expect(list_item("Make draft recommendation")).to have_content("Complete")
 
+    visit(planning_application_path(planning_application))
     ["Not started", "In progress", "Complete"].each do |status|
       expect(list_item("View recommendation")).not_to have_content(status)
     end
 
+    click_link("Check and assess")
     click_link("Review and submit recommendation")
     click_button("Submit recommendation")
+
+    visit(planning_application_path(planning_application))
 
     expect(list_item("View recommendation")).to have_content("Awaiting determination")
 
@@ -636,8 +647,11 @@ RSpec.describe "Planning Application Assessment" do
     click_link("Back")
     expect(list_item("Review and sign-off")).to have_content("Complete")
 
-    ["Not started", "In progress", "Complete"].each do |status|
-      expect(list_item("Assess recommendation")).not_to have_content(status)
+    click_link("Check and assess")
+    within "#complete-assessment-tasks" do
+      ["Not started", "In progress", "Complete"].each do |status|
+        expect(list_item("Make draft recommendation")).not_to have_content(status)
+      end
     end
 
     sign_in(assessor)
@@ -653,7 +667,7 @@ RSpec.describe "Planning Application Assessment" do
 
     click_button("Update")
 
-    expect(list_item("Assess recommendation")).to have_content("Complete")
+    expect(list_item("Make draft recommendation")).to have_content("Complete")
 
     click_link("Review and submit recommendation")
     click_button("Submit recommendation")
@@ -675,7 +689,8 @@ RSpec.describe "Planning Application Assessment" do
     click_link("Back")
     expect(list_item("Review and sign-off")).to have_content("Complete")
 
-    expect(list_item("Assess recommendation")).to have_content("Complete")
+    click_link("Check and assess")
+    expect(list_item("Make draft recommendation")).to have_content("Complete")
 
     sign_in(assessor)
     visit(planning_application_path(planning_application))
