@@ -443,8 +443,13 @@ RSpec.describe "Planning Application Assessment" do
         click_button("Submit recommendation")
         sign_in(reviewer)
         visit(edit_planning_application_recommendations_path(planning_application))
-        find_by_id("recommendation_challenged_true").click
-        fill_in("Review comment", with: "Requirements not met.")
+        choose("No")
+
+        fill_in(
+          "Explain to the officer why the case is being returned",
+          with: "Requirements not met."
+        )
+
         click_button("Save and mark as complete")
         click_link("Back")
         click_link("Check and assess")
@@ -631,8 +636,13 @@ RSpec.describe "Planning Application Assessment" do
     expect(list_item("Sign-off recommendation")).to have_content("Not started")
 
     click_link("Sign-off recommendation")
-    choose("recommendation_challenged_true")
-    fill_in("Review comment", with: "Application invalid")
+    choose("No")
+
+    fill_in(
+      "Explain to the officer why the case is being returned",
+      with: "Application invalid"
+    )
+
     click_button("Save and come back later")
 
     expect(list_item("Sign-off recommendation")).to have_content("In progress")
@@ -681,8 +691,7 @@ RSpec.describe "Planning Application Assessment" do
 
     click_link("Review and sign-off")
     click_link("Sign-off recommendation")
-    choose("recommendation_challenged_false")
-    fill_in("Review comment", with: "Application valid")
+    choose("Yes")
     click_button("Save and mark as complete")
 
     expect(list_item("Sign-off recommendation")).to have_content("Complete")

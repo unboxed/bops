@@ -16,21 +16,39 @@ RSpec.describe Recommendation do
   end
 
   describe "#valid?" do
+    let(:planning_application) { create(:planning_application) }
     let(:recommendation) do
       build(
         :recommendation,
-        :with_planning_application,
+        planning_application: planning_application,
         status: status,
         challenged: challenged,
         reviewer_comment: reviewer_comment
       )
     end
 
+    let(:reviewer_comment) { "comment" }
+
     context "when status is 'review_complete'" do
       let(:status) { :review_complete }
 
       context "when challenged is true" do
         let(:challenged) { true }
+
+        context "when reviewer has requested changes" do
+          before do
+            create(
+              :assessment_detail,
+              planning_application: planning_application,
+              review_status: :complete,
+              reviewer_verdict: :rejected
+            )
+          end
+
+          it "returns true" do
+            expect(recommendation.valid?).to be(true)
+          end
+        end
 
         context "when reviewer comment is blank" do
           let(:reviewer_comment) { nil }
@@ -59,23 +77,69 @@ RSpec.describe Recommendation do
         end
       end
 
-      context "when challenged is false and reviewer comment is blank" do
+      context "when challenged is false" do
         let(:challenged) { false }
-        let(:reviewer_comment) { nil }
+
+        context "when reviewer has requested changes" do
+          before do
+            create(
+              :assessment_detail,
+              planning_application: planning_application,
+              review_status: :complete,
+              reviewer_verdict: :rejected
+            )
+          end
+
+          it "returns false" do
+            expect(recommendation.valid?).to be(false)
+          end
+
+          it "sets error message" do
+            recommendation.valid?
+
+            expect(recommendation.errors.messages[:challenged]).to contain_exactly(
+              "You have requested officer changes, resolve these before agreeing with the recommendation"
+            )
+          end
+        end
+
+        context "when reviewer comment is blank" do
+          let(:reviewer_comment) { nil }
+
+          it "returns true" do
+            expect(recommendation.valid?).to be(true)
+          end
+        end
+      end
+    end
+
+    context "when status is not 'review_complete'" do
+      let(:status) { :review_in_progress }
+
+      context "when challenged is false and reviewer has requested changes" do
+        let(:challenged) { false }
+
+        before do
+          create(
+            :assessment_detail,
+            planning_application: planning_application,
+            review_status: :complete,
+            reviewer_verdict: :rejected
+          )
+        end
 
         it "returns true" do
           expect(recommendation.valid?).to be(true)
         end
       end
-    end
 
-    context "when status is not 'review_complete', challenged is true and reviewer comment is blank" do
-      let(:status) { :review_in_progress }
-      let(:challenged) { true }
-      let(:reviewer_comment) { nil }
+      context "when challenged is true and reviewer comment is blank" do
+        let(:challenged) { true }
+        let(:reviewer_comment) { nil }
 
-      it "returns true" do
-        expect(recommendation.valid?).to be(true)
+        it "returns true" do
+          expect(recommendation.valid?).to be(true)
+        end
       end
     end
   end

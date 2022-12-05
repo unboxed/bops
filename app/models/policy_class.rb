@@ -13,6 +13,8 @@ class PolicyClass < ApplicationRecord
 
   enum status: { in_assessment: 0, complete: 1, to_be_reviewed: 2 }, _default: :in_assessment
 
+  delegate(:update_required?, to: :review_policy_class, allow_nil: true)
+
   class << self
     def all_parts
       # NOTE: we might do multiple schedules at some point in the

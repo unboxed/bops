@@ -1,0 +1,30 @@
+<%= form_with(
+  model: recommendation,
+  builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+  method: :patch,
+  url: planning_application_recommendation_path(
+    planning_application,
+    recommendation
+  )
+) do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_radio_buttons_fieldset(
+    :challenged,
+    legend: { text: t(".do_you_agree"), size: "s" }
+  ) do %>
+    <%= form.govuk_radio_button(
+      :challenged,
+      :false,
+      label: { text: t(".yes") },
+      link_errors: true
+    ) %>
+    <%= form.govuk_radio_button(
+      :challenged,
+      :true,
+      label: { text: t(".no") }
+    ) do %>
+      <%= form.govuk_text_area(:reviewer_comment) %>
+    <% end %>
+  <% end %>
+  <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+<% end %>

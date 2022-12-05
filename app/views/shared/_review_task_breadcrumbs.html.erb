@@ -10,3 +10,6 @@
    t(".review_application"),
    planning_application_review_tasks_path(planning_application)
 ) %>
+<% if current_page = local_assigns.fetch(:current_page, nil).presence %>
+  <%= content_for(:title, current_page) %>
+<% end %>

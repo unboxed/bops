@@ -193,8 +193,13 @@ RSpec.describe "Reviewing assessment summaries" do
       )
 
       click_link("Sign-off recommendation")
-      choose("recommendation_challenged_true")
-      fill_in("Review comment", with: "recommendation challenged")
+      choose("No")
+
+      fill_in(
+        "Explain to the officer why the case is being returned",
+        with: "recommendation challenged"
+      )
+
       click_button("Save and mark as complete")
       click_link("Review assessment summaries")
 
@@ -292,7 +297,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
       click_link("Review")
       click_link("Sign-off recommendation")
-      choose("recommendation_challenged_false")
+      choose("Yes")
       click_button("Save and mark as complete")
 
       click_link("Review assessment summaries")
@@ -315,8 +320,13 @@ RSpec.describe "Reviewing assessment summaries" do
 
       click_link("Review")
       click_link("Sign-off recommendation")
-      choose("recommendation_challenged_true")
-      fill_in("Review comment", with: "recommendation challenged again")
+      choose("No")
+
+      fill_in(
+        "Explain to the officer why the case is being returned",
+        with: "recommendation challenged again"
+      )
+
       click_button("Save and mark as complete")
       click_link("Review assessment summaries")
       click_link("Edit review")

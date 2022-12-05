@@ -24,10 +24,12 @@ module StatusTags
         "govuk-tag--grey"
       when :complete
         "govuk-tag--blue"
-      when :checked
+      when :checked, :granted
         "govuk-tag--green"
       when :updated
         "govuk-tag--yellow"
+      when :refused
+        "govuk-tag--red"
       end
     end
 

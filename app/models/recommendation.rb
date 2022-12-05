@@ -13,7 +13,10 @@ class Recommendation < ApplicationRecord
   scope :reviewed, -> { where.not(reviewer_id: nil) }
   scope :submitted, -> { where(submitted: true) }
 
-  validate :reviewer_comment_is_present?, if: :review_complete?
+  with_options if: :review_complete? do
+    validate :reviewer_comment_is_present?
+    validate :no_updates_required
+  end
 
   delegate :audits, to: :planning_application
 
@@ -69,6 +72,12 @@ class Recommendation < ApplicationRecord
   end
 
   private
+
+  def no_updates_required
+    return unless unchallenged? && planning_application.updates_required?
+
+    errors.add(:challenged, :updates_required)
+  end
 
   def reviewer_comment_is_present?
     return unless challenged? && !reviewer_comment?
