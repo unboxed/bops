@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_02_120121) do
+ActiveRecord::Schema.define(version: 2022_12_05_085506) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -302,7 +302,6 @@ ActiveRecord::Schema.define(version: 2022_12_02_120121) do
     t.string "result_override"
     t.bigint "api_user_id"
     t.bigint "boundary_created_by_id"
-    t.jsonb "policy_classes_bak", default: [], array: true
     t.datetime "assessment_in_progress_at"
     t.string "ward"
     t.string "ward_type"
