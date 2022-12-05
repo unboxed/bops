@@ -97,7 +97,7 @@ RSpec.describe "Planning Application Assessment Legislation" do
 
       visit(new_planning_application_recommendation_path(planning_application))
 
-      expect(page).to have_selector "h1", text: "Assess recommendation"
+      expect(page).to have_selector "h1", text: "Make draft recommendation"
       expect(page).not_to have_content("View commented legislation for class T")
     end
 
@@ -113,7 +113,7 @@ RSpec.describe "Planning Application Assessment Legislation" do
 
       visit(new_planning_application_recommendation_path(planning_application))
 
-      expect(page).to have_selector "h1", text: "Assess recommendation"
+      expect(page).to have_selector "h1", text: "Make draft recommendation"
       expect(page).to have_content("View commented legislation for class T")
     end
   end

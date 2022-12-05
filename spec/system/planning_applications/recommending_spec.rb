@@ -268,7 +268,7 @@ RSpec.describe "Planning Application Assessment" do
 
       click_link("Edit recommendation")
 
-      expect(page).to have_title("Assess recommendation")
+      expect(page).to have_title("Make draft recommendation")
     end
 
     it "allows navigation back to the planning application page" do
