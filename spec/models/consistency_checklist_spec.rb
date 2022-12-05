@@ -20,6 +20,30 @@ RSpec.describe ConsistencyChecklist do
         )
       end
 
+      context "when there are open red line boundary requests" do
+        before do
+          create(
+            :red_line_boundary_change_validation_request,
+            :open,
+            planning_application: planning_application
+          )
+        end
+
+        it "returns false" do
+          expect(consistency_checklist.valid?).to be(false)
+        end
+
+        it "sets error message" do
+          consistency_checklist.valid?
+
+          expect(
+            consistency_checklist.errors.messages[:site_map_correct]
+          ).to contain_exactly(
+            "Red line boundary change requests must be closed or cancelled"
+          )
+        end
+      end
+
       context "when there are open description change requests" do
         before do
           create(
@@ -95,7 +119,8 @@ RSpec.describe ConsistencyChecklist do
             :complete,
             description_matches_documents: :to_be_determined,
             documents_consistent: :yes,
-            proposal_details_match_documents: :yes
+            proposal_details_match_documents: :yes,
+            site_map_correct: :yes
           )
         end
 
@@ -121,7 +146,8 @@ RSpec.describe ConsistencyChecklist do
             :complete,
             description_matches_documents: :yes,
             documents_consistent: :yes,
-            proposal_details_match_documents: :to_be_determined
+            proposal_details_match_documents: :to_be_determined,
+            site_map_correct: :yes
           )
         end
 
@@ -147,7 +173,8 @@ RSpec.describe ConsistencyChecklist do
             :complete,
             description_matches_documents: :yes,
             documents_consistent: :to_be_determined,
-            proposal_details_match_documents: :yes
+            proposal_details_match_documents: :yes,
+            site_map_correct: :yes
           )
         end
 
@@ -162,6 +189,33 @@ RSpec.describe ConsistencyChecklist do
             consistency_checklist.errors.messages[:documents_consistent]
           ).to contain_exactly(
             "Determine whether the plans are consistent with each other"
+          )
+        end
+      end
+
+      context "when site_map_correct is not determined" do
+        let(:consistency_checklist) do
+          build(
+            :consistency_checklist,
+            :complete,
+            description_matches_documents: :yes,
+            documents_consistent: :to_be_determined,
+            proposal_details_match_documents: :yes,
+            site_map_correct: :to_be_determined
+          )
+        end
+
+        it "returns false" do
+          expect(consistency_checklist.valid?).to be(false)
+        end
+
+        it "sets error message" do
+          consistency_checklist.valid?
+
+          expect(
+            consistency_checklist.errors.messages[:site_map_correct]
+          ).to contain_exactly(
+            "Determine whether the red line on the site map is correct"
           )
         end
       end
@@ -189,6 +243,20 @@ RSpec.describe ConsistencyChecklist do
           :all_checks_assessed,
           planning_application: planning_application
         )
+      end
+
+      context "when there are open red line boundary requests" do
+        before do
+          create(
+            :red_line_boundary_change_validation_request,
+            :open,
+            planning_application: planning_application
+          )
+        end
+
+        it "returns false" do
+          expect(consistency_checklist.valid?).to be(true)
+        end
       end
 
       context "when there are open description change requests" do

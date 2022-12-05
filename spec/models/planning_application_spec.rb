@@ -1457,4 +1457,252 @@ RSpec.describe PlanningApplication do
       expect(planning_application.consultation_summary).to eq(assessment_detail1)
     end
   end
+
+  describe "#red_line_boundary_change_validation_request" do
+    let(:planning_application) do
+      create(:planning_application, status: status)
+    end
+
+    let!(:request) do
+      create(
+        :red_line_boundary_change_validation_request,
+        planning_application: planning_application,
+        created_at: 1.day.ago
+      )
+    end
+
+    before do
+      create(
+        :red_line_boundary_change_validation_request,
+        planning_application: planning_application,
+        created_at: 2.days.ago
+      )
+    end
+
+    context "when pre validation request is present" do
+      let(:status) { :not_started }
+
+      it "returns pre validation request" do
+        expect(
+          planning_application.red_line_boundary_change_validation_request
+        ).to eq(
+          request
+        )
+      end
+
+      it "does not return post validation request" do
+        expect(
+          planning_application.red_line_boundary_change_validation_request(post_validation: true)
+        ).to be_nil
+      end
+    end
+
+    context "when post validation request is present" do
+      let(:status) { :in_assessment }
+
+      it "does not return pre validation request" do
+        expect(
+          planning_application.red_line_boundary_change_validation_request
+        ).to be_nil
+      end
+
+      it "returns post validation request" do
+        expect(
+          planning_application.red_line_boundary_change_validation_request(post_validation: true)
+        ).to eq(
+          request
+        )
+      end
+    end
+  end
+
+  describe "#additional_document_validation_request" do
+    let(:planning_application) do
+      create(:planning_application, status: status)
+    end
+
+    let!(:request) do
+      create(
+        :additional_document_validation_request,
+        planning_application: planning_application,
+        created_at: 1.day.ago
+      )
+    end
+
+    before do
+      create(
+        :additional_document_validation_request,
+        planning_application: planning_application,
+        created_at: 2.days.ago
+      )
+    end
+
+    context "when pre validation request is present" do
+      let(:status) { :not_started }
+
+      it "returns pre validation request" do
+        expect(
+          planning_application.additional_document_validation_request
+        ).to eq(
+          request
+        )
+      end
+
+      it "does not return post validation request" do
+        expect(
+          planning_application.additional_document_validation_request(post_validation: true)
+        ).to be_nil
+      end
+    end
+
+    context "when post validation request is present" do
+      let(:status) { :in_assessment }
+
+      it "does not return pre validation request" do
+        expect(
+          planning_application.additional_document_validation_request
+        ).to be_nil
+      end
+
+      it "returns post validation request" do
+        expect(
+          planning_application.additional_document_validation_request(post_validation: true)
+        ).to eq(
+          request
+        )
+      end
+    end
+  end
+
+  describe "#description_change_validation_request" do
+    let(:planning_application) do
+      create(:planning_application, status: status)
+    end
+
+    let!(:request) do
+      create(
+        :description_change_validation_request,
+        :closed,
+        planning_application: planning_application,
+        created_at: 1.day.ago
+      )
+    end
+
+    before do
+      create(
+        :description_change_validation_request,
+        :closed,
+        planning_application: planning_application,
+        created_at: 2.days.ago
+      )
+    end
+
+    context "when pre validation request is present" do
+      let(:status) { :not_started }
+
+      it "returns pre validation request" do
+        expect(
+          planning_application.description_change_validation_request
+        ).to eq(
+          request
+        )
+      end
+
+      it "does not return post validation request" do
+        expect(
+          planning_application.description_change_validation_request(post_validation: true)
+        ).to be_nil
+      end
+    end
+
+    context "when post validation request is present" do
+      let(:status) { :in_assessment }
+
+      it "does not return pre validation request" do
+        expect(
+          planning_application.description_change_validation_request
+        ).to be_nil
+      end
+
+      it "returns post validation request" do
+        expect(
+          planning_application.description_change_validation_request(post_validation: true)
+        ).to eq(
+          request
+        )
+      end
+    end
+  end
+
+  describe "#replacement_document_validation_request" do
+    let(:planning_application) do
+      create(:planning_application, :not_started)
+    end
+
+    let!(:request) do
+      create(
+        :replacement_document_validation_request,
+        planning_application: planning_application,
+        created_at: 1.day.ago
+      )
+    end
+
+    before do
+      create(
+        :replacement_document_validation_request,
+        planning_application: planning_application,
+        created_at: 2.days.ago
+      )
+    end
+
+    it "returns pre validation request" do
+      expect(
+        planning_application.replacement_document_validation_request
+      ).to eq(
+        request
+      )
+    end
+
+    it "does not return post validation request" do
+      expect(
+        planning_application.replacement_document_validation_request(post_validation: true)
+      ).to be_nil
+    end
+  end
+
+  describe "#other_change_validation_request" do
+    let(:planning_application) do
+      create(:planning_application, :not_started)
+    end
+
+    let!(:request) do
+      create(
+        :other_change_validation_request,
+        planning_application: planning_application,
+        created_at: 1.day.ago
+      )
+    end
+
+    before do
+      create(
+        :other_change_validation_request,
+        planning_application: planning_application,
+        created_at: 2.days.ago
+      )
+    end
+
+    it "returns pre validation request" do
+      expect(
+        planning_application.other_change_validation_request
+      ).to eq(
+        request
+      )
+    end
+
+    it "does not return post validation request" do
+      expect(
+        planning_application.other_change_validation_request(post_validation: true)
+      ).to be_nil
+    end
+  end
 end

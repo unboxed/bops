@@ -46,16 +46,22 @@ RSpec.describe "checking consistency" do
     )
 
     form_group1 = form_group_with_legend(
-      "Does the description match the development or use in the plans?"
+      "Is the red line on the site map correct for the site and proposed works?"
     )
 
     within(form_group1) { choose("Yes") }
 
     form_group2 = form_group_with_legend(
-      "Are the plans consistent with each other?"
+      "Does the description match the development or use in the plans?"
     )
 
     within(form_group2) { choose("Yes") }
+
+    form_group3 = form_group_with_legend(
+      "Are the plans consistent with each other?"
+    )
+
+    within(form_group3) { choose("Yes") }
     click_button("Save and come back later")
 
     expect(page).to have_content("Successfully updated application checklist")
@@ -64,11 +70,11 @@ RSpec.describe "checking consistency" do
 
     click_link("Description, documents and proposal details")
 
-    form_group3 = form_group_with_legend(
+    form_group4 = form_group_with_legend(
       "Are the proposal details consistent with the plans?"
     )
 
-    within(form_group3) { choose("No") }
+    within(form_group4) { choose("No") }
 
     fill_in(
       "How are the proposal details inconsistent?",
@@ -118,11 +124,11 @@ RSpec.describe "checking consistency" do
     click_link("Check and assess")
     click_link("Description, documents and proposal details")
 
-    form_group1 = form_group_with_legend(
+    form_group = form_group_with_legend(
       "Does the description match the development or use in the plans?"
     )
 
-    within(form_group1) { choose("No") }
+    within(form_group) { choose("No") }
     click_button("Request a change to the description")
 
     fill_in(
@@ -224,11 +230,11 @@ RSpec.describe "checking consistency" do
     click_link("Check and assess")
     click_link("Description, documents and proposal details")
 
-    form_group1 = form_group_with_legend(
+    form_group = form_group_with_legend(
       "Are the plans consistent with each other?"
     )
 
-    within(form_group1) { choose("No") }
+    within(form_group) { choose("No") }
     click_button("Request a new document")
 
     fill_in(
@@ -290,6 +296,90 @@ RSpec.describe "checking consistency" do
       click_link("View new document")
       expect(page).to have_content("File name: proposed-floorplan.png")
     end
+  end
+
+  it "lets the user request a red line boundary change" do
+    travel_to(Time.zone.local(2022, 9, 15, 12))
+    click_link("Check and assess")
+    click_link("Description, documents and proposal details")
+
+    form_group = form_group_with_legend(
+      "Is the red line on the site map correct for the site and proposed works?"
+    )
+
+    within(form_group) { choose("No") }
+    click_button("Request a change to the red line boundary")
+
+    find(".govuk-visually-hidden", visible: false).set(
+      {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            properties: {},
+            geometry: {
+              type: "Polygon",
+              coordinates: [
+                [
+                  [-0.054597, 51.537332],
+                  [-0.054588, 51.537288],
+                  [-0.054453, 51.537312],
+                  [-0.054597, 51.537332]
+                ]
+              ]
+            }
+          }
+        ]
+      }.to_json
+    )
+
+    fill_in(
+      "Explain to the applicant why changes are proposed to the red line boundary",
+      with: "request reason"
+    )
+
+    click_button("Send request")
+
+    expect(page).to have_content(
+      "Validation request for red line boundary successfully created."
+    )
+
+    form_group = form_group_with_legend(
+      "Is the red line on the site map correct for the site and proposed works?"
+    )
+
+    within(form_group) { expect(find_field("No")).to be_checked }
+    expect(page).not_to have_button("Request a change to the red line boundary")
+    expect(page).to have_content("Alice Smith proposed a new red line boundary")
+    expect(page).to have_content("Reason: request reason")
+    expect(page).to have_content("Proposed 15 September 2022 12:00")
+
+    click_button("Save and mark as complete")
+
+    expect(page).to have_content(
+      "Red line boundary change requests must be closed or cancelled"
+    )
+
+    click_link("View and edit request")
+    click_link("Cancel request")
+
+    fill_in(
+      "Explain to the applicant why this request is being cancelled",
+      with: "cancellation reason"
+    )
+
+    click_button("Confirm cancellation")
+    click_link("Application")
+    click_link("Check and assess")
+    click_link("Description, documents and proposal details")
+
+    expect(page).to have_content("Cancelled 15 September 2022 12:00")
+
+    click_button("Save and mark as complete")
+
+    expect(page).not_to have_content(
+      "Red line boundary change requests must be closed or cancelled"
+    )
   end
 
   def form_group_with_legend(legend)
