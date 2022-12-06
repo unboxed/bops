@@ -19,7 +19,7 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
     if @description_change_request.save
       redirect_to(
         (session.delete(:return_to) || @planning_application),
-        notice: "Description change request successfully sent."
+        notice: t(".success")
       )
     else
       render :new
@@ -35,7 +35,7 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
 
     redirect_to(
       (session.delete(:return_to) || @planning_application),
-      notice: "Description change request successfully cancelled."
+      notice: t(".success")
     )
   end
 

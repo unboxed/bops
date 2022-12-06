@@ -24,6 +24,12 @@ en:
   activerecord:
     errors:
       models:
+        additional_document_validation_request:
+          attributes:
+            document_request_reason:
+              blank: Please fill in the reason for this document request.
+            document_request_type:
+              blank: Please fill in the document request type.
         assessment_detail:
           attributes:
             base:
@@ -63,10 +69,18 @@ en:
               blank: Please state the reasons why this application is, or is not lawful
             review_documents_for_recommendation_status:
               inclusion: "%{attribute} must be Not started, In progress or Complete"
+            work_status:
+              inclusion: Work Status should be proposed or existing
         policy_class:
           attributes:
             status:
               policies_to_be_determined: All policies must be assessed
+        red_line_boundary_change_validation_request:
+          attributes:
+            new_geojson:
+              blank: Red line drawing must be complete
+            reason:
+              blank: Provide a reason for changes
         review_policy_class:
           attributes:
             base:
@@ -74,6 +88,8 @@ en:
   additional_document_validation_requests:
     create:
       success: Additional document request successfully created.
+    update:
+      success: Additional document request successfully updated
   administrator_dashboard:
     show:
       administrator_dashboard: Administrator dashboard
@@ -194,6 +210,12 @@ en:
       red_line_boundary_change_validation_request_auto_closed:
         auto_closed_validation: 'Auto-closed: validation request (red line boundary#%{sequence})'
   back: Back
+  concerns:
+    validation_requests:
+      cancel:
+        success: Validation request was successfully cancelled.
+      destroy:
+        success: Validation request was successfully deleted.
   consistency_checklists:
     additional_document_validation_request:
       cancelled: Cancelled %{time}
@@ -246,12 +268,19 @@ en:
       'yes': 'Yes'
     update:
       successfully_updated_application: Successfully updated application checklist
+  constraints:
+    check:
+      success: Constraints was successfully checked.
   council_code:
     buckinghamshire: BUC
     lambeth: LBH
     ripa: RIPA
     southwark: SWK
   description_change_validation_requests:
+    cancel:
+      success: Description change request successfully cancelled.
+    create:
+      success: Description change request successfully sent.
     description_change_validation_request:
       change_description: Change description
       description_change: Description change
@@ -265,6 +294,8 @@ en:
     index:
       request_a_new: Request a new document
       upload_document: Upload document
+    update:
+      success: Document has been updated
   emails:
     subjects:
       cancelled_validation_request_mail: Update on your application for a Lawful Development Certificate
@@ -290,6 +321,8 @@ en:
     proposal_details_table:
       related_legislation: Related legislation
       related_questions: Related questions from RIPA
+    validate:
+      success: Fee item was marked as valid.
   form_actions:
     save_and_come_back_later: Save and come back later
     save_and_mark_as_complete: Save and mark as complete
@@ -352,10 +385,16 @@ en:
       local_authority: Council information
       reviewer_group_email: Manager group email
   other_change_validation_requests:
+    create:
+      success: Other validation change request successfully created.
+    destroy:
+      success: Validation request was successfully deleted.
     form:
       labels:
         suggestion: Tell the applicant how the fee can be made valid.
         summary: Tell the applicant why the fee is incorrect.
+    update:
+      success: Other validation request successfully updated
   page_title: BETA BOPs - GOV.UK
   permitted_development_rights:
     checked: Checked
@@ -411,6 +450,9 @@ en:
         history: History search (in testing)
         in_assessment: In assessment
         permitted_development_rights: Permitted development rights
+    review_documents:
+      update:
+        success: Documents were successfully updated.
     review_policy_classes:
       comment:
         edit_comment: Edit comment
@@ -453,12 +495,20 @@ en:
       no_legislation_assessed: No legislation assessed for this application.
       planning_history: Planning history
       summary_of_works: Summary of works
+    cancel:
+      closed: Application has been closed
+      returned: Application has been returned
+      withdrawn: Application has been withdrawn
     confirm_validation:
       validate_application: Validate application
+    create:
+      success: Planning application was successfully created.
     days_left:
       one: 1 day remaining
       other: "%{count} days remaining"
       zero: "%{count} days overdue"
+    determine:
+      success: Decision Notice sent to applicant
     index:
       assessor_alert:
         one: Your manager has requested corrections on <strong>%{count} application.</strong>
@@ -466,6 +516,8 @@ en:
       reviewer_alert:
         one: You have <strong>%{count} application</strong> returned to you with corrections.
         other: You have <strong>%{count} applications</strong> returned to you with corrections.
+    invalidate:
+      success: Application has been invalidated and email has been sent
     overdue:
       one: 1 day overdue
       other: "%{count} days overdue"
@@ -505,6 +557,8 @@ en:
         check_and_assess: Check and assess
       validation:
         check_and_validate: Check and validate
+    submit:
+      success: Recommendation was successfully submitted.
     submit_recommendation:
       review_and_submit_recommendation: Review and submit recommendation
     submit_recommendation_accordion:
@@ -513,10 +567,16 @@ en:
     tabs:
       all_applications: All applications
       all_your_applications: All your applications
+    update:
+      success: Planning application was successfully updated.
+    validate:
+      success: Application is ready for assessment and an email notification has been sent.
     validation_status:
       complete: Complete
       in_progress: In progress
       not_started: Not started
+    withdraw_recommendation:
+      success: Recommendation was successfully withdrawn.
   policy_classes:
     add_comment: Add comment
     comment_added_on: Comment added on %{created_at} by %{user}
@@ -528,12 +588,19 @@ en:
       edit_assessment: Edit assessment
       view_next_class: View next class
       view_previous_class: View previous class
+    create:
+      failure: Please select at least one class
+      success: Policy classes have been successfully added
+    destroy:
+      success: Policy class has been removed.
     form_controls:
       save_changes_and_view_next: Save changes and view next class
       save_changes_and_view_previous: Save changes and view previous class
       view_next_class: View next class
       view_previous_class: View previous class
     in_assessment: In assessment
+    new:
+      failure: Please choose one of the policy parts
     summary:
       application: Application
       assess: Assess
@@ -577,9 +644,18 @@ en:
       no_legislation_assessed: No legislation assessed for this application.
     new:
       assess_recommendation: Assess recommendation
+    update:
+      success: Recommendation was successfully reviewed.
   red_line_boundary_change_validation_requests:
     create:
       validation_request_for: Validation request for red line boundary successfully created.
+    update:
+      success: Recommendation was successfully reviewed.
+  replacement_document_validation_requests:
+    create:
+      success: Replacement document validation request successfully created.
+    update:
+      success: Replacement document reason successfully updated.
   review_policy_classes:
     navigation_component:
       view_next_class: View next class
@@ -631,6 +707,9 @@ en:
       application: Application
       home: Home
       review_application: Review
+  sitemaps:
+    update:
+      success: Site boundary has been updated
   status_tag_component:
     awaiting_determination: Awaiting determination
     checked: Checked

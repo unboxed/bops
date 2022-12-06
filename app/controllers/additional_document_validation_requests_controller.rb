@@ -45,7 +45,7 @@ class AdditionalDocumentValidationRequestsController < ValidationRequestsControl
     respond_to do |format|
       if @additional_document_validation_request.update(additional_document_validation_request_params)
         format.html do
-          redirect_to planning_application_validation_tasks_path(@planning_application), notice: "Additional document request successfully updated"
+          redirect_to planning_application_validation_tasks_path(@planning_application), notice: t(".success")
         end
       else
         format.html { render :edit }

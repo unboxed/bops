@@ -19,7 +19,7 @@ class PolicyClassesController < PlanningApplicationsController
     return if @part.present?
 
     redirect_to part_new_planning_application_policy_class_path(@planning_application),
-                alert: "Please choose one of the policy parts"
+                alert: t(".failure")
   end
 
   def edit; end
@@ -29,7 +29,7 @@ class PolicyClassesController < PlanningApplicationsController
 
     if class_ids.empty?
       redirect_to new_planning_application_policy_class_path(@planning_application, part: params[:part]),
-                  alert: "Please select at least one class"
+                  alert: t(".failure")
       return
     end
 
@@ -41,7 +41,7 @@ class PolicyClassesController < PlanningApplicationsController
 
     if @planning_application.save
       redirect_to planning_application_assessment_tasks_path(@planning_application),
-                  notice: "Policy classes have been successfully added"
+                  notice: t(".success")
     else
       redirect_to new_planning_application_policy_class_path(@planning_application, part: params[:part]),
                   alert: @planning_application.errors.full_messages
@@ -59,7 +59,7 @@ class PolicyClassesController < PlanningApplicationsController
   def destroy
     @planning_application.policy_classes.delete(@policy_class.id)
 
-    redirect_to @planning_application, notice: "Policy class has been removed." if @planning_application.save
+    redirect_to @planning_application, notice: t(".success") if @planning_application.save
   end
 
   private

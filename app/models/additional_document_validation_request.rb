@@ -12,8 +12,8 @@ class AdditionalDocumentValidationRequest < ApplicationRecord
 
   has_many :documents, dependent: :destroy
 
-  validates :document_request_type, presence: { message: "Please fill in the document request type." }
-  validates :document_request_reason, presence: { message: "Please fill in the reason for this document request." }
+  validates :document_request_type, presence: true
+  validates :document_request_reason, presence: true
 
   after_create :set_documents_missing
   before_destroy :reset_documents_missing

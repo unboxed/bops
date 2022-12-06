@@ -28,7 +28,7 @@ class PlanningApplication
       end
 
       redirect_to planning_application_assessment_tasks_path(@planning_application),
-                  notice: "Documents were successfully updated."
+                  notice: t(".success")
     rescue ActiveRecord::ActiveRecordError => e
       redirect_to planning_application_review_documents_path(@planning_application),
                   alert: "Couldn't update documents with error: #{e.message}. Please contact support."

@@ -18,7 +18,7 @@ module ValidationRequests
         if request_type_instance.destroyed?
           format.html do
             redirect_to planning_application_validation_tasks_path(@planning_application),
-                        notice: "Validation request was successfully deleted."
+                        notice: t("concerns.validation_requests.destroy.success")
           end
         else
           format.html do
@@ -49,7 +49,7 @@ module ValidationRequests
 
           format.html do
             redirect_to cancel_redirect_url,
-                        notice: "Validation request was successfully cancelled."
+                        notice: t("concerns.validation_requests.cancel.success")
           end
         else
           format.html { redirect_failed_cancel_request }

@@ -23,7 +23,7 @@ class ConstraintsController < AuthenticationController
       if @planning_application.constraints_checked?
         format.html do
           redirect_to planning_application_validation_tasks_path(@planning_application),
-                      notice: "Constraints was successfully checked."
+                      notice: t(".success")
         end
       else
         format.html do
