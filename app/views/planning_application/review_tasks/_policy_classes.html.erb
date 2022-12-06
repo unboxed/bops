@@ -1,12 +1,15 @@
 <% planning_application.policy_classes.each do |policy_class| %>
-  <li class="app-task-list__item">
-    <span class="app-task-list__task-name">
+  <%= render TaskListItems::ReviewComponent.new do |c| %>
+    <% c.with_link do %>
       <%= render( ReviewPolicyClassLinkComponent.new(policy_class: policy_class ) )%>
-    </span>
-    <%= render(
-          StatusTags::ReviewPolicyClassComponent.new(
-            review_policy_class: policy_class.review_policy_class
-          )
-    )%>
-  </li>
+    <% end %>
+
+    <% c.with_tag do %>
+      <%= render(
+            StatusTags::ReviewPolicyClassComponent.new(
+              review_policy_class: policy_class.review_policy_class
+            )
+      )%>
+    <% end %>
+  <% end %>
 <% end %>
