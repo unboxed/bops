@@ -81,7 +81,8 @@ end
 Given("the planning application is assessed") do
   steps %(
     Given I view the planning application
-    And I press "Assess recommendation"
+    And I press "Check and assess"
+    And I press "Make draft recommendation"
     And I choose "Yes"
     And I fill in "State the reasons why" with "a valid reason"
     And I fill in "supporting information" with "looks legit"
@@ -93,7 +94,7 @@ Given("a recommendation is submitted for the planning application") do
   steps %(
     Given the planning application is validated
     And the planning application is assessed
-    And I press "Submit recommendation"
+    And I press "Review and submit recommendation"
     And I press "Submit recommendation"
   )
 end
@@ -166,11 +167,18 @@ Then("the assess proposal accordion displays a {string} tag") do |tag|
   end
 end
 
+Then("the complete assessment accordion displays a {string} tag") do |tag|
+  within(:xpath, '//*[@id="complete-assessment-tasks"]') do
+    expect(page).to have_content tag
+  end
+end
+
 Given "a draft assessment on the planning application" do
   steps %(
     Given the planning application is validated
     And I view the planning application
-    And I press "Assess recommendation"
+    And I press "Check and assess"
+    And I press "Make draft recommendation"
     When I fill in "State the reasons why this application is, or is not lawful." with "Lawful as can be"
     And I fill in "Please provide supporting information for your manager." with "I'm hoping you feel supported"
     And I press "Save and come back later"

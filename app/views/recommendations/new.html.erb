@@ -1,10 +1,10 @@
 <% content_for :page_title do %>
- <%= t(".assess_recommendation") %> - <%= t("page_title") %>
+ <%= t(".make_draft_recommendation") %> - <%= t("page_title") %>
 <% end %>
 <% content_for(:title, t(".assess_recommendation")) %>
 <%= render(
   layout: "shared/assessment_dashboard",
-  locals: { heading: t(".assess_recommendation"), show_accordian: false }
+  locals: { heading: t(".make_draft_recommendation"), show_accordian: false }
 ) do %>
   <h2 class="govuk-heading-l govuk-!-padding-top-5"><%= t(".assess_proposal") %></h2>
   <%= render(

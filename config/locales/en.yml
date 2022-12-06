@@ -553,7 +553,6 @@ en:
       you_can_search: You can search by application number or description
     steps:
       assessment:
-        assess_recommendation: Assess recommendation
         check_and_assess: Check and assess
       validation:
         check_and_validate: Check and validate
@@ -644,6 +643,7 @@ en:
       no_legislation_assessed: No legislation assessed for this application.
     new:
       assess_recommendation: Assess recommendation
+      make_draft_recommendation: Make draft recommendation
     update:
       success: Recommendation was successfully reviewed.
   red_line_boundary_change_validation_requests:

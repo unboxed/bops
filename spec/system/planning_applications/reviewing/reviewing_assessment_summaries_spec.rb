@@ -241,9 +241,12 @@ RSpec.describe "Reviewing assessment summaries" do
       )
 
       click_link("Application")
-      click_link("Assess recommendation")
+
+      click_link("Check and assess")
+      click_link("Make draft recommendation")
+
       click_button("Update assessment")
-      click_link("Submit recommendation")
+      click_link("Review and submit recommendation")
       click_button("Submit recommendation")
       click_link("Log out")
       sign_in(reviewer)
