@@ -11,9 +11,9 @@
       </li>
     <% else %>
       <% @planning_application.policy_classes.each do |policy_class| %>
-        <li class="app-task-list__item">
-          <%= @planning_application.assess_against_legislation_tasklist(policy_class) %>
-        </li>
+        <%= render(
+          TaskListItems::PolicyClassComponent.new(policy_class: policy_class)
+        ) %>
       <% end %>
     <% end %>
 

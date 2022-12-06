@@ -576,7 +576,6 @@ en:
     comment_form:
       delete_comment: Delete comment
     comment_updated_on: Comment updated on %{updated_at} by %{user}
-    complete: Complete
     controls:
       edit_assessment: Edit assessment
       view_next_class: View next class
@@ -591,7 +590,6 @@ en:
       save_changes_and_view_previous: Save changes and view previous class
       view_next_class: View next class
       view_previous_class: View previous class
-    in_assessment: In assessment
     new:
       failure: Please choose one of the policy parts
     summary:
@@ -608,7 +606,6 @@ en:
       policy_class_name: Part %{part}, Class %{class} - %{name}
       to_be_determined: To be determined
     title: Part %{part}, Class %{class}
-    to_be_reviewed: To be reviewed
     update:
       successfully_updated_policy: Successfully updated policy class
   proposal_details:

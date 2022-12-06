@@ -207,24 +207,14 @@ RSpec.describe "assessment against legislation" do
       click_button("Save and come back later")
 
       expect(page).to have_content("Successfully updated policy class")
-
-      task_list_item = find_all("li").find do |list_item|
-        list_item.has_content?("Part 1, Class D")
-      end
-
-      expect(task_list_item).to have_content("In assessment")
+      expect(page).to have_list_item_for("Part 1, Class D", with: "In progress")
 
       click_link("Part 1, Class D")
       choose("policy_class_policies_attributes_5_status_complies")
       click_button("Save and mark as complete")
 
       expect(page).to have_content("Successfully updated policy class")
-
-      task_list_item = find_all("li").find do |list_item|
-        list_item.has_content?("Part 1, Class D")
-      end
-
-      expect(task_list_item).to have_content("Complete")
+      expect(page).to have_list_item_for("Part 1, Class D", with: "Complete")
 
       click_link("Part 1, Class D")
       expect(page).to have_content("Comment added on 01 Sep 2022 by Alice Smith")
