@@ -44,6 +44,8 @@ RSpec.describe "Constraints" do
 
       click_button "Marked as checked"
 
+      expect(page).to have_text("Constraints was successfully checked.")
+
       expect(page).to have_link(
         "Check constraints",
         href: planning_application_constraints_path(planning_application)

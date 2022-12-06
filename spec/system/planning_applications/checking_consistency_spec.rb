@@ -150,6 +150,8 @@ RSpec.describe "checking consistency" do
     click_link("View and edit request")
     click_link("Cancel this request")
 
+    expect(page).to have_content("Description change request successfully cancelled.")
+
     expect(page).to have_content("Cancelled 15 September 2022 12:00")
 
     travel_to(Time.zone.local(2022, 9, 15, 13))

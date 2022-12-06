@@ -17,7 +17,7 @@ class FeeItemsController < ValidationRequestsController
       format.html do
         if @planning_application.valid_fee?
           redirect_to planning_application_validation_tasks_path(@planning_application),
-                      notice: "Fee item was marked as valid."
+                      notice: t(".success")
         elsif @planning_application.valid_fee.nil?
           flash.now[:alert] = "You must first select Yes or No to continue."
           render :show

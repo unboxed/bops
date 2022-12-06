@@ -50,7 +50,7 @@ class PlanningApplicationsController < AuthenticationController
     if @planning_application.save
       @planning_application.send_receipt_notice_mail
 
-      redirect_to planning_application_documents_path(@planning_application), notice: "Planning application was successfully created."
+      redirect_to planning_application_documents_path(@planning_application), notice: t(".success")
     else
       render :new
     end
@@ -118,7 +118,7 @@ class PlanningApplicationsController < AuthenticationController
       @planning_application.start!
       @planning_application.send_validation_notice_mail
 
-      redirect_to @planning_application, notice: "Application is ready for assessment and an email notification has been sent."
+      redirect_to @planning_application, notice: t(".success")
     end
   end
 
@@ -128,7 +128,7 @@ class PlanningApplicationsController < AuthenticationController
 
       @planning_application.send_invalidation_notice_mail
 
-      redirect_to @planning_application, notice: "Application has been invalidated and email has been sent"
+      redirect_to @planning_application, notice: t(".success")
     else
       validation_requests = @planning_application.validation_requests
       @cancelled_validation_requests, @active_validation_requests = validation_requests.partition(&:cancelled?)
@@ -166,7 +166,7 @@ class PlanningApplicationsController < AuthenticationController
 
         format.html do
           redirect_to submit_recommendation_planning_application_path(@planning_application),
-                      notice: "Recommendation was successfully withdrawn."
+                      notice: t(".success")
         end
       else
         format.html { redirect_failed_withdraw_recommendation }
@@ -180,7 +180,7 @@ class PlanningApplicationsController < AuthenticationController
         @planning_application.submit_recommendation!
 
         format.html do
-          redirect_to @planning_application, notice: "Recommendation was successfully submitted."
+          redirect_to @planning_application, notice: t(".success")
         end
       else
         format.html { redirect_failed_submit_recommendation }
@@ -200,7 +200,7 @@ class PlanningApplicationsController < AuthenticationController
         @planning_application.send_decision_notice_mail(host: request.host)
 
         format.html do
-          redirect_to @planning_application, notice: "Decision Notice sent to applicant"
+          redirect_to @planning_application, notice: t(".success")
         end
       else
         format.html { render :publish }
@@ -219,15 +219,15 @@ class PlanningApplicationsController < AuthenticationController
     when "withdrawn"
       @planning_application.withdraw!(:withdrawn, params[:planning_application][:closed_or_cancellation_comment])
 
-      redirect_to @planning_application, notice: "Application has been withdrawn"
+      redirect_to @planning_application, notice: t(".withdrawn")
     when "returned"
       @planning_application.return!(:returned, params[:planning_application][:closed_or_cancellation_comment])
 
-      redirect_to @planning_application, notice: "Application has been returned"
+      redirect_to @planning_application, notice: t(".returned")
     when "closed"
       @planning_application.close!(:closed, params[:planning_application][:closed_or_cancellation_comment])
 
-      redirect_to @planning_application, notice: "Application has been closed"
+      redirect_to @planning_application, notice: t(".closed")
     else
       @planning_application.errors.add(:status, "Please select one of the below options")
       render :close_or_cancel_confirmation
@@ -346,7 +346,7 @@ class PlanningApplicationsController < AuthenticationController
     if params[:edit_action] == "edit_payment_amount"
       redirect_to planning_application_fee_items_path(@planning_application, validate_fee: "yes"), notice: "Planning application payment amount was successfully updated."
     else
-      redirect_to @planning_application, notice: "Planning application was successfully updated."
+      redirect_to @planning_application, notice: t(".success")
     end
   end
 

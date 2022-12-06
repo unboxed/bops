@@ -38,7 +38,7 @@ class SitemapsController < AuthenticationController
 
         format.html do
           redirect_to planning_application_validation_tasks_path(@planning_application),
-                      notice: "Site boundary has been updated"
+                      notice: t(".success")
         end
       else
         format.html { render :edit }

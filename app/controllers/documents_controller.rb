@@ -53,7 +53,7 @@ class DocumentsController < AuthenticationController
           if validate_document? && @document.validated == false
             redirect_to new_planning_application_replacement_document_validation_request_path(document: @document)
           else
-            redirect_to redirect_url, notice: "Document has been updated"
+            redirect_to redirect_url, notice: t(".success")
           end
         else
           render :edit

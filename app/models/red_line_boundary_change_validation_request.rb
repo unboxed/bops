@@ -8,8 +8,8 @@ class RedLineBoundaryChangeValidationRequest < ApplicationRecord
   belongs_to :planning_application
   belongs_to :user
 
-  validates :new_geojson, presence: { message: "Red line drawing must be complete" }
-  validates :reason, presence: { message: "Provide a reason for changes" }
+  validates :new_geojson, presence: true
+  validates :reason, presence: true
 
   validate :rejected_reason_is_present?
 

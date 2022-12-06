@@ -34,7 +34,7 @@ class ReplacementDocumentValidationRequestsController < ValidationRequestsContro
         if @replacement_document_validation_request.save
           @document.replacement_document_validation_request = @replacement_document_validation_request
 
-          format.html { redirect_to planning_application_validation_tasks_path(@planning_application), notice: "Replacement document validation request successfully created." }
+          format.html { redirect_to planning_application_validation_tasks_path(@planning_application), notice: t(".success") }
         else
           format.html { render :new }
         end
@@ -49,7 +49,7 @@ class ReplacementDocumentValidationRequestsController < ValidationRequestsContro
   def update
     respond_to do |format|
       if @replacement_document_validation_request.update(replacement_document_validation_request_params)
-        format.html { redirect_to planning_application_validation_tasks_path(@planning_application), notice: "Replacement document reason successfully updated." }
+        format.html { redirect_to planning_application_validation_tasks_path(@planning_application), notice: t(".success") }
       else
         format.html { render :edit }
       end

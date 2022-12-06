@@ -121,8 +121,7 @@ class PlanningApplication < ApplicationRecord
   private_constant :PLANNING_APPLICATION_PERMITTED_KEYS
 
   validates :work_status,
-            inclusion: { in: WORK_STATUSES,
-                         message: "Work Status should be proposed or existing" }
+            inclusion: { in: WORK_STATUSES }
   validates :review_documents_for_recommendation_status,
             inclusion: { in: PROGRESS_STATUSES }
   validates :application_type, :application_number, :reference, presence: true

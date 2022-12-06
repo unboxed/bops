@@ -71,6 +71,18 @@ RSpec.describe PlanningApplication do
         }.to ["Review documents for recommendation status must be Not started, In progress or Complete"]
       end
     end
+
+    describe "#work_status" do
+      it "validates the type of status" do
+        planning_application = build(:planning_application, work_status: "bad_status")
+
+        expect do
+          planning_application.valid?
+        end.to change {
+          planning_application.errors[:work_status]
+        }.to ["Work Status should be proposed or existing"]
+      end
+    end
   end
 
   describe "associations" do
