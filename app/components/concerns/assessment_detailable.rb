@@ -7,9 +7,7 @@ module AssessmentDetailable
     delegate(:recommendation, to: :planning_application)
 
     def assessment_details
-      @assessment_details ||= AssessmentDetailsReview::ASSESSMENT_DETAILS.map do |assessment_detail|
-        planning_application.send(assessment_detail)
-      end.compact
+      @assessment_details ||= planning_application.assessment_details_for_review
     end
 
     def assessment_details_updated?

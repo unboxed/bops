@@ -75,6 +75,10 @@ en:
           attributes:
             status:
               policies_to_be_determined: All policies must be assessed
+        recommendation:
+          attributes:
+            challenged:
+              updates_required: You have requested officer changes, resolve these before agreeing with the recommendation
         red_line_boundary_change_validation_request:
           attributes:
             new_geojson:
@@ -188,8 +192,6 @@ en:
     information:
       assessor_recommendation: Assessor recommendation
       assessor_remarks: Assessor remarks
-      granted: To grant
-      refused: To refuse
       review_assessment_summaries: Review assessment summaries
       this_information_will: This information WILL be made public
     saved: Review saved
@@ -352,7 +354,7 @@ en:
         closed_or_cancellation_comment: Provide a reason
         public_comment: 'This information will appear on the decision notice:'
       recommendation:
-        reviewer_comment: Review comment
+        reviewer_comment: Explain to the officer why the case is being returned
       red_line_boundary_change_validation_request:
         cancel_reason: Explain to the applicant why this request is being cancelled
       replacement_document_validation_request:
@@ -629,8 +631,18 @@ en:
     documents:
       documents_included_in: Documents included in the decision notice
       no_documents_listed: No documents listed on decision notice.
+    documents_table:
+      add_and_edit: Add and edit documents
+      documents_included_in: Documents included in the decision notice
     edit:
-      review_recommendation: Review the recommendation
+      assessor_recommendation: Assessor recommendation
+      edit_information_on: Edit information on the decision notice
+      recommendation: Recommendation
+      review_changes: Review changes
+      sign_off_recommendation: Sign off recommendation
+      this_information_will: 'This information will appear on the decision notice:'
+      you_have_not: You haven't suggested changes to be made by the officer
+      you_have_suggested: You have suggested changes to be made by the officer
     event:
       by_name_at: by %{name}, %{date} at %{time}
     events:
@@ -638,6 +650,10 @@ en:
       new: Assess recommendation
       recommendation_queried: Recommendation queried
       submitted_recommendation: Submitted recommendation
+    form:
+      do_you_agree: Do you agree with the recommendation?
+      'no': 'No'
+      'yes': 'Yes'
     legislation:
       legislation: Legislation
       no_legislation_assessed: No legislation assessed for this application.
@@ -674,8 +690,6 @@ en:
       assess_recommendation: Assess recommendation
       awaiting_approval_to: Awaiting approval to a description change (sent on %{date})
       back: Back
-      do_you_agree: Do you agree with the recommendation?
-      edit_information_on: Edit information on the decision notice
       error: 'Error:'
       is_the_use: Is the use or operation lawful?
       'no': 'No'
@@ -714,9 +728,11 @@ en:
     awaiting_determination: Awaiting determination
     checked: Checked
     complete: Complete
+    granted: To grant
     in_progress: In progress
     not_checked_yet: Not checked yet
     not_started: Not started
+    refused: To refuse
     to_be_reviewed: To be reviewed
     updated: Updated
     waiting: Waiting

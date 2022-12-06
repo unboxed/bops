@@ -210,4 +210,48 @@ RSpec.describe PermittedDevelopmentRight do
       end
     end
   end
+
+  describe "#update_required?" do
+    context "when review is complete and accepted is false" do
+      let(:permitted_development_right) do
+        build(
+          :permitted_development_right,
+          review_status: :review_complete,
+          accepted: false
+        )
+      end
+
+      it "returns true" do
+        expect(permitted_development_right.update_required?).to be(true)
+      end
+    end
+
+    context "when review is complete and accepted is true" do
+      let(:permitted_development_right) do
+        build(
+          :permitted_development_right,
+          review_status: :review_complete,
+          accepted: true
+        )
+      end
+
+      it "returns false" do
+        expect(permitted_development_right.update_required?).to be(false)
+      end
+    end
+
+    context "when review not complete and accepted is false" do
+      let(:permitted_development_right) do
+        build(
+          :permitted_development_right,
+          review_status: :review_in_progress,
+          accepted: false
+        )
+      end
+
+      it "returns false" do
+        expect(permitted_development_right.update_required?).to be(false)
+      end
+    end
+  end
 end

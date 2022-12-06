@@ -1,69 +1,69 @@
 <% content_for :page_title do %>
   Review form - <%= t('page_title') %>
 <% end %>
-
-<h1 class="govuk-heading-l"><%= t(".review_recommendation") %></h1>
-
-<%= render "shared/assessment_dashboard" do %>
-  <h2 class="govuk-heading-m">
-    Recommendation
-  </h2>
-  <p class="govuk-body">
-    The planning officer recommends that the application is
-    <strong>
-      <%= @planning_application.decision %>
-    </strong>.
-  </p>
-  <p class="govuk-body">
-    <%= render "shared/warning_text", message: "This information will appear on the decision notice:" %>
-  </p>
-  <p class="govuk-body">
-    <%= simple_format(@planning_application.public_comment) %>
-  </p>
-
-  <%= link_to(
-    t(".edit_information_on"),
-    edit_public_comment_planning_application_path(@planning_application),
-    class: "govuk-link"
-  ) %>
-
-  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-
-  <%= render(
-    "recommendations/events",
-    { recommendations: @recommendations }
-  ) %>
-
-  <%= form_with(
-    model: @recommendation,
-    builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-    method: :patch,
-    url: planning_application_recommendation_path(@planning_application, @recommendation)
-  ) do |form| %>
-
-    <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
-
-    <%= form.govuk_fieldset(legend: { text: t(".do_you_agree") }) do %>
-      <div class="govuk-form-group">
-        <div class="govuk-radios" data-module="govuk-radios">
-          <div class="govuk-radios govuk-radios--small">
-            <div class="govuk-radios__item">
-              <%= form.radio_button :challenged, false, checked: !@recommendation.challenged, class: "govuk-radios__input" %>
-              <%= form.label :challenged, "Yes", class: "govuk-label govuk-radios__label" %>
-            </div>
-            <div class="govuk-radios__item">
-              <%= form.radio_button :challenged, true, checked: @recommendation.challenged?, class: "govuk-radios__input" %>
-              <%= form.label :challenged, "No", class: "govuk-label govuk-radios__label" %>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="govuk-form-group">
-        <%= form.label :reviewer_comment, class: "govuk-label" %>
-        <%= form.text_area :reviewer_comment, class: "govuk-textarea", rows: "5" %>
-      </div>
-      <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+<%= render(
+  partial: "shared/review_task_breadcrumbs",
+  locals: {
+    planning_application: @planning_application,
+    current_page: t(".recommendation")
+  }
+) %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds application">
+    <h1 class="govuk-heading-l"><%= t(".sign_off_recommendation") %></h1>
+    <%= render(partial: "shared/planning_application_address_and_reference") %>
+    <h2 class="govuk-heading-m"><%= t(".assessor_recommendation") %></h2>
+    <%= render(
+      StatusTags::DecisionComponent.new(
+        planning_application: @planning_application
+      )
+    ) %>
+    <p class="govuk-body">
+      <%= render("shared/warning_text", message: t(".this_information_will")) %>
+    </p>
+    <%= simple_format(
+      @planning_application.public_comment,
+      class: "govuk-body"
+    ) %>
+    <%= link_to(
+      t(".edit_information_on"),
+      edit_public_comment_planning_application_path(@planning_application),
+      class: "govuk-link govuk-body"
+    ) %>
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+    <%= render(
+      partial: "documents_table",
+      locals: {
+        planning_application: @planning_application,
+        documents: @planning_application.documents.referenced_in_decision_notice
+      }
+    ) %>
+    <%= render(
+      partial: "events",
+      locals: { recommendations: @recommendations }
+    ) %>
+    <% if @planning_application.updates_required? %>
+      <p class= "govuk-body govuk-!-font-weight-bold">
+        <%= t(".you_have_suggested") %>
+      </p>
+      <p>
+        <%= link_to(
+          t(".review_changes"),
+          planning_application_review_tasks_path(@planning_application),
+          class: "govuk-link govuk-body"
+        ) %>
+      </p>
+    <% else %>
+      <p class= "govuk-body govuk-!-font-weight-bold">
+        <%= t(".you_have_not") %>
+      </p>
     <% end %>
-  <% end %>
-<% end %>
+    <%= render(
+      partial: "form",
+      locals: {
+        planning_application: @planning_application,
+        recommendation: @recommendation
+      }
+    ) %>
+  </div>
+</div>

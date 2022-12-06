@@ -43,11 +43,12 @@ class RecommendationsController < AuthenticationController
   def update
     respond_to do |format|
       @recommendation.assign_attributes(recommendation_params)
+      render :edit and return unless @recommendation.valid?
 
       if @recommendation.review_complete?
         @recommendation.review!
       else
-        render :edit and return unless @recommendation.save
+        @recommendation.save
       end
 
       format.html do

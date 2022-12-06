@@ -2,8 +2,11 @@
   <%= t(".review_assessment_summaries") %> - <%= t("page_title") %>
 <% end %>
 <%= render(
-  partial: "breadcrumbs",
-  locals: { planning_application: planning_application}
+  partial: "shared/review_task_breadcrumbs",
+  locals: {
+    planning_application: @planning_application,
+    current_page: t(".review_assessment_summaries")
+  }
 ) %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -12,9 +15,10 @@
     <h2 class="govuk-heading-m"><%= t(".assessor_remarks") %></h2>
     <p class="govuk-body">
       <%= t(".assessor_recommendation") %>
-      <%= tag.strong(
-        t(".#{planning_application.decision}"),
-        class: "govuk-tag govuk-tag--#{planning_application.granted? ? :green : :red}"
+      <%= render(
+        StatusTags::DecisionComponent.new(
+          planning_application: @planning_application
+        )
       ) %>
     </p>
     <%= render(

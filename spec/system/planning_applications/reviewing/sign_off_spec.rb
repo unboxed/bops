@@ -41,7 +41,7 @@ RSpec.describe "Reviewing sign-off" do
 
     click_link "Sign-off recommendation"
 
-    expect(page).to have_content("Review the recommendation")
+    expect(page).to have_content("Sign off recommendation")
 
     within ".recommendations" do
       expect(page).to have_content("First assessor comment")
@@ -49,8 +49,7 @@ RSpec.describe "Reviewing sign-off" do
       expect(page).to have_content("New assessor comment")
     end
 
-    find_by_id("recommendation_challenged_false").click
-    fill_in "Review comment", with: "Reviewer private comment"
+    choose("Yes")
     click_button "Save and mark as complete"
 
     expect(page).to have_selector("h1", text: "Review and sign-off")
@@ -69,7 +68,6 @@ RSpec.describe "Reviewing sign-off" do
     expect(planning_application.status).to eq("determined")
     expect(planning_application.recommendation.reviewer).to eq(reviewer)
     expect(planning_application.recommendation.reviewed_at).not_to be_nil
-    expect(planning_application.recommendation.reviewer_comment).to eq("Reviewer private comment")
     expect(page).not_to have_content("Assigned to:")
     expect(page).not_to have_content("Process Application")
     expect(page).not_to have_content("Review and sign-off")
@@ -95,8 +93,13 @@ RSpec.describe "Reviewing sign-off" do
 
     click_link "Sign-off recommendation"
 
-    find_by_id("recommendation_challenged_true").click
-    fill_in "Review comment", with: "Reviewer private comment"
+    choose("No")
+
+    fill_in(
+      "Explain to the officer why the case is being returned",
+      with: "Reviewer private comment"
+    )
+
     click_button "Save and mark as complete"
 
     expect(page).to have_content("Recommendation was successfully reviewed.")
@@ -144,7 +147,7 @@ RSpec.describe "Reviewing sign-off" do
     click_link "Review and sign-off"
     click_link "Sign-off recommendation"
 
-    find_by_id("recommendation_challenged_true").click
+    choose("No")
     click_button "Save and mark as complete"
 
     find_all(".govuk-error-summary").each do |error|
@@ -163,7 +166,7 @@ RSpec.describe "Reviewing sign-off" do
     click_link "Review and sign-off"
     click_link "Sign-off recommendation"
 
-    find_by_id("recommendation_challenged_false").click
+    choose("Yes")
     click_button "Save and mark as complete"
 
     expect(page).to have_content("Recommendation was successfully reviewed.")
@@ -188,10 +191,18 @@ RSpec.describe "Reviewing sign-off" do
       expect(page).not_to have_content("Reviewer private comment")
     end
 
-    expect(page).to have_field("Review comment", with: "Reviewer private comment")
+    expect(page).to have_field(
+      "Explain to the officer why the case is being returned",
+      with: "Reviewer private comment"
+    )
 
-    find_by_id("recommendation_challenged_true").click
-    fill_in "Review comment", with: "Edited reviewer private comment"
+    choose("No")
+
+    fill_in(
+      "Explain to the officer why the case is being returned",
+      with: "Edited reviewer private comment"
+    )
+
     click_button "Save and mark as complete"
 
     expect(page).to have_content("Recommendation was successfully reviewed.")
@@ -211,8 +222,8 @@ RSpec.describe "Reviewing sign-off" do
       click_link "Review and sign-off"
       click_link "Sign-off recommendation"
 
-      expect(page).to have_content("Review the recommendation")
-      expect(page).to have_content("The planning officer recommends that the application is granted")
+      expect(page).to have_content("Sign off recommendation")
+      expect(page).to have_content("To grant")
       within(".govuk-warning-text") do
         expect(page).to have_content("This information will appear on the decision notice:")
       end
@@ -243,6 +254,7 @@ RSpec.describe "Reviewing sign-off" do
       expect(page).to have_content("This text will appear on the decision notice.")
 
       # Check audit log
+      visit(planning_application_path(planning_application))
       click_button "Audit log"
       click_link "View all audits"
 
@@ -263,6 +275,53 @@ RSpec.describe "Reviewing sign-off" do
       visit planning_application_review_tasks_path(planning_application)
 
       expect(page).to have_content("forbidden")
+    end
+  end
+
+  context "when the reviewer requests changes" do
+    before do
+      create(:recommendation, planning_application: planning_application)
+
+      create(
+        :permitted_development_right,
+        planning_application: planning_application
+      )
+    end
+
+    it "raises an error if the reviewer accepts the recommendation" do
+      click_link("Review and sign-off")
+      click_link("Permitted development rights")
+      choose("Return to officer with comment")
+
+      fill_in(
+        "Explain to the assessor why this needs reviewing",
+        with: "needs correction"
+      )
+
+      click_button("Save and mark as complete")
+      click_link("Sign-off recommendation")
+
+      expect(page).to have_content(
+        "You have suggested changes to be made by the officer"
+      )
+
+      choose("Yes")
+      click_button("Save and mark as complete")
+
+      expect(page).to have_content(
+        "You have requested officer changes, resolve these before agreeing with the recommendation"
+      )
+
+      choose("No")
+
+      fill_in(
+        "Explain to the officer why the case is being returned",
+        with: "see permitted development rights"
+      )
+
+      click_button("Save and mark as complete")
+
+      expect(page).to have_content("Recommendation was successfully reviewed.")
     end
   end
 end

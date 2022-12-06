@@ -1717,4 +1717,149 @@ RSpec.describe PlanningApplication do
       ).to be_nil
     end
   end
+
+  describe "#assessment_details_for_review" do
+    let(:planning_application) do
+      create(:planning_application, :with_consultees)
+    end
+
+    let!(:summary_of_work) do
+      create(
+        :assessment_detail,
+        :summary_of_work,
+        planning_application: planning_application,
+        created_at: 1.day.ago
+      )
+    end
+
+    let!(:consultation_summary) do
+      create(
+        :assessment_detail,
+        :consultation_summary,
+        planning_application: planning_application,
+        created_at: 1.day.ago
+      )
+    end
+
+    let!(:site_description) do
+      create(
+        :assessment_detail,
+        :site_description,
+        planning_application: planning_application,
+        created_at: 1.day.ago
+      )
+    end
+
+    let!(:additional_evidence) do
+      create(
+        :assessment_detail,
+        :additional_evidence,
+        planning_application: planning_application,
+        created_at: 1.day.ago
+      )
+    end
+
+    before do
+      create(
+        :assessment_detail,
+        :summary_of_work,
+        planning_application: planning_application,
+        created_at: 2.days.ago
+      )
+
+      create(
+        :assessment_detail,
+        :consultation_summary,
+        planning_application: planning_application,
+        created_at: 2.days.ago
+      )
+
+      create(
+        :assessment_detail,
+        :site_description,
+        planning_application: planning_application,
+        created_at: 2.days.ago
+      )
+
+      create(
+        :assessment_detail,
+        :additional_evidence,
+        planning_application: planning_application,
+        created_at: 2.days.ago
+      )
+
+      create(
+        :assessment_detail,
+        :past_applications,
+        planning_application: planning_application,
+        created_at: 1.day.ago
+      )
+    end
+
+    it "returns most recent assessment detail in each reviewable category" do
+      expect(planning_application.assessment_details_for_review).to contain_exactly(
+        summary_of_work, additional_evidence, site_description, consultation_summary
+      )
+    end
+  end
+
+  describe "#updates_required?" do
+    let(:planning_application) { create(:planning_application) }
+
+    context "when no changes requested" do
+      it "returns false" do
+        expect(planning_application.updates_required?).to be(false)
+      end
+    end
+
+    context "when changes to permitted development right requested" do
+      before do
+        create(
+          :permitted_development_right,
+          review_status: :review_complete,
+          accepted: false,
+          planning_application: planning_application
+        )
+      end
+
+      it "returns true" do
+        expect(planning_application.updates_required?).to be(true)
+      end
+    end
+
+    context "when changes to policy class requested" do
+      let(:policy_class) do
+        create(:policy_class, planning_application: planning_application)
+      end
+
+      before do
+        create(
+          :review_policy_class,
+          policy_class: policy_class,
+          status: :complete,
+          mark: :return_to_officer_with_comment,
+          comment: "comment"
+        )
+      end
+
+      it "returns true" do
+        expect(planning_application.updates_required?).to be(true)
+      end
+    end
+
+    context "when changes to assessment_detail requested" do
+      before do
+        create(
+          :assessment_detail,
+          planning_application: planning_application,
+          review_status: :complete,
+          reviewer_verdict: :rejected
+        )
+      end
+
+      it "returns true" do
+        expect(planning_application.updates_required?).to be(true)
+      end
+    end
+  end
 end

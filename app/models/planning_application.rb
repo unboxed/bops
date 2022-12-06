@@ -493,6 +493,18 @@ class PlanningApplication < ApplicationRecord
     permitted_development_rights.last
   end
 
+  def updates_required?
+    assessment_details_for_review.any?(&:update_required?) ||
+      permitted_development_right&.update_required? ||
+      policy_classes.any?(&:update_required?)
+  end
+
+  def assessment_details_for_review
+    AssessmentDetailsReview::ASSESSMENT_DETAILS.map do |assessment_detail|
+      send(assessment_detail)
+    end.compact
+  end
+
   private
 
   def set_reference

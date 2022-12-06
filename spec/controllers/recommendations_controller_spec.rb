@@ -64,7 +64,7 @@ RSpec.describe RecommendationsController do
     context "when recommendation in invalid" do
       before do
         allow_any_instance_of(Recommendation)
-          .to receive(:save)
+          .to receive(:valid?)
           .and_return(false)
       end
 

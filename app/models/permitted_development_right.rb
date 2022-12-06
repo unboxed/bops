@@ -39,6 +39,10 @@ class PermittedDevelopmentRight < ApplicationRecord
   scope :not_review_in_progress, -> { where.not(review_status: "review_in_progress") }
   scope :returned, -> { with_reviewer_comment.not_review_in_progress.where(accepted: false) }
 
+  def update_required?
+    review_complete? && !accepted
+  end
+
   private
 
   def set_status_to_be_reviewed
