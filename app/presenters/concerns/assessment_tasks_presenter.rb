@@ -15,12 +15,6 @@ module AssessmentTasksPresenter
         @template, @planning_application
       ).task_list_row
     end
-
-    def permitted_development_right_tasklist
-      AssessmentTasks::PermittedDevelopmentRightPresenter.new(
-        @template, @planning_application
-      ).task_list_row
-    end
   end
 
   def assessment_tasklist_in_progress?

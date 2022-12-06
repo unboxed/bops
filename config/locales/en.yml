@@ -399,17 +399,12 @@ en:
       success: Other validation request successfully updated
   page_title: BETA BOPs - GOV.UK
   permitted_development_rights:
-    checked: Checked
-    in_progress: In progress
-    not_started: Not started
-    removed: Removed
     review_assessment_error: You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen
     review_complete: Complete
     review_in_progress: In progress
     review_not_started: Not started
     successfully_created: Permitted development rights response was successfully created
     successfully_updated: Permitted development rights response was successfully updated
-    to_be_reviewed: To be reviewed
   planning_application:
     assessment_details:
       comment:
@@ -733,6 +728,7 @@ en:
     not_checked_yet: Not checked yet
     not_started: Not started
     refused: To refuse
+    removed: Removed
     to_be_reviewed: To be reviewed
     updated: Updated
     waiting: Waiting
@@ -754,6 +750,8 @@ en:
       summary_of_work: Summary of works
     assessment_details_review_component:
       review_assessment_summaries: Review assessment summaries
+    permitted_development_right_component:
+      permitted_development_rights: Permitted development rights
   user:
     manager_role: Manager
     officer_role: Case Officer
