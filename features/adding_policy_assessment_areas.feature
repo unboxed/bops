@@ -11,9 +11,9 @@ Feature: Adding policy assessment area to the application
 
   Scenario: As an assessor I can add classes to a validated application
     Given I add the policy classes "AA, B, F" to the application
-    Then there is a row for the "Part 1, Class AA" policy with an "In assessment" status
-    And there is a row for the "Part 1, Class B" policy with an "In assessment" status
-    And there is a row for the "Part 1, Class F" policy with an "In assessment" status
+    Then there is a row for the "Part 1, Class AA" policy with an "In progress" status
+    And there is a row for the "Part 1, Class B" policy with an "In progress" status
+    And there is a row for the "Part 1, Class F" policy with an "In progress" status
 
   Scenario: As an assessor I can remove classes from a validated application
     Given I add the policy class "AA" to the application

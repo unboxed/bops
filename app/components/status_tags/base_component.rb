@@ -28,7 +28,7 @@ module StatusTags
         "govuk-tag--green"
       when :updated
         "govuk-tag--yellow"
-      when :refused
+      when :refused, :removed
         "govuk-tag--red"
       end
     end

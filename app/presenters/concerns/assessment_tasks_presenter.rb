@@ -4,20 +4,8 @@ module AssessmentTasksPresenter
   extend ActiveSupport::Concern
 
   included do
-    def assess_against_legislation_tasklist(policy_class)
-      AssessmentTasks::AssessAgainstLegislationPresenter.new(
-        @template, @planning_application, policy_class
-      ).task_list_row
-    end
-
     def review_documents_tasklist
       AssessmentTasks::ReviewDocumentsPresenter.new(
-        @template, @planning_application
-      ).task_list_row
-    end
-
-    def permitted_development_right_tasklist
-      AssessmentTasks::PermittedDevelopmentRightPresenter.new(
         @template, @planning_application
       ).task_list_row
     end

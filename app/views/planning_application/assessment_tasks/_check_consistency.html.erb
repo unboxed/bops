@@ -34,8 +34,10 @@
         </span>
       </li>
     <% end %>
-    <li class="app-task-list__item" id="permitted-development-right-tasklist">
-      <%= @planning_application.permitted_development_right_tasklist %>
-    </li>
+    <%= render(
+      TaskListItems::PermittedDevelopmentRightComponent.new(
+        planning_application: @planning_application
+      )
+    ) %>
   </ul>
 </li>

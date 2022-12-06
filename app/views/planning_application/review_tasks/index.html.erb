@@ -42,8 +42,13 @@
       Review assessment
     </h2>
     <ul class="app-task-list__items">
-      <%= render "permitted_development_rights" if @planning_application.permitted_development_right %>
-
+      <% if @planning_application.permitted_development_right %>
+        <%= render(
+          TaskListItems::PermittedDevelopmentRightReviewComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
+      <% end %>
       <%= render(
         TaskListItems::AssessmentDetailsReviewComponent.new(
           planning_application: @planning_application,
