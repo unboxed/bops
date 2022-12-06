@@ -282,10 +282,12 @@ RSpec.describe "Permitted development right" do
       it "I can view the information on the review permitted development rights page" do
         click_link "Review and sign-off"
 
-        within("#review-permitted-development-rights") do
-          expect(page).to have_content("Not started")
-          click_link "Permitted development rights"
-        end
+        expect(page).to have_list_item_for(
+          "Permitted development rights",
+          with: "Not started"
+        )
+
+        click_link "Permitted development rights"
 
         within(".govuk-breadcrumbs__list") do
           expect(page).to have_content("Review")
@@ -346,10 +348,12 @@ RSpec.describe "Permitted development right" do
 
           click_button "Save and mark as complete"
 
-          within("#review-permitted-development-rights") do
-            expect(page).to have_content("Complete")
-            click_link "Permitted development rights"
-          end
+          expect(page).to have_list_item_for(
+            "Permitted development rights",
+            with: "Complete"
+          )
+
+          click_link "Permitted development rights"
 
           expect(PermittedDevelopmentRight.last.reviewer_edited).to be(true)
           expect(page).to have_content("Edited comment")
@@ -377,15 +381,13 @@ RSpec.describe "Permitted development right" do
 
         click_button "Save and come back later"
 
-        within("#review-permitted-development-rights") do
-          expect(page).to have_content("In progress")
-          click_link "Permitted development rights"
-        end
+        expect(page).to have_list_item_for(
+          "Permitted development rights",
+          with: "In progress"
+        )
 
-        expect(find_by_id("permitted-development-right-accepted-true-field").disabled?).to be(true)
-        expect(find_by_id("permitted-development-right-accepted-field").disabled?).to be(true)
+        click_link "Permitted development rights"
 
-        click_link("Edit check permitted development rights")
         choose "Return to officer with comment"
         fill_in "permitted_development_right[reviewer_comment]", with: "My edited review comment"
         click_button "Save and come back later"
@@ -400,10 +402,12 @@ RSpec.describe "Permitted development right" do
 
         click_button "Save and mark as complete"
 
-        within("#review-permitted-development-rights") do
-          expect(page).to have_content("Complete")
-          click_link "Permitted development rights"
-        end
+        expect(page).to have_list_item_for(
+          "Permitted development rights",
+          with: "Complete"
+        )
+
+        click_link "Permitted development rights"
 
         expect(find_by_id("permitted-development-right-accepted-true-field").selected?).to be(true)
         expect(find_by_id("permitted-development-right-accepted-field").selected?).to be(false)
@@ -418,10 +422,12 @@ RSpec.describe "Permitted development right" do
 
         click_button "Save and mark as complete"
 
-        within("#review-permitted-development-rights") do
-          expect(page).to have_content("Complete")
-          click_link "Permitted development rights"
-        end
+        expect(page).to have_list_item_for(
+          "Permitted development rights",
+          with: "Complete"
+        )
+
+        click_link "Permitted development rights"
 
         expect(find_by_id("permitted-development-right-accepted-true-field").selected?).to be(false)
         expect(find_by_id("permitted-development-right-accepted-field").selected?).to be(true)
