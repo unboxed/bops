@@ -24,12 +24,47 @@ RSpec.describe TaskListItems::PermittedDevelopmentRightComponent, type: :compone
     end
   end
 
-  context "when record exists" do
+  context "when review is needed" do
+    before do
+      create(
+        :permitted_development_right,
+        planning_application: planning_application,
+        status: :checked,
+        review_status: :review_complete,
+        accepted: false
+      )
+
+      create(
+        :recommendation,
+        status: :review_complete,
+        challenged: true,
+        planning_application: planning_application,
+        reviewer_comment: "comment"
+      )
+
+      render_inline(
+        described_class.new(planning_application: planning_application)
+      )
+    end
+
+    it "renders link to new permitted development right" do
+      expect(page).to have_link(
+        "Permitted development rights",
+        href: "/planning_applications/#{planning_application.id}/permitted_development_rights/new"
+      )
+    end
+
+    it "renders 'To be reviewed' status" do
+      expect(page).to have_content("To be reviewed")
+    end
+  end
+
+  context "when status is 'in_progress'" do
     let!(:permitted_development_right) do
       create(
         :permitted_development_right,
         planning_application: planning_application,
-        status: status
+        status: :in_progress
       )
     end
 
@@ -39,64 +74,69 @@ RSpec.describe TaskListItems::PermittedDevelopmentRightComponent, type: :compone
       )
     end
 
-    context "when status is 'to_be_reviewed'" do
-      let(:status) { :to_be_reviewed }
-
-      it "renders link to new permitted development right" do
-        expect(page).to have_link(
-          "Permitted development rights",
-          href: "/planning_applications/#{planning_application.id}/permitted_development_rights/new"
-        )
-      end
-
-      it "renders 'To be reviewed' status" do
-        expect(page).to have_content("To be reviewed")
-      end
+    it "renders link to edit permitted development right" do
+      expect(page).to have_link(
+        "Permitted development rights",
+        href: "/planning_applications/#{planning_application.id}/permitted_development_rights/#{permitted_development_right.id}/edit"
+      )
     end
 
-    context "when status is 'in_progress'" do
-      let(:status) { :in_progress }
+    it "renders 'In progress' status" do
+      expect(page).to have_content("In progress")
+    end
+  end
 
-      it "renders link to edit permitted development right" do
-        expect(page).to have_link(
-          "Permitted development rights",
-          href: "/planning_applications/#{planning_application.id}/permitted_development_rights/#{permitted_development_right.id}/edit"
-        )
-      end
-
-      it "renders 'In progress' status" do
-        expect(page).to have_content("In progress")
-      end
+  context "when status is 'checked'" do
+    let!(:permitted_development_right) do
+      create(
+        :permitted_development_right,
+        planning_application: planning_application,
+        status: :checked
+      )
     end
 
-    context "when status is 'checked'" do
-      let(:status) { :checked }
-
-      it "renders link to permitted development right" do
-        expect(page).to have_link(
-          "Permitted development rights",
-          href: "/planning_applications/#{planning_application.id}/permitted_development_rights/#{permitted_development_right.id}"
-        )
-      end
-
-      it "renders 'Checked' status" do
-        expect(page).to have_content("Checked")
-      end
+    before do
+      render_inline(
+        described_class.new(planning_application: planning_application)
+      )
     end
 
-    context "when status is 'removed'" do
-      let(:status) { :removed }
+    it "renders link to permitted development right" do
+      expect(page).to have_link(
+        "Permitted development rights",
+        href: "/planning_applications/#{planning_application.id}/permitted_development_rights/#{permitted_development_right.id}"
+      )
+    end
 
-      it "renders link to permitted development right" do
-        expect(page).to have_link(
-          "Permitted development rights",
-          href: "/planning_applications/#{planning_application.id}/permitted_development_rights/#{permitted_development_right.id}"
-        )
-      end
+    it "renders 'Checked' status" do
+      expect(page).to have_content("Checked")
+    end
+  end
 
-      it "renders 'Removed' status" do
-        expect(page).to have_content("Removed")
-      end
+  context "when status is 'removed'" do
+    let!(:permitted_development_right) do
+      create(
+        :permitted_development_right,
+        planning_application: planning_application,
+        status: :removed
+      )
+    end
+
+    before do
+      render_inline(
+        described_class.new(planning_application: planning_application)
+      )
+    end
+
+    it "renders link to permitted development right" do
+      expect(page).to have_link(
+        "Permitted development rights",
+        href: "/planning_applications/#{planning_application.id}/permitted_development_rights/#{permitted_development_right.id}"
+      )
+    end
+
+    it "renders 'Removed' status" do
+      expect(page).to have_content("Removed")
     end
   end
 end

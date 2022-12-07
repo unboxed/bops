@@ -20,7 +20,8 @@ RSpec.describe "Reviewing Policy Class" do
       :planning_application,
       :awaiting_determination,
       :with_recommendation,
-      local_authority: default_local_authority
+      local_authority: default_local_authority,
+      decision: :granted
     )
   end
 
@@ -78,7 +79,15 @@ RSpec.describe "Reviewing Policy Class" do
       expect(page).to have_text "Return to officer with comment"
 
       click_on "Back"
+      click_link("Sign-off recommendation")
+      choose("No")
 
+      fill_in(
+        "Explain to the officer why the case is being returned",
+        with: "reviewer comment"
+      )
+
+      click_button("Save and mark as complete")
       visit(planning_application_assessment_tasks_path(planning_application))
 
       expect(list_item("Part 1, Class A")).to have_content("To be reviewed")

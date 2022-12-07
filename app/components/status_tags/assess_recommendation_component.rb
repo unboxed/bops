@@ -15,9 +15,11 @@ module StatusTags
     def status
       if planning_application.can_assess? && recommendation.blank?
         :not_started
+      elsif recommendation&.rejected?
+        :to_be_reviewed
       elsif recommendation&.assessment_in_progress?
         :in_progress
-      elsif recommendation&.unchallenged?
+      else
         :complete
       end
     end

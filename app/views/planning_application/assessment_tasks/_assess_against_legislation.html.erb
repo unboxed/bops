@@ -12,7 +12,10 @@
     <% else %>
       <% @planning_application.policy_classes.each do |policy_class| %>
         <%= render(
-          TaskListItems::PolicyClassComponent.new(policy_class: policy_class)
+          TaskListItems::PolicyClassComponent.new(
+            policy_class: policy_class,
+            planning_application: @planning_application
+          )
         ) %>
       <% end %>
     <% end %>

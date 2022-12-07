@@ -13,6 +13,16 @@ RSpec.shared_examples "AssessmentTasksPresenter" do
       end
     end
 
+    context "when recommendation is present" do
+      before do
+        create(:recommendation, planning_application: planning_application)
+      end
+
+      it "returns true" do
+        expect(presenter.assessment_tasklist_in_progress?).to be(true)
+      end
+    end
+
     context "when policy class is present" do
       before do
         create(:policy_class, planning_application: planning_application)
