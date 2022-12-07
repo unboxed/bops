@@ -26,7 +26,7 @@ module StatusTags
         "govuk-tag--blue"
       when :checked, :granted
         "govuk-tag--green"
-      when :updated
+      when :updated, :to_be_reviewed
         "govuk-tag--yellow"
       when :refused, :removed
         "govuk-tag--red"

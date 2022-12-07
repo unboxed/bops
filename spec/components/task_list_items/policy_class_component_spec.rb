@@ -15,7 +15,14 @@ RSpec.describe TaskListItems::PolicyClassComponent, type: :component do
     )
   end
 
-  before { render_inline(described_class.new(policy_class: policy_class)) }
+  before do
+    render_inline(
+      described_class.new(
+        planning_application: planning_application,
+        policy_class: policy_class
+      )
+    )
+  end
 
   context "when status is 'complete'" do
     let(:status) { :complete }

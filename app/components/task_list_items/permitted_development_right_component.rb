@@ -40,7 +40,18 @@ module TaskListItems
     end
 
     def status
-      @status ||= permitted_development_right&.status&.to_sym || :not_started
+      if permitted_development_right.blank?
+        :not_started
+      elsif to_be_reviewed?
+        :to_be_reviewed
+      else
+        permitted_development_right.status.to_sym
+      end
+    end
+
+    def to_be_reviewed?
+      planning_application.recommendation&.rejected? &&
+        permitted_development_right.update_required?
     end
   end
 end

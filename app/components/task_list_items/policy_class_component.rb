@@ -2,13 +2,14 @@
 
 module TaskListItems
   class PolicyClassComponent < TaskListItems::BaseComponent
-    def initialize(policy_class:)
+    def initialize(policy_class:, planning_application:)
+      @planning_application = planning_application
       @policy_class = PolicyClassPresenter.new(policy_class)
     end
 
     private
 
-    attr_reader :policy_class
+    attr_reader :policy_class, :planning_application
 
     def link_text
       I18n.t(
@@ -23,7 +24,10 @@ module TaskListItems
     end
 
     def status_tag_component
-      StatusTags::PolicyClassComponent.new(policy_class: policy_class)
+      StatusTags::PolicyClassComponent.new(
+        policy_class: policy_class,
+        planning_application: planning_application
+      )
     end
   end
 end

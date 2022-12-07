@@ -15,7 +15,8 @@ module AssessmentTasksPresenter
     policy_classes.any? ||
       consistency_checklist.present? ||
       assessment_details.any? ||
-      permitted_development_right.present?
+      permitted_development_right.present? ||
+      recommendation.present?
   end
 
   def multiple_policy_classes?
