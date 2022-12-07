@@ -29,7 +29,8 @@ module Api
             format.json
           else
             format.json do
-              render json: { message: "Unable to find additional document validation request with id: #{params[:id]}" }, status: :not_found
+              render json: { message: "Unable to find additional document validation request with id: #{params[:id]}" },
+                     status: :not_found
             end
           end
         end
@@ -58,7 +59,8 @@ module Api
       def check_files_size
         params[:files].each do |file|
           if file_size_over_30mb?(file)
-            render json: { message: "The file: '#{file.original_filename}' exceeds the limit of 30mb. Each file must be 30MB or less" }, status: :bad_request
+            render json: { message: "The file: '#{file.original_filename}' exceeds the limit of 30mb. Each file must be 30MB or less" },
+                   status: :bad_request
           end
         end
       end

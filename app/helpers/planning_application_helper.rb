@@ -66,11 +66,14 @@ module PlanningApplicationHelper
 
     case red_line_boundary_change_validation_request.try(:state)
     when "open"
-      link_to "View requested red line boundary change", planning_application_red_line_boundary_change_validation_request_path(planning_application, red_line_boundary_change_validation_request), class: "govuk-link"
+      link_to "View requested red line boundary change",
+              planning_application_red_line_boundary_change_validation_request_path(planning_application, red_line_boundary_change_validation_request), class: "govuk-link"
     when "closed"
-      link_to "View applicants response to requested red line boundary change", planning_application_red_line_boundary_change_validation_request_path(planning_application, red_line_boundary_change_validation_request), class: "govuk-link"
+      link_to "View applicants response to requested red line boundary change",
+              planning_application_red_line_boundary_change_validation_request_path(planning_application, red_line_boundary_change_validation_request), class: "govuk-link"
     else
-      link_to "Request approval for a change to red line boundary", new_planning_application_red_line_boundary_change_validation_request_path(planning_application), class: "govuk-link"
+      link_to "Request approval for a change to red line boundary",
+              new_planning_application_red_line_boundary_change_validation_request_path(planning_application), class: "govuk-link"
     end
   end
 

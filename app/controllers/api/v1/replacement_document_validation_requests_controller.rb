@@ -24,7 +24,8 @@ module Api
             format.json
           else
             format.json do
-              render json: { message: "Unable to find replacement document validation request with id: #{params[:id]}" }, status: :not_found
+              render json: { message: "Unable to find replacement document validation request with id: #{params[:id]}" },
+                     status: :not_found
             end
           end
         end

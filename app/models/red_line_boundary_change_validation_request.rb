@@ -14,7 +14,9 @@ class RedLineBoundaryChangeValidationRequest < ApplicationRecord
   validate :rejected_reason_is_present?
 
   before_create :set_original_geojson
-  before_create -> { reset_validation_requests_update_counter!(planning_application.red_line_boundary_change_validation_requests) }
+  before_create lambda {
+                  reset_validation_requests_update_counter!(planning_application.red_line_boundary_change_validation_requests)
+                }
 
   delegate :reset_validation_requests_update_counter!, to: :planning_application
 
