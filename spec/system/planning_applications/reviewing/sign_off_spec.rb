@@ -4,8 +4,17 @@ require "rails_helper"
 
 RSpec.describe "Reviewing sign-off" do
   let(:default_local_authority) { create(:local_authority, :default) }
-  let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
-  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
+  let!(:reviewer) do
+    create(:user,
+           :reviewer,
+           local_authority: default_local_authority)
+  end
+  let!(:assessor) do
+    create(:user,
+           :assessor,
+           name: "The name of assessor",
+           local_authority: default_local_authority)
+  end
   let(:user) { create(:user) }
 
   let!(:planning_application) do
@@ -59,9 +68,8 @@ RSpec.describe "Reviewing sign-off" do
 
     expect(list_item("Sign-off recommendation")).to have_content("Complete")
 
-    click_link "Back"
+    click_on "Publish decision"
 
-    click_link "Publish determination"
     click_button "Publish determination"
 
     planning_application.reload
@@ -82,6 +90,7 @@ RSpec.describe "Reviewing sign-off" do
 
   it "can be rejected" do
     create(:recommendation,
+           assessor: assessor,
            planning_application: planning_application,
            assessor_comment: "New assessor comment",
            submitted: true)
@@ -107,6 +116,8 @@ RSpec.describe "Reviewing sign-off" do
     expect(page).to have_text("Sign-off recommendation")
     expect(page).not_to have_link("Sign-off recommendation",
                                   href: edit_planning_application_recommendations_path(planning_application))
+
+    expect(page).to have_text "Application is now in assessment and assigned to The name of assessor"
 
     click_link "Back"
 

@@ -23,6 +23,9 @@
       :true,
       label: { text: t(".no") }
     ) do %>
+      <p class="govuk-body">
+        Case currently assigned to: <span class="govuk-!-font-weight-bold"><%= recommendation.assessor.name %></span>
+      </p>
       <%= form.govuk_text_area(:reviewer_comment) %>
     <% end %>
   <% end %>

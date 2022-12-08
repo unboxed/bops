@@ -326,6 +326,7 @@ en:
     validate:
       success: Fee item was marked as valid.
   form_actions:
+    publish_decision: Publish decision
     save_and_come_back_later: Save and come back later
     save_and_mark_as_complete: Save and mark as complete
   helpers:
