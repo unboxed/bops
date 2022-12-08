@@ -649,7 +649,18 @@ en:
       no_legislation_assessed: No legislation assessed for this application.
     new:
       assess_recommendation: Assess recommendation
+      error: 'Error:'
+      is_the_use: Is the use or operation lawful?
       make_draft_recommendation: Make draft recommendation
+      'no': 'No'
+      please_provide_supporting: Please provide supporting information for your manager.
+      refer_to_the: Refer to the specific permitted development rights being evoked.
+      state_the_reason: State the reasons why this application is, or is not lawful.
+      there_are_outstanding_change_requests_html: There are outstanding change requests (last request %{last_request}). <a href='%{href}'>View all requests</a>.
+      this_information_will: This information WILL appear on the decision notice.
+      this_information_will_not: This information WILL NOT appear on the decision notice or the public register, however FOI still apply.
+      update_assessment: Update assessment
+      'yes': 'Yes'
     update:
       success: Recommendation was successfully reviewed.
   red_line_boundary_change_validation_requests:

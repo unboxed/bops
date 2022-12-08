@@ -1,83 +1,85 @@
 <% content_for :page_title do %>
  <%= t(".make_draft_recommendation") %> - <%= t("page_title") %>
 <% end %>
-<% content_for(:title, t(".assess_recommendation")) %>
+
 <%= render(
-  layout: "shared/assessment_dashboard",
-  locals: { heading: t(".make_draft_recommendation"), show_accordian: false }
-) do %>
-  <h2 class="govuk-heading-l govuk-!-padding-top-5"><%= t(".assess_proposal") %></h2>
-  <%= render(
-    PlanningApplications::AssessmentReportComponent.new(
-      planning_application: @planning_application,
-      show_additional_evidence: true
-    )
-  ) %>
-  <%= render(
-     partial: "events",
-     locals: { recommendations: @planning_application.recommendations.reviewed }
-  ) %>
+  partial: "shared/assessment_task_breadcrumbs",
+  locals: { planning_application: @planning_application  }
+) %>
 
-  <% if @planning_application.all_open_post_validation_requests.any? %>
+<% content_for(:title, t(".make_draft_recommendation")) %>
+
+<h2 class="govuk-heading-l govuk-!-padding-top-5"><%= t(".make_draft_recommendation") %></h2>
+<%= render(
+  PlanningApplications::AssessmentReportComponent.new(
+    planning_application: @planning_application,
+    show_additional_evidence: true
+  )
+) %>
+<%= render(
+   partial: "events",
+   locals: { recommendations: @planning_application.recommendations.reviewed }
+) %>
+
+<% if @planning_application.all_open_post_validation_requests.any? %>
+  <%= render(
+    partial: "shared/alert_banner",
+    locals: {
+      message: t(
+        ".there_are_outstanding_change_requests_html",
+        last_request: @planning_application.all_open_post_validation_requests.last.created_at,
+        href: post_validation_requests_planning_application_validation_requests_path(@planning_application)
+      )
+    }
+  ) %>
+<% end %>
+
+<%= form_with(
+  model: @recommendation,
+  builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+  url: planning_application_recommendations_path(@planning_application)
+) do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_collection_radio_buttons(
+    :decision,
+    [[:granted, t(".yes")], [:refused, t(".no")]],
+    :first,
+    :last,
+    legend: { text: t(".is_the_use"), size: "s" }
+  ) %>
+  <div class="govuk-form-group <%= "govuk-form-group--error" if form.object.errors[:public_comment].any? %>">
+    <%= form.label(:public_comment, t(".state_the_reason"), class: "govuk-label govuk-label--s") %>
+    <div class="govuk-hint"><%= t(".refer_to_the") %></div>
     <%= render(
-      partial: "shared/alert_banner",
-      locals: {
-        message: t(
-          ".there_are_outstanding_change_requests_html",
-          last_request: @planning_application.all_open_post_validation_requests.last.created_at,
-          href: post_validation_requests_planning_application_validation_requests_path(@planning_application)
-        )
-      }
+      partial: "shared/warning_text",
+      locals: { message: t(".this_information_will") }
     ) %>
-  <% end %>
-
-  <%= form_with(
-    model: @recommendation,
-    builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-    url: planning_application_recommendations_path(@planning_application)
-  ) do |form| %>
-    <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
-    <%= form.govuk_collection_radio_buttons(
-      :decision,
-      [[:granted, t(".yes")], [:refused, t(".no")]],
-      :first,
-      :last,
-      legend: { text: t(".is_the_use"), size: "s" }
-    ) %>
-    <div class="govuk-form-group <%= "govuk-form-group--error" if form.object.errors[:public_comment].any? %>">
-      <%= form.label(:public_comment, t(".state_the_reason"), class: "govuk-label govuk-label--s") %>
-      <div class="govuk-hint"><%= t(".refer_to_the") %></div>
-      <%= render(
-        partial: "shared/warning_text",
-        locals: { message: t(".this_information_will") }
-      ) %>
-      <% if form.object.errors[:public_comment].any? %>
-        <p id="recommendation-form-public-comment-field-error" class="govuk-error-message">
-          <span class="govuk-visually-hidden">
-            <%= t(".error") %>
-          </span>
-          <%= form.object.errors[:public_comment].first %>
-        </p>
-      <% end %>
-      <%= form.text_area(
-        :public_comment,
-        class: "govuk-textarea #{"govuk-textarea--error" if form.object.errors[:public_comment].any?}",
-        rows: 9
-      ) %>
-    </div>
-    <%= form.govuk_text_area(
-      :assessor_comment,
-      label: { text: t(".please_provide_supporting"), size: "s" },
-      hint: { text: t(".this_information_will_not") },
+    <% if form.object.errors[:public_comment].any? %>
+      <p id="recommendation-form-public-comment-field-error" class="govuk-error-message">
+        <span class="govuk-visually-hidden">
+          <%= t(".error") %>
+        </span>
+        <%= form.object.errors[:public_comment].first %>
+      </p>
+    <% end %>
+    <%= form.text_area(
+      :public_comment,
+      class: "govuk-textarea #{"govuk-textarea--error" if form.object.errors[:public_comment].any?}",
       rows: 9
     ) %>
-    <% if @planning_application.assessment_submitted? %>
-      <div class="govuk-button-group">
-        <%= form.govuk_submit(t(".update_assessment")) %>
-        <%= back_link %>
-      </div>
-    <% else %>
-      <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
-    <% end %>
+  </div>
+  <%= form.govuk_text_area(
+    :assessor_comment,
+    label: { text: t(".please_provide_supporting"), size: "s" },
+    hint: { text: t(".this_information_will_not") },
+    rows: 9
+  ) %>
+  <% if @planning_application.assessment_submitted? %>
+    <div class="govuk-button-group">
+      <%= form.govuk_submit(t(".update_assessment")) %>
+      <%= back_link %>
+    </div>
+  <% else %>
+    <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
   <% end %>
 <% end %>
