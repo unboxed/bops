@@ -18,7 +18,7 @@ on:
 jobs:
   linters:
     name: Linters
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     env:
       BUNDLE_WITHOUT: development
     steps:
