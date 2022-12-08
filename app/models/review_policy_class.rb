@@ -14,10 +14,6 @@ class ReviewPolicyClass < ApplicationRecord
     policy_class&.planning_application&.last_recommendation_accepted?
   end
 
-  def update_required?
-    status_complete? && return_to_officer_with_comment?
-  end
-
   private
 
   def recommendation_not_accepted

@@ -1829,16 +1829,18 @@ RSpec.describe PlanningApplication do
 
     context "when changes to policy class requested" do
       let(:policy_class) do
-        create(:policy_class, planning_application: planning_application)
+        create(
+          :policy_class,
+          planning_application: planning_application,
+          status: :to_be_reviewed
+        )
       end
 
       before do
         create(
           :review_policy_class,
           policy_class: policy_class,
-          status: :complete,
-          mark: :return_to_officer_with_comment,
-          comment: "comment"
+          status: :complete
         )
       end
 
