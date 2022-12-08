@@ -143,16 +143,14 @@ RSpec.describe PolicyClass do
   end
 
   describe "#update_required?" do
-    let(:policy_class) { create(:policy_class) }
+    context "when review_policy_class status is 'complete' and status is 'to_be_reviewed'" do
+      let(:policy_class) { create(:policy_class, status: :to_be_reviewed) }
 
-    context "when #update_required? is true for review_policy_class" do
       before do
         create(
           :review_policy_class,
-          status: :complete,
-          mark: :return_to_officer_with_comment,
-          comment: "comment",
-          policy_class: policy_class
+          policy_class: policy_class,
+          status: :complete
         )
       end
 
@@ -161,13 +159,30 @@ RSpec.describe PolicyClass do
       end
     end
 
-    context "when #update_required? is false for review_policy_class" do
+    context "when review_policy_class status is not 'complete' and status is 'to_be_reviewed'" do
+      let(:policy_class) { create(:policy_class, status: :to_be_reviewed) }
+
       before do
         create(
           :review_policy_class,
-          status: :complete,
-          mark: :accept,
-          policy_class: policy_class
+          policy_class: policy_class,
+          status: :not_checked_yet
+        )
+      end
+
+      it "returns false" do
+        expect(policy_class.update_required?).to be(false)
+      end
+    end
+
+    context "when review_policy_class status is 'complete' but status is not 'to_be_reviewed'" do
+      let(:policy_class) { create(:policy_class, status: :complete) }
+
+      before do
+        create(
+          :review_policy_class,
+          policy_class: policy_class,
+          status: :complete
         )
       end
 

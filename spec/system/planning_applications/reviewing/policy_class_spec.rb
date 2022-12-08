@@ -91,6 +91,12 @@ RSpec.describe "Reviewing Policy Class" do
       visit(planning_application_assessment_tasks_path(planning_application))
 
       expect(list_item("Part 1, Class A")).to have_content("To be reviewed")
+
+      click_link("Part 1, Class A")
+      choose("policy_class_policies_attributes_0_status_complies")
+      click_button("Save and come back later")
+
+      expect(list_item("Part 1, Class A")).to have_content("In progress")
     end
 
     context "when the assessor has added comments" do
