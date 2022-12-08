@@ -499,6 +499,13 @@ class PlanningApplication < ApplicationRecord
       policy_classes.any?(&:update_required?)
   end
 
+  def review_in_progress?
+    recommendation.review_in_progress? ||
+      assessment_details_for_review.any?(&:reviewer_verdict) ||
+      policy_classes.any?(&:review_policy_class) ||
+      permitted_development_right&.review_started?
+  end
+
   def assessment_details_for_review
     AssessmentDetailsReview::ASSESSMENT_DETAILS.map do |assessment_detail|
       send(assessment_detail)

@@ -19,8 +19,8 @@ RSpec.describe "Reviewing Tasks Index" do
     end
 
     it "while awaiting determination it can navigate around review tasks" do
-      visit planning_application_path(create(:planning_application, :awaiting_determination,
-                                             local_authority: default_local_authority))
+      create(:recommendation, planning_application: planning_application)
+      visit planning_application_path(planning_application)
 
       click_on "Review and sign-off"
 

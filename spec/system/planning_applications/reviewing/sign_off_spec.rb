@@ -30,7 +30,6 @@ RSpec.describe "Reviewing sign-off" do
 
   before do
     sign_in reviewer
-    visit planning_application_path(planning_application)
   end
 
   it "can be accepted" do
@@ -43,6 +42,8 @@ RSpec.describe "Reviewing sign-off" do
            planning_application: planning_application,
            assessor_comment: "New assessor comment",
            submitted: true)
+
+    visit(planning_application_path(planning_application))
 
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Review and sign-off"
@@ -96,6 +97,7 @@ RSpec.describe "Reviewing sign-off" do
            submitted: true)
 
     travel_to(Date.new(2022))
+    visit(planning_application_path(planning_application))
     click_link "Review and sign-off"
 
     expect(list_item("Sign-off recommendation")).to have_content("Not started")
@@ -155,6 +157,7 @@ RSpec.describe "Reviewing sign-off" do
            assessor_comment: "New assessor comment",
            submitted: true)
 
+    visit(planning_application_path(planning_application))
     click_link "Review and sign-off"
     click_link "Sign-off recommendation"
 
@@ -174,6 +177,7 @@ RSpec.describe "Reviewing sign-off" do
            assessor_comment: "New assessor comment",
            submitted: true)
 
+    visit(planning_application_path(planning_application))
     click_link "Review and sign-off"
     click_link "Sign-off recommendation"
 
@@ -195,6 +199,8 @@ RSpec.describe "Reviewing sign-off" do
   it "can edit an existing review of an assessment" do
     recommendation = create(:recommendation, :reviewed, planning_application: planning_application,
                                                         reviewer_comment: "Reviewer private comment")
+
+    visit(planning_application_path(planning_application))
     click_link "Review and sign-off"
     click_link "Sign-off recommendation"
 
@@ -230,6 +236,7 @@ RSpec.describe "Reviewing sign-off" do
              assessor_comment: "New assessor comment",
              submitted: true)
 
+      visit(planning_application_path(planning_application))
       click_link "Review and sign-off"
       click_link "Sign-off recommendation"
 
@@ -300,6 +307,7 @@ RSpec.describe "Reviewing sign-off" do
     end
 
     it "raises an error if the reviewer accepts the recommendation" do
+      visit(planning_application_path(planning_application))
       click_link("Review and sign-off")
       click_link("Permitted development rights")
       choose("Return to officer with comment")

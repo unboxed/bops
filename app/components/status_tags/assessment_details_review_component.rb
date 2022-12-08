@@ -3,6 +3,7 @@
 module StatusTags
   class AssessmentDetailsReviewComponent < StatusTags::BaseComponent
     include AssessmentDetailable
+    include Recommendable
 
     def initialize(planning_application:)
       @planning_application = planning_application
@@ -13,7 +14,7 @@ module StatusTags
     attr_reader :planning_application
 
     def status
-      if assessment_details_updated?
+      if updated?
         :updated
       elsif assessment_details_review_complete?
         :checked
@@ -22,6 +23,10 @@ module StatusTags
       else
         :not_started
       end
+    end
+
+    def updated?
+      recommendation_submitted_and_unchallenged? && assessment_details_updated?
     end
   end
 end

@@ -43,6 +43,10 @@ class PermittedDevelopmentRight < ApplicationRecord
     review_complete? && !accepted
   end
 
+  def review_started?
+    review_in_progress? || review_complete?
+  end
+
   private
 
   def set_status_to_be_reviewed
