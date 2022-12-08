@@ -1,12 +1,13 @@
 name: deploy-environment
 on:
   workflow_call:
-    environment-name:
-      type: string
-      required: true
-    environment-cmd-name:
-      type: string
-      required: true
+    inputs:
+      environment-name:
+        type: string
+        required: true
+      environment-cmd-name:
+        type: string
+        required: true
 
 jobs:
   deploy:
