@@ -10,12 +10,14 @@
     "local_authority": "southwark",
     "created_at": "2022-09-23T12:43:12Z",
     "view_documents": "https://publicaccess.wycombe.gov.uk/idoxpa-web/applicationDetails.do?activeTab=documents&keyVal=RDEZCASC05J00",
-    "property": {
-      "uprn": "100081043511",
-      "code": "RD02",
-      "type": "Residential, Dwellings, Detached"
-    },
-    "address": "11 Abbey Gardens"
+    "properties": [
+      {
+        "uprn": "100081043511",
+        "address": "11 Abbey Gardens",
+        "code": "RD02",
+        "type": "Residential, Dwellings, Detached"
+      }
+    ]
   },
   {
     "id": 3,
@@ -29,12 +31,14 @@
     "local_authority": "southwark",
     "created_at": "2022-09-23T12:43:12Z",
     "view_documents": "https://pa.chilternandsouthbucks.gov.uk/online-applications/applicationDetails.do?activeTab=documents&keyVal=REP1NJESKQZ00",
-    "property": {
-      "uprn": "100081043511",
-      "code": "RD02",
-      "type": "Residential, Dwellings, Detached"
-    },
-    "address": "11 Abbey Gardens"
+    "properties": [
+      {
+        "uprn": "100081043511",
+        "address": "11 Abbey Gardens",
+        "code": "RD02",
+        "type": "Residential, Dwellings, Detached"
+      }
+    ]
   },
   {
     "id": 5,
@@ -48,11 +52,13 @@
     "local_authority": "southwark",
     "created_at": "2022-09-23T12:43:13Z",
     "view_documents": "https://pa.chilternandsouthbucks.gov.uk/online-applications/applicationDetails.do?activeTab=documents&keyVal=RGGJ4LESLWY00",
-    "property": {
-      "uprn": "100081043511",
-      "code": "RD02",
-      "type": "Residential, Dwellings, Detached"
-    },
-    "address": "11 Abbey Gardens"
+    "properties": [
+      {
+        "uprn": "100081043511",
+        "address": "11 Abbey Gardens",
+        "code": "RD02",
+        "type": "Residential, Dwellings, Detached"
+      }
+    ]
   }
 ]
