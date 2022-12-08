@@ -15,7 +15,7 @@ concurrency:
 jobs:
   deploy:
     name: Deploy to ${{ inputs.environment-name }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     environment: ${{ inputs.environment-name }}
 
     steps:
