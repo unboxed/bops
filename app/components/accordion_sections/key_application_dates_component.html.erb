@@ -1,0 +1,16 @@
+<p class="govuk-body">
+  <strong><%= t(".application_received") %></strong>
+  <%= planning_application.received_at.to_date %>
+</p>
+<p class="govuk-body">
+  <strong><%= t(".valid_from") %></strong>
+  <%= valid_from %>
+</p>
+<p class="govuk-body">
+  <strong><%= t(".target_date") %></strong>
+  <%= planning_application.target_date %>
+</p>
+<p class="govuk-body">
+  <strong><%= t(".expiry_date") %></strong>
+  <%= planning_application.expiry_date %>
+</p>

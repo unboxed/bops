@@ -18,8 +18,7 @@ RSpec.describe "post validation requests" do
     end
 
     it "lets the assessor create an additional document request" do
-      click_button("Documents")
-      click_link("Manage documents")
+      visit(planning_application_documents_path(planning_application))
       click_link("Request a new document")
       fill_in("Please specify the new document type:", with: "Floor plan")
 
@@ -43,9 +42,7 @@ RSpec.describe "post validation requests" do
         expect(page).to have_content("Floor plan")
       end
 
-      click_link("Application")
-      click_button("Documents")
-      click_link("Manage documents")
+      visit(planning_application_documents_path(planning_application))
 
       within("#additional-document-validation-requests-table") do
         expect(page).to have_content("Document requested: Floor plan")
@@ -88,8 +85,7 @@ RSpec.describe "post validation requests" do
       end
 
       it "lets the assessor cancel the request" do
-        click_button("Documents")
-        click_link("Manage documents")
+        visit(planning_application_documents_path(planning_application))
         document_row = row_with_content("Document requested: Floor plan")
 
         within(document_row) do
@@ -113,9 +109,7 @@ RSpec.describe "post validation requests" do
           expect(page).to have_content("Requested in error")
         end
 
-        click_link("Application")
-        click_button("Documents")
-        click_link("Manage documents")
+        visit(planning_application_documents_path(planning_application))
 
         expect(page).not_to have_content("Document requested: Floor plan")
       end
@@ -244,8 +238,7 @@ RSpec.describe "post validation requests" do
     end
 
     it "lets the assessor create an additional document request" do
-      click_button("Documents")
-      click_link("Manage documents")
+      visit(planning_application_documents_path(planning_application))
       click_link("Request a new document")
       fill_in("Please specify the new document type:", with: "Floor plan")
 

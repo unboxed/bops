@@ -38,7 +38,13 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="app-task-list__section">
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-0 govuk-!-margin-top-5">
+      <%= t(".application_details") %>
+    </h2>
+    <%= render(
+      AccordionComponent.new(planning_application: @planning_application)
+    ) %>
+    <h2 class="app-task-list__section govuk-!-margin-top-8">
       Review assessment
     </h2>
     <ul class="app-task-list__items">

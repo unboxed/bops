@@ -1,0 +1,66 @@
+<% if planning_application.result_present? %>
+  <% if planning_application.result_flag.present? %>
+    <h3 class="govuk-heading-m">
+      <%= planning_application.result_flag %>
+    </h3>
+  <% end %>
+  <% if planning_application.updated_address_or_boundary_geojson %>
+    <%= render(
+      partial: "shared/warning_text",
+      locals: { message: t(".this_application_has") }
+    ) %>
+  <% end %>
+  <%= render(
+    AccordionSections::FeedbackComponent.new(
+      feedback: planning_application.feedback["result"],
+      warning_message: t(".the_applicant_or")
+    )
+  ) %>
+  <% if planning_application.result_heading.present? %>
+    <%= simple_format(
+      planning_application.result_heading,
+      class: "govuk-body govuk-!-font-weight-bold"
+    ) %>
+  <% end %>
+  <% if planning_application.result_description.present? %>
+    <%= simple_format(
+      planning_application.result_description,
+      class: "govuk-body"
+    ) %>
+  <% end %>
+  <% if planning_application.result_override.present? %>
+    <p class="govuk-body">
+      <%= t(".the_applicant_believes").html_safe %>
+    </p>
+    <div class="govuk-inset-text">
+      <p class="govuk-body">
+        <%= planning_application.result_override %>
+      </p>
+    </div>
+  <% end %>
+  <% if proposal_details.any? %>
+  <p class="govuk-body">
+    <strong><%= t(".details_identified_as") %></strong>
+  </p>
+  <ol class="govuk-list">
+    <li>
+      <% proposal_details.each do |proposal_detail| %>
+      <h3 class="govuk-heading-s">
+        <%= display_number(proposal_detail) %>.
+        <%= proposal_detail["question"] %>
+      </h3>
+      <p class="govuk-body">
+        <% proposal_detail["responses"].each do |response| %>
+          <%= response["value"] %>
+        <% end %>
+      </p>
+      <% end %>
+    </li>
+  </ol>
+  <% end %>
+<% else %>
+  <p class="govuk-body">
+    <strong><%= t(".no_result") %></strong><br>
+    <%= t(".the_application_was") %>
+  </p>
+<% end %>

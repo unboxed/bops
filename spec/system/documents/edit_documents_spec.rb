@@ -68,47 +68,41 @@ RSpec.describe "Edit document" do
 
     context "when editing/archiving document from the documents accordian section" do
       it "can edit document and return back to the planning applications index page" do
-        visit planning_application_path(planning_application)
-        click_button "Documents"
-
-        within(".scroll-docs") do
-          click_link "Edit"
-        end
+        visit(
+          edit_planning_application_document_path(
+            planning_application,
+            document
+          )
+        )
 
         fill_in "numbers", with: "DOCREF123"
 
         click_button "Save"
 
         expect(page).to have_content("Document has been updated")
-        expect(page).to have_current_path(planning_application_path(planning_application))
+
+        expect(page).to have_current_path(
+          planning_application_documents_path(planning_application)
+        )
       end
 
       it "can archive document and return back to the planning applications index page" do
-        visit planning_application_path(planning_application)
-        click_button "Documents"
-
-        within(".scroll-docs") do
-          click_link "Archive"
-        end
+        visit(
+          planning_application_document_archive_path(
+            planning_application,
+            document
+          )
+        )
 
         fill_in "archive_reason", with: "an archive reason"
 
         click_button "Archive"
 
         expect(page).to have_content("#{document.name} has been archived")
-        expect(page).to have_current_path(planning_application_path(planning_application))
-      end
 
-      it "the back button returns to the planning applications index page" do
-        visit planning_application_path(planning_application)
-        click_button "Documents"
-
-        within(".scroll-docs") do
-          click_link "Edit"
-        end
-
-        click_link "Back"
-        expect(page).to have_current_path(planning_application_path(planning_application))
+        expect(page).to have_current_path(
+          planning_application_documents_path(planning_application)
+        )
       end
     end
 

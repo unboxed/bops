@@ -2,12 +2,10 @@
   Publish the recommendation - <%= t('page_title') %>
 <% end %>
 
-<%= render(layout: "shared/assessment_dashboard",
-           locals: {
-             heading: t(".review_and_publish_determination"),
-             show_accordian: false
-           }
-          ) do %>
+<%= render(
+  layout: "shared/assessment_dashboard",
+  locals: { heading: t(".review_and_publish_determination") }
+) do %>
   <%= render(
     partial: "submit_recommendation_accordion",
     locals: { planning_application: @planning_application }

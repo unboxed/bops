@@ -1,0 +1,9 @@
+<% if first_note.present? %>
+  <%= simple_format(first_note_entry, class: "govuk-body") %>
+  <p class="govuk-body"><%= first_note.created_at %></p>
+<% end %>
+<%= link_to(
+  link_text,
+  planning_application_notes_path(planning_application),
+  class: "govuk-link govuk-body"
+) %>

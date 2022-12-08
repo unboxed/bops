@@ -19,8 +19,11 @@ RSpec.describe "Requesting description changes to a planning application" do
   end
 
   it "displays the planning application address and reference" do
-    click_button "Application information"
-    click_link "Propose a change to the description"
+    visit(
+      new_planning_application_description_change_validation_request_path(
+        planning_application
+      )
+    )
 
     expect(page).to have_content(planning_application.full_address.upcase)
     expect(page).to have_content(planning_application.reference)
@@ -42,29 +45,5 @@ RSpec.describe "Requesting description changes to a planning application" do
     click_button "Send"
 
     expect(page).to have_content("Proposed description can't be blank")
-  end
-
-  context "when planning application is closed" do
-    let!(:planning_application) do
-      create(:planning_application, :closed, local_authority: default_local_authority)
-    end
-
-    it "does not show a link to creating a description change request" do
-      visit planning_application_path(planning_application)
-
-      click_button "Application information"
-
-      expect(page).not_to have_link("Propose a change to the description")
-    end
-  end
-
-  context "when planning application is not closed" do
-    it "shows a link to creating a description change request" do
-      visit planning_application_path(planning_application)
-
-      click_button "Application information"
-
-      expect(page).to have_link("Propose a change to the description")
-    end
   end
 end

@@ -15,6 +15,7 @@ end
 Given("I create a description change request with {string}") do |details|
   steps %(
     I view the planning application
+    And I press "Check and validate"
     And I press "Application information"
     And I press "Propose a change to the description"
     And I fill in "Please suggest a new application description" with "#{details}"
@@ -29,6 +30,7 @@ end
 When("I cancel the existing description change request") do
   steps %(
     I view the planning application
+    And I press "Check and validate"
     And I press "Application information"
     And I press "View requested change"
     When I press "Cancel this request"

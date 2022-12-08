@@ -13,7 +13,6 @@ RSpec.describe "Edit document numbers page" do
   context "as an assessor" do
     before do
       sign_in assessor
-      visit planning_application_path(planning_application)
     end
 
     context "when there are documents that require numbers" do
@@ -35,8 +34,7 @@ RSpec.describe "Edit document numbers page" do
       end
 
       before do
-        click_button "Documents"
-        click_link "Manage documents"
+        visit(planning_application_documents_path(planning_application))
       end
 
       it "displays the planning application address and reference" do
@@ -162,8 +160,7 @@ RSpec.describe "Edit document numbers page" do
       before do
         allow_any_instance_of(Document).to receive(:representable?).and_return(false)
 
-        click_button "Documents"
-        click_link "Manage documents"
+        visit(planning_application_documents_path(planning_application))
       end
 
       it "displays a placeholder image with error information" do

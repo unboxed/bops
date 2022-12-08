@@ -19,13 +19,14 @@ Feature: Editing an application's details
     And I fill in "Postcode" with "SW16 1DB"
     And I fill in "UPRN" with "294884040"
     When I press "Save"
-    Then the page contains "Site address: 2 Streatham High Road, Crystal Palace, SW16 1DB"
+    Then the page contains "2 Streatham High Road, Crystal Palace, SW16 1DB"
     And there is an audit entry containing "Address 1 updated"
     And there is an audit entry containing "Changed to: 2 Streatham High Road"
 
   Scenario: I can edit the application's proposed or completed status
     Given I choose "Yes" for "Has the work been started?"
     When I press "Save"
+    And I press "Check and validate"
     Then the page contains "Work already started: Yes"
 
   Scenario: I can edit the application's applicant details

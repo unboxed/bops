@@ -27,9 +27,7 @@ RSpec.describe "Documents index page" do
   context "as an assessor" do
     before do
       sign_in assessor
-      visit planning_application_path(planning_application)
-      click_button "Documents"
-      click_link "Manage documents"
+      visit planning_application_documents_path(planning_application)
     end
 
     it "Application reference is displayed on page" do
@@ -114,9 +112,7 @@ RSpec.describe "Documents index page" do
 
     before do
       sign_in assessor
-      visit planning_application_path(planning_application)
-      click_button "Documents"
-      click_link "Manage documents"
+      visit planning_application_documents_path(planning_application)
     end
 
     it "displays the number of invalid documents at the top of the page" do

@@ -232,14 +232,15 @@ RSpec.describe "Planning Application Assessment" do
 
       # Check latest audit
       click_button "Audit log"
-      within("#latest-audit") do
-        expect(page).to have_content("Recommendation submitted")
-        expect(page).to have_text("Assessor comment: This is a private assessor comment")
-        expect(page).to have_text(assessor.name)
-        expect(page).to have_text(Audit.last.created_at.strftime("%H:%M"))
 
-        click_link "View all audits"
-      end
+      expect(page).to have_content("Recommendation submitted")
+      expect(page).to have_text("Alice Aplin")
+
+      expect(page).to have_text(
+        "Assessor comment: This is a private assessor comment"
+      )
+
+      click_link("View all audits")
 
       # Check audit logs
       within("#audit_#{Audit.last.id}") do
@@ -355,13 +356,9 @@ RSpec.describe "Planning Application Assessment" do
       # Check latest audit
       click_link "Application"
       click_button "Audit log"
-      within("#latest-audit") do
-        expect(page).to have_content("Recommendation withdrawn")
-        expect(page).to have_text(assessor.name)
-        expect(page).to have_text(Audit.last.created_at.strftime("%H:%M"))
-
-        click_link "View all audits"
-      end
+      expect(page).to have_content("Recommendation withdrawn")
+      expect(page).to have_text("Alice Aplin")
+      click_link "View all audits"
 
       # Check audit logs
       within("#audit_#{Audit.last.id}") do

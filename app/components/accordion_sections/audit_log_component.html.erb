@@ -1,0 +1,21 @@
+<% if last_audit.present? %>
+  <p class="govuk-body">
+    <%= render(
+      partial: "audits/types/#{audit_entry_template(last_audit)}",
+      locals: { locals: { item: last_audit } }
+    ) %>
+  </p>
+  <p class="govuk-body"><%= audit_user_name(last_audit) %></p>
+  <p class="govuk-body">
+    <%= t(
+      ".date_at_time",
+      date: last_audit.created_at.to_date,
+      time: last_audit.created_at.strftime("%H:%M")
+    ) %>
+  </p>
+<% end %>
+<%= link_to(
+  t(".view_all_audits"),
+  planning_application_audits_path(planning_application),
+  class: "govuk-link govuk-body"
+) %>

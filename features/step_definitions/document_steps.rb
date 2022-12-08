@@ -3,6 +3,7 @@
 Given("I manage the application's documents") do
   steps %(
     Given I view the planning application
+    And I press "Check and validate"
     And I press "Manage documents"
   )
 end

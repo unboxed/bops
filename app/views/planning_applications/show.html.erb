@@ -5,5 +5,21 @@
 <%= render "shared/assessment_dashboard" do %>
   <% if @planning_application.in_progress? %>
     <%= render 'application_steps' %>
+    <h2 class="govuk-heading-l govuk-!-margin-bottom-1"><%= t(".details") %></h2>
+  <% end %>
+  <%= render(
+    AccordionComponent.new(
+      planning_application: @planning_application,
+      sections: %i[key_application_dates contact_information audit_log notes]
+    )
+  ) %>
+  <% if @planning_application.in_progress? %>
+    <%= link_to(
+      t(".close_or_cancel"),
+      close_or_cancel_confirmation_planning_application_path(
+        @planning_application
+      ),
+      class: "govuk-button govuk-button--warning"
+    ) %>
   <% end %>
 <% end %>

@@ -1,0 +1,88 @@
+<%= link_to(
+  t(".edit_details"),
+  edit_planning_application_path(planning_application),
+  class: "govuk-link govuk-body"
+) %>
+<hr>
+<table class="govuk-table">
+  <tbody class="govuk-table__body">
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">
+        <strong><%= t(".description") %></strong>
+      </td>
+      <td class="govuk-table__cell">
+        <%= simple_format(
+          planning_application.description,
+          class: "govuk-body"
+        ) %>
+        <%= link_to(
+          description_change_link_text,
+          description_change_link_path,
+          class: "govuk-link govuk-body"
+        ) %>
+      </td>
+    </tr>
+    <% %i[type_and_work_status full_address].each do |attribute| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          <strong><%= t(".#{attribute}") %></strong>
+        </td>
+        <td class="govuk-table__cell"><%= send(attribute) %></td>
+      </tr>
+    <% end %>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">
+        <strong><%= t(".location") %></strong>
+      </td>
+      <td class="govuk-table__cell">
+        <%= link_to(
+          t(".view_site_on"),
+          map_link,
+          target: "_blank",
+          class: "govuk-link"
+        ) %>
+      </td>
+    </tr>
+    <% if planning_application.parish_name.present? %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          <strong><%= t(".parish") %></strong>
+        </td>
+        <td class="govuk-table__cell">
+          <%= planning_application.parish_name %>
+        </td>
+      </tr>
+    <% end %>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell"><strong><%= t(".ward") %></strong></td>
+      <td class="govuk-table__cell">
+        <% if planning_application.postcode.present? %>
+          <p class="govuk-body"><%= planning_application.ward %></p>
+          <%= link_to(
+            t(".view_on_mapit"),
+            mapit_link,
+            target: "_blank",
+            class: "govuk-link"
+          ) %>
+        <% else %>
+          <%= t(".a_postcode_is") %>
+        <% end %>
+      </td>
+    </tr>
+    <% %i[
+      ward_type
+      uprn
+      work_already_started
+      payment_reference
+      payment_amount
+      case_officer
+    ].each do |attribute| %>
+      <tr class="govuk-table__row accordion-tr">
+        <td class="govuk-table__cell">
+          <strong><%= t(".#{attribute}") %></strong>
+        </td>
+        <td class="govuk-table__cell"><%= send(attribute) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

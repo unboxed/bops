@@ -48,6 +48,14 @@ Given("a new planning application") do
   )
 end
 
+Given("a validated planning application") do
+  @planning_application = FactoryBot.create(
+    :planning_application,
+    :in_assessment,
+    local_authority: @officer.local_authority
+  )
+end
+
 Given("a new application of type prior approval") do
   @planning_application = FactoryBot.create(:planning_application,
                                             :prior_approval,
@@ -92,8 +100,7 @@ end
 
 Given("a recommendation is submitted for the planning application") do
   steps %(
-    Given the planning application is validated
-    And the planning application is assessed
+    Given the planning application is assessed
     And I press "Review and submit recommendation"
     And I press "Submit recommendation"
   )
@@ -138,6 +145,7 @@ end
 Given("I edit the planning application's details") do
   steps %(
     Given I view the planning application
+    And I press "Check and validate"
     And I press "Application information"
     And I press "Edit details"
   )

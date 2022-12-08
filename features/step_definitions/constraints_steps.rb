@@ -9,6 +9,7 @@ end
 Given("I visit the application's constraints form") do
   steps %(
     Given I view the planning application
+    And I press "Check and assess"
     And I press "Constraints"
     And I press "Update constraints"
   )

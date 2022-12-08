@@ -6,10 +6,7 @@
 
 <%= render(
   layout: "shared/assessment_dashboard",
-  locals: {
-    heading: t(".review_and_submit_recommendation"),
-    show_accordian: false
-  }
+  locals: { heading: t(".review_and_submit_recommendation") }
 ) do %>
   <%= render(
     partial: "submit_recommendation_accordion",

@@ -8,7 +8,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
 
   before do
     sign_in assessor
-    visit planning_application_path(planning_application)
+    visit(planning_application_assessment_tasks_path(planning_application))
   end
 
   context "when application is not_started" do
@@ -32,9 +32,6 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       end
 
       it "is possible to create a sitemap" do
-        click_button "Site map"
-        expect(page).to have_content("No digital sitemap provided")
-
         visit planning_application_validation_tasks_path(planning_application)
         click_link "Draw red line boundary"
 
@@ -50,15 +47,6 @@ RSpec.describe "Drawing a sitemap on a planning application" do
 
         expect(page).to have_content("Site boundary has been updated")
         expect(page).not_to have_content("No digital sitemap provided")
-
-        visit planning_application_path(planning_application)
-        click_button "Site map"
-
-        expect(page).to have_content("Sitemap drawn by Assessor 1")
-
-        click_button "Audit log"
-        click_link "View all audits"
-        expect(page).to have_content("Red line drawing created")
       end
     end
 
@@ -71,7 +59,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
 
       it "is not possible to edit the sitemap" do
         click_button "Site map"
-        expect(page).to have_content("Sitemap drawn by Applicant")
+        expect(page).to have_content("Site map drawn by applicant")
         expect(page).not_to have_content("No digital sitemap provided")
         map = find("my-map")
         expect(map["showMarker"]).to eq("false")
@@ -89,7 +77,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
 
     it "is not possible to create a sitemap" do
       click_button "Site map"
-      expect(page).to have_content("No digital sitemap provided")
+      expect(page).to have_content("No digital site map provided")
       expect(page).not_to have_link("Draw digital sitemap")
     end
   end
@@ -330,7 +318,8 @@ RSpec.describe "Drawing a sitemap on a planning application" do
         expect(page).to have_content("Red line boundary changes")
       end
 
-      click_link "Back"
+      click_link("Application")
+      click_link("Check and assess")
       click_button "Site map"
       expect(page).not_to have_content("Request approval for a change to red line boundary")
 
@@ -370,7 +359,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       end
 
       it "I can view the accepted response" do
-        visit planning_application_path(planning_application)
+        visit(planning_application_assessment_tasks_path(planning_application))
         click_button "Site map"
         click_link "View applicants response to requested red line boundary change"
 
@@ -387,7 +376,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       end
 
       it "I can view the rejected response" do
-        visit planning_application_path(planning_application)
+        visit(planning_application_assessment_tasks_path(planning_application))
         click_button "Site map"
         click_link "View applicants response to requested red line boundary change"
 
@@ -408,7 +397,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       end
 
       it "I can view the accepted response" do
-        visit planning_application_path(planning_application)
+        visit(planning_application_assessment_tasks_path(planning_application))
         click_button "Site map"
         click_link "View applicants response to requested red line boundary change"
 

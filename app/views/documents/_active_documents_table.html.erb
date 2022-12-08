@@ -3,7 +3,17 @@
     <% documents.each do |document| %>
       <tr class="govuk-table__row" id=<%= dom_id(document) %>>
         <td class="govuk-table__cell govuk-!-width-one-quarter">
-          <%= render "documents/document_row_image", document: document, resize: "500x500", width: 180, height: 120, edit_and_archive: false %>
+          <%= render(
+            partial: "documents/document_row_image",
+            locals: {
+              planning_application: @planning_application,
+              document: document,
+              resize: "500x500",
+              width: 180,
+              height: 120,
+              edit_and_archive: false
+            }
+          ) %>
         </td>
 
         <td class="govuk-table__cell govuk-!-width-one-half">
