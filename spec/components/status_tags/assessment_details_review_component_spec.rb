@@ -18,18 +18,18 @@ RSpec.describe StatusTags::AssessmentDetailsReviewComponent, type: :component do
       assessment_status: assessment_status,
       created_at: 1.day.ago
     )
+
+    create(
+      :recommendation,
+      submitted: true,
+      planning_application: planning_application
+    )
   end
 
   context "when an assessment detail has been updated" do
     let(:reviewer_verdict) { nil }
 
     before do
-      create(
-        :recommendation,
-        submitted: true,
-        planning_application: planning_application
-      )
-
       create(
         :assessment_detail,
         :summary_of_work,
@@ -86,7 +86,7 @@ RSpec.describe StatusTags::AssessmentDetailsReviewComponent, type: :component do
       )
     end
 
-    it "renders 'Not stated' status" do
+    it "renders 'Not started' status" do
       expect(page).to have_content("Not started")
     end
   end

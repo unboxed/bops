@@ -254,4 +254,36 @@ RSpec.describe PermittedDevelopmentRight do
       end
     end
   end
+
+  describe "#review_started?" do
+    context "when review_status is 'review_not_started'" do
+      let(:permitted_development_right) do
+        build(:permitted_development_right, review_status: :review_not_started)
+      end
+
+      it "returns false" do
+        expect(permitted_development_right.review_started?).to be(false)
+      end
+    end
+
+    context "when review_status is 'review_in_progress'" do
+      let(:permitted_development_right) do
+        build(:permitted_development_right, review_status: :review_in_progress)
+      end
+
+      it "returns true" do
+        expect(permitted_development_right.review_started?).to be(true)
+      end
+    end
+
+    context "when review_status is 'review_complete'" do
+      let(:permitted_development_right) do
+        build(:permitted_development_right, review_status: :review_complete)
+      end
+
+      it "returns true" do
+        expect(permitted_development_right.review_started?).to be(true)
+      end
+    end
+  end
 end

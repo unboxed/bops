@@ -23,6 +23,12 @@ RSpec.describe "Planning Application Assessment" do
       let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
 
       before do
+        create(
+          :recommendation,
+          planning_application: planning_application,
+          reviewer: reviewer
+        )
+
         travel_to Time.zone.local(2024, 2, 1)
         sign_in(reviewer)
         visit planning_application_path(planning_application)

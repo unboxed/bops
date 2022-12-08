@@ -1864,4 +1864,66 @@ RSpec.describe PlanningApplication do
       end
     end
   end
+
+  describe "#review_in_progress?" do
+    let(:planning_application) { create(:planning_application) }
+
+    let!(:recommendation) do
+      create(
+        :recommendation,
+        planning_application: planning_application,
+        status: recommendation_status
+      )
+    end
+
+    let(:recommendation_status) { :assessment_complete }
+
+    context "when recommendation review is in progress" do
+      let(:recommendation_status) { :review_in_progress }
+
+      it "returns true" do
+        expect(planning_application.review_in_progress?).to be(true)
+      end
+    end
+
+    context "when assessment details review is in progress" do
+      before do
+        create(
+          :assessment_detail,
+          planning_application: planning_application,
+          reviewer_verdict: :accepted
+        )
+      end
+
+      it "returns true" do
+        expect(planning_application.review_in_progress?).to be(true)
+      end
+    end
+
+    context "when policy class review is in progress" do
+      let(:policy_class) do
+        create(:policy_class, planning_application: planning_application)
+      end
+
+      before { create(:review_policy_class, policy_class: policy_class) }
+
+      it "returns true" do
+        expect(planning_application.review_in_progress?).to be(true)
+      end
+    end
+
+    context "when permitted development right review is in progress" do
+      before do
+        create(
+          :permitted_development_right,
+          planning_application: planning_application,
+          review_status: :review_in_progress
+        )
+      end
+
+      it "returns true" do
+        expect(planning_application.review_in_progress?).to be(true)
+      end
+    end
+  end
 end

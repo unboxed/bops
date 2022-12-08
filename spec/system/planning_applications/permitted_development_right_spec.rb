@@ -167,9 +167,24 @@ RSpec.describe "Permitted development right" do
 
       context "when there has been a rejected review" do
         let!(:planning_application) do
-          create(:planning_application, :awaiting_determination, local_authority: default_local_authority)
+          create(
+            :planning_application,
+            :awaiting_correction,
+            local_authority: default_local_authority
+          )
         end
+
         let!(:permitted_development_right) { create(:permitted_development_right, :to_be_reviewed, planning_application: planning_application) }
+
+        before do
+          create(
+            :recommendation,
+            planning_application: planning_application,
+            challenged: true,
+            reviewer: reviewer,
+            reviewed_at: 1.day.ago
+          )
+        end
 
         it "I can respond when there is a reviewer's comment" do
           click_link "Check and assess"
@@ -205,6 +220,51 @@ RSpec.describe "Permitted development right" do
           expect(page).to have_text("Reviewer comment: Comment")
 
           expect(PermittedDevelopmentRight.count).to eq(2)
+
+          choose("Yes")
+
+          fill_in(
+            "Describe how permitted development rights have been removed",
+            with: "new reason"
+          )
+
+          click_button("Save and mark as complete")
+          click_link("Make draft recommendation")
+          choose("Yes")
+          click_button("Update assessment")
+          click_link("Review and submit recommendation")
+          click_button("Submit recommendation")
+          click_link("Log out")
+          sign_in(reviewer)
+          visit(planning_application_path(planning_application))
+
+          expect(page).to have_list_item_for(
+            "Review and sign-off",
+            with: "Updated"
+          )
+
+          click_link("Review and sign-off")
+
+          expect(page).to have_list_item_for(
+            "Permitted development rights",
+            with: "Updated"
+          )
+
+          click_link("Permitted development rights")
+          choose("Accept", match: :first)
+          click_button("Save and mark as complete")
+
+          expect(page).to have_list_item_for(
+            "Permitted development rights",
+            with: "Complete"
+          )
+
+          click_link("Application")
+
+          expect(page).to have_list_item_for(
+            "Review and sign-off",
+            with: "In progress"
+          )
         end
       end
 
@@ -272,6 +332,7 @@ RSpec.describe "Permitted development right" do
     end
 
     before do
+      create(:recommendation, planning_application: planning_application)
       sign_in reviewer
       Current.user = reviewer
       create(:permitted_development_right, planning_application: planning_application)
