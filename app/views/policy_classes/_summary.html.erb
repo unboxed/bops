@@ -1,12 +1,17 @@
 <% content_for :page_title do %>
   <%= t(".assess") %> - <%= t("page_title") %>
 <% end %>
-<% add_parent_breadcrumb_link(t(".home"), planning_applications_path) %>
-<% add_parent_breadcrumb_link(
-  t(".application"),
-  planning_application_path(planning_application)
+<% render(
+  partial: "shared/assessment_task_breadcrumbs",
+  locals: {
+    planning_application: planning_application,
+    current_page: t(
+      ".assess_policy_class",
+      part: policy_class.part,
+      class: policy_class.section
+    )
+  }
 ) %>
-<% content_for(:title, t(".assess")) %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
