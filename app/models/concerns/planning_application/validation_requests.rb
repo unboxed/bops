@@ -53,11 +53,11 @@ class PlanningApplication
     end
 
     def latest_auto_closed_description_request
-      description_change_validation_requests.order(created_at: :desc).select(&:auto_closed?).first
+      description_change_validation_requests.order(created_at: :desc).find(&:auto_closed?)
     end
 
     def latest_rejected_description_change
-      description_change_validation_requests.order(created_at: :desc).select(&:rejected?).first
+      description_change_validation_requests.order(created_at: :desc).find(&:rejected?)
     end
 
     def last_validation_request_date

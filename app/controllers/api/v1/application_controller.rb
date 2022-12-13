@@ -62,7 +62,7 @@ module Api
       protected
 
       def request_http_token_authentication(realm = "Application", _message = nil)
-        headers["WWW-Authenticate"] = %(Token realm="#{realm.gsub(/"/, '')}")
+        headers["WWW-Authenticate"] = %(Token realm="#{realm.delete('"')}")
         render json: { error: "HTTP Token: Access denied." }, status: :unauthorized
       end
     end
