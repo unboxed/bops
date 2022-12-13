@@ -438,6 +438,19 @@ RSpec.describe "Sign in" do
         expect(page).to have_content(user.name)
       end
     end
+
+    context "when I use an email with uppercase letters" do
+      let!(:user) { create(:user, local_authority: default_local_authority) }
+
+      it "allows me to login with a case insensitive email address" do
+        fill_in "Email", with: user.email.upcase
+
+        click_button("Log in")
+
+        expect(page).to have_content("Enter the code you have received by text message")
+        expect(page).not_to have_content("Invalid Email or password")
+      end
+    end
   end
 
   context "with user session" do
