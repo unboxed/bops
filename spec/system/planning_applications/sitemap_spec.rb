@@ -300,8 +300,14 @@ RSpec.describe "Drawing a sitemap on a planning application" do
       fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: "Amendment request"
       click_button "Send request"
       expect(page).to have_content("Validation request for red line boundary successfully created.")
+
+      expect(page).to have_current_path(
+        planning_application_assessment_tasks_path(planning_application)
+      )
+
       expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
 
+      click_link("Application")
       click_button "Audit log"
       click_link "View all audits"
 

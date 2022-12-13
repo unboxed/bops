@@ -217,14 +217,8 @@ RSpec.describe "Requesting a new document for a planning application" do
 
       expect(page).to have_content("Additional document request successfully created.")
 
-      within("#additional-documents-validation-task") do
-        expect(page).to have_content("Invalid")
-      end
-
       expect(planning_application.reload.documents_missing).to be_truthy
       expect(AdditionalDocumentValidationRequest.all.length).to eq(1)
-
-      click_link "Check required documents are on application"
 
       additional_document_validation_request = AdditionalDocumentValidationRequest.last
 

@@ -7,17 +7,22 @@
       :description_matches_documents,
       :yes,
       label: { text: t(".yes") },
-      link_errors: true
+      link_errors: true,
+      disabled: form.object.open_description_change_requests?
     ) %>
     <%= form.govuk_radio_button(
       :description_matches_documents,
       :no,
-      label: { text: t(".no") }
+      label: { text: t(".no") },
+      checked: form.object.default_description_matches_documents_to_no?
     ) do %>
-      <% unless planning_application.description_change_validation_requests.open.any? %>
-        <%= form.submit(
+      <% unless form.object.open_description_change_requests? %>
+        <%= link_to(
           t("consistency_checklists.request_description_change"),
-          class: "button-as-link"
+          new_planning_application_description_change_validation_request_path(
+            planning_application
+          ),
+          class: "govuk-link"
         ) %>
       <% end %>
     <% end %>
@@ -34,7 +39,7 @@
   <%= render(
     partial: "description_change_validation_request",
     locals: {
-      request: planning_application.description_change_validation_request(post_validation: true),
+      request: planning_application.description_change_validation_request,
       planning_application: planning_application
     }
   ) %>

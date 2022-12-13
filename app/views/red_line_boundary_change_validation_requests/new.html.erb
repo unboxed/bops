@@ -5,4 +5,4 @@
 <%= render "validation_requests/validation_requests_breadcrumbs" %>
 <% content_for :title, "Red line boundary change" %>
 
-<%= render "form" %>
+<%= render(partial: "form", locals: { return_to: @back_path }) %>

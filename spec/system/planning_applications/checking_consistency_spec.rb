@@ -129,7 +129,7 @@ RSpec.describe "checking consistency" do
     )
 
     within(form_group) { choose("No") }
-    click_button("Request a change to the description")
+    click_link("Request a change to the description")
 
     fill_in(
       "Please suggest a new application description",
@@ -142,20 +142,26 @@ RSpec.describe "checking consistency" do
       "Description change request successfully sent."
     )
 
-    expect(page).not_to have_button("Request a change to the description")
+    expect(page).not_to have_link("Request a change to the description")
     expect(page).to have_content("Alice Smith requested a new description")
     expect(page).to have_content("Proposed description: New description")
     expect(page).to have_content("Proposed 15 September 2022 12:00")
 
     click_link("View and edit request")
-    click_link("Cancel this request")
+    click_button("Cancel this request")
 
     expect(page).to have_content("Description change request successfully cancelled.")
 
     expect(page).to have_content("Cancelled 15 September 2022 12:00")
 
     travel_to(Time.zone.local(2022, 9, 15, 13))
-    click_button("Request a change to the description")
+
+    form_group = form_group_with_legend(
+      "Does the description match the development or use in the plans?"
+    )
+
+    within(form_group) { choose("No") }
+    click_link("Request a change to the description")
 
     fill_in(
       "Please suggest a new application description",
@@ -168,7 +174,7 @@ RSpec.describe "checking consistency" do
       "Description change request successfully sent."
     )
 
-    expect(page).not_to have_button("Request a change to the description")
+    expect(page).not_to have_link("Request a change to the description")
     expect(page).to have_content("Proposed description: New description 2")
     expect(page).to have_content("Proposed 15 September 2022 13:00")
 
@@ -184,7 +190,13 @@ RSpec.describe "checking consistency" do
     expect(page).to have_content("Accepted 15 September 2022 13:00")
 
     travel_to(Time.zone.local(2022, 9, 15, 14))
-    click_button("Request a change to the description")
+
+    form_group = form_group_with_legend(
+      "Does the description match the development or use in the plans?"
+    )
+
+    within(form_group) { choose("No") }
+    click_link("Request a change to the description")
 
     fill_in(
       "Please suggest a new application description",
@@ -197,7 +209,7 @@ RSpec.describe "checking consistency" do
       "Description change request successfully sent."
     )
 
-    expect(page).not_to have_button("Request a change to the description")
+    expect(page).not_to have_link("Request a change to the description")
     expect(page).to have_content("Proposed description: New description 3")
     expect(page).to have_content("Proposed 15 September 2022 14:00")
 
@@ -218,7 +230,7 @@ RSpec.describe "checking consistency" do
     click_link("Description, documents and proposal details")
 
     expect(page).to have_content("Accepted 15 September 2022 14:00")
-    expect(page).to have_button("Request a change to the description")
+    expect(page).to have_link("Request a change to the description")
 
     click_button("Save and mark as complete")
 
@@ -237,7 +249,7 @@ RSpec.describe "checking consistency" do
     )
 
     within(form_group) { choose("No") }
-    click_button("Request a new document")
+    click_link("Request a new document")
 
     fill_in(
       "Please specify the new document type:",
@@ -310,7 +322,7 @@ RSpec.describe "checking consistency" do
     )
 
     within(form_group) { choose("No") }
-    click_button("Request a change to the red line boundary")
+    click_link("Request a change to the red line boundary")
 
     find(".govuk-visually-hidden", visible: false).set(
       {
@@ -351,7 +363,7 @@ RSpec.describe "checking consistency" do
     )
 
     within(form_group) { expect(find_field("No")).to be_checked }
-    expect(page).not_to have_button("Request a change to the red line boundary")
+    expect(page).not_to have_link("Request a change to the red line boundary")
     expect(page).to have_content("Alice Smith proposed a new red line boundary")
     expect(page).to have_content("Reason: request reason")
     expect(page).to have_content("Proposed 15 September 2022 12:00")

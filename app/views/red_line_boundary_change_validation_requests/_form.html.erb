@@ -21,6 +21,10 @@
           </div>
         </div>
       <% end %>
+      <%= form.hidden_field(
+        :return_to,
+        value: local_assigns.fetch(:return_to, nil)
+      ) %>
       <%= form.govuk_text_area :new_geojson,
                                label: { text: @planning_application.boundary_geojson ? "Applicant's existing red line boundary" : "No digital red line boundary has been previously set",
                                         size: 's',

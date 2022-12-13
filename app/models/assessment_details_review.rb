@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class AssessmentDetailsReview
+  include Memoizable
   include ActiveModel::Model
   extend ActiveModel::Callbacks
 
@@ -119,9 +120,5 @@ class AssessmentDetailsReview
 
   def status_complete?
     status == :complete
-  end
-
-  def memoize(key, value)
-    instance_variable_get("@#{key}") || instance_variable_set("@#{key}", value)
   end
 end

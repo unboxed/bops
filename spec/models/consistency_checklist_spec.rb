@@ -336,4 +336,274 @@ RSpec.describe ConsistencyChecklist do
       end
     end
   end
+
+  describe "#open_red_line_boundary_change_requests?" do
+    let(:planning_application) { create(:planning_application) }
+
+    let(:consistency_checklist) do
+      create(:consistency_checklist, planning_application: planning_application)
+    end
+
+    context "when there are no open requests" do
+      it "returns false" do
+        expect(
+          consistency_checklist.open_red_line_boundary_change_requests?
+        ).to be(
+          false
+        )
+      end
+    end
+
+    context "when there are open requests" do
+      before do
+        create(
+          :red_line_boundary_change_validation_request,
+          planning_application: planning_application
+        )
+      end
+
+      it "returns true" do
+        expect(
+          consistency_checklist.open_red_line_boundary_change_requests?
+        ).to be(
+          true
+        )
+      end
+    end
+  end
+
+  describe "#open_additional_document_requests?" do
+    let(:planning_application) { create(:planning_application) }
+
+    let(:consistency_checklist) do
+      create(:consistency_checklist, planning_application: planning_application)
+    end
+
+    context "when there are no open requests" do
+      it "returns false" do
+        expect(
+          consistency_checklist.open_additional_document_requests?
+        ).to be(
+          false
+        )
+      end
+    end
+
+    context "when there are open requests" do
+      before do
+        create(
+          :additional_document_validation_request,
+          planning_application: planning_application
+        )
+      end
+
+      it "returns true" do
+        expect(
+          consistency_checklist.open_additional_document_requests?
+        ).to be(
+          true
+        )
+      end
+    end
+  end
+
+  describe "#open_description_change_requests?" do
+    let(:planning_application) { create(:planning_application) }
+
+    let(:consistency_checklist) do
+      create(:consistency_checklist, planning_application: planning_application)
+    end
+
+    context "when there are no open requests" do
+      it "returns false" do
+        expect(
+          consistency_checklist.open_description_change_requests?
+        ).to be(
+          false
+        )
+      end
+    end
+
+    context "when there are open requests" do
+      before do
+        create(
+          :description_change_validation_request,
+          planning_application: planning_application
+        )
+      end
+
+      it "returns true" do
+        expect(
+          consistency_checklist.open_description_change_requests?
+        ).to be(
+          true
+        )
+      end
+    end
+  end
+
+  describe "#default_description_matches_documents_to_no?" do
+    let(:planning_application) { create(:planning_application) }
+
+    let(:consistency_checklist) do
+      create(
+        :consistency_checklist,
+        planning_application: planning_application,
+        description_matches_documents: description_matches_documents
+      )
+    end
+
+    context "when value is not 'no' and there are no open description change requests" do
+      let(:description_matches_documents) { :yes }
+
+      it "returns false" do
+        expect(
+          consistency_checklist.default_description_matches_documents_to_no?
+        ).to be(
+          false
+        )
+      end
+    end
+
+    context "when value is 'no'" do
+      let(:description_matches_documents) { :no }
+
+      it "returns true" do
+        expect(
+          consistency_checklist.default_description_matches_documents_to_no?
+        ).to be(
+          true
+        )
+      end
+    end
+
+    context "when there are open description change requests" do
+      let(:description_matches_documents) { :yes }
+
+      before do
+        create(
+          :description_change_validation_request,
+          planning_application: planning_application
+        )
+      end
+
+      it "returns true" do
+        expect(
+          consistency_checklist.default_description_matches_documents_to_no?
+        ).to be(
+          true
+        )
+      end
+    end
+  end
+
+  describe "#default_documents_consistent_to_no?" do
+    let(:planning_application) { create(:planning_application) }
+
+    let(:consistency_checklist) do
+      create(
+        :consistency_checklist,
+        planning_application: planning_application,
+        documents_consistent: documents_consistent
+      )
+    end
+
+    context "when value is not 'no' and there are no open description change requests" do
+      let(:documents_consistent) { :yes }
+
+      it "returns false" do
+        expect(
+          consistency_checklist.default_documents_consistent_to_no?
+        ).to be(
+          false
+        )
+      end
+    end
+
+    context "when value is 'no'" do
+      let(:documents_consistent) { :no }
+
+      it "returns true" do
+        expect(
+          consistency_checklist.default_documents_consistent_to_no?
+        ).to be(
+          true
+        )
+      end
+    end
+
+    context "when there are open description change requests" do
+      let(:documents_consistent) { :yes }
+
+      before do
+        create(
+          :additional_document_validation_request,
+          planning_application: planning_application
+        )
+      end
+
+      it "returns true" do
+        expect(
+          consistency_checklist.default_documents_consistent_to_no?
+        ).to be(
+          true
+        )
+      end
+    end
+  end
+
+  describe "#default_site_map_correct_to_no?" do
+    let(:planning_application) { create(:planning_application) }
+
+    let(:consistency_checklist) do
+      create(
+        :consistency_checklist,
+        planning_application: planning_application,
+        site_map_correct: site_map_correct
+      )
+    end
+
+    context "when value is not 'no' and there are no open description change requests" do
+      let(:site_map_correct) { :yes }
+
+      it "returns false" do
+        expect(
+          consistency_checklist.default_site_map_correct_to_no?
+        ).to be(
+          false
+        )
+      end
+    end
+
+    context "when value is 'no'" do
+      let(:site_map_correct) { :no }
+
+      it "returns true" do
+        expect(
+          consistency_checklist.default_site_map_correct_to_no?
+        ).to be(
+          true
+        )
+      end
+    end
+
+    context "when there are open description change requests" do
+      let(:site_map_correct) { :yes }
+
+      before do
+        create(
+          :red_line_boundary_change_validation_request,
+          planning_application: planning_application
+        )
+      end
+
+      it "returns true" do
+        expect(
+          consistency_checklist.default_site_map_correct_to_no?
+        ).to be(
+          true
+        )
+      end
+    end
+  end
 end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ConsistencyChecklist < ApplicationRecord
+  include Memoizable
   belongs_to :planning_application
 
   CHECKS = %i[
@@ -10,17 +11,40 @@ class ConsistencyChecklist < ApplicationRecord
     site_map_correct
   ].freeze
 
+  REQUEST_TYPES = {
+    description_matches_documents: :description_change,
+    documents_consistent: :additional_document,
+    site_map_correct: :red_line_boundary_change
+  }.freeze
+
   with_options if: :complete? do
     CHECKS.each { |check| validate("#{check}_determined".to_sym) }
-    validate :description_change_requests_closed
-    validate :additional_document_requests_closed
-    validate :red_line_boundary_requests_closed
+
+    REQUEST_TYPES.each_value do |request_type|
+      validate("#{request_type}_requests_closed".to_sym)
+    end
   end
 
   enum status: { in_assessment: 0, complete: 1 }, _default: :in_assessment
 
   CHECKS.each do |check|
     enum(check => { to_be_determined: 0, yes: 1, no: 2 }, _prefix: check)
+  end
+
+  REQUEST_TYPES.each do |check, request_type|
+    # defines #default_description_matches_documents_to_no?,
+    # #default_documents_consistent_to_no?,
+    # #default_site_map_correct_to_no?
+    define_method("default_#{check}_to_no?") do
+      send("open_#{request_type}_requests?") || send("#{check}_no?")
+    end
+
+    # defines #open_description_change_requests?,
+    # #open_additional_document_requests?,
+    # #open_red_line_boundary_change_requests?
+    define_method("open_#{request_type}_requests?") do
+      send("open_#{request_type}_requests").any?
+    end
   end
 
   private
@@ -33,24 +57,18 @@ class ConsistencyChecklist < ApplicationRecord
     end
   end
 
-  def description_change_requests_closed
-    return unless planning_application.description_change_validation_requests.open.any?
+  REQUEST_TYPES.each do |check, request_type|
+    define_method("#{request_type}_requests_closed") do
+      return unless send("open_#{request_type}_requests?")
 
-    errors.add(
-      :description_matches_documents,
-      :open_description_change_requests
-    )
-  end
+      errors.add(check, "open_#{request_type}_requests".to_sym)
+    end
 
-  def red_line_boundary_requests_closed
-    return unless planning_application.red_line_boundary_change_validation_requests.open.any?
-
-    errors.add(:site_map_correct, :open_red_line_boundary_requests)
-  end
-
-  def additional_document_requests_closed
-    return unless planning_application.additional_document_validation_requests.open.any?
-
-    errors.add(:documents_consistent, :open_additional_document_requests)
+    define_method("open_#{request_type}_requests") do
+      memoize(
+        "open_#{request_type}_requests",
+        planning_application.send("#{request_type}_validation_requests").open
+      )
+    end
   end
 end

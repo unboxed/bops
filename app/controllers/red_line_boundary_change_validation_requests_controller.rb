@@ -5,7 +5,6 @@ class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsCont
 
   before_action :ensure_no_open_or_pending_red_line_boundary_validation_request, only: %i[new]
   before_action :ensure_planning_application_is_not_closed_or_cancelled, only: %i[new create]
-  before_action :set_return_to, only: %i[new]
 
   def show
     @red_line_boundary_change_validation_request = @planning_application.red_line_boundary_change_validation_requests.find(params[:id])
@@ -22,12 +21,27 @@ class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsCont
 
     if @red_line_boundary_change_validation_request.save
       redirect_to(
-        (session.delete(:return_to) || create_request_redirect_url),
+        create_request_redirect_url,
         notice: t(".validation_request_for")
       )
     else
       render :new
     end
+  end
+
+  def create_request_redirect_url
+    case return_to
+    when nil
+      super
+    when planning_application_sitemap_url(@planning_application)
+      planning_application_validation_tasks_path(@planning_application)
+    else
+      return_to
+    end
+  end
+
+  def return_to
+    params.dig(:red_line_boundary_change_validation_request, :return_to)
   end
 
   private

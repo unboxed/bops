@@ -2,7 +2,10 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: [@planning_application, @additional_document_validation_request], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
       <%= form.govuk_fieldset legend: { text: "Request a new document", size: 'l' } do %>
-
+        <%= form.hidden_field(
+          :return_to,
+          value: local_assigns.fetch(:return_to, nil)
+        ) %>
         <%= render "shared/planning_application_address_and_reference" %>
 
         <%= form.govuk_text_field :document_request_type,
