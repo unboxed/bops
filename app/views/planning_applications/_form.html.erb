@@ -15,7 +15,10 @@
       </ul>
     </span>
   <% end %>
-
+  <%= form.hidden_field(
+    :return_to,
+    value: local_assigns.fetch(:return_to, nil)
+  ) %>
   <%= form.hidden_field :application_type, value: "lawfulness_certificate" %>
   <div class="govuk-form-group">
     <% if action_name == "new" || action_name == "create" %>

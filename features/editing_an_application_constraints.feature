@@ -14,14 +14,6 @@ Feature: Editing an application's constraints
     Given I visit the application's constraints form
     Then the "Conservation Area" option is checked
 
-  Scenario: As an assessor I can edit the application constraints
-    Given I visit the application's constraints form
-    And I check "Safeguarded land"
-    When I press "Save"
-    And I visit the application's constraints form
-    Then the "Safeguarded land" option is checked
-    And there is an audit entry containing "Constraint added"
-
   Scenario: As an assessor I can add custom constraints to the application
     Given I visit the application's constraints form
     And I fill in "Add a local constraint" with "Batcave"

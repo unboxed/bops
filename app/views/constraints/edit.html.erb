@@ -12,6 +12,7 @@
 
 <div class="govuk-grid-row">
   <%= form_with model: @planning_application, url: planning_application_constraints_path(@planning_application), local: true do |form| %>
+    <%= form.hidden_field(:return_to, value: @back_path) %>
     <div class="govuk-grid-column-two-thirds">
       <% t("constraints").each do |type, constraints| %>
         <fieldset class="govuk-fieldset govuk-!-margin-top-3">

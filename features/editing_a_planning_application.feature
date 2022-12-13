@@ -9,6 +9,7 @@ Feature: Editing an application's details
     And I fill in "Month" with "10"
     And I fill in "Year" with "1989"
     When I press "Save"
+    And I press "Application"
     Then the page contains "Target date: 7 November 1989"
 
   Scenario: I can edit the applicaiton's site details
@@ -26,7 +27,6 @@ Feature: Editing an application's details
   Scenario: I can edit the application's proposed or completed status
     Given I choose "Yes" for "Has the work been started?"
     When I press "Save"
-    And I press "Check and validate"
     Then the page contains "Work already started: Yes"
 
   Scenario: I can edit the application's applicant details
@@ -36,6 +36,7 @@ Feature: Editing an application's details
     And I fill in "Email address" with "pearly@poorly.com"
     And I fill in "UK telephone number" with "0777773949494312"
     When I press "Save"
+    And I press "Application"
     Then the page contains "Pearly Poorly"
     And the page contains "pearly@poorly.com"
     And the page contains "0777773949494312"
@@ -47,6 +48,7 @@ Feature: Editing an application's details
     And I fill in "Email address" with "pearly@poorly.com"
     And I fill in "UK telephone number" with "0777773949494312"
     When I press "Save"
+    And I press "Application"
     Then the page contains "Pearly Poorly"
     And the page contains "pearly@poorly.com"
     And the page contains "0777773949494312"
