@@ -75,7 +75,7 @@ module AuthenticateWithOtpTwoFactor
     if session[:otp_user_id]
       find_current_local_authority.users.find(session[:otp_user_id])
     elsif user_params[:email]
-      find_current_local_authority.users.find_by(email: user_params[:email])
+      find_current_local_authority.users.find_for_authentication(email: user_params[:email])
     end
   end
 
