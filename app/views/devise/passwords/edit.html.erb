@@ -4,8 +4,14 @@
 
 <h1 class="govuk-heading-l">Change your password</h1>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<%= form_with(
+  model: resource,
+  as: resource_name,
+  url: password_path(resource_name),
+  method: :put,
+  builder: GOVUKDesignSystemFormBuilder::FormBuilder
+) do |f| %>
+  <%= f.govuk_error_summary(presenter: ErrorPresenter) %>
   <%= f.hidden_field :reset_password_token %>
   <div class="govuk-form-group govuk-!-margin-top-8">
     <%= f.label :password, "New password", class: "govuk-heading-s govuk-!-margin-bottom-1" %>

@@ -168,6 +168,10 @@ en:
           attributes:
             base:
               recommendation_accepted: You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen
+        user:
+          attributes:
+            reset_password_token:
+              invalid: The reset password link you used no longer works. Please request a new link and try again.
   additional_document_validation_requests:
     create:
       success: Additional document request successfully created.
