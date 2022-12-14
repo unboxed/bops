@@ -1,12 +1,13 @@
 <% content_for :page_title do %>
   Assess - <%= t('page_title') %>
 <% end %>
-
-<% add_parent_breadcrumb_link "Home", planning_applications_path %>
-<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
-
-<% content_for :title, "Assess" %>
-
+<% render(
+  partial: "shared/assessment_task_breadcrumbs",
+  locals: {
+    planning_application: @planning_application,
+    current_page: t(".add_classes_to")
+  }
+) %>
 <%= render "flash_content" %>
 
 <div class="govuk-grid-row">

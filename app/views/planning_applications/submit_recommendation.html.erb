@@ -1,43 +1,57 @@
 <% content_for :page_title do %>
   Submit recommendation - <%= t('page_title') %>
 <% end %>
-
-<% content_for :title, "Submit recommendation" %>
-
+<% render(
+  partial: "shared/assessment_task_breadcrumbs",
+  locals: {
+    planning_application: @planning_application,
+    current_page: t(".review_and_submit_recommendation")
+  }
+) %>
 <%= render(
-  layout: "shared/assessment_dashboard",
+  partial: "shared/proposal_header",
   locals: { heading: t(".review_and_submit_recommendation") }
-) do %>
-  <%= render(
-    partial: "submit_recommendation_accordion",
-    locals: { planning_application: @planning_application }
-  ) %>
-  <h2 class="govuk-heading-m">Decision notice</h2>
-  <p class="govuk-body">The following decision notice has been created based on your answers.</p>
-  <%= render "decision_notice", planning_application: @planning_application %>
-  <p class="govuk-body">
-    <%= link_to "Download as PDF", decision_notice_api_v1_planning_application_path(@planning_application, format: 'pdf'), class: "govuk-link" %>
-  </p>
-  <p class="govuk-body">
-    <br>
-    <strong>
-      If you agree with the decision notice, please submit it to your manager.
-    </strong>
-   If your manager disagrees with your recommendation they will send it back to you to make changes.
-  </p>
-  <div class="govuk-button-group">
-    <%= form_with model: @planning_application, url: submit_planning_application_path(@planning_application), local: true do |form| %>
-      <%= form.submit "Submit recommendation", class: "govuk-button", data: { module: "govuk-button" } %>
+) %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render(
+      partial: "submit_recommendation_accordion",
+      locals: { planning_application: @planning_application }
+    ) %>
+    <h2 class="govuk-heading-m"><%= t(".decision_notice") %></h2>
+    <p class="govuk-body"><%= t(".the_following_decision") %></p>
+    <%= render "decision_notice", planning_application: @planning_application %>
+    <p class="govuk-body">
       <%= link_to(
-        "Edit recommendation",
-        new_planning_application_recommendation_path(@planning_application),
-       class: "govuk-button govuk-button--secondary"
+        t(".download_as_pdf"),
+        decision_notice_api_v1_planning_application_path(
+          @planning_application,
+          format: "pdf"
+        ),
+        class: "govuk-link"
       ) %>
-      <%= link_to(
-        t(".back"),
-        planning_application_path(@planning_application),
-        class: "govuk-button govuk-button--secondary"
-      ) %>
-    <% end %>
+    </p>
+    <p class="govuk-body"><strong><%= t(".if_you_agree") %></strong></p>
+    <p class="govuk-body"><%= t(".if_your_manager") %></p>
+    <div class="govuk-button-group">
+      <%= form_with(
+        model: @planning_application,
+        url: submit_planning_application_path(@planning_application),
+        builder: GOVUKDesignSystemFormBuilder::FormBuilder
+      ) do |form| %>
+        <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+        <%= form.govuk_submit(t(".submit_recommendation")) %>
+        <%= link_to(
+          t(".edit_recommendation"),
+          new_planning_application_recommendation_path(@planning_application),
+         class: "govuk-button govuk-button--secondary"
+        ) %>
+        <%= link_to(
+          t(".back"),
+          planning_application_path(@planning_application),
+          class: "govuk-button govuk-button--secondary"
+        ) %>
+      <% end %>
+    </div>
   </div>
-<% end %>
+</div>
