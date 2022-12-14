@@ -18,7 +18,7 @@ class ErrorPresenter
   def formatted_message(message, attribute)
     attribute = attributes_map[attribute] || attribute
 
-    if message.match(/\A[A-Z].+\Z/)
+    if message.match?(/\A[A-Z].+\Z/)
       message
     else
       "#{attribute.to_s.humanize} #{message}"

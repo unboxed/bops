@@ -140,7 +140,7 @@ module AuditHelper
   end
 
   def audit_entry_template(audit)
-    if audit.activity_type.match("/*_validation_request_cancelled")
+    if audit.activity_type.match?("/*_validation_request_cancelled")
       "validation_request_cancelled"
     elsif audit.activity_type.include?("request") ||
           audit.activity_type.include?("document_received_at_changed") ||

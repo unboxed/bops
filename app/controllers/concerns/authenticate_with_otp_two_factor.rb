@@ -24,7 +24,7 @@ module AuthenticateWithOtpTwoFactor
   private
 
   def valid_mobile_number?
-    return true unless user_params.keys.include?("mobile_number")
+    return true unless user_params.key?("mobile_number")
 
     @mobile_number_form = MobileNumberForm.new(user_params)
     return true if @mobile_number_form.valid?

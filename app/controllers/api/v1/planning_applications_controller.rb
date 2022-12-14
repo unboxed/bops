@@ -106,9 +106,9 @@ module Api
 
       def constraints_array_from_param(constraints_params)
         if constraints_params.present?
-          constraints_params.to_unsafe_hash.collect do |key, value|
+          constraints_params.to_unsafe_hash.filter_map do |key, value|
             key if value
-          end.compact
+          end
         else
           []
         end

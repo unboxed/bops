@@ -8,14 +8,14 @@ module MapitHelper
   end
 
   def stub_any_mapit_api_request
-    stub_request(:get, /#{BASE_URL}.*/)
+    stub_request(:get, /#{BASE_URL}.*/o)
   end
 
   def mapit_api_response(status, body = "default", &block)
     status = Rack::Utils.status_code(status)
 
-    body = if block_given?
-             block.call
+    body = if block
+             yield
            elsif body == "no_result"
              []
            else

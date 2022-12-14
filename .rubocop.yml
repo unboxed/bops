@@ -6,6 +6,7 @@ inherit_mode:
     - Exclude
 
 require:
+  - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
 
@@ -15,6 +16,12 @@ AllCops:
   Exclude:
     - 'bops-applicants/**/*'
     - 'lib/package_builder.rb'
+    - 'config/environments/**'
+    - 'config/puma.rb'
+
+Performance/CollectionLiteralInLoop:
+  Exclude:
+    - spec/models/planning_application_spec.rb
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes

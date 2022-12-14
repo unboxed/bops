@@ -507,9 +507,9 @@ class PlanningApplication < ApplicationRecord
   end
 
   def assessment_details_for_review
-    AssessmentDetailsReview::ASSESSMENT_DETAILS.map do |assessment_detail|
+    AssessmentDetailsReview::ASSESSMENT_DETAILS.filter_map do |assessment_detail|
       send(assessment_detail)
-    end.compact
+    end
   end
 
   private

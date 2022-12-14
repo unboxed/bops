@@ -75,7 +75,7 @@ RSpec.describe PlanningApplicationStatus do
         freeze_time do
           planning_application.update!(validated_at: Time.zone.today)
           planning_application.start
-          expect(planning_application.send("in_assessment_at")).to eql(Time.zone.now)
+          expect(planning_application.send(:in_assessment_at)).to eql(Time.zone.now)
         end
       end
     end
@@ -95,7 +95,7 @@ RSpec.describe PlanningApplicationStatus do
 
       it "allows the work status to be updated" do
         planning_application.update!(work_status: "existing")
-        expect(planning_application.send("work_status")).to eql("existing")
+        expect(planning_application.send(:work_status)).to eql("existing")
       end
     end
 
@@ -117,7 +117,7 @@ RSpec.describe PlanningApplicationStatus do
       it "sets the timestamp for returned_at to now" do
         freeze_time do
           planning_application.return
-          expect(planning_application.send("returned_at")).to eql(Time.zone.now)
+          expect(planning_application.send(:returned_at)).to eql(Time.zone.now)
         end
       end
     end
@@ -133,7 +133,7 @@ RSpec.describe PlanningApplicationStatus do
       it "sets the timestamp for in_assessment_at to now" do
         freeze_time do
           planning_application.assess
-          expect(planning_application.send("in_assessment_at")).to eql(Time.zone.now)
+          expect(planning_application.send(:in_assessment_at)).to eql(Time.zone.now)
         end
       end
     end
@@ -158,7 +158,7 @@ RSpec.describe PlanningApplicationStatus do
       it "sets the timestamp for invalidated_at to now" do
         freeze_time do
           planning_application.invalidate
-          expect(planning_application.send("invalidated_at")).to eql(Time.zone.now)
+          expect(planning_application.send(:invalidated_at)).to eql(Time.zone.now)
         end
       end
     end
@@ -188,7 +188,7 @@ RSpec.describe PlanningApplicationStatus do
       it "sets the timestamp for awaiting_correction to now" do
         freeze_time do
           planning_application.request_correction
-          expect(planning_application.send("awaiting_correction_at")).to eql(Time.zone.now)
+          expect(planning_application.send(:awaiting_correction_at)).to eql(Time.zone.now)
         end
       end
 
@@ -222,7 +222,7 @@ RSpec.describe PlanningApplicationStatus do
       it "sets the timestamp for determined_at to now" do
         freeze_time do
           planning_application.determine
-          expect(planning_application.send("determined_at")).to eql(Time.zone.now)
+          expect(planning_application.send(:determined_at)).to eql(Time.zone.now)
         end
       end
     end
@@ -245,7 +245,7 @@ RSpec.describe PlanningApplicationStatus do
       it "sets the timestamp for withdrawn_at to now" do
         freeze_time do
           planning_application.withdraw
-          expect(planning_application.send("withdrawn_at")).to eql(Time.zone.now)
+          expect(planning_application.send(:withdrawn_at)).to eql(Time.zone.now)
         end
       end
     end
@@ -268,7 +268,7 @@ RSpec.describe PlanningApplicationStatus do
       it "sets the timestamp for withdrawn_at to now" do
         freeze_time do
           planning_application.withdraw
-          expect(planning_application.send("withdrawn_at")).to eql(Time.zone.now)
+          expect(planning_application.send(:withdrawn_at)).to eql(Time.zone.now)
         end
       end
     end
@@ -291,7 +291,7 @@ RSpec.describe PlanningApplicationStatus do
       it "sets the timestamp for withdrawn_at to now" do
         freeze_time do
           planning_application.withdraw
-          expect(planning_application.send("withdrawn_at")).to eql(Time.zone.now)
+          expect(planning_application.send(:withdrawn_at)).to eql(Time.zone.now)
         end
       end
     end
@@ -314,7 +314,7 @@ RSpec.describe PlanningApplicationStatus do
       it "sets the timestamp for withdrawn_at to now" do
         freeze_time do
           planning_application.withdraw
-          expect(planning_application.send("withdrawn_at")).to eql(Time.zone.now)
+          expect(planning_application.send(:withdrawn_at)).to eql(Time.zone.now)
         end
       end
     end

@@ -4,7 +4,7 @@ module NotifyHelper
   BASE_URL = "https://api.notifications.service.gov.uk/v2/notifications/sms"
 
   def stub_any_post_sms_notification
-    stub_request(:post, /#{BASE_URL}.*/)
+    stub_request(:post, /#{BASE_URL}.*/o)
   end
 
   def sms_notification_api_response(status, body = "{}")
