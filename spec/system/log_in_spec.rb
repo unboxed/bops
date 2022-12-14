@@ -479,4 +479,34 @@ RSpec.describe "Sign in" do
       end
     end
   end
+
+  context "when recovering a password" do
+    it "presents a helpful error message when using an expired link" do
+      visit root_path
+
+      click_link("Forgot your password?")
+      fill_in("user[email]", with: assessor.email)
+
+      click_button("Send me reset password instructions")
+      expect(page).to have_content("You will receive an email with instructions on how to reset your password in a few minutes.")
+
+      assessor.reload
+      url = edit_user_password_path(assessor, subdomain: assessor.local_authority.subdomain, reset_password_token: assessor.reset_password_token)
+
+      # Now request another link
+      click_link("Forgot your password?")
+      fill_in("user[email]", with: assessor.email)
+      click_button("Send me reset password instructions")
+
+      # Visit old expired link
+      visit url
+      fill_in("user[password]", with: "password")
+      fill_in("user[password_confirmation]", with: "password")
+      click_button("Change password")
+
+      within(".govuk-error-summary") do
+        expect(page).to have_content("The reset password link you used no longer works. Please request a new link and try again.")
+      end
+    end
+  end
 end
