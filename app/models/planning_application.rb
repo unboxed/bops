@@ -269,21 +269,11 @@ class PlanningApplication < ApplicationRecord
     JSON.parse(self[:proposal_details] || "[]", object_class: OpenStruct)
   end
 
-  def proposal_details_with_metadata
-    proposal_details.select do |proposal|
-      proposal.responses.any? { |element| element.metadata.present? }
-    end
-  end
-
-  def proposal_details_with_flags
-    proposal_details_with_metadata.select do |proposal|
-      proposal.responses.any? { |element| element.metadata.flags.present? }
-    end
-  end
-
-  def flagged_proposal_details(flag)
-    proposal_details_with_flags.select do |proposal|
-      proposal.responses.any? { |element| element&.metadata&.flags&.include?(flag) }
+  def flagged_proposal_details
+    proposal_details.select do |proposal_detail|
+      proposal_detail.responses.any? do |response|
+        response.metadata&.flags&.include?(result_flag)
+      end
     end
   end
 

@@ -34,6 +34,7 @@ RSpec.describe "Creating a planning application" do
     expect(page).to have_text("Planning application was successfully created.")
 
     visit planning_application_path(PlanningApplication.last.id)
+    click_link("Check and validate")
     expect(page).to have_text("Description: Back shack")
   end
 
@@ -53,6 +54,7 @@ RSpec.describe "Creating a planning application" do
     click_button "Save"
 
     visit planning_application_path(PlanningApplication.last.id)
+    click_link("Check and validate")
     expect(page).to have_text("Description: Bad bad application")
   end
 
@@ -72,9 +74,8 @@ RSpec.describe "Creating a planning application" do
     expect(page).to have_text("Planning application was successfully created.")
 
     visit planning_application_path(PlanningApplication.last.id)
+    click_link("Check and validate")
     expect(page).to have_text("Description: Bird house")
-
-    visit planning_application_path(PlanningApplication.last.id)
   end
 
   context "when it allows a full application to be completed" do
@@ -117,25 +118,27 @@ RSpec.describe "Creating a planning application" do
 
       visit planning_application_path(PlanningApplication.last.id)
 
-      expect(page).to have_text("Site address: Palace Road, Crystal Palace, SE19 2LX")
-      expect(page).to have_text("UPRN: 19284783939")
-      expect(page).to have_text("Application type: Lawful Development Certificate (Proposed)")
-      expect(page).to have_text("Work already started: No")
-      expect(page).to have_text("Description: Backyard bird hotel")
-      expect(page).to have_text("Payment Reference: 232432544")
-      expect(page).to have_text("Payment Amount: £104.00")
       expect(page).to have_text("Agentina Agentino")
       expect(page).to have_text("agentina@agentino.com")
       expect(page).to have_text("923838484492939")
       expect(page).to have_text("Carlota Corlita")
       expect(page).to have_text("carlota@corlita.com")
       expect(page).to have_text("0777773949494312")
+
+      click_link("Check and validate")
+
+      expect(page).to have_text("Site address: Palace Road, Crystal Palace, SE19 2LX")
+      expect(page).to have_text("UPRN: 19284783939")
+      expect(page).to have_text("Application type: Lawful Development Certificate (Proposed)")
+      expect(page).to have_text("Work already started: No")
+      expect(page).to have_text("Description: Backyard bird hotel")
     end
 
     it "has the correct format for payment amount in pounds" do
       click_button "Save"
 
       visit planning_application_path(PlanningApplication.last.id)
+      click_link("Check and validate")
       click_button "Application information"
       click_link "Edit details"
 
@@ -150,6 +153,7 @@ RSpec.describe "Creating a planning application" do
       click_button "Save"
 
       visit planning_application_path(PlanningApplication.last.id)
+      click_link("Check and validate")
 
       expect(page).to have_text("Work already started: Yes")
     end

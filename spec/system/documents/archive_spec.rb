@@ -58,9 +58,7 @@ RSpec.describe "Documents index page" do
   context "as an assessor" do
     before do
       sign_in assessor
-      visit planning_application_path(planning_application)
-      click_button "Documents"
-      click_link "Manage documents"
+      visit(planning_application_documents_path(planning_application))
     end
 
     it "Assessor can see Archive document links when application is in assessment" do
@@ -82,9 +80,7 @@ RSpec.describe "Documents index page" do
   context "when archiving journey" do
     before do
       sign_in assessor
-      visit planning_application_path(planning_application)
-      click_button "Documents"
-      click_link "Manage documents"
+      visit(planning_application_documents_path(planning_application))
       click_link "Archive"
     end
 
@@ -141,9 +137,7 @@ RSpec.describe "Documents index page" do
   context "when restoring from archive" do
     it "Archived document can be restored" do
       sign_in assessor
-      visit planning_application_path(planning_application)
-      click_button "Documents"
-      click_link "Manage documents"
+      visit(planning_application_documents_path(planning_application))
       click_link "Archive"
 
       fill_in "Why do you want to archive this document?", with: "Scale was wrong"
@@ -174,9 +168,7 @@ RSpec.describe "Documents index page" do
   context "as a reviewer" do
     before do
       sign_in reviewer
-      visit planning_application_path(planning_application)
-      click_button "Documents"
-      click_link "Manage documents"
+      visit(planning_application_documents_path(planning_application))
       click_link "Archive"
     end
 
@@ -191,9 +183,7 @@ RSpec.describe "Documents index page" do
   context "with an application that has not been started" do
     before do
       sign_in assessor
-      visit planning_application_path(not_started_planning_application)
-      click_button "Documents"
-      click_link "Manage documents"
+      visit(planning_application_documents_path(planning_application))
       click_link "Archive"
     end
 
@@ -215,9 +205,12 @@ RSpec.describe "Documents index page" do
   context "with an application that is awaiting determination" do
     before do
       sign_in assessor
-      visit planning_application_path(awaiting_determination_planning_application)
-      click_button "Documents"
-      click_link "Manage documents"
+
+      visit(
+        planning_application_documents_path(
+          awaiting_determination_planning_application
+        )
+      )
     end
 
     it "Archive button is not visible" do

@@ -20,7 +20,14 @@ RSpec.describe "Planning Application Assessment" do
 
   context "when the planning application is awaiting determination" do
     context "when I'm signed in as a reviewer" do
-      let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
+      let!(:reviewer) do
+        create(
+          :user,
+          :reviewer,
+          local_authority: default_local_authority,
+          name: "Alice Smith"
+        )
+      end
 
       before do
         create(
@@ -98,14 +105,16 @@ RSpec.describe "Planning Application Assessment" do
 
         # Check latest audit
         click_button "Audit log"
-        within("#latest-audit") do
-          expect(page).to have_content("Decision Published")
-          expect(page).to have_text("Application granted on 2 January 2024 (manually inputted date)")
-          expect(page).to have_text(reviewer.name)
-          expect(page).to have_text(Audit.last.created_at.strftime("%H:%M"))
 
-          click_link "View all audits"
-        end
+        expect(page).to have_content("Decision Published")
+        expect(page).to have_text("Alice Smith")
+        expect(page).to have_text("1 February 2024 at 00:00")
+
+        expect(page).to have_text(
+          "Application granted on 2 January 2024 (manually inputted date)"
+        )
+
+        click_link("View all audits")
 
         # Check audit logs
         within("#audit_#{Audit.last.id}") do

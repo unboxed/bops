@@ -38,8 +38,9 @@ Feature: Auditing a planning application
     And there is an audit entry containing "Applicant sent selfies instead of floor plans"
 
   Scenario: Updating constraints displays all updates in the audit log
-    Given I press "Constraints"
-    And I press "Update"
+    When I press "Check and validate"
+    And I press "Check constraints"
+    And I press "Update constraints"
     And I check "National Park"
     And I check "Broads"
     And I uncheck "Conservation Area"
@@ -49,7 +50,8 @@ Feature: Auditing a planning application
     And there is an audit entry containing "Constraint removed Conservation Area"
 
   Scenario: I can view an entry in the audit log showing application updates
-    Given I press "Application information"
+    Given I press "Check and validate"
+    And I press "Application information"
     When I press "Edit details"
     And I fill in "Address 1" with "20 leafy gardens"
     And I fill in "Payment reference" with " "

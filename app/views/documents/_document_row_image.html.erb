@@ -11,10 +11,18 @@
   </p>
   <% if edit_and_archive %>
     <p class="govuk-body">
-      <%= link_to(t(".edit"), edit_planning_application_document_path(@planning_application, document), class: "govuk-link") %>
+      <%= link_to(
+        t(".edit"),
+        edit_planning_application_document_path(planning_application, document),
+        class: "govuk-link"
+      ) %>
     </p>
     <p class="govuk-body">
-      <%= link_to(t(".archive"), planning_application_document_archive_path(@planning_application, document), class: "govuk-link") %>
+      <%= link_to(
+        t(".archive"),
+        planning_application_document_archive_path(planning_application, document),
+        class: "govuk-link"
+      ) %>
     </p>
   <% end %>
 <% else %>

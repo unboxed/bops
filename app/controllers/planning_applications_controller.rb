@@ -7,8 +7,6 @@ class PlanningApplicationsController < AuthenticationController
 
   before_action :ensure_user_is_reviewer_checking_assessment, only: %i[edit_public_comment]
 
-  before_action :set_last_audit, only: %i[show view_recommendation submit_recommendation publish]
-
   before_action :ensure_no_open_post_validation_requests, only: %i[submit]
 
   rescue_from PlanningApplication::WithdrawRecommendationError do |_exception|
@@ -326,10 +324,6 @@ class PlanningApplicationsController < AuthenticationController
 
   def payment_amount_params
     params[:planning_application] ? params.require(:planning_application).permit(:payment_amount) : params.permit(:payment_amount)
-  end
-
-  def set_last_audit
-    @last_audit = @planning_application.audits.last if @planning_application.present?
   end
 
   def redirect_failed_withdraw_recommendation

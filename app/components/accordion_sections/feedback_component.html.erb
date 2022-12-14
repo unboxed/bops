@@ -1,0 +1,8 @@
+<%= render(
+  partial: "shared/warning_text",
+  locals: { message: warning_message }
+) %>
+<p class="govuk-body">
+  <%= t(".reason_given", feedback: feedback).html_safe %>
+</p>
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">

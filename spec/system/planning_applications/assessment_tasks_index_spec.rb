@@ -10,16 +10,19 @@ RSpec.describe "Assessment tasks" do
     sign_in assessor
     allow(ENV).to receive(:fetch).and_call_original
     allow(ENV).to receive(:fetch).with("PLANNING_HISTORY_ENABLED", "false").and_return("true")
+    visit(planning_application_assessment_tasks_path(planning_application))
   end
 
   context "when the planning application is in_assessment, I can assess the planning application" do
-    let!(:planning_application) do
-      create(:planning_application, :in_assessment, local_authority: default_local_authority)
+    let(:planning_application) do
+      create(
+        :planning_application,
+        :in_assessment,
+        local_authority: default_local_authority
+      )
     end
 
     it "displays the assessment tasks list" do
-      visit planning_application_assessment_tasks_path(planning_application)
-
       within(".app-task-list") do
         within("#check-consistency-assessment-tasks") do
           expect(page).to have_content("Description, documents and proposal details")
@@ -34,13 +37,15 @@ RSpec.describe "Assessment tasks" do
   end
 
   context "when the planning application is invalidated, I cannot assess the planning application" do
-    let!(:planning_application) do
-      create(:planning_application, :invalidated, local_authority: default_local_authority)
+    let(:planning_application) do
+      create(
+        :planning_application,
+        :invalidated,
+        local_authority: default_local_authority
+      )
     end
 
     it "displays the assessment tasks list" do
-      visit planning_application_assessment_tasks_path(planning_application)
-
       within(".app-task-list") do
         within("#check-consistency-assessment-tasks") do
           expect(page).to have_content("Description, documents and proposal details")
@@ -52,6 +57,105 @@ RSpec.describe "Assessment tasks" do
           expect(page).not_to have_content("Add assessment area")
         end
       end
+    end
+  end
+
+  context "when there are proposal details" do
+    let(:planning_application) do
+      create(
+        :planning_application,
+        proposal_details: proposal_details,
+        local_authority: default_local_authority
+      )
+    end
+
+    let(:proposal_details) do
+      [
+        {
+          question: "Question 1",
+          responses: [{ value: "Answer 1" }],
+          metadata: { portal_name: "_root", auto_answered: true }
+        },
+        {
+          question: "Question 2",
+          responses: [{ value: "Answer 2" }],
+          metadata: { portal_name: "_root" }
+        },
+        {
+          question: "Question 3",
+          responses: [{ value: "Answer 3" }],
+          metadata: { portal_name: "group_1", auto_answered: true }
+        },
+        {
+          question: "Question 4",
+          responses: [{ value: "Answer 4" }]
+        }
+      ].to_json
+    end
+
+    it "displays the proposal details by group" do
+      click_button("Proposal details")
+      click_link("Main")
+
+      expect(current_url).to have_target_id("main")
+
+      within(find_all(".proposal-details-sub-list")[0]) do
+        expect(page).to have_content("1.  Question 1")
+        expect(page).to have_content("2.  Question 2")
+      end
+
+      click_link("Group 1")
+
+      expect(current_url).to have_target_id("group1")
+
+      expect(
+        find_all(".proposal-details-sub-list")[1]
+      ).to have_content(
+        "3.  Question 3"
+      )
+
+      click_link("Other")
+
+      expect(current_url).to have_target_id("other")
+
+      expect(
+        find_all(".proposal-details-sub-list")[2]
+      ).to have_content(
+        "4.  Question 4"
+      )
+    end
+
+    it "lets user filter out auto answered proposal_details" do
+      click_button("Proposal details")
+      check("View ONLY applicant answers, hide 'Auto-answered by RIPA")
+
+      expect(page).to have_text(:visible, "Main")
+      expect(page).not_to have_text(:visible, "Group 1")
+      expect(page).to have_text(:visible, "Other")
+
+      within(find_all(".proposal-details-sub-list", visible: true)[0]) do
+        expect(page).not_to have_text(:visible, "1. \nQuestion 1")
+        expect(page).to have_text(:visible, "2. \nQuestion 2")
+      end
+
+      expect(page).not_to have_text(:visible, "3. \nQuestion 3")
+
+      expect(
+        find_all(".proposal-details-sub-list", visible: true)[1]
+      ).to have_text(
+        :visible, "4. \nQuestion 4"
+      )
+    end
+
+    it "lets user navigate back to top of proposal details section" do
+      click_button("Proposal details")
+      click_link("Group 1")
+
+      expect(current_url).to have_target_id("group1")
+
+      first(:link, "Back to top").click
+
+      expect(current_url).to have_target_id("accordion-default-heading-3")
     end
   end
 end

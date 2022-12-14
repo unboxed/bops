@@ -344,6 +344,7 @@ RSpec.describe "Planning Application Assessment" do
         click_link(planning_application.reference)
       end
 
+      click_link("Check and validate")
       click_button "Documents"
       click_link "Manage documents"
 

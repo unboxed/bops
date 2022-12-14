@@ -556,7 +556,9 @@ RSpec.describe PlanningApplication do
 
   describe "flagged_proposal_details" do
     it "returns the relevant questions for the application's result" do
-      expect(planning_application.flagged_proposal_details(planning_application.result_flag).length).to eq 1
+      expect(
+        planning_application.flagged_proposal_details.length
+      ).to eq 1
     end
 
     context "when there's a proposal detail with multiple responses" do
@@ -565,7 +567,9 @@ RSpec.describe PlanningApplication do
       end
 
       it "does not crash" do
-        expect { planning_application.flagged_proposal_details(planning_application.result_flag) }.not_to raise_error
+        expect do
+          planning_application.flagged_proposal_details
+        end.not_to raise_error
       end
     end
   end

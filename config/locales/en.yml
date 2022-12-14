@@ -1,5 +1,84 @@
 ---
 en:
+  accordion_component:
+    application_information: Application information
+    audit_log: Audit log
+    constraints: Constraints
+    consultation: Consultation
+    contact_information: Contact information
+    documents: Documents
+    key_application_dates: Key application dates
+    notes: Notes
+    pre_assessment_outcome: Pre-assessment outcome
+    proposal_details: Proposal details
+    site_map: Site map
+  accordion_sections:
+    application_information_component:
+      a_postcode_is: A postcode is required for ward information
+      case_officer: 'Case officer:'
+      description: 'Description:'
+      edit_details: Edit details
+      exempt: Exempt
+      full_address: 'Site address:'
+      location: 'Location:'
+      'no': 'No'
+      not_assigned: Not assigned
+      parish: 'Parish:'
+      payment_amount: 'Payment amount:'
+      payment_reference: 'Payment reference:'
+      propose_a_change: Propose a change to the description
+      type_and_work_status: 'Application type:'
+      uprn: 'UPRN:'
+      view_on_mapit: View on mapit
+      view_requested_change: View requested change
+      view_site_on: View site on Google Maps
+      ward: 'Ward:'
+      ward_type: 'Ward type:'
+      work_already_started: 'Work already started:'
+      'yes': 'Yes'
+    audit_log_component:
+      date_at_time: "%{date} at %{time}"
+      view_all_audits: View all audits
+    constraints_component:
+      the_applicant_or: The applicant or agent believes the constraints are inaccurate.
+      this_application_has: This application has been updated. Please check the constraints are correct.
+    consultation_component:
+      consultation_is_not: Consultation is not applicable for proposed permitted development.
+    contact_information_component:
+      agent: 'Agent:'
+      applicant: 'Applicant:'
+      applicant_role_type: 'Applicant role type:'
+    documents_component:
+      manage_documents: Manage documents
+    feedback_component:
+      reason_given: <strong>Reason given:</strong> "%{feedback}"
+    key_application_dates_component:
+      application_received: 'Application received:'
+      expiry_date: 'Expiry date:'
+      not_yet_valid: Not yet valid
+      target_date: 'Target date:'
+      valid_from: 'Valid from:'
+    notes_component:
+      add_a_note: Add a note
+      add_and_view: Add and view all notes
+    pre_assessment_outcome_component:
+      details_identified_as: Details identified as relevant to the result
+      no_result: No result
+      the_applicant_believes: 'The applicant believes this result is <strong>incorrect</strong> because:'
+      the_applicant_or: The applicant or agent believes this result is inaccurate.
+      the_application_was: The application was not assessed on submission
+      this_application_has: This application has been updated. The result may no longer be accurate.
+    proposal_details_component:
+      the_applicant_or: The applicant or agent believes the information about the property is inaccurate.
+      this_application_has: This application has been updated. The proposal details may no longer be accurate. Please check all relevant details have been provided.
+    site_map_component:
+      applicant: applicant
+      no_digital_sitemap: No digital site map provided
+      request_approval_for: Request approval for a change to red line boundary
+      site_map_drawn_by: Site map drawn by %{name}
+      this_application_has: This application has been updated. Please check the site map is correct.
+      view_applicants_response: View applicants response to requested red line boundary change
+      view_requested_red: View requested red line boundary change
   activemodel:
     errors:
       models:
@@ -248,7 +327,10 @@ en:
       back: Back
       edit_check_description: Edit check description, documents and proposal
     introduction:
+      application_details: Application details
       check_description_documents: Check description, documents, proposal details
+      checking_plans_and: Checking plans and description
+      review_the_items: Review the items above to check they are consistent
     proposal_details_match_documents:
       are_the_proposal: Are the proposal details consistent with the plans?
       how_are_the: How are the proposal details inconsistent?
@@ -273,6 +355,8 @@ en:
   constraints:
     check:
       success: Constraints was successfully checked.
+    info:
+      update_constraints: Update constraints
   council_code:
     buckinghamshire: BUC
     lambeth: LBH
@@ -445,6 +529,8 @@ en:
         history: History search (in testing)
         in_assessment: In assessment
         permitted_development_rights: Permitted development rights
+      index:
+        application_details: Application details
     review_documents:
       update:
         success: Documents were successfully updated.
@@ -476,7 +562,11 @@ en:
         successfully_updated_policy_class: Successfully updated policy class
     review_tasks:
       index:
+        application_details: Application details
         review_and_sign_off: Review and sign-off
+    validation_tasks:
+      index:
+        application_details: Application details
   planning_applications:
     assessment_report_component:
       additional_evidence: Additional evidence
@@ -680,6 +770,8 @@ en:
       assess_recommendation: Assess recommendation
       awaiting_approval_to: Awaiting approval to a description change (sent on %{date})
       back: Back
+      close_or_cancel: Close or cancel application
+      details: Details
       error: 'Error:'
       is_the_use: Is the use or operation lawful?
       'no': 'No'
