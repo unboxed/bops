@@ -42,6 +42,12 @@ class AssessmentDetail < ApplicationRecord
   validates :assessment_status, presence: true
   validates :entry, presence: true, if: :validate_entry_presence?
 
+  validates(
+    :additional_information,
+    presence: true,
+    if: :validate_additional_information_presence?
+  )
+
   scope :by_created_at_desc, -> { order(created_at: :desc) }
 
   delegate :consultees, to: :planning_application
@@ -64,12 +70,16 @@ class AssessmentDetail < ApplicationRecord
 
   private
 
+  def validate_additional_information_presence?
+    past_applications? && assessment_complete?
+  end
+
   def validate_entry_presence?
     return false if accepted? || rejected?
 
     summary_of_work? ||
       site_description? ||
-      (assessment_complete? && (past_applications? || consultation_summary?))
+      (assessment_complete? && consultation_summary?)
   end
 
   def set_user
