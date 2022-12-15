@@ -59,6 +59,11 @@ html * {
   padding: govuk-spacing(2);
 }
 
+.environment-banner {
+  background-color: govuk-colour("yellow");
+  padding: govuk-spacing(1);
+}
+
 .alert__icon {
   fill: govuk-colour("red");
   float: left;
