@@ -3,7 +3,6 @@
 class DescriptionChangeValidationRequestsController < ValidationRequestsController
   before_action :ensure_planning_application_is_not_closed_or_cancelled, only: %i[new create]
   before_action :set_description_change_request, only: %i[show cancel]
-  before_action :set_return_to, only: %i[new show]
 
   def show; end
 
@@ -17,10 +16,7 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
     @current_local_authority = current_local_authority
 
     if @description_change_request.save
-      redirect_to(
-        (session.delete(:return_to) || @planning_application),
-        notice: t(".success")
-      )
+      redirect_to(after_save_path, notice: t(".success"))
     else
       render :new
     end
@@ -33,13 +29,15 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
       @description_change_request.audit_cancel!
     end
 
-    redirect_to(
-      (session.delete(:return_to) || @planning_application),
-      notice: t(".success")
-    )
+    redirect_to(after_save_path, notice: t(".success"))
   end
 
   private
+
+  def after_save_path
+    params.dig(:description_change_validation_request, :return_to) ||
+      @planning_application
+  end
 
   def set_description_change_request
     @description_change_request = @planning_application.description_change_validation_requests.find(params[:id] ||= params[:description_change_validation_request_id])

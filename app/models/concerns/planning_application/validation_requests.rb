@@ -79,8 +79,8 @@ class PlanningApplication
     end
 
     ValidationRequest::VALIDATION_REQUEST_TYPES.map(&:underscore).each do |type|
-      define_method(type) do |post_validation = false|
-        send(type.pluralize).order(:created_at).where(post_validation: post_validation).last
+      define_method(type) do
+        send(type.pluralize).order(:created_at).last
       end
     end
 

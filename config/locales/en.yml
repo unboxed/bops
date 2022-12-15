@@ -125,7 +125,7 @@ en:
               not_determined: Determine whether the proposal details are consistent with the plans
             site_map_correct:
               not_determined: Determine whether the red line on the site map is correct
-              open_red_line_boundary_requests: Red line boundary change requests must be closed or cancelled
+              open_red_line_boundary_change_requests: Red line boundary change requests must be closed or cancelled
         document:
           attributes:
             file:
@@ -376,6 +376,9 @@ en:
       description_change: Description change
       new_description: 'New description:'
       proposed_description: 'Propsed description:'
+    show:
+      back: Back
+      cancel_this_request: Cancel this request
   documents:
     document_row_image:
       archive: Archive

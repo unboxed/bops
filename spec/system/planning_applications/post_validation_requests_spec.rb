@@ -33,6 +33,7 @@ RSpec.describe "post validation requests" do
         "Additional document request successfully created."
       )
 
+      click_link("Application")
       click_link("Review non-validation requests")
 
       expect(page).to have_content(planning_application.full_address.upcase)

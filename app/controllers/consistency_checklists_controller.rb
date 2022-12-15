@@ -21,7 +21,7 @@ class ConsistencyChecklistsController < AuthenticationController
 
     if @consistency_checklist.save
       redirect_to(
-        after_save_path,
+        planning_application_assessment_tasks_path(@planning_application),
         notice: t(".successfully_updated_application")
       )
     else
@@ -32,7 +32,7 @@ class ConsistencyChecklistsController < AuthenticationController
   def update
     if @consistency_checklist.update(consistency_checklist_params)
       redirect_to(
-        after_save_path,
+        planning_application_assessment_tasks_path(@planning_application),
         notice: t(".successfully_updated_application")
       )
     else
@@ -61,24 +61,6 @@ class ConsistencyChecklistsController < AuthenticationController
       proposal_details_match_documents_comment
       site_map_correct
     ]
-  end
-
-  def after_save_path
-    if after_save_path_request_type.present?
-      send(
-        "new_planning_application_#{after_save_path_request_type}_validation_request_path",
-        @planning_application,
-        consistency_checklist: true
-      )
-    else
-      planning_application_assessment_tasks_path(@planning_application)
-    end
-  end
-
-  def after_save_path_request_type
-    %i[additional_document description_change red_line_boundary_change].find do |request_type|
-      t("consistency_checklists.request_#{request_type}") == params[:commit]
-    end
   end
 
   def status

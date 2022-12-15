@@ -32,9 +32,26 @@
         <%= @description_change_request.approved? ? 'Approved' : 'Rejected' %>
       <% end %>
     </p>
-    <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button" %>
+
     <% if @description_change_request.open? %>
-      <%= link_to "Cancel this request", planning_application_description_change_validation_request_cancel_path(@planning_application, @description_change_request), class: "govuk-button govuk-button--secondary", method: :patch  %>
+      <%= form_with(
+        model: [@planning_application, @description_change_request],
+        url: planning_application_description_change_validation_request_cancel_path(
+          @planning_application,
+          @description_change_request
+        ),
+        method: :patch,
+        builder: GOVUKDesignSystemFormBuilder::FormBuilder
+      ) do |form| %>
+        <%= form.hidden_field(:return_to, value: @back_path) %>
+        <div class="govuk-button-group">
+          <%= link_to(t(".back"), @back_path, class: "govuk-button") %>
+          <%= form.submit(
+            t(".cancel_this_request"),
+            class: "govuk-button govuk-button--secondary"
+          ) %>
+        </div>
+      <% end %>
     <% end %>
   </div>
 </div>

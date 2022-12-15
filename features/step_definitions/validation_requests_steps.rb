@@ -16,6 +16,7 @@ When("I create a new document validation request for a(n) {string} because {stri
     And I fill in "Please specify the new document type:" with "#{type}"
     And I fill in "the reason" with "#{reason}"
     And I save or send the request
+    And I press "Validation tasks"
     And I click link "Review validation requests"
   )
 end
@@ -65,6 +66,7 @@ Given("I create a(n) additional document validation request with {string}") do |
     And I fill in "Please specify the new document type:" with "#{details}"
     And I fill in "the reason" with "a valid reason"
     And I save or send the request
+    And I press "Validation tasks"
     And I click link "Review validation requests"
   )
 end

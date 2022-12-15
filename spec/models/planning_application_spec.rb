@@ -1475,9 +1475,7 @@ RSpec.describe PlanningApplication do
   end
 
   describe "#red_line_boundary_change_validation_request" do
-    let(:planning_application) do
-      create(:planning_application, status: status)
-    end
+    let(:planning_application) { create(:planning_application) }
 
     let!(:request) do
       create(
@@ -1495,47 +1493,17 @@ RSpec.describe PlanningApplication do
       )
     end
 
-    context "when pre validation request is present" do
-      let(:status) { :not_started }
-
-      it "returns pre validation request" do
-        expect(
-          planning_application.red_line_boundary_change_validation_request
-        ).to eq(
-          request
-        )
-      end
-
-      it "does not return post validation request" do
-        expect(
-          planning_application.red_line_boundary_change_validation_request(post_validation: true)
-        ).to be_nil
-      end
-    end
-
-    context "when post validation request is present" do
-      let(:status) { :in_assessment }
-
-      it "does not return pre validation request" do
-        expect(
-          planning_application.red_line_boundary_change_validation_request
-        ).to be_nil
-      end
-
-      it "returns post validation request" do
-        expect(
-          planning_application.red_line_boundary_change_validation_request(post_validation: true)
-        ).to eq(
-          request
-        )
-      end
+    it "returns latest request" do
+      expect(
+        planning_application.red_line_boundary_change_validation_request
+      ).to eq(
+        request
+      )
     end
   end
 
   describe "#additional_document_validation_request" do
-    let(:planning_application) do
-      create(:planning_application, status: status)
-    end
+    let(:planning_application) { create(:planning_application) }
 
     let!(:request) do
       create(
@@ -1553,47 +1521,17 @@ RSpec.describe PlanningApplication do
       )
     end
 
-    context "when pre validation request is present" do
-      let(:status) { :not_started }
-
-      it "returns pre validation request" do
-        expect(
-          planning_application.additional_document_validation_request
-        ).to eq(
-          request
-        )
-      end
-
-      it "does not return post validation request" do
-        expect(
-          planning_application.additional_document_validation_request(post_validation: true)
-        ).to be_nil
-      end
-    end
-
-    context "when post validation request is present" do
-      let(:status) { :in_assessment }
-
-      it "does not return pre validation request" do
-        expect(
-          planning_application.additional_document_validation_request
-        ).to be_nil
-      end
-
-      it "returns post validation request" do
-        expect(
-          planning_application.additional_document_validation_request(post_validation: true)
-        ).to eq(
-          request
-        )
-      end
+    it "returns latest request" do
+      expect(
+        planning_application.additional_document_validation_request
+      ).to eq(
+        request
+      )
     end
   end
 
   describe "#description_change_validation_request" do
-    let(:planning_application) do
-      create(:planning_application, status: status)
-    end
+    let(:planning_application) { create(:planning_application) }
 
     let!(:request) do
       create(
@@ -1613,47 +1551,17 @@ RSpec.describe PlanningApplication do
       )
     end
 
-    context "when pre validation request is present" do
-      let(:status) { :not_started }
-
-      it "returns pre validation request" do
-        expect(
-          planning_application.description_change_validation_request
-        ).to eq(
-          request
-        )
-      end
-
-      it "does not return post validation request" do
-        expect(
-          planning_application.description_change_validation_request(post_validation: true)
-        ).to be_nil
-      end
-    end
-
-    context "when post validation request is present" do
-      let(:status) { :in_assessment }
-
-      it "does not return pre validation request" do
-        expect(
-          planning_application.description_change_validation_request
-        ).to be_nil
-      end
-
-      it "returns post validation request" do
-        expect(
-          planning_application.description_change_validation_request(post_validation: true)
-        ).to eq(
-          request
-        )
-      end
+    it "returns latest request" do
+      expect(
+        planning_application.description_change_validation_request
+      ).to eq(
+        request
+      )
     end
   end
 
   describe "#replacement_document_validation_request" do
-    let(:planning_application) do
-      create(:planning_application, :not_started)
-    end
+    let(:planning_application) { create(:planning_application, :not_started) }
 
     let!(:request) do
       create(
@@ -1671,25 +1579,17 @@ RSpec.describe PlanningApplication do
       )
     end
 
-    it "returns pre validation request" do
+    it "returns latest request" do
       expect(
         planning_application.replacement_document_validation_request
       ).to eq(
         request
       )
     end
-
-    it "does not return post validation request" do
-      expect(
-        planning_application.replacement_document_validation_request(post_validation: true)
-      ).to be_nil
-    end
   end
 
   describe "#other_change_validation_request" do
-    let(:planning_application) do
-      create(:planning_application, :not_started)
-    end
+    let(:planning_application) { create(:planning_application, :not_started) }
 
     let!(:request) do
       create(
@@ -1707,18 +1607,12 @@ RSpec.describe PlanningApplication do
       )
     end
 
-    it "returns pre validation request" do
+    it "returns latest request" do
       expect(
         planning_application.other_change_validation_request
       ).to eq(
         request
       )
-    end
-
-    it "does not return post validation request" do
-      expect(
-        planning_application.other_change_validation_request(post_validation: true)
-      ).to be_nil
     end
   end
 

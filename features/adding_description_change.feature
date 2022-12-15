@@ -17,7 +17,6 @@ Feature: Creating a description change on the application
 
   Scenario: I can add and view a new description change request after cancelling the previous one
     Given I create a description change request with "Its margarita time ole!"
-    When I press "Check and validate"
     And I press "Application information"
     And I press "View requested change"
     Then the page contains "Previous description"

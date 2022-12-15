@@ -6,4 +6,4 @@
 
 <% content_for :title, "Request a new document" %>
 
-<%= render "form" %>
+<%= render(partial: "form", locals: { return_to: @back_path }) %>
