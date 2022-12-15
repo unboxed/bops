@@ -165,3 +165,38 @@ After adding a new Stimulus controller run `./bin/rails stimulus:manifest:update
 ## Front end components
 
 As much as possible, we follow the GOV.UK Design System. You will find most of the HTML components you need [here](https://design-system.service.gov.uk/get-started). For help with forms we use the [GOV.UK Ruby on Rails Form Builder gem](https://govuk-form-builder.netlify.app). See [here](https://github.com/unboxed/bops/blob/main/app/views/users/_form.html.erb) for a simple example of implementation.
+
+## Environmental variables
+
+Environmental variables are defined in the [bops-terraform project using Ansible](https://github.com/unboxed/bops-terraform/blob/main/ansible/templates/app/etc/default/application.j2).
+Here the lookup call matches [AWS parameter store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html) 
+keys whose values will become set as environmental variables.
+
+In this case ansible_env can typically be preview or production. So, the first row ends up looking up the key "/bops/preview/PAAPI_URL".
+
+```python
+PAAPI_URL={{ lookup('aws_ssm', '/bops/' + ansible_env + '/PAAPI_URL', region=aws_region) }}   # 1
+PLANNING_HISTORY_ENABLED={{ lookup('aws_ssm', '/bops/' + ansible_env + '/PLANNING_HISTORY_ENABLED', region=aws_region) }} # 2
+```
+
+## AWS Parameter store is a key value pair store
+
+The lookup will return the value associated with the key; in the case of example 1 that is: "https://example.services/api/v1".
+
+| Key                                     |   String Value                        |
+| ------------------------------------------------------------------------------- |
+| /bops/preview/PAAPI_URL                 |   https://example.services/api/v1     |
+| /bops/preview/PLANNING_HISTORY_ENABLED  |   true                                |
+
+So on the system we will have the following ENV variable:
+
+`PAAPI_URL=https://example.services/api/v1`
+
+### Changing Environmental variables
+
+If we wish to make a change to the ENV variables on the server. 
+First we change the Ansible script and adding a Key/value pair to the AWS Parameter store.
+Then refresh the server instance by running from the BoPS terraform application.
+The servers should now have the new Environment variable.
+
+```bin/start-instance-refresh preview```
