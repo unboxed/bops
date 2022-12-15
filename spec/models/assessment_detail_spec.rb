@@ -22,7 +22,6 @@ RSpec.describe AssessmentDetail do
         create(
           :assessment_detail,
           :consultation_summary,
-          :with_consultees,
           entry: "",
           assessment_status: assessment_status
         )
@@ -93,13 +92,7 @@ RSpec.describe AssessmentDetail do
       end
 
       describe "scopes" do
-        let(:planning_application) do
-          if category_type == "consultation_summary"
-            create(:planning_application, :with_consultees)
-          else
-            create(:planning_application)
-          end
-        end
+        let(:planning_application) { create(:planning_application) }
 
         describe ".by_created_at_desc" do
           let!("#{category_type}1") do
@@ -191,61 +184,6 @@ RSpec.describe AssessmentDetail do
             "can't be blank"
           )
         end
-      end
-    end
-
-    context "when assessment_status is 'complete'" do
-      let(:assessment_status) { :complete }
-
-      context "when category is 'consultation_summary'" do
-        let(:category) { :consultation_summary }
-
-        context "when there are no consultees" do
-          let(:planning_application) { create(:planning_application) }
-
-          it "returns false" do
-            expect(assessment_detail.valid?).to be(false)
-          end
-
-          it "sets error message" do
-            assessment_detail.valid?
-
-            expect(
-              assessment_detail.errors.messages[:base]
-            ).to contain_exactly(
-              "Consultees must be added"
-            )
-          end
-        end
-
-        context "when there are consultees" do
-          let(:planning_application) do
-            create(:planning_application, :with_consultees)
-          end
-
-          it "returns true" do
-            expect(assessment_detail.valid?).to be(true)
-          end
-        end
-      end
-
-      context "when category is not 'consultation_summary' and there are no consultees" do
-        let(:category) { :summary_of_work }
-        let(:planning_application) { create(:planning_application) }
-
-        it "returns true" do
-          expect(assessment_detail.valid?).to be(true)
-        end
-      end
-    end
-
-    context "when assessment_status is 'progress', category is 'consultation_summary' and there are no consultees" do
-      let(:assessment_status) { :in_progress }
-      let(:category) { :summary_of_work }
-      let(:planning_application) { create(:planning_application) }
-
-      it "returns true" do
-        expect(assessment_detail.valid?).to be(true)
       end
     end
 
