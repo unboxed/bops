@@ -238,10 +238,6 @@ html * {
   display: none;
 }
 
-.policy-comment-title {
-  margin-bottom: 0
-}
-
 .button-as-link {
   border: none;
   background: none;
@@ -283,14 +279,6 @@ html * {
 .next-policy-class-link {
   @media (min-width: 768px) {
     margin-left: auto;
-  }
-}
-
-.govuk-form-group.comment-form {
-  margin-bottom: 10px;
-
-  .govuk-textarea {
-    margin-bottom: 10px;
   }
 }
 

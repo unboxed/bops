@@ -10,11 +10,19 @@ class Comment < ApplicationRecord
 
   delegate :name, to: :user, prefix: true, allow_nil: true
 
-  def edited?
-    created_at != updated_at
+  def first?
+    previous.blank? || previous.deleted?
+  end
+
+  def deleted?
+    deleted_at.present?
   end
 
   private
+
+  def previous
+    @previous ||= commentable.comments.where(created_at: ...created_at).last
+  end
 
   def set_user
     self.user = Current.user

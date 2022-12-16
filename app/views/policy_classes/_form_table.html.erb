@@ -14,12 +14,12 @@
             <%= simple_format(policy_form.object.description) %>
           </p>
           <%= render(
-            partial: "policy_classes/comment_form",
+            partial: "policy_classes/comment",
             locals: {
               planning_application: planning_application,
               policy_class: policy_class,
               policy: policy_form.object,
-              comment: policy_form.object.existing_or_new_comment,
+              comment: policy_form.object.comment,
               policy_index: policy_form.options[:child_index]
             }
           ) %>

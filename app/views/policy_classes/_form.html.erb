@@ -5,7 +5,7 @@
           html: { data: unsaved_changes_data },
           builder: GOVUKDesignSystemFormBuilder::FormBuilder
         ) do |form| %>
-      <%= form.govuk_error_summary %>
+      <%= form.govuk_error_summary(presenter: PolicyClassErrorPresenter) %>
       <%= render(
         partial: "form_table",
         locals: {

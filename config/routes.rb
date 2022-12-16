@@ -29,7 +29,7 @@ Rails.application.routes.draw do
       get :part, on: :new
 
       resources :policies, only: [] do
-        resource :comment, only: %i[update destroy]
+        resources :comments, only: %i[create update]
       end
     end
 

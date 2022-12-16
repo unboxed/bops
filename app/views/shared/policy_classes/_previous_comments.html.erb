@@ -1,0 +1,24 @@
+<% if previous_comments.any? %>
+  <details class="govuk-details govuk-!-margin-top-5 govuk-!-margin-bottom-3" data-module="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        <%= t(".previous_comments") %>
+      </span>
+    </summary>
+    <div class="govuk-details__text">
+      <% previous_comments.reverse.each do |comment| %>
+        <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-1">
+          <%= existing_policy_comment_label(comment) %>
+        </p>
+        <p class="govuk-body"><%= comment.created_at %></p>
+        <p class="govuk-body"><%= simple_format(comment.text) %></p>
+        <% if comment.deleted? %>
+          <p class="govuk-body govuk-!-font-weight-bold">
+            <%= t(".comment_deleted", time: comment.deleted_at) %>
+          </p>
+        <% end %>
+        <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--s">
+      <% end %>
+    </div>
+  </details>
+<% end %>

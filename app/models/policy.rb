@@ -2,14 +2,20 @@
 
 class Policy < ApplicationRecord
   belongs_to :policy_class
-  has_one :comment, as: :commentable, dependent: :destroy
+
+  has_many(
+    :comments,
+    -> { order(:created_at) },
+    as: :commentable,
+    inverse_of: :commentable,
+    dependent: :destroy
+  )
 
   default_scope { order(:section) }
 
   accepts_nested_attributes_for(
-    :comment,
-    update_only: true,
-    reject_if: proc { |attributes| attributes[:text].blank? }
+    :comments,
+    reject_if: :reject_comment?
   )
 
   validates :description, :status, presence: true
@@ -21,13 +27,34 @@ class Policy < ApplicationRecord
 
   statuses.each_key { |status| scope status, -> { where(status: status) } }
 
-  scope :with_a_comment, -> { joins(:comment) }
+  def self.with_a_comment
+    all.select(&:comment)
+  end
 
   def self.commented_or_does_not_comply
     (does_not_comply | with_a_comment).sort_by(&:section)
   end
 
-  def existing_or_new_comment
-    comment || build_comment
+  def comment
+    last_comment unless last_comment&.deleted?
+  end
+
+  def previous_comments
+    persisted_comments - [comment]
+  end
+
+  private
+
+  def last_comment
+    @last_comment ||= persisted_comments.last
+  end
+
+  def reject_comment?(attributes)
+    attributes[:text] == comment&.text ||
+      (comment.blank? && attributes[:text].blank?)
+  end
+
+  def persisted_comments
+    comments.select(&:persisted?)
   end
 end
