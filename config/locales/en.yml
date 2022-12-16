@@ -361,6 +361,8 @@ en:
       success: Constraints was successfully checked.
     info:
       update_constraints: Update constraints
+    update:
+      success: Constraints have been updated
   council_code:
     buckinghamshire: BUC
     lambeth: LBH

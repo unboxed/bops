@@ -9,6 +9,12 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render 'form', planning_application: @planning_application %>
+    <%= render(
+      partial: "form",
+      locals: {
+        planning_application: @planning_application,
+        return_to: @back_path
+      }
+    ) %>
   </div>
 </div>

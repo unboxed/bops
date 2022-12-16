@@ -10,7 +10,7 @@ class ConstraintsController < AuthenticationController
 
   def update
     if @planning_application.update(constraints: constraints_params[:constraints].compact_blank)
-      redirect_to @planning_application, notice: "Constraints have been updated"
+      redirect_to(after_update_path, notice: t(".success"))
     else
       render :edit
     end
@@ -35,6 +35,10 @@ class ConstraintsController < AuthenticationController
   end
 
   private
+
+  def after_update_path
+    params.dig(:planning_application, :return_to) || @planning_application
+  end
 
   def constraints_params
     params.require(:planning_application).permit(constraints: [])
