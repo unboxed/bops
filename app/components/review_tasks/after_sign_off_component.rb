@@ -14,11 +14,11 @@ module ReviewTasks
     end
 
     def challenged?
-      @recommendation&.challenged || false
+      @recommendation.challenged
     end
 
     def assessor_name
-      @recommendation&.assessor&.name || ""
+      @recommendation.assessor.name
     end
   end
 end
