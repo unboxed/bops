@@ -13,8 +13,10 @@
         )
       ) %>
     </li>
-    <li id="validate_red_line_boundary"  class="app-task-list__item">
-      <%= @planning_application.red_line_boundary_task_list %>
-    </li>
+    <%= render(
+      TaskListItems::CheckRedLineBoundaryComponent.new(
+        planning_application: @planning_application
+      )
+    ) %>
   </ul>
 </li>

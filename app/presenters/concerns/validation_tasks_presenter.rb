@@ -18,10 +18,6 @@ module ValidationTasksPresenter
       ValidationTasks::ItemsCounterPresenter.new(@template, @planning_application).items_count
     end
 
-    def red_line_boundary_task_list
-      ValidationTasks::RedLineBoundaryPresenter.new(@template, @planning_application).task_list_row
-    end
-
     def other_change_task_list(other_change_validation_request)
       ValidationTasks::OtherChangePresenter.new(@template, @planning_application,
                                                 other_change_validation_request).task_list_row

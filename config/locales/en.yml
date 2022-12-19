@@ -861,6 +861,8 @@ en:
       summary_of_work: Summary of works
     assessment_details_review_component:
       review_assessment_summaries: Review assessment summaries
+    check_red_line_boundary_component:
+      check_red_line: Check red line boundary
     document_component:
       check_document: Check document - %{document}
     fee_component:
