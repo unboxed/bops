@@ -18,10 +18,6 @@ module ValidationTasksPresenter
       ValidationTasks::ItemsCounterPresenter.new(@template, @planning_application).items_count
     end
 
-    def fee_task_list
-      ValidationTasks::FeeItemsPresenter.new(@template, @planning_application).task_list_row
-    end
-
     def red_line_boundary_task_list
       ValidationTasks::RedLineBoundaryPresenter.new(@template, @planning_application).task_list_row
     end

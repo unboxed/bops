@@ -43,10 +43,6 @@ module TaskListItems
       end
     end
 
-    def status_tag_component
-      StatusTags::BaseComponent.new(status: status)
-    end
-
     def status
       @status ||= if document.validated?
                     :valid

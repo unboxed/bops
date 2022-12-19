@@ -117,7 +117,7 @@ RSpec.describe "FeeItemsValidation" do
     it "I can validate the fee item" do
       visit planning_application_validation_tasks_path(planning_application)
       within("#fee-validation-task") do
-        expect(page).to have_content("Not checked yet")
+        expect(page).to have_content("Not started")
       end
 
       click_link "Check fee"
@@ -303,7 +303,7 @@ RSpec.describe "FeeItemsValidation" do
           expect(page).to have_content("Invalid items 0")
         end
         within("#fee-validation-task") do
-          expect(page).to have_content("Not checked yet")
+          expect(page).to have_content("Not started")
         end
 
         expect(planning_application.reload.valid_fee).to be_nil
@@ -406,7 +406,7 @@ RSpec.describe "FeeItemsValidation" do
         expect(page).to have_content("Invalid items 0")
       end
       within("#fee-validation-task") do
-        expect(page).to have_content("Not checked yet")
+        expect(page).to have_content("Not started")
       end
     end
 

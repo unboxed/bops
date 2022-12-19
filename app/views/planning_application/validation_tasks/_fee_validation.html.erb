@@ -10,9 +10,11 @@
         </span>
       </li>
     <% else %>
-      <li class="app-task-list__item">
-        <%= @planning_application.fee_task_list %>
-      </li>
+      <%= render(
+        TaskListItems::FeeComponent.new(
+          planning_application: @planning_application
+        )
+      ) %>
     <% end %>
   </ul>
 </li>

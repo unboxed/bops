@@ -863,6 +863,8 @@ en:
       review_assessment_summaries: Review assessment summaries
     document_component:
       check_document: Check document - %{document}
+    fee_component:
+      check_fee: Check fee
     permitted_development_right_component:
       permitted_development_rights: Permitted development rights
     permitted_development_right_review_component:
