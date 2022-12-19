@@ -861,6 +861,8 @@ en:
       permitted_development_rights: Permitted development rights
     permitted_development_right_review_component:
       permitted_development_rights: Permitted development rights
+    review_documents_component:
+      review_documents_for: Review documents for recommendation
   user:
     manager_role: Manager
     officer_role: Case Officer
