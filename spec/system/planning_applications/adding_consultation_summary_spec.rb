@@ -27,8 +27,6 @@ RSpec.describe "adding consultation summary" do
     click_link("Summary of consultation")
     click_button("Save and mark as complete")
 
-    expect(page).to have_content("Consultees must be added")
-
     expect(page).to have_content(
       "Summary of consultation responses can't be blank"
     )
