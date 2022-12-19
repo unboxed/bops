@@ -57,21 +57,6 @@ module StatusPresenter
         send("#{status}_at")
       end
     end
-
-    def validation_status_tag
-      tag.span(class: ["govuk-tag", "govuk-tag--#{validation_status_tag_colour}"]) do
-        I18n.t(
-          validation_status,
-          scope: "planning_applications.validation_status"
-        )
-      end
-    end
-  end
-
-  private
-
-  def validation_status_tag_colour
-    validation_status == :not_started ? "grey" : "blue"
   end
 
   def validation_status
@@ -83,6 +68,8 @@ module StatusPresenter
       :not_started
     end
   end
+
+  private
 
   def any_validation_tasks_complete?
     valid_fee? ||

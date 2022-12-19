@@ -25,7 +25,7 @@ RSpec.describe StatusTags::CheckAndAssessComponent, type: :component do
     end
 
     it "renders 'Complete' status" do
-      expect(page).to have_content("Complete")
+      expect(page).to have_content("Completed")
     end
   end
 

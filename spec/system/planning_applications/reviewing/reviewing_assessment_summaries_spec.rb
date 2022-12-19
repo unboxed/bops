@@ -102,7 +102,7 @@ RSpec.describe "Reviewing assessment summaries" do
       click_link("Review assessment summaries")
 
       within(find("fieldset", text: "Summary of works")) do
-        expect(find(".govuk-tag")).to have_content("Complete")
+        expect(find(".govuk-tag")).to have_content("Completed")
 
         choose("Accept")
       end
@@ -242,7 +242,7 @@ RSpec.describe "Reviewing assessment summaries" do
       expect(page).to have_content("Consultation summary successfully updated.")
 
       expect(page).to have_list_item_for(
-        "Summary of consultation", with: "Complete"
+        "Summary of consultation", with: "Completed"
       )
 
       click_link("Application")
@@ -292,7 +292,7 @@ RSpec.describe "Reviewing assessment summaries" do
       click_link("Review assessment summaries")
 
       within(find("fieldset", text: "Consultation")) do
-        expect(find(".govuk-tag")).to have_content("Complete")
+        expect(find(".govuk-tag")).to have_content("Completed")
       end
 
       click_link("Review")

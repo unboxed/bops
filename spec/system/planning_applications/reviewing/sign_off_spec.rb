@@ -67,7 +67,7 @@ RSpec.describe "Reviewing sign-off" do
     expect(page).to have_link("Sign-off recommendation",
                               href: edit_planning_application_recommendations_path(planning_application))
 
-    expect(list_item("Sign-off recommendation")).to have_content("Complete")
+    expect(list_item("Sign-off recommendation")).to have_content("Completed")
 
     click_on "Publish decision"
 
@@ -114,7 +114,7 @@ RSpec.describe "Reviewing sign-off" do
     click_button "Save and mark as complete"
 
     expect(page).to have_content("Recommendation was successfully reviewed.")
-    expect(list_item("Sign-off recommendation")).to have_content("Complete")
+    expect(list_item("Sign-off recommendation")).to have_content("Completed")
     expect(page).to have_text("Sign-off recommendation")
     expect(page).not_to have_link("Sign-off recommendation",
                                   href: edit_planning_application_recommendations_path(planning_application))
@@ -185,7 +185,7 @@ RSpec.describe "Reviewing sign-off" do
     click_button "Save and mark as complete"
 
     expect(page).to have_content("Recommendation was successfully reviewed.")
-    expect(list_item("Sign-off recommendation")).to have_content("Complete")
+    expect(list_item("Sign-off recommendation")).to have_content("Completed")
 
     click_link "Back"
 
@@ -223,7 +223,7 @@ RSpec.describe "Reviewing sign-off" do
     click_button "Save and mark as complete"
 
     expect(page).to have_content("Recommendation was successfully reviewed.")
-    expect(list_item("Sign-off recommendation")).to have_content("Complete")
+    expect(list_item("Sign-off recommendation")).to have_content("Completed")
 
     recommendation.reload
     expect(recommendation.reviewer_comment).to eq("Edited reviewer private comment")

@@ -27,18 +27,14 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
     end
   end
 
-  describe "#validation_status_tag" do
+  describe "#validation_status" do
     context "when validation is complete" do
       let(:planning_application) do
         build(:planning_application, :in_assessment)
       end
 
-      it "returns 'complete' tag" do
-        expect(
-          presenter.validation_status_tag
-        ).to eq(
-          "<span class=\"govuk-tag govuk-tag--blue\">Complete</span>"
-        )
+      it "returns 'complete'" do
+        expect(presenter.validation_status).to eq(:complete)
       end
     end
 
@@ -55,12 +51,8 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
         )
       end
 
-      it "returns 'in progress' tag" do
-        expect(
-          presenter.validation_status_tag
-        ).to eq(
-          "<span class=\"govuk-tag govuk-tag--blue\">In progress</span>"
-        )
+      it "returns 'in_progress'" do
+        expect(presenter.validation_status).to eq(:in_progress)
       end
     end
 
@@ -69,12 +61,8 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
         create(:planning_application, :not_started, valid_fee: true)
       end
 
-      it "returns 'in progress' tag" do
-        expect(
-          presenter.validation_status_tag
-        ).to eq(
-          "<span class=\"govuk-tag govuk-tag--blue\">In progress</span>"
-        )
+      it "returns 'in_progress'" do
+        expect(presenter.validation_status).to eq(:in_progress)
       end
     end
 
@@ -87,12 +75,8 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
         )
       end
 
-      it "returns 'in progress' tag" do
-        expect(
-          presenter.validation_status_tag
-        ).to eq(
-          "<span class=\"govuk-tag govuk-tag--blue\">In progress</span>"
-        )
+      it "returns 'in_progress'" do
+        expect(presenter.validation_status).to eq(:in_progress)
       end
     end
 
@@ -101,12 +85,8 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
         create(:planning_application, :not_started, constraints_checked: true)
       end
 
-      it "returns 'in progress' tag" do
-        expect(
-          presenter.validation_status_tag
-        ).to eq(
-          "<span class=\"govuk-tag govuk-tag--blue\">In progress</span>"
-        )
+      it "returns 'in_progress'" do
+        expect(presenter.validation_status).to eq(:in_progress)
       end
     end
 
@@ -115,28 +95,20 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
         create(:planning_application, :not_started, documents_missing: false)
       end
 
-      it "returns 'in progress' tag" do
-        expect(
-          presenter.validation_status_tag
-        ).to eq(
-          "<span class=\"govuk-tag govuk-tag--blue\">In progress</span>"
-        )
+      it "returns 'in_progress'" do
+        expect(presenter.validation_status).to eq(:in_progress)
       end
     end
 
-    context "when document marked as validt" do
+    context "when document marked as valid" do
       let(:document) { create(:document, validated: true) }
 
       let(:planning_application) do
         create(:planning_application, :not_started, documents: [document])
       end
 
-      it "returns 'in progress' tag" do
-        expect(
-          presenter.validation_status_tag
-        ).to eq(
-          "<span class=\"govuk-tag govuk-tag--blue\">In progress</span>"
-        )
+      it "returns 'in_progress'" do
+        expect(presenter.validation_status).to eq(:in_progress)
       end
     end
 
@@ -145,12 +117,8 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
         create(:planning_application, :not_started)
       end
 
-      it "returns 'not started' tag" do
-        expect(
-          presenter.validation_status_tag
-        ).to eq(
-          "<span class=\"govuk-tag govuk-tag--grey\">Not started</span>"
-        )
+      it "returns 'not_started'" do
+        expect(presenter.validation_status).to eq(:not_started)
       end
     end
   end

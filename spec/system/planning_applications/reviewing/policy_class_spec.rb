@@ -43,7 +43,7 @@ RSpec.describe "Reviewing Policy Class" do
       click_on "Save and mark as complete"
 
       expect(page).to have_text "Successfully updated policy class"
-      expect(list_item("Review assessment of Part 1, Class A")).to have_content("Complete")
+      expect(list_item("Review assessment of Part 1, Class A")).to have_content("Completed")
 
       click_on "Review assessment of Part 1, Class A"
 
@@ -72,7 +72,7 @@ RSpec.describe "Reviewing Policy Class" do
       click_on "Save and mark as complete"
 
       expect(page).to have_text "Successfully updated policy class"
-      expect(list_item("Review assessment of Part 1, Class A")).to have_content("Complete")
+      expect(list_item("Review assessment of Part 1, Class A")).to have_content("Completed")
 
       click_on "Review assessment of Part 1, Class A"
 

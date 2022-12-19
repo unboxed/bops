@@ -88,7 +88,7 @@ RSpec.describe "Additional evidence" do
       expect(page).to have_content("Additional evidence was successfully created.")
 
       within("#assessment-information-tasks") do
-        expect(page).to have_content("Complete")
+        expect(page).to have_content("Completed")
       end
 
       click_link "Additional evidence"

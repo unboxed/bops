@@ -672,10 +672,6 @@ en:
       success: Planning application was successfully updated.
     validate:
       success: Application is ready for assessment and an email notification has been sent.
-    validation_status:
-      complete: Complete
-      in_progress: In progress
-      not_started: Not started
     withdraw_recommendation:
       success: Recommendation was successfully withdrawn.
   policy_classes:
@@ -829,7 +825,7 @@ en:
   status_tag_component:
     awaiting_determination: Awaiting determination
     checked: Checked
-    complete: Complete
+    complete: Completed
     granted: To grant
     in_progress: In progress
     not_checked_yet: Not checked yet
@@ -861,6 +857,8 @@ en:
       permitted_development_rights: Permitted development rights
     permitted_development_right_review_component:
       permitted_development_rights: Permitted development rights
+    review_documents_component:
+      review_documents_for: Review documents for recommendation
   user:
     manager_role: Manager
     officer_role: Case Officer

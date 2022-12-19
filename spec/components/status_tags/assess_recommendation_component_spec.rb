@@ -57,7 +57,7 @@ RSpec.describe StatusTags::AssessRecommendationComponent, type: :component do
       let(:challenged) { false }
 
       it "renders 'Complete' status" do
-        expect(page).to have_content("Complete")
+        expect(page).to have_content("Completed")
       end
     end
   end

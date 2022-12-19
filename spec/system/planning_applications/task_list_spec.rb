@@ -18,7 +18,7 @@ RSpec.describe "Planning Application show page" do
 
       within "#validation-section" do
         expect(page).to have_link("Check and validate")
-        expect(page).not_to have_content("Complete")
+        expect(page).not_to have_content("Completed")
       end
 
       within "#assess-section" do
@@ -31,7 +31,7 @@ RSpec.describe "Planning Application show page" do
       visit planning_application_path(planning_application)
       within "#validation-section" do
         expect(page).to have_link("Check and validate")
-        expect(page).to have_content("Complete")
+        expect(page).to have_content("Completed")
       end
 
       within "#assess-section" do
@@ -40,7 +40,7 @@ RSpec.describe "Planning Application show page" do
 
       within "#complete-assessment-tasks" do
         expect(page).to have_link("Make draft recommendation")
-        expect(list_item("Make draft recommendation")).not_to have_content("Complete")
+        expect(list_item("Make draft recommendation")).not_to have_content("Completed")
         expect(page).not_to have_link("Review and submit recommendation")
       end
     end
@@ -68,7 +68,7 @@ RSpec.describe "Planning Application show page" do
       visit planning_application_path(planning_application)
       within "#validation-section" do
         expect(page).not_to have_link("Check and validate")
-        expect(page).to have_content("Complete")
+        expect(page).to have_content("Completed")
       end
 
       within "#assess-section" do
@@ -77,17 +77,17 @@ RSpec.describe "Planning Application show page" do
 
       within "#complete-assessment-tasks" do
         expect(page).not_to have_link("Make draft recommendation")
-        expect(page).to have_content("Complete")
+        expect(page).to have_content("Completed")
 
         expect(page).not_to have_link("Review and submit recommendation")
-        expect(page).to have_content("Complete")
+        expect(page).to have_content("Completed")
       end
 
       visit planning_application_path(planning_application)
 
       within "#review-section" do
         expect(page).to have_link("Review and sign-off")
-        expect(page).not_to have_content("Complete")
+        expect(page).not_to have_content("Completed")
 
         expect(page).not_to have_link("Publish determination")
         expect(page).not_to have_content("Waiting")
@@ -102,10 +102,10 @@ RSpec.describe "Planning Application show page" do
 
       within "#review-section" do
         expect(page).to have_link("Review and sign-off")
-        expect(page).to have_content("Complete")
+        expect(page).to have_content("Completed")
         expect(page).to have_link("Publish determination")
         within(:xpath, '//*[@id="review-section"]/ul/li[2]') do
-          expect(page).not_to have_content("Complete")
+          expect(page).not_to have_content("Completed")
         end
       end
     end
@@ -125,7 +125,7 @@ RSpec.describe "Planning Application show page" do
 
       within "#validation-section" do
         expect(page).to have_link("Check and validate")
-        expect(page).to have_content("Complete")
+        expect(page).to have_content("Completed")
       end
 
       within "#assess-section" do
@@ -134,7 +134,7 @@ RSpec.describe "Planning Application show page" do
 
       within "#complete-assessment-tasks" do
         expect(page).to have_link("Make draft recommendation")
-        expect(list_item("Make draft recommendation")).not_to have_content("Complete")
+        expect(list_item("Make draft recommendation")).not_to have_content("Completed")
       end
     end
 
@@ -147,7 +147,7 @@ RSpec.describe "Planning Application show page" do
 
       within "#validation-section" do
         expect(page).to have_link("Check and validate")
-        expect(page).to have_content("Complete")
+        expect(page).to have_content("Completed")
       end
 
       within "#assess-section" do
@@ -157,7 +157,7 @@ RSpec.describe "Planning Application show page" do
 
       within "#complete-assessment-tasks" do
         expect(page).to have_link("Make draft recommendation")
-        expect(list_item("Make draft recommendation")).not_to have_content("Complete")
+        expect(list_item("Make draft recommendation")).not_to have_content("Completed")
         expect(page).to have_content("Complete")
         expect(page).to have_link("Review and submit recommendation")
       end
@@ -165,7 +165,7 @@ RSpec.describe "Planning Application show page" do
       visit planning_application_path(planning_application)
 
       within "#assess-section" do
-        expect(list_item("Check and assess")).to have_content("Complete")
+        expect(list_item("Check and assess")).to have_content("Completed")
       end
     end
   end
@@ -182,7 +182,7 @@ RSpec.describe "Planning Application show page" do
       visit planning_application_path(planning_application)
       within "#validation-section" do
         expect(page).not_to have_link("Check and validate")
-        expect(page).to have_content("Complete")
+        expect(page).to have_content("Completed")
       end
 
       within "#assess-section" do
@@ -191,7 +191,7 @@ RSpec.describe "Planning Application show page" do
 
       within "#complete-assessment-tasks" do
         expect(page).not_to have_link("Review and submit recommendation")
-        expect(page).to have_content("Complete")
+        expect(page).to have_content("Completed")
       end
 
       visit planning_application_path(planning_application)
@@ -199,7 +199,7 @@ RSpec.describe "Planning Application show page" do
       within "#review-section" do
         expect(page).not_to have_link("Review and sign-off")
         expect(page).to have_link("View recommendation")
-        expect(page).not_to have_content("Complete")
+        expect(page).not_to have_content("Completed")
 
         expect(page).not_to have_link("Publish determination")
         expect(page).to have_content("Awaiting determination")
@@ -213,17 +213,17 @@ RSpec.describe "Planning Application show page" do
       visit planning_application_path(planning_application)
 
       within "#validation-section" do
-        expect(page).to have_content("Complete")
+        expect(page).to have_content("Completed")
       end
 
       within "#assess-section" do
         expect(page).not_to have_link("Submit recommendation")
-        expect(page).to have_content("Complete")
+        expect(page).to have_content("Completed")
       end
 
       within "#review-section" do
         expect(page).not_to have_link("Review and sign-off")
-        expect(page).to have_content("Complete")
+        expect(page).to have_content("Completed")
 
         expect(page).not_to have_link("Publish determination")
         expect(page).to have_content("Waiting")

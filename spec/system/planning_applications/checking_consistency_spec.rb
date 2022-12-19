@@ -85,7 +85,7 @@ RSpec.describe "checking consistency" do
 
     expect(page).to have_content("Successfully updated application checklist")
 
-    expect(task_list_item).to have_content("Complete")
+    expect(task_list_item).to have_content("Completed")
 
     click_link("Description, documents and proposal details")
 

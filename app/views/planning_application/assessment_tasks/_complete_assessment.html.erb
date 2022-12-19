@@ -3,9 +3,11 @@
     Complete assessment
   </h2>
   <ul class="app-task-list__items">
-    <li class="app-task-list__item">
-      <%= @planning_application.review_documents_tasklist %>
-    </li>
+    <%= render(
+      TaskListItems::ReviewDocumentsComponent.new(
+        planning_application: @planning_application
+      )
+    ) %>
     <li class="app-task-list__item">
       <span class="app-task-list__task-name">
         <%= link_to_if(

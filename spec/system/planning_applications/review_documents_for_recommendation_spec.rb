@@ -132,7 +132,7 @@ RSpec.describe "Review documents for recommendation" do
       expect(planning_application.reload.review_documents_for_recommendation_status).to eq("complete")
 
       within("#complete-assessment-tasks") do
-        expect(page).to have_content("Complete")
+        expect(page).to have_content("Completed")
         click_link "Review documents for recommendation"
       end
 

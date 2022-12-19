@@ -214,7 +214,7 @@ RSpec.describe "assessment against legislation" do
       click_button("Save and mark as complete")
 
       expect(page).to have_content("Successfully updated policy class")
-      expect(page).to have_list_item_for("Part 1, Class D", with: "Complete")
+      expect(page).to have_list_item_for("Part 1, Class D", with: "Completed")
 
       click_link("Part 1, Class D")
       expect(page).to have_content("Comment added on 01 Sep 2022 by Alice Smith")

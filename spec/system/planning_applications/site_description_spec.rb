@@ -95,7 +95,7 @@ RSpec.describe "Site description" do
       expect(page).to have_content("Site description was successfully created.")
 
       within("#assessment-information-tasks") do
-        expect(page).to have_content("Complete")
+        expect(page).to have_content("Completed")
       end
 
       click_link "Site description"

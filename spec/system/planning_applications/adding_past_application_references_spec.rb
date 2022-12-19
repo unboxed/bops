@@ -42,7 +42,7 @@ RSpec.describe "adding past application references" do
     click_button("Save and mark as complete")
 
     expect(page).to have_content("History successfully updated.")
-    expect(list_item("History (manual)")).to have_content("Complete")
+    expect(list_item("History (manual)")).to have_content("Completed")
 
     click_link("History (manual)")
 

@@ -62,7 +62,7 @@ RSpec.describe "adding consultation summary" do
     click_button("Save and mark as complete")
 
     expect(page).to have_content("Consultation summary successfully updated.")
-    expect(list_item("Summary of consultation")).to have_content("Complete")
+    expect(list_item("Summary of consultation")).to have_content("Completed")
 
     click_link("Summary of consultation")
 
