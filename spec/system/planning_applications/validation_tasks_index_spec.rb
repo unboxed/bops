@@ -70,7 +70,7 @@ RSpec.describe "Validation tasks" do
             href: edit_planning_application_document_path(planning_application, document, validate: "yes")
           )
           within(".govuk-tag--grey") do
-            expect(page).to have_content("Not checked yet")
+            expect(page).to have_content("Not started")
           end
         end
 

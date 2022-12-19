@@ -861,6 +861,8 @@ en:
       summary_of_work: Summary of works
     assessment_details_review_component:
       review_assessment_summaries: Review assessment summaries
+    document_component:
+      check_document: Check document - %{document}
     permitted_development_right_component:
       permitted_development_rights: Permitted development rights
     permitted_development_right_review_component:
