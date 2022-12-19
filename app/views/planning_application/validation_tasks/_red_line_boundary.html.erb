@@ -8,7 +8,7 @@
         <%= link_to_unless(@planning_application.boundary_geojson.present? && @planning_application.officer_can_draw_boundary?, "Draw red line boundary", planning_application_sitemap_path(@planning_application), class: "govuk-link" ) %>
       </span>
       <%= render(
-        StatusTags::RedLineBoundaryComponent.new(
+        StatusTags::DrawRedLineBoundaryComponent.new(
           boundary_geojson: @planning_application.boundary_geojson
         )
       ) %>
