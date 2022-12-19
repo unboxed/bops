@@ -832,12 +832,14 @@ en:
     complete: Completed
     granted: To grant
     in_progress: In progress
+    invalid: Invalid
     not_checked_yet: Not checked yet
     not_started: Not started
     refused: To refuse
     removed: Removed
     to_be_reviewed: To be reviewed
     updated: Updated
+    valid: Valid
     waiting: Waiting
   statuses:
     awaiting_correction: Corrections requested
@@ -849,6 +851,8 @@ en:
     returned: Returned
     withdrawn: Withdrawn
   task_list_items:
+    additional_document_component:
+      check_required_documents: Check required documents are on application
     assessment_detail_component:
       additional_evidence: Additional evidence
       consultation_summary: Summary of consultation

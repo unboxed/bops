@@ -108,7 +108,7 @@ RSpec.describe "Requesting a new document for a planning application" do
 
       within("#additional-documents-validation-task") do
         expect(page).to have_content("Check for missing documents")
-        expect(page).to have_content("Not checked yet")
+        expect(page).to have_content("Not started")
       end
 
       click_link "Check required documents are on application"
@@ -298,7 +298,7 @@ RSpec.describe "Requesting a new document for a planning application" do
         expect(page).to have_content("Validation request was successfully deleted.")
 
         within("#additional-documents-validation-task") do
-          expect(page).to have_content("Not checked yet")
+          expect(page).to have_content("Not started")
         end
 
         expect(planning_application.reload.documents_missing).to be_nil
@@ -371,7 +371,7 @@ RSpec.describe "Requesting a new document for a planning application" do
       click_link "Validation tasks"
 
       within("#additional-documents-validation-task") do
-        expect(page).to have_content("Not checked yet")
+        expect(page).to have_content("Not started")
       end
 
       click_link "Application"
@@ -427,7 +427,7 @@ RSpec.describe "Requesting a new document for a planning application" do
         visit planning_application_validation_tasks_path(planning_application)
 
         within("#additional-documents-validation-task") do
-          expect(page).to have_content("Not checked yet")
+          expect(page).to have_content("Not started")
         end
 
         click_link "Check required documents are on application"
