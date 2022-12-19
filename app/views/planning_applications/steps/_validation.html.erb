@@ -16,7 +16,11 @@
       <% end %>
     </span>
     <div class="app-task-list__task-tag">
-      <%= @planning_application.validation_status_tag %>
+      <%= render(
+        StatusTags::BaseComponent.new(
+          status: @planning_application.validation_status
+        )
+      ) %>
     </div>
   </li>
 </ul>

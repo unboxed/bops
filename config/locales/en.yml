@@ -672,10 +672,6 @@ en:
       success: Planning application was successfully updated.
     validate:
       success: Application is ready for assessment and an email notification has been sent.
-    validation_status:
-      complete: Complete
-      in_progress: In progress
-      not_started: Not started
     withdraw_recommendation:
       success: Recommendation was successfully withdrawn.
   policy_classes:
