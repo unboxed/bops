@@ -54,7 +54,7 @@ RSpec.describe StatusTags::ReviewerAssessmentDetailComponent, type: :component d
     it "renders 'Complete' status" do
       render_inline(component)
 
-      expect(page).to have_content("Complete")
+      expect(page).to have_content("Completed")
     end
   end
 
@@ -149,7 +149,7 @@ RSpec.describe StatusTags::ReviewerAssessmentDetailComponent, type: :component d
       it "renders 'Complete' status" do
         render_inline(component)
 
-        expect(page).to have_content("Complete")
+        expect(page).to have_content("Completed")
       end
     end
   end

@@ -825,7 +825,7 @@ en:
   status_tag_component:
     awaiting_determination: Awaiting determination
     checked: Checked
-    complete: Complete
+    complete: Completed
     granted: To grant
     in_progress: In progress
     not_checked_yet: Not checked yet

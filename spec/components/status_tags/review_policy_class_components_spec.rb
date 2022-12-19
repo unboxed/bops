@@ -16,6 +16,6 @@ RSpec.describe StatusTags::ReviewPolicyClassComponent, type: :component do
 
     render_inline(described_class.new(review_policy_class: review_policy_class))
 
-    expect(page).to have_css ".govuk-tag--blue", text: "Complete"
+    expect(page).to have_css ".govuk-tag--blue", text: "Completed"
   end
 end

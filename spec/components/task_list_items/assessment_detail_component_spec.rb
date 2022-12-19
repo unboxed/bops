@@ -123,7 +123,7 @@ RSpec.describe TaskListItems::AssessmentDetailComponent, type: :component do
     end
 
     it "renders correct status tag" do
-      expect(page).to have_content("Complete")
+      expect(page).to have_content("Completed")
     end
   end
 end
