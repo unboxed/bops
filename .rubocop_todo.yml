@@ -128,14 +128,6 @@ RSpec/LetSetup:
     - 'spec/system/planning_applications/validating_spec.rb'
     - 'spec/system/planning_applications/validation_banner_display_spec.rb'
 
-# Offense count: 2
-# Configuration parameters: AllowedPatterns.
-# AllowedPatterns: ^expect_, ^assert_
-RSpec/NoExpectationExample:
-  Exclude:
-    - 'spec/services/apis/mapit/client_spec.rb'
-    - 'spec/services/apis/paapi/client_spec.rb'
-
 # Offense count: 19
 # Configuration parameters: Database, Include.
 # SupportedDatabases: mysql, postgresql
