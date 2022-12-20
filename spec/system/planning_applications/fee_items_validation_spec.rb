@@ -461,11 +461,6 @@ RSpec.describe "FeeItemsValidation" do
         expect(page).to have_content("Check any extra fee has been received and update the total fee now paid.")
         expect(page).to have_field("planning_application[payment_amount]", with: "100.00")
 
-        # Fill in bad input
-        fill_in "planning_application[payment_amount]", with: "sss"
-        click_button("Continue")
-        expect(page).to have_content("Payment amount must be a number not exceeding 2 decimal places")
-
         fill_in "planning_application[payment_amount]", with: "350.22"
         click_button("Continue")
 

@@ -125,13 +125,20 @@ class PlanningApplication < ApplicationRecord
   validates :review_documents_for_recommendation_status,
             inclusion: { in: PROGRESS_STATUSES }
   validates :application_type, :application_number, :reference, presence: true
-  validates :payment_amount, :invalid_payment_amount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :payment_amount,
+            :invalid_payment_amount,
+            numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1_000_000 },
+            allow_nil: true
 
   validate :applicant_or_agent_email
   validate :validated_at_date
   validate :public_comment_present
   validate :decision_with_recommendations
   validate :determination_date_is_not_in_the_future
+
+  def payment_amount=(amount)
+    self[:payment_amount] = amount.to_s.delete("^0-9.-").to_d
+  end
 
   def timestamp_status_change
     update("#{aasm.to_state}_at": Time.zone.now)

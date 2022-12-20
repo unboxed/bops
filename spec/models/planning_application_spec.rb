@@ -36,27 +36,26 @@ RSpec.describe PlanningApplication do
 
     describe "#payment_amount" do
       it "validates that it must be greater than or equal to 0" do
-        planning_application = build(:planning_application, payment_amount: -1)
+        planning_application = build(:planning_application, payment_amount: "-1")
 
-        expect { planning_application.valid? }.to change { planning_application.errors[:payment_amount] }.to ["Payment amount (£) must be greater than or equal to 0"]
+        expect { planning_application.valid? }.to change { planning_application.errors[:payment_amount] }
+          .to ["Payment amount (£) must be greater than or equal to 0"]
       end
 
-      it "validates that it must be a number" do
-        planning_application = build(:planning_application, payment_amount: "n")
+      it "validates that it must be less than maximum" do
+        planning_application = build(:planning_application, payment_amount: "1000001")
 
-        expect { planning_application.valid? }.to change { planning_application.errors[:payment_amount] }.to ["Payment amount must be a number not exceeding 2 decimal places"]
+        expect { planning_application.valid? }.to change { planning_application.errors[:payment_amount] }
+          .to ["Payment amount (£) must be less than or equal to 1,000,000"]
       end
 
-      it "does not raise a validation error if value is 0" do
-        planning_application = build(:planning_application, payment_amount: 0)
+      [0, 12.43, "0", "1,200.00", "n"].each do |value|
+        it "does not raise a validation error if value is #{value}" do
+          planning_application = build(:planning_application, payment_amount: value)
 
-        expect { planning_application.valid? }.not_to(change { planning_application.errors[:payment_amount] })
-      end
-
-      it "does not raise a validation error if value is a decimal" do
-        planning_application = build(:planning_application, payment_amount: 12.43)
-
-        expect { planning_application.valid? }.not_to(change { planning_application.errors[:payment_amount] })
+          expect { planning_application.valid? }
+            .not_to(change { planning_application.errors[:payment_amount] })
+        end
       end
     end
 
