@@ -81,7 +81,7 @@ RSpec.describe "Validation tasks" do
             href: planning_application_constraints_path(planning_application)
           )
           within(".govuk-tag--grey") do
-            expect(page).to have_content("Not checked yet")
+            expect(page).to have_content("Not started")
           end
         end
 

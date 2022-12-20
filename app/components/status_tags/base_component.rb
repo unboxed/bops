@@ -20,7 +20,7 @@ module StatusTags
 
     def colour_class
       case status
-      when :not_started, :not_checked_yet # remove not_checked_yet
+      when :not_started
         "govuk-tag--grey"
       when :in_progress
         "govuk-tag--blue"

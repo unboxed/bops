@@ -166,7 +166,7 @@ RSpec.describe PolicyClass do
         create(
           :review_policy_class,
           policy_class: policy_class,
-          status: :not_checked_yet
+          status: :not_started
         )
       end
 

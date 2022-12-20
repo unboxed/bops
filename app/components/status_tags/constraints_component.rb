@@ -11,7 +11,7 @@ module StatusTags
     attr_reader :planning_application
 
     def status
-      planning_application.constraints_checked? ? :checked : :not_checked_yet
+      planning_application.constraints_checked? ? :checked : :not_started
     end
   end
 end

@@ -47,7 +47,11 @@ RSpec.describe "Reviewing Tasks Index" do
       policy_classes.each do |policy_class|
         expect(page).to have_link("Review assessment of Part 1, Class #{policy_class.section}",
                                   href: edit_planning_application_review_policy_class_path(planning_application, policy_class))
-        expect(list_item("Review assessment of Part 1, Class #{policy_class.section}")).to have_content("Not checked yet")
+
+        expect(page).to have_list_item_for(
+          "Review assessment of Part 1, Class #{policy_class.section}",
+          with: "Not started"
+        )
       end
     end
   end
