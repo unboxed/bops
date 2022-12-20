@@ -6,7 +6,7 @@ RSpec.describe Apis::Mapit::Client do
   let(:client) { described_class.new }
 
   describe "#call" do
-    it "is successfull" do
+    it "is successful" do
       expect(client.call("SE220HW").status).to eq(200)
     end
 
