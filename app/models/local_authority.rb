@@ -31,4 +31,8 @@ class LocalAuthority < ApplicationRecord
   def council_name
     ripa? ? subdomain.capitalize : "#{subdomain.capitalize} Council"
   end
+
+  def staging?
+    ENV.fetch("STAGING_ENABLED", "false") == "true"
+  end
 end

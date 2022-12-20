@@ -107,4 +107,26 @@ RSpec.describe LocalAuthority do
       expect(southwark.council_name).to eq("Southwark Council")
     end
   end
+
+  describe "#staging?" do
+    it "returns false when staging env is not set" do
+      local_authority = create(:local_authority, :southwark)
+
+      expect(local_authority).not_to be_staging
+    end
+
+    it "returns false when staging env is not set to false" do
+      allow(ENV).to receive(:fetch).with("STAGING_ENABLED", "false").and_return("false")
+      local_authority = create(:local_authority, :southwark)
+
+      expect(local_authority).not_to be_staging
+    end
+
+    it "returns true when staging env set" do
+      allow(ENV).to receive(:fetch).with("STAGING_ENABLED", "false").and_return("true")
+      local_authority = create(:local_authority, :southwark)
+
+      expect(local_authority).to be_staging
+    end
+  end
 end
