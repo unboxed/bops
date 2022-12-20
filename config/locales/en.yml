@@ -873,6 +873,8 @@ en:
       permitted_development_rights: Permitted development rights
     review_documents_component:
       review_documents_for: Review documents for recommendation
+    validation_decision_component:
+      send_validation_decision: Send validation decision
   user:
     manager_role: Manager
     officer_role: Case Officer

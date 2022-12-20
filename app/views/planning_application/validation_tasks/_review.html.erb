@@ -8,8 +8,10 @@
         <%= link_to "Review validation requests", planning_application_validation_requests_path(@planning_application), class: "govuk-link" %>
       </span>
     </li>
-    <li class="app-task-list__item">
-      <%= @planning_application.review_task_list %>
-    </li>
+    <%= render(
+      TaskListItems::ValidationDecisionComponent.new(
+        planning_application: @planning_application
+      )
+    ) %>
   </ul>
 </li>

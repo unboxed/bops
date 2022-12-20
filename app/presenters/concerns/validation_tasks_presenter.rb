@@ -23,10 +23,6 @@ module ValidationTasksPresenter
                                                 other_change_validation_request).task_list_row
     end
 
-    def review_task_list
-      ValidationTasks::ReviewPresenter.new(@template, @planning_application).task_list_row
-    end
-
     private
 
     def validation_item_tag
