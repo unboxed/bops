@@ -42,13 +42,6 @@ RSpec.describe AssessmentDetail do
       context "when assessment_status is complete" do
         let(:assessment_status) { :complete }
 
-        it "validates presence for past_applications" do
-          expect { past_applications }.to raise_error(
-            ActiveRecord::RecordInvalid,
-            "Validation failed: Entry can't be blank"
-          )
-        end
-
         it "validates presence for consultation_summary" do
           expect { consultation_summary }.to raise_error(
             ActiveRecord::RecordInvalid,
@@ -140,7 +133,8 @@ RSpec.describe AssessmentDetail do
         category: category,
         planning_application: planning_application,
         reviewer_verdict: reviewer_verdict,
-        entry: entry
+        entry: entry,
+        additional_information: additional_information
       )
     end
 
@@ -148,6 +142,48 @@ RSpec.describe AssessmentDetail do
     let(:category) { :summary_of_work }
     let(:reviewer_verdict) { nil }
     let(:entry) { "entry" }
+    let(:additional_information) { "additional details" }
+
+    context "when additional_information is blank" do
+      let(:additional_information) { nil }
+
+      context "when category is 'past_applications' and assessment status is 'complete'" do
+        let(:category) { :past_applications }
+        let(:assessment_status) { :complete }
+
+        it "returns false" do
+          expect(assessment_detail.valid?).to be(false)
+        end
+
+        it "sets error" do
+          assessment_detail.valid?
+
+          expect(
+            assessment_detail.errors.messages[:additional_information]
+          ).to contain_exactly(
+            "can't be blank"
+          )
+        end
+      end
+
+      context "when category is not past_applications and assessment status is 'complete'" do
+        let(:category) { :summary_of_work }
+        let(:assessment_status) { :complete }
+
+        it "returns true" do
+          expect(assessment_detail.valid?).to be(true)
+        end
+      end
+
+      context "when category is past_applications and assessment status is not 'complete'" do
+        let(:category) { :past_applications }
+        let(:assessment_status) { :in_progress }
+
+        it "returns true" do
+          expect(assessment_detail.valid?).to be(true)
+        end
+      end
+    end
 
     context "when entry is blank" do
       let(:entry) { nil }

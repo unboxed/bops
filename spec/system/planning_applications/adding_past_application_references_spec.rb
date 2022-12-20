@@ -25,12 +25,10 @@ RSpec.describe "adding past application references" do
     expect(list_item("History (manual)")).to have_content("Not started")
 
     click_link("History (manual)")
-    fill_in("Relevant information", with: "Application granted.")
+    fill_in("Application reference number(s)", with: "22-00107-LDCP")
     click_button("Save and mark as complete")
 
-    expect(page).to have_content(
-      "Application reference numbers can't be blank"
-    )
+    expect(page).to have_content("Relevant information can't be blank")
 
     click_button("Save and come back later")
 
@@ -38,7 +36,7 @@ RSpec.describe "adding past application references" do
     expect(list_item("History (manual)")).to have_content("In progress")
 
     click_link("History (manual)")
-    fill_in("Application reference number(s)", with: "22-00107-LDCP")
+    fill_in("Relevant information", with: "Application granted.")
     click_button("Save and mark as complete")
 
     expect(page).to have_content("History successfully updated.")
