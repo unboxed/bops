@@ -6,13 +6,8 @@ RSpec.describe Apis::Mapit::Client do
   let(:client) { described_class.new }
 
   describe "#call" do
-    let(:faraday_connection) { spy }
-    let(:url) { "https://mapit.mysociety.org" }
-
-    it "makes a Faraday connection" do
-      allow(Faraday).to receive(:new).with(url: url).and_yield(faraday_connection)
-
-      client.call("SE220HW")
+    it "is successful" do
+      expect(client.call("SE220HW").status).to eq(200)
     end
 
     it "removes whitespace from the postcode" do
