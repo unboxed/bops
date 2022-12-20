@@ -23,7 +23,7 @@
         </strong>
       </p>
       <p class="govuk-body">
-        <%= simple_format(@planning_application.description) %>
+        <%= auto_link_and_simple_format_content(content: @planning_application.description) %>
       </p>
       <%= form_with model: [@planning_application, @description_change_request], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
         <% if @description_change_request.errors.any? %>
@@ -47,7 +47,7 @@
             </strong>
           </p>
           <p class="govuk-body">
-            <%= simple_format(@planning_application.latest_rejected_description_change.proposed_description) %>
+            <%= auto_link_and_simple_format_content(content: @planning_application.latest_rejected_description_change.proposed_description) %>
           </p>
           <p class="govuk-body">
             <span class="govuk-caption-m">

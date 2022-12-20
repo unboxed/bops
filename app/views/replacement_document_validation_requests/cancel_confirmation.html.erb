@@ -27,7 +27,7 @@
         </strong>
       </p>
       <p class="govuk-body">
-        Reason: <%= simple_format(@replacement_document_validation_request.invalidated_document_reason) %>
+        Reason: <%= auto_link_and_simple_format_content(content: @replacement_document_validation_request.invalidated_document_reason) %>
       </p>
       <p class="govuk-body">
       <%= @replacement_document_validation_request.created_at %>

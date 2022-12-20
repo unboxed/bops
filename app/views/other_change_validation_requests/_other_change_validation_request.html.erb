@@ -2,5 +2,5 @@
   Other <%= "(fee)" if other_change_validation_request.fee_item? %>
 </td>
 <td class="govuk-table__cell change-request-list">
-  <%= simple_format(other_change_validation_request.summary) %>
+  <%= auto_link_and_simple_format_content(content: other_change_validation_request.summary) %>
 </td>

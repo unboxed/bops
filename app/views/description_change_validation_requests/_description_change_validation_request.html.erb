@@ -3,17 +3,17 @@
 </td>
 <% if description_change_validation_request.cancelled? %>
   <td class="govuk-table__cell change-request-list">
-    <%= simple_format(description_change_validation_request.proposed_description) %>
+    <%= auto_link_and_simple_format_content(content: description_change_validation_request.proposed_description) %>
   </td>
 <% elsif description_change_validation_request.post_validation? %>
   <td class="govuk-table__cell change-request-list">
     <%= t(".proposed_description") %>
-    <%= simple_format(description_change_validation_request.proposed_description) %>
+    <%= auto_link_and_simple_format_content(content: description_change_validation_request.proposed_description) %>
   </td>
 <% else %>
   <td class="govuk-table__cell change-request-list">
     <%= t(".new_description") %>
-    <%= simple_format(description_change_validation_request.proposed_description) %>
+    <%= auto_link_and_simple_format_content(content: description_change_validation_request.proposed_description) %>
   </td>
   <td class="govuk-table__cell change-request-list">
     <%= t(".description_change") %>

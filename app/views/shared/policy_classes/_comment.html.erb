@@ -2,5 +2,5 @@
   <h4 class="govuk-heading-s govuk-!-margin-bottom-0">
     <%= existing_policy_comment_label(comment) %>
   </h4>
-  <p class="govuk-body"><%= simple_format(comment.text) %></p>
+  <p class="govuk-body"><%= auto_link_and_simple_format_content(content: comment.text) %></p>
 <% end %>

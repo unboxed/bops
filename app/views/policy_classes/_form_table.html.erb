@@ -11,7 +11,7 @@
             <%= "#{form.object.section}.#{policy_form.object.section}" %>
           </h3>
           <p class="govuk-body">
-            <%= simple_format(policy_form.object.description) %>
+            <%= auto_link_and_simple_format_content(content: policy_form.object.description) %>
           </p>
           <%= render(
             partial: "policy_classes/comment",

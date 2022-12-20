@@ -21,9 +21,8 @@
     <p class="govuk-body">
       <%= render("shared/warning_text", message: t(".this_information_will")) %>
     </p>
-    <%= simple_format(
-      @planning_application.public_comment,
-      class: "govuk-body"
+    <%= auto_link_and_simple_format_content(
+      content: @planning_application.public_comment
     ) %>
     <%= link_to(
       t(".edit_information_on"),

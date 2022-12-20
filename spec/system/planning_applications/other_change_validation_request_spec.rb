@@ -175,4 +175,31 @@ RSpec.describe "Requesting other changes to a planning application" do
       end
     end
   end
+
+  context "when an officer adds a link in the suggestion/summary fields" do
+    it "displays the link and link html as clickable" do
+      click_link "Check and validate"
+      click_link "Add an other validation request"
+
+      fill_in "Tell the applicant another reason why the application is invalid", with: "View info on https://www.bops.co.uk/info"
+      fill_in "Explain to the applicant how the application can be made valid",
+              with: "You need to pay the right amount, view <a href='https://www.bops.co.uk/payment'>Payment info</a>"
+
+      within(".govuk-button-group") do
+        click_button "Send request"
+      end
+
+      click_link("View other validation request #1")
+
+      expect(page).to have_link(
+        "https://www.bops.co.uk/info",
+        href: "https://www.bops.co.uk/info"
+      )
+
+      expect(page).to have_link(
+        "Payment info",
+        href: "https://www.bops.co.uk/payment"
+      )
+    end
+  end
 end

@@ -17,7 +17,7 @@
   <p class="govuk-body">
     <strong>Applicant reason for submitting document:</strong>
     <% if @document.applicant_description.present? %>
-      <%= simple_format(@document.applicant_description) %>
+      <%= auto_link_and_simple_format_content(content: @document.applicant_description) %>
     <% else %>
       No reason submitted
     <% end %>

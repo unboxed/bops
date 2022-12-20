@@ -17,15 +17,14 @@
     )
   ) %>
   <% if planning_application.result_heading.present? %>
-    <%= simple_format(
-      planning_application.result_heading,
-      class: "govuk-body govuk-!-font-weight-bold"
+    <%= auto_link_and_simple_format_content(
+      content: planning_application.result_heading,
+      classname: "govuk-body govuk-!-font-weight-bold"
     ) %>
   <% end %>
   <% if planning_application.result_description.present? %>
-    <%= simple_format(
-      planning_application.result_description,
-      class: "govuk-body"
+    <%= auto_link_and_simple_format_content(
+      content: planning_application.result_description
     ) %>
   <% end %>
   <% if planning_application.result_override.present? %>

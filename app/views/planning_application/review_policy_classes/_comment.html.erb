@@ -4,7 +4,7 @@
       <h4 class="govuk-heading-s govuk-!-margin-bottom-0">
         <%= existing_policy_comment_label(comment) %>
       </h4>
-      <%= simple_format(comment.text, { class:"govuk-body" }) %>
+      <%= auto_link_and_simple_format_content(content: comment.text) %>
       <%= button_tag(
         t(".edit_comment"),
         class: "button-as-link",

@@ -22,7 +22,7 @@
         <%= @description_change_request.previous_description  %>
       </p>
       <p class="govuk-body"> <strong> Proposed description:</strong><br>
-        <%= simple_format(@description_change_request.proposed_description) %>
+        <%= auto_link_and_simple_format_content(content: @description_change_request.proposed_description) %>
       </p>
     </div>
     <p class="govuk-body">

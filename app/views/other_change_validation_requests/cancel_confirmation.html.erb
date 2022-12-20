@@ -22,10 +22,10 @@
 
     <div class="govuk-inset-text">
       <p class="govuk-body">
-        <strong><%= simple_format(@other_change_validation_request.summary) %></strong>
+        <strong><%= auto_link_and_simple_format_content(content: @other_change_validation_request.summary) %></strong>
       </p>
       <p class="govuk-body">
-        <%= simple_format(@other_change_validation_request.suggestion) %>
+        <%= auto_link_and_simple_format_content(content: @other_change_validation_request.suggestion) %>
       </p>
       <p class="govuk-body">
       <%= @other_change_validation_request.created_at %>

@@ -4,6 +4,6 @@
       <%= t(".user_marked_this", user: comment.user.name) %>
     </p>
     <p class="govuk-body govuk-!-margin-top-1"><%= comment.created_at %></p>
-    <%= simple_format(comment.text, { class: "govuk-body italic" }) %>
+    <%= auto_link_and_simple_format_content(content: comment.text, classname: "govuk-body italic") %>
   </div>
 <% end %>
