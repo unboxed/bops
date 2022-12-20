@@ -6,6 +6,10 @@ module StatusTags
       @status = status
     end
 
+    def render?
+      status.present?
+    end
+
     private
 
     attr_reader :status
@@ -19,7 +23,7 @@ module StatusTags
     end
 
     def colour_class
-      case status
+      case status.to_sym
       when :not_started
         "govuk-tag--grey"
       when :in_progress
