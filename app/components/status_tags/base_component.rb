@@ -22,7 +22,7 @@ module StatusTags
       case status
       when :not_started, :not_checked_yet
         "govuk-tag--grey"
-      when :complete, :in_progress
+      when :in_progress
         "govuk-tag--blue"
       when :checked, :granted
         "govuk-tag--green"
