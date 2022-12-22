@@ -152,6 +152,15 @@ RSpec.describe "assessment against legislation" do
       click_button("Save and come back later")
       click_link("Part 1, Class D")
 
+      within(row_with_content("D.1a")) do
+        expect(page).to have_field(
+          "Comment added on 01 Sep 2022 by Alice Smith",
+          with: "New comment"
+        )
+
+        expect(page).not_to have_content("Previous comments")
+      end
+
       expect(row_with_content("D.1a")).to have_field(
         "Comment added on 01 Sep 2022 by Alice Smith",
         with: "New comment"
@@ -169,6 +178,26 @@ RSpec.describe "assessment against legislation" do
       within(row_with_content("D.1a")) do
         fill_in(
           "Comment added on 01 Sep 2022 by Alice Smith",
+          with: ""
+        )
+      end
+
+      click_button("Save and come back later")
+
+      expect(page).to have_content("Existing comment can't be blank")
+
+      within(row_with_content("D.1a")) do
+        expect(page).to have_content("can't be blank")
+
+        expect(page).to have_field(
+          "Comment added on 01 Sep 2022 by Alice Smith",
+          with: ""
+        )
+      end
+
+      within(row_with_content("D.1a")) do
+        fill_in(
+          "Comment added on 01 Sep 2022 by Alice Smith",
           with: "Updated comment"
         )
       end
@@ -176,10 +205,20 @@ RSpec.describe "assessment against legislation" do
       click_button("Save and come back later")
       click_link("Part 1, Class D")
 
-      expect(row_with_content("D.1a")).to have_field(
-        "Comment updated on 02 Sep 2022 by Bella Jones",
-        with: "Updated comment"
-      )
+      within(row_with_content("D.1a")) do
+        expect(page).to have_field(
+          "Comment updated on 02 Sep 2022 by Bella Jones",
+          with: "Updated comment"
+        )
+
+        find("span", text: "Previous comments").click
+
+        expect(page).to have_content(
+          "Comment added on 01 Sep 2022 by Alice Smith"
+        )
+
+        expect(page).to have_content("New comment")
+      end
     end
 
     it "lets the user save draft and then mark as complete" do
@@ -204,12 +243,27 @@ RSpec.describe "assessment against legislation" do
 
       expect(page).to have_content("All policies must be assessed")
 
+      within(row_with_content("D.1a")) do
+        expect(page).to have_field("Add comment", with: "Test comment")
+      end
+
       click_button("Save and come back later")
 
       expect(page).to have_content("Successfully updated policy class")
       expect(page).to have_list_item_for("Part 1, Class D", with: "In progress")
 
       click_link("Part 1, Class D")
+      click_button("Save and mark as complete")
+
+      expect(page).to have_content("All policies must be assessed")
+
+      within(row_with_content("D.1a")) do
+        expect(page).to have_field(
+          "Comment added on 01 Sep 2022 by Alice Smith",
+          with: "Test comment"
+        )
+      end
+
       choose("policy_class_policies_attributes_5_status_complies")
       click_button("Save and mark as complete")
 
@@ -321,12 +375,19 @@ RSpec.describe "assessment against legislation" do
       click_link("Part 1, Class D")
 
       within(row_with_content("D.1a")) do
-        expect(page).to have_field(
-          "Comment added on 01 Sep 2022 by Alice Smith",
-          with: "Test comment"
+        click_button("Delete comment")
+
+        expect(page).to have_field("Add comment", with: "")
+
+        find("span", text: "Previous comments").click
+
+        expect(page).to have_content(
+          "Comment added on 01 Sep 2022 by Alice Smith"
         )
 
-        click_button("Delete comment")
+        expect(page).to have_content("Test comment")
+        expect(page).to have_content("Comment deleted")
+
         fill_in("Add comment", with: "New comment")
       end
 

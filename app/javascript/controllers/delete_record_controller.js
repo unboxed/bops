@@ -3,9 +3,11 @@ import { ajax } from "@rails/ujs"
 
 export default class extends Controller {
   handleClick(event) {
+    const dataset = event.currentTarget.dataset
+
     ajax({
-      type: "delete",
-      url: event.currentTarget.dataset["deleteRecordPath"],
+      type: dataset["deleteRecordAction"] || "delete",
+      url: dataset["deleteRecordPath"],
       success: (data) => { this.element.outerHTML = data.partial }
     })
   }

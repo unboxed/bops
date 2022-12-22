@@ -81,7 +81,7 @@ class PolicyClassesController < PlanningApplicationsController
   def policy_class_params
     params
       .require(:policy_class)
-      .permit(policies_attributes: [:id, :status, { comment_attributes: [:text] }])
+      .permit(policies_attributes: [:id, :status, { comments_attributes: [:text] }])
       .merge(status: status)
   end
 

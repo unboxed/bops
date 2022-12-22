@@ -1,35 +1,39 @@
 # frozen_string_literal: true
 
 class CommentsController < AuthenticationController
-  def update
-    comment.update(comment_params)
-    render(json: { partial: update_comment_form })
+  def create
+    new_comment = policy.comments.new(comment_params)
+    new_comment = policy.comments.new if new_comment.save
+    render(json: { partial: create_comment_partial(new_comment) })
   end
 
-  def destroy
-    comment.destroy
-    render(json: { partial: destroy_comment_form })
+  def update
+    comment = policy.comments.find(params[:id])
+    comment.update(deleted_at: DateTime.current)
+    render(json: { partial: update_comment_partial })
   end
 
   private
 
-  def update_comment_form
+  def create_comment_partial(new_comment)
     render_to_string(
       partial: "planning_application/review_policy_classes/comment",
       locals: {
         planning_application: planning_application,
         policy_class: policy_class,
         policy: policy,
-        comment: comment
+        comment: policy.comment,
+        new_comment: new_comment
       }
     )
   end
 
-  def destroy_comment_form
+  def update_comment_partial
     render_to_string(
-      partial: "policy_classes/comment_form",
+      partial: "policy_classes/comment",
       locals: {
-        comment: policy.build_comment,
+        policy: policy,
+        comment: nil,
         policy_index: params[:policy_index]
       }
     )
@@ -37,10 +41,6 @@ class CommentsController < AuthenticationController
 
   def comment_params
     params.require(:comment).permit(:text)
-  end
-
-  def comment
-    @comment ||= policy.comment
   end
 
   def policy

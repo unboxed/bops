@@ -1,7 +1,7 @@
 <% if comment.present? %>
   <div data-controller="show-hide submit-form">
-    <div data-show-hide-target="toggleable" class=<%= "display-none" unless comment.valid? %>>
-      <h4 class="govuk-heading-s policy-comment-title">
+    <div data-show-hide-target="toggleable" class=<%= "display-none" if new_comment.errors.any? %>>
+      <h4 class="govuk-heading-s govuk-!-margin-bottom-0">
         <%= existing_policy_comment_label(comment) %>
       </h4>
       <%= simple_format(comment.text, { class:"govuk-body" }) %>
@@ -15,15 +15,16 @@
         }
       ) %>
     </div>
-    <div data-show-hide-target="toggleable" class=<%= "display-none" if comment.valid? %>>
+    <div data-show-hide-target="toggleable" class=<%= "display-none" unless new_comment.errors.any? %>>
       <%= form_with(
-        model: [planning_application, policy_class, policy, comment],
+        model: [planning_application, policy_class, policy, new_comment],
         builder: GOVUKDesignSystemFormBuilder::FormBuilder,
         data: { action: "submit->submit-form#handleSubmit" }
       ) do |form| %>
         <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
         <%= form.govuk_text_area(
           :text,
+          value: (new_comment.text || comment.text),
           label: {
             text: existing_policy_comment_label(comment),
             tag: "h4",
@@ -36,5 +37,9 @@
         ) %>
       <% end %>
     </div>
+    <%= render(
+      partial: "shared/policy_classes/previous_comments",
+      locals: { previous_comments: policy.previous_comments }
+    ) %>
   </div>
 <% end %>

@@ -677,10 +677,10 @@ en:
       success: Recommendation was successfully withdrawn.
   policy_classes:
     add_comment: Add comment
-    comment_added_on: Comment added on %{created_at} by %{user}
-    comment_form:
+    comment:
       delete_comment: Delete comment
-    comment_updated_on: Comment updated on %{updated_at} by %{user}
+    comment_added_on: Comment added on %{time} by %{user}
+    comment_updated_on: Comment updated on %{time} by %{user}
     controls:
       edit_assessment: Edit assessment
       view_next_class: View next class
@@ -808,6 +808,9 @@ en:
     back_to_top_link:
       back_to_top: Back to top
     policy_classes:
+      previous_comments:
+        comment_deleted: Comment deleted %{time}
+        previous_comments: Previous comments
       table_head:
         complies: Complies
         does_not_comply: Does not comply

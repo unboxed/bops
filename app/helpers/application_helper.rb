@@ -42,7 +42,7 @@ module ApplicationHelper
   end
 
   def policy_comment_label(comment)
-    if comment.persisted?
+    if comment.present?
       existing_policy_comment_label(comment)
     else
       t("policy_classes.add_comment")
@@ -51,20 +51,13 @@ module ApplicationHelper
 
   def existing_policy_comment_label(comment)
     user_name = comment.user_name
+    action = comment.first? ? :added : :updated
 
-    if comment.edited?
-      t(
-        "policy_classes.comment_updated_on",
-        updated_at: comment.updated_at.strftime("%d %b %Y"),
-        user: user_name
-      )
-    else
-      t(
-        "policy_classes.comment_added_on",
-        created_at: comment.created_at.strftime("%d %b %Y"),
-        user: user_name
-      )
-    end
+    t(
+      "policy_classes.comment_#{action}_on",
+      time: comment.created_at.strftime("%d %b %Y"),
+      user: user_name
+    )
   end
 
   def consistency_checklist_path(consistency_checklist)

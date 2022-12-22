@@ -114,4 +114,66 @@ RSpec.describe Policy do
       expect(described_class.commented_or_does_not_comply).to eq [first_section, last_section]
     end
   end
+
+  describe "#comment" do
+    let(:policy) { create(:policy) }
+
+    let!(:comment) do
+      create(:comment, commentable: policy, created_at: 1.day.ago)
+    end
+
+    before do
+      create(:comment, commentable: policy, created_at: 2.days.ago)
+    end
+
+    it "returns most recent persisted comment" do
+      expect(policy.comment).to eq(comment)
+    end
+
+    context "when most recent comment is deleted" do
+      before do
+        create(
+          :comment,
+          commentable: policy,
+          created_at: 1.day.ago,
+          deleted_at: 1.hour.ago
+        )
+      end
+
+      it "returns nil" do
+        expect(policy.comment).to be_nil
+      end
+    end
+  end
+
+  describe "#previous_comments" do
+    let(:policy) { create(:policy) }
+
+    let!(:comment1) do
+      create(:comment, commentable: policy, created_at: 1.day.ago)
+    end
+
+    let!(:comment2) do
+      create(:comment, commentable: policy, created_at: 2.days.ago)
+    end
+
+    it "returns all but most recent comment" do
+      expect(policy.previous_comments).to contain_exactly(comment2)
+    end
+
+    context "when most recent comment is deleted" do
+      let!(:comment1) do
+        create(
+          :comment,
+          commentable: policy,
+          created_at: 1.day.ago,
+          deleted_at: 1.hour.ago
+        )
+      end
+
+      it "includes most recent comment" do
+        expect(policy.previous_comments).to eq([comment2, comment1])
+      end
+    end
+  end
 end

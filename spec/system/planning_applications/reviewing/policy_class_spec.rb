@@ -151,6 +151,11 @@ RSpec.describe "Reviewing Policy Class" do
         travel_to(Time.zone.local(2020, 10, 16)) do
           click_button("Edit comment")
 
+          expect(page).to have_field(
+            "Comment added on 15 Oct 2020 by Chuck The Assessor",
+            with: "policy comment"
+          )
+
           fill_in(
             "Comment added on 15 Oct 2020 by Chuck The Assessor",
             with: ""
@@ -172,6 +177,14 @@ RSpec.describe "Reviewing Policy Class" do
           )
 
           expect(page).to have_content("edited policy comment")
+
+          find("span", text: "Previous comments").click
+
+          expect(page).to have_content(
+            "Comment added on 15 Oct 2020 by Chuck The Assessor"
+          )
+
+          expect(page).to have_content("policy comment")
         end
       end
     end
