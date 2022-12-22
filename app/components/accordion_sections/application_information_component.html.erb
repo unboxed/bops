@@ -11,9 +11,7 @@
         <strong><%= t(".description") %></strong>
       </td>
       <td class="govuk-table__cell">
-        <%= auto_link_and_simple_format_content(
-          content: planning_application.description
-        ) %>
+        <%= render(FormattedContentComponent.new(text: planning_application.description)) %>
         <%= link_to(
           description_change_link_text,
           description_change_link_path,

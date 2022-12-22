@@ -29,7 +29,7 @@
     <% else %>
       <h1 class="govuk-heading-l">Edit application</h2>
 
-      <p class="govuk-body"><%= auto_link_and_simple_format_content(content: @planning_application.description) %></p>
+      <p class="govuk-body"><%= render(FormattedContentComponent.new(text: @planning_application.description)) %></p>
       <%= render "shared/planning_application_address_and_reference" %>
       <p class="govuk-body">
         <% if @planning_application.open_description_change_requests.any? %>

@@ -10,7 +10,7 @@
           action: t(".submitted_recommendation"),
           name: recommendation.assessor.name,
           datetime:  recommendation.created_at,
-          comment: auto_link_and_simple_format_content(content: recommendation.assessor_comment)
+          comment: render(FormattedContentComponent.new(text: recommendation.assessor_comment))
         }
       ) %>
       <% if recommendation.reviewed? %>
@@ -20,7 +20,7 @@
             action: t(".recommendation_queried"),
             name: recommendation.reviewer.name,
             datetime: recommendation.reviewed_at,
-            comment: auto_link_and_simple_format_content(content: recommendation.reviewer_comment)
+            comment: render(FormattedContentComponent.new(text: recommendation.reviewer_comment))
           }
         ) %>
       <% end %>

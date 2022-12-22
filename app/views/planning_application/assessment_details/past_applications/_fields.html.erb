@@ -2,5 +2,5 @@
   <%= assessment_detail.entry %>
 </p>
 <p class="govuk-body">
-  <%= auto_link_and_simple_format_content(content: assessment_detail.additional_information) %>
+  <%= render(FormattedContentComponent.new(text: assessment_detail.additional_information)) %>
 </p>

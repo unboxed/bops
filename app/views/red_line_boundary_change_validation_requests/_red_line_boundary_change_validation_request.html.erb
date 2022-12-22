@@ -3,7 +3,7 @@
 </td>
 <% if red_line_boundary_change_validation_request.cancelled? %>
   <td class="govuk-table__cell change-request-list">
-    <%= auto_link_and_simple_format_content(content: red_line_boundary_change_validation_request.reason) %>
+    <%= render(FormattedContentComponent.new(text: red_line_boundary_change_validation_request.reason)) %>
   </td>
 <% else %>
   <td class="govuk-table__cell change-request-list">

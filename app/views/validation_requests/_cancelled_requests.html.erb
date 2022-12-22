@@ -25,7 +25,7 @@
           <%= render request %>
 
           <td class="govuk-table__cell limit-column-width">
-            <%= auto_link_and_simple_format_content(content: request.cancel_reason) %>
+            <%= render(FormattedContentComponent.new(text: request.cancel_reason)) %>
           </td>
           <td class="govuk-table__cell limit-column-width">
             <%= request.cancelled_at %>

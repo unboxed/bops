@@ -2,8 +2,6 @@
 
 module PlanningApplications
   class AssessmentReportComponent < ViewComponent::Base
-    include FormatContentHelper
-
     def initialize(planning_application:, show_additional_evidence: false)
       @planning_application = planning_application
       @show_additional_evidence = show_additional_evidence

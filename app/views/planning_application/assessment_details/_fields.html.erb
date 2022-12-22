@@ -1,1 +1,1 @@
-<p class="govuk-body"><%= auto_link_and_simple_format_content(content: assessment_detail.entry) %></p>
+<p class="govuk-body"><%= render(FormattedContentComponent.new(text: assessment_detail.entry)) %></p>

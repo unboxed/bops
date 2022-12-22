@@ -34,7 +34,7 @@
               <%= note.user.name %> on <%= note.created_at %>
             </p>
             <p class="govuk-body">
-              <%= auto_link_and_simple_format_content(content: note.entry) %>
+              <%= render(FormattedContentComponent.new(text: note.entry)) %>
             </p>
           <% end %>
         <% end %>

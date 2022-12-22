@@ -2,8 +2,6 @@
 
 module AssessmentDetails
   class PreviousSummaryComponent < ViewComponent::Base
-    include FormatContentHelper
-
     def initialize(assessment_details:, assessment_detail:)
       @assessment_details = assessment_details
       @assessment_detail = assessment_detail

@@ -23,7 +23,7 @@
     <% if @planning_application.closed? %>
       <p class="govuk-body">
         <strong>Reason for being closed:</strong>
-        <%= auto_link_and_simple_format_content(content: @planning_application.closed_or_cancellation_comment) %>
+        <%= render(FormattedContentComponent.new(text: @planning_application.closed_or_cancellation_comment)) %>
       </p>
     <% end %>
 

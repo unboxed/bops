@@ -17,15 +17,15 @@
     )
   ) %>
   <% if planning_application.result_heading.present? %>
-    <%= auto_link_and_simple_format_content(
-      content: planning_application.result_heading,
-      classname: "govuk-body govuk-!-font-weight-bold"
+    <%= render(
+      FormattedContentComponent.new(
+        text: planning_application.result_heading,
+        classname: "govuk-body govuk-!-font-weight-bold"
+      )
     ) %>
   <% end %>
   <% if planning_application.result_description.present? %>
-    <%= auto_link_and_simple_format_content(
-      content: planning_application.result_description
-    ) %>
+    <%= render(FormattedContentComponent.new(text: planning_application.result_description)) %>
   <% end %>
   <% if planning_application.result_override.present? %>
     <p class="govuk-body">

@@ -45,7 +45,7 @@
       </strong>
     </p>
     <p class="govuk-body">
-      <%= auto_link_and_simple_format_content(content: planning_application.public_comment) %>
+      <%= render(FormattedContentComponent.new(text: planning_application.public_comment)) %>
     </p>
     <h3 class="govuk-heading-s">
       This decision is based on the following approved plans:
@@ -113,7 +113,7 @@
   <p class="govuk-body">
     <%= planning_application.local_authority.signatory %>, <br>
     <%= planning_application.local_authority.council_name %>, <br>
-    <%= auto_link_and_simple_format_content(content: planning_application.local_authority.enquiries_paragraph) %>.
+    <%= render(FormattedContentComponent.new(text: planning_application.local_authority.enquiries_paragraph)) %>.
   </p>
   <% if @planning_application.refused? %>
     <h3 class="govuk-heading-s">

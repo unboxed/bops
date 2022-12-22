@@ -1,5 +1,5 @@
 <% if first_note.present? %>
-  <%= auto_link_and_simple_format_content(content: first_note_entry) %>
+  <%= render(FormattedContentComponent.new(text: first_note_entry)) %>
   <p class="govuk-body"><%= first_note.created_at %></p>
 <% end %>
 <%= link_to(
