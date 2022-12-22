@@ -17,7 +17,7 @@
   <% end %>
   <% if document.invalidated_document_reason %>
     <p class="govuk-body govuk-!-margin-bottom-1">
-      Invalid: <strong><%= simple_format(document.invalidated_document_reason) %></strong>
+      Invalid: <strong><%= render(FormattedContentComponent.new(text: document.invalidated_document_reason)) %></strong>
     </p>
   <% end %>
   <p class="govuk-body govuk-!-margin-bottom-1">

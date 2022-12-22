@@ -11,7 +11,7 @@
             <%= "#{policy_class.section}.#{policy.section}" %>
           </h3>
           <p class="govuk-body">
-            <%= simple_format(policy.description) %>
+            <%= render(FormattedContentComponent.new(text: policy.description)) %>
           </p>
           <%= render(
             partial: local_assigns.fetch(

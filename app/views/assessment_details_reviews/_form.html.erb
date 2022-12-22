@@ -26,9 +26,11 @@
         ) %>
         <h3><%= t(".summary_of_consultee") %><h3>
       <% end %>
-      <%= simple_format(
-        form.object.send("#{assessment_detail}_entry"),
-        { class: "govuk-body govuk-!-margin-top-2" }
+      <%= render(
+        FormattedContentComponent.new(
+          text: form.object.send("#{assessment_detail}_entry"),
+          classname: "govuk-body govuk-!-margin-top-2"
+        )
       ) %>
       <%= render(
         AssessmentDetails::PreviousSummariesComponent.new(

@@ -3,7 +3,7 @@
 </td>
 <% if replacement_document_validation_request.cancelled? %>
   <td class="govuk-table__cell change-request-list">
-    <%= simple_format(replacement_document_validation_request.invalidated_document_reason) %>
+    <%= render(FormattedContentComponent.new(text: replacement_document_validation_request.invalidated_document_reason)) %>
   </td>
 <% else %>
   <td class="govuk-table__cell change-request-list limit-column-width">

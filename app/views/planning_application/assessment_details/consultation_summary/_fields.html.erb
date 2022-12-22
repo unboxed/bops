@@ -5,4 +5,4 @@
   partial: "shared/warning_text",
   locals: { message: t(".this_information_will") }
 ) %>
-<p class="govuk-body"><%= simple_format(assessment_detail.entry) %></p>
+<p class="govuk-body"><%= render(FormattedContentComponent.new(text: assessment_detail.entry)) %></p>

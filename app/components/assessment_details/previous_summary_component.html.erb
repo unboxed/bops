@@ -3,7 +3,7 @@
     <%= t(".user_marked_this", user: comment.user.name) %>
   </p>
   <p class="govuk-body govuk-!-margin-top-1"><%= comment.created_at %></p>
-  <%= simple_format(comment.text, { class: "govuk-body" }) %>
+  <%= render(FormattedContentComponent.new(text: comment.text)) %>
 </div>
 <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
   <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">
@@ -12,5 +12,5 @@
   <p class="govuk-body govuk-!-margin-top-0">
     <%= assessment_detail.created_at %>
   </p>
-  <%= simple_format(assessment_detail.entry, { class: "govuk-body" }) %>
+  <%= render(FormattedContentComponent.new(text: assessment_detail.entry)) %>
 <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">

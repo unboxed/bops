@@ -50,7 +50,7 @@
     the
     <%= @planning_application.local_authority.signatory_job_title %>,
     <%= @planning_application.local_authority.council_name %>,
-    <%= simple_format(@planning_application.local_authority.enquiries_paragraph) %>
+    <%= render(FormattedContentComponent.new(text: @planning_application.local_authority.enquiries_paragraph)) %>
     or by email to <%= @planning_application.local_authority.email_address %>
   </p>
   <p class="govuk-body">
