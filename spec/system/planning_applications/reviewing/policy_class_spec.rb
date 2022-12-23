@@ -57,7 +57,7 @@ RSpec.describe "Reviewing Policy Class" do
       expect(list_item("Review assessment of Part 1, Class A")).to have_content("Not checked yet")
     end
 
-    it "can return legislation to officer" do
+    it "can return legislation to officer and be updated when corrected" do
       create(:policy_class,
              :complies,
              section: "A",
@@ -103,6 +103,22 @@ RSpec.describe "Reviewing Policy Class" do
       click_button("Save and mark as complete")
 
       expect(list_item("Part 1, Class A")).to have_content("Complete")
+
+      click_on("Make draft recommendation")
+      click_on("Update assessment")
+      click_on("Review and submit recommendation")
+      click_on("Submit recommendation")
+
+      sign_in reviewer
+      visit(planning_application_review_tasks_path(planning_application))
+
+      expect(list_item("Review assessment of Part 1, Class A")).to have_content("Updated")
+
+      click_on "Review assessment of Part 1, Class A"
+      choose "Accept"
+      click_on "Save and mark as complete"
+
+      expect(list_item("Review assessment of Part 1, Class A")).to have_content("Completed")
     end
 
     context "when the assessor has added comments" do
