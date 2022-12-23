@@ -57,9 +57,12 @@ RSpec.describe "Reviewing Policy Class" do
       expect(list_item("Review assessment of Part 1, Class A")).to have_content("Not checked yet")
     end
 
-    it "can return legislation to officer with comment" do
-      policy_class = create(:policy_class, section: "A", planning_application: planning_application)
-      create(:policy, policy_class: policy_class)
+    it "can return legislation to officer and be updated when corrected" do
+      create(:policy_class,
+             :complies,
+             section: "A",
+             status: :complete,
+             planning_application: planning_application)
       visit(planning_application_review_tasks_path(planning_application))
 
       expect(page).to have_selector("h1", text: "Review and sign-off")
@@ -88,15 +91,34 @@ RSpec.describe "Reviewing Policy Class" do
       )
 
       click_button("Save and mark as complete")
+
+      sign_in assessor
+
       visit(planning_application_assessment_tasks_path(planning_application))
 
       expect(list_item("Part 1, Class A")).to have_content("To be reviewed")
 
       click_link("Part 1, Class A")
       choose("policy_class_policies_attributes_0_status_complies")
-      click_button("Save and come back later")
+      click_button("Save and mark as complete")
 
-      expect(list_item("Part 1, Class A")).to have_content("In progress")
+      expect(list_item("Part 1, Class A")).to have_content("Complete")
+
+      click_on("Make draft recommendation")
+      click_on("Update assessment")
+      click_on("Review and submit recommendation")
+      click_on("Submit recommendation")
+
+      sign_in reviewer
+      visit(planning_application_review_tasks_path(planning_application))
+
+      expect(list_item("Review assessment of Part 1, Class A")).to have_content("Updated")
+
+      click_on "Review assessment of Part 1, Class A"
+      choose "Accept"
+      click_on "Save and mark as complete"
+
+      expect(list_item("Review assessment of Part 1, Class A")).to have_content("Completed")
     end
 
     context "when the assessor has added comments" do

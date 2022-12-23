@@ -14,7 +14,7 @@ Capybara.register_driver :chrome_headless do |app|
   browser_options.args << "--headless"
   browser_options.args << "--no-sandbox"
   browser_options.args << "--allow-insecure-localhost"
-  browser_options.args << "--window-size=1280,1920"
+  browser_options.args << "--window-size=1280,2800"
   browser_options.args << "--disable-gpu" if Gem.win_platform?
   browser_options.args << "--host-rules=MAP * 127.0.0.1"
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options).tap do |d|
