@@ -73,7 +73,7 @@ RSpec.describe "Documents index page" do
         visit(planning_application_documents_path(planning_application))
 
         window1 = window_opened_by do
-          row = row_with_content("proposed-floorplan.png")
+          row = row_with_content("File name: proposed-floorplan.png")
           within(row) { click_link("View in new window") }
         end
 
@@ -82,7 +82,7 @@ RSpec.describe "Documents index page" do
         end
 
         window2 = window_opened_by do
-          row = row_with_content("proposed-roofplan.png")
+          row = row_with_content("File name: proposed-roofplan.png")
           within(row) { click_link("View in new window") }
         end
 

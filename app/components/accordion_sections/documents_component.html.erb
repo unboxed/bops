@@ -1,31 +1,33 @@
-<%= link_to(
-  t(".manage_documents"),
-  planning_application_documents_path(planning_application),
-  class: "govuk-link govuk-body"
-) %>
-<div class="scroll-docs">
-  <% documents.each do |document| %>
-    <hr>
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-one-third">
-        <%= render(
-          partial: "documents/document_row_image",
-          locals: {
-            planning_application: planning_application,
-            document: document,
-            resize: "200x110",
-            width: 90,
-            height: 110,
-            edit_and_archive: true
-          }
-        ) %>
+<div class="govuk-!-padding-left-2 govuk-!-padding-right-2">
+  <%= link_to(
+    t(".manage_documents"),
+    planning_application_documents_path(planning_application),
+    class: "govuk-button govuk-button--secondary"
+  ) %>
+  <div class="scroll-docs">
+    <% documents.each do |document| %>
+      <hr>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-third">
+          <%= render(
+            partial: "documents/document_row_image",
+            locals: {
+              planning_application: planning_application,
+              document: document,
+              resize: "200x110",
+              width: 90,
+              height: 110,
+              edit_and_archive: true
+            }
+          ) %>
+        </div>
+        <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-6">
+          <%= render(
+            partial: "documents/document_row_info",
+            locals: { document: document }
+          ) %>
+        </div>
       </div>
-      <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-6">
-        <%= render(
-          partial: "documents/document_row_info",
-          locals: { document: document }
-        ) %>
-      </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>

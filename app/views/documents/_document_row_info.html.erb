@@ -21,7 +21,7 @@
     </p>
   <% end %>
   <p class="govuk-body govuk-!-margin-bottom-1">
-    File name: <%= document.name %>
+    <%= titled_reference_or_file_name(document) %>
   </p>
   <p class="govuk-body govuk-!-margin-bottom-1">
     Date received: <%= document.received_at_or_created %>
