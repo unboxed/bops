@@ -54,7 +54,11 @@ RSpec.describe "Reviewing Policy Class" do
       click_on "Save and come back later"
 
       expect(page).to have_text "Successfully updated policy class"
-      expect(list_item("Review assessment of Part 1, Class A")).to have_content("Not checked yet")
+
+      expect(page).to have_list_item_for(
+        "Review assessment of Part 1, Class A",
+        with: "Not started"
+      )
     end
 
     it "can return legislation to officer and be updated when corrected" do

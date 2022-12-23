@@ -832,12 +832,13 @@ en:
     complete: Completed
     granted: To grant
     in_progress: In progress
-    not_checked_yet: Not checked yet
+    invalid: Invalid
     not_started: Not started
     refused: To refuse
     removed: Removed
     to_be_reviewed: To be reviewed
     updated: Updated
+    valid: Valid
     waiting: Waiting
   statuses:
     awaiting_correction: Corrections requested
@@ -849,6 +850,8 @@ en:
     returned: Returned
     withdrawn: Withdrawn
   task_list_items:
+    additional_document_component:
+      check_required_documents: Check required documents are on application
     assessment_detail_component:
       additional_evidence: Additional evidence
       consultation_summary: Summary of consultation
@@ -857,12 +860,22 @@ en:
       summary_of_work: Summary of works
     assessment_details_review_component:
       review_assessment_summaries: Review assessment summaries
+    check_red_line_boundary_component:
+      check_red_line: Check red line boundary
+    document_component:
+      check_document: Check document - %{document}
+    fee_component:
+      check_fee: Check fee
+    other_change_request_component:
+      view_other_validation: 'View other validation request #%{number}'
     permitted_development_right_component:
       permitted_development_rights: Permitted development rights
     permitted_development_right_review_component:
       permitted_development_rights: Permitted development rights
     review_documents_component:
       review_documents_for: Review documents for recommendation
+    validation_decision_component:
+      send_validation_decision: Send validation decision
   user:
     manager_role: Manager
     officer_role: Case Officer

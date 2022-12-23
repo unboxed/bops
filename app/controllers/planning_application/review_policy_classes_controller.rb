@@ -41,7 +41,7 @@ class PlanningApplication
     end
 
     def review_status
-      mark_as_complete? ? :complete : :not_checked_yet
+      mark_as_complete? ? :complete : :not_started
     end
 
     def policy_class_status

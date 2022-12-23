@@ -9,7 +9,7 @@ module StatusTags
     private
 
     def status
-      @review_policy_class&.status&.to_sym || :not_checked_yet
+      @review_policy_class&.status&.to_sym || :not_started
     end
   end
 end

@@ -70,7 +70,7 @@ RSpec.describe "Validation tasks" do
             href: edit_planning_application_document_path(planning_application, document, validate: "yes")
           )
           within(".govuk-tag--grey") do
-            expect(page).to have_content("Not checked yet")
+            expect(page).to have_content("Not started")
           end
         end
 
@@ -81,7 +81,7 @@ RSpec.describe "Validation tasks" do
             href: planning_application_constraints_path(planning_application)
           )
           within(".govuk-tag--grey") do
-            expect(page).to have_content("Not checked yet")
+            expect(page).to have_content("Not started")
           end
         end
 
@@ -94,16 +94,14 @@ RSpec.describe "Validation tasks" do
               href: planning_application_sitemap_path(planning_application)
             )
             within(".govuk-tag--grey") do
-              expect(page).to have_content("Not checked yet")
+              expect(page).to have_content("Not started")
             end
           end
 
-          within("#validate_red_line_boundary") do
-            expect(page).to have_content("Check red line boundary")
-            within(".govuk-tag--grey") do
-              expect(page).to have_content("Not checked yet")
-            end
-          end
+          expect(page).to have_list_item_for(
+            "Check red line boundary",
+            with: "Not started"
+          )
         end
 
         within("#review-tasks") do
@@ -168,15 +166,10 @@ RSpec.describe "Validation tasks" do
             end
           end
 
-          within("#validate_red_line_boundary") do
-            expect(page).to have_link(
-              "Check red line boundary",
-              href: planning_application_sitemap_path(planning_application)
-            )
-            within(".govuk-tag--grey") do
-              expect(page).to have_content("Not checked yet")
-            end
-          end
+          expect(page).to have_list_item_for(
+            "Check red line boundary",
+            with: "Not started"
+          )
         end
 
         within("#review-tasks") do

@@ -35,10 +35,6 @@ module TaskListItems
       end
     end
 
-    def status_tag_component
-      StatusTags::BaseComponent.new(status: status)
-    end
-
     def status
       if permitted_development_right.blank?
         :not_started

@@ -11,9 +11,12 @@
       </li>
     <% end %>
     <% @planning_application.other_change_validation_requests.non_fee_item.not_cancelled.each do |other_change_validation_request| %>
-      <li class="app-task-list__item">
-        <%= @planning_application.other_change_task_list(other_change_validation_request) %>
-      </li>
+      <%= render(
+        TaskListItems::OtherChangeRequestComponent.new(
+          planning_application: @planning_application,
+          request: other_change_validation_request
+        )
+      ) %>
     <% end %>
   </ul>
 </li>

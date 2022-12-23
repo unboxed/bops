@@ -16,7 +16,7 @@ RSpec.describe ReviewPolicyClassLinkComponent, type: :component do
   end
 
   it "displays edit link when status not checked yet" do
-    review_policy_class = create(:review_policy_class, status: :not_checked_yet, policy_class: policy_class)
+    review_policy_class = create(:review_policy_class, status: :not_started, policy_class: policy_class)
 
     render_inline(described_class.new(policy_class: review_policy_class.policy_class))
 

@@ -37,10 +37,6 @@ module TaskListItems
       end
     end
 
-    def status_tag_component
-      StatusTags::BaseComponent.new(status: status)
-    end
-
     def status
       if assessment_detail_update_required?(assessment_detail)
         :to_be_reviewed

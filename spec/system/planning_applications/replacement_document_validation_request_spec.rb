@@ -6,6 +6,17 @@ RSpec.describe "Requesting document changes to a planning application" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
+  let(:file_path1) do
+    Rails.root.join("spec/fixtures/images/proposed-roofplan.png")
+  end
+
+  let(:file_path2) do
+    Rails.root.join("spec/fixtures/images/proposed-floorplan.png")
+  end
+
+  let(:file1) { Rack::Test::UploadedFile.new(file_path1, "image/png") }
+  let(:file2) { Rack::Test::UploadedFile.new(file_path2, "image/png") }
+
   before do
     travel_to Time.zone.local(2021, 1, 1)
     sign_in assessor
@@ -16,8 +27,14 @@ RSpec.describe "Requesting document changes to a planning application" do
     let!(:planning_application) do
       create(:planning_application, :not_started, local_authority: default_local_authority)
     end
-    let!(:document1) { create(:document, :with_file, planning_application: planning_application) }
-    let!(:document2) { create(:document, :with_file, planning_application: planning_application) }
+
+    let!(:document1) do
+      create(:document, file: file1, planning_application: planning_application)
+    end
+
+    let!(:document2) do
+      create(:document, file: file2, planning_application: planning_application)
+    end
 
     it "returns to task list if document is not marked as valid or invalid" do
       visit(
@@ -39,13 +56,17 @@ RSpec.describe "Requesting document changes to a planning application" do
       click_link "Check and validate"
 
       within("#document-validation-tasks") do
-        within("#document_#{document2.id}") do
-          expect(page).to have_content("Not checked yet")
-        end
-        within("#document_#{document1.id}") do
-          expect(page).to have_content("Not checked yet")
-          click_link("Check document - #{document1.name}")
-        end
+        expect(page).to have_list_item_for(
+          "Check document - proposed-floorplan.png",
+          with: "Not started"
+        )
+
+        expect(page).to have_list_item_for(
+          "Check document - proposed-roofplan.png",
+          with: "Not started"
+        )
+
+        click_link("Check document - proposed-roofplan.png")
       end
 
       expect(page).not_to have_content("Upload a replacement file")
@@ -85,13 +106,17 @@ RSpec.describe "Requesting document changes to a planning application" do
         expect(page).to have_content("Invalid items 1")
       end
       within("#document-validation-tasks") do
-        within("#document_#{document2.id}") do
-          expect(page).to have_content("Not checked yet")
-        end
-        within("#document_#{document1.id}") do
-          expect(page).to have_content("Invalid")
-          click_link("Check document - #{document1.name}")
-        end
+        expect(page).to have_list_item_for(
+          "Check document - proposed-floorplan.png",
+          with: "Not started"
+        )
+
+        expect(page).to have_list_item_for(
+          "Check document - proposed-roofplan.png",
+          with: "Invalid"
+        )
+
+        click_link("Check document - proposed-roofplan.png")
       end
 
       # View show page
@@ -111,10 +136,12 @@ RSpec.describe "Requesting document changes to a planning application" do
 
       # Delete the request
       within("#document-validation-tasks") do
-        within("#document_#{document1.id}") do
-          expect(page).to have_content("Invalid")
-          click_link("Check document - #{document1.name}")
-        end
+        expect(page).to have_list_item_for(
+          "Check document - proposed-roofplan.png",
+          with: "Invalid"
+        )
+
+        click_link("Check document - proposed-roofplan.png")
       end
       accept_confirm(text: "Are you sure?") do
         click_link("Delete request")
@@ -129,10 +156,12 @@ RSpec.describe "Requesting document changes to a planning application" do
       expect(document1.invalidated_document_reason).to be_nil
       expect(document1.validated).to be_nil
       within("#document-validation-tasks") do
-        within("#document_#{document1.id}") do
-          expect(page).to have_content("Not checked yet")
-          click_link("Check document - #{document1.name}")
-        end
+        expect(page).to have_list_item_for(
+          "Check document - proposed-roofplan.png",
+          with: "Not started"
+        )
+
+        click_link("Check document - proposed-roofplan.png")
       end
 
       # Mark same document as invalid again
@@ -144,9 +173,10 @@ RSpec.describe "Requesting document changes to a planning application" do
       expect(page).to have_content("Replacement document validation request successfully created.")
       expect(document1.reload.replacement_document_validation_request).to eq(ReplacementDocumentValidationRequest.last)
       within("#document-validation-tasks") do
-        within("#document_#{document1.id}") do
-          expect(page).to have_content("Invalid")
-        end
+        expect(page).to have_list_item_for(
+          "Check document - proposed-roofplan.png",
+          with: "Invalid"
+        )
       end
       within("#invalid-items-count") do
         expect(page).to have_content("Invalid items 1")
@@ -160,9 +190,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       click_link "Check and validate"
 
       within("#document-validation-tasks") do
-        within("#document_#{document1.id}") do
-          click_link("Check document - #{document1.name}")
-        end
+        click_link("Check document - proposed-roofplan.png")
       end
 
       # Mark document as valid
@@ -170,12 +198,15 @@ RSpec.describe "Requesting document changes to a planning application" do
       click_button "Save"
 
       within("#document-validation-tasks") do
-        within("#document_#{document1.id}") do
-          expect(page).to have_content("Valid")
-        end
-        within("#document_#{document2.id}") do
-          expect(page).to have_content("Not checked yet")
-        end
+        expect(page).to have_list_item_for(
+          "Check document - proposed-roofplan.png",
+          with: "Valid"
+        )
+
+        expect(page).to have_list_item_for(
+          "Check document - proposed-floorplan.png",
+          with: "Not started"
+        )
       end
 
       click_link "Send validation decision"
@@ -188,8 +219,14 @@ RSpec.describe "Requesting document changes to a planning application" do
     let!(:planning_application) do
       create(:planning_application, :invalidated, local_authority: default_local_authority)
     end
-    let!(:document1) { create(:document, :with_file, planning_application: planning_application) }
-    let!(:document2) { create(:document, :with_file, planning_application: planning_application) }
+
+    let!(:document1) do
+      create(:document, file: file1, planning_application: planning_application)
+    end
+
+    let!(:document2) do
+      create(:document, file: file2, planning_application: planning_application)
+    end
 
     it "I can mark documents as invalid and cancel the validation request" do
       delivered_emails = ActionMailer::Base.deliveries.count
@@ -197,13 +234,17 @@ RSpec.describe "Requesting document changes to a planning application" do
       click_link "Check and validate"
 
       within("#document-validation-tasks") do
-        within("#document_#{document2.id}") do
-          expect(page).to have_content("Not checked yet")
-        end
-        within("#document_#{document1.id}") do
-          expect(page).to have_content("Not checked yet")
-          click_link("Check document - #{document1.name}")
-        end
+        expect(page).to have_list_item_for(
+          "Check document - proposed-floorplan.png",
+          with: "Not started"
+        )
+
+        expect(page).to have_list_item_for(
+          "Check document - proposed-roofplan.png",
+          with: "Not started"
+        )
+
+        click_link("Check document - proposed-roofplan.png")
       end
 
       within("#validate-document") { choose "No" }
@@ -223,12 +264,15 @@ RSpec.describe "Requesting document changes to a planning application" do
         expect(page).to have_content("Invalid items 1")
       end
       within("#document-validation-tasks") do
-        within("#document_#{document1.id}") do
-          expect(page).to have_content("Invalid")
-        end
-        within("#document_#{document2.id}") do
-          expect(page).to have_content("Not checked yet")
-        end
+        expect(page).to have_list_item_for(
+          "Check document - proposed-roofplan.png",
+          with: "Invalid"
+        )
+
+        expect(page).to have_list_item_for(
+          "Check document - proposed-floorplan.png",
+          with: "Not started"
+        )
       end
 
       click_link "Send validation decision"
@@ -250,9 +294,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       # Cancel request
       visit planning_application_validation_tasks_path(planning_application)
       within("#document-validation-tasks") do
-        within("#document_#{document1.id}") do
-          click_link("Check document - #{document1.name}")
-        end
+        click_link("Check document - proposed-roofplan.png")
       end
 
       within("#replacement-document-details") do
@@ -289,9 +331,10 @@ RSpec.describe "Requesting document changes to a planning application" do
       end
       expect(page).not_to have_content("Invalid documents")
       within("#document-validation-tasks") do
-        within("#document_#{document1.id}") do
-          expect(page).to have_content("Not checked yet")
-        end
+        expect(page).to have_list_item_for(
+          "Check document - proposed-roofplan.png",
+          with: "Not started"
+        )
       end
 
       click_link "Send validation decision"
@@ -300,8 +343,13 @@ RSpec.describe "Requesting document changes to a planning application" do
 
     context "when an applicant has responded" do
       let!(:document_response) do
-        create(:document, :with_other_file, planning_application: planning_application)
+        create(
+          :document,
+          file: file1,
+          planning_application: planning_application
+        )
       end
+
       let!(:replacement_document_validation_request) do
         create(:replacement_document_validation_request, :with_response,
                planning_application: planning_application, old_document: document1, new_document: document_response)
@@ -337,14 +385,12 @@ RSpec.describe "Requesting document changes to a planning application" do
         end
 
         within("#document-validation-tasks") do
-          expect(page).not_to have_css("#document_#{document1.id}")
-          within("#document_#{document2.id}") do
-            expect(page).to have_content("Not checked yet")
-          end
-          within("#document_#{document_response.id}") do
-            expect(page).to have_content("Updated")
-            click_link("Check document - #{document_response.name.to_s.truncate(25)}")
-          end
+          expect(page).to have_list_item_for(
+            "Check document - proposed-roofplan.png",
+            with: "Updated"
+          )
+
+          click_link("Check document - proposed-roofplan.png")
         end
 
         within("#validate-document") { choose "No" }
@@ -355,9 +401,10 @@ RSpec.describe "Requesting document changes to a planning application" do
         expect(page).to have_content("Replacement document validation request successfully created.")
 
         within("#document-validation-tasks") do
-          within("#document_#{document_response.id}") do
-            expect(page).to have_content("Invalid")
-          end
+          expect(page).to have_list_item_for(
+            "Check document - proposed-roofplan.png",
+            with: "Invalid"
+          )
         end
         within("#invalid-items-count") do
           expect(page).to have_content("Invalid items 1")
@@ -372,7 +419,7 @@ RSpec.describe "Requesting document changes to a planning application" do
 
         within("#replacement_document_validation_request_#{request.id}") do
           expect(page).to have_content("Replacement document")
-          expect(page).to have_content("proposed-first-floor-plan.pdf")
+          expect(page).to have_content("proposed-roofplan.png")
           expect(page).to have_content("sent")
           expect(page).to have_link(
             "View and update",
@@ -381,7 +428,7 @@ RSpec.describe "Requesting document changes to a planning application" do
         end
         within("#replacement_document_validation_request_#{replacement_document_validation_request.id}") do
           expect(page).to have_content("Replacement document")
-          expect(page).to have_content("proposed-floorplan.png")
+          expect(page).to have_content("proposed-roofplan.png")
           expect(page).to have_content("Responded")
         end
 
@@ -433,11 +480,14 @@ RSpec.describe "Requesting document changes to a planning application" do
       click_link "Check and validate"
 
       within("#document-validation-tasks") do
-        within("#document_#{document2.id}") do
-          expect(page).to have_content("Not checked yet")
-          expect(page).to have_link("Check document - #{document2.name}")
-        end
-        expect(page).not_to have_css("#document_#{document1.id}")
+        expect(page).to have_list_item_for(
+          "Check document - proposed-floorplan.png",
+          with: "Not started"
+        )
+
+        expect(page).not_to have_content(
+          "Check document - proposed-roofplan.png"
+        )
       end
     end
   end

@@ -8,13 +8,15 @@
         <%= link_to_unless(@planning_application.boundary_geojson.present? && @planning_application.officer_can_draw_boundary?, "Draw red line boundary", planning_application_sitemap_path(@planning_application), class: "govuk-link" ) %>
       </span>
       <%= render(
-        StatusTags::RedLineBoundaryComponent.new(
+        StatusTags::DrawRedLineBoundaryComponent.new(
           boundary_geojson: @planning_application.boundary_geojson
         )
       ) %>
     </li>
-    <li id="validate_red_line_boundary"  class="app-task-list__item">
-      <%= @planning_application.red_line_boundary_task_list %>
-    </li>
+    <%= render(
+      TaskListItems::CheckRedLineBoundaryComponent.new(
+        planning_application: @planning_application
+      )
+    ) %>
   </ul>
 </li>

@@ -7,5 +7,9 @@ module TaskListItems
     def link_active?
       true
     end
+
+    def status_tag_component
+      StatusTags::BaseComponent.new(status: status)
+    end
   end
 end
