@@ -130,6 +130,7 @@ en:
           attributes:
             file:
               missing_file: Please choose a file
+              open_replacement_request: You cannot replace the file when there is an open document replacement request
               unsupported_file_type: The selected file must be a PDF, JPG or PNG
             numbers:
               missing_numbers: All documents listed on the decision notice must have a document number
@@ -184,6 +185,13 @@ en:
       local_authority_successfully_updated: Council information successfully updated
       user_successfully_created: User successfully created
       user_successfully_updated: User successfully updated
+  api:
+    v1:
+      replacement_document_validation_requests:
+        update:
+          applicant_has_provided: Applicant has provived a replacement document.
+          error: Unable to update request
+          success: Validation request updated
   application:
     header:
       back_office_planning: Back-office Planning System
@@ -382,11 +390,23 @@ en:
     show:
       back: Back
       cancel_this_request: Cancel this request
+  document:
+    replacement_document_uploaded: Replacement document uploaded
   documents:
     document_row_image:
       archive: Archive
       edit: Edit
       view_in_new: View in new window
+    edit:
+      view_in_new: View in new window
+    form_partials:
+      privacy:
+        document_references: Document reference(s)
+        where_documents_contain: Where documents contain multiple drawings, enter multiple references separated by a comma (e.g. "25A-V2, 25B-V2").
+      upload:
+        a_replacement_file: A replacement file will automatically archive the existing file
+        upload_a_file: Upload a file
+        upload_a_replacement: Upload a replacement file
     index:
       request_a_new: Request a new document
       upload_document: Upload document

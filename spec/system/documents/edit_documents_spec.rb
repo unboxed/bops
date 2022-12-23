@@ -4,10 +4,15 @@ require "rails_helper"
 
 RSpec.describe "Edit document" do
   let!(:default_local_authority) { create(:local_authority, :default) }
+
   let!(:planning_application) do
-    create(:planning_application,
-           local_authority: default_local_authority)
+    create(
+      :planning_application,
+      :not_started,
+      local_authority: default_local_authority
+    )
   end
+
   let!(:document) do
     create(:document, :with_file, planning_application: planning_application,
                                   applicant_description: "This file shows the drawing")
@@ -31,6 +36,82 @@ RSpec.describe "Edit document" do
     it "displays the planning application address and reference" do
       expect(page).to have_content(planning_application.full_address.upcase)
       expect(page).to have_content(planning_application.reference)
+    end
+
+    it "archives and replaces existing document when new file is uploaded" do
+      visit(
+        edit_planning_application_document_path(planning_application, document)
+      )
+
+      check("Front")
+      fill_in("Document reference(s)", with: "DOC123")
+      click_button("Save")
+      click_link("Edit")
+
+      expect(page).to have_content("proposed-floorplan.png")
+      expect(page).to have_field("Document reference(s)", with: "DOC123")
+      expect(page).to have_field("Front", checked: true)
+
+      attach_file(
+        "Upload a replacement file",
+        "spec/fixtures/images/proposed-roofplan.png"
+      )
+
+      click_button("Save")
+
+      within(".archived-documents") do
+        expect(page).to have_content("proposed-floorplan.png")
+      end
+
+      click_link("Edit")
+
+      expect(page).to have_content("proposed-roofplan.png")
+      expect(page).to have_field("Document reference(s)", with: "DOC123")
+      expect(page).to have_field("Front", checked: true)
+    end
+
+    context "when there is an open replacement request" do
+      before do
+        create(
+          :replacement_document_validation_request,
+          old_document: document,
+          planning_application: planning_application
+        )
+      end
+
+      it "renders an error if user tries to replace the file" do
+        visit(
+          edit_planning_application_document_path(planning_application, document)
+        )
+
+        attach_file(
+          "Upload a replacement file",
+          "spec/fixtures/images/proposed-roofplan.png"
+        )
+
+        click_button("Save")
+
+        expect(page).to have_content(
+          "You cannot replace the file when there is an open document replacement request"
+        )
+      end
+    end
+
+    it "renders error when document is in unrepresentable format" do
+      visit(
+        edit_planning_application_document_path(planning_application, document)
+      )
+
+      attach_file(
+        "Upload a replacement file",
+        "spec/fixtures/files/valid_planning_application.json"
+      )
+
+      click_button("Save")
+
+      expect(page).to have_content(
+        "The selected file must be a PDF, JPG or PNG"
+      )
     end
 
     it "with wrong format document" do
@@ -75,7 +156,7 @@ RSpec.describe "Edit document" do
           )
         )
 
-        fill_in "numbers", with: "DOCREF123"
+        fill_in("Document reference(s)", with: "DOCREF123")
 
         click_button "Save"
 
@@ -112,7 +193,7 @@ RSpec.describe "Edit document" do
           click_link "Edit"
         end
 
-        fill_in "numbers", with: "DOCREF123"
+        fill_in("Document reference(s)", with: "DOCREF123")
 
         click_button "Save"
 

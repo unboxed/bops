@@ -274,4 +274,119 @@ RSpec.describe Document do
       end
     end
   end
+
+  describe "#update_or_replace" do
+    let(:planning_application) { create(:planning_application, :not_started) }
+
+    let(:file_path1) do
+      Rails.root.join("spec/fixtures/images/proposed-floorplan.png")
+    end
+
+    let(:file_path2) do
+      Rails.root.join("spec/fixtures/images/proposed-roofplan.png")
+    end
+
+    let(:file1) { Rack::Test::UploadedFile.new(file_path1, "image/png") }
+    let(:file2) { Rack::Test::UploadedFile.new(file_path2, "image/png") }
+
+    let(:document) do
+      create(
+        :document,
+        file: file1,
+        planning_application: planning_application,
+        numbers: "DOC123"
+      )
+    end
+
+    context "when there is no 'file' attribute" do
+      let(:attributes) do
+        { numbers: "DOC345" }
+      end
+
+      it "updates existing document" do
+        document.update_or_replace(attributes)
+
+        expect(document.reload.numbers).to eq("DOC345")
+      end
+
+      context "when the attributes are invalid" do
+        let(:attributes) do
+          { referenced_in_decision_notice: true, numbers: "" }
+        end
+
+        it "returns false" do
+          expect(document.update_or_replace(attributes)).to be(false)
+        end
+
+        it "sets error" do
+          document.update_or_replace(attributes)
+
+          expect(document.errors.messages[:numbers]).to contain_exactly(
+            "All documents listed on the decision notice must have a document number"
+          )
+        end
+      end
+    end
+
+    context "when there is a 'file' attribute" do
+      let(:attributes) do
+        { file: file2 }
+      end
+
+      it "archives existing document" do
+        travel_to(Time.zone.local(2022, 12, 23)) do
+          document.update_or_replace(attributes)
+        end
+
+        expect(document).to have_attributes(
+          archive_reason: "Replacement document uploaded",
+          archived_at: Time.zone.local(2022, 12, 23).to_datetime
+        )
+      end
+
+      it "does not update existing document" do
+        document.update_or_replace(attributes)
+
+        expect(
+          document.reload.file.blob.filename
+        ).to eq(
+          "proposed-floorplan.png"
+        )
+      end
+
+      it "creates new document with attributes" do
+        document.update_or_replace(attributes)
+
+        new_document = planning_application.reload.documents.last
+
+        expect(
+          new_document.file.blob.filename
+        ).to eq(
+          "proposed-roofplan.png"
+        )
+      end
+
+      context "when there is an open replacement request" do
+        before do
+          create(
+            :replacement_document_validation_request,
+            old_document: document,
+            planning_application: planning_application
+          )
+        end
+
+        it "returns false" do
+          expect(document.update_or_replace(attributes)).to be(false)
+        end
+
+        it "sets error" do
+          document.update_or_replace(attributes)
+
+          expect(document.errors.messages[:file]).to contain_exactly(
+            "You cannot replace the file when there is an open document replacement request"
+          )
+        end
+      end
+    end
+  end
 end

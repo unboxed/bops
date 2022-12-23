@@ -66,7 +66,10 @@ RSpec.describe "Edit document numbers page" do
           click_link "Edit"
         end
         # the submitted values are re-presented in the form
-        expect(find_field("numbers")).to have_content "new_number_1, new_number_2"
+        expect(page).to have_field(
+          "Document reference(s)",
+          with: "new_number_1, new_number_2"
+        )
 
         click_link "Documents"
 
@@ -98,7 +101,10 @@ RSpec.describe "Edit document numbers page" do
           click_link "Edit"
         end
         # the submitted values are re-presented in the form
-        expect(page).to have_field("numbers", with: "new_number_1, new_number_2")
+        expect(page).to have_field(
+          "Document reference(s)",
+          with: "new_number_1, new_number_2"
+        )
 
         click_link "Documents"
 

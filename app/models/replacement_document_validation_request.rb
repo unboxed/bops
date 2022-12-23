@@ -30,6 +30,19 @@ class ReplacementDocumentValidationRequest < ApplicationRecord
     raise ResetDocumentInvalidationError, e.message
   end
 
+  def replace_document!(file:, reason:)
+    transaction do
+      self.new_document = planning_application.documents.create!(
+        file: file,
+        tags: old_document.tags,
+        numbers: old_document.numbers
+      )
+
+      close!
+      old_document.update!(archive_reason: reason, archived_at: Time.zone.now)
+    end
+  end
+
   private
 
   def audit_api_comment

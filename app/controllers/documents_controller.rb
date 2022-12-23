@@ -49,7 +49,7 @@ class DocumentsController < AuthenticationController
   def update
     respond_to do |format|
       format.html do
-        if @document.update(document_params)
+        if @document.update_or_replace(document_params)
           if validate_document? && @document.validated == false
             redirect_to new_planning_application_replacement_document_validation_request_path(document: @document)
           else

@@ -19,8 +19,16 @@ RSpec.describe "API request to patch document validation requests", show_excepti
   end
 
   let!(:document) do
-    create(:document, :with_file, :public, planning_application: planning_application, validated: false,
-                                           invalidated_document_reason: "Not readable")
+    create(
+      :document,
+      :with_file,
+      :public,
+      planning_application: planning_application,
+      validated: false,
+      invalidated_document_reason: "Not readable",
+      tags: ["Front"],
+      numbers: "DOC123"
+    )
   end
 
   let!(:replacement_document_validation_request) do
@@ -61,6 +69,17 @@ RSpec.describe "API request to patch document validation requests", show_excepti
     expect(replacement_document_validation_request.new_document).to be_a(Document)
     expect(document.archived_at).not_to be_nil
     expect(document.archive_reason).to eq("Applicant has provived a replacement document.")
+  end
+
+  it "copies old document tags and reference to new document" do
+    patch(path, params: params, headers: headers)
+
+    expect(
+      replacement_document_validation_request.reload.new_document
+    ).to have_attributes(
+      tags: ["Front"],
+      numbers: "DOC123"
+    )
   end
 
   it "creates request received audit associated with API user" do
