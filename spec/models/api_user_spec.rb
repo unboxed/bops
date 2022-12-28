@@ -20,5 +20,13 @@ RSpec.describe ApiUser do
       api_user = build(:api_user, name: nil)
       expect(api_user).not_to be_valid
     end
+
+    it "must have a unique name and token" do
+      create(:api_user, name: "test")
+      api_user = build(:api_user, name: "test")
+      api_user.save
+
+      expect(api_user.errors.messages[:name][0]).to eq("has already been taken")
+    end
   end
 end
