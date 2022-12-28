@@ -3,6 +3,8 @@
 class ApiUser < ApplicationRecord
   belongs_to :local_authority, optional: true
 
-  validates :name, :token, presence: true
+  validates :name, presence: true
   has_many :audits, dependent: :nullify
+
+  has_secure_token :token, length: 36
 end

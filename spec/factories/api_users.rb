@@ -3,6 +3,5 @@
 FactoryBot.define do
   factory :api_user do
     name { Faker::Name.name }
-    token { "dsafdsaf87897dsf8" }
   end
 end
