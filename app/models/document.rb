@@ -59,6 +59,9 @@ class Document < ApplicationRecord
 
   PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"].freeze
 
+  attr_accessor :replacement_file
+
+  validate :no_open_replacement_request, if: :replacement_file
   validate :tag_values_permitted
   validate :file_content_type_permitted
   validate :file_attached
@@ -155,7 +158,26 @@ class Document < ApplicationRecord
     nil
   end
 
+  def update_or_replace(attributes)
+    self.attributes = attributes
+    self.replacement_file = attributes[:file]
+    return false unless valid?
+
+    if replacement_file.present?
+      planning_application.documents.create(attributes)
+      reload.archive(I18n.t("document.replacement_document_uploaded"))
+    else
+      save
+    end
+  end
+
   private
+
+  def no_open_replacement_request
+    return unless replacement_document_validation_request&.open_or_pending?
+
+    errors.add(:file, :open_replacement_request)
+  end
 
   def tag_values_permitted
     errors.add(:tags, :unpermitted_tags) unless (tags - Document::TAGS).empty?

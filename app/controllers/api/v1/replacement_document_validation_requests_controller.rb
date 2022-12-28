@@ -32,18 +32,17 @@ module Api
 
       def update
         @replacement_document_validation_request = @planning_application.replacement_document_validation_requests.find_by(id: params[:id])
-        new_document = @planning_application.documents.create!(file: params[:new_file])
-        @replacement_document_validation_request.update!(new_document: new_document)
-        @replacement_document_validation_request.close!
 
-        if @replacement_document_validation_request.save
-          archive_old_document
-          @replacement_document_validation_request.create_api_audit!
-          @planning_application.send_update_notification_to_assessor
-          render json: { message: "Validation request updated" }, status: :ok
-        else
-          render json: { message: "Unable to update request" }, status: :bad_request
-        end
+        @replacement_document_validation_request.replace_document!(
+          file: params[:new_file],
+          reason: t(".applicant_has_provided")
+        )
+
+        @replacement_document_validation_request.create_api_audit!
+        @planning_application.send_update_notification_to_assessor
+        render(json: { message: t(".success") }, status: :ok)
+      rescue StandardError
+        render(json: { message: t(".error") }, status: :bad_request)
       end
 
       private
@@ -64,13 +63,6 @@ module Api
         return if params[:new_file].present?
 
         render json: { message: "A file must be selected to proceed." }, status: :bad_request
-      end
-
-      def archive_old_document
-        @replacement_document_validation_request.old_document.update!(
-          archive_reason: "Applicant has provived a replacement document.",
-          archived_at: Time.zone.now
-        )
       end
     end
   end

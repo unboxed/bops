@@ -1,12 +1,9 @@
-<%= form.label :numbers, "Document reference(s)", class: "govuk-body govuk-!-font-weight-bold govuk-!-padding-top-3", for: "numbers" %>
-
-<div id="event-name-hint" class="govuk-hint">
-  Where documents contain multiple drawings, enter multiple references separated by a comma (e.g. "25A-V2, 25B-V2").
-</div>
-<div class="numbers">
-  <%= form.text_area :numbers, class: "govuk-input govuk-input--width-20", id: "numbers" %>
-</div>
-
+<%= form.govuk_text_field(
+  :numbers,
+  label: { text: t(".document_references"), tag: "strong", size: "s" },
+  hint: { text: t(".where_documents_contain") },
+  class: "govuk-input--width-20"
+) %>
 <div class="display govuk-!-padding-top-3">
   <%= form.govuk_radio_buttons_fieldset(:status, legend: { size: 's', text: 'Do you want to list this document on the decision notice?' }) do %>
     <%= form.govuk_radio_button :referenced_in_decision_notice, 'true', label: { text: 'Yes' } %>

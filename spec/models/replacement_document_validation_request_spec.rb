@@ -143,4 +143,91 @@ RSpec.describe ReplacementDocumentValidationRequest do
       end
     end
   end
+
+  describe "#replace_document!" do
+    let(:planning_application) { create(:planning_application, :not_started) }
+
+    let(:file_path1) do
+      Rails.root.join("spec/fixtures/images/proposed-floorplan.png")
+    end
+
+    let(:file_path2) do
+      Rails.root.join("spec/fixtures/images/proposed-roofplan.png")
+    end
+
+    let(:file1) { Rack::Test::UploadedFile.new(file_path1, "image/png") }
+    let(:file2) { Rack::Test::UploadedFile.new(file_path2, "image/png") }
+
+    let(:old_document) do
+      create(
+        :document,
+        file: file1,
+        planning_application: planning_application,
+        numbers: "DOC123",
+        tags: ["Front"]
+      )
+    end
+
+    let(:replacement_document_validation_request) do
+      create(
+        :replacement_document_validation_request,
+        old_document: old_document,
+        new_document: nil,
+        state: :open,
+        planning_application: planning_application
+      )
+    end
+
+    it "archives old document" do
+      travel_to(Time.zone.local(2022, 12, 23)) do
+        replacement_document_validation_request.replace_document!(
+          file: file2,
+          reason: "reason"
+        )
+      end
+
+      expect(old_document).to have_attributes(
+        archive_reason: "reason",
+        archived_at: Time.zone.local(2022, 12, 23).to_datetime
+      )
+    end
+
+    it "saves file to new document" do
+      replacement_document_validation_request.replace_document!(
+        file: file2,
+        reason: "reason"
+      )
+
+      new_document = replacement_document_validation_request.reload.new_document
+
+      expect(
+        new_document.file.blob.filename
+      ).to eq(
+        "proposed-roofplan.png"
+      )
+    end
+
+    it "copies reference number and tags to new document" do
+      replacement_document_validation_request.replace_document!(
+        file: file2,
+        reason: "reason"
+      )
+
+      expect(
+        replacement_document_validation_request.reload.new_document
+      ).to have_attributes(
+        numbers: "DOC123",
+        tags: ["Front"]
+      )
+    end
+
+    it "closes request" do
+      replacement_document_validation_request.replace_document!(
+        file: file2,
+        reason: "reason"
+      )
+
+      expect(replacement_document_validation_request.state).to eq("closed")
+    end
+  end
 end

@@ -1,16 +1,14 @@
-<div class="govuk-form-group <%= form.object.errors[:file].any? ? 'govuk-form-group--error' : '' %>">
-  <% if @document.new_record? %>
-    <%= form.label :file, "Upload a file", class: "govuk-label" %>
-  <% else %>
-    <%= form.label :file, "Upload a replacement file", class: "govuk-label" %>
-  <% end %>
-
-  <% if form.object.errors[:file].any? %>
-    <% form.object.errors[:file].each do |error| %>
-      <span id="status-error" class="govuk-error-message">
-        <span class="govuk-visually-hidden">Error:</span><%= error %></span>
-    <% end %>
-  <% end %>
-
-  <%= form.file_field :file, direct_upload: true, class: "govuk-file-upload" %>
-</div>
+<% if @document.new_record? %>
+  <%= form.govuk_file_field(
+    :file,
+    label: { text: t(".upload_a_file") },
+    direct_upload: true
+  ) %>
+<% else %>
+  <%= form.govuk_file_field(
+    :file,
+    label: { text: t(".upload_a_replacement") , size: "m" },
+    hint: { text: t(".a_replacement_file")  },
+    direct_upload: true
+  ) %>
+<% end %>
