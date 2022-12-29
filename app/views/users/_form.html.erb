@@ -10,8 +10,8 @@
     <%= form.govuk_collection_select(
       :otp_delivery_method,
       otp_delivery_method_options,
-      :id,
-      :name
+      :first,
+      :last
     ) %>
     <% unless form.object == current_user %>
       <%= form.govuk_collection_select(

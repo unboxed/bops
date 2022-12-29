@@ -217,7 +217,6 @@ Style/FormatStringToken:
 # Offense count: 45
 Style/OpenStructUse:
   Exclude:
-    - 'app/helpers/application_helper.rb'
     - 'spec/system/log_in_spec.rb'
 
 # Offense count: 74
