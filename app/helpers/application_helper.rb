@@ -36,9 +36,7 @@ module ApplicationHelper
   end
 
   def otp_delivery_method_options
-    User.otp_delivery_methods.keys.map do |key|
-      OpenStruct.new(id: key, name: t(".#{key}"))
-    end
+    User.otp_delivery_methods.keys.map { |key| [key, t(".#{key}")] }
   end
 
   def policy_comment_label(comment)
