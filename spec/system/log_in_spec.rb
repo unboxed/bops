@@ -231,9 +231,11 @@ RSpec.describe "Sign in" do
 
       context "when there is an error from Notify" do
         before do
-          error_hash = OpenStruct.new(
-            body: "Notifications::Client::BadRequestError: ValidationError: phone_number Must not contain letters or symbols", code: 400
+          error_hash = Struct.new(:body, :code).new(
+            "Notifications::Client::BadRequestError: ValidationError: phone_number Must not contain letters or symbols",
+            400
           )
+
           allow_any_instance_of(TwoFactor::SmsNotification).to receive(:deliver!).and_raise(
             Notifications::Client::BadRequestError, error_hash
           )
@@ -309,9 +311,11 @@ RSpec.describe "Sign in" do
 
       context "when there is an error from Notify" do
         before do
-          error_hash = OpenStruct.new(
-            body: "Notifications::Client::ClientError: Exceeded rate limit", code: 429
+          error_hash = Struct.new(:body, :code).new(
+            "Notifications::Client::ClientError: Exceeded rate limit",
+            429
           )
+
           allow_any_instance_of(TwoFactor::SmsNotification).to receive(:deliver!).and_raise(
             Notifications::Client::ClientError, error_hash
           )
