@@ -9,21 +9,12 @@
           <%= proposal_detail.question %>
         </th>
         <td class="govuk-table__cell">
-          <%= proposal_detail.responses.map(&:value).compact.join(", ") %>
-          <% if proposal_detail.metadata.policy_refs.present? %>
-            <details class="govuk-details" data-module="govuk-details">
-              <summary class="govuk-details__summary">
-                <span class="govuk-details__summary-text">
-                  <%= t(".related_legislation") %>
-                </span>
-              </summary>
-              <div class="govuk-details__text">
-                <%= formatted_policy_refs(
-                  proposal_detail.metadata.policy_refs
-                ) %>
-              </div>
-            </details>
-          <% end %>
+          <%= proposal_detail.response_values.join(", ") %>
+          <%= render(
+            ProposalDetails::PolicyRefsComponent.new(
+              policy_refs: proposal_detail.policy_refs
+            )
+          ) %>
         </td>
       </tr>
     <% end %>

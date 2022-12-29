@@ -217,13 +217,7 @@ Style/FormatStringToken:
 # Offense count: 45
 Style/OpenStructUse:
   Exclude:
-    - 'app/components/proposal_details/list_component.rb'
     - 'app/helpers/application_helper.rb'
-    - 'app/models/planning_application.rb'
-    - 'spec/components/proposal_details/list_component_spec.rb'
-    - 'spec/components/proposal_details/summary_component_spec.rb'
-    - 'spec/presenters/planning_application_presenter_spec.rb'
-    - 'spec/support/proposal_details_groupable_shared_examples.rb'
     - 'spec/system/log_in_spec.rb'
 
 # Offense count: 74

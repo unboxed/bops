@@ -45,12 +45,12 @@
     <li>
       <% proposal_details.each do |proposal_detail| %>
       <h3 class="govuk-heading-s">
-        <%= display_number(proposal_detail) %>.
-        <%= proposal_detail["question"] %>
+        <%= proposal_detail.index %>.
+        <%= proposal_detail.question %>
       </h3>
       <p class="govuk-body">
-        <% proposal_detail["responses"].each do |response| %>
-          <%= response["value"] %>
+        <% proposal_detail.response_values.each do |response| %>
+          <%= response %>
         <% end %>
       </p>
       <% end %>

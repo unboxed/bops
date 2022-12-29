@@ -13,29 +13,27 @@ module ProposalDetails
 
     def groups
       @groups ||= portal_names.map do |portal_name|
-        OpenStruct.new(
-          portal_name: portal_name,
-          proposal_details: proposal_details_for_portal_name(portal_name)
+        Struct.new(:portal_name, :proposal_details).new(
+          portal_name,
+          proposal_details_for_portal_name(portal_name)
         )
       end
     end
 
     def set_proposal_detail_numbers
       groups.map(&:proposal_details).flatten.each_with_index do |proposal_detail, index|
-        proposal_detail.number = index + 1
+        proposal_detail.index = index + 1
       end
     end
 
     def proposal_details_for_portal_name(portal_name)
       proposal_details.select do |proposal_detail|
-        proposal_detail.metadata&.portal_name == portal_name
+        proposal_detail.portal_name == portal_name
       end
     end
 
     def portal_names
-      proposal_details.map do |proposal_detail|
-        proposal_detail.metadata&.portal_name
-      end.uniq
+      proposal_details.map(&:portal_name).uniq
     end
   end
 end

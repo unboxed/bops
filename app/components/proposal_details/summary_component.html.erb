@@ -3,11 +3,11 @@
   data: { show_hide_target: ("toggleable" if auto_answered?) },
   class: "proposal-detail"
 ) do %>
-  <div><p class="govuk-body"><%= "#{number}." %>&nbsp;</p></div>
+  <div><p class="govuk-body"><%= "#{index}." %>&nbsp;</p></div>
   <div>
     <p class="govuk-body govuk-!-font-weight-bold"><%= question %></p>
-    <p class="govuk-body"><%= responses.map(&:value).compact.join(", ") %></p>
-    <% if metadata.present? %>
+    <p class="govuk-body"><%= response_values.join(", ") %></p>
+    <% if show_metadata? %>
       <div>
         <% if notes.present? %>
           <p><em><%= notes %></em></p>
