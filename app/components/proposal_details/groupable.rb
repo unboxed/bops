@@ -15,9 +15,7 @@ module ProposalDetails
     delegate :portal_name, :proposal_details, to: :group
 
     def auto_answered?
-      proposal_details.all? do |proposal_detail|
-        proposal_detail.metadata&.auto_answered.present?
-      end
+      proposal_details.all?(&:auto_answered?)
     end
 
     def id

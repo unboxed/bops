@@ -273,14 +273,14 @@ class PlanningApplication < ApplicationRecord
   end
 
   def proposal_details
-    JSON.parse(self[:proposal_details] || "[]", object_class: OpenStruct)
+    JSON.parse(super || "[]").each_with_index.map do |hash, index|
+      ProposalDetail.new(hash, index)
+    end
   end
 
   def flagged_proposal_details
     proposal_details.select do |proposal_detail|
-      proposal_detail.responses.any? do |response|
-        response.metadata&.flags&.include?(result_flag)
-      end
+      proposal_detail.flags.include?(result_flag)
     end
   end
 

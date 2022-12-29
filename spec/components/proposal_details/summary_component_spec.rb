@@ -3,68 +3,45 @@
 require "rails_helper"
 
 RSpec.describe ProposalDetails::SummaryComponent, type: :component do
-  let(:auto_answered) { true }
-
-  let(:policy_refs) do
-    [
-      OpenStruct.new(url: "www.example.com"),
-      OpenStruct.new(text: "Article 1")
-    ]
+  let(:proposal_detail_attributes) do
+    {
+      question: "Test question 1",
+      responses: [{ value: "Test response 1" }, { value: "Test response 2" }],
+      metadata: {
+        portal_name: "group_x",
+        notes: "Test note",
+        auto_answered: true,
+        policy_refs: [{ url: "www.example.com" }, { text: "Test ref" }]
+      }
+    }.deep_stringify_keys
   end
 
-  let(:proposal_detail) do
-    OpenStruct.new(
-      question: "Question 1",
-      responses: [
-        OpenStruct.new(value: "Answer 1"),
-        OpenStruct.new(value: "Answer 2")
-      ],
-      metadata: OpenStruct.new(
-        portal_name: "Group A",
-        auto_answered: auto_answered,
-        policy_refs: policy_refs
-      ),
-      number: 1
-    )
+  let(:proposal_detail) { ProposalDetail.new(proposal_detail_attributes, 1) }
+  let(:component) { described_class.new(proposal_detail: proposal_detail) }
+
+  before { render_inline(component) }
+
+  it "renders question" do
+    expect(page).to have_content("Test question 1")
   end
 
-  let(:summary_component) do
-    described_class.new(proposal_detail: proposal_detail)
+  it "renders responses" do
+    expect(page).to have_content("Test response 1, Test response 2")
   end
 
-  describe "#auto_answered?" do
-    context "when question was auto answered" do
-      it "returns true" do
-        expect(summary_component.send(:auto_answered?)).to be(true)
-      end
-    end
-
-    context "when question was not auto answered" do
-      let(:auto_answered) { false }
-
-      it "returns false" do
-        expect(summary_component.send(:auto_answered?)).to be(false)
-      end
-    end
+  it "renders 'Auto-answered'" do
+    expect(page).to have_content("Auto-answered by RIPA")
   end
 
-  describe "#formatted_policy_refs" do
-    it "returns a formatted string" do
-      expect(
-        summary_component.send(:formatted_policy_refs)
-      ).to eq(
-        "<a class=\"govuk-link\" href=\"www.example.com\">www.example.com</a>, Article 1"
-      )
-    end
+  it "renders note" do
+    expect(page).to have_content("Test note")
+  end
 
-    context "when policy refs is not present" do
-      let(:policy_refs) { nil }
+  it "renders link for polify ref with url" do
+    expect(page).to have_link("www.example.com", href: "www.example.com")
+  end
 
-      it "returns nil" do
-        expect(
-          summary_component.send(:formatted_policy_refs)
-        ).to be_nil
-      end
-    end
+  it "renders text for policy ref without url" do
+    expect(page).to have_content("Test ref")
   end
 end

@@ -183,30 +183,12 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
     end
 
     it "returns proposal details with 'fee' in the portal name" do
-      expect(presenter.fee_related_proposal_details).to eq(
-        [
-          OpenStruct.new(
-            {
-              question: "Question 1",
-              responses: [OpenStruct.new({ value: "Answer 1" })],
-              metadata: OpenStruct.new({ portal_name: "Fee Related Group" })
-            }
-          ),
-          OpenStruct.new(
-            {
-              question: "Question 2",
-              responses: [OpenStruct.new({ value: "Answer 2" })],
-              metadata: OpenStruct.new({ portal_name: "group-about-fee" })
-            }
-          ),
-          OpenStruct.new(
-            {
-              question: "Question 3",
-              responses: [OpenStruct.new({ value: "Answer 3" })],
-              metadata: OpenStruct.new({ portal_name: "a_fee_group" })
-            }
-          )
-        ]
+      expect(
+        presenter.fee_related_proposal_details.map(&:portal_name)
+      ).to contain_exactly(
+        "Fee Related Group",
+        "group-about-fee",
+        "a_fee_group"
       )
     end
   end

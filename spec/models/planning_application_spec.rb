@@ -546,10 +546,49 @@ RSpec.describe PlanningApplication do
   end
 
   describe "proposal_details" do
-    it "defaults to an empty array" do
-      planning_application.update!(proposal_details: nil)
+    context "when column value is nil" do
+      let(:planning_application) do
+        build(:planning_application, proposal_details: nil)
+      end
 
-      expect(planning_application.proposal_details).to eq []
+      it "returns empty array" do
+        expect(planning_application.proposal_details).to eq([])
+      end
+    end
+
+    context "when column value is present" do
+      let(:proposal_details) do
+        [
+          {
+            question: "Test question?",
+            responses: [{ value: "Test response" }],
+            metadata: {
+              auto_answered: true,
+              portal_name: "Test portal",
+              policy_refs: [
+                {
+                  text: "Test ref text",
+                  url: "https://www.exampleref.com"
+                }
+              ],
+              notes: "Test notes",
+              flags: ["Test flag"]
+            }
+          }
+        ].to_json
+      end
+
+      let(:planning_application) do
+        build(:planning_application, proposal_details: proposal_details)
+      end
+
+      it "returns array of ProposalDetail instances" do
+        expect(
+          planning_application.proposal_details.first
+        ).to be_instance_of(
+          ProposalDetail
+        )
+      end
     end
   end
 

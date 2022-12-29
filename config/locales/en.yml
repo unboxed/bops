@@ -435,7 +435,6 @@ en:
       item: Item
       payment_reference: Payment Reference
     proposal_details_table:
-      related_legislation: Related legislation
       related_questions: Related questions from RIPA
     validate:
       success: Fee item was marked as valid.
@@ -742,6 +741,8 @@ en:
       view_only_applicant: View ONLY applicant answers, hide 'Auto-answered by RIPA'
     main: Main
     other: Other
+    policy_refs_component:
+      related_legislation: Related legislation
     summary_component:
       auto_answered: Auto-answered by RIPA
   recommendations:

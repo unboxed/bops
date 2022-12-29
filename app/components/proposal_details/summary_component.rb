@@ -2,6 +2,8 @@
 
 module ProposalDetails
   class SummaryComponent < ViewComponent::Base
+    include ProposalDetailable
+
     def initialize(proposal_detail:)
       @proposal_detail = proposal_detail
     end
@@ -10,30 +12,18 @@ module ProposalDetails
 
     attr_reader :proposal_detail
 
-    delegate :number, :question, :responses, :metadata, to: :proposal_detail
-
     delegate(
-      :auto_answered,
+      :index,
+      :question,
       :policy_refs,
+      :response_values,
+      :auto_answered?,
       :notes,
-      to: :metadata,
-      allow_nil: true
+      to: :proposal_detail
     )
 
-    def auto_answered?
-      auto_answered.present?
-    end
-
-    def formatted_policy_refs
-      return if policy_refs.blank?
-
-      refs = policy_refs.map do |ref|
-        url = ref.url
-        text = ref.text
-        link_to_if(url.present?, (url || text), url, class: "govuk-link")
-      end
-
-      refs.join(", ").html_safe # rubocop:disable Rails/OutputSafety
+    def show_metadata?
+      policy_refs.any? || notes.present? || auto_answered?
     end
   end
 end
