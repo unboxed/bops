@@ -30,7 +30,7 @@ RSpec.describe "Planning Application Assessment" do
   end
 
   let!(:planning_application) do
-    travel_to(Date.new(2022)) do
+    travel_to("2022-01-01") do
       create(
         :planning_application,
         local_authority: default_local_authority,

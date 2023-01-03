@@ -23,7 +23,7 @@ RSpec.describe "assigning planning application" do
   end
 
   it "lets a planning application be assigned to a user" do
-    travel_to(Date.new(2022))
+    travel_to("2022-01-01")
     sign_in(reviewer)
     visit(assign_planning_application_path(planning_application))
     choose("Jane Smith")

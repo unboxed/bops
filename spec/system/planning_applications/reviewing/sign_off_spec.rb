@@ -18,7 +18,7 @@ RSpec.describe "Reviewing sign-off" do
   let(:user) { create(:user) }
 
   let!(:planning_application) do
-    travel_to(Date.new(2022)) do
+    travel_to("2022-01-01") do
       create(
         :planning_application,
         :awaiting_determination,

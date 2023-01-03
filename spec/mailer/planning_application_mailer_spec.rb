@@ -85,7 +85,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "includes the reference" do
-      travel_to(Date.new(2022)) do
+      travel_to("2022-01-01") do
         expect(mail_body).to include(
           "Application reference number: RIPA-22-00100-LDCP"
         )
@@ -189,7 +189,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "includes the reference" do
-      travel_to(Date.new(2022)) do
+      travel_to("2022-01-01") do
         expect(mail_body).to include(
           "Application reference number: RIPA-22-00100-LDCP"
         )
@@ -234,7 +234,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "includes the reference" do
-      travel_to(Date.new(2022)) do
+      travel_to("2022-01-01") do
         expect(mail_body).to include(
           "Application reference number: RIPA-22-00100-LDCP"
         )
@@ -283,7 +283,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "includes the reference" do
-      travel_to(Date.new(2022)) do
+      travel_to("2022-01-01") do
         expect(mail_body).to include(
           "Application reference number: RIPA-22-00100-LDCP"
         )
@@ -390,7 +390,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "includes the reference" do
-      travel_to(Date.new(2022)) do
+      travel_to("2022-01-01") do
         expect(mail_body).to include(
           "Application number: RIPA-22-00100-LDCP"
         )
@@ -456,7 +456,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "includes the reference" do
-      travel_to(Date.new(2022)) do
+      travel_to("2022-01-01") do
         expect(mail_body).to include("Application number: RIPA-22-00100-LDCP")
       end
     end
@@ -506,7 +506,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "includes the reference" do
-      travel_to(Date.new(2022)) do
+      travel_to("2022-01-01") do
         expect(mail_body).to include(
           "Application reference number: RIPA-22-00100-LDCP"
         )
@@ -574,7 +574,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       end
 
       it "includes the reference" do
-        travel_to(Date.new(2022)) do
+        travel_to("2022-01-01") do
           expect(mail_body).to include(
             "Application reference number: RIPA-22-00100-LDCP"
           )
@@ -621,7 +621,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       end
 
       it "includes the reference" do
-        travel_to(Date.new(2022)) do
+        travel_to("2022-01-01") do
           expect(mail_body).to include(
             "Application reference number: RIPA-22-00100-LDCP"
           )
@@ -677,7 +677,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "includes the reference" do
-      travel_to(Date.new(2022)) do
+      travel_to("2022-01-01") do
         expect(mail_body).to include(
           "Application reference number: RIPA-22-00100-LDCP"
         )

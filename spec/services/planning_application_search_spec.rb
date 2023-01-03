@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe PlanningApplicationSearch do
   describe "#results" do
     let!(:planning_application1) do
-      travel_to(Date.new(2022)) do
+      travel_to("2022-01-01") do
         create(
           :planning_application,
           work_status: "proposed",
