@@ -431,11 +431,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def default_validated_at
-    self.validated_at ||= if closed_validation_requests.present?
-                            last_validation_request_date
-                          else
-                            created_at
-                          end
+    self.validated_at ||= Time.next_immediate_business_day(valid_from_date)
   end
 
   def assessment_submitted?
@@ -654,5 +650,13 @@ class PlanningApplication < ApplicationRecord
 
   def public_url_enabled?
     ENV.fetch("PUBLIC_URL_ENABLED", "false") == "true"
+  end
+
+  def valid_from_date
+    if closed_validation_requests.present?
+      last_validation_request_date
+    else
+      created_at
+    end
   end
 end
