@@ -30,12 +30,13 @@ RSpec.describe "Planning Application Assessment" do
   end
 
   let!(:planning_application) do
-    create(
-      :planning_application,
-      local_authority: default_local_authority,
-      created_at: DateTime.new(2022, 1, 1),
-      public_comment: nil
-    )
+    travel_to("2022-01-01") do
+      create(
+        :planning_application,
+        local_authority: default_local_authority,
+        public_comment: nil
+      )
+    end
   end
 
   before do
@@ -46,7 +47,6 @@ RSpec.describe "Planning Application Assessment" do
   context "when clicking Save and mark as complete" do
     context "with no previous recommendations" do
       it "can create a new recommendation, edit it, and submit it" do
-        travel_to(Date.new(2022))
         click_link "In assessment"
 
         within(selected_govuk_tab) do
@@ -126,8 +126,6 @@ RSpec.describe "Planning Application Assessment" do
         expect(page).to have_text(assessor.name)
         expect(page).to have_text("Assessor comment: Edited private assessor comment")
         expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
-
-        travel_back
       end
     end
 

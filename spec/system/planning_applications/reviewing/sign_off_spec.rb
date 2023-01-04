@@ -18,14 +18,15 @@ RSpec.describe "Reviewing sign-off" do
   let(:user) { create(:user) }
 
   let!(:planning_application) do
-    create(
-      :planning_application,
-      :awaiting_determination,
-      local_authority: default_local_authority,
-      decision: "granted",
-      created_at: DateTime.new(2022, 1, 1),
-      user: user
-    )
+    travel_to("2022-01-01") do
+      create(
+        :planning_application,
+        :awaiting_determination,
+        local_authority: default_local_authority,
+        decision: "granted",
+        user: user
+      )
+    end
   end
 
   before do
@@ -96,7 +97,6 @@ RSpec.describe "Reviewing sign-off" do
            assessor_comment: "New assessor comment",
            submitted: true)
 
-    travel_to(Date.new(2022))
     visit(planning_application_path(planning_application))
     click_link "Review and sign-off"
 
@@ -147,8 +147,6 @@ RSpec.describe "Reviewing sign-off" do
     expect(page).to have_text("Recommendation challenged")
     expect(page).to have_text("Reviewer private comment")
     expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
-
-    travel_back
   end
 
   it "cannot be rejected without a review comment" do

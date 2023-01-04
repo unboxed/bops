@@ -5,12 +5,13 @@ require "rails_helper"
 RSpec.describe PlanningApplicationSearch do
   describe "#results" do
     let!(:planning_application1) do
-      create(
-        :planning_application,
-        work_status: "proposed",
-        created_at: DateTime.new(2022, 1, 1),
-        description: "Add a chimney stack."
-      )
+      travel_to("2022-01-01") do
+        create(
+          :planning_application,
+          work_status: "proposed",
+          description: "Add a chimney stack."
+        )
+      end
     end
 
     let!(:planning_application2) do
