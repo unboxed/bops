@@ -95,6 +95,24 @@ RSpec.describe "Documents index page" do
         end
       end
     end
+
+    it "navigates back to the previous page I was on" do
+      click_link "Application"
+
+      # Navigate via validation tasks page
+      click_link "Check and validate"
+      click_button "Documents"
+      click_link "Manage documents"
+      click_link "Back"
+      expect(page).to have_current_path(planning_application_validation_tasks_path(planning_application))
+
+      # Navigate via archive document page
+      click_button "Documents"
+      click_link "Archive"
+      click_link "Cancel"
+      click_link "Back"
+      expect(page).to have_current_path(planning_application_document_archive_path(planning_application, document))
+    end
   end
 
   context "when handling invalid documents" do
