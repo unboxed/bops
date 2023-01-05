@@ -212,15 +212,16 @@ module ValidationRequestable
   end
 
   def sent_by
-    audits.find_by(activity_type: send_events, activity_information: sequence).user
+    audits.find_by(activity_type: send_and_add_events, activity_information: sequence).try(:user)
   end
 
   private
 
-  def send_events
+  def send_and_add_events
     [
       "#{self.class.name.underscore}_sent_post_validation",
-      "#{self.class.name.underscore}_sent"
+      "#{self.class.name.underscore}_sent",
+      "#{self.class.name.underscore}_added"
     ]
   end
 
