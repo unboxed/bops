@@ -18,6 +18,12 @@ Lint/DuplicateBranch:
   Exclude:
     - 'app/helpers/planning_application_helper.rb'
 
+# Offense count: 1
+# Configuration parameters: AllowComments, AllowEmptyLambdas.
+Lint/EmptyBlock:
+  Exclude:
+    - 'lib/tasks/local_authority_creation.rake'
+
 # Offense count: 16
 # Configuration parameters: AllowedMethods, AllowedPatterns, IgnoredMethods, CountRepeatedAttributes, Max.
 Metrics/AbcSize:

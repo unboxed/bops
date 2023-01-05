@@ -123,6 +123,26 @@ Once you have the application running, you can submit planning application throu
 [1]: https://www.docker.com/products/docker-desktop
 [2]: http://localhost:3000/
 
+## Creating a new local authority using a rake take
+
+The following parameters are required and a validation error will be raised if they are not provided:
+
+- `subdomain`: the subdomain to run the service
+- `council_code`: should be matched with planning data's code
+- `signatory_name`: will be present on decision notice
+- `signatory_job_title`: will be present on decision notice
+- `enquiries_paragraph`: will be present on decision notice
+- `email_address`: will be present on decision notice
+- `feedback_email`: will be used to receive any feedback requests
+
+There is also the following optional parameter:
+
+- `admin_email`
+
+```ruby
+rake local_authority:create -- --subdomain 'lambeth' --council_code 'LBH' --signatory_name 'Bop' --signatory_job_title 'Director of Property' --enquiries_paragraph 'Planning, London Borough of Lambeth' --email_address 'mail@lambeth.gov.uk' --feedback_email 'mail@lambeth.gov.uk' --admin_email 'admin@lambeth.gov.uk'
+```
+
 ## Working with api documentation: aggregate swagger files
 
 We need a single openapi file to exist, but to keep the code easier to maintain we have multiple files that are then compiled into this single file:
