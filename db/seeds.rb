@@ -48,7 +48,7 @@ local_authorities.each do |authority|
       if Rails.env.development?
         user.password = user.password_confirmation = "password"
       else
-        user.password = user.password_confirmation = SecureRandom.uuid
+        user.password = user.password_confirmation = "#{SecureRandom.uuid}!#{SecureRandom.uuid.upcase}"
         user.encrypted_password =
           "$2a$11$uvtPXUB2CmO8WEYm7ajHf.XhZtBsclT/sT45ijLMIELShaZvceW5."
       end

@@ -7,7 +7,7 @@ FactoryBot.define do
     end
     name { Faker::Name.name }
     email { Faker::Internet.email }
-    password { "password123" }
+    password { "Id!l]GT1-{ncnZ!oSvrF.*jx\\w1>V@]_}e>B,A\\yI&'4z6P$2iIQDZ-*rsiFoBP~0=uL/%2wHFg_RrF%nx[`oeY4" }
     mobile_number { "07656546552" }
   end
 
