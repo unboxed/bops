@@ -479,6 +479,7 @@ GEM
       sprockets (>= 3.0.0)
     stimulus-rails (1.0.4)
       railties (>= 6.0.0)
+    strong_password (0.0.10)
     sys-uname (1.2.2)
       ffi (~> 1.1)
     terminal-table (3.0.2)
@@ -578,6 +579,7 @@ DEPENDENCIES
   sassc (~> 2.4.0)
   selenium-webdriver
   stimulus-rails
+  strong_password (~> 0.0.9)
   view_component
   web-console
   webdrivers
@@ -586,4 +588,4 @@ DEPENDENCIES
   whenever
 
 BUNDLED WITH
-   2.3.12
+   2.3.26

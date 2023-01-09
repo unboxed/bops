@@ -18,6 +18,7 @@ class User < ApplicationRecord
   before_create :generate_otp_secret
 
   validates :mobile_number, phone_number: true
+  validates :password, password_strength: { use_dictionary: true }, unless: ->(user) { user.password.blank? }
   validate :password_complexity
 
   def self.find_for_authentication(tainted_conditions)
