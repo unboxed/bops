@@ -87,6 +87,8 @@ RSpec.describe "Planning Application Assessment" do
         expect(page).to have_content("not lawful")
         expect(page).to have_content("aggrieved")
 
+        expect(page).to have_content("If you agree with this decision notice, submit it to your line manager.")
+
         click_button "Submit recommendation"
 
         expect(page).to have_content("Recommendation was successfully submitted.")
@@ -204,7 +206,7 @@ RSpec.describe "Planning Application Assessment" do
       click_link("Make draft recommendation")
 
       expect(page).to have_content(
-        "No legislation assessed for this application."
+        "There is no legislation assessment for this application."
       )
 
       choose("Yes")
@@ -513,7 +515,7 @@ RSpec.describe "Planning Application Assessment" do
 
         within("#decision-notice-documents") do
           expect(page).to have_content("Documents included in the decision notice")
-          expect(page).to have_content("No documents listed on decision notice.")
+          expect(page).to have_content("There are no documents listed on the decision notice.")
         end
       end
     end

@@ -8,7 +8,7 @@ RSpec.describe "Permitted development right" do
   let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create(:planning_application, :in_assessment, local_authority: default_local_authority)
+    create(:planning_application, :in_assessment, constraints: [], local_authority: default_local_authority)
   end
 
   before do
@@ -53,6 +53,7 @@ RSpec.describe "Permitted development right" do
 
         within("#constraints-section") do
           expect(page).to have_content("Constraints - including Article 4 direction(s)")
+          expect(page).to have_content("There are no constraints at this site.")
         end
 
         within("#planning-history-section") do
