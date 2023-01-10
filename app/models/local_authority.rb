@@ -5,8 +5,8 @@ class LocalAuthority < ApplicationRecord
   has_many :planning_applications, dependent: :destroy
   has_one :api_user, dependent: :destroy
 
-  validates :subdomain, :signatory_name, :signatory_job_title, :enquiries_paragraph, :email_address, :feedback_email,
-            presence: true
+  validates :council_code, :subdomain, :signatory_name, :signatory_job_title, :enquiries_paragraph, :email_address,
+            :feedback_email, presence: true
 
   validates(
     :reviewer_group_email,
@@ -23,10 +23,6 @@ class LocalAuthority < ApplicationRecord
 
   def signatory
     "#{signatory_name}, #{signatory_job_title}"
-  end
-
-  def council_code
-    I18n.t("council_code.#{subdomain}")
   end
 
   def council_name
