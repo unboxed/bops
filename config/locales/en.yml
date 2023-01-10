@@ -605,8 +605,8 @@ en:
       have_the_permitted_development_rights: Have the permitted development rights relevant for this application been removed?
       legislation: Legislation
       location_description: Location description
-      no_documents_listed: No documents listed on decision notice.
-      no_legislation_assessed: No legislation assessed for this application.
+      no_documents_listed: There are no documents listed on the decision notice.
+      no_legislation_assessed: There is no legislation assessment for this application.
       planning_history: Planning history
       summary_of_works: Summary of works
     cancel:
@@ -677,13 +677,13 @@ en:
       decision_notice: Decision notice
       download_as_pdf: Download as PDF
       edit_recommendation: Edit recommendation
-      if_you_agree: If you agree with the decision notice, please submit it to your manager.
+      if_you_agree: If you agree with this decision notice, submit it to your line manager.
       if_your_manager: If your manager disagrees with your recommendation they will send it back to you to make changes.
       review_and_submit_recommendation: Review and submit recommendation
       submit_recommendation: Submit recommendation
       the_following_decision: The following decision notice has been created based on your answers.
     submit_recommendation_accordion:
-      assessment_report: Assessment report
+      assessment_report: Assessment report details
       download_assessment_report: Download assessment report as PDF
     tabs:
       all_applications: All applications
@@ -748,7 +748,7 @@ en:
   recommendations:
     documents:
       documents_included_in: Documents included in the decision notice
-      no_documents_listed: No documents listed on decision notice.
+      no_documents_listed: There are no documents listed on the decision notice.
     documents_table:
       add_and_edit: Add and edit documents
       documents_included_in: Documents included in the decision notice
@@ -774,7 +774,7 @@ en:
       'yes': 'Yes'
     legislation:
       legislation: Legislation
-      no_legislation_assessed: No legislation assessed for this application.
+      no_legislation_assessed: There is no legislation assessment for this application.
     new:
       assess_proposal: Assess the proposal
       assess_recommendation: Assess recommendation
