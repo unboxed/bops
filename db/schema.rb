@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_28_155440) do
+ActiveRecord::Schema.define(version: 2023_01_09_150014) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -207,6 +207,7 @@ ActiveRecord::Schema.define(version: 2022_12_28_155440) do
     t.string "reply_to_notify_id"
     t.string "feedback_email", null: false
     t.string "reviewer_group_email"
+    t.string "council_code", null: false
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 

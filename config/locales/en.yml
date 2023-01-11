@@ -372,11 +372,6 @@ en:
       update_constraints: Update constraints
     update:
       success: Constraints have been updated
-  council_code:
-    buckinghamshire: BUC
-    lambeth: LBH
-    ripa: RIPA
-    southwark: SWK
   description_change_validation_requests:
     cancel:
       success: Description change request successfully cancelled.

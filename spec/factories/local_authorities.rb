@@ -2,6 +2,7 @@
 
 FactoryBot.define do
   factory :local_authority do
+    council_code { "BUC" }
     subdomain { "buckinghamshire" }
     signatory_name { Faker::FunnyName.two_word_name }
     signatory_job_title { "Director" }
@@ -10,6 +11,7 @@ FactoryBot.define do
     feedback_email { "feedback_email@buckinghamshire.gov.uk" }
 
     trait :default do
+      council_code { "RIPA" }
       subdomain { "ripa" }
       signatory_name { Faker::FunnyName.two_word_name }
       signatory_job_title { "Director" }
@@ -19,6 +21,7 @@ FactoryBot.define do
     end
 
     trait :lambeth do
+      council_code { "LBH" }
       subdomain { "lambeth" }
       signatory_name { "Christina Thompson" }
       signatory_job_title { "Director of Finance & Property" }
@@ -28,6 +31,7 @@ FactoryBot.define do
     end
 
     trait :southwark do
+      council_code { "SWK" }
       subdomain { "southwark" }
       signatory_name { "Stephen Platts" }
       signatory_job_title { "Director of Planning and Growth" }

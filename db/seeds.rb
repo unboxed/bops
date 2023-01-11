@@ -3,6 +3,7 @@
 require "faker"
 
 lambeth = LocalAuthority.find_or_create_by!(
+  council_code: "LBH",
   subdomain: "lambeth",
   signatory_name: "Christina Thompson",
   signatory_job_title: "Director of Finance & Property",
@@ -11,6 +12,7 @@ lambeth = LocalAuthority.find_or_create_by!(
   feedback_email: "digitalplanning@lambeth.gov.uk"
 )
 southwark = LocalAuthority.find_or_create_by!(
+  council_code: "SWK",
   subdomain: "southwark",
   signatory_name: "Stephen Platts",
   signatory_job_title: "Director of Planning and Growth",
@@ -20,6 +22,7 @@ southwark = LocalAuthority.find_or_create_by!(
 )
 
 buckinghamshire = LocalAuthority.find_or_create_by!(
+  council_code: "BUC",
   subdomain: "buckinghamshire",
   signatory_name: "Steve Bambick",
   signatory_job_title: "Director of Planning",
