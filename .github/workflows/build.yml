@@ -1,7 +1,13 @@
 ---
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 concurrency:
   group: ${{ github.ref }}
@@ -23,81 +29,29 @@ jobs:
     with:
       rubocop: true
 
-  specs-models-1:
+  specs:
     uses: ./.github/workflows/testing.yml
+    strategy:
+      matrix:
+        specs:
+          - ["models", "[a-p]*_spec.rb"]
+          - ["models", "[q-z]*_spec.rb"]
+          - ["controllers", "*_spec.rb"]
+          - ["requests", "*_spec.rb"]
+          - ["system", "a[a-s]*_spec.rb"]
+          - ["system", "a[t-z]*_spec.rb"]
+          - ["system", "[b-f]*_spec.rb"]
+          - ["system", "[g-k]*_spec.rb"]
+          - ["system", "[l-r]*_spec.rb"]
+          - ["system", "[s-z]*_spec.rb"]
+          - [
+              "other",
+              "*_spec.rb",
+              "{components,helpers,presenters,mailer,jobs,services,translations}",
+            ]
     with:
-      name: "1"
-      include: "spec/models/**/[a-p]*_spec.rb"
-    secrets: inherit
-
-  specs-models-2:
-    uses: ./.github/workflows/testing.yml
-    with:
-      name: "2"
-      include: "spec/models/**/[q-z]*_spec.rb"
-    secrets: inherit
-
-  specs-controllers:
-    uses: ./.github/workflows/testing.yml
-    with:
-      name: "all"
-      include: "spec/controllers/*_spec.rb"
-    secrets: inherit
-
-  specs-requests:
-    uses: ./.github/workflows/testing.yml
-    with:
-      name: "all"
-      include: "spec/requests/**/*_spec.rb"
-    secrets: inherit
-
-  specs-other:
-    uses: ./.github/workflows/testing.yml
-    with:
-      name: "all"
-      include: "spec/{components,helpers,presenters,mailer,jobs,services,translations}/**/*_spec.rb"
-    secrets: inherit
-
-  system-test-1:
-    uses: ./.github/workflows/testing.yml
-    with:
-      name: "1"
-      include: "spec/system/**/a[a-s]*_spec.rb"
-    secrets: inherit
-
-  system-test-2:
-    uses: ./.github/workflows/testing.yml
-    with:
-      name: "2"
-      include: "spec/system/**/a[t-z]*_spec.rb"
-    secrets: inherit
-
-  system-test-3:
-    uses: ./.github/workflows/testing.yml
-    with:
-      name: "3"
-      include: "spec/system/**/[b-f]*_spec.rb"
-    secrets: inherit
-
-  system-test-4:
-    uses: ./.github/workflows/testing.yml
-    with:
-      name: "4"
-      include: "spec/system/**/[g-k]*_spec.rb"
-    secrets: inherit
-
-  system-test-5:
-    uses: ./.github/workflows/testing.yml
-    with:
-      name: "5"
-      include: "spec/system/**/[l-r]*_spec.rb"
-    secrets: inherit
-
-  system-test-6:
-    uses: ./.github/workflows/testing.yml
-    with:
-      name: "6"
-      include: "spec/system/**/[s-z]*_spec.rb"
+      name: "${{matrix.specs[0]}}: ${{matrix.specs[1]}}"
+      include: "spec/${{matrix.specs[2] || matrix.specs[0]}}/**/${{matrix.specs[1]}}"
     secrets: inherit
 
   cucumber:
