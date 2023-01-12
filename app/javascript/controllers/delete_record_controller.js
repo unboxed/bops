@@ -8,7 +8,9 @@ export default class extends Controller {
     ajax({
       type: dataset["deleteRecordAction"] || "delete",
       url: dataset["deleteRecordPath"],
-      success: (data) => { this.element.outerHTML = data.partial }
+      success: (data) => {
+        this.element.outerHTML = data.partial
+      },
     })
   }
 }
