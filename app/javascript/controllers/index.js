@@ -15,15 +15,15 @@ application.register("submit-form", SubmitFormController)
 import UnsavedChangesController from "./unsaved_changes_controller.js"
 application.register("unsaved-changes", UnsavedChangesController)
 
-window.addEventListener('DOMContentLoaded', () => {
-  let pathname = window.location.pathname;
-  let scrollPositionKey = `${pathname}-scrollPosition`;
+window.addEventListener("DOMContentLoaded", () => {
+  let pathname = window.location.pathname
+  let scrollPositionKey = `${pathname}-scrollPosition`
 
   if (sessionStorage.getItem(scrollPositionKey)) {
-    window.scrollTo(0, sessionStorage.getItem(scrollPositionKey));
+    window.scrollTo(0, sessionStorage.getItem(scrollPositionKey))
   }
 
   window.onbeforeunload = function () {
-    sessionStorage.setItem(scrollPositionKey, window.scrollY);
+    sessionStorage.setItem(scrollPositionKey, window.scrollY)
   }
-});
+})

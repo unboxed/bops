@@ -3,13 +3,13 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-import "stylesheets";
+import "stylesheets"
 
-require("@rails/ujs").start();
-require("@rails/activestorage").start();
+require("@rails/ujs").start()
+require("@rails/activestorage").start()
 
-import "@opensystemslab/map";
+import "@opensystemslab/map"
 
-const images = require.context('../images', true)
+const images = require.context("../images", true)
 
 import "controllers"
