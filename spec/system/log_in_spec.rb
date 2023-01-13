@@ -519,4 +519,27 @@ RSpec.describe "Sign in" do
       end
     end
   end
+
+  it "does not allow weak passwords" do
+    visit root_path
+
+    click_link("Forgot your password?")
+    fill_in("user[email]", with: assessor.email)
+
+    click_button("Send me reset password instructions")
+    expect(page).to have_content("You will receive an email with instructions on how to reset your password in a few minutes.")
+
+    email = ActionMailer::Base.deliveries.last
+    url = email.body.encoded.match(%r{https?://[^/]+(/\S+)})[1]
+
+    visit url
+    password = "password"
+    fill_in("user[password]", with: password)
+    fill_in("user[password_confirmation]", with: password)
+    click_button("Change password")
+
+    within(".govuk-error-summary") do
+      expect(page).to have_content("Password is too weak")
+    end
+  end
 end
