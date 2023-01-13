@@ -84,10 +84,6 @@ RSpec.describe LocalAuthority do
         )
       end
 
-      it "#council_code" do
-        expect(local_authority.council_code).to eq("LBH")
-      end
-
       it "returns signatory name and job title" do
         expect(local_authority.signatory).to eq("Jane Smith, Director")
       end
@@ -95,30 +91,57 @@ RSpec.describe LocalAuthority do
   end
 
   describe "#council_name" do
-    let(:southwark) { create(:local_authority, :southwark) }
+    let(:local_authority) { build(:local_authority, :lambeth) }
 
-    it "has Southwark Council council_name" do
-      expect(southwark.council_name).to eq("Southwark Council")
+    it "returns council code" do
+      expect(local_authority.council_code).to eq("LBH")
+    end
+
+    context "when it changes to RIPA" do
+      it "returns council code" do
+        local_authority.council_code = "RIPA"
+        local_authority.save!
+
+        expect(local_authority.council_code).to eq("RIPA")
+      end
+    end
+
+    context "when not a valid email" do
+      let(:local_authority) do
+        build(:local_authority, reviewer_group_email: "qwerty")
+      end
+
+      it "is invalid" do
+        expect(local_authority.valid?).to be(false)
+      end
+    end
+
+    context "when not valid council code" do
+      let(:local_authority) do
+        build(:local_authority, council_code: "TEST")
+      end
+
+      it "is invalid" do
+        expect { local_authority.valid? }.to change { local_authority.errors[:council_code] }.to ["Please enter a valid council code"]
+      end
     end
   end
 
   describe "#staging?" do
-    it "returns false when staging env is not set" do
-      local_authority = create(:local_authority, :southwark)
+    let(:local_authority) { build(:local_authority, :lambeth) }
 
+    it "returns false when staging env is not set" do
       expect(local_authority).not_to be_staging
     end
 
     it "returns false when staging env is not set to false" do
       allow(ENV).to receive(:fetch).with("STAGING_ENABLED", "false").and_return("false")
-      local_authority = create(:local_authority, :southwark)
 
       expect(local_authority).not_to be_staging
     end
 
     it "returns true when staging env set" do
       allow(ENV).to receive(:fetch).with("STAGING_ENABLED", "false").and_return("true")
-      local_authority = create(:local_authority, :southwark)
 
       expect(local_authority).to be_staging
     end

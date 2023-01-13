@@ -1,0 +1,25 @@
+{
+  "entities": [{
+    "entry-date": "2022-12-12",
+    "start-date": "",
+    "end-date": "",
+    "entity": 329,
+    "name": "London Borough of Southwark",
+    "dataset": "local-authority",
+    "typology": "organisation",
+    "reference": "SWK",
+    "prefix": "local-authority",
+    "organisation-entity": "600001",
+    "geometry": "",
+    "point": "",
+    "twitter": "lb_southwark",
+    "website": "https://www.southwark.gov.uk",
+    "wikidata": "Q7571153",
+    "wikipedia": "Southwark_London_Borough_Council",
+    "local-authority-type": "LBO",
+    "parliament-thesaurus": "70632",
+    "statistical-geography": "E09000028"
+  }],
+  "links": {},
+  "count": 1
+}

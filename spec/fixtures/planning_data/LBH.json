@@ -1,0 +1,25 @@
+{
+  "entities": [{
+    "entry-date": "2022-12-12",
+    "start-date": "",
+    "end-date": "",
+    "entity": 192,
+    "name": "London Borough of Lambeth",
+    "dataset": "local-authority",
+    "typology": "organisation",
+    "reference": "LBH",
+    "prefix": "local-authority",
+    "organisation-entity": "600001",
+    "geometry": "",
+    "point": "",
+    "twitter": "lambeth_council",
+    "website": "https://www.lambeth.gov.uk",
+    "wikidata": "Q6481450",
+    "wikipedia": "Lambeth_London_Borough_Council",
+    "local-authority-type": "LBO",
+    "parliament-thesaurus": "42273",
+    "statistical-geography": "E09000022"
+  }],
+  "links": {},
+  "count": 1
+}
