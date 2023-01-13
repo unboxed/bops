@@ -14,13 +14,6 @@ class LocalAuthority < ApplicationRecord
     allow_blank: true
   )
 
-  enum subdomain: {
-    lambeth: "lambeth",
-    southwark: "southwark",
-    buckinghamshire: "buckinghamshire",
-    ripa: "ripa"
-  }
-
   def signatory
     "#{signatory_name}, #{signatory_job_title}"
   end
