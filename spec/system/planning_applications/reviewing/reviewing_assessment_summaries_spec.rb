@@ -130,6 +130,10 @@ RSpec.describe "Reviewing assessment summaries" do
       click_link("Review assessment summaries")
 
       within(find("fieldset", text: "Site description")) do
+        expect(page).to have_link(
+          "View site on Google Maps",
+          href: "https://google.co.uk/maps/place/#{CGI.escape(planning_application.full_address)}"
+        )
         choose("Edit to accept")
       end
 

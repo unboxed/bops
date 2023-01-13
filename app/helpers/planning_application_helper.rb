@@ -50,4 +50,8 @@ module PlanningApplicationHelper
       planning_application.latitude.present? &&
       planning_application.longitude.present?
   end
+
+  def map_link(full_address)
+    "https://google.co.uk/maps/place/#{CGI.escape(full_address)}"
+  end
 end

@@ -1,4 +1,6 @@
 <div class="govuk-body">
+  <%= link_to 'View site on Google Maps', map_link(@planning_application.full_address), target: '_blank', class: "govuk-link" %>
+
   <% unless action_name == "show" %>
     <p><strong>Create a desciption of the site</strong></p>
   <% else %>
