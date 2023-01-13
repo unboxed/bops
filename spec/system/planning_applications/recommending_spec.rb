@@ -440,7 +440,7 @@ RSpec.describe "Planning Application Assessment" do
         click_button("Submit recommendation")
         sign_in(reviewer)
         visit(edit_planning_application_recommendations_path(planning_application))
-        choose("No")
+        choose("No (return the case for assessment)")
 
         expect(page).to have_text "Case currently assigned to: Alice Aplin"
 
@@ -635,7 +635,7 @@ RSpec.describe "Planning Application Assessment" do
     expect(list_item("Sign-off recommendation")).to have_content("Not started")
 
     click_link("Sign-off recommendation")
-    choose("No")
+    choose("No (return the case for assessment)")
 
     fill_in(
       "Explain to the officer why the case is being returned",
@@ -690,7 +690,7 @@ RSpec.describe "Planning Application Assessment" do
 
     click_link("Review and sign-off")
     click_link("Sign-off recommendation")
-    choose("Yes")
+    choose("Yes (decision is ready to be published)")
     click_button("Save and mark as complete")
 
     expect(list_item("Sign-off recommendation")).to have_content("Completed")

@@ -104,7 +104,7 @@ RSpec.describe "Reviewing sign-off" do
 
     click_link "Sign-off recommendation"
 
-    choose("No")
+    choose("No (return the case for assessment)")
 
     fill_in(
       "Explain to the officer why the case is being returned",
@@ -211,7 +211,7 @@ RSpec.describe "Reviewing sign-off" do
       with: "Reviewer private comment"
     )
 
-    choose("No")
+    choose("No (return the case for assessment)")
 
     fill_in(
       "Explain to the officer why the case is being returned",
@@ -329,7 +329,7 @@ RSpec.describe "Reviewing sign-off" do
         "You have requested officer changes, resolve these before agreeing with the recommendation"
       )
 
-      choose("No")
+      choose("No (return the case for assessment)")
 
       fill_in(
         "Explain to the officer why the case is being returned",

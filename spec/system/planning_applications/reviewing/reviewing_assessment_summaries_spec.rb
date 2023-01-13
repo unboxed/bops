@@ -193,7 +193,7 @@ RSpec.describe "Reviewing assessment summaries" do
       )
 
       click_link("Sign-off recommendation")
-      choose("No")
+      choose("No (return the case for assessment)")
 
       fill_in(
         "Explain to the officer why the case is being returned",
@@ -320,7 +320,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
       click_link("Review")
       click_link("Sign-off recommendation")
-      choose("No")
+      choose("No (return the case for assessment)")
 
       fill_in(
         "Explain to the officer why the case is being returned",
