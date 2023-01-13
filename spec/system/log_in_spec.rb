@@ -499,8 +499,8 @@ RSpec.describe "Sign in" do
       click_button("Send me reset password instructions")
       expect(page).to have_content("You will receive an email with instructions on how to reset your password in a few minutes.")
 
-      assessor.reload
-      url = edit_user_password_path(assessor, subdomain: assessor.local_authority.subdomain, reset_password_token: assessor.reset_password_token)
+      email = ActionMailer::Base.deliveries.last
+      url = email.body.encoded.match(%r{https?://[^/]+(/\S+)})[1]
 
       # Now request another link
       click_link("Forgot your password?")
