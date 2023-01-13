@@ -54,6 +54,7 @@ jobs:
               "*_spec.rb",
               "{components,helpers,presenters,mailer,jobs,services,translations}",
             ]
+      fail-fast: false
     with:
       name: "${{matrix.specs[0]}}: ${{matrix.specs[1]}}"
       include: "spec/${{matrix.specs[2] || matrix.specs[0]}}/**/${{matrix.specs[1]}}"
