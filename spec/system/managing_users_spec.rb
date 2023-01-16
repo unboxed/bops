@@ -20,6 +20,8 @@ RSpec.describe "managing users" do
     end
 
     it "allows adding of new user" do
+      password = secure_password
+
       visit(administrator_dashboard_path)
       click_link("Add user")
       click_button("Submit")
@@ -36,7 +38,7 @@ RSpec.describe "managing users" do
 
       fill_in("Name", with: "Alice Smith")
       fill_in("Email", with: "alice@example.com")
-      fill_in("Password", with: "password")
+      fill_in("Password", with: password)
       fill_in("Mobile number", with: "01234123123")
       select("Email", from: "Verification code delivery method")
       select("Assessor", from: "Role")
@@ -51,7 +53,7 @@ RSpec.describe "managing users" do
 
       click_link("Log out")
       fill_in("Email", with: "alice@example.com")
-      fill_in("Password", with: "password")
+      fill_in("Password", with: password)
       click_button("Log in")
       fill_in("Security code", with: User.last.current_otp)
       click_button("Enter code")
@@ -60,10 +62,12 @@ RSpec.describe "managing users" do
     end
 
     it "allows adding of new user without mobile number" do
+      password = secure_password
+
       visit new_user_path
       fill_in("Name", with: "Alice Smith")
       fill_in("Email", with: "alice@example.com")
-      fill_in("Password", with: "password")
+      fill_in("Password", with: password)
       select("Assessor", from: "Role")
       click_button("Submit")
 
@@ -71,7 +75,7 @@ RSpec.describe "managing users" do
 
       click_link("Log out")
       fill_in("Email", with: "alice@example.com")
-      fill_in("Password", with: "password")
+      fill_in("Password", with: password)
       click_button("Log in")
       fill_in("Mobile number", with: "01234123123")
       click_button("Send code")

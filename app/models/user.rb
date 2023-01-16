@@ -18,6 +18,8 @@ class User < ApplicationRecord
   before_create :generate_otp_secret
 
   validates :mobile_number, phone_number: true
+  validates :password, password_strength: { use_dictionary: true }, unless: ->(user) { user.password.blank? }
+  validate :password_complexity
 
   def self.find_for_authentication(tainted_conditions)
     if tainted_conditions[:subdomains].present?
@@ -54,5 +56,13 @@ class User < ApplicationRecord
 
   def generate_otp_secret
     self.otp_secret = self.class.generate_otp_secret
+  end
+
+  def password_complexity
+    # Regexp extracted from https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
+    return if password.blank? || password =~ /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/
+
+    errors.add :password, "complexity requirement not met. Your password must have: " \
+                          "at least 8 characters; at least one symbol (e.g., ?!£%); at least one capital letter."
   end
 end

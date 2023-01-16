@@ -57,20 +57,21 @@ RSpec.describe "Sign in" do
     end
 
     context "when user is an administrator" do
+      let(:password) { secure_password }
       let!(:administrator) do
         create(
           :user,
           :administrator,
           local_authority: default_local_authority,
           email: "alice@example.com",
-          password: "password"
+          password: password
         )
       end
 
       it "redirects to the users dashboard" do
         visit(new_user_session_path)
         fill_in("Email", with: "alice@example.com")
-        fill_in("Password", with: "password")
+        fill_in("Password", with: password)
         click_button("Log in")
         fill_in("Security code", with: administrator.current_otp)
         click_button("Enter code")
@@ -86,11 +87,13 @@ RSpec.describe "Sign in" do
     context "with a user belonging to a given subdomain" do
       let!(:lambeth) { create(:local_authority, :lambeth) }
       let!(:southwark) { create(:local_authority, :southwark) }
+      let(:lambeth_password) { secure_password }
+      let(:southwark_password) { secure_password }
       let(:lambeth_assessor) do
-        create(:user, :assessor, name: "Lambertina Lamb", password: "Lambsrock18!", local_authority: lambeth)
+        create(:user, :assessor, name: "Lambertina Lamb", password: lambeth_password, local_authority: lambeth)
       end
       let(:southwark_assessor) do
-        create(:user, :assessor, name: "Southwarkina Sully", password: "Southwark4ever!", local_authority: southwark)
+        create(:user, :assessor, name: "Southwarkina Sully", password: southwark_password, local_authority: southwark)
       end
 
       before do
@@ -106,7 +109,7 @@ RSpec.describe "Sign in" do
         visit root_path
 
         fill_in("user[email]", with: southwark_assessor.email)
-        fill_in("user[password]", with: "Southwark4ever!")
+        fill_in("user[password]", with: southwark_password)
         click_button("Log in")
 
         expect(page).to have_text("Email")
@@ -117,7 +120,7 @@ RSpec.describe "Sign in" do
         visit root_path
 
         fill_in("user[email]", with: lambeth_assessor.email)
-        fill_in("user[password]", with: "Lambsrock18!")
+        fill_in("user[password]", with: lambeth_password)
         click_button("Log in")
         fill_in("Security code", with: lambeth_assessor.current_otp)
         click_button("Enter code")
@@ -330,19 +333,20 @@ RSpec.describe "Sign in" do
     end
 
     context "when otp delivery method is set to email" do
+      let(:password) { secure_password }
       let(:user) do
         create(
           :user,
           local_authority: default_local_authority,
           otp_delivery_method: :email,
-          password: "password"
+          password: password
         )
       end
 
       it "sends otp via email" do
         visit(root_path)
         fill_in("Email", with: user.email)
-        fill_in("Password", with: "password")
+        fill_in("Password", with: password)
         click_button("Log in")
 
         expect(page).to have_content(
@@ -369,7 +373,7 @@ RSpec.describe "Sign in" do
       it "resends otp via email" do
         visit(root_path)
         fill_in("Email", with: user.email)
-        fill_in("Password", with: "password")
+        fill_in("Password", with: password)
         click_button("Log in")
 
         travel_to(1.1.minutes.from_now) do
@@ -396,12 +400,13 @@ RSpec.describe "Sign in" do
       end
 
       context "when mobile number is not set" do
+        let(:password) { secure_password }
         let(:user) do
           create(
             :user,
             local_authority: default_local_authority,
             otp_delivery_method: :email,
-            password: "password",
+            password: password,
             mobile_number: nil
           )
         end
@@ -409,7 +414,7 @@ RSpec.describe "Sign in" do
         it "does not ask for mobile number" do
           visit(root_path)
           fill_in("Email", with: user.email)
-          fill_in("Password", with: "password")
+          fill_in("Password", with: password)
           click_button("Log in")
 
           email = ActionMailer::Base.deliveries.last
@@ -494,8 +499,8 @@ RSpec.describe "Sign in" do
       click_button("Send me reset password instructions")
       expect(page).to have_content("You will receive an email with instructions on how to reset your password in a few minutes.")
 
-      assessor.reload
-      url = edit_user_password_path(assessor, subdomain: assessor.local_authority.subdomain, reset_password_token: assessor.reset_password_token)
+      email = ActionMailer::Base.deliveries.last
+      url = email.body.encoded.match(%r{https?://[^/]+(/\S+)})[1]
 
       # Now request another link
       click_link("Forgot your password?")
@@ -504,13 +509,37 @@ RSpec.describe "Sign in" do
 
       # Visit old expired link
       visit url
-      fill_in("user[password]", with: "password")
-      fill_in("user[password_confirmation]", with: "password")
+      password = secure_password
+      fill_in("user[password]", with: password)
+      fill_in("user[password_confirmation]", with: password)
       click_button("Change password")
 
       within(".govuk-error-summary") do
         expect(page).to have_content("The reset password link you used no longer works. Please request a new link and try again.")
       end
+    end
+  end
+
+  it "does not allow weak passwords" do
+    visit root_path
+
+    click_link("Forgot your password?")
+    fill_in("user[email]", with: assessor.email)
+
+    click_button("Send me reset password instructions")
+    expect(page).to have_content("You will receive an email with instructions on how to reset your password in a few minutes.")
+
+    email = ActionMailer::Base.deliveries.last
+    url = email.body.encoded.match(%r{https?://[^/]+(/\S+)})[1]
+
+    visit url
+    password = "password"
+    fill_in("user[password]", with: password)
+    fill_in("user[password_confirmation]", with: password)
+    click_button("Change password")
+
+    within(".govuk-error-summary") do
+      expect(page).to have_content("Password is too weak")
     end
   end
 end

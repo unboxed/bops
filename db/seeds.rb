@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "faker"
+require "./spec/support/password"
 
 lambeth = LocalAuthority.find_or_create_by!(
   council_code: "LBH",
@@ -48,7 +49,7 @@ local_authorities.each do |authority|
       if Rails.env.development?
         user.password = user.password_confirmation = "password"
       else
-        user.password = user.password_confirmation = SecureRandom.uuid
+        user.password = user.password_confirmation = secure_password
         user.encrypted_password =
           "$2a$11$uvtPXUB2CmO8WEYm7ajHf.XhZtBsclT/sT45ijLMIELShaZvceW5."
       end
