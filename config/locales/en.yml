@@ -765,8 +765,8 @@ en:
       submitted_recommendation: Submitted recommendation
     form:
       do_you_agree: Do you agree with the recommendation?
-      'no': 'No'
-      'yes': 'Yes'
+      'no': No (return the case for assessment)
+      'yes': Yes (decision is ready to be published)
     legislation:
       legislation: Legislation
       no_legislation_assessed: There is no legislation assessment for this application.
