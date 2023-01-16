@@ -11,9 +11,6 @@ on:
       rubocop:
         type: boolean
         default: false
-      rome:
-        type: boolean
-        default: false
       ruby-version:
         type: string
         default: "2.7.5"
@@ -39,14 +36,6 @@ jobs:
         run: |
           ${{ inputs.run-before-linters }}
           bundle exec rubocop --parallel
-
-      - name: Run linters - Rome
-        if: ${{ inputs.rome == true }}
-        run: |
-          ${{ inputs.run-before-linters }}
-          yarn install
-          git ls-files -z '*.js' '*.ts' | xargs -0 node_modules/rome/bin/rome check
-          git ls-files -z '*.js' '*.ts' | xargs -0 node_modules/rome/bin/rome format
 
       - name: Run security checks - brakeman
         if: ${{ inputs.brakeman == true }}
