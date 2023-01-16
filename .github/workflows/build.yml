@@ -29,11 +29,6 @@ jobs:
     with:
       rubocop: true
 
-  rome:
-    uses: ./.github/workflows/linters.yml
-    with:
-      rome: true
-
   specs:
     uses: ./.github/workflows/testing.yml
     strategy:

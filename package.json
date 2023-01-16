@@ -20,7 +20,6 @@
   },
   "version": "0.1.0",
   "devDependencies": {
-    "rome": "^11.0.0",
     "webpack-dev-server": "^3.11.2"
   }
 }
