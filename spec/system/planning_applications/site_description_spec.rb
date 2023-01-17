@@ -34,6 +34,11 @@ RSpec.describe "Site description" do
         new_planning_application_assessment_detail_path(planning_application, category: "site_description")
       )
 
+      expect(page).to have_link(
+        "View site on Google Maps",
+        href: "https://google.co.uk/maps/place/#{CGI.escape(planning_application.full_address)}"
+      )
+
       expect(page).to have_content("Create a desciption of the site")
       expect(page).to have_content(planning_application.reference)
       expect(page).to have_content(planning_application.full_address.upcase)
