@@ -700,7 +700,6 @@ en:
       view_next_class: View next class
       view_previous_class: View previous class
     create:
-      failure: Please select at least one class
       success: Policy classes have been successfully added
     destroy:
       success: Policy class has been removed.

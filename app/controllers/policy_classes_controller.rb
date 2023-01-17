@@ -28,8 +28,7 @@ class PolicyClassesController < PlanningApplicationsController
     class_ids = planning_application_params[:policy_classes].compact_blank
 
     if class_ids.empty?
-      redirect_to new_planning_application_policy_class_path(@planning_application, part: params[:part]),
-                  alert: t(".failure")
+      success_redirect_url
       return
     end
 
@@ -40,8 +39,7 @@ class PolicyClassesController < PlanningApplicationsController
     @planning_application.policy_classes += classes
 
     if @planning_application.save
-      redirect_to planning_application_assessment_tasks_path(@planning_application),
-                  notice: t(".success")
+      success_redirect_url
     else
       redirect_to new_planning_application_policy_class_path(@planning_application, part: params[:part]),
                   alert: @planning_application.errors.full_messages
@@ -98,5 +96,10 @@ class PolicyClassesController < PlanningApplicationsController
 
   def status
     mark_as_complete? ? :complete : :in_assessment
+  end
+
+  def success_redirect_url
+    redirect_to planning_application_assessment_tasks_path(@planning_application),
+                notice: t(".success")
   end
 end

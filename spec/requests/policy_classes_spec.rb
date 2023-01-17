@@ -23,7 +23,7 @@ RSpec.describe "Policy classes", show_exceptions: true do
     expect(response.body).to include "Please choose one of the policy parts"
   end
 
-  it "validates selecting some classes" do
+  it "redirects successfully even when no classes are selected" do
     params = {
       part: policy_class.part,
       policy_classes: []
@@ -31,10 +31,10 @@ RSpec.describe "Policy classes", show_exceptions: true do
 
     post planning_application_policy_classes_path(planning_application), params: params
 
-    expect(response).to redirect_to new_planning_application_policy_class_path(planning_application, part: 1)
+    expect(response).to redirect_to planning_application_assessment_tasks_path(planning_application)
     follow_redirect!
 
-    expect(response.body).to include "Please select at least one class"
+    expect(response.body).to include "Policy classes have been successfully added"
   end
 
   context "when the application is past assessment" do
