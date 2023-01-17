@@ -14,12 +14,7 @@ class LocalAuthority < ApplicationRecord
     allow_blank: true
   )
 
-  enum subdomain: {
-    lambeth: "lambeth",
-    southwark: "southwark",
-    buckinghamshire: "buckinghamshire",
-    ripa: "ripa"
-  }
+  validate :council_code_exists
 
   def signatory
     "#{signatory_name}, #{signatory_job_title}"
@@ -31,5 +26,26 @@ class LocalAuthority < ApplicationRecord
 
   def staging?
     ENV.fetch("STAGING_ENABLED", "false") == "true"
+  end
+
+  private
+
+  def council_code_exists
+    return true if ripa?
+    return true unless council_code_changed?
+
+    errors.add(:council_code, "Please enter a valid council code") unless council_code == planning_data
+  end
+
+  def ripa?
+    council_code == "RIPA"
+  end
+
+  def planning_data
+    @planning_data ||= Apis::PlanningData::Query.new.fetch(council_code)
+  end
+
+  def planning_data?
+    !planning_data.nil?
   end
 end

@@ -1,0 +1,25 @@
+{
+  "entities": [{
+    "entry-date": "2022-12-12",
+    "start-date": "2020-04-01",
+    "end-date": "",
+    "entity": 67,
+    "name": "Buckinghamshire Council",
+    "dataset": "local-authority",
+    "typology": "organisation",
+    "reference": "BUC",
+    "prefix": "local-authority",
+    "organisation-entity": "600001",
+    "geometry": "",
+    "point": "",
+    "twitter": "buckscouncil",
+    "website": "https://www.buckinghamshire.gov.uk/",
+    "wikidata": "Q65052846",
+    "wikipedia": "Buckinghamshire_Council",
+    "local-authority-type": "UA",
+    "parliament-thesaurus": "474721",
+    "statistical-geography": "E06000060"
+  }],
+  "links": {},
+  "count": 1
+}
