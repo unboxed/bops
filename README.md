@@ -70,10 +70,9 @@ You should ask for an account to be set up for you on [GOV.UK Notify](https://ww
 
 ### 2FA
 
-To enable 2FA in development, you must set the env variable `2FA_ENABLED` to `true` and set the keys for `OTP_SECRET_ENCRYPTION_KEY` and `NOTIFY_API_KEY`. You may find this in 1password and within your GOV.UK Notify notify account
+To enable 2FA in development, you must set the keys for `OTP_SECRET_ENCRYPTION_KEY` and `NOTIFY_API_KEY`, and set `otp_required_for_login` to `true` on the user. You may find this in 1password and within your GOV.UK Notify notify account
 
 These keys are set within [github actions](https://github.com/unboxed/bops/settings/secrets/actions) for our testing and CI builds
-
 
 ## OS maps
 
