@@ -7,9 +7,9 @@ class AssessmentDetailsReview
 
   ASSESSMENT_DETAILS = %i[
     summary_of_work
-    additional_evidence
     site_description
     consultation_summary
+    additional_evidence
   ].freeze
 
   define_model_callbacks :save

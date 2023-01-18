@@ -21,7 +21,7 @@ RSpec.describe "Additional evidence" do
 
       within("#assessment-information-tasks") do
         expect(page).to have_content("Not started")
-        click_link "Additional evidence"
+        click_link "Summary of additional evidence"
       end
 
       expect(page).to have_current_path(
@@ -29,7 +29,7 @@ RSpec.describe "Additional evidence" do
       )
 
       within(".govuk-breadcrumbs__list") do
-        expect(page).to have_content("Additional evidence")
+        expect(page).to have_content("Summary of additional evidence")
       end
 
       expect(page).to have_content("Add detail of additional evidence")
@@ -47,7 +47,7 @@ RSpec.describe "Additional evidence" do
       expect(list_item("Check and assess")).to have_content("Not started")
 
       click_link "Check and assess"
-      click_link "Additional evidence"
+      click_link "Summary of additional evidence"
 
       fill_in "assessment_detail[entry]", with: "A draft entry for the additional evidence"
       click_button "Save and come back later"
@@ -58,7 +58,7 @@ RSpec.describe "Additional evidence" do
         expect(page).to have_content("In progress")
       end
 
-      click_link "Additional evidence"
+      click_link "Summary of additional evidence"
       expect(page).to have_content("Edit additional evidence")
       expect(page).to have_content("A draft entry for the additional evidence")
 
@@ -80,7 +80,7 @@ RSpec.describe "Additional evidence" do
 
     it "I can save and mark as complete when adding additional evidence" do
       click_link "Check and assess"
-      click_link "Additional evidence"
+      click_link "Summary of additional evidence"
 
       fill_in "assessment_detail[entry]", with: "A complete entry for the additional evidence"
       click_button "Save and mark as complete"
@@ -91,8 +91,8 @@ RSpec.describe "Additional evidence" do
         expect(page).to have_content("Completed")
       end
 
-      click_link "Additional evidence"
-      expect(page).to have_content("Additional evidence")
+      click_link "Summary of additional evidence"
+      expect(page).to have_content("Summary of additional evidence")
       expect(page).to have_content("A complete entry for the additional evidence")
 
       expect(page).to have_link(

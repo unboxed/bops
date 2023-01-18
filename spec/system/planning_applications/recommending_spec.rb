@@ -554,7 +554,7 @@ RSpec.describe "Planning Application Assessment" do
       end
 
       within("#additional-evidence-section") do
-        expect(page).to have_content("Additional evidence")
+        expect(page).to have_content("Summary of additional evidence")
         expect(page).to have_content("An additional evidence entry")
       end
 

@@ -1,9 +1,10 @@
 <li id="assessment-information-tasks">
   <h2 class="app-task-list__section">
-    Add assessment information
+    Assessor remarks (optional)
   </h2>
+
   <ul class="app-task-list__items">
-    <% AssessmentDetail.categories.keys.excluding("past_applications").each do |category| %>
+    <% AssessmentDetail.category_keys.each do |category| %>
       <%= render(
         TaskListItems::AssessmentDetailComponent.new(
           planning_application: @planning_application,
