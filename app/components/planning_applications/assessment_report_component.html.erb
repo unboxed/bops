@@ -1,18 +1,18 @@
 <section id="constraints-section" class="govuk-!-padding-bottom-5">
-  <h3 class="govuk-heading-m"><%= t(".constraints_including_article") %></h3>
+  <h3 class="govuk-heading-s"><%= t(".constraints_including_article") %></h3>
 
   <%= render "shared/constraints" %>
 </section>
 <% if past_applications.present? %>
   <section id="past-applications-section" class="govuk-!-padding-bottom-5">
-    <h3 class="govuk-heading-m"><%= t(".planning_history") %></h3>
+    <h3 class="govuk-heading-s"><%= t(".planning_history") %></h3>
     <h4 class="govuk-heading-s"><%= past_applications.entry %></h4>
     <%= render(FormattedContentComponent.new(text: past_applications.additional_information)) %>
   </section>
 <% end %>
 <% if permitted_development_right %>
   <section id="permitted-development-rights-section" class="govuk-!-padding-bottom-5">
-    <h3 class="govuk-heading-m"><%= t(".have_the_permitted_development_rights") %></h3>
+    <h3 class="govuk-heading-s"><%= t(".have_the_permitted_development_rights") %></h3>
     <% if permitted_development_right.removed %>
       <p class="govuk-body"><strong>Yes</strong></p>
       <%= render(FormattedContentComponent.new(text: permitted_development_right.removed_reason)) %>
@@ -23,19 +23,19 @@
 <% end %>
 <% if summary_of_work.present? %>
   <section id="summary-of-works-section" class="govuk-!-padding-bottom-5">
-    <h3 class="govuk-heading-m"><%= t(".summary_of_works") %></h3>
+    <h3 class="govuk-heading-s"><%= t(".summary_of_works") %></h3>
     <%= render(FormattedContentComponent.new(text: summary_of_work.entry)) %>
   </section>
 <% end %>
 <% if site_description.present? %>
   <section id="site-description-section" class="govuk-!-padding-bottom-5">
-    <h3 class="govuk-heading-m"><%= t(".location_description") %></h3>
+    <h3 class="govuk-heading-s"><%= t(".location_description") %></h3>
     <%= render(FormattedContentComponent.new(text: site_description.entry)) %>
   </section>
 <% end %>
 <% if consultation_summary.present? %>
   <section id="consultation-summary-section" class="govuk-!-padding-bottom-5">
-    <h3 class="govuk-heading-m"><%= t(".consultation_documents") %></h3>
+    <h3 class="govuk-heading-s"><%= t(".consultation_documents") %></h3>
     <ul class="govuk-list govuk-list--bullet">
       <% consultees.each do |consultee| %>
         <li><%= "#{consultee.name} (#{consultee.origin})" %></li>
@@ -46,12 +46,12 @@
 <% end %>
 <% if show_additional_evidence && additional_evidence.present? %>
   <section id="additional-evidence-section" class="govuk-!-padding-bottom-5">
-    <h3 class="govuk-heading-m"><%= t(".additional_evidence") %></h3>
+    <h3 class="govuk-heading-s"><%= t(".additional_evidence") %></h3>
     <%= render(FormattedContentComponent.new(text: additional_evidence.entry)) %>
   </section>
 <% end %>
 <section id="policy-classes-section" class="govuk-!-padding-bottom-5">
-  <h3 class="govuk-heading-m"><%= t(".legislation") %></h3>
+  <h3 class="govuk-heading-s"><%= t(".legislation") %></h3>
   <% if policy_classes.any? %>
     <% policy_classes.each do |policy_class| %>
       <%= render(

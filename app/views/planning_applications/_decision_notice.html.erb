@@ -4,10 +4,10 @@
       <%= planning_application.local_authority.council_name %>
     </span>
     <br/>
-    <h2 class="govuk-heading-s">
+    <h3 class="govuk-heading-s">
       Town and Country Planning Act 1990 (as amended): sections 191 and 192 <br>
       Town and Country Planning (Development Management Procedure) (England) Order 2015 (as amended): Article 39
-    </h2>
+    </h3>
     <h2 class="govuk-heading-m">
       Certificate of Lawful Use or Development <%= "Decision Notice" if @planning_application.refused? %><br/>
       <strong><%= planning_application.decision.capitalize %></strong>
