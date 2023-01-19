@@ -112,15 +112,15 @@ RSpec.describe "assessment against legislation" do
 
       click_link("Part 1, Class A")
       expect(page).to have_content("Enlargement, improvement or other alteration of a dwellinghouse")
-      within(".govuk-table caption") do
-        expect(page).to have_content("Part 1, Class A - enlargement, improvement or other alteration of a dwellinghouse")
+      within("h1") do
+        expect(page).to have_content("Assess - Part 1, Class A")
       end
 
       click_link("Back")
       click_link("Part 1, Class B")
       expect(page).to have_content("Additions etc to the roof of a dwellinghouse")
-      within(".govuk-table caption") do
-        expect(page).to have_content("Part 1, Class B - additions etc to the roof of a dwellinghouse")
+      within("h1") do
+        expect(page).to have_content("Assess - Part 1, Class B")
       end
     end
 
