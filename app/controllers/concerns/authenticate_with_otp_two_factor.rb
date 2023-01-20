@@ -68,7 +68,7 @@ module AuthenticateWithOtpTwoFactor
   end
 
   def otp_two_factor_enabled?
-    find_user.try(:otp_required_for_login) unless Rails.env.development? && ENV["2FA_ENABLED"] == "true"
+    find_user.try(:otp_required_for_login)
   end
 
   def find_user
