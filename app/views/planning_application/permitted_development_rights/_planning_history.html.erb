@@ -3,16 +3,18 @@
     Planning history
   </h2>
 
-  <% if past_application = @planning_application.past_applications %>
-    <ul class="govuk-list">
-      <li><p><strong><%= past_application.additional_information %></strong></p></li>
-      <li><p><%= past_application.entry %><p></li>
-      <%= link_to "Edit history", edit_planning_application_assessment_detail_path(@planning_application, past_application), class: "govuk-link" %>
-    </ul>
-  <% else %>
-    <p class="govuk-body">
-      There is no relevant planning history
-    </p>
-    <%= link_to "Edit history", new_planning_application_assessment_detail_path(@planning_application, category: "past_applications"), class: "govuk-link" %>
-  <% end %>
+  <div class="govuk-!-margin-left-3 govuk-!-padding-bottom-3">
+    <% if past_application = @planning_application.past_applications %>
+      <ul class="govuk-list">
+        <li><p><strong><%= past_application.additional_information %></strong></p></li>
+        <li><p><%= past_application.entry %><p></li>
+        <%= link_to "Edit history", edit_planning_application_assessment_detail_path(@planning_application, past_application), class: "govuk-link govuk-body" %>
+      </ul>
+    <% else %>
+      <p class="govuk-body">
+        There is no relevant planning history
+      </p>
+      <%= link_to "Edit history", new_planning_application_assessment_detail_path(@planning_application, category: "past_applications"), class: "govuk-link govuk-body" %>
+    <% end %>
+  </div>
 </section>
