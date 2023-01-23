@@ -25,6 +25,7 @@ RSpec.describe "Validation tasks" do
 
     it "displays the basic planning application information" do
       within("#planning-application-details") do
+        expect(page).to have_content("Check the application")
         expect(page).to have_content(planning_application.reference)
         expect(page).to have_content(planning_application.full_address)
         expect(page).to have_content(planning_application.description)
@@ -34,8 +35,6 @@ RSpec.describe "Validation tasks" do
 
     it "displays the validation tasks item count" do
       within("#validation-tasks-item-counter") do
-        expect(page).to have_content("Check the application")
-
         within("#invalid-items-count") do
           expect(page).to have_content("Invalid items 0")
         end

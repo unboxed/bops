@@ -8,11 +8,13 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds" id="planning-application-details">
-    <span class="govuk-caption-l"><%= @planning_application.reference %></span>
-    <h1 class="govuk-heading-l"><%= @planning_application.full_address %></h1>
-
+    <h1 class="govuk-heading-l">Check the application</h1>
+    <p class="govuk-body">
+      <strong><%= @planning_application.full_address  %></strong>
+      <br>
+      Application number: <strong><%= @planning_application.reference  %></strong>
+    </p>
     <p class="govuk-body"><%= @planning_application.status_tag %></p>
-
     <p class="govuk-body">
       <%= @planning_application.type_and_work_status %>: <%= @planning_application.description %>
     </p>
