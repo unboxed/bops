@@ -56,6 +56,14 @@ class AssessmentDetail < ApplicationRecord
     scope :"#{category}", -> { where(category: category) }
   end
 
+  class << self
+    def category_keys
+      categories = AssessmentDetail.categories.keys.excluding("past_applications")
+
+      categories.partition { |category| category != "additional_evidence" }.sum
+    end
+  end
+
   def existing_or_new_comment
     comment || build_comment
   end

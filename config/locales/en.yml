@@ -209,7 +209,7 @@ en:
     other: Other
     scale: Missing scale bar or north arrow
   assessment_details:
-    additional_evidence: Additional evidence
+    additional_evidence: Summary of additional evidence
     additional_evidence_successfully_created: Additional evidence was successfully created.
     additional_evidence_successfully_updated: Additional evidence was successfully updated.
     consultation_summary: Add consultation details
@@ -268,7 +268,7 @@ en:
       list_of_who: List of who was consulted about this application
     form:
       accept: Accept
-      additional_evidence: Additional evidence
+      additional_evidence: Summary of additional evidence
       consultation_summary: Consultation
       edit_review: Edit review
       edit_to_accept: Edit to accept
@@ -593,7 +593,7 @@ en:
         application_details: Application details
   planning_applications:
     assessment_report_component:
-      additional_evidence: Additional evidence
+      additional_evidence: Summary of additional evidence
       constraints_including_article: Constraints including Article 4 direction(s)
       consultation_documents: Consultation documents
       documents_included_in: Documents included in the decision notice
@@ -868,7 +868,7 @@ en:
     additional_document_component:
       check_required_documents: Check required documents are on application
     assessment_detail_component:
-      additional_evidence: Additional evidence
+      additional_evidence: Summary of additional evidence
       consultation_summary: Summary of consultation
       past_applications: History (manual)
       site_description: Site description

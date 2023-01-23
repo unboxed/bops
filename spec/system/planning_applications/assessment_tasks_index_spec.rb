@@ -25,12 +25,30 @@ RSpec.describe "Assessment tasks" do
     it "displays the assessment tasks list" do
       within(".app-task-list") do
         within("#check-consistency-assessment-tasks") do
-          expect(page).to have_content("Description, documents and proposal details")
+          expect(page).to have_content("Check application")
+          expect(page).to have_link("Description, documents and proposal details")
           expect(page).to have_link("History")
+          expect(page).to have_link("Permitted development rights")
+        end
+
+        within("#assessment-information-tasks") do
+          expect(page).to have_content("Assessor remarks (optional)")
+          expect(page).to have_link("Summary of works")
+          expect(page).to have_link("Summary of additional evidence")
+          expect(page).to have_link("Site description")
+          expect(page).to have_link("Summary of consultation")
         end
 
         within("#assess-against-legislation-tasks") do
+          expect(page).to have_content("Assess against legislation")
           expect(page).to have_link("Add assessment area")
+        end
+
+        within("#complete-assessment-tasks") do
+          expect(page).to have_content("Complete assessment")
+          expect(page).to have_link("Review documents for recommendation")
+          expect(page).to have_link("Make draft recommendation")
+          expect(page).to have_content("Review and submit recommendation")
         end
       end
     end

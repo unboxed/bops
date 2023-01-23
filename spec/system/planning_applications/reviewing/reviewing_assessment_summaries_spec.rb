@@ -186,7 +186,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
       click_link("Review assessment summaries")
 
-      within(find("fieldset", text: "Additional evidence")) do
+      within(find("fieldset", text: "Summary of additional evidence")) do
         choose("Accept")
       end
 
@@ -440,7 +440,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
       click_link("Review assessment summaries")
 
-      within(find("fieldset", text: "Additional evidence")) do
+      within(find("fieldset", text: "Summary of additional evidence")) do
         choose("Accept")
       end
 
