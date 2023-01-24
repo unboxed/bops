@@ -292,5 +292,9 @@ FactoryBot.define do
     factory :closed_planning_application do
       after(:create, &:close!)
     end
+
+    trait :from_planx do
+      audit_log { file_fixture("planx_params.json").read }
+    end
   end
 end

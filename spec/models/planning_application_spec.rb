@@ -1862,4 +1862,36 @@ RSpec.describe PlanningApplication do
       end
     end
   end
+
+  describe "#can_clone?" do
+    let(:planning_application) { create(:planning_application) }
+
+    context "when in the dev environment" do
+      before { allow(Rails.env).to receive(:development?).and_return(true) }
+
+      it "returns true" do
+        expect(planning_application.can_clone?).to be(true)
+      end
+    end
+
+    context "when STAGING_ENABLED env variable is set to true" do
+      before do
+        allow(ENV).to receive(:fetch).with("STAGING_ENABLED", "false").and_return("true")
+      end
+
+      it "returns true" do
+        expect(planning_application.can_clone?).to be(true)
+      end
+    end
+
+    context "when not in the dev environment and STAGING_ENABLED env variable is not set" do
+      before do
+        allow(ENV).to receive(:fetch).with("STAGING_ENABLED", "false").and_return("false")
+      end
+
+      it "returns false" do
+        expect(planning_application.can_clone?).to be(false)
+      end
+    end
+  end
 end

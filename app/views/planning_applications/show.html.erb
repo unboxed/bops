@@ -13,13 +13,21 @@
       sections: %i[key_application_dates contact_information audit_log notes]
     )
   ) %>
-  <% if @planning_application.in_progress? %>
-    <%= link_to(
-      t(".close_or_cancel"),
-      close_or_cancel_confirmation_planning_application_path(
-        @planning_application
-      ),
-      class: "govuk-button govuk-button--warning"
-    ) %>
+  <% if @planning_application.in_progress? || @planning_application.can_clone? %>
+    <div class="govuk-button-group">
+      <% if @planning_application.in_progress? %>
+        <%= link_to(
+          t(".close_or_cancel"),
+          close_or_cancel_confirmation_planning_application_path(
+            @planning_application
+          ),
+          class: "govuk-button govuk-button--warning"
+        ) %>
+      <% end %>
+
+      <% if @planning_application.can_clone? %>
+        <%= link_to "Clone", clone_planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary", method: :post, data: { confirm: "This will clone the planning application identical to how it was created via PlanX. Are you sure?" } %>
+      <% end %>
+    </div>
   <% end %>
 <% end %>

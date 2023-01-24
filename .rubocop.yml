@@ -51,6 +51,11 @@ Lint/AmbiguousBlockAssociation:
   Exclude:
     - spec/models/review_policy_class_spec.rb
 
+Naming/VariableNumber:
+  Exclude:
+    - spec/**/*
+    - app/services/planning_application_creation_service.rb
+
 # we tend to use update_all in migrations
 Rails/SkipsModelValidations:
   Exclude:

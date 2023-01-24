@@ -1,0 +1,763 @@
+{
+  "application_type": "lawfulness_certificate",
+  "site": {
+    "uprn": "100081043511",
+    "address_1": "12 Test Abbey Gardens",
+    "address_2": "Southwark",
+    "town": "London",
+    "postcode": "SE16 3RQ",
+    "latitude": "51.4842536",
+    "longitude": "-0.0764165"
+  },
+  "description": "Add a chimney stack",
+  "payment_reference": "PAY1",
+  "payment_amount": 10300,
+  "work_status": "proposed",
+  "applicant_first_name": "Albert",
+  "applicant_last_name": "Manteras",
+  "applicant_phone": "23432325435",
+  "applicant_email": "applicant@example.com",
+  "agent_first_name": "Jennifer",
+  "agent_last_name": "Harper",
+  "agent_phone": "237878889",
+  "agent_email": "agent@example.com",
+  "user_role": "agent",
+  "feedback": {
+    "result": "feedback about the result",
+    "find_property": "feedback about the property",
+    "planning_constraints": "feedback about the constraints"
+  },
+  "result":
+  {
+    "flag": "Planning permission / Permission needed",
+    "heading": "It looks like these changes will need planning permission",
+    "description": "Based on the information you have provided, we do not think this is eligible for a Lawful Development Certificate",
+    "override": "This was my reason for rejecting the result"
+  },
+  "proposal_details":
+  [
+    {
+      "question": "What do you want to do?",
+      "responses": [
+        {
+          "value": "Modify or extend"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Property details"
+      }
+    },
+    {
+      "question": "What is the dwelling used as?",
+      "responses": [
+        {
+          "value": "A family home"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Property details"
+      }
+    },
+    {
+      "question": "Is the property a house?",
+      "responses": [
+        {
+          "value": "Yes"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Property details"
+      }
+    },
+    {
+      "question": "How many storeys will the new structure have?",
+      "responses": [
+        {
+          "value": "1"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Property details"
+      }
+    },
+    {
+      "question": "Was the house always a house?",
+      "responses": [
+        {
+          "value": "Yes"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Property details"
+      }
+    },
+    {
+      "question": "Will the structure include a satellite dish or antenna?",
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Property details",
+        "policy_refs": [
+          {
+            "url": "http://example.com/planning/policy/1/234/a.html",
+            "text": "GPDO 00.0000.000"
+          }
+        ]
+      }
+    },
+    {
+      "question": "What will be the total footprint of all additions of the available area around the original house?",
+      "responses": [
+        {
+          "value": "50% or less"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Dimensions"
+      }
+    },
+    {
+      "question": "How high will the eaves of the new structure be?",
+      "responses": [
+        {
+          "value": "2.5m or lower"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Dimensions"
+      }
+    },
+    {
+      "question": "What will the height of the new structure be?",
+      "responses": [
+        {
+          "value": "2.5m or lower"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Dimensions"
+      }
+    },
+    {
+      "question": "How close will the new structure be to the site boundary?",
+      "responses": [
+        {
+          "value": "Within 2m"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Front of house"
+      }
+    },
+    {
+      "question": "Will any part of the new structure be forward of the front of the original house?",
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Front of house"
+      }
+    },
+    {
+      "question": "Will any part of the pool be forward of the front of the original house?",
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Front of house"
+      }
+    },
+    {
+      "question": "What is the addition to the property?",
+      "responses": [
+        {
+          "value": "An outdoor pool"
+        },
+        {
+          "value": "An outbuilding"
+        }
+      ],
+      "metadata":
+     {
+        "portal_name": "Property details",
+        "policy_refs": [
+          {
+            "url": "http://example.com/planning/policy/1/234/b.html",
+            "text": "GPDO 00.0000.000"
+          },
+          {
+            "url": "http://example.com/planning/policy/1/234/c.html",
+            "text": "GPDO 00.0000.000"
+          }
+        ]
+      }
+    },
+    {
+      "question": "How many storeys will the new structure have?",
+      "responses": [
+        {
+          "value": "1"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Dimensions"
+      }
+    },
+    {
+      "question": "Is the property on designated land?",
+      "responses": [
+        {
+          "value": "No",
+          "auto_answered": true
+        }
+      ],
+      "metadata": {
+        "portal_name": "Surrounding Area"
+      }
+    },
+    {
+      "question": "Is the property in an area of outstanding natural beauty?",
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Surrounding Area",
+        "auto_answered": true
+      }
+    },
+    {
+      "question": "Is the property in the broads?",
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Surrounding Area",
+        "auto_answered": true
+      }
+    },
+    {
+      "question": "Is the property in a world heritage site?",
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Surrounding Area",
+        "auto_answered": true
+      }
+    },
+    {
+      "question": "Is the property in a national park?",
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Surrounding Area",
+        "auto_answered": true
+      }
+    },
+    {
+      "question": "Is any part of the property listed?",
+      "responses": [
+        {
+          "value": "No",
+          "metadata": {
+            "flags": [
+              "Listed building consent / Not required"
+            ]
+          }
+        }
+      ],
+      "metadata": {
+        "portal_name": "Surrounding Area"
+      }
+    },
+    {
+      "question": "Will the works affect a protected tree?",
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Surrounding Area",
+        "auto_answered": true
+      }
+    },
+    {
+      "question": "Will the new addition allow you to do an activity that most houses do not provide a dedicated space for?",
+      "responses": [
+        {
+          "value": "Yes",
+          "metadata": {
+            "notes": "It will allow me to exercise on a regular basis and generate energy",
+            "flags": [
+              "Planning permission / Permission needed"
+            ]
+          }
+        }
+      ],
+      "metadata": {
+        "portal_name": "Actitivies"
+      }
+    },
+    {
+      "question": "What type of planning application are you making?",
+      "responses": [
+        {
+          "value": "Existing changes"
+        }
+      ],
+      "metadata": {
+        "portal_name": "fee-calculator",
+        "policy_refs": [
+          {
+            "url": "http://example.com/planning/policy/1/234/a.html"
+          }
+        ]
+      }
+    },
+    {
+      "question": "What type of changes does the project involve?",
+      "responses": [
+        {
+          "value": "Alteration"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Fee Exemptions",
+        "policy_refs": [
+          {
+            "text": "The Town and Country Planning (General Permitted Development) (England) Order 2015"
+          }
+        ]
+      }
+    }
+  ],
+  "constraints": {
+    "conservation_area": true,
+    "protected_trees": false
+  },
+  "files": [
+    {
+      "filename": "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
+      "applicant_description": "This is the side plan",
+      "tags": [
+        "Side"
+      ]
+    }
+  ],
+  "boundary_geojson":
+  {
+    "type": "Feature",
+    "geometry":
+    {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -0.07716178894042969,
+            51.50094238217541
+          ],
+          [
+            -0.07645905017852783,
+            51.50053497847238
+          ],
+          [
+            -0.07615327835083008,
+            51.50115276135022
+          ],
+          [
+            -0.07716178894042969,
+            51.50094238217541
+          ]
+        ]
+      ]
+    }
+  },
+  "controller": "api/v1/planning_applications",
+  "action": "create",
+  "planning_application":
+  {
+    "application_type": "lawfulness_certificate",
+    "description": "Add a chimney stack",
+    "proposal_details":
+    [
+      {
+        "question": "What do you want to do?",
+        "responses": [
+          {
+            "value": "Modify or extend"
+          }
+        ],
+        "metadata": {
+          "portal_name": "Property details"
+        }
+      },
+      {
+        "question": "What is the dwelling used as?",
+        "responses": [
+          {
+            "value": "A family home"
+          }
+        ],
+        "metadata": {
+          "portal_name": "Property details"
+        }
+      },
+      {
+        "question": "Is the property a house?",
+        "responses": [
+          {
+            "value": "Yes"
+          }
+        ],
+        "metadata": {
+          "portal_name": "Property details"
+        }
+      },
+      {
+        "question": "How many storeys will the new structure have?",
+        "responses": [
+          {
+            "value": "1"
+          }
+        ],
+        "metadata": {
+          "portal_name": "Property details"
+        }
+      },
+      {
+        "question": "Was the house always a house?",
+        "responses": [
+          {
+            "value": "Yes"
+          }
+        ],
+        "metadata": {
+          "portal_name": "Property details"
+        }
+      },
+      {
+        "question": "Will the structure include a satellite dish or antenna?",
+        "responses": [
+          {
+            "value": "No"
+          }
+        ],
+        "metadata": {
+          "portal_name": "Property details",
+          "policy_refs": [
+            {
+              "url": "http://example.com/planning/policy/1/234/a.html",
+              "text": "GPDO 00.0000.000"
+            }
+          ]
+        }
+      },
+      {
+        "question": "What will be the total footprint of all additions of the available area around the original house?",
+        "responses": [
+          {
+            "value": "50% or less"
+          }
+        ],
+        "metadata": {
+          "portal_name": "Dimensions"
+        }
+      },
+      {
+        "question": "How high will the eaves of the new structure be?",
+        "responses": [
+          {
+            "value": "2.5m or lower"
+          }
+        ],
+        "metadata": {
+          "portal_name": "Dimensions"
+        }
+      },
+      {
+        "question": "What will the height of the new structure be?",
+        "responses": [
+          {
+            "value": "2.5m or lower"
+          }
+        ],
+        "metadata": {
+          "portal_name": "Dimensions"
+        }
+      },
+      {
+        "question": "How close will the new structure be to the site boundary?",
+        "responses": [
+          {
+            "value": "Within 2m"
+          }
+        ],
+        "metadata": {
+          "portal_name": "Front of house"
+        }
+      },
+     {
+        "question": "Will any part of the new structure be forward of the front of the original house?",
+        "responses": [
+          {
+            "value": "No"
+          }
+        ],
+        "metadata": {
+          "portal_name": "Front of house"
+        }
+      },
+      {
+        "question": "Will any part of the pool be forward of the front of the original house?",
+        "responses": [
+          {
+            "value": "No"
+          }
+        ],
+        "metadata": {
+          "portal_name": "Front of house"
+        }
+      },
+      {
+        "question": "What is the addition to the property?",
+        "responses": [
+          {
+            "value": "An outdoor pool"
+          },
+          {
+            "value": "An outbuilding"
+          }
+        ],
+        "metadata":
+       {
+          "portal_name": "Property details",
+          "policy_refs": [
+            {
+              "url": "http://example.com/planning/policy/1/234/b.html",
+              "text": "GPDO 00.0000.000"
+            },
+            {
+              "url": "http://example.com/planning/policy/1/234/c.html",
+              "text": "GPDO 00.0000.000"
+            }
+          ]
+        }
+      },
+      {
+        "question": "How many storeys will the new structure have?",
+        "responses": [
+          {
+            "value": "1"
+          }
+        ],
+        "metadata": {
+          "portal_name": "Dimensions"
+        }
+      },
+      {
+        "question": "Is the property on designated land?",
+        "responses": [
+          {
+            "value": "No",
+            "auto_answered": true
+          }
+        ],
+        "metadata": {
+          "portal_name": "Surrounding Area"
+        }
+      },
+      {
+        "question": "Is the property in an area of outstanding natural beauty?",
+        "responses": [
+          {
+            "value": "No"
+          }
+        ],
+        "metadata": {
+          "portal_name": "Surrounding Area",
+          "auto_answered": true
+        }
+      },
+      {
+        "question": "Is the property in the broads?",
+        "responses": [
+          {
+            "value": "No"
+          }
+        ],
+        "metadata": {
+          "portal_name": "Surrounding Area",
+          "auto_answered": true
+        }
+      },
+      {
+        "question": "Is the property in a world heritage site?",
+        "responses": [
+          {
+            "value": "No"
+          }
+        ],
+        "metadata": {
+          "portal_name": "Surrounding Area",
+          "auto_answered": true
+        }
+      },
+      {
+        "question": "Is the property in a national park?",
+        "responses": [
+          {
+            "value": "No"
+          }
+        ],
+        "metadata": {
+          "portal_name": "Surrounding Area",
+          "auto_answered": true
+        }
+      },
+      {
+        "question": "Is any part of the property listed?",
+        "responses": [
+          {
+            "value": "No",
+            "metadata": {
+              "flags": [
+                "Listed building consent / Not required"
+              ]
+            }
+          }
+        ],
+        "metadata": {
+          "portal_name": "Surrounding Area"
+        }
+      },
+      {
+        "question": "Will the works affect a protected tree?",
+        "responses": [
+          {
+            "value": "No"
+          }
+        ],
+        "metadata": {
+          "portal_name": "Surrounding Area",
+          "auto_answered": true
+        }
+      },
+      {
+        "question": "Will the new addition allow you to do an activity that most houses do not provide a dedicated space for?",
+        "responses": [
+          {
+            "value": "Yes",
+            "metadata": {
+              "notes": "It will allow me to exercise on a regular basis and generate energy",
+              "flags": [
+                "Planning permission / Permission needed"
+              ]
+            }
+          }
+        ],
+        "metadata": {
+          "portal_name": "Actitivies"
+        }
+      },
+      {
+        "question": "What type of planning application are you making?",
+        "responses": [
+          {
+            "value": "Existing changes"
+          }
+        ],
+        "metadata": {
+          "portal_name": "fee-calculator",
+          "policy_refs": [
+            {
+              "url": "http://example.com/planning/policy/1/234/a.html"
+            }
+          ]
+        }
+      },
+      {
+        "question": "What type of changes does the project involve?",
+        "responses": [
+          {
+            "value": "Alteration"
+          }
+        ],
+        "metadata": {
+          "portal_name": "Fee Exemptions",
+          "policy_refs": [
+            {
+              "text": "The Town and Country Planning (General Permitted Development) (England) Order 2015"
+            }
+          ]
+        }
+      }
+    ],
+    "agent_first_name": "Jennifer",
+    "agent_last_name": "Harper",
+    "agent_phone": "237878889",
+    "agent_email": "agent@example.com",
+    "applicant_first_name": "Albert",
+    "applicant_last_name": "Manteras",
+    "applicant_email": "applicant@example.com",
+    "applicant_phone": "23432325435",
+    "payment_reference": "PAY1",
+    "work_status": "proposed",
+    "boundary_geojson":
+    {
+      "type": "Feature",
+      "geometry":
+      {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -0.07716178894042969,
+              51.50094238217541
+            ],
+            [
+              -0.07645905017852783,
+              51.50053497847238
+            ],
+            [
+              -0.07615327835083008,
+              51.50115276135022
+            ],
+            [
+              -0.07716178894042969,
+              51.50094238217541
+            ]
+          ]
+        ]
+      }
+    },
+    "constraints": {
+      "conservation_area": true,
+      "protected_trees": false
+    },
+    "payment_amount": 10300,
+    "user_role": "agent",
+    "feedback": {
+      "result": "feedback about the result",
+      "find_property": "feedback about the property",
+      "planning_constraints": "feedback about the constraints"
+    }
+  },
+  "format": "json"
+}

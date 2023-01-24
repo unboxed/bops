@@ -17,6 +17,10 @@ class PlanningApplicationsController < AuthenticationController
     redirect_failed_submit_recommendation
   end
 
+  rescue_from PlanningApplicationCreationService::CreateError do |exception|
+    redirect_failed_clone_planning_application(exception)
+  end
+
   def index
     @planning_applications = if helpers.exclude_others? && current_user.assessor?
                                planning_applications_scope.for_user_and_null_users(current_user.id)
@@ -257,6 +261,14 @@ class PlanningApplicationsController < AuthenticationController
     end
   end
 
+  def clone
+    planning_application = PlanningApplicationCreationService.new(planning_application: @planning_application).call
+
+    respond_to do |format|
+      format.html { redirect_to planning_application, notice: "Planning application was successfully cloned." }
+    end
+  end
+
   private
 
   def planning_application_search_params
@@ -334,6 +346,11 @@ class PlanningApplicationsController < AuthenticationController
   def redirect_failed_submit_recommendation
     redirect_to submit_recommendation_planning_application_path(@planning_application),
                 alert: "Error submitting recommendation - please contact support."
+  end
+
+  def redirect_failed_clone_planning_application(error)
+    redirect_to @planning_application,
+                alert: "Error cloning application with message: #{error.message}."
   end
 
   def redirect_update_url

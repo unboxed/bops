@@ -57,6 +57,7 @@ Rails.application.routes.draw do
       get :validation_decision
       get :validation_documents
       patch :validate_documents
+      post :clone
     end
 
     resource :constraints, only: %i[show edit update] do
