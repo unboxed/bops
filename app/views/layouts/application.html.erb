@@ -2,7 +2,7 @@
 <html lang="en" class="govuk-template app-html-class">
   <%= render "head" %>
 
-  <body class="govuk-template__body js-enabled" data-test="My value" data-other="report:details">
+  <body class="govuk-template__body app-body-class" data-test="My value" data-other="report:details">
     <script>
       document.body.className = (
         (document.body.className)
@@ -12,7 +12,7 @@
     </script>
 
     <% unless @blank_layout == true %>
-      <%= link_to "Skip to main content", "#main-content", class: "govuk-skip-link" %>
+      <%= link_to "Skip to main content", "#main-content", class: "govuk-skip-link", 'data-module': 'govuk-skip-link' %>
       <%= render "flashes" unless @disable_flash_header %>
       <%= render(EnvironmentBannerComponent.new(display: @current_local_authority.staging?)) %>
       <%= render "header" %>
@@ -32,7 +32,7 @@
         </p>
       </div>
 
-      <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+      <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing app-main-class" id="main-content" role="main">
         <%= render_navigation unless @blank_layout == true %>
         <%= yield %>
       </main>
