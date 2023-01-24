@@ -17,7 +17,7 @@ RSpec.describe "Constraints" do
   end
 
   it "displays the planning application address and reference" do
-    expect(page).to have_content(planning_application.full_address.upcase)
+    expect(page).to have_content(planning_application.full_address)
     expect(page).to have_content(planning_application.reference)
   end
 

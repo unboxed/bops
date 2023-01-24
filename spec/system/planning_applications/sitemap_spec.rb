@@ -27,7 +27,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
         visit planning_application_validation_tasks_path(planning_application)
         click_link "Draw red line boundary"
 
-        expect(page).to have_content(planning_application.full_address.upcase)
+        expect(page).to have_content(planning_application.full_address)
         expect(page).to have_content(planning_application.reference)
       end
 
@@ -144,7 +144,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
     it "creates a request to update map boundary" do
       delivered_emails = ActionMailer::Base.deliveries.count
 
-      expect(page).to have_content(planning_application.full_address.upcase)
+      expect(page).to have_content(planning_application.full_address)
       expect(page).to have_content(planning_application.reference)
       map = find("my-map")
       expect(map["showMarker"]).to eq("true")

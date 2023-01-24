@@ -1,20 +1,26 @@
-<h1 class="govuk-heading-l">
-  Applicant approved proposed digital red line boundary
-</h1>
-<h2 class="govuk-heading-m govuk-!-padding-top-6">
-  Proposed red line boundary
-</h2>
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Applicant approved proposed digital red line boundary"  }
+) %>
 
-<%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.new_geojson } %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m govuk-!-padding-top-6">
+      Proposed red line boundary
+    </h2>
 
-<div class="govuk-inset-text">
-  <% if @red_line_boundary_change_validation_request.auto_closed? %>
-    <strong>Change to red line boundary was auto closed and approved after being open for more than 5 business days</strong>
-  <% else %>
-    <strong>Change to red line boundary has been approved by the applicant</strong>
-  <% end %>
-</div>
+    <%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.new_geojson } %>
 
-<div class="govuk-button-group">
-  <%= back_link %>
+    <div class="govuk-inset-text">
+      <% if @red_line_boundary_change_validation_request.auto_closed? %>
+        <strong>Change to red line boundary was auto closed and approved after being open for more than 5 business days</strong>
+      <% else %>
+        <strong>Change to red line boundary has been approved by the applicant</strong>
+      <% end %>
+    </div>
+
+    <div class="govuk-button-group">
+      <%= back_link %>
+    </div>
+  </div>
 </div>

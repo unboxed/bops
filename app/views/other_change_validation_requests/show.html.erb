@@ -5,18 +5,20 @@
 <%= render "validation_requests/validation_requests_breadcrumbs" %>
 <% content_for :title, "Other validation request" %>
 
+<% if @other_change_validation_request.closed? %>
+  <%= render(
+    partial: "shared/proposal_header",
+    locals: { heading: "Check the response to other request #{'(fee)' if @other_change_validation_request.fee_item?}"  }
+  ) %>
+<% else %>
+  <%= render(
+    partial: "shared/proposal_header",
+    locals: { heading: "View other request #{'(fee)' if @other_change_validation_request.fee_item?}"  }
+  ) %>
+<% end %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l govuk-!-padding-top-5">
-      <% if @other_change_validation_request.closed? %>
-        Check the response to other request <%= "(fee)" if @other_change_validation_request.fee_item? %>
-      <% else %>
-        View other request <%= "(fee)" if @other_change_validation_request.fee_item? %>
-      <% end %>
-    </h1>
-
-    <%= render "shared/planning_application_address_and_reference" %>
-
     <h2 class="govuk-heading-m">Officer request</h2>
 
     <% if @other_change_validation_request.fee_item? %>

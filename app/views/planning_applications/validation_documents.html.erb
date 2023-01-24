@@ -5,46 +5,49 @@
 <%= render "validation_requests/validation_requests_breadcrumbs" %>
 <% content_for :title, "Check documents" %>
 
-<div>
-  <h1 class="govuk-heading-l">Check the documents provided</h1>
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Check the documents provided"  }
+) %>
 
-  <%= render "shared/planning_application_address_and_reference" %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body-m">
+      Check all necessary documents have been provided and add requests for any missing documents.
+    </p>
 
-  <p class="govuk-body-m">
-    Check all necessary documents have been provided and add requests for any missing documents.
-  </p>
+    <% unless @documents.any? && @documents.all?(&:representable?) %>
+      <%= render "shared/warning_text",
+          message: "One or more documents that the applicant submitted are not available due to a security issue. Ask the applicant or agent for replacements." %>
+    <% end %>
 
-  <% unless @documents.any? && @documents.all?(&:representable?) %>
-    <%= render "shared/warning_text",
-        message: "One or more documents that the applicant submitted are not available due to a security issue. Ask the applicant or agent for replacements." %>
-  <% end %>
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+    <p class="govuk-body">
+      <%= link_to "Add a request for a missing document",
+        new_planning_application_additional_document_validation_request_path(@planning_application), class: "govuk-link govuk-body-l" %>
+    </p>
 
-  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-  <p class="govuk-body">
-    <%= link_to "Add a request for a missing document",
-      new_planning_application_additional_document_validation_request_path(@planning_application), class: "govuk-link govuk-body-l" %>
-  </p>
+    <% if @additional_document_validation_requests.any? %>
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-  <% if @additional_document_validation_requests.any? %>
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+      <%= render "additional_document_validation_requests/additional_document_validation_requests_table",
+          validation_requests: @additional_document_validation_requests %>
+    <% else %>
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    <% end %>
 
-    <%= render "additional_document_validation_requests/additional_document_validation_requests_table",
-        validation_requests: @additional_document_validation_requests %>
-  <% else %>
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-  <% end %>
+    <% if @documents.any? %>
+      <%= render "documents/active_documents_table", documents: @documents %>
+    <% end %>
 
-  <% if @documents.any? %>
-    <%= render "documents/active_documents_table", documents: @documents %>
-  <% end %>
+    <%= form_with model: @planning_application, url: validate_documents_planning_application_path(@planning_application), builder: GOVUKDesignSystemFormBuilder::FormBuilder, local: true do |form| %>
+      <%= form.hidden_field :documents_missing, value: @additional_document_validation_requests.any? %>
 
-  <%= form_with model: @planning_application, url: validate_documents_planning_application_path(@planning_application), builder: GOVUKDesignSystemFormBuilder::FormBuilder, local: true do |form| %>
-    <%= form.hidden_field :documents_missing, value: @additional_document_validation_requests.any? %>
+      <div class="govuk-button-group">
+        <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
 
-    <div class="govuk-button-group">
-      <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
-
-      <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-    </div>
-  <% end %>
+        <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      </div>
+    <% end %>
+  </div>
 </div>

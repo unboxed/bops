@@ -163,7 +163,12 @@ RSpec.describe "Reviewing Policy Class" do
         visit(planning_application_review_tasks_path(planning_application))
         click_on "Review assessment of Part 1, Class A"
 
-        expect(page).to have_text("Review - Part1, Class A Roof")
+        within("#planning-application-details") do
+          expect(page).to have_content("Review - Part1, Class A")
+        end
+
+        expect(page).to have_content("Roof")
+
         expect(page).to have_selector("p", text: "Policy description")
 
         expect(page).to have_text(

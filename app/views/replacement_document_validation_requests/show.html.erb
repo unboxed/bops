@@ -7,12 +7,13 @@
 <% add_parent_breadcrumb_link "Validation tasks", planning_application_validation_tasks_path(@planning_application) %>
 <% content_for :title, "Replacement document validation request" %>
 
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "View request for a replacement document"  }
+) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l govuk-!-padding-top-6">
-      View request for a replacement document
-    </h1>
-
     <h3 class="govuk-heading-s">
       Officer request
     </h3>

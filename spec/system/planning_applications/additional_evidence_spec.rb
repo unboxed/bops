@@ -34,7 +34,7 @@ RSpec.describe "Additional evidence" do
 
       expect(page).to have_content("Add detail of additional evidence")
       expect(page).to have_content(planning_application.reference)
-      expect(page).to have_content(planning_application.full_address.upcase)
+      expect(page).to have_content(planning_application.full_address)
 
       expect(page).to have_content("What is the impact of any additional evidence on the application?")
       expect(page).to have_content("This information will NOT be made public.")

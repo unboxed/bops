@@ -8,19 +8,15 @@
 
 <% content_for :title, "Upload document" %>
 
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Documents: #{@planning_application.reference}" }
+) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <h1 class="govuk-heading-l" style="margin-bottom: 7px;">
-      Documents: <%= @planning_application.reference %>
-    </h1>
-
-    <h2 class="govuk-heading-m" style="margin-bottom: 75px;">
-      <%= @planning_application.full_address %>
-    </h2>
-
     <h2 class="govuk-heading-m">Upload new document</h2>
 
     <%= render partial: 'edit_and_upload' %>
-
   </div>
 </div>

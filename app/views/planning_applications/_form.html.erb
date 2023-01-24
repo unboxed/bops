@@ -27,10 +27,6 @@
         <%= form.text_area :description, class: "govuk-textarea", rows: "5" %>
       </p>
     <% else %>
-      <h1 class="govuk-heading-l">Edit application</h2>
-
-      <p class="govuk-body"><%= render(FormattedContentComponent.new(text: @planning_application.description)) %></p>
-      <%= render "shared/planning_application_address_and_reference" %>
       <p class="govuk-body">
         <% if @planning_application.open_description_change_requests.any? %>
           <%= link_to "View requested change", planning_application_description_change_validation_request_path(@planning_application, @planning_application.open_description_change_requests.last.id), class: "govuk-link" %>

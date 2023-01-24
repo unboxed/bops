@@ -8,7 +8,11 @@
     current_page: t(".add_classes_to")
   }
 ) %>
-<%= render "flash_content" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Add classes to assess" }
+) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -19,11 +23,6 @@
       <%= form.hidden_field :part, value: @part %>
       <div class="govuk-form-group">
         <fieldset class="govuk-fieldset" aria-describedby="nationality-hint">
-          <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-            <h1 class="govuk-heading-l">
-              Add classes to assess
-            </h1>
-          </legend>
           <div id="policy-class-hint" class="govuk-hint">
             <p class="govuk-body">
               Select the relevant class(es) to assess. Classes are defined

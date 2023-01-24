@@ -18,7 +18,7 @@ RSpec.describe "Withdraw or cancel" do
   it "displays the planning application address and reference" do
     click_link "Withdraw or cancel application"
 
-    expect(page).to have_content(planning_application.full_address.upcase)
+    expect(page).to have_content(planning_application.full_address)
     expect(page).to have_content(planning_application.reference)
   end
 

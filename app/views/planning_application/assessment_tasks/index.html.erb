@@ -6,7 +6,10 @@
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
 <% content_for :title, "Assess application" %>
 
-<%= render "shared/planning_application_header", locals: { header_title: "Assess the application" } %>
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Assess the application"  }
+) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

@@ -2,26 +2,32 @@
   Constraints - <%= t('page_title') %>
 <% end %>
 
-<h1 class="govuk-heading-l">Check the constraints</h1>
-
-<%= render "shared/planning_application_address_and_reference" %>
-
-<% if @planning_application.api_user.present? %>
-  <h2 class="govuk-heading-m">Constraints identified by <%= @planning_application.api_user.name %></h2>
-<% end %>
-
-<p class="govuk-body" id="constraints-review">Review all the constraints and update as necessary</p>
 <%= render(
-  partial: "constraints/info",
-  locals: {
-    planning_application: @planning_application,
-    constraints: @planning_application.constraints
-  }
+  partial: "shared/proposal_header",
+  locals: { heading: "Check the constraints"  }
 ) %>
 
-<%= form_with model: @planning_application, url: check_planning_application_constraints_path(@planning_application), method: :patch do |form| %>
-  <div class="govuk-button-group">
-    <%= form.submit "Marked as checked", class: "govuk-button", data: { module: "govuk-button" } unless @planning_application.constraints_checked? %>
-    <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <% if @planning_application.api_user.present? %>
+      <h2 class="govuk-heading-m">Constraints identified by <%= @planning_application.api_user.name %></h2>
+    <% end %>
+
+    <p class="govuk-body" id="constraints-review">Review all the constraints and update as necessary</p>
+    <%= render(
+      partial: "constraints/info",
+      locals: {
+        planning_application: @planning_application,
+        constraints: @planning_application.constraints
+      }
+    ) %>
+
+    <%= form_with model: @planning_application, url: check_planning_application_constraints_path(@planning_application), method: :patch do |form| %>
+      <div class="govuk-button-group">
+        <%= form.submit "Marked as checked", class: "govuk-button", data: { module: "govuk-button" } unless @planning_application.constraints_checked? %>
+        <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      </div>
+    <% end %>
   </div>
-<% end %>
+</div>

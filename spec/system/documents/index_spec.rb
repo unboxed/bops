@@ -35,7 +35,7 @@ RSpec.describe "Documents index page" do
     end
 
     it "Application address is displayed on page" do
-      expect(page).to have_text planning_application.full_address.upcase
+      expect(page).to have_text(planning_application.full_address)
     end
 
     it "File image is the only one on the page" do

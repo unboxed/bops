@@ -48,7 +48,7 @@ RSpec.describe "Review documents for recommendation" do
         expect(page).to have_content("Review documents for recommendation")
       end
       expect(page).to have_content("Application number: #{planning_application.reference}")
-      expect(page).to have_content(planning_application.full_address.upcase)
+      expect(page).to have_content(planning_application.full_address)
       expect(page).to have_content("#{planning_application.type_and_work_status}: #{planning_application.description}")
       expect(page).to have_content("All documents need a reference to be on the decision notice or made public")
 

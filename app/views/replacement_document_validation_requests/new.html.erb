@@ -8,9 +8,10 @@
 
 <% content_for :title, "Replacement document" %>
 
-<h1 class="govuk-heading-l">Request a replacement document</h1>
-
-<%= render "shared/planning_application_address_and_reference" %>
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Request a replacement document"  }
+) %>
 
 <div class="govuk-grid-row">
   <%= render "document_summary" %>

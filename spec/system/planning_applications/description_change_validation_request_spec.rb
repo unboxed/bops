@@ -25,7 +25,7 @@ RSpec.describe "Requesting description changes to a planning application" do
       )
     )
 
-    expect(page).to have_content(planning_application.full_address.upcase)
+    expect(page).to have_content(planning_application.full_address)
     expect(page).to have_content(planning_application.reference)
   end
 

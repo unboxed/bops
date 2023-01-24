@@ -7,12 +7,13 @@
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
 <% add_parent_breadcrumb_link "Validation tasks", planning_application_validation_tasks_path(@planning_application) %>
 
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Send validation decision"  }
+) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">Send validation decision</h1>
-
-    <%= render "shared/planning_application_address_and_reference" %>
-
     <% if @planning_application.not_started? && @planning_application.validation_requests.empty? %>
       <p class="govuk-body">
         <strong>
