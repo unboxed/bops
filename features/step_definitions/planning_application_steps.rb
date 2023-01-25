@@ -153,19 +153,19 @@ end
 
 Given "the application is withdrawn by the applicant" do
   steps %(
-    Given I press "Close or cancel application"
+    Given I press "Withdraw or cancel application"
     And I choose "Withdrawn by applicant"
     And I fill in "Provide a reason" with "Applicant is moving to Bermuda, because heck this"
-    And I press "Save"
+    And I press "Withdraw or cancel application"
   )
 end
 
 Given "the application is returned by the applicant" do
   steps %(
-    Given I press "Close or cancel application"
+    Given I press "Withdraw or cancel application"
     When I choose "Returned as invalid"
     And I fill in "Provide a reason" with "Applicant sent selfies instead of floor plans"
-    And I press "Save"
+    And I press "Withdraw or cancel application"
   )
 end
 

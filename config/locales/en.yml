@@ -591,6 +591,13 @@ en:
     validation_tasks:
       index:
         application_details: Application details
+    withdraw_or_cancels:
+      closed: Application has been closed
+      returned: Application has been returned
+      show:
+        upload_hint_html: Optionally add a <strong>redacted</strong> document to support the decision
+        upload_label: Upload a supporting document
+      withdrawn: Application has been withdrawn
   planning_applications:
     assessment_report_component:
       additional_evidence: Summary of additional evidence
@@ -604,10 +611,6 @@ en:
       no_legislation_assessed: There is no legislation assessment for this application.
       planning_history: Planning history
       summary_of_works: Summary of works
-    cancel:
-      closed: Application has been closed
-      returned: Application has been returned
-      withdrawn: Application has been withdrawn
     confirm_validation:
       validate_application: Validate application
     create:
@@ -813,9 +816,9 @@ en:
       assess_recommendation: Assess recommendation
       awaiting_approval_to: Awaiting approval to a description change (sent on %{date})
       back: Back
-      close_or_cancel: Close or cancel application
       details: Details
       view_all_requests: View all requests.
+      withdraw_or_cancel: Withdraw or cancel application
     assessment_task_breadcrumbs:
       application: Application
       assess_application: Assess application

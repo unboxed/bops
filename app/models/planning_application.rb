@@ -5,6 +5,8 @@ class PlanningApplication < ApplicationRecord
 
   class WithdrawRecommendationError < RuntimeError; end
 
+  class WithdrawOrCancelError < RuntimeError; end
+
   include Auditable
 
   include PlanningApplicationDecorator
@@ -79,6 +81,7 @@ class PlanningApplication < ApplicationRecord
   after_update :address_or_boundary_geojson_updated?
 
   accepts_nested_attributes_for :recommendations
+  accepts_nested_attributes_for :documents
 
   WORK_STATUSES = %w[proposed existing].freeze
 
@@ -509,6 +512,17 @@ class PlanningApplication < ApplicationRecord
     Rails.env.development? || ENV.fetch("STAGING_ENABLED", "false") == "true"
   end
 
+  def withdraw_or_cancel!(status, comment, document_params)
+    event = withdraw_or_cancel_event(status)
+
+    transaction do
+      update!(document_params) if document_params
+      send(event, status.to_sym, comment)
+    end
+  rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
+    raise WithdrawOrCancelError, e.message
+  end
+
   private
 
   def set_reference
@@ -661,6 +675,19 @@ class PlanningApplication < ApplicationRecord
       last_validation_request_date
     else
       created_at
+    end
+  end
+
+  def withdraw_or_cancel_event(status)
+    case status
+    when "withdrawn"
+      "withdraw!"
+    when "returned"
+      "return!"
+    when "closed"
+      "close!"
+    else
+      raise ArgumentError, "The status provided: #{status} is not valid"
     end
   end
 end
