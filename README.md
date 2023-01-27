@@ -138,8 +138,15 @@ There is also the following optional parameter:
 
 - `admin_email`
 
-```ruby
-rake local_authority:create -- --subdomain 'lambeth' --council_code 'LBH' --signatory_name 'Bop' --signatory_job_title 'Director of Property' --enquiries_paragraph 'Planning, London Borough of Lambeth' --email_address 'mail@lambeth.gov.uk' --feedback_email 'mail@lambeth.gov.uk' --admin_email 'admin@lambeth.gov.uk'
+```sh
+rake local_authority:create -- --subdomain 'lambeth' \
+  --council_code 'LBH' \
+  --signatory_name 'Bop' \
+  --signatory_job_title 'Director of Property' \
+  --enquiries_paragraph 'Planning, London Borough of Lambeth' \
+  --email_address 'mail@lambeth.gov.uk' \
+  --feedback_email 'mail@lambeth.gov.uk' \
+  --admin_email 'admin@lambeth.gov.uk'
 ```
 
 ## Working with api documentation: aggregate swagger files
