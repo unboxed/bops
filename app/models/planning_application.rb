@@ -505,6 +505,10 @@ class PlanningApplication < ApplicationRecord
     end
   end
 
+  def can_clone?
+    Rails.env.development? || ENV.fetch("STAGING_ENABLED", "false") == "true"
+  end
+
   private
 
   def set_reference

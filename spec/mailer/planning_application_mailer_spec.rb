@@ -25,7 +25,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       applicant_email: "cookie_crumbs@example.com",
       local_authority: local_authority,
       decision: "granted",
-      address_1: "123 High Street", # rubocop:disable Naming/VariableNumber
+      address_1: "123 High Street",
       town: "Big City",
       postcode: "AB3 4EF",
       description: "Add a chimney stack",
@@ -154,7 +154,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         :planning_application,
         :invalidated,
         local_authority: local_authority,
-        address_1: "123 High Street", # rubocop:disable Naming/VariableNumber
+        address_1: "123 High Street",
         town: "Big City",
         postcode: "AB3 4EF",
         invalidated_at: DateTime.new(2022, 6, 5)
@@ -536,7 +536,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         :planning_application,
         agent_email: "agent@example.com",
         local_authority: local_authority,
-        address_1: "123 High Street", # rubocop:disable Naming/VariableNumber
+        address_1: "123 High Street",
         town: "Big City",
         postcode: "AB3 4EF"
       )

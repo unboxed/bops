@@ -9,7 +9,7 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
       description: "Test description",
       application_type: :full,
       work_status: work_status,
-      address_1: "123 Long Lane", # rubocop:disable Naming/VariableNumber
+      address_1: "123 Long Lane",
       town: "Big City",
       postcode: "AB34EF",
       uprn: "123456789",
