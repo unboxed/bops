@@ -87,6 +87,9 @@ jobs:
         run: |
           bundle exec rake db:create db:schema:load
 
+      - name: Build assets
+        run: bundle exec rake assets:precompile
+
       - name: Run rspec specs
         if: ${{ inputs.test-runner == 'rspec' }}
         env:

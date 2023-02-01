@@ -12,6 +12,7 @@ gem "aws-sdk-s3", require: false
 gem "bootsnap", ">= 1.4.2", require: false
 gem "business_time"
 gem "daemons"
+gem "dartsass-rails"
 gem "delayed_job_active_record"
 gem "devise"
 gem "devise-two-factor"
@@ -31,7 +32,6 @@ gem "puma", "~> 4"
 gem "rails", "~> 6.1"
 gem "rails_autolink"
 gem "rswag-ui"
-gem "sassc", "~> 2.4.0"
 gem "stimulus-rails"
 gem "strong_password", "~> 0.0.9"
 gem "view_component"
@@ -56,6 +56,7 @@ group :development, :test do
 end
 
 group :development do
+  gem "foreman"
   gem "listen"
   gem "web-console"
 end

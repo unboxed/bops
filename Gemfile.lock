@@ -168,6 +168,8 @@ GEM
       cucumber-cucumber-expressions (~> 12.1, >= 12.1.2)
       cucumber-messages (~> 17.0, >= 17.0.1)
     daemons (1.4.1)
+    dartsass-rails (0.4.1)
+      railties (>= 6.0.0)
     database_cleaner (2.0.1)
       database_cleaner-active_record (~> 2.0.0)
     database_cleaner-active_record (2.0.1)
@@ -226,6 +228,7 @@ GEM
     faraday-patron (1.0.0)
     faraday-rack (1.0.0)
     ffi (1.15.5)
+    foreman (0.87.2)
     formatador (0.3.0)
     globalid (1.0.1)
       activesupport (>= 5.0)
@@ -456,8 +459,6 @@ GEM
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
-    sassc (2.4.0)
-      ffi (~> 1.9)
     selenium-webdriver (4.5.0)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
@@ -542,6 +543,7 @@ DEPENDENCIES
   capybara
   cucumber-rails
   daemons
+  dartsass-rails
   database_cleaner
   delayed_job_active_record
   devise
@@ -550,6 +552,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   faraday
+  foreman
   govuk_design_system_formbuilder
   grover
   guard
@@ -576,7 +579,6 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubocop-rspec
-  sassc (~> 2.4.0)
   selenium-webdriver
   stimulus-rails
   strong_password (~> 0.0.9)
