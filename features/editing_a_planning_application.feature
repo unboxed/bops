@@ -63,4 +63,4 @@ Feature: Editing an application's details
     When I edit the planning application's details
     And I fill in "Address 2" with "Happy Buns"
     And I press "Save"
-    Then the page contains "Please complete in draft assessment before updating application fields."
+    Then the page contains "Please save and mark as complete the draft recommendation before updating application fields."

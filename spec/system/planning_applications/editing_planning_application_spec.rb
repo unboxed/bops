@@ -14,9 +14,12 @@ RSpec.describe "editing planning application" do
     )
   end
 
-  it "returns the user to the previous page after updating" do
+  before do
     sign_in(assessor)
     visit(planning_application_path(planning_application))
+  end
+
+  it "returns the user to the previous page after updating" do
     click_link("Check and assess")
     click_button("Application information")
     click_link("Edit details")
@@ -64,5 +67,28 @@ RSpec.describe "editing planning application" do
     expect(page).to have_current_path(
       new_planning_application_consistency_checklist_path(planning_application)
     )
+  end
+
+  context "when planning application status is assessment in progress" do
+    let(:planning_application) do
+      create(
+        :planning_application,
+        :assessment_in_progress,
+        local_authority: local_authority
+      )
+    end
+
+    it "prompts the user to complete their draft assessment before updating" do
+      click_link("Check and assess")
+      click_button("Application information")
+      click_link("Edit details")
+
+      fill_in("Postcode", with: "123ABC")
+
+      click_button("Save")
+
+      expect(page).to have_content("Please save and mark as complete the draft recommendation before updating application fields.")
+      expect(page).to have_link("draft recommendation", href: new_planning_application_recommendation_path(planning_application))
+    end
   end
 end
