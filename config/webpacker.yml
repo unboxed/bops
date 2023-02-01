@@ -35,12 +35,6 @@ default: &default
   extensions:
     - .mjs
     - .js
-    - .sass
-    - .scss
-    - .css
-    - .module.sass
-    - .module.scss
-    - .module.css
     - .png
     - .svg
     - .gif
@@ -50,7 +44,7 @@ default: &default
 development:
   <<: *default
   compile: true
-  extract_css: true
+  extract_css: false
 
   # Verifies that correct packages and versions are installed by inspecting package.json, yarn.lock, and node_modules
   check_yarn_integrity: true
@@ -79,7 +73,7 @@ development:
 test:
   <<: *default
   compile: true
-  extract_css: true
+  extract_css: false
 
   # Compile test packs to a separate directory
   public_output_path: packs-test
@@ -91,7 +85,7 @@ production:
   compile: false
 
   # Extract and emit a css file
-  extract_css: true
+  extract_css: false
 
   # Cache manifest.json for performance
   cache_manifest: true

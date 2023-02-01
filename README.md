@@ -39,7 +39,7 @@ $ rails db:setup
 #### Start the server:
 
 ```sh
-$ rails server
+$ bin/dev
 ```
 
 ## Subdomains
