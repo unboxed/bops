@@ -216,26 +216,6 @@ class PlanningApplicationsController < AuthenticationController
     end
   end
 
-  def cancel
-    case params[:planning_application][:status]
-    when "withdrawn"
-      @planning_application.withdraw!(:withdrawn, params[:planning_application][:closed_or_cancellation_comment])
-
-      redirect_to @planning_application, notice: t(".withdrawn")
-    when "returned"
-      @planning_application.return!(:returned, params[:planning_application][:closed_or_cancellation_comment])
-
-      redirect_to @planning_application, notice: t(".returned")
-    when "closed"
-      @planning_application.close!(:closed, params[:planning_application][:closed_or_cancellation_comment])
-
-      redirect_to @planning_application, notice: t(".closed")
-    else
-      @planning_application.errors.add(:status, "Please select one of the below options")
-      render :close_or_cancel_confirmation
-    end
-  end
-
   def validation_documents
     @documents = @planning_application.documents.active
     @additional_document_validation_requests = @planning_application

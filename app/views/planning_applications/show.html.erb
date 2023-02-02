@@ -13,12 +13,13 @@
       sections: %i[key_application_dates contact_information audit_log notes]
     )
   ) %>
+
   <% if @planning_application.in_progress? || @planning_application.can_clone? %>
     <div class="govuk-button-group">
       <% if @planning_application.in_progress? %>
         <%= link_to(
-          t(".close_or_cancel"),
-          close_or_cancel_confirmation_planning_application_path(
+          t(".withdraw_or_cancel"),
+          planning_application_withdraw_or_cancel_path(
             @planning_application
           ),
           class: "govuk-button govuk-button--warning"

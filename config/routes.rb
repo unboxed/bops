@@ -50,8 +50,6 @@ Rails.application.routes.draw do
       get :edit_public_comment
       get :publish
       patch :determine
-      patch :cancel
-      get :close_or_cancel_confirmation
       get :decision_notice
       get :validation_notice
       get :validation_decision
@@ -126,6 +124,8 @@ Rails.application.routes.draw do
       resources :review_documents, only: %i[index] do
         patch :update, on: :collection
       end
+
+      resource :withdraw_or_cancel, only: %i[show update]
     end
   end
 

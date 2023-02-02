@@ -3,6 +3,8 @@
 require "rails_helper"
 
 RSpec.describe PlanningApplication do
+  include ActionDispatch::TestProcess::FixtureFile
+
   subject(:planning_application) { create(:planning_application) }
 
   it_behaves_like("Auditable") do
@@ -1891,6 +1893,107 @@ RSpec.describe PlanningApplication do
 
       it "returns false" do
         expect(planning_application.can_clone?).to be(false)
+      end
+    end
+  end
+
+  describe "#withdraw_or_cancel!" do
+    let(:local_authority) { create(:local_authority, reviewer_group_email: "reviewers@example.com") }
+
+    let(:planning_application) do
+      create(
+        :planning_application,
+        :in_assessment,
+        local_authority: local_authority
+      )
+    end
+
+    describe "when successful" do
+      context "when withdrawn by applicant" do
+        it "application is withdrawn" do
+          expect { planning_application.withdraw_or_cancel!("withdrawn", "a withdrawn comment", nil) }
+            .to change(planning_application, :status).from("in_assessment").to("withdrawn")
+
+          expect(planning_application.closed_or_cancellation_comment).to eq("a withdrawn comment")
+          expect(Audit.last).to have_attributes(
+            planning_application_id: planning_application.id,
+            activity_type: "withdrawn",
+            audit_comment: "a withdrawn comment"
+          )
+        end
+      end
+
+      context "when returned as invalid" do
+        it "application is returned" do
+          expect { planning_application.withdraw_or_cancel!("returned", "a returned comment", nil) }
+            .to change(planning_application, :status).from("in_assessment").to("returned")
+
+          expect(planning_application.closed_or_cancellation_comment).to eq("a returned comment")
+          expect(Audit.last).to have_attributes(
+            planning_application_id: planning_application.id,
+            activity_type: "returned",
+            audit_comment: "a returned comment"
+          )
+        end
+      end
+
+      context "when closed for other reason" do
+        it "application is closed" do
+          expect { planning_application.withdraw_or_cancel!("closed", "a closed comment", nil) }
+            .to change(planning_application, :status).from("in_assessment").to("closed")
+
+          expect(planning_application.closed_or_cancellation_comment).to eq("a closed comment")
+          expect(Audit.last).to have_attributes(
+            planning_application_id: planning_application.id,
+            activity_type: "closed",
+            audit_comment: "a closed comment"
+          )
+        end
+      end
+    end
+
+    describe "when there is an error" do
+      context "when it cannot transition from the current state" do
+        let!(:planning_application) do
+          create(
+            :planning_application,
+            :closed,
+            local_authority: local_authority
+          )
+        end
+
+        it "raises an error" do
+          expect { planning_application.withdraw_or_cancel!("closed", "a closed comment", nil) }
+            .to raise_error(PlanningApplication::WithdrawOrCancelError, "Event 'close' cannot transition from 'closed'.")
+            .and not_change(planning_application, :closed_or_cancellation_comment)
+            .and not_change(Audit, :count)
+
+          expect(planning_application).to be_closed
+        end
+      end
+
+      context "when an invalid status is provided" do
+        it "raises an error" do
+          expect { planning_application.withdraw_or_cancel!("invalid_state", "A comment", nil) }
+            .to raise_error(ArgumentError, "The status provided: invalid_state is not valid")
+            .and not_change(planning_application, :closed_or_cancellation_comment)
+            .and not_change(Audit, :count)
+        end
+      end
+
+      context "when an ActiveRecord error is raised" do
+        before do
+          allow(planning_application).to receive(:update!).and_raise(ActiveRecord::ActiveRecordError)
+        end
+
+        it "raises an error" do
+          expect { planning_application.withdraw_or_cancel!("closed", "A comment", nil) }
+            .to raise_error(PlanningApplication::WithdrawOrCancelError)
+            .and not_change(planning_application, :closed_or_cancellation_comment)
+            .and not_change(Audit, :count)
+
+          expect(planning_application).not_to be_closed
+        end
       end
     end
   end

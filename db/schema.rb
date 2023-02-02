@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_09_150014) do
+ActiveRecord::Schema.define(version: 2023_01_27_100739) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -189,6 +189,7 @@ ActiveRecord::Schema.define(version: 2023_01_09_150014) do
     t.datetime "received_at"
     t.bigint "additional_document_validation_request_id"
     t.bigint "replacement_document_validation_request_id"
+    t.boolean "redacted", default: false, null: false
     t.index ["additional_document_validation_request_id"], name: "ix_documents_on_additional_document_validation_request_id"
     t.index ["api_user_id"], name: "ix_documents_on_api_user_id"
     t.index ["planning_application_id"], name: "index_documents_on_planning_application_id"
