@@ -35,6 +35,7 @@
       <%= render_navigation unless @blank_layout == true %>
 
       <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing app-main-class" id="main-content" role="main">
+        <%= render "flash_content" %>
         <%= yield %>
       </main>
     </div>
