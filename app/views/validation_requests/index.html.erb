@@ -16,6 +16,8 @@
   locals: { heading: "Review validation requests"  }
 ) %>
 
+<%= render "shared/dates_and_assignment_header" if post_validation_requests_index? %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <% if @active_validation_requests.any? %>

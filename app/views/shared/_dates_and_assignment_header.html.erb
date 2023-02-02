@@ -1,0 +1,25 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds" id="dates-and-assignment-details">
+    <p class="govuk-body">
+      <%= @planning_application.next_relevant_date_tag %>
+
+      <% if @planning_application.in_progress? %>
+        <span class="govuk-!-margin-left-1">
+          <%= @planning_application.remaining_days_status_tag %>
+        </span>
+      <% end %>
+    </p>
+
+    <% if @planning_application.in_progress? %>
+      <p class="govuk-body">
+        Assigned to: <strong><%= @planning_application.user&.name || "Unassigned" %></strong>
+        <!-- FIXME: make the link explicit and remove the span (i.e "Assign application"/"Change assignee") -->
+        <span class="assignment_cta"><%= link_to "Change", assign_planning_application_path(@planning_application), class: "govuk-link" %></span>
+      </p>
+    <% elsif @planning_application.determined? %>
+      <p class="govuk-body">
+        <%= link_to "View decision notice", decision_notice_planning_application_path(@planning_application), class: "govuk-link" %>
+      </p>
+    <% end %>
+  </div>
+</div>

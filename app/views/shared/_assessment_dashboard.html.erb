@@ -11,6 +11,8 @@
   locals: { heading: "Application" }
 ) %>
 
+<%= render "shared/dates_and_assignment_header" %>
+
 <% if @planning_application.validation_requests %>
   <% if @planning_application.overdue_requests.present? %>
     <%= render "shared/overdue_banner" %>
