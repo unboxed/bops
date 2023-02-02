@@ -2,7 +2,7 @@ Application reference number: <%= @planning_application.reference_in_full %>
 
 Application received: <%= @planning_application.received_at.strftime("%-d %B %Y") %>
 
-At: <%= @planning_application.full_address.upcase %>
+At: <%= @planning_application.full_address %>
 
 Dear <%= @planning_application.agent_or_applicant_name %>,
 

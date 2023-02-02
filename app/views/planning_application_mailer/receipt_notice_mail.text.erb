@@ -6,7 +6,7 @@ Here are the details of your application:
 
 Application reference number: <%= @planning_application.reference_in_full %>
 Project description: <%= @planning_application.description %>
-Address: <%= @planning_application.full_address.upcase %>
+Address: <%= @planning_application.full_address %>
 Application sent: <%= @planning_application.created_at.strftime("%-d %B %Y") %>
 Application received: <%= @planning_application.received_at.strftime("%-d %B %Y") %>
 

@@ -94,7 +94,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the address" do
       expect(mail_body).to include(
-        "Address: 123 HIGH STREET, BIG CITY, AB3 4EF"
+        "Address: 123 High Street, Big City, AB3 4EF"
       )
     end
 
@@ -197,7 +197,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "includes the address" do
-      expect(mail_body).to include("Address: 123 HIGH STREET, BIG CITY, AB3 4EF")
+      expect(mail_body).to include("Address: 123 High Street, Big City, AB3 4EF")
     end
 
     it "includes the validation request url" do
@@ -243,7 +243,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the address" do
       expect(mail_body).to include(
-        "Address: 123 HIGH STREET, BIG CITY, AB3 4EF"
+        "Address: 123 High Street, Big City, AB3 4EF"
       )
     end
 
@@ -462,7 +462,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "includes the address" do
-      expect(mail_body).to include("Address: 123 HIGH STREET, BIG CITY, AB3 4EF")
+      expect(mail_body).to include("Address: 123 High Street, Big City, AB3 4EF")
     end
 
     it "includes the validation request url" do
@@ -518,7 +518,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "includes the address" do
-      expect(mail_body).to match("Address: 123 HIGH STREET, BIG CITY, AB3 4EF")
+      expect(mail_body).to match("Address: 123 High Street, Big City, AB3 4EF")
     end
 
     it "includes the sent date" do
@@ -583,7 +583,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "includes the address" do
         expect(mail_body).to include(
-          "Address: 123 HIGH STREET, BIG CITY, AB3 4EF"
+          "Address: 123 High Street, Big City, AB3 4EF"
         )
       end
 
@@ -630,7 +630,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "includes the address" do
         expect(mail_body).to include(
-          "Address: 123 HIGH STREET, BIG CITY, AB3 4EF"
+          "Address: 123 High Street, Big City, AB3 4EF"
         )
       end
 
@@ -686,7 +686,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the address" do
       expect(mail_body).to include(
-        "At: 123 HIGH STREET, BIG CITY, AB3 4EF"
+        "At: 123 High Street, Big City, AB3 4EF"
       )
     end
 
