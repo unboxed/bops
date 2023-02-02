@@ -26,7 +26,7 @@
           </strong>
           <span class="govuk-phase-banner__text">
             This is a new service – your
-            <%= mail_to current_local_authority.feedback_email, "feedback", class: "govuk-link"  %>
+            <%= mail_to current_local_authority.feedback_email, "feedback", class: "govuk-link" %>
             will help us to improve it.
           </span>
         </p>
@@ -37,6 +37,6 @@
         <%= yield %>
       </main>
     </div>
-    <%= javascript_pack_tag 'govuk', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'govuk', 'data-turbolinks-track': 'reload' %>
   </body>
 </html>

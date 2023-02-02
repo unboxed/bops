@@ -9,20 +9,20 @@
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 
-  <%= favicon_link_tag(asset_pack_url("media/images/b-favicon.ico")) %>
+  <%= favicon_link_tag(asset_url("b-favicon.ico")) %>
   <%= favicon_link_tag(
-    asset_pack_url("media/images/b-apple-touch-icon.png"),
+    asset_url("b-apple-touch-icon.png"),
     rel: "apple-touch-icon",
     type: "image/png"
   ) %>
   <%= favicon_link_tag(
-    asset_pack_url("media/images/b-mask-icon.svg"),
+    asset_url("b-mask-icon.svg"),
     rel: "mask-icon"
   ) %>
   <link rel="stylesheet" href="https://use.typekit.net/zmv8alo.css">
   <script>L_DISABLE_3D = true;</script>
   <%= stylesheet_link_tag 'application', 'data-turbolinks-track': 'reload', media: 'all' %>
-  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
   <meta property="og:image" content="&lt;YOUR-DOMAIN&gt;/images/govuk-opengraph-image.png">
 </head>
