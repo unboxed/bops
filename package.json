@@ -2,17 +2,17 @@
   "name": "bops",
   "private": true,
   "dependencies": {
-    "@hotwired/stimulus": "^3.0.1",
+    "@hotwired/stimulus": "^3.2.1",
     "@opensystemslab/map": "^0.5.7",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
-    "@rails/webpacker": "5.4.0",
     "govuk-frontend": "^3.6.0",
     "is-svg": "^4.2.2",
     "puppeteer": "^11.0.0",
     "stimulus": "^1.1.1",
     "toastr": "^2.1.4",
-    "webpack": "^4.0.0",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
     "webpack-merge": "^5.4.0"
   },
   "resolutions": {
@@ -20,7 +20,9 @@
   },
   "version": "0.1.0",
   "devDependencies": {
-    "rome": "^11.0.0",
-    "webpack-dev-server": "^3.11.2"
+    "rome": "^11.0.0"
+  },
+  "scripts": {
+    "build": "webpack --config ./config/webpack/webpack.config.js"
   }
 }

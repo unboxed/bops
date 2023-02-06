@@ -13,5 +13,3 @@ govukall.Accordion.prototype.storeState = function ($section) {}
 govukall.Accordion.prototype.setInitialState = function ($section) {}
 
 govukall.initAll()
-
-require.context("govuk-frontend/govuk/assets/images", true)
