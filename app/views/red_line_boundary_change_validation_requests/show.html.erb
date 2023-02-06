@@ -5,15 +5,11 @@
 <%= render "validation_requests/validation_requests_breadcrumbs" %>
 
 <% content_for :title, "Red line boundary change" %>
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
 
-    <% if @red_line_boundary_change_validation_request.approved? %>
-      <%= render "applicant_approved_response" %>
-    <% elsif @red_line_boundary_change_validation_request.approved == false %>
-      <%= render "applicant_rejected_response" %>
-    <% else %>
-      <%= render "propose_change" %>
-    <% end %>
-  </div>
-</div>
+<% if @red_line_boundary_change_validation_request.approved? %>
+  <%= render "applicant_approved_response" %>
+<% elsif @red_line_boundary_change_validation_request.approved == false %>
+  <%= render "applicant_rejected_response" %>
+<% else %>
+  <%= render "propose_change" %>
+<% end %>

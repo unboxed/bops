@@ -6,9 +6,10 @@
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
 <% content_for :title, "Edit constraints" %>
 
-<h1 class="govuk-heading-l">Edit constraints</h2>
-
-<%= render "shared/planning_application_address_and_reference" %>
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Edit constraints"  }
+) %>
 
 <div class="govuk-grid-row">
   <%= form_with model: @planning_application, url: planning_application_constraints_path(@planning_application), local: true do |form| %>

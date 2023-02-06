@@ -7,25 +7,24 @@
      planning_application_path(@planning_application)
    ) %>
 <% content_for(:title, t(".review")) %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: t(".review_heading", part: @policy_class.part, class: @policy_class.section)  }
+) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">
-      <%= t(
-            ".review_heading",
-            part: @policy_class.part,
-            class: @policy_class.section
-          ) %>
-    </h1>
     <h2 class="govuk-heading-m govuk-!-padding-bottom-3">
       <%= @policy_class.name.upcase_first %>
     </h2>
-    <%= render "shared/planning_application_address_and_reference" %>
     <p class="govuk-body">
       <%= t(
             ".please_indicate_if",
             part: @policy_class.part,
             class: @policy_class.section
           ) %>
+    </p>
     <p class="govuk-body">
       <%= link_to(
             t(".open_legislation_in"),
@@ -52,7 +51,6 @@
               <div class="govuk-radios__item">
                 <%= review_form.radio_button :mark, true, class: "govuk-radios__input", "aria-controls": "conditional-mark-#{@policy_class.review_policy_class.mark}-conditional", "aria-expanded": "false", disabled: true, checked: "checked" %>
                 <%= review_form.label :show, @policy_class.review_policy_class.mark.humanize , class: "govuk-label govuk-radios__label", for: "show" %>
-              </div>
               </div>
             </div>
           </fieldset>

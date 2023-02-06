@@ -34,7 +34,7 @@ RSpec.describe "Summary of works" do
 
       expect(page).to have_content("Add summary of works")
       expect(page).to have_content(planning_application.reference)
-      expect(page).to have_content(planning_application.full_address.upcase)
+      expect(page).to have_content(planning_application.full_address)
       expect(page).to have_content("You can include:")
 
       within(".govuk-warning-text") do

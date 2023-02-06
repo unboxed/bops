@@ -1,21 +1,23 @@
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Request a new document"  }
+) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: [@planning_application, @additional_document_validation_request], local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
-      <%= form.govuk_fieldset legend: { text: "Request a new document", size: 'l' } do %>
-        <%= form.hidden_field(
-          :return_to,
-          value: local_assigns.fetch(:return_to, nil)
-        ) %>
-        <%= render "shared/planning_application_address_and_reference" %>
+      <%= form.hidden_field(
+        :return_to,
+        value: local_assigns.fetch(:return_to, nil)
+      ) %>
 
-        <%= form.govuk_text_field :document_request_type,
-         label: { text: 'Please specify the new document type:', size: 's' },
-         hint: { text: 'Eg. Existing floor plans' } %>
+      <%= form.govuk_text_field :document_request_type,
+       label: { text: 'Please specify the new document type:', size: 's' },
+       hint: { text: 'Eg. Existing floor plans' } %>
 
-        <%= form.govuk_text_area :document_request_reason,
-         label: { text: 'Please specify the reason you have requested this document?', size: 's'},
-         rows: 5 %>
-      <% end %>
+      <%= form.govuk_text_area :document_request_reason,
+       label: { text: 'Please specify the reason you have requested this document?', size: 's'},
+       rows: 5 %>
 
       <%= render "shared/planning_guides_link" %>
 

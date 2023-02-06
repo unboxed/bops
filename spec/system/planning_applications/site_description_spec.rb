@@ -41,7 +41,7 @@ RSpec.describe "Site description" do
 
       expect(page).to have_content("Create a desciption of the site")
       expect(page).to have_content(planning_application.reference)
-      expect(page).to have_content(planning_application.full_address.upcase)
+      expect(page).to have_content(planning_application.full_address)
       expect(page).to have_content("You can include:")
 
       within(".govuk-warning-text") do

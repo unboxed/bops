@@ -85,7 +85,7 @@ RSpec.describe "Documents index page" do
     end
 
     it "Archive page contains site info" do
-      expect(page).to have_text planning_application.full_address.upcase
+      expect(page).to have_text(planning_application.full_address)
     end
 
     it "Archive page contains application reference" do

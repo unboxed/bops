@@ -46,7 +46,7 @@ RSpec.describe "FeeItemsValidation" do
       visit planning_application_validation_tasks_path(planning_application)
       click_link "Check fee"
 
-      expect(page).to have_content(planning_application.full_address.upcase)
+      expect(page).to have_content(planning_application.full_address)
       expect(page).to have_content(planning_application.reference)
     end
 

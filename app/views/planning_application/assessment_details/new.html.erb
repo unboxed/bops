@@ -9,16 +9,16 @@
 
 <% content_for :title, t("assessment_details.#{@category}") %>
 
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "#{new_assessment_detail_title(
+    category: @category,
+    update: @rejected_assessment_detail.present?
+  )}"  }
+) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l govuk-!-margin-top-7">
-      <%= new_assessment_detail_title(
-        category: @category,
-        update: @rejected_assessment_detail.present?
-      ) %>
-    </h1>
-
-    <%= render "shared/planning_application_address_and_reference" %>
     <%= render(
       "form",
       planning_application: @planning_application,

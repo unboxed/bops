@@ -15,12 +15,16 @@
 <% end %>
 
 <% if @validate_document %>
-  <h1 class="govuk-heading-l">Check document</h1>
+  <%= render(
+    partial: "shared/proposal_header",
+    locals: { heading: "Check document"  }
+  ) %>
 <% else %>
-  <h1 class="govuk-heading-l">Edit document</h1>
+  <%= render(
+    partial: "shared/proposal_header",
+    locals: { heading: "Edit document"  }
+  ) %>
 <% end %>
-
-<%= render "shared/planning_application_address_and_reference" %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-half">

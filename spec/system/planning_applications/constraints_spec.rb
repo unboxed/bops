@@ -17,7 +17,7 @@ RSpec.describe "Constraints" do
   end
 
   it "displays the planning application address and reference" do
-    expect(page).to have_content(planning_application.full_address.upcase)
+    expect(page).to have_content(planning_application.full_address)
     expect(page).to have_content(planning_application.reference)
   end
 
@@ -50,7 +50,7 @@ RSpec.describe "Constraints" do
         "Check constraints",
         href: planning_application_constraints_path(planning_application)
       )
-      within(".govuk-tag--green") do
+      within("#constraints-validation-tasks .govuk-tag--green") do
         expect(page).to have_content("Checked")
       end
 

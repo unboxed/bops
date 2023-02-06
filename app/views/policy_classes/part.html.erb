@@ -8,6 +8,12 @@
     current_page: t(".select_the_part")
   }
 ) %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: t(".select_the_part")  }
+) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
@@ -18,9 +24,6 @@
       <div class="govuk-form-group">
         <fieldset class="govuk-fieldset">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-            <h1 class="govuk-heading-l">
-              Select the part to assess
-            </h1>
             <p class="govuk-body">
               Select the relevant part. Parts are defined in The Town and Country
               Planning (General Permitted Development) (England) Order 2015

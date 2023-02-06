@@ -4,37 +4,14 @@
 
 <% add_parent_breadcrumb_link "Home", planning_applications_path %>
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
-<% content_for :title, "Review and sign-off" %>
+<% content_for :title, t(".review_and_sign_off") %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l"><%= t(".review_and_sign_off") %></h1>
-      <p class="govuk-body govuk-!-font-size-24 govuk-!-font-weight-bold">
-        <%= @planning_application.full_address.upcase %>
-      </p>
-      <p class="govuk-body govuk-!-font-size-24">
-        <%= t("shared.proposal_header.application_number") %>
-        <span class="govuk-!-font-weight-bold">
-          <%= @planning_application.reference %>
-        </span>
-      </p>
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: t(".review_and_sign_off") }
+) %>
 
-    <p class="govuk-body"><%= @planning_application.status_tag %></p>
-
-    <% if @planning_application.closed? %>
-      <p class="govuk-body">
-        <strong>Reason for being closed:</strong>
-        <%= render(FormattedContentComponent.new(text: @planning_application.closed_or_cancellation_comment)) %>
-      </p>
-    <% end %>
-
-    <p class="govuk-body">
-      <%= @planning_application.type_and_work_status %>: <%= @planning_application.description %>
-    </p>
-  </div>
-</div>
-
-<%= render "flash_content" %>
+<%= render "shared/dates_and_assignment_header" %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -47,7 +24,7 @@
     <h2 class="app-task-list__section govuk-!-margin-top-8">
       Review assessment
     </h2>
-    <ul class="app-task-list__items">
+    <ul class="app-task-list__items" id="review-assessment-section">
       <% if @planning_application.permitted_development_right %>
         <%= render(
           TaskListItems::PermittedDevelopmentRightReviewComponent.new(

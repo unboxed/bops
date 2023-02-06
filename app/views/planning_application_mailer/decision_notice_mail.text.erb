@@ -2,7 +2,7 @@ Dear <%= @planning_application.agent_or_applicant_name %>,
 
 Application reference number: <%= @planning_application.reference_in_full %>
 
-Address: <%= @planning_application.full_address.upcase %>
+Address: <%= @planning_application.full_address %>
 
 <% if @planning_application.refused? %>
   We regret to inform you that your application for a Lawful Development Certificate has been refused. For details of our decision, go to:

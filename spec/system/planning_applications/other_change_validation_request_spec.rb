@@ -22,7 +22,7 @@ RSpec.describe "Requesting other changes to a planning application" do
     click_link "Check and validate"
     click_link "Add an other validation request"
 
-    expect(page).to have_content(planning_application.full_address.upcase)
+    expect(page).to have_content(planning_application.full_address)
     expect(page).to have_content(planning_application.reference)
   end
 

@@ -74,7 +74,9 @@ class PlanningApplication
     end
 
     def set_planning_application
-      @planning_application = planning_applications_scope.find(planning_application_id)
+      planning_application = planning_applications_scope.find(planning_application_id)
+
+      @planning_application = PlanningApplicationPresenter.new(view_context, planning_application)
     end
 
     def set_assessment_detail

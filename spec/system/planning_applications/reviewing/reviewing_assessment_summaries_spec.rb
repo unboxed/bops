@@ -180,9 +180,11 @@ RSpec.describe "Reviewing assessment summaries" do
 
       click_button("Save and come back later")
 
-      expect(page).to have_list_item_for(
-        "Review assessment summaries", with: "In progress"
-      )
+      within("ul#review-assessment-section") do
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "In progress"
+        )
+      end
 
       click_link("Review assessment summaries")
 

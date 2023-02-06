@@ -1,33 +1,36 @@
-<h1 class="govuk-heading-l govuk-!-padding-top-6">
-  Proposed red line boundary change
-</h1>
-
-<%= render "shared/planning_application_address_and_reference" %>
-
-<h2 class="govuk-heading-m govuk-!-padding-top-6">
- Current red line boundary
-</h2>
-<%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.original_geojson } %>
-
-<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-<h2 class="govuk-heading-m">
-  Reason change is requested
-</h2>
-<p class="govuk-inset-text">
-  <%= render(FormattedContentComponent.new(text: @red_line_boundary_change_validation_request.reason)) %>
-</p>
-<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-
-<h2 class="govuk-heading-m govuk-!-padding-top-6">
- Proposed red line boundary
-</h2>
-<%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.new_geojson } %>
-
 <%= render(
- partial: "shared/validation_request_show_actions",
- locals: {
-   planning_application: @planning_application,
-   validation_request: @red_line_boundary_change_validation_request,
-   include_edit: false
- }
+  partial: "shared/proposal_header",
+  locals: { heading: "Proposed red line boundary change"  }
 ) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m govuk-!-padding-top-6">
+     Current red line boundary
+    </h2>
+    <%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.original_geojson } %>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    <h2 class="govuk-heading-m">
+      Reason change is requested
+    </h2>
+    <p class="govuk-inset-text">
+      <%= render(FormattedContentComponent.new(text: @red_line_boundary_change_validation_request.reason)) %>
+    </p>
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    <h2 class="govuk-heading-m govuk-!-padding-top-6">
+     Proposed red line boundary
+    </h2>
+    <%= render "shared/location_map", locals: { geojson: @red_line_boundary_change_validation_request.new_geojson } %>
+
+    <%= render(
+     partial: "shared/validation_request_show_actions",
+     locals: {
+       planning_application: @planning_application,
+       validation_request: @red_line_boundary_change_validation_request,
+       include_edit: false
+     }
+    ) %>
+  </div>
+</div>

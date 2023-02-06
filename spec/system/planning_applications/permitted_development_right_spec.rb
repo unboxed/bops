@@ -45,7 +45,7 @@ RSpec.describe "Permitted development right" do
           expect(page).to have_content("Permitted development rights")
         end
         expect(page).to have_content("Application number: #{planning_application.reference}")
-        expect(page).to have_content(planning_application.full_address.upcase)
+        expect(page).to have_content(planning_application.full_address)
 
         within(".govuk-warning-text") do
           expect(page).to have_content("This information WILL be made public")
@@ -362,7 +362,7 @@ RSpec.describe "Permitted development right" do
 
         expect(page).to have_content("Check permitted development rights")
         expect(page).to have_content("Application number: #{planning_application.reference}")
-        expect(page).to have_content(planning_application.full_address.upcase)
+        expect(page).to have_content(planning_application.full_address)
 
         expect(page).to have_content("Constraints and history")
 
