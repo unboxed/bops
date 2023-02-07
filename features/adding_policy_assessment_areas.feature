@@ -19,10 +19,3 @@ Feature: Adding policy assessment area to the application
     Given I add the policy class "AA" to the application
     And I remove the policy class "AA" from the application
     Then the page does not contain "Part 1, Class AA"
-
-  Scenario: As an assessor I cannot remove or edit policy classes once the application is assessed
-    Given  I add the policy class "AA" to the application
-    And the planning application is assessed
-    When I press "Part 1, Class A"
-    Then I can't press the "Remove class from assessment" button
-    And I can't press the "Save and mark as complete" button

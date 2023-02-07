@@ -28,7 +28,7 @@
         method: :delete,
         data: { confirm: "This action cannot be undone.\nAre you sure you want to remove this class?" },
         class: "govuk-button govuk-button--warning",
-        disabled: planning_application.assessment_complete?
+        disabled: planning_application.submit_recommendation_complete?
     ) %>
     <p class="govuk-body">
       <%= t(
