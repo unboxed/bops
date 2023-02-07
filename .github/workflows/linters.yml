@@ -1,11 +1,13 @@
+---
 name: Verify
+
 on:
   workflow_call:
     inputs:
-      brakeman:
+      bundler-audit:
         type: boolean
         default: false
-      bundler-audit:
+      brakeman:
         type: boolean
         default: false
       rubocop:
@@ -14,9 +16,6 @@ on:
       rome:
         type: boolean
         default: false
-      ruby-version:
-        type: string
-        default: "2.7.5"
 
 jobs:
   linters:
@@ -24,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BUNDLE_WITHOUT: development
+
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -31,29 +31,33 @@ jobs:
       - name: Set up Ruby and install gems
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ inputs.ruby-version }}
           bundler-cache: true
 
-      - name: Run linters - RuboCop
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - run: yarn install
+
+      - name: Check bundle for known CVEs
+        if: ${{ inputs.bundler-audit == true }}
+        run: |
+          bundle exec bundler-audit
+
+      - name: Analyse code for vulnerabilities
+        if: ${{ inputs.brakeman == true }}
+        run: |
+          bundle exec brakeman
+
+      - name: Analyse code for formatting
         if: ${{ inputs.rubocop == true }}
         run: |
           ${{ inputs.run-before-linters }}
-          bundle exec rubocop --parallel
+          bundle exec rubocop
 
       - name: Run linters - Rome
         if: ${{ inputs.rome == true }}
         run: |
           ${{ inputs.run-before-linters }}
-          yarn install
           git ls-files -z '*.js' '*.ts' | xargs -0 node_modules/rome/bin/rome check
           git ls-files -z '*.js' '*.ts' | xargs -0 node_modules/rome/bin/rome format
-
-      - name: Run security checks - brakeman
-        if: ${{ inputs.brakeman == true }}
-        run: |
-          bundle exec brakeman -q -w2
-
-      - name: Run security checks - bundler-audit
-        if: ${{ inputs.bundler-audit == true }}
-        run: |
-          bundle exec bundler-audit --update

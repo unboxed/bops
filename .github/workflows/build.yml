@@ -14,15 +14,15 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  brakeman:
-    uses: ./.github/workflows/linters.yml
-    with:
-      brakeman: true
-
   bundle-audit:
     uses: ./.github/workflows/linters.yml
     with:
       bundler-audit: true
+
+  brakeman:
+    uses: ./.github/workflows/linters.yml
+    with:
+      brakeman: true
 
   rubocop:
     uses: ./.github/workflows/linters.yml
