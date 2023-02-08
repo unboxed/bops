@@ -1,7 +1,48 @@
 {
   "ignored_warnings": [
-
+    {
+      "warning_type": "Unmaintained Dependency",
+      "warning_code": 123,
+      "fingerprint": "425dcb3af9624f11f12d777d6f9fe05995719975a155c30012baa6b9dc3487df",
+      "check_name": "EOLRuby",
+      "message": "Support for Ruby 2.7.5 ends on 2023-03-31",
+      "file": "Gemfile.lock",
+      "line": 364,
+      "link": "https://brakemanscanner.org/docs/warning_types/unmaintained_dependency/",
+      "code": null,
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "Weak",
+      "cwe_id": [
+        1104
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "HTTP Verb Confusion",
+      "warning_code": 118,
+      "fingerprint": "9629e1b14cc8c66eb28d151ebd4ca28a458a3add860a62c9130def76133d424c",
+      "check_name": "VerbConfusion",
+      "message": "Potential HTTP verb confusion. `HEAD` is routed like `GET` but `request.get?` will return `false`",
+      "file": "app/controllers/application_controller.rb",
+      "line": 46,
+      "link": "https://brakemanscanner.org/docs/warning_types/http_verb_confusion/",
+      "code": "session[:back_path] = request.referer if request.get?",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ApplicationController",
+        "method": "set_back_path"
+      },
+      "user_input": "request.get?",
+      "confidence": "Weak",
+      "cwe_id": [
+        352
+      ],
+      "note": ""
+    }
   ],
-  "updated": "2022-12-17 18:08:18 +0000",
+  "updated": "2023-02-08 11:58:54 +0200",
   "brakeman_version": "5.4.0"
 }
