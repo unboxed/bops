@@ -17,7 +17,6 @@ cd /home/deploy/bops/current && bundle install --without development test --depl
 cd /home/deploy/bops/current && bundle exec rake db:migrate
 cd /home/deploy/bops/current && yarn install
 cd /home/deploy/bops/current && bundle exec rake assets:precompile
-cd /home/deploy/bops/current && rm -rf node_modules
 if [ ${SERVER_TYPE} = "worker" ] ; then cd /home/deploy/bops/current && bundle exec whenever -w ; else echo not running whenever ; fi
 EOF
 
