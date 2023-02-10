@@ -4,8 +4,8 @@
   "dependencies": {
     "@hotwired/stimulus": "^3.2.1",
     "@opensystemslab/map": "^0.5.7",
-    "@rails/activestorage": "^6.0.0",
-    "@rails/ujs": "^6.0.0",
+    "@rails/activestorage": "^7.0.4-2",
+    "@rails/ujs": "^7.0.4-2",
     "govuk-frontend": "^3.6.0",
     "is-svg": "^4.2.2",
     "puppeteer": "^11.0.0",

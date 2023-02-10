@@ -672,7 +672,7 @@ RSpec.describe PlanningApplication do
       it "sends notification to reviewers" do
         expect { planning_application.submit_recommendation! }
           .to have_enqueued_job
-          .on_queue("mailers")
+          .on_queue("default")
           .with(
             "UserMailer",
             "update_notification_mail",
@@ -770,9 +770,10 @@ RSpec.describe PlanningApplication do
     let(:user) { create(:user) }
 
     it "sends notification to assigned user" do
+      # binding.pry
       expect { planning_application.assign(user) }
         .to have_enqueued_job
-        .on_queue("mailers")
+        .on_queue("default")
         .with(
           "UserMailer",
           "update_notification_mail",
@@ -789,7 +790,7 @@ RSpec.describe PlanningApplication do
     it "sends notification to assigned user" do
       expect { planning_application.send_update_notification_to_assessor }
         .to have_enqueued_job
-        .on_queue("mailers")
+        .on_queue("default")
         .with(
           "UserMailer",
           "update_notification_mail",
@@ -821,7 +822,7 @@ RSpec.describe PlanningApplication do
     it "sends notification to reviewer group email" do
       expect { planning_application.send_update_notification_to_reviewers }
         .to have_enqueued_job
-        .on_queue("mailers")
+        .on_queue("default")
         .with(
           "UserMailer",
           "update_notification_mail",

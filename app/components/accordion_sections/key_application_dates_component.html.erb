@@ -1,6 +1,6 @@
 <p class="govuk-body">
   <strong><%= t(".application_received") %></strong>
-  <%= planning_application.received_at.to_date %>
+  <%= planning_application.received_at.to_date.to_fs %>
 </p>
 <p class="govuk-body">
   <strong><%= t(".valid_from") %></strong>
@@ -8,9 +8,9 @@
 </p>
 <p class="govuk-body">
   <strong><%= t(".target_date") %></strong>
-  <%= planning_application.target_date %>
+  <%= planning_application.target_date.to_fs %>
 </p>
 <p class="govuk-body">
   <strong><%= t(".expiry_date") %></strong>
-  <%= planning_application.expiry_date %>
+  <%= planning_application.expiry_date.to_fs %>
 </p>

@@ -31,7 +31,7 @@ RSpec.describe "Other change validation requests API", show_exceptions: true do
             {
               "id" => other_change_validation_request.id,
               "state" => "open",
-              "response_due" => other_change_validation_request.response_due.to_s(:db),
+              "response_due" => other_change_validation_request.response_due.to_fs(:db),
               "response" => nil,
               "summary" => "Incorrect fee",
               "suggestion" => "You need to pay a different fee",
@@ -42,7 +42,7 @@ RSpec.describe "Other change validation requests API", show_exceptions: true do
             {
               "id" => other_change_validation_request2.id,
               "state" => "closed",
-              "response_due" => other_change_validation_request.response_due.to_s(:db),
+              "response_due" => other_change_validation_request.response_due.to_fs(:db),
               "response" => "Some response",
               "summary" => "Incorrect fee",
               "suggestion" => "You need to pay a different fee",
@@ -53,7 +53,7 @@ RSpec.describe "Other change validation requests API", show_exceptions: true do
             {
               "id" => other_change_validation_request3.id,
               "state" => "cancelled",
-              "response_due" => other_change_validation_request.response_due.to_s(:db),
+              "response_due" => other_change_validation_request.response_due.to_fs(:db),
               "response" => nil,
               "summary" => "Incorrect fee",
               "suggestion" => "You need to pay a different fee",
@@ -94,7 +94,7 @@ RSpec.describe "Other change validation requests API", show_exceptions: true do
           {
             "id" => other_change_validation_request.id,
             "state" => "open",
-            "response_due" => other_change_validation_request.response_due.to_s(:db),
+            "response_due" => other_change_validation_request.response_due.to_fs(:db),
             "response" => nil,
             "summary" => "Incorrect fee",
             "suggestion" => "You need to pay a different fee",

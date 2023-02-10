@@ -129,7 +129,7 @@ class Document < ApplicationRecord
   end
 
   def received_at_or_created
-    (received_at || created_at).to_date
+    (received_at || created_at).to_date.to_fs
   end
 
   def audit_updated!

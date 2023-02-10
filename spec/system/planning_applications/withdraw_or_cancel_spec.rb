@@ -144,7 +144,7 @@ RSpec.describe "Withdraw or cancel" do
 
         attach_file(
           "Upload a supporting document",
-          "spec/fixtures/images/bmp.bmp"
+          "spec/fixtures/images/image.gif"
         )
 
         click_button("Withdraw or cancel application")

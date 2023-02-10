@@ -114,7 +114,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
   it "sends notification to assigned user" do
     expect { patch(path, params: params, headers: headers) }
       .to have_enqueued_job
-      .on_queue("mailers")
+      .on_queue("default")
       .with(
         "UserMailer",
         "update_notification_mail",
@@ -125,7 +125,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
 
   it "rejects wrong document types" do
     patch "/api/v1/planning_applications/#{planning_application.id}/replacement_document_validation_requests/#{replacement_document_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
-          params: { new_file: fixture_file_upload("../images/proposed-floorplan.png", "image/bmp") },
+          params: { new_file: fixture_file_upload("../images/proposed-floorplan.png", "image/gif") },
           headers: { Authorization: "Bearer #{api_user.token}" }
 
     expect(response).not_to be_successful

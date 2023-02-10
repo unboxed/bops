@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_27_100739) do
-
+ActiveRecord::Schema[7.0].define(version: 2023_02_13_151534) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -449,6 +448,7 @@ ActiveRecord::Schema.define(version: 2023_01_27_100739) do
     t.boolean "otp_required_for_login", default: true, null: false
     t.string "mobile_number"
     t.integer "otp_delivery_method", default: 0
+    t.string "otp_secret"
     t.index ["email", "local_authority_id"], name: "index_users_on_email_and_local_authority_id", unique: true
     t.index ["encrypted_otp_secret"], name: "ix_users_on_encrypted_otp_secret", unique: true
     t.index ["local_authority_id"], name: "index_users_on_local_authority_id"

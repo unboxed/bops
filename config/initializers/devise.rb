@@ -11,9 +11,16 @@ Devise.setup do |config|
 
   config.mailer_sender = "support@unboxed.co"
 
-  config.mailer = "DeviseMailer"
+  require "application_mailer"
 
   config.parent_mailer = "ApplicationMailer"
+
+  require "devise/mailer"
+  require "devise_mailer"
+
+  config.mailer = "DeviseMailer"
+
+  require "subdomain_helper"
 
   config.mailer.class_eval do
     helper :subdomain

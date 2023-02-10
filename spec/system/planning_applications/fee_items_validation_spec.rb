@@ -226,7 +226,7 @@ RSpec.describe "FeeItemsValidation" do
       within(".govuk-inset-text") do
         expect(page).to have_content("Reason it is invalid: Fee is invalid")
         expect(page).to have_content("How it can be made valid: Update accurate fee")
-        expect(page).to have_content(other_change_validation_request.created_at)
+        expect(page).to have_content(other_change_validation_request.created_at.to_fs)
       end
 
       click_link "Back"
@@ -359,7 +359,7 @@ RSpec.describe "FeeItemsValidation" do
       within(".govuk-inset-text") do
         expect(page).to have_content("Reason it is invalid: Incorrect fee")
         expect(page).to have_content("How it can be made valid: You need to pay a different fee")
-        expect(page).to have_content(other_change_validation_request.created_at)
+        expect(page).to have_content(other_change_validation_request.created_at.to_fs)
       end
 
       expect(page).to have_content("Applicant has not responded yet")
@@ -448,13 +448,13 @@ RSpec.describe "FeeItemsValidation" do
         within(inset_texts[0]) do
           expect(page).to have_content("Reason it is invalid: Incorrect fee")
           expect(page).to have_content("How it can be made valid: You need to pay a different fee")
-          expect(page).to have_content(closed_other_change_validation_request.updated_at)
+          expect(page).to have_content(closed_other_change_validation_request.updated_at.to_fs)
         end
 
         expect(page).to have_content("Applicant response")
         within(inset_texts[1]) do
           expect(page).to have_content("I agree with the fee")
-          expect(page).to have_content(closed_other_change_validation_request.updated_at)
+          expect(page).to have_content(closed_other_change_validation_request.updated_at.to_fs)
         end
 
         expect(page).to have_content("Total fee paid")
