@@ -59,4 +59,4 @@ jobs:
         if: ${{ inputs.rome == true }}
         run: |
           ${{ inputs.run-before-linters }}
-          git ls-files -z '*.js' '*.ts' | xargs -0 node_modules/rome/bin/rome ci
+          bundle exec rake rome
