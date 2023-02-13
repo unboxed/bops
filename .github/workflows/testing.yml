@@ -1,4 +1,6 @@
+---
 name: Testing
+
 on:
   workflow_call:
     inputs:
@@ -13,12 +15,6 @@ on:
       name:
         type: string
         required: true
-      node-version:
-        type: string
-        default: "14"
-      ruby-version:
-        type: string
-        default: "2.7.5"
       test-runner:
         type: string
         default: rspec
@@ -56,14 +52,13 @@ jobs:
       - name: Setup ruby and install gems
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ inputs.ruby-version }}
           bundler-cache: true
 
       - name: Setup Node
         uses: actions/setup-node@v3
         if: hashFiles('yarn.lock') != ''
         with:
-          node-version: ${{ inputs.node-version }}
+          node-version: 14
           cache: "yarn"
 
       - name: Install packages
