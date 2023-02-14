@@ -9,6 +9,8 @@ class PlanningApplicationsController < AuthenticationController
 
   before_action :ensure_no_open_post_validation_requests, only: %i[submit]
 
+  before_action :ensure_draft_recommendation_complete, only: :update
+
   rescue_from PlanningApplication::WithdrawRecommendationError do |_exception|
     redirect_failed_withdraw_recommendation
   end
@@ -59,10 +61,6 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def update
-    if @planning_application.recommendation.present? && !@planning_application.recommendation.submitted
-      flash.now[:alert] = "Please complete in draft assessment before updating application fields."
-    end
-
     respond_to do |format|
       if @planning_application.update(planning_application_params)
         format.html { redirect_update_url }
@@ -360,5 +358,15 @@ class PlanningApplicationsController < AuthenticationController
         #{view_context.link_to 'review open requests',
                                post_validation_requests_planning_application_validation_requests_path(@planning_application)} and resolve them before submitting to your manager."
     render :submit_recommendation and return
+  end
+
+  def ensure_draft_recommendation_complete
+    return unless @planning_application.try(:assessment_in_progress?)
+
+    flash.now[:alert] = sanitize "Please save and mark as complete the
+        #{view_context.link_to 'draft recommendation',
+                               new_planning_application_recommendation_path(@planning_application)} before updating application fields."
+
+    render :edit and return
   end
 end
