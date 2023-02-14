@@ -22,7 +22,7 @@ Bundler.require(*Rails.groups)
 module Bops
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
+    config.load_defaults 7.0
 
     config.middleware.use Grover::Middleware
 
@@ -42,5 +42,7 @@ module Bops
     config.active_record.default_timezone = :local
     config.active_job.queue_adapter = :delayed_job
     config.action_mailer.preview_path = Rails.root.join("spec/mailer/previews")
+
+    config.active_storage.variant_processor = :mini_magick
   end
 end
