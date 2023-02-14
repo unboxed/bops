@@ -195,7 +195,7 @@ RSpec.describe PlanningApplicationStatus do
       it "sends notification to assigned user" do
         expect { planning_application.request_correction }
           .to have_enqueued_job
-          .on_queue("mailers")
+          .on_queue("default")
           .with(
             "UserMailer",
             "update_notification_mail",

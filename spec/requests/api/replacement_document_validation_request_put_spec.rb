@@ -114,7 +114,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
   it "sends notification to assigned user" do
     expect { patch(path, params: params, headers: headers) }
       .to have_enqueued_job
-      .on_queue("mailers")
+      .on_queue("default")
       .with(
         "UserMailer",
         "update_notification_mail",
