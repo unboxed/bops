@@ -119,17 +119,17 @@
   resolved "https://registry.yarnpkg.com/@petamoriken/float16/-/float16-3.5.11.tgz#69744fde033692c09dbb02191e0c391f8c857e30"
   integrity sha512-aKJaQhvWcP4XRo4eb34VygcqNsE1+Ej5687oexkK+qYWC7tejxaWRkAfE54Ze3xQGnvwXHZ5Ahx6CWq5sS4q7Q==
 
-"@rails/activestorage@^6.0.0":
-  version "6.1.3"
-  resolved "https://registry.yarnpkg.com/@rails/activestorage/-/activestorage-6.1.3.tgz#d76ce0fe59b5778e05b967c22c61b2964fde112a"
-  integrity sha512-9it2rc+79E+GP4GWX/P2M9/INcp1SicJaiF5yqj+k40x/JY+/eVdSAGfRCgq2G/FwkUdGlaKnG2OoDcXchczlw==
+"@rails/activestorage@^7.0.4-2":
+  version "7.0.4-2"
+  resolved "https://registry.yarnpkg.com/@rails/activestorage/-/activestorage-7.0.4-2.tgz#b535b1ff3087a929de4cdf7f686500d16e1cfc06"
+  integrity sha512-TVNuL13CmXlUb41+fgRzTmOp9Xf3LQtw1A3ntrOtQvDPipy4NOkZ9Emyr2m9Gq/5gPfWon6x8GWXBsMQw8a5mg==
   dependencies:
-    spark-md5 "^3.0.0"
+    spark-md5 "^3.0.1"
 
-"@rails/ujs@^6.0.0":
-  version "6.1.3"
-  resolved "https://registry.yarnpkg.com/@rails/ujs/-/ujs-6.1.3.tgz#90ef26caa0925492b1a3b1495db09cfbe49e745e"
-  integrity sha512-9mip5o+LVouWAqLMNJWhxda+D5uP+4RziNECgOGJlL6k3rc5SC/ljCHpV9Cym4i3oeGZkpZJ2tu4frCwt84kzQ==
+"@rails/ujs@^7.0.4-2":
+  version "7.0.4-2"
+  resolved "https://registry.yarnpkg.com/@rails/ujs/-/ujs-7.0.4-2.tgz#62b108cc297c0c60f415720295673ee73f08e210"
+  integrity sha512-ec6e2+YSfg4DgrVzIYzpo7ayze6dOu+lZ6RsIR+COkuZCp2QGMEyHZQzNdHt065FjCtpv6wRZQIybAtWrzPqlQ==
 
 "@rometools/cli-darwin-arm64@11.0.0":
   version "11.0.0"
@@ -1338,10 +1338,10 @@ source-map@^0.6.0:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
 
-spark-md5@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/spark-md5/-/spark-md5-3.0.1.tgz#83a0e255734f2ab4e5c466e5a2cfc9ba2aa2124d"
-  integrity sha512-0tF3AGSD1ppQeuffsLDIOWlKUd3lS92tFxcsrh5Pe3ZphhnoK+oXIBTzOAThZCiuINZLvpiLH/1VS1/ANEJVig==
+spark-md5@^3.0.1:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/spark-md5/-/spark-md5-3.0.2.tgz#7952c4a30784347abcee73268e473b9c0167e3fc"
+  integrity sha512-wcFzz9cDfbuqe0FZzfi2or1sgyIrsDwmPwfZC4hiNidPdPINjeUwNfv5kldczoEAcjl9Y1L3SM7Uz2PUEQzxQw==
 
 splaytree@^3.1.0:
   version "3.1.0"
