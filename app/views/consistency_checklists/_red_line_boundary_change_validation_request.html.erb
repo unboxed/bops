@@ -2,13 +2,13 @@
   <p class="govuk-body-s">
     <%= t(".proposed_a_new", user: request.sent_by.name) %><br>
     <%= t(".reason") %> <%= request.reason %><br>
-    <%= t(".proposed") %> <%= request.created_at %><br>
+    <%= t(".proposed") %> <%= request.created_at.to_fs %><br>
     <% if request.auto_closed? %>
-      <%= t(".accepted") %> <%= request.auto_closed_at %>
+      <%= t(".accepted") %> <%= request.auto_closed_at.to_fs %>
     <% elsif request.approved? %>
-      <%= t(".accepted") %> <%= request.closed_at %>
+      <%= t(".accepted") %> <%= request.closed_at.to_fs %>
     <% elsif request.cancelled? %>
-      <%= t(".cancelled") %> <%= request.cancelled_at %>
+      <%= t(".cancelled") %> <%= request.cancelled_at.to_fs %>
     <% end %>
   </p>
   <% if request.open? %>

@@ -124,7 +124,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       within("#replacement-document-details") do
         expect(page).to have_content("Replacement for: #{document1.name}")
         expect(page).to have_content("This is very invalid")
-        expect(page).to have_content(document1.replacement_document_validation_request.created_at.to_formatted_s(:day_month_year))
+        expect(page).to have_content(document1.replacement_document_validation_request.created_at.to_fs)
       end
       expect(page).to have_link("Back")
 
@@ -300,7 +300,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       within("#replacement-document-details") do
         expect(page).to have_content("Replacement for: #{document1.name}")
         expect(page).to have_content("Not readable")
-        expect(page).to have_content(document1.replacement_document_validation_request.created_at.to_formatted_s(:day_month_year))
+        expect(page).to have_content(document1.replacement_document_validation_request.created_at.to_fs)
       end
       expect(page).not_to have_link("Edit request")
       expect(page).not_to have_link("Delete request")

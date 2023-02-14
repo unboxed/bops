@@ -24,7 +24,7 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
                                                                            "id" => description_change_validation_request.id,
                                                                            "type" => "description_change_validation_request",
                                                                            "state" => "open",
-                                                                           "response_due" => description_change_validation_request.response_due.to_s(:db),
+                                                                           "response_due" => description_change_validation_request.response_due.to_fs(:db),
                                                                            "proposed_description" => description_change_validation_request.proposed_description,
                                                                            "previous_description" => description_change_validation_request.previous_description,
                                                                            "approved" => nil,

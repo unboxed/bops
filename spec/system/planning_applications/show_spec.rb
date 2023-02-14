@@ -68,7 +68,7 @@ RSpec.describe "Planning Application show page" do
     end
 
     it "Target date is correct and label is turquoise" do
-      expect(page).to have_text("Target date: #{planning_application.target_date}")
+      expect(page).to have_text("Target date: #{planning_application.target_date.to_fs}")
       expect(page).to have_css(".govuk-tag--turquoise")
       expect(page).to have_content("In assessment")
     end

@@ -28,7 +28,7 @@
             <%= render(FormattedContentComponent.new(text: request.cancel_reason)) %>
           </td>
           <td class="govuk-table__cell limit-column-width">
-            <%= request.cancelled_at %>
+            <%= request.cancelled_at.to_fs %>
           </td>
         <% end %>
       </tr>

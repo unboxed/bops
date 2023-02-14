@@ -718,7 +718,7 @@ RSpec.describe "Planning Application Assessment" do
         visit new_planning_application_recommendation_path(planning_application)
 
         within(".moj-banner__message") do
-          expect(page).to have_content("There are outstanding change requests (last request #{Time.current}")
+          expect(page).to have_content("There are outstanding change requests (last request #{Time.current.to_fs}")
           expect(page).to have_link(
             "View all requests", href: post_validation_requests_planning_application_validation_requests_path(planning_application)
           )
@@ -735,7 +735,7 @@ RSpec.describe "Planning Application Assessment" do
         visit new_planning_application_recommendation_path(planning_application)
 
         within(".moj-banner__message") do
-          expect(page).to have_content("There are outstanding change requests (last request #{Time.current}")
+          expect(page).to have_content("There are outstanding change requests (last request #{Time.current.to_fs}")
           expect(page).to have_link(
             "View all requests", href: post_validation_requests_planning_application_validation_requests_path(planning_application)
           )
