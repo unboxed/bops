@@ -2,6 +2,8 @@
 
 source "https://rubygems.org"
 
+ruby File.read(".ruby-version").strip.split("-").last
+
 # Load environment variables
 gem "dotenv-rails", require: "dotenv/rails-now"
 
