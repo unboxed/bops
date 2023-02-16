@@ -304,6 +304,7 @@ GEM
       notifications-ruby-client (~> 5.1)
       rack (>= 2.1.4.1)
     marcel (1.0.2)
+    matrix (0.4.2)
     method_source (1.0.0)
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
@@ -552,6 +553,7 @@ DEPENDENCIES
   jsbundling-rails
   listen
   mail-notify
+  matrix
   mini_magick
   notifications-ruby-client
   openapi3_parser
