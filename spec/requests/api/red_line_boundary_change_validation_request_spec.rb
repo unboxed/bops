@@ -7,14 +7,14 @@ RSpec.describe "Red line boundary change validation requests API", show_exceptio
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) { create(:planning_application, :invalidated, :with_boundary_geojson, local_authority: default_local_authority) }
   let!(:red_line_boundary_change_validation_request) do
-    create(:red_line_boundary_change_validation_request, planning_application: planning_application)
+    create(:red_line_boundary_change_validation_request, planning_application:)
   end
   let(:token) { "Bearer #{api_user.token}" }
 
   describe "#index" do
     let(:path) { "/api/v1/planning_applications/#{planning_application.id}/red_line_boundary_change_validation_requests" }
     let!(:red_line_boundary_change_validation_request2) do
-      create(:red_line_boundary_change_validation_request, :closed, planning_application: planning_application)
+      create(:red_line_boundary_change_validation_request, :closed, planning_application:)
     end
 
     context "when the request is successful" do

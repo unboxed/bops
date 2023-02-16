@@ -101,9 +101,9 @@ RSpec.describe "Requesting other changes to a planning application" do
   end
 
   it "lists the current change requests and their statuses" do
-    create(:other_change_validation_request, planning_application: planning_application, state: "open",
+    create(:other_change_validation_request, planning_application:, state: "open",
                                              created_at: 12.days.ago, notified_at: 12.days.ago, summary: "Missing information", suggestion: "Please provide more details about ownership")
-    create(:other_change_validation_request, planning_application: planning_application, state: "closed",
+    create(:other_change_validation_request, planning_application:, state: "closed",
                                              created_at: 12.days.ago, notified_at: 12.days.ago, summary: "Fees outstanding", suggestion: "Please pay the balance", response: "paid")
 
     click_link "Check and validate"
@@ -160,10 +160,10 @@ RSpec.describe "Requesting other changes to a planning application" do
 
   context "when there are fee item validation requests" do
     let!(:other_change_validation_request) do
-      create(:other_change_validation_request, planning_application: planning_application)
+      create(:other_change_validation_request, planning_application:)
     end
     let!(:fee_change_validation_request) do
-      create(:other_change_validation_request, :fee, planning_application: planning_application)
+      create(:other_change_validation_request, :fee, planning_application:)
     end
 
     it "does not show in the other validation issues task list" do

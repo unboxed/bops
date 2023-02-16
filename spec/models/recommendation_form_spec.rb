@@ -28,11 +28,11 @@ RSpec.describe RecommendationForm do
       let(:recommendation_form) do
         build(
           :recommendation_form,
-          recommendation: recommendation,
+          recommendation:,
           decision: :granted,
           public_comment: "GDPO compliant",
           assessor_comment: "LGTM",
-          assessor: assessor,
+          assessor:,
           status: :assessment_complete
         )
       end
@@ -52,7 +52,7 @@ RSpec.describe RecommendationForm do
           expect(
             planning_application.reload.recommendation
           ).to have_attributes(
-            assessor: assessor,
+            assessor:,
             assessor_comment: "LGTM"
           )
         end
@@ -62,11 +62,11 @@ RSpec.describe RecommendationForm do
         let(:recommendation_form) do
           build(
             :recommendation_form,
-            recommendation: recommendation,
+            recommendation:,
             decision: :granted,
             public_comment: nil,
             assessor_comment: "LGTM",
-            assessor: assessor,
+            assessor:,
             status: :assessment_complete
           )
         end
@@ -104,11 +104,11 @@ RSpec.describe RecommendationForm do
         let(:recommendation_form) do
           build(
             :recommendation_form,
-            recommendation: recommendation,
+            recommendation:,
             decision: nil,
             public_comment: "GDPO compliant",
             assessor_comment: "LGTM",
-            assessor: assessor,
+            assessor:,
             status: :assessment_complete
           )
         end
@@ -156,11 +156,11 @@ RSpec.describe RecommendationForm do
       let(:recommendation_form) do
         build(
           :recommendation_form,
-          recommendation: recommendation,
+          recommendation:,
           decision: :granted,
           public_comment: "GDPO compliant",
           assessor_comment: "LGTM",
-          assessor: assessor,
+          assessor:,
           status: :assessment_in_progress
         )
       end
@@ -180,7 +180,7 @@ RSpec.describe RecommendationForm do
           expect(
             planning_application.reload.recommendation
           ).to have_attributes(
-            assessor: assessor,
+            assessor:,
             assessor_comment: "LGTM"
           )
         end
@@ -190,11 +190,11 @@ RSpec.describe RecommendationForm do
         let(:recommendation_form) do
           build(
             :recommendation_form,
-            recommendation: recommendation,
+            recommendation:,
             decision: :granted,
             public_comment: nil,
             assessor_comment: "LGTM",
-            assessor: assessor,
+            assessor:,
             status: :assessment_in_progress
           )
         end
@@ -211,7 +211,7 @@ RSpec.describe RecommendationForm do
           expect(
             planning_application.reload.recommendation
           ).to have_attributes(
-            assessor: assessor,
+            assessor:,
             assessor_comment: "LGTM"
           )
         end
@@ -221,11 +221,11 @@ RSpec.describe RecommendationForm do
         let(:recommendation_form) do
           build(
             :recommendation_form,
-            recommendation: recommendation,
+            recommendation:,
             decision: nil,
             public_comment: "GDPO compliant",
             assessor_comment: "LGTM",
-            assessor: assessor,
+            assessor:,
             status: :assessment_in_progress
           )
         end
@@ -242,7 +242,7 @@ RSpec.describe RecommendationForm do
           expect(
             planning_application.reload.recommendation
           ).to have_attributes(
-            assessor: assessor,
+            assessor:,
             assessor_comment: "LGTM"
           )
         end

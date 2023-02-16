@@ -14,11 +14,11 @@ RSpec.describe "Auditing changes to a planning application" do
 
   before do
     create(:audit, planning_application_id: planning_application.id,
-                   activity_type: "red_line_boundary_change_validation_request_received", activity_information: 1, audit_comment: { response: "rejected", reason: "The boundary was too small" }.to_json, api_user: api_user)
+                   activity_type: "red_line_boundary_change_validation_request_received", activity_information: 1, audit_comment: { response: "rejected", reason: "The boundary was too small" }.to_json, api_user:)
     create(:audit, planning_application_id: planning_application.id,
-                   activity_type: "other_change_validation_request_received", activity_information: 1, audit_comment: { response: "I have sent the fee" }.to_json, api_user: api_user)
+                   activity_type: "other_change_validation_request_received", activity_information: 1, audit_comment: { response: "I have sent the fee" }.to_json, api_user:)
     create(:audit, planning_application_id: planning_application.id,
-                   activity_type: "replacement_document_validation_request_received", activity_information: 1, audit_comment: "floor_plan.pdf", api_user: api_user)
+                   activity_type: "replacement_document_validation_request_received", activity_information: 1, audit_comment: "floor_plan.pdf", api_user:)
 
     sign_in assessor
     visit planning_application_path(planning_application)
@@ -58,7 +58,7 @@ RSpec.describe "Auditing changes to a planning application" do
     let(:validation_request) do
       create(
         :red_line_boundary_change_validation_request,
-        planning_application: planning_application
+        planning_application:
       )
     end
 
@@ -91,7 +91,7 @@ RSpec.describe "Auditing changes to a planning application" do
     let(:validation_request) do
       create(
         :description_change_validation_request,
-        planning_application: planning_application
+        planning_application:
       )
     end
 

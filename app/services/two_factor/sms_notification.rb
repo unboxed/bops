@@ -18,7 +18,7 @@ module TwoFactor
         template_id: NOTIFY_TEMPLATE_ID,
         phone_number: mobile_number,
         personalisation: {
-          otp: otp
+          otp:
         }
       )
     end

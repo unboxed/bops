@@ -15,7 +15,7 @@ RSpec.describe "managing users" do
         :user,
         :administrator,
         name: "Carrie Taylor",
-        local_authority: local_authority
+        local_authority:
       )
     end
 
@@ -90,7 +90,7 @@ RSpec.describe "managing users" do
         :user,
         :reviewer,
         name: "Bella Jones",
-        local_authority: local_authority,
+        local_authority:,
         otp_delivery_method: :email
       )
 

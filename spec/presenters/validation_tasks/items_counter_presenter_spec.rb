@@ -16,11 +16,11 @@ RSpec.describe ValidationTasks::ItemsCounterPresenter, type: :presenter do
       let(:planning_application) { create(:planning_application, :not_started) }
 
       before do
-        create(:replacement_document_validation_request, :pending, planning_application: planning_application)
-        create(:other_change_validation_request, :fee, :pending, planning_application: planning_application)
-        create(:additional_document_validation_request, :pending, planning_application: planning_application)
-        create(:red_line_boundary_change_validation_request, :pending, planning_application: planning_application)
-        create(:other_change_validation_request, :pending, planning_application: planning_application)
+        create(:replacement_document_validation_request, :pending, planning_application:)
+        create(:other_change_validation_request, :fee, :pending, planning_application:)
+        create(:additional_document_validation_request, :pending, planning_application:)
+        create(:red_line_boundary_change_validation_request, :pending, planning_application:)
+        create(:other_change_validation_request, :pending, planning_application:)
       end
 
       it "the items count hash returns the count of invalid and updated validation requests" do
@@ -35,13 +35,13 @@ RSpec.describe ValidationTasks::ItemsCounterPresenter, type: :presenter do
 
     context "when planning application is invalidated" do
       let(:planning_application) { create(:planning_application, :invalidated) }
-      let!(:additional_document_validation_request) { create(:additional_document_validation_request, :open, planning_application: planning_application) }
-      let!(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, planning_application: planning_application) }
+      let!(:additional_document_validation_request) { create(:additional_document_validation_request, :open, planning_application:) }
+      let!(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, planning_application:) }
 
       before do
-        create(:other_change_validation_request, :fee, :open, planning_application: planning_application, response: "ok")
-        create(:replacement_document_validation_request, :open, planning_application: planning_application)
-        create(:other_change_validation_request, :open, planning_application: planning_application)
+        create(:other_change_validation_request, :fee, :open, planning_application:, response: "ok")
+        create(:replacement_document_validation_request, :open, planning_application:)
+        create(:other_change_validation_request, :open, planning_application:)
       end
 
       it "the items count hash returns the count of invalid and updated validation requests" do
@@ -87,11 +87,11 @@ RSpec.describe ValidationTasks::ItemsCounterPresenter, type: :presenter do
     end
 
     context "when there are multiple red line boundary requests" do
-      let!(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, planning_application: planning_application) }
+      let!(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, planning_application:) }
 
       before do
         red_line_boundary_change_validation_request.close!
-        create(:red_line_boundary_change_validation_request, :open, planning_application: planning_application)
+        create(:red_line_boundary_change_validation_request, :open, planning_application:)
       end
 
       it "the updated count only includes the latest closed red line boundary change validation request" do
@@ -128,11 +128,11 @@ RSpec.describe ValidationTasks::ItemsCounterPresenter, type: :presenter do
     end
 
     context "when there are multiple fee item validation requests" do
-      let!(:fee_item_validation_request) { create(:other_change_validation_request, :fee, :open, planning_application: planning_application, response: "ok") }
+      let!(:fee_item_validation_request) { create(:other_change_validation_request, :fee, :open, planning_application:, response: "ok") }
 
       before do
         fee_item_validation_request.close!
-        create(:other_change_validation_request, :fee, :open, planning_application: planning_application, response: "ok")
+        create(:other_change_validation_request, :fee, :open, planning_application:, response: "ok")
       end
 
       it "the updated count only includes the latest closed fee item change validation request" do
@@ -169,11 +169,11 @@ RSpec.describe ValidationTasks::ItemsCounterPresenter, type: :presenter do
     end
 
     context "when there are multiple other validation requests" do
-      let!(:other_change_validation_request) { create(:other_change_validation_request, :open, planning_application: planning_application, response: "ok") }
+      let!(:other_change_validation_request) { create(:other_change_validation_request, :open, planning_application:, response: "ok") }
 
       before do
         other_change_validation_request.close!
-        create(:other_change_validation_request, :open, planning_application: planning_application, response: "ok")
+        create(:other_change_validation_request, :open, planning_application:, response: "ok")
       end
 
       it "the updated count includes all the closed other change validation requests" do
@@ -198,11 +198,11 @@ RSpec.describe ValidationTasks::ItemsCounterPresenter, type: :presenter do
     end
 
     context "when there are multiple replacement document validation requests" do
-      let!(:replacement_document_validation_request) { create(:replacement_document_validation_request, :open, planning_application: planning_application) }
+      let!(:replacement_document_validation_request) { create(:replacement_document_validation_request, :open, planning_application:) }
 
       before do
         replacement_document_validation_request.close!
-        create(:replacement_document_validation_request, :open, planning_application: planning_application)
+        create(:replacement_document_validation_request, :open, planning_application:)
       end
 
       it "the updated count includes all the closed replacement document requests" do

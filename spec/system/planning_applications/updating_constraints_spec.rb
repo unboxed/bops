@@ -8,13 +8,13 @@ RSpec.describe "updating constraints" do
   let(:planning_application) do
     create(
       :planning_application,
-      local_authority: local_authority,
+      local_authority:,
       constraints: []
     )
   end
 
   let(:assessor) do
-    create(:user, :assessor, local_authority: local_authority)
+    create(:user, :assessor, local_authority:)
   end
 
   it "lets the user update the constraints" do

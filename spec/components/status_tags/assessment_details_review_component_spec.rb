@@ -12,17 +12,17 @@ RSpec.describe StatusTags::AssessmentDetailsReviewComponent, type: :component do
     create(
       :assessment_detail,
       :summary_of_work,
-      planning_application: planning_application,
-      reviewer_verdict: reviewer_verdict,
-      review_status: review_status,
-      assessment_status: assessment_status,
+      planning_application:,
+      reviewer_verdict:,
+      review_status:,
+      assessment_status:,
       created_at: 1.day.ago
     )
 
     create(
       :recommendation,
       submitted: true,
-      planning_application: planning_application
+      planning_application:
     )
   end
 
@@ -35,12 +35,12 @@ RSpec.describe StatusTags::AssessmentDetailsReviewComponent, type: :component do
         :summary_of_work,
         review_status: :complete,
         reviewer_verdict: :rejected,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 2.days.ago
       )
 
       render_inline(
-        described_class.new(planning_application: planning_application)
+        described_class.new(planning_application:)
       )
     end
 
@@ -54,7 +54,7 @@ RSpec.describe StatusTags::AssessmentDetailsReviewComponent, type: :component do
 
     before do
       render_inline(
-        described_class.new(planning_application: planning_application)
+        described_class.new(planning_application:)
       )
     end
 
@@ -68,7 +68,7 @@ RSpec.describe StatusTags::AssessmentDetailsReviewComponent, type: :component do
 
     before do
       render_inline(
-        described_class.new(planning_application: planning_application)
+        described_class.new(planning_application:)
       )
     end
 
@@ -82,7 +82,7 @@ RSpec.describe StatusTags::AssessmentDetailsReviewComponent, type: :component do
 
     before do
       render_inline(
-        described_class.new(planning_application: planning_application)
+        described_class.new(planning_application:)
       )
     end
 

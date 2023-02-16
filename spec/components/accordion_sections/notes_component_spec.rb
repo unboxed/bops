@@ -6,7 +6,7 @@ RSpec.describe AccordionSections::NotesComponent, type: :component do
   let(:planning_application) { create(:planning_application) }
 
   let(:component) do
-    described_class.new(planning_application: planning_application)
+    described_class.new(planning_application:)
   end
 
   it "renders link to add note" do
@@ -26,9 +26,9 @@ RSpec.describe AccordionSections::NotesComponent, type: :component do
     before do
       create(
         :note,
-        planning_application: planning_application,
+        planning_application:,
         created_at: DateTime.new(2022, 12, 11, 12),
-        entry: entry
+        entry:
       )
 
       render_inline(component)

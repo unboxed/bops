@@ -98,7 +98,7 @@ RSpec.describe ReplacementDocumentValidationRequest do
       context "when a planning application has been validated" do
         let(:planning_application) { create(:planning_application, :in_assessment) }
         let(:replacement_document_validation_request) do
-          create(:replacement_document_validation_request, planning_application: planning_application)
+          create(:replacement_document_validation_request, planning_application:)
         end
 
         it "allows a replacement_document_validation_request to be created" do
@@ -114,10 +114,10 @@ RSpec.describe ReplacementDocumentValidationRequest do
       let(:planning_application) { create(:planning_application, :invalidated) }
       let!(:document) { create(:document) }
       let(:replacement_document_validation_request1) do
-        create(:replacement_document_validation_request, :open, planning_application: planning_application, new_document: document)
+        create(:replacement_document_validation_request, :open, planning_application:, new_document: document)
       end
       let(:replacement_document_validation_request2) do
-        create(:replacement_document_validation_request, :open, planning_application: planning_application, old_document: document)
+        create(:replacement_document_validation_request, :open, planning_application:, old_document: document)
       end
 
       before { replacement_document_validation_request1.close! }
@@ -162,7 +162,7 @@ RSpec.describe ReplacementDocumentValidationRequest do
       create(
         :document,
         file: file1,
-        planning_application: planning_application,
+        planning_application:,
         numbers: "DOC123",
         tags: ["Front"]
       )
@@ -171,10 +171,10 @@ RSpec.describe ReplacementDocumentValidationRequest do
     let(:replacement_document_validation_request) do
       create(
         :replacement_document_validation_request,
-        old_document: old_document,
+        old_document:,
         new_document: nil,
         state: :open,
-        planning_application: planning_application
+        planning_application:
       )
     end
 

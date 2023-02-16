@@ -90,9 +90,9 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
         let!(:planning_application) do
           create(:planning_application, :determined, local_authority: default_local_authority, decision: "granted")
         end
-        let!(:document_with_number) { create(:document, :public, planning_application: planning_application) }
-        let!(:document_without_number) { create(:document, planning_application: planning_application) }
-        let!(:document_archived) { create(:document, :public, :archived, planning_application: planning_application) }
+        let!(:document_with_number) { create(:document, :public, planning_application:) }
+        let!(:document_without_number) { create(:document, planning_application:) }
+        let!(:document_archived) { create(:document, :public, :archived, planning_application:) }
 
         it "returns the accurate data" do
           get "/api/v1/planning_applications.json"

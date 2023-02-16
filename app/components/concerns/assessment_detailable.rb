@@ -25,7 +25,7 @@ module AssessmentDetailable
     end
 
     def rejected_assessment_detail_for_category?(category)
-      planning_application.rejected_assessment_detail(category: category).present?
+      planning_application.rejected_assessment_detail(category:).present?
     end
 
     def assessment_details_review_complete?

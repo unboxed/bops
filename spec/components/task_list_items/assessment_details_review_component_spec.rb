@@ -10,8 +10,8 @@ RSpec.describe TaskListItems::AssessmentDetailsReviewComponent, type: :component
   before do
     create(
       :assessment_detail,
-      review_status: review_status,
-      planning_application: planning_application
+      review_status:,
+      planning_application:
     )
   end
 
@@ -20,7 +20,7 @@ RSpec.describe TaskListItems::AssessmentDetailsReviewComponent, type: :component
 
     before do
       render_inline(
-        described_class.new(planning_application: planning_application)
+        described_class.new(planning_application:)
       )
     end
 
@@ -37,7 +37,7 @@ RSpec.describe TaskListItems::AssessmentDetailsReviewComponent, type: :component
 
     before do
       render_inline(
-        described_class.new(planning_application: planning_application)
+        described_class.new(planning_application:)
       )
     end
 

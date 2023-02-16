@@ -7,7 +7,7 @@ RSpec.describe ProposalDetails::PolicyRefsComponent, type: :component do
     [{ "url" => "www.example.com" }, { "text" => "Test ref" }]
   end
 
-  let(:component) { described_class.new(policy_refs: policy_refs) }
+  let(:component) { described_class.new(policy_refs:) }
 
   before { render_inline(component) }
 

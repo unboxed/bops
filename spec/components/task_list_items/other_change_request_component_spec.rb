@@ -8,7 +8,7 @@ RSpec.describe TaskListItems::OtherChangeRequestComponent, type: :component do
   let(:other_change_validation_request) do
     create(
       :other_change_validation_request,
-      planning_application: planning_application,
+      planning_application:,
       sequence: 1,
       state: :open
     )
@@ -16,7 +16,7 @@ RSpec.describe TaskListItems::OtherChangeRequestComponent, type: :component do
 
   let(:component) do
     described_class.new(
-      planning_application: planning_application,
+      planning_application:,
       request: other_change_validation_request
     )
   end
@@ -38,7 +38,7 @@ RSpec.describe TaskListItems::OtherChangeRequestComponent, type: :component do
     let(:other_change_validation_request) do
       create(
         :other_change_validation_request,
-        planning_application: planning_application,
+        planning_application:,
         sequence: 1,
         state: :closed,
         response: "response"

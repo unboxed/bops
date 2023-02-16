@@ -97,7 +97,7 @@ RSpec.describe PolicyClass do
       create(
         :policy_class,
         section: "1b",
-        planning_application: planning_application
+        planning_application:
       )
     end
 
@@ -105,8 +105,8 @@ RSpec.describe PolicyClass do
       %w[1a 2a 2b].each do |section|
         create(
           :policy_class,
-          section: section,
-          planning_application: planning_application
+          section:,
+          planning_application:
         )
       end
     end
@@ -123,7 +123,7 @@ RSpec.describe PolicyClass do
       create(
         :policy_class,
         section: "2a",
-        planning_application: planning_application
+        planning_application:
       )
     end
 
@@ -131,8 +131,8 @@ RSpec.describe PolicyClass do
       %w[1a 1b 2b].each do |section|
         create(
           :policy_class,
-          section: section,
-          planning_application: planning_application
+          section:,
+          planning_application:
         )
       end
     end
@@ -149,7 +149,7 @@ RSpec.describe PolicyClass do
       before do
         create(
           :review_policy_class,
-          policy_class: policy_class,
+          policy_class:,
           status: :complete
         )
       end
@@ -165,7 +165,7 @@ RSpec.describe PolicyClass do
       before do
         create(
           :review_policy_class,
-          policy_class: policy_class,
+          policy_class:,
           status: :not_started
         )
       end
@@ -181,7 +181,7 @@ RSpec.describe PolicyClass do
       before do
         create(
           :review_policy_class,
-          policy_class: policy_class,
+          policy_class:,
           status: :complete
         )
       end

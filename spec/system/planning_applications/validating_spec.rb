@@ -47,7 +47,7 @@ RSpec.shared_examples "validate and invalidate" do
   end
 
   it "allows document edit, archive and upload after invalidation" do
-    create(:additional_document_validation_request, planning_application: planning_application, state: "open",
+    create(:additional_document_validation_request, planning_application:, state: "open",
                                                     created_at: 12.days.ago)
 
     within(selected_govuk_tab) do
@@ -66,12 +66,12 @@ RSpec.shared_examples "validate and invalidate" do
 
   it "displays a validation date of the last closed validation request if any closed validation requests exist" do
     create(:additional_document_validation_request,
-           planning_application: planning_application,
+           planning_application:,
            state: "closed",
            updated_at: Time.zone.today - 2.days)
 
     create(:replacement_document_validation_request,
-           planning_application: planning_application,
+           planning_application:,
            state: "closed",
            updated_at: Time.zone.today - 3.days)
 
@@ -117,11 +117,11 @@ RSpec.describe "Planning Application Assessment" do
   end
 
   let!(:additional_document_validation_request) do
-    create(:additional_document_validation_request, planning_application: planning_application, state: "closed")
+    create(:additional_document_validation_request, planning_application:, state: "closed")
   end
 
   let!(:document) do
-    create(:document, :with_file, :with_tags, planning_application: planning_application)
+    create(:document, :with_file, :with_tags, planning_application:)
   end
 
   let!(:new_planning_application) { create(:planning_application, :not_started, local_authority: default_local_authority) }
@@ -193,7 +193,7 @@ RSpec.describe "Planning Application Assessment" do
 
   context "when checking documents from Not Started status" do
     it "can be invalidated and email is sent when there is an open validation request" do
-      create(:additional_document_validation_request, planning_application: planning_application, state: "pending",
+      create(:additional_document_validation_request, planning_application:, state: "pending",
                                                       created_at: 12.days.ago)
 
       delivered_emails = ActionMailer::Base.deliveries.count
@@ -222,7 +222,7 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     it "shows error if trying to mark as valid when open validation request exists on planning application" do
-      create(:additional_document_validation_request, planning_application: planning_application, state: "open")
+      create(:additional_document_validation_request, planning_application:, state: "open")
 
       within(selected_govuk_tab) do
         click_link(planning_application.reference)
@@ -243,7 +243,7 @@ RSpec.describe "Planning Application Assessment" do
   context "when planning application does not transition when expected inputs are not sent" do
     it "shows an error when invalid documents are present" do
       create(:document, :with_file,
-             planning_application: planning_application,
+             planning_application:,
              validated: false, invalidated_document_reason: "Missing a lazy Suzan")
 
       within(selected_govuk_tab) do

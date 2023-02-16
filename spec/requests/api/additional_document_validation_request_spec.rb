@@ -7,17 +7,17 @@ RSpec.describe "Additional document validation requests API", show_exceptions: t
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) { create(:planning_application, :invalidated, local_authority: default_local_authority) }
   let!(:additional_document_validation_request) do
-    create(:additional_document_validation_request, planning_application: planning_application)
+    create(:additional_document_validation_request, planning_application:)
   end
   let(:token) { "Bearer #{api_user.token}" }
 
   describe "#index" do
     let(:path) { "/api/v1/planning_applications/#{planning_application.id}/additional_document_validation_requests" }
     let!(:additional_document_validation_request2) do
-      create(:additional_document_validation_request, :closed, :with_documents, planning_application: planning_application)
+      create(:additional_document_validation_request, :closed, :with_documents, planning_application:)
     end
     let!(:additional_document_validation_request3) do
-      create(:additional_document_validation_request, :cancelled, planning_application: planning_application)
+      create(:additional_document_validation_request, :cancelled, planning_application:)
     end
 
     context "when the request is successful" do

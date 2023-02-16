@@ -60,7 +60,7 @@ RSpec.describe PermittedDevelopmentRight do
         let(:planning_application) { create(:planning_application, :awaiting_determination) }
 
         context "when planning application has no recommendation" do
-          let(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application: planning_application) }
+          let(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application:) }
 
           it "validates that planning_application can review assessment and does not raise an error" do
             expect do
@@ -70,9 +70,9 @@ RSpec.describe PermittedDevelopmentRight do
         end
 
         context "when planning application has a recommendation that is agreed by the reviewer" do
-          let(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application: planning_application) }
+          let(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application:) }
 
-          before { create(:recommendation, :reviewed, challenged: false, planning_application: planning_application) }
+          before { create(:recommendation, :reviewed, challenged: false, planning_application:) }
 
           it "validates that planning_application can review assessment and raises an error" do
             expect do
@@ -82,9 +82,9 @@ RSpec.describe PermittedDevelopmentRight do
         end
 
         context "when planning application has a recommendation that is challenged by the reviewer" do
-          let(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application: planning_application) }
+          let(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application:) }
 
-          before { create(:recommendation, challenged: true, planning_application: planning_application) }
+          before { create(:recommendation, challenged: true, planning_application:) }
 
           it "validates that planning_application can review assessment and does not raise an error" do
             expect do
@@ -96,9 +96,9 @@ RSpec.describe PermittedDevelopmentRight do
 
       context "when planning application is awaiting correction" do
         let(:planning_application) { create(:planning_application, :awaiting_correction) }
-        let(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application: planning_application) }
+        let(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application:) }
 
-        before { create(:recommendation, challenged: true, planning_application: planning_application) }
+        before { create(:recommendation, challenged: true, planning_application:) }
 
         it "validates that planning_application can review assessment and does not raise an error" do
           expect do
@@ -118,7 +118,7 @@ RSpec.describe PermittedDevelopmentRight do
 
         it "sets the status for the assessor to be reviewed" do
           expect do
-            permitted_development_right.update!(reviewer_comment: "Comment", reviewer: reviewer)
+            permitted_development_right.update!(reviewer_comment: "Comment", reviewer:)
           end.to change(permitted_development_right, :status).from("removed").to("to_be_reviewed")
         end
       end
@@ -128,7 +128,7 @@ RSpec.describe PermittedDevelopmentRight do
 
         it "does not update the status" do
           expect do
-            permitted_development_right.update!(accepted: true, reviewer: reviewer)
+            permitted_development_right.update!(accepted: true, reviewer:)
           end.not_to change(permitted_development_right, :status).from("removed")
         end
       end
@@ -136,7 +136,7 @@ RSpec.describe PermittedDevelopmentRight do
 
     describe "::before_update #set_reviewer_edited" do
       context "when reviewer accepts but edits the reason for removing the permitted development rights" do
-        let(:permitted_development_right) { create(:permitted_development_right, :removed, reviewer: reviewer) }
+        let(:permitted_development_right) { create(:permitted_development_right, :removed, reviewer:) }
 
         it "sets reviewer edited to true" do
           expect do
@@ -146,7 +146,7 @@ RSpec.describe PermittedDevelopmentRight do
       end
 
       context "when reviewer accepts but does not edit the reason for removing the permitted development rights" do
-        let(:permitted_development_right) { create(:permitted_development_right, :removed, reviewer: reviewer) }
+        let(:permitted_development_right) { create(:permitted_development_right, :removed, reviewer:) }
 
         it "does not set reviewer edited to true" do
           expect do
@@ -158,9 +158,9 @@ RSpec.describe PermittedDevelopmentRight do
 
     describe "::before_create #ensure_no_open_permitted_development_right_response!" do
       context "when there is already an open permitted development right response to be reviewed" do
-        let(:new_permitted_development_right) { create(:permitted_development_right, planning_application: planning_application) }
+        let(:new_permitted_development_right) { create(:permitted_development_right, planning_application:) }
 
-        before { create(:permitted_development_right, planning_application: planning_application) }
+        before { create(:permitted_development_right, planning_application:) }
 
         it "raises an error" do
           expect do
@@ -170,7 +170,7 @@ RSpec.describe PermittedDevelopmentRight do
       end
 
       context "when there is no open permitted development right response to be reviewed" do
-        let(:permitted_development_right) { create(:permitted_development_right, :removed, reviewer: reviewer, planning_application: planning_application) }
+        let(:permitted_development_right) { create(:permitted_development_right, :removed, reviewer:, planning_application:) }
 
         it "does not raise an error" do
           expect do
@@ -190,7 +190,7 @@ RSpec.describe PermittedDevelopmentRight do
         create(:permitted_development_right, accepted: true)
       end
 
-      let!(:permitted_development_right) { create(:permitted_development_right, reviewer_comment: "comment", reviewer: reviewer) }
+      let!(:permitted_development_right) { create(:permitted_development_right, reviewer_comment: "comment", reviewer:) }
 
       it "returns permitted development rights where there is a review comment" do
         expect(described_class.with_reviewer_comment).to eq([permitted_development_right])
@@ -203,7 +203,7 @@ RSpec.describe PermittedDevelopmentRight do
         create(:permitted_development_right, accepted: true)
       end
 
-      let!(:permitted_development_right) { create(:permitted_development_right, accepted: false, reviewer_comment: "comment", reviewer: reviewer) }
+      let!(:permitted_development_right) { create(:permitted_development_right, accepted: false, reviewer_comment: "comment", reviewer:) }
 
       it "returns rejected permitted development right responses" do
         expect(described_class.returned).to eq([permitted_development_right])

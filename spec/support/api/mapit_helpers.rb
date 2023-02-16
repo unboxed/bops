@@ -22,7 +22,7 @@ module MapitHelper
              Rails.root.join("spec", "fixtures", "mapit", "#{body}.json").read
            end
 
-    { status: status, body: body }
+    { status:, body: }
   end
 end
 

@@ -27,14 +27,14 @@ RSpec.describe "API request to list change requests", show_exceptions: true do
     create(
       :planning_application,
       :invalidated,
-      user: user,
+      user:,
       local_authority: default_local_authority
     )
   end
 
   let!(:other_change_validation_request) do
     create(:other_change_validation_request,
-           planning_application: planning_application)
+           planning_application:)
   end
 
   valid_response = '{
@@ -50,7 +50,7 @@ RSpec.describe "API request to list change requests", show_exceptions: true do
   }'
 
   it "successfully accepts a response" do
-    patch(path, params: params, headers: headers)
+    patch(path, params:, headers:)
 
     expect(response).to be_successful
 
@@ -61,18 +61,18 @@ RSpec.describe "API request to list change requests", show_exceptions: true do
   end
 
   it "creates audit associated with API user" do
-    patch(path, params: params, headers: headers)
+    patch(path, params:, headers:)
 
     expect(planning_application.audits.reload.last).to have_attributes(
       activity_type: "other_change_validation_request_received",
       audit_comment: { response: "I will send an extra payment" }.to_json,
       activity_information: "1",
-      api_user: api_user
+      api_user:
     )
   end
 
   it "sends notification to assigned user" do
-    expect { patch(path, params: params, headers: headers) }
+    expect { patch(path, params:, headers:) }
       .to have_enqueued_job
       .on_queue("default")
       .with(

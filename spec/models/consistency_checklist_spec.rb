@@ -16,7 +16,7 @@ RSpec.describe ConsistencyChecklist do
           :consistency_checklist,
           :complete,
           :all_checks_assessed,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -25,7 +25,7 @@ RSpec.describe ConsistencyChecklist do
           create(
             :red_line_boundary_change_validation_request,
             :open,
-            planning_application: planning_application
+            planning_application:
           )
         end
 
@@ -49,7 +49,7 @@ RSpec.describe ConsistencyChecklist do
           create(
             :description_change_validation_request,
             :open,
-            planning_application: planning_application
+            planning_application:
           )
         end
 
@@ -73,7 +73,7 @@ RSpec.describe ConsistencyChecklist do
           create(
             :additional_document_validation_request,
             :open,
-            planning_application: planning_application
+            planning_application:
           )
         end
 
@@ -97,13 +97,13 @@ RSpec.describe ConsistencyChecklist do
           create(
             :additional_document_validation_request,
             :closed,
-            planning_application: planning_application
+            planning_application:
           )
 
           create(
             :description_change_validation_request,
             :closed,
-            planning_application: planning_application
+            planning_application:
           )
         end
 
@@ -241,7 +241,7 @@ RSpec.describe ConsistencyChecklist do
           :consistency_checklist,
           :in_assessment,
           :all_checks_assessed,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -250,7 +250,7 @@ RSpec.describe ConsistencyChecklist do
           create(
             :red_line_boundary_change_validation_request,
             :open,
-            planning_application: planning_application
+            planning_application:
           )
         end
 
@@ -264,7 +264,7 @@ RSpec.describe ConsistencyChecklist do
           create(
             :description_change_validation_request,
             :open,
-            planning_application: planning_application
+            planning_application:
           )
         end
 
@@ -278,7 +278,7 @@ RSpec.describe ConsistencyChecklist do
           create(
             :additional_document_validation_request,
             :open,
-            planning_application: planning_application
+            planning_application:
           )
         end
 
@@ -341,7 +341,7 @@ RSpec.describe ConsistencyChecklist do
     let(:planning_application) { create(:planning_application) }
 
     let(:consistency_checklist) do
-      create(:consistency_checklist, planning_application: planning_application)
+      create(:consistency_checklist, planning_application:)
     end
 
     context "when there are no open requests" do
@@ -358,7 +358,7 @@ RSpec.describe ConsistencyChecklist do
       before do
         create(
           :red_line_boundary_change_validation_request,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -376,7 +376,7 @@ RSpec.describe ConsistencyChecklist do
     let(:planning_application) { create(:planning_application) }
 
     let(:consistency_checklist) do
-      create(:consistency_checklist, planning_application: planning_application)
+      create(:consistency_checklist, planning_application:)
     end
 
     context "when there are no open requests" do
@@ -393,7 +393,7 @@ RSpec.describe ConsistencyChecklist do
       before do
         create(
           :additional_document_validation_request,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -411,7 +411,7 @@ RSpec.describe ConsistencyChecklist do
     let(:planning_application) { create(:planning_application) }
 
     let(:consistency_checklist) do
-      create(:consistency_checklist, planning_application: planning_application)
+      create(:consistency_checklist, planning_application:)
     end
 
     context "when there are no open requests" do
@@ -428,7 +428,7 @@ RSpec.describe ConsistencyChecklist do
       before do
         create(
           :description_change_validation_request,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -448,8 +448,8 @@ RSpec.describe ConsistencyChecklist do
     let(:consistency_checklist) do
       create(
         :consistency_checklist,
-        planning_application: planning_application,
-        description_matches_documents: description_matches_documents
+        planning_application:,
+        description_matches_documents:
       )
     end
 
@@ -483,7 +483,7 @@ RSpec.describe ConsistencyChecklist do
       before do
         create(
           :description_change_validation_request,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -503,8 +503,8 @@ RSpec.describe ConsistencyChecklist do
     let(:consistency_checklist) do
       create(
         :consistency_checklist,
-        planning_application: planning_application,
-        documents_consistent: documents_consistent
+        planning_application:,
+        documents_consistent:
       )
     end
 
@@ -538,7 +538,7 @@ RSpec.describe ConsistencyChecklist do
       before do
         create(
           :additional_document_validation_request,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -558,8 +558,8 @@ RSpec.describe ConsistencyChecklist do
     let(:consistency_checklist) do
       create(
         :consistency_checklist,
-        planning_application: planning_application,
-        site_map_correct: site_map_correct
+        planning_application:,
+        site_map_correct:
       )
     end
 
@@ -593,7 +593,7 @@ RSpec.describe ConsistencyChecklist do
       before do
         create(
           :red_line_boundary_change_validation_request,
-          planning_application: planning_application
+          planning_application:
         )
       end
 

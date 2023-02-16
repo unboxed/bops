@@ -149,7 +149,7 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     let!(:recommendation) do
-      create(:recommendation, :reviewed, planning_application: planning_application,
+      create(:recommendation, :reviewed, planning_application:,
                                          reviewer_comment: "I disagree", assessor_comment: "This looks good")
     end
 
@@ -295,7 +295,7 @@ RSpec.describe "Planning Application Assessment" do
 
     context "when there are open post validation requests" do
       let!(:planning_application) { create(:in_assessment_planning_application, local_authority: default_local_authority) }
-      let!(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, :post_validation, planning_application: planning_application) }
+      let!(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, :post_validation, planning_application:) }
 
       it "prevents me from submitting the planning application" do
         click_link("In assessment")
@@ -474,19 +474,19 @@ RSpec.describe "Planning Application Assessment" do
   context "when displaying documents included in the decision notice" do
     context "when there are documents" do
       let!(:decision_notice_document1) do
-        create(:document, :referenced, numbers: "A", planning_application: planning_application)
+        create(:document, :referenced, numbers: "A", planning_application:)
       end
 
       let!(:decision_notice_document2) do
-        create(:document, :referenced, numbers: "B", planning_application: planning_application)
+        create(:document, :referenced, numbers: "B", planning_application:)
       end
 
       let!(:non_decision_notice_document) do
-        create(:document, referenced_in_decision_notice: false, numbers: "C", planning_application: planning_application)
+        create(:document, referenced_in_decision_notice: false, numbers: "C", planning_application:)
       end
 
       let!(:archived_document) do
-        create(:document, :referenced, :archived, numbers: "D", planning_application: planning_application)
+        create(:document, :referenced, :archived, numbers: "D", planning_application:)
       end
 
       it "displays the documents to be referenced in the decision notice" do
@@ -522,11 +522,11 @@ RSpec.describe "Planning Application Assessment" do
   end
 
   context "when there are assessment details" do
-    let!(:summary_of_work) { create(:assessment_detail, :summary_of_work, entry: "A summary of work entry", planning_application: planning_application) }
-    let!(:additional_evidence) { create(:assessment_detail, :additional_evidence, entry: "An additional evidence entry", planning_application: planning_application) }
-    let!(:site_description) { create(:assessment_detail, :site_description, entry: "A site description entry", planning_application: planning_application) }
-    let!(:past_applications) { create(:assessment_detail, :past_applications, entry: "An entry for planning history", additional_information: "REF123", planning_application: planning_application) }
-    let!(:permitted_development_right) { create(:permitted_development_right, :removed, planning_application: planning_application) }
+    let!(:summary_of_work) { create(:assessment_detail, :summary_of_work, entry: "A summary of work entry", planning_application:) }
+    let!(:additional_evidence) { create(:assessment_detail, :additional_evidence, entry: "An additional evidence entry", planning_application:) }
+    let!(:site_description) { create(:assessment_detail, :site_description, entry: "A site description entry", planning_application:) }
+    let!(:past_applications) { create(:assessment_detail, :past_applications, entry: "An entry for planning history", additional_information: "REF123", planning_application:) }
+    let!(:permitted_development_right) { create(:permitted_development_right, :removed, planning_application:) }
 
     it "shows the relevant assessment details when assessing the recommendation" do
       visit new_planning_application_recommendation_path(planning_application)
@@ -711,7 +711,7 @@ RSpec.describe "Planning Application Assessment" do
 
     context "with an open red line boundary request" do
       let!(:post_validation_red_line_boundary_change_validation_request) do
-        create(:red_line_boundary_change_validation_request, :post_validation, :open, planning_application: planning_application)
+        create(:red_line_boundary_change_validation_request, :post_validation, :open, planning_application:)
       end
 
       it "displays a warning message with a link to the post validation requests table" do
@@ -728,7 +728,7 @@ RSpec.describe "Planning Application Assessment" do
 
     context "with an open description change request" do
       let!(:post_description_change_validation_request) do
-        create(:description_change_validation_request, :post_validation, :open, planning_application: planning_application)
+        create(:description_change_validation_request, :post_validation, :open, planning_application:)
       end
 
       it "displays a warning message with a link to the post validation requests table" do
@@ -745,7 +745,7 @@ RSpec.describe "Planning Application Assessment" do
 
     context "with a closed change request" do
       let!(:post_validation_red_line_boundary_change_validation_request) do
-        create(:red_line_boundary_change_validation_request, :post_validation, :closed, planning_application: planning_application)
+        create(:red_line_boundary_change_validation_request, :post_validation, :closed, planning_application:)
       end
 
       it "does not display any warning message" do

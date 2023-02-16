@@ -90,10 +90,10 @@ RSpec.describe PlanningApplication do
     describe "fee_validation_requests" do
       let!(:planning_application) { create(:planning_application, :invalidated) }
       let!(:other_change_validation_request1) do
-        create(:other_change_validation_request, fee_item: false, planning_application: planning_application)
+        create(:other_change_validation_request, fee_item: false, planning_application:)
       end
       let!(:other_change_validation_request2) do
-        create(:other_change_validation_request, fee_item: true, planning_application: planning_application)
+        create(:other_change_validation_request, fee_item: true, planning_application:)
       end
 
       it "returns a has many association only where fee item is set to true on other change validation requests" do
@@ -132,7 +132,7 @@ RSpec.describe PlanningApplication do
     describe "::before_create #set_application_number" do
       context "when an application number for a given local authority already exists" do
         let(:local_authority) { create(:local_authority) }
-        let!(:planning_application) { create(:planning_application, local_authority: local_authority) }
+        let!(:planning_application) { create(:planning_application, local_authority:) }
 
         before do
           allow_any_instance_of(described_class).to receive(:set_application_number).and_return(planning_application.application_number)
@@ -140,7 +140,7 @@ RSpec.describe PlanningApplication do
 
         it "raises a non unique error" do
           expect do
-            create(:planning_application, local_authority: local_authority, application_number: 100)
+            create(:planning_application, local_authority:, application_number: 100)
           end.to raise_error(ActiveRecord::RecordNotUnique)
         end
       end
@@ -170,10 +170,10 @@ RSpec.describe PlanningApplication do
 
       context "when a planning application is deleted" do
         let(:local_authority) { create(:local_authority) }
-        let(:planning_application1) { create(:planning_application, local_authority: local_authority) }
-        let(:planning_application2) { create(:planning_application, local_authority: local_authority) }
-        let(:planning_application3) { create(:planning_application, local_authority: local_authority) }
-        let(:planning_application4) { create(:planning_application, local_authority: local_authority) }
+        let(:planning_application1) { create(:planning_application, local_authority:) }
+        let(:planning_application2) { create(:planning_application, local_authority:) }
+        let(:planning_application3) { create(:planning_application, local_authority:) }
+        let(:planning_application4) { create(:planning_application, local_authority:) }
 
         it "updates the application number incrementing after the existing maximum application number" do
           expect(planning_application1.application_number).to eq("00100")
@@ -229,9 +229,9 @@ RSpec.describe PlanningApplication do
 
     describe "::before_update #reset_validation_requests_update_counter" do
       let(:local_authority) { create(:local_authority) }
-      let!(:planning_application) { create(:planning_application, :invalidated, local_authority: local_authority) }
-      let(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, planning_application: planning_application) }
-      let(:fee_item_validation_request) { create(:other_change_validation_request, :fee, :open, planning_application: planning_application, response: "a response") }
+      let!(:planning_application) { create(:planning_application, :invalidated, local_authority:) }
+      let(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, planning_application:) }
+      let(:fee_item_validation_request) { create(:other_change_validation_request, :fee, :open, planning_application:, response: "a response") }
 
       context "when the red line boundary is made valid" do
         before { red_line_boundary_change_validation_request.close! }
@@ -303,8 +303,8 @@ RSpec.describe PlanningApplication do
 
   describe "#reference_in_full" do
     let(:local_authority) { create(:local_authority, :southwark) }
-    let(:planning_application1) { create(:planning_application, application_type: 0, local_authority: local_authority, work_status: "proposed") }
-    let(:planning_application2) { create(:planning_application, application_type: 0, local_authority: local_authority, work_status: "existing") }
+    let(:planning_application1) { create(:planning_application, application_type: 0, local_authority:, work_status: "proposed") }
+    let(:planning_application2) { create(:planning_application, application_type: 0, local_authority:, work_status: "existing") }
 
     before do
       travel_to Time.zone.local(2022, 10, 10)
@@ -463,7 +463,7 @@ RSpec.describe PlanningApplication do
             create(
               :other_change_validation_request,
               state,
-              planning_application: planning_application,
+              planning_application:,
               updated_at: at
             )
           end
@@ -581,7 +581,7 @@ RSpec.describe PlanningApplication do
       end
 
       let(:planning_application) do
-        build(:planning_application, proposal_details: proposal_details)
+        build(:planning_application, proposal_details:)
       end
 
       it "returns array of ProposalDetail instances" do
@@ -641,11 +641,11 @@ RSpec.describe PlanningApplication do
         :planning_application,
         :in_assessment,
         decision: "granted",
-        local_authority: local_authority
+        local_authority:
       )
     end
 
-    let(:recommendation) { create(:recommendation, planning_application: planning_application, submitted: "false") }
+    let(:recommendation) { create(:recommendation, planning_application:, submitted: "false") }
     let(:user) { create(:user) }
 
     before do
@@ -665,7 +665,7 @@ RSpec.describe PlanningApplication do
         expect(Audit.last).to have_attributes(
           planning_application_id: planning_application.id,
           activity_type: "submitted",
-          user: user
+          user:
         )
       end
 
@@ -699,7 +699,7 @@ RSpec.describe PlanningApplication do
 
       context "when there are open post validation requests" do
         before do
-          create(:red_line_boundary_change_validation_request, :post_validation, planning_application: planning_application)
+          create(:red_line_boundary_change_validation_request, :post_validation, planning_application:)
         end
 
         it "raises PlanningApplication::SubmitRecommendationError" do
@@ -733,7 +733,7 @@ RSpec.describe PlanningApplication do
         expect(Audit.last).to have_attributes(
           planning_application_id: planning_application.id,
           activity_type: "withdrawn_recommendation",
-          user: user
+          user:
         )
       end
     end
@@ -784,7 +784,7 @@ RSpec.describe PlanningApplication do
 
   describe "#send_update_notification_to_assessor" do
     let(:user) { create(:user) }
-    let(:planning_application) { create(:planning_application, user: user) }
+    let(:planning_application) { create(:planning_application, user:) }
 
     it "sends notification to assigned user" do
       expect { planning_application.send_update_notification_to_assessor }
@@ -815,7 +815,7 @@ RSpec.describe PlanningApplication do
     end
 
     let(:planning_application) do
-      create(:planning_application, local_authority: local_authority)
+      create(:planning_application, local_authority:)
     end
 
     it "sends notification to reviewer group email" do
@@ -909,7 +909,7 @@ RSpec.describe PlanningApplication do
       let!(:recommendation) do
         create(
           :recommendation,
-          planning_application: planning_application,
+          planning_application:,
           reviewer: nil
         )
       end
@@ -956,7 +956,7 @@ RSpec.describe PlanningApplication do
 
     context "when planning application has existing recommendation" do
       let!(:recommendation) do
-        create(:recommendation, planning_application: planning_application)
+        create(:recommendation, planning_application:)
       end
 
       it "returns new recommendation" do
@@ -977,7 +977,7 @@ RSpec.describe PlanningApplication do
         create(
           :policy_class,
           section: "1A",
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -999,8 +999,8 @@ RSpec.describe PlanningApplication do
     let!(:recommendation) do
       create(
         :recommendation,
-        planning_application: planning_application,
-        status: status
+        planning_application:,
+        status:
       )
     end
 
@@ -1035,8 +1035,8 @@ RSpec.describe PlanningApplication do
     let!(:recommendation) do
       create(
         :recommendation,
-        planning_application: planning_application,
-        status: status
+        planning_application:,
+        status:
       )
     end
 
@@ -1071,8 +1071,8 @@ RSpec.describe PlanningApplication do
     let!(:recommendation) do
       create(
         :recommendation,
-        planning_application: planning_application,
-        status: status
+        planning_application:,
+        status:
       )
     end
 
@@ -1107,8 +1107,8 @@ RSpec.describe PlanningApplication do
     let!(:recommendation) do
       create(
         :recommendation,
-        planning_application: planning_application,
-        status: status
+        planning_application:,
+        status:
       )
     end
 
@@ -1147,7 +1147,7 @@ RSpec.describe PlanningApplication do
         :planning_application,
         :review_in_progress,
         :in_assessment,
-        local_authority: local_authority
+        local_authority:
       )
     end
 
@@ -1156,10 +1156,10 @@ RSpec.describe PlanningApplication do
         %i[assessment_in_progress assessment_complete review_in_progress review_complete].each do |status|
           it "returns false when #{status} and the last recommendation when challenge is #{challenge}" do
             create(:recommendation,
-                   status: status,
+                   status:,
                    challenged: challenge,
                    reviewer_comment: "Nope",
-                   planning_application: planning_application)
+                   planning_application:)
 
             expect(planning_application.last_recommendation_accepted?).to be false
           end
@@ -1171,9 +1171,9 @@ RSpec.describe PlanningApplication do
       %i[assessment_in_progress assessment_complete review_in_progress].each do |status|
         it "returns false when #{status} and the last recommendation is challenged" do
           create(:recommendation,
-                 status: status,
+                 status:,
                  challenged: false,
-                 planning_application: planning_application)
+                 planning_application:)
 
           expect(planning_application.last_recommendation_accepted?).to be false
         end
@@ -1183,7 +1183,7 @@ RSpec.describe PlanningApplication do
         create(:recommendation,
                status: :review_complete,
                challenged: false,
-               planning_application: planning_application)
+               planning_application:)
 
         expect(planning_application.last_recommendation_accepted?).to be true
       end
@@ -1199,9 +1199,9 @@ RSpec.describe PlanningApplication do
       create(
         :assessment_detail,
         :summary_of_work,
-        planning_application: planning_application,
-        review_status: review_status,
-        reviewer_verdict: reviewer_verdict
+        planning_application:,
+        review_status:,
+        reviewer_verdict:
       )
     end
 
@@ -1248,7 +1248,7 @@ RSpec.describe PlanningApplication do
         create(
           :assessment_detail,
           :summary_of_work,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -1276,7 +1276,7 @@ RSpec.describe PlanningApplication do
         create(
           :assessment_detail,
           :additional_evidence,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -1299,14 +1299,14 @@ RSpec.describe PlanningApplication do
   describe "#existing_or_new_consultation_summary" do
     let(:planning_application) { create(:planning_application) }
 
-    before { create(:consultee, planning_application: planning_application) }
+    before { create(:consultee, planning_application:) }
 
     context "when record exists" do
       let!(:assessment_detail) do
         create(
           :assessment_detail,
           :consultation_summary,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -1334,7 +1334,7 @@ RSpec.describe PlanningApplication do
         create(
           :assessment_detail,
           :site_description,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -1362,7 +1362,7 @@ RSpec.describe PlanningApplication do
         create(
           :assessment_detail,
           :past_applications,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -1389,7 +1389,7 @@ RSpec.describe PlanningApplication do
       create(
         :assessment_detail,
         :summary_of_work,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 1.day.ago
       )
     end
@@ -1398,7 +1398,7 @@ RSpec.describe PlanningApplication do
       create(
         :assessment_detail,
         :summary_of_work,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 2.days.ago
       )
     end
@@ -1415,7 +1415,7 @@ RSpec.describe PlanningApplication do
       create(
         :assessment_detail,
         :additional_evidence,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 1.day.ago
       )
     end
@@ -1424,7 +1424,7 @@ RSpec.describe PlanningApplication do
       create(
         :assessment_detail,
         :additional_evidence,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 2.days.ago
       )
     end
@@ -1441,7 +1441,7 @@ RSpec.describe PlanningApplication do
       create(
         :assessment_detail,
         :site_description,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 1.day.ago
       )
     end
@@ -1450,7 +1450,7 @@ RSpec.describe PlanningApplication do
       create(
         :assessment_detail,
         :site_description,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 2.days.ago
       )
     end
@@ -1467,7 +1467,7 @@ RSpec.describe PlanningApplication do
       create(
         :assessment_detail,
         :past_applications,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 1.day.ago
       )
     end
@@ -1476,7 +1476,7 @@ RSpec.describe PlanningApplication do
       create(
         :assessment_detail,
         :past_applications,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 2.days.ago
       )
     end
@@ -1495,7 +1495,7 @@ RSpec.describe PlanningApplication do
       create(
         :assessment_detail,
         :consultation_summary,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 1.day.ago
       )
     end
@@ -1504,7 +1504,7 @@ RSpec.describe PlanningApplication do
       create(
         :assessment_detail,
         :consultation_summary,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 2.days.ago
       )
     end
@@ -1520,7 +1520,7 @@ RSpec.describe PlanningApplication do
     let!(:request) do
       create(
         :red_line_boundary_change_validation_request,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 1.day.ago
       )
     end
@@ -1528,7 +1528,7 @@ RSpec.describe PlanningApplication do
     before do
       create(
         :red_line_boundary_change_validation_request,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 2.days.ago
       )
     end
@@ -1548,7 +1548,7 @@ RSpec.describe PlanningApplication do
     let!(:request) do
       create(
         :additional_document_validation_request,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 1.day.ago
       )
     end
@@ -1556,7 +1556,7 @@ RSpec.describe PlanningApplication do
     before do
       create(
         :additional_document_validation_request,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 2.days.ago
       )
     end
@@ -1577,7 +1577,7 @@ RSpec.describe PlanningApplication do
       create(
         :description_change_validation_request,
         :closed,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 1.day.ago
       )
     end
@@ -1586,7 +1586,7 @@ RSpec.describe PlanningApplication do
       create(
         :description_change_validation_request,
         :closed,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 2.days.ago
       )
     end
@@ -1606,7 +1606,7 @@ RSpec.describe PlanningApplication do
     let!(:request) do
       create(
         :replacement_document_validation_request,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 1.day.ago
       )
     end
@@ -1614,7 +1614,7 @@ RSpec.describe PlanningApplication do
     before do
       create(
         :replacement_document_validation_request,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 2.days.ago
       )
     end
@@ -1634,7 +1634,7 @@ RSpec.describe PlanningApplication do
     let!(:request) do
       create(
         :other_change_validation_request,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 1.day.ago
       )
     end
@@ -1642,7 +1642,7 @@ RSpec.describe PlanningApplication do
     before do
       create(
         :other_change_validation_request,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 2.days.ago
       )
     end
@@ -1665,7 +1665,7 @@ RSpec.describe PlanningApplication do
       create(
         :assessment_detail,
         :summary_of_work,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 1.day.ago
       )
     end
@@ -1674,7 +1674,7 @@ RSpec.describe PlanningApplication do
       create(
         :assessment_detail,
         :consultation_summary,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 1.day.ago
       )
     end
@@ -1683,7 +1683,7 @@ RSpec.describe PlanningApplication do
       create(
         :assessment_detail,
         :site_description,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 1.day.ago
       )
     end
@@ -1692,7 +1692,7 @@ RSpec.describe PlanningApplication do
       create(
         :assessment_detail,
         :additional_evidence,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 1.day.ago
       )
     end
@@ -1701,35 +1701,35 @@ RSpec.describe PlanningApplication do
       create(
         :assessment_detail,
         :summary_of_work,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 2.days.ago
       )
 
       create(
         :assessment_detail,
         :consultation_summary,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 2.days.ago
       )
 
       create(
         :assessment_detail,
         :site_description,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 2.days.ago
       )
 
       create(
         :assessment_detail,
         :additional_evidence,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 2.days.ago
       )
 
       create(
         :assessment_detail,
         :past_applications,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 1.day.ago
       )
     end
@@ -1756,7 +1756,7 @@ RSpec.describe PlanningApplication do
           :permitted_development_right,
           review_status: :review_complete,
           accepted: false,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -1769,7 +1769,7 @@ RSpec.describe PlanningApplication do
       let(:policy_class) do
         create(
           :policy_class,
-          planning_application: planning_application,
+          planning_application:,
           status: :to_be_reviewed
         )
       end
@@ -1777,7 +1777,7 @@ RSpec.describe PlanningApplication do
       before do
         create(
           :review_policy_class,
-          policy_class: policy_class,
+          policy_class:,
           status: :complete
         )
       end
@@ -1791,7 +1791,7 @@ RSpec.describe PlanningApplication do
       before do
         create(
           :assessment_detail,
-          planning_application: planning_application,
+          planning_application:,
           review_status: :complete,
           reviewer_verdict: :rejected
         )
@@ -1809,7 +1809,7 @@ RSpec.describe PlanningApplication do
     let!(:recommendation) do
       create(
         :recommendation,
-        planning_application: planning_application,
+        planning_application:,
         status: recommendation_status
       )
     end
@@ -1828,7 +1828,7 @@ RSpec.describe PlanningApplication do
       before do
         create(
           :assessment_detail,
-          planning_application: planning_application,
+          planning_application:,
           reviewer_verdict: :accepted
         )
       end
@@ -1840,10 +1840,10 @@ RSpec.describe PlanningApplication do
 
     context "when policy class review is in progress" do
       let(:policy_class) do
-        create(:policy_class, planning_application: planning_application)
+        create(:policy_class, planning_application:)
       end
 
-      before { create(:review_policy_class, policy_class: policy_class) }
+      before { create(:review_policy_class, policy_class:) }
 
       it "returns true" do
         expect(planning_application.review_in_progress?).to be(true)
@@ -1854,7 +1854,7 @@ RSpec.describe PlanningApplication do
       before do
         create(
           :permitted_development_right,
-          planning_application: planning_application,
+          planning_application:,
           review_status: :review_in_progress
         )
       end
@@ -1904,7 +1904,7 @@ RSpec.describe PlanningApplication do
       create(
         :planning_application,
         :in_assessment,
-        local_authority: local_authority
+        local_authority:
       )
     end
 
@@ -1958,7 +1958,7 @@ RSpec.describe PlanningApplication do
           create(
             :planning_application,
             :closed,
-            local_authority: local_authority
+            local_authority:
           )
         end
 

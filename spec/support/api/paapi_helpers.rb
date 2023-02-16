@@ -16,7 +16,7 @@ module PaapiHelper
              Rails.root.join("spec", "fixtures", "paapi", "#{body}.json").read
            end
 
-    { status: status, body: body }
+    { status:, body: }
   end
 end
 

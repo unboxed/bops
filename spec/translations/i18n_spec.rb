@@ -9,12 +9,12 @@ RSpec.describe I18n do
   let(:inconsistent_interpolations) { i18n.inconsistent_interpolations }
   let(:non_normalized_paths) { i18n.non_normalized_paths }
 
-  xit "does not have missing keys" do
+  it "does not have missing keys", skip: "pending" do
     error_message = "Missing #{missing_keys.leaves.count} i18n keys, run 'i18n-tasks missing' to show them"
     expect(missing_keys).to be_empty, error_message
   end
 
-  xit "does not have unused keys" do
+  it "does not have unused keys", skip: "pending" do
     error_message = "#{unused_keys.leaves.count} unused i18n keys, run 'i18n-tasks unused' to show them"
     expect(unused_keys).to be_empty, error_message
   end

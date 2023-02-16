@@ -14,7 +14,7 @@ RSpec.describe "Edit document" do
   end
 
   let!(:document) do
-    create(:document, :with_file, planning_application: planning_application,
+    create(:document, :with_file, planning_application:,
                                   applicant_description: "This file shows the drawing")
   end
   let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
@@ -75,7 +75,7 @@ RSpec.describe "Edit document" do
         create(
           :replacement_document_validation_request,
           old_document: document,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -133,7 +133,7 @@ RSpec.describe "Edit document" do
 
     context "when a document has been removed due to a security issue" do
       let!(:document) do
-        create(:document, planning_application: planning_application)
+        create(:document, planning_application:)
       end
 
       before do

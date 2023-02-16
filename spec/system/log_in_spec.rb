@@ -64,7 +64,7 @@ RSpec.describe "Sign in" do
           :administrator,
           local_authority: default_local_authority,
           email: "alice@example.com",
-          password: password
+          password:
         )
       end
 
@@ -333,7 +333,7 @@ RSpec.describe "Sign in" do
           :user,
           local_authority: default_local_authority,
           otp_delivery_method: :email,
-          password: password
+          password:
         )
       end
 
@@ -400,7 +400,7 @@ RSpec.describe "Sign in" do
             :user,
             local_authority: default_local_authority,
             otp_delivery_method: :email,
-            password: password,
+            password:,
             mobile_number: nil
           )
         end

@@ -8,8 +8,8 @@ RSpec.describe StatusTags::PolicyClassComponent, type: :component do
   let(:policy_class) do
     create(
       :policy_class,
-      status: status,
-      planning_application: planning_application
+      status:,
+      planning_application:
     )
   end
 
@@ -21,7 +21,7 @@ RSpec.describe StatusTags::PolicyClassComponent, type: :component do
         :review_policy_class,
         status: :complete,
         mark: :return_to_officer_with_comment,
-        policy_class: policy_class,
+        policy_class:,
         comment: "comment"
       )
 
@@ -29,14 +29,14 @@ RSpec.describe StatusTags::PolicyClassComponent, type: :component do
         :recommendation,
         status: :review_complete,
         challenged: true,
-        planning_application: planning_application,
+        planning_application:,
         reviewer_comment: "comment"
       )
 
       render_inline(
         described_class.new(
-          planning_application: planning_application,
-          policy_class: policy_class
+          planning_application:,
+          policy_class:
         )
       )
     end
@@ -52,8 +52,8 @@ RSpec.describe StatusTags::PolicyClassComponent, type: :component do
     before do
       render_inline(
         described_class.new(
-          planning_application: planning_application,
-          policy_class: policy_class
+          planning_application:,
+          policy_class:
         )
       )
     end
@@ -69,8 +69,8 @@ RSpec.describe StatusTags::PolicyClassComponent, type: :component do
     before do
       render_inline(
         described_class.new(
-          planning_application: planning_application,
-          policy_class: policy_class
+          planning_application:,
+          policy_class:
         )
       )
     end

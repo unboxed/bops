@@ -29,18 +29,18 @@ class LocalAuthorityCreationService
 
   def local_authority
     @local_authority ||= LocalAuthority.find_or_create_by!(
-      subdomain: subdomain,
-      council_code: council_code,
-      signatory_name: signatory_name,
-      signatory_job_title: signatory_job_title,
-      enquiries_paragraph: enquiries_paragraph,
-      email_address: email_address,
-      feedback_email: feedback_email
+      subdomain:,
+      council_code:,
+      signatory_name:,
+      signatory_job_title:,
+      enquiries_paragraph:,
+      email_address:,
+      feedback_email:
     )
   end
 
   def api_user
-    @api_user ||= ApiUser.find_or_create_by!(name: subdomain, local_authority: local_authority)
+    @api_user ||= ApiUser.find_or_create_by!(name: subdomain, local_authority:)
   end
 
   def create_administrator_user

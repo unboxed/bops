@@ -4,12 +4,12 @@ require "rails_helper"
 
 RSpec.describe StatusTags::DecisionComponent, type: :component do
   let(:planning_application) do
-    build(:planning_application, decision: decision)
+    build(:planning_application, decision:)
   end
 
   before do
     render_inline(
-      described_class.new(planning_application: planning_application)
+      described_class.new(planning_application:)
     )
   end
 

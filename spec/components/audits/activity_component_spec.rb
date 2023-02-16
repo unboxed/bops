@@ -8,12 +8,12 @@ RSpec.describe Audits::ActivityComponent, type: :component do
   let(:planning_application) { create(:planning_application) }
 
   let(:audit_template) do
-    described_class.new(audit: audit).audit_template
+    described_class.new(audit:).audit_template
   end
 
   context "when there is an activity type for a cancelled validation request" do
     let(:audit) do
-      create(:audit, activity_type: "additional_document_validation_request_cancelled", planning_application: planning_application)
+      create(:audit, activity_type: "additional_document_validation_request_cancelled", planning_application:)
     end
 
     it "returns the correct template for a cancelled validation request" do

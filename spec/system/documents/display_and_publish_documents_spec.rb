@@ -20,17 +20,17 @@ RSpec.describe "Edit document numbers page" do
 
       let!(:proposed_document_1) do
         create(:document, :with_file, :with_tags,
-               planning_application: planning_application)
+               planning_application:)
       end
 
       let!(:proposed_document_2) do
         create(:document, :with_file,
-               planning_application: planning_application)
+               planning_application:)
       end
 
       let!(:archived_document) do
         create(:document, :with_file, :archived,
-               planning_application: planning_application)
+               planning_application:)
       end
 
       before do
@@ -160,7 +160,7 @@ RSpec.describe "Edit document numbers page" do
 
     context "when a document has been removed due to a security issue" do
       let!(:document) do
-        create(:document, planning_application: planning_application)
+        create(:document, planning_application:)
       end
 
       before do

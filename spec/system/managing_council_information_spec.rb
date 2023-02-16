@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "managing council information" do
   let(:local_authority) { create(:local_authority, :default) }
-  let(:user) { create(:user, :administrator, local_authority: local_authority) }
+  let(:user) { create(:user, :administrator, local_authority:) }
 
   it "allows the administrator to manage the reviewer group email" do
     sign_in(user)

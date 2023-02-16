@@ -9,7 +9,7 @@ RSpec.describe AccordionComponent, type: :component do
 
   context "when no specific sections are specified" do
     let(:component) do
-      described_class.new(planning_application: planning_application)
+      described_class.new(planning_application:)
     end
 
     it "renders application information section" do
@@ -44,7 +44,7 @@ RSpec.describe AccordionComponent, type: :component do
   context "when specific sections are specified" do
     let(:component) do
       described_class.new(
-        planning_application: planning_application,
+        planning_application:,
         sections: %i[contact_information key_application_dates audit_log notes]
       )
     end

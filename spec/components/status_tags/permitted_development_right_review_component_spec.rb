@@ -10,21 +10,21 @@ RSpec.describe StatusTags::PermittedDevelopmentRightReviewComponent, type: :comp
       create(
         :permitted_development_right,
         review_status: :review_not_started,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 1.day.ago,
         status: :to_be_reviewed
       )
 
       create(
         :recommendation,
-        planning_application: planning_application,
+        planning_application:,
         submitted: true
       )
 
       render_inline(
         described_class.new(
-          permitted_development_right: permitted_development_right,
-          planning_application: planning_application
+          permitted_development_right:,
+          planning_application:
         )
       )
     end
@@ -33,7 +33,7 @@ RSpec.describe StatusTags::PermittedDevelopmentRightReviewComponent, type: :comp
       create(
         :permitted_development_right,
         review_status: :review_not_started,
-        planning_application: planning_application
+        planning_application:
       )
     end
 
@@ -47,15 +47,15 @@ RSpec.describe StatusTags::PermittedDevelopmentRightReviewComponent, type: :comp
       create(
         :permitted_development_right,
         review_status: :review_complete,
-        planning_application: planning_application
+        planning_application:
       )
     end
 
     before do
       render_inline(
         described_class.new(
-          permitted_development_right: permitted_development_right,
-          planning_application: planning_application
+          permitted_development_right:,
+          planning_application:
         )
       )
     end
@@ -70,15 +70,15 @@ RSpec.describe StatusTags::PermittedDevelopmentRightReviewComponent, type: :comp
       create(
         :permitted_development_right,
         review_status: :review_in_progress,
-        planning_application: planning_application
+        planning_application:
       )
     end
 
     before do
       render_inline(
         described_class.new(
-          permitted_development_right: permitted_development_right,
-          planning_application: planning_application
+          permitted_development_right:,
+          planning_application:
         )
       )
     end
@@ -93,15 +93,15 @@ RSpec.describe StatusTags::PermittedDevelopmentRightReviewComponent, type: :comp
       create(
         :permitted_development_right,
         review_status: :review_not_started,
-        planning_application: planning_application
+        planning_application:
       )
     end
 
     before do
       render_inline(
         described_class.new(
-          permitted_development_right: permitted_development_right,
-          planning_application: planning_application
+          permitted_development_right:,
+          planning_application:
         )
       )
     end

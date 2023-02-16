@@ -9,7 +9,7 @@ RSpec.describe "Reviewing assessment summaries" do
     create(
       :user,
       :assessor,
-      local_authority: local_authority,
+      local_authority:,
       name: "Alice Smith"
     )
   end
@@ -18,7 +18,7 @@ RSpec.describe "Reviewing assessment summaries" do
     create(
       :user,
       :reviewer,
-      local_authority: local_authority,
+      local_authority:,
       name: "Bella Jones"
     )
   end
@@ -27,7 +27,7 @@ RSpec.describe "Reviewing assessment summaries" do
     create(
       :planning_application,
       :awaiting_determination,
-      local_authority: local_authority,
+      local_authority:,
       decision: :granted
     )
   end
@@ -35,7 +35,7 @@ RSpec.describe "Reviewing assessment summaries" do
   before do
     create(
       :recommendation,
-      planning_application: planning_application,
+      planning_application:,
       created_at: Time.zone.local(2022, 11, 27, 12, 30)
     )
 
@@ -48,7 +48,7 @@ RSpec.describe "Reviewing assessment summaries" do
         :assessment_detail,
         :summary_of_work,
         assessment_status: :complete,
-        planning_application: planning_application,
+        planning_application:,
         user: assessor,
         entry: "summary of works"
       )
@@ -57,18 +57,18 @@ RSpec.describe "Reviewing assessment summaries" do
         :assessment_detail,
         :site_description,
         assessment_status: :complete,
-        planning_application: planning_application,
+        planning_application:,
         user: assessor,
         entry: "site description"
       )
 
-      create(:consultee, planning_application: planning_application)
+      create(:consultee, planning_application:)
 
       create(
         :assessment_detail,
         :consultation_summary,
         assessment_status: :complete,
-        planning_application: planning_application,
+        planning_application:,
         user: assessor,
         entry: "consultation summary",
         created_at: Time.zone.local(2022, 11, 27, 12, 15)
@@ -78,7 +78,7 @@ RSpec.describe "Reviewing assessment summaries" do
         :assessment_detail,
         :additional_evidence,
         assessment_status: :complete,
-        planning_application: planning_application,
+        planning_application:,
         user: assessor,
         entry: "additional evidence"
       )

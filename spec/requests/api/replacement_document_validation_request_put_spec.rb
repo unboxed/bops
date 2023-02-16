@@ -13,7 +13,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
     create(
       :planning_application,
       :invalidated,
-      user: user,
+      user:,
       local_authority: default_local_authority
     )
   end
@@ -23,7 +23,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
       :document,
       :with_file,
       :public,
-      planning_application: planning_application,
+      planning_application:,
       validated: false,
       invalidated_document_reason: "Not readable",
       tags: ["Front"],
@@ -33,7 +33,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
 
   let!(:replacement_document_validation_request) do
     create(:replacement_document_validation_request,
-           planning_application: planning_application,
+           planning_application:,
            old_document: document)
   end
 
@@ -57,7 +57,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
   end
 
   it "successfully accepts a new document and archives the old document" do
-    patch(path, params: params, headers: headers)
+    patch(path, params:, headers:)
 
     expect(response).to be_successful
 
@@ -72,7 +72,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
   end
 
   it "copies old document tags and reference to new document" do
-    patch(path, params: params, headers: headers)
+    patch(path, params:, headers:)
 
     expect(
       replacement_document_validation_request.reload.new_document
@@ -83,7 +83,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
   end
 
   it "creates request received audit associated with API user" do
-    patch(path, params: params, headers: headers)
+    patch(path, params:, headers:)
 
     audit = planning_application
             .audits
@@ -93,12 +93,12 @@ RSpec.describe "API request to patch document validation requests", show_excepti
     expect(audit).to have_attributes(
       audit_comment: "proposed-floorplan.png",
       activity_information: "1",
-      api_user: api_user
+      api_user:
     )
   end
 
   it "creates document uploaded audit associated with API user" do
-    patch(path, params: params, headers: headers)
+    patch(path, params:, headers:)
 
     audit = planning_application
             .audits
@@ -107,12 +107,12 @@ RSpec.describe "API request to patch document validation requests", show_excepti
 
     expect(audit).to have_attributes(
       activity_information: "proposed-floorplan.png",
-      api_user: api_user
+      api_user:
     )
   end
 
   it "sends notification to assigned user" do
-    expect { patch(path, params: params, headers: headers) }
+    expect { patch(path, params:, headers:) }
       .to have_enqueued_job
       .on_queue("default")
       .with(

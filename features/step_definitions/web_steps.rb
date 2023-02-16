@@ -13,7 +13,7 @@ Then("the page has a {string} link") do |label|
 end
 
 Then("the page has a {string} link with href {string}") do |label, href|
-  expect(page).to have_link(label, href: href)
+  expect(page).to have_link(label, href:)
 end
 
 Then("the page does not have a {string} link") do |label|

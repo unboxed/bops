@@ -10,7 +10,7 @@ RSpec.describe "Document uploads" do
            decision: "granted")
   end
 
-  let!(:document) { create(:document, planning_application: planning_application) }
+  let!(:document) { create(:document, planning_application:) }
   let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
   let(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
 

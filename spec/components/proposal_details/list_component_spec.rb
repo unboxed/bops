@@ -24,7 +24,7 @@ RSpec.describe ProposalDetails::ListComponent, type: :component do
   end
 
   let(:planning_application) do
-    build(:planning_application, proposal_details: proposal_details)
+    build(:planning_application, proposal_details:)
   end
 
   let(:component) do

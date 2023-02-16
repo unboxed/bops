@@ -8,12 +8,12 @@ RSpec.describe PlanningApplicationStatus do
   describe "states" do
     let(:proposed_document1) do
       create(:document, :with_tags,
-             planning_application: planning_application,
+             planning_application:,
              numbers: "number")
     end
 
     let(:description_change_validation_request) do
-      create(:description_change_validation_request, planning_application: planning_application, state: "open",
+      create(:description_change_validation_request, planning_application:, state: "open",
                                                      created_at: 12.days.ago)
     end
 
@@ -85,7 +85,7 @@ RSpec.describe PlanningApplicationStatus do
 
       let(:proposed_drawing1) do
         create(:document, :with_tags,
-               planning_application: planning_application,
+               planning_application:,
                numbers: "number")
       end
 
@@ -144,7 +144,7 @@ RSpec.describe PlanningApplicationStatus do
       before do
         create(
           :additional_document_validation_request,
-          planning_application: planning_application,
+          planning_application:,
           state: "pending"
         )
       end
@@ -171,7 +171,7 @@ RSpec.describe PlanningApplicationStatus do
           :planning_application,
           :awaiting_determination,
           decision: "granted",
-          user: user
+          user:
         )
       end
 

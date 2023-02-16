@@ -99,7 +99,7 @@ RSpec.describe AdditionalDocumentValidationRequest do
         create(:planning_application, :not_started, documents_missing: true)
       end
       let!(:additional_document_validation_request) do
-        create(:additional_document_validation_request, :pending, planning_application: planning_application)
+        create(:additional_document_validation_request, :pending, planning_application:)
       end
 
       before do
@@ -108,7 +108,7 @@ RSpec.describe AdditionalDocumentValidationRequest do
 
       context "when there are more than one open or pending additional document validation requests" do
         before do
-          create(:additional_document_validation_request, :pending, planning_application: planning_application)
+          create(:additional_document_validation_request, :pending, planning_application:)
         end
 
         it "does not update documents_missing on the planning application" do
@@ -129,7 +129,7 @@ RSpec.describe AdditionalDocumentValidationRequest do
       end
 
       let(:additional_document_validation_request) do
-        create(:additional_document_validation_request, :pending, planning_application: planning_application)
+        create(:additional_document_validation_request, :pending, planning_application:)
       end
 
       it "updates documents_missing on planning application to true" do
@@ -145,7 +145,7 @@ RSpec.describe AdditionalDocumentValidationRequest do
           create(
             :additional_document_validation_request,
             :open,
-            planning_application: planning_application
+            planning_application:
           )
         end
 
@@ -185,7 +185,7 @@ RSpec.describe AdditionalDocumentValidationRequest do
           create(
             :additional_document_validation_request,
             :pending,
-            planning_application: planning_application
+            planning_application:
           )
         end
 
@@ -225,7 +225,7 @@ RSpec.describe AdditionalDocumentValidationRequest do
           create(
             :additional_document_validation_request,
             :closed,
-            planning_application: planning_application
+            planning_application:
           )
         end
 

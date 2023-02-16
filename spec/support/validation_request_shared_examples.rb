@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.shared_examples "ValidationRequest" do |klass, request_type|
   let(:planning_application) { create(:planning_application, :invalidated) }
-  let(:request) { create(request_type, planning_application: planning_application) }
+  let(:request) { create(request_type, planning_application:) }
 
   describe "validations" do
     it "validates that cancel_reason is present if the state is cancelled" do
@@ -35,7 +35,7 @@ RSpec.shared_examples "ValidationRequest" do |klass, request_type|
       it "sets a sequence on the record before it's created" do
         expect(request.sequence).to eq(1)
 
-        another_request = create(request_type, planning_application: planning_application)
+        another_request = create(request_type, planning_application:)
         expect(another_request.sequence).to eq(2)
       end
     end
@@ -89,7 +89,7 @@ RSpec.shared_examples "ValidationRequest" do |klass, request_type|
 
       context "with a pending request" do
         let(:request) do
-          create(request_type, :pending, planning_application: planning_application)
+          create(request_type, :pending, planning_application:)
         end
 
         it "destroys the record" do
@@ -111,7 +111,7 @@ RSpec.shared_examples "ValidationRequest" do |klass, request_type|
   context "when a #{request_type} is destroyed" do
     let(:planning_application) { create(:planning_application, :not_started) }
     let!(:request) do
-      create(request_type, :pending, planning_application: planning_application)
+      create(request_type, :pending, planning_application:)
     end
 
     it "also destroys the associated polymorphic validation request record" do
@@ -124,7 +124,7 @@ RSpec.shared_examples "ValidationRequest" do |klass, request_type|
   end
 
   describe "events" do
-    let!(:request) { create(request_type, :open, planning_application: planning_application) }
+    let!(:request) { create(request_type, :open, planning_application:) }
 
     before { freeze_time }
 

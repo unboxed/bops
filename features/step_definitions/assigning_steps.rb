@@ -5,7 +5,7 @@ Given("a fellow assessor called {string}") do |name|
     :user,
     :assessor,
     local_authority: @officer.local_authority,
-    name: name
+    name:
   )
 end
 

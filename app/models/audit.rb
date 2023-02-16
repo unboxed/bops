@@ -78,7 +78,7 @@ class Audit < ApplicationRecord
     return if request_type.blank?
 
     request_type.find_by(
-      planning_application: planning_application,
+      planning_application:,
       sequence: activity_information
     )
   end

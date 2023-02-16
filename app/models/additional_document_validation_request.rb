@@ -21,7 +21,7 @@ class AdditionalDocumentValidationRequest < ApplicationRecord
   def upload_files!(files)
     transaction do
       files.each do |file|
-        planning_application.documents.create!(file: file, additional_document_validation_request: self)
+        planning_application.documents.create!(file:, additional_document_validation_request: self)
       end
       close!
       audit_upload_files!

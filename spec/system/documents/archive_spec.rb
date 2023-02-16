@@ -19,7 +19,7 @@ RSpec.describe "Documents index page" do
 
   let!(:document) do
     create(:document, :with_file,
-           planning_application: planning_application,
+           planning_application:,
            tags: document_tags)
   end
 
@@ -238,7 +238,7 @@ RSpec.describe "Documents index page" do
 
   context "when a document has been removed due to a security issue" do
     let!(:document) do
-      create(:document, planning_application: planning_application)
+      create(:document, planning_application:)
     end
 
     before do

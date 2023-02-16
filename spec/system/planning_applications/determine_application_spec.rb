@@ -32,8 +32,8 @@ RSpec.describe "Planning Application Assessment" do
       before do
         create(
           :recommendation,
-          planning_application: planning_application,
-          reviewer: reviewer
+          planning_application:,
+          reviewer:
         )
 
         travel_to Time.zone.local(2024, 2, 1)
@@ -138,7 +138,7 @@ RSpec.describe "Planning Application Assessment" do
           create(
             :description_change_validation_request,
             :open,
-            planning_application: planning_application,
+            planning_application:,
             created_at: DateTime.new(2024, 1, 1)
           )
         end

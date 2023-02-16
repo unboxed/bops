@@ -7,8 +7,8 @@ RSpec.describe TaskListItems::DocumentComponent, type: :component do
 
   let(:component) do
     described_class.new(
-      planning_application: planning_application,
-      document: document
+      planning_application:,
+      document:
     )
   end
 

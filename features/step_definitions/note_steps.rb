@@ -30,7 +30,7 @@ Then("I see that there is one note") do
 end
 
 Then("I see that there is a note with entry {string} at {string}") do |entry, day_month_year_time|
-  note = @planning_application.notes.find_by(entry: entry)
+  note = @planning_application.notes.find_by(entry:)
 
   within("#notes") do
     within("#note_#{note.id}") do

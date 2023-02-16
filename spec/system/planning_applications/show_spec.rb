@@ -37,7 +37,7 @@ RSpec.describe "Planning Application show page" do
       description: "Roof extension",
       application_type: "lawfulness_certificate",
       status: :in_assessment,
-      validated_at: validated_at,
+      validated_at:,
       local_authority: default_local_authority,
       payment_reference: "PAY123",
       payment_amount: 103.00,
@@ -47,7 +47,7 @@ RSpec.describe "Planning Application show page" do
       town: "London",
       postcode: "SE15 6UT",
       constraints: ["Conservation Area", "Listed Building"],
-      api_user: api_user
+      api_user:
     )
   end
 

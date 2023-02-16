@@ -25,7 +25,7 @@ class Policy < ApplicationRecord
     _default: :to_be_determined
   )
 
-  statuses.each_key { |status| scope status, -> { where(status: status) } }
+  statuses.each_key { |status| scope status, -> { where(status:) } }
 
   def self.with_a_comment
     all.select(&:comment)

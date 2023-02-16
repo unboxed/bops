@@ -9,7 +9,7 @@ RSpec.describe AssessmentDetailsReview do
 
     let(:assessment_details_review) do
       described_class.new(
-        planning_application: planning_application,
+        planning_application:,
         **params
       )
     end
@@ -18,10 +18,10 @@ RSpec.describe AssessmentDetailsReview do
       create(
         :recommendation,
         :assessment_complete,
-        planning_application: planning_application
+        planning_application:
       )
 
-      create(:consultee, planning_application: planning_application)
+      create(:consultee, planning_application:)
       Current.user = user
     end
 
@@ -30,7 +30,7 @@ RSpec.describe AssessmentDetailsReview do
         create(
           :assessment_detail,
           :summary_of_work,
-          planning_application: planning_application,
+          planning_application:,
           entry: "summary of work",
           assessment_status: :complete
         )
@@ -40,7 +40,7 @@ RSpec.describe AssessmentDetailsReview do
         create(
           :assessment_detail,
           :additional_evidence,
-          planning_application: planning_application,
+          planning_application:,
           entry: "additional evidence",
           assessment_status: :complete
         )
@@ -50,7 +50,7 @@ RSpec.describe AssessmentDetailsReview do
         create(
           :assessment_detail,
           :consultation_summary,
-          planning_application: planning_application,
+          planning_application:,
           entry: "consultation summary",
           assessment_status: :complete
         )
@@ -60,7 +60,7 @@ RSpec.describe AssessmentDetailsReview do
         create(
           :assessment_detail,
           :site_description,
-          planning_application: planning_application,
+          planning_application:,
           entry: "site description",
           assessment_status: :complete
         )
@@ -793,7 +793,7 @@ RSpec.describe AssessmentDetailsReview do
         create(
           :recommendation,
           :review_complete,
-          planning_application: planning_application,
+          planning_application:,
           challenged: false
         )
 

@@ -10,16 +10,16 @@ RSpec.describe TaskListItems::PolicyClassComponent, type: :component do
       :policy_class,
       section: "A",
       part: 1,
-      planning_application: planning_application,
-      status: status
+      planning_application:,
+      status:
     )
   end
 
   before do
     render_inline(
       described_class.new(
-        planning_application: planning_application,
-        policy_class: policy_class
+        planning_application:,
+        policy_class:
       )
     )
   end

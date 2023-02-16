@@ -6,7 +6,7 @@ RSpec.describe AccordionSections::DocumentsComponent, type: :component do
   let(:planning_application) { create(:planning_application) }
 
   let(:component) do
-    described_class.new(planning_application: planning_application)
+    described_class.new(planning_application:)
   end
 
   it "renders link to manage documents" do
@@ -26,7 +26,7 @@ RSpec.describe AccordionSections::DocumentsComponent, type: :component do
     let(:file) { Rack::Test::UploadedFile.new(file_path, "image/png") }
 
     before do
-      create(:document, planning_application: planning_application, file: file)
+      create(:document, planning_application:, file:)
     end
 
     it "renders document information" do

@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe TaskListItems::FeeComponent, type: :component do
   let(:component) do
-    described_class.new(planning_application: planning_application)
+    described_class.new(planning_application:)
   end
 
   context "when planning application has valid fee" do
@@ -50,7 +50,7 @@ RSpec.describe TaskListItems::FeeComponent, type: :component do
       create(
         :other_change_validation_request,
         fee_item: true,
-        planning_application: planning_application
+        planning_application:
       )
     end
 
@@ -76,7 +76,7 @@ RSpec.describe TaskListItems::FeeComponent, type: :component do
         :other_change_validation_request,
         :closed,
         fee_item: true,
-        planning_application: planning_application
+        planning_application:
       )
     end
 

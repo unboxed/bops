@@ -458,7 +458,7 @@ class PlanningApplication < ApplicationRecord
 
   def rejected_assessment_detail(category:)
     assessment_details.where(
-      category: category,
+      category:,
       review_status: :complete,
       reviewer_verdict: :rejected
     ).first
@@ -466,11 +466,11 @@ class PlanningApplication < ApplicationRecord
 
   AssessmentDetail.categories.each_key do |category|
     define_method(category) do
-      assessment_details.where(category: category).first
+      assessment_details.where(category:).first
     end
 
     define_method("existing_or_new_#{category}") do
-      send(category) || assessment_details.new(category: category)
+      send(category) || assessment_details.new(category:)
     end
   end
 

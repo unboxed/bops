@@ -34,7 +34,7 @@ class PlanningApplicationCreationService
         proposal_details: (params[:proposal_details].to_json if params[:proposal_details].present?),
         constraints: constraints_array_from_param(params[:constraints]),
         planx_data: (params[:planx_debug_data].to_json if params[:planx_debug_data].present?),
-        api_user: api_user,
+        api_user:,
         audit_log: params.to_json,
         user_role: params[:user_role].presence,
         payment_amount: params[:payment_amount].presence && payment_amount_in_pounds(params[:payment_amount])
@@ -50,7 +50,7 @@ class PlanningApplicationCreationService
   def save_planning_application!(planning_application)
     PlanningApplication.transaction do
       if planning_application.save!
-        UploadDocumentsJob.perform_now(planning_application: planning_application, files: params[:files])
+        UploadDocumentsJob.perform_now(planning_application:, files: params[:files])
 
         planning_application.send_receipt_notice_mail
       end

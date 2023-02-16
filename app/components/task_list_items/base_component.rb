@@ -9,7 +9,7 @@ module TaskListItems
     end
 
     def status_tag_component
-      StatusTags::BaseComponent.new(status: status)
+      StatusTags::BaseComponent.new(status:)
     end
   end
 end

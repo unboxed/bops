@@ -28,14 +28,14 @@ RSpec.describe "API request to patch document validation requests", show_excepti
     create(
       :planning_application,
       :invalidated,
-      user: user,
+      user:,
       local_authority: default_local_authority
     )
   end
 
   let!(:red_line_boundary_change_validation_request) do
     create(:red_line_boundary_change_validation_request,
-           planning_application: planning_application)
+           planning_application:)
   end
 
   rejected_json = '{
@@ -52,7 +52,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
   }'
 
   it "successfully updates the red line boundary validation request" do
-    patch(path, params: params, headers: headers)
+    patch(path, params:, headers:)
 
     expect(response).to be_successful
 
@@ -66,18 +66,18 @@ RSpec.describe "API request to patch document validation requests", show_excepti
   end
 
   it "creates audit associated with API user" do
-    patch(path, params: params, headers: headers)
+    patch(path, params:, headers:)
 
     expect(planning_application.audits.reload.last).to have_attributes(
       activity_type: "red_line_boundary_change_validation_request_received",
       audit_comment: { response: "approved" }.to_json,
       activity_information: "1",
-      api_user: api_user
+      api_user:
     )
   end
 
   it "sends notification to assigned user" do
-    expect { patch(path, params: params, headers: headers) }
+    expect { patch(path, params:, headers:) }
       .to have_enqueued_job
       .on_queue("default")
       .with(

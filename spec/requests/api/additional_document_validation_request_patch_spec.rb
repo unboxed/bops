@@ -14,13 +14,13 @@ RSpec.describe "API request to patch document create requests", show_exceptions:
       :planning_application,
       :invalidated,
       local_authority: default_local_authority,
-      user: user
+      user:
     )
   end
 
   let!(:additional_document_validation_request) do
     create(:additional_document_validation_request,
-           planning_application: planning_application)
+           planning_application:)
   end
 
   let(:path) do
@@ -43,7 +43,7 @@ RSpec.describe "API request to patch document create requests", show_exceptions:
   end
 
   it "successfully accepts a new document" do
-    patch(path, params: params, headers: headers)
+    patch(path, params:, headers:)
 
     expect(response).to be_successful
 
@@ -55,18 +55,18 @@ RSpec.describe "API request to patch document create requests", show_exceptions:
   end
 
   it "creates audit associated with API user" do
-    patch(path, params: params, headers: headers)
+    patch(path, params:, headers:)
 
     expect(planning_application.audits.reload.last).to have_attributes(
       activity_type: "additional_document_validation_request_received",
       audit_comment: "proposed-floorplan.png",
       activity_information: "1",
-      api_user: api_user
+      api_user:
     )
   end
 
   it "sends notification to assigned user" do
-    expect { patch(path, params: params, headers: headers) }
+    expect { patch(path, params:, headers:) }
       .to have_enqueued_job
       .on_queue("default")
       .with(

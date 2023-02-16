@@ -12,7 +12,7 @@ class AccordionComponent < ViewComponent::Base
 
   def section_component(section)
     "AccordionSections::#{section.to_s.camelize}Component".constantize.new(
-      planning_application: planning_application
+      planning_application:
     )
   end
 

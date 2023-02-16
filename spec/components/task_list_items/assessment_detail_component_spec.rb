@@ -9,7 +9,7 @@ RSpec.describe TaskListItems::AssessmentDetailComponent, type: :component do
     before do
       render_inline(
         described_class.new(
-          planning_application: planning_application,
+          planning_application:,
           category: :summary_of_work
         )
       )
@@ -32,14 +32,14 @@ RSpec.describe TaskListItems::AssessmentDetailComponent, type: :component do
       create(
         :assessment_detail,
         :summary_of_work,
-        planning_application: planning_application,
+        planning_application:,
         review_status: :complete,
         reviewer_verdict: :rejected
       )
 
       create(
         :recommendation,
-        planning_application: planning_application,
+        planning_application:,
         challenged: true,
         status: :review_complete,
         reviewer_comment: "challenged"
@@ -47,7 +47,7 @@ RSpec.describe TaskListItems::AssessmentDetailComponent, type: :component do
 
       render_inline(
         described_class.new(
-          planning_application: planning_application,
+          planning_application:,
           category: :summary_of_work
         )
       )
@@ -70,7 +70,7 @@ RSpec.describe TaskListItems::AssessmentDetailComponent, type: :component do
       create(
         :assessment_detail,
         :summary_of_work,
-        planning_application: planning_application,
+        planning_application:,
         assessment_status: :in_progress
       )
     end
@@ -78,7 +78,7 @@ RSpec.describe TaskListItems::AssessmentDetailComponent, type: :component do
     before do
       render_inline(
         described_class.new(
-          planning_application: planning_application,
+          planning_application:,
           category: :summary_of_work
         )
       )
@@ -101,7 +101,7 @@ RSpec.describe TaskListItems::AssessmentDetailComponent, type: :component do
       create(
         :assessment_detail,
         :summary_of_work,
-        planning_application: planning_application,
+        planning_application:,
         assessment_status: :complete
       )
     end
@@ -109,7 +109,7 @@ RSpec.describe TaskListItems::AssessmentDetailComponent, type: :component do
     before do
       render_inline(
         described_class.new(
-          planning_application: planning_application,
+          planning_application:,
           category: :summary_of_work
         )
       )

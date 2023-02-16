@@ -25,8 +25,8 @@ module TaskListItems
 
     def status_tag_component
       StatusTags::PolicyClassComponent.new(
-        policy_class: policy_class,
-        planning_application: planning_application
+        policy_class:,
+        planning_application:
       )
     end
   end

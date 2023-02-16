@@ -6,7 +6,7 @@ RSpec.describe StatusTags::AdditionalDocumentComponent, type: :component do
   let(:planning_application) { create(:planning_application) }
 
   let(:component) do
-    described_class.new(planning_application: planning_application)
+    described_class.new(planning_application:)
   end
 
   it "renders 'Not started' status" do
@@ -19,7 +19,7 @@ RSpec.describe StatusTags::AdditionalDocumentComponent, type: :component do
     before do
       create(
         :additional_document_validation_request,
-        planning_application: planning_application
+        planning_application:
       )
     end
 

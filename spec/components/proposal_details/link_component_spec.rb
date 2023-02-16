@@ -7,7 +7,7 @@ RSpec.describe ProposalDetails::LinkComponent, type: :component do
     {
       question: "Test question 1",
       responses: [{ value: "Test response 1" }],
-      metadata: { portal_name: portal_name }
+      metadata: { portal_name: }
     }.deep_stringify_keys
   end
 
@@ -20,7 +20,7 @@ RSpec.describe ProposalDetails::LinkComponent, type: :component do
     )
   end
 
-  let(:component) { described_class.new(group: group) }
+  let(:component) { described_class.new(group:) }
 
   before { render_inline(component) }
 

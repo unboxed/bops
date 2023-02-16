@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
   let(:component) do
-    described_class.new(planning_application: planning_application)
+    described_class.new(planning_application:)
   end
 
   let(:boundary_geojson) do
@@ -29,7 +29,7 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
     let(:planning_application) do
       create(
         :planning_application,
-        boundary_geojson: boundary_geojson
+        boundary_geojson:
       )
     end
 
@@ -52,7 +52,7 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
       create(
         :planning_application,
         valid_red_line_boundary: true,
-        boundary_geojson: boundary_geojson
+        boundary_geojson:
       )
     end
 
@@ -75,7 +75,7 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
       let!(:red_line_boundary_change_validation_request) do
         create(
           :red_line_boundary_change_validation_request,
-          planning_application: planning_application,
+          planning_application:,
           state: :closed
         )
       end
@@ -99,14 +99,14 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
     let(:planning_application) do
       create(
         :planning_application,
-        boundary_geojson: boundary_geojson
+        boundary_geojson:
       )
     end
 
     let!(:red_line_boundary_change_validation_request) do
       create(
         :red_line_boundary_change_validation_request,
-        planning_application: planning_application,
+        planning_application:,
         approved: true,
         created_at: 1.day.ago
       )
@@ -131,7 +131,7 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
       before do
         create(
           :red_line_boundary_change_validation_request,
-          planning_application: planning_application,
+          planning_application:,
           state: :closed,
           created_at: 2.days.ago
         )
@@ -156,14 +156,14 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
     let(:planning_application) do
       create(
         :planning_application,
-        boundary_geojson: boundary_geojson
+        boundary_geojson:
       )
     end
 
     let!(:red_line_boundary_change_validation_request) do
       create(
         :red_line_boundary_change_validation_request,
-        planning_application: planning_application,
+        planning_application:,
         state: :open
       )
     end
@@ -186,14 +186,14 @@ RSpec.describe TaskListItems::CheckRedLineBoundaryComponent, type: :component do
     let(:planning_application) do
       create(
         :planning_application,
-        boundary_geojson: boundary_geojson
+        boundary_geojson:
       )
     end
 
     let!(:red_line_boundary_change_validation_request) do
       create(
         :red_line_boundary_change_validation_request,
-        planning_application: planning_application,
+        planning_application:,
         approved: false,
         state: :closed,
         rejection_reason: "reason"

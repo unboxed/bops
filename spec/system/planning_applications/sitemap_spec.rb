@@ -13,7 +13,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
 
   context "when application is not_started" do
     let!(:planning_application) do
-      create(:planning_application, :not_started, boundary_geojson: boundary_geojson, local_authority: default_local_authority)
+      create(:planning_application, :not_started, boundary_geojson:, local_authority: default_local_authority)
     end
 
     context "without boundary geojson" do
@@ -86,7 +86,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
     let!(:planning_application) do
       create(:planning_application, :not_started, local_authority: default_local_authority)
     end
-    let!(:document_notsitemap) { create(:document, tags: %w[Plan], planning_application: planning_application) }
+    let!(:document_notsitemap) { create(:document, tags: %w[Plan], planning_application:) }
 
     context "with 0 documents tagged with sitemap" do
       it "links to all documents" do
@@ -99,7 +99,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
     end
 
     context "with 1 document tagged with sitemap" do
-      let!(:document1) { create(:document, tags: %w[Site], planning_application: planning_application) }
+      let!(:document1) { create(:document, tags: %w[Site], planning_application:) }
 
       it "links to that documents" do
         visit planning_application_validation_tasks_path(planning_application)
@@ -111,8 +111,8 @@ RSpec.describe "Drawing a sitemap on a planning application" do
     end
 
     context "with 2 document tagged with sitemap" do
-      let!(:document1) { create(:document, tags: %w[Site], planning_application: planning_application) }
-      let!(:document2) { create(:document, tags: %w[Site], planning_application: planning_application) }
+      let!(:document1) { create(:document, tags: %w[Site], planning_application:) }
+      let!(:document2) { create(:document, tags: %w[Site], planning_application:) }
 
       it "links to all documents" do
         visit planning_application_validation_tasks_path(planning_application)
@@ -363,7 +363,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
 
     context "when applicant accepts the response" do
       let!(:red_line_boundary_change_validation_request) do
-        create(:red_line_boundary_change_validation_request, :closed, approved: true, planning_application: planning_application)
+        create(:red_line_boundary_change_validation_request, :closed, approved: true, planning_application:)
       end
 
       it "I can view the accepted response" do
@@ -380,7 +380,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
 
     context "when applicant rejects the response" do
       let!(:red_line_boundary_change_validation_request) do
-        create(:red_line_boundary_change_validation_request, :closed, rejection_reason: "disagree", approved: false, planning_application: planning_application)
+        create(:red_line_boundary_change_validation_request, :closed, rejection_reason: "disagree", approved: false, planning_application:)
       end
 
       it "I can view the rejected response" do
@@ -397,7 +397,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
 
     context "when request has been auto closed" do
       let!(:red_line_boundary_change_validation_request) do
-        create(:red_line_boundary_change_validation_request, :open, planning_application: planning_application)
+        create(:red_line_boundary_change_validation_request, :open, planning_application:)
       end
 
       before do

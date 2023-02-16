@@ -4,13 +4,13 @@ require "rails_helper"
 
 RSpec.describe "assigning planning application" do
   let(:local_authority) { create(:local_authority, :default) }
-  let(:reviewer) { create(:user, :reviewer, local_authority: local_authority) }
+  let(:reviewer) { create(:user, :reviewer, local_authority:) }
 
   let!(:assessor) do
     create(
       :user,
       :assessor,
-      local_authority: local_authority,
+      local_authority:,
       name: "Jane Smith"
     )
   end
@@ -18,7 +18,7 @@ RSpec.describe "assigning planning application" do
   let(:planning_application) do
     create(
       :planning_application,
-      local_authority: local_authority
+      local_authority:
     )
   end
 

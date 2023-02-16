@@ -51,7 +51,7 @@ RSpec.describe "Requesting a new document for a planning application" do
 
   it "displays the details of the received request in the audit log" do
     create(:audit, planning_application_id: planning_application.id,
-                   activity_type: "additional_document_validation_request_received", activity_information: 1, audit_comment: "roof_plan.pdf", api_user: api_user)
+                   activity_type: "additional_document_validation_request_received", activity_information: 1, audit_comment: "roof_plan.pdf", api_user:)
 
     sign_in assessor
     visit planning_application_path(planning_application)
@@ -99,8 +99,8 @@ RSpec.describe "Requesting a new document for a planning application" do
     end
 
     before do
-      create(:document, :with_file, planning_application: planning_application)
-      create(:document, :with_other_file, planning_application: planning_application)
+      create(:document, :with_file, planning_application:)
+      create(:document, :with_other_file, planning_application:)
     end
 
     it "I can see the list of active documents when I go to validate" do
@@ -247,7 +247,7 @@ RSpec.describe "Requesting a new document for a planning application" do
 
       let!(:additional_document_validation_request) do
         create(
-          :additional_document_validation_request, :pending, planning_application: planning_application
+          :additional_document_validation_request, :pending, planning_application:
         )
       end
 
@@ -315,7 +315,7 @@ RSpec.describe "Requesting a new document for a planning application" do
     let!(:additional_document_validation_request) do
       create(
         :additional_document_validation_request, :open,
-        planning_application: planning_application
+        planning_application:
       )
     end
 
@@ -412,11 +412,11 @@ RSpec.describe "Requesting a new document for a planning application" do
       let!(:additional_document_validation_request) do
         create(
           :additional_document_validation_request, :open,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
-      let!(:document) { create(:document, :with_file, planning_application: planning_application) }
+      let!(:document) { create(:document, :with_file, planning_application:) }
 
       before do
         additional_document_validation_request.update(state: "closed")
@@ -470,7 +470,7 @@ RSpec.describe "Requesting a new document for a planning application" do
 
   context "when a document has been removed due to a security issue" do
     let!(:document) do
-      create(:document, planning_application: planning_application)
+      create(:document, planning_application:)
     end
 
     before do

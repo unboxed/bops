@@ -22,8 +22,8 @@ class ConsulteesController < AuthenticationController
     render_to_string(
       partial: "planning_application/assessment_details/consultation_summary/consultees",
       locals: {
-        planning_application: planning_application,
-        consultee: consultee,
+        planning_application:,
+        consultee:,
         read_only: false
       }
     )
@@ -33,7 +33,7 @@ class ConsulteesController < AuthenticationController
     render_to_string(
       partial: "planning_application/assessment_details/consultation_summary/consultee_table",
       locals: {
-        planning_application: planning_application,
+        planning_application:,
         read_only: false
       }
     )

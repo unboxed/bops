@@ -16,11 +16,11 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
     end
 
     context "when a planning application is provided" do
-      let!(:planning_application) { create(:planning_application, :from_planx, api_user: api_user) }
+      let!(:planning_application) { create(:planning_application, :from_planx, api_user:) }
 
       let(:create_planning_application) do
         described_class.new(
-          planning_application: planning_application
+          planning_application:
         ).call
       end
 
@@ -32,7 +32,7 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
         before do
           # Create the planning application to be cloned using the audit_log value from planx params
           described_class.new(
-            planning_application: planning_application
+            planning_application:
           ).call
         end
 
@@ -41,7 +41,7 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
 
           expect do
             described_class.new(
-              planning_application: planning_application
+              planning_application:
             ).call
           end.to change(PlanningApplication, :count).by(1)
 
@@ -110,7 +110,7 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
 
       let(:create_planning_application) do
         described_class.new(
-          local_authority: local_authority, params: params, api_user: api_user
+          local_authority:, params:, api_user:
         ).call
       end
 
