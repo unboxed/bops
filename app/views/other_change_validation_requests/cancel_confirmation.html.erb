@@ -28,7 +28,7 @@
         <%= render(FormattedContentComponent.new(text: @other_change_validation_request.suggestion)) %>
       </p>
       <p class="govuk-body">
-      <%= @other_change_validation_request.created_at %>
+      <%= @other_change_validation_request.created_at.to_fs %>
       </p>
     </div>
 

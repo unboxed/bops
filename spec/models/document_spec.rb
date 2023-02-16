@@ -83,9 +83,9 @@ RSpec.describe Document do
 
     it "is invalid for an unpermitted file content type" do
       document.file.attach(
-        io: Rails.root.join("spec/fixtures/images/bmp.bmp").open,
-        filename: "bmp.bmp",
-        content_type: "image/bmp"
+        io: Rails.root.join("spec/fixtures/images/image.gif").open,
+        filename: "image.gif",
+        content_type: "image/gif"
       )
 
       expect(document).not_to be_valid

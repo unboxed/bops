@@ -117,7 +117,7 @@ RSpec.describe "Edit document" do
     it "with wrong format document" do
       visit edit_planning_application_document_path(planning_application, document)
 
-      attach_file("Upload a replacement file", "spec/fixtures/images/bmp.bmp")
+      attach_file("Upload a replacement file", "spec/fixtures/images/image.gif")
 
       click_button("Save")
 

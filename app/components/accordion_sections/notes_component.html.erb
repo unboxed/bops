@@ -1,6 +1,6 @@
 <% if first_note.present? %>
   <%= render(FormattedContentComponent.new(text: first_note_entry)) %>
-  <p class="govuk-body"><%= first_note.created_at %></p>
+  <p class="govuk-body"><%= first_note.created_at.to_fs %></p>
 <% end %>
 <%= link_to(
   link_text,

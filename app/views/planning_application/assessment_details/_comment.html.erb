@@ -3,7 +3,7 @@
     <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">
       <%= t(".user_marked_this", user: comment.user.name) %>
     </p>
-    <p class="govuk-body govuk-!-margin-top-1"><%= comment.created_at %></p>
+    <p class="govuk-body govuk-!-margin-top-1"><%= comment.created_at.to_fs %></p>
     <%= render(FormattedContentComponent.new(text: comment.text, classname: "govuk-body italic")) %>
   </div>
 <% end %>

@@ -23,7 +23,7 @@
     <% @planning_history.each do |planning_application| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">
-          <%= planning_application["decision_issued_at"].to_date %>
+          <%= planning_application["decision_issued_at"].to_date.to_fs %>
         </td>
         <td class="govuk-table__cell">
           <%= planning_application["reference"] %>

@@ -60,7 +60,7 @@ class AssessmentDetail < ApplicationRecord
     def category_keys
       categories = AssessmentDetail.categories.keys.excluding("past_applications")
 
-      categories.partition { |category| category != "additional_evidence" }.sum
+      categories.partition { |category| category != "additional_evidence" }.sum([])
     end
   end
 

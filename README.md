@@ -74,6 +74,12 @@ To enable 2FA in development, you must set the keys for `OTP_SECRET_ENCRYPTION_K
 
 These keys are set within [github actions](https://github.com/unboxed/bops/settings/secrets/actions) for our testing and CI builds
 
+Versions 5+ of the [devise-two-factor](https://github.com/tinfoil/devise-two-factor) gem uses a single [Rails 7+ encrypted attribute](https://edgeguides.rubyonrails.org/active_record_encryption.html) named `otp_secret` to store the OTP secret in the database table
+
+You will need to add a `development.key` (which can be found in 1password) or set a `RAILS_MASTER_KEY` env variable either natively or as part of `docker-compose.yml` with this value to enable 2FA to work in development.
+
+This key is set as an env `RAILS_MASTER_KEY` in production.
+
 ## OS maps
 
 To utilise all the map functionality, you will need to set an `OS_VECTOR_TILES_API_KEY` in `.env`

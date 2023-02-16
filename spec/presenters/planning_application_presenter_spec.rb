@@ -137,7 +137,7 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
         it "shows the '#{date}' date" do
           date = planning_application.send(date)
 
-          expect(presenter.next_relevant_date_tag).to include date.to_s
+          expect(presenter.next_relevant_date_tag).to include date.to_fs
         end
 
         it "shows a '#{label}' label" do

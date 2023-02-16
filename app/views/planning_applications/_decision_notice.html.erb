@@ -70,7 +70,7 @@
                     <%= tag.upcase %>
                   <% end %>
                 </td>
-                <td class="govuk-table__cell"><%= document.created_at %></td>
+                <td class="govuk-table__cell"><%= document.created_at.to_fs %></td>
               </tr>
             <% end %>
           <% end %>

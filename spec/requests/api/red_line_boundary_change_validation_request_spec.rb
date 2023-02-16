@@ -28,7 +28,7 @@ RSpec.describe "Red line boundary change validation requests API", show_exceptio
             {
               "id" => red_line_boundary_change_validation_request.id,
               "state" => "open",
-              "response_due" => red_line_boundary_change_validation_request.response_due.to_s(:db),
+              "response_due" => red_line_boundary_change_validation_request.response_due.to_fs(:db),
               "new_geojson" => red_line_boundary_change_validation_request.new_geojson,
               "reason" => "Boundary incorrect",
               "original_geojson" => red_line_boundary_change_validation_request.planning_application.boundary_geojson,
@@ -41,7 +41,7 @@ RSpec.describe "Red line boundary change validation requests API", show_exceptio
             {
               "id" => red_line_boundary_change_validation_request2.id,
               "state" => "closed",
-              "response_due" => red_line_boundary_change_validation_request2.response_due.to_s(:db),
+              "response_due" => red_line_boundary_change_validation_request2.response_due.to_fs(:db),
               "new_geojson" => red_line_boundary_change_validation_request2.new_geojson,
               "reason" => "Boundary incorrect",
               "original_geojson" => red_line_boundary_change_validation_request.planning_application.boundary_geojson,
@@ -84,7 +84,7 @@ RSpec.describe "Red line boundary change validation requests API", show_exceptio
           {
             "id" => red_line_boundary_change_validation_request.id,
             "state" => "open",
-            "response_due" => red_line_boundary_change_validation_request.response_due.to_s(:db),
+            "response_due" => red_line_boundary_change_validation_request.response_due.to_fs(:db),
             "new_geojson" => red_line_boundary_change_validation_request.new_geojson,
             "reason" => "Boundary incorrect",
             "original_geojson" => red_line_boundary_change_validation_request.planning_application.boundary_geojson,

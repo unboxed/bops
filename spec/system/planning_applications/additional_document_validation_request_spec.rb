@@ -226,7 +226,7 @@ RSpec.describe "Requesting a new document for a planning application" do
         expect(page).to have_content("New document requested")
         expect(page).to have_content("Document requested: #{additional_document_validation_request.document_request_type}")
         expect(page).to have_content("Reason: #{additional_document_validation_request.document_request_reason}")
-        expect(page).to have_content("Requested at: #{additional_document_validation_request.created_at}")
+        expect(page).to have_content("Requested at: #{additional_document_validation_request.created_at.to_fs}")
       end
 
       within(".govuk-button-group") do
@@ -284,7 +284,7 @@ RSpec.describe "Requesting a new document for a planning application" do
           expect(page).to have_content("New document requested")
           expect(page).to have_content("Document requested: Floor plans")
           expect(page).to have_content("Reason: Application is missing a floor plan.")
-          expect(page).to have_content("Requested at: #{additional_document_validation_request.created_at}")
+          expect(page).to have_content("Requested at: #{additional_document_validation_request.created_at.to_fs}")
         end
       end
 
@@ -329,7 +329,7 @@ RSpec.describe "Requesting a new document for a planning application" do
         expect(page).to have_content("New document requested")
         expect(page).to have_content("Document requested: #{additional_document_validation_request.document_request_type}")
         expect(page).to have_content("Reason: #{additional_document_validation_request.document_request_reason}")
-        expect(page).to have_content("Requested at: #{additional_document_validation_request.created_at}")
+        expect(page).to have_content("Requested at: #{additional_document_validation_request.created_at.to_fs}")
       end
 
       expect(page).to have_link(
@@ -361,7 +361,7 @@ RSpec.describe "Requesting a new document for a planning application" do
         within("#additional_document_validation_request_#{additional_document_validation_request.id}") do
           expect(page).to have_content("New document")
           expect(page).to have_content("Mistake")
-          expect(page).to have_content(additional_document_validation_request.reload.cancelled_at)
+          expect(page).to have_content(additional_document_validation_request.reload.cancelled_at.to_fs)
         end
       end
 

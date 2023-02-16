@@ -11,12 +11,9 @@ require "active_storage/engine"
 require "action_controller/railtie"
 require "action_mailer/railtie"
 require "action_mailbox/engine"
-require "action_text/engine"
 require "action_view/railtie"
 require "grover"
-# require "action_cable/engine"
 require "sprockets/railtie"
-# require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -25,7 +22,7 @@ Bundler.require(*Rails.groups)
 module Bops
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
+    config.load_defaults 7.0
 
     config.middleware.use Grover::Middleware
 
@@ -45,5 +42,7 @@ module Bops
     config.active_record.default_timezone = :local
     config.active_job.queue_adapter = :delayed_job
     config.action_mailer.preview_path = Rails.root.join("spec/mailer/previews")
+
+    config.active_storage.variant_processor = :mini_magick
   end
 end

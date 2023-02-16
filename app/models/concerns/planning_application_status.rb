@@ -73,7 +73,7 @@ module PlanningApplicationStatus
         after do
           audit!(
             activity_type: "determined",
-            audit_comment: "Application #{decision} on #{determination_date.to_date} (manually inputted date)"
+            audit_comment: "Application #{decision} on #{determination_date.to_date.to_fs} (manually inputted date)"
           )
         end
       end
