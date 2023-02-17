@@ -115,4 +115,9 @@ RSpec.describe "Auditing changes to a planning application" do
       )
     end
   end
+
+  it "navigates back to the previous page I was on" do
+    click_link "Back"
+    expect(page).to have_current_path(planning_application_path(planning_application))
+  end
 end
