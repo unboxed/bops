@@ -10,7 +10,7 @@ require "open3"
 
 class PackageBuilder
   class << self
-    def build!(environment = :preview)
+    def build!(environment = :staging)
       new(environment).build!
     end
 
