@@ -6,7 +6,15 @@ Back Office Planning System (BOPS)
 
 ### Using Docker
 
-First build and launch the images:
+First cd into the `bops-applicants` folder and run: 
+
+```sh
+git submodule update --init --recursive
+```
+
+This links it to the BOPs applicants project.
+
+Then build and launch the images:
 
 ```sh
 docker-compose up
@@ -19,6 +27,16 @@ prompt and setup your database:
 make prompt
 
 root@232515c34d14:/app# bin/rails db:setup
+```
+
+You may also need to install yarn and precompile the Rails assets: 
+
+```sh
+make prompt
+
+yarn install
+
+bin/rails assets:precompile
 ```
 
 ### Locally
@@ -76,7 +94,7 @@ These keys are set within [github actions](https://github.com/unboxed/bops/setti
 
 Versions 5+ of the [devise-two-factor](https://github.com/tinfoil/devise-two-factor) gem uses a single [Rails 7+ encrypted attribute](https://edgeguides.rubyonrails.org/active_record_encryption.html) named `otp_secret` to store the OTP secret in the database table
 
-You will need to add a `development.key` (which can be found in 1password) or set a `RAILS_MASTER_KEY` env variable either natively or as part of `docker-compose.yml` with this value to enable 2FA to work in development.
+You will need to add in ./config/credentials a `development.key` (which can be found in 1password) or set a `RAILS_MASTER_KEY` env variable either natively or as part of `docker-compose.yml` with this value to enable 2FA to work in development.
 
 This key is set as an env `RAILS_MASTER_KEY` in production.
 
