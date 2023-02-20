@@ -47,7 +47,7 @@ local_authorities.each do |authority|
       user.name = "#{first_name} #{last_name}"
       user.local_authority = authority
       if Rails.env.development?
-        user.password = user.password_confirmation = "password"
+        user.password = user.password_confirmation = "nw29nfsijrP!P392"
       else
         user.password = user.password_confirmation = secure_password
         user.encrypted_password =
