@@ -5,9 +5,6 @@ on:
       environment-name:
         type: string
         required: true
-      environment-cmd-name:
-        type: string
-        required: true
 
 concurrency:
   group: ${{ inputs.environment-name }}
@@ -43,4 +40,4 @@ jobs:
 
       - name: Deploy ${{ inputs.environment-name }} application
         run: |
-          bundle exec rake deploy:${{ inputs.environment-cmd-name }}
+          bundle exec rake deploy:${{ inputs.environment-name }}

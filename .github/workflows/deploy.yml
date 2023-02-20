@@ -9,12 +9,10 @@ jobs:
     uses: ./.github/workflows/deploy-environment.yml
     with:
       environment-name: "staging"
-      environment-cmd-name: "preview"
     secrets: inherit
 
   deploy-production:
     uses: ./.github/workflows/deploy-environment.yml
     with:
       environment-name: "production"
-      environment-cmd-name: "production"
     secrets: inherit
