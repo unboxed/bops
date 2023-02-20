@@ -50,12 +50,15 @@ RSpec.describe "Review documents for recommendation" do
       expect(page).to have_content("Application number: #{planning_application.reference}")
       expect(page).to have_content(planning_application.full_address)
       expect(page).to have_content("#{planning_application.type_and_work_status}: #{planning_application.description}")
-      expect(page).to have_content("All documents need a reference to be on the decision notice or made public")
+      expect(page).to have_content("Check document details")
+      expect(page).to have_content("All documents need a reference to be on the decision notice and be made public.")
+      expect(page).to have_content("You can return to 'Manage documents' to make any other changes.")
 
       within(".govuk-table__head") do
-        expect(page).to have_content("Documents")
+        expect(page).to have_content("Document reference")
+        expect(page).to have_content("Tag")
         expect(page).to have_content("On decision notice")
-        expect(page).to have_content("Public")
+        expect(page).to have_content("Publicly available")
       end
 
       within(".govuk-button-group") do

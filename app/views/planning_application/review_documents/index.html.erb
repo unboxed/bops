@@ -16,9 +16,10 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <p class="govuk-body">
-      <strong>All documents need a reference to be on the decision notice or made public</strong>
-    </p>
+    <h3 class="govuk-heading-s">Check document details</h3>
+
+    <p class="govuk-body">All documents need a reference to be on the decision notice and be made public.</p>
+    <p class="govuk-body">You can return to 'Manage documents' to make any other changes.</p>
 
     <% if @documents.empty? %>
       <p class="govuk-body">There are no active documents.</p>
@@ -32,9 +33,10 @@
         <table class="govuk-table">
           <thead class="govuk-table__head">
             <tr class="govuk-table__row">
-              <th scope="col" class="govuk-table__header govuk-!-width-two-thirds" colspan="2">Documents</th>
+              <th scope="col" class="govuk-table__header">Document reference</th>
+              <th scope="col" class="govuk-table__header">Tag</th>
               <th scope="col" class="govuk-table__header text-align-centre">On decision notice</th>
-              <th scope="col" class="govuk-table__header text-align-centre">Public</th>
+              <th scope="col" class="govuk-table__header text-align-centre">Publicly available</th>
             </tr>
           </thead>
 
