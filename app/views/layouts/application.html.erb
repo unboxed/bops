@@ -24,11 +24,20 @@
           <strong class="govuk-tag govuk-phase-banner__content__tag">
             beta
           </strong>
-          <span class="govuk-phase-banner__text">
-            This is a new service – your
-            <%= mail_to current_local_authority.feedback_email, "feedback", class: "govuk-link" %>
-            will help us to improve it.
-          </span>
+
+          <% if ENV["FEEDBACK_FISH_ID"].present? %>
+            <span class="govuk-phase-banner__text">
+              This is a new service – your
+              <a class="govuk-link" href="#"
+                data-feedback-fish
+                data-feedback-fish-userid="<%= current_user.try(:email) %>"
+              >
+                feedback
+              </a>
+
+              will help us to improve it.
+            </span>
+          <% end %>
         </p>
       </div>
 
