@@ -12,15 +12,15 @@
   ) %>
   <% content_for :title, "Publish the recommendation" %>
 
-    <h2 class="govuk-heading-m">Decision notice</h2>
-    <p class="govuk-body">The following decision notice was created based on the planning officer's recommendation and comment. Please review and publish it.</p>
+  <h2 class="govuk-heading-m">Decision notice</h2>
+  <p class="govuk-body">The following decision notice was created based on the planning officer's recommendation and comment. You can review and publish it.</p>
 
   <%= render "decision_notice", planning_application: @planning_application %>
   <p class="govuk-body">
     <%= link_to "Download as PDF", decision_notice_api_v1_planning_application_path(@planning_application, format: 'pdf'), class: "govuk-link" %>
   </p>
   <% if @planning_application.awaiting_determination? %>
-    <p class="govuk-body">By determining the application, the applicant will receive this decision notice. The decision notice will also be available publicly. </p>
+    <p class="govuk-body">By determining the application, the applicant will receive this decision notice. The decision notice will also be made publicly available. </p>
 
     <%= form_with model: @planning_application,
       url: determine_planning_application_path(@planning_application),

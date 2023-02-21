@@ -18,12 +18,7 @@
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-m"><%= t(".assessor_remarks") %></h2>
     <p class="govuk-body">
-      <%= t(".assessor_recommendation") %>
-      <%= render(
-        StatusTags::DecisionComponent.new(
-          planning_application: @planning_application
-        )
-      ) %>
+      <%= t(".assessor_recommendation", decision: @planning_application.decision) %>
     </p>
     <%= render(
       partial: "shared/warning_text",

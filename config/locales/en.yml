@@ -282,8 +282,8 @@ en:
       update_site_description: Update site description
       update_summary_of_work: Update summary of works
     information:
-      assessor_recommendation: Assessor recommendation
-      assessor_remarks: Assessor remarks
+      assessor_recommendation: The assessor recommends that the application should be %{decision}
+      assessor_remarks: Assessor's remarks
       review_assessment_summaries: Review assessment summaries
       this_information_will: This information WILL be made public
     saved: Review saved
@@ -756,12 +756,12 @@ en:
       review_changes: Review changes
       sign_off_recommendation: Sign off recommendation
       this_information_will: 'This information will appear on the decision notice:'
-      you_have_not: You haven't suggested changes to be made by the officer
-      you_have_suggested: You have suggested changes to be made by the officer
+      you_have_not: You haven't suggested changes to be made by the officer.
+      you_have_suggested: You have suggested changes to be made by the officer.
     event:
       by_name_at: by %{name}, %{date} at %{time}
     events:
-      assessor_reviewer_audit: Assessor/reviewer audit
+      assessor_reviewer_audit: Assessor and reviewer audit
       new: Assess recommendation
       recommendation_queried: Recommendation queried
       submitted_recommendation: Submitted recommendation
