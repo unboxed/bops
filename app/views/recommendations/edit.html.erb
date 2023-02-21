@@ -43,7 +43,7 @@
       locals: { recommendations: @recommendations }
     ) %>
     <% if @planning_application.updates_required? %>
-      <p class= "govuk-body govuk-!-font-weight-bold">
+      <p class= "govuk-body">
         <%= t(".you_have_suggested") %>
       </p>
       <p>
@@ -54,7 +54,7 @@
         ) %>
       </p>
     <% else %>
-      <p class= "govuk-body govuk-!-font-weight-bold">
+      <p class= "govuk-body">
         <%= t(".you_have_not") %>
       </p>
     <% end %>
