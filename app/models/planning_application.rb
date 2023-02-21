@@ -364,7 +364,7 @@ class PlanningApplication < ApplicationRecord
   # around it), just assume plain-text constraints rather than a
   # key-value mapping.
   def defined_constraints
-    I18n.t("constraints").values.flatten
+    I18n.t("constraint_list").values.flatten
   end
 
   def custom_constraints

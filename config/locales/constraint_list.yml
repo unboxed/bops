@@ -1,5 +1,5 @@
 en:
-  constraints:
+  constraint_list:
     flooding:
       - Flood zone
       - Flood zone 1
