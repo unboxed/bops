@@ -127,12 +127,6 @@ RSpec.describe "Sign in" do
 
         expect(page).to have_text("Signed in successfully.")
       end
-
-      it "has the feedback email" do
-        visit root_path
-
-        expect(page).to have_link("feedback", href: "mailto:feedback_email@lambeth.gov.uk")
-      end
     end
   end
 

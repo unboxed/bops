@@ -24,5 +24,9 @@
   <%= stylesheet_link_tag 'application', 'data-turbolinks-track': 'reload', media: 'all' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
+  <% if ENV["FEEDBACK_FISH_ID"].present? %>
+    <script defer src="https://feedback.fish/ff.js?pid=<%= ENV['FEEDBACK_FISH_ID'] %>"></script>
+  <% end %>
+
   <meta property="og:image" content="&lt;YOUR-DOMAIN&gt;/images/govuk-opengraph-image.png">
 </head>
