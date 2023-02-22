@@ -399,7 +399,7 @@ en:
         document_references: Document reference(s)
         where_documents_contain: Where documents contain multiple drawings, enter multiple references separated by a comma (for example, "25A-V2, 25B-V2").
       upload:
-        a_replacement_file: A replacement file will automatically archive the existing file
+        a_replacement_file: A replacement file will automatically archive the existing file.
         upload_a_file: Upload a file
         upload_a_replacement: Upload a replacement file
     index:

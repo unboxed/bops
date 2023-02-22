@@ -14,7 +14,7 @@
 <div class="publish govuk-!-padding-top-3">
   <%= form.govuk_radio_buttons_fieldset(:status, legend: { size: 's', text: 'Should this document be made publicly available?' }) do %>
     <div id="event-name-hint" class="govuk-hint">
-      Please indicate whether this document should be made available for public viewing on the planning register or via the public API. Select "No" if the document contains any sensitive personal information
+      Indicate whether this document should be made available for public viewing on the planning register or via the public API. Select "No" if the document contains any sensitive personal information.
     </div>
     <%= form.govuk_radio_button :publishable, 'true', label: { text: 'Yes' } %>
     <%= form.govuk_radio_button :publishable, 'false', label: { text: 'No' } %>

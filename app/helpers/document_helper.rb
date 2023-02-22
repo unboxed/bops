@@ -15,9 +15,9 @@ module DocumentHelper
 
   def created_by(document)
     if document.user.present?
-      "This document was manually uploaded by #{document.user.name}"
+      "This document was manually uploaded by #{document.user.name}."
     elsif document.api_user.present?
-      "This document was uploaded by #{document.api_user.name}"
+      "This document was uploaded by the applicant on PlanX."
     end
   end
 
