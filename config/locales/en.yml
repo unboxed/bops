@@ -282,7 +282,7 @@ en:
       update_site_description: Update site description
       update_summary_of_work: Update summary of works
     information:
-      assessor_recommendation: The assessor recommends that the application should be %{decision}
+      assessor_recommendation: The assessor recommends that the application should be %{decision}.
       assessor_remarks: Assessor's remarks
       review_assessment_summaries: Review assessment summaries
       this_information_will: This information WILL be made public
