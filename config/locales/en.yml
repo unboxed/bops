@@ -397,7 +397,7 @@ en:
     form_partials:
       privacy:
         document_references: Document reference(s)
-        where_documents_contain: Where documents contain multiple drawings, enter multiple references separated by a comma (e.g. "25A-V2, 25B-V2").
+        where_documents_contain: Where documents contain multiple drawings, enter multiple references separated by a comma (for example, "25A-V2, 25B-V2").
       upload:
         a_replacement_file: A replacement file will automatically archive the existing file
         upload_a_file: Upload a file
