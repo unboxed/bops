@@ -54,7 +54,7 @@ RSpec.describe "editing planning application" do
       planning_application_assessment_tasks_path(planning_application)
     )
 
-    click_link("Description, documents and proposal details")
+    click_link("Check description, documents and proposal details")
     click_button("Application information")
     click_link("Edit details")
     fill_in("Address 1", with: "125 High Street")

@@ -343,7 +343,7 @@ en:
       application_details: Application details
       check_description_documents: Check description, documents, proposal details
       checking_plans_and: Checking plans and description
-      review_the_items: Review the items above to check they are consistent
+      review_the_items: Review the description, site map, and documents submitted by the applicant to check they are consistent.
     proposal_details_match_documents:
       are_the_proposal: Are the proposal details consistent with the plans?
       how_are_the: How are the proposal details inconsistent?
@@ -534,8 +534,8 @@ en:
           this_information_will: This information WILL be made public
       past_applications:
         form_fields:
-          application_reference_numbers: Application reference number(s)
-          relevant_information: Relevant information
+          application_reference_numbers: Add any relevant reference numbers. You can separate the reference numbers with a comma.
+          relevant_information: Provide relevant information about the planning history of the application site
         information:
           summary_of_the: Summary of the relevant historical applications
           this_information_will: This information WILL be made public
@@ -549,7 +549,7 @@ en:
       check_consistency:
         check_application: Check application
         complete: Complete
-        description_documents_and: Description, documents and proposal details
+        description_documents_and: Check description, documents and proposal details
         history: History search (in testing)
         in_assessment: In assessment
         permitted_development_rights: Permitted development rights
@@ -568,7 +568,7 @@ en:
         does_not_comply: Does not comply
         home: Home
         open_legislation_in: Open legislation in new window
-        please_indicate_if: Please indicate if the application complies, does not comply, or is not applicable to each of the policies. Policies are defined in the Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part %{part}, Class %{class}.
+        please_indicate_if: Complete the assessment to show whether the application complies or does not comply with the selected legislative class. You can add comments to provide more information to support your assessment.
         policy_reference: Policy reference
         review: Review
         review_and_sign_off: Review and sign-off
@@ -579,7 +579,7 @@ en:
         application: Application
         home: Home
         open_legislation_in: Open legislation in new window
-        please_indicate_if: Please indicate if the application complies, does not comply, or is not applicable to each of the policies. Policies are defined in the Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part %{part}, Class %{class}.
+        please_indicate_if: Complete the assessment to show whether the application complies or does not comply with the selected legislative class. You can add comments to provide more information to support your assessment.
         review: Review
         review_heading: Review - Part%{part}, Class %{class}
       update:
@@ -722,7 +722,7 @@ en:
       assess_policy_class: Assess - Part %{part}, Class %{class}
       home: Home
       open_legislation_in: Open legislation in new window
-      please_indicate_if: Please indicate if the application complies, does not comply, or is not applicable to each of the policies. Policies are defined in the Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part %{part}, Class %{class}.
+      please_indicate_if: Complete the assessment to show whether the application complies or does not comply with the selected legislative class. You can add comments to provide more information to support your assessment.
       remove_class_from: Remove class from assessment
     summary_component:
       complies: Complies
@@ -779,12 +779,12 @@ en:
       is_the_use: Is the use or operation lawful?
       make_draft_recommendation: Make draft recommendation
       'no': 'No'
-      please_provide_supporting: Please provide supporting information for your manager.
-      refer_to_the: Refer to the specific permitted development rights being evoked.
+      please_provide_supporting: Provide support information for your manager.
+      refer_to_the: Refer to specific permitted development legislation to support your recommendation.
       state_the_reason: State the reasons why this application is, or is not lawful.
       there_are_outstanding_change_requests_html: There are outstanding change requests (last request %{last_request}). <a href='%{href}'>View all requests</a>.
       this_information_will: This information WILL appear on the decision notice.
-      this_information_will_not: This information WILL NOT appear on the decision notice or the public register, however FOI still apply.
+      this_information_will_not: This information will not appear on the decision notice or the public register, but Freedom of Information requests will still apply.
       update_assessment: Update assessment
       'yes': 'Yes'
     update:

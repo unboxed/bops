@@ -1,7 +1,5 @@
 <div class="govuk-body">
-  <% unless action_name == "show" %>
-    <p><strong>Add summary of works</strong></p>
-  <% else %>
+  <% if action_name == "show" %>
     <p><strong>Summary</strong></p>
   <% end %>
 

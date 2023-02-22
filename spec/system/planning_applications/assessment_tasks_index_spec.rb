@@ -26,7 +26,7 @@ RSpec.describe "Assessment tasks" do
       within(".app-task-list") do
         within("#check-consistency-assessment-tasks") do
           expect(page).to have_content("Check application")
-          expect(page).to have_link("Description, documents and proposal details")
+          expect(page).to have_link("Check description, documents and proposal details")
           expect(page).to have_link("History")
           expect(page).to have_link("Permitted development rights")
         end
@@ -66,7 +66,7 @@ RSpec.describe "Assessment tasks" do
     it "displays the assessment tasks list" do
       within(".app-task-list") do
         within("#check-consistency-assessment-tasks") do
-          expect(page).to have_content("Description, documents and proposal details")
+          expect(page).to have_content("Check description, documents and proposal details")
           expect(page).to have_link("History")
         end
 

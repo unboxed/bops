@@ -57,7 +57,7 @@ RSpec.describe "Planning Application Assessment" do
         click_link("Make draft recommendation")
         choose "Yes"
         fill_in "State the reasons why this application is, or is not lawful.", with: "This is a public comment"
-        fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
+        fill_in "Provide support information for your manager.", with: "This is a private assessor comment"
         click_button "Save and mark as complete"
 
         planning_application.reload
@@ -68,11 +68,11 @@ RSpec.describe "Planning Application Assessment" do
 
         click_link("Make draft recommendation")
         expect(page).to have_checked_field("Yes")
-        expect(page).to have_field("Please provide supporting information for your manager.",
+        expect(page).to have_field("Provide support information for your manager.",
                                    with: "This is a private assessor comment")
         choose "No"
         fill_in "State the reasons why this application is, or is not lawful.", with: "This is a new public comment"
-        fill_in "Please provide supporting information for your manager.", with: "Edited private assessor comment"
+        fill_in "Provide support information for your manager.", with: "Edited private assessor comment"
         click_button "Update assessment"
         planning_application.reload
 
@@ -171,7 +171,7 @@ RSpec.describe "Planning Application Assessment" do
       choose "Yes"
       fill_in "State the reasons why this application is, or is not lawful.",
               with: "This is so granted and GDPO everything"
-      fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
+      fill_in "Provide support information for your manager.", with: "This is a private assessor comment"
       click_button "Update assessment"
 
       planning_application.reload
@@ -189,7 +189,7 @@ RSpec.describe "Planning Application Assessment" do
       end
 
       expect(page).to have_checked_field("Yes")
-      expect(page).to have_field("Please provide supporting information for your manager.",
+      expect(page).to have_field("Provide support information for your manager.",
                                  with: "This is a private assessor comment")
     end
   end
@@ -211,7 +211,7 @@ RSpec.describe "Planning Application Assessment" do
 
       choose("Yes")
       fill_in("State the reasons why this application is, or is not lawful.", with: "This is a public comment")
-      fill_in("Please provide supporting information for your manager.", with: "This is a private assessor comment")
+      fill_in("Provide support information for your manager.", with: "This is a private assessor comment")
       click_button("Save and mark as complete")
 
       click_link("Review and submit recommendation")
@@ -308,7 +308,7 @@ RSpec.describe "Planning Application Assessment" do
         click_link("Make draft recommendation")
         choose("Yes")
         fill_in("State the reasons why this application is, or is not lawful.", with: "This is a public comment")
-        fill_in("Please provide supporting information for your manager.", with: "This is a private assessor comment")
+        fill_in("Provide support information for your manager.", with: "This is a private assessor comment")
         click_button("Save and mark as complete")
 
         click_link("Review and submit recommendation")
@@ -382,7 +382,7 @@ RSpec.describe "Planning Application Assessment" do
         click_link("Make draft recommendation")
         choose "Yes"
         fill_in "State the reasons why this application is, or is not lawful.", with: "This is a public comment"
-        fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
+        fill_in "Provide support information for your manager.", with: "This is a private assessor comment"
         click_button "Save and come back later"
 
         planning_application.reload
@@ -394,7 +394,7 @@ RSpec.describe "Planning Application Assessment" do
         click_link("Make draft recommendation")
         expect(page).to have_checked_field("Yes")
         expect(page).to have_content("This is a public comment")
-        expect(page).to have_field("Please provide supporting information for your manager.",
+        expect(page).to have_field("Provide support information for your manager.",
                                    with: "This is a private assessor comment")
       end
     end
@@ -431,7 +431,7 @@ RSpec.describe "Planning Application Assessment" do
         )
 
         fill_in(
-          "Please provide supporting information for your manager.",
+          "Provide support information for your manager.",
           with: "Requirements met."
         )
 
@@ -570,7 +570,7 @@ RSpec.describe "Planning Application Assessment" do
       choose "Yes"
 
       fill_in "State the reasons why this application is, or is not lawful.", with: "This is a public comment"
-      fill_in "Please provide supporting information for your manager.", with: "This is a private assessor comment"
+      fill_in "Provide support information for your manager.", with: "This is a private assessor comment"
       click_button "Save and mark as complete"
 
       visit submit_recommendation_planning_application_path(planning_application)
@@ -599,7 +599,7 @@ RSpec.describe "Planning Application Assessment" do
     )
 
     fill_in(
-      "Please provide supporting information for your manager.",
+      "Provide support information for your manager.",
       with: "Requirements met."
     )
 
