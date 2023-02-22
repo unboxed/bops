@@ -45,7 +45,7 @@ RSpec.describe "Site description" do
       expect(page).to have_content("You can include:")
 
       within(".govuk-warning-text") do
-        expect(page).to have_content("This information WILL be made public")
+        expect(page).to have_content("This information will be made publicly available.")
       end
     end
 

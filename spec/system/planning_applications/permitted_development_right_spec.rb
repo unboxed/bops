@@ -48,7 +48,7 @@ RSpec.describe "Permitted development right" do
         expect(page).to have_content(planning_application.full_address)
 
         within(".govuk-warning-text") do
-          expect(page).to have_content("This information WILL be made public")
+          expect(page).to have_content("This information will be made publicly available.")
         end
 
         within("#constraints-section") do
@@ -104,7 +104,7 @@ RSpec.describe "Permitted development right" do
         click_link("Permitted development rights")
 
         within(".govuk-warning-text") do
-          expect(page).to have_content("This information WILL be made public")
+          expect(page).to have_content("This information will be made publicly available.")
         end
 
         within("#constraints-section") do

@@ -241,7 +241,7 @@ RSpec.describe "Reviewing sign-off" do
       expect(page).to have_content("Sign off recommendation")
       expect(page).to have_content("To grant")
       within(".govuk-warning-text") do
-        expect(page).to have_content("This information will appear on the decision notice:")
+        expect(page).to have_content("This information will appear on the decision notice.")
       end
       expect(page).to have_content(planning_application.public_comment)
 
@@ -250,17 +250,17 @@ RSpec.describe "Reviewing sign-off" do
 
       expect(page).to have_content("Edit the information appearing on the decision notice")
       expect(page).to have_content("The planning officer recommends that the application is granted")
-      expect(page).to have_content("This information will appear on the decision notice:")
+      expect(page).to have_content("This information will appear on the decision notice.")
 
       # Attempt to save without any text input
-      fill_in "This information will appear on the decision notice:", with: ""
+      fill_in "This information will appear on the decision notice.", with: ""
       click_button "Save"
 
       within(".govuk-form-group--error") do
         expect(page).to have_content("Please state the reasons why this application is, or is not lawful")
       end
 
-      fill_in "This information will appear on the decision notice:", with: "This text will appear on the decision notice."
+      fill_in "This information will appear on the decision notice.", with: "This text will appear on the decision notice."
       click_button "Save"
       expect(page).to have_content("Planning application was successfully updated.")
 
