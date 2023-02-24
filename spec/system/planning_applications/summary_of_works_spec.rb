@@ -32,7 +32,6 @@ RSpec.describe "Summary of works" do
         new_planning_application_assessment_detail_path(planning_application, category: "summary_of_work")
       )
 
-      expect(page).to have_content("Add summary of works")
       expect(page).to have_content(planning_application.reference)
       expect(page).to have_content(planning_application.full_address)
       expect(page).to have_content("You can include:")

@@ -53,7 +53,7 @@ RSpec.describe "Permitted development right" do
 
         within("#constraints-section") do
           expect(page).to have_content("Constraints - including Article 4 direction(s)")
-          expect(page).to have_content("There are no constraints at this site.")
+          expect(page).to have_content("There are no planning constraints on the application site.")
         end
 
         within("#planning-history-section") do

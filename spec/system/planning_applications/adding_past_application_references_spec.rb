@@ -25,7 +25,7 @@ RSpec.describe "adding past application references" do
     expect(list_item("History (manual)")).to have_content("Not started")
 
     click_link("History (manual)")
-    fill_in("Application reference number(s)", with: "22-00107-LDCP")
+    fill_in("Add any relevant reference numbers. You can separate the reference numbers with a comma.", with: "22-00107-LDCP")
     click_button("Save and mark as complete")
 
     expect(page).to have_content("Relevant information can't be blank")
@@ -36,7 +36,7 @@ RSpec.describe "adding past application references" do
     expect(list_item("History (manual)")).to have_content("In progress")
 
     click_link("History (manual)")
-    fill_in("Relevant information", with: "Application granted.")
+    fill_in("Provide relevant information about the planning history of the application site", with: "Application granted.")
     click_button("Save and mark as complete")
 
     expect(page).to have_content("History successfully updated.")
@@ -48,7 +48,7 @@ RSpec.describe "adding past application references" do
     expect(page).to have_content("Application granted.")
 
     click_link("Edit history")
-    fill_in("Application reference number(s)", with: "22-00108-LDCP")
+    fill_in("Add any relevant reference numbers. You can separate the reference numbers with a comma.", with: "22-00108-LDCP")
     click_button("Save and mark as complete")
 
     expect(page).to have_content("History successfully updated.")

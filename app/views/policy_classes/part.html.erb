@@ -25,12 +25,18 @@
         <fieldset class="govuk-fieldset">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
             <p class="govuk-body">
-              Select the relevant part. Parts are defined in The Town and Country
-              Planning (General Permitted Development) (England) Order 2015
+              Select the relevant part of the legislation for your assessment.
+              Parts are defined in The Town and Country Planning 
+              (General Permitted Development) (England) Order 2015
               (GPDO), Schedule 2.
             </p>
             <p class="govuk-body">
-              <%= link_to "Open legislation in new window", "https://www.legislation.gov.uk/uksi/2015/596/schedule/2/made", class: "govuk-link", target: "_blank" %>
+              <%= 
+                link_to "Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window",
+                "https://www.legislation.gov.uk/uksi/2015/596/schedule/2/made", 
+                class: "govuk-link", 
+                target: "_blank" 
+              %>
             </p>
           </legend>
           <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
