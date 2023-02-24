@@ -8,7 +8,7 @@ module StatusPresenter
     not_started: "grey",
     in_assessment: "turquoise",
     awaiting_determination: "purple",
-    awaiting_correction: "green"
+    awaiting_correction: "yellow"
   }.freeze
 
   included do
@@ -16,7 +16,13 @@ module StatusPresenter
       classes = ["govuk-tag govuk-tag--#{status_tag_colour}"]
 
       tag.span class: classes do
-        determined? ? decision.humanize : aasm.human_state.humanize
+        if determined?
+          decision.humanize
+        elsif awaiting_correction?
+          "To be reviewed"
+        else
+          aasm.human_state.humanize
+        end
       end
     end
 
