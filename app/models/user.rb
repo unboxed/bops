@@ -61,7 +61,7 @@ class User < ApplicationRecord
     return if password.blank? || password =~ /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/
 
     errors.add :password, "complexity requirement not met. Your password must have: " \
-                          "at least 8 characters; at least one symbol (e.g., ?!£%); at least one capital letter."
+                          "at least 8 characters; at least one symbol (for example, ?!£%); at least one capital letter."
   end
 
   ##
