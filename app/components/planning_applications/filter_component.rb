@@ -9,13 +9,13 @@ module PlanningApplications
     private
 
     def filter_types
-      [
-        :not_started,
-        :invalidated,
-        :in_assessment,
-        :awaiting_determination,
-        :to_be_reviewed,
-        :closed
+      %i[
+        not_started
+        invalidated
+        in_assessment
+        awaiting_determination
+        to_be_reviewed
+        closed
       ].compact
     end
 
