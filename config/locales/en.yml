@@ -285,7 +285,7 @@ en:
       assessor_recommendation: The assessor recommends that the application should be %{decision}.
       assessor_remarks: Assessor's remarks
       review_assessment_summaries: Review assessment summaries
-      this_information_will: This information WILL be made public
+      this_information_will: This information will be made publicly available.
     saved: Review saved
   assessment_report_downloads:
     show:
@@ -461,7 +461,7 @@ en:
         reviewer_comment: Explain to the assessor why this needs reviewing
       planning_application:
         closed_or_cancellation_comment: Provide a reason
-        public_comment: 'This information will appear on the decision notice:'
+        public_comment: This information will appear on the decision notice.
       recommendation:
         reviewer_comment: Explain to the officer why the case is being returned
       red_line_boundary_change_validation_request:
@@ -528,17 +528,17 @@ en:
           list_who_was: List who was consulted about this application
         fields:
           summary_of_consultation: Summary of consultation responses
-          this_information_will: This information WILL be made public
+          this_information_will: This information will be made publicly available.
         form_fields:
           summary_of_consultation: Summary of consultation responses
-          this_information_will: This information WILL be made public
+          this_information_will: This information will be made publicly available.
       past_applications:
         form_fields:
           application_reference_numbers: Add any relevant reference numbers. You can separate the reference numbers with a comma.
           relevant_information: Provide relevant information about the planning history of the application site
         information:
           summary_of_the: Summary of the relevant historical applications
-          this_information_will: This information WILL be made public
+          this_information_will: This information will be made publicly available.
       show:
         edit_additional_evidence: Edit additional evidence
         edit_consultation_summary: Edit consultation details
@@ -755,7 +755,7 @@ en:
       recommendation: Recommendation
       review_changes: Review changes
       sign_off_recommendation: Sign off recommendation
-      this_information_will: 'This information will appear on the decision notice:'
+      this_information_will: This information will appear on the decision notice.
       you_have_not: You haven't suggested changes to be made by the officer.
       you_have_suggested: You have suggested changes to be made by the officer.
     event:
@@ -783,7 +783,7 @@ en:
       refer_to_the: Refer to specific permitted development legislation to support your recommendation.
       state_the_reason: State the reasons why this application is, or is not lawful.
       there_are_outstanding_change_requests_html: There are outstanding change requests (last request %{last_request}). <a href='%{href}'>View all requests</a>.
-      this_information_will: This information WILL appear on the decision notice.
+      this_information_will: This information will appear on the decision notice.
       this_information_will_not: This information will not appear on the decision notice or the public register, but Freedom of Information requests will still apply.
       update_assessment: Update assessment
       'yes': 'Yes'
