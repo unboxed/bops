@@ -11,10 +11,10 @@ module PlanningApplications
     def filter_types
       [
         :not_started,
-        :invalid,
+        :invalidated,
         :in_assessment,
         :awaiting_determination,
-        :awaiting_correction,
+        :to_be_reviewed,
         :closed
       ].compact
     end

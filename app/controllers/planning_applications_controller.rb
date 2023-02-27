@@ -269,10 +269,10 @@ class PlanningApplicationsController < AuthenticationController
     params
       .require(:planning_application_filter)
       .permit(:not_started,
-        :invalid,
+        :invalidated,
         :in_assessment,
         :awaiting_determination,
-        :awaiting_correction,
+        :to_be_reviewed,
         :closed)
       .merge(planning_applications: @planning_applications)
   end

@@ -9,8 +9,8 @@ class PlanningApplicationFilter
     records_matching_query || []
   end
 
-  def filter_type
-    filter_options.keys.select { |key| filter_options[key] == "1" }
+  def filter_types
+    filter_options.keys.select { |key| filter_options[key] == "1" }.map { |x| x == "to_be_reviewed" ? "awaiting_correction" : x }
   end
 
   private
@@ -21,7 +21,7 @@ class PlanningApplicationFilter
 
   def records_matching_reference
     planning_applications.where(
-      status: [filter_type]
+      status: [filter_types]
     )
   end
 end
