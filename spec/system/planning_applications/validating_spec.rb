@@ -254,6 +254,7 @@ RSpec.describe "Planning Application Assessment" do
       click_link "Send validation decision"
 
       expect(page).to have_content("You have marked items as invalid, so you cannot validate this application.")
+      expect(page).to have_content("If you mark the application as invalid then the applicant or agent will be sent an invalid notification. This notification will contain a link to allow the applicant or agent to view all validation requests and to accept and reject requests.")
 
       planning_application.reload
       expect(planning_application.status).to eql("not_started")
@@ -391,7 +392,7 @@ RSpec.describe "Planning Application Assessment" do
       click_link "Review validation requests"
 
       expect(page).to have_content("The following requests will be sent when the application is invalidated.")
-      expect(page).to have_content("The application has not yet been marked as valid or invalid")
+      expect(page).to have_content("The application has not yet been marked as valid or invalid yet.")
     end
   end
 
