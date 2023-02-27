@@ -1,0 +1,30 @@
+<div class="govuk-accordion single-section-accordion" data-module="govuk-accordion">
+  <div class="govuk-accordion__section">
+    <div class="govuk-accordion__section-header">
+      <h3 class="govuk-accordion__section-heading">
+        <button type="button" class="govuk-accordion__section-button">
+          Filter by status (<%= selected_filters_count %> of <%= filter_types.count %> selected)
+        </button>
+        <span class="govuk-accordion__icon"></span>
+      </h3>
+    </div>
+    <div class="govuk-accordion__section-content">
+      <%= form_with(
+        model: filter,
+        builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+        method: :get,
+        url: planning_applications_path
+      ) do |form| %>
+        <div class="govuk-checkboxes--small" data-module="govuk-checkboxes" style="display:flex">
+          <% filter_types.each do |filter_type| %>
+            <div class="govuk-checkboxes__item">
+              <%= form.check_box filter_type, class: "govuk-checkboxes__input", checked: filter_checked_status(filter_type) %>
+              <%= form.label filter_type, class: "govuk-label govuk-checkboxes__label" %>
+            </div>
+          <% end %>
+        </div>
+        <%= form.submit "Apply filters", class: "govuk-button govuk-button--secondary" %>
+      <% end %>
+    </div>
+  </div>
+</div>
