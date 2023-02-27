@@ -6,6 +6,10 @@ A brief description of the change, with enough context for the reviewer to be ab
 
 https://link-to-issue
 
+### Screenshots
+
+If you have made changes to the frontend please add screenshots
+
 ### Decisions [OPTIONAL]
 
 If you had to make any decisions between different ways of doing things, what where they and why?
