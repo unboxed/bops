@@ -1,9 +1,6 @@
 <% if last_audit.present? %>
   <p class="govuk-body">
-    <%= render(
-      partial: "audits/types/#{audit_entry_template(last_audit)}",
-      locals: { locals: { item: last_audit } }
-    ) %>
+    <%= render(Audits::ActivityComponent.new(audit: last_audit)) %>
   </p>
   <p class="govuk-body"><%= audit_user_name(last_audit) %></p>
   <p class="govuk-body">

@@ -78,8 +78,9 @@ Metrics/ModuleLength:
 
 # Offense count: 1
 Metrics/ParameterLists:
-  Exclude: 
+  Exclude:
     - 'app/components/planning_applications/panel_component.rb'
+    - 'app/components/planning_applications/panels_component.rb'
 
 # Offense count: 4
 # Configuration parameters: AllowedMethods, AllowedPatterns, IgnoredMethods, Max.

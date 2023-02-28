@@ -17,3 +17,10 @@
     current_user: current_user
   )
 ) %>
+<% if exclude_others %>
+  <%= render(
+    PlanningApplications::UpdatedPanelComponent.new(
+      audits: local_authority_most_recent_audits_for_planning_applications
+    )
+  ) %>
+<% end %>
