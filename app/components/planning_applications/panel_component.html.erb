@@ -9,11 +9,14 @@
       )
     ) %>
   <% end %>
+  <% if filter.present? %>
     <%= render(
       PlanningApplications::FilterComponent.new(
+        panel_type: type,
         filter: filter
       )
     ) %>
+  <% end %>
   <% if search&.query && planning_applications.empty? %>
     <p class="govuk-body"><%= t(".no_planning_applications") %></p>
   <% else %>

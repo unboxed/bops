@@ -2,7 +2,8 @@
   <%= render(
     PlanningApplications::PanelComponent.new(
       planning_applications: planning_applications.send(panel_type),
-      type: panel_type
+      type: panel_type,
+      filter: nil
     )
   ) %>
 <% end %>
@@ -11,7 +12,7 @@
     planning_applications: all_planning_applications,
     type: :all,
     search: search,
-    filter: filter,
+    filter: exclude_others ? filter : nil,
     exclude_others: exclude_others
   )
 ) %>

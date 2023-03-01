@@ -13,7 +13,17 @@ module PlanningApplications
     private
 
     def panel_types
-      [].compact
+      if @exclude_others
+        []
+      else
+        [
+          (:not_started_and_invalid unless reviewer_applications?),
+          (:under_assessment unless reviewer_applications?),
+          :awaiting_determination,
+          (:awaiting_correction unless current_user.assessor?),
+          :closed
+        ].compact
+      end
     end
 
     def reviewer_applications?

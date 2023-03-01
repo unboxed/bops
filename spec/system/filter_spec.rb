@@ -6,6 +6,8 @@ RSpec.describe "filtering planning applications" do
   let(:local_authority) { create(:local_authority, :default) }
   let(:user) { create(:user, :assessor, local_authority: local_authority) }
 
+  let(:other_user) { create(:user, :assessor, local_authority: local_authority) }
+
   let!(:not_started_planning_application) do
     create(
       :planning_application,
@@ -75,7 +77,7 @@ RSpec.describe "filtering planning applications" do
 
     it "allows user to filter by different statuses" do
       within(selected_govuk_tab) do
-        expect(page).to have_content("All applications")
+        expect(page).to have_content("Your applications")
         expect(page).to have_content(not_started_planning_application.reference)
         expect(page).to have_content(invalid_planning_application.reference)
         expect(page).to have_content(in_assessment_planning_application.reference)
