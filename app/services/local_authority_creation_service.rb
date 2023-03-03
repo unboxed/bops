@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "./spec/support/password"
-
 class LocalAuthorityCreationService
   def initialize(params)
     @subdomain = params.fetch(:subdomain, nil)
@@ -48,7 +46,7 @@ class LocalAuthorityCreationService
   def create_administrator_user
     User.find_or_create_by!(email: admin_email) do |user|
       user.local_authority = local_authority
-      user.password = user.password_confirmation = secure_password
+      user.password = user.password_confirmation = PasswordGenerator.call
       user.role = :administrator
       user.otp_required_for_login = false
     end
