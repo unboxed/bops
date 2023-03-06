@@ -32,8 +32,7 @@ class PlanningApplicationsController < AuthenticationController
 
     @filter = if params[:planning_application_filter].present?
                 PlanningApplicationFilter.new(
-                  filter_options: planning_application_filter_params.except(:planning_applications),
-                  planning_applications: planning_application_filter_params[:planning_applications]
+                  planning_application_filter_params
                 )
               else
                 PlanningApplicationFilter.new
@@ -268,12 +267,7 @@ class PlanningApplicationsController < AuthenticationController
   def planning_application_filter_params
     params
       .require(:planning_application_filter)
-      .permit(:not_started,
-              :invalidated,
-              :in_assessment,
-              :awaiting_determination,
-              :to_be_reviewed,
-              :closed)
+      .permit(filter_options: [])
       .merge(planning_applications: @planning_applications)
   end
 

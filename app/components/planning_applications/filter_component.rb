@@ -9,26 +9,18 @@ module PlanningApplications
     private
 
     def filter_types
-      %i[
+      %w[
         not_started
         invalidated
         in_assessment
         awaiting_determination
-        to_be_reviewed
+        awaiting_correction
         closed
-      ].compact
+      ]
     end
 
     def selected_filters_count
-      filter.filter_options&.values&.count("1") || 6
-    end
-
-    def filter_checked_status(filter_type)
-      if filter.filter_options
-        filter.filter_options[filter_type] == "1"
-      else
-        true
-      end
+      filter.filter_options&.reject(&:empty?)&.count
     end
 
     attr_reader :filter

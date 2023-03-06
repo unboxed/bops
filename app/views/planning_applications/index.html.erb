@@ -25,7 +25,16 @@
       <p class="govuk-body">
         <%= link_to "Add new application", new_planning_application_path, class: "govuk-link" %>
       </p>
-      <p class="govuk-body"><%= link_to filter_text, planning_applications_path(q: "exclude_others"), class: "govuk-button" %></p>
+      <p class="govuk-body">
+        <%= 
+          link_to filter_text, 
+          planning_applications_path(
+            q: "exclude_others", 
+            planning_application_filter: { filter_options: ['not_started', 'invalidated', 'in_assessment', 'awaiting_determination', 'awaiting_correction', 'closed'] }
+          ), 
+          class: "govuk-button" 
+        %>
+      </p>
     <% end %>
   </div>
 </div>

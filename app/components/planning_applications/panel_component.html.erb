@@ -12,7 +12,6 @@
   <% if filter.present? %>
     <%= render(
       PlanningApplications::FilterComponent.new(
-        panel_type: type,
         filter: filter
       )
     ) %>
