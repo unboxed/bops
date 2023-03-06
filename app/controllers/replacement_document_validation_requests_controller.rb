@@ -27,6 +27,7 @@ class ReplacementDocumentValidationRequestsController < ValidationRequestsContro
     ActiveRecord::Base.transaction do
       @replacement_document_validation_request = @planning_application.replacement_document_validation_requests.new(replacement_document_validation_request_params).tap do |record|
         record.old_document = @document
+        record.post_validation = @planning_application.validated? unless @planning_application.validated?.nil?
         record.user = current_user
       end
 
