@@ -341,7 +341,7 @@ en:
       edit_check_description: Edit check description, documents and proposal
     introduction:
       application_details: Application details
-      check_description_documents: Check description, documents, proposal details
+      check_description_documents: Check description, documents, and proposal details
       checking_plans_and: Checking plans and description
       review_the_items: Review the description, site map, and documents submitted by the applicant to check they are consistent.
     proposal_details_match_documents:
@@ -535,7 +535,7 @@ en:
       past_applications:
         form_fields:
           application_reference_numbers: Add any relevant reference numbers. You can separate the reference numbers with a comma.
-          relevant_information: Provide relevant information about the planning history of the application site
+          relevant_information: 'Provide relevant information about the planning history of the application site:'
         information:
           summary_of_the: Summary of the relevant historical applications
           this_information_will: This information will be made publicly available.
@@ -567,7 +567,7 @@ en:
         complies: Complies
         does_not_comply: Does not comply
         home: Home
-        open_legislation_in: Open legislation in new window
+        open_legislation_in: Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window
         please_indicate_if: Complete the assessment to show whether the application complies or does not comply with the selected legislative class. You can add comments to provide more information to support your assessment.
         policy_reference: Policy reference
         review: Review
@@ -578,7 +578,7 @@ en:
       show:
         application: Application
         home: Home
-        open_legislation_in: Open legislation in new window
+        open_legislation_in: Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window
         please_indicate_if: Complete the assessment to show whether the application complies or does not comply with the selected legislative class. You can add comments to provide more information to support your assessment.
         review: Review
         review_heading: Review - Part%{part}, Class %{class}
@@ -721,7 +721,7 @@ en:
       assess: Assess
       assess_policy_class: Assess - Part %{part}, Class %{class}
       home: Home
-      open_legislation_in: Open legislation in new window
+      open_legislation_in: Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window
       please_indicate_if: Complete the assessment to show whether the application complies or does not comply with the selected legislative class. You can add comments to provide more information to support your assessment.
       remove_class_from: Remove class from assessment
     summary_component:
