@@ -3,7 +3,7 @@
     {
       "warning_type": "Unmaintained Dependency",
       "warning_code": 123,
-      "fingerprint": "425dcb3af9624f11f12d777d6f9fe05995719975a155c30012baa6b9dc3487df",
+      "fingerprint": "870fa4a5cfd770898e1b7a159368b4210fe366634512563f9fb1c1cbbfef1d78",
       "check_name": "EOLRuby",
       "message": "Support for Ruby 2.7.5 ends on 2023-03-31",
       "file": "Gemfile.lock",
@@ -13,7 +13,7 @@
       "render_path": null,
       "location": null,
       "user_input": null,
-      "confidence": "Weak",
+      "confidence": "Medium",
       "cwe_id": [
         1104
       ],
@@ -43,6 +43,6 @@
       "note": ""
     }
   ],
-  "updated": "2023-02-08 11:58:54 +0200",
+  "updated": "2023-03-07 12:40:18 +0200",
   "brakeman_version": "5.4.0"
 }
