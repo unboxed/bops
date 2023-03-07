@@ -14,7 +14,6 @@ RSpec.describe "filtering planning applications" do
       :not_started,
       user: user,
       local_authority: local_authority,
-      description: "Add a chimney stack"
     )
   end
 
@@ -22,9 +21,8 @@ RSpec.describe "filtering planning applications" do
     create(
       :planning_application,
       :invalidated,
-      user: nil,
+      user: user,
       local_authority: local_authority,
-      description: "Add a patio"
     )
   end
 
@@ -32,9 +30,8 @@ RSpec.describe "filtering planning applications" do
     create(
       :planning_application,
       :in_assessment,
-      user: other_user,
+      user: user,
       local_authority: local_authority,
-      description: "Add a skylight"
     )
   end
 
@@ -42,9 +39,8 @@ RSpec.describe "filtering planning applications" do
     create(
       :planning_application,
       :awaiting_determination,
-      user: other_user,
+      user: user,
       local_authority: local_authority,
-      description: "Add a skylight"
     )
   end
 
@@ -52,9 +48,8 @@ RSpec.describe "filtering planning applications" do
     create(
       :planning_application,
       :awaiting_correction,
-      user: other_user,
+      user: user,
       local_authority: local_authority,
-      description: "Add a skylight"
     )
   end
 
@@ -62,9 +57,17 @@ RSpec.describe "filtering planning applications" do
     create(
       :planning_application,
       :closed,
+      user: user,
+      local_authority: local_authority,
+    )
+  end
+
+  let!(:other_closed_planning_application) do
+    create(
+      :planning_application,
+      :closed,
       user: other_user,
       local_authority: local_authority,
-      description: "Add a skylight"
     )
   end
 
@@ -73,6 +76,7 @@ RSpec.describe "filtering planning applications" do
   context "when user views her own planning applications" do
     before do
       visit(planning_applications_path)
+      click_on "View my applications"
     end
 
     it "allows user to filter by different statuses" do
@@ -84,6 +88,7 @@ RSpec.describe "filtering planning applications" do
         expect(page).to have_content(awaiting_determination_planning_application.reference)
         expect(page).to have_content(awaiting_correction_planning_application.reference)
         expect(page).to have_content(closed_planning_application.reference)
+        expect(page).not_to have_content(other_closed_planning_application.reference)
       end
 
       click_button("Filter by status (6 of 6 selected)")
@@ -198,6 +203,7 @@ RSpec.describe "filtering planning applications" do
       within(selected_govuk_tab) do
         expect(page).to have_content("(1 of 6 selected)")
         expect(page).to have_content(closed_planning_application.reference)
+        expect(page).not_to have_content(other_closed_planning_application.reference)
         expect(page).not_to have_content(not_started_planning_application.reference)
         expect(page).not_to have_content(invalid_planning_application.reference)
         expect(page).not_to have_content(in_assessment_planning_application.reference)

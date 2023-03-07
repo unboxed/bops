@@ -29,8 +29,9 @@
         <%= 
           link_to filter_text, 
           planning_applications_path(
-            q: "exclude_others", 
-            planning_application_filter: { filter_options: ['not_started', 'invalidated', 'in_assessment', 'awaiting_determination', 'awaiting_correction', 'closed'] }
+            q: "exclude_others",
+            user_id: current_user.id,
+            planning_application_filter: { filter_options: ['not_started', 'invalidated', 'in_assessment', 'awaiting_determination', 'to_be_reviewed', 'closed'] }
           ), 
           class: "govuk-button" 
         %>

@@ -4,16 +4,17 @@ require "rails_helper"
 
 RSpec.describe "Planning Application index page" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:planning_application_1) { create(:planning_application, local_authority: default_local_authority) }
-  let!(:planning_application_2) { create(:planning_application, local_authority: default_local_authority) }
+  let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
+  let(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
+  
+  let!(:planning_application_1) { create(:planning_application, :in_assessment, user: assessor, local_authority: default_local_authority) }
+  let!(:planning_application_2) { create(:planning_application, :in_assessment, user: assessor, local_authority: default_local_authority) }
   let!(:planning_application_started) do
-    create(:planning_application, :awaiting_determination, local_authority: default_local_authority)
+    create(:planning_application, :awaiting_determination, user: assessor, local_authority: default_local_authority)
   end
   let!(:planning_application_completed) do
     create(:planning_application, :determined, local_authority: default_local_authority)
   end
-  let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
-  let(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
 
   context "as an assessor" do
     before do
@@ -61,32 +62,38 @@ RSpec.describe "Planning Application index page" do
     context "when viewing tabs" do
       it "Planning Application status bar is present" do
         within(:planning_applications_status_tab) do
-          expect(page).to have_link "In assessment"
-          expect(page).to have_link "Awaiting determination"
-          expect(page).to have_link "Closed"
+          expect(page).to have_link "Your applications"
         end
       end
 
-      it "Only Planning Applications that are in_assessment are present in this tab" do
-        within("#under_assessment") do
-          expect(page).to have_text("In assessment")
-          expect(page).to have_link(planning_application_1.reference)
-          expect(page).to have_link(planning_application_2.reference)
-          expect(page).not_to have_link(planning_application_started.reference)
-          expect(page).not_to have_link(planning_application_completed.reference)
-        end
+      it "Only Planning Applications that are in_assessment are present when filtered" do
+        click_on "Filter by status (6 of 6 selected)"
+        uncheck "Not started"
+        uncheck "Invalidated"
+        uncheck "Awaiting determination"
+        uncheck "To be reviewed"
+        uncheck "Closed"
+        click_button "Apply filters"
+
+        expect(page).to have_link(planning_application_1.reference)
+        expect(page).to have_link(planning_application_2.reference)
+        expect(page).not_to have_link(planning_application_started.reference)
+        expect(page).not_to have_link(planning_application_completed.reference)
       end
 
-      it "Only Planning Applications that are awaiting_determination are present in this tab" do
-        click_link "Awaiting determination"
+      it "Only Planning Applications that are awaiting_determination are present when filtered" do
+        click_on "Filter by status (6 of 6 selected)"
+        uncheck "Not started"
+        uncheck "Invalidated"
+        uncheck "In assessment"
+        uncheck "To be reviewed"
+        uncheck "Closed"
+        click_button "Apply filters"
 
-        within("#awaiting_determination") do
-          expect(page).to have_text("Awaiting determination")
-          expect(page).to have_link(planning_application_started.reference)
-          expect(page).not_to have_link(planning_application_1.reference)
-          expect(page).not_to have_link(planning_application_2.reference)
-          expect(page).not_to have_link(planning_application_completed.reference)
-        end
+        expect(page).to have_link(planning_application_started.reference)
+        expect(page).not_to have_link(planning_application_1.reference)
+        expect(page).not_to have_link(planning_application_2.reference)
+        expect(page).not_to have_link(planning_application_completed.reference)
       end
 
       context "when I view the closed tab" do
@@ -100,7 +107,8 @@ RSpec.describe "Planning Application index page" do
             town: "London",
             postcode: "AB3 4EF",
             description: "Add a fence",
-            local_authority: default_local_authority
+            local_authority: default_local_authority,
+            user: assessor
           )
         end
 
@@ -113,7 +121,8 @@ RSpec.describe "Planning Application index page" do
             town: "London",
             postcode: "AB3 4EF",
             description: "Add a window",
-            local_authority: default_local_authority
+            local_authority: default_local_authority,
+            user: assessor
           )
         end
 
@@ -126,7 +135,8 @@ RSpec.describe "Planning Application index page" do
             town: "London",
             postcode: "AB3 4EF",
             description: "Add a chimney",
-            local_authority: default_local_authority
+            local_authority: default_local_authority,
+            user: assessor
           )
         end
 
@@ -139,23 +149,28 @@ RSpec.describe "Planning Application index page" do
             town: "London",
             postcode: "AB3 4EF",
             description: "Add an attic",
-            local_authority: default_local_authority
+            local_authority: default_local_authority,
+            user: assessor
           )
         end
 
         before do
-          visit(planning_applications_path)
-          click_link("Closed")
+          visit(root_path)
+          click_on "Filter by status (6 of 6 selected)"
+          uncheck "Not started"
+          uncheck "Invalidated"
+          uncheck "Awaiting determination"
+          uncheck "To be reviewed"
+          uncheck "In assessment"
+          click_button "Apply filters"
         end
 
         it "shows determined application" do
-          within(selected_govuk_tab) do
-            row = row_with_content(determined_planning_application.reference)
-            expect(row).to have_content("Granted")
-            expect(row).to have_content("1 Aug")
-            expect(row).to have_content("1 Long Lane, London, AB3 4EF")
-            expect(row).to have_content("Add a fence")
-          end
+          row = row_with_content(determined_planning_application.reference)
+          expect(row).to have_content("Granted")
+          expect(row).to have_content("1 Aug")
+          expect(row).to have_content("1 Long Lane, London, AB3 4EF")
+          expect(row).to have_content("Add a fence")
         end
 
         it "shows withdrawn application" do

@@ -14,13 +14,13 @@ module PlanningApplications
         invalidated
         in_assessment
         awaiting_determination
-        awaiting_correction
+        to_be_reviewed
         closed
       ]
     end
 
     def selected_filters_count
-      filter.filter_options&.reject(&:empty?)&.count
+      filter.filter_options&.reject(&:empty?)&.count || 6
     end
 
     attr_reader :filter
