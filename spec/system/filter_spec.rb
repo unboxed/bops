@@ -13,7 +13,7 @@ RSpec.describe "filtering planning applications" do
       :planning_application,
       :not_started,
       user: user,
-      local_authority: local_authority,
+      local_authority: local_authority
     )
   end
 
@@ -22,7 +22,7 @@ RSpec.describe "filtering planning applications" do
       :planning_application,
       :invalidated,
       user: user,
-      local_authority: local_authority,
+      local_authority: local_authority
     )
   end
 
@@ -31,7 +31,7 @@ RSpec.describe "filtering planning applications" do
       :planning_application,
       :in_assessment,
       user: user,
-      local_authority: local_authority,
+      local_authority: local_authority
     )
   end
 
@@ -40,7 +40,7 @@ RSpec.describe "filtering planning applications" do
       :planning_application,
       :awaiting_determination,
       user: user,
-      local_authority: local_authority,
+      local_authority: local_authority
     )
   end
 
@@ -49,7 +49,7 @@ RSpec.describe "filtering planning applications" do
       :planning_application,
       :awaiting_determination,
       user: other_user,
-      local_authority: local_authority,
+      local_authority: local_authority
     )
   end
 
@@ -58,7 +58,7 @@ RSpec.describe "filtering planning applications" do
       :planning_application,
       :awaiting_correction,
       user: user,
-      local_authority: local_authority,
+      local_authority: local_authority
     )
   end
 
@@ -67,7 +67,7 @@ RSpec.describe "filtering planning applications" do
       :planning_application,
       :awaiting_correction,
       user: other_user,
-      local_authority: local_authority,
+      local_authority: local_authority
     )
   end
 
@@ -76,7 +76,7 @@ RSpec.describe "filtering planning applications" do
       :planning_application,
       :closed,
       user: user,
-      local_authority: local_authority,
+      local_authority: local_authority
     )
   end
 
@@ -85,7 +85,7 @@ RSpec.describe "filtering planning applications" do
       :planning_application,
       :closed,
       user: other_user,
-      local_authority: local_authority,
+      local_authority: local_authority
     )
   end
 

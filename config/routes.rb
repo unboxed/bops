@@ -3,8 +3,8 @@
 # require "rswag-api"
 
 Rails.application.routes.draw do
-  root to: "planning_applications#index", defaults: 
-    { 
+  root to: "planning_applications#index", defaults:
+    {
       q: "exclude_others",
       planning_application_filter: { filter_options: PlanningApplication::FILTER_OPTIONS }
     }

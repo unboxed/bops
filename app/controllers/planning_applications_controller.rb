@@ -389,7 +389,7 @@ class PlanningApplicationsController < AuthenticationController
 
   def check_filter_params
     if current_user.reviewer? && params[:planning_application_filter]
-      params[:planning_application_filter][:filter_options] = filter_option_params.select { |a| a == "awaiting_determination" || a == "to_be_reviewed" }
+      params[:planning_application_filter][:filter_options] = filter_option_params.select { |a| PlanningApplication::REVIEWER_FILTER_OPTIONS.include?(a) }
     end
   end
 
