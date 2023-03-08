@@ -11,6 +11,8 @@ class PlanningApplicationsController < AuthenticationController
 
   before_action :ensure_draft_recommendation_complete, only: :update
 
+  before_action :check_filter_params, only: :index
+
   rescue_from PlanningApplication::WithdrawRecommendationError do |_exception|
     redirect_failed_withdraw_recommendation
   end
@@ -383,5 +385,15 @@ class PlanningApplicationsController < AuthenticationController
                                new_planning_application_recommendation_path(@planning_application)} before updating application fields."
 
     render :edit and return
+  end
+
+  def check_filter_params
+    if current_user.reviewer? && params[:planning_application_filter]
+      params[:planning_application_filter][:filter_options] = filter_option_params.select { |a| a == "awaiting_determination" || a == "to_be_reviewed" }
+    end
+  end
+
+  def filter_option_params
+    params[:planning_application_filter][:filter_options]
   end
 end

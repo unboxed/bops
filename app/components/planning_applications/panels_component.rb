@@ -14,7 +14,7 @@ module PlanningApplications
 
     def panel_types
       if @exclude_others
-        []
+        [:closed]
       else
         [
           (:not_started_and_invalid unless reviewer_applications?),

@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   root to: "planning_applications#index", defaults: 
     { 
       q: "exclude_others",
-      planning_application_filter: { filter_options: ['not_started', 'invalidated', 'in_assessment', 'awaiting_determination', 'to_be_reviewed', 'closed'] }
+      planning_application_filter: { filter_options: PlanningApplication::FILTER_OPTIONS }
     }
 
   mount Rswag::Ui::Engine => "api-docs"

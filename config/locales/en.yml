@@ -636,7 +636,7 @@ en:
     panel_component:
       all: All
       all_applications: All applications
-      all_your_applications: Your applications
+      all_your_applications: Your live applications
       application_type_name: Application type
       awaiting_correction: Corrections requested
       awaiting_determination: Awaiting determination
@@ -644,6 +644,7 @@ en:
       description: Description
       formatted_awaiting_determination_at: Recommendation date
       formatted_expiry_date: Expiry date
+      application_type_name: Application type
       formatted_outcome_date: Outcome date
       full_address: Site address
       no_planning_applications: No planning applications match your search
@@ -685,7 +686,7 @@ en:
       download_assessment_report: Download assessment report as PDF
     tabs:
       all_applications: All applications
-      all_your_applications: Your applications
+      all_your_applications: Your live applications
     update:
       success: Planning application was successfully updated.
     validate:

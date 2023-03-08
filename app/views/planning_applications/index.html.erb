@@ -26,12 +26,12 @@
         <%= link_to "Add new application", new_planning_application_path, class: "govuk-link" %>
       </p>
       <p class="govuk-body">
+        <% options = current_user.reviewer? ?  PlanningApplication::FILTER_OPTIONS[3..4] : PlanningApplication::FILTER_OPTIONS %>
         <%= 
           link_to filter_text, 
           planning_applications_path(
             q: "exclude_others",
-            user_id: current_user.id,
-            planning_application_filter: { filter_options: ['not_started', 'invalidated', 'in_assessment', 'awaiting_determination', 'to_be_reviewed', 'closed'] }
+            planning_application_filter: { filter_options: options }
           ), 
           class: "govuk-button" 
         %>

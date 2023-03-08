@@ -12,7 +12,8 @@
   <% if filter.present? %>
     <%= render(
       PlanningApplications::FilterComponent.new(
-        filter: filter
+        filter: filter,
+        current_user: current_user
       )
     ) %>
   <% end %>
