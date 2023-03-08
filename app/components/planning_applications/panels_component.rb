@@ -34,7 +34,7 @@ module PlanningApplications
       if search.query
         search.results
       elsif filter.filter_options
-        filter.results.select { |pa| pa.user == @current_user }
+        filter.results.select { |pa| pa.user == @current_user || pa.user == nil }
       else
         planning_applications
       end

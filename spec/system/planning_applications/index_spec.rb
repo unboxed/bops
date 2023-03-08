@@ -4,11 +4,8 @@ require "rails_helper"
 
 RSpec.describe "Planning Application index page" do
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
-  let(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
-
-  let!(:planning_application_1) { create(:planning_application, :in_assessment, user: assessor, local_authority: default_local_authority) }
-  let!(:planning_application_2) { create(:planning_application, :in_assessment, user: assessor, local_authority: default_local_authority) }
+  let!(:planning_application_1) { create(:planning_application, :in_assessment, local_authority: default_local_authority) }
+  let!(:planning_application_2) { create(:planning_application, :in_assessment, local_authority: default_local_authority) }
   let!(:planning_application_started) do
     create(:planning_application, :awaiting_determination, user: assessor, local_authority: default_local_authority)
   end
@@ -18,6 +15,8 @@ RSpec.describe "Planning Application index page" do
   let!(:planning_application_completed) do
     create(:planning_application, :determined, local_authority: default_local_authority)
   end
+  let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
+  let(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
 
   context "as an assessor" do
     before do

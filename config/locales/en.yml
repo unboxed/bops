@@ -644,7 +644,6 @@ en:
       description: Description
       formatted_awaiting_determination_at: Recommendation date
       formatted_expiry_date: Expiry date
-      application_type_name: Application type
       formatted_outcome_date: Outcome date
       full_address: Site address
       no_planning_applications: No planning applications match your search

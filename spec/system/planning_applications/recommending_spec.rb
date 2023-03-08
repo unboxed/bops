@@ -41,7 +41,7 @@ RSpec.describe "Planning Application Assessment" do
 
   before do
     sign_in assessor
-    visit root_path
+    visit planning_applications_path
   end
 
   context "when clicking Save and mark as complete" do
