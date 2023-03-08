@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "Constraints" do
-  let!(:api_user) { create(:api_user, name: "ApiUser") }
+  let!(:api_user) { create(:api_user, name: "PlanX") }
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
@@ -28,11 +28,11 @@ RSpec.describe "Constraints" do
       end
 
       within(".govuk-heading-m") do
-        expect(page).to have_text("Constraints identified by ApiUser")
+        expect(page).to have_text("Constraints identified by PlanX")
       end
 
       within("#constraints-review") do
-        expect(page).to have_text("Review all the constraints and update as necessary")
+        expect(page).to have_text("Review the following constraints and update as necessary.")
       end
 
       within(".govuk-list") do

@@ -105,6 +105,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
         visit planning_application_validation_tasks_path(planning_application)
         click_link "Draw red line boundary"
 
+        expect(page).to have_content("This digital red line boundary was submitted by the applicant on PlanX")
         expect(page).to have_link("View sitemap document")
       end
     end
@@ -117,6 +118,7 @@ RSpec.describe "Drawing a sitemap on a planning application" do
         visit planning_application_validation_tasks_path(planning_application)
         click_link "Draw red line boundary"
 
+        expect(page).to have_content("This digital red line boundary was submitted by the applicant on PlanX")
         expect(page).to have_content("Multiple documents have been tagged as a sitemap for this application")
         expect(page).to have_link("View all documents")
       end
