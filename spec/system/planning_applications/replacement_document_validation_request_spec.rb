@@ -466,6 +466,18 @@ RSpec.describe "Requesting document changes to a planning application" do
         expect(page).to have_content("Planning application has already been validated")
       end
     end
+
+    it "allows new replacement requests" do
+      click_link "Check and assess"
+      click_button "Documents"
+      click_link "Request replacement"
+
+      fill_in "List all issues with the document.", with: "This is very invalid"
+      click_button "Send request"
+
+      expect(page).to have_content("Replacement document validation request successfully created.")
+      expect(document1.reload.replacement_document_validation_request).to eq(ReplacementDocumentValidationRequest.last)
+    end
   end
 
   context "when document is archived" do
