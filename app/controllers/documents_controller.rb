@@ -144,7 +144,9 @@ class DocumentsController < AuthenticationController
   end
 
   def set_return_to_session
-    session[:return_to] ||= request.referer
+    if request.referer&.include?(@planning_application.id.to_s)
+      session[:return_to] ||= request.referer
+    end
   end
 
   def return_to_session
