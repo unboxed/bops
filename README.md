@@ -6,7 +6,7 @@ Back Office Planning System (BOPS)
 
 ### Using Docker
 
-First cd into the `bops-applicants` folder and run: 
+First cd into the `bops-applicants` folder and run:
 
 ```sh
 git submodule update --init --recursive
@@ -29,7 +29,7 @@ make prompt
 root@232515c34d14:/app# bin/rails db:setup
 ```
 
-You may also need to install yarn and precompile the Rails assets: 
+You may also need to install yarn and precompile the Rails assets:
 
 ```sh
 make prompt
@@ -37,6 +37,26 @@ make prompt
 yarn install
 
 bin/rails assets:precompile
+```
+
+## Building production docker
+
+### Create production docker
+
+```sh
+docker build --build-arg RAILS_MASTER_KEY=xxxx -t bops -f Dockerfile.production .
+```
+
+### Run production docker
+
+```sh
+docker run --rm -it -p 3000:3000 -e DATABASE_URL=postgres://postgres@host.docker.internal:5432/bops_development -e RAILS_SERVE_STATIC_FILES=true -e RAILS_ENV=production -e RAILS_LOG_TO_STDOUT=true bops:latest bundle exec rails s
+```
+
+### Run production docker bash
+
+```sh
+docker run --rm -it -e DATABASE_URL=postgres://postgres@host.docker.internal:5432/bops_development -e RAILS_SERVE_STATIC_FILES=true -e RAILS_ENV=production -e RAILS_LOG_TO_STDOUT=true bops:latest /bin/bash
 ```
 
 ### Locally
