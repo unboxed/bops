@@ -139,7 +139,7 @@ RSpec.describe "assessment against legislation" do
       end
     end
 
-    it "lets the user add and update comments", skip: "TOFIX: intermittent failure" do
+    it "lets the user add comments" do
       travel_to(Time.zone.local(2022, 9, 1))
       click_link("Check and assess")
       add_policy_classes(["Class D - porches"])
@@ -160,11 +160,6 @@ RSpec.describe "assessment against legislation" do
 
         expect(page).not_to have_content("Previous comments")
       end
-
-      expect(row_with_content("D.1a")).to have_field(
-        "Comment added on 01 Sep 2022 by Alice Smith",
-        with: "New comment"
-      )
 
       expect(row_with_content("D.1b")).to have_field("Add comment", with: "")
 
@@ -194,30 +189,42 @@ RSpec.describe "assessment against legislation" do
           with: ""
         )
       end
+    end
 
-      within(row_with_content("D.1a")) do
-        fill_in(
-          "Comment added on 01 Sep 2022 by Alice Smith",
-          with: "Updated comment"
-        )
+    context "when user updates a comment" do
+      let(:policy_class) { create(:policy_class, planning_application:) }
+      let(:policy) { create(:policy, policy_class:) }
+      let(:comment1) { create(:comment, text: "Original comment") }
+      let(:comment2) { create(:comment, text: "Updated comment") }
+
+      before do
+        Current.user = assessor
+
+        travel_to(Time.zone.local(2022, 9, 1))
+        policy.comments << comment1
+
+        travel_to(Time.zone.local(2022, 10, 1))
+        policy.comments << comment2
       end
 
-      click_button("Save and come back later")
-      click_link("Part 1, Class D")
+      it "shows the updated comment and previous comments" do
+        click_link("Check and assess")
+        click_link("Part 1, Class A")
 
-      within(row_with_content("D.1a")) do
-        expect(page).to have_field(
-          "Comment updated on 02 Sep 2022 by Bella Jones",
-          with: "Updated comment"
-        )
+        within(row_with_content("A.1A")) do
+          expect(page).to have_field(
+            "Comment updated on 01 Oct 2022 by Alice Smith",
+            with: "Updated comment"
+          )
 
-        find("span", text: "Previous comments").click
+          find("span", text: "Previous comments").click
 
-        expect(page).to have_content(
-          "Comment added on 01 Sep 2022 by Alice Smith"
-        )
+          expect(page).to have_content(
+            "Comment added on 01 Sep 2022 by Alice Smith"
+          )
 
-        expect(page).to have_content("New comment")
+          expect(page).to have_content("Original comment")
+        end
       end
     end
 
