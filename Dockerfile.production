@@ -123,6 +123,7 @@ RUN true
 COPY --chown=app:app ./babel.config.js /app/babel.config.js
 COPY --chown=app:app ./config.ru /app/config.ru
 COPY --chown=app:app ./postcss.config.js /app/postcss.config.js
+RUN true
 COPY --chown=app:app ./Rakefile /app/Rakefile
 
 USER app:app
