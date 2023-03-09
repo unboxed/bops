@@ -24,6 +24,6 @@ class PlanningApplicationFilter
   end
 
   def records_matching_reference
-    filtered_filter_types.map { |filter| planning_applications.send(filter) }.flatten
+    planning_applications.where(status: [filtered_filter_types])
   end
 end
