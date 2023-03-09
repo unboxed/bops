@@ -137,4 +137,4 @@ ARG PORT=80
 ARG SECRET_KEY_BASE=notasecret
 ARG RAILS_MASTER_KEY=notasecret
 
-RUN bash -c "bundle exec rake assets:precompile"
+RUN bash -c "RAILS_ENV=production bundle exec rake assets:precompile"
