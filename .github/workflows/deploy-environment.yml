@@ -62,7 +62,7 @@ jobs:
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.
-          docker build -t bops:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile.production .
+          DOCKER_BUILDKIT=1 docker build -t bops:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile.production .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker save bops:$IMAGE_TAG $(docker history -q bops:$IMAGE_TAG | awk '!/<missing>/{print}') >bops.tar
           mkdir docker-cache
