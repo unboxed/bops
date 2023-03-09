@@ -58,11 +58,12 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: bops/${{ inputs.environment-name }}
           IMAGE_TAG: ${{ steps.image_tag.outputs.sha }}
+          RAILS_MASTER_KEY: sg-${{ secrets.RAILS_MASTER_KEY }}
         run: |
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.
-          DOCKER_BUILDKIT=1 docker build -t bops:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile.production .
+          DOCKER_BUILDKIT=1 docker build --build-arg RAILS_MASTER_KEY=$RAILS_MASTER_KEY -t bops:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile.production .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker save bops:$IMAGE_TAG $(docker history -q bops:$IMAGE_TAG | awk '!/<missing>/{print}') >bops.tar
           mkdir docker-cache
