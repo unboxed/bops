@@ -29,12 +29,6 @@ RUN bash -c "export DEBIAN_FRONTEND=noninteractive && \
     echo 'deb https://dl.yarnpkg.com/debian/ stable main' | tee /etc/apt/sources.list.d/yarn.list && \
     apt-get update -qq && apt install yarn"
 
-# Install file detection and previewing tools
-RUN bash -c "export DEBIAN_FRONTEND=noninteractive && \
-    apt-get update -qq && \
-    apt-get upgrade -y && \
-    apt-get install -y imagemagick ghostscript poppler-utils"
-
 # Install Bundler
 ARG BUNDLER_VERSION=2.3.26
 RUN bash -c "gem update --system && gem install bundler -v $BUNDLER_VERSION"
@@ -53,6 +47,8 @@ RUN bash -c "export DEBIAN_FRONTEND=noninteractive && \
 # Build image for ruby dependencies
 FROM build_image AS gems
 
+# Required system packages
+
 # Run security updates, install libpq-dev
 RUN bash -c "export DEBIAN_FRONTEND=noninteractive && \
     apt-get update -qq && \
@@ -60,6 +56,12 @@ RUN bash -c "export DEBIAN_FRONTEND=noninteractive && \
     apt-get install -y libpq-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*"
+
+# Install file detection and previewing tools
+RUN bash -c "export DEBIAN_FRONTEND=noninteractive && \
+    apt-get update -qq && \
+    apt-get upgrade -y && \
+    apt-get install -y imagemagick ghostscript poppler-utils"
 
 # Create a directory for our application
 # and set it as the working directory
