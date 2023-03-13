@@ -210,7 +210,8 @@ RSpec.describe "Requesting document changes to a planning application" do
       end
 
       click_link "Send validation decision"
-      expect(page).to have_content("The application has not yet been marked as valid or invalid yet.")
+      expect(page).to have_content("The application has not been marked as valid or invalid yet.")
+      expect(page).to have_content("When all parts of the application have been checked and are correct, mark the application as valid.")
       expect(page).to have_link("Mark the application as valid")
     end
   end

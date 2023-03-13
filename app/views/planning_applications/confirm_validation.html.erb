@@ -14,7 +14,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <p class="govuk-body">
-      Once validated, the application cannot be invalidated. Ensure you have checked this application is valid.
+      When all parts of the application have been checked and are correct, mark the application as valid.
     </p>
     <%= form_with model: @planning_application, url: validate_planning_application_path(@planning_application), local:true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
       <% if @planning_application.errors.any? %>
