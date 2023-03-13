@@ -349,8 +349,11 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def redirect_update_url
-    if params[:edit_action] == "edit_payment_amount"
+    case params[:edit_action]&.to_sym
+    when :edit_payment_amount
       redirect_to planning_application_fee_items_path(@planning_application, validate_fee: "yes"), notice: "Planning application payment amount was successfully updated."
+    when :edit_public_comment
+      redirect_to edit_planning_application_recommendations_path(@planning_application), notice: "The information appearing on the decision notice was successfully updated."
     else
       redirect_to(after_update_url, notice: t(".success"))
     end
