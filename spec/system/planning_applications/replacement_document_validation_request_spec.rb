@@ -101,7 +101,11 @@ RSpec.describe "Requesting document changes to a planning application" do
       click_button "Save request"
 
       expect(page).to have_content("Replacement document validation request successfully created.")
-      expect(document1.reload.replacement_document_validation_request).to eq(ReplacementDocumentValidationRequest.last)
+
+      document1.reload
+      expect(document1.replacement_document_validation_request).to eq(ReplacementDocumentValidationRequest.last)
+      expect(document1.replacement_document_validation_request.post_validation).to be_falsey
+
       within("#invalid-items-count") do
         expect(page).to have_content("Invalid items 1")
       end
@@ -476,7 +480,10 @@ RSpec.describe "Requesting document changes to a planning application" do
       click_button "Send request"
 
       expect(page).to have_content("Replacement document validation request successfully created.")
-      expect(document1.reload.replacement_document_validation_request).to eq(ReplacementDocumentValidationRequest.last)
+
+      document1.reload
+      expect(document1.replacement_document_validation_request).to eq(ReplacementDocumentValidationRequest.last)
+      expect(document1.replacement_document_validation_request.post_validation).to be true
     end
   end
 
