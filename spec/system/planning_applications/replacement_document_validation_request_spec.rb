@@ -485,6 +485,38 @@ RSpec.describe "Requesting document changes to a planning application" do
       expect(document1.replacement_document_validation_request).to eq(ReplacementDocumentValidationRequest.last)
       expect(document1.replacement_document_validation_request.post_validation).to be true
     end
+
+    it "allows new replacement requests to be responded to" do
+      click_link "Check and assess"
+      click_button "Documents"
+      click_link "Request replacement"
+
+      fill_in "List all issues with the document.", with: "This is very invalid"
+      click_button "Send request"
+
+      expect(page).to have_content("Replacement document validation request successfully created.")
+      document1.reload
+
+      document2 = create(:document, :with_file, planning_application: planning_application)
+      request = planning_application.replacement_document_validation_requests.last
+      request.new_document = document2
+      request.state = "closed"
+      request.save!
+      request.old_document.archive("replaced by new document")
+
+      click_link "Application"
+      click_link "Check and assess"
+      click_button "Documents"
+      click_link "Manage documents"
+
+      within(".current-documents") do
+        expect(page).to have_content("File name: #{request.new_document.name}")
+      end
+      within(".archived-documents") do
+        expect(page).to have_content(request.old_document.name)
+        expect(page).to have_content("replaced by new document")
+      end
+    end
   end
 
   context "when document is archived" do
