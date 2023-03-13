@@ -636,7 +636,7 @@ en:
     panel_component:
       all: All
       all_applications: All applications
-      all_your_applications: All your applications
+      all_your_applications: Your live applications
       application_type_name: Application type
       awaiting_correction: Corrections requested
       awaiting_determination: Awaiting determination
@@ -685,7 +685,7 @@ en:
       download_assessment_report: Download assessment report as PDF
     tabs:
       all_applications: All applications
-      all_your_applications: All your applications
+      all_your_applications: Your live applications
     update:
       success: Planning application was successfully updated.
     validate:

@@ -121,6 +121,9 @@ class PlanningApplication < ApplicationRecord
 
   PROGRESS_STATUSES = %w[not_started in_progress complete].freeze
 
+  FILTER_OPTIONS = %w[not_started invalidated in_assessment awaiting_determination to_be_reviewed].freeze
+  REVIEWER_FILTER_OPTIONS = %w[awaiting_determination to_be_reviewed].freeze
+
   private_constant :PLANNING_APPLICATION_PERMITTED_KEYS
 
   validates :work_status,

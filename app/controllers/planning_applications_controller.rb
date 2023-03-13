@@ -11,6 +11,8 @@ class PlanningApplicationsController < AuthenticationController
 
   before_action :ensure_draft_recommendation_complete, only: :update
 
+  before_action :check_filter_params, only: :index
+
   rescue_from PlanningApplication::WithdrawRecommendationError do |_exception|
     redirect_failed_withdraw_recommendation
   end
@@ -29,6 +31,14 @@ class PlanningApplicationsController < AuthenticationController
                              else
                                planning_applications_scope
                              end
+
+    @filter = if params[:planning_application_filter].present?
+                PlanningApplicationFilter.new(
+                  planning_application_filter_params
+                )
+              else
+                PlanningApplicationFilter.new
+              end
 
     @search = if params[:planning_application_search].present?
                 PlanningApplicationSearch.new(
@@ -256,6 +266,13 @@ class PlanningApplicationsController < AuthenticationController
       .merge(planning_applications: @planning_applications)
   end
 
+  def planning_application_filter_params
+    params
+      .require(:planning_application_filter)
+      .permit(filter_options: [])
+      .merge(planning_applications: @planning_applications)
+  end
+
   def validation_date_fields_invalid?
     validation_date_fields.any?(&:blank?) ||
       validation_date_fields.any? { |field| !field.match(/\A[0-9]*\z/) }
@@ -368,5 +385,15 @@ class PlanningApplicationsController < AuthenticationController
                                new_planning_application_recommendation_path(@planning_application)} before updating application fields."
 
     render :edit and return
+  end
+
+  def check_filter_params
+    return unless current_user.reviewer? && params[:planning_application_filter]
+
+    params[:planning_application_filter][:filter_options] = filter_option_params.select { |a| PlanningApplication::REVIEWER_FILTER_OPTIONS.include?(a) }
+  end
+
+  def filter_option_params
+    params[:planning_application_filter][:filter_options]
   end
 end

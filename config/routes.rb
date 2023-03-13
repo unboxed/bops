@@ -3,7 +3,11 @@
 # require "rswag-api"
 
 Rails.application.routes.draw do
-  root to: "planning_applications#index", defaults: { q: "exclude_others" }
+  root to: "planning_applications#index", defaults:
+    {
+      q: "exclude_others",
+      planning_application_filter: { filter_options: PlanningApplication::FILTER_OPTIONS }
+    }
 
   mount Rswag::Ui::Engine => "api-docs"
 

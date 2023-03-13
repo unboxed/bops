@@ -76,6 +76,11 @@ Metrics/ModuleLength:
     - 'app/helpers/audit_helper.rb'
     - 'app/models/concerns/validation_requestable.rb'
 
+# Offense count: 1
+Metrics/ParameterLists:
+  Exclude: 
+    - 'app/components/planning_applications/panel_component.rb'
+
 # Offense count: 4
 # Configuration parameters: AllowedMethods, AllowedPatterns, IgnoredMethods, Max.
 Metrics/PerceivedComplexity:
