@@ -30,7 +30,7 @@ RSpec.describe ProposalDetails::SummaryComponent, type: :component do
   end
 
   it "renders 'Auto-answered'" do
-    expect(page).to have_content("Auto-answered by RIPA")
+    expect(page).to have_content("Auto-answered by PlanX")
   end
 
   it "renders note" do

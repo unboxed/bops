@@ -41,7 +41,7 @@ RSpec.describe RecommendationsController do
     end
 
     before do
-      @request.host = "ripa.example.com"
+      @request.host = "planx.example.com"
       sign_in(reviewer)
     end
 

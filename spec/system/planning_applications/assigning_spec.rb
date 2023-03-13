@@ -37,7 +37,7 @@ RSpec.describe "assigning planning application" do
     expect(update_notification.to).to contain_exactly(assessor.email)
 
     expect(update_notification.subject).to eq(
-      "BoPS case RIPA-22-00100-LDCP has a new update"
+      "BoPS case PlanX-22-00100-LDCP has a new update"
     )
 
     travel_back

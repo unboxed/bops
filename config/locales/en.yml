@@ -735,13 +735,13 @@ en:
   proposal_details:
     list_component:
       the_proposal_details: The proposal details are grouped under the following categories
-      view_only_applicant: View ONLY applicant answers, hide 'Auto-answered by RIPA'
+      view_only_applicant: View ONLY applicant answers, hide 'Auto-answered by PlanX'
     main: Main
     other: Other
     policy_refs_component:
       related_legislation: Related legislation
     summary_component:
-      auto_answered: Auto-answered by RIPA
+      auto_answered: Auto-answered by PlanX
   recommendations:
     documents:
       documents_included_in: Documents included in the decision notice

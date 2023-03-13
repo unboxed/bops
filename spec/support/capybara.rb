@@ -35,6 +35,6 @@ RSpec.configure do |config|
 
   config.before type: :system do
     driven_by(ENV.fetch("JS_DRIVER", "chrome_headless").to_sym)
-    Capybara.app_host = "http://ripa.example.com"
+    Capybara.app_host = "http://planx.example.com"
   end
 end

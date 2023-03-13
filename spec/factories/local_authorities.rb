@@ -11,13 +11,13 @@ FactoryBot.define do
     feedback_email { "feedback_email@buckinghamshire.gov.uk" }
 
     trait :default do
-      council_code { "RIPA" }
-      subdomain { "ripa" }
+      council_code { "PlanX" }
+      subdomain { "planx" }
       signatory_name { Faker::FunnyName.two_word_name }
       signatory_job_title { "Director" }
       enquiries_paragraph { Faker::Lorem.unique.sentence }
-      email_address { "planning@ripa.uk" }
-      feedback_email { "feedback_email@ripa.uk" }
+      email_address { "planning@planx.uk" }
+      feedback_email { "feedback_email@planx.uk" }
     end
 
     trait :lambeth do

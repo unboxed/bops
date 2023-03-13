@@ -33,7 +33,7 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :request
 
   config.before type: :request do
-    host!("ripa.example.com")
+    host!("planx.example.com")
   end
 
   config.include(ActiveJob::TestHelper)

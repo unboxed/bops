@@ -109,7 +109,7 @@ RSpec.describe "Planning Application Assessment" do
         )
 
         expect(update_notification.subject).to eq(
-          "BoPS case RIPA-22-00100-LDCP has a new update"
+          "BoPS case PlanX-22-00100-LDCP has a new update"
         )
 
         planning_application.reload

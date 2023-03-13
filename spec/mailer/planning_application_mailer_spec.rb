@@ -39,7 +39,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     create(:planning_application, :invalidated)
   end
 
-  let(:host) { "ripa.example.com" }
+  let(:host) { "planx.example.com" }
 
   let(:validation_request) do
     create(:other_change_validation_request, planning_application: invalid_planning_application, user: assessor)
@@ -87,7 +87,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     it "includes the reference" do
       travel_to("2022-01-01") do
         expect(mail_body).to include(
-          "Application reference number: RIPA-22-00100-LDCP"
+          "Application reference number: PlanX-22-00100-LDCP"
         )
       end
     end
@@ -106,7 +106,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes a link to the decision notice" do
       expect(mail_body).to include(
-        "http://ripa.example.com/api/v1/planning_applications/#{planning_application.id}/decision_notice.pdf"
+        "http://planx.example.com/api/v1/planning_applications/#{planning_application.id}/decision_notice.pdf"
       )
     end
 
@@ -128,7 +128,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "includes a link to the decision notice" do
         expect(mail_body).to include(
-          "http://ripa.example.com/api/v1/planning_applications/#{planning_application.id}/decision_notice.pdf"
+          "http://planx.example.com/api/v1/planning_applications/#{planning_application.id}/decision_notice.pdf"
         )
       end
 
@@ -191,7 +191,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     it "includes the reference" do
       travel_to("2022-01-01") do
         expect(mail_body).to include(
-          "Application reference number: RIPA-22-00100-LDCP"
+          "Application reference number: PlanX-22-00100-LDCP"
         )
       end
     end
@@ -202,7 +202,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the validation request url" do
       expect(mail_body).to include(
-        "http://ripa.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+        "http://planx.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
       )
     end
 
@@ -236,7 +236,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     it "includes the reference" do
       travel_to("2022-01-01") do
         expect(mail_body).to include(
-          "Application reference number: RIPA-22-00100-LDCP"
+          "Application reference number: PlanX-22-00100-LDCP"
         )
       end
     end
@@ -285,7 +285,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     it "includes the reference" do
       travel_to("2022-01-01") do
         expect(mail_body).to include(
-          "Application reference number: RIPA-22-00100-LDCP"
+          "Application reference number: PlanX-22-00100-LDCP"
         )
       end
     end
@@ -298,7 +298,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the validation request url" do
       expect(mail_body).to include(
-        "http://ripa.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+        "http://planx.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
       )
     end
 
@@ -392,7 +392,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     it "includes the reference" do
       travel_to("2022-01-01") do
         expect(mail_body).to include(
-          "Application number: RIPA-22-00100-LDCP"
+          "Application number: PlanX-22-00100-LDCP"
         )
       end
     end
@@ -411,7 +411,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the validation request url" do
       expect(mail_body).to include(
-        "http://ripa.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+        "http://planx.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
       )
     end
 
@@ -457,7 +457,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the reference" do
       travel_to("2022-01-01") do
-        expect(mail_body).to include("Application number: RIPA-22-00100-LDCP")
+        expect(mail_body).to include("Application number: PlanX-22-00100-LDCP")
       end
     end
 
@@ -467,7 +467,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the validation request url" do
       expect(mail_body).to include(
-        "http://ripa.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+        "http://planx.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
       )
     end
 
@@ -508,7 +508,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     it "includes the reference" do
       travel_to("2022-01-01") do
         expect(mail_body).to include(
-          "Application reference number: RIPA-22-00100-LDCP"
+          "Application reference number: PlanX-22-00100-LDCP"
         )
       end
     end
@@ -576,7 +576,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       it "includes the reference" do
         travel_to("2022-01-01") do
           expect(mail_body).to include(
-            "Application reference number: RIPA-22-00100-LDCP"
+            "Application reference number: PlanX-22-00100-LDCP"
           )
         end
       end
@@ -589,7 +589,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "includes the validation request url" do
         expect(mail_body).to include(
-          "http://ripa.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+          "http://planx.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
         )
       end
 
@@ -623,7 +623,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       it "includes the reference" do
         travel_to("2022-01-01") do
           expect(mail_body).to include(
-            "Application reference number: RIPA-22-00100-LDCP"
+            "Application reference number: PlanX-22-00100-LDCP"
           )
         end
       end
@@ -640,7 +640,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "includes the validation request url" do
         expect(mail_body).to include(
-          "http://ripa.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+          "http://planx.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
         )
       end
     end
@@ -679,7 +679,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     it "includes the reference" do
       travel_to("2022-01-01") do
         expect(mail_body).to include(
-          "Application reference number: RIPA-22-00100-LDCP"
+          "Application reference number: PlanX-22-00100-LDCP"
         )
       end
     end
@@ -698,7 +698,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the validation request url" do
       expect(mail_body).to include(
-        "http://ripa.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+        "http://planx.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
       )
     end
 
