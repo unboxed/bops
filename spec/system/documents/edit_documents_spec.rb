@@ -239,5 +239,33 @@ RSpec.describe "Edit document" do
         expect(page).to have_current_path(planning_application_documents_path(planning_application))
       end
     end
+
+    context "when visitng the edit/archive url directly after viewing another planning application" do
+      let!(:other_planning_application) do
+        create(
+          :planning_application,
+          local_authority: default_local_authority
+        )
+      end
+      let!(:other_document) do
+        create(:document, :with_file, planning_application: other_planning_application)
+      end
+
+      it "edit returns to the documents index page" do
+        visit edit_planning_application_document_path(planning_application, document)
+        visit edit_planning_application_document_path(other_planning_application, other_document)
+
+        click_button "Save"
+        expect(page).to have_current_path(planning_application_documents_path(other_planning_application))
+      end
+
+      it "archive returns to the documents index page" do
+        visit edit_planning_application_document_path(other_planning_application, other_document)
+        visit planning_application_document_archive_path(planning_application, document)
+
+        click_button "Archive"
+        expect(page).to have_current_path(planning_application_documents_path(planning_application))
+      end
+    end
   end
 end
