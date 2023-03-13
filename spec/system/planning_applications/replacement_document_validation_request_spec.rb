@@ -486,6 +486,21 @@ RSpec.describe "Requesting document changes to a planning application" do
       expect(document1.replacement_document_validation_request.post_validation).to be true
     end
 
+    it "appears in the post validation requests table" do
+      click_link "Check and assess"
+      click_button "Documents"
+      click_link "Request replacement"
+
+      fill_in "List all issues with the document.", with: "This is very invalid"
+      click_button "Send request"
+      click_link "Application"
+      click_link "Review non-validation requests"
+
+      within ".validation-requests-table" do
+        expect(page).to have_content(document1.name)
+      end
+    end
+
     it "allows new replacement requests to be responded to" do
       click_link "Check and assess"
       click_button "Documents"
