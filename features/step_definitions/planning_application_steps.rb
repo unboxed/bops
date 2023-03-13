@@ -93,7 +93,7 @@ Given("the planning application is assessed") do
     And I press "Make draft recommendation"
     And I choose "Yes"
     And I fill in "State the reasons why" with "a valid reason"
-    And I fill in "Provide support information for your manager." with "looks legit"
+    And I fill in "Provide supporting information for your manager." with "looks legit"
     And I press "Save and mark as complete"
   )
 end
@@ -188,7 +188,7 @@ Given "a draft assessment on the planning application" do
     And I press "Check and assess"
     And I press "Make draft recommendation"
     When I fill in "State the reasons why this application is, or is not lawful." with "Lawful as can be"
-    And I fill in "Provide support information for your manager." with "I'm hoping you feel supported"
+    And I fill in "Provide supporting information for your manager." with "I'm hoping you feel supported"
     And I press "Save and come back later"
   )
 end
