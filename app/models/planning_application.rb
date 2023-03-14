@@ -590,7 +590,7 @@ class PlanningApplication < ApplicationRecord
     return unless saved_changes?
 
     saved_changes.keys.intersection(PLANNING_APPLICATION_PERMITTED_KEYS).map do |attribute_name|
-      next if saved_change_to_attribute(attribute_name).all?(&:blank?)
+      next if saved_change_to_attribute(attribute_name).all? { |value| value.blank? || value.try(:zero?) }
 
       attribute_to_audit(attribute_name)
     end
