@@ -1,0 +1,6 @@
+<%= activity(locals[:item].activity_type, locals[:item].activity_information) %>
+<p class="govuk-body">
+  File name: <i><%= JSON.parse(locals[:item].audit_comment)["old_document"] %></i>
+<br/>
+  Invalid reason: <i><%= JSON.parse(locals[:item].audit_comment)["reason"] %></i>
+</p>

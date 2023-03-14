@@ -189,7 +189,7 @@ en:
     v1:
       replacement_document_validation_requests:
         update:
-          applicant_has_provided: Applicant has provived a replacement document.
+          applicant_has_provided: Applicant has provided a replacement document.
           error: Unable to update request
           success: Validation request updated
   application:

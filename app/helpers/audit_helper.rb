@@ -58,6 +58,8 @@ module AuditHelper
       "Cancelled: description change request (description##{args})"
     when "replacement_document_validation_request_sent"
       "Sent: validation request (replacement document##{args})"
+    when "replacement_document_validation_request_sent_post_validation"
+      "Sent: Post-validation request (replacement document##{args})"
     when "additional_document_validation_request_sent"
       "Sent: validation request (new document##{args})"
     when "additional_document_validation_request_sent_post_validation"

@@ -68,7 +68,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
     expect(replacement_document_validation_request.state).to eq("closed")
     expect(replacement_document_validation_request.new_document).to be_a(Document)
     expect(document.archived_at).not_to be_nil
-    expect(document.archive_reason).to eq("Applicant has provived a replacement document.")
+    expect(document.archive_reason).to eq("Applicant has provided a replacement document.")
   end
 
   it "copies old document tags and reference to new document" do

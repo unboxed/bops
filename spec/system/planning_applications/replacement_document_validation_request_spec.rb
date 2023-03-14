@@ -101,7 +101,11 @@ RSpec.describe "Requesting document changes to a planning application" do
       click_button "Save request"
 
       expect(page).to have_content("Replacement document validation request successfully created.")
-      expect(document1.reload.replacement_document_validation_request).to eq(ReplacementDocumentValidationRequest.last)
+
+      document1.reload
+      expect(document1.replacement_document_validation_request).to eq(ReplacementDocumentValidationRequest.last)
+      expect(document1.replacement_document_validation_request.post_validation).to be_falsey
+
       within("#invalid-items-count") do
         expect(page).to have_content("Invalid items 1")
       end
@@ -465,6 +469,81 @@ RSpec.describe "Requesting document changes to a planning application" do
 
       within("#document-validation-tasks") do
         expect(page).to have_content("Planning application has already been validated")
+      end
+    end
+
+    it "allows new replacement requests" do
+      click_link "Check and assess"
+      click_button "Documents"
+      click_link "Request replacement"
+
+      fill_in "List all issues with the document.", with: "This is very invalid"
+      click_button "Send request"
+
+      expect(page).to have_content("Replacement document validation request successfully created.")
+
+      document1.reload
+      expect(document1.replacement_document_validation_request).to eq(ReplacementDocumentValidationRequest.last)
+      expect(document1.replacement_document_validation_request.post_validation).to be true
+    end
+
+    it "appears in the post validation requests table" do
+      click_link "Check and assess"
+      click_button "Documents"
+      click_link "Request replacement"
+
+      fill_in "List all issues with the document.", with: "This is very invalid"
+      click_button "Send request"
+      click_link "Application"
+      click_link "Review non-validation requests"
+
+      within ".validation-requests-table" do
+        expect(page).to have_content(document1.name)
+      end
+    end
+
+    it "sends an email notification" do
+      delivered_emails = ActionMailer::Base.deliveries.count
+
+      click_link "Check and assess"
+      click_button "Documents"
+      click_link "Request replacement"
+
+      fill_in "List all issues with the document.", with: "This is very invalid"
+      click_button "Send request"
+
+      expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
+    end
+
+    it "allows new replacement requests to be responded to" do
+      click_link "Check and assess"
+      click_button "Documents"
+      click_link "Request replacement"
+
+      fill_in "List all issues with the document.", with: "This is very invalid"
+      click_button "Send request"
+
+      expect(page).to have_content("Replacement document validation request successfully created.")
+      document1.reload
+
+      document2 = create(:document, :with_file, planning_application: planning_application)
+      request = planning_application.replacement_document_validation_requests.last
+      request.new_document = document2
+      request.state = "closed"
+      request.save!
+      request.old_document.archive("replaced by new document")
+
+      click_link "Application"
+      click_link "Check and assess"
+      click_button "Documents"
+      click_link "Manage documents"
+
+      within(".current-documents") do
+        expect(page).to have_content("File name: #{request.new_document.name}")
+      end
+      within(".archived-documents") do
+        expect(page).to have_content(request.old_document.name)
+        expect(page).to have_content("replaced by new document")
       end
     end
   end
