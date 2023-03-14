@@ -88,6 +88,8 @@ RSpec.describe "FeeItemsValidation" do
     it "renders fee related proposal details" do
       visit planning_application_fee_items_path(planning_application)
 
+      expect(page).to have_content("Related questions and answers from PlanX")
+
       table = find_all(".govuk-table").last
 
       within(table) do

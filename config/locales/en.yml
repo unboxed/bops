@@ -430,7 +430,7 @@ en:
       item: Item
       payment_reference: Payment Reference
     proposal_details_table:
-      related_questions: Related questions from PlanX
+      related_questions: Related questions and answers from PlanX
     validate:
       success: Fee item was marked as valid.
   form_actions:
