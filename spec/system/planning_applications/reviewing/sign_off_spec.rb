@@ -262,9 +262,10 @@ RSpec.describe "Reviewing sign-off" do
 
       fill_in "This information will appear on the decision notice.", with: "This text will appear on the decision notice."
       click_button "Save"
-      expect(page).to have_content("Planning application was successfully updated.")
+      expect(page).to have_content("The information appearing on the decision notice was successfully updated.")
+      expect(page).to have_current_path(edit_planning_application_recommendations_path(planning_application))
 
-      click_link "Review and sign-off"
+      click_link "Review"
       click_link "Sign-off recommendation"
 
       expect(page).to have_content("This text will appear on the decision notice.")
