@@ -22,24 +22,28 @@ class LocalAuthority < ApplicationRecord
   end
 
   def council_name
-    ripa? ? subdomain.capitalize : "#{subdomain.capitalize} Council"
+    plan_x? ? subdomain.capitalize : "#{subdomain.capitalize} Council"
   end
 
   def staging?
     ENV.fetch("STAGING_ENABLED", "false") == "true"
   end
 
+  def formatted_subdomain
+    plan_x? ? council_code : subdomain.capitalize
+  end
+
   private
 
   def council_code_exists
-    return true if ripa?
+    return true if plan_x?
     return true unless council_code_changed?
 
     errors.add(:council_code, "Please enter a valid council code") unless council_code == planning_data
   end
 
-  def ripa?
-    council_code == "RIPA"
+  def plan_x?
+    council_code == "PlanX"
   end
 
   def planning_data

@@ -97,12 +97,12 @@ RSpec.describe LocalAuthority do
       expect(local_authority.council_code).to eq("LBH")
     end
 
-    context "when it changes to RIPA" do
+    context "when it changes to PlanX" do
       it "returns council code" do
-        local_authority.council_code = "RIPA"
+        local_authority.council_code = "PlanX"
         local_authority.save!
 
-        expect(local_authority.council_code).to eq("RIPA")
+        expect(local_authority.council_code).to eq("PlanX")
       end
     end
 

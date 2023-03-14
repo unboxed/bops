@@ -37,7 +37,7 @@ RSpec.describe ProposalDetails::ListComponent, type: :component do
 
   it "renders 'Hide auto answered' check box" do
     expect(page).to have_field(
-      "View ONLY applicant answers, hide 'Auto-answered by RIPA'"
+      "View ONLY applicant answers, hide 'Auto-answered by PlanX'"
     )
   end
 

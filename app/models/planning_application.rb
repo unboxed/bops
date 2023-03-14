@@ -333,7 +333,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   # FIXME: it is unclear how the constraits are parsed/mapped from an
-  # API request. I was told (RIPA Slack, 12/21) that the list was:
+  # API request. I was told (RIPA (now PlanX) Slack, 12/21) that the list was:
   #
   # article4
   # article4.buckinghamshire.officetoresi

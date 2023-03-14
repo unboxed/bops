@@ -15,7 +15,7 @@ RSpec.describe "Planning guides" do
 
       within("header") do
         expect(page).to have_link(
-          "Ripa Back-office Planning System",
+          "PlanX Back-office Planning System",
           href: public_planning_guides_path
         )
       end
@@ -175,7 +175,7 @@ RSpec.describe "Planning guides" do
 
       within("header") do
         expect(page).to have_link(
-          "Ripa Back-office Planning System",
+          "PlanX Back-office Planning System",
           href: public_planning_guides_path
         )
       end

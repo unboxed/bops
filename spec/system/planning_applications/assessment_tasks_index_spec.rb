@@ -145,7 +145,7 @@ RSpec.describe "Assessment tasks" do
 
     it "lets user filter out auto answered proposal_details" do
       click_button("Proposal details")
-      check("View ONLY applicant answers, hide 'Auto-answered by RIPA")
+      check("View ONLY applicant answers, hide 'Auto-answered by PlanX")
 
       expect(page).to have_text(:visible, "Main")
       expect(page).not_to have_text(:visible, "Group 1")
