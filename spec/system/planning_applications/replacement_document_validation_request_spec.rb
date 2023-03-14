@@ -501,6 +501,19 @@ RSpec.describe "Requesting document changes to a planning application" do
       end
     end
 
+    it "sends an email notification" do
+      delivered_emails = ActionMailer::Base.deliveries.count
+
+      click_link "Check and assess"
+      click_button "Documents"
+      click_link "Request replacement"
+
+      fill_in "List all issues with the document.", with: "This is very invalid"
+      click_button "Send request"
+
+      expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
+    end
+
     it "allows new replacement requests to be responded to" do
       click_link "Check and assess"
       click_button "Documents"
