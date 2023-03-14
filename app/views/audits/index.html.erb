@@ -30,19 +30,7 @@
               <td class="govuk-table__cell"><%= audit_item.created_at.strftime("%d-%m-%Y %H:%M") %></td>
               <td class="govuk-table__cell"><%= audit_user_name(audit_item) %></td>
               <td colspan="2" class="govuk-table__cell">
-                <% if audit_item.activity_type.include?("request") || audit_item.activity_type.include?("document_received_at_changed") %>
-                  <% if audit_item.activity_type.match("/*_validation_request_cancelled") %>
-                    <%= render "audits/types/validation_request_cancelled", locals: { item: audit_item } %>
-                  <% else %>
-                    <%= render "audits/types/#{audit_item.activity_type}", locals: { item: audit_item } %>
-                  <% end %>
-                <% else %>
-                  <% if audit_item.activity_type.include?("submitted") %>
-                    <%= render "audits/types/#{audit_item.activity_type}", locals: { item: audit_item } %>
-                  <% else %>
-                    <%= render "audits/types/generic_audit_entry", locals: { item: audit_item } %>
-                  <% end %>
-                <% end %>
+                <%= render(Audits::ActivityComponent.new(audit: audit_item)) %>
               </td>
             <% end %>
           </tr>

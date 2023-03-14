@@ -2,12 +2,13 @@
 
 module PlanningApplications
   class PanelsComponent < ViewComponent::Base
-    def initialize(planning_applications:, exclude_others:, current_user:, search:, filter:)
+    def initialize(planning_applications:, exclude_others:, current_user:, search:, filter:, local_authority:)
       @planning_applications = planning_applications
       @exclude_others = exclude_others
       @current_user = current_user
       @search = search
       @filter = filter
+      @local_authority = local_authority
     end
 
     private
@@ -40,6 +41,10 @@ module PlanningApplications
       end
     end
 
-    attr_reader :planning_applications, :exclude_others, :current_user, :search, :filter
+    def local_authority_most_recent_audits_for_planning_applications
+      local_authority.audits.most_recent_for_planning_applications
+    end
+
+    attr_reader :planning_applications, :exclude_others, :current_user, :search, :filter, :local_authority
   end
 end

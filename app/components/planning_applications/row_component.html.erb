@@ -1,6 +1,6 @@
 <tr class="govuk-table__row" id=<%= dom_id(planning_application) %>>
   <% attributes.each do |attribute| %>
-    <td class="govuk-table__cell">
+    <td class="govuk-table__cell<%= " bottom-border-none" if audit %>">
       <%= link_to_if(
         attribute == :reference,
         planning_application.send(attribute),
@@ -9,3 +9,14 @@
     </td>
   <% end %>
 </tr>
+
+<% if audit %>
+  <tr class="govuk-table__row" id=<%= dom_id(audit) %>>
+    <td class="govuk-table__cell govuk-!-padding-left-2 govuk-!-padding-bottom-0 govuk-!-padding-top-0" colspan="<%= attributes.length %>">
+      <div class="govuk-inset-text">
+        <p><strong>Update:</strong> <%= render(Audits::ActivityComponent.new(audit: audit)) %></p>
+        <p class="govuk-body"><%= audit.created_at.to_fs %></p>
+      </div>
+    </td>
+  </tr>
+<% end %>

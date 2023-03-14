@@ -1,0 +1,28 @@
+<div class="govuk-tabs__panel" id="updated">
+  <h2 class="govuk-heading-m">Updated</h2>
+
+  <p>This list shows applications which have been recently updated by a user other than the assigned officer.</p>
+
+  <table class="govuk-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <% attributes.each do |attribute| %>
+          <th scope="col" class="govuk-table__header">
+            <%= I18n.t("planning_applications.panel_component.#{attribute}") %>
+          </th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% audits.each do |audit| %>
+        <%= render(
+          PlanningApplications::RowComponent.new(
+            planning_application: audit.planning_application,
+            attributes: attributes,
+            audit: audit
+          )
+        ) %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
