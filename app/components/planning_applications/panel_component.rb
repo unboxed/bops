@@ -2,7 +2,7 @@
 
 module PlanningApplications
   class PanelComponent < ViewComponent::Base
-    def initialize(planning_applications:, type:, current_user:, search_filter: nil, exclude_others: nil)
+    def initialize(planning_applications:, type:, search_filter: nil, current_user:, exclude_others: nil)
       @planning_applications = planning_applications
       @type = type
       @search_filter = search_filter
@@ -29,7 +29,7 @@ module PlanningApplications
     end
 
     def all_attributes
-      %i[formatted_expiry_date reference status_tag full_address description]
+      %i[formatted_expiry_date reference status_tag full_address description user_name]
     end
 
     def your_application_attributes

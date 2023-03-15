@@ -12,12 +12,11 @@ module PlanningApplications
     private
 
     def filter_types
-      @current_user.reviewer? ? PlanningApplication::REVIEWER_FILTER_OPTIONS : PlanningApplication::FILTER_OPTIONS
+      PlanningApplication::FILTER_OPTIONS
     end
 
     def selected_filters_count
-      #search_filter.filter_options&.reject(&:empty?)&.count || filter_types.count
-      5
+      search_filter&.filter_types&.count || filter_types.count
     end
 
     attr_reader :search_filter, :panel_type, :exclude_others

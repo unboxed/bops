@@ -38,7 +38,6 @@
         </h3>
       </div>
       <div class="govuk-accordion__section-content">
-        <%= hidden_field_tag(:q, "exclude_others") %>
         <%= form.govuk_collection_check_boxes(:filter_options, filter_types, :to_s, :humanize, small: true, legend: nil, classes: "display-flex") %>
         <%= form.submit "Apply filters", class: "govuk-button govuk-button--secondary" %>
       </div>

@@ -9,16 +9,16 @@ class PlanningApplicationSearchFilter
     if query
       records_matching_query.where(status: [filtered_filter_types]) || []
     else
-      planning_applications.where(status: [filtered_filter_types])
+      planning_applications&.where(status: [filtered_filter_types])
     end
   end
 
   def filter_types
-    filter_options.reject(&:empty?)
+    filter_options&.reject(&:empty?)
   end
 
   def filtered_filter_types
-    filter_types.map { |x| x == "to_be_reviewed" ? "awaiting_correction" : x }
+    filter_types&.map { |x| x == "to_be_reviewed" ? "awaiting_correction" : x }
   end
 
   private

@@ -1,3 +1,12 @@
+<%= render(
+  PlanningApplications::PanelComponent.new(
+    planning_applications: all_planning_applications,
+    type: :all,
+    search_filter: search_filter,
+    exclude_others: exclude_others,
+    current_user: current_user
+  )
+) %>
 <% panel_types.each do |panel_type| %>
   <%= render(
     PlanningApplications::PanelComponent.new(
@@ -7,15 +16,6 @@
     )
   ) %>
 <% end %>
-<%= render(
-  PlanningApplications::PanelComponent.new(
-    planning_applications: all_planning_applications,
-    type: :all,
-    search_filter: @search_filter,
-    exclude_others: exclude_others,
-    current_user: current_user
-  )
-) %>
 <% if exclude_others %>
   <%= render(
     PlanningApplications::UpdatedPanelComponent.new(

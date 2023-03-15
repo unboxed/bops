@@ -3,12 +3,12 @@
   <%= render(
     PlanningApplications::SearchFilterComponent.new(
       current_user: current_user,
-      search_filter: search_filter,
       panel_type: type,
-      exclude_others: exclude_others
+      exclude_others: exclude_others,
+      search_filter: search_filter
     )
   ) %>
-  <% if false #search&.query && planning_applications.empty? %>
+  <% if search_filter&.results && planning_applications.empty? %>
     <p class="govuk-body"><%= t(".no_planning_applications") %></p>
   <% else %>
     <table class="govuk-table">

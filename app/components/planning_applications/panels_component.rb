@@ -13,17 +13,7 @@ module PlanningApplications
     private
 
     def panel_types
-      if @exclude_others
-        [:closed]
-      else
-        [
-          (:not_started_and_invalid unless reviewer_applications?),
-          (:under_assessment unless reviewer_applications?),
-          :awaiting_determination,
-          (:awaiting_correction unless current_user.assessor?),
-          :closed
-        ].compact
-      end
+      [:closed]
     end
 
     def reviewer_applications?
@@ -32,7 +22,11 @@ module PlanningApplications
 
     def all_planning_applications
       if search_filter.results
-        search_filter.results.select { |pa| pa.user == @current_user || pa.user.nil? }
+        if @exclude_others
+          search_filter.results.select { |pa| pa.user == @current_user || pa.user.nil? }
+        else 
+          search_filter.results
+        end
       else
         planning_applications
       end
