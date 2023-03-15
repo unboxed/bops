@@ -56,8 +56,7 @@
       <%= render(
         PlanningApplications::PanelsComponent.new(
           planning_applications: @planning_applications,
-          search: @search,
-          filter: @filter,
+          search_filter: @search_filter,
           current_user: current_user,
           exclude_others: exclude_others?,
           local_authority: current_local_authority

@@ -660,7 +660,7 @@ en:
       proposal_details: Proposal details
     publish:
       review_and_publish_determination: Review and publish determination
-    search_form_component:
+    search_filter_component:
       clear_search: Clear search
       find_an_application: Find an application
       search: Search

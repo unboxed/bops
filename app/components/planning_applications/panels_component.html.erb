@@ -11,8 +11,7 @@
   PlanningApplications::PanelComponent.new(
     planning_applications: all_planning_applications,
     type: :all,
-    search: search,
-    filter: exclude_others ? filter : nil,
+    search_filter: @search_filter,
     exclude_others: exclude_others,
     current_user: current_user
   )

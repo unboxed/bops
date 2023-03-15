@@ -2,12 +2,11 @@
 
 module PlanningApplications
   class PanelsComponent < ViewComponent::Base
-    def initialize(planning_applications:, exclude_others:, current_user:, search:, filter:, local_authority:)
+    def initialize(planning_applications:, exclude_others:, current_user:, search_filter:, local_authority:)
       @planning_applications = planning_applications
       @exclude_others = exclude_others
       @current_user = current_user
-      @search = search
-      @filter = filter
+      @search_filter = search_filter
       @local_authority = local_authority
     end
 
@@ -32,10 +31,8 @@ module PlanningApplications
     end
 
     def all_planning_applications
-      if search.query
-        search.results
-      elsif filter.filter_options
-        filter.results.select { |pa| pa.user == @current_user || pa.user.nil? }
+      if search_filter.results
+        search_filter.results.select { |pa| pa.user == @current_user || pa.user.nil? }
       else
         planning_applications
       end
@@ -45,6 +42,6 @@ module PlanningApplications
       local_authority.audits.most_recent_for_planning_applications
     end
 
-    attr_reader :planning_applications, :exclude_others, :current_user, :search, :filter, :local_authority
+    attr_reader :planning_applications, :exclude_others, :current_user, :search_filter, :local_authority
   end
 end

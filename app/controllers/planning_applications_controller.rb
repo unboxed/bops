@@ -32,20 +32,12 @@ class PlanningApplicationsController < AuthenticationController
                                planning_applications_scope
                              end
 
-    @filter = if params[:planning_application_filter].present?
-                PlanningApplicationFilter.new(
-                  planning_application_filter_params
+    @search_filter = if params[:planning_application_search_filter].present?
+                PlanningApplicationSearchFilter.new(
+                  planning_application_search_filter_params
                 )
               else
-                PlanningApplicationFilter.new
-              end
-
-    @search = if params[:planning_application_search].present?
-                PlanningApplicationSearch.new(
-                  planning_application_search_params
-                )
-              else
-                PlanningApplicationSearch.new
+                PlanningApplicationSearchFilter.new
               end
   end
 
@@ -259,17 +251,10 @@ class PlanningApplicationsController < AuthenticationController
 
   private
 
-  def planning_application_search_params
+  def planning_application_search_filter_params
     params
-      .require(:planning_application_search)
-      .permit(:query)
-      .merge(planning_applications: @planning_applications)
-  end
-
-  def planning_application_filter_params
-    params
-      .require(:planning_application_filter)
-      .permit(filter_options: [])
+      .require(:planning_application_search_filter)
+      .permit(:query, filter_options: [])
       .merge(planning_applications: @planning_applications)
   end
 

@@ -2,16 +2,15 @@
 
 module PlanningApplications
   class PanelComponent < ViewComponent::Base
-    def initialize(planning_applications:, type:, current_user:, filter: nil, search: nil, exclude_others: nil)
+    def initialize(planning_applications:, type:, current_user:, search_filter: nil, exclude_others: nil)
       @planning_applications = planning_applications
       @type = type
-      @search = search
-      @filter = filter
+      @search_filter = search_filter
       @exclude_others = exclude_others
       @current_user = current_user
     end
 
-    attr_reader :planning_applications, :type, :search, :exclude_others, :filter, :current_user
+    attr_reader :planning_applications, :type, :search_filter, :exclude_others, :current_user
 
     def title
       type == :all ? all_title : t(".#{type}")
