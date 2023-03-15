@@ -79,6 +79,31 @@ RSpec.describe "Planning application updated tab spec" do
     # Now perform an update to a planning application
     visit edit_planning_application_path(planning_application2)
 
+    within(find(:fieldset, text: "Agent information")) do
+      fill_in("Email address", with: "new_agent_email@example.com")
+    end
+
+    click_button("Save")
+    visit(root_path)
+    click_link "Updated"
+
+    last_audit = Audit.last
+    within("#audit_#{last_audit.id}") do
+      within(".govuk-inset-text") do
+        expect(page).to have_content(
+          "Update: Agent email updated Changed from: #{planning_application2.agent_email} Changed to: new_agent_email@example.com"
+        )
+      end
+    end
+
+    expect(page).to have_css("#planning_application_#{last_audit.planning_application.id}")
+
+    # Update takes precedent over the previous audit entry for the same planning application
+    expect(page).not_to have_css("#audit_#{audit2.id}")
+
+    # Now perform another update to the planning application
+    visit edit_planning_application_path(planning_application2)
+
     fill_in "planning_application[payment_amount]", with: "105.00"
 
     click_button("Save")
@@ -94,7 +119,7 @@ RSpec.describe "Planning application updated tab spec" do
     expect(page).to have_css("#planning_application_#{Audit.last.planning_application.id}")
 
     # Update takes precedent over the previous audit entry for the same planning application
-    expect(page).not_to have_css("#audit_#{audit2.id}")
+    expect(page).not_to have_css("#audit_#{last_audit.id}")
   end
 
   context "when there are updated planning applications outside my local authority" do
