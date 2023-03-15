@@ -97,7 +97,7 @@ RSpec.describe "API request to patch document create requests", show_exceptions:
     expect(response).to have_http_status(:bad_request)
   end
 
-  it "returns a 400 if the file size exceeds 30mb" do
+  it "returns a 413 if the file size exceeds 30mb" do
     # Return byte size greater than limit of 30mb (31457280 bytes)
     allow_any_instance_of(ActionDispatch::Http::UploadedFile).to receive(:size).and_return(31_457_281)
 
@@ -106,6 +106,6 @@ RSpec.describe "API request to patch document create requests", show_exceptions:
           headers: { Authorization: "Bearer #{api_user.token}" }
 
     expect(json).to eq({ "message" => "The file: 'proposed-floorplan.png' exceeds the limit of 30mb. Each file must be 30MB or less" })
-    expect(response).to have_http_status(:bad_request)
+    expect(response).to have_http_status(:payload_too_large)
   end
 end
