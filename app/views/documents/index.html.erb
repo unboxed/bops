@@ -102,12 +102,12 @@
                           url_for_document(document), target: :_blank %>
             </p>
             <p class="govuk-body">
-              <%= document.name %><br/>
+              <%= document.name %><br>
               <%= link_to "View in new window", url_for_document(document), target: :_new %>
             </p>
             <p class="govuk-body">
               <%= form_for document, url: planning_application_document_unarchive_path(document_id: document.id), class: "restore" do |form| %>
-                  <%= form.submit "Restore document", class: "govuk-body" %>
+                  <%= form.submit "Restore document", class: "govuk-body btn-link govuk-link" %>
               <% end %>
             </p>
           </td>

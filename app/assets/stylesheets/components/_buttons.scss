@@ -3,9 +3,9 @@
 }
 
 .govuk-button_link {
-  background: none!important;
+  background: none !important;
   border: none;
-  padding: 0!important !important;
+  padding: 0 !important;
   /*optional*/
   font-family: "GDS Transport", Arial, sans-serif;
   /*input has OS specific font-family*/
@@ -21,4 +21,11 @@
   margin-inline-start: 0;
   margin-inline-end: 0;
   padding-inline-start: 40px;
+}
+
+input.btn-link {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  color: blue;
 }
