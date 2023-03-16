@@ -203,6 +203,7 @@ en:
   application_types:
     full: Full Householder Application
     lawfulness_certificate: Lawful Development Certificate
+    lawfulness_certificate_abbr: LDC
   archive_reasons:
     design: Revise design
     dimensions: Revise dimensions
@@ -638,6 +639,7 @@ en:
       all_applications: All applications
       all_your_applications: Your live applications
       application_type_name: Application type
+      application_type_with_status: Application type
       awaiting_correction: Corrections requested
       awaiting_determination: Awaiting determination
       closed: Closed

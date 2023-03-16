@@ -34,7 +34,7 @@ module PlanningApplications
     end
 
     def your_application_attributes
-      %i[reference full_address application_type_name formatted_expiry_date remaining_days_status_tag status_tag]
+      %i[reference full_address application_type_with_status formatted_expiry_date remaining_days_status_tag status_tag]
     end
 
     def closed_attributes
@@ -51,7 +51,7 @@ module PlanningApplications
       %i[
         reference
         full_address
-        application_type_name
+        application_type_with_status
         formatted_expiry_date
         remaining_days_status_tag
         status_tag
