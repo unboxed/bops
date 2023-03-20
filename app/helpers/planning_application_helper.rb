@@ -18,14 +18,6 @@ module PlanningApplicationHelper
     end
   end
 
-  def filter_text
-    if current_user.assessor?
-      "View my applications"
-    else
-      "View assessed applications"
-    end
-  end
-
   def validation_request_summary(validation_requests, planning_application)
     if planning_application.invalidated?
       "This application has #{pluralize(validation_requests.count(&:open?),
