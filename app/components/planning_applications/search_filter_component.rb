@@ -23,7 +23,11 @@ module PlanningApplications
 
     def clear_search_url
       q = exclude_others ? "exclude_others" : nil
-      planning_applications_path(anchor: panel_type, q: q)
+      planning_applications_path(
+        anchor: panel_type,
+        q: q,
+        planning_application_search_filter: { filter_options: PlanningApplication::FILTER_OPTIONS }
+      )
     end
   end
 end
