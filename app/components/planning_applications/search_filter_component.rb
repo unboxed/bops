@@ -12,7 +12,7 @@ module PlanningApplications
     private
 
     def filter_types
-      PlanningApplication::FILTER_OPTIONS
+      (@current_user.reviewer? && @exclude_others) ? PlanningApplication::REVIEWER_FILTER_OPTIONS : PlanningApplication::FILTER_OPTIONS
     end
 
     def selected_filters_count
