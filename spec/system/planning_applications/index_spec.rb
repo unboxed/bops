@@ -238,10 +238,10 @@ RSpec.describe "Planning Application index page" do
 
         it "shows relevant application details" do
           visit(planning_applications_path)
-          click_link("All applications")
+          click_link("Live applications")
 
           within(selected_govuk_tab) do
-            expect(page).to have_content("All applications")
+            expect(page).to have_content("Live applications")
             row = row_with_content(planning_application.reference)
             expect(row).to have_content("Not started")
             expect(row).to have_content("1 Mar")
@@ -411,7 +411,7 @@ RSpec.describe "Planning Application index page" do
         expect(page).to have_text "In assessment"
       end
 
-      click_link "View assessed applications"
+      click_link "View my applications"
 
       within(:planning_applications_status_tab) do
         expect(page).to have_link "Your live applications"

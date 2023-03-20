@@ -133,12 +133,12 @@ RSpec.describe "searching planning applications" do
   context "when user views all planning applications" do
     before do
       visit(planning_applications_path)
-      click_link("All applications")
+      click_link("Live applications")
     end
 
     it "allows user to search planning applications by reference" do
       within(selected_govuk_tab) do
-        expect(page).to have_content("All applications")
+        expect(page).to have_content("Live applications")
         expect(page).not_to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
@@ -148,7 +148,7 @@ RSpec.describe "searching planning applications" do
       click_button("Search")
 
       within(selected_govuk_tab) do
-        expect(page).to have_content("All applications")
+        expect(page).to have_content("Live applications")
         expect(page).to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
@@ -159,7 +159,7 @@ RSpec.describe "searching planning applications" do
       click_button("Search")
 
       within(selected_govuk_tab) do
-        expect(page).to have_content("All applications")
+        expect(page).to have_content("Live applications")
         expect(page).not_to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
@@ -171,7 +171,7 @@ RSpec.describe "searching planning applications" do
       visit(search_url)
 
       within(selected_govuk_tab) do
-        expect(page).to have_content("All applications")
+        expect(page).to have_content("Live applications")
         expect(page).not_to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
@@ -183,7 +183,7 @@ RSpec.describe "searching planning applications" do
       expect(find_field("Find an application").value).to eq("")
 
       within(selected_govuk_tab) do
-        expect(page).to have_content("All applications")
+        expect(page).to have_content("Live applications")
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
         expect(page).to have_content(planning_application3.reference)
@@ -208,7 +208,7 @@ RSpec.describe "searching planning applications" do
       expect(find_field("Find an application").value).to eq("")
 
       within(selected_govuk_tab) do
-        expect(page).to have_content("All applications")
+        expect(page).to have_content("Live applications")
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
         expect(page).to have_content(planning_application3.reference)
