@@ -636,7 +636,7 @@ en:
       other: "%{count} days overdue"
     panel_component:
       all: All
-      all_applications: All applications
+      all_applications: Live applications
       all_your_applications: Your live applications
       application_type_name: Application type
       application_type_with_status: Application type
@@ -686,7 +686,7 @@ en:
       assessment_report: Assessment report details
       download_assessment_report: Download assessment report as PDF
     tabs:
-      all_applications: All applications
+      all_applications: Live applications
       all_your_applications: Your live applications
     update:
       success: Planning application was successfully updated.
