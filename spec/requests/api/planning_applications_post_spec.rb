@@ -10,7 +10,7 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
   def post_with(params:, headers: {})
     post(
       "/api/v1/planning_applications",
-      params: params,
+      params:,
       headers: {
         "CONTENT-TYPE": "application/json",
         Authorization: "Bearer #{api_user.token}"

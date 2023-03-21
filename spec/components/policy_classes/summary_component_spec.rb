@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe PolicyClasses::SummaryComponent, type: :component do
   let(:summary_component) do
-    described_class.new(policy_class: policy_class)
+    described_class.new(policy_class:)
   end
 
   describe "#policies_summary" do

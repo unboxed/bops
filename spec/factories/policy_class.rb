@@ -11,7 +11,7 @@ FactoryBot.define do
 
     trait :complies do
       after(:create) do |policy_class|
-        create(:policy, :complies, policy_class: policy_class)
+        create(:policy, :complies, policy_class:)
       end
     end
 

@@ -53,7 +53,7 @@ class AssessmentDetail < ApplicationRecord
   delegate :consultees, to: :planning_application
 
   categories.each do |category|
-    scope :"#{category}", -> { where(category: category) }
+    scope :"#{category}", -> { where(category:) }
   end
 
   class << self

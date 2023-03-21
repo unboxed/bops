@@ -16,7 +16,7 @@ RSpec.describe StatusTags::CheckAndAssessComponent, type: :component do
       create(
         :recommendation,
         submitted: true,
-        planning_application: planning_application
+        planning_application:
       )
 
       render_inline(
@@ -36,7 +36,7 @@ RSpec.describe StatusTags::CheckAndAssessComponent, type: :component do
         submitted: true,
         challenged: true,
         status: :review_complete,
-        planning_application: planning_application,
+        planning_application:,
         reviewer_comment: "comment"
       )
 
@@ -52,7 +52,7 @@ RSpec.describe StatusTags::CheckAndAssessComponent, type: :component do
 
   context "when assessment is in progress" do
     before do
-      create(:recommendation, planning_application: planning_application)
+      create(:recommendation, planning_application:)
 
       render_inline(
         described_class.new(planning_application: planning_applicaton_presenter)

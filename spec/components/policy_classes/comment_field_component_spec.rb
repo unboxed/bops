@@ -7,7 +7,7 @@ RSpec.describe PolicyClasses::CommentFieldComponent, type: :component do
   let(:policy) { create(:policy) }
 
   let(:component) do
-    described_class.new(policy: policy, comment: comment, policy_index: 1)
+    described_class.new(policy:, comment:, policy_index: 1)
   end
 
   before { Current.user = user }

@@ -8,7 +8,7 @@ RSpec.describe "Constraints" do
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create(:planning_application, :invalidated, local_authority: default_local_authority, api_user: api_user)
+    create(:planning_application, :invalidated, local_authority: default_local_authority, api_user:)
   end
 
   before do

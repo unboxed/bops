@@ -17,7 +17,7 @@ RSpec.describe "Description change validation requests API", show_exceptions: tr
   let!(:description_change_validation_request) do
     create(
       :description_change_validation_request,
-      planning_application: planning_application,
+      planning_application:,
       created_at: DateTime.new(2022, 6, 20),
       proposed_description: "New description"
     )

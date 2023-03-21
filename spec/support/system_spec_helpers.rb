@@ -10,7 +10,7 @@ module SystemSpecHelpers
   end
 
   def list_item(text, element = page)
-    element.find("li", text: text, match: :prefer_exact)
+    element.find("li", text:, match: :prefer_exact)
   end
 
   def find_checkbox_by_id(id)

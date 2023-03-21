@@ -22,7 +22,7 @@ module TaskListItems
       when :not_started, :to_be_reviewed
         new_planning_application_assessment_detail_path(
           planning_application,
-          category: category
+          category:
         )
       when :in_progress
         edit_planning_application_assessment_detail_path(

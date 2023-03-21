@@ -9,7 +9,7 @@ RSpec.describe "checking consistency" do
     create(
       :user,
       :assessor,
-      local_authority: local_authority,
+      local_authority:,
       name: "Alice Smith"
     )
   end
@@ -18,7 +18,7 @@ RSpec.describe "checking consistency" do
     create(
       :planning_application,
       :in_assessment,
-      local_authority: local_authority
+      local_authority:
     )
   end
 
@@ -300,7 +300,7 @@ RSpec.describe "checking consistency" do
       create(
         :additional_document_validation_request,
         :with_documents,
-        planning_application: planning_application
+        planning_application:
       )
     end
 
@@ -402,6 +402,6 @@ RSpec.describe "checking consistency" do
 
   def task_list_item
     text = "Check description, documents and proposal details"
-    find("span", text: text).find(:xpath, "..")
+    find("span", text:).find(:xpath, "..")
   end
 end

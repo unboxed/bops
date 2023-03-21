@@ -11,7 +11,7 @@ RSpec.describe TaskListItems::ReviewDocumentsComponent, type: :component do
   end
 
   let(:component) do
-    described_class.new(planning_application: planning_application)
+    described_class.new(planning_application:)
   end
 
   before { render_inline(component) }

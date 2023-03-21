@@ -112,7 +112,7 @@ class Document < ApplicationRecord
     return if archived?
 
     transaction do
-      update!(archive_reason: archive_reason, archived_at: Time.zone.now)
+      update!(archive_reason:, archived_at: Time.zone.now)
       audit!(activity_type: "archived", activity_information: file.filename, audit_comment: archive_reason)
     end
   end
@@ -125,7 +125,7 @@ class Document < ApplicationRecord
   end
 
   def published?
-    self.class.for_publication.where(id: id).any?
+    self.class.for_publication.where(id:).any?
   end
 
   def received_at_or_created
@@ -152,7 +152,7 @@ class Document < ApplicationRecord
   end
 
   def image_url(resize_to_limit = [1000, 1000])
-    file.representation(resize_to_limit: resize_to_limit).processed.url
+    file.representation(resize_to_limit:).processed.url
   rescue ActiveStorage::PreviewError => e
     logger.warn("Image retrieval failed for document ##{id} with error '#{e.message}'")
     nil

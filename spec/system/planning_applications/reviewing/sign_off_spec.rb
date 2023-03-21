@@ -24,7 +24,7 @@ RSpec.describe "Reviewing sign-off" do
         :awaiting_determination,
         local_authority: default_local_authority,
         decision: "granted",
-        user: user
+        user:
       )
     end
   end
@@ -35,12 +35,12 @@ RSpec.describe "Reviewing sign-off" do
 
   it "can be accepted" do
     create(:recommendation, :reviewed,
-           planning_application: planning_application,
+           planning_application:,
            assessor_comment: "First assessor comment",
            reviewer_comment: "First reviewer comment")
 
     create(:recommendation,
-           planning_application: planning_application,
+           planning_application:,
            assessor_comment: "New assessor comment",
            submitted: true)
 
@@ -92,8 +92,8 @@ RSpec.describe "Reviewing sign-off" do
 
   it "can be rejected" do
     create(:recommendation,
-           assessor: assessor,
-           planning_application: planning_application,
+           assessor:,
+           planning_application:,
            assessor_comment: "New assessor comment",
            submitted: true)
 
@@ -151,7 +151,7 @@ RSpec.describe "Reviewing sign-off" do
 
   it "cannot be rejected without a review comment" do
     create(:recommendation,
-           planning_application: planning_application,
+           planning_application:,
            assessor_comment: "New assessor comment",
            submitted: true)
 
@@ -171,7 +171,7 @@ RSpec.describe "Reviewing sign-off" do
 
   it "can be accepted without a review comment" do
     create(:recommendation,
-           planning_application: planning_application,
+           planning_application:,
            assessor_comment: "New assessor comment",
            submitted: true)
 
@@ -195,7 +195,7 @@ RSpec.describe "Reviewing sign-off" do
   end
 
   it "can edit an existing review of an assessment" do
-    recommendation = create(:recommendation, :reviewed, planning_application: planning_application,
+    recommendation = create(:recommendation, :reviewed, planning_application:,
                                                         reviewer_comment: "Reviewer private comment")
 
     visit(planning_application_path(planning_application))
@@ -230,7 +230,7 @@ RSpec.describe "Reviewing sign-off" do
   context "when editing the public comment that appears on the decision notice" do
     it "as a reviewer I am able to edit" do
       create(:recommendation,
-             planning_application: planning_application,
+             planning_application:,
              assessor_comment: "New assessor comment",
              submitted: true)
 
@@ -297,11 +297,11 @@ RSpec.describe "Reviewing sign-off" do
 
   context "when the reviewer requests changes" do
     before do
-      create(:recommendation, planning_application: planning_application)
+      create(:recommendation, planning_application:)
 
       create(
         :permitted_development_right,
-        planning_application: planning_application
+        planning_application:
       )
     end
 

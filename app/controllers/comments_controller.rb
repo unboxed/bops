@@ -19,11 +19,11 @@ class CommentsController < AuthenticationController
     render_to_string(
       partial: "planning_application/review_policy_classes/comment",
       locals: {
-        planning_application: planning_application,
-        policy_class: policy_class,
-        policy: policy,
+        planning_application:,
+        policy_class:,
+        policy:,
         comment: policy.comment,
-        new_comment: new_comment
+        new_comment:
       }
     )
   end
@@ -32,7 +32,7 @@ class CommentsController < AuthenticationController
     render_to_string(
       partial: "policy_classes/comment",
       locals: {
-        policy: policy,
+        policy:,
         comment: nil,
         policy_index: params[:policy_index]
       }

@@ -38,7 +38,7 @@ RSpec.describe "FeeItemsValidation" do
         local_authority: default_local_authority,
         payment_reference: "PAY1",
         payment_amount: 112.12,
-        proposal_details: proposal_details
+        proposal_details:
       )
     end
 
@@ -243,7 +243,7 @@ RSpec.describe "FeeItemsValidation" do
       let!(:other_change_validation_request) do
         create(
           :other_change_validation_request, :pending, :fee,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -320,7 +320,7 @@ RSpec.describe "FeeItemsValidation" do
           local_authority: default_local_authority,
           payment_reference: nil,
           payment_amount: nil,
-          proposal_details: proposal_details
+          proposal_details:
         )
       end
 
@@ -347,7 +347,7 @@ RSpec.describe "FeeItemsValidation" do
     let!(:other_change_validation_request) do
       create(
         :other_change_validation_request, :open, :fee,
-        planning_application: planning_application
+        planning_application:
       )
     end
 
@@ -429,7 +429,7 @@ RSpec.describe "FeeItemsValidation" do
       let!(:closed_other_change_validation_request) do
         create(
           :other_change_validation_request, :closed, :fee,
-          planning_application: planning_application,
+          planning_application:,
           response: "I agree with the fee"
         )
       end

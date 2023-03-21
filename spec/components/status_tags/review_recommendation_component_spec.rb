@@ -13,14 +13,14 @@ RSpec.describe StatusTags::ReviewRecommendationComponent, type: :component do
     before do
       create(
         :recommendation,
-        planning_application: planning_application,
+        planning_application:,
         status: :assessment_complete
       )
 
       render_inline(
         described_class.new(
-          planning_application: planning_application,
-          user: user
+          planning_application:,
+          user:
         )
       )
     end
@@ -35,13 +35,13 @@ RSpec.describe StatusTags::ReviewRecommendationComponent, type: :component do
       create(
         :recommendation,
         status: :review_complete,
-        planning_application: planning_application
+        planning_application:
       )
 
       render_inline(
         described_class.new(
-          planning_application: planning_application,
-          user: user
+          planning_application:,
+          user:
         )
       )
     end
@@ -55,28 +55,28 @@ RSpec.describe StatusTags::ReviewRecommendationComponent, type: :component do
     before do
       create(
         :recommendation,
-        planning_application: planning_application,
+        planning_application:,
         submitted: true,
         challenged: false
       )
 
       create(
         :permitted_development_right,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 1.day.ago,
         status: :to_be_reviewed
       )
 
       create(
         :permitted_development_right,
-        planning_application: planning_application,
+        planning_application:,
         review_status: :review_not_started
       )
 
       render_inline(
         described_class.new(
-          planning_application: planning_application,
-          user: user
+          planning_application:,
+          user:
         )
       )
     end
@@ -90,7 +90,7 @@ RSpec.describe StatusTags::ReviewRecommendationComponent, type: :component do
     before do
       create(
         :recommendation,
-        planning_application: planning_application,
+        planning_application:,
         submitted: true,
         challenged: false
       )
@@ -98,7 +98,7 @@ RSpec.describe StatusTags::ReviewRecommendationComponent, type: :component do
       create(
         :assessment_detail,
         :summary_of_work,
-        planning_application: planning_application,
+        planning_application:,
         review_status: :complete,
         reviewer_verdict: :rejected
       )
@@ -106,14 +106,14 @@ RSpec.describe StatusTags::ReviewRecommendationComponent, type: :component do
       create(
         :assessment_detail,
         :summary_of_work,
-        planning_application: planning_application,
+        planning_application:,
         assessment_status: :complete
       )
 
       render_inline(
         described_class.new(
-          planning_application: planning_application,
-          user: user
+          planning_application:,
+          user:
         )
       )
     end
@@ -127,14 +127,14 @@ RSpec.describe StatusTags::ReviewRecommendationComponent, type: :component do
     before do
       create(
         :recommendation,
-        planning_application: planning_application,
+        planning_application:,
         status: :review_in_progress
       )
 
       render_inline(
         described_class.new(
-          planning_application: planning_application,
-          user: user
+          planning_application:,
+          user:
         )
       )
     end

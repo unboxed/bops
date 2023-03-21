@@ -18,7 +18,7 @@ RSpec.describe PolicyClassPresenter, type: :presenter do
         create(
           :policy_class,
           :complete,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -36,7 +36,7 @@ RSpec.describe PolicyClassPresenter, type: :presenter do
         create(
           :policy_class,
           :in_assessment,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -57,7 +57,7 @@ RSpec.describe PolicyClassPresenter, type: :presenter do
       create(
         :policy_class,
         section: "B",
-        planning_application: planning_application
+        planning_application:
       )
     end
 
@@ -65,7 +65,7 @@ RSpec.describe PolicyClassPresenter, type: :presenter do
       create(
         :policy_class,
         section: "A",
-        planning_application: planning_application
+        planning_application:
       )
     end
 
@@ -85,7 +85,7 @@ RSpec.describe PolicyClassPresenter, type: :presenter do
       create(
         :policy_class,
         section: "A",
-        planning_application: planning_application
+        planning_application:
       )
     end
 
@@ -93,7 +93,7 @@ RSpec.describe PolicyClassPresenter, type: :presenter do
       create(
         :policy_class,
         section: "B",
-        planning_application: planning_application
+        planning_application:
       )
     end
 

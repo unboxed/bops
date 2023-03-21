@@ -14,8 +14,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     )
   end
 
-  let!(:reviewer) { create(:user, :reviewer, local_authority: local_authority) }
-  let!(:assessor) { create(:user, :assessor, local_authority: local_authority) }
+  let!(:reviewer) { create(:user, :reviewer, local_authority:) }
+  let!(:assessor) { create(:user, :assessor, local_authority:) }
 
   let(:planning_application) do
     create(
@@ -23,7 +23,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       :determined,
       agent_email: "cookie_crackers@example.com",
       applicant_email: "cookie_crumbs@example.com",
-      local_authority: local_authority,
+      local_authority:,
       decision: "granted",
       address_1: "123 High Street",
       town: "Big City",
@@ -47,14 +47,14 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
   let(:document_with_tags) do
     create(:document, :with_tags,
-           planning_application: planning_application,
+           planning_application:,
            numbers: "proposed_number_1, proposed_number_2",
            referenced_in_decision_notice: true)
   end
 
   let(:archived_document_with_tags) do
     create(:document, :archived, :with_tags,
-           planning_application: planning_application,
+           planning_application:,
            numbers: "archived_number")
   end
 
@@ -153,7 +153,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       create(
         :planning_application,
         :invalidated,
-        local_authority: local_authority,
+        local_authority:,
         address_1: "123 High Street",
         town: "Big City",
         postcode: "AB3 4EF",
@@ -162,7 +162,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     let(:validation_request) do
-      create(:other_change_validation_request, planning_application: planning_application, user: assessor)
+      create(:other_change_validation_request, planning_application:, user: assessor)
     end
 
     let(:invalidation_mail) do
@@ -535,7 +535,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       create(
         :planning_application,
         agent_email: "agent@example.com",
-        local_authority: local_authority,
+        local_authority:,
         address_1: "123 High Street",
         town: "Big City",
         postcode: "AB3 4EF"
@@ -545,7 +545,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     let(:description_change_request) do
       create(
         :description_change_validation_request,
-        planning_application: planning_application,
+        planning_application:,
         user: assessor,
         created_at: DateTime.new(2022, 5, 10)
       )

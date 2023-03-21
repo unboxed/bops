@@ -38,12 +38,12 @@ RSpec.describe OtherChangeValidationRequest do
 
     describe "#ensure_no_open_or_pending_fee_item_validation_request" do
       before do
-        create(:other_change_validation_request, :open, fee_item: true, planning_application: planning_application)
+        create(:other_change_validation_request, :open, fee_item: true, planning_application:)
       end
 
       it "validates that there is no open or pending fee validation request on create" do
         expect do
-          create(:other_change_validation_request, fee_item: true, planning_application: planning_application)
+          create(:other_change_validation_request, fee_item: true, planning_application:)
         end.to raise_error(
           ActiveRecord::RecordInvalid,
           "Validation failed: An open or pending fee validation request already exists for this planning application."
@@ -52,7 +52,7 @@ RSpec.describe OtherChangeValidationRequest do
 
       it "does not validate for non fee items" do
         expect do
-          create(:other_change_validation_request, planning_application: planning_application)
+          create(:other_change_validation_request, planning_application:)
         end.not_to raise_error
       end
     end
@@ -105,7 +105,7 @@ RSpec.describe OtherChangeValidationRequest do
 
         context "when it is a closed fee item validation request" do
           let!(:other_change_validation_request) do
-            create(:other_change_validation_request, :open, fee_item: true, planning_application: planning_application)
+            create(:other_change_validation_request, :open, fee_item: true, planning_application:)
           end
 
           before { other_change_validation_request.update(state: "closed", response: "A response") }
@@ -118,7 +118,7 @@ RSpec.describe OtherChangeValidationRequest do
         context "when it is not a closed fee item validation request" do
           let!(:other_change_validation_request) do
             create(:other_change_validation_request, :pending, fee_item: true,
-                                                               planning_application: planning_application)
+                                                               planning_application:)
           end
 
           before { other_change_validation_request.update(summary: "bla") }
@@ -141,7 +141,7 @@ RSpec.describe OtherChangeValidationRequest do
         context "when it is a fee item validation request" do
           let(:other_change_validation_request) do
             create(:other_change_validation_request, :pending, fee_item: true,
-                                                               planning_application: planning_application)
+                                                               planning_application:)
           end
 
           it "updates and resets the valid_fee to nil on the planning application" do
@@ -152,7 +152,7 @@ RSpec.describe OtherChangeValidationRequest do
         context "when it is not a fee item validation request" do
           let(:other_change_validation_request) do
             create(:other_change_validation_request, :pending, fee_item: false,
-                                                               planning_application: planning_application)
+                                                               planning_application:)
           end
 
           it "does not update the valid_fee on the planning application" do
@@ -169,7 +169,7 @@ RSpec.describe OtherChangeValidationRequest do
         context "when it is a fee item validation request" do
           let(:other_change_validation_request) do
             create(:other_change_validation_request, :pending, fee_item: true,
-                                                               planning_application: planning_application)
+                                                               planning_application:)
           end
 
           it "updates the invalid payment amount on the planning application" do
@@ -182,7 +182,7 @@ RSpec.describe OtherChangeValidationRequest do
         context "when it is not a fee item validation request" do
           let(:other_change_validation_request) do
             create(:other_change_validation_request, :pending, fee_item: false,
-                                                               planning_application: planning_application)
+                                                               planning_application:)
           end
 
           it "does not update the invalid payment amount on the planning application" do
@@ -197,7 +197,7 @@ RSpec.describe OtherChangeValidationRequest do
         context "when a planning application has been validated" do
           let(:planning_application) { create(:planning_application, :in_assessment) }
           let(:other_change_validation_request) do
-            create(:other_change_validation_request, planning_application: planning_application)
+            create(:other_change_validation_request, planning_application:)
           end
 
           it "prevents an other_change_validation_request from being created" do
@@ -214,9 +214,9 @@ RSpec.describe OtherChangeValidationRequest do
   describe "callbacks" do
     describe "::before_create #reset_validation_requests_update_counter" do
       let(:local_authority) { create(:local_authority) }
-      let!(:planning_application) { create(:planning_application, :invalidated, local_authority: local_authority) }
-      let(:fee_item_validation_request1) { create(:other_change_validation_request, :open, :fee, planning_application: planning_application, response: "ok") }
-      let(:fee_item_validation_request2) { create(:other_change_validation_request, :open, :fee, planning_application: planning_application, response: "ok") }
+      let!(:planning_application) { create(:planning_application, :invalidated, local_authority:) }
+      let(:fee_item_validation_request1) { create(:other_change_validation_request, :open, :fee, planning_application:, response: "ok") }
+      let(:fee_item_validation_request2) { create(:other_change_validation_request, :open, :fee, planning_application:, response: "ok") }
 
       context "when there is a closed fee item change request and a new request is made" do
         before { fee_item_validation_request1.close! }
@@ -231,8 +231,8 @@ RSpec.describe OtherChangeValidationRequest do
       end
 
       context "when the request is not a fee item" do
-        let(:other_change_validation_request1) { create(:other_change_validation_request, :open, planning_application: planning_application, response: "ok") }
-        let(:other_change_validation_request2) { create(:other_change_validation_request, :open, planning_application: planning_application, response: "ok") }
+        let(:other_change_validation_request1) { create(:other_change_validation_request, :open, planning_application:, response: "ok") }
+        let(:other_change_validation_request2) { create(:other_change_validation_request, :open, planning_application:, response: "ok") }
 
         before { other_change_validation_request1.close! }
 

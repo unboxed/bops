@@ -1,25 +1,6 @@
 {
   "ignored_warnings": [
     {
-      "warning_type": "Unmaintained Dependency",
-      "warning_code": 123,
-      "fingerprint": "870fa4a5cfd770898e1b7a159368b4210fe366634512563f9fb1c1cbbfef1d78",
-      "check_name": "EOLRuby",
-      "message": "Support for Ruby 2.7.5 ends on 2023-03-31",
-      "file": "Gemfile.lock",
-      "line": 364,
-      "link": "https://brakemanscanner.org/docs/warning_types/unmaintained_dependency/",
-      "code": null,
-      "render_path": null,
-      "location": null,
-      "user_input": null,
-      "confidence": "Medium",
-      "cwe_id": [
-        1104
-      ],
-      "note": ""
-    },
-    {
       "warning_type": "HTTP Verb Confusion",
       "warning_code": 118,
       "fingerprint": "9629e1b14cc8c66eb28d151ebd4ca28a458a3add860a62c9130def76133d424c",

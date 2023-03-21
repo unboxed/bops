@@ -8,14 +8,14 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
       :planning_application,
       description: "Test description",
       application_type: :full,
-      work_status: work_status,
+      work_status:,
       address_1: "123 Long Lane",
       town: "Big City",
       postcode: "AB34EF",
       uprn: "123456789",
-      payment_reference: payment_reference,
+      payment_reference:,
       payment_amount: 100,
-      user: user
+      user:
     )
   end
 
@@ -24,7 +24,7 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
   let(:work_status) { :proposed }
 
   let(:component) do
-    described_class.new(planning_application: planning_application)
+    described_class.new(planning_application:)
   end
 
   it "renders the planning application description" do
@@ -130,7 +130,7 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
     let!(:description_change_validation_request) do
       create(
         :description_change_validation_request,
-        planning_application: planning_application
+        planning_application:
       )
     end
 

@@ -14,7 +14,7 @@ RSpec.describe AssessmentDetail do
           :assessment_detail,
           :past_applications,
           entry: "",
-          assessment_status: assessment_status
+          assessment_status:
         )
       end
 
@@ -23,7 +23,7 @@ RSpec.describe AssessmentDetail do
           :assessment_detail,
           :consultation_summary,
           entry: "",
-          assessment_status: assessment_status
+          assessment_status:
         )
       end
 
@@ -93,7 +93,7 @@ RSpec.describe AssessmentDetail do
               :assessment_detail,
               :"#{category_type}",
               created_at: 1.day.ago,
-              planning_application: planning_application
+              planning_application:
             )
           end
 
@@ -102,7 +102,7 @@ RSpec.describe AssessmentDetail do
               :assessment_detail,
               :"#{category_type}",
               created_at: Time.zone.now,
-              planning_application: planning_application
+              planning_application:
             )
           end
 
@@ -111,7 +111,7 @@ RSpec.describe AssessmentDetail do
               :assessment_detail,
               :"#{category_type}",
               created_at: 2.days.ago,
-              planning_application: planning_application
+              planning_application:
             )
           end
 
@@ -139,12 +139,12 @@ RSpec.describe AssessmentDetail do
     let(:assessment_detail) do
       build(
         :assessment_detail,
-        assessment_status: assessment_status,
-        category: category,
-        planning_application: planning_application,
-        reviewer_verdict: reviewer_verdict,
-        entry: entry,
-        additional_information: additional_information
+        assessment_status:,
+        category:,
+        planning_application:,
+        reviewer_verdict:,
+        entry:,
+        additional_information:
       )
     end
 

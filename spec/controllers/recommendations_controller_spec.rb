@@ -7,14 +7,14 @@ RSpec.describe RecommendationsController do
     let(:local_authority) { create(:local_authority, :default) }
 
     let(:reviewer) do
-      create(:user, :reviewer, local_authority: local_authority)
+      create(:user, :reviewer, local_authority:)
     end
 
     let(:planning_application) do
       create(
         :planning_application,
         :awaiting_determination,
-        local_authority: local_authority
+        local_authority:
       )
     end
 
@@ -23,7 +23,7 @@ RSpec.describe RecommendationsController do
         :recommendation,
         :assessment_complete,
         submitted: true,
-        planning_application: planning_application
+        planning_application:
       )
     end
 
@@ -46,7 +46,7 @@ RSpec.describe RecommendationsController do
     end
 
     it "updates recommendation" do
-      put :update, params: params
+      put(:update, params:)
 
       expect(recommendation.reload).to have_attributes(
         recommendation_params.merge(status: "review_in_progress")
@@ -54,7 +54,7 @@ RSpec.describe RecommendationsController do
     end
 
     it "redirects to planning application path" do
-      post :update, params: params
+      post(:update, params:)
 
       expect(response).to redirect_to(
         planning_application_review_tasks_path(planning_application)
@@ -69,7 +69,7 @@ RSpec.describe RecommendationsController do
       end
 
       it "renders edit" do
-        post :update, params: params
+        post(:update, params:)
 
         expect(response).to render_template(:edit)
       end

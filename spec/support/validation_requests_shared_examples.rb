@@ -6,8 +6,8 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
   let!(:current_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) { create(:planning_application, :invalidated, local_authority: current_local_authority) }
   let!(:assessor) { create(:user, :assessor, local_authority: current_local_authority) }
-  let(:request) { create(request_type, planning_application: planning_application) }
-  let(:document) { create(:document, planning_application: planning_application) }
+  let(:request) { create(request_type, planning_application:) }
+  let(:document) { create(:document, planning_application:) }
 
   before do
     allow(LocalAuthority).to receive(:find_by).and_return(current_local_authority)
@@ -23,14 +23,14 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
           planning_application_id: request.planning_application.id
         }
 
-        get :cancel_confirmation, params: params
+        get(:cancel_confirmation, params:)
 
         expect(response).to be_ok
       end
     end
 
     describe "when the validation request can not be cancelled" do
-      let!(:request) { create(request_type, :cancelled, planning_application: planning_application) }
+      let!(:request) { create(request_type, :cancelled, planning_application:) }
 
       it "responds with a 404" do
         params = {
@@ -38,7 +38,7 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
           planning_application_id: request.planning_application.id
         }
 
-        get :cancel_confirmation, params: params
+        get(:cancel_confirmation, params:)
 
         expect(response).to be_not_found
       end
@@ -54,7 +54,7 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
           "#{request_type}": { cancel_reason: "my mistake" }
         }
 
-        patch :cancel, params: params
+        patch(:cancel, params:)
 
         expect(response).to redirect_to planning_application_validation_requests_path(planning_application)
       end
@@ -68,7 +68,7 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
           "#{request_type}": { cancel_reason: "" }
         }
 
-        patch :cancel, params: params
+        patch(:cancel, params:)
 
         expect(response).to redirect_to send("cancel_confirmation_planning_application_#{request_type}_path",
                                              planning_application, request)
@@ -83,7 +83,7 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
           "#{request_type}": { cancel_reason: request.cancel_reason }
         }
 
-        patch :cancel, params: params
+        patch(:cancel, params:)
 
         expect(response).to redirect_to send("cancel_confirmation_planning_application_#{request_type}_path",
                                              planning_application, request)
@@ -103,7 +103,7 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
           planning_application_id: request.planning_application.id
         }
 
-        get :new, params: params
+        get(:new, params:)
 
         expect(response).to be_forbidden
       end
@@ -120,7 +120,7 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
           params[:document] = request.old_document_id
         end
 
-        get :new, params: params
+        get(:new, params:)
 
         expect(response).to be_ok
       end

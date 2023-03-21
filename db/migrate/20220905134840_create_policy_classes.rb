@@ -27,7 +27,7 @@ class CreatePolicyClasses < ActiveRecord::Migration[6.1]
     PlanningApplication.find_each do |planning_application|
       planning_application.policy_classes_bak.each do |policy_class_attributes|
         policy_class = PolicyClass.create!(
-          planning_application: planning_application,
+          planning_application:,
           schedule: "Schedule 1",
           part: policy_class_attributes["part"],
           section: policy_class_attributes["id"],
@@ -37,7 +37,7 @@ class CreatePolicyClasses < ActiveRecord::Migration[6.1]
 
         policy_class_attributes["policies"].each do |policy_attributes|
           Policy.create!(
-            policy_class: policy_class,
+            policy_class:,
             section: policy_attributes["id"],
             description: policy_attributes["description"],
             status: policy_attributes["status"]

@@ -12,7 +12,7 @@ module PlanningDataHelper
 
     body = Rails.root.join("spec", "fixtures", "planning_data", "#{body}.json").read
 
-    { status: status, body: body }
+    { status:, body: }
   end
 end
 

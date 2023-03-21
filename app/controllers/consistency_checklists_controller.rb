@@ -50,7 +50,7 @@ class ConsistencyChecklistsController < AuthenticationController
     params
       .require(:consistency_checklist)
       .permit(permitted_params)
-      .merge(status: status)
+      .merge(status:)
   end
 
   def permitted_params

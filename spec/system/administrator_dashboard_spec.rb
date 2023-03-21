@@ -7,7 +7,7 @@ RSpec.describe "administrator dashboard" do
 
   context "when user is administrator" do
     let(:user) do
-      create(:user, :administrator, local_authority: local_authority)
+      create(:user, :administrator, local_authority:)
     end
 
     it "allows access to dashboard" do
@@ -19,7 +19,7 @@ RSpec.describe "administrator dashboard" do
 
   context "when user is assessor" do
     let(:user) do
-      create(:user, :assessor, local_authority: local_authority)
+      create(:user, :assessor, local_authority:)
     end
 
     it "does not allow access to dashboard" do
@@ -31,7 +31,7 @@ RSpec.describe "administrator dashboard" do
 
   context "when user is reviewer" do
     let(:user) do
-      create(:user, :reviewer, local_authority: local_authority)
+      create(:user, :reviewer, local_authority:)
     end
 
     it "does not allow access to dashboard" do

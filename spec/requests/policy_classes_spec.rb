@@ -29,7 +29,7 @@ RSpec.describe "Policy classes", show_exceptions: true do
       policy_classes: []
     }
 
-    post planning_application_policy_classes_path(planning_application), params: params
+    post(planning_application_policy_classes_path(planning_application), params:)
 
     expect(response).to redirect_to planning_application_assessment_tasks_path(planning_application)
     follow_redirect!
@@ -48,7 +48,7 @@ RSpec.describe "Policy classes", show_exceptions: true do
         ]
       }
 
-      post planning_application_policy_classes_path(planning_application), params: params
+      post(planning_application_policy_classes_path(planning_application), params:)
 
       expect(response).to be_forbidden
     end

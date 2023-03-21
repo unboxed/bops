@@ -1,4 +1,4 @@
-FROM ruby:2.7.5
+FROM ruby:3.2.1
 
 # Match our Bundler version
 RUN gem install bundler -v 2.3.5
@@ -14,7 +14,7 @@ RUN apt-get install -y --no-install-recommends poppler-utils
 
 ## Install gems in a separate Docker fs layer
 WORKDIR /gems
-COPY Gemfile Gemfile.lock ./
+COPY Gemfile Gemfile.lock ./ .ruby-version ./
 RUN bundle
 
 ## Node

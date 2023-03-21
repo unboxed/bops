@@ -7,17 +7,17 @@ RSpec.describe "Other change validation requests API", show_exceptions: true do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) { create(:planning_application, :invalidated, local_authority: default_local_authority) }
   let!(:other_change_validation_request) do
-    create(:other_change_validation_request, planning_application: planning_application)
+    create(:other_change_validation_request, planning_application:)
   end
   let(:token) { "Bearer #{api_user.token}" }
 
   describe "#index" do
     let(:path) { "/api/v1/planning_applications/#{planning_application.id}/other_change_validation_requests" }
     let!(:other_change_validation_request2) do
-      create(:other_change_validation_request, :closed, planning_application: planning_application)
+      create(:other_change_validation_request, :closed, planning_application:)
     end
     let!(:other_change_validation_request3) do
-      create(:other_change_validation_request, :cancelled, planning_application: planning_application)
+      create(:other_change_validation_request, :cancelled, planning_application:)
     end
 
     context "when the request is successful" do

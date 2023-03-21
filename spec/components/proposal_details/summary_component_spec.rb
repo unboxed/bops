@@ -17,7 +17,7 @@ RSpec.describe ProposalDetails::SummaryComponent, type: :component do
   end
 
   let(:proposal_detail) { ProposalDetail.new(proposal_detail_attributes, 1) }
-  let(:component) { described_class.new(proposal_detail: proposal_detail) }
+  let(:component) { described_class.new(proposal_detail:) }
 
   before { render_inline(component) }
 

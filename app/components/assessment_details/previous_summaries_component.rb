@@ -12,7 +12,7 @@ module AssessmentDetails
     attr_reader :planning_application, :category
 
     def assessment_details
-      planning_application.assessment_details.where(category: category)[1..]
+      planning_application.assessment_details.where(category:)[1..]
     end
   end
 end

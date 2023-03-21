@@ -9,7 +9,7 @@ RSpec.describe "viewing assessment report" do
     create(
       :user,
       :assessor,
-      local_authority: local_authority
+      local_authority:
     )
   end
 
@@ -17,7 +17,7 @@ RSpec.describe "viewing assessment report" do
     create(
       :planning_application,
       :in_assessment,
-      local_authority: local_authority,
+      local_authority:,
       decision: :granted,
       constraints: ["conservation_area"]
     )
@@ -26,7 +26,7 @@ RSpec.describe "viewing assessment report" do
   let!(:document) do
     create(
       :document,
-      planning_application: planning_application,
+      planning_application:,
       referenced_in_decision_notice: true,
       numbers: "REF1"
     )
@@ -35,13 +35,13 @@ RSpec.describe "viewing assessment report" do
   before do
     create(
       :recommendation,
-      planning_application: planning_application
+      planning_application:
     )
 
     create(
       :assessment_detail,
       :past_applications,
-      planning_application: planning_application,
+      planning_application:,
       entry: "22-00999-LDCP",
       additional_information: "This is the past application history summary."
     )
@@ -49,27 +49,27 @@ RSpec.describe "viewing assessment report" do
     create(
       :assessment_detail,
       :summary_of_work,
-      planning_application: planning_application,
+      planning_application:,
       entry: "This is the summary of work."
     )
 
     create(
       :assessment_detail,
       :site_description,
-      planning_application: planning_application,
+      planning_application:,
       entry: "This is the location description."
     )
 
     create(
       :assessment_detail,
       :additional_evidence,
-      planning_application: planning_application,
+      planning_application:,
       entry: "This is the additional evidence."
     )
 
     create(
       :consultee,
-      planning_application: planning_application,
+      planning_application:,
       name: "Alice Smith",
       origin: :external
     )
@@ -77,14 +77,14 @@ RSpec.describe "viewing assessment report" do
     create(
       :assessment_detail,
       :consultation_summary,
-      planning_application: planning_application,
+      planning_application:,
       entry: "This is the consultation summary."
     )
 
     create(
       :policy_class,
       :complies,
-      planning_application: planning_application,
+      planning_application:,
       part: 1,
       section: "A",
       name: "Window boxes"

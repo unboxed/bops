@@ -18,7 +18,7 @@ RSpec.describe ProposalDetails::GroupComponent, type: :component do
     )
   end
 
-  let(:component) { described_class.new(group: group) }
+  let(:component) { described_class.new(group:) }
 
   before { render_inline(component) }
 

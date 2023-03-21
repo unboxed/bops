@@ -179,7 +179,7 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
     end
 
     let(:planning_application) do
-      create(:planning_application, proposal_details: proposal_details)
+      create(:planning_application, proposal_details:)
     end
 
     it "returns proposal details with 'fee' in the portal name" do
@@ -201,7 +201,7 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
         create(
           :description_change_validation_request,
           :open,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -219,7 +219,7 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
         create(
           :description_change_validation_request,
           :closed,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -234,7 +234,7 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
     let(:presenter) { described_class.new(view, planning_application) }
 
     before do
-      create(:policy_class, planning_application: planning_application)
+      create(:policy_class, planning_application:)
     end
 
     context "when there is a single policy class" do
@@ -245,7 +245,7 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
 
     context "when there are multiple policy classes" do
       before do
-        create(:policy_class, planning_application: planning_application)
+        create(:policy_class, planning_application:)
       end
 
       it "returns true" do

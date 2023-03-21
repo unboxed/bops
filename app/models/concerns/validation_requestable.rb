@@ -106,7 +106,7 @@ module ValidationRequestable
     end
 
     def set_sequence
-      self.sequence = self.class.where(planning_application: planning_application).count + 1
+      self.sequence = self.class.where(planning_application:).count + 1
     end
   end
 
@@ -119,7 +119,7 @@ module ValidationRequestable
       cancel!
       reset_columns
       audit!(activity_type: "#{self.class.name.underscore}_#{cancel_audit_event}", activity_information: sequence,
-             audit_comment: { cancel_reason: cancel_reason }.to_json)
+             audit_comment: { cancel_reason: }.to_json)
     end
   rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
     raise RecordCancelError, e.message
@@ -167,7 +167,7 @@ module ValidationRequestable
 
   def create_validation_request!
     ValidationRequest.create!(requestable_id: id, requestable_type: self.class,
-                              planning_application: planning_application)
+                              planning_application:)
   end
 
   def open_or_pending?
@@ -229,7 +229,7 @@ module ValidationRequestable
     audit!(
       activity_type: "#{self.class.name.underscore}_#{event}",
       activity_information: sequence.to_s,
-      audit_comment: audit_comment
+      audit_comment:
     )
   end
 

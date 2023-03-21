@@ -30,7 +30,7 @@ module Api
 
       def create
         @planning_application = PlanningApplicationCreationService.new(
-          local_authority: current_local_authority, params: params, api_user: current_api_user
+          local_authority: current_local_authority, params:, api_user: current_api_user
         ).call
 
         send_success_response

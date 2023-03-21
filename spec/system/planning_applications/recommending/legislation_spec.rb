@@ -84,16 +84,16 @@ RSpec.describe "Planning Application Assessment Legislation" do
       policy_class = create(:policy_class,
                             part: 1,
                             section: "T",
-                            planning_application: planning_application)
+                            planning_application:)
       create(:policy,
              :complies,
              section: "1A",
-             policy_class: policy_class)
+             policy_class:)
 
       create(:policy,
              :to_be_determined,
              section: "1A",
-             policy_class: policy_class)
+             policy_class:)
 
       visit(new_planning_application_recommendation_path(planning_application))
 
@@ -105,11 +105,11 @@ RSpec.describe "Planning Application Assessment Legislation" do
       policy_class = create(:policy_class,
                             part: 1,
                             section: "T",
-                            planning_application: planning_application)
+                            planning_application:)
       create(:policy,
              :does_not_comply,
              section: "1A",
-             policy_class: policy_class)
+             policy_class:)
 
       visit(new_planning_application_recommendation_path(planning_application))
 
@@ -123,11 +123,11 @@ RSpec.describe "Planning Application Assessment Legislation" do
       policy_class = create(:policy_class,
                             part: 1,
                             section: "T",
-                            planning_application: planning_application)
+                            planning_application:)
       policy = create(:policy,
                       :complies,
                       section: "1M",
-                      policy_class: policy_class)
+                      policy_class:)
 
       create(:comment, commentable: policy)
 

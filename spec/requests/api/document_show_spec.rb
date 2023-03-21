@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe "API request to show document file", show_exceptions: true do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) { create(:planning_application, :not_started, local_authority: default_local_authority) }
-  let!(:document) { create(:document, :with_file, :public, planning_application: planning_application) }
+  let!(:document) { create(:document, :with_file, :public, planning_application:) }
 
   describe "data" do
     it "returns a 404 if no planning application" do
@@ -21,7 +21,7 @@ RSpec.describe "API request to show document file", show_exceptions: true do
     end
 
     context "with a document that is not public" do
-      let!(:document) { create(:document, :with_file, planning_application: planning_application) }
+      let!(:document) { create(:document, :with_file, planning_application:) }
 
       it "returns a 404" do
         expect do
@@ -32,7 +32,7 @@ RSpec.describe "API request to show document file", show_exceptions: true do
 
     context "with a document that has been archived" do
       let!(:document) do
-        create(:document, :with_file, :referenced, :archived, planning_application: planning_application)
+        create(:document, :with_file, :referenced, :archived, planning_application:)
       end
 
       it "returns a 404" do

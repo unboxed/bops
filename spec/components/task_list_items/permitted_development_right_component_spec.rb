@@ -8,7 +8,7 @@ RSpec.describe TaskListItems::PermittedDevelopmentRightComponent, type: :compone
   context "when record does not exist" do
     before do
       render_inline(
-        described_class.new(planning_application: planning_application)
+        described_class.new(planning_application:)
       )
     end
 
@@ -28,7 +28,7 @@ RSpec.describe TaskListItems::PermittedDevelopmentRightComponent, type: :compone
     before do
       create(
         :permitted_development_right,
-        planning_application: planning_application,
+        planning_application:,
         status: :checked,
         review_status: :review_complete,
         accepted: false
@@ -38,12 +38,12 @@ RSpec.describe TaskListItems::PermittedDevelopmentRightComponent, type: :compone
         :recommendation,
         status: :review_complete,
         challenged: true,
-        planning_application: planning_application,
+        planning_application:,
         reviewer_comment: "comment"
       )
 
       render_inline(
-        described_class.new(planning_application: planning_application)
+        described_class.new(planning_application:)
       )
     end
 
@@ -63,14 +63,14 @@ RSpec.describe TaskListItems::PermittedDevelopmentRightComponent, type: :compone
     let!(:permitted_development_right) do
       create(
         :permitted_development_right,
-        planning_application: planning_application,
+        planning_application:,
         status: :in_progress
       )
     end
 
     before do
       render_inline(
-        described_class.new(planning_application: planning_application)
+        described_class.new(planning_application:)
       )
     end
 
@@ -90,14 +90,14 @@ RSpec.describe TaskListItems::PermittedDevelopmentRightComponent, type: :compone
     let!(:permitted_development_right) do
       create(
         :permitted_development_right,
-        planning_application: planning_application,
+        planning_application:,
         status: :checked
       )
     end
 
     before do
       render_inline(
-        described_class.new(planning_application: planning_application)
+        described_class.new(planning_application:)
       )
     end
 
@@ -117,14 +117,14 @@ RSpec.describe TaskListItems::PermittedDevelopmentRightComponent, type: :compone
     let!(:permitted_development_right) do
       create(
         :permitted_development_right,
-        planning_application: planning_application,
+        planning_application:,
         status: :removed
       )
     end
 
     before do
       render_inline(
-        described_class.new(planning_application: planning_application)
+        described_class.new(planning_application:)
       )
     end
 

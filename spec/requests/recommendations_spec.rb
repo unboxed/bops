@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe "Recommendations", show_exceptions: true do
   let!(:current_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) { create(:planning_application, local_authority: current_local_authority) }
-  let!(:recommendation) { create(:recommendation, planning_application: planning_application) }
+  let!(:recommendation) { create(:recommendation, planning_application:) }
 
   let!(:assessor) { create(:user, :assessor, local_authority: current_local_authority) }
 

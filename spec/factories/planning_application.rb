@@ -215,13 +215,13 @@ FactoryBot.define do
 
     trait :with_consultees do
       after(:create) do |planning_application|
-        create_list(:consultee, 3, planning_application: planning_application)
+        create_list(:consultee, 3, planning_application:)
       end
     end
 
     trait :with_recommendation do
       after(:create) do |planning_application|
-        create(:recommendation, planning_application: planning_application)
+        create(:recommendation, planning_application:)
       end
     end
 
@@ -263,7 +263,7 @@ FactoryBot.define do
 
             factory :submitted_planning_application do
               after(:create) do |planning_application|
-                create(:recommendation, planning_application: planning_application)
+                create(:recommendation, planning_application:)
 
                 planning_application.submit!
               end

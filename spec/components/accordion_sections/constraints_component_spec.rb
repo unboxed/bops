@@ -6,8 +6,8 @@ RSpec.describe AccordionSections::ConstraintsComponent, type: :component do
   let(:planning_application) do
     create(
       :planning_application,
-      updated_address_or_boundary_geojson: updated_address_or_boundary_geojson,
-      feedback: feedback
+      updated_address_or_boundary_geojson:,
+      feedback:
     )
   end
 
@@ -15,7 +15,7 @@ RSpec.describe AccordionSections::ConstraintsComponent, type: :component do
   let(:feedback) { {} }
 
   let(:component) do
-    described_class.new(planning_application: planning_application)
+    described_class.new(planning_application:)
   end
 
   context "when 'updated_address_or_boundary_geojson' is true" do

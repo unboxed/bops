@@ -20,7 +20,7 @@ module TaskListItems
 
     def status_tag_component
       StatusTags::AdditionalDocumentComponent.new(
-        planning_application: planning_application
+        planning_application:
       )
     end
   end

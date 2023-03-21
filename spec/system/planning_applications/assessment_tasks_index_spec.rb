@@ -82,7 +82,7 @@ RSpec.describe "Assessment tasks" do
     let(:planning_application) do
       create(
         :planning_application,
-        proposal_details: proposal_details,
+        proposal_details:,
         local_authority: default_local_authority
       )
     end

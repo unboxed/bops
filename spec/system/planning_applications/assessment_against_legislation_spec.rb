@@ -9,7 +9,7 @@ RSpec.describe "assessment against legislation" do
     create(
       :planning_application,
       :in_assessment,
-      local_authority: local_authority
+      local_authority:
     )
   end
 
@@ -18,7 +18,7 @@ RSpec.describe "assessment against legislation" do
       create(
         :user,
         :assessor,
-        local_authority: local_authority,
+        local_authority:,
         name: "Alice Smith"
       )
     end
@@ -27,7 +27,7 @@ RSpec.describe "assessment against legislation" do
       create(
         :user,
         :assessor,
-        local_authority: local_authority,
+        local_authority:,
         name: "Bella Jones"
       )
     end
@@ -139,7 +139,7 @@ RSpec.describe "assessment against legislation" do
       end
     end
 
-    skip "lets the user add and update comments" do
+    it "lets the user add and update comments", skip: "TOFIX: intermittent failure" do
       travel_to(Time.zone.local(2022, 9, 1))
       click_link("Check and assess")
       add_policy_classes(["Class D - porches"])
@@ -408,7 +408,7 @@ RSpec.describe "assessment against legislation" do
       create(
         :user,
         :reviewer,
-        local_authority: local_authority
+        local_authority:
       )
     end
 

@@ -7,13 +7,13 @@ RSpec.describe "API request to list validation requests", show_exceptions: true 
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) { create(:planning_application, :invalidated, local_authority: default_local_authority) }
   let!(:description_change_validation_request) do
-    create(:description_change_validation_request, planning_application: planning_application)
+    create(:description_change_validation_request, planning_application:)
   end
   let!(:replacement_document_validation_request) do
-    create(:replacement_document_validation_request, :with_response, planning_application: planning_application)
+    create(:replacement_document_validation_request, :with_response, planning_application:)
   end
   let!(:additional_document_validation_request) do
-    create(:additional_document_validation_request, :with_documents, planning_application: planning_application)
+    create(:additional_document_validation_request, :with_documents, planning_application:)
   end
 
   it "lists the all description validation requests that exist on the planning application" do

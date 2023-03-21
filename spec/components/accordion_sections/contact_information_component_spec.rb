@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe AccordionSections::ContactInformationComponent, type: :component do
   let(:component) do
-    described_class.new(planning_application: planning_application)
+    described_class.new(planning_application:)
   end
 
   before { render_inline(component) }

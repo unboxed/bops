@@ -5,8 +5,8 @@ class UploadDocumentsJob < ApplicationJob
 
   def perform(planning_application:, files:)
     UploadDocumentsService.new(
-      planning_application: planning_application,
-      files: files
+      planning_application:,
+      files:
     ).call
   end
 end

@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.shared_examples "ValidationRequestable" do
   describe "#sent_by" do
     let(:user) { create(:user) }
-    let(:request) { create(described_class.name.underscore, planning_application: planning_application) }
+    let(:request) { create(described_class.name.underscore, planning_application:) }
 
     before { Current.user = user }
 

@@ -19,7 +19,7 @@ RSpec.describe "Reviewing Tasks Index" do
     end
 
     it "while awaiting determination it can navigate around review tasks" do
-      create(:recommendation, planning_application: planning_application)
+      create(:recommendation, planning_application:)
       visit planning_application_path(planning_application)
 
       click_on "Review and sign-off"
@@ -40,7 +40,7 @@ RSpec.describe "Reviewing Tasks Index" do
     end
 
     it "displays chosen policy class in a list" do
-      policy_classes =  create_list(:policy_class, 3, planning_application: planning_application)
+      policy_classes =  create_list(:policy_class, 3, planning_application:)
       visit(planning_application_review_tasks_path(planning_application))
 
       expect(page).to have_selector("h1", text: "Review and sign-off")

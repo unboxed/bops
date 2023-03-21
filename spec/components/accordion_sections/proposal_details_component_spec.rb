@@ -6,7 +6,7 @@ RSpec.describe AccordionSections::ProposalDetailsComponent, type: :component do
   let(:planning_application) { create(:planning_application) }
 
   let(:component) do
-    described_class.new(planning_application: planning_application)
+    described_class.new(planning_application:)
   end
 
   before { render_inline(component) }
@@ -54,7 +54,7 @@ RSpec.describe AccordionSections::ProposalDetailsComponent, type: :component do
     end
 
     let(:planning_application) do
-      create(:planning_application, proposal_details: proposal_details)
+      create(:planning_application, proposal_details:)
     end
 
     it "renders proposal details" do

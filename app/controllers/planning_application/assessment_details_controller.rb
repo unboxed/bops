@@ -99,7 +99,7 @@ class PlanningApplication
       params
         .require(:assessment_detail)
         .permit(:entry, :category, :additional_information)
-        .merge(assessment_status: assessment_status)
+        .merge(assessment_status:)
     end
 
     def assessment_status

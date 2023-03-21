@@ -4,17 +4,17 @@ require "rails_helper"
 
 RSpec.describe "searching planning applications" do
   let(:local_authority) { create(:local_authority, :default) }
-  let(:user) { create(:user, :assessor, local_authority: local_authority) }
+  let(:user) { create(:user, :assessor, local_authority:) }
 
   let(:other_user) do
-    create(:user, :assessor, local_authority: local_authority)
+    create(:user, :assessor, local_authority:)
   end
 
   let!(:planning_application1) do
     create(
       :planning_application,
-      user: user,
-      local_authority: local_authority,
+      user:,
+      local_authority:,
       description: "Add a chimney stack"
     )
   end
@@ -23,7 +23,7 @@ RSpec.describe "searching planning applications" do
     create(
       :planning_application,
       user: nil,
-      local_authority: local_authority,
+      local_authority:,
       description: "Add a patio"
     )
   end
@@ -32,7 +32,7 @@ RSpec.describe "searching planning applications" do
     create(
       :planning_application,
       user: other_user,
-      local_authority: local_authority,
+      local_authority:,
       description: "Add a skylight"
     )
   end

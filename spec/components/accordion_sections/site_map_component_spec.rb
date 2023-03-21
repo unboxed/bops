@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe AccordionSections::SiteMapComponent, type: :component do
   let(:component) do
-    described_class.new(planning_application: planning_application)
+    described_class.new(planning_application:)
   end
 
   context "when planning application is validated" do
@@ -23,7 +23,7 @@ RSpec.describe AccordionSections::SiteMapComponent, type: :component do
       let!(:red_line_boundary_change_validation_request) do
         create(
           :red_line_boundary_change_validation_request,
-          planning_application: planning_application,
+          planning_application:,
           post_validation: true,
           state: :open
         )
@@ -43,7 +43,7 @@ RSpec.describe AccordionSections::SiteMapComponent, type: :component do
       let!(:red_line_boundary_change_validation_request) do
         create(
           :red_line_boundary_change_validation_request,
-          planning_application: planning_application,
+          planning_application:,
           post_validation: true,
           state: :closed
         )
@@ -92,9 +92,9 @@ RSpec.describe AccordionSections::SiteMapComponent, type: :component do
     let(:planning_application) do
       create(
         :planning_application,
-        boundary_geojson: boundary_geojson,
-        updated_address_or_boundary_geojson: updated_address_or_boundary_geojson,
-        boundary_created_by: boundary_created_by
+        boundary_geojson:,
+        updated_address_or_boundary_geojson:,
+        boundary_created_by:
       )
     end
 

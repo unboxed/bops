@@ -18,7 +18,7 @@ RSpec.describe "Validating the application" do
 
     context "when there is a closed validation request" do
       let!(:validation_request) do
-        create(:red_line_boundary_change_validation_request, planning_application: planning_application)
+        create(:red_line_boundary_change_validation_request, planning_application:)
       end
 
       context "when the request was closed during work hours" do

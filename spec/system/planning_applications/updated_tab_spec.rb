@@ -6,7 +6,7 @@ RSpec.describe "Planning application updated tab spec" do
   let!(:local_authority) { create(:local_authority, :default) }
 
   let!(:user) { create(:user, name: "Assigned Officer") }
-  let!(:assessor) { create(:user, :assessor, local_authority: local_authority) }
+  let!(:assessor) { create(:user, :assessor, local_authority:) }
 
   let!(:audit1) { create(:audit, created_at: 3.days.ago, planning_application: planning_application1, activity_type: "approved") }
   let!(:audit2) { create(:audit, created_at: 1.day.ago, planning_application: planning_application2, activity_type: "challenged") }
@@ -14,20 +14,20 @@ RSpec.describe "Planning application updated tab spec" do
   let!(:audit4) { create(:audit, created_at: 2.days.ago, planning_application: planning_application2) }
   let!(:audit5) { create(:audit, created_at: 5.days.ago, planning_application: planning_application3) }
   let!(:audit6) { create(:audit, created_at: 6.days.ago, planning_application: planning_application3) }
-  let!(:audit7) { create(:audit, created_at: 5.days.ago, planning_application: planning_application4, user: user) }
+  let!(:audit7) { create(:audit, created_at: 5.days.ago, planning_application: planning_application4, user:) }
 
   let(:planning_application1) do
-    travel_to(10.days.ago) { create(:planning_application, local_authority: local_authority) }
+    travel_to(10.days.ago) { create(:planning_application, local_authority:) }
   end
   let(:planning_application2) do
-    travel_to(10.days.ago) { create(:planning_application, local_authority: local_authority) }
+    travel_to(10.days.ago) { create(:planning_application, local_authority:) }
   end
   let(:planning_application3) do
-    travel_to(10.days.ago) { create(:planning_application, local_authority: local_authority) }
+    travel_to(10.days.ago) { create(:planning_application, local_authority:) }
   end
   # Create planning application that has an officer assigned
   let(:planning_application4) do
-    travel_to(10.days.ago) { create(:planning_application, user: user) }
+    travel_to(10.days.ago) { create(:planning_application, user:) }
   end
 
   before do

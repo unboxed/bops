@@ -7,8 +7,8 @@ RSpec.describe StatusTags::ReviewerAssessmentDetailComponent, type: :component d
 
   let(:component) do
     described_class.new(
-      planning_application: planning_application,
-      assessment_detail: assessment_detail
+      planning_application:,
+      assessment_detail:
     )
   end
 
@@ -29,7 +29,7 @@ RSpec.describe StatusTags::ReviewerAssessmentDetailComponent, type: :component d
       create(
         :assessment_detail,
         :summary_of_work,
-        planning_application: planning_application,
+        planning_application:,
         assessment_status: :in_progress
       )
     end
@@ -46,7 +46,7 @@ RSpec.describe StatusTags::ReviewerAssessmentDetailComponent, type: :component d
       create(
         :assessment_detail,
         :summary_of_work,
-        planning_application: planning_application,
+        planning_application:,
         assessment_status: :complete
       )
     end
@@ -63,7 +63,7 @@ RSpec.describe StatusTags::ReviewerAssessmentDetailComponent, type: :component d
       create(
         :assessment_detail,
         :summary_of_work,
-        planning_application: planning_application,
+        planning_application:,
         assessment_status: :complete,
         review_status: :complete,
         reviewer_verdict: :rejected
@@ -72,15 +72,15 @@ RSpec.describe StatusTags::ReviewerAssessmentDetailComponent, type: :component d
 
     let(:component) do
       described_class.new(
-        planning_application: planning_application,
-        assessment_detail: assessment_detail
+        planning_application:,
+        assessment_detail:
       )
     end
 
     before do
       create(
         :recommendation,
-        planning_application: planning_application,
+        planning_application:,
         challenged: true,
         status: :review_complete,
         reviewer_comment: "rejected"
@@ -99,29 +99,29 @@ RSpec.describe StatusTags::ReviewerAssessmentDetailComponent, type: :component d
       create(
         :assessment_detail,
         :summary_of_work,
-        planning_application: planning_application,
+        planning_application:,
         assessment_status: :complete
       )
     end
 
     let(:component) do
       described_class.new(
-        planning_application: planning_application,
-        assessment_detail: assessment_detail
+        planning_application:,
+        assessment_detail:
       )
     end
 
     before do
       create(
         :recommendation,
-        planning_application: planning_application,
+        planning_application:,
         submitted: true
       )
 
       create(
         :assessment_detail,
         :summary_of_work,
-        planning_application: planning_application,
+        planning_application:,
         review_status: :complete,
         reviewer_verdict: :rejected,
         created_at: 2.days.ago
@@ -139,7 +139,7 @@ RSpec.describe StatusTags::ReviewerAssessmentDetailComponent, type: :component d
         create(
           :assessment_detail,
           :summary_of_work,
-          planning_application: planning_application,
+          planning_application:,
           assessment_status: :complete,
           review_status: :complete,
           reviewer_verdict: :accepted

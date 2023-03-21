@@ -7,8 +7,8 @@ RSpec.describe PlanningApplication::ValidationRequests do
     let(:planning_application) { create(:planning_application, :in_assessment) }
 
     before do
-      create(:red_line_boundary_change_validation_request, :cancelled, :post_validation, planning_application: planning_application)
-      create(:red_line_boundary_change_validation_request, :closed, :post_validation, planning_application: planning_application)
+      create(:red_line_boundary_change_validation_request, :cancelled, :post_validation, planning_application:)
+      create(:red_line_boundary_change_validation_request, :closed, :post_validation, planning_application:)
     end
 
     context "when there are no open post validation requests" do
@@ -20,7 +20,7 @@ RSpec.describe PlanningApplication::ValidationRequests do
 
     context "when there are open post validation requests" do
       let!(:red_line_boundary_change_validation_request) do
-        create(:red_line_boundary_change_validation_request, :open, :post_validation, planning_application: planning_application)
+        create(:red_line_boundary_change_validation_request, :open, :post_validation, planning_application:)
       end
 
       it "returns the array" do
@@ -36,19 +36,19 @@ RSpec.describe PlanningApplication::ValidationRequests do
     let!(:red_line_boundary_change_validation_request) do
       create(
         :red_line_boundary_change_validation_request,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 1.day.ago
       )
     end
 
     let!(:post_validation_red_line_boundary_change_validation_request) do
-      create(:red_line_boundary_change_validation_request, :post_validation, planning_application: planning_application)
+      create(:red_line_boundary_change_validation_request, :post_validation, planning_application:)
     end
 
     let!(:other_change_validation_request) do
       create(
         :other_change_validation_request,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 2.days.ago
       )
     end
@@ -56,7 +56,7 @@ RSpec.describe PlanningApplication::ValidationRequests do
     let!(:replacement_document_validation_request) do
       create(
         :replacement_document_validation_request,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 3.days.ago
       )
     end
@@ -64,7 +64,7 @@ RSpec.describe PlanningApplication::ValidationRequests do
     let!(:additional_document_validation_request) do
       create(
         :additional_document_validation_request,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 4.days.ago
       )
     end
@@ -72,7 +72,7 @@ RSpec.describe PlanningApplication::ValidationRequests do
     let!(:description_change_validation_request) do
       create(
         :description_change_validation_request,
-        planning_application: planning_application,
+        planning_application:,
         created_at: 5.days.ago
       )
     end

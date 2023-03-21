@@ -10,12 +10,12 @@ RSpec.describe "Review documents for recommendation" do
     create(:planning_application, :in_assessment, local_authority: default_local_authority)
   end
 
-  let!(:document_with_reference) { create(:document, numbers: "REF222", planning_application: planning_application) }
-  let!(:document_with_reference_and_tags) { create(:document, :with_tags, numbers: "REF111", planning_application: planning_application) }
-  let!(:document_decision_notice) { create(:document, :referenced, planning_application: planning_application) }
-  let!(:document_publishable) { create(:document, :referenced, :public, planning_application: planning_application) }
-  let!(:document_without_reference) { create(:document, planning_application: planning_application) }
-  let!(:document_archived) { create(:document, :archived, planning_application: planning_application) }
+  let!(:document_with_reference) { create(:document, numbers: "REF222", planning_application:) }
+  let!(:document_with_reference_and_tags) { create(:document, :with_tags, numbers: "REF111", planning_application:) }
+  let!(:document_decision_notice) { create(:document, :referenced, planning_application:) }
+  let!(:document_publishable) { create(:document, :referenced, :public, planning_application:) }
+  let!(:document_without_reference) { create(:document, planning_application:) }
+  let!(:document_archived) { create(:document, :archived, planning_application:) }
 
   %w[document_with_reference document_with_reference_and_tags document_decision_notice document_publishable].each do |type|
     let("#{type}__decision_notice_checkbox") { find_checkbox_by_id("referenced_in_decision_notice_document_#{send(type).id}") }

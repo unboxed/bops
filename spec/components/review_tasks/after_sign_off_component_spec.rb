@@ -35,8 +35,8 @@ RSpec.describe ReviewTasks::AfterSignOffComponent, type: :component do
                    status: :review_complete,
                    reviewer_comment: "reviewer comment",
                    submitted: true,
-                   challenged: challenged,
-                   assessor: assessor)
+                   challenged:,
+                   assessor:)
 
       render_inline(described_class.new(planning_application: rec.planning_application))
 

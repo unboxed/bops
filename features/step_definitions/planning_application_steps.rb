@@ -36,7 +36,7 @@ Given("I enter 2FA") do
 end
 
 Given("my name is {string}") do |name|
-  @officer.update!(name: name)
+  @officer.update!(name:)
 end
 
 Given("a new planning application") do
@@ -115,7 +115,7 @@ When("I view the planning application audit") do
 end
 
 And("the planning application has a description of {string}") do |description|
-  @planning_application.update!(description: description)
+  @planning_application.update!(description:)
 end
 
 When("I view all {string} planning applications") do |status|
@@ -133,7 +133,7 @@ Given("the application expired {int} days ago") do |n|
 end
 
 Then("the page contains a {string} tag containing {string}") do |colour, text|
-  expect(page).to have_selector(".govuk-tag--#{colour}", text: text)
+  expect(page).to have_selector(".govuk-tag--#{colour}", text:)
 end
 
 Then("there is a relevant proposal detail for {string} with a response of {string}") do |question, response|

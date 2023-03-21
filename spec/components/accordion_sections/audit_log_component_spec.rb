@@ -6,7 +6,7 @@ RSpec.describe AccordionSections::AuditLogComponent, type: :component do
   let(:planning_application) { create(:planning_application) }
 
   let(:component) do
-    described_class.new(planning_application: planning_application)
+    described_class.new(planning_application:)
   end
 
   it "renders link to audits page" do
@@ -29,8 +29,8 @@ RSpec.describe AccordionSections::AuditLogComponent, type: :component do
 
       create(
         :audit,
-        planning_application: planning_application,
-        user: user
+        planning_application:,
+        user:
       )
     end
 

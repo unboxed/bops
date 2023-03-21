@@ -207,7 +207,7 @@ class PlanningApplicationsController < AuthenticationController
       if @planning_application.valid?
         @planning_application.determine!
 
-        @planning_application.send_decision_notice_mail(host: request.host)
+        @planning_application.send_decision_notice_mail(request.host)
 
         format.html do
           redirect_to @planning_application, notice: t(".success")

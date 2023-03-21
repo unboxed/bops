@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "Feedback fish" do
   let(:local_authority) { create(:local_authority, :default) }
-  let(:assessor) { create(:user, :assessor, local_authority: local_authority) }
+  let(:assessor) { create(:user, :assessor, local_authority:) }
 
   before do
     sign_in assessor

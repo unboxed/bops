@@ -11,7 +11,7 @@ RSpec.describe AssessmentDetails::PreviousSummariesComponent, type: :component d
     create(
       :assessment_detail,
       :summary_of_work,
-      planning_application: planning_application,
+      planning_application:,
       user: assessor,
       entry: "version 1",
       created_at: Time.zone.local(2022, 11, 28, 10, 15)
@@ -22,7 +22,7 @@ RSpec.describe AssessmentDetails::PreviousSummariesComponent, type: :component d
     create(
       :assessment_detail,
       :summary_of_work,
-      planning_application: planning_application,
+      planning_application:,
       user: assessor,
       entry: "version 2",
       created_at: Time.zone.local(2022, 11, 29, 10, 15)
@@ -49,14 +49,14 @@ RSpec.describe AssessmentDetails::PreviousSummariesComponent, type: :component d
     create(
       :assessment_detail,
       :summary_of_work,
-      planning_application: planning_application,
+      planning_application:,
       user: assessor,
       entry: "version 3",
       created_at: Time.zone.local(2022, 11, 30, 10, 15)
     )
 
     component = described_class.new(
-      planning_application: planning_application,
+      planning_application:,
       category: :summary_of_work
     )
 

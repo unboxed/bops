@@ -10,7 +10,7 @@ RSpec.describe "Validation tasks" do
     create(:planning_application, :invalidated, local_authority: default_local_authority)
   end
   let!(:document) do
-    create(:document, :with_file, planning_application: planning_application)
+    create(:document, :with_file, planning_application:)
   end
 
   before do

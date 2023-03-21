@@ -4,7 +4,7 @@ class PlanningApplication
   module Notification
     extend ActiveSupport::Concern
 
-    def send_decision_notice_mail(host:)
+    def send_decision_notice_mail(host)
       return unless applicant_and_agent_email.any?
 
       downcase_and_unique(applicant_and_agent_email).each do |email|

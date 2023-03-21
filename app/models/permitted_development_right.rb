@@ -81,7 +81,7 @@ class PermittedDevelopmentRight < ApplicationRecord
   end
 
   def ensure_no_open_permitted_development_right_response!
-    last_permitted_development_right = PermittedDevelopmentRight.where(planning_application: planning_application).last
+    last_permitted_development_right = PermittedDevelopmentRight.where(planning_application:).last
     return unless last_permitted_development_right
     return if last_permitted_development_right.to_be_reviewed?
 

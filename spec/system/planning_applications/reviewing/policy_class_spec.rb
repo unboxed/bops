@@ -31,8 +31,8 @@ RSpec.describe "Reviewing Policy Class" do
     end
 
     it "can make the policy class reviewed" do
-      policy_class = create(:policy_class, section: "A", planning_application: planning_application)
-      create(:policy, policy_class: policy_class)
+      policy_class = create(:policy_class, section: "A", planning_application:)
+      create(:policy, policy_class:)
       visit(planning_application_review_tasks_path(planning_application))
 
       expect(page).to have_selector("h1", text: "Review and sign-off")
@@ -66,7 +66,7 @@ RSpec.describe "Reviewing Policy Class" do
              :complies,
              section: "A",
              status: :complete,
-             planning_application: planning_application)
+             planning_application:)
       visit(planning_application_review_tasks_path(planning_application))
 
       expect(page).to have_selector("h1", text: "Review and sign-off")
@@ -131,14 +131,14 @@ RSpec.describe "Reviewing Policy Class" do
           :policy_class,
           section: "A",
           name: "Roof",
-          planning_application: planning_application
+          planning_application:
         )
       end
 
       let(:policy) do
         create(
           :policy,
-          policy_class: policy_class,
+          policy_class:,
           description: "Policy description"
         )
       end
@@ -221,10 +221,10 @@ RSpec.describe "Reviewing Policy Class" do
     end
 
     it "displays policy class navigation" do
-      prv = create(:policy_class, section: "A", planning_application: planning_application)
-      policy_class = create(:policy_class, section: "B", planning_application: planning_application)
-      nxt = create(:policy_class, section: "C", planning_application: planning_application)
-      create(:policy, policy_class: policy_class)
+      prv = create(:policy_class, section: "A", planning_application:)
+      policy_class = create(:policy_class, section: "B", planning_application:)
+      nxt = create(:policy_class, section: "C", planning_application:)
+      create(:policy, policy_class:)
       visit(planning_application_review_tasks_path(planning_application))
 
       expect(page).to have_selector("h1", text: "Review and sign-off")
@@ -237,8 +237,8 @@ RSpec.describe "Reviewing Policy Class" do
     end
 
     it "can display errors" do
-      policy_class = create(:policy_class, section: "A", planning_application: planning_application)
-      create(:policy, policy_class: policy_class)
+      policy_class = create(:policy_class, section: "A", planning_application:)
+      create(:policy, policy_class:)
       visit(planning_application_review_tasks_path(planning_application))
 
       expect(page).to have_selector("h1", text: "Review and sign-off")

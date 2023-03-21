@@ -10,7 +10,7 @@ module NotifyHelper
   def sms_notification_api_response(status, body = "{}")
     status = Rack::Utils.status_code(status)
 
-    { status: status, body: body }
+    { status:, body: }
   end
 
   def stub_post_sms_notification(phone_number:, otp:, status:)
@@ -18,14 +18,14 @@ module NotifyHelper
       .with(
         body: {
           template_id: "701e32b3-2c8c-4c16-9a1b-c883ef6aedee",
-          phone_number: phone_number,
+          phone_number:,
           personalisation: {
-            otp: otp
+            otp:
           }
         }.to_json
       )
       .to_return(
-        status: status,
+        status:,
         body: "{}"
       )
   end

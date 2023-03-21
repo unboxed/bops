@@ -10,11 +10,11 @@ RSpec.shared_examples "Auditable" do
       before { Current.user = user }
 
       it "creates audit assoicated with user" do
-        subject.send(:audit!, { activity_type: "assigned" })
+        subject.send(:audit!, activity_type: "assigned")
 
         expect(subject.audits.reload.last).to have_attributes(
           activity_type: "assigned",
-          user: user,
+          user:,
           api_user: nil,
           automated_activity: false
         )
@@ -27,12 +27,12 @@ RSpec.shared_examples "Auditable" do
       before { Current.api_user = api_user }
 
       it "creates audit assoicated with API user" do
-        subject.send(:audit!, { activity_type: "assigned" })
+        subject.send(:audit!, activity_type: "assigned")
 
         expect(subject.audits.reload.last).to have_attributes(
           activity_type: "assigned",
           user: nil,
-          api_user: api_user,
+          api_user:,
           automated_activity: false
         )
       end
@@ -40,7 +40,7 @@ RSpec.shared_examples "Auditable" do
 
     context "when no user is present" do
       it "creates audit with automated_activity set to true" do
-        subject.send(:audit!, { activity_type: "assigned" })
+        subject.send(:audit!, activity_type: "assigned")
 
         expect(subject.audits.reload.last).to have_attributes(
           activity_type: "assigned",

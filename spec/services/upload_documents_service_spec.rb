@@ -18,8 +18,8 @@ RSpec.describe UploadDocumentsService, type: :service do
 
     let(:service) do
       described_class.new(
-        files: files,
-        planning_application: planning_application
+        files:,
+        planning_application:
       )
     end
 

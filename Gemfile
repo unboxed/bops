@@ -2,6 +2,8 @@
 
 source "https://rubygems.org"
 
+ruby File.read(".ruby-version").strip.split("-").last
+
 # Load environment variables
 gem "dotenv-rails", require: "dotenv/rails-now"
 
@@ -26,6 +28,7 @@ gem "image_processing", "~> 1.12"
 gem "jbuilder"
 gem "jsbundling-rails"
 gem "mail-notify"
+gem "matrix"
 gem "mini_magick"
 gem "notifications-ruby-client"
 gem "pg", ">= 0.18", "< 2.0"

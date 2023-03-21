@@ -37,7 +37,7 @@ class PlanningApplication
       )
 
       requests = request_types.map do |request_type|
-        send("#{request_type}_validation_requests").where(post_validation: post_validation)
+        send("#{request_type}_validation_requests").where(post_validation:)
       end
 
       requests.flatten.sort_by(&:created_at).reverse

@@ -175,14 +175,14 @@ RSpec.describe "Permitted development right" do
           )
         end
 
-        let!(:permitted_development_right) { create(:permitted_development_right, :to_be_reviewed, planning_application: planning_application) }
+        let!(:permitted_development_right) { create(:permitted_development_right, :to_be_reviewed, planning_application:) }
 
         before do
           create(
             :recommendation,
-            planning_application: planning_application,
+            planning_application:,
             challenged: true,
-            reviewer: reviewer,
+            reviewer:,
             reviewed_at: 1.day.ago
           )
         end
@@ -273,7 +273,7 @@ RSpec.describe "Permitted development right" do
         let!(:planning_application) do
           create(:planning_application, :awaiting_determination, local_authority: default_local_authority)
         end
-        let!(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application: planning_application) }
+        let!(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application:) }
 
         it "I cannot edit the response when the reviewer has accepted it" do
           click_link "Check and assess"
@@ -292,7 +292,7 @@ RSpec.describe "Permitted development right" do
         end
 
         before do
-          create(:permitted_development_right, :review_in_progress, planning_application: planning_application)
+          create(:permitted_development_right, :review_in_progress, planning_application:)
         end
 
         it "I cannot see the reviewer's response if they marked the review as save and come back later" do
@@ -312,7 +312,7 @@ RSpec.describe "Permitted development right" do
 
       context "when there is an open review" do
         before do
-          create(:permitted_development_right, planning_application: planning_application)
+          create(:permitted_development_right, planning_application:)
         end
 
         it "I cannot create a new permitted development right request when there is an open response" do
@@ -333,10 +333,10 @@ RSpec.describe "Permitted development right" do
     end
 
     before do
-      create(:recommendation, planning_application: planning_application)
+      create(:recommendation, planning_application:)
       sign_in reviewer
       Current.user = reviewer
-      create(:permitted_development_right, planning_application: planning_application)
+      create(:permitted_development_right, planning_application:)
       visit planning_application_path(planning_application)
     end
 
@@ -496,10 +496,10 @@ RSpec.describe "Permitted development right" do
       end
 
       context "with previous permitted development right responses" do
-        before { PermittedDevelopmentRight.last.update(reviewed_at: Time.zone.now, reviewer: reviewer, status: "to_be_reviewed") }
+        before { PermittedDevelopmentRight.last.update(reviewed_at: Time.zone.now, reviewer:, status: "to_be_reviewed") }
 
-        let!(:permitted_development_right) { create(:permitted_development_right, :to_be_reviewed, planning_application: planning_application) }
-        let!(:permitted_development_right2) { create(:permitted_development_right, :to_be_reviewed, planning_application: planning_application) }
+        let!(:permitted_development_right) { create(:permitted_development_right, :to_be_reviewed, planning_application:) }
+        let!(:permitted_development_right2) { create(:permitted_development_right, :to_be_reviewed, planning_application:) }
 
         it "I can see the previous permitted development checks" do
           click_link "Review and sign-off"
@@ -520,7 +520,7 @@ RSpec.describe "Permitted development right" do
       context "when reviewer has signed off and agreed with the recommendation" do
         let!(:recommendation) do
           create(:recommendation,
-                 planning_application: planning_application,
+                 planning_application:,
                  assessor_comment: "New assessor comment",
                  submitted: true)
         end

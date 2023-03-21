@@ -6,7 +6,7 @@ RSpec.describe TaskListItems::AdditionalDocumentComponent, type: :component do
   let(:planning_application) { create(:planning_application) }
 
   let(:component) do
-    described_class.new(planning_application: planning_application)
+    described_class.new(planning_application:)
   end
 
   before { render_inline(component) }

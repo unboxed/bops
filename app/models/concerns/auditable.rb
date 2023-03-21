@@ -9,9 +9,9 @@ module Auditable
     def audit!(activity_type:, activity_information: nil, audit_comment: nil)
       audits.create!(
         user: current_user,
-        activity_type: activity_type,
-        activity_information: activity_information,
-        audit_comment: audit_comment,
+        activity_type:,
+        activity_information:,
+        audit_comment:,
         api_user: current_api_user,
         automated_activity: no_current_user?
       )

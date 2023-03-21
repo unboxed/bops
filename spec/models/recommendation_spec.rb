@@ -20,10 +20,10 @@ RSpec.describe Recommendation do
     let(:recommendation) do
       build(
         :recommendation,
-        planning_application: planning_application,
-        status: status,
-        challenged: challenged,
-        reviewer_comment: reviewer_comment
+        planning_application:,
+        status:,
+        challenged:,
+        reviewer_comment:
       )
     end
 
@@ -39,7 +39,7 @@ RSpec.describe Recommendation do
           before do
             create(
               :assessment_detail,
-              planning_application: planning_application,
+              planning_application:,
               review_status: :complete,
               reviewer_verdict: :rejected
             )
@@ -84,7 +84,7 @@ RSpec.describe Recommendation do
           before do
             create(
               :assessment_detail,
-              planning_application: planning_application,
+              planning_application:,
               review_status: :complete,
               reviewer_verdict: :rejected
             )
@@ -122,7 +122,7 @@ RSpec.describe Recommendation do
         before do
           create(
             :assessment_detail,
-            planning_application: planning_application,
+            planning_application:,
             review_status: :complete,
             reviewer_verdict: :rejected
           )
@@ -147,7 +147,7 @@ RSpec.describe Recommendation do
   describe "instance methods" do
     let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
     let!(:planning_application) { create(:planning_application, :awaiting_determination, decision: "granted") }
-    let(:recommendation) { create(:recommendation, planning_application: planning_application) }
+    let(:recommendation) { create(:recommendation, planning_application:) }
 
     describe "#review!" do
       before do
@@ -156,7 +156,7 @@ RSpec.describe Recommendation do
       end
 
       context "when challenged" do
-        let(:recommendation) { create(:recommendation, challenged: true, reviewer_comment: "A review", planning_application: planning_application) }
+        let(:recommendation) { create(:recommendation, challenged: true, reviewer_comment: "A review", planning_application:) }
 
         it "reviews the recommendation and the planning application state updates to awaiting_correction" do
           expect { recommendation.review! }
@@ -175,7 +175,7 @@ RSpec.describe Recommendation do
       end
 
       context "when not challenged" do
-        let(:recommendation) { create(:recommendation, challenged: false, planning_application: planning_application) }
+        let(:recommendation) { create(:recommendation, challenged: false, planning_application:) }
 
         it "reviews the recommendation and the planning application state updates to awaiting_correction" do
           expect { recommendation.review! }
@@ -233,8 +233,8 @@ RSpec.describe Recommendation do
     let(:recommendation) do
       build(
         :recommendation,
-        submitted: submitted,
-        challenged: challenged
+        submitted:,
+        challenged:
       )
     end
 
@@ -272,8 +272,8 @@ RSpec.describe Recommendation do
     let(:recommendation) do
       build(
         :recommendation,
-        status: status,
-        challenged: challenged
+        status:,
+        challenged:
       )
     end
 
@@ -307,7 +307,7 @@ RSpec.describe Recommendation do
 
   describe "#rejected?" do
     let(:recommendation) do
-      build(:recommendation, challenged: challenged, status: status)
+      build(:recommendation, challenged:, status:)
     end
 
     let(:challenged) { true }

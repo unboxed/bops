@@ -54,7 +54,7 @@ RSpec.describe "post validation requests" do
       before do
         create(
           :additional_document_validation_request,
-          planning_application: planning_application,
+          planning_application:,
           document_request_type: "Floor plan",
           document_request_reason: "Existing document inaccurate"
         )
@@ -127,8 +127,8 @@ RSpec.describe "post validation requests" do
       end
 
       before do
-        create(:red_line_boundary_change_validation_request, :closed, planning_application: planning_application)
-        create(:red_line_boundary_change_validation_request, :cancelled, planning_application: planning_application)
+        create(:red_line_boundary_change_validation_request, :closed, planning_application:)
+        create(:red_line_boundary_change_validation_request, :cancelled, planning_application:)
 
         planning_application.start!
 
@@ -159,19 +159,19 @@ RSpec.describe "post validation requests" do
       end
 
       before do
-        create(:red_line_boundary_change_validation_request, :closed, planning_application: planning_application)
-        create(:red_line_boundary_change_validation_request, :cancelled, planning_application: planning_application)
+        create(:red_line_boundary_change_validation_request, :closed, planning_application:)
+        create(:red_line_boundary_change_validation_request, :cancelled, planning_application:)
 
         create(
           :description_change_validation_request,
           :cancelled,
-          planning_application: planning_application,
+          planning_application:,
           proposed_description: "New description 1"
         )
 
         create(
           :description_change_validation_request,
-          planning_application: planning_application,
+          planning_application:,
           proposed_description: "New description 2"
         )
 

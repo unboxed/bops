@@ -29,11 +29,11 @@ RSpec.describe "Requesting document changes to a planning application" do
     end
 
     let!(:document1) do
-      create(:document, file: file1, planning_application: planning_application)
+      create(:document, file: file1, planning_application:)
     end
 
     let!(:document2) do
-      create(:document, file: file2, planning_application: planning_application)
+      create(:document, file: file2, planning_application:)
     end
 
     it "returns to task list if document is not marked as valid or invalid" do
@@ -226,11 +226,11 @@ RSpec.describe "Requesting document changes to a planning application" do
     end
 
     let!(:document1) do
-      create(:document, file: file1, planning_application: planning_application)
+      create(:document, file: file1, planning_application:)
     end
 
     let!(:document2) do
-      create(:document, file: file2, planning_application: planning_application)
+      create(:document, file: file2, planning_application:)
     end
 
     it "I can mark documents as invalid and cancel the validation request" do
@@ -351,13 +351,13 @@ RSpec.describe "Requesting document changes to a planning application" do
         create(
           :document,
           file: file1,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
       let!(:replacement_document_validation_request) do
         create(:replacement_document_validation_request, :with_response,
-               planning_application: planning_application, old_document: document1, new_document: document_response)
+               planning_application:, old_document: document1, new_document: document_response)
       end
 
       before do
@@ -462,7 +462,7 @@ RSpec.describe "Requesting document changes to a planning application" do
     let!(:planning_application) do
       create(:planning_application, :in_assessment, local_authority: default_local_authority)
     end
-    let!(:document1) { create(:document, :with_file, planning_application: planning_application) }
+    let!(:document1) { create(:document, :with_file, planning_application:) }
 
     it "does not allow you to validate documents" do
       click_link "Check and validate"
@@ -526,7 +526,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       expect(page).to have_content("Replacement document validation request successfully created.")
       document1.reload
 
-      document2 = create(:document, :with_file, planning_application: planning_application)
+      document2 = create(:document, :with_file, planning_application:)
       request = planning_application.replacement_document_validation_requests.last
       request.new_document = document2
       request.state = "closed"
@@ -553,8 +553,8 @@ RSpec.describe "Requesting document changes to a planning application" do
       create(:planning_application, :invalidated, local_authority: default_local_authority)
     end
 
-    let!(:document1) { create(:document, planning_application: planning_application, archived_at: 2.days.ago) }
-    let!(:document2) { create(:document, planning_application: planning_application) }
+    let!(:document1) { create(:document, planning_application:, archived_at: 2.days.ago) }
+    let!(:document2) { create(:document, planning_application:) }
 
     it "does not appear in the validate document list" do
       click_link "Check and validate"
@@ -576,11 +576,11 @@ RSpec.describe "Requesting document changes to a planning application" do
     let!(:planning_application) do
       create(:planning_application, :invalidated, local_authority: default_local_authority)
     end
-    let!(:document) { create(:document, planning_application: planning_application, validated: false) }
+    let!(:document) { create(:document, planning_application:, validated: false) }
 
     context "when there is an open or pending replacement document validation request" do
       let!(:replacement_document_validation_request) do
-        create(:replacement_document_validation_request, :open, planning_application: planning_application, old_document: document)
+        create(:replacement_document_validation_request, :open, planning_application:, old_document: document)
       end
 
       it "does show a invalid documents warning" do
@@ -591,7 +591,7 @@ RSpec.describe "Requesting document changes to a planning application" do
 
     context "when there is a cancelled replacement document validation request" do
       let!(:replacement_document_validation_request) do
-        create(:replacement_document_validation_request, :cancelled, planning_application: planning_application, old_document: document)
+        create(:replacement_document_validation_request, :cancelled, planning_application:, old_document: document)
       end
 
       it "does not show a warning" do
@@ -608,9 +608,9 @@ RSpec.describe "Requesting document changes to a planning application" do
     end
 
     context "when document is archived" do
-      let!(:document) { create(:document, planning_application: planning_application, validated: false, archived_at: Time.zone.now) }
+      let!(:document) { create(:document, planning_application:, validated: false, archived_at: Time.zone.now) }
       let!(:replacement_document_validation_request) do
-        create(:replacement_document_validation_request, planning_application: planning_application, old_document: document)
+        create(:replacement_document_validation_request, planning_application:, old_document: document)
       end
 
       it "does not show a warning" do
@@ -625,7 +625,7 @@ RSpec.describe "Requesting document changes to a planning application" do
       create(:planning_application, :not_started, local_authority: default_local_authority)
     end
     let!(:replacement_document_validation_request) do
-      create(:replacement_document_validation_request, planning_application: planning_application,
+      create(:replacement_document_validation_request, planning_application:,
                                                        state: "pending", created_at: 12.days.ago)
     end
 

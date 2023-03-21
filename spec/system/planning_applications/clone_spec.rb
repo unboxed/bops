@@ -4,15 +4,15 @@ require "rails_helper"
 
 RSpec.describe "cloning a planning application" do
   let!(:local_authority) { create(:local_authority, :default) }
-  let(:assessor) { create(:user, :assessor, local_authority: local_authority) }
+  let(:assessor) { create(:user, :assessor, local_authority:) }
   let(:api_user) { create(:api_user) }
 
   let!(:planning_application) do
     create(
       :planning_application,
       :from_planx,
-      local_authority: local_authority,
-      api_user: api_user
+      local_authority:,
+      api_user:
     )
   end
 
@@ -82,7 +82,7 @@ RSpec.describe "cloning a planning application" do
   end
 
   context "when planning application was not created via PlanX i.e. there is no audit_log value" do
-    let(:planning_application) { create(:planning_application, local_authority: local_authority) }
+    let(:planning_application) { create(:planning_application, local_authority:) }
 
     it "I am unable to clone and presented with an error" do
       visit(planning_application_path(planning_application))

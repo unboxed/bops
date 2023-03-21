@@ -32,7 +32,7 @@ class ReplacementDocumentValidationRequest < ApplicationRecord
   def replace_document!(file:, reason:)
     transaction do
       self.new_document = planning_application.documents.create!(
-        file: file,
+        file:,
         tags: old_document.tags,
         numbers: old_document.numbers
       )

@@ -26,7 +26,7 @@ RSpec.describe Audit do
         let!(:validation_request) do
           create(
             :red_line_boundary_change_validation_request,
-            planning_application: planning_application
+            planning_application:
           )
         end
 

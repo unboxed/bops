@@ -10,7 +10,7 @@ RSpec.describe StatusTags::AssessRecommendationComponent, type: :component do
   context "when there is no recommendation" do
     before do
       render_inline(
-        described_class.new(planning_application: planning_application)
+        described_class.new(planning_application:)
       )
     end
 
@@ -23,14 +23,14 @@ RSpec.describe StatusTags::AssessRecommendationComponent, type: :component do
     before do
       create(
         :recommendation,
-        planning_application: planning_application,
-        status: status,
-        challenged: challenged,
+        planning_application:,
+        status:,
+        challenged:,
         reviewer_comment: "comment"
       )
 
       render_inline(
-        described_class.new(planning_application: planning_application)
+        described_class.new(planning_application:)
       )
     end
 

@@ -30,7 +30,7 @@ module TaskListItems
 
     def status_tag_component
       StatusTags::AssessmentDetailsReviewComponent.new(
-        planning_application: planning_application
+        planning_application:
       )
     end
 

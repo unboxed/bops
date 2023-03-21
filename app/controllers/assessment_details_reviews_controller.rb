@@ -35,7 +35,7 @@ class AssessmentDetailsReviewsController < AuthenticationController
     params
       .require(:assessment_details_review)
       .permit(permitted_attributes)
-      .merge(status: status)
+      .merge(status:)
   end
 
   def permitted_attributes

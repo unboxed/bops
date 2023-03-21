@@ -52,7 +52,7 @@ class PlanningApplication
     end
 
     def update
-      @permitted_development_right.assign_attributes(status: status, assessor: current_user)
+      @permitted_development_right.assign_attributes(status:, assessor: current_user)
 
       respond_to do |format|
         if @permitted_development_right.update(permitted_development_right_params)

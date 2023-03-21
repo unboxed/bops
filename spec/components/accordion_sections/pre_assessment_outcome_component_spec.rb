@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe AccordionSections::PreAssessmentOutcomeComponent, type: :component do
   let(:component) do
-    described_class.new(planning_application: planning_application)
+    described_class.new(planning_application:)
   end
 
   context "when there is no result" do
@@ -34,10 +34,10 @@ RSpec.describe AccordionSections::PreAssessmentOutcomeComponent, type: :componen
         result_flag: "test flag",
         result_heading: "test heading",
         result_description: "test description",
-        result_override: result_override,
-        proposal_details: proposal_details,
-        updated_address_or_boundary_geojson: updated_address_or_boundary_geojson,
-        feedback: feedback
+        result_override:,
+        proposal_details:,
+        updated_address_or_boundary_geojson:,
+        feedback:
       )
     end
 

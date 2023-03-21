@@ -4,16 +4,16 @@ require "rails_helper"
 
 RSpec.describe "filtering planning applications" do
   let(:local_authority) { create(:local_authority, :default) }
-  let(:user) { create(:user, :assessor, local_authority: local_authority) }
+  let(:user) { create(:user, :assessor, local_authority:) }
 
-  let(:other_user) { create(:user, :reviewer, local_authority: local_authority) }
+  let(:other_user) { create(:user, :reviewer, local_authority:) }
 
   let!(:not_started_planning_application) do
     create(
       :planning_application,
       :not_started,
-      user: user,
-      local_authority: local_authority
+      user:,
+      local_authority:
     )
   end
 
@@ -21,8 +21,8 @@ RSpec.describe "filtering planning applications" do
     create(
       :planning_application,
       :invalidated,
-      user: user,
-      local_authority: local_authority
+      user:,
+      local_authority:
     )
   end
 
@@ -30,8 +30,8 @@ RSpec.describe "filtering planning applications" do
     create(
       :planning_application,
       :in_assessment,
-      user: user,
-      local_authority: local_authority
+      user:,
+      local_authority:
     )
   end
 
@@ -39,8 +39,8 @@ RSpec.describe "filtering planning applications" do
     create(
       :planning_application,
       :awaiting_determination,
-      user: user,
-      local_authority: local_authority
+      user:,
+      local_authority:
     )
   end
 
@@ -49,7 +49,7 @@ RSpec.describe "filtering planning applications" do
       :planning_application,
       :awaiting_determination,
       user: other_user,
-      local_authority: local_authority
+      local_authority:
     )
   end
 
@@ -57,8 +57,8 @@ RSpec.describe "filtering planning applications" do
     create(
       :planning_application,
       :awaiting_correction,
-      user: user,
-      local_authority: local_authority
+      user:,
+      local_authority:
     )
   end
 
@@ -67,7 +67,7 @@ RSpec.describe "filtering planning applications" do
       :planning_application,
       :awaiting_correction,
       user: other_user,
-      local_authority: local_authority
+      local_authority:
     )
   end
 
@@ -75,8 +75,8 @@ RSpec.describe "filtering planning applications" do
     create(
       :planning_application,
       :closed,
-      user: user,
-      local_authority: local_authority
+      user:,
+      local_authority:
     )
   end
 
@@ -85,7 +85,7 @@ RSpec.describe "filtering planning applications" do
       :planning_application,
       :closed,
       user: other_user,
-      local_authority: local_authority
+      local_authority:
     )
   end
 

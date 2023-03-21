@@ -13,7 +13,7 @@ RSpec.describe "Documents index page" do
   end
 
   let!(:document) do
-    create(:document, :with_file, planning_application: planning_application)
+    create(:document, :with_file, planning_application:)
   end
 
   context "as a user who is not logged in" do
@@ -64,7 +64,7 @@ RSpec.describe "Documents index page" do
       let!(:document2) do
         create(
           :document,
-          planning_application: planning_application,
+          planning_application:,
           file: file2
         )
       end
@@ -120,11 +120,11 @@ RSpec.describe "Documents index page" do
       create(:planning_application, :invalidated, local_authority: default_local_authority)
     end
     let!(:invalid_document) do
-      create(:document, :with_file, planning_application: planning_application,
+      create(:document, :with_file, planning_application:,
                                     validated: false, invalidated_document_reason: "Document is invalid")
     end
     let!(:replacement_document_validation_request) do
-      create(:replacement_document_validation_request, planning_application: planning_application,
+      create(:replacement_document_validation_request, planning_application:,
                                                        old_document: invalid_document)
     end
 

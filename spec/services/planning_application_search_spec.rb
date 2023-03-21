@@ -20,7 +20,7 @@ RSpec.describe PlanningApplicationSearch do
 
     let(:search) do
       described_class.new(
-        query: query,
+        query:,
         planning_applications: PlanningApplication.all
       )
     end

@@ -15,7 +15,7 @@ RSpec.shared_examples "AssessmentTasksPresenter" do
 
     context "when recommendation is present" do
       before do
-        create(:recommendation, planning_application: planning_application)
+        create(:recommendation, planning_application:)
       end
 
       it "returns true" do
@@ -25,7 +25,7 @@ RSpec.shared_examples "AssessmentTasksPresenter" do
 
     context "when policy class is present" do
       before do
-        create(:policy_class, planning_application: planning_application)
+        create(:policy_class, planning_application:)
       end
 
       it "returns true" do
@@ -37,7 +37,7 @@ RSpec.shared_examples "AssessmentTasksPresenter" do
       before do
         create(
           :consistency_checklist,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -50,7 +50,7 @@ RSpec.shared_examples "AssessmentTasksPresenter" do
       before do
         create(
           :assessment_detail,
-          planning_application: planning_application
+          planning_application:
         )
       end
 
@@ -63,7 +63,7 @@ RSpec.shared_examples "AssessmentTasksPresenter" do
       before do
         create(
           :permitted_development_right,
-          planning_application: planning_application
+          planning_application:
         )
       end
 

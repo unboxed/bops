@@ -8,14 +8,14 @@ RSpec.describe TaskListItems::PermittedDevelopmentRightReviewComponent, type: :c
   let!(:permitted_development_right) do
     create(
       :permitted_development_right,
-      review_status: review_status,
-      planning_application: planning_application
+      review_status:,
+      planning_application:
     )
   end
 
   before do
     render_inline(
-      described_class.new(planning_application: planning_application)
+      described_class.new(planning_application:)
     )
   end
 
