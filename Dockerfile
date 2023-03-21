@@ -14,7 +14,7 @@ RUN apt-get install -y --no-install-recommends poppler-utils
 
 ## Install gems in a separate Docker fs layer
 WORKDIR /gems
-COPY Gemfile Gemfile.lock ./ .ruby-version ./
+COPY Gemfile Gemfile.lock ./
 RUN bundle
 
 ## Node
