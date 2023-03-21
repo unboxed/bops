@@ -15,7 +15,6 @@ AllCops:
   NewCops: enable
   Exclude:
     - 'bops-applicants/**/*'
-    - 'lib/package_builder.rb'
     - 'config/environments/**'
     - 'config/puma.rb'
 
