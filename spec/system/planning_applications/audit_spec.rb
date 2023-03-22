@@ -10,7 +10,7 @@ RSpec.describe "Auditing changes to a planning application" do
     create(:planning_application, :invalidated, local_authority: default_local_authority)
   end
 
-  let!(:api_user) { create(:api_user, name: "Api Wizard") }
+  let!(:api_user) { create(:api_user) }
 
   before do
     create(:audit, planning_application_id: planning_application.id,
@@ -34,20 +34,20 @@ RSpec.describe "Auditing changes to a planning application" do
   it "displays details of other change validation request in the audit log" do
     expect(page).to have_text("Received: request for change (other validation#1)")
     expect(page).to have_text("I have sent the fee")
-    expect(page).to have_text("Applicant / Agent via Api Wizard")
+    expect(page).to have_text("Applicant / Agent via BoPS applicants")
   end
 
   it "displays the details of a red line boundary request in the audit log" do
     expect(page).to have_text("Received: request for change (red line boundary#1)")
     expect(page).to have_text("The boundary was too small")
     expect(page).to have_text("rejected")
-    expect(page).to have_text("Applicant / Agent via Api Wizard")
+    expect(page).to have_text("Applicant / Agent via BoPS applicants")
   end
 
   it "displays the details of replacement boundary requests in the audit log" do
     expect(page).to have_text("Received: request for change (replacement document#1)")
     expect(page).to have_text("floor_plan.pdf")
-    expect(page).to have_text("Applicant / Agent via Api Wizard")
+    expect(page).to have_text("Applicant / Agent via BoPS applicants")
   end
 
   context "when red line boundary change request is auto closed" do
