@@ -112,7 +112,9 @@ module AuditHelper
   end
 
   def audit_user_name(audit)
-    if audit.api_user.present?
+    if applicant_activity_types.include?(audit.activity_type)
+      t("audit_user_name.bops_applicants")
+    elsif audit.api_user.present?
       audit_api_user_name(audit)
     elsif audit.user.present?
       audit.user.name
