@@ -11,7 +11,7 @@ jobs:
       environment-name: "staging"
     secrets: inherit
 
-  deploy-production:
+  deploy-prod:
     uses: ./.github/workflows/deploy-environment.yml
     with:
       environment-name: "production"
