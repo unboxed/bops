@@ -83,7 +83,7 @@ $ bin/dev
 ## Subdomains
 
 Because of the local authority being inferred on the request's
-subdomain, your options to get work locally include using Docker or
+subdomain, your options to get the application working locally include using Docker or
 using the `bops-care.link` domain which points back to your localhost:
 
 ```
