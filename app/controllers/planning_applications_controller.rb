@@ -255,7 +255,7 @@ class PlanningApplicationsController < AuthenticationController
     params
       .require(:planning_application_search_filter)
       .permit(:query, filter_options: [])
-      .merge(planning_applications: @planning_applications)
+      .merge(planning_applications: @planning_applications, submit: params[:submit])
   end
 
   def validation_date_fields_invalid?

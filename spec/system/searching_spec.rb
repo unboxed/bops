@@ -51,9 +51,8 @@ RSpec.describe "searching planning applications" do
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
+        click_button("Search")
       end
-
-      click_button("Search")
 
       within(selected_govuk_tab) do
         expect(page).to have_content("Your live applications")
@@ -63,8 +62,10 @@ RSpec.describe "searching planning applications" do
         expect(page).not_to have_content(planning_application3.reference)
       end
 
-      fill_in("Find an application", with: "00100")
-      click_button("Search")
+      within(selected_govuk_tab) do
+        fill_in("Find an application", with: "00100")
+        click_button("Search")
+      end
 
       within(selected_govuk_tab) do
         expect(page).to have_content("Your live applications")
@@ -86,9 +87,10 @@ RSpec.describe "searching planning applications" do
         expect(page).not_to have_content(planning_application3.reference)
       end
 
-      click_link("Clear search")
-
-      expect(find_field("Find an application").value).to eq("")
+      within(selected_govuk_tab) do
+        click_link("Clear search")
+        expect(find_field("Find an application").value).to eq("")
+      end
 
       within(selected_govuk_tab) do
         expect(page).to have_content("Your live applications")
@@ -98,23 +100,23 @@ RSpec.describe "searching planning applications" do
       end
     end
 
-    it "allows user to search planning applications by description" do
-      fill_in("Find an application", with: "chimney")
-      click_button("Search")
-
+    it "allows user to search planning applications by description" do   
       within(selected_govuk_tab) do
+        fill_in("Find an application", with: "chimney")
+        click_button("Search")
+
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
       end
     end
 
-    it "allows user to clear form without submitting it" do
-      fill_in("Find an application", with: "abc")
-      click_link("Clear search")
-
-      expect(find_field("Find an application").value).to eq("")
-
+    it "allows user to clear form without submitting it" do    
       within(selected_govuk_tab) do
+        fill_in("Find an application", with: "abc")
+        click_link("Clear search")
+  
+        expect(find_field("Find an application").value).to eq("")
+
         expect(page).to have_content("Your live applications")
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
@@ -123,10 +125,12 @@ RSpec.describe "searching planning applications" do
     end
 
     it "shows message when there are no search results" do
-      fill_in("Find an application", with: "something else entirely")
-      click_button("Search")
+      within(selected_govuk_tab) do
+        fill_in("Find an application", with: "something else entirely")
+        click_button("Search")
 
-      expect(page).to have_content("No planning applications match your search")
+        expect(page).to have_content("No planning applications match your search")
+      end
     end
   end
 
@@ -134,6 +138,10 @@ RSpec.describe "searching planning applications" do
     before do
       visit(planning_applications_path)
       click_link("Live applications")
+
+      within(selected_govuk_tab) do
+        click_link("Clear search")
+      end
     end
 
     it "allows user to search planning applications by reference" do
@@ -143,22 +151,18 @@ RSpec.describe "searching planning applications" do
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
         expect(page).to have_content(planning_application3.reference)
-      end
 
-      click_button("Search")
+        click_button("Search")
 
-      within(selected_govuk_tab) do
         expect(page).to have_content("Live applications")
         expect(page).to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
         expect(page).to have_content(planning_application3.reference)
-      end
 
-      fill_in("Find an application", with: "00100")
-      click_button("Search")
+        fill_in("Find an application", with: "00100")
+        click_button("Search")
 
-      within(selected_govuk_tab) do
         expect(page).to have_content("Live applications")
         expect(page).not_to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
@@ -176,13 +180,11 @@ RSpec.describe "searching planning applications" do
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
-      end
 
-      click_link("Clear search")
+        click_link("Clear search")
 
-      expect(find_field("Find an application").value).to eq("")
+        expect(find_field("Find an application").value).to eq("")
 
-      within(selected_govuk_tab) do
         expect(page).to have_content("Live applications")
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
@@ -190,24 +192,23 @@ RSpec.describe "searching planning applications" do
       end
     end
 
-    it "allows user to search planning applications by description" do
-      fill_in("Find an application", with: "chimney")
-      click_button("Search")
-
+    it "allows user to search planning applications by description" do   
       within(selected_govuk_tab) do
+        fill_in("Find an application", with: "chimney")
+        click_button("Search")
+        
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
       end
     end
 
-    it "allows user to clear form without submitting it" do
-      fill_in("Find an application", with: "abc")
-      click_link("Clear search")
-
-      expect(find_field("Find an application").value).to eq("")
-
+    it "allows user to clear form without submitting it" do   
       within(selected_govuk_tab) do
+        fill_in("Find an application", with: "abc")
+        click_link("Clear search")
+  
+        expect(find_field("Find an application").value).to eq("")
         expect(page).to have_content("Live applications")
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
@@ -216,10 +217,12 @@ RSpec.describe "searching planning applications" do
     end
 
     it "shows message when there are no search results" do
-      fill_in("Find an application", with: "something else entirely")
-      click_button("Search")
+      within(selected_govuk_tab) do
+        fill_in("Find an application", with: "something else entirely")
+        click_button("Search")
 
-      expect(page).to have_content("No planning applications match your search")
+        expect(page).to have_content("No planning applications match your search")
+      end
     end
   end
 end

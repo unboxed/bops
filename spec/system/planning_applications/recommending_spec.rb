@@ -47,8 +47,6 @@ RSpec.describe "Planning Application Assessment" do
   context "when clicking Save and mark as complete" do
     context "with no previous recommendations" do
       it "can create a new recommendation, edit it, and submit it" do
-        click_link "In assessment"
-
         within(selected_govuk_tab) do
           click_link(planning_application.reference)
         end
@@ -154,8 +152,6 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     it "displays the previous recommendations" do
-      click_link "In assessment"
-
       within(selected_govuk_tab) do
         click_link(planning_application.reference)
       end
@@ -196,8 +192,6 @@ RSpec.describe "Planning Application Assessment" do
 
   context "when submitting a recommendation" do
     it "can only be submitted when a planning application is in assessment" do
-      click_link("In assessment")
-
       within(selected_govuk_tab) do
         click_link(planning_application.reference)
       end
@@ -252,8 +246,6 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     it "allows navigation to assess recommendation page" do
-      click_link("In assessment")
-
       within(selected_govuk_tab) do
         click_link(planning_application.reference)
       end
@@ -273,8 +265,6 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     it "allows navigation back to the planning application page" do
-      click_link("In assessment")
-
       within(selected_govuk_tab) do
         click_link(planning_application.reference)
       end
@@ -298,8 +288,6 @@ RSpec.describe "Planning Application Assessment" do
       let!(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, :post_validation, planning_application:) }
 
       it "prevents me from submitting the planning application" do
-        click_link("In assessment")
-
         within(selected_govuk_tab) do
           click_link(planning_application.reference)
         end
@@ -331,8 +319,6 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     it "can only be withdrawn when a planning application is awaiting determination" do
-      click_link("Awaiting determination")
-
       within(selected_govuk_tab) do
         click_link(planning_application.reference)
       end
@@ -372,8 +358,6 @@ RSpec.describe "Planning Application Assessment" do
   context "when clicking Save and come back later" do
     context "with no previous recommendations" do
       it "can create a new recommendation,saves it and come back later" do
-        click_link "In assessment"
-
         within(selected_govuk_tab) do
           click_link(planning_application.reference)
         end
@@ -400,8 +384,6 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     it "errors if no decision given" do
-      click_link "In assessment"
-
       within(selected_govuk_tab) do
         click_link(planning_application.reference)
       end

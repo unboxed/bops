@@ -9,14 +9,14 @@
           role: "tab",
           aria_controls: "all",
           aria_selected: false,
-          tabindex: 5
+          tabindex: 1
         ) %>
       </li>
       <li class="govuk-tabs__list-item" role="presentation">
-        <%= link_to "Closed", "#closed", class: "govuk-tabs__tab", role: "tab", "aria-controls":"closed", "aria-selected": false, tabindex: 4 %>
+        <%= link_to "Closed", "#closed", class: "govuk-tabs__tab", role: "tab", "aria-controls":"closed", "aria-selected": false, tabindex: 2 %>
       </li>
       <li class="govuk-tabs__list-item" role="presentation">
-        <%= link_to "Updated", "#updated", class: "govuk-tabs__tab", role: "tab", "aria-controls": "updated", "aria-selected": false, tabindex: 6 %>
+        <%= link_to "Updated", "#updated", class: "govuk-tabs__tab", role: "tab", "aria-controls": "updated", "aria-selected": false, tabindex: 3 %>
       </li>
     <% else %>
       <li class="govuk-tabs__list-item" role="presentation">
@@ -27,10 +27,10 @@
           role: "tab",
           aria_controls: "all",
           aria_selected: false,
-          tabindex: 5
+          tabindex: 1
         ) %>
       <li class="govuk-tabs__list-item" role="presentation">
-        <%= link_to "Closed", "#closed", class: "govuk-tabs__tab", role: "tab", "aria-controls":"closed", "aria-selected": false, tabindex: 4 %>
+        <%= link_to "Closed", "#closed", class: "govuk-tabs__tab", role: "tab", "aria-controls":"closed", "aria-selected": false, tabindex: 2 %>
       </li>
       </li>
     <% end %>

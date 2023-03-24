@@ -10,9 +10,10 @@
 <% panel_types.each do |panel_type| %>
   <%= render(
     PlanningApplications::PanelComponent.new(
-      planning_applications: planning_applications.send(panel_type),
+      planning_applications: all_planning_applications.select { |pa| PlanningApplication::CLOSED_STATUSES.include?(pa.status) },
       type: panel_type,
-      current_user: current_user
+      current_user: current_user,
+      search_filter: search_filter
     )
   ) %>
 <% end %>

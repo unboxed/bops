@@ -309,14 +309,14 @@ RSpec.describe "Planning Application index page" do
       it "An assessor can click a button to view all applications" do
         click_on "View all applications"
 
-        within("#under_assessment") do
+        within(selected_govuk_tab) do
           expect(page).to have_link(planning_application_1.reference)
           expect(page).to have_link(planning_application_2.reference)
           expect(page).to have_link(other_assessor_planning_application.reference)
         end
       end
 
-      it "An aassessor can click back to view only its own applications" do
+      it "An assessor can click back to view only its own applications" do
         click_on "View all applications"
 
         click_on "View my applications"
@@ -406,9 +406,8 @@ RSpec.describe "Planning Application index page" do
       click_link "View all applications"
 
       within(:planning_applications_status_tab) do
-        expect(page).to have_link "Awaiting determination"
-        expect(page).to have_link "Closed"
-        expect(page).to have_text "In assessment"
+        expect(page).to have_link "Live applications"
+        expect(page).to have_text "Closed"
       end
 
       click_link "View my applications"

@@ -2,10 +2,10 @@
   model: search_filter,
   builder: GOVUKDesignSystemFormBuilder::FormBuilder,
   method: :get,
-  url: planning_applications_path,
+  url: planning_applications_path(anchor: panel_type, filter_options: filter_types),
   data: { controller: "clear-form" }
 ) do |form| %>
-  <%#= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <div class="search-form-inputs">
     <%= form.govuk_fieldset(legend: { text: nil }) do %>
       <%= form.govuk_text_field(
@@ -18,7 +18,7 @@
     <% if exclude_others %>
       <%= hidden_field_tag(:q, "exclude_others") %>
     <% end %>
-    <%= form.govuk_submit(t(".search")) %>
+    <%= form.govuk_submit t(".search"), name: "submit", value: "search" %>
     <%= link_to(
       t(".clear_search"),
       clear_search_url,
@@ -40,7 +40,7 @@
         </div>
         <div class="govuk-accordion__section-content">
           <%= form.govuk_collection_check_boxes(:filter_options, filter_types, :to_s, :humanize, small: true, legend: nil, classes: "display-flex") %>
-          <%= form.submit "Apply filters", class: "govuk-button govuk-button--secondary" %>
+          <%= form.govuk_submit "Apply filters", class: "govuk-button govuk-button--secondary" %>
         </div>
       </div>
     </div>

@@ -3,13 +3,23 @@
 class PlanningApplicationSearchFilter
   include ActiveModel::Model
 
-  attr_accessor :filter_options, :planning_applications, :user, :query
+  attr_accessor :filter_options, :planning_applications, :user, :query, :submit
+
+  validates :query, presence: true, if: :query_submitted?
 
   def results
-    if query
-      records_matching_query.where(status: [filtered_filter_types]) || []
+    return unless valid?
+
+    if filter_types
+      if query
+        records_matching_query.where(status: [filtered_filter_types]) || []
+      elsif query
+        planning_applications&.where(status: [filtered_filter_types])
+      end
+    elsif query
+      records_matching_query
     else
-      planning_applications&.where(status: [filtered_filter_types])
+      planning_applications
     end
   end
 
@@ -59,5 +69,9 @@ class PlanningApplicationSearchFilter
   
   def query_terms
     @query_terms ||= query.split.join(" | ")
+  end
+
+  def query_submitted?
+    submit.present?
   end
 end
