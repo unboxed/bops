@@ -120,7 +120,6 @@ class PlanningApplication < ApplicationRecord
                                            boundary_geojson].freeze
 
   PROGRESS_STATUSES = %w[not_started in_progress complete].freeze
-  CLOSED_STATUSES = %w[withdrawn closed returned determined].freeze
 
   FILTER_OPTIONS = %w[not_started invalidated in_assessment awaiting_determination to_be_reviewed].freeze
   REVIEWER_FILTER_OPTIONS = %w[awaiting_determination to_be_reviewed].freeze

@@ -10,16 +10,10 @@ class PlanningApplicationSearchFilter
   def results
     return unless valid?
 
-    if filter_types
-      if query
-        records_matching_query.where(status: [filtered_filter_types]) || []
-      elsif query
-        planning_applications&.where(status: [filtered_filter_types])
-      end
-    elsif query
-      records_matching_query
+    if query
+      records_matching_query.where(status: [filtered_filter_types])
     else
-      planning_applications
+      planning_applications&.where(status: [filtered_filter_types])
     end
   end
 

@@ -13,8 +13,9 @@ RSpec.describe "searching planning applications" do
   let!(:planning_application1) do
     create(
       :planning_application,
-      user:,
-      local_authority:,
+      :in_assessment,
+      user: user,
+      local_authority: local_authority,
       description: "Add a chimney stack"
     )
   end
@@ -22,6 +23,7 @@ RSpec.describe "searching planning applications" do
   let!(:planning_application2) do
     create(
       :planning_application,
+      :in_assessment,
       user: nil,
       local_authority:,
       description: "Add a patio"
@@ -31,6 +33,7 @@ RSpec.describe "searching planning applications" do
   let!(:planning_application3) do
     create(
       :planning_application,
+      :awaiting_correction,
       user: other_user,
       local_authority:,
       description: "Add a skylight"
@@ -97,6 +100,27 @@ RSpec.describe "searching planning applications" do
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
+      end
+    end
+
+    it "allows user to search on filtered results" do
+      within(selected_govuk_tab) do
+        click_button("Filter by status (5 of 5 selected)")
+        uncheck("Invalid")
+        uncheck("Not started")
+        uncheck("Awaiting determination")
+        uncheck("To be reviewed")
+
+        click_button("Apply filters")
+
+        expect(page).to have_content(planning_application1.reference)
+        expect(page).to have_content(planning_application2.reference)
+
+        fill_in("Find an application", with: "chimney")
+        click_button("Search")
+
+        expect(page).to have_content(planning_application1.reference)
+        expect(page).not_to have_content(planning_application2.reference)
       end
     end
 
@@ -200,6 +224,30 @@ RSpec.describe "searching planning applications" do
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
+      end
+    end
+
+    it "allows user to search on filtered results" do
+      within(selected_govuk_tab) do
+        click_button("Filter by status (5 of 5 selected)")
+        uncheck("Invalid")
+        uncheck("Not started")
+        uncheck("Awaiting determination")
+        uncheck("To be reviewed")
+
+        click_button("Apply filters")
+
+        expect(page).to have_content(planning_application1.reference)
+        expect(page).to have_content(planning_application2.reference)
+
+        fill_in("Find an application", with: "skylight")
+        click_button("Search")
+
+        expect(page).not_to have_content(planning_application1.reference)
+        expect(page).not_to have_content(planning_application2.reference)
+        expect(page).not_to have_content(planning_application3.reference)
+
+        expect(page).to have_content("No planning applications match your search")
       end
     end
 

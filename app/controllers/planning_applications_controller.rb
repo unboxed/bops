@@ -376,7 +376,7 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def check_filter_params
-    return unless current_user.reviewer? && params[:planning_application_search_filter]
+    return unless current_user.reviewer? && params[:planning_application_search_filter] && helpers.exclude_others?
 
     params[:planning_application_search_filter][:filter_options] = filter_option_params.select { |a| PlanningApplication::REVIEWER_FILTER_OPTIONS.include?(a) }
   end
