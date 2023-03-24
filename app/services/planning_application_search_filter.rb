@@ -8,10 +8,12 @@ class PlanningApplicationSearchFilter
   validates :query, presence: true, if: :query_submitted?
 
   def results
-    return unless valid?
-
-    if query
-      records_matching_query.where(status: [filtered_filter_types])
+    if valid?
+      if query
+        records_matching_query.where(status: [filtered_filter_types])
+      else
+        planning_applications&.where(status: [filtered_filter_types])
+      end
     else
       planning_applications&.where(status: [filtered_filter_types])
     end
