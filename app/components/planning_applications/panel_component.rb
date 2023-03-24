@@ -2,7 +2,7 @@
 
 module PlanningApplications
   class PanelComponent < ViewComponent::Base
-    def initialize(planning_applications:, type:, search_filter: nil, current_user:, exclude_others: nil)
+    def initialize(planning_applications:, type:, current_user:, search_filter: nil, exclude_others: nil)
       @planning_applications = planning_applications
       @type = type
       @search_filter = search_filter

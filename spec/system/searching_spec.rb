@@ -14,8 +14,8 @@ RSpec.describe "searching planning applications" do
     create(
       :planning_application,
       :in_assessment,
-      user: user,
-      local_authority: local_authority,
+      user:,
+      local_authority:,
       description: "Add a chimney stack"
     )
   end
@@ -124,7 +124,7 @@ RSpec.describe "searching planning applications" do
       end
     end
 
-    it "allows user to search planning applications by description" do   
+    it "allows user to search planning applications by description" do
       within(selected_govuk_tab) do
         fill_in("Find an application", with: "chimney")
         click_button("Search")
@@ -134,11 +134,11 @@ RSpec.describe "searching planning applications" do
       end
     end
 
-    it "allows user to clear form without submitting it" do    
+    it "allows user to clear form without submitting it" do
       within(selected_govuk_tab) do
         fill_in("Find an application", with: "abc")
         click_link("Clear search")
-  
+
         expect(find_field("Find an application").value).to eq("")
 
         expect(page).to have_content("Your live applications")
@@ -216,11 +216,11 @@ RSpec.describe "searching planning applications" do
       end
     end
 
-    it "allows user to search planning applications by description" do   
+    it "allows user to search planning applications by description" do
       within(selected_govuk_tab) do
         fill_in("Find an application", with: "chimney")
         click_button("Search")
-        
+
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
@@ -251,11 +251,11 @@ RSpec.describe "searching planning applications" do
       end
     end
 
-    it "allows user to clear form without submitting it" do   
+    it "allows user to clear form without submitting it" do
       within(selected_govuk_tab) do
         fill_in("Find an application", with: "abc")
         click_link("Clear search")
-  
+
         expect(find_field("Find an application").value).to eq("")
         expect(page).to have_content("Live applications")
         expect(page).to have_content(planning_application1.reference)

@@ -12,7 +12,11 @@ module PlanningApplications
     private
 
     def filter_types
-      (@current_user.reviewer? && @exclude_others) ? PlanningApplication::REVIEWER_FILTER_OPTIONS : PlanningApplication::FILTER_OPTIONS
+      if @current_user.reviewer? && @exclude_others
+        PlanningApplication::REVIEWER_FILTER_OPTIONS
+      else
+        PlanningApplication::FILTER_OPTIONS
+      end
     end
 
     def selected_filters_count
@@ -25,7 +29,7 @@ module PlanningApplications
       q = exclude_others ? "exclude_others" : nil
       planning_applications_path(
         anchor: panel_type,
-        q: q,
+        q:,
         planning_application_search_filter: { filter_options: PlanningApplication::FILTER_OPTIONS }
       )
     end

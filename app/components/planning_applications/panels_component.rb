@@ -24,7 +24,7 @@ module PlanningApplications
       if search_filter.results
         if @exclude_others
           search_filter.results.select { |pa| pa.user == @current_user || pa.user.nil? }
-        else 
+        else
           search_filter.results
         end
       else

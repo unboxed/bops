@@ -12,8 +12,8 @@ RSpec.describe "filtering planning applications" do
     create(
       :planning_application,
       :not_started,
-      user: user,
-      local_authority: local_authority,
+      user:,
+      local_authority:,
       description: "Chimney"
     )
   end
@@ -22,8 +22,8 @@ RSpec.describe "filtering planning applications" do
     create(
       :planning_application,
       :invalidated,
-      user: user,
-      local_authority: local_authority,
+      user:,
+      local_authority:,
       description: "Chimney"
     )
   end

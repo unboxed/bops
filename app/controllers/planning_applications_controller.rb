@@ -33,12 +33,12 @@ class PlanningApplicationsController < AuthenticationController
                              end
 
     @search_filter = if params[:planning_application_search_filter].present?
-                PlanningApplicationSearchFilter.new(
-                  planning_application_search_filter_params
-                )
-              else
-                PlanningApplicationSearchFilter.new
-              end
+                       PlanningApplicationSearchFilter.new(
+                         planning_application_search_filter_params
+                       )
+                     else
+                       PlanningApplicationSearchFilter.new
+                     end
   end
 
   def show; end

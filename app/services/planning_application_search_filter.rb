@@ -37,18 +37,18 @@ class PlanningApplicationSearchFilter
       "%#{query.downcase}%"
     )
   end
-  
+
   def records_matching_description
     planning_applications
       .select(sanitized_select_sql)
       .where(where_sql, query_terms)
       .order(rank: :desc)
   end
-  
+
   def sanitized_select_sql
     ActiveRecord::Base.sanitize_sql_array([select_sql, query_terms])
   end
-  
+
   def select_sql
     "*,
     ts_rank(
@@ -56,11 +56,11 @@ class PlanningApplicationSearchFilter
       to_tsquery('english', ?)
     ) AS rank"
   end
-  
+
   def where_sql
     "to_tsvector('english', description) @@ to_tsquery('english', ?)"
   end
-  
+
   def query_terms
     @query_terms ||= query.split.join(" | ")
   end
