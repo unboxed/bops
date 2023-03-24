@@ -1,8 +1,10 @@
+---
 name: Deploy production
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   deploy-prod:
