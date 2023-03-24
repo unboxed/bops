@@ -1,6 +1,6 @@
-# BOPS ![CI](https://github.com/unboxed/bops/workflows/CI/badge.svg)
+# BoPS ![CI](https://github.com/unboxed/bops/workflows/CI/badge.svg)
 
-Back Office Planning System (BOPS)
+Back Office Planning System (BoPS)
 
 ## Getting started
 
@@ -12,7 +12,7 @@ First cd into the `bops-applicants` folder and run:
 git submodule update --init --recursive
 ```
 
-This links it to the BOPs applicants project.
+This links it to the BoPS applicants project.
 
 Then build and launch the images:
 
