@@ -11,4 +11,5 @@ jobs:
     uses: ./.github/workflows/deploy-environment.yml
     with:
       environment-name: "staging"
+      gha-environment: "staging"
     secrets: inherit
