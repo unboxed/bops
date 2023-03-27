@@ -141,7 +141,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
     expect(response).to have_http_status(:bad_request)
   end
 
-  it "returns a 400 if the file size exceeds 30mb" do
+  it "returns a 413 if the file size exceeds 30mb" do
     # Return byte size greater than limit of 30mb (31457280 bytes)
     allow_any_instance_of(ActionDispatch::Http::UploadedFile).to receive(:size).and_return(31_457_281)
 
@@ -149,7 +149,7 @@ RSpec.describe "API request to patch document validation requests", show_excepti
           params: { new_file: file },
           headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
 
-    expect(json).to eq({ "message" => "The file must be 30MB or less" })
-    expect(response).to have_http_status(:bad_request)
+    expect(json).to eq({ "message" => "The file must be smaller than 30MB" })
+    expect(response).to have_http_status(:payload_too_large)
   end
 end

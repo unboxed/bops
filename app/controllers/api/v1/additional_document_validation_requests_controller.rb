@@ -58,7 +58,7 @@ module Api
       def check_files_size
         params[:files].each do |file|
           if file_size_over_30mb?(file)
-            render json: { message: "The file: '#{file.original_filename}' exceeds the limit of 30mb. Each file must be 30MB or less" }, status: :bad_request
+            render json: { message: "The file: '#{file.original_filename}' exceeds the limit of 30mb. Each file must be 30MB or less" }, status: :payload_too_large
           end
         end
       end
