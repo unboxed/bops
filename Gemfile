@@ -19,6 +19,7 @@ gem "faker", require: false
 gem "faraday", require: false
 gem "govuk_design_system_formbuilder"
 gem "grover"
+gem "httparty"
 gem "i18n", "< 1.9"
 gem "i18n-tasks"
 gem "image_processing", "~> 1.12"

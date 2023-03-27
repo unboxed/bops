@@ -1,8 +1,11 @@
 # frozen_string_literal: true
+require 'httparty'
 
 module Api
   module V1
     class PlanningApplicationsController < Api::V1::ApplicationController
+      include HTTParty
+
       before_action :set_cors_headers, only: %i[index show create], if: :json_request?
 
       skip_before_action :authenticate, only: %i[index show decision_notice]
@@ -34,6 +37,8 @@ module Api
         ).call
 
         send_success_response
+
+        post_application_to_staging if production?
       rescue PlanningApplicationCreationService::CreateError => e
         send_failed_response(e)
       end
@@ -55,6 +60,14 @@ module Api
       def send_not_found_response
         render json: { message: "Unable to find record" },
                status: :not_found
+      end
+
+      def post_application_to_staging
+        PostApplicationToStagingJob.perform_now(current_local_authority, @planning_application)
+      end
+
+      def production?
+        ENV.fetch("STAGING_ENABLED", "false") == "true"
       end
     end
   end
