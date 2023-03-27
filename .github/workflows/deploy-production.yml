@@ -11,5 +11,5 @@ jobs:
     uses: ./.github/workflows/deploy-environment.yml
     with:
       environment-name: "production"
-      gha-environment: "prod"
+      gha-environment: "production"
     secrets: inherit
