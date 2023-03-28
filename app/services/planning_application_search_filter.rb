@@ -1,14 +1,30 @@
 # frozen_string_literal: true
 
-class PlanningApplicationSearch
+class PlanningApplicationSearchFilter
   include ActiveModel::Model
 
-  attr_accessor :query, :planning_applications
+  attr_accessor :filter_options, :planning_applications, :user, :query, :submit
 
-  validates :query, presence: true
+  validates :query, presence: true, if: :query_submitted?
 
   def results
-    valid? ? records_matching_query : planning_applications
+    if valid?
+      if query
+        records_matching_query.where(status: [filtered_filter_types])
+      else
+        planning_applications&.where(status: [filtered_filter_types])
+      end
+    else
+      planning_applications&.where(status: [filtered_filter_types])
+    end
+  end
+
+  def filter_types
+    filter_options&.reject(&:empty?)
+  end
+
+  def filtered_filter_types
+    filter_types&.map { |x| x == "to_be_reviewed" ? "awaiting_correction" : x }
   end
 
   private
@@ -49,5 +65,9 @@ class PlanningApplicationSearch
 
   def query_terms
     @query_terms ||= query.split.join(" | ")
+  end
+
+  def query_submitted?
+    submit.present?
   end
 end

@@ -44,6 +44,7 @@ Given("a new planning application") do
     :planning_application,
     :not_started,
     :with_boundary_geojson,
+    user: @officer,
     local_authority: @officer.local_authority
   )
 end

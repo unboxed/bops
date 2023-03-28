@@ -636,7 +636,7 @@ en:
       other: "%{count} days overdue"
     panel_component:
       all: All
-      all_applications: All applications
+      all_applications: Live applications
       all_your_applications: Your live applications
       application_type_name: Application type
       application_type_with_status: Application type
@@ -660,7 +660,7 @@ en:
       proposal_details: Proposal details
     publish:
       review_and_publish_determination: Review and publish determination
-    search_form_component:
+    search_filter_component:
       clear_search: Clear search
       find_an_application: Find an application
       search: Search
@@ -686,7 +686,7 @@ en:
       assessment_report: Assessment report details
       download_assessment_report: Download assessment report as PDF
     tabs:
-      all_applications: All applications
+      all_applications: Live applications
       all_your_applications: Your live applications
     update:
       success: Planning application was successfully updated.

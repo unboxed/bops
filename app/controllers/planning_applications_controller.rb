@@ -32,21 +32,13 @@ class PlanningApplicationsController < AuthenticationController
                                planning_applications_scope
                              end
 
-    @filter = if params[:planning_application_filter].present?
-                PlanningApplicationFilter.new(
-                  planning_application_filter_params
-                )
-              else
-                PlanningApplicationFilter.new
-              end
-
-    @search = if params[:planning_application_search].present?
-                PlanningApplicationSearch.new(
-                  planning_application_search_params
-                )
-              else
-                PlanningApplicationSearch.new
-              end
+    @search_filter = if params[:planning_application_search_filter].present?
+                       PlanningApplicationSearchFilter.new(
+                         planning_application_search_filter_params
+                       )
+                     else
+                       PlanningApplicationSearchFilter.new
+                     end
   end
 
   def show; end
@@ -259,18 +251,11 @@ class PlanningApplicationsController < AuthenticationController
 
   private
 
-  def planning_application_search_params
+  def planning_application_search_filter_params
     params
-      .require(:planning_application_search)
-      .permit(:query)
-      .merge(planning_applications: @planning_applications)
-  end
-
-  def planning_application_filter_params
-    params
-      .require(:planning_application_filter)
-      .permit(filter_options: [])
-      .merge(planning_applications: @planning_applications)
+      .require(:planning_application_search_filter)
+      .permit(:query, filter_options: [])
+      .merge(planning_applications: @planning_applications, submit: params[:submit])
   end
 
   def validation_date_fields_invalid?
@@ -391,12 +376,12 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def check_filter_params
-    return unless current_user.reviewer? && params[:planning_application_filter]
+    return unless current_user.reviewer? && params[:planning_application_search_filter] && helpers.exclude_others?
 
-    params[:planning_application_filter][:filter_options] = filter_option_params.select { |a| PlanningApplication::REVIEWER_FILTER_OPTIONS.include?(a) }
+    params[:planning_application_search_filter][:filter_options] = filter_option_params.select { |a| PlanningApplication::REVIEWER_FILTER_OPTIONS.include?(a) }
   end
 
   def filter_option_params
-    params[:planning_application_filter][:filter_options]
+    params[:planning_application_search_filter][:filter_options]
   end
 end
