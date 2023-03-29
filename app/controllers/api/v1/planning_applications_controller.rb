@@ -1,11 +1,8 @@
 # frozen_string_literal: true
-require 'httparty'
 
 module Api
   module V1
     class PlanningApplicationsController < Api::V1::ApplicationController
-      include HTTParty
-
       before_action :set_cors_headers, only: %i[index show create], if: :json_request?
 
       skip_before_action :authenticate, only: %i[index show decision_notice]
