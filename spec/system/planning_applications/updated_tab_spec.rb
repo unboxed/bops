@@ -135,4 +135,16 @@ RSpec.describe "Planning application updated tab spec" do
       expect(page).not_to have_css("#planning_application_#{other_planning_application.id}")
     end
   end
+
+  context "when viewing all applications" do
+    before do
+      click_link("View all applications")
+    end
+
+    it "shows the updated tab" do
+      within("#updated") do
+        expect(page).to have_content("Updated")
+      end
+    end
+  end
 end
