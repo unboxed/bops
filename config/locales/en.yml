@@ -293,6 +293,7 @@ en:
       assessment_report: Assessment report
   audit_user_name:
     applicant: Applicant / Agent via %{api_user_name}
+    bops_applicants: Applicant / Agent via BoPS applicants
     deleted: User deleted
     system: Automated by the system
   audits:
