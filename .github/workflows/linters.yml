@@ -60,6 +60,8 @@ jobs:
 
       - name: Run linters - Rome
         if: ${{ inputs.rome == true }}
+        env:
+          SECRET_KEY_BASE_DUMMY: 1
         run: |
           ${{ inputs.run-before-linters }}
           bundle exec rake rome
@@ -72,8 +74,8 @@ jobs:
             echo "Dockerfile has wrong node: $(grep '^ARG NODE_MAJOR' Dockerfile)" >&2
             exit 1
           fi
-          if ! grep -q "^ARG NODE_MAJOR=$NODE_VERSION" Dockerfile.production; then
-            echo "Dockerfile.production has wrong node: $(grep '^ARG NODE_MAJOR' Dockerfile.production)" >&2
+          if ! grep -q "^ARG NODE_VERSION=$NODE_VERSION" Dockerfile.production; then
+            echo "Dockerfile.production has wrong node: $(grep '^ARG NODE_VERSION' Dockerfile.production)" >&2
             exit 1
           fi
 

@@ -25,6 +25,13 @@ module Bops
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
+    # New Rails 7.1 default
+    config.secret_key_base = if ENV["SECRET_KEY_BASE_DUMMY"]
+                               SecureRandom.hex(32)
+                             else
+                               ENV.fetch("SECRET_KEY_BASE")
+                             end
+
     config.middleware.use Grover::Middleware
 
     # Settings in config/environments/* take precedence over those specified

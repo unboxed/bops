@@ -64,6 +64,7 @@ jobs:
           # push it to ECR so that it can
           # be deployed to ECS.
           DOCKER_BUILDKIT=1 docker buildx build \
+            --build-arg REVISION=$(git rev-parse HEAD) \
             --cache-to type=gha,mode=max \
             --cache-from type=gha \
             --load \

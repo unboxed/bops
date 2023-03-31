@@ -84,10 +84,13 @@ jobs:
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
           RAILS_ENV: test
+          SECRET_KEY_BASE_DUMMY: 1
         run: |
           bundle exec rake db:create db:schema:load
 
       - name: Build assets
+        env:
+          SECRET_KEY_BASE_DUMMY: 1
         run: bundle exec rake assets:precompile
 
       - name: Run rspec specs
@@ -98,6 +101,7 @@ jobs:
           NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
           OTP_SECRET_ENCRYPTION_KEY: ${{ secrets.OTP_SECRET_ENCRYPTION_KEY }}
           SPEC_OPTS: '-f doc  --exclude "${{ inputs.exclude }}" --pattern "${{ inputs.include }}"'
+          SECRET_KEY_BASE_DUMMY: 1
         run: |
           bundle exec rake spec
 
@@ -109,5 +113,6 @@ jobs:
           RAILS_ENV: test
           NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
           OTP_SECRET_ENCRYPTION_KEY: ${{ secrets.OTP_SECRET_ENCRYPTION_KEY }}
+          SECRET_KEY_BASE_DUMMY: 1
         run: |
           bundle exec cucumber
