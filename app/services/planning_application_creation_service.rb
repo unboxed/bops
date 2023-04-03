@@ -27,7 +27,6 @@ class PlanningApplicationCreationService
   attr_reader :local_authority, :params, :api_user
 
   def build_planning_application
-    binding.pry
     planning_application = PlanningApplication.new(
       planning_application_params.merge!(
         local_authority_id: local_authority.id,
@@ -53,7 +52,7 @@ class PlanningApplicationCreationService
       if planning_application.save!
         UploadDocumentsJob.perform_now(planning_application:, files: params[:files])
 
-        planning_application.send_receipt_notice_mail unless planning_application_params[:send_email] == "false"
+        planning_application.send_receipt_notice_mail unless params[:send_email] == "false"
       end
 
       planning_application
@@ -64,8 +63,7 @@ class PlanningApplicationCreationService
   end
 
   def planning_application_params
-    permitted_keys = [:send_email,
-                      :application_type,
+    permitted_keys = [:application_type,
                       :description,
                       :applicant_first_name,
                       :applicant_last_name,

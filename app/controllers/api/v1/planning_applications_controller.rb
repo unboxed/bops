@@ -60,11 +60,11 @@ module Api
       end
 
       def post_application_to_staging
-        PostApplicationToStagingJob.perform_now(current_local_authority, @planning_application)
+        PostApplicationToStagingJob.perform_later(current_local_authority, @planning_application)
       end
 
       def production?
-        ENV.fetch("STAGING_ENABLED", "false") == "true"
+        ENV.fetch("STAGING_ENABLED", "false") == "false"
       end
     end
   end

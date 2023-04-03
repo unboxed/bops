@@ -4,19 +4,13 @@ require "rails_helper"
 
 RSpec.describe Apis::Bops::Client do
   let(:client) { described_class.new }
-  let(:planning_application) { create(:planning_application) }
+  let(:planning_application) { create(:planning_application, :from_planx) }
 
   describe "#call" do
-    before do
-      # allow(ENV).to receive(:fetch).with("STAGING_API_BEARER").and_return("testtesttest")
-      allow(ENV).to receive(:fetch).with("STAGING_API_URL").and_return("testtesttest")
-    end
-    
     it "is successful" do
-      allow(ENV).to receive(:fetch).with("STAGING_API_URL").and_return("testtesttest")
-      # allow(client).to receive(:call).with(LocalAuthority.first, planning_application).and_return(200)
+      allow(ENV).to receive(:fetch).with("STAGING_API_BEARER").and_return("testtesttest")
 
-      expect(client.call(LocalAuthority.first, planning_application).status).to eq(200)
+      expect(client.call(planning_application.local_authority.subdomain, planning_application).status).to eq(200)
     end
   end
 end

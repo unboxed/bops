@@ -388,7 +388,7 @@ GEM
       rails (> 3.1)
     railties (7.0.4.3)
       actionpack (= 7.0.4.3)
-      activesupport (= 7.0.4.3)y
+      activesupport (= 7.0.4.3)
       method_source
       rake (>= 12.2)
       thor (~> 1.0)

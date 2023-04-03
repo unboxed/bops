@@ -21,8 +21,8 @@ module Apis
         @faraday ||= Faraday.new(url: "https://#{local_authority}.#{HOST}") do |f|
           f.response :raise_error
           f.headers = {
-            "Content-Type" => "application/json", 
-            "Authorization" => "Bearer #{ENV.fetch("STAGING_API_BEARER")}"
+            "Content-Type" => "application/json",
+            "Authorization" => "Bearer #{ENV.fetch('STAGING_API_BEARER')}"
           }
         end
       end
