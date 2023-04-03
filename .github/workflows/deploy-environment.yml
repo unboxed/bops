@@ -99,6 +99,29 @@ jobs:
             --task-definition $TASK_DEFINITION --launch-type FARGATE \
             --network-configuration '{"awsvpcConfiguration": {"subnets": ["'$BOPS_SUBNETS'"],"securityGroups": ["'$BOPS_SG'"],"assignPublicIp": "ENABLED"}}'
 
+      - name: Download task definition for console and strip unused properties
+        env:
+          IMAGE_ARN: ${{ steps.build-image.outputs.image }}
+        run: |
+          aws ecs describe-task-definition --task-definition bops-console-${{ inputs.environment-name }} --query taskDefinition | \
+          jq -r 'del(.compatibilities, .taskDefinitionArn, .requiresAttributes, .revision, .status, .registeredAt, .registeredBy)' > console.json
+
+      - name: Generate task definition for console
+        id: task-def-console
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: console.json
+          container-name: bops
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy console
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def-console.outputs.task-definition }}
+          service: bops-console-${{ inputs.environment-name }}
+          cluster: bops-${{ inputs.environment-name }}
+          wait-for-service-stability: true
+
       - name: Download task definition for worker and strip unused properties
         env:
           IMAGE_ARN: ${{ steps.build-image.outputs.image }}
