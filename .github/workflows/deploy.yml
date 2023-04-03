@@ -1,5 +1,5 @@
 ---
-name: Deploy staging
+name: Deploy
 
 on:
   push:
@@ -11,5 +11,11 @@ jobs:
     uses: ./.github/workflows/deploy-environment.yml
     with:
       environment-name: "staging"
-      gha-environment: "staging"
+    secrets: inherit
+
+  deploy-production:
+    uses: ./.github/workflows/deploy-environment.yml
+    needs: deploy-staging
+    with:
+      environment-name: "production"
     secrets: inherit
