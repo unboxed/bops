@@ -7,18 +7,15 @@ on:
       environment-name:
         type: string
         required: true
-      gha-environment:
-        type: string
-        required: true
 
 concurrency:
-  group: ${{ inputs.gha-environment }}
+  group: ${{ inputs.environment-name }}
 
 jobs:
   deploy:
     name: Deploy to ${{ inputs.environment-name }}
     runs-on: ubuntu-20.04
-    environment: ${{ inputs.gha-environment }}
+    environment: ${{ inputs.environment-name }}
 
     steps:
       - name: Checkout code
