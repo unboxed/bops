@@ -16,6 +16,9 @@ jobs:
     name: Deploy to ${{ inputs.environment-name }}
     runs-on: ubuntu-20.04
     environment: ${{ inputs.environment-name }}
+    strategy:
+      matrix:
+        service_type: [ 'console', 'worker' ]
 
     steps:
       - name: Checkout code
@@ -96,49 +99,26 @@ jobs:
             --task-definition $TASK_DEFINITION --launch-type FARGATE \
             --network-configuration '{"awsvpcConfiguration": {"subnets": ["'$BOPS_SUBNETS'"],"securityGroups": ["'$BOPS_SG'"],"assignPublicIp": "ENABLED"}}'
 
-      - name: Download task definition for console and strip unused properties
+      - name: Download task definition for ${{ matrix.service_type }} and strip unused properties
         env:
           IMAGE_ARN: ${{ steps.build-image.outputs.image }}
         run: |
-          aws ecs describe-task-definition --task-definition bops-console-${{ inputs.environment-name }} --query taskDefinition | \
-          jq -r 'del(.compatibilities, .taskDefinitionArn, .requiresAttributes, .revision, .status, .registeredAt, .registeredBy)' > console.json
+          aws ecs describe-task-definition --task-definition bops-${{ matrix.service_type }}-${{ inputs.environment-name }} --query taskDefinition | \
+          jq -r 'del(.compatibilities, .taskDefinitionArn, .requiresAttributes, .revision, .status, .registeredAt, .registeredBy)' > ${{ matrix.service_type }}.json
 
-      - name: Generate task definition for console
-        id: task-def-console
+      - name: Generate task definition for ${{ matrix.service_type }}
+        id: ${{ format('task-def-{0}', matrix.service_type) }}
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: console.json
+          task-definition: ${{ matrix.service_type }}.json
           container-name: bops
           image: ${{ steps.build-image.outputs.image }}
 
-      - name: Deploy console
+      - name: Deploy ${{ matrix.service_type }}
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: ${{ steps.task-def-console.outputs.task-definition }}
+          task-definition: ${{ format('steps.task-def-{0}.outputs.task-definition', matrix.service_type) }}
           service: bops-console-${{ inputs.environment-name }}
-          cluster: bops-${{ inputs.environment-name }}
-          wait-for-service-stability: true
-
-      - name: Download task definition for worker and strip unused properties
-        env:
-          IMAGE_ARN: ${{ steps.build-image.outputs.image }}
-        run: |
-          aws ecs describe-task-definition --task-definition bops-worker-${{ inputs.environment-name }} --query taskDefinition | \
-          jq -r 'del(.compatibilities, .taskDefinitionArn, .requiresAttributes, .revision, .status, .registeredAt, .registeredBy)' > worker.json
-
-      - name: Generate task definition for worker
-        id: task-def-worker
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: worker.json
-          container-name: bops
-          image: ${{ steps.build-image.outputs.image }}
-
-      - name: Deploy worker
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.task-def-worker.outputs.task-definition }}
-          service: bops-worker-${{ inputs.environment-name }}
           cluster: bops-${{ inputs.environment-name }}
           wait-for-service-stability: true
 
