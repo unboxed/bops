@@ -9,6 +9,16 @@ module Api
         document = PlanningApplication.find(params[:planning_application_id]).documents.for_publication.find(params[:id])
         redirect_to rails_blob_url(document.file)
       end
+
+      def tags
+        respond_to do |format|
+          format.json do
+            @tags = Document::TAGS
+            @evidence_tags = Document::EVIDENCE_TAGS
+            @plan_tags = Document::PLAN_TAGS
+          end
+        end
+      end
     end
   end
 end
