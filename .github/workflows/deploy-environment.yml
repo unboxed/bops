@@ -76,6 +76,7 @@ jobs:
 
   deploy-db-migrate-service:
     name: Perform database migrations on ${{ inputs.environment-name }}
+    needs: build-image
     runs-on: ubuntu-20.04
     strategy:
       matrix:
@@ -108,6 +109,7 @@ jobs:
 
   deploy-services:
     name: Deploy services to ${{ inputs.environment-name }}
+    needs: [build-image, deploy-db-migrate-service]
     runs-on: ubuntu-20.04
     strategy:
       matrix:
@@ -139,6 +141,7 @@ jobs:
 
   deploy-web-service:
     name: Deploy web service to ${{ inputs.environment-name }}
+    needs: [build-image, deploy-db-migrate-service, deploy-services]
     runs-on: ubuntu-20.04
     environment: ${{ inputs.environment-name }}
 
