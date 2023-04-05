@@ -123,11 +123,19 @@ jobs:
           aws ecs describe-task-definition --task-definition bops-${{ matrix.service_type }}-${{ inputs.environment-name }} --query taskDefinition | \
           jq -r 'del(.compatibilities, .taskDefinitionArn, .requiresAttributes, .revision, .status, .registeredAt, .registeredBy)' > ${{ matrix.service_type }}.json
 
-      - name: Generate task definition for ${{ matrix.service_type }}
-        id: steps[format('task-def-{0}', matrix.service_type)]
+      - name: Generate task definition for console
+        id: task-def-console
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ matrix.service_type }}.json
+          task-definition: console.json
+          container-name: bops
+          image: ${{ needs.build-image.outputs.arn }}
+
+      - name: Generate task definition for worker
+        id: task-def-worker
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: worker.json
           container-name: bops
           image: ${{ needs.build-image.outputs.arn }}
 
