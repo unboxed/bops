@@ -18,8 +18,6 @@ module StatusPresenter
       tag.span class: classes do
         if determined?
           decision.humanize
-        elsif to_be_reviewed?
-          "To be reviewed"
         else
           aasm.human_state.humanize
         end

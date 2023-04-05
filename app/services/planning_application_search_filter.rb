@@ -10,21 +10,17 @@ class PlanningApplicationSearchFilter
   def results
     if valid?
       if query
-        records_matching_query.where(status: [filtered_filter_types])
+        records_matching_query.where(status: [filter_types])
       else
-        planning_applications&.where(status: [filtered_filter_types])
+        planning_applications&.where(status: [filter_types])
       end
     else
-      planning_applications&.where(status: [filtered_filter_types])
+      planning_applications&.where(status: [filter_types])
     end
   end
 
   def filter_types
     filter_options&.reject(&:empty?)
-  end
-
-  def filtered_filter_types
-    filter_types&.map { |x| x == "to_be_reviewed" ? "to_be_reviewed" : x }
   end
 
   private

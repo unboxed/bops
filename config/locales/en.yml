@@ -641,7 +641,6 @@ en:
       all_your_applications: Your live applications
       application_type_name: Application type
       application_type_with_status: Application type
-      to_be_reviewed: Corrections requested
       awaiting_determination: Awaiting determination
       closed: Closed
       description: Description
@@ -655,6 +654,7 @@ en:
       reference: Application number
       remaining_days_status_tag: Days left to expiry
       status_tag: Status
+      to_be_reviewed: Corrections requested
       under_assessment: In assessment
       user_name: Planning officer
     policy_consideration_list:
@@ -862,13 +862,13 @@ en:
     valid: Valid
     waiting: Waiting
   statuses:
-    to_be_reviewed: Corrections requested
     awaiting_determination: Awaiting determination
     determined: Determined
     in_assessment: In assessment
     invalidated: Invalidated
     not_started: Not started
     returned: Returned
+    to_be_reviewed: Corrections requested
     withdrawn: Withdrawn
   task_list_items:
     additional_document_component:
