@@ -84,6 +84,15 @@ RSpec.describe PlanningApplication do
         }.to ["Work Status should be proposed or existing"]
       end
     end
+
+    describe "#user_is_non_administrator" do
+      it "validates that a user assigned to the planning application is not an administrator" do
+        planning_application = build(:planning_application, user: create(:user, :administrator))
+
+        expect { planning_application.valid? }.to change { planning_application.errors[:user] }
+          .to ["You cannot assign a planning application to an adminstrator"]
+      end
+    end
   end
 
   describe "associations" do
@@ -765,12 +774,12 @@ RSpec.describe PlanningApplication do
     end
   end
 
-  describe "#assign" do
+  describe "#assign!" do
     let(:planning_application) { create(:planning_application) }
     let(:user) { create(:user) }
 
     it "sends notification to assigned user" do
-      expect { planning_application.assign(user) }
+      expect { planning_application.assign!(user) }
         .to have_enqueued_job
         .on_queue("default")
         .with(
@@ -779,6 +788,19 @@ RSpec.describe PlanningApplication do
           "deliver_now",
           args: [planning_application, user.email]
         )
+    end
+
+    context "when an ActiveRecord error is raised" do
+      before do
+        allow(planning_application).to receive(:update!).and_raise(ActiveRecord::ActiveRecordError)
+      end
+
+      it "raises an error and does not create an audit" do
+        expect { planning_application.assign!(user) }
+          .to raise_error(ActiveRecord::ActiveRecordError)
+          .and not_change(planning_application, :user_id)
+          .and not_change(Audit, :count)
+      end
     end
   end
 

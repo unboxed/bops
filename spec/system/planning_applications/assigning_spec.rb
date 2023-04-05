@@ -25,8 +25,8 @@ RSpec.describe "assigning planning application" do
   it "lets a planning application be assigned to a user" do
     travel_to("2022-01-01")
     sign_in(reviewer)
-    visit(assign_planning_application_path(planning_application))
-    choose("Jane Smith")
+    visit(planning_application_assign_users_path(planning_application))
+    select("Jane Smith")
     click_button("Confirm")
 
     expect(page).to have_content("Assigned to: Jane Smith")
@@ -40,6 +40,48 @@ RSpec.describe "assigning planning application" do
       "BoPS case PlanX-22-00100-LDCP has a new update"
     )
 
+    expect(Audit.last).to have_attributes(
+      planning_application_id: planning_application.id,
+      activity_type: "assigned",
+      activity_information: "Jane Smith",
+      user_id: reviewer.id
+    )
+
     travel_back
+  end
+
+  context "when a planning application is assigned" do
+    let(:planning_application) do
+      create(
+        :planning_application,
+        local_authority:,
+        user: assessor
+      )
+    end
+
+    it "can be unnassigned" do
+      sign_in(reviewer)
+      visit(planning_application_assign_users_path(planning_application))
+      select("Unassigned")
+      click_button("Confirm")
+
+      expect(page).to have_content("Assigned to: Unassigned")
+    end
+  end
+
+  context "when there is an ActiveRecord Error raised" do
+    before do
+      allow_any_instance_of(PlanningApplication).to receive(:assign!).and_raise(ActiveRecord::ActiveRecordError, "an error message")
+    end
+
+    it "there is an error message and no update is persisted" do
+      sign_in(reviewer)
+
+      visit(planning_application_assign_users_path(planning_application))
+      select("Jane Smith")
+      click_button("Confirm")
+
+      expect(page).to have_content("Couldn't assign user with error: an error message. Please contact support.")
+    end
   end
 end

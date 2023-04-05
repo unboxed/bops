@@ -141,6 +141,7 @@ class PlanningApplication < ApplicationRecord
   validate :public_comment_present
   validate :decision_with_recommendations
   validate :determination_date_is_not_in_the_future
+  validate :user_is_non_administrator
 
   def payment_amount=(amount)
     self[:payment_amount] = amount.to_s.delete("^0-9.-").to_d
@@ -415,10 +416,12 @@ class PlanningApplication < ApplicationRecord
     raise WithdrawRecommendationError, e.message
   end
 
-  def assign(user)
-    self.user = user
-    audit!(activity_type: "assigned", activity_information: self.user&.name)
-    send_update_notification_to_assessor
+  def assign!(user)
+    transaction do
+      update!(user:)
+      audit!(activity_type: "assigned", activity_information: user&.name)
+      send_update_notification_to_assessor
+    end
   end
 
   def determination_date
@@ -524,6 +527,13 @@ class PlanningApplication < ApplicationRecord
     end
   rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
     raise WithdrawOrCancelError, e.message
+  end
+
+  def user_is_non_administrator
+    return unless user_id_changed?
+    return unless user&.administrator?
+
+    errors.add(:user, "You cannot assign a planning application to an adminstrator")
   end
 
   private

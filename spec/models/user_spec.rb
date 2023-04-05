@@ -18,6 +18,35 @@ RSpec.describe User do
     end
   end
 
+  describe "scopes" do
+    before do
+      create(:user, :administrator)
+    end
+
+    describe ".non_administrator" do
+      let!(:user1) { create(:user, :assessor) }
+      let!(:user2) { create(:user, :reviewer) }
+
+      it "returns all non administrator users" do
+        expect(described_class.non_administrator).to eq([user1, user2])
+      end
+    end
+  end
+
+  describe "class methods" do
+    describe ".menu" do
+      let!(:user1) { create(:user, name: "Johnny John") }
+      let!(:user2) { create(:user, name: "Vicky Vick") }
+      let!(:user3) { create(:user, name: "Bobby Bob") }
+
+      it "returns the user name and user ids (sorted by name asc) with an unassigned option" do
+        expect(described_class.menu).to eq(
+          [["Unassigned", nil], ["Bobby Bob", user3.id], ["Johnny John", user1.id], ["Vicky Vick", user2.id]]
+        )
+      end
+    end
+  end
+
   describe "instance methods" do
     let(:user) { create(:user) }
 

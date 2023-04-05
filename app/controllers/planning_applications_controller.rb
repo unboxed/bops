@@ -83,15 +83,6 @@ class PlanningApplicationsController < AuthenticationController
     end
   end
 
-  def assign
-    return unless request.patch?
-
-    user = params[:planning_application][:user_id].eql?("0") ? nil : current_local_authority.users.find(params[:planning_application][:user_id])
-    @planning_application.assign(user)
-
-    redirect_to @planning_application if @planning_application.save
-  end
-
   def confirm_validation
     @planning_application.default_validated_at
   end

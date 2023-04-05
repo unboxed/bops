@@ -41,8 +41,6 @@ Rails.application.routes.draw do
     resource :recommendations, only: %i[edit]
 
     member do
-      get :assign
-      patch :assign
       get :confirm_validation
       patch :validate
       patch :invalidate
@@ -130,6 +128,10 @@ Rails.application.routes.draw do
       end
 
       resource :withdraw_or_cancel, only: %i[show update]
+
+      resources :assign_users, only: %i[index] do
+        patch :update, on: :collection
+      end
     end
   end
 

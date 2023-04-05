@@ -19,6 +19,16 @@ class User < ApplicationRecord
   validates :password, password_strength: { use_dictionary: true }, unless: ->(user) { user.password.blank? }
   validate :password_complexity
 
+  scope :non_administrator, -> { where.not(role: "administrator") }
+
+  class << self
+    def menu(scope = User.all)
+      users = scope.order(name: :asc).pluck(:name, :id)
+
+      [["Unassigned", nil]].concat(users)
+    end
+  end
+
   def self.find_for_authentication(tainted_conditions)
     if tainted_conditions[:subdomains].present?
       local_authority = LocalAuthority.find_by(subdomain: tainted_conditions[:subdomains].first)
