@@ -12,9 +12,11 @@ concurrency:
   group: ${{ inputs.environment-name }}
 
 jobs:
-  deploy:
-    name: Deploy to ${{ inputs.environment-name }}
+  build-image:
+    name: Create and push docker image to ECR for ${{ inputs.environment-name }}
     runs-on: ubuntu-20.04
+    outputs:
+      arn: ${{ steps.push-image.outputs.image }}
     environment: ${{ inputs.environment-name }}
 
     steps:
@@ -55,7 +57,7 @@ jobs:
           fi
 
       - name: Build, tag, and push ${{ inputs.environment-name }} image to Amazon ECR
-        id: build-image
+        id: push-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: bops/${{ inputs.environment-name }}
@@ -72,9 +74,18 @@ jobs:
           split -b 5G bops.tar docker-cache/x
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >>$GITHUB_OUTPUT
 
+  deploy-db-migrate-service:
+    name: Perform database migrations on ${{ inputs.environment-name }}
+    needs: build-image
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        service_type: [ 'console', 'worker' ]
+
+    steps:
       - name: Download task definition for db_migrate and strip unused properties
         env:
-          IMAGE_ARN: ${{ steps.build-image.outputs.image }}
+          IMAGE_ARN: ${{ needs.build-image.outputs.arn }}
         run: |
           aws ecs describe-task-definition --task-definition bops-db-migrate-${{ inputs.environment-name }} --query taskDefinition | \
           jq -r 'del(.compatibilities, .taskDefinitionArn, .requiresAttributes, .revision, .status, .registeredAt, .registeredBy)' | \
@@ -96,52 +107,45 @@ jobs:
             --task-definition $TASK_DEFINITION --launch-type FARGATE \
             --network-configuration '{"awsvpcConfiguration": {"subnets": ["'$BOPS_SUBNETS'"],"securityGroups": ["'$BOPS_SG'"],"assignPublicIp": "ENABLED"}}'
 
-      - name: Download task definition for console and strip unused properties
-        env:
-          IMAGE_ARN: ${{ steps.build-image.outputs.image }}
-        run: |
-          aws ecs describe-task-definition --task-definition bops-console-${{ inputs.environment-name }} --query taskDefinition | \
-          jq -r 'del(.compatibilities, .taskDefinitionArn, .requiresAttributes, .revision, .status, .registeredAt, .registeredBy)' > console.json
+  deploy-services:
+    name: Deploy services to ${{ inputs.environment-name }}
+    needs: [build-image, deploy-db-migrate-service]
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        service_type: [ 'console', 'worker' ]
 
-      - name: Generate task definition for console
-        id: task-def-console
+    steps:
+      - name: Download task definition for ${{ matrix.service_type }} and strip unused properties
+        env:
+          IMAGE_ARN: ${{ needs.build-image.outputs.arn }}
+        run: |
+          aws ecs describe-task-definition --task-definition bops-${{ matrix.service_type }}-${{ inputs.environment-name }} --query taskDefinition | \
+          jq -r 'del(.compatibilities, .taskDefinitionArn, .requiresAttributes, .revision, .status, .registeredAt, .registeredBy)' > ${{ matrix.service_type }}.json
+
+      - name: Generate task definition for ${{ matrix.service_type }}
+        id: ${{ format('task-def-{0}', matrix.service_type) }}
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: console.json
+          task-definition: ${{ matrix.service_type }}.json
           container-name: bops
-          image: ${{ steps.build-image.outputs.image }}
+          image: ${{ needs.build-image.outputs.arn }}
 
-      - name: Deploy console
+      - name: Deploy ${{ matrix.service_type }}
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: ${{ steps.task-def-console.outputs.task-definition }}
+          task-definition: ${{ format('steps.task-def-{0}.outputs.task-definition', matrix.service_type) }}
           service: bops-console-${{ inputs.environment-name }}
           cluster: bops-${{ inputs.environment-name }}
           wait-for-service-stability: true
 
-      - name: Download task definition for worker and strip unused properties
-        env:
-          IMAGE_ARN: ${{ steps.build-image.outputs.image }}
-        run: |
-          aws ecs describe-task-definition --task-definition bops-worker-${{ inputs.environment-name }} --query taskDefinition | \
-          jq -r 'del(.compatibilities, .taskDefinitionArn, .requiresAttributes, .revision, .status, .registeredAt, .registeredBy)' > worker.json
+  deploy-web-service:
+    name: Deploy web service to ${{ inputs.environment-name }}
+    needs: [build-image, deploy-db-migrate-service, deploy-services]
+    runs-on: ubuntu-20.04
+    environment: ${{ inputs.environment-name }}
 
-      - name: Generate task definition for worker
-        id: task-def-worker
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: worker.json
-          container-name: bops
-          image: ${{ steps.build-image.outputs.image }}
-
-      - name: Deploy worker
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.task-def-worker.outputs.task-definition }}
-          service: bops-worker-${{ inputs.environment-name }}
-          cluster: bops-${{ inputs.environment-name }}
-          wait-for-service-stability: true
-
+    steps:
       - name: Download task definition for web and strip unused properties
         run: |
           aws ecs describe-task-definition --task-definition bops-web-${{ inputs.environment-name }} --query taskDefinition | \
@@ -153,7 +157,7 @@ jobs:
         with:
           task-definition: web.json
           container-name: bops
-          image: ${{ steps.build-image.outputs.image }}
+          image: ${{ needs.build-image.outputs.arn }}
 
       - name: Deploy web
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
