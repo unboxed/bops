@@ -167,7 +167,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def reviewer_disagrees_with_assessor?
-    awaiting_correction?
+    to_be_reviewed?
   end
 
   def assessor_decision_updated?
@@ -175,7 +175,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def reviewer_decision_updated?
-    awaiting_correction? && recommendations.count > 1
+    to_be_reviewed? && recommendations.count > 1
   end
 
   def agent?
@@ -187,7 +187,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def review_complete?
-    awaiting_correction? || determined?
+    to_be_reviewed? || determined?
   end
 
   def recommendable?
@@ -219,7 +219,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def can_assess?
-    assessment_in_progress? || in_assessment? || awaiting_correction?
+    assessment_in_progress? || in_assessment? || to_be_reviewed?
   end
 
   def closed_or_cancelled?
@@ -231,7 +231,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def can_submit_recommendation?
-    assessment_complete? && (in_assessment? || awaiting_correction?)
+    assessment_complete? && (in_assessment? || to_be_reviewed?)
   end
 
   def submit_recommendation_complete?
@@ -441,7 +441,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def assessment_submitted?
-    assessment_complete? || awaiting_correction?
+    assessment_complete? || to_be_reviewed?
   end
 
   def no_policy_classes_after_assessment?

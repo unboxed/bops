@@ -641,7 +641,7 @@ en:
       all_your_applications: Your live applications
       application_type_name: Application type
       application_type_with_status: Application type
-      awaiting_correction: Corrections requested
+      to_be_reviewed: Corrections requested
       awaiting_determination: Awaiting determination
       closed: Closed
       description: Description
@@ -862,7 +862,7 @@ en:
     valid: Valid
     waiting: Waiting
   statuses:
-    awaiting_correction: Corrections requested
+    to_be_reviewed: Corrections requested
     awaiting_determination: Awaiting determination
     determined: Determined
     in_assessment: In assessment

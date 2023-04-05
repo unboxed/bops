@@ -24,7 +24,7 @@ class PlanningApplicationSearchFilter
   end
 
   def filtered_filter_types
-    filter_types&.map { |x| x == "to_be_reviewed" ? "awaiting_correction" : x }
+    filter_types&.map { |x| x == "to_be_reviewed" ? "to_be_reviewed" : x }
   end
 
   private

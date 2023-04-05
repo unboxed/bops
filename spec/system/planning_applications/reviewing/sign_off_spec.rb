@@ -127,7 +127,7 @@ RSpec.describe "Reviewing sign-off" do
     expect(page).not_to have_link("Publish determination")
 
     planning_application.reload
-    expect(planning_application.status).to eq("awaiting_correction")
+    expect(planning_application.status).to eq("to_be_reviewed")
     expect(planning_application.recommendation.reviewer).to eq(reviewer)
     expect(planning_application.recommendation.reviewed_at).not_to be_nil
     expect(planning_application.recommendation.reviewer_comment).to eq("Reviewer private comment")

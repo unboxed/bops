@@ -41,11 +41,11 @@
     <% end %>
   </div>
 </div>
-<% if @planning_applications.awaiting_correction.any? %>
+<% if @planning_applications.to_be_reviewed.any? %>
   <%= render(
     partial: "shared/alert_banner",
     locals: {
-      message: t(".#{current_user.role}_alert", count: @planning_applications.awaiting_correction.count).html_safe,
+      message: t(".#{current_user.role}_alert", count: @planning_applications.to_be_reviewed.count).html_safe,
     }
   ) %>
 <% end %>

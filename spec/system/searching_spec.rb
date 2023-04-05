@@ -33,7 +33,7 @@ RSpec.describe "searching planning applications" do
   let!(:planning_application3) do
     create(
       :planning_application,
-      :awaiting_correction,
+      :to_be_reviewed,
       user: other_user,
       local_authority:,
       description: "Add a skylight"

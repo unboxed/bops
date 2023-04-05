@@ -102,9 +102,9 @@ FactoryBot.define do
       assessment_in_progress_at { Time.zone.now }
     end
 
-    trait :awaiting_correction do
-      status { :awaiting_correction }
-      awaiting_correction_at { Time.zone.now }
+    trait :to_be_reviewed do
+      status { :to_be_reviewed }
+      to_be_reviewed_at { Time.zone.now }
 
       after(:create) do |pa|
         pa.target_date = 35.business_days.from_now

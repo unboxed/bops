@@ -55,19 +55,19 @@ RSpec.describe "filtering planning applications" do
     )
   end
 
-  let!(:awaiting_correction_planning_application) do
+  let!(:to_be_reviewed_planning_application) do
     create(
       :planning_application,
-      :awaiting_correction,
+      :to_be_reviewed,
       user:,
       local_authority:
     )
   end
 
-  let!(:other_awaiting_correction_planning_application) do
+  let!(:other_to_be_reviewed_planning_application) do
     create(
       :planning_application,
-      :awaiting_correction,
+      :to_be_reviewed,
       user: other_user,
       local_authority:
     )
@@ -105,7 +105,7 @@ RSpec.describe "filtering planning applications" do
           expect(page).to have_content(invalid_planning_application.reference)
           expect(page).to have_content(in_assessment_planning_application.reference)
           expect(page).to have_content(awaiting_determination_planning_application.reference)
-          expect(page).to have_content(awaiting_correction_planning_application.reference)
+          expect(page).to have_content(to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(closed_planning_application.reference)
           expect(page).not_to have_content(other_closed_planning_application.reference)
 
@@ -122,7 +122,7 @@ RSpec.describe "filtering planning applications" do
           expect(page).not_to have_content(invalid_planning_application.reference)
           expect(page).not_to have_content(in_assessment_planning_application.reference)
           expect(page).not_to have_content(awaiting_determination_planning_application.reference)
-          expect(page).not_to have_content(awaiting_correction_planning_application.reference)
+          expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(closed_planning_application.reference)
 
           click_button("Filter by status (1 of 5 selected)")
@@ -139,7 +139,7 @@ RSpec.describe "filtering planning applications" do
           expect(page).not_to have_content(not_started_planning_application.reference)
           expect(page).not_to have_content(in_assessment_planning_application.reference)
           expect(page).not_to have_content(awaiting_determination_planning_application.reference)
-          expect(page).not_to have_content(awaiting_correction_planning_application.reference)
+          expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(closed_planning_application.reference)
 
           click_button("Filter by status (1 of 5 selected)")
@@ -156,7 +156,7 @@ RSpec.describe "filtering planning applications" do
           expect(page).not_to have_content(not_started_planning_application.reference)
           expect(page).not_to have_content(invalid_planning_application.reference)
           expect(page).not_to have_content(awaiting_determination_planning_application.reference)
-          expect(page).not_to have_content(awaiting_correction_planning_application.reference)
+          expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(closed_planning_application.reference)
 
           click_button("Filter by status (1 of 5 selected)")
@@ -173,7 +173,7 @@ RSpec.describe "filtering planning applications" do
           expect(page).not_to have_content(not_started_planning_application.reference)
           expect(page).not_to have_content(invalid_planning_application.reference)
           expect(page).not_to have_content(in_assessment_planning_application.reference)
-          expect(page).not_to have_content(awaiting_correction_planning_application.reference)
+          expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(closed_planning_application.reference)
 
           click_button("Filter by status (1 of 5 selected)")
@@ -186,7 +186,7 @@ RSpec.describe "filtering planning applications" do
           click_button("Apply filters")
 
           expect(page).to have_content("(1 of 5 selected)")
-          expect(page).to have_content(awaiting_correction_planning_application.reference)
+          expect(page).to have_content(to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(not_started_planning_application.reference)
           expect(page).not_to have_content(invalid_planning_application.reference)
           expect(page).not_to have_content(in_assessment_planning_application.reference)
@@ -203,7 +203,7 @@ RSpec.describe "filtering planning applications" do
           expect(page).not_to have_content(invalid_planning_application.reference)
           expect(page).not_to have_content(in_assessment_planning_application.reference)
           expect(page).not_to have_content(awaiting_determination_planning_application.reference)
-          expect(page).not_to have_content(awaiting_correction_planning_application.reference)
+          expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
         end
       end
 
@@ -220,7 +220,7 @@ RSpec.describe "filtering planning applications" do
           expect(page).to have_content(invalid_planning_application.reference)
           expect(page).to have_content(in_assessment_planning_application.reference)
           expect(page).not_to have_content(awaiting_determination_planning_application.reference)
-          expect(page).not_to have_content(awaiting_correction_planning_application.reference)
+          expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(closed_planning_application.reference)
         end
       end
@@ -234,7 +234,7 @@ RSpec.describe "filtering planning applications" do
           expect(page).to have_content(invalid_planning_application.reference)
           expect(page).not_to have_content(in_assessment_planning_application.reference)
           expect(page).not_to have_content(awaiting_determination_planning_application.reference)
-          expect(page).not_to have_content(awaiting_correction_planning_application.reference)
+          expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(closed_planning_application.reference)
 
           click_button("Filter by status (5 of 5 selected)")
@@ -247,7 +247,7 @@ RSpec.describe "filtering planning applications" do
           expect(page).not_to have_content(invalid_planning_application.reference)
           expect(page).not_to have_content(in_assessment_planning_application.reference)
           expect(page).not_to have_content(awaiting_determination_planning_application.reference)
-          expect(page).not_to have_content(awaiting_correction_planning_application.reference)
+          expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(closed_planning_application.reference)
         end
       end
@@ -268,8 +268,8 @@ RSpec.describe "filtering planning applications" do
           expect(page).to have_content(in_assessment_planning_application.reference)
           expect(page).to have_content(awaiting_determination_planning_application.reference)
           expect(page).to have_content(other_awaiting_determination_planning_application.reference)
-          expect(page).to have_content(awaiting_correction_planning_application.reference)
-          expect(page).to have_content(other_awaiting_correction_planning_application.reference)
+          expect(page).to have_content(to_be_reviewed_planning_application.reference)
+          expect(page).to have_content(other_to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(closed_planning_application.reference)
           expect(page).not_to have_content(other_closed_planning_application.reference)
 
@@ -282,8 +282,8 @@ RSpec.describe "filtering planning applications" do
           expect(page).to have_content("(3 of 5 selected)")
           expect(page).to have_content(awaiting_determination_planning_application.reference)
           expect(page).to have_content(other_awaiting_determination_planning_application.reference)
-          expect(page).to have_content(awaiting_correction_planning_application.reference)
-          expect(page).to have_content(other_awaiting_correction_planning_application.reference)
+          expect(page).to have_content(to_be_reviewed_planning_application.reference)
+          expect(page).to have_content(other_to_be_reviewed_planning_application.reference)
           expect(page).to have_content(not_started_planning_application.reference)
           expect(page).not_to have_content(invalid_planning_application.reference)
           expect(page).not_to have_content(in_assessment_planning_application.reference)
@@ -299,7 +299,7 @@ RSpec.describe "filtering planning applications" do
           expect(page).not_to have_content(invalid_planning_application.reference)
           expect(page).not_to have_content(in_assessment_planning_application.reference)
           expect(page).not_to have_content(awaiting_determination_planning_application.reference)
-          expect(page).not_to have_content(awaiting_correction_planning_application.reference)
+          expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
         end
       end
     end
@@ -316,7 +316,7 @@ RSpec.describe "filtering planning applications" do
         within(selected_govuk_tab) do
           expect(page).to have_content("Your live applications")
           expect(page).to have_content(other_awaiting_determination_planning_application.reference)
-          expect(page).to have_content(other_awaiting_correction_planning_application.reference)
+          expect(page).to have_content(other_to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(in_assessment_planning_application.reference)
           expect(page).not_to have_content(closed_planning_application.reference)
           expect(page).not_to have_content(other_closed_planning_application.reference)
@@ -328,7 +328,7 @@ RSpec.describe "filtering planning applications" do
 
           expect(page).to have_content("(1 of 2 selected)")
           expect(page).to have_content(other_awaiting_determination_planning_application.reference)
-          expect(page).not_to have_content(other_awaiting_correction_planning_application.reference)
+          expect(page).not_to have_content(other_to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(other_closed_planning_application.reference)
 
           click_button("Filter by status (1 of 2 selected)")
@@ -338,7 +338,7 @@ RSpec.describe "filtering planning applications" do
           click_button("Apply filters")
 
           expect(page).to have_content("(1 of 2 selected)")
-          expect(page).to have_content(other_awaiting_correction_planning_application.reference)
+          expect(page).to have_content(other_to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(other_awaiting_determination_planning_application.reference)
           expect(page).not_to have_content(other_closed_planning_application.reference)
         end
@@ -348,7 +348,7 @@ RSpec.describe "filtering planning applications" do
         within(selected_govuk_tab) do
           expect(page).to have_content(other_closed_planning_application.reference)
           expect(page).not_to have_content(other_awaiting_determination_planning_application.reference)
-          expect(page).not_to have_content(other_awaiting_correction_planning_application.reference)
+          expect(page).not_to have_content(other_to_be_reviewed_planning_application.reference)
         end
       end
     end
@@ -368,8 +368,8 @@ RSpec.describe "filtering planning applications" do
           expect(page).to have_content(in_assessment_planning_application.reference)
           expect(page).to have_content(awaiting_determination_planning_application.reference)
           expect(page).to have_content(other_awaiting_determination_planning_application.reference)
-          expect(page).to have_content(awaiting_correction_planning_application.reference)
-          expect(page).to have_content(other_awaiting_correction_planning_application.reference)
+          expect(page).to have_content(to_be_reviewed_planning_application.reference)
+          expect(page).to have_content(other_to_be_reviewed_planning_application.reference)
           expect(page).not_to have_content(closed_planning_application.reference)
           expect(page).not_to have_content(other_closed_planning_application.reference)
 
@@ -382,8 +382,8 @@ RSpec.describe "filtering planning applications" do
           expect(page).to have_content("(3 of 5 selected)")
           expect(page).to have_content(awaiting_determination_planning_application.reference)
           expect(page).to have_content(other_awaiting_determination_planning_application.reference)
-          expect(page).to have_content(awaiting_correction_planning_application.reference)
-          expect(page).to have_content(other_awaiting_correction_planning_application.reference)
+          expect(page).to have_content(to_be_reviewed_planning_application.reference)
+          expect(page).to have_content(other_to_be_reviewed_planning_application.reference)
           expect(page).to have_content(not_started_planning_application.reference)
           expect(page).not_to have_content(invalid_planning_application.reference)
           expect(page).not_to have_content(in_assessment_planning_application.reference)
@@ -399,7 +399,7 @@ RSpec.describe "filtering planning applications" do
           expect(page).not_to have_content(invalid_planning_application.reference)
           expect(page).not_to have_content(in_assessment_planning_application.reference)
           expect(page).not_to have_content(awaiting_determination_planning_application.reference)
-          expect(page).not_to have_content(awaiting_correction_planning_application.reference)
+          expect(page).not_to have_content(to_be_reviewed_planning_application.reference)
         end
       end
     end

@@ -271,7 +271,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_13_151534) do
     t.bigint "user_id"
     t.datetime "awaiting_determination_at"
     t.datetime "in_assessment_at"
-    t.datetime "awaiting_correction_at"
+    t.datetime "to_be_reviewed_at"
     t.jsonb "proposal_details"
     t.jsonb "audit_log"
     t.string "agent_first_name"

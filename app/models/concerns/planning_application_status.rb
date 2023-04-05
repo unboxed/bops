@@ -7,7 +7,7 @@ module PlanningApplicationStatus
 
   include Auditable
 
-  IN_PROGRESS_STATUSES = %i[not_started in_assessment invalidated awaiting_determination awaiting_correction].freeze
+  IN_PROGRESS_STATUSES = %i[not_started in_assessment invalidated awaiting_determination to_be_reviewed].freeze
 
   included do
     include AASM
@@ -16,7 +16,7 @@ module PlanningApplicationStatus
       where("status = 'not_started' OR status = 'invalidated'")
     }
     scope :under_assessment, lambda {
-      where("status = 'in_assessment' OR status = 'assessment_in_progress' OR status = 'awaiting_correction'")
+      where("status = 'in_assessment' OR status = 'assessment_in_progress' OR status = 'to_be_reviewed'")
     }
     scope :closed, lambda {
       where("status = 'determined' OR status = 'withdrawn' OR status = 'returned' OR status = 'closed'")
@@ -30,7 +30,7 @@ module PlanningApplicationStatus
       state :assessment_in_progress
       state :in_assessment
       state :awaiting_determination
-      state :awaiting_correction
+      state :to_be_reviewed
       state :determined
       state :returned
       state :withdrawn
@@ -51,7 +51,7 @@ module PlanningApplicationStatus
       end
 
       event :assess do
-        transitions from: %i[in_assessment assessment_in_progress awaiting_correction], to: :in_assessment,
+        transitions from: %i[in_assessment assessment_in_progress to_be_reviewed], to: :in_assessment,
                     guard: :decision_present?
       end
 
@@ -79,7 +79,7 @@ module PlanningApplicationStatus
       end
 
       event :request_correction do
-        transitions from: :awaiting_determination, to: :awaiting_correction,
+        transitions from: :awaiting_determination, to: :to_be_reviewed,
                     after: proc { |comment| audit!(activity_type: "challenged", audit_comment: comment) }
 
         after { send_update_notification_to_assessor }

@@ -163,7 +163,7 @@ RSpec.describe PlanningApplicationStatus do
       end
     end
 
-    context "when request_correction is called it sets application to awaiting_correction" do
+    context "when request_correction is called it sets application to to_be_reviewed" do
       let(:user) { create(:user) }
 
       let(:planning_application) do
@@ -177,18 +177,18 @@ RSpec.describe PlanningApplicationStatus do
 
       before do
         # Set timestamp to differentiate from now
-        planning_application.update(awaiting_correction_at: 1.hour.ago)
+        planning_application.update(to_be_reviewed_at: 1.hour.ago)
       end
 
-      it "sets the status to awaiting_correction" do
+      it "sets the status to to_be_reviewed" do
         planning_application.request_correction
-        expect(planning_application.status).to eq "awaiting_correction"
+        expect(planning_application.status).to eq "to_be_reviewed"
       end
 
-      it "sets the timestamp for awaiting_correction to now" do
+      it "sets the timestamp for to_be_reviewed to now" do
         freeze_time do
           planning_application.request_correction
-          expect(planning_application.send(:awaiting_correction_at)).to eql(Time.zone.now)
+          expect(planning_application.send(:to_be_reviewed_at)).to eql(Time.zone.now)
         end
       end
 
@@ -296,8 +296,8 @@ RSpec.describe PlanningApplicationStatus do
       end
     end
 
-    context "when I withdraw the application from awaiting_correction" do
-      subject(:planning_application) { create(:planning_application, :awaiting_correction, decision: "granted") }
+    context "when I withdraw the application from to_be_reviewed" do
+      subject(:planning_application) { create(:planning_application, :to_be_reviewed, decision: "granted") }
 
       before do
         # Set timestamp to differentiate from now
