@@ -2,7 +2,7 @@
   New application - <%= t('page_title') %>
 <% end %>
 
-<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Home", root_path(filter_options: PlanningApplication::FILTER_OPTIONS) %>
 
 <% content_for :title, "New application" %>
 
