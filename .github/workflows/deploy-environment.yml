@@ -12,11 +12,11 @@ concurrency:
   group: ${{ inputs.environment-name }}
 
 jobs:
-  deploy:
-    name: Deploy to ${{ inputs.environment-name }}
+  build-image:
+    name: Create and push docker image to ECR for ${{ inputs.environment-name }}
     runs-on: ubuntu-20.04
     outputs:
-      build-image: ${{ steps.build-image.outputs.image }}
+      arn: ${{ steps.push-image.outputs.image }}
     environment: ${{ inputs.environment-name }}
 
     steps:
@@ -57,7 +57,7 @@ jobs:
           fi
 
       - name: Build, tag, and push ${{ inputs.environment-name }} image to Amazon ECR
-        id: build-image
+        id: push-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: bops/${{ inputs.environment-name }}
@@ -84,7 +84,7 @@ jobs:
     steps:
       - name: Download task definition for db_migrate and strip unused properties
         env:
-          IMAGE_ARN: ${{ needs.deploy.outputs.build-image }}
+          IMAGE_ARN: ${{ needs.build-image.outputs.arn }}
         run: |
           aws ecs describe-task-definition --task-definition bops-db-migrate-${{ inputs.environment-name }} --query taskDefinition | \
           jq -r 'del(.compatibilities, .taskDefinitionArn, .requiresAttributes, .revision, .status, .registeredAt, .registeredBy)' | \
@@ -116,7 +116,7 @@ jobs:
     steps:
       - name: Download task definition for ${{ matrix.service_type }} and strip unused properties
         env:
-          IMAGE_ARN: ${{ needs.deploy.outputs.build-image }}
+          IMAGE_ARN: ${{ needs.build-image.outputs.arn }}
         run: |
           aws ecs describe-task-definition --task-definition bops-${{ matrix.service_type }}-${{ inputs.environment-name }} --query taskDefinition | \
           jq -r 'del(.compatibilities, .taskDefinitionArn, .requiresAttributes, .revision, .status, .registeredAt, .registeredBy)' > ${{ matrix.service_type }}.json
@@ -127,7 +127,7 @@ jobs:
         with:
           task-definition: ${{ matrix.service_type }}.json
           container-name: bops
-          image: ${{ needs.deploy.outputs.build-image }}
+          image: ${{ needs.build-image.outputs.arn }}
 
       - name: Deploy ${{ matrix.service_type }}
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
@@ -154,7 +154,7 @@ jobs:
         with:
           task-definition: web.json
           container-name: bops
-          image: ${{needs.deploy.outputs.build-image}}
+          image: ${{ needs.build-image.outputs.arn }}
 
       - name: Deploy web
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
