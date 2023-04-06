@@ -15,8 +15,6 @@ jobs:
   build-image:
     name: Create and push docker image to ECR for ${{ inputs.environment-name }}
     runs-on: ubuntu-20.04
-    outputs:
-      arn: ${{ steps.push-image.outputs.image }}
     environment: ${{ inputs.environment-name }}
 
     steps:
@@ -72,7 +70,6 @@ jobs:
           docker save bops:$IMAGE_TAG $(docker history -q bops:$IMAGE_TAG | awk '!/<missing>/{print}') >bops.tar
           mkdir docker-cache
           split -b 5G bops.tar docker-cache/x
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >>$GITHUB_OUTPUT
 
   deploy-db-migrate-service:
     name: Perform database migrations on ${{ inputs.environment-name }}
@@ -85,11 +82,13 @@ jobs:
     steps:
       - name: Download task definition for db_migrate and strip unused properties
         env:
-          IMAGE_ARN: ${{ needs.build-image.outputs.arn }}
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: bops/${{ inputs.environment-name }}
+          IMAGE_TAG: ${{ needs.build-image.outputs.image-tag }}
         run: |
           aws ecs describe-task-definition --task-definition bops-db-migrate-${{ inputs.environment-name }} --query taskDefinition | \
           jq -r 'del(.compatibilities, .taskDefinitionArn, .requiresAttributes, .revision, .status, .registeredAt, .registeredBy)' | \
-          jq -r '.containerDefinitions[].image = "'$IMAGE_ARN'"' > db_migrate.json
+          jq -r '.containerDefinitions[].image = "'$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG'"' > db_migrate.json
 
       - name: Register db_migrate on a new revision
         run: |
