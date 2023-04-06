@@ -21,6 +21,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Create an image tag based on the commit sha
+        id: image_tag
+        run: |
+          echo "sha=$(echo ${GITHUB_SHA::7})" >>$GITHUB_OUTPUT
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -54,7 +59,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: bops/${{ inputs.environment-name }}
-          IMAGE_TAG: ${{ github.sha::7 }}
+          IMAGE_TAG: ${{ steps.image_tag.outputs.sha }}
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
           # Build a docker container and
@@ -72,6 +77,11 @@ jobs:
     needs: [build-image]
 
     steps:
+      - name: Create an image tag based on the commit sha
+        id: image_tag
+        run: |
+          echo "sha=$(echo ${GITHUB_SHA::7})" >>$GITHUB_OUTPUT
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -88,7 +98,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: bops/${{ inputs.environment-name }}
-          IMAGE_TAG: ${{ github.sha::7 }}
+          IMAGE_TAG: ${{ steps.image_tag.outputs.sha }}
         run: |
           echo "uri=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >>$GITHUB_OUTPUT
 
@@ -125,6 +135,11 @@ jobs:
         service_type: [ 'console', 'worker' ]
 
     steps:
+      - name: Create an image tag based on the commit sha
+        id: image_tag
+        run: |
+          echo "sha=$(echo ${GITHUB_SHA::7})" >>$GITHUB_OUTPUT
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -141,7 +156,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: bops/${{ inputs.environment-name }}
-          IMAGE_TAG: ${{ github.sha::7 }}
+          IMAGE_TAG: ${{ steps.image_tag.outputs.sha }}
         run: |
           echo "uri=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >>$GITHUB_OUTPUT
 
@@ -181,6 +196,11 @@ jobs:
     environment: ${{ inputs.environment-name }}
 
     steps:
+      - name: Create an image tag based on the commit sha
+        id: image_tag
+        run: |
+          echo "sha=$(echo ${GITHUB_SHA::7})" >>$GITHUB_OUTPUT
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -197,7 +217,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: bops/${{ inputs.environment-name }}
-          IMAGE_TAG: ${{ github.sha::7 }}
+          IMAGE_TAG: ${{ steps.image_tag.outputs.sha }}
         run: |
           echo "uri=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >>$GITHUB_OUTPUT
 
