@@ -536,6 +536,10 @@ class PlanningApplication < ApplicationRecord
     errors.add(:user, "You cannot assign a planning application to an adminstrator")
   end
 
+  def possibly_immune?
+    false
+  end
+
   private
 
   def set_reference
