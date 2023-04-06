@@ -15,8 +15,6 @@ jobs:
   build-image:
     name: Create and push docker image to ECR for ${{ inputs.environment-name }}
     runs-on: ubuntu-20.04
-    outputs:
-      arn: ${{ steps.push-image.outputs.image }}
     environment: ${{ inputs.environment-name }}
 
     steps:
@@ -74,18 +72,37 @@ jobs:
           split -b 5G bops.tar docker-cache/x
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >>$GITHUB_OUTPUT
 
+      - name: Encode github output
+        id: arn
+        uses: cloudposse/github-action-secret-outputs@main
+        with:
+          secret: ${{ secret.PASSWORD }}
+          op: encode
+          in: ${{ steps.push-image.outputs.image }}
+
+    outputs:
+      arn: ${{ steps.arn.outputs.out }}
+
   deploy-db-migrate-service:
     name: Perform database migrations on ${{ inputs.environment-name }}
-    needs: build-image
     runs-on: ubuntu-20.04
+    needs: [build-image]
     strategy:
       matrix:
         service_type: [ 'console', 'worker' ]
 
     steps:
+      - name: Decode github output
+        id: push-image
+        uses: cloudposse/github-action-secret-outputs@main
+        with:
+          secret: ${{ secret.PASSWORD }}
+          op: decode
+          in: ${{ needs.build-image.outputs.arn }}
+
       - name: Download task definition for db_migrate and strip unused properties
         env:
-          IMAGE_ARN: ${{ needs.build-image.outputs.arn }}
+          IMAGE_ARN: ${{ steps.arn.outputs.out }}
         run: |
           aws ecs describe-task-definition --task-definition bops-db-migrate-${{ inputs.environment-name }} --query taskDefinition | \
           jq -r 'del(.compatibilities, .taskDefinitionArn, .requiresAttributes, .revision, .status, .registeredAt, .registeredBy)' | \
@@ -116,9 +133,17 @@ jobs:
         service_type: [ 'console', 'worker' ]
 
     steps:
+      - name: Decode github output
+        id: push-image
+        uses: cloudposse/github-action-secret-outputs@main
+        with:
+          secret: ${{ secret.PASSWORD }}
+          op: decode
+          in: ${{ needs.build-image.outputs.arn }}
+
       - name: Download task definition for ${{ matrix.service_type }} and strip unused properties
         env:
-          IMAGE_ARN: ${{ needs.build-image.outputs.arn }}
+          IMAGE_ARN: ${{ steps.arn.outputs.out }}
         run: |
           aws ecs describe-task-definition --task-definition bops-${{ matrix.service_type }}-${{ inputs.environment-name }} --query taskDefinition | \
           jq -r 'del(.compatibilities, .taskDefinitionArn, .requiresAttributes, .revision, .status, .registeredAt, .registeredBy)' > ${{ matrix.service_type }}.json
@@ -129,7 +154,7 @@ jobs:
         with:
           task-definition: console.json
           container-name: bops
-          image: ${{ needs.build-image.outputs.arn }}
+          image: ${{ steps.arn.outputs.out }}
 
       - name: Generate task definition for worker
         id: task-def-worker
@@ -137,7 +162,7 @@ jobs:
         with:
           task-definition: worker.json
           container-name: bops
-          image: ${{ needs.build-image.outputs.arn }}
+          image: ${{ steps.arn.outputs.out }}
 
       - name: Deploy ${{ matrix.service_type }}
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
@@ -154,6 +179,14 @@ jobs:
     environment: ${{ inputs.environment-name }}
 
     steps:
+      - name: Decode github output
+        id: push-image
+        uses: cloudposse/github-action-secret-outputs@main
+        with:
+          secret: ${{ secret.PASSWORD }}
+          op: decode
+          in: ${{ needs.build-image.outputs.arn }}
+
       - name: Download task definition for web and strip unused properties
         run: |
           aws ecs describe-task-definition --task-definition bops-web-${{ inputs.environment-name }} --query taskDefinition | \
@@ -165,7 +198,7 @@ jobs:
         with:
           task-definition: web.json
           container-name: bops
-          image: ${{ needs.build-image.outputs.arn }}
+          image: ${{ steps.arn.outputs.out }}
 
       - name: Deploy web
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
