@@ -87,9 +87,6 @@ jobs:
     name: Perform database migrations on ${{ inputs.environment-name }}
     runs-on: ubuntu-20.04
     needs: [build-image]
-    strategy:
-      matrix:
-        service_type: [ 'console', 'worker' ]
 
     steps:
       - name: Decode github output
