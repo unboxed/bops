@@ -16,6 +16,8 @@ jobs:
     name: Create and push docker image to ECR for ${{ inputs.environment-name }}
     runs-on: ubuntu-20.04
     environment: ${{ inputs.environment-name }}
+    outputs:
+      sha: ${{ steps.image_tag.outputs.sha }}
 
     steps:
       - name: Checkout code
@@ -70,18 +72,6 @@ jobs:
           docker save bops:$IMAGE_TAG $(docker history -q bops:$IMAGE_TAG | awk '!/<missing>/{print}') >bops.tar
           mkdir docker-cache
           split -b 5G bops.tar docker-cache/x
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >>$GITHUB_OUTPUT
-
-      - name: Encode github output
-        id: arn
-        uses: cloudposse/github-action-secret-outputs@main
-        with:
-          secret: ${{ secrets.PASSWORD }}
-          op: encode
-          in: ${{ steps.push-image.outputs.image }}
-
-    outputs:
-      arn: ${{ steps.arn.outputs.out }}
 
   deploy-db-migrate-service:
     name: Perform database migrations on ${{ inputs.environment-name }}
@@ -89,17 +79,29 @@ jobs:
     needs: [build-image]
 
     steps:
-      - name: Decode github output
-        id: push-image
-        uses: cloudposse/github-action-secret-outputs@main
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
         with:
-          secret: ${{ secrets.PASSWORD }}
-          op: decode
-          in: ${{ needs.build-image.outputs.arn }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Get image URI
+        id: ecr-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: bops/${{ inputs.environment-name }}
+          IMAGE_TAG: ${{ steps.image_tag.outputs.sha }}
+        run: |
+          echo "uri=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >>$GITHUB_OUTPUT
 
       - name: Download task definition for db_migrate and strip unused properties
         env:
-          IMAGE_ARN: ${{ steps.arn.outputs.out }}
+          IMAGE_ARN: ${{ steps.ecr-image.outputs.uri }}
         run: |
           aws ecs describe-task-definition --task-definition bops-db-migrate-${{ inputs.environment-name }} --query taskDefinition | \
           jq -r 'del(.compatibilities, .taskDefinitionArn, .requiresAttributes, .revision, .status, .registeredAt, .registeredBy)' | \
@@ -130,17 +132,27 @@ jobs:
         service_type: [ 'console', 'worker' ]
 
     steps:
-      - name: Decode github output
-        id: push-image
-        uses: cloudposse/github-action-secret-outputs@main
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
         with:
-          secret: ${{ secrets.PASSWORD }}
-          op: decode
-          in: ${{ needs.build-image.outputs.arn }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Get image URI
+        id: ecr-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: bops/${{ inputs.environment-name }}
+          IMAGE_TAG: ${{ steps.image_tag.outputs.sha }}
+        run: |
+          echo "uri=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >>$GITHUB_OUTPUT
 
       - name: Download task definition for ${{ matrix.service_type }} and strip unused properties
-        env:
-          IMAGE_ARN: ${{ steps.arn.outputs.out }}
         run: |
           aws ecs describe-task-definition --task-definition bops-${{ matrix.service_type }}-${{ inputs.environment-name }} --query taskDefinition | \
           jq -r 'del(.compatibilities, .taskDefinitionArn, .requiresAttributes, .revision, .status, .registeredAt, .registeredBy)' > ${{ matrix.service_type }}.json
@@ -151,7 +163,7 @@ jobs:
         with:
           task-definition: console.json
           container-name: bops
-          image: ${{ steps.arn.outputs.out }}
+          image: ${{ steps.ecr-image.outputs.uri }}
 
       - name: Generate task definition for worker
         id: task-def-worker
@@ -159,7 +171,7 @@ jobs:
         with:
           task-definition: worker.json
           container-name: bops
-          image: ${{ steps.arn.outputs.out }}
+          image: ${{ steps.ecr-image.outputs.uri }}
 
       - name: Deploy ${{ matrix.service_type }}
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
@@ -176,13 +188,25 @@ jobs:
     environment: ${{ inputs.environment-name }}
 
     steps:
-      - name: Decode github output
-        id: push-image
-        uses: cloudposse/github-action-secret-outputs@main
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
         with:
-          secret: ${{ secrets.PASSWORD }}
-          op: decode
-          in: ${{ needs.build-image.outputs.arn }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Get image URI
+        id: ecr-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: bops/${{ inputs.environment-name }}
+          IMAGE_TAG: ${{ steps.image_tag.outputs.sha }}
+        run: |
+          echo "uri=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >>$GITHUB_OUTPUT
 
       - name: Download task definition for web and strip unused properties
         run: |
@@ -195,7 +219,7 @@ jobs:
         with:
           task-definition: web.json
           container-name: bops
-          image: ${{ steps.arn.outputs.out }}
+          image: ${{ steps.ecr-image.outputs.uri }}
 
       - name: Deploy web
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
