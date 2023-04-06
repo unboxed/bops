@@ -1,0 +1,43 @@
+# frozen_string_literal: true
+
+class PlanningApplication
+  class EvidenceOfImmunityController < AuthenticationController
+    include CommitMatchable
+    include PlanningApplicationAssessable
+
+    before_action :set_planning_application
+    before_action :ensure_planning_application_is_validated
+
+    def new
+      @groups = @planning_application.proposal_details.select do |proposal_detail|
+        proposal_detail.portal_name == "immunity-check"
+      end
+
+      respond_to do |format|
+        format.html
+      end
+    end
+
+    def edit
+      respond_to do |format|
+        format.html
+      end
+    end
+
+    private
+
+    def set_planning_application
+      planning_application = planning_applications_scope.find(planning_application_id)
+
+      @planning_application = PlanningApplicationPresenter.new(view_context, planning_application)
+    end
+
+    def planning_applications_scope
+      current_local_authority.planning_applications.includes(:permitted_development_rights)
+    end
+
+    def planning_application_id
+      Integer(params[:planning_application_id])
+    end
+  end
+end

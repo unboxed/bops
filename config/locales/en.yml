@@ -889,6 +889,8 @@ en:
       check_fee: Check fee
     other_change_request_component:
       view_other_validation: 'View other validation request #%{number}'
+    evidence_of_immunity_component:
+      evidence_of_immunity: Evidence of immunity
     permitted_development_right_component:
       permitted_development_rights: Permitted development rights
     permitted_development_right_review_component:
