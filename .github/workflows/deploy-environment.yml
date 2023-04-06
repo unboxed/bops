@@ -16,17 +16,10 @@ jobs:
     name: Create and push docker image to ECR for ${{ inputs.environment-name }}
     runs-on: ubuntu-20.04
     environment: ${{ inputs.environment-name }}
-    outputs:
-      sha: ${{ steps.image_tag.outputs.sha }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Create an image tag based on the commit sha
-        id: image_tag
-        run: |
-          echo "sha=$(echo ${GITHUB_SHA} | cut -c1-7)" >>$GITHUB_OUTPUT
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
@@ -61,7 +54,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: bops/${{ inputs.environment-name }}
-          IMAGE_TAG: ${{ steps.image_tag.outputs.sha }}
+          IMAGE_TAG: ${{ github.sha::7 }}
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
           # Build a docker container and
@@ -95,7 +88,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: bops/${{ inputs.environment-name }}
-          IMAGE_TAG: ${{ steps.image_tag.outputs.sha }}
+          IMAGE_TAG: ${{ github.sha::7 }}
         run: |
           echo "uri=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >>$GITHUB_OUTPUT
 
@@ -148,7 +141,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: bops/${{ inputs.environment-name }}
-          IMAGE_TAG: ${{ steps.image_tag.outputs.sha }}
+          IMAGE_TAG: ${{ github.sha::7 }}
         run: |
           echo "uri=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >>$GITHUB_OUTPUT
 
@@ -204,7 +197,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: bops/${{ inputs.environment-name }}
-          IMAGE_TAG: ${{ steps.image_tag.outputs.sha }}
+          IMAGE_TAG: ${{ github.sha::7 }}
         run: |
           echo "uri=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >>$GITHUB_OUTPUT
 
