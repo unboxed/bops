@@ -76,7 +76,7 @@ jobs:
         id: arn
         uses: cloudposse/github-action-secret-outputs@main
         with:
-          secret: ${{ secret.PASSWORD }}
+          secret: ${{ secrets.PASSWORD }}
           op: encode
           in: ${{ steps.push-image.outputs.image }}
 
@@ -96,7 +96,7 @@ jobs:
         id: push-image
         uses: cloudposse/github-action-secret-outputs@main
         with:
-          secret: ${{ secret.PASSWORD }}
+          secret: ${{ secrets.PASSWORD }}
           op: decode
           in: ${{ needs.build-image.outputs.arn }}
 
@@ -137,7 +137,7 @@ jobs:
         id: push-image
         uses: cloudposse/github-action-secret-outputs@main
         with:
-          secret: ${{ secret.PASSWORD }}
+          secret: ${{ secrets.PASSWORD }}
           op: decode
           in: ${{ needs.build-image.outputs.arn }}
 
@@ -183,7 +183,7 @@ jobs:
         id: push-image
         uses: cloudposse/github-action-secret-outputs@main
         with:
-          secret: ${{ secret.PASSWORD }}
+          secret: ${{ secrets.PASSWORD }}
           op: decode
           in: ${{ needs.build-image.outputs.arn }}
 
