@@ -107,6 +107,7 @@ jobs:
           aws ecs describe-task-definition --task-definition bops-db-migrate-${{ inputs.environment-name }} --query taskDefinition | \
           jq -r 'del(.compatibilities, .taskDefinitionArn, .requiresAttributes, .revision, .status, .registeredAt, .registeredBy)' | \
           jq -r '.containerDefinitions[].image = "'$IMAGE_ARN'"' > db_migrate.json
+          jq -r < db_migrate.json # debug
 
       - name: Register db_migrate on a new revision
         run: |
