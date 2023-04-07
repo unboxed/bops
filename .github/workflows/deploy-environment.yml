@@ -188,8 +188,8 @@ jobs:
       - name: Deploy ${{ matrix.service_type }}
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: ${{ format('steps.task-def-{0}.outputs.task-definition', matrix.service_type) }}
-          service: bops-console-${{ inputs.environment-name }}
+          task-definition: ${{ steps[format('task-def-{0}', matrix.service_type)].outputs.task-definition }}
+          service: bops-${{ matrix.service_type }}-${{ inputs.environment-name }}
           cluster: bops-${{ inputs.environment-name }}
           wait-for-service-stability: true
 
