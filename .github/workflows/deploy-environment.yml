@@ -21,8 +21,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Create an image tag based on the commit sha
-        id: image_tag
+      - name: Get github commit sha
+        id: github
         run: |
           echo "sha=$(echo ${GITHUB_SHA::7})" >>$GITHUB_OUTPUT
 
@@ -54,12 +54,12 @@ jobs:
             rm -rf docker-cache
           fi
 
-      - name: Build, tag, and push ${{ inputs.environment-name }} image to Amazon ECR
-        id: push-image
+      - name: Build, tag, and push ${{ inputs.environment-name }} image to Amazon ECR based github sha
+        id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: bops/${{ inputs.environment-name }}
-          IMAGE_TAG: ${{ steps.image_tag.outputs.sha }}
+          IMAGE_TAG: ${{ steps.github.outputs.sha }}
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
           # Build a docker container and
@@ -78,8 +78,8 @@ jobs:
     environment: ${{ inputs.environment-name }}
 
     steps:
-      - name: Create an image tag based on the commit sha
-        id: image_tag
+      - name: Get github commit sha
+        id: github
         run: |
           echo "sha=$(echo ${GITHUB_SHA::7})" >>$GITHUB_OUTPUT
 
@@ -99,11 +99,11 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: bops/${{ inputs.environment-name }}
-          IMAGE_TAG: ${{ steps.image_tag.outputs.sha }}
+          IMAGE_TAG: ${{ steps.github.outputs.sha }}
         run: |
           echo "uri=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >>$GITHUB_OUTPUT
 
-      - name: Download task definition for db_migrate and strip unused properties
+      - name: Download task definition for db_migrate, strip unused properties and update image to latest image_arn
         env:
           IMAGE_ARN: ${{ steps.ecr-image.outputs.uri }}
         run: |
@@ -137,8 +137,8 @@ jobs:
         service_type: [ 'console', 'worker' ]
 
     steps:
-      - name: Create an image tag based on the commit sha
-        id: image_tag
+      - name: Get github commit sha
+        id: github
         run: |
           echo "sha=$(echo ${GITHUB_SHA::7})" >>$GITHUB_OUTPUT
 
@@ -158,7 +158,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: bops/${{ inputs.environment-name }}
-          IMAGE_TAG: ${{ steps.image_tag.outputs.sha }}
+          IMAGE_TAG: ${{ steps.github.outputs.sha }}
         run: |
           echo "uri=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >>$GITHUB_OUTPUT
 
@@ -200,8 +200,8 @@ jobs:
     environment: ${{ inputs.environment-name }}
 
     steps:
-      - name: Create an image tag based on the commit sha
-        id: image_tag
+      - name: Get github commit sha
+        id: github
         run: |
           echo "sha=$(echo ${GITHUB_SHA::7})" >>$GITHUB_OUTPUT
 
@@ -221,7 +221,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: bops/${{ inputs.environment-name }}
-          IMAGE_TAG: ${{ steps.image_tag.outputs.sha }}
+          IMAGE_TAG: ${{ steps.github.outputs.sha }}
         run: |
           echo "uri=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >>$GITHUB_OUTPUT
 
