@@ -13,7 +13,9 @@ class ImmunityDetailsCreationService
     immunity_detail = ImmunityDetail.new(planning_application: @planning_application)
 
     @immunity_details.each do |detail|
-      immunity_detail.end_date = detail.response_values.first if detail.question == "When were the works completed?"
+      if detail.question == "When were the works completed?"
+        immunity_detail.end_date = detail.response_values.first
+      end
     end
 
     immunity_detail.save!
