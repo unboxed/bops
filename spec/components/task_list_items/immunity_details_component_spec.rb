@@ -35,6 +35,10 @@ RSpec.describe TaskListItems::ImmunityDetailsComponent, type: :component do
         href: "/planning_applications/#{planning_application.id}/immunity_details"
       )
     end
+
+    it "renders correct status tag" do
+      expect(page).to have_content("Complete")
+    end
   end
 
   context "when review status is not 'complete'" do
@@ -45,6 +49,10 @@ RSpec.describe TaskListItems::ImmunityDetailsComponent, type: :component do
         "Evidence of immunity",
         href: "/planning_applications/#{planning_application.id}/immunity_details/edit"
       )
+    end
+
+    it "renders correct status tag" do
+      expect(page).to have_content("Continue")
     end
   end
 end

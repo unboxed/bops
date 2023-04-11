@@ -25,6 +25,15 @@ class PlanningApplication
       end
     end
 
+    def update
+      respond_to do |format|
+        format.html do
+          redirect_to planning_application_assessment_tasks_path(@planning_application),
+                      notice: I18n.t("assessment_details.immunity_detail_successfully_updated")
+        end
+      end
+    end
+
     private
 
     def set_planning_application

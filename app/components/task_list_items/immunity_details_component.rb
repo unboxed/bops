@@ -23,18 +23,24 @@ module TaskListItems
       when :in_progress
         edit_planning_application_immunity_detail_path(
           planning_application,
-          permitted_development_right
+          immunity_detail
         )
       when :checked, :removed
         planning_application_immunity_detail_path(
           planning_application,
-          permitted_development_right
+          immunity_detail
         )
       end
     end
 
     def status
-      :not_started
+      if planning_application.immunity_detail.blank?
+        :not_started
+      elsif to_be_reviewed?
+        :to_be_reviewed
+      else
+        immunity_detail.status.to_sym
+      end
     end
 
     def to_be_reviewed?
