@@ -188,17 +188,6 @@ Rails/ReversibleMigration:
     - 'db/migrate/20210318174231_remove_ward_from_planning_applications.rb'
     - 'db/migrate/20211109132114_remove_character_limit_from_notes_entry.rb'
 
-# Offense count: 6
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowedVars.
-Style/FetchEnvVar:
-  Exclude:
-    - 'app/models/planning_application.rb'
-    - 'app/models/user.rb'
-    - 'app/services/upload_documents_service.rb'
-    - 'config/schedule.rb'
-    - 'features/step_definitions/e2e_steps.rb'
-
 # Offense count: 2
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: MaxUnannotatedPlaceholdersAllowed, AllowedMethods, AllowedPatterns, IgnoredMethods.

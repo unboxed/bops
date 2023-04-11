@@ -672,11 +672,11 @@ class PlanningApplication < ApplicationRecord
   end
 
   def public_url
-    "#{ENV['APPLICANTS_APP_HOST']}.#{local_authority.subdomain}.gov.uk/validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}"
+    "#{ENV['APPLICANTS_APP_HOST']}.#{local_authority.subdomain}.gov.uk/validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}" # rubocop:disable Style/FetchEnvVar
   end
 
   def internal_url
-    "#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}"
+    "#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}" # rubocop:disable Style/FetchEnvVar
   end
 
   def public_url_enabled?
