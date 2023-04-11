@@ -120,7 +120,7 @@ Rails.application.routes.draw do
       resources :assessment_details, only: %i[new edit create show update]
 
       resources :immunity_details, only: %i[new create edit update show]
-      
+
       resources :permitted_development_rights, only: %i[new create edit update show]
 
       resources :review_permitted_development_rights, only: %i[show edit update]

@@ -51,6 +51,7 @@ Metrics/ClassLength:
     - 'app/controllers/planning_applications_controller.rb'
     - 'app/models/document.rb'
     - 'app/models/planning_application.rb'
+    - 'app/services/planning_application_creation_service.rb'
 
 # Offense count: 3
 # Configuration parameters: AllowedMethods, AllowedPatterns, IgnoredMethods, Max.

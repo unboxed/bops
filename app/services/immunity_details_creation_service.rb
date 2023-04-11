@@ -5,7 +5,7 @@ class ImmunityDetailsCreationService
     @planning_application = planning_application
   end
 
-  def call 
+  def call
     @immunity_details = @planning_application.proposal_details.select do |proposal_detail|
       proposal_detail.portal_name == "immunity-check"
     end
@@ -13,9 +13,7 @@ class ImmunityDetailsCreationService
     immunity_detail = ImmunityDetail.new(planning_application: @planning_application)
 
     @immunity_details.each do |detail|
-      if detail.question == "When were the works completed?"
-        immunity_detail.end_date = detail.response_values.first
-      end
+      immunity_detail.end_date = detail.response_values.first if detail.question == "When were the works completed?"
     end
 
     immunity_detail.save!

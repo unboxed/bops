@@ -27,7 +27,7 @@ RSpec.describe TaskListItems::ImmunityDetailsComponent, type: :component do
   end
 
   context "when review status is 'complete'" do
-    before do 
+    before do
       planning_application.immunity_detail.update(status: "complete")
 
       render_inline(
@@ -50,7 +50,7 @@ RSpec.describe TaskListItems::ImmunityDetailsComponent, type: :component do
   end
 
   context "when review status is not 'complete'" do
-    before do 
+    before do
       planning_application.immunity_detail.update(status: "in_progress")
 
       render_inline(

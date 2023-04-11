@@ -81,8 +81,8 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
       end
 
       context "when application might be immune" do
-        let!(:planning_application) { create(:planning_application, :from_planx_immunity, api_user:) }
-  
+        let(:planning_application) { create(:planning_application, :from_planx_immunity, api_user:) }
+
         before do
           allow_any_instance_of(PlanningApplication).to receive(:can_clone?).and_return(true)
         end

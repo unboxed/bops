@@ -123,8 +123,6 @@ class PlanningApplicationCreationService
   end
 
   def may_be_immune?(planning_application)
-    planning_application.proposal_details.any? do |proposal_detail|
-      proposal_detail.portal_name == "immunity-check"
-    end
+    planning_application.proposal_details.any? { |proposal_detail| proposal_detail.portal_name == "immunity-check" }
   end
 end

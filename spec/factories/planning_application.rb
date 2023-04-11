@@ -303,92 +303,92 @@ FactoryBot.define do
       proposal_details do
         [
           {
-            "responses": [{
-              "value": "Install a security alarm"
+            responses: [{
+              value: "Install a security alarm"
             }],
-            "metadata": {
-              "portal_name": "immunity-check"
+            metadata: {
+              portal_name: "immunity-check"
             },
-            "question": "List the changes involved in the project"
+            question: "List the changes involved in the project"
           },
           {
-            "responses": [{
-              "value": "Alteration"
+            responses: [{
+              value: "Alteration"
             }],
-            "metadata": {
-              "portal_name": "immunity-check",
-              "auto_answered": true
+            metadata: {
+              portal_name: "immunity-check",
+              auto_answered: true
             },
-            "question": "What type of changes were they?"
+            question: "What type of changes were they?"
           },
           {
-            "responses": [{
-              "value": "Yes",
-              "metadata": {
-                "flags": ["Planning permission / Immune"]
+            responses: [{
+              value: "Yes",
+              metadata: {
+                flags: ["Planning permission / Immune"]
               }
             }],
-            "metadata": {
-              "portal_name": "immunity-check",
-              "policy_refs": [{
-                "text": "Town and Country Planning Act 1990 Section 171B"
+            metadata: {
+              portal_name: "immunity-check",
+              policy_refs: [{
+                text: "Town and Country Planning Act 1990 Section 171B"
               }]
             },
-            "question": "Were the works carried out more than 4 years ago?"
+            question: "Were the works carried out more than 4 years ago?"
           },
           {
-            "responses": [{
-              "value": "Yes"
+            responses: [{
+              value: "Yes"
             }],
-            "metadata": {
-              "portal_name": "immunity-check",
-              "policy_refs": [{
-                "text": "Town and Country Planning Act 1990 Section 171B"
+            metadata: {
+              portal_name: "immunity-check",
+              policy_refs: [{
+                text: "Town and Country Planning Act 1990 Section 171B"
               }]
             },
-            "question": "Have the works been completed?"
+            question: "Have the works been completed?"
           },
           {
-            "responses": [{
-              "value": "2015-02-01"
+            responses: [{
+              value: "2015-02-01"
             }],
-            "metadata": {
-              "portal_name": "immunity-check",
-              "policy_refs": [{
-                "text": "Town and Country Planning Act 1990 Section 171B"
+            metadata: {
+              portal_name: "immunity-check",
+              policy_refs: [{
+                text: "Town and Country Planning Act 1990 Section 171B"
               }]
             },
-            "question": "When were the works completed?"
+            question: "When were the works completed?"
           },
           {
-            "responses": [{
-              "value": "No",
-              "metadata": {
-                "flags": ["Planning permission / Immune"]
+            responses: [{
+              value: "No",
+              metadata: {
+                flags: ["Planning permission / Immune"]
               }
             }],
-            "metadata": {
-              "portal_name": "immunity-check",
-              "policy_refs": [{
-                "text": "Secretary of State for Communities and Local Government and another v Welwyn Hatfield Borough Council and Bonsall / Jackson v Secretary of State for Communities and Local Government"
+            metadata: {
+              portal_name: "immunity-check",
+              policy_refs: [{
+                text: "Secretary of State for Communities and Local Government and another v Welwyn Hatfield Borough Council and Bonsall / Jackson v Secretary of State for Communities and Local Government"
               }]
             },
-            "question": "Has anyone ever attempted to conceal the changes?"
+            question: "Has anyone ever attempted to conceal the changes?"
           },
           {
-            "responses": [{
-              "value": "No",
-              "metadata": {
-                "flags": ["Planning permission / Immune"]
+            responses: [{
+              value: "No",
+              metadata: {
+                flags: ["Planning permission / Immune"]
               }
             }],
-            "metadata": {
-              "portal_name": "immunity-check",
-              "policy_refs": [{
-                "text": "Enforcement action is defined in the Town and Country Planning Act 1990 Section 171A.\n'Lawful development' is defined in the Town and Country Planning Act 1990 Section 191."
+            metadata: {
+              portal_name: "immunity-check",
+              policy_refs: [{
+                text: "Enforcement action is defined in the Town and Country Planning Act 1990 Section 171A.\n'Lawful development' is defined in the Town and Country Planning Act 1990 Section 191."
               }]
             },
-            "question": "Has enforcement action been taken about these changes?"
+            question: "Has enforcement action been taken about these changes?"
           }
         ].to_json
       end
@@ -398,98 +398,98 @@ FactoryBot.define do
       proposal_details do
         [
           {
-            "responses": [{
-              "value": "Install a security alarm"
+            responses: [{
+              value: "Install a security alarm"
             }],
-            "metadata": {
-              "portal_name": "immunity-check"
+            metadata: {
+              portal_name: "immunity-check"
             },
-            "question": "List the changes involved in the project"
+            question: "List the changes involved in the project"
           },
           {
-            "responses": [{
-              "value": "Alteration"
+            responses: [{
+              value: "Alteration"
             }],
-            "metadata": {
-              "portal_name": "immunity-check",
-              "auto_answered": true
+            metadata: {
+              portal_name: "immunity-check",
+              auto_answered: true
             },
-            "question": "What type of changes were they?"
+            question: "What type of changes were they?"
           },
           {
-            "responses": [{
-              "value": "Yes",
-              "metadata": {
-                "flags": ["Planning permission / Immune"]
+            responses: [{
+              value: "Yes",
+              metadata: {
+                flags: ["Planning permission / Immune"]
               }
             }],
-            "metadata": {
-              "portal_name": "immunity-check",
-              "policy_refs": [{
-                "text": "Town and Country Planning Act 1990 Section 171B"
+            metadata: {
+              portal_name: "immunity-check",
+              policy_refs: [{
+                text: "Town and Country Planning Act 1990 Section 171B"
               }]
             },
-            "question": "Were the works carried out more than 4 years ago?"
+            question: "Were the works carried out more than 4 years ago?"
           },
           {
-            "responses": [{
-              "value": "Yes"
+            responses: [{
+              value: "Yes"
             }],
-            "metadata": {
-              "portal_name": "immunity-check",
-              "policy_refs": [{
-                "text": "Town and Country Planning Act 1990 Section 171B"
+            metadata: {
+              portal_name: "immunity-check",
+              policy_refs: [{
+                text: "Town and Country Planning Act 1990 Section 171B"
               }]
             },
-            "question": "Have the works been completed?"
+            question: "Have the works been completed?"
           },
           {
-            "responses": [{
-              "value": "2015-02-01"
+            responses: [{
+              value: "2015-02-01"
             }],
-            "metadata": {
-              "portal_name": "immunity-check",
-              "policy_refs": [{
-                "text": "Town and Country Planning Act 1990 Section 171B"
+            metadata: {
+              portal_name: "immunity-check",
+              policy_refs: [{
+                text: "Town and Country Planning Act 1990 Section 171B"
               }]
             },
-            "question": "When were the works completed?"
+            question: "When were the works completed?"
           },
           {
-            "responses": [{
-              "value": "No",
-              "metadata": {
-                "flags": ["Planning permission / Immune"]
+            responses: [{
+              value: "No",
+              metadata: {
+                flags: ["Planning permission / Immune"]
               }
             }],
-            "metadata": {
-              "portal_name": "immunity-check",
-              "policy_refs": [{
-                "text": "Secretary of State for Communities and Local Government and another v Welwyn Hatfield Borough Council and Bonsall / Jackson v Secretary of State for Communities and Local Government"
+            metadata: {
+              portal_name: "immunity-check",
+              policy_refs: [{
+                text: "Secretary of State for Communities and Local Government and another v Welwyn Hatfield Borough Council and Bonsall / Jackson v Secretary of State for Communities and Local Government"
               }]
             },
-            "question": "Has anyone ever attempted to conceal the changes?"
+            question: "Has anyone ever attempted to conceal the changes?"
           },
           {
-            "responses": [{
-              "value": "No",
-              "metadata": {
-                "flags": ["Planning permission / Immune"]
+            responses: [{
+              value: "No",
+              metadata: {
+                flags: ["Planning permission / Immune"]
               }
             }],
-            "metadata": {
-              "portal_name": "immunity-check",
-              "policy_refs": [{
-                "text": "Enforcement action is defined in the Town and Country Planning Act 1990 Section 171A.\n'Lawful development' is defined in the Town and Country Planning Act 1990 Section 191."
+            metadata: {
+              portal_name: "immunity-check",
+              policy_refs: [{
+                text: "Enforcement action is defined in the Town and Country Planning Act 1990 Section 171A.\n'Lawful development' is defined in the Town and Country Planning Act 1990 Section 191."
               }]
             },
-            "question": "Has enforcement action been taken about these changes?"
+            question: "Has enforcement action been taken about these changes?"
           }
         ].to_json
       end
 
       after(:create) do |planning_application|
-        create(:immunity_detail, planning_application: planning_application)
+        create(:immunity_detail, planning_application:)
       end
     end
   end

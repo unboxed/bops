@@ -9,6 +9,12 @@ class PlanningApplication
     before_action :set_immunity_detail
     before_action :ensure_planning_application_is_validated
 
+    def show
+      respond_to do |format|
+        format.html
+      end
+    end
+
     def new
       respond_to do |format|
         format.html
@@ -16,12 +22,6 @@ class PlanningApplication
     end
 
     def edit
-      respond_to do |format|
-        format.html
-      end
-    end
-
-    def show
       respond_to do |format|
         format.html
       end
