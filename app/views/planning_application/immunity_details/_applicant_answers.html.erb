@@ -1,12 +1,13 @@
 <h2>Immunity from enforcement</h2>
 
-<p>Note: application may be immune from enforcement</p>
-
+<p><strong>Note: application may be immune from enforcement</strong></p>
+<br>
 <h3>Applicant information</h3>
 <ul class="govuk-body proposal-details-sub-list">
   <% @groups.each do |proposal_detail| %>
     <li>
-      <%= proposal_detail.question %> <strong><%= proposal_detail.response_values.first %></strong>
+      <%= proposal_detail.question %> 
+      <strong><%= proposal_detail.response_values.first.to_time.nil? ? proposal_detail.response_values.first : proposal_detail.response_values.first.to_time.to_formatted_s(:day_month_year_slashes) %></strong>
     </li>
   <% end %>
 </ul>
