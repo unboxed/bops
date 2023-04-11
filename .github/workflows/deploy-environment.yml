@@ -75,6 +75,7 @@ jobs:
     name: Perform database migrations on ${{ inputs.environment-name }}
     runs-on: ubuntu-20.04
     needs: [build-image]
+    environment: ${{ inputs.environment-name }}
 
     steps:
       - name: Get github commit sha
@@ -130,6 +131,7 @@ jobs:
     name: Deploy services to ${{ inputs.environment-name }}
     runs-on: ubuntu-20.04
     needs: [build-image, deploy-db-migrate-service]
+    environment: ${{ inputs.environment-name }}
     strategy:
       matrix:
         service_type: [ 'console', 'worker' ]
@@ -195,6 +197,7 @@ jobs:
     name: Deploy web service to ${{ inputs.environment-name }}
     runs-on: ubuntu-20.04
     needs: [build-image, deploy-db-migrate-service, deploy-services]
+    environment: ${{ inputs.environment-name }}
 
     steps:
       - name: Checkout code
