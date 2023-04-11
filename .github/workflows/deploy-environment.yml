@@ -21,13 +21,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Create an image tag based on the commit sha
-        id: image_tag
+      - name: Get github commit sha
+        id: github
         run: |
           echo "sha=$(echo ${GITHUB_SHA::7})" >>$GITHUB_OUTPUT
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -39,7 +39,7 @@ jobs:
 
       - name: Setup docker cache
         id: cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: docker-cache
           key: ${{ runner.os }}-docker-${{ github.sha }}
@@ -54,12 +54,12 @@ jobs:
             rm -rf docker-cache
           fi
 
-      - name: Build, tag, and push ${{ inputs.environment-name }} image to Amazon ECR
-        id: push-image
+      - name: Build, tag, and push ${{ inputs.environment-name }} image to Amazon ECR based github sha
+        id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: bops/${{ inputs.environment-name }}
-          IMAGE_TAG: ${{ steps.image_tag.outputs.sha }}
+          IMAGE_TAG: ${{ steps.github.outputs.sha }}
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
           # Build a docker container and
@@ -78,13 +78,13 @@ jobs:
     environment: ${{ inputs.environment-name }}
 
     steps:
-      - name: Create an image tag based on the commit sha
-        id: image_tag
+      - name: Get github commit sha
+        id: github
         run: |
           echo "sha=$(echo ${GITHUB_SHA::7})" >>$GITHUB_OUTPUT
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -99,11 +99,11 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: bops/${{ inputs.environment-name }}
-          IMAGE_TAG: ${{ steps.image_tag.outputs.sha }}
+          IMAGE_TAG: ${{ steps.github.outputs.sha }}
         run: |
           echo "uri=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >>$GITHUB_OUTPUT
 
-      - name: Download task definition for db_migrate and strip unused properties
+      - name: Download task definition for db_migrate, strip unused properties and update image to latest image_arn
         env:
           IMAGE_ARN: ${{ steps.ecr-image.outputs.uri }}
         run: |
@@ -137,13 +137,13 @@ jobs:
         service_type: [ 'console', 'worker' ]
 
     steps:
-      - name: Create an image tag based on the commit sha
-        id: image_tag
+      - name: Get github commit sha
+        id: github
         run: |
           echo "sha=$(echo ${GITHUB_SHA::7})" >>$GITHUB_OUTPUT
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -158,7 +158,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: bops/${{ inputs.environment-name }}
-          IMAGE_TAG: ${{ steps.image_tag.outputs.sha }}
+          IMAGE_TAG: ${{ steps.github.outputs.sha }}
         run: |
           echo "uri=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >>$GITHUB_OUTPUT
 
@@ -168,6 +168,7 @@ jobs:
           jq -r 'del(.compatibilities, .taskDefinitionArn, .requiresAttributes, .revision, .status, .registeredAt, .registeredBy)' > ${{ matrix.service_type }}.json
 
       - name: Generate task definition for console
+        if: matrix.service_type == 'console'
         id: task-def-console
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
@@ -176,6 +177,7 @@ jobs:
           image: ${{ steps.ecr-image.outputs.uri }}
 
       - name: Generate task definition for worker
+        if: matrix.service_type == 'worker'
         id: task-def-worker
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
@@ -186,8 +188,8 @@ jobs:
       - name: Deploy ${{ matrix.service_type }}
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: ${{ format('steps.task-def-{0}.outputs.task-definition', matrix.service_type) }}
-          service: bops-console-${{ inputs.environment-name }}
+          task-definition: ${{ steps[format('task-def-{0}', matrix.service_type)].outputs.task-definition }}
+          service: bops-${{ matrix.service_type }}-${{ inputs.environment-name }}
           cluster: bops-${{ inputs.environment-name }}
           wait-for-service-stability: true
 
@@ -198,13 +200,16 @@ jobs:
     environment: ${{ inputs.environment-name }}
 
     steps:
-      - name: Create an image tag based on the commit sha
-        id: image_tag
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Get github commit sha
+        id: github
         run: |
           echo "sha=$(echo ${GITHUB_SHA::7})" >>$GITHUB_OUTPUT
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -219,7 +224,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: bops/${{ inputs.environment-name }}
-          IMAGE_TAG: ${{ steps.image_tag.outputs.sha }}
+          IMAGE_TAG: ${{ steps.github.outputs.sha }}
         run: |
           echo "uri=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >>$GITHUB_OUTPUT
 
