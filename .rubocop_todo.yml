@@ -188,27 +188,6 @@ Rails/ReversibleMigration:
     - 'db/migrate/20210318174231_remove_ward_from_planning_applications.rb'
     - 'db/migrate/20211109132114_remove_character_limit_from_notes_entry.rb'
 
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: MaxUnannotatedPlaceholdersAllowed, AllowedMethods, AllowedPatterns, IgnoredMethods.
-# SupportedStyles: annotated, template, unannotated
-Style/FormatStringToken:
-  EnforcedStyle: unannotated
-
-# Offense count: 14
-# This cop supports safe autocorrection (--autocorrect).
-Style/IfUnlessModifier:
-  Exclude:
-    - 'app/controllers/api/v1/description_change_validation_requests_controller.rb'
-    - 'app/controllers/api/v1/red_line_boundary_change_validation_requests_controller.rb'
-    - 'app/models/concerns/validation_requestable.rb'
-    - 'app/models/document.rb'
-    - 'db/migrate/20210910145259_add_reply_to_local_authority.rb'
-    - 'db/migrate/20211122103943_update_enquiries_paragraph.rb'
-    - 'db/migrate/20220127164323_add_feedback_email_to_local_authorities.rb'
-    - 'db/migrate/20220808200219_add_planning_application_to_validation_requests.rb'
-    - 'db/migrate/20220808200234_add_update_counter_to_validation_requests.rb'
-
 # Offense count: 77
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, AllowedPatterns, IgnoredPatterns.
