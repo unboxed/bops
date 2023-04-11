@@ -538,7 +538,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def possibly_immune?
-    false
+    immunity_detail.present?
   end
 
   private

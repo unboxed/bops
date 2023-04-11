@@ -52,6 +52,7 @@ class PlanningApplicationCreationService
     PlanningApplication.transaction do
       if planning_application.save!
         UploadDocumentsJob.perform_now(planning_application:, files: params[:files])
+        CreateImmunityDetailsJob.perform_now(planning_application:)
 
         planning_application.send_receipt_notice_mail unless params[:send_email] == "false"
       end
