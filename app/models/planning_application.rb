@@ -44,6 +44,7 @@ class PlanningApplication < ApplicationRecord
     has_many :requests, class_name: "ValidationRequest"
     has_many :assessment_details, -> { by_created_at_desc }, inverse_of: :planning_application
     has_many :permitted_development_rights, -> { order :created_at }, inverse_of: :planning_application
+    has_one :immunity_detail, required: false
 
     has_many(
       :policy_classes,
