@@ -327,9 +327,11 @@ class PlanningApplicationsController < AuthenticationController
   def redirect_update_url
     case params[:edit_action]&.to_sym
     when :edit_payment_amount
-      redirect_to planning_application_fee_items_path(@planning_application, validate_fee: "yes"), notice: "Planning application payment amount was successfully updated."
+      redirect_to planning_application_fee_items_path(@planning_application, validate_fee: "yes"),
+                  notice: "Planning application payment amount was successfully updated."
     when :edit_public_comment
-      redirect_to edit_planning_application_recommendations_path(@planning_application), notice: "The information appearing on the decision notice was successfully updated."
+      redirect_to edit_planning_application_recommendations_path(@planning_application),
+                  notice: "The information appearing on the decision notice was successfully updated."
     else
       redirect_to(after_update_url, notice: t(".success"))
     end
@@ -369,7 +371,9 @@ class PlanningApplicationsController < AuthenticationController
   def check_filter_params
     return unless current_user.reviewer? && params[:planning_application_search_filter] && helpers.exclude_others?
 
-    params[:planning_application_search_filter][:filter_options] = filter_option_params.select { |a| PlanningApplication::REVIEWER_FILTER_OPTIONS.include?(a) }
+    params[:planning_application_search_filter][:filter_options] = filter_option_params.select do |a|
+      PlanningApplication::REVIEWER_FILTER_OPTIONS.include?(a)
+    end
   end
 
   def filter_option_params

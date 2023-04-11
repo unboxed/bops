@@ -35,7 +35,9 @@ class ReplacementDocumentValidationRequestsController < ValidationRequestsContro
         if @replacement_document_validation_request.save
           @document.replacement_document_validation_request = @replacement_document_validation_request
 
-          format.html { redirect_to planning_application_validation_tasks_path(@planning_application), notice: t(".success") }
+          format.html do
+            redirect_to planning_application_validation_tasks_path(@planning_application), notice: t(".success")
+          end
         else
           format.html { render :new }
         end
@@ -43,14 +45,19 @@ class ReplacementDocumentValidationRequestsController < ValidationRequestsContro
     end
   rescue ActiveRecord::RecordNotFound
     respond_to do |format|
-      format.html { redirect_to planning_application_validation_tasks_path(@planning_application), alert: "Could not find document with id: #{document_id}" }
+      format.html do
+        redirect_to planning_application_validation_tasks_path(@planning_application),
+                    alert: "Could not find document with id: #{document_id}"
+      end
     end
   end
 
   def update
     respond_to do |format|
       if @replacement_document_validation_request.update(replacement_document_validation_request_params)
-        format.html { redirect_to planning_application_validation_tasks_path(@planning_application), notice: t(".success") }
+        format.html do
+          redirect_to planning_application_validation_tasks_path(@planning_application), notice: t(".success")
+        end
       else
         format.html { render :edit }
       end

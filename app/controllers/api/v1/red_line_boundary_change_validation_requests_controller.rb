@@ -20,7 +20,8 @@ module Api
             format.json
           else
             format.json do
-              render json: { message: "Unable to find red line boundary change validation request with id: #{params[:id]}" }, status: :not_found
+              render json: { message: "Unable to find red line boundary change validation request with id: #{params[:id]}" },
+                     status: :not_found
             end
           end
         end
