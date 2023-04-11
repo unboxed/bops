@@ -1174,8 +1174,9 @@ RSpec.describe PlanningApplication do
     end
 
     context "when challenged or challenge unasked" do
+      statuses = %i[assessment_in_progress assessment_complete review_in_progress review_complete]
       %i[true nil].each do |challenge|
-        %i[assessment_in_progress assessment_complete review_in_progress review_complete].each do |status|
+        statuses.each do |status|
           it "returns false when #{status} and the last recommendation when challenge is #{challenge}" do
             create(:recommendation,
                    status:,

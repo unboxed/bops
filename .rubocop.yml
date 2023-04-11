@@ -18,10 +18,6 @@ AllCops:
     - 'config/environments/**'
     - 'config/puma.rb'
 
-Performance/CollectionLiteralInLoop:
-  Exclude:
-    - spec/models/planning_application_spec.rb
-
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
