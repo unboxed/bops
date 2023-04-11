@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module TaskListItems
-  class EvidenceOfImmunityComponent < TaskListItems::BaseComponent
+  class ImmunityDetailsComponent < TaskListItems::BaseComponent
     def initialize(planning_application:)
       @planning_application = planning_application
     end
@@ -17,16 +17,16 @@ module TaskListItems
     def link_path
       case status
       when :not_started, :to_be_reviewed
-        new_planning_application_evidence_of_immunity_path(
+        new_planning_application_immunity_detail_path(
           planning_application
         )
       when :in_progress
-        edit_planning_application_evidence_of_immunity_path(
+        edit_planning_application_immunity_detail_path(
           planning_application,
           permitted_development_right
         )
       when :checked, :removed
-        planning_application_evidence_of_immunity_path(
+        planning_application_immunity_detail_path(
           planning_application,
           permitted_development_right
         )
@@ -34,7 +34,7 @@ module TaskListItems
     end
 
     def status
-        :not_started
+      :not_started
     end
 
     def to_be_reviewed?

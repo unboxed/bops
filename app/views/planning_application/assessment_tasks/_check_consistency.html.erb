@@ -36,7 +36,7 @@
     <% end %>
     <% if @planning_application.possibly_immune? %>
       <%= render(
-        TaskListItems::EvidenceOfImmunityComponent.new(
+        TaskListItems::ImmunityDetailsComponent.new(
           planning_application: @planning_application
         )
       ) %>
