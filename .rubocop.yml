@@ -28,10 +28,6 @@ Style/StringLiterals:
 Style/Documentation:
   Enabled: false
 
-Style/GuardClause:
-  Exclude:
-    - db/migrate/20210308183431_add_service_name_to_active_storage_blobs.active_storage.rb
-
 # be a bit kinder with our metrics
 Metrics/BlockLength:
   Max: 100
