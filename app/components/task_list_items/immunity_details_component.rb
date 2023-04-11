@@ -16,19 +16,19 @@ module TaskListItems
 
     def link_path
       case status
-      when :not_started, :to_be_reviewed
+      when :not_started
         new_planning_application_immunity_detail_path(
           planning_application
         )
       when :in_progress
         edit_planning_application_immunity_detail_path(
           planning_application,
-          immunity_detail
+          planning_application.immunity_detail
         )
-      when :checked, :removed
+      when :complete
         planning_application_immunity_detail_path(
           planning_application,
-          immunity_detail
+          planning_application.immunity_detail
         )
       end
     end
@@ -39,7 +39,7 @@ module TaskListItems
       elsif to_be_reviewed?
         :to_be_reviewed
       else
-        immunity_detail.status.to_sym
+        planning_application.immunity_detail.status.to_sym
       end
     end
 

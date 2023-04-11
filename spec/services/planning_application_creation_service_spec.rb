@@ -75,6 +75,26 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
           proposal_details = planning_application.proposal_details.map(&:to_json)
           cloned_proposal_details = cloned_planning_application.proposal_details.map(&:to_json)
           expect(proposal_details).to eq(cloned_proposal_details)
+
+          expect(ImmunityDetail.count).to eq 0
+        end
+      end
+
+      context "when application might be immune" do
+        let!(:planning_application) { create(:planning_application, :from_planx_immunity, api_user:) }
+  
+        before do
+          allow_any_instance_of(PlanningApplication).to receive(:can_clone?).and_return(true)
+        end
+
+        it "queues the job to create immunity details" do
+          planning_application = PlanningApplication.last
+
+          expect do
+            described_class.new(
+              planning_application:
+            ).call
+          end.to change(ImmunityDetail, :count).by(1)
         end
       end
 

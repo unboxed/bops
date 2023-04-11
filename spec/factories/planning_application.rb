@@ -296,5 +296,15 @@ FactoryBot.define do
     trait :from_planx do
       audit_log { file_fixture("planx_params.json").read }
     end
+
+    trait :from_planx_immunity do
+      audit_log { file_fixture("planx_params_immunity.json").read }
+    end
+
+    trait :with_immunity do
+      after(:create) do |planning_application|
+        create(:immunity_detail, planning_application: planning_application)
+      end
+    end
   end
 end
