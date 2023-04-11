@@ -5,5 +5,4 @@ class RemoveCharacterLimitFromNotesEntry < ActiveRecord::Migration[6.1]
     change_column :notes, :entry, :string, limit: nil
     change_column :notes, :entry, :text
   end
-  # rubocop:enable Rails/BulkChangeTable
 end

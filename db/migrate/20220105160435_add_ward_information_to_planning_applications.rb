@@ -5,5 +5,4 @@ class AddWardInformationToPlanningApplications < ActiveRecord::Migration[6.1]
     add_column :planning_applications, :ward, :string
     add_column :planning_applications, :ward_type, :string
   end
-  # rubocop:enable Rails/BulkChangeTable
 end

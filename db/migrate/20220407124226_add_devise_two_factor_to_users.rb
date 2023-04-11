@@ -17,5 +17,4 @@ class AddDeviseTwoFactorToUsers < ActiveRecord::Migration[6.1]
       )
     end
   end
-  # rubocop:enable Rails/BulkChangeTable
 end
