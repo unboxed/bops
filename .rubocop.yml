@@ -38,14 +38,9 @@ Layout/LineLength:
   Exclude:
     - spec/**/*
 
-Lint/AmbiguousBlockAssociation:
-  Exclude:
-    - spec/models/review_policy_class_spec.rb
-
 Naming/VariableNumber:
   Exclude:
     - spec/**/*
-    - app/services/planning_application_creation_service.rb
 
 # we tend to use update_all in migrations
 Rails/SkipsModelValidations:
@@ -55,10 +50,6 @@ Rails/SkipsModelValidations:
 # Rspec
 RSpec/MultipleExpectations:
   Enabled: false
-
-Rails/RedundantPresenceValidationOnBelongsTo:
-  Exclude:
-    - app/models/validation_request.rb
 
 RSpec/ExampleLength:
   Enabled: false

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module AuditHelper
-  def activity(type_of_activity, args = nil)
+module AuditHelper # rubocop:disable Metrics/ModuleLength
+  def activity(type_of_activity, args = nil) # rubocop:disable Metrics/CyclomaticComplexity
     case type_of_activity
 
     when "assigned"

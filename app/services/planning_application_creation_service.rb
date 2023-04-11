@@ -98,8 +98,8 @@ class PlanningApplicationCreationService
     return unless params[:site]
 
     { uprn: params[:site][:uprn],
-      address_1: params[:site][:address_1],
-      address_2: params[:site][:address_2],
+      address_1: params[:site][:address_1], # rubocop:disable Naming/VariableNumber
+      address_2: params[:site][:address_2], # rubocop:disable Naming/VariableNumber
       town: params[:site][:town],
       postcode: params[:site][:postcode],
       latitude: params[:site][:latitude],

@@ -18,7 +18,7 @@ module PlanningApplicationHelper
     end
   end
 
-  def validation_request_summary(validation_requests, planning_application)
+  def validation_request_summary(validation_requests, planning_application) # rubocop:disable Metrics/CyclomaticComplexity
     if planning_application.invalidated?
       "This application has #{pluralize(validation_requests.count(&:open?),
                                         'unresolved validation request')} and #{pluralize(
@@ -28,7 +28,7 @@ module PlanningApplicationHelper
       "This application had no validation requests"
     elsif planning_application.recommendable? || (planning_application.closed_or_cancelled? && planning_application.validation_requests.present?)
       "This application has #{pluralize(validation_requests.count(&:closed?), 'resolved validation request')}"
-    else
+    else # rubocop:disable Lint/DuplicateBranch
       # FIXME: same body as first branch
       "This application has #{pluralize(validation_requests.count(&:open?),
                                         'unresolved validation request')} and #{pluralize(
