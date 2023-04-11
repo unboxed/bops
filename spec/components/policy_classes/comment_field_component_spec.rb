@@ -56,7 +56,7 @@ RSpec.describe PolicyClasses::CommentFieldComponent, type: :component do
   end
 
   context "when an invalid blank value has been submitted" do
-    let!(:comment) do # rubocop:disable RSpec/LetSetup
+    let!(:comment) do
       create(
         :comment,
         commentable: policy,
