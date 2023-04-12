@@ -86,7 +86,16 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
         expect(PostApplicationToStagingJob).to have_been_enqueued
       end
 
-      it "doesn't posts to staging if in staging env" do
+      it "indicates whether it's from production" do
+        ENV["STAGING_ENABLED"] = "false"
+        post_with(params: JSON.parse(permitted_development_json).merge("from_production" => "true").to_json)
+
+        perform_enqueued_jobs
+
+        expect(PlanningApplication.last.from_production).to be true
+      end
+
+      it "doesn't post to staging if in staging env" do
         ENV["STAGING_ENABLED"] = "true"
         post_with(params: permitted_development_json)
 

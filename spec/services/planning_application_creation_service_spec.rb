@@ -67,7 +67,8 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
             agent_email: planning_application.agent_email,
             applicant_email: planning_application.applicant_email,
             result_flag: planning_application.result_flag,
-            description: planning_application.description
+            description: planning_application.description,
+            from_production: false
           )
 
           # Proposal details have their own object id i.e. ProposalDetail:0x00007fe42a8476a8 so compare the json value instead

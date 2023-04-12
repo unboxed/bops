@@ -11,7 +11,8 @@ module Apis
       def call(local_authority, planning_application)
         faraday(local_authority).post("planning_applications") do |request|
           request.options[:timeout] = TIMEOUT
-          request.body = JSON.parse(planning_application.audit_log).merge("send_email" => "false").to_json
+          request.body = JSON.parse(planning_application.audit_log).merge("send_email" => "false",
+                                                                          "from_production" => "true").to_json
         end
       end
 
