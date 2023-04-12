@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CloseDescriptionChangeJob < ApplicationJob
-  queue_as :default
+  queue_as :low_priority
 
   def perform
     description_change_requests = DescriptionChangeValidationRequest.open_change_created_over_5_business_days_ago
