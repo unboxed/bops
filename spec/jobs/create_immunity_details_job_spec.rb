@@ -8,10 +8,9 @@ RSpec.describe CreateImmunityDetailsJob do
   describe "#perform" do
     it "calls CreateImmunityDetailsService" do
       expect_any_instance_of(ImmunityDetailsCreationService).to receive(:call)
-        .with(planning_application)
         .and_call_original
 
-      described_class.perform_now(planning_application)
+      described_class.perform_now(planning_application:)
     end
   end
 end

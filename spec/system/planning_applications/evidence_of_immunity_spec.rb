@@ -68,7 +68,7 @@ RSpec.describe "Evidence of immunity" do
         expect(page).to have_content("Has enforcement action been taken about these changes? No")
       end
 
-      it "I can save and come back later when adding or editing the permitted development right" do
+      it "I can save and come back later when adding or editing the immunity evidence" do
         click_link "Check and assess"
         click_link "Evidence of immunity"
 
