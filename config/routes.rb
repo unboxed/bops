@@ -2,6 +2,8 @@
 
 # require "rswag-api"
 
+require "sidekiq/web"
+
 Rails.application.routes.draw do
   root to: "planning_applications#index", defaults:
     {
@@ -10,6 +12,10 @@ Rails.application.routes.draw do
     }
 
   mount Rswag::Ui::Engine => "api-docs"
+
+  authenticate :user, ->(u) { u.administrator? } do
+    mount Sidekiq::Web => "/sidekiq"
+  end
 
   devise_for :users, controllers: {
     sessions: "users/sessions"
