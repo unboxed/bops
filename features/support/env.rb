@@ -7,6 +7,7 @@
 # files.
 
 require "cucumber/rails"
+require "sidekiq/testing"
 
 # frozen_string_literal: true
 
