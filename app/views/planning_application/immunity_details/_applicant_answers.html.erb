@@ -4,10 +4,14 @@
 
 <h3 class="govuk-heading-s govuk-!-margin-top-3 govuk-!-margin-bottom-1">Applicant information</h3>
 <ul class="govuk-body immunity-details-sub-list">
-  <% @groups.each do |proposal_detail| %>
+  <% @planning_application.immune_proposal_details.each do |proposal_detail| %>
     <li>
       <%= proposal_detail.question %> 
-      <strong><%= proposal_detail.response_values.first.to_time.nil? ? proposal_detail.response_values.first : proposal_detail.response_values.first.to_time.to_formatted_s(:day_month_year_slashes) %></strong>
+      <% proposal_detail.response_values.each do |response_value| %>
+        <strong>
+          <%= response_value.to_time.nil? ? response_value : response_value.to_time.to_formatted_s(:day_month_year_slashes) %>
+        </strong>
+      <% end %>
     </li>
   <% end %>
 </ul>

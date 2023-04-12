@@ -49,10 +49,6 @@ class PlanningApplication
     end
 
     def set_immunity_detail
-      @groups = @planning_application.proposal_details.select do |proposal_detail|
-        proposal_detail.portal_name == "immunity-check"
-      end
-
       @immunity_detail = @planning_application.immunity_detail
     end
 

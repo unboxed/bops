@@ -6,20 +6,18 @@ class ImmunityDetailsCreationService
   end
 
   def call
-    @immunity_details = @planning_application.proposal_details.select do |proposal_detail|
-      proposal_detail.portal_name == "immunity-check"
+    transaction do
+      immunity_detail = ImmunityDetail.new(planning_application: @planning_application)
+      immunity_detail.end_date = application_end_date
+      immunity_detail.save
     end
-
-    immunity_detail = ImmunityDetail.new(planning_application: @planning_application)
-
-    @immunity_details.each do |detail|
-      immunity_detail.end_date = detail.response_values.first if detail.question == "When were the works completed?"
-    end
-
-    immunity_detail.save!
   end
 
   private
 
   attr_reader :planning_application
+
+  def application_end_date
+    @planning_application.find_proposal_detail("When were the works completed?").first.response_values.first
+  end
 end

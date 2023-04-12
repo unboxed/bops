@@ -292,6 +292,16 @@ class PlanningApplication < ApplicationRecord
     end
   end
 
+  def immune_proposal_details
+    proposal_details.select do |proposal_detail|
+      proposal_detail.portal_name == "immunity-check"
+    end
+  end
+
+  def find_proposal_detail(question)
+    proposal_details.select { |detail| detail.question == question }
+  end
+
   def secure_change_url
     protocol = Rails.env.production? ? "https" : "http"
 
