@@ -143,7 +143,7 @@ RSpec.describe "Planning Application Assessment" do
 
   context "with previous recommendations" do
     let!(:planning_application) do
-      create(:planning_application, :awaiting_correction, local_authority: default_local_authority)
+      create(:planning_application, :to_be_reviewed, local_authority: default_local_authority)
     end
 
     let!(:recommendation) do

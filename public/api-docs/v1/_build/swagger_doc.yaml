@@ -58,7 +58,7 @@ paths:
                     payment_amount: '105.12'
                     awaiting_determination_at: '2020-05-16T06:18:17.540+01:00'
                     in_assessment_at: '2020-05-16T06:18:17.540+01:00'
-                    awaiting_correction_at: null
+                    to_be_reviewed_at: null
                     applicant_first_name: Albert
                     applicant_last_name: Manteras
                     agent_first_name: Jennifer
@@ -138,7 +138,7 @@ paths:
                         payment_amount: '105.12'
                         awaiting_determination_at: '2020-05-16T06:18:17.540+01:00'
                         in_assessment_at: '2020-05-16T06:18:17.540+01:00'
-                        awaiting_correction_at: null
+                        to_be_reviewed_at: null
                         applicant_first_name: Albert
                         applicant_last_name: Manteras
                         agent_first_name: Jennifer

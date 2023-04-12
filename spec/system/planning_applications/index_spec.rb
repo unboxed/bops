@@ -24,11 +24,11 @@ RSpec.describe "Planning Application index page" do
       visit root_path
     end
 
-    context "when a planning application is awaiting correction" do
+    context "when a planning application is to be reviewed" do
       before do
         create(
           :planning_application,
-          :awaiting_correction,
+          :to_be_reviewed,
           local_authority: default_local_authority
         )
       end
@@ -42,12 +42,12 @@ RSpec.describe "Planning Application index page" do
       end
     end
 
-    context "when multiple planning applications are awaiting correction" do
+    context "when multiple planning applications are to be reviewed" do
       before do
         create_list(
           :planning_application,
           2,
-          :awaiting_correction,
+          :to_be_reviewed,
           local_authority: default_local_authority
         )
       end
@@ -358,11 +358,11 @@ RSpec.describe "Planning Application index page" do
       visit root_path
     end
 
-    context "when planning application is awaiting correction" do
+    context "when planning application is to be reviewed" do
       before do
         create(
           :planning_application,
-          :awaiting_correction,
+          :to_be_reviewed,
           local_authority: default_local_authority
         )
       end
@@ -376,12 +376,12 @@ RSpec.describe "Planning Application index page" do
       end
     end
 
-    context "when multiple planning applications are awaiting correction" do
+    context "when multiple planning applications are to be reviewed" do
       before do
         create_list(
           :planning_application,
           2,
-          :awaiting_correction,
+          :to_be_reviewed,
           local_authority: default_local_authority
         )
       end

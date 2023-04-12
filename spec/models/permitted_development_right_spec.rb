@@ -94,8 +94,8 @@ RSpec.describe PermittedDevelopmentRight do
         end
       end
 
-      context "when planning application is awaiting correction" do
-        let(:planning_application) { create(:planning_application, :awaiting_correction) }
+      context "when planning application is to be reviewed" do
+        let(:planning_application) { create(:planning_application, :to_be_reviewed) }
         let(:permitted_development_right) { create(:permitted_development_right, :accepted, planning_application:) }
 
         before { create(:recommendation, challenged: true, planning_application:) }

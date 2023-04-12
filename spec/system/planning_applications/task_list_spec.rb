@@ -110,8 +110,8 @@ RSpec.describe "Planning Application show page" do
       end
     end
 
-    it "makes valid task list for when it is awaiting correction and no re-proposal has been made" do
-      planning_application = create(:planning_application, :awaiting_correction,
+    it "makes valid task list for when it is to be reviewed and no re-proposal has been made" do
+      planning_application = create(:planning_application, :to_be_reviewed,
                                     local_authority: default_local_authority)
 
       create(
@@ -138,8 +138,8 @@ RSpec.describe "Planning Application show page" do
       end
     end
 
-    it "makes valid task list for when it is awaiting correction and a re-proposal has been made" do
-      planning_application = create(:planning_application, :awaiting_correction,
+    it "makes valid task list for when it is to be reviewed and a re-proposal has been made" do
+      planning_application = create(:planning_application, :to_be_reviewed,
                                     local_authority: default_local_authority)
       create(:recommendation, :reviewed, planning_application:)
       create(:recommendation, planning_application:, submitted: true)

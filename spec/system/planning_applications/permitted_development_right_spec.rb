@@ -170,7 +170,7 @@ RSpec.describe "Permitted development right" do
         let!(:planning_application) do
           create(
             :planning_application,
-            :awaiting_correction,
+            :to_be_reviewed,
             local_authority: default_local_authority
           )
         end

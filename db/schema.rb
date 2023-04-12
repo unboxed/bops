@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_13_151534) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_05_143248) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -271,7 +271,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_13_151534) do
     t.bigint "user_id"
     t.datetime "awaiting_determination_at"
     t.datetime "in_assessment_at"
-    t.datetime "awaiting_correction_at"
+    t.datetime "to_be_reviewed_at"
     t.jsonb "proposal_details"
     t.jsonb "audit_log"
     t.string "agent_first_name"

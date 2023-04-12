@@ -885,9 +885,9 @@ RSpec.describe PlanningApplication do
   end
 
   describe "#assessment_submitted?" do
-    context "when planning application is awaiting correction" do
+    context "when planning application is to be reviewed" do
       let(:planning_application) do
-        create(:planning_application, :awaiting_correction)
+        create(:planning_application, :to_be_reviewed)
       end
 
       it "returns true" do

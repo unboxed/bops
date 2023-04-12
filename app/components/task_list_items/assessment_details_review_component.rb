@@ -36,7 +36,7 @@ module TaskListItems
 
     def link_active?
       planning_application.awaiting_determination? ||
-        planning_application.awaiting_correction?
+        planning_application.to_be_reviewed?
     end
   end
 end
