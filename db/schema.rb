@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_05_143248) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_11_111835) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -194,6 +194,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_05_143248) do
     t.index ["planning_application_id"], name: "index_documents_on_planning_application_id"
     t.index ["replacement_document_validation_request_id"], name: "ix_documents_on_replacement_document_validation_request_id"
     t.index ["user_id"], name: "ix_documents_on_user_id"
+  end
+
+  create_table "immunity_details", force: :cascade do |t|
+    t.datetime "end_date"
+    t.bigint "planning_application_id"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_immunity_details_on_planning_application_id"
   end
 
   create_table "local_authorities", force: :cascade do |t|
