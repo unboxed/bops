@@ -94,8 +94,10 @@ class PlanningApplicationsController < AuthenticationController
       @planning_application.errors.add(:planning_application,
                                        "Planning application cannot be validated if open validation requests exist.")
     elsif @planning_application.invalid_documents.present?
-      @planning_application.errors.add(:planning_application,
-                                       "This application has an invalid document. You cannot validate an application with invalid documents.")
+      @planning_application.errors.add(
+        :planning_application,
+        "This application has an invalid document. You cannot validate an application with invalid documents."
+      )
     elsif @planning_application.boundary_geojson.blank?
       @planning_application.errors.add(
         :base,
@@ -306,7 +308,11 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def payment_amount_params
-    params[:planning_application] ? params.require(:planning_application).permit(:payment_amount) : params.permit(:payment_amount)
+    if params[:planning_application]
+      params.require(:planning_application).permit(:payment_amount)
+    else
+      params.permit(:payment_amount)
+    end
   end
 
   def redirect_failed_withdraw_recommendation
@@ -352,9 +358,12 @@ class PlanningApplicationsController < AuthenticationController
   def ensure_no_open_post_validation_requests
     return unless @planning_application.open_post_validation_requests?
 
+    link = view_context.link_to(
+      "review open requests",
+      post_validation_requests_planning_application_validation_requests_path(@planning_application)
+    )
     flash.now[:error] = sanitize "This application has open non-validation requests. Please
-        #{view_context.link_to 'review open requests',
-                               post_validation_requests_planning_application_validation_requests_path(@planning_application)} and resolve them before submitting to your manager."
+        #{link} and resolve them before submitting to your manager."
     render :submit_recommendation and return
   end
 
@@ -363,7 +372,8 @@ class PlanningApplicationsController < AuthenticationController
 
     flash.now[:alert] = sanitize "Please save and mark as complete the
         #{view_context.link_to 'draft recommendation',
-                               new_planning_application_recommendation_path(@planning_application)} before updating application fields."
+                               new_planning_application_recommendation_path(@planning_application)}
+        before updating application fields."
 
     render :edit and return
   end

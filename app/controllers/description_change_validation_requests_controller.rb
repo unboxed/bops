@@ -11,7 +11,8 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
   end
 
   def create
-    @description_change_request = @planning_application.description_change_validation_requests.new(description_change_validation_request_params)
+    @description_change_request =
+      @planning_application.description_change_validation_requests.new(description_change_validation_request_params)
     @description_change_request.user = current_user
     @current_local_authority = current_local_authority
 
@@ -40,7 +41,10 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
   end
 
   def set_description_change_request
-    @description_change_request = @planning_application.description_change_validation_requests.find(params[:id] ||= params[:description_change_validation_request_id])
+    @description_change_request =
+      @planning_application.description_change_validation_requests.find(
+        params[:id] ||= params[:description_change_validation_request_id]
+      )
   end
 
   def description_change_validation_request_params

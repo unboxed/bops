@@ -39,7 +39,8 @@ class PlanningApplication < ApplicationRecord
     has_many :other_change_validation_requests
     has_many :fee_item_validation_requests, lambda {
                                               fee_item
-                                            }, class_name: "OtherChangeValidationRequest", inverse_of: :planning_application
+                                            }, class_name: "OtherChangeValidationRequest",
+                                               inverse_of: :planning_application
     has_many :additional_document_validation_requests
     has_many :red_line_boundary_change_validation_requests
     has_many :notes, -> { by_created_at_desc }, inverse_of: :planning_application
@@ -677,11 +678,13 @@ class PlanningApplication < ApplicationRecord
   end
 
   def public_url
-    "#{ENV['APPLICANTS_APP_HOST']}.#{local_authority.subdomain}.gov.uk/validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}" # rubocop:disable Style/FetchEnvVar
+    "#{ENV['APPLICANTS_APP_HOST']}.#{local_authority.subdomain}.gov.uk/" + # rubocop:disable Style/FetchEnvVar
+      "validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}"
   end
 
   def internal_url
-    "#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}" # rubocop:disable Style/FetchEnvVar
+    "#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/" + # rubocop:disable Style/FetchEnvVar
+      "validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}"
   end
 
   def public_url_enabled?

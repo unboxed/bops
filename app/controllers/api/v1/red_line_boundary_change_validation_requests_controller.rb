@@ -9,18 +9,22 @@ module Api
       def index
         respond_to do |format|
           format.json do
-            @red_line_boundary_change_validation_requests = @planning_application.red_line_boundary_change_validation_requests
+            @red_line_boundary_change_validation_requests =
+              @planning_application.red_line_boundary_change_validation_requests
           end
         end
       end
 
       def show
         respond_to do |format|
-          if (@red_line_boundary_change_validation_request = @planning_application.red_line_boundary_change_validation_requests.where(id: params[:id]).first)
+          if (@red_line_boundary_change_validation_request =
+                @planning_application.red_line_boundary_change_validation_requests.where(id: params[:id]).first)
             format.json
           else
             format.json do
-              render json: { message: "Unable to find red line boundary change validation request with id: #{params[:id]}" },
+              render json: {
+                       message: "Unable to find red line boundary change validation request with id: #{params[:id]}"
+                     },
                      status: :not_found
             end
           end
@@ -28,7 +32,8 @@ module Api
       end
 
       def update
-        @red_line_boundary_change_validation_request = @planning_application.red_line_boundary_change_validation_requests.find(params[:id])
+        @red_line_boundary_change_validation_request =
+          @planning_application.red_line_boundary_change_validation_requests.find(params[:id])
 
         if @red_line_boundary_change_validation_request.update(red_line_boundary_change_params)
           @red_line_boundary_change_validation_request.close!
@@ -40,7 +45,9 @@ module Api
           @planning_application.send_update_notification_to_assessor
           render json: { message: "Validation request updated" }, status: :ok
         else
-          render json: { message: "Unable to update request. Please ensure rejection_reason is present if approved is false." },
+          render json: {
+                   message: "Unable to update request. Please ensure rejection_reason is present if approved is false."
+                 },
                  status: :bad_request
         end
       end

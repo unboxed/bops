@@ -25,11 +25,12 @@ class ReplacementDocumentValidationRequestsController < ValidationRequestsContro
     @document = @planning_application.documents.find(document_id)
 
     ActiveRecord::Base.transaction do
-      @replacement_document_validation_request = @planning_application.replacement_document_validation_requests.new(replacement_document_validation_request_params).tap do |record|
-        record.old_document = @document
-        record.post_validation = @planning_application.validated? unless @planning_application.validated?.nil?
-        record.user = current_user
-      end
+      @replacement_document_validation_request =
+        @planning_application.replacement_document_validation_requests.new(replacement_document_validation_request_params).tap do |record| # rubocop:disable Layout/LineLength
+          record.old_document = @document
+          record.post_validation = @planning_application.validated? unless @planning_application.validated?.nil?
+          record.user = current_user
+        end
 
       respond_to do |format|
         if @replacement_document_validation_request.save
@@ -75,7 +76,8 @@ class ReplacementDocumentValidationRequestsController < ValidationRequestsContro
   end
 
   def set_replacement_document_validation_request
-    @replacement_document_validation_request = @planning_application.replacement_document_validation_requests.find(replacement_document_validation_request_id)
+    @replacement_document_validation_request =
+      @planning_application.replacement_document_validation_requests.find(replacement_document_validation_request_id)
   end
 
   def replacement_document_validation_request_params

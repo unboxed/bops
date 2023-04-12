@@ -21,7 +21,8 @@ class DescriptionChangeValidationRequest < ApplicationRecord
     return unless approved == false && rejection_reason.blank?
 
     errors.add(:base,
-               "Please include a comment for the case officer to indicate why the description change has been rejected.")
+               "Please include a comment for the case officer to " \
+               "indicate why the description change has been rejected.")
   end
 
   def set_previous_application_description

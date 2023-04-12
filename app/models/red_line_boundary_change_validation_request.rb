@@ -15,7 +15,7 @@ class RedLineBoundaryChangeValidationRequest < ApplicationRecord
 
   before_create :set_original_geojson
   before_create lambda {
-                  reset_validation_requests_update_counter!(planning_application.red_line_boundary_change_validation_requests)
+                  reset_validation_requests_update_counter!(planning_application.red_line_boundary_change_validation_requests) # rubocop:disable Layout/LineLength
                 }
 
   delegate :reset_validation_requests_update_counter!, to: :planning_application
@@ -24,7 +24,8 @@ class RedLineBoundaryChangeValidationRequest < ApplicationRecord
     return unless approved == false && rejection_reason.blank?
 
     errors.add(:base,
-               "Please include a comment for the case officer to indicate why the red line boundary change has been rejected.")
+               "Please include a comment for the case officer to " \
+               "indicate why the red line boundary change has been rejected.")
   end
 
   def geojson

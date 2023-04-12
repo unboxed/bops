@@ -23,7 +23,8 @@ class AdditionalDocumentValidationRequestsController < ValidationRequestsControl
   end
 
   def create
-    @additional_document_validation_request = @planning_application.additional_document_validation_requests.new(additional_document_validation_request_params)
+    @additional_document_validation_request =
+      @planning_application.additional_document_validation_requests.new(additional_document_validation_request_params)
     @additional_document_validation_request.user = current_user
 
     respond_to do |format|
@@ -63,7 +64,8 @@ class AdditionalDocumentValidationRequestsController < ValidationRequestsControl
   end
 
   def set_additional_document_validation_request
-    @additional_document_validation_request = @planning_application.additional_document_validation_requests.find(params[:id])
+    @additional_document_validation_request =
+      @planning_application.additional_document_validation_requests.find(params[:id])
   end
 
   def cancel_redirect_url

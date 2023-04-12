@@ -35,6 +35,7 @@ Metrics/MethodLength:
   Max: 20
 
 Layout/LineLength:
+  AllowedPatterns: ['^\s*#']
   Exclude:
     - spec/**/*
 

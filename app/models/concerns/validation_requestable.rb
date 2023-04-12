@@ -204,7 +204,9 @@ module ValidationRequestable # rubocop:disable Metrics/ModuleLength
   end
 
   def update_counter!
-    unless is_a?(ReplacementDocumentValidationRequest) || is_a?(RedLineBoundaryChangeValidationRequest) || is_a?(OtherChangeValidationRequest)
+    unless is_a?(ReplacementDocumentValidationRequest) ||
+           is_a?(RedLineBoundaryChangeValidationRequest) ||
+           is_a?(OtherChangeValidationRequest)
       return
     end
 

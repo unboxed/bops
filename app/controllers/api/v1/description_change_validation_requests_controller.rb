@@ -16,7 +16,8 @@ module Api
 
       def show
         respond_to do |format|
-          if (@description_change_validation_request = @planning_application.description_change_validation_requests.where(id: params[:id]).first)
+          if (@description_change_validation_request =
+                @planning_application.description_change_validation_requests.where(id: params[:id]).first)
             format.json
           else
             format.json do
@@ -28,7 +29,8 @@ module Api
       end
 
       def update
-        @description_change_validation_request = @planning_application.description_change_validation_requests.where(id: params[:id]).first
+        @description_change_validation_request =
+          @planning_application.description_change_validation_requests.where(id: params[:id]).first
 
         if @description_change_validation_request.update(description_change_params)
           @description_change_validation_request.close!
@@ -39,7 +41,8 @@ module Api
           @planning_application.send_update_notification_to_assessor
           render json: { message: "Description change request updated" }, status: :ok
         else
-          render json: { message: "Unable to update request. Please ensure rejection_reason is present if approved is false." },
+          render json: { message: "Unable to update request. " \
+                                  "Please ensure rejection_reason is present if approved is false." },
                  status: :bad_request
         end
       end

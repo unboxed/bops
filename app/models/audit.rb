@@ -9,10 +9,14 @@ class Audit < ApplicationRecord
   scope :with_user_and_api_user, -> { preload(:user, :api_user) }
   scope :with_planning_application, -> { includes(:planning_application) }
   scope :not_by_assigned_officer, lambda {
-    joins(:planning_application).where("audits.user_id != planning_applications.user_id OR planning_applications.user_id IS NULL")
+    joins(:planning_application).where(
+      "audits.user_id != planning_applications.user_id OR planning_applications.user_id IS NULL"
+    )
   }
   scope :most_recent_for_planning_applications, lambda {
-    not_by_assigned_officer.with_planning_application.where(created_at: Audit.select("MAX(created_at)").group(:planning_application_id)).reorder(created_at: :desc)
+    not_by_assigned_officer.with_planning_application.where(
+      created_at: Audit.select("MAX(created_at)").group(:planning_application_id)
+    ).reorder(created_at: :desc)
   }
 
   enum activity_type: {
@@ -45,11 +49,14 @@ class Audit < ApplicationRecord
     description_change_validation_request_sent: "description_change_validation_request_sent",
     description_change_request_cancelled: "description_change_request_cancelled",
     replacement_document_validation_request_sent: "replacement_document_validation_request_sent",
-    replacement_document_validation_request_sent_post_validation: "replacement_document_validation_request_sent_post_validation",
+    replacement_document_validation_request_sent_post_validation:
+      "replacement_document_validation_request_sent_post_validation",
     additional_document_validation_request_sent: "additional_document_validation_request_sent",
-    additional_document_validation_request_sent_post_validation: "additional_document_validation_request_sent_post_validation",
+    additional_document_validation_request_sent_post_validation:
+      "additional_document_validation_request_sent_post_validation",
     red_line_boundary_change_validation_request_sent: "red_line_boundary_change_validation_request_sent",
-    red_line_boundary_change_validation_request_sent_post_validation: "red_line_boundary_change_validation_request_sent_post_validation",
+    red_line_boundary_change_validation_request_sent_post_validation:
+      "red_line_boundary_change_validation_request_sent_post_validation",
     replacement_document_validation_request_added: "replacement_document_validation_request_added",
     additional_document_validation_request_added: "additional_document_validation_request_added",
     red_line_boundary_change_validation_request_added: "red_line_boundary_change_validation_request_added",
@@ -62,13 +69,16 @@ class Audit < ApplicationRecord
     other_change_validation_request_received: "other_change_validation_request_received",
     validation_requests_sent: "validation_requests_sent",
     additional_document_validation_request_cancelled: "additional_document_validation_request_cancelled",
-    additional_document_validation_request_cancelled_post_validation: "additional_document_validation_request_cancelled_post_validation",
+    additional_document_validation_request_cancelled_post_validation:
+      "additional_document_validation_request_cancelled_post_validation",
     description_change_validation_request_cancelled: "description_change_validation_request_cancelled",
     other_change_validation_request_cancelled: "other_change_validation_request_cancelled",
     red_line_boundary_change_validation_request_cancelled: "red_line_boundary_change_validation_request_cancelled",
-    red_line_boundary_change_validation_request_cancelled_post_validation: "red_line_boundary_change_validation_request_cancelled_post_validation",
+    red_line_boundary_change_validation_request_cancelled_post_validation:
+    "red_line_boundary_change_validation_request_cancelled_post_validation",
     replacement_document_validation_request_cancelled: "replacement_document_validation_request_cancelled",
-    replacement_document_validation_request_cancelled_post_validation: "replacement_document_validation_request_cancelled_post_validation",
+    replacement_document_validation_request_cancelled_post_validation:
+      "replacement_document_validation_request_cancelled_post_validation",
     constraints_checked: "constraints_checked"
   }
 

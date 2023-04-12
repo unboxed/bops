@@ -44,7 +44,10 @@ class PlanningApplication
     end
 
     def active_validation_requests(post_validation: false)
-      (replacement_document_validation_requests + additional_document_validation_requests + other_change_validation_requests + red_line_boundary_change_validation_requests)
+      (replacement_document_validation_requests +
+        additional_document_validation_requests +
+        other_change_validation_requests +
+        red_line_boundary_change_validation_requests)
         .reject(&:cancelled?).send(enumerable_method(post_validation), &:post_validation?)
     end
 
