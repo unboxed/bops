@@ -37,7 +37,8 @@ class PlanningApplicationCreationService
         api_user:,
         audit_log: params.to_json,
         user_role: params[:user_role].presence,
-        payment_amount: params[:payment_amount].presence && payment_amount_in_pounds(params[:payment_amount])
+        payment_amount: params[:payment_amount].presence && payment_amount_in_pounds(params[:payment_amount]),
+        from_production: params[:from_production].present?
       )
     )
 
@@ -52,7 +53,7 @@ class PlanningApplicationCreationService
       if planning_application.save!
         UploadDocumentsJob.perform_now(planning_application:, files: params[:files])
 
-        planning_application.send_receipt_notice_mail
+        planning_application.send_receipt_notice_mail unless params[:send_email] == "false"
       end
 
       planning_application
@@ -79,6 +80,7 @@ class PlanningApplicationCreationService
                       :payment_reference,
                       :work_status,
                       :planx_debug_data,
+                      :from_production,
                       { feedback: %i[result find_property planning_constraints] }]
 
     params.permit permitted_keys

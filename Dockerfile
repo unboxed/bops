@@ -1,7 +1,7 @@
 FROM ruby:3.2.1
 
 # Match our Bundler version
-RUN gem install bundler -v 2.3.5
+RUN gem install bundler -v 2.3.26
 
 # Update the system
 RUN apt-get update -y

@@ -79,6 +79,39 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
         )
       end
 
+      it "posts to staging if in production env" do
+        ENV["STAGING_ENABLED"] = "false"
+        post_with(params: permitted_development_json)
+
+        expect(PostApplicationToStagingJob).to have_been_enqueued
+      end
+
+      it "indicates whether it's from production" do
+        ENV["STAGING_ENABLED"] = "false"
+        post_with(params: JSON.parse(permitted_development_json).merge("from_production" => "true").to_json)
+
+        perform_enqueued_jobs
+
+        expect(PlanningApplication.last.from_production).to be true
+      end
+
+      it "doesn't post to staging if in staging env" do
+        ENV["STAGING_ENABLED"] = "true"
+        post_with(params: permitted_development_json)
+
+        expect(PostApplicationToStagingJob).not_to have_been_enqueued
+      end
+
+      it "doesn't queue mailer job if posted from production" do
+        ENV["STAGING_ENABLED"] = "false"
+        post_with(params: JSON.parse(permitted_development_json).merge("send_email" => "false").to_json)
+        perform_enqueued_jobs
+
+        email = ActionMailer::Base.deliveries.last
+
+        expect(email).to be_nil
+      end
+
       it "sends the receipt email" do
         post_with(params: permitted_development_json)
         perform_enqueued_jobs

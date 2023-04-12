@@ -2,6 +2,9 @@
   <div class="govuk-grid-column-two-thirds" id="planning-application-details">
     <% if local_assigns.fetch(:heading, nil).present? %>
       <h1 class="govuk-heading-l"><%= heading %></h1>
+      <% if @planning_application.from_production %>
+        <p class="govuk-tag govuk-tag--yellow">From production</p>
+      <% end %>
       <p class="govuk-body">
         <strong><%= @planning_application.full_address %></strong>
         <br>

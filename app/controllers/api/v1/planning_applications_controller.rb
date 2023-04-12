@@ -34,6 +34,8 @@ module Api
         ).call
 
         send_success_response
+
+        post_application_to_staging if production?
       rescue PlanningApplicationCreationService::CreateError => e
         send_failed_response(e)
       end
@@ -55,6 +57,14 @@ module Api
       def send_not_found_response
         render json: { message: "Unable to find record" },
                status: :not_found
+      end
+
+      def post_application_to_staging
+        PostApplicationToStagingJob.perform_later(current_local_authority, @planning_application)
+      end
+
+      def production?
+        ENV.fetch("STAGING_ENABLED", "false") == "false"
       end
     end
   end
