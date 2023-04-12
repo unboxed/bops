@@ -13,4 +13,8 @@ class ImmunityDetail < ApplicationRecord
   )
 
   validates :status, presence: true
+
+  def update_required?
+    complete? && !accepted
+  end
 end
