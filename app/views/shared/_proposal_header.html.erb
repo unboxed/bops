@@ -24,5 +24,11 @@
     <p class="govuk-body">
       <%= @planning_application.type_and_work_status %>: <%= @planning_application.description %>
     </p>
+
+    <% if @planning_application.possibly_immune? %>
+      <p class="govuk-body">
+        <strong>Note: application may be immune from enforcement</strong>
+      </p>
+    <% end %>
   </div>
 </div>
