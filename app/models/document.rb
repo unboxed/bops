@@ -106,7 +106,8 @@ class Document < ApplicationRecord
 
   def archive(archive_reason)
     if replacement_document_validation_request.try(:open_or_pending?)
-      raise NotArchiveableError, "Cannot archive document with an open or pending validation request"
+      raise NotArchiveableError,
+            "Cannot archive document with an open or pending validation request"
     end
 
     return if archived?

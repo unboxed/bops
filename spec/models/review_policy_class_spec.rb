@@ -30,7 +30,7 @@ RSpec.describe ReviewPolicyClass do
       it "does not validates presence when accepting" do
         validation_request.mark = :accept
 
-        expect { validation_request.valid? }.not_to change { validation_request.errors[:comment] }
+        expect { validation_request.valid? }.not_to(change { validation_request.errors[:comment] })
       end
     end
 
@@ -44,13 +44,13 @@ RSpec.describe ReviewPolicyClass do
       it "does not errors if recommendation not accepted" do
         allow_any_instance_of(described_class).to receive(:last_recommendation_accepted?).and_return(false)
 
-        expect { validation_request.valid? }.not_to change { validation_request.errors[:base] }
+        expect { validation_request.valid? }.not_to(change { validation_request.errors[:base] })
       end
 
       it "does not errors if recommendation has not been asked" do
         allow_any_instance_of(described_class).to receive(:last_recommendation_accepted?).and_return(nil)
 
-        expect { validation_request.valid? }.not_to change { validation_request.errors[:base] }
+        expect { validation_request.valid? }.not_to(change { validation_request.errors[:base] })
       end
     end
   end

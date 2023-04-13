@@ -5,5 +5,5 @@ When("I switch to BOPS") do
 end
 
 When("I switch to BOPS-applicants") do
-  Capybara.app_host = ENV["APPLICANTS_APP_HOST"]
+  Capybara.app_host = ENV.fetch("APPLICANTS_APP_HOST", nil)
 end

@@ -37,7 +37,10 @@ class PlanningApplication < ApplicationRecord
     has_many :description_change_validation_requests
     has_many :replacement_document_validation_requests
     has_many :other_change_validation_requests
-    has_many :fee_item_validation_requests, -> { fee_item }, class_name: "OtherChangeValidationRequest", inverse_of: :planning_application
+    has_many :fee_item_validation_requests, lambda {
+                                              fee_item
+                                            }, class_name: "OtherChangeValidationRequest",
+                                               inverse_of: :planning_application
     has_many :additional_document_validation_requests
     has_many :red_line_boundary_change_validation_requests
     has_many :notes, -> { by_created_at_desc }, inverse_of: :planning_application
@@ -76,7 +79,9 @@ class PlanningApplication < ApplicationRecord
   after_create :set_ward_and_parish_information
   after_create :create_audit!
   before_update :set_key_dates
-  before_update -> { reset_validation_requests_update_counter!(red_line_boundary_change_validation_requests) }, if: :valid_red_line_boundary?
+  before_update lambda {
+                  reset_validation_requests_update_counter!(red_line_boundary_change_validation_requests)
+                }, if: :valid_red_line_boundary?
   before_update -> { reset_validation_requests_update_counter!(fee_item_validation_requests) }, if: :valid_fee?
   after_update :audit_updated!
   after_update :address_or_boundary_geojson_updated?
@@ -652,7 +657,8 @@ class PlanningApplication < ApplicationRecord
     new_attribute = saved_change_to_attribute(attribute_name).second
 
     if attribute_name == "payment_amount"
-      "Changed from: £#{format('%.2f', original_attribute.to_f)} \r\n Changed to: £#{format('%.2f', new_attribute.to_f)}"
+      "Changed from: £#{format('%.2f',
+                               original_attribute.to_f)} \r\n Changed to: £#{format('%.2f', new_attribute.to_f)}"
     else
       "Changed from: #{original_attribute} \r\n Changed to: #{new_attribute}"
     end
@@ -695,11 +701,13 @@ class PlanningApplication < ApplicationRecord
   end
 
   def public_url
-    "#{ENV['APPLICANTS_APP_HOST']}.#{local_authority.subdomain}.gov.uk/validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}"
+    "#{ENV['APPLICANTS_APP_HOST']}.#{local_authority.subdomain}.gov.uk/" + # rubocop:disable Style/FetchEnvVar
+      "validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}"
   end
 
   def internal_url
-    "#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}"
+    "#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/" + # rubocop:disable Style/FetchEnvVar
+      "validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}"
   end
 
   def public_url_enabled?

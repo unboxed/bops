@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ValidationRequestable
+module ValidationRequestable # rubocop:disable Metrics/ModuleLength
   extend ActiveSupport::Concern
 
   with_options to: :planning_application do
@@ -204,7 +204,9 @@ module ValidationRequestable
   end
 
   def update_counter!
-    unless is_a?(ReplacementDocumentValidationRequest) || is_a?(RedLineBoundaryChangeValidationRequest) || is_a?(OtherChangeValidationRequest)
+    unless is_a?(ReplacementDocumentValidationRequest) ||
+           is_a?(RedLineBoundaryChangeValidationRequest) ||
+           is_a?(OtherChangeValidationRequest)
       return
     end
 

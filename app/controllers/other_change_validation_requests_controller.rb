@@ -34,7 +34,8 @@ class OtherChangeValidationRequestsController < ValidationRequestsController
   end
 
   def create
-    @other_change_validation_request = @planning_application.other_change_validation_requests.new(other_change_validation_request_params)
+    @other_change_validation_request =
+      @planning_application.other_change_validation_requests.new(other_change_validation_request_params)
     @other_change_validation_request.user = current_user
 
     respond_to do |format|

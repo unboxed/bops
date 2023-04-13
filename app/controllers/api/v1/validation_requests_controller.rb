@@ -14,7 +14,8 @@ module Api
       end
 
       def render_failed_request
-        render json: { message: "Validation request could not be updated - please contact support" }, status: :bad_request
+        render json: { message: "Validation request could not be updated - please contact support" },
+               status: :bad_request
       end
 
       def file_size_over_30mb?(file)

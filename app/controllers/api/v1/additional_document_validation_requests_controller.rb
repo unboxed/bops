@@ -25,18 +25,21 @@ module Api
 
       def show
         respond_to do |format|
-          if (@additional_document_validation_request = @planning_application.additional_document_validation_requests.where(id: params[:id]).first)
+          if (@additional_document_validation_request =
+                @planning_application.additional_document_validation_requests.where(id: params[:id]).first)
             format.json
           else
             format.json do
-              render json: { message: "Unable to find additional document validation request with id: #{params[:id]}" }, status: :not_found
+              render json: { message: "Unable to find additional document validation request with id: #{params[:id]}" },
+                     status: :not_found
             end
           end
         end
       end
 
       def update
-        @additional_document_validation_request = @planning_application.additional_document_validation_requests.find_by(id: params[:id])
+        @additional_document_validation_request =
+          @planning_application.additional_document_validation_requests.find_by(id: params[:id])
 
         if @additional_document_validation_request.can_upload?
           @additional_document_validation_request.upload_files!(params[:files])
@@ -57,9 +60,11 @@ module Api
 
       def check_files_size
         params[:files].each do |file|
-          if file_size_over_30mb?(file)
-            render json: { message: "The file: '#{file.original_filename}' exceeds the limit of 30mb. Each file must be 30MB or less" }, status: :payload_too_large
-          end
+          next unless file_size_over_30mb?(file)
+
+          render json: { message: "The file: '#{file.original_filename}' exceeds the limit of 30mb. " \
+                                  "Each file must be 30MB or less" },
+                 status: :payload_too_large
         end
       end
 

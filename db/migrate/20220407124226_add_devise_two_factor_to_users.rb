@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class AddDeviseTwoFactorToUsers < ActiveRecord::Migration[6.1]
-  # rubocop:disable Rails/BulkChangeTable
   def change
     add_column :users, :encrypted_otp_secret, :string
     add_column :users, :encrypted_otp_secret_iv, :string
@@ -18,5 +17,4 @@ class AddDeviseTwoFactorToUsers < ActiveRecord::Migration[6.1]
       )
     end
   end
-  # rubocop:enable Rails/BulkChangeTable
 end

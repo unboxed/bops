@@ -20,18 +20,23 @@ module Api
 
       def show
         respond_to do |format|
-          if (@replacement_document_validation_request = @planning_application.replacement_document_validation_requests.where(id: params[:id]).first)
+          if (@replacement_document_validation_request =
+                @planning_application.replacement_document_validation_requests.where(id: params[:id]).first)
             format.json
           else
             format.json do
-              render json: { message: "Unable to find replacement document validation request with id: #{params[:id]}" }, status: :not_found
+              render json: {
+                       message: "Unable to find replacement document validation request with id: #{params[:id]}"
+                     },
+                     status: :not_found
             end
           end
         end
       end
 
       def update
-        @replacement_document_validation_request = @planning_application.replacement_document_validation_requests.find_by(id: params[:id])
+        @replacement_document_validation_request =
+          @planning_application.replacement_document_validation_requests.find_by(id: params[:id])
 
         @replacement_document_validation_request.replace_document!(
           file: params[:new_file],

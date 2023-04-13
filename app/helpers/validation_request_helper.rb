@@ -37,13 +37,14 @@ module ValidationRequestHelper
 
   def cancel_confirmation_request_url(planning_application, validation_request, classname: nil)
     link_to "Cancel request",
-            send("cancel_confirmation_planning_application_#{request_type(validation_request)}_path", planning_application,
-                 validation_request), class: classname
+            send("cancel_confirmation_planning_application_#{request_type(validation_request)}_path",
+                 planning_application, validation_request), class: classname
   end
 
   def delete_confirmation_request_url(planning_application, validation_request, classname: nil)
     link_to "Delete request",
-            send("planning_application_#{request_type(validation_request)}_path", planning_application, validation_request),
+            send("planning_application_#{request_type(validation_request)}_path",
+                 planning_application, validation_request),
             method: :delete, data: { confirm: "Are you sure?" }, class: classname
   end
 

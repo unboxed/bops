@@ -6,7 +6,9 @@ class User < ApplicationRecord
   enum otp_delivery_method: { sms: 0, email: 1 }
 
   devise :recoverable, :two_factor_authenticatable, :recoverable, :timeoutable,
-         :validatable, otp_secret_encryption_key: ENV["OTP_SECRET_ENCRYPTION_KEY"], request_keys: [:subdomains]
+         :validatable,
+         otp_secret_encryption_key: ENV.fetch("OTP_SECRET_ENCRYPTION_KEY", nil),
+         request_keys: [:subdomains]
 
   has_many :planning_applications, dependent: :nullify
   has_many :audits, dependent: :nullify

@@ -24,7 +24,7 @@ namespace :local_authority do |args|
     opts.on("-fe", "--feedback_email ARG", String) { |feedback_email| options[:feedback_email] = feedback_email }
     opts.on("-ae", "--admin_email ARG", String) { |admin_email| options[:admin_email] = admin_email }
 
-    args = opts.order!(ARGV) {}
+    args = opts.order!(ARGV) {} # rubocop:disable Lint/EmptyBlock
     opts.parse!(args)
 
     broadcast "Creating local_authority: #{options[:subdomain]}"
