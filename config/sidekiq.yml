@@ -1,0 +1,9 @@
+---
+:concurrency: 5
+staging:
+  :concurrency: 10
+production:
+  :concurrency: 10
+:queues:
+  - low_priority
+  - high_priority

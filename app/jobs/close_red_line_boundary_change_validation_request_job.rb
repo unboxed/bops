@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CloseRedLineBoundaryChangeValidationRequestJob < ApplicationJob
-  queue_as :default
+  queue_as :low_priority
 
   def perform
     validation_requests = RedLineBoundaryChangeValidationRequest.open_change_created_over_5_business_days_ago

@@ -1,4 +1,4 @@
 web: bin/rails server -b 0.0.0.0 -p 3000
 css: bin/rails dartsass:watch
 js: yarn build --watch
-worker: bundle exec rails jobs:work
+worker: bundle exec sidekiq
