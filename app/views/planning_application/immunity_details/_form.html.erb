@@ -1,0 +1,8 @@
+<%= form_with model: [@planning_application, @immunity_detail],
+              local: true,
+              builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+              class: "govuk-!-margin-top-7" do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+  <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
+<% end %>

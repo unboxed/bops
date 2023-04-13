@@ -34,6 +34,13 @@
         </span>
       </li>
     <% end %>
+    <% if @planning_application.possibly_immune? %>
+      <%= render(
+        TaskListItems::ImmunityDetailsComponent.new(
+          planning_application: @planning_application
+        )
+      ) %>
+    <% end %>
     <%= render(
       TaskListItems::PermittedDevelopmentRightComponent.new(
         planning_application: @planning_application

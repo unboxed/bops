@@ -624,6 +624,92 @@ RSpec.describe PlanningApplication do
   end
   # rubocop:enable Rails/SkipsModelValidations
 
+  describe "immune_proposal_details" do
+    let(:proposal_details) do
+      [
+        {
+          question: "Test question?",
+          responses: [{ value: "Test response" }],
+          metadata: {
+            auto_answered: true,
+            portal_name: "immunity-check",
+            policy_refs: [
+              {
+                text: "Test ref text",
+                url: "https://www.exampleref.com"
+              }
+            ],
+            notes: "Test notes",
+            flags: ["Test flag"]
+          }
+        }
+      ].to_json
+    end
+
+    let(:planning_application) do
+      build(:planning_application, proposal_details:)
+    end
+
+    it "returns the relevant questions for the application's result" do
+      expect(
+        planning_application.immune_proposal_details.length
+      ).to eq 1
+    end
+
+    context "when there's a proposal detail with multiple responses" do
+      before do
+        planning_application.proposal_details = File.read("./spec/fixtures/files/multiple_responses_proposal_details.json")
+      end
+
+      it "does not crash" do
+        expect do
+          planning_application.immune_proposal_details
+        end.not_to raise_error
+      end
+    end
+  end
+
+  describe "find_proposal_detail" do
+    let(:proposal_details) do
+      [
+        {
+          question: "Test question?",
+          responses: [{ value: "Test response" }],
+          metadata: {
+            auto_answered: true,
+            portal_name: "immunity-check"
+          }
+        },
+        {
+          question: "Test question 2?",
+          responses: [{ value: "Test response" }],
+          metadata: {
+            auto_answered: true,
+            portal_name: "immunity-check"
+          }
+        }
+      ].to_json
+    end
+
+    let(:planning_application) do
+      build(:planning_application, proposal_details:)
+    end
+
+    it "returns the question from the proposal details" do
+      expect(
+        planning_application.find_proposal_detail("Test question?").length
+      ).to eq 1
+
+      expect(planning_application.find_proposal_detail("Test question?").first.question).to eq "Test question?"
+    end
+
+    it "does not crash" do
+      expect do
+        planning_application.find_proposal_detail("Test question that doesn't exist?")
+      end.not_to raise_error
+    end
+  end
+
   describe "custom_constraints" do
     let(:planning_application) { build(:planning_application) }
 

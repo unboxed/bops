@@ -221,6 +221,12 @@ html * {
   line-height: 2;
 }
 
+.immunity-details-sub-list {
+  list-style: none;
+  line-height: 1.5;
+  padding-inline-start: 0px;
+}
+
 .proposal-detail {
   display: flex;
 }

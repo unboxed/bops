@@ -29,6 +29,8 @@ RSpec.describe "Assessment tasks" do
           expect(page).to have_link("Check description, documents and proposal details")
           expect(page).to have_link("History")
           expect(page).to have_link("Permitted development rights")
+
+          expect(page).not_to have_link("Evidence of immunity")
         end
 
         within("#assessment-information-tasks") do
@@ -174,6 +176,29 @@ RSpec.describe "Assessment tasks" do
       first(:link, "Back to top").click
 
       expect(current_url).to have_target_id("accordion-default-heading-proposal_details")
+    end
+  end
+
+  context "when the application may be immune" do
+    let(:planning_application) do
+      create(
+        :planning_application,
+        :in_assessment,
+        :with_immunity,
+        local_authority: default_local_authority
+      )
+    end
+
+    it "allows me to assess the evidence of immunity" do
+      within(".app-task-list") do
+        within("#check-consistency-assessment-tasks") do
+          expect(page).to have_content("Check application")
+          expect(page).to have_link("Check description, documents and proposal details")
+          expect(page).to have_link("History")
+          expect(page).to have_link("Evidence of immunity")
+          expect(page).to have_link("Permitted development rights")
+        end
+      end
     end
   end
 end

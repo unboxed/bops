@@ -1,0 +1,23 @@
+<% content_for :page_title do %>
+  Evidence of immunity - <%= t('page_title') %>
+<% end %>
+
+<%= render(
+  partial: "shared/assessment_task_breadcrumbs",
+  locals: { planning_application: @planning_application  }
+) %>
+
+<% content_for :title, "Evidence of immunity" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Evidence of immunity"  }
+) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "information" %>
+
+    <%= render "applicant_answers", planning_application: @planning_application %>
+  </div>
+</div>

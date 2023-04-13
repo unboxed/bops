@@ -44,6 +44,7 @@ class PlanningApplication < ApplicationRecord
     has_many :requests, class_name: "ValidationRequest"
     has_many :assessment_details, -> { by_created_at_desc }, inverse_of: :planning_application
     has_many :permitted_development_rights, -> { order :created_at }, inverse_of: :planning_application
+    has_one :immunity_detail, required: false
 
     has_many(
       :policy_classes,
@@ -289,6 +290,16 @@ class PlanningApplication < ApplicationRecord
     proposal_details.select do |proposal_detail|
       proposal_detail.flags.include?(result_flag)
     end
+  end
+
+  def immune_proposal_details
+    proposal_details.select do |proposal_detail|
+      proposal_detail.portal_name == "immunity-check"
+    end
+  end
+
+  def find_proposal_detail(question)
+    proposal_details.select { |detail| detail.question == question }
   end
 
   def secure_change_url
@@ -537,7 +548,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def possibly_immune?
-    false
+    immunity_detail.present?
   end
 
   private
