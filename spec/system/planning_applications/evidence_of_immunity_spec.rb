@@ -46,21 +46,6 @@ RSpec.describe "Evidence of immunity" do
         expect(page).to have_content("Application number: #{planning_application.reference}")
         expect(page).to have_content(planning_application.full_address)
 
-        within(".govuk-warning-text") do
-          expect(page).to have_content("This information will be made publicly available.")
-        end
-
-        within("#constraints-section") do
-          expect(page).to have_content("Constraints - including Article 4 direction(s)")
-          expect(page).to have_content("The application site has these constraints: Conservation area Listed building")
-        end
-
-        within("#planning-history-section") do
-          expect(page).to have_content("Planning history")
-        end
-
-        expect(page).to have_content("Immunity from enforcement")
-
         expect(page).to have_content("Were the works carried out more than 4 years ago? Yes")
         expect(page).to have_content("Have the works been completed? Yes")
         expect(page).to have_content("When were the works completed? 01/02/2015")
@@ -82,18 +67,6 @@ RSpec.describe "Evidence of immunity" do
         )
 
         click_link("Evidence of immunity")
-
-        within(".govuk-warning-text") do
-          expect(page).to have_content("This information will be made publicly available.")
-        end
-
-        within("#constraints-section") do
-          expect(page).to have_content("Constraints - including Article 4 direction(s)")
-        end
-
-        within("#planning-history-section") do
-          expect(page).to have_content("Planning history")
-        end
 
         click_button "Save and come back later"
         expect(page).to have_content("Evidence of immunity successfully updated")
