@@ -48,8 +48,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
     t.string "state", null: false
     t.string "document_request_type"
     t.string "document_request_reason"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "sequence"
     t.date "notified_at"
     t.text "cancel_reason"
@@ -62,8 +62,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
   create_table "api_users", force: :cascade do |t|
     t.string "name", null: false
     t.string "token", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "local_authority_id"
     t.index ["local_authority_id"], name: "ix_api_users_on_local_authority_id"
     t.index ["name"], name: "ix_api_users_on_name", unique: true
@@ -75,8 +75,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
     t.bigint "user_id", null: false
     t.text "entry"
     t.string "assessment_status", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "category", null: false
     t.text "additional_information"
     t.string "reviewer_verdict"
@@ -91,8 +91,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
     t.string "activity_type", null: false
     t.string "activity_information"
     t.string "audit_comment"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "api_user_id"
     t.boolean "automated_activity", default: false, null: false
     t.index ["api_user_id"], name: "index_audits_on_api_user_id"
@@ -103,8 +103,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
   create_table "comments", force: :cascade do |t|
     t.text "text", null: false
     t.bigint "user_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "commentable_type"
     t.bigint "commentable_id"
     t.datetime "deleted_at"
@@ -119,8 +119,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
     t.integer "proposal_details_match_documents", default: 0, null: false
     t.text "proposal_details_match_documents_comment"
     t.bigint "planning_application_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "site_map_correct", default: 0, null: false
     t.index ["planning_application_id"], name: "ix_consistency_checklists_on_planning_application_id"
   end
@@ -129,8 +129,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
     t.string "name", null: false
     t.integer "origin", null: false
     t.bigint "planning_application_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_consultees_on_planning_application_id"
   end
 
@@ -144,8 +144,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
     t.datetime "failed_at"
     t.string "locked_by"
     t.string "queue"
-    t.datetime "created_at", precision: 6
-    t.datetime "updated_at", precision: 6
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
@@ -156,8 +156,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
     t.text "proposed_description"
     t.boolean "approved"
     t.string "rejection_reason"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "previous_description"
     t.integer "sequence"
     t.date "notified_at"
@@ -172,8 +172,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
 
   create_table "documents", force: :cascade do |t|
     t.bigint "planning_application_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.datetime "archived_at"
     t.string "archive_reason"
     t.jsonb "tags", default: []
@@ -207,8 +207,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
 
   create_table "local_authorities", force: :cascade do |t|
     t.string "subdomain", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "signatory_name", null: false
     t.string "signatory_job_title", null: false
     t.text "enquiries_paragraph", null: false
@@ -224,8 +224,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
     t.bigint "planning_application_id", null: false
     t.bigint "user_id", null: false
     t.text "entry", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_notes_on_planning_application_id"
     t.index ["user_id"], name: "ix_notes_on_user_id"
   end
@@ -238,8 +238,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
     t.text "suggestion"
     t.text "response"
     t.integer "sequence"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.date "notified_at"
     t.text "cancel_reason"
     t.datetime "cancelled_at"
@@ -254,8 +254,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
     t.boolean "removed"
     t.text "removed_reason"
     t.bigint "planning_application_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "review_status", default: "review_not_started", null: false
     t.text "reviewer_comment"
     t.boolean "reviewer_edited", default: false, null: false
@@ -275,8 +275,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
     t.datetime "started_at"
     t.datetime "determined_at"
     t.text "description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.datetime "awaiting_determination_at"
     t.datetime "in_assessment_at"
@@ -355,8 +355,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
     t.string "description", null: false
     t.integer "status", null: false
     t.bigint "policy_class_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["policy_class_id"], name: "ix_policies_on_policy_class_id"
   end
 
@@ -367,8 +367,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
     t.string "url"
     t.string "name", null: false
     t.bigint "planning_application_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "status", null: false
     t.index ["planning_application_id"], name: "ix_policy_classes_on_planning_application_id"
   end
@@ -380,8 +380,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
     t.text "assessor_comment"
     t.text "reviewer_comment"
     t.datetime "reviewed_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "challenged"
     t.boolean "submitted"
     t.integer "status", default: 0, null: false
@@ -398,8 +398,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
     t.string "reason", null: false
     t.string "rejection_reason"
     t.boolean "approved"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "sequence"
     t.date "notified_at"
     t.text "cancel_reason"
@@ -416,8 +416,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
     t.bigint "old_document_id", null: false
     t.bigint "new_document_id"
     t.string "state", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "sequence"
     t.date "notified_at"
     t.text "cancel_reason"
@@ -435,8 +435,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
     t.integer "mark", null: false
     t.string "comment"
     t.integer "status", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["policy_class_id"], name: "ix_review_policy_classes_on_policy_class_id"
   end
 
@@ -446,8 +446,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "role", default: 0
     t.string "name"
     t.bigint "local_authority_id"
@@ -468,8 +468,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_102829) do
   create_table "validation_requests", force: :cascade do |t|
     t.bigint "requestable_id", null: false
     t.string "requestable_type", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "planning_application_id"
     t.datetime "closed_at"
     t.boolean "update_counter", default: false, null: false
