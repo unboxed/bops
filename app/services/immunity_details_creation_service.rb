@@ -6,11 +6,13 @@ class ImmunityDetailsCreationService
   end
 
   def call
-    transaction do
+    ActiveRecord::Base.transaction do
       immunity_detail = ImmunityDetail.new(planning_application: @planning_application)
       immunity_detail.end_date = application_end_date
-      immunity_detail.save
+      immunity_detail.save!
     end
+  rescue ActiveRecord::RecordInvalid, NoMethodError => e
+    Appsignal.send_error(e)
   end
 
   private

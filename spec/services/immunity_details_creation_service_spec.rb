@@ -26,6 +26,24 @@ RSpec.describe ImmunityDetailsCreationService, type: :service do
           )
         end
       end
+
+      context "when not successful" do
+        let!(:planning_application) { create(:planning_application, :from_planx, api_user:) }
+
+        it "rescues from the error" do
+          expect do
+            described_class.new(
+              planning_application:
+            ).call
+          end.not_to change(ImmunityDetail, :count)
+
+          expect do
+            described_class.new(
+              planning_application:
+            ).call
+          end.not_to raise_error
+        end
+      end
     end
   end
 end
