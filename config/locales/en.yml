@@ -490,6 +490,8 @@ en:
         valid_fee: Is the fee valid?
         valid_red_line_boundary: Is this red line boundary valid?
         validated_at: Valid from
+  immunity_details:
+    successfully_updated: Review immunity details was successfully updated
   local_authorities:
     edit:
       edit_local_authority: Edit council information
