@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PlanningApplicationCreationService
+class PlanningApplicationCreationService # rubocop:disable Metrics/ClassLength
   class CreateError < StandardError; end
 
   def initialize(planning_application: nil, **options)
@@ -52,7 +52,7 @@ class PlanningApplicationCreationService
     PlanningApplication.transaction do
       if planning_application.save!
         UploadDocumentsJob.perform_now(planning_application:, files: params[:files])
-        CreateImmunityDetailsJob.perform_now(planning_application:) if may_be_immune?(planning_application)
+        CreateImmunityDetailsJob.perform_now(planning_application:) if possibly_immune?(planning_application)
 
         planning_application.send_receipt_notice_mail unless params[:send_email] == "false"
       end
@@ -122,7 +122,7 @@ class PlanningApplicationCreationService
     amount.to_f / 100
   end
 
-  def may_be_immune?(planning_application)
+  def possibly_immune?(planning_application)
     planning_application.immune_proposal_details.count > 1
   end
 end
