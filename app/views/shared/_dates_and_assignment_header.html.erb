@@ -21,5 +21,11 @@
         <%= link_to "View decision notice", decision_notice_planning_application_path(@planning_application), class: "govuk-link" %>
       </p>
     <% end %>
+
+    <% if @planning_application.possibly_immune? %>
+      <p class="govuk-body">
+        <strong>Note: application may be immune from enforcement</strong>
+      </p>
+    <% end %>
   </div>
 </div>
