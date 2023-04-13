@@ -34,6 +34,7 @@ RSpec.describe "updating constraints" do
     click_button("Constraints")
 
     expect(page).to have_content("Conservation Area")
+    expect(page).to have_content("This application has been updated. Please check the constraints are correct.")
 
     click_link("Application")
     click_button("Audit log")

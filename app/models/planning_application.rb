@@ -80,6 +80,7 @@ class PlanningApplication < ApplicationRecord
   before_update -> { reset_validation_requests_update_counter!(fee_item_validation_requests) }, if: :valid_fee?
   after_update :audit_updated!
   after_update :address_or_boundary_geojson_updated?
+  after_update :constraints_updated?
 
   accepts_nested_attributes_for :recommendations
   accepts_nested_attributes_for :documents
@@ -627,6 +628,13 @@ class PlanningApplication < ApplicationRecord
     return unless saved_changes.keys.intersection(ADDRESS_AND_BOUNDARY_GEOJSON_FIELDS).any?
 
     update!(updated_address_or_boundary_geojson: true)
+  end
+
+  def constraints_updated?
+    return unless saved_changes.include? "constraints"
+    return if constraints.blank?
+
+    update!(changed_constraints: ((changed_constraints.presence || []) + constraints).uniq)
   end
 
   def attribute_to_audit(attribute_name)
