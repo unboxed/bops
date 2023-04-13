@@ -53,12 +53,12 @@ class PlanningApplicationCreationService # rubocop:disable Metrics/ClassLength
       if planning_application.save!
         UploadDocumentsJob.perform_now(planning_application:, files: params[:files])
         CreateImmunityDetailsJob.perform_now(planning_application:) if possibly_immune?(planning_application)
-
-        planning_application.send_receipt_notice_mail unless params[:send_email] == "false"
       end
-
-      planning_application
     end
+
+    planning_application.send_receipt_notice_mail unless params[:send_email] == "false"
+
+    planning_application
   rescue Api::V1::Errors::WrongFileTypeError, Api::V1::Errors::GetFileError, ActiveRecord::RecordInvalid,
          ArgumentError, NoMethodError => e
     raise CreateError, e.message
