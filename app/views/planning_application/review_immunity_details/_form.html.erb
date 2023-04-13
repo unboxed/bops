@@ -13,7 +13,7 @@
     <%= back_link %>
 
     <% if !editable %>
-      <%= link_to "Edit check permitted development rights", edit_planning_application_review_permitted_development_right_path(@planning_application, @permitted_development_right), class: "govuk-link" %>
+      <%= link_to "Edit review immunity details", edit_planning_application_immunity_detail_path(@planning_application, @immunity_detail), class: "govuk-link" %>
     <% end %>
   </div>
 <% end %>

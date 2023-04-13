@@ -18,7 +18,14 @@ class ImmunityDetail < ApplicationRecord
     review_complete: "review_complete"
   }
 
-  validates :status, presence: true
+  with_options class_name: "User", optional: true do
+    belongs_to :assessor
+    belongs_to :reviewer
+  end
+
+  with_options presence: true do
+    validates :status, :review_status
+  end
 
   def update_required?
     complete? && !accepted

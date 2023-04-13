@@ -42,7 +42,7 @@ class PlanningApplication
     private
 
     def immunity_detail_params
-      params.require(:immunity_detail).permit(:removed_reason, :accepted, :reviewer_comment)
+      params.permit
     end
 
     def status

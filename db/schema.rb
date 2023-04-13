@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema[7.0].define(version: 2023_04_13_104408) do
-=======
 ActiveRecord::Schema[7.0].define(version: 2023_04_13_104701) do
->>>>>>> 8200fe0a (Add basic structure for reviewing evidence of immunity)
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -207,7 +203,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_13_104701) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "review_status", default: "review_not_started", null: false
+    t.bigint "assessor_id"
+    t.bigint "reviewer_id"
+    t.datetime "reviewed_at", precision: nil
+    t.index ["assessor_id"], name: "ix_immunity_details_on_assessor_id"
     t.index ["planning_application_id"], name: "ix_immunity_details_on_planning_application_id"
+    t.index ["reviewer_id"], name: "ix_immunity_details_on_reviewer_id"
   end
 
   create_table "local_authorities", force: :cascade do |t|
@@ -343,9 +344,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_13_104701) do
     t.string "reference"
     t.datetime "validated_at"
     t.datetime "received_at"
+    t.boolean "from_production", default: false
     t.string "review_documents_for_recommendation_status", default: "not_started", null: false
     t.text "changed_constraints", array: true
-    t.boolean "from_production", default: false
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
@@ -498,6 +499,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_13_104701) do
   add_foreign_key "documents", "api_users"
   add_foreign_key "documents", "replacement_document_validation_requests"
   add_foreign_key "documents", "users"
+  add_foreign_key "immunity_details", "users", column: "assessor_id"
+  add_foreign_key "immunity_details", "users", column: "reviewer_id"
   add_foreign_key "notes", "planning_applications"
   add_foreign_key "notes", "users"
   add_foreign_key "other_change_validation_requests", "planning_applications"
