@@ -1,0 +1,19 @@
+<%= form_with model: [@planning_application, @immunity_detail],
+              url: planning_application_review_immunity_detail_path(@planning_application, @immunity_detail),
+              builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+              class: "govuk-!-margin-top-7" do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+  <div class="govuk-button-group">
+    <% if editable %>
+      <%= form.submit "Save and mark as complete", class: "govuk-button", data: { module: "govuk-button" } %>
+      <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
+    <% end %>
+
+    <%= back_link %>
+
+    <% if !editable %>
+      <%= link_to "Edit check permitted development rights", edit_planning_application_review_permitted_development_right_path(@planning_application, @permitted_development_right), class: "govuk-link" %>
+    <% end %>
+  </div>
+<% end %>

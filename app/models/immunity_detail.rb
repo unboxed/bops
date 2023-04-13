@@ -12,6 +12,12 @@ class ImmunityDetail < ApplicationRecord
     _default: "not_started"
   )
 
+  enum review_status: {
+    review_not_started: "review_not_started",
+    review_in_progress: "review_in_progress",
+    review_complete: "review_complete"
+  }
+
   validates :status, presence: true
 
   def update_required?

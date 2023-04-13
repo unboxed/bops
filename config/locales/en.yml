@@ -890,6 +890,8 @@ en:
       check_fee: Check fee
     immunity_details_component:
       evidence_of_immunity: Evidence of immunity
+    immunity_details_review_component:
+      evidence_of_immunity: Review evidence of immunity
     other_change_request_component:
       view_other_validation: 'View other validation request #%{number}'
     permitted_development_right_component:
