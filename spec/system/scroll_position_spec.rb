@@ -10,9 +10,12 @@ RSpec.describe "Scroll position" do
     create(:planning_application, :invalidated, local_authority: default_local_authority)
   end
 
+  before do
+    sign_in assessor
+  end
+
   context "when navigating back to a page" do
     before do
-      sign_in assessor
       visit planning_application_validation_tasks_path(planning_application)
 
       # Resize window so there is capacity to scroll the page
@@ -38,6 +41,23 @@ RSpec.describe "Scroll position" do
       click_link "Check and validate"
 
       expect(page.evaluate_script("window.scrollY")).to eq(150)
+    end
+  end
+
+  context "when navigating back to the home page" do
+    before do
+      visit(root_path)
+
+      # Resize window so there is capacity to scroll the page
+      page.current_window.resize_to(200, 400)
+      page.execute_script "window.scrollBy(0, 350)"
+    end
+
+    it "returns me to the top of the page" do
+      click_link("Add new application")
+      click_link("PlanX Back-office Planning System")
+
+      expect(page.evaluate_script("window.scrollY")).to eq(0)
     end
   end
 end

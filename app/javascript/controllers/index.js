@@ -24,6 +24,13 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   window.onbeforeunload = function () {
-    sessionStorage.setItem(scrollPositionKey, window.scrollY)
+    if (
+      scrollPositionKey === "/-scrollPosition" ||
+      scrollPositionKey === "/planning_applications-scrollPosition"
+    ) {
+      sessionStorage.setItem(scrollPositionKey, 0)
+    } else {
+      sessionStorage.setItem(scrollPositionKey, window.scrollY)
+    }
   }
 })
