@@ -33,11 +33,11 @@ gem "rails", "~> 7.0"
 gem "rails_autolink"
 gem "rswag-ui"
 gem "sidekiq"
+gem "sidekiq-scheduler"
 gem "sprockets-rails"
 gem "stimulus-rails"
 gem "strong_password", "~> 0.0.9"
 gem "view_component"
-gem "whenever"
 
 group :development, :test do
   gem "brakeman", require: false
