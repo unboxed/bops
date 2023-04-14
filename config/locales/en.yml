@@ -490,6 +490,8 @@ en:
         valid_fee: Is the fee valid?
         valid_red_line_boundary: Is this red line boundary valid?
         validated_at: Valid from
+  immunity_details:
+    successfully_updated: Review immunity details was successfully updated
   local_authorities:
     edit:
       edit_local_authority: Edit council information
@@ -890,6 +892,8 @@ en:
       check_fee: Check fee
     immunity_details_component:
       evidence_of_immunity: Evidence of immunity
+    immunity_details_review_component:
+      evidence_of_immunity: Review evidence of immunity
     other_change_request_component:
       view_other_validation: 'View other validation request #%{number}'
     permitted_development_right_component:

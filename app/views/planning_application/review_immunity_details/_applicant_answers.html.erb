@@ -1,0 +1,13 @@
+<h3 class="govuk-heading-s govuk-!-margin-top-3 govuk-!-margin-bottom-1">Applicant information</h3>
+<ul class="govuk-body immunity-details-sub-list">
+  <% @planning_application.immune_proposal_details.each do |proposal_detail| %>
+    <li>
+      <%= proposal_detail.question %> 
+      <% proposal_detail.response_values.each do |response_value| %>
+        <strong>
+          <%= response_value.to_time.nil? ? response_value : response_value.to_time.to_formatted_s(:day_month_year_slashes) %>
+        </strong>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

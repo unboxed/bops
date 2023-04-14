@@ -127,6 +127,8 @@ Rails.application.routes.draw do
 
       resources :immunity_details, only: %i[new create edit update show]
 
+      resources :review_immunity_details, only: %i[edit update show]
+
       resources :permitted_development_rights, only: %i[new create edit update show]
 
       resources :review_permitted_development_rights, only: %i[show edit update]

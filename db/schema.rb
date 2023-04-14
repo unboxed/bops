@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_13_104408) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_13_104701) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -202,7 +202,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_13_104408) do
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "review_status", default: "review_not_started", null: false
+    t.bigint "assessor_id"
+    t.bigint "reviewer_id"
+    t.datetime "reviewed_at", precision: nil
+    t.index ["assessor_id"], name: "ix_immunity_details_on_assessor_id"
     t.index ["planning_application_id"], name: "ix_immunity_details_on_planning_application_id"
+    t.index ["reviewer_id"], name: "ix_immunity_details_on_reviewer_id"
   end
 
   create_table "local_authorities", force: :cascade do |t|
@@ -493,6 +499,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_13_104408) do
   add_foreign_key "documents", "api_users"
   add_foreign_key "documents", "replacement_document_validation_requests"
   add_foreign_key "documents", "users"
+  add_foreign_key "immunity_details", "users", column: "assessor_id"
+  add_foreign_key "immunity_details", "users", column: "reviewer_id"
   add_foreign_key "notes", "planning_applications"
   add_foreign_key "notes", "users"
   add_foreign_key "other_change_validation_requests", "planning_applications"
