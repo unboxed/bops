@@ -325,6 +325,48 @@ RSpec.describe "Permitted development right" do
         end
       end
     end
+
+    context "when planning application may be immune" do
+      it "I can view the information on the permitted development rights page" do
+        create(:immunity_detail, planning_application:)
+
+        click_link "Check and assess"
+
+        expect(page).to have_list_item_for(
+          "Immunity/permitted development rights",
+          with: "Not started"
+        )
+
+        click_link("Immunity/permitted development rights")
+
+        within(".govuk-breadcrumbs__list") do
+          expect(page).to have_content("Immunity/permitted development rights")
+        end
+
+        expect(page).to have_current_path(
+          new_planning_application_permitted_development_right_path(planning_application)
+        )
+
+        within(".govuk-heading-l") do
+          expect(page).to have_content("Immunity/permitted development rights")
+        end
+        expect(page).to have_content("Application number: #{planning_application.reference}")
+        expect(page).to have_content(planning_application.full_address)
+
+        within(".govuk-warning-text") do
+          expect(page).to have_content("This information will be made publicly available.")
+        end
+
+        within("#constraints-section") do
+          expect(page).to have_content("Constraints - including Article 4 direction(s)")
+          expect(page).to have_content("There are no planning constraints on the application site.")
+        end
+
+        within("#planning-history-section") do
+          expect(page).to have_content("Planning history")
+        end
+      end
+    end
   end
 
   context "when signed in as a reviewer" do
@@ -542,6 +584,44 @@ RSpec.describe "Permitted development right" do
           expect(page).to have_content(
             "You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen"
           )
+        end
+      end
+    end
+
+    context "when planning application may be immune" do
+      it "I can view the information on the review permitted development rights page" do
+        create(:immunity_detail, planning_application:)
+
+        click_link "Review and sign-off"
+
+        expect(page).to have_list_item_for(
+          "Review immunity/permitted development rights",
+          with: "Not started"
+        )
+
+        click_link "Review immunity/permitted development rights"
+
+        within(".govuk-breadcrumbs__list") do
+          expect(page).to have_content("Review")
+          expect(page).to have_content("Immunity/permitted development rights")
+        end
+
+        expect(page).to have_current_path(
+          edit_planning_application_review_permitted_development_right_path(planning_application, PermittedDevelopmentRight.last)
+        )
+
+        expect(page).to have_content("Review immunity/permitted development rights")
+        expect(page).to have_content("Application number: #{planning_application.reference}")
+        expect(page).to have_content(planning_application.full_address)
+
+        expect(page).to have_content("Constraints and history")
+
+        within("#constraints-section") do
+          expect(page).to have_content("Constraints")
+        end
+
+        within("#planning-history-section") do
+          expect(page).to have_content("Historical information related to the property or to adjoining properties")
         end
       end
     end
