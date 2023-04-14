@@ -10,6 +10,8 @@ class PlanningApplication
     before_action :ensure_planning_application_is_validated
     before_action :set_permitted_development_right, only: %i[show edit update]
     before_action :set_permitted_development_rights, only: %i[show edit]
+    before_action :set_page_title, only: %i[show edit]
+    before_action :set_page_heading, only: %i[show edit]
 
     def show
       respond_to do |format|
@@ -49,6 +51,24 @@ class PlanningApplication
 
     def status
       save_progress? ? "review_in_progress" : "review_complete"
+    end
+
+    def set_page_title
+      @page_title =
+        if @planning_application.possibly_immune?
+          "Immunity/permitted development rights"
+        else
+          "Permitted development rights"
+        end
+    end
+
+    def set_page_heading
+      @page_heading =
+        if @planning_application.possibly_immune?
+          "Review immunity/permitted development rights"
+        else
+          "Check permitted development rights"
+        end
     end
   end
 end

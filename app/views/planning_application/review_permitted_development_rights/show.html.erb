@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Permitted development rights - <%= t('page_title') %>
+  <%= @page_title %> - <%= t('page_title') %>
 <% end %>
 
 <%= render(
@@ -7,11 +7,11 @@
   locals: { planning_application: @planning_application  }
 ) %>
 
-<% content_for :title, "Permitted development rights" %>
+<% content_for :title, @page_title %>
 
 <%= render(
   partial: "shared/proposal_header",
-  locals: { heading: "Check permitted development rights" }
+  locals: { heading: @page_heading }
 ) %>
 
 <div class="govuk-grid-row">
