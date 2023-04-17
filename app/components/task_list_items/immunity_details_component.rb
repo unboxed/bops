@@ -27,6 +27,11 @@ module TaskListItems
           planning_application,
           immunity_detail
         )
+      when :to_be_reviewed
+        edit_planning_application_immunity_detail_path(
+          planning_application,
+          immunity_detail
+        )
       when :complete
         planning_application_immunity_detail_path(
           planning_application,

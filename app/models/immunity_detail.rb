@@ -43,6 +43,10 @@ class ImmunityDetail < ApplicationRecord
   end
 
   def accepted?
-    status == "complete" && review_status == "review_complete"
+    status == "complete" && (review_status == "review_complete" || review_status == "review_in_progress")
+  end
+
+  def current_review_immunity_detail
+    review_immunity_details.last
   end
 end
