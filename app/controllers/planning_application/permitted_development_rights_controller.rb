@@ -13,7 +13,6 @@ class PlanningApplication
     before_action :set_permitted_development_right, only: %i[show edit update]
     before_action :set_permitted_development_rights, only: %i[new show edit]
     before_action :ensure_permitted_development_right_is_editable, only: %i[edit update]
-    before_action :set_page_title, only: %i[new show edit]
 
     def show
       respond_to do |format|
@@ -109,15 +108,6 @@ class PlanningApplication
 
     def redirect_failed_create_error(error)
       redirect_to planning_application_assessment_tasks_path(@planning_application), alert: error.message
-    end
-
-    def set_page_title
-      @page_title =
-        if @planning_application.possibly_immune?
-          "Immunity/permitted development rights"
-        else
-          "Permitted development rights"
-        end
     end
   end
 end
