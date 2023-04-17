@@ -23,7 +23,7 @@ class PlanningApplication
 
     def update
       @immunity_detail.assign_attributes(
-        review_status: status
+        review_status:, reviewer: current_user, reviewed_at: Time.current
       )
 
       respond_to do |format|
@@ -33,7 +33,7 @@ class PlanningApplication
                         notice: I18n.t("immunity_details.successfully_updated")
           end
         else
-          set_immunity_details
+          set_immunity_detail
           format.html { render :edit }
         end
       end
@@ -42,15 +42,26 @@ class PlanningApplication
     private
 
     def immunity_detail_params
-      params.permit
+      params.require(:immunity_detail)
+            .permit(:reviewer_comment)
+            .to_h
+            .deep_merge(status: immunity_detail_status)
     end
 
-    def status
+    def review_status
       save_progress? ? "review_in_progress" : "review_complete"
     end
 
     def set_immunity_detail
       @immunity_detail = @planning_application.immunity_detail
+    end
+
+    def immunity_detail_status
+      return_to_officer? ? :to_be_reviewed : :complete
+    end
+
+    def return_to_officer?
+      params.dig(:immunity_detail, :mark) == "return_to_officer_with_comment"
     end
   end
 end

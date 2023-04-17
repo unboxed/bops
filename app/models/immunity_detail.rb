@@ -14,6 +14,7 @@ class ImmunityDetail < ApplicationRecord
     status: {
       not_started: "not_started",
       in_progress: "in_progress",
+      to_be_reviewed: "to_be_reviewed",
       complete: "complete"
     },
     _default: "not_started"
@@ -39,5 +40,9 @@ class ImmunityDetail < ApplicationRecord
     evidence_group.documents << document
     # TODO: update start/end date?
     evidence_group.save!
+  end
+
+  def accepted?
+    status == "complete" && review_status == "review_complete"
   end
 end
