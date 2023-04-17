@@ -7,3 +7,14 @@ production:
 :queues:
   - low_priority
   - high_priority
+
+:scheduler:
+  :schedule:
+    close_red_line_boundary_change_request:
+      cron: '0 9 * * *'   # Runs at 9am every morning
+      class: CloseRedLineBoundaryChangeValidationRequestJob
+      queue: low_priority
+    close_description_change_request:
+      cron: '0 9 * * *'   # Runs at 9am every morning
+      class: CloseDescriptionChangeJob
+      queue: low_priority

@@ -6,6 +6,9 @@ class CloseRedLineBoundaryChangeValidationRequestJob < ApplicationJob
   def perform
     validation_requests = RedLineBoundaryChangeValidationRequest.open_change_created_over_5_business_days_ago
 
+    # To delete when we've confirmed the scheduled job has run at 9am
+    logger.info("\n\n\n***** CloseRedLineBoundaryChangeValidationRequestJob ran at: #{Time.current} *****\n\n\n")
+
     validation_requests.each do |request|
       request.auto_close_request!
 

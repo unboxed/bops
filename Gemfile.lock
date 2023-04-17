@@ -117,7 +117,6 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
-    chronic (0.10.2)
     coderay (1.1.3)
     combine_pdf (1.0.21)
       ruby-rc4 (>= 0.1.5)
@@ -193,6 +192,8 @@ GEM
       dotenv (= 2.7.6)
       railties (>= 3.2)
     erubi (1.12.0)
+    et-orbi (1.2.7)
+      tzinfo
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
@@ -222,6 +223,9 @@ GEM
     ffi (1.15.5)
     foreman (0.87.2)
     formatador (0.3.0)
+    fugit (1.8.1)
+      et-orbi (~> 1, >= 1.2.7)
+      raabro (~> 1.4)
     globalid (1.1.0)
       activesupport (>= 5.0)
     govuk_design_system_formbuilder (3.3.0)
@@ -350,6 +354,7 @@ GEM
     public_suffix (4.0.6)
     puma (4.3.12)
       nio4r (~> 2.0)
+    raabro (1.4.0)
     racc (1.6.2)
     rack (2.2.6.4)
     rack-test (2.1.0)
@@ -453,6 +458,8 @@ GEM
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
+    rufus-scheduler (3.8.2)
+      fugit (~> 1.1, >= 1.1.6)
     selenium-webdriver (4.8.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
@@ -463,6 +470,10 @@ GEM
       connection_pool (>= 2.3.0)
       rack (>= 2.2.4)
       redis-client (>= 0.11.0)
+    sidekiq-scheduler (5.0.2)
+      rufus-scheduler (~> 3.2)
+      sidekiq (>= 6, < 8)
+      tilt (>= 1.4.0)
     smart_properties (1.17.0)
     sprockets (4.2.0)
       concurrent-ruby (~> 1.0)
@@ -479,6 +490,7 @@ GEM
     terminal-table (3.0.2)
       unicode-display_width (>= 1.1.1, < 3)
     thor (1.2.1)
+    tilt (2.1.0)
     timeout (0.3.2)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -507,8 +519,6 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    whenever (1.0.0)
-      chronic (>= 0.6.3)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.6.7)
@@ -569,6 +579,7 @@ DEPENDENCIES
   rubocop-rspec
   selenium-webdriver
   sidekiq
+  sidekiq-scheduler
   sprockets-rails
   stimulus-rails
   strong_password (~> 0.0.9)
@@ -576,7 +587,6 @@ DEPENDENCIES
   web-console
   webdrivers
   webmock
-  whenever
 
 BUNDLED WITH
    2.3.26

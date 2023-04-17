@@ -23,6 +23,7 @@ services:
         target: /var/lib/redis/data
 
   sidekiq:
+    entrypoint: ./docker-entrypoint.sh
     depends_on:
       - redis
     build: .
