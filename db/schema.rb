@@ -189,11 +189,26 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_18_103900) do
     t.bigint "additional_document_validation_request_id"
     t.bigint "replacement_document_validation_request_id"
     t.boolean "redacted", default: false, null: false
+    t.bigint "evidence_group_id"
     t.index ["additional_document_validation_request_id"], name: "ix_documents_on_additional_document_validation_request_id"
     t.index ["api_user_id"], name: "ix_documents_on_api_user_id"
+    t.index ["evidence_group_id"], name: "ix_documents_on_evidence_group_id"
     t.index ["planning_application_id"], name: "index_documents_on_planning_application_id"
     t.index ["replacement_document_validation_request_id"], name: "ix_documents_on_replacement_document_validation_request_id"
     t.index ["user_id"], name: "ix_documents_on_user_id"
+  end
+
+  create_table "evidence_groups", force: :cascade do |t|
+    t.integer "tag"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.boolean "missing_evidence"
+    t.string "missing_evidence_entry"
+    t.string "applicant_comment"
+    t.bigint "immunity_detail_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["immunity_detail_id"], name: "ix_evidence_groups_on_immunity_detail_id"
   end
 
   create_table "immunity_details", force: :cascade do |t|
@@ -509,6 +524,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_18_103900) do
   add_foreign_key "description_change_validation_requests", "users"
   add_foreign_key "documents", "additional_document_validation_requests"
   add_foreign_key "documents", "api_users"
+  add_foreign_key "documents", "evidence_groups"
   add_foreign_key "documents", "replacement_document_validation_requests"
   add_foreign_key "documents", "users"
   add_foreign_key "notes", "planning_applications"

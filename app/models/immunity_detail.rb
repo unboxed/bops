@@ -2,6 +2,7 @@
 
 class ImmunityDetail < ApplicationRecord
   belongs_to :planning_application
+  has_many :evidence_groups, dependent: :destroy
 
   has_many :review_immunity_details, dependent: :destroy
 
