@@ -23,7 +23,7 @@ class PlanningApplication
 
     def update
       @immunity_detail.assign_attributes(
-        review_status: status, reviewer: current_user, reviewed_at: Time.current
+        review_status: status
       )
 
       respond_to do |format|

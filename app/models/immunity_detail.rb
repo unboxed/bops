@@ -3,6 +3,8 @@
 class ImmunityDetail < ApplicationRecord
   belongs_to :planning_application
 
+  has_many :review_immunity_details, dependent: :destroy
+
   enum(
     status: {
       not_started: "not_started",
@@ -17,11 +19,6 @@ class ImmunityDetail < ApplicationRecord
     review_in_progress: "review_in_progress",
     review_complete: "review_complete"
   }
-
-  with_options class_name: "User", optional: true do
-    belongs_to :assessor
-    belongs_to :reviewer
-  end
 
   with_options presence: true do
     validates :status, :review_status
