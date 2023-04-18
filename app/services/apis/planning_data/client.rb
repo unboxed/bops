@@ -9,7 +9,7 @@ module Apis
       TIMEOUT = 5
 
       def call(reference)
-        faraday.get("/entity.json?reference=#{reference}") do |request|
+        faraday.get("/entity.json?reference=#{reference}&dataset=local-authority") do |request|
           request.options[:timeout] = TIMEOUT
         end
       end
