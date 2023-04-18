@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PlanningApplication
-  class PermittedDevelopmentRightsController < AuthenticationController
+  class PermittedDevelopmentRightsController < AuthenticationController # rubocop:disable Metrics/ClassLength
     include CommitMatchable
     include PlanningApplicationAssessable
     include PermittedDevelopmentRights
@@ -13,6 +13,7 @@ class PlanningApplication
     before_action :set_permitted_development_right, only: %i[show edit update]
     before_action :set_permitted_development_rights, only: %i[new show edit]
     before_action :ensure_permitted_development_right_is_editable, only: %i[edit update]
+    before_action :set_review_immunity_detail_and_form, only: %i[new]
 
     def show
       respond_to do |format|
@@ -35,14 +36,13 @@ class PlanningApplication
     end
 
     def create
-      @permitted_development_right = @planning_application.permitted_development_rights.new(
-        permitted_development_right_params
-      ).tap do |record|
-        record.status = status
-        record.assessor = current_user
-      end
+      form = if @planning_application.possibly_immune?
+               new_review_immunity_detail_permitted_development_right
+             else
+               new_permitted_development_right
+             end
 
-      if @permitted_development_right.save
+      if form.save
         redirect_to planning_application_assessment_tasks_path(@planning_application),
                     notice: I18n.t("permitted_development_rights.successfully_created")
       else
@@ -87,6 +87,14 @@ class PlanningApplication
       params.require(:permitted_development_right).permit(:removed, :removed_reason)
     end
 
+    def review_immunity_detail_permitted_development_right_form_params
+      params.require(:review_immunity_detail_permitted_development_right_form).permit(
+        review_immunity_detail: %i[decision decision_reason yes_decision_reason no_decision_reason decision_type
+                                   summary],
+        permitted_development_right: %i[removed removed_reason]
+      )
+    end
+
     def status
       return "in_progress" if save_progress?
 
@@ -108,6 +116,32 @@ class PlanningApplication
 
     def redirect_failed_create_error(error)
       redirect_to planning_application_assessment_tasks_path(@planning_application), alert: error.message
+    end
+
+    def set_review_immunity_detail_and_form
+      return unless @planning_application.possibly_immune?
+
+      @review_immunity_detail = @planning_application.immunity_detail.review_immunity_details.new
+
+      @form = ReviewImmunityDetailPermittedDevelopmentRightForm.new(
+        planning_application: @planning_application
+      )
+    end
+
+    def new_review_immunity_detail_permitted_development_right
+      @form = ReviewImmunityDetailPermittedDevelopmentRightForm.new(
+        planning_application: @planning_application,
+        params: review_immunity_detail_permitted_development_right_form_params
+      )
+    end
+
+    def new_permitted_development_right
+      @permitted_development_right = @planning_application.permitted_development_rights.new(
+        permitted_development_right_params
+      ).tap do |record|
+        record.status = status
+        record.assessor = current_user
+      end
     end
   end
 end

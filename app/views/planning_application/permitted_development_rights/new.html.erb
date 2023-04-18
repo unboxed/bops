@@ -24,6 +24,10 @@
 
     <%= render "previous", permitted_development_rights: @permitted_development_rights %>
 
-    <%= render "form", planning_application: @planning_application %>
+    <% if @planning_application.possibly_immune? %>
+      <%= render "review_immunity_detail_form", planning_application: @planning_application %>
+    <% else %>
+      <%= render "form", planning_application: @planning_application %>
+    <% end %>
   </div>
 </div>
