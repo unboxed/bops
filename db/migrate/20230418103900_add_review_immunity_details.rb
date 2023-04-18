@@ -3,7 +3,7 @@
 class AddReviewImmunityDetails < ActiveRecord::Migration[7.0]
   def up
     create_table :review_immunity_details do |t|
-      t.references :immunity_details
+      t.references :immunity_detail
       t.references :assessor, foreign_key: { to_table: :users }
       t.references :reviewer, foreign_key: { to_table: :users }
       t.string :decision

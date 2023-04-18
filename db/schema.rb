@@ -433,7 +433,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_18_103900) do
   end
 
   create_table "review_immunity_details", force: :cascade do |t|
-    t.bigint "immunity_details_id"
+    t.bigint "immunity_detail_id"
     t.bigint "assessor_id"
     t.bigint "reviewer_id"
     t.string "decision"
@@ -445,7 +445,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_18_103900) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["assessor_id"], name: "ix_review_immunity_details_on_assessor_id"
-    t.index ["immunity_details_id"], name: "ix_review_immunity_details_on_immunity_details_id"
+    t.index ["immunity_detail_id"], name: "ix_review_immunity_details_on_immunity_detail_id"
     t.index ["reviewer_id"], name: "ix_review_immunity_details_on_reviewer_id"
   end
 
