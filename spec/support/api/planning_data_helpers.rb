@@ -4,7 +4,7 @@ module PlanningDataHelper
   BASE_URL = "https://www.planning.data.gov.uk"
 
   def stub_planning_data_api_request_for(reference)
-    stub_request(:get, "#{BASE_URL}/entity.json?reference=#{reference}")
+    stub_request(:get, "#{BASE_URL}/entity.json?reference=#{reference}&dataset=local-authority")
   end
 
   def planning_data_api_response(status, body = "LBH")
