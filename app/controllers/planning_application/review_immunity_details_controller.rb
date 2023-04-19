@@ -65,7 +65,7 @@ class PlanningApplication
     end
 
     def return_to_officer?
-      params.dig(:immunity_detail, :accepted) == "return_to_officer_with_comment"
+      params.dig(:review_immunity_detail, :accepted) == "false"
     end
   end
 end
