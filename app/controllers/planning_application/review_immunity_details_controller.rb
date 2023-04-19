@@ -23,10 +23,11 @@ class PlanningApplication
     end
 
     def update
-      @immunity_detail.assign_attributes(review_status:,)
+      @immunity_detail.assign_attributes(review_status:)
 
       respond_to do |format|
-        if @immunity_detail.update(status: immunity_detail_status) && @review_immunity_detail.update(review_immunity_detail_params)
+        if @immunity_detail.update(status: immunity_detail_status) &&
+           @review_immunity_detail.update(review_immunity_detail_params)
           format.html do
             redirect_to planning_application_review_tasks_path(@planning_application),
                         notice: I18n.t("immunity_details.successfully_updated")

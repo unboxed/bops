@@ -22,12 +22,7 @@ module TaskListItems
         new_planning_application_immunity_detail_path(
           planning_application
         )
-      when :in_progress
-        edit_planning_application_immunity_detail_path(
-          planning_application,
-          immunity_detail
-        )
-      when :to_be_reviewed
+      when :in_progress, :to_be_reviewed
         edit_planning_application_immunity_detail_path(
           planning_application,
           immunity_detail

@@ -21,7 +21,8 @@ module TaskListItems
     end
 
     def link_path
-      if immunity_detail.current_review_immunity_detail.reviewed_at.present? && immunity_detail.review_status == "review_complete"
+      if immunity_detail.current_review_immunity_detail.reviewed_at.present? &&
+         immunity_detail.review_status == "review_complete"
         planning_application_review_immunity_detail_path(
           planning_application,
           review_immunity_detail
@@ -37,7 +38,7 @@ module TaskListItems
     def status_tag_component
       StatusTags::ImmunityDetailReviewComponent.new(
         planning_application:,
-        review_immunity_detail: review_immunity_detail
+        review_immunity_detail:
       )
     end
   end

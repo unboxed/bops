@@ -12,9 +12,11 @@ module StatusTags
     attr_reader :planning_application, :review_immunity_detail
 
     def status
-      if review_immunity_detail.reviewed_at.present? && review_immunity_detail.immunity_detail.review_status == "review_complete"
+      if review_immunity_detail.reviewed_at.present? &&
+         review_immunity_detail.immunity_detail.review_status == "review_complete"
         :complete
-      elsif review_immunity_detail.reviewed_at.present? && review_immunity_detail.immunity_detail.review_status == "review_in_progress"
+      elsif review_immunity_detail.reviewed_at.present? &&
+            review_immunity_detail.immunity_detail.review_status == "review_in_progress"
         :in_progress
       else
         :not_started

@@ -17,7 +17,7 @@ class ReviewImmunityDetail < ApplicationRecord
 
   validates :decision, inclusion: { in: DECISIONS }
 
-  scope :not_accepted, ->() { where(accepted: false).order(created_at: :asc) }
+  scope :not_accepted, -> { where(accepted: false).order(created_at: :asc) }
 
   def decision_is_immune?
     decision == "Yes"
