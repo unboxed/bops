@@ -10,6 +10,12 @@
     <%= render(FormattedContentComponent.new(text: past_applications.additional_information)) %>
   </section>
 <% end %>
+<% if planning_application.possibly_immune? %>
+  <section id="immunity-section" class="govuk-!-padding-bottom-5">
+    <h3 class="govuk-heading-s"><%= t(".immunity_from_enforcement") %></h3>
+    <%= render(PlanningApplications::ImmunityDetailsComponent.new(immunity_details: planning_application.immune_proposal_details)) %>
+  </section>
+<% end %>
 <% if permitted_development_right %>
   <section id="permitted-development-rights-section" class="govuk-!-padding-bottom-5">
     <h3 class="govuk-heading-s"><%= t(".have_the_permitted_development_rights") %></h3>

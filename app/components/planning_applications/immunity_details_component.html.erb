@@ -1,6 +1,6 @@
-<h3 class="govuk-heading-s govuk-!-margin-top-5 govuk-!-margin-bottom-1">Applicant information</h3>
+<h3 class="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-margin-top-5">Applicant information</h3>
 <ul class="govuk-body immunity-details-sub-list">
-  <% @planning_application.immune_proposal_details.each do |proposal_detail| %>
+  <% immunity_details.each do |proposal_detail| %>
     <li>
       <%= proposal_detail.question %> 
       <% proposal_detail.response_values.each do |response_value| %>
