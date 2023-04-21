@@ -327,6 +327,8 @@ RSpec.describe "Permitted development right" do
     end
 
     context "when planning application may be immune" do
+      let!(:planning_application) { create(:planning_application, :from_planx_immunity, :in_assessment, local_authority: default_local_authority) }
+
       it "I can view the information on the permitted development rights page" do
         create(:immunity_detail, planning_application:)
 
@@ -353,18 +355,12 @@ RSpec.describe "Permitted development right" do
         expect(page).to have_content("Application number: #{planning_application.reference}")
         expect(page).to have_content(planning_application.full_address)
 
-        within(".govuk-warning-text") do
-          expect(page).to have_content("This information will be made publicly available.")
-        end
-
-        within("#constraints-section") do
-          expect(page).to have_content("Constraints - including Article 4 direction(s)")
-          expect(page).to have_content("There are no planning constraints on the application site.")
-        end
-
-        within("#planning-history-section") do
-          expect(page).to have_content("Planning history")
-        end
+        expect(page).to have_content("Immunity from enforcement")
+        expect(page).to have_content("Were the works carried out more than 4 years ago? Yes")
+        expect(page).to have_content("Have the works been completed? Yes")
+        expect(page).to have_content("When were the works completed? 01/02/2015")
+        expect(page).to have_content("Has anyone ever attempted to conceal the changes? No")
+        expect(page).to have_content("Has enforcement action been taken about these changes? No")
       end
     end
   end
@@ -589,6 +585,8 @@ RSpec.describe "Permitted development right" do
     end
 
     context "when planning application may be immune" do
+      let!(:planning_application) { create(:planning_application, :from_planx_immunity, :awaiting_determination, local_authority: default_local_authority) }
+
       it "I can view the information on the review permitted development rights page" do
         create(:immunity_detail, planning_application:)
 
@@ -614,15 +612,12 @@ RSpec.describe "Permitted development right" do
         expect(page).to have_content("Application number: #{planning_application.reference}")
         expect(page).to have_content(planning_application.full_address)
 
-        expect(page).to have_content("Constraints and history")
-
-        within("#constraints-section") do
-          expect(page).to have_content("Constraints")
-        end
-
-        within("#planning-history-section") do
-          expect(page).to have_content("Historical information related to the property or to adjoining properties")
-        end
+        expect(page).to have_content("Immunity from enforcement")
+        expect(page).to have_content("Were the works carried out more than 4 years ago? Yes")
+        expect(page).to have_content("Have the works been completed? Yes")
+        expect(page).to have_content("When were the works completed? 01/02/2015")
+        expect(page).to have_content("Has anyone ever attempted to conceal the changes? No")
+        expect(page).to have_content("Has enforcement action been taken about these changes? No")
       end
     end
   end
