@@ -588,7 +588,8 @@ RSpec.describe "Permitted development right" do
       let!(:planning_application) { create(:planning_application, :from_planx_immunity, :awaiting_determination, local_authority: default_local_authority) }
 
       it "I can view the information on the review permitted development rights page" do
-        create(:immunity_detail, planning_application:)
+        immunity_detail = create(:immunity_detail, planning_application:)
+        create(:review_immunity_detail, immunity_detail:)
 
         click_link "Review and sign-off"
 

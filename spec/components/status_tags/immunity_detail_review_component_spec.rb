@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe StatusTags::ImmunityDetailReviewComponent, type: :component do
   let(:planning_application) { create(:planning_application) }
 
-  context "when review_status is 'review_complete'" do
+  context "when review is complete" do
     let(:immunity_detail) do
       create(
         :immunity_detail,
@@ -14,10 +14,18 @@ RSpec.describe StatusTags::ImmunityDetailReviewComponent, type: :component do
       )
     end
 
+    let(:review_immunity_detail) do
+      create(
+        :review_immunity_detail,
+        immunity_detail:,
+        reviewed_at: 1.day.ago
+      )
+    end
+
     before do
       render_inline(
         described_class.new(
-          immunity_detail:,
+          review_immunity_detail:,
           planning_application:
         )
       )
@@ -28,7 +36,7 @@ RSpec.describe StatusTags::ImmunityDetailReviewComponent, type: :component do
     end
   end
 
-  context "when review_status is 'review_in_progress'" do
+  context "when review is in progress" do
     let(:immunity_detail) do
       create(
         :immunity_detail,
@@ -37,10 +45,18 @@ RSpec.describe StatusTags::ImmunityDetailReviewComponent, type: :component do
       )
     end
 
+    let(:review_immunity_detail) do
+      create(
+        :review_immunity_detail,
+        immunity_detail:,
+        reviewed_at: 1.day.ago
+      )
+    end
+
     before do
       render_inline(
         described_class.new(
-          immunity_detail:,
+          review_immunity_detail:,
           planning_application:
         )
       )
@@ -51,7 +67,7 @@ RSpec.describe StatusTags::ImmunityDetailReviewComponent, type: :component do
     end
   end
 
-  context "when review_status is 'review_not_started'" do
+  context "when review is not started" do
     let(:immunity_detail) do
       create(
         :immunity_detail,
@@ -60,10 +76,17 @@ RSpec.describe StatusTags::ImmunityDetailReviewComponent, type: :component do
       )
     end
 
+    let(:review_immunity_detail) do
+      create(
+        :review_immunity_detail,
+        immunity_detail:
+      )
+    end
+
     before do
       render_inline(
         described_class.new(
-          immunity_detail:,
+          review_immunity_detail:,
           planning_application:
         )
       )
