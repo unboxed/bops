@@ -4,6 +4,7 @@ class Document < ApplicationRecord
   class NotArchiveableError < StandardError; end
 
   belongs_to :planning_application
+  belongs_to :evidence_group, optional: true
 
   delegate :audits, to: :planning_application
   delegate :representable?, to: :file

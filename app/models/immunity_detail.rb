@@ -2,6 +2,7 @@
 
 class ImmunityDetail < ApplicationRecord
   belongs_to :planning_application
+  has_many :evidence_groups, dependent: :destroy
 
   has_many :review_immunity_details, dependent: :destroy
 
@@ -26,5 +27,13 @@ class ImmunityDetail < ApplicationRecord
 
   def update_required?
     complete? && !accepted
+  end
+
+  def add_document(document)
+    tag = document.tags.intersection(Document::EVIDENCE_TAGS).first.delete(" ").underscore
+    evidence_group = evidence_groups.find_or_create_by(tag:)
+    evidence_group.documents << document
+    # TODO: update start/end date?
+    evidence_group.save!
   end
 end
