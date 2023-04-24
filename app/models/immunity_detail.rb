@@ -3,8 +3,12 @@
 class ImmunityDetail < ApplicationRecord
   belongs_to :planning_application
   has_many :evidence_groups, dependent: :destroy
+  has_many :comments, as: :commentable, through: :evidence_groups, dependent: :destroy
 
   has_many :review_immunity_details, dependent: :destroy
+
+  accepts_nested_attributes_for :evidence_groups
+  accepts_nested_attributes_for :comments
 
   enum(
     status: {

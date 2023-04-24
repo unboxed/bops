@@ -18,6 +18,11 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render(PlanningApplications::ImmunityDetailsComponent.new(immunity_details: @planning_application.immune_proposal_details)) %>
 
-    <%#= render "applicant_answers", planning_application: @planning_application %>
+    <%= render(
+      EvidenceGroups::AccordionComponent.new(
+        planning_application: @planning_application,
+        sections: @planning_application.immunity_detail.evidence_groups
+      )
+    ) %>
   </div>
 </div>

@@ -29,7 +29,7 @@ class PlanningApplication
 
     def update
       respond_to do |format|
-        if @immunity_detail.update(immunity_details_params)
+        if @immunity_detail.update!(immunity_details_params)
           format.html do
             redirect_to planning_application_assessment_tasks_path(@planning_application),
                         notice: I18n.t("assessment_details.immunity_detail_successfully_updated")
@@ -61,7 +61,9 @@ class PlanningApplication
     end
 
     def immunity_details_params
-      params.permit.merge(status:)
+      params.require(:immunity_detail)
+        .permit(evidence_groups_attributes: [:id, :start_date, :end_date, :missing_evidence, :missing_evidence_entry, { comments_attributes: [:text] }])
+        .merge(status:)
     end
 
     def status
