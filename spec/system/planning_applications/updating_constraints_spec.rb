@@ -40,5 +40,13 @@ RSpec.describe "updating constraints" do
     click_button("Audit log")
 
     expect(page).to have_content("Constraint added")
+
+    visit(planning_application_assessment_tasks_path(planning_application))
+    click_link("Check description, documents and proposal details")
+    expect(page).to have_content("This application has been updated. Please check the constraints are correct.")
+
+    visit(planning_application_assessment_tasks_path(planning_application))
+    click_button("Pre-assessment outcome")
+    expect(page).to have_content("This application has been updated. Please check the constraints are correct.")
   end
 end

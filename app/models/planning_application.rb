@@ -557,6 +557,10 @@ class PlanningApplication < ApplicationRecord
     immunity_detail.present?
   end
 
+  def address_or_boundary_or_constraints_updated?
+    updated_address_or_boundary_geojson || changed_constraints.present?
+  end
+
   private
 
   def set_reference

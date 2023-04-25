@@ -8,7 +8,7 @@
   </p>
 <% end %>
 <% if planning_application.boundary_geojson.present? %>
-  <% if planning_application.updated_address_or_boundary_geojson %>
+  <% if planning_application.address_or_boundary_or_constraints_updated? %>
     <%= render(
       partial: "shared/warning_text",
       locals: { message: t(".this_application_has") }
