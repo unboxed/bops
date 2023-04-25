@@ -56,6 +56,13 @@ class Document < ApplicationRecord
     "Other"
   ].freeze
 
+  EVIDENCE_QUESTIONS = {
+    "utility_bill": [
+    "What do these utility bills show?",
+    "What date do these utility bills start from?",
+    "What date do these utility bills run until?"]
+  }
+
   TAGS = PLAN_TAGS + EVIDENCE_TAGS
 
   PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"].freeze

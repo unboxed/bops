@@ -10,7 +10,11 @@
           <h3 class="govuk-accordion__section-heading">
             <button type="button" class="govuk-accordion__section-button" id="accordion-default-heading-<%= "#{section}" %>">
               <%= section.tag.humanize.pluralize %> (<%= section.documents.count %>)<br>
-              <%= section.start_date&.to_formatted_s(:day_month_year_slashes) %> to <%= section.end_date&.to_formatted_s(:day_month_year_slashes) %>
+              <% if section.start_date.present? && section.end_date.present? %>
+                <%= section.start_date&.to_formatted_s(:day_month_year_slashes) %> to <%= section.end_date&.to_formatted_s(:day_month_year_slashes) %>
+              <% else %>
+                <%= section.start_date&.to_formatted_s(:day_month_year_slashes) %>
+              <% end %>
             </button>
             <span class="govuk-accordion__icon"></span>
           </h3>
@@ -32,7 +36,7 @@
                   "Request a new document",
                   new_planning_application_additional_document_validation_request_path(@planning_application),
                   role: "button",
-                  class: "govuk-link govuk-!-margin-top-3",
+                  class: "govuk-link govuk-!-margin-top-",
                   data: { module: "govuk-button" }
                 ) %>
               <% end %>
@@ -43,13 +47,12 @@
               <%= section.applicant_comment %>
             </p>
 
-            <% section.documents.each do |document| %>
-              <%= render(
-                EvidenceGroups::DocumentsComponent.new(
-                  documents: section.documents
-                )
-              ) %>
-            <% end %>
+            <%= render(
+              EvidenceGroups::DocumentsComponent.new(
+                documents: section.documents
+              )
+            ) %>
+
             <hr>
             <% section.comments.each do |comment| %>
               <p><%= comment.text %></p>

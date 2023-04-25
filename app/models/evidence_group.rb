@@ -27,7 +27,6 @@ class EvidenceGroup < ApplicationRecord
     last_comment unless last_comment&.deleted?
   end
 
-
   private
 
   def last_comment
