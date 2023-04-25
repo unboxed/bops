@@ -350,6 +350,51 @@ FactoryBot.define do
           },
           {
             responses: [{
+              value: "that it was certified"
+            }],
+            metadata: {
+              portal_name: "certificate-of-lawfulness-documents-immunity"
+            },
+            question: "What do these building control certificates show?"
+          },
+          {
+            responses: [{
+              value: "2016-02-01"
+            }],
+            metadata: {
+              portal_name: "certificate-of-lawfulness-documents-immunity"
+            },
+            question: "When was this building control certificate issued?"
+          },
+          {
+            responses: [{
+              value: "2013-03-02"
+            }],
+            metadata: {
+              portal_name: "certificate-of-lawfulness-documents-immunity"
+            },
+            question: "What date do these utility bills start from?"
+          },
+          {
+            responses: [{
+              value: "2019-04-01"
+            }],
+            metadata: {
+              portal_name: "certificate-of-lawfulness-documents-immunity"
+            },
+            question: "What date do these utility bills run until?"
+          },
+          {
+            responses: [{
+              value: "That i was paying water bills"
+            }],
+            metadata: {
+              portal_name: "certificate-of-lawfulness-documents-immunity"
+            },
+            question: "What do these utility bills show?"
+          },
+          {
+            responses: [{
               value: "2015-02-01"
             }],
             metadata: {

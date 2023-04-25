@@ -16,4 +16,8 @@ module SystemSpecHelpers
   def find_checkbox_by_id(id)
     find(".govuk-checkboxes__item ##{id}")
   end
+
+  def open_accordion_section
+    find(:xpath, "//*[@class='govuk-accordion__section govuk-accordion__section--expanded']")
+  end
 end

@@ -50,7 +50,7 @@
 			"metadata": {
 				"portal_name": "_root",
 				"policy_refs": [{
-					"text": "Town and Country Planning Act 1990, Part 7, Section 191 & Section 192"
+					"text": "Town and Country Planning Act 1990, Part 7, Section 191 &amp; Section 192"
 				}]
 			},
 			"question": "What are you applying about?"
@@ -867,6 +867,51 @@
 		},
 		{
 			"responses": [{
+				"value": "2013-03-02"
+			}],
+			"metadata": {
+				"portal_name": "certificate-of-lawfulness-documents-immunity"
+			},
+			"question": "What date do these utility bills start from?"
+		},
+    {
+			"responses": [{
+				"value": "2019-04-01"
+			}],
+			"metadata": {
+				"portal_name": "certificate-of-lawfulness-documents-immunity"
+			},
+			"question": "What date do these utility bills run until?"
+		},
+    {
+			"responses": [{
+				"value": "That i was paying water bills"
+			}],
+			"metadata": {
+				"portal_name": "certificate-of-lawfulness-documents-immunity"
+			},
+			"question": "What do these utility bills show?"
+		},
+    {
+			"responses": [{
+				"value": "2016-02-01"
+			}],
+			"metadata": {
+				"portal_name": "certificate-of-lawfulness-documents-immunity"
+			},
+			"question": "When was this building control certificate issued?"
+		},
+    {
+			"responses": [{
+				"value": "that it was certified"
+			}],
+			"metadata": {
+				"portal_name": "certificate-of-lawfulness-documents-immunity"
+			},
+			"question": "What do these building control certificates show?"
+		},
+		{
+			"responses": [{
 				"value": "No"
 			}],
 			"metadata": {
@@ -881,12 +926,25 @@
 		"protected_trees": false
 	},
 	"files": [{
-		"filename": "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
-		"applicant_description": "This is the side plan",
-		"tags": [
-			"Side"
-		]
-	}],
+			"filename": "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
+			"tags": [
+				"Utility Bill"
+			]
+		},
+		{
+			"filename": "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
+			"tags": [
+				"Utility Bill"
+			]
+		}
+,
+		{
+			"filename": "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
+			"tags": [
+				"Building Control Certificate"
+			]
+		}
+	],
 	"boundary_geojson": {
 		"type": "Feature",
 		"geometry": {
