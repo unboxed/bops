@@ -35,14 +35,15 @@ class ImmunityDetailsCreationService
 
     @planning_application.immunity_detail.evidence_groups.each do |eg|
       Document::EVIDENCE_QUESTIONS[eg.tag.to_sym].each do |question|
-        if question.include? "show"
+        case question
+        when /show/
           eg.applicant_comment = @planning_application.find_proposal_detail(question).first.response_values.first
-        elsif (question.include?("start") || question.include?("issued"))
+        when /(start|issued)/
           eg.start_date = @planning_application.find_proposal_detail(question).first.response_values.first
-        elsif question.include? "run"
+        when /run/
           eg.end_date = @planning_application.find_proposal_detail(question).first.response_values.first
         end
-        eg.save
+        eg.save!
       end
     end
   end
