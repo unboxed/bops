@@ -1,5 +1,5 @@
 <div class="govuk-button-group">
-  <% if id %>
+  <% if local_assigns.fetch(:id, nil) %>
     <%= form.submit(
       t("form_actions.save_and_mark_as_complete"),
       class: "govuk-button",
@@ -15,7 +15,7 @@
       form: id
     ) %>
   <% else %>
-     <%= form.submit(
+    <%= form.submit(
       t("form_actions.save_and_mark_as_complete"),
       class: "govuk-button",
       data: { module: "govuk-button" },
@@ -25,8 +25,7 @@
       t("form_actions.save_and_come_back_later"),
       class: "govuk-button govuk-button--secondary",
       data: { module: "govuk-button" },
-      disabled: local_assigns.fetch(:disabled, false),
-      form: id
+      disabled: local_assigns.fetch(:disabled, false)
     ) %>
   <% end %>
   <%= back_link %>
