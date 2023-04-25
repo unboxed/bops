@@ -21,24 +21,29 @@
         </div>
         <div class="govuk-accordion__section-content">
           <%= form.fields_for :evidence_groups, section do |ff| %>
+            <% if section.start_date.present? %>
+              <%= ff.govuk_date_field :start_date, legend: { text: "Starts from" } %>
+            <% end %>
 
-            <%= ff.govuk_date_field :start_date, legend: { text: "Starts from" } %>
+            <% if section.end_date.present? %>
+              <%= ff.govuk_date_field :end_date, legend: { text: "Runs until" } %>
+            <% end %>
 
-            <%= ff.govuk_date_field :end_date, legend: { text: "Runs until" } %>
-
-            <%= ff.govuk_check_boxes_fieldset :missing_evidence, multiple: false, legend: nil do %>
-              <%= ff.govuk_check_box :missing_evidence, 1, 0, multiple: false, label: { text: "Missing evidence (gap in time)" } do %>
-                <%= ff.govuk_text_field(
-                  :missing_evidence_entry, 
-                  label: { text: "List all the gap(s) in time" }
-                ) %>
-                <%= link_to(
-                  "Request a new document",
-                  new_planning_application_additional_document_validation_request_path(@planning_application),
-                  role: "button",
-                  class: "govuk-link govuk-!-margin-top-",
-                  data: { module: "govuk-button" }
-                ) %>
+            <% if section.end_date.present? || section.start_date.present? %>
+              <%= ff.govuk_check_boxes_fieldset :missing_evidence, multiple: false, legend: nil do %>
+                <%= ff.govuk_check_box :missing_evidence, 1, 0, multiple: false, label: { text: "Missing evidence (gap in time)" } do %>
+                  <%= ff.govuk_text_field(
+                    :missing_evidence_entry, 
+                    label: { text: "List all the gap(s) in time" }
+                  ) %>
+                  <%= link_to(
+                    "Request a new document",
+                    new_planning_application_additional_document_validation_request_path(@planning_application),
+                    role: "button",
+                    class: "govuk-link govuk-!-margin-top-",
+                    data: { module: "govuk-button" }
+                  ) %>
+                <% end %>
               <% end %>
             <% end %>
 
