@@ -12,6 +12,7 @@ class ImmunityDetailsCreationService
       immunity_detail.save!
     end
     create_evidence_groups
+    fill_in_evidence_group_information
   rescue ActiveRecord::RecordInvalid, NoMethodError => e
     Appsignal.send_error(e)
   end
@@ -32,7 +33,9 @@ class ImmunityDetailsCreationService
         @planning_application.immunity_detail.add_document(doc)
       end
     end
+  end
 
+  def fill_in_evidence_group_information # rubocop:disable Metrics/AbcSize
     @planning_application.immunity_detail.evidence_groups.each do |eg|
       Document::EVIDENCE_QUESTIONS[eg.tag.to_sym].each do |question|
         case question

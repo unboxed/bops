@@ -8,7 +8,7 @@ module EvidenceGroups
 
     attr_reader :documents
 
-    private 
+    private
 
     def url_for_document(document)
       if document.published?

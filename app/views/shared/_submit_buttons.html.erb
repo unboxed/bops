@@ -1,5 +1,5 @@
 <div class="govuk-button-group">
-  <% if local_assigns.fetch(:id, nil) %>
+  <% if local_assigns.fetch(:id) %>
     <%= form.submit(
       t("form_actions.save_and_mark_as_complete"),
       class: "govuk-button",

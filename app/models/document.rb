@@ -58,39 +58,39 @@ class Document < ApplicationRecord
 
   ## Needs to be better
   EVIDENCE_QUESTIONS = {
-    "utility_bill": [
-    "What do these utility bills show?",
-    "What date do these utility bills start from?",
-    "What date do these utility bills run until?"
+    utility_bill: [
+      "What do these utility bills show?",
+      "What date do these utility bills start from?",
+      "What date do these utility bills run until?"
     ],
-    "photograph": ["What do these photographs show?"],
-    "building_control_certificate": [
+    photograph: ["What do these photographs show?"],
+    building_control_certificate: [
       "When was this building control certificate issued?",
       "What do these building control certificates show?"
     ],
-    "construction_invoice": ["What do these construction invoices show?"],
-    "council_task_document": [
+    construction_invoice: ["What do these construction invoices show?"],
+    council_task_document: [
       "What date do these council tax bills start from?",
       "When do these councils tax bills run until?",
       "What do these Council Tax documents show?"
     ],
-    "tenancy_agreement": [
+    tenancy_agreement: [
       "What date do these tenancy agreements start from?",
       "When do these tenancy agreements run until?",
       "What do these tenancy agreements show?"
     ],
-    "tenancy_invoice": [
+    tenancy_invoice: [
       "What date do these tenancy invoices start from?",
       "When do these tenancy invoices run until?",
       "What do these tenancy invoices show?"
     ],
-    "bank_statement": [
+    bank_statement: [
       "What date do these bank statements start from?",
       "When do these bank statements run until?",
       "What do these bank statements show?"
     ],
-    "other": ["What do these documents show?"] 
-  }
+    other: ["What do these documents show?"]
+  }.freeze
 
   TAGS = PLAN_TAGS + EVIDENCE_TAGS
 
