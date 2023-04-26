@@ -2,6 +2,8 @@
 
 module EvidenceGroups
   class AccordionComponent < ViewComponent::Base
+    include ApplicationHelper
+
     def initialize(planning_application:, sections: default_sections)
       @planning_application = planning_application
       @sections = sections

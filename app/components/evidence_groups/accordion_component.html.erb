@@ -85,5 +85,19 @@
 </div>
 
 <%= form_with model: [@planning_application, @planning_application.immunity_detail] do |form| %>
-  <%= render(partial: "shared/submit_buttons", locals: { form: form, id: "immunity-detail-evidence-groups" }) %>
+  <div class="govuk-button-group">
+    <%= form.submit(
+      t("form_actions.save_and_mark_as_complete"),
+      class: "govuk-button",
+      data: { module: "govuk-button" },
+      form: "immunity-detail-evidence-groups"
+    ) %>
+    <%= form.submit(
+      t("form_actions.save_and_come_back_later"),
+      class: "govuk-button govuk-button--secondary",
+      data: { module: "govuk-button" },
+      form: "immunity-detail-evidence-groups"
+    ) %>
+    <%= back_link %>
+  </div>
 <% end %>
