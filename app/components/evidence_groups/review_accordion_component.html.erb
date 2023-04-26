@@ -1,0 +1,53 @@
+<div class="govuk-accordion" data-module="govuk-accordion">
+  <% sections.each_with_index do |section, index| %>
+    <div class="govuk-accordion__section">
+      <div class="govuk-accordion__section-header">
+        <h3 class="govuk-accordion__section-heading">
+          <button type="button" class="govuk-accordion__section-button" id="accordion-default-heading-<%= "#{section}" %>">
+            <%= section.tag.humanize.pluralize %> (<%= section.documents.count %>)<br>
+            <% if section.start_date.present? && section.end_date.present? %>
+              <%= section.start_date&.to_formatted_s(:day_month_year_slashes) %> to <%= section.end_date&.to_formatted_s(:day_month_year_slashes) %>
+            <% else %>
+              <%= section.start_date&.to_formatted_s(:day_month_year_slashes) %>
+            <% end %>
+          </button>
+          <span class="govuk-accordion__icon"></span>
+        </h3>
+      </div>
+      <div class="govuk-accordion__section-content">
+        <% if section.start_date.present? %>
+          <p class="govuk-body">Starts from: <%= section.start_date.to_formatted_s(:day_month_year_slashes) %></p>
+        <% end %>
+
+        <% if section.end_date.present? %>
+          <p class="govuk-body">Runs until: <%= section.end_date.to_formatted_s(:day_month_year_slashes) %></p>
+        <% end %>
+
+        <% if section.missing_evidence? %>
+          <p class="govuk-body"><strong>Missing evidence (gap in time): <%= section.missing_evidence_entry %></strong></p>
+        <% end %>
+
+        <p class="govuk-body">
+          <strong>Applicant comment:</strong>
+          <%= section.applicant_comment %>
+        </p>
+
+        <%= render(
+          EvidenceGroups::DocumentsComponent.new(
+            documents: section.documents
+          )
+        ) %>
+
+        <hr>
+        <% section.comments.order(:created_at).each do |comment| %>
+          <p class="govuk-body"><strong>Comment added on <%= comment.created_at.to_formatted_s(:day_month_year_slashes) %>, by <%= comment.user.name %></strong></p>
+          <p class="govuk-body"><%= comment.text %></p>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <hr>
+  <div class="govuk-!-padding-top-6">
+    <%= link_to "Manage documents", planning_application_documents_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+  </div>
+</div>

@@ -86,6 +86,10 @@
       </div>
     <% end %>
   <% end %>
+  <hr>
+  <div class="govuk-!-padding-top-6">
+    <%= link_to "Manage documents", planning_application_documents_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+  </div>
 </div>
 
 <%= form_with model: [@planning_application, @planning_application.immunity_detail] do |form| %>
