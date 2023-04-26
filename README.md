@@ -222,7 +222,7 @@ npm install -g swagger-cli
 and running:
 
 ```
-swagger-cli bundle public/api-docs/v1/swagger_doc.yaml --outfile public/api-docs/v1/_build/swagger_doc.yaml --type yaml
+swagger-cli bundle public/api-docs/v1/swagger_doc.yaml --outfile public/api-docs/v1/_build/swagger_doc.yaml --type yaml --dereference
 ```
 
 ## Javascript
