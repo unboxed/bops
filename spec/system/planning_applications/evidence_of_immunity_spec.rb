@@ -11,16 +11,11 @@ RSpec.describe "Evidence of immunity" do
     create(:planning_application, :in_assessment, :with_immunity, local_authority: default_local_authority)
   end
 
-  let(:evidence_group1) { create(:evidence_group, :with_document, tag: "utility_bill", immunity_detail: planning_application.immunity_detail) }
-  let(:evidence_group2) { create(:evidence_group, :with_document, tag: "building_control_certificate", end_date: nil, immunity_detail: planning_application.immunity_detail) }
-
-  before do
-    sign_in assessor
-    visit planning_application_path(planning_application)
-  end
-
   context "when signed in as an assessor" do
     before do
+      create(:evidence_group, :with_document, tag: "utility_bill", immunity_detail: planning_application.immunity_detail)
+      create(:evidence_group, :with_document, tag: "building_control_certificate", end_date: nil, immunity_detail: planning_application.immunity_detail)
+
       sign_in assessor
       visit planning_application_path(planning_application)
     end
@@ -57,23 +52,24 @@ RSpec.describe "Evidence of immunity" do
         expect(page).to have_content("Has enforcement action been taken about these changes? No")
 
         click_button "Utility bills (1)"
+        utility_bill_group = planning_application.immunity_detail.evidence_groups.where(tag: "utility_bill").first
 
         within(open_accordion_section) do
           within_fieldset("Starts from") do
-            expect(page).to have_field("Day", with: planning_application.immunity_detail.evidence_groups.first.start_date.strftime("%-d"))
-            expect(page).to have_field("Month", with: planning_application.immunity_detail.evidence_groups.first.start_date.strftime("%-m"))
-            expect(page).to have_field("Year", with: planning_application.immunity_detail.evidence_groups.first.start_date.strftime("%Y"))
+            expect(page).to have_field("Day", with: utility_bill_group.start_date.strftime("%-d"))
+            expect(page).to have_field("Month", with: utility_bill_group.start_date.strftime("%-m"))
+            expect(page).to have_field("Year", with: utility_bill_group.start_date.strftime("%Y"))
           end
 
           within_fieldset("Runs until") do
-            expect(page).to have_field("Day", with: planning_application.immunity_detail.evidence_groups.first.end_date.strftime("%-d"))
-            expect(page).to have_field("Month", with: planning_application.immunity_detail.evidence_groups.first.end_date.strftime("%-m"))
-            expect(page).to have_field("Year", with: planning_application.immunity_detail.evidence_groups.first.end_date.strftime("%Y"))
+            expect(page).to have_field("Day", with: utility_bill_group.end_date.strftime("%-d"))
+            expect(page).to have_field("Month", with: utility_bill_group.end_date.strftime("%-m"))
+            expect(page).to have_field("Year", with: utility_bill_group.end_date.strftime("%Y"))
           end
 
           expect(page).to have_content("This is my proof")
 
-          expect(page).to have_content(planning_application.immunity_detail.evidence_groups.first.documents.first.numbers)
+          expect(page).to have_content(utility_bill_group.documents.first.numbers)
         end
       end
 
@@ -101,6 +97,8 @@ RSpec.describe "Evidence of immunity" do
         )
 
         click_link("Evidence of immunity")
+
+        click_button "Utility bills (1)"
 
         within(open_accordion_section) do
           within_fieldset("Runs until") do
