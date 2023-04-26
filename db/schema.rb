@@ -339,8 +339,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_21_180115) do
     t.string "reference"
     t.datetime "validated_at"
     t.datetime "received_at"
-    t.string "review_documents_for_recommendation_status", default: "not_started", null: false
     t.boolean "from_production", default: false
+    t.string "review_documents_for_recommendation_status", default: "not_started", null: false
     t.text "changed_constraints", array: true
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin

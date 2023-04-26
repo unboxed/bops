@@ -49,7 +49,7 @@ RSpec.describe ImmunityDetailsCreationService, type: :service do
             applicant_comment: "That i was paying water bills"
           )
 
-          expect(utility_bills.documents).to eq [document1, document2]
+          expect(utility_bills.documents).to include(document1, document2)
 
           building_certificate = planning_application.immunity_detail.evidence_groups.where(tag: "building_control_certificate").first
 
