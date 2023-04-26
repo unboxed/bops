@@ -37,4 +37,8 @@ FactoryBot.define do
   trait :public do
     publishable { true }
   end
+
+  trait :evidence do
+    tags { ["Proposed", "Utility Bill"] }
+  end
 end

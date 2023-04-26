@@ -61,7 +61,19 @@ class PlanningApplication
     end
 
     def immunity_details_params
-      params.permit.merge(status:)
+      params.require(:immunity_detail)
+            .permit(
+              evidence_groups_attributes:
+                [
+                  :id,
+                  :start_date,
+                  :end_date,
+                  :missing_evidence,
+                  :missing_evidence_entry,
+                  { comments_attributes: [:text] }
+                ]
+            )
+            .merge(status:)
     end
 
     def status

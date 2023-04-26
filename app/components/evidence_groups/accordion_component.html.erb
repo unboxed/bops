@@ -1,0 +1,103 @@
+<div class="govuk-accordion" data-module="govuk-accordion">
+  <%= form_with model: [@planning_application, @planning_application.immunity_detail],
+        local: true,
+        builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+        class: "govuk-!-margin-top-7",
+        id: "immunity-detail-evidence-groups" do |form| %>
+    <% sections.each_with_index do |section, index| %>
+      <div class="govuk-accordion__section">
+        <div class="govuk-accordion__section-header">
+          <h3 class="govuk-accordion__section-heading">
+            <button type="button" class="govuk-accordion__section-button" id="accordion-default-heading-<%= "#{section}" %>">
+              <%= section.tag.humanize.pluralize %> (<%= section.documents.count %>)<br>
+              <% if section.start_date.present? && section.end_date.present? %>
+                <%= section.start_date&.to_formatted_s(:day_month_year_slashes) %> to <%= section.end_date&.to_formatted_s(:day_month_year_slashes) %>
+              <% else %>
+                <%= section.start_date&.to_formatted_s(:day_month_year_slashes) %>
+              <% end %>
+            </button>
+            <span class="govuk-accordion__icon"></span>
+          </h3>
+        </div>
+        <div class="govuk-accordion__section-content">
+          <%= form.fields_for :evidence_groups, section do |ff| %>
+            <% if section.start_date.present? %>
+              <%= ff.govuk_date_field :start_date, legend: { text: "Starts from" } %>
+            <% end %>
+
+            <% if section.end_date.present? %>
+              <%= ff.govuk_date_field :end_date, legend: { text: "Runs until" } %>
+            <% end %>
+
+            <% if section.end_date.present? || section.start_date.present? %>
+              <%= ff.govuk_check_boxes_fieldset :missing_evidence, multiple: false, legend: nil do %>
+                <%= ff.govuk_check_box :missing_evidence, 1, 0, multiple: false, label: { text: "Missing evidence (gap in time)" } do %>
+                  <%= ff.govuk_text_field(
+                    :missing_evidence_entry, 
+                    label: { text: "List all the gap(s) in time" }
+                  ) %>
+                  <%= link_to(
+                    "Request a new document",
+                    new_planning_application_additional_document_validation_request_path(@planning_application),
+                    role: "button",
+                    class: "govuk-link govuk-!-margin-top-",
+                    data: { module: "govuk-button" }
+                  ) %>
+                <% end %>
+              <% end %>
+            <% end %>
+
+            <p class="govuk-body">
+              <strong>Applicant comment:</strong>
+              <%= section.applicant_comment %>
+            </p>
+
+            <%= render(
+              EvidenceGroups::DocumentsComponent.new(
+                documents: section.documents
+              )
+            ) %>
+
+            <hr>
+            <% section.comments.each do |comment| %>
+              <p><%= comment.text %></p>
+            <% end %>
+
+            <div class="govuk-form-group govuk-!-margin-bottom-2">
+              <%= label_tag(
+                "immunity-detail-evidence-groups-attributes-#{index}-comments-attributes-0-text",
+                "Add comment",
+                class: "govuk-label govuk-label--s"
+              ) %>
+              <%= text_area_tag(
+                "immunity_detail[evidence_groups_attributes][#{index}][comments_attributes][0][text]",
+                "",
+                id: "immunity-detail-evidence-groups-attributes-#{index}-comments-attributes-0-text",
+                class: "govuk-textarea govuk-!-margin-bottom-2",
+                rows: 1
+              ) %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<%= form_with model: [@planning_application, @planning_application.immunity_detail] do |form| %>
+  <div class="govuk-button-group">
+    <%= form.submit(
+      t("form_actions.save_and_mark_as_complete"),
+      class: "govuk-button",
+      data: { module: "govuk-button" },
+      form: "immunity-detail-evidence-groups"
+    ) %>
+    <%= form.submit(
+      t("form_actions.save_and_come_back_later"),
+      class: "govuk-button govuk-button--secondary",
+      data: { module: "govuk-button" },
+      form: "immunity-detail-evidence-groups"
+    ) %>
+    <%= back_link %>
+  </div>
+<% end %>
