@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PlanningApplicationCreationService # rubocop:disable Metrics/ClassLength
+class PlanningApplicationCreationService
   class CreateError < StandardError; end
 
   def initialize(planning_application: nil, **options)

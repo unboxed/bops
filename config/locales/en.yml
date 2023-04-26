@@ -100,6 +100,18 @@ en:
               blank: Please select Yes or No
             public_comment:
               blank: Please state the reasons why this application is, or is not lawful
+        review_immunity_detail_permitted_development_right_form:
+          attributes:
+            decision:
+              blank: Please select Yes or No for whether the application is immune from enforcement
+            decision_reason:
+              blank: Decision reason for why the application is immune can't be blank
+            removed:
+              inclusion: Please select Yes or No for the permitted development rights
+            removed_reason:
+              blank: Removed reason for the permitted development rights can't be blank
+            summary:
+              blank: Immunity from enforcement summary can't be blank
   activerecord:
     errors:
       models:
@@ -806,6 +818,11 @@ en:
       success: Replacement document validation request successfully created.
     update:
       success: Replacement document reason successfully updated.
+  review_immunity_detail_permitted_development_right_form:
+    four_years_substantial: no action is taken within 4 years of substantial completion for a breach of planning control consisting of operational development
+    four_years_unauthorised: no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse
+    other: other
+    ten_years_other_breach: no action is taken within 10 years for any other breach of planning control (essentially other changes of use)
   review_policy_classes:
     navigation_component:
       view_next_class: View next class

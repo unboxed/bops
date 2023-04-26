@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ReviewImmunityDetail < ApplicationRecord
-  DECISIONS = %w[yes no].freeze
+  DECISIONS = %w[Yes No].freeze
 
   belongs_to :immunity_detail
 
@@ -18,6 +18,6 @@ class ReviewImmunityDetail < ApplicationRecord
   validates :decision, inclusion: { in: DECISIONS }
 
   def decision_is_immune?
-    decision == "yes"
+    decision == "Yes"
   end
 end
