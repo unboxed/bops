@@ -27,6 +27,14 @@ class EvidenceGroup < ApplicationRecord
     last_comment unless last_comment&.deleted?
   end
 
+  def previous_comments
+    persisted_comments
+  end
+
+  def persisted_comments
+    comments.select(&:persisted?).sort_by(&:created_at)
+  end
+
   private
 
   def last_comment
@@ -35,9 +43,5 @@ class EvidenceGroup < ApplicationRecord
 
   def reject_comment?(attributes)
     attributes[:text] == ""
-  end
-
-  def persisted_comments
-    comments.select(&:persisted?)
   end
 end
