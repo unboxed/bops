@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PlanningApplication
-  class PermittedDevelopmentRightsController < AuthenticationController # rubocop:disable Metrics/ClassLength
+  class PermittedDevelopmentRightsController < AuthenticationController
     include CommitMatchable
     include PlanningApplicationAssessable
     include PermittedDevelopmentRights

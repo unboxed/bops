@@ -31,6 +31,9 @@ Metrics/BlockLength:
     - spec/**/*
     - config/routes.rb
 
+Metrics/ClassLength:
+  Enabled: false
+
 Metrics/MethodLength:
   Max: 20
 
