@@ -1,0 +1,16 @@
+<% if @immunity_detail.review_immunity_details.any? { |review_immunity_detail| review_immunity_detail.reviewer_comment.present? } %>
+  <details class="govuk-details govuk-!-padding-top-5" data-module="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        See immunity detail checks
+      </span>
+    </summary>
+    <div class="govuk-details__text">
+      <% @immunity_detail.review_immunity_details.not_accepted.each do |review_immunity_detail| %>
+        <p><strong><%= review_immunity_detail.reviewer.name %> marked this for review</strong></p>
+        <p><%= review_immunity_detail.reviewed_at %></p>
+        <p><em>Reviewer comment: <%= review_immunity_detail.reviewer_comment %></em></p>
+      <% end %>
+    </div>
+  </details>
+<% end %>
