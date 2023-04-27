@@ -9,6 +9,10 @@ module EvidenceGroups
       @sections = sections
     end
 
+    def new_comment
+      @new_comment ||= sections.first.comments.first
+    end
+
     private
 
     attr_reader :planning_application, :sections

@@ -14,7 +14,7 @@ RSpec.describe "Reviewing evidence of immunity" do
     )
   end
 
-  let(:assessor) { create(:user, name: "Chuck The Assessor", local_authority: default_local_authority) }
+  let(:assessor) { create(:user, local_authority: default_local_authority) }
 
   let(:planning_application) do
     create(
@@ -154,6 +154,46 @@ RSpec.describe "Reviewing evidence of immunity" do
       find("span", text: "See immunity detail checks").click
 
       expect(page).to have_content("Please re-assess")
+    end
+
+    it "I can edit comments" do
+      utility_bill_group = planning_application.immunity_detail.evidence_groups.where(tag: "utility_bill").first
+
+      comment = create(
+        :comment,
+        commentable: utility_bill_group,
+        created_at: DateTime.new(2022, 12, 19),
+        text: "test"
+      )
+
+      click_link "Review evidence of immunity"
+
+      click_button "Utility bills (1)"
+
+      within(open_accordion_section) do
+        expect(page).to have_content("test")
+
+        click_button "Edit comment"
+        fill_in "Comment added on #{comment.created_at.strftime("%d %b %Y")} by",
+          with: "This is a new comment now"
+        
+        click_button "Update"
+
+        expect(page).to have_content("This is a new comment now")
+      end
+
+      click_link "Review"
+      click_link "Review evidence of immunity"
+
+      click_button "Utility bills (1)"
+
+      within(open_accordion_section) do
+        expect(page).to have_content("This is a new comment now")
+
+        find("span", text: "Previous comments").click
+
+        expect(page).to have_content("test")
+      end
     end
   end
 end

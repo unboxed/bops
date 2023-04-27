@@ -1,0 +1,41 @@
+<% if comment.present? %>
+  <div data-controller="show-hide submit-form">
+    <div data-show-hide-target="toggleable" class=<%= "display-none" if new_comment.errors.any? %>>
+      <h4 class="govuk-heading-s govuk-!-margin-bottom-0">
+        <%= existing_policy_comment_label(comment) %>
+      </h4>
+      <%= render(FormattedContentComponent.new(text: comment.text)) %>
+      <%= button_tag(
+        "Edit comment",
+        class: "button-as-link",
+        type: "button",
+        data: {
+          action: "click->show-hide#handleEvent",
+          show_hide_target: "toggleable"
+        }
+      ) %>
+    </div>
+    <div data-show-hide-target="toggleable" class=<%= "display-none" unless new_comment.errors.any? %>>
+      <%= form_with(
+        model: [planning_application, planning_application.immunity_detail, evidence_group, new_comment],
+        builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+        data: { action: "submit->submit-form#handleSubmit" }
+      ) do |form| %>
+        <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+        <%= form.govuk_text_area(
+          :text,
+          value: comment.text,
+          label: {
+            text: existing_policy_comment_label(comment),
+            tag: "h4",
+            size: "s"
+          }
+        ) %>
+        <%= form.submit(
+          "Update",
+          class: "govuk-button govuk-button--secondary"
+        ) %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

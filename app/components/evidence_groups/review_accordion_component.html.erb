@@ -39,10 +39,21 @@
         ) %>
 
         <hr>
-        <% section.comments.order(:created_at).each do |comment| %>
-          <p class="govuk-body"><strong>Comment added on <%= comment.created_at.to_formatted_s(:day_month_year_slashes) %>, by <%= comment.user.name %></strong></p>
-          <p class="govuk-body"><%= comment.text %></p>
-        <% end %>
+
+        <%= render(
+          partial: "planning_application/review_immunity_details/comment",
+          locals: {
+            planning_application: @planning_application,
+            evidence_group: section,
+            comment: section.comment, 
+            new_comment: section.comments.new 
+          }
+        ) %>
+
+        <%= render(
+          partial: "shared/policy_classes/previous_comments",
+          locals: { previous_comments: section.previous_comments }
+        ) %>
       </div>
     </div>
   <% end %>
