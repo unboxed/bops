@@ -69,7 +69,7 @@ class Document < ApplicationRecord
       "What do these building control certificates show?"
     ],
     construction_invoice: ["What do these construction invoices show?"],
-    council_task_document: [
+    council_tax_document: [
       "What date do these council tax bills start from?",
       "When do these councils tax bills run until?",
       "What do these Council Tax documents show?"
