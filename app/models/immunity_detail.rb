@@ -31,7 +31,7 @@ class ImmunityDetail < ApplicationRecord
   end
 
   def update_required?
-    complete? && !accepted
+    complete? && !accepted?
   end
 
   def add_document(document)
