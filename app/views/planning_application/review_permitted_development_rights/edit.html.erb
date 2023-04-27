@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  <%= page_title(@planning_application) %> - <%= t('page_title') %>
+  <%= page_heading(@planning_application) %> - <%= t('page_title') %>
 <% end %>
 
 <%= render(
@@ -7,7 +7,7 @@
   locals: { planning_application: @planning_application  }
 ) %>
 
-<% content_for :title, page_title(@planning_application) %>
+<% content_for :title, page_heading(@planning_application) %>
 
 <%= render(
   partial: "shared/proposal_header",
