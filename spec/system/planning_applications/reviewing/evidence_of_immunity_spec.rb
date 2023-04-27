@@ -69,8 +69,8 @@ RSpec.describe "Reviewing evidence of immunity" do
       utility_bill_group = planning_application.immunity_detail.evidence_groups.where(tag: "utility_bill").first
 
       within(open_accordion_section) do
-        expect(page).to have_content(utility_bill_group.start_date.to_formatted_s(:day_month_year_slashes))
-        expect(page).to have_content(utility_bill_group.end_date.to_formatted_s(:day_month_year_slashes))
+        expect(page).to have_content(utility_bill_group.start_date.to_fs(:day_month_year_slashes))
+        expect(page).to have_content(utility_bill_group.end_date.to_fs(:day_month_year_slashes))
 
         expect(page).to have_content("Missing evidence (gap in time): gaps everywhere")
 
@@ -174,9 +174,9 @@ RSpec.describe "Reviewing evidence of immunity" do
         expect(page).to have_content("test")
 
         click_button "Edit comment"
-        fill_in "Comment added on #{comment.created_at.strftime("%d %b %Y")} by",
-          with: "This is a new comment now"
-        
+        fill_in "Comment added on #{comment.created_at.strftime('%d %b %Y')} by",
+                with: "This is a new comment now"
+
         click_button "Update"
 
         expect(page).to have_content("This is a new comment now")

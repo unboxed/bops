@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CommentsController < AuthenticationController
-  before_action :set_comment_type, only: [:create, :update]
+  before_action :set_comment_type, only: %i[create update]
 
   def create
     new_comment = @comment_type.comments.new(comment_params)
@@ -17,29 +17,37 @@ class CommentsController < AuthenticationController
 
   private
 
-  def create_comment_partial(new_comment)
+  def create_comment_partial(_new_comment)
     if @comment_type.is_a? Policy
-      render_to_string(
-        partial: "planning_application/review_policy_classes/comment",
-        locals: {
-          planning_application:,
-          policy_class:,
-          policy:,
-          comment: @comment_type.comment,
-          new_comment:
-        }
-      )
+      create_policy_comment_partial
     else
-      render_to_string(
-        partial: "planning_application/review_immunity_details/comment",
-        locals: {
-          planning_application:,
-          evidence_group:,
-          comment: @comment_type.comment, 
-          new_comment:
-        }
-      )
+      create_evidence_group_comment_partial
     end
+  end
+
+  def create_policy_comment_partial
+    render_to_string(
+      partial: "planning_application/review_policy_classes/comment",
+      locals: {
+        planning_application:,
+        policy_class:,
+        policy:,
+        comment: @comment_type.comment,
+        new_comment:
+      }
+    )
+  end
+
+  def create_evidence_group_comment_partial
+    render_to_string(
+      partial: "planning_application/review_immunity_details/comment",
+      locals: {
+        planning_application:,
+        evidence_group:,
+        comment: @comment_type.comment,
+        new_comment:
+      }
+    )
   end
 
   def update_comment_partial
@@ -76,10 +84,10 @@ class CommentsController < AuthenticationController
   end
 
   def set_comment_type
-    if params[:evidence_group_id].present?
-      @comment_type ||= EvidenceGroup.find(params[:evidence_group_id])
-    else
-      @comment_type ||= policy_class.policies.find(params[:policy_id])
-    end
+    @comment_type = if params[:evidence_group_id].present?
+                      EvidenceGroup.find(params[:evidence_group_id])
+                    else
+                      policy_class.policies.find(params[:policy_id])
+                    end
   end
 end

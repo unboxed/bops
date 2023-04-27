@@ -44,7 +44,7 @@ Rails.application.routes.draw do
     end
 
     resources :immunity_details, only: [] do
-      resources :evidence_groups do 
+      resources :evidence_groups do
         resources :comments, only: %i[create]
       end
     end
@@ -132,7 +132,7 @@ Rails.application.routes.draw do
       resources :assessment_details, only: %i[new edit create show update]
 
       resources :immunity_details, only: %i[new create edit update show] do
-        resources :evidence_groups do 
+        resources :evidence_groups do
           resources :comments, only: %i[update]
         end
       end
