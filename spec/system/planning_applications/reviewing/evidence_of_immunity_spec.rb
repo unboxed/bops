@@ -174,6 +174,14 @@ RSpec.describe "Reviewing evidence of immunity" do
         expect(page).to have_content("test")
 
         click_button "Edit comment"
+
+        fill_in "Comment added on #{comment.created_at.strftime('%d %b %Y')} by",
+                with: ""
+
+        click_button "Update"
+
+        expect(page).to have_content "Text can't be blank"
+
         fill_in "Comment added on #{comment.created_at.strftime('%d %b %Y')} by",
                 with: "This is a new comment now"
 

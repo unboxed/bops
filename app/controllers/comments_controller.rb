@@ -17,15 +17,15 @@ class CommentsController < AuthenticationController
 
   private
 
-  def create_comment_partial(_new_comment)
+  def create_comment_partial(new_comment)
     if @comment_type.is_a? Policy
-      create_policy_comment_partial
+      create_policy_comment_partial(new_comment)
     else
-      create_evidence_group_comment_partial
+      create_evidence_group_comment_partial(new_comment)
     end
   end
 
-  def create_policy_comment_partial
+  def create_policy_comment_partial(new_comment)
     render_to_string(
       partial: "planning_application/review_policy_classes/comment",
       locals: {
@@ -38,7 +38,7 @@ class CommentsController < AuthenticationController
     )
   end
 
-  def create_evidence_group_comment_partial
+  def create_evidence_group_comment_partial(new_comment)
     render_to_string(
       partial: "planning_application/review_immunity_details/comment",
       locals: {
