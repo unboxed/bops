@@ -28,22 +28,42 @@ class ReviewImmunityDetailPermittedDevelopmentRightForm
     to: :permitted_development_right
   )
 
-  def initialize(planning_application:, params: {})
+  def initialize(planning_application:, params: {}, review_immunity_detail: nil, permitted_development_right: nil)
     @params = params
     @review_immunity_detail_params = build_review_immunity_detail_params
     @permitted_development_right_params = params[:permitted_development_right]
 
-    @review_immunity_detail = planning_application.immunity_detail.review_immunity_details.new(
-      review_immunity_detail_params
-    )
-    @permitted_development_right = planning_application.permitted_development_rights.new(
-      @permitted_development_right_params
-    )
+    @review_immunity_detail =
+      review_immunity_detail || planning_application.immunity_detail.review_immunity_details.new(
+        review_immunity_detail_params
+      )
+    @permitted_development_right =
+      permitted_development_right || planning_application.permitted_development_rights.new(
+        @permitted_development_right_params
+      )
   end
 
   def save
     build_review_immunity_detail
     build_permitted_development_right
+
+    return false unless valid?
+
+    ActiveRecord::Base.transaction do
+      review_immunity_detail.save!
+      permitted_development_right.save! if decision_is_no?
+
+      true
+    end
+  end
+
+  def update # rubocop:disable Metrics/AbcSize
+    review_immunity_detail.assign_attributes(
+      **review_immunity_detail_params, status: params[:review_immunity_detail_status]
+    )
+    permitted_development_right.assign_attributes(
+      **permitted_development_right_params, status: params[:permitted_development_right_status]
+    )
 
     return false unless valid?
 
@@ -72,8 +92,14 @@ class ReviewImmunityDetailPermittedDevelopmentRightForm
     return if params.blank?
 
     review_immunity_detail_params = params[:review_immunity_detail]
-    review_immunity_detail_params["decision_reason"] = (review_immunity_detail_params["yes_decision_reason"].presence ||
-      review_immunity_detail_params["no_decision_reason"].presence)
+
+    review_immunity_detail_params["decision_reason"] = if review_immunity_detail_params["decision_type"] == "other"
+                                                         review_immunity_detail_params["yes_decision_reason"]
+                                                       elsif review_immunity_detail_params["decision"] == "Yes"
+                                                         review_immunity_detail_params["decision_type"]
+                                                       else
+                                                         review_immunity_detail_params["no_decision_reason"]
+                                                       end
 
     review_immunity_detail_params.except("yes_decision_reason", "no_decision_reason")
   end
@@ -82,6 +108,7 @@ class ReviewImmunityDetailPermittedDevelopmentRightForm
     review_immunity_detail.tap do |record|
       record.assessor = Current.user
       record.decision_reason = (decision_reason.presence || decision_type)
+      record.status = params[:review_immunity_detail_status]
     end
   end
 
@@ -90,18 +117,7 @@ class ReviewImmunityDetailPermittedDevelopmentRightForm
 
     permitted_development_right.tap do |record|
       record.assessor = Current.user
-      record.status = permitted_development_right_status
-    end
-  end
-
-  def permitted_development_right_status
-    return "in_progress" if save_progress?
-
-    case permitted_development_right_params[:removed]
-    when "true"
-      "removed"
-    when "false"
-      "checked"
+      record.status = params[:permitted_development_right_status]
     end
   end
 end

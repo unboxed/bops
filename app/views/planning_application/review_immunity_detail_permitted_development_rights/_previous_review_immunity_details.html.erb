@@ -1,0 +1,16 @@
+<% if review_immunity_details.any? %>
+  <details class="govuk-details govuk-!-padding-top-5" data-module="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        See previous review immunity detail responses
+      </span>
+    </summary>
+    <div class="govuk-details__text">
+      <% review_immunity_details.each do |review_immunity_detail| %>
+        <p>Assessor decision: <%= review_immunity_detail.decision %></p>
+        <p>Reason: <%= review_immunity_detail.decision_reason %></p>
+        <p>Summary: <%= review_immunity_detail.summary %></p>
+      <% end %>
+    </div>
+  </details>
+<% end %>

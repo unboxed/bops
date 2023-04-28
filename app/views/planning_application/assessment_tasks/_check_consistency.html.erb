@@ -41,10 +41,18 @@
         )
       ) %>
     <% end %>
-    <%= render(
-      TaskListItems::PermittedDevelopmentRightComponent.new(
-        planning_application: @planning_application
-      )
-    ) %>
+    <% if @planning_application.possibly_immune? %>
+      <%= render(
+        TaskListItems::ReviewImmunityDetailPermittedDevelopmentRightComponent.new(
+          planning_application: @planning_application
+        )
+      ) %>
+    <% else %>
+      <%= render(
+        TaskListItems::PermittedDevelopmentRightComponent.new(
+          planning_application: @planning_application
+        )
+      ) %>
+    <% end %>
   </ul>
 </li>

@@ -28,7 +28,7 @@ module StatusTags
         "govuk-tag--grey"
       when :in_progress
         "govuk-tag--blue"
-      when :checked, :granted, :valid
+      when :checked, :granted, :valid, :completed
         "govuk-tag--green"
       when :updated, :to_be_reviewed
         "govuk-tag--yellow"
