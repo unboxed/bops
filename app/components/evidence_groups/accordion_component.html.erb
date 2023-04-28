@@ -62,9 +62,10 @@
             ) %>
 
             <hr>
-            <% section.comments.each do |comment| %>
-              <p><%= comment.text %></p>
-            <% end %>
+            <%= render(
+              partial: "shared/policy_classes/previous_comments",
+              locals: { previous_comments: section.persisted_comments }
+            ) %>
 
             <div class="govuk-form-group govuk-!-margin-bottom-2">
               <%= label_tag(
