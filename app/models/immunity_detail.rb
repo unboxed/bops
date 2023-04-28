@@ -57,4 +57,10 @@ class ImmunityDetail < ApplicationRecord
     group = evidence_groups.order(end_date: :asc, start_date: :asc).last
     group&.end_date || group&.start_date
   end
+
+  def evidence_gaps?
+    return if evidence_groups.blank?
+
+    evidence_groups.any?(&:missing_evidence?)
+  end
 end

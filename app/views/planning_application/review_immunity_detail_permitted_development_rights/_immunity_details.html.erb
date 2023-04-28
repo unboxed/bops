@@ -21,7 +21,7 @@
         Unknown
       <% end %>
      </li>
-    <li><strong>Missing evidence (gap in time):</strong> TODO</li>
+    <li><strong>Missing evidence (gap in time):</strong> <%= planning_application.immunity_detail.evidence_gaps? ? "Yes" : "No" %> </li>
   </ul>
 
   <div class="govuk-body">
