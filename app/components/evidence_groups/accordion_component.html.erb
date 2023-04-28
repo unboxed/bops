@@ -16,6 +16,9 @@
                 <%= section.start_date&.to_formatted_s(:day_month_year_slashes) %>
               <% end %>
             </button>
+            <% if section.missing_evidence? %>
+                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <% end %>
             <span class="govuk-accordion__icon"></span>
           </h3>
         </div>
@@ -33,7 +36,7 @@
               <%= ff.govuk_check_boxes_fieldset :missing_evidence, multiple: false, legend: nil do %>
                 <%= ff.govuk_check_box :missing_evidence, 1, 0, multiple: false, label: { text: "Missing evidence (gap in time)" } do %>
                   <%= ff.govuk_text_field(
-                    :missing_evidence_entry, 
+                    :missing_evidence_entry,
                     label: { text: "List all the gap(s) in time" }
                   ) %>
                   <%= link_to(
