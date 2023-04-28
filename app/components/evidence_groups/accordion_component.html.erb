@@ -8,7 +8,7 @@
       <div class="govuk-accordion__section">
         <div class="govuk-accordion__section-header">
           <h3 class="govuk-accordion__section-heading">
-            <button type="button" class="govuk-accordion__section-button" id="accordion-default-heading-<%= "#{section}" %>">
+            <button type="button" class="govuk-accordion__section-button" id="accordion-default-heading-<%= section.id.to_s %>">
               <%= section.tag.humanize.pluralize %> (<%= section.documents.count %>)<br>
               <% if section.start_date.present? && section.end_date.present? %>
                 <%= section.start_date&.to_formatted_s(:day_month_year_slashes) %> to <%= section.end_date&.to_formatted_s(:day_month_year_slashes) %>
