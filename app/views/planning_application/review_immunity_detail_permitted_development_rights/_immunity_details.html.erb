@@ -8,4 +8,22 @@
   </p>
 
   <%= render(PlanningApplications::ImmunityDetailsComponent.new(immunity_details: @planning_application.immune_proposal_details)) %>
+
+  <h3 class="govuk-heading-s govuk-!-margin-top-5 govuk-!-margin-bottom-1">Assessment summary — Evidence of immunity</h3>
+  <ul class="govuk-body immunity-details-sub-list">
+    <li><strong>Evidence cover:</strong> TODO</li>
+    <li><strong>Missing evidence (gap in time):</strong> TODO</li>
+  </ul>
+
+  <div class="govuk-body">
+    <hr>
+    <% for evidence_group in @planning_application.immunity_detail.evidence_groups %>
+    <h3>
+      <%= link_to "#{evidence_group.tag.humanize.pluralize} (#{evidence_group.documents.count})",
+                  new_planning_application_immunity_detail_path(@planning_application) + "#accordion-default-heading-#{evidence_group.id}",
+                  class: "govuk-link govuk-link__no-underline" %>
+    </h3>
+    <hr>
+    <% end %>
+  </div>
 </section>
