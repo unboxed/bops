@@ -19,7 +19,7 @@
     <hr>
     <% for evidence_group in @planning_application.immunity_detail.evidence_groups %>
     <h3>
-      <%= link_to "#{evidence_group.tag.humanize.pluralize} (#{evidence_group.documents.count})",
+      <%= link_to "#{evidence_group.tag.humanize.pluralize} (#{evidence_group.documents.count})<br>#{evidence_group.start_date&.to_formatted_s(:day_month_year_slashes)} to #{evidence_group.end_date&.to_formatted_s(:day_month_year_slashes)}".html_safe,
                   new_planning_application_immunity_detail_path(@planning_application) + "#accordion-default-heading-#{evidence_group.id}",
                   class: "govuk-link govuk-link__no-underline" %>
     </h3>
