@@ -73,6 +73,9 @@ class PlanningApplication
       planning_application = planning_applications_scope.find(planning_application_id)
 
       @planning_application = PlanningApplicationPresenter.new(view_context, planning_application)
+      @evidence_groups = planning_application&.immunity_detail&.evidence_groups&.map do |group|
+        EvidenceGroupPresenter.new(view_context, group)
+      end
     end
 
     def planning_application_id
