@@ -46,7 +46,7 @@ class ImmunityDetail < ApplicationRecord
   end
 
   def current_review_immunity_detail
-    review_immunity_details.where.not(id: nil).last
+    review_immunity_details.where.not(id: nil).order(:created_at).last
   end
 
   def earliest_evidence_cover
@@ -61,31 +61,5 @@ class ImmunityDetail < ApplicationRecord
     return if evidence_groups.blank?
 
     evidence_groups.any?(&:missing_evidence?)
-  end
-
-  def start_date
-    evidence_groups.order(start_date: :asc).first.start_date
-  end
-
-  def end_date
-    group = evidence_groups.order(end_date: :asc, start_date: :asc).last
-    group.end_date || group.start_date
-  end
-
-  def evidence_gaps? # rubocop:disable Metrics/AbcSize
-    return if evidence_groups.blank?
-
-    # https://stackoverflow.com/a/8765467
-    date_ranges = evidence_groups.map do |g|
-      Range.new(g.start_date.to_datetime.to_date, g.end_date.to_datetime.to_date)
-    end
-    gaps = date_ranges
-           .inject([]) { |a, d| a |= d.to_a } # rubocop:disable Lint/UselessAssignment
-           .sort
-           .each_with_index
-           .chunk { |d, i| d - i }
-           .to_a[1..]
-           .map { |_, dates| dates.first.first }
-    gaps.present?
   end
 end

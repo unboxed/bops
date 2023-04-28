@@ -10,10 +10,34 @@
     <%= render(FormattedContentComponent.new(text: past_applications.additional_information)) %>
   </section>
 <% end %>
-<% if planning_application.possibly_immune? %>
+<% if planning_application.possibly_immune? && immunity_detail.current_review_immunity_detail %>
   <section id="immunity-section" class="govuk-!-padding-bottom-5">
     <h3 class="govuk-heading-s"><%= t(".immunity_from_enforcement") %></h3>
     <%= render(PlanningApplications::ImmunityDetailsComponent.new(immunity_details: planning_application.immune_proposal_details)) %>
+    <h4 class="govuk-heading-s">
+      <strong>Assessment summary - Evidence of immunity</strong>
+    </h4>
+    <p class="govuk-body">
+      <strong>Evidence cover:</strong> 
+      <% if immunity_detail.earliest_evidence_cover.present? && immunity_detail.latest_evidence_cover.present? %>
+        from <%= immunity_detail.earliest_evidence_cover %> to <%= immunity_detail.latest_evidence_cover %>
+      <% else %>
+        <%= immunity_detail.earliest_evidence_cover || immunity_detail.latest_evidence_cover %>
+      <% end %>
+    </p>
+    <p class="govuk-body">
+      <strong>
+        Missing evidence (gap in time):
+      </strong> 
+      <%= immunity_detail.any_missing_evidence? ? "Yes" : "No" %>
+    </p>
+    <%# evidence table %>
+    <p class="govuk-body"><strong>Is the application immune from enforcement?</strong></p>
+    <p class="govuk-body">
+      <strong><%= immunity_detail.current_review_immunity_detail.decision %></strong><br>
+      <%= immunity_detail.current_review_immunity_detail.decision_reason %>
+    </p>
+    <p class="govuk-body"><%= immunity_detail.current_review_immunity_detail.summary %></p>
   </section>
 <% end %>
 <% if permitted_development_right %>
