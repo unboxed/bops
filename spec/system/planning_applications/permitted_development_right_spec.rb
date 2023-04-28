@@ -391,7 +391,7 @@ RSpec.describe "Permitted development right" do
 
         within(".govuk-breadcrumbs__list") do
           expect(page).to have_content("Review")
-          expect(page).to have_content("Permitted development rights")
+          expect(page).to have_content("Check permitted development rights")
         end
 
         expect(page).to have_current_path(
@@ -602,7 +602,7 @@ RSpec.describe "Permitted development right" do
 
         within(".govuk-breadcrumbs__list") do
           expect(page).to have_content("Review")
-          expect(page).to have_content("Immunity/permitted development rights")
+          expect(page).to have_content("Review immunity/permitted development rights")
         end
 
         expect(page).to have_current_path(
