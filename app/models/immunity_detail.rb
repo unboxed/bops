@@ -71,4 +71,21 @@ class ImmunityDetail < ApplicationRecord
     group = evidence_groups.order(end_date: :asc, start_date: :asc).last
     group.end_date || group.start_date
   end
+
+  def evidence_gaps? # rubocop:disable Metrics/AbcSize
+    return if evidence_groups.blank?
+
+    # https://stackoverflow.com/a/8765467
+    date_ranges = evidence_groups.map do |g|
+      Range.new(g.start_date.to_datetime.to_date, g.end_date.to_datetime.to_date)
+    end
+    gaps = date_ranges
+           .inject([]) { |a, d| a |= d.to_a } # rubocop:disable Lint/UselessAssignment
+           .sort
+           .each_with_index
+           .chunk { |d, i| d - i }
+           .to_a[1..]
+           .map { |_, dates| dates.first.first }
+    gaps.present?
+  end
 end
