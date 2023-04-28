@@ -62,4 +62,13 @@ class ImmunityDetail < ApplicationRecord
 
     evidence_groups.any?(&:missing_evidence?)
   end
+
+  def start_date
+    evidence_groups.order(start_date: :asc).first.start_date
+  end
+
+  def end_date
+    group = evidence_groups.order(end_date: :asc, start_date: :asc).last
+    group.end_date || group.start_date
+  end
 end
