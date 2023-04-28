@@ -150,6 +150,9 @@ RSpec.describe "Evidence of immunity" do
 
         click_link "Evidence of immunity"
 
+        expect(page).to have_content("Edit evidence of immunity")
+        expect(page).not_to have_content("Save and mark as complete")
+
         click_button "Utility bills (1)"
 
         within(:xpath, "//*[@class='govuk-accordion__section govuk-accordion__section--expanded']") do

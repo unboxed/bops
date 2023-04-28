@@ -88,20 +88,29 @@
   <% end %>
 </div>
 
-<%= form_with model: [@planning_application, @planning_application.immunity_detail] do |form| %>
-  <div class="govuk-button-group">
-    <%= form.submit(
-      t("form_actions.save_and_mark_as_complete"),
-      class: "govuk-button",
-      data: { module: "govuk-button" },
-      form: "immunity-detail-evidence-groups"
-    ) %>
-    <%= form.submit(
-      t("form_actions.save_and_come_back_later"),
-      class: "govuk-button govuk-button--secondary",
-      data: { module: "govuk-button" },
-      form: "immunity-detail-evidence-groups"
-    ) %>
-    <%= back_link %>
-  </div>
-<% end %>
+<div class="govuk-button-group">
+  <% if editable  %>
+    <%= form_with model: [@planning_application, @planning_application.immunity_detail] do |form| %>
+      <div class="govuk-button-group">
+        <%= form.submit(
+          t("form_actions.save_and_mark_as_complete"),
+          class: "govuk-button",
+          data: { module: "govuk-button" },
+          form: "immunity-detail-evidence-groups"
+        ) %>
+        <%= form.submit(
+          t("form_actions.save_and_come_back_later"),
+          class: "govuk-button govuk-button--secondary govuk-!-margin-right-6",
+          data: { module: "govuk-button" },
+          form: "immunity-detail-evidence-groups"
+        ) %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <%= back_link %>
+
+  <% if !editable %>
+    <%= link_to "Edit evidence of immunity", edit_planning_application_immunity_detail_path(@planning_application, @planning_application.immunity_detail), class: "govuk-link" %>
+  <% end %>
+</div>

@@ -23,7 +23,8 @@
     <%= render(
       EvidenceGroups::AccordionComponent.new(
         planning_application: @planning_application,
-        sections: @planning_application.immunity_detail.evidence_groups
+        sections: @planning_application.immunity_detail.evidence_groups,
+        editable: false
       )
     ) %>
   </div>
