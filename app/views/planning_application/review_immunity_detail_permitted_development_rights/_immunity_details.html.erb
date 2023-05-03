@@ -24,15 +24,17 @@
     <li><strong>Missing evidence (gap in time):</strong> <%= planning_application.immunity_detail.evidence_gaps? ? "Yes" : "No" %> </li>
   </ul>
 
-  <div class="govuk-body">
-    <hr>
-    <% for evidence_group in @evidence_groups %>
-    <h3>
-      <%= link_to sanitize("#{evidence_group.name} (#{evidence_group.documents.count})<br>#{evidence_group.date_range}"),
-                  new_planning_application_immunity_detail_path(@planning_application) + "#accordion-default-heading-#{evidence_group.id}",
-                  class: "govuk-link govuk-link__no-underline" %>
-    </h3>
-    <hr>
-    <% end %>
-  </div>
+  <% if @evidence_groups.present? %>
+    <div class="govuk-body">
+      <hr>
+      <% for evidence_group in @evidence_groups %>
+      <h3>
+        <%= link_to sanitize("#{evidence_group.name} (#{evidence_group.documents.count})<br>#{evidence_group.date_range}"),
+                    new_planning_application_immunity_detail_path(@planning_application) + "#accordion-default-heading-#{evidence_group.id}",
+                    class: "govuk-link govuk-link__no-underline" %>
+      </h3>
+      <hr>
+      <% end %>
+    </div>
+  <% end %>
 </section>
