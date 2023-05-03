@@ -54,8 +54,7 @@ class ImmunityDetail < ApplicationRecord
   end
 
   def latest_evidence_cover
-    group = evidence_groups.order(end_date: :asc, start_date: :asc).last
-    group&.end_date || group&.start_date
+    evidence_groups.pluck(:end_date, :start_date).flatten.compact.max
   end
 
   def evidence_gaps?
