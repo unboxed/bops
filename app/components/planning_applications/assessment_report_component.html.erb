@@ -11,27 +11,11 @@
   </section>
 <% end %>
 <% if planning_application.possibly_immune? && immunity_detail.current_review_immunity_detail %>
-  <section id="immunity-section" class="govuk-!-padding-bottom-5">
-    <h3 class="govuk-heading-s"><%= t(".immunity_from_enforcement") %></h3>
-    <%= render(PlanningApplications::ImmunityDetailsComponent.new(immunity_details: planning_application.immune_proposal_details)) %>
-    <h4 class="govuk-heading-s">
-      <strong>Assessment summary - Evidence of immunity</strong>
-    </h4>
-    <p class="govuk-body">
-      <strong>Evidence cover:</strong> 
-      <% if immunity_detail.earliest_start_date.present? && immunity_detail.latest_end_date.present? %>
-        from <%= immunity_detail.earliest_start_date.to_formatted_s(:day_month_year_slashes) %> to <%= immunity_detail.latest_end_date.to_formatted_s(:day_month_year_slashes) %>
-      <% else %>
-        <%= immunity_detail.earliest_start_date.to_formatted_s(:day_month_year_slashes) || immunity_detail.latest_end_date.to_formatted_s(:day_month_year_slashes) %>
-      <% end %>
-    </p>
-    <p class="govuk-body">
-      <strong>
-        Missing evidence (gap in time):
-      </strong> 
-      <%= immunity_detail.any_missing_evidence? ? "Yes" : "No" %>
-    </p>
-    <%# evidence table %>
+  <section id="immunity-section">
+    <%= render(
+        PlanningApplications::ImmunityDetailsAssessmentComponent.new(planning_application: planning_application, evidence_groups: immunity_detail.evidence_groups)
+      ) 
+    %>
     <p class="govuk-body"><strong>Is the application immune from enforcement?</strong></p>
     <p class="govuk-body">
       <strong><%= immunity_detail.current_review_immunity_detail.decision %></strong><br>

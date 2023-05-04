@@ -45,14 +45,14 @@ RSpec.describe ImmunityDetail do
     end
   end
 
-  describe "#any_missing_evidence?" do
+  describe "#evidence_gaps?" do
     let(:immunity_detail) { create(:immunity_detail) }
 
     it "returns false when there isn't missing evidence" do
       create(:evidence_group, missing_evidence: false, immunity_detail:)
       create(:evidence_group, missing_evidence: false, immunity_detail:)
 
-      expect(immunity_detail.any_missing_evidence?).to be false
+      expect(immunity_detail.evidence_gaps?).to be false
     end
 
     it "returns true when there is missing evidence" do
@@ -60,7 +60,7 @@ RSpec.describe ImmunityDetail do
       create(:evidence_group, missing_evidence: false, immunity_detail:)
       create(:evidence_group, missing_evidence: true, immunity_detail:)
 
-      expect(immunity_detail.any_missing_evidence?).to be true
+      expect(immunity_detail.evidence_gaps?).to be true
     end
   end
 
