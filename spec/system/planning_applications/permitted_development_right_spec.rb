@@ -361,6 +361,8 @@ RSpec.describe "Permitted development right" do
         expect(page).to have_content("When were the works completed? 01/02/2015")
         expect(page).to have_content("Has anyone ever attempted to conceal the changes? No")
         expect(page).to have_content("Has enforcement action been taken about these changes? No")
+
+        expect(page).to have_content("Assessment summary — Evidence of immunity")
       end
     end
   end

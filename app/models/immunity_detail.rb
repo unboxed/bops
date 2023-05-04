@@ -38,7 +38,6 @@ class ImmunityDetail < ApplicationRecord
     tag = document.tags.intersection(Document::EVIDENCE_TAGS).first.delete(" ").underscore
     evidence_group = evidence_groups.find_or_create_by(tag:)
     evidence_group.documents << document
-    # TODO: update start/end date?
     evidence_group.save!
   end
 
@@ -48,5 +47,19 @@ class ImmunityDetail < ApplicationRecord
 
   def current_review_immunity_detail
     review_immunity_details.where.not(id: nil).last
+  end
+
+  def earliest_evidence_cover
+    evidence_groups.order(start_date: :asc).first&.start_date
+  end
+
+  def latest_evidence_cover
+    evidence_groups.pluck(:end_date, :start_date).flatten.compact.max
+  end
+
+  def evidence_gaps?
+    return if evidence_groups.blank?
+
+    evidence_groups.any?(&:missing_evidence?)
   end
 end

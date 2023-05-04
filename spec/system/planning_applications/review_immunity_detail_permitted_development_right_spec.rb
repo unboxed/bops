@@ -406,4 +406,54 @@ RSpec.describe "Review immunity detail permitted development right" do
       expect(page).to have_content("forbidden")
     end
   end
+
+  context "when it has no evidence attached" do
+    it "I can view the information on the permitted development rights page" do
+      create(:immunity_detail, planning_application:)
+      sign_in assessor
+      visit new_planning_application_review_immunity_detail_permitted_development_right_path(planning_application)
+
+      expect(page).to have_content("Evidence cover: Unknown")
+      expect(page).to have_content("Missing evidence (gap in time): No")
+    end
+  end
+
+  context "when it has evidence attached" do
+    let(:immunity_detail) do
+      create(:immunity_detail, planning_application:)
+    end
+
+    before do
+      sign_in assessor
+    end
+
+    it "lists the evidence in a single group for a single document" do
+      document = create(:document, tags: ["Council Tax Document"])
+      immunity_detail.add_document(document)
+      visit new_planning_application_review_immunity_detail_permitted_development_right_path(planning_application)
+
+      expect(page).to have_content("Council tax documents (1)")
+    end
+
+    it "lists the evidence in a single group for multiple documents of the same kind" do
+      document1 = create(:document, tags: ["Council Tax Document"])
+      document2 = create(:document, tags: ["Council Tax Document"])
+      immunity_detail.add_document(document1)
+      immunity_detail.add_document(document2)
+      visit new_planning_application_review_immunity_detail_permitted_development_right_path(planning_application)
+
+      expect(page).to have_content("Council tax documents (2)")
+    end
+
+    it "lists the evidence in multiple groups for multiple documents of different kind" do
+      document1 = create(:document, tags: ["Council Tax Document"])
+      document2 = create(:document, tags: ["Photograph"])
+      immunity_detail.add_document(document1)
+      immunity_detail.add_document(document2)
+      visit new_planning_application_review_immunity_detail_permitted_development_right_path(planning_application)
+
+      expect(page).to have_content("Council tax documents (1)")
+      expect(page).to have_content("Photographs (1)")
+    end
+  end
 end
