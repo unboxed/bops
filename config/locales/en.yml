@@ -933,6 +933,7 @@ en:
     officer_role: Case Officer
   user_mailer:
     otp_mail:
+      otp_expires: It will expire in %{expires} minutes.
       otp_is_your: "%{otp} is your Back Office Planning System verification code."
     update_notification_mail:
       bops_case_reference: BoPS case %{reference} has a new update.
