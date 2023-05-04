@@ -62,6 +62,10 @@ RSpec.describe ImmunityDetail do
 
       expect(immunity_detail.evidence_gaps?).to be true
     end
+
+    it "doesn't blow up if there's no evidence" do
+      expect(immunity_detail.evidence_gaps?).to be_nil
+    end
   end
 
   describe "#earliest_evidence_cover" do

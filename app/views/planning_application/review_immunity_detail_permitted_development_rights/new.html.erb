@@ -4,7 +4,10 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render "planning_application/permitted_development_rights/information" %>
 
-    <%= render "immunity_details", planning_application: @planning_application %>
+    <%= render(
+        PlanningApplications::ImmunityDetailsAssessmentComponent.new(planning_application: @planning_application, evidence_groups: @planning_application.immunity_detail.evidence_groups)
+      ) 
+    %>
 
     <%= render "planning_application/permitted_development_rights/previous", permitted_development_rights: @permitted_development_rights %>
     <%= render "previous_review_immunity_details", review_immunity_details: @review_immunity_details %>

@@ -3,19 +3,18 @@
     Immunity from enforcement
   </h2>
 
-  <p class="govuk-body">
-    <strong>Note: application may be immune from enforcement</strong>
-  </p>
-
   <%= render(PlanningApplications::ImmunityDetailsComponent.new(immunity_details: planning_application.immune_proposal_details)) %>
 
   <h3 class="govuk-heading-s govuk-!-margin-top-5 govuk-!-margin-bottom-1">Assessment summary — Evidence of immunity</h3>
   <ul class="govuk-body immunity-details-sub-list">
     <li><strong>Evidence cover:</strong>
-      <% if immunity_detail.earliest_evidence_cover.present? && immunity_detail.latest_evidence_cover.present? %>
-        from <%= immunity_detail.earliest_evidence_cover.to_formatted_s(:day_month_year_slashes) %> to <%= immunity_detail.latest_evidence_cover.to_formatted_s(:day_month_year_slashes) %>
+      <% if  planning_application.immunity_detail.earliest_evidence_cover.present? %>
+        <%= planning_application.immunity_detail.earliest_evidence_cover.to_fs(:day_month_year_slashes) %>
+        <% if  planning_application.immunity_detail.latest_evidence_cover.present? %>
+          to <%= planning_application.immunity_detail.latest_evidence_cover.to_fs(:day_month_year_slashes) %>
+        <% end %>
       <% else %>
-        <%= immunity_detail.earliest_evidence_cover.to_formatted_s(:day_month_year_slashes) || immunity_detail.latest_evidence_cover.to_formatted_s(:day_month_year_slashes) %>
+        Unknown
       <% end %>
      </li>
     <li><strong>Missing evidence (gap in time):</strong> <%= immunity_detail.evidence_gaps? ? "Yes" : "No" %> </li>

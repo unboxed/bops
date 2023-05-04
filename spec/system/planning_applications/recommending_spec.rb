@@ -531,7 +531,7 @@ RSpec.describe "Planning Application Assessment" do
 
       within("#immunity-section") do
         expect(page).to have_content("Immunity from enforcement")
-        expect(page).to have_content("Evidence cover: from 02/05/2009 to 02/05/2015")
+        expect(page).to have_content("Evidence cover: 02/05/2009 to 02/05/2015")
         expect(page).to have_content("Missing evidence (gap in time): Yes")
         expect(page).to have_content("no action is taken within 4 years of substantial completion for a breach of planning control consisting of operational development")
       end
