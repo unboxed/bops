@@ -156,7 +156,7 @@ RSpec.describe "Evidence of immunity" do
         click_button "Utility bills (1)"
 
         within(:xpath, "//*[@class='govuk-accordion__section govuk-accordion__section--expanded']") do
-          expect(page).to have_field("List all the gap(s) in time", with: "May 2019")
+          expect(page).to have_field("List all the gap(s) in time", with: "May 2019", disabled: true)
           expect(page).to have_css(".govuk-warning-text__icon")
 
           find("span", text: "Previous comments").click
