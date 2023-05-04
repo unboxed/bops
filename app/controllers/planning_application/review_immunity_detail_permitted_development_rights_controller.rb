@@ -16,7 +16,6 @@ class PlanningApplication
     before_action :set_review_immunity_details, only: %i[new show edit]
     before_action :set_review_immunity_detail, only: %i[show edit update]
     before_action :ensure_review_immunity_detail_is_editable, only: %i[edit update]
-    before_action :set_evidence_group_presenters
 
     def show
       respond_to do |format|
@@ -138,14 +137,6 @@ class PlanningApplication
 
     def redirect_failed_create_error(error)
       redirect_to planning_application_assessment_tasks_path(@planning_application), alert: error.message
-    end
-
-    def set_evidence_group_presenters
-      return unless @planning_application.possibly_immune?
-
-      @evidence_groups = @planning_application.immunity_detail.evidence_groups.map do |group|
-        EvidenceGroupPresenter.new(view_context, group)
-      end
     end
   end
 end
