@@ -823,6 +823,9 @@ en:
     four_years_unauthorised: no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse
     other: other
     ten_years_other_breach: no action is taken within 10 years for any other breach of planning control (essentially other changes of use)
+  review_immunity_detail_permitted_development_rights:
+    successfully_created: Immunity/permitted development rights response was successfully created
+    successfully_updated: Immunity/permitted development rights response was successfully updated
   review_policy_classes:
     navigation_component:
       view_next_class: View next class
@@ -915,13 +918,14 @@ en:
     other_change_request_component:
       view_other_validation: 'View other validation request #%{number}'
     permitted_development_right_component:
-      immune_permitted_development_rights: Immunity/permitted development rights
       permitted_development_rights: Permitted development rights
     permitted_development_right_review_component:
       immune_permitted_development_rights: Review immunity/permitted development rights
       permitted_development_rights: Permitted development rights
     review_documents_component:
       review_documents_for: Review documents for recommendation
+    review_immunity_detail_permitted_development_right_component:
+      immune_permitted_development_rights: Immunity/permitted development rights
     validation_decision_component:
       send_validation_decision: Send validation decision
   user:

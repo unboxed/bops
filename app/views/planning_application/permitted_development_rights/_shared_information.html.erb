@@ -1,0 +1,15 @@
+<% content_for :page_title do %>
+  Permitted development rights - <%= t('page_title') %>
+<% end %>
+
+<%= render(
+  partial: "shared/assessment_task_breadcrumbs",
+  locals: { planning_application: @planning_application  }
+) %>
+
+<% content_for :title, "Permitted development rights" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Permitted development rights" }
+) %>

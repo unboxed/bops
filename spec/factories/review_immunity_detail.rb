@@ -6,5 +6,9 @@ FactoryBot.define do
     decision { "Yes" }
     decision_reason { "it looks immune to me" }
     summary { "they have enough bills to show it's immune" }
+
+    trait :accepted do
+      accepted { true }
+    end
   end
 end

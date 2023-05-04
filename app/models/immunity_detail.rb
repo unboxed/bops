@@ -47,6 +47,6 @@ class ImmunityDetail < ApplicationRecord
   end
 
   def current_review_immunity_detail
-    review_immunity_details.last
+    review_immunity_details.where.not(id: nil).last
   end
 end
