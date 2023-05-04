@@ -31,7 +31,10 @@
     <%= render "planning_history" %>
 
     <% if @planning_application.possibly_immune? %>
-      <%= render "immunity_details", planning_application: @planning_application %>
+      <%= render(
+          PlanningApplications::ImmunityDetailsAssessmentComponent.new(planning_application: @planning_application, evidence_groups: @planning_application.immunity_detail.evidence_groups)
+        ) 
+      %>
     <% end %>
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">

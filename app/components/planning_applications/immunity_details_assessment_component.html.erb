@@ -1,0 +1,34 @@
+<section class="govuk-!-margin-top-5 immunity-section">
+  <h2 class="govuk-heading-m">
+    Immunity from enforcement
+  </h2>
+
+  <%= render(PlanningApplications::ImmunityDetailsComponent.new(immunity_details: planning_application.immune_proposal_details)) %>
+
+  <h3 class="govuk-heading-s govuk-!-margin-top-5 govuk-!-margin-bottom-1">Assessment summary — Evidence of immunity</h3>
+  <ul class="govuk-body immunity-details-sub-list">
+    <li><strong>Evidence cover:</strong>
+      <% if  planning_application.immunity_detail.earliest_evidence_cover.present? %>
+        <%= planning_application.immunity_detail.earliest_evidence_cover.to_fs(:day_month_year_slashes) %>
+        <% if  planning_application.immunity_detail.latest_evidence_cover.present? %>
+          to <%= planning_application.immunity_detail.latest_evidence_cover.to_fs(:day_month_year_slashes) %>
+        <% end %>
+      <% else %>
+        Unknown
+      <% end %>
+     </li>
+    <li><strong>Missing evidence (gap in time):</strong> <%= immunity_detail.evidence_gaps? ? "Yes" : "No" %> </li>
+  </ul>
+
+  <div class="govuk-body">
+    <hr>
+    <% for evidence_group in evidence_groups %>
+    <h3>
+      <%= link_to sanitize("#{evidence_group.name} (#{evidence_group.documents.count})<br>#{evidence_group.date_range}"),
+                  new_planning_application_immunity_detail_path(planning_application) + "#accordion-default-heading-#{evidence_group.id}",
+                  class: "govuk-link govuk-link__no-underline" %>
+    </h3>
+    <hr>
+    <% end %>
+  </div>
+</section>

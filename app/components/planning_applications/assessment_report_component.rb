@@ -21,6 +21,7 @@ module PlanningApplications
       :policy_classes,
       :permitted_development_right,
       :additional_evidence,
+      :immunity_detail,
       to: :planning_application
     )
 

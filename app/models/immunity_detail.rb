@@ -46,7 +46,7 @@ class ImmunityDetail < ApplicationRecord
   end
 
   def current_review_immunity_detail
-    review_immunity_details.where.not(id: nil).last
+    review_immunity_details.where.not(id: nil).order(:created_at).last
   end
 
   def earliest_evidence_cover

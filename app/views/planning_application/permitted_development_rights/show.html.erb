@@ -4,6 +4,13 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render "information" %>
 
+    <% if @planning_application.possibly_immune? %>
+      <%= render(
+          PlanningApplications::ImmunityDetailsAssessmentComponent.new(planning_application: @planning_application, evidence_groups: @planning_application.immunity_detail.evidence_groups)
+        ) 
+      %>
+    <% end %>
+
     <%= render "previous", permitted_development_rights: @permitted_development_rights %>
 
     <p class="govuk-body govuk-!-padding-top-5">

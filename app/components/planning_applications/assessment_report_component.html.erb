@@ -10,10 +10,18 @@
     <%= render(FormattedContentComponent.new(text: past_applications.additional_information)) %>
   </section>
 <% end %>
-<% if planning_application.possibly_immune? %>
-  <section id="immunity-section" class="govuk-!-padding-bottom-5">
-    <h3 class="govuk-heading-s"><%= t(".immunity_from_enforcement") %></h3>
-    <%= render(PlanningApplications::ImmunityDetailsComponent.new(immunity_details: planning_application.immune_proposal_details)) %>
+<% if planning_application.possibly_immune? && immunity_detail.current_review_immunity_detail %>
+  <section id="immunity-section">
+    <%= render(
+        PlanningApplications::ImmunityDetailsAssessmentComponent.new(planning_application: planning_application, evidence_groups: immunity_detail.evidence_groups)
+      ) 
+    %>
+    <p class="govuk-body"><strong>Is the application immune from enforcement?</strong></p>
+    <p class="govuk-body">
+      <strong><%= immunity_detail.current_review_immunity_detail.decision %></strong><br>
+      <%= immunity_detail.current_review_immunity_detail.decision_reason %>
+    </p>
+    <p class="govuk-body"><%= immunity_detail.current_review_immunity_detail.summary %></p>
   </section>
 <% end %>
 <% if permitted_development_right %>
