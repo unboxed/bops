@@ -31,6 +31,10 @@ class EvidenceGroup < ApplicationRecord
     persisted_comments - [comment]
   end
 
+  def persisted_comments
+    comments.select(&:persisted?).sort_by(&:created_at)
+  end
+
   private
 
   def last_comment
