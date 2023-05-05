@@ -28,7 +28,7 @@ RSpec.describe User do
       let!(:user2) { create(:user, :reviewer) }
 
       it "returns all non administrator users" do
-        expect(described_class.non_administrator).to eq([user1, user2])
+        expect(described_class.non_administrator).to contain_exactly(user1, user2)
       end
     end
   end
