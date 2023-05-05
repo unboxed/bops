@@ -6,7 +6,7 @@
         id: "immunity-detail-evidence-groups" do |form| %>
     <% sections.each_with_index do |section, index| %>
       <div class="govuk-accordion__section">
-        <div class="govuk-accordion__section-header">
+        <div class="govuk-accordion__section-header display-flex">
           <h3 class="govuk-accordion__section-heading">
             <button type="button" class="govuk-accordion__section-button" id="accordion-default-heading-<%= section.id.to_s %>">
               <%= section.tag.humanize.pluralize %> (<%= section.documents.count %>)<br>
@@ -16,11 +16,13 @@
                 <%= section.start_date&.to_formatted_s(:day_month_year_slashes) %>
               <% end %>
             </button>
-            <% if section.missing_evidence? %>
-                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-            <% end %>
             <span class="govuk-accordion__icon"></span>
           </h3>
+          <% if section.missing_evidence? %>
+            <div class="govuk-warning-text govuk-!-margin-left-6 govuk-!-margin-top-2">
+              <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            </div>
+          <% end %>
         </div>
         <div class="govuk-accordion__section-content">
           <%= form.fields_for :evidence_groups, section do |ff| %>
