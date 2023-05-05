@@ -70,7 +70,7 @@ RSpec.describe "Reviewing sign-off" do
 
     expect(list_item("Sign-off recommendation")).to have_content("Completed")
 
-    click_on "Publish decision"
+    click_on "Review and publish decision"
 
     click_button "Publish determination"
 

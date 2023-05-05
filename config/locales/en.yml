@@ -450,6 +450,7 @@ en:
       success: Fee item was marked as valid.
   form_actions:
     publish_decision: Publish decision
+    review_and_publish_decision: Review and publish decision
     save_and_come_back_later: Save and come back later
     save_and_mark_as_complete: Save and mark as complete
   helpers:
