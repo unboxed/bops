@@ -30,10 +30,14 @@
     <% end %>
   </div>
 <% end %>
+
+<% if planning_application.submit_recommendation_complete? %>
+  <%= back_link %>
+<% else %>
 <%= render(
   partial: "shared/submit_buttons",
   locals: {
-    form: form,
-    disabled: planning_application.submit_recommendation_complete?
+    form: form
   }
 ) %>
+<% end %>
