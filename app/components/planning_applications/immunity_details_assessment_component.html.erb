@@ -23,11 +23,18 @@
   <div class="govuk-body">
     <hr>
     <% for evidence_group in evidence_groups %>
-    <h3>
-      <%= link_to sanitize("#{evidence_group.name} (#{evidence_group.documents.count})<br>#{evidence_group.date_range}"),
-                  new_planning_application_immunity_detail_path(planning_application) + "#accordion-default-heading-#{evidence_group.id}",
-                  class: "govuk-link govuk-link__no-underline" %>
-    </h3>
+    <div class="display-flex align-items-center">
+      <h3>
+        <%= link_to sanitize("#{evidence_group.name} (#{evidence_group.documents.count})<br>#{evidence_group.date_range}"),
+                    new_planning_application_immunity_detail_path(planning_application) + "#accordion-default-heading-#{evidence_group.id}",
+                    class: "govuk-link govuk-link__no-underline" %>
+      </h3>
+      <% if evidence_group.missing_evidence? %>
+        <div class="govuk-warning-text govuk-!-margin-left-6 govuk-!-margin-top-2">
+          <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        </div>
+      <% end %>
+    </div>
     <hr>
     <% end %>
   </div>
