@@ -28,7 +28,7 @@ class EvidenceGroup < ApplicationRecord
   end
 
   def previous_comments
-    persisted_comments
+    persisted_comments - [comment]
   end
 
   def persisted_comments

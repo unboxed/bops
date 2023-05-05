@@ -14,7 +14,7 @@ RSpec.describe "Reviewing evidence of immunity" do
     )
   end
 
-  let(:assessor) { create(:user, name: "Chuck The Assessor", local_authority: default_local_authority) }
+  let(:assessor) { create(:user, local_authority: default_local_authority) }
 
   let(:planning_application) do
     create(
@@ -30,6 +30,9 @@ RSpec.describe "Reviewing evidence of immunity" do
   let!(:review_immunity_detail) { create(:review_immunity_detail, immunity_detail: planning_application.immunity_detail, assessor:) } # rubocop:disable RSpec/LetSetup
 
   before do
+    create(:evidence_group, :with_document, tag: "utility_bill", missing_evidence: true, missing_evidence_entry: "gaps everywhere", immunity_detail: planning_application.immunity_detail)
+    create(:evidence_group, :with_document, tag: "building_control_certificate", end_date: nil, immunity_detail: planning_application.immunity_detail)
+
     sign_in reviewer
     visit(planning_application_review_tasks_path(planning_application))
   end
@@ -61,6 +64,20 @@ RSpec.describe "Reviewing evidence of immunity" do
       expect(page).to have_content("When were the works completed? 01/02/2015")
       expect(page).to have_content("Has anyone ever attempted to conceal the changes? No")
       expect(page).to have_content("Has enforcement action been taken about these changes? No")
+
+      click_button "Utility bills (1)"
+      utility_bill_group = planning_application.immunity_detail.evidence_groups.where(tag: "utility_bill").first
+
+      within(open_accordion_section) do
+        expect(page).to have_content(utility_bill_group.start_date.to_fs(:day_month_year_slashes))
+        expect(page).to have_content(utility_bill_group.end_date.to_fs(:day_month_year_slashes))
+
+        expect(page).to have_content("Missing evidence (gap in time): gaps everywhere")
+
+        expect(page).to have_content("This is my proof")
+
+        expect(page).to have_content(utility_bill_group.documents.first.numbers)
+      end
     end
 
     it "I can save and come back later when adding my review or editing the evidence of immunity" do
@@ -137,6 +154,54 @@ RSpec.describe "Reviewing evidence of immunity" do
       find("span", text: "See immunity detail checks").click
 
       expect(page).to have_content("Please re-assess")
+    end
+
+    it "I can edit comments" do
+      utility_bill_group = planning_application.immunity_detail.evidence_groups.where(tag: "utility_bill").first
+
+      comment = create(
+        :comment,
+        commentable: utility_bill_group,
+        created_at: DateTime.new(2022, 12, 19),
+        text: "test"
+      )
+
+      click_link "Review evidence of immunity"
+
+      click_button "Utility bills (1)"
+
+      within(open_accordion_section) do
+        expect(page).to have_content("test")
+
+        click_button "Edit comment"
+
+        fill_in "Comment added on #{comment.created_at.strftime('%d %b %Y')} by",
+                with: ""
+
+        click_button "Update"
+
+        expect(page).to have_content "Text can't be blank"
+
+        fill_in "Comment added on #{comment.created_at.strftime('%d %b %Y')} by",
+                with: "This is a new comment now"
+
+        click_button "Update"
+
+        expect(page).to have_content("This is a new comment now")
+      end
+
+      click_link "Review"
+      click_link "Review evidence of immunity"
+
+      click_button "Utility bills (1)"
+
+      within(open_accordion_section) do
+        expect(page).to have_content("This is a new comment now")
+
+        find("span", text: "Previous comments").click
+
+        expect(page).to have_content("test")
+      end
     end
   end
 end
