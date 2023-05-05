@@ -1,7 +1,7 @@
 <div class="govuk-accordion" data-module="govuk-accordion">
   <% sections.each_with_index do |section, index| %>
     <div class="govuk-accordion__section">
-      <div class="govuk-accordion__section-header">
+      <div class="govuk-accordion__section-header display-flex">
         <h3 class="govuk-accordion__section-heading">
           <button type="button" class="govuk-accordion__section-button" id="accordion-default-heading-<%= "#{section}" %>">
             <%= section.tag.humanize.pluralize %> (<%= section.documents.count %>)<br>
@@ -13,6 +13,11 @@
           </button>
           <span class="govuk-accordion__icon"></span>
         </h3>
+        <% if section.missing_evidence? %>
+          <div class="govuk-warning-text govuk-!-margin-left-6 govuk-!-margin-top-2">
+            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+          </div>
+        <% end %>
       </div>
       <div class="govuk-accordion__section-content">
         <% if section.start_date.present? %>
