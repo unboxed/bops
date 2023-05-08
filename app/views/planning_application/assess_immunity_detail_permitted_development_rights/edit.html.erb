@@ -12,6 +12,6 @@
     <%= render "planning_application/permitted_development_rights/previous", permitted_development_rights: @permitted_development_rights %>
     <%= render "previous_review_immunity_details", review_immunity_details: @review_immunity_details %>
 
-    <%= render "form", planning_application: @planning_application, form_url: planning_application_review_immunity_detail_permitted_development_right_path(@planning_application), form_method: :patch %>
+    <%= render "form", planning_application: @planning_application, form_url: planning_application_assess_immunity_detail_permitted_development_right_path(@planning_application), form_method: :patch %>
   </div>
 </div>

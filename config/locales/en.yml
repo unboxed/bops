@@ -82,6 +82,18 @@ en:
   activemodel:
     errors:
       models:
+        assess_immunity_detail_permitted_development_right_form:
+          attributes:
+            decision:
+              blank: Please select Yes or No for whether the application is immune from enforcement
+            decision_reason:
+              blank: Decision reason for why the application is immune can't be blank
+            removed:
+              inclusion: Please select Yes or No for the permitted development rights
+            removed_reason:
+              blank: Removed reason for the permitted development rights can't be blank
+            summary:
+              blank: Immunity from enforcement summary can't be blank
         assessment_details_review:
           attributes:
             additional_evidence_entry:
@@ -100,18 +112,6 @@ en:
               blank: Please select Yes or No
             public_comment:
               blank: Please state the reasons why this application is, or is not lawful
-        review_immunity_detail_permitted_development_right_form:
-          attributes:
-            decision:
-              blank: Please select Yes or No for whether the application is immune from enforcement
-            decision_reason:
-              blank: Decision reason for why the application is immune can't be blank
-            removed:
-              inclusion: Please select Yes or No for the permitted development rights
-            removed_reason:
-              blank: Removed reason for the permitted development rights can't be blank
-            summary:
-              blank: Immunity from enforcement summary can't be blank
   activerecord:
     errors:
       models:
@@ -221,6 +221,14 @@ en:
     dimensions: Revise dimensions
     other: Other
     scale: Missing scale bar or north arrow
+  assess_immunity_detail_permitted_development_right_form:
+    four_years_substantial: no action is taken within 4 years of substantial completion for a breach of planning control consisting of operational development
+    four_years_unauthorised: no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse
+    other: other
+    ten_years_other_breach: no action is taken within 10 years for any other breach of planning control (essentially other changes of use)
+  assess_immunity_detail_permitted_development_rights:
+    successfully_created: Immunity/permitted development rights response was successfully created
+    successfully_updated: Immunity/permitted development rights response was successfully updated
   assessment_details:
     additional_evidence: Summary of additional evidence
     additional_evidence_successfully_created: Additional evidence was successfully created.
@@ -818,14 +826,6 @@ en:
       success: Replacement document validation request successfully created.
     update:
       success: Replacement document reason successfully updated.
-  review_immunity_detail_permitted_development_right_form:
-    four_years_substantial: no action is taken within 4 years of substantial completion for a breach of planning control consisting of operational development
-    four_years_unauthorised: no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse
-    other: other
-    ten_years_other_breach: no action is taken within 10 years for any other breach of planning control (essentially other changes of use)
-  review_immunity_detail_permitted_development_rights:
-    successfully_created: Immunity/permitted development rights response was successfully created
-    successfully_updated: Immunity/permitted development rights response was successfully updated
   review_policy_classes:
     navigation_component:
       view_next_class: View next class
@@ -897,6 +897,8 @@ en:
   task_list_items:
     additional_document_component:
       check_required_documents: Check required documents are on application
+    assess_immunity_detail_permitted_development_right_component:
+      immune_permitted_development_rights: Immunity/permitted development rights
     assessment_detail_component:
       additional_evidence: Summary of additional evidence
       consultation_summary: Summary of consultation
@@ -924,8 +926,6 @@ en:
       permitted_development_rights: Permitted development rights
     review_documents_component:
       review_documents_for: Review documents for recommendation
-    review_immunity_detail_permitted_development_right_component:
-      immune_permitted_development_rights: Immunity/permitted development rights
     validation_decision_component:
       send_validation_decision: Send validation decision
   user:

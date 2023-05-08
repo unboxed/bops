@@ -6,7 +6,7 @@
 
     <%= render(
         PlanningApplications::ImmunityDetailsAssessmentComponent.new(planning_application: @planning_application, evidence_groups: @planning_application.immunity_detail.evidence_groups)
-      ) 
+      )
     %>
 
     <%= render "planning_application/permitted_development_rights/previous", permitted_development_rights: @permitted_development_rights %>
@@ -43,7 +43,7 @@
         <% unless @review_immunity_detail.reviewed_at %>
           <%= link_to(
             "Edit immunity/permitted development rights",
-            edit_planning_application_review_immunity_detail_permitted_development_right_path(@planning_application),
+            edit_planning_application_assess_immunity_detail_permitted_development_right_path(@planning_application),
             class: "govuk-link"
           ) %>
         <% end %>

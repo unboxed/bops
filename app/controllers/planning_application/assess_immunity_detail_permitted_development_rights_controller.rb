@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PlanningApplication
-  class ReviewImmunityDetailPermittedDevelopmentRightsController < AuthenticationController
+  class AssessImmunityDetailPermittedDevelopmentRightsController < AuthenticationController
     include PlanningApplicationAssessable
     include PermittedDevelopmentRights
     include CommitMatchable
@@ -27,7 +27,7 @@ class PlanningApplication
       @permitted_development_right = @planning_application.permitted_development_rights.new
       @review_immunity_detail = @planning_application.immunity_detail.review_immunity_details.new
 
-      @form = ReviewImmunityDetailPermittedDevelopmentRightForm.new(
+      @form = AssessImmunityDetailPermittedDevelopmentRightForm.new(
         planning_application: @planning_application
       )
 
@@ -37,7 +37,7 @@ class PlanningApplication
     end
 
     def edit
-      @form = ReviewImmunityDetailPermittedDevelopmentRightForm.new(
+      @form = AssessImmunityDetailPermittedDevelopmentRightForm.new(
         planning_application: @planning_application
       )
 
@@ -47,14 +47,14 @@ class PlanningApplication
     end
 
     def create
-      @form = ReviewImmunityDetailPermittedDevelopmentRightForm.new(
+      @form = AssessImmunityDetailPermittedDevelopmentRightForm.new(
         planning_application: @planning_application,
-        params: review_immunity_detail_permitted_development_right_form_params
+        params: assess_immunity_detail_permitted_development_right_form_params
       )
 
       if @form.save
         redirect_to planning_application_assessment_tasks_path(@planning_application),
-                    notice: I18n.t("review_immunity_detail_permitted_development_rights.successfully_created")
+                    notice: I18n.t("assess_immunity_detail_permitted_development_rights.successfully_created")
       else
         set_permitted_development_rights
         set_review_immunity_details
@@ -63,16 +63,16 @@ class PlanningApplication
     end
 
     def update
-      @form = ReviewImmunityDetailPermittedDevelopmentRightForm.new(
+      @form = AssessImmunityDetailPermittedDevelopmentRightForm.new(
         planning_application: @planning_application,
-        params: review_immunity_detail_permitted_development_right_form_params,
+        params: assess_immunity_detail_permitted_development_right_form_params,
         review_immunity_detail: @review_immunity_detail,
         permitted_development_right: @permitted_development_right
       )
 
       if @form.update
         redirect_to planning_application_assessment_tasks_path(@planning_application),
-                    notice: I18n.t("review_immunity_detail_permitted_development_rights.successfully_updated")
+                    notice: I18n.t("assess_immunity_detail_permitted_development_rights.successfully_updated")
       else
         set_permitted_development_rights
         set_review_immunity_details
@@ -92,8 +92,8 @@ class PlanningApplication
       Integer(params[:planning_application_id])
     end
 
-    def review_immunity_detail_permitted_development_right_form_params
-      params.require(:review_immunity_detail_permitted_development_right_form).permit(
+    def assess_immunity_detail_permitted_development_right_form_params
+      params.require(:assess_immunity_detail_permitted_development_right_form).permit(
         review_immunity_detail: %i[decision decision_reason yes_decision_reason no_decision_reason decision_type
                                    summary],
         permitted_development_right: %i[removed removed_reason]
@@ -127,7 +127,7 @@ class PlanningApplication
     def permitted_development_right_status
       return "in_progress" if save_progress?
 
-      case params.dig(:review_immunity_detail_permitted_development_right_form, :permitted_development_right, :removed)
+      case params.dig(:assess_immunity_detail_permitted_development_right_form, :permitted_development_right, :removed)
       when "true"
         "removed"
       when "false"

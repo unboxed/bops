@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Review immunity detail permitted development right" do
+RSpec.describe "Assess immunity detail permitted development right" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
@@ -31,7 +31,7 @@ RSpec.describe "Review immunity detail permitted development right" do
       end
 
       it "displays an error if no reason for a 'Yes' decision has been given" do
-        within("#review-immunity-detail-section") do
+        within("#assess-immunity-detail-section") do
           choose "Yes"
         end
         click_button "Save and mark as complete"
@@ -43,7 +43,7 @@ RSpec.describe "Review immunity detail permitted development right" do
       end
 
       it "displays an error if no reason or response to permitted development rights for a 'No' decision has been given" do
-        within("#review-immunity-detail-section") do
+        within("#assess-immunity-detail-section") do
           choose "No"
         end
         click_button "Save and mark as complete"
@@ -55,7 +55,7 @@ RSpec.describe "Review immunity detail permitted development right" do
       end
 
       it "displays an error if no reason for removing permitted development rights has been given" do
-        within("#review-immunity-detail-section") do
+        within("#assess-immunity-detail-section") do
           choose "No"
         end
         within("#permitted-development-right-section") do
@@ -88,13 +88,13 @@ RSpec.describe "Review immunity detail permitted development right" do
         # Does not show summary field until decision is chosen
         expect(page).not_to have_content("Immunity from enforcement summary")
 
-        within("#review-immunity-detail-section") do
+        within("#assess-immunity-detail-section") do
           choose "Yes"
           # Does not show permitted development rights section when decision is "Yes"
           expect(page).not_to have_css("#permitted-development-right-section")
         end
 
-        within("#review-immunity-detail-section") do
+        within("#assess-immunity-detail-section") do
           choose "No"
           # Does not show summary field
           expect(page).not_to have_content("Immunity from enforcement summary")
@@ -104,7 +104,7 @@ RSpec.describe "Review immunity detail permitted development right" do
 
     context "when I assess whether the application is immune from enforcement" do
       it "I can choose 'Yes' and select a reason" do
-        within("#review-immunity-detail-section") do
+        within("#assess-immunity-detail-section") do
           choose "Yes"
 
           within(".govuk-radios") do
@@ -134,14 +134,14 @@ RSpec.describe "Review immunity detail permitted development right" do
         within("#immunity-permitted-development-rights") do
           expect(page).to have_link(
             "Immunity/permitted development rights",
-            href: planning_application_review_immunity_detail_permitted_development_right_path(planning_application)
+            href: planning_application_assess_immunity_detail_permitted_development_right_path(planning_application)
           )
           expect(page).to have_content("Completed")
         end
       end
 
       it "I can choose 'Yes' and give an other reason" do
-        within("#review-immunity-detail-section") do
+        within("#assess-immunity-detail-section") do
           choose "Yes"
 
           within(".govuk-radios") do
@@ -167,7 +167,7 @@ RSpec.describe "Review immunity detail permitted development right" do
       end
 
       it "I choose 'Yes' after originally selecting 'No'" do
-        within("#review-immunity-detail-section") do
+        within("#assess-immunity-detail-section") do
           choose "No"
 
           fill_in "Describe why the application is not immune from enforcement", with: "Application is not immune"
@@ -179,7 +179,7 @@ RSpec.describe "Review immunity detail permitted development right" do
           fill_in "Describe how permitted development rights have been removed", with: "A reason"
         end
 
-        within("#review-immunity-detail-section") do
+        within("#assess-immunity-detail-section") do
           choose "Yes"
 
           within(".govuk-radios") do
@@ -199,7 +199,7 @@ RSpec.describe "Review immunity detail permitted development right" do
       end
 
       it "I can choose 'No' and respond to the permitted development rights" do
-        within("#review-immunity-detail-section") do
+        within("#assess-immunity-detail-section") do
           choose "No"
 
           fill_in "Describe why the application is not immune from enforcement", with: "Application is not immune"
@@ -229,7 +229,7 @@ RSpec.describe "Review immunity detail permitted development right" do
       end
 
       it "I can 'Save and come back later' to my response" do
-        within("#review-immunity-detail-section") do
+        within("#assess-immunity-detail-section") do
           choose "Yes"
 
           within(".govuk-radios") do
@@ -254,14 +254,14 @@ RSpec.describe "Review immunity detail permitted development right" do
         within("#immunity-permitted-development-rights") do
           expect(page).to have_link(
             "Immunity/permitted development rights",
-            href: edit_planning_application_review_immunity_detail_permitted_development_right_path(planning_application)
+            href: edit_planning_application_assess_immunity_detail_permitted_development_right_path(planning_application)
           )
           expect(page).to have_content("In progress")
         end
       end
 
       it "I can view and edit my response" do
-        within("#review-immunity-detail-section") do
+        within("#assess-immunity-detail-section") do
           choose "No"
 
           fill_in "Describe why the application is not immune from enforcement", with: "Application is not immune"
@@ -296,15 +296,15 @@ RSpec.describe "Review immunity detail permitted development right" do
 
         # View edit page
         click_link "Edit immunity/permitted development rights"
-        expect(find_by_id("review-immunity-detail-permitted-development-right-form-review-immunity-detail-decision-yes-field").selected?).to be(false)
-        expect(find_by_id("review-immunity-detail-permitted-development-right-form-review-immunity-detail-decision-no-field").selected?).to be(true)
+        expect(find_by_id("assess-immunity-detail-permitted-development-right-form-review-immunity-detail-decision-yes-field").selected?).to be(false)
+        expect(find_by_id("assess-immunity-detail-permitted-development-right-form-review-immunity-detail-decision-no-field").selected?).to be(true)
 
-        expect(find_by_id("review-immunity-detail-permitted-development-right-form-review-immunity-detail-no-decision-reason-field").value).to eq("Application is not immune")
-        expect(find_by_id("review-immunity-detail-permitted-development-right-form-permitted-development-right-removed-true-field").selected?).to be(true)
-        expect(find_by_id("review-immunity-detail-permitted-development-right-form-permitted-development-right-removed-field").selected?).to be(false)
-        expect(find_by_id("review-immunity-detail-permitted-development-right-form-permitted-development-right-removed-reason-field").value).to eq("A reason")
+        expect(find_by_id("assess-immunity-detail-permitted-development-right-form-review-immunity-detail-no-decision-reason-field").value).to eq("Application is not immune")
+        expect(find_by_id("assess-immunity-detail-permitted-development-right-form-permitted-development-right-removed-true-field").selected?).to be(true)
+        expect(find_by_id("assess-immunity-detail-permitted-development-right-form-permitted-development-right-removed-field").selected?).to be(false)
+        expect(find_by_id("assess-immunity-detail-permitted-development-right-form-permitted-development-right-removed-reason-field").value).to eq("A reason")
 
-        within("#review-immunity-detail-section") do
+        within("#assess-immunity-detail-section") do
           choose "Yes"
 
           within(".govuk-radios") do
@@ -318,14 +318,14 @@ RSpec.describe "Review immunity detail permitted development right" do
         click_link "Immunity/permitted development rights"
         click_link "Edit immunity/permitted development rights"
 
-        expect(find_by_id("review-immunity-detail-permitted-development-right-form-review-immunity-detail-decision-yes-field").selected?).to be(true)
-        expect(find_by_id("review-immunity-detail-permitted-development-right-form-review-immunity-detail-decision-no-field").selected?).to be(false)
+        expect(find_by_id("assess-immunity-detail-permitted-development-right-form-review-immunity-detail-decision-yes-field").selected?).to be(true)
+        expect(find_by_id("assess-immunity-detail-permitted-development-right-form-review-immunity-detail-decision-no-field").selected?).to be(false)
         expect(
           find_by_id(
-            "review-immunity-detail-permitted-development-right-form-review-immunity-detail-decision-type-no-action-is-taken-within-4-years-for-an-unauthorised-change-of-use-to-a-single-dwellinghouse-field"
+            "assess-immunity-detail-permitted-development-right-form-review-immunity-detail-decision-type-no-action-is-taken-within-4-years-for-an-unauthorised-change-of-use-to-a-single-dwellinghouse-field"
           ).selected?
         ).to be(true)
-        expect(find_by_id("review-immunity-detail-permitted-development-right-form-review-immunity-detail-summary-field").value).to eq("A summary")
+        expect(find_by_id("assess-immunity-detail-permitted-development-right-form-review-immunity-detail-summary-field").value).to eq("A summary")
 
         click_button "Save and mark as complete"
         expect(page).to have_content("Immunity/permitted development rights response was successfully updated")
@@ -359,9 +359,9 @@ RSpec.describe "Review immunity detail permitted development right" do
     end
 
     it "I cannot create a new permitted development right request when there is an open response" do
-      visit new_planning_application_review_immunity_detail_permitted_development_right_path(planning_application)
+      visit new_planning_application_assess_immunity_detail_permitted_development_right_path(planning_application)
 
-      within("#review-immunity-detail-section") do
+      within("#assess-immunity-detail-section") do
         choose "Yes"
         choose "no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse"
         fill_in "Immunity from enforcement summary", with: "A summary"
@@ -401,7 +401,7 @@ RSpec.describe "Review immunity detail permitted development right" do
       click_link "Check and assess"
       expect(page).not_to have_link("Immunity/permitted development rights")
 
-      visit new_planning_application_review_immunity_detail_permitted_development_right_path(planning_application)
+      visit new_planning_application_assess_immunity_detail_permitted_development_right_path(planning_application)
 
       expect(page).to have_content("forbidden")
     end
@@ -411,7 +411,7 @@ RSpec.describe "Review immunity detail permitted development right" do
     it "I can view the information on the permitted development rights page" do
       create(:immunity_detail, planning_application:)
       sign_in assessor
-      visit new_planning_application_review_immunity_detail_permitted_development_right_path(planning_application)
+      visit new_planning_application_assess_immunity_detail_permitted_development_right_path(planning_application)
 
       expect(page).to have_content("Evidence cover: Unknown")
       expect(page).to have_content("Missing evidence (gap in time): No")
@@ -430,7 +430,7 @@ RSpec.describe "Review immunity detail permitted development right" do
     it "lists the evidence in a single group for a single document" do
       document = create(:document, tags: ["Council Tax Document"])
       immunity_detail.add_document(document)
-      visit new_planning_application_review_immunity_detail_permitted_development_right_path(planning_application)
+      visit new_planning_application_assess_immunity_detail_permitted_development_right_path(planning_application)
 
       expect(page).to have_content("Council tax documents (1)")
     end
@@ -440,7 +440,7 @@ RSpec.describe "Review immunity detail permitted development right" do
       document2 = create(:document, tags: ["Council Tax Document"])
       immunity_detail.add_document(document1)
       immunity_detail.add_document(document2)
-      visit new_planning_application_review_immunity_detail_permitted_development_right_path(planning_application)
+      visit new_planning_application_assess_immunity_detail_permitted_development_right_path(planning_application)
 
       expect(page).to have_content("Council tax documents (2)")
     end
@@ -450,7 +450,7 @@ RSpec.describe "Review immunity detail permitted development right" do
       document2 = create(:document, tags: ["Photograph"])
       immunity_detail.add_document(document1)
       immunity_detail.add_document(document2)
-      visit new_planning_application_review_immunity_detail_permitted_development_right_path(planning_application)
+      visit new_planning_application_assess_immunity_detail_permitted_development_right_path(planning_application)
 
       expect(page).to have_content("Council tax documents (1)")
       expect(page).to have_content("Photographs (1)")
