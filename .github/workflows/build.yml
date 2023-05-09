@@ -52,7 +52,7 @@ jobs:
           - [
               "other",
               "*_spec.rb",
-              "{components,helpers,presenters,mailer,jobs,services,translations}",
+              "{components,form_models,helpers,presenters,mailer,jobs,services,translations}",
             ]
       fail-fast: false
     with:
