@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ReviewImmunityDetailPermittedDevelopmentRightForm
+class AssessImmunityDetailPermittedDevelopmentRightForm
   include ActiveModel::Model
   include CommitMatchable
 

@@ -48,7 +48,7 @@ RSpec.describe "Reviewing evidence of immunity" do
 
       within(".govuk-breadcrumbs__list") do
         expect(page).to have_content("Review")
-        expect(page).to have_content("Evidence of immunity")
+        expect(page).to have_content("Review evidence of immunity")
       end
 
       expect(page).to have_current_path(

@@ -125,6 +125,9 @@ Rails.application.routes.draw do
 
       resources :assessment_tasks, only: :index
 
+      resources :assess_immunity_detail_permitted_development_rights, only: %i[new create]
+      resource :assess_immunity_detail_permitted_development_right, only: %i[show edit update]
+
       resources :review_tasks, only: :index
 
       resources :review_policy_classes, only: %i[edit update show]
@@ -140,9 +143,6 @@ Rails.application.routes.draw do
       resources :review_immunity_details, only: %i[edit update show]
 
       resources :permitted_development_rights, only: %i[new create edit update show]
-
-      resources :review_immunity_detail_permitted_development_rights, only: %i[new create]
-      resource :review_immunity_detail_permitted_development_right, only: %i[show edit update]
 
       resources :review_permitted_development_rights, only: %i[show edit update]
 

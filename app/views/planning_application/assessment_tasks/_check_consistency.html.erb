@@ -43,7 +43,7 @@
     <% end %>
     <% if @planning_application.possibly_immune? %>
       <%= render(
-        TaskListItems::ReviewImmunityDetailPermittedDevelopmentRightComponent.new(
+        TaskListItems::AssessImmunityDetailPermittedDevelopmentRightComponent.new(
           planning_application: @planning_application
         )
       ) %>

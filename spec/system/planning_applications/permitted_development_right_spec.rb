@@ -346,7 +346,7 @@ RSpec.describe "Permitted development right" do
         end
 
         expect(page).to have_current_path(
-          new_planning_application_review_immunity_detail_permitted_development_right_path(planning_application)
+          new_planning_application_assess_immunity_detail_permitted_development_right_path(planning_application)
         )
 
         within(".govuk-heading-l") do
