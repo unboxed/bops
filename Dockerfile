@@ -33,6 +33,10 @@ RUN yarn install
 
 WORKDIR /app
 
+RUN groupadd -r app && \
+    useradd --no-log-init -r -g app -d /app app
+USER app:app
+
 COPY . .
 
 # Sets an interactive shell as default command when the container starts
