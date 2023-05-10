@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe TaskListItems::PermittedDevelopmentRightReviewComponent, type: :component do
+RSpec.describe TaskListItems::ReviewPermittedDevelopmentRightComponent, type: :component do
   let(:planning_application) { create(:planning_application) }
 
   let!(:permitted_development_right) do

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module TaskListItems
-  class PermittedDevelopmentRightReviewComponent < TaskListItems::BaseComponent
+  class ReviewPermittedDevelopmentRightComponent < TaskListItems::BaseComponent
     def initialize(planning_application:)
       @planning_application = planning_application
     end
@@ -31,7 +31,7 @@ module TaskListItems
     end
 
     def status_tag_component
-      StatusTags::PermittedDevelopmentRightReviewComponent.new(
+      StatusTags::ReviewPermittedDevelopmentRightComponent.new(
         planning_application:,
         permitted_development_right:
       )

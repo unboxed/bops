@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module TaskListItems
-  class ImmunityDetailsReviewComponent < TaskListItems::BaseComponent
+  class ReviewImmunityDetailsComponent < TaskListItems::BaseComponent
     def initialize(planning_application:)
       @planning_application = planning_application
     end
@@ -36,7 +36,7 @@ module TaskListItems
     end
 
     def status_tag_component
-      StatusTags::ImmunityDetailReviewComponent.new(
+      StatusTags::ReviewImmunityDetailComponent.new(
         planning_application:,
         review_immunity_detail:
       )
