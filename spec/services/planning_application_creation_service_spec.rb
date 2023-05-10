@@ -98,6 +98,30 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
         end
       end
 
+      context "when application is applying for prior approval" do
+        let(:planning_application) { create(:planning_application, :from_planx_prior_approval, api_user:) }
+
+        before do
+          allow_any_instance_of(PlanningApplication).to receive(:can_clone?).and_return(true)
+        end
+
+        it "is successful" do
+          planning_application = PlanningApplication.last
+
+          expect do
+            described_class.new(
+              planning_application:
+            ).call
+          end.to change(PlanningApplication, :count).by(1)
+
+          cloned_planning_application = PlanningApplication.last
+
+          expect(planning_application.reference).not_to eq(cloned_planning_application.reference)
+
+          expect(cloned_planning_application.application_type).to eq("prior_approval")
+        end
+      end
+
       context "when can_clone? is false" do
         before { allow(planning_application).to receive(:can_clone?).and_return(false) }
 
