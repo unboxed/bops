@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "boot"
+require_relative "../lib/quiet_logger"
 
 require "rails"
 # Pick the frameworks you want:
@@ -46,5 +47,8 @@ module Bops
     config.action_mailer.preview_path = Rails.root.join("spec/mailer/previews")
 
     config.active_storage.variant_processor = :mini_magick
+
+    # Don't log certain requests that spam the log files
+    config.middleware.insert_before Rails::Rack::Logger, QuietLogger, paths: ["/healthcheck"]
   end
 end
