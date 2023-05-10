@@ -32,6 +32,9 @@ RSpec.describe "cloning a planning application" do
 
   context "when I am able to clone a planning application" do
     it "I am successfully redirected to the cloned planning application" do
+      # It does not send a receipt notice mail
+      expect(PlanningApplicationMailer).not_to receive(:receipt_notice_mail)
+
       accept_confirm(text: "This will clone the planning application identical to how it was created via PlanX. Are you sure?") do
         click_link("Clone")
       end

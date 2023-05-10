@@ -13,6 +13,7 @@ class PlanningApplicationCreationService
       @params = ActionController::Parameters.new(JSON.parse(audit_log))
       @local_authority = planning_application.local_authority
       @api_user = planning_application.api_user
+      @send_email = false
     else
       options.each { |k, v| instance_variable_set("@#{k}", v) unless v.nil? }
     end
@@ -56,7 +57,7 @@ class PlanningApplicationCreationService
       end
     end
 
-    planning_application.send_receipt_notice_mail unless params[:send_email] == "false"
+    planning_application.send_receipt_notice_mail unless skip_email?
 
     planning_application
   rescue Api::V1::Errors::WrongFileTypeError, Api::V1::Errors::GetFileError, ActiveRecord::RecordInvalid,
@@ -137,5 +138,9 @@ class PlanningApplicationCreationService
 
   def permitted_prior_approval_type?
     params[:planx_debug_data][:passport][:data][:"application.type"] == ["pa.part1.classA"]
+  end
+
+  def skip_email?
+    params[:send_email] == "false" || @send_email == false
   end
 end
