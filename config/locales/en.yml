@@ -212,8 +212,8 @@ en:
     lawfulness_certificate:
       existing: LDCE
       proposed: LDCP
-    prior_approval: 
-      proposed: ""
+    prior_approval:
+      proposed: ''
   application_types:
     full: Full Householder Application
     lawfulness_certificate: Lawful Development Certificate
