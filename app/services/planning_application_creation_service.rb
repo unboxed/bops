@@ -65,6 +65,8 @@ class PlanningApplicationCreationService
   end
 
   def planning_application_params
+    params[:application_type] = "prior_approval" if params[:application_type] == "Apply for prior approval"
+
     permitted_keys = [:application_type,
                       :description,
                       :applicant_first_name,
