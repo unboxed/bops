@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe TaskListItems::ImmunityDetailsReviewComponent, type: :component do
+RSpec.describe TaskListItems::ReviewImmunityDetailsComponent, type: :component do
   let(:planning_application) { create(:planning_application) }
 
   let(:immunity_detail) do

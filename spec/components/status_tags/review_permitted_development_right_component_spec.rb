@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe StatusTags::PermittedDevelopmentRightReviewComponent, type: :component do
+RSpec.describe StatusTags::ReviewPermittedDevelopmentRightComponent, type: :component do
   let(:planning_application) { create(:planning_application) }
 
   context "when permitted development right has been updated" do

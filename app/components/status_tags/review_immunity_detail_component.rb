@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module StatusTags
-  class ImmunityDetailReviewComponent < StatusTags::BaseComponent
+  class ReviewImmunityDetailComponent < StatusTags::BaseComponent
     def initialize(planning_application:, review_immunity_detail:)
       @planning_application = planning_application
       @review_immunity_detail = review_immunity_detail

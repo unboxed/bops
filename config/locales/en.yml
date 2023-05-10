@@ -915,17 +915,17 @@ en:
       check_fee: Check fee
     immunity_details_component:
       evidence_of_immunity: Evidence of immunity
-    immunity_details_review_component:
-      evidence_of_immunity: Review evidence of immunity
     other_change_request_component:
       view_other_validation: 'View other validation request #%{number}'
     permitted_development_right_component:
       permitted_development_rights: Permitted development rights
-    permitted_development_right_review_component:
-      immune_permitted_development_rights: Review immunity/permitted development rights
-      permitted_development_rights: Permitted development rights
     review_documents_component:
       review_documents_for: Review documents for recommendation
+    review_immunity_details_component:
+      evidence_of_immunity: Review evidence of immunity
+    review_permitted_development_right_component:
+      immune_permitted_development_rights: Review immunity/permitted development rights
+      permitted_development_rights: Permitted development rights
     validation_decision_component:
       send_validation_decision: Send validation decision
   user:

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module StatusTags
-  class PermittedDevelopmentRightReviewComponent < StatusTags::BaseComponent
+  class ReviewPermittedDevelopmentRightComponent < StatusTags::BaseComponent
     include PermittedDevelopmentRightable
     include Recommendable
 

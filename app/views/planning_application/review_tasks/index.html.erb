@@ -27,14 +27,14 @@
     <ul class="app-task-list__items" id="review-assessment-section">
       <% if @planning_application.possibly_immune? && @planning_application.immunity_detail.review_immunity_details.any? %>
           <%= render(
-            TaskListItems::ImmunityDetailsReviewComponent.new(
+            TaskListItems::ReviewImmunityDetailsComponent.new(
               planning_application: @planning_application
             )
           ) %>
         <% end %>
       <% if @planning_application.permitted_development_right %>
         <%= render(
-          TaskListItems::PermittedDevelopmentRightReviewComponent.new(
+          TaskListItems::ReviewPermittedDevelopmentRightComponent.new(
             planning_application: @planning_application
           )
         ) %>

@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe StatusTags::ImmunityDetailReviewComponent, type: :component do
+RSpec.describe StatusTags::ReviewImmunityDetailComponent, type: :component do
   let(:planning_application) { create(:planning_application) }
 
   context "when review is complete" do
