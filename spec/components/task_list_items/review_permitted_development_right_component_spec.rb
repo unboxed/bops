@@ -24,7 +24,7 @@ RSpec.describe TaskListItems::ReviewPermittedDevelopmentRightComponent, type: :c
 
     it "renders link to permitted development right review page" do
       expect(page).to have_link(
-        "Permitted development rights",
+        "Review permitted development rights",
         href: "/planning_applications/#{planning_application.id}/review_permitted_development_rights/#{permitted_development_right.id}"
       )
     end
@@ -35,7 +35,7 @@ RSpec.describe TaskListItems::ReviewPermittedDevelopmentRightComponent, type: :c
 
     it "renders link to edit permitted development right review page" do
       expect(page).to have_link(
-        "Permitted development rights",
+        "Review permitted development rights",
         href: "/planning_applications/#{planning_application.id}/review_permitted_development_rights/#{permitted_development_right.id}/edit"
       )
     end

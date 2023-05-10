@@ -308,7 +308,7 @@ RSpec.describe "Reviewing sign-off" do
     it "raises an error if the reviewer accepts the recommendation" do
       visit(planning_application_path(planning_application))
       click_link("Review and sign-off")
-      click_link("Permitted development rights")
+      click_link("Review permitted development rights")
       choose("Return to officer with comment")
 
       fill_in(

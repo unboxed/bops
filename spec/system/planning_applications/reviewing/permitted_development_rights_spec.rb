@@ -29,22 +29,22 @@ RSpec.describe "Permitted development right" do
         click_link "Review and sign-off"
 
         expect(page).to have_list_item_for(
-          "Permitted development rights",
+          "Review permitted development rights",
           with: "Not started"
         )
 
-        click_link "Permitted development rights"
+        click_link "Review permitted development rights"
 
         within(".govuk-breadcrumbs__list") do
           expect(page).to have_content("Review")
-          expect(page).to have_content("Check permitted development rights")
+          expect(page).to have_content("Review permitted development rights")
         end
 
         expect(page).to have_current_path(
           edit_planning_application_review_permitted_development_right_path(planning_application, PermittedDevelopmentRight.last)
         )
 
-        expect(page).to have_content("Check permitted development rights")
+        expect(page).to have_content("Review permitted development rights")
         expect(page).to have_content("Application number: #{planning_application.reference}")
         expect(page).to have_content(planning_application.full_address)
 
@@ -66,7 +66,7 @@ RSpec.describe "Permitted development right" do
 
         it "there is a validation error when submitting an empty text field when editing to accept" do
           click_link "Review and sign-off"
-          click_link "Permitted development rights"
+          click_link "Review permitted development rights"
 
           radio_buttons = find_all(".govuk-radios__item")
           within(radio_buttons[1]) do
@@ -84,7 +84,7 @@ RSpec.describe "Permitted development right" do
 
         it "I can save and mark as complete when adding my review to accept and edit the permitted development right response" do
           click_link "Review and sign-off"
-          click_link "Permitted development rights"
+          click_link "Review permitted development rights"
 
           radio_buttons = find_all(".govuk-radios__item")
           within(radio_buttons[1]) do
@@ -95,11 +95,11 @@ RSpec.describe "Permitted development right" do
           click_button "Save and mark as complete"
 
           expect(page).to have_list_item_for(
-            "Permitted development rights",
+            "Review permitted development rights",
             with: "Completed"
           )
 
-          click_link "Permitted development rights"
+          click_link "Review permitted development rights"
 
           expect(PermittedDevelopmentRight.last.reviewer_edited).to be(true)
           expect(page).to have_content("Edited comment")
@@ -109,7 +109,7 @@ RSpec.describe "Permitted development right" do
       context "when permitted development rights have not been removed" do
         it "there is no edit to accept option" do
           click_link "Review and sign-off"
-          click_link "Permitted development rights"
+          click_link "Review permitted development rights"
 
           within(".govuk-radios") do
             expect(page).not_to have_content("Edit to accept")
@@ -119,7 +119,7 @@ RSpec.describe "Permitted development right" do
 
       it "I can save and come back later when adding my review or editing the permitted development right" do
         click_link "Review and sign-off"
-        click_link "Permitted development rights"
+        click_link "Review permitted development rights"
 
         choose "Return to officer with comment"
         expect(page).to have_content("Explain to the assessor why this needs reviewing")
@@ -128,11 +128,11 @@ RSpec.describe "Permitted development right" do
         click_button "Save and come back later"
 
         expect(page).to have_list_item_for(
-          "Permitted development rights",
+          "Review permitted development rights",
           with: "In progress"
         )
 
-        click_link "Permitted development rights"
+        click_link "Review permitted development rights"
 
         choose "Return to officer with comment"
         fill_in "permitted_development_right[reviewer_comment]", with: "My edited review comment"
@@ -142,18 +142,18 @@ RSpec.describe "Permitted development right" do
 
       it "I can save and mark as complete when adding my review to accept the permitted development right response" do
         click_link "Review and sign-off"
-        click_link "Permitted development rights"
+        click_link "Review permitted development rights"
 
         choose "Accept"
 
         click_button "Save and mark as complete"
 
         expect(page).to have_list_item_for(
-          "Permitted development rights",
+          "Review permitted development rights",
           with: "Completed"
         )
 
-        click_link "Permitted development rights"
+        click_link "Review permitted development rights"
 
         expect(find_by_id("permitted-development-right-accepted-true-field").selected?).to be(true)
         expect(find_by_id("permitted-development-right-accepted-field").selected?).to be(false)
@@ -161,7 +161,7 @@ RSpec.describe "Permitted development right" do
 
       it "I can save and mark as complete when adding my review to reject the permitted development right response" do
         click_link "Review and sign-off"
-        click_link "Permitted development rights"
+        click_link "Review permitted development rights"
 
         choose "Return to officer with comment"
         fill_in "permitted_development_right[reviewer_comment]", with: "My review comment"
@@ -169,11 +169,11 @@ RSpec.describe "Permitted development right" do
         click_button "Save and mark as complete"
 
         expect(page).to have_list_item_for(
-          "Permitted development rights",
+          "Review permitted development rights",
           with: "Completed"
         )
 
-        click_link "Permitted development rights"
+        click_link "Review permitted development rights"
 
         expect(find_by_id("permitted-development-right-accepted-true-field").selected?).to be(false)
         expect(find_by_id("permitted-development-right-accepted-field").selected?).to be(true)
@@ -187,7 +187,7 @@ RSpec.describe "Permitted development right" do
 
         it "I can see the previous permitted development checks" do
           click_link "Review and sign-off"
-          click_link "Permitted development rights"
+          click_link "Review permitted development rights"
 
           expect(page).to have_text("See previous permitted development checks")
 
@@ -217,7 +217,7 @@ RSpec.describe "Permitted development right" do
           choose("Yes")
           click_button "Save and mark as complete"
 
-          click_link "Permitted development rights"
+          click_link "Review permitted development rights"
 
           choose "Return to officer with comment"
           fill_in "permitted_development_right[reviewer_comment]", with: "My review comment"
@@ -242,22 +242,22 @@ RSpec.describe "Permitted development right" do
         click_link "Review and sign-off"
 
         expect(page).to have_list_item_for(
-          "Review immunity/permitted development rights",
+          "Review permitted development rights",
           with: "Not started"
         )
 
-        click_link "Review immunity/permitted development rights"
+        click_link "Review permitted development rights"
 
         within(".govuk-breadcrumbs__list") do
           expect(page).to have_content("Review")
-          expect(page).to have_content("Review immunity/permitted development rights")
+          expect(page).to have_content("Review permitted development rights")
         end
 
         expect(page).to have_current_path(
           edit_planning_application_review_permitted_development_right_path(planning_application, PermittedDevelopmentRight.last)
         )
 
-        expect(page).to have_content("Review immunity/permitted development rights")
+        expect(page).to have_content("Review permitted development rights")
         expect(page).to have_content("Application number: #{planning_application.reference}")
         expect(page).to have_content(planning_application.full_address)
 
@@ -283,7 +283,7 @@ RSpec.describe "Permitted development right" do
       sign_in assessor
       visit planning_application_path(planning_application)
 
-      expect(page).not_to have_link("Permitted development rights")
+      expect(page).not_to have_link("Review permitted development rights")
 
       visit new_planning_application_permitted_development_right_path(planning_application)
 
