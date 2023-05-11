@@ -1,0 +1,951 @@
+{
+  "planx_debug_data": {
+    "session_id": "21161b70-0e29-40e6-9a38-c42f61f25ab9",
+    "passport": {
+      "data": {
+        "applicant.phone.primary": "a",
+        "application.declaration.accurate": ["true"],
+        "application.type": ["pa.part1.classA"],
+        "application.declaration.connection.form": ["No connections"],
+        "_contact.applicant": {
+          "applicant": {
+            "email": "a@b.com",
+            "phone": "a",
+            "lastName": "a",
+            "organisation": "",
+            "firstName": "a",
+            "title": ""
+          }
+        },
+        "proposal.drawing.other": [
+          {
+            "url": "https://api.editor.planx.dev/file/private/lrl74e64/Protein_AP2A2_PDB_1b9k.png",
+            "cachedSlot": {
+              "status": "success",
+              "progress": 1,
+              "url": "https://api.editor.planx.dev/file/private/lrl74e64/Protein_AP2A2_PDB_1b9k.png",
+              "id": "efUPEIxHFN5X8wcRVk-np",
+              "file": {
+                "path": "Protein_AP2A2_PDB_1b9k.png",
+                "size": 343637,
+                "type": "image/png"
+              }
+            },
+            "filename": "Protein_AP2A2_PDB_1b9k.png"
+          }
+        ],
+        "property.boundary.area": 53.86,
+        "property.localAuthorityDistrict": ["Lambeth"],
+        "applicant.agent.form": ["No"],
+        "property.type.userProvided": "House",
+        "applicant.siteContact": ["applicant"],
+        "applicant.name.last": "a",
+        "applicant.name.first": "a",
+        "application.fee.calculated": 96,
+        "property.constraints.planning": ["road.classified"],
+        "application.fee.exemption.planningApplication": ["false"],
+        "application.fee.exemption.resubmission": ["false"],
+        "proposal.drawing.sitePlan": [
+          {
+            "url": "https://api.editor.planx.dev/file/private/5ka4cf09/Protein_AP2A2_PDB_1b9k.png",
+            "cachedSlot": {
+              "status": "success",
+              "progress": 1,
+              "url": "https://api.editor.planx.dev/file/private/5ka4cf09/Protein_AP2A2_PDB_1b9k.png",
+              "id": "o5oF12SwGWszqwg2QGJjK",
+              "file": {
+                "path": "Protein_AP2A2_PDB_1b9k.png",
+                "size": 343637,
+                "type": "image/png"
+              }
+            },
+            "filename": "Protein_AP2A2_PDB_1b9k.png"
+          }
+        ],
+        "applicant.resident": ["true"],
+        "property.boundary.site": {
+          "geometry": {
+            "coordinates": [
+              [
+                [-0.1419155009141773, 51.41312145545143],
+                [-0.14186319783838688, 51.41317289695539],
+                [-0.14179077819498478, 51.41308883397991],
+                [-0.14183789491652293, 51.41306185393202],
+                [-0.14194768742235597, 51.41313400216504],
+                [-0.1419155009141773, 51.41312145545143]
+              ]
+            ],
+            "type": "Polygon"
+          },
+          "type": "Feature",
+          "properties": null
+        },
+        "proposal.visibleFromPublicRealm": ["Information not provided"],
+        "application.declaration.accurate.form": ["Yes"],
+        "application.declaration.connection": ["none"],
+        "digitalLandRequest": "https://www.planning.data.gov.uk/entity.json?entries=current&geometry=POLYGON+%28%28-0.1419155009141773+51.41312145545143%2C+-0.14186319783838688+51.41317289695539%2C+-0.14179077819498478+51.41308883397991%2C+-0.14183789491652293+51.41306185393202%2C+-0.14194768742235597+51.41313400216504%2C+-0.1419155009141773+51.41312145545143%29%29&geometry_relation=intersects&limit=100&dataset=article-4-direction-area&dataset=central-activities-zone&dataset=listed-building&dataset=listed-building-outline&dataset=locally-listed-building&dataset=park-and-garden&dataset=conservation-area&dataset=area-of-outstanding-natural-beauty&dataset=national-park&dataset=world-heritage-site&dataset=world-heritage-site-buffer-zone&dataset=special-protection-area&dataset=scheduled-monument&dataset=tree&dataset=tree-preservation-order&dataset=tree-preservation-zone&dataset=site-of-special-scientific-interest&dataset=special-area-of-conservation&dataset=ancient-woodland",
+        "VmawcMU1gO": "fdafdsa",
+        "application.fee.exemption.disability": ["false"],
+        "application.fee.reference.govPay": {
+          "payment_provider": "sandbox",
+          "amount": 96,
+          "delayed_capture": false,
+          "state": {
+            "status": "created",
+            "finished": false
+          },
+          "payment_id": "tvj04i0bkenvk3hpi29aoejrs3",
+          "reference": "21161b70-0e29-40e6-9a38-c42f61f25ab9",
+          "created_date": "2023-05-09T14:56:06.502Z",
+          "authorisation_mode": "web",
+          "moto": false,
+          "_links": {
+            "next_url_post": {
+              "href": "https://card.payments.service.gov.uk/secure",
+              "params": {
+                "chargeTokenId": "415531a4-2e58-486c-b8a1-b1379a811c4a"
+              },
+              "method": "POST",
+              "type": "application/x-www-form-urlencoded"
+            },
+            "refunds": {
+              "href": "https://publicapi.payments.service.gov.uk/v1/payments/tvj04i0bkenvk3hpi29aoejrs3/refunds",
+              "method": "GET"
+            },
+            "next_url": {
+              "href": "https://card.payments.service.gov.uk/secure/415531a4-2e58-486c-b8a1-b1379a811c4a",
+              "method": "GET"
+            },
+            "self": {
+              "href": "https://publicapi.payments.service.gov.uk/v1/payments/tvj04i0bkenvk3hpi29aoejrs3",
+              "method": "GET"
+            },
+            "events": {
+              "href": "https://publicapi.payments.service.gov.uk/v1/payments/tvj04i0bkenvk3hpi29aoejrs3/events",
+              "method": "GET"
+            },
+            "cancel": {
+              "href": "https://publicapi.payments.service.gov.uk/v1/payments/tvj04i0bkenvk3hpi29aoejrs3/cancel",
+              "method": "POST"
+            }
+          },
+          "language": "en",
+          "refund_summary": {
+            "status": "pending",
+            "amount_available": 9600,
+            "amount_submitted": 0
+          },
+          "return_url": "https://editor.planx.dev/lambeth/apply-for-prior-approval/preview?sessionId=21161b70-0e29-40e6-9a38-c42f61f25ab9&email=benjamin%40opensystemslab.io",
+          "description": "New application",
+          "settlement_summary": {}
+        },
+        "proposal.projectType": ["alter.equipment.solar"],
+        "proposal.solarPanels.location": ["standalone"],
+        "applicant.type": ["individual"],
+        "user.role": ["applicant"],
+        "applicant.sameAddress.form": ["Yes"],
+        "applicant.email": "a@b.com",
+        "application.fee.payable": 96,
+        "_nots": {
+          "property.constraints.planning": [
+            "article4",
+            "listed",
+            "locallyListed",
+            "registeredPark",
+            "designated.conservationArea",
+            "designated.AONB",
+            "designated.nationalPark",
+            "designated.nationalPark.broads",
+            "designated.WHS",
+            "designated.SPA",
+            "monument",
+            "tpo",
+            "nature.SSSI",
+            "nature.SAC",
+            "nature.ASNW",
+            "designated",
+            "article4.lambeth.caz"
+          ]
+        },
+        "property.region": ["London"],
+        "_address": {
+          "planx_value": "commercial",
+          "planx_description": "Commercial",
+          "single_line_address": "DELIVERY POUCH AT CORNER OF GREYHOUND TERRACE, STREATHAM VALE, LONDON, LAMBETH, SW16 5SS",
+          "town": "LONDON",
+          "latitude": 51.4131209,
+          "street": "STREATHAM VALE",
+          "uprn": "200000488211",
+          "usrn": "21901329",
+          "organisation": null,
+          "source": "os",
+          "postcode": "SW16 5SS",
+          "x": 529314,
+          "title": "DELIVERY POUCH AT CORNER OF GREYHOUND TERRACE, STREATHAM VALE, LONDON",
+          "longitude": -0.1419326,
+          "pao": "",
+          "y": 169871,
+          "blpu_code": "2"
+        },
+        "property.type": ["commercial", "other", "alter.equipment.solar.pv"],
+        "property.boundary.area.hectares": 0.005386
+      }
+    }
+  },
+	"application_type": "Apply for prior approval",
+	"site": {
+		"uprn": "100081043511",
+		"address_1": "12 Abbey Gardens",
+		"address_2": "Southwark",
+		"town": "London",
+		"postcode": "SE16 3RQ",
+		"latitude": "51.4842536",
+		"longitude": "-0.0764165"
+	},
+	"description": "Rear extension",
+	"payment_reference": "PAY1",
+	"payment_amount": 10300,
+	"work_status": "proposed",
+	"applicant_first_name": "Albert",
+	"applicant_last_name": "Manteras",
+	"applicant_phone": "23432325435",
+	"applicant_email": "applicant@example.com",
+	"agent_first_name": "Jennifer",
+	"agent_last_name": "Harper",
+	"agent_phone": "237878889",
+	"agent_email": "agent@example.com",
+	"user_role": "agent",
+	"feedback": {
+		"result": "feedback about the result",
+		"find_property": "feedback about the property",
+		"planning_constraints": "feedback about the constraints"
+	},
+  "result": {
+    "heading": "Permission needed",
+    "flag": "Planning permission / Permission needed",
+    "description": "It looks like the proposed changes may require planning permission."
+  },
+  "proposal_details": [
+    {
+      "responses": [
+        {
+          "value": "Yes"
+        }
+      ],
+      "metadata": {
+        "portal_name": "_root",
+        "auto_answered": true
+      },
+      "question": "Is the property in Lambeth?"
+    },
+    {
+      "responses": [
+        {
+          "value": "Something else"
+        }
+      ],
+      "metadata": {
+        "portal_name": "property-types",
+        "auto_answered": true
+      },
+      "question": "What type of property is it?"
+    },
+    {
+      "responses": [
+        {
+          "value": "Other"
+        }
+      ],
+      "metadata": {
+        "portal_name": "property-types",
+        "auto_answered": true
+      },
+      "question": "Which of these best describes the use of the property?"
+    },
+    {
+      "responses": [
+        {
+          "value": "No, none of these"
+        }
+      ],
+      "metadata": {
+        "portal_name": "property-types"
+      },
+      "question": "Is it any of these?"
+    },
+    {
+      "responses": [
+        {
+          "value": "House"
+        }
+      ],
+      "metadata": {
+        "portal_name": "property-types"
+      },
+      "question": "What type of property is it?"
+    },
+    {
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "portal_name": "_root"
+      },
+      "question": "Has work already started?"
+    },
+    {
+      "responses": [
+        {
+          "value": "fdafdsa"
+        }
+      ],
+      "metadata": {
+        "portal_name": "_root"
+      },
+      "question": "Describe the project."
+    },
+    {
+      "responses": [
+        {
+          "value": "Commercial building"
+        }
+      ],
+      "metadata": {
+        "portal_name": "prior-approval-scope-check",
+        "auto_answered": true
+      },
+      "question": "What type of property is it?"
+    },
+    {
+      "responses": [
+        {
+          "value": "Neither a house nor a flat"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Solar panels",
+        "auto_answered": true
+      },
+      "question": "What type of property is it?"
+    },
+    {
+      "responses": [
+        {
+          "value": "Solar photovoltaics (PV)"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Solar panels to a house or flats"
+      },
+      "question": "What do you want to install?"
+    },
+    {
+      "responses": [
+        {
+          "value": "Yes"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Solar panels to a house or flats",
+        "policy_refs": [
+          {
+            "text": "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class A\nThe Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class K"
+          }
+        ]
+      },
+      "question": "Are there any other locations where the equipment could be installed?"
+    },
+    {
+      "responses": [
+        {
+          "value": "No",
+          "metadata": {
+            "flags": ["Planning permission / Permitted development"]
+          }
+        }
+      ],
+      "metadata": {
+        "portal_name": "Solar panels to a house or flats",
+        "policy_refs": [
+          {
+            "text": "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class A"
+          }
+        ]
+      },
+      "question": "Would the solar panels would be less visible from the highway in these other locations?"
+    },
+    {
+      "responses": [
+        {
+          "value": "No",
+          "metadata": {
+            "flags": ["Planning permission / Permitted development"]
+          }
+        }
+      ],
+      "metadata": {
+        "portal_name": "Solar panels",
+        "auto_answered": true,
+        "policy_refs": [
+          {
+            "text": "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class J"
+          }
+        ]
+      },
+      "question": "Is the building listed?"
+    },
+    {
+      "responses": [
+        {
+          "value": "No",
+          "metadata": {
+            "flags": ["Planning permission / Permitted development"]
+          }
+        }
+      ],
+      "metadata": {
+        "portal_name": "Solar panels",
+        "auto_answered": true,
+        "policy_refs": [
+          {
+            "text": "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class J"
+          }
+        ]
+      },
+      "question": "Is the property a scheduled monument?"
+    },
+    {
+      "responses": [
+        {
+          "value": "Stand alone"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Solar panels"
+      },
+      "question": "Where are the new solar panels?"
+    },
+    {
+      "responses": [
+        {
+          "value": "1 stand-alone solar panel",
+          "metadata": {
+            "flags": ["Planning permission / Permitted development"]
+          }
+        }
+      ],
+      "metadata": {
+        "portal_name": "Solar panels",
+        "policy_refs": [
+          {
+            "text": "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class K"
+          }
+        ]
+      },
+      "question": "After the changes how many stand-alone solar panels does the property have?"
+    },
+    {
+      "responses": [
+        {
+          "value": "4m or less",
+          "metadata": {
+            "flags": ["Planning permission / Permitted development"]
+          }
+        }
+      ],
+      "metadata": {
+        "portal_name": "Solar panels",
+        "policy_refs": [
+          {
+            "text": "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class K"
+          }
+        ]
+      },
+      "question": "How high are the new stand-alone solar panels?"
+    },
+    {
+      "responses": [
+        {
+          "value": "Less than 5m from the boundary",
+          "metadata": {
+            "flags": ["Planning permission / Permission needed"]
+          }
+        }
+      ],
+      "metadata": {
+        "portal_name": "Solar panels",
+        "policy_refs": [
+          {
+            "text": "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class BThe Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class K"
+          }
+        ]
+      },
+      "question": "How far from the boundary are the stand-alone solar panels?"
+    },
+    {
+      "responses": [
+        {
+          "value": "No, it is 9m² or less",
+          "metadata": {
+            "flags": ["Planning permission / Permitted development"]
+          }
+        }
+      ],
+      "metadata": {
+        "portal_name": "Solar panels",
+        "policy_refs": [
+          {
+            "text": "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class BThe Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class K"
+          }
+        ]
+      },
+      "question": "Is the total surface area of the stand-alone solar panels more than 9m²?"
+    },
+    {
+      "responses": [
+        {
+          "value": "No, it is 3m or less",
+          "metadata": {
+            "flags": ["Planning permission / Permitted development"]
+          }
+        }
+      ],
+      "metadata": {
+        "portal_name": "Solar panels",
+        "policy_refs": [
+          {
+            "text": "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class B"
+          }
+        ]
+      },
+      "question": "Is the longest side of the stand-alone solar panels more than 3 metres?"
+    },
+    {
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Solar panels",
+        "auto_answered": true
+      },
+      "question": "Is the property in a conservation area?"
+    },
+    {
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Solar panels",
+        "auto_answered": true
+      },
+      "question": "Is the property in a world heritage site?"
+    },
+    {
+      "responses": [
+        {
+          "value": "OK",
+          "metadata": {
+            "flags": ["Planning permission / Permitted development"]
+          }
+        }
+      ],
+      "metadata": {
+        "portal_name": "Solar panels",
+        "policy_refs": [
+          {
+            "text": "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class AThe Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class K"
+          }
+        ]
+      },
+      "question": "The solar panels must be removed when no longer needed."
+    },
+    {
+      "responses": [
+        {
+          "value": "Another use"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Types of Prior Approval for commercial buildings",
+        "auto_answered": true
+      },
+      "question": "What type of property is it?"
+    },
+    {
+      "responses": [
+        {
+          "value": "Install solar panels"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Types of Prior Approval for commercial buildings"
+      },
+      "question": "Select your project"
+    },
+    {
+      "responses": [
+        {
+          "value": "Install or change solar panels"
+        }
+      ],
+      "metadata": {
+        "portal_name": "prior-approval-more-information",
+        "auto_answered": true
+      },
+      "question": "What type of prior approval application is it?"
+    },
+    {
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "portal_name": "about-the-applicant"
+      },
+      "question": "Are you applying on behalf of someone else?"
+    },
+    {
+      "responses": [
+        {
+          "value": "Private individual"
+        }
+      ],
+      "metadata": {
+        "portal_name": "about-the-applicant"
+      },
+      "question": "Which of these best describes you (or your organisation)?"
+    },
+    {
+      "responses": [
+        {
+          "value": "a@b.com a a a"
+        }
+      ],
+      "metadata": {
+        "portal_name": "about-the-applicant"
+      },
+      "question": "Your contact details"
+    },
+    {
+      "responses": [
+        {
+          "value": "Yes"
+        }
+      ],
+      "metadata": {
+        "portal_name": "about-the-applicant"
+      },
+      "question": "Is your contact address the same as the property address?"
+    },
+    {
+      "responses": [
+        {
+          "value": "Me, the applicant"
+        }
+      ],
+      "metadata": {
+        "portal_name": "about-the-applicant"
+      },
+      "question": "We may need to visit your site to assess your application. If we do, who should we contact to arrange the visit?"
+    },
+    {
+      "responses": [
+        {
+          "value": "Install or change solar panels"
+        }
+      ],
+      "metadata": {
+        "portal_name": "prior-approval-files",
+        "auto_answered": true
+      },
+      "question": "What type of prior approval application is it?"
+    },
+    {
+      "responses": [
+        {
+          "value": "Standalone"
+        }
+      ],
+      "metadata": {
+        "portal_name": "prior-approval-files",
+        "auto_answered": true
+      },
+      "question": "Where will the solar panels be installed?"
+    },
+    {
+      "responses": [
+        {
+          "value": "Manufacturer's specification document"
+        }
+      ],
+      "metadata": {
+        "portal_name": "prior-approval-files"
+      },
+      "question": "Your planning officer will need to check how far the solar panels stick out beyond the surface of the roof. What do you have that shows this?"
+    },
+    {
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "portal_name": "prior-approval-files"
+      },
+      "question": "Do you want to upload any photographs?"
+    },
+    {
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "portal_name": "prior-approval-files"
+      },
+      "question": "Would you like to upload any additional drawings, documents or images?"
+    },
+    {
+      "responses": [
+        {
+          "value": "Prior approval"
+        }
+      ],
+      "metadata": {
+        "portal_name": "fee-calculator",
+        "auto_answered": true
+      },
+      "question": "What type of planning application are you making?"
+    },
+    {
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Fee Exemptions"
+      },
+      "question": "Are the public allowed to access the building?"
+    },
+    {
+      "responses": [
+        {
+          "value": "Install or change solar panels"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Prior approval fees",
+        "auto_answered": true
+      },
+      "question": "What type of prior approval application is it?"
+    },
+    {
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Disability exemption check",
+        "auto_answered": true
+      },
+      "question": "Is the property a home?"
+    },
+    {
+      "responses": [
+        {
+          "value": "Alteration"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Disability exemption check",
+        "auto_answered": true
+      },
+      "question": "What type of changes does the project involve?"
+    },
+    {
+      "responses": [
+        {
+          "value": "Install or change solar panels"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Fee Exemptions check",
+        "auto_answered": true
+      },
+      "question": "What type of prior approval application is it?"
+    },
+    {
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Prior Approval Fee exemptions",
+        "auto_answered": true
+      },
+      "question": "Does the application qualify for a disability exemption?"
+    },
+    {
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Prior Approval Fee exemptions",
+        "auto_answered": true
+      },
+      "question": "Does the application qualify for a resubmission exemption?"
+    },
+    {
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Prior Approval Fee exemptions",
+        "auto_answered": true,
+        "policy_refs": [
+          {
+            "text": "The Town and Country Planning (Fees for Applications, Deemed Applications, Requests and Site Visits) (England) Regulations 2012, Regulation 14"
+          }
+        ]
+      },
+      "question": "Does the application qualify to the same-day-planning-application exemption?"
+    },
+    {
+      "responses": [
+        {
+          "value": "Lambeth"
+        }
+      ],
+      "metadata": {
+        "portal_name": "apply-for-service-declarations",
+        "auto_answered": true
+      },
+      "question": "Which Local Planning authority is it?"
+    },
+    {
+      "responses": [
+        {
+          "value": "None of the above apply to me"
+        }
+      ],
+      "metadata": {
+        "portal_name": "apply-for-service-declarations"
+      },
+      "question": "Connections with London Borough of Lambeth"
+    },
+    {
+      "responses": [
+        {
+          "value": "The information contained in this application is truthful, accurate and complete, to the best of my knowledge"
+        }
+      ],
+      "metadata": {
+        "portal_name": "apply-for-service-declarations"
+      },
+      "question": "I confirm that:"
+    },
+    {
+      "responses": [
+        {
+          "value": "None of the above apply to me"
+        }
+      ],
+      "metadata": {
+        "portal_name": "declarations",
+        "auto_answered": true
+      },
+      "question": "Connections with London Borough of Lambeth"
+    },
+    {
+      "responses": [
+        {
+          "value": "The information contained in this application is truthful, accurate and complete, to the best of my knowledge"
+        }
+      ],
+      "metadata": {
+        "portal_name": "declarations",
+        "auto_answered": true
+      },
+      "question": "I confirm that:"
+    },
+    {
+      "responses": [
+        {
+          "value": "Lambeth"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Confirmation pages",
+        "auto_answered": true
+      },
+      "question": "Which Local Planning authority is it?"
+    },
+    {
+      "responses": [
+        {
+          "value": "Install or change solar panels"
+        }
+      ],
+      "metadata": {
+        "portal_name": "Lambeth confirmation page",
+        "auto_answered": true
+      },
+      "question": "What type of prior approval application is it?application.type"
+    }
+  ],
+	"constraints": {
+		"conservation_area": true,
+		"protected_trees": false
+	},
+	"files": [
+    {
+      "filename": "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
+      "applicant_description": "This is the side plan",
+      "tags": [
+        "Side"
+      ]
+    }
+	],
+	"boundary_geojson": {
+		"type": "Feature",
+		"geometry": {
+			"type": "Polygon",
+			"coordinates": [
+				[
+					[
+						0.07716178894042969,
+						51.50094238217541
+					],
+					[
+						0.07645905017852783,
+						51.50053497847238
+					],
+					[
+						0.07615327835083008,
+						51.50115276135022
+					],
+
+
+					[
+						0.07716178894042969,
+						51.50094238217541
+					]
+				]
+			]
+		}
+	}
+}

@@ -65,6 +65,8 @@ class PlanningApplicationCreationService
   end
 
   def planning_application_params
+    check_for_prior_approval
+
     permitted_keys = [:application_type,
                       :description,
                       :applicant_first_name,
@@ -124,5 +126,16 @@ class PlanningApplicationCreationService
 
   def possibly_immune?(planning_application)
     planning_application.immune_proposal_details.count > 1
+  end
+
+  def check_for_prior_approval
+    return unless params[:application_type] == "Apply for prior approval"
+    raise CreateError, "BoPS does not accept this Prior Approval type" unless permitted_prior_approval_type?
+
+    params[:application_type] = "prior_approval"
+  end
+
+  def permitted_prior_approval_type?
+    params[:planx_debug_data][:passport][:data][:"application.type"] == ["pa.part1.classA"]
   end
 end

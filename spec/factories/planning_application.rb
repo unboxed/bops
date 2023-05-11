@@ -439,6 +439,14 @@ FactoryBot.define do
       end
     end
 
+    trait :from_planx_prior_approval do
+      audit_log { file_fixture("planx_params_prior_approval.json").read }
+    end
+
+    trait :from_planx_prior_approval_not_accepted do
+      audit_log { file_fixture("planx_params_prior_approval_not_accepted.json").read }
+    end
+
     trait :with_immunity do
       proposal_details do
         [

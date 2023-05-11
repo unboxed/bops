@@ -19,7 +19,7 @@ class PlanningApplication < ApplicationRecord
 
   DAYS_TO_EXPIRE = 56
 
-  enum application_type: { lawfulness_certificate: 0, full: 1 }
+  enum application_type: { lawfulness_certificate: 0, full: 1, prior_approval: 2 }
 
   enum user_role: { applicant: 0, agent: 1, proxy: 2 }
 
