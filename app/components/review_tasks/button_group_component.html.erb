@@ -1,9 +1,9 @@
 <div class="govuk-button-group">
   <% if render_publish_button? %>
-    <%= link_to "Publish decision",
-                 publish_planning_application_path(@planning_application),
-                 aria: { describedby: "publish-completed" },
-                 class: "govuk-button" %>
+    <%= link_to t("form_actions.review_and_publish_decision"),
+                publish_planning_application_path(@planning_application),
+                aria: { describedby: "publish-completed" },
+                class: "govuk-button" %>
   <% end %>
 
   <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
