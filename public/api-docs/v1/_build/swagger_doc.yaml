@@ -590,7 +590,7 @@ paths:
                   description: Add a chimney stack
                   payment_reference: PAY1
                   payment_amount: 10300
-                  work_status: proposed
+                  work_status: existing
                   applicant_first_name: Albert
                   applicant_last_name: Manteras
                   applicant_phone: '23432325435'
