@@ -928,8 +928,7 @@ en:
     review_immunity_details_component:
       evidence_of_immunity: Review evidence of immunity
     review_permitted_development_right_component:
-      immune_permitted_development_rights: Review immunity/permitted development rights
-      permitted_development_rights: Permitted development rights
+      review_permitted_development_rights: Review permitted development rights
     validation_decision_component:
       send_validation_decision: Send validation decision
   user:

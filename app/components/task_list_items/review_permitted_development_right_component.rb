@@ -13,7 +13,7 @@ module TaskListItems
     delegate(:permitted_development_right, to: :planning_application)
 
     def link_text
-      t(".#{planning_application.possibly_immune? ? 'immune_' : ''}permitted_development_rights")
+      t(".review_permitted_development_rights")
     end
 
     def link_path

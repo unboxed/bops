@@ -247,16 +247,16 @@ RSpec.describe "Permitted development right" do
           click_link("Review and sign-off")
 
           expect(page).to have_list_item_for(
-            "Permitted development rights",
+            "Review permitted development rights",
             with: "Updated"
           )
 
-          click_link("Permitted development rights")
+          click_link("Review permitted development rights")
           choose("Accept", match: :first)
           click_button("Save and mark as complete")
 
           expect(page).to have_list_item_for(
-            "Permitted development rights",
+            "Review permitted development rights",
             with: "Completed"
           )
 
