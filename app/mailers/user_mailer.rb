@@ -10,6 +10,7 @@ class UserMailer < ApplicationMailer
 
   def otp_mail(user)
     @otp = user.current_otp
+    @expiry_minutes = Devise.otp_allowed_drift / 60
     view_mail(NOTIFY_TEMPLATE_ID, subject: subject(:otp_mail), to: user.email)
   end
 end
