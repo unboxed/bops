@@ -144,6 +144,8 @@ Rails.application.routes.draw do
 
       resources :permitted_development_rights, only: %i[new create edit update show]
 
+      resources :review_immunity_enforcements, only: %i[show edit update]
+
       resources :review_permitted_development_rights, only: %i[show edit update]
 
       resources :review_documents, only: %i[index] do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_28_122750) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_12_103706) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,7 +19,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_122750) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -31,7 +31,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_122750) do
     t.text "metadata"
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -53,7 +53,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_122750) do
     t.integer "sequence"
     t.date "notified_at"
     t.text "cancel_reason"
-    t.datetime "cancelled_at"
+    t.datetime "cancelled_at", precision: nil
     t.boolean "post_validation", default: false, null: false
     t.index ["planning_application_id"], name: "index_document_create_requests_on_planning_application_id"
     t.index ["user_id"], name: "index_document_create_requests_on_user_id"
@@ -107,7 +107,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_122750) do
     t.datetime "updated_at", null: false
     t.string "commentable_type"
     t.bigint "commentable_id"
-    t.datetime "deleted_at"
+    t.datetime "deleted_at", precision: nil
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
     t.index ["user_id"], name: "ix_comments_on_user_id"
   end
@@ -147,10 +147,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_122750) do
     t.integer "sequence"
     t.date "notified_at"
     t.text "cancel_reason"
-    t.datetime "cancelled_at"
+    t.datetime "cancelled_at", precision: nil
     t.boolean "auto_closed", default: false
     t.boolean "post_validation", default: false, null: false
-    t.datetime "auto_closed_at"
+    t.datetime "auto_closed_at", precision: nil
     t.index ["planning_application_id"], name: "index_description_change_requests_on_planning_application_id"
     t.index ["user_id"], name: "index_description_change_requests_on_user_id"
   end
@@ -159,7 +159,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_122750) do
     t.bigint "planning_application_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "archived_at"
+    t.datetime "archived_at", precision: nil
     t.string "archive_reason"
     t.jsonb "tags", default: []
     t.string "numbers", default: "", null: false
@@ -170,7 +170,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_122750) do
     t.text "applicant_description"
     t.bigint "user_id"
     t.bigint "api_user_id"
-    t.datetime "received_at"
+    t.datetime "received_at", precision: nil
     t.bigint "additional_document_validation_request_id"
     t.bigint "replacement_document_validation_request_id"
     t.boolean "redacted", default: false, null: false
@@ -243,7 +243,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_122750) do
     t.datetime "updated_at", null: false
     t.date "notified_at"
     t.text "cancel_reason"
-    t.datetime "cancelled_at"
+    t.datetime "cancelled_at", precision: nil
     t.boolean "fee_item", default: false
     t.boolean "post_validation", default: false, null: false
     t.index ["planning_application_id"], name: "ix_other_change_validation_requests_on_planning_application_id"
@@ -261,7 +261,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_122750) do
     t.text "reviewer_comment"
     t.boolean "reviewer_edited", default: false, null: false
     t.boolean "accepted", default: false, null: false
-    t.datetime "reviewed_at"
+    t.datetime "reviewed_at", precision: nil
     t.bigint "assessor_id"
     t.bigint "reviewer_id"
     t.index ["assessor_id"], name: "ix_permitted_development_rights_on_assessor_id"
@@ -273,15 +273,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_122750) do
     t.date "target_date", null: false
     t.integer "application_type", null: false
     t.string "status", default: "not_started", null: false
-    t.datetime "started_at"
-    t.datetime "determined_at"
+    t.datetime "started_at", precision: nil
+    t.datetime "determined_at", precision: nil
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
-    t.datetime "awaiting_determination_at"
-    t.datetime "in_assessment_at"
-    t.datetime "to_be_reviewed_at"
+    t.datetime "awaiting_determination_at", precision: nil
+    t.datetime "in_assessment_at", precision: nil
+    t.datetime "to_be_reviewed_at", precision: nil
     t.jsonb "proposal_details"
     t.jsonb "audit_log"
     t.string "agent_first_name"
@@ -293,9 +293,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_122750) do
     t.string "applicant_email"
     t.string "applicant_phone"
     t.bigint "local_authority_id"
-    t.datetime "invalidated_at"
-    t.datetime "withdrawn_at"
-    t.datetime "returned_at"
+    t.datetime "invalidated_at", precision: nil
+    t.datetime "withdrawn_at", precision: nil
+    t.datetime "returned_at", precision: nil
     t.string "payment_reference"
     t.text "closed_or_cancellation_comment"
     t.string "work_status", default: "proposed"
@@ -318,14 +318,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_122750) do
     t.string "result_override"
     t.bigint "api_user_id"
     t.bigint "boundary_created_by_id"
-    t.datetime "assessment_in_progress_at"
+    t.datetime "assessment_in_progress_at", precision: nil
     t.string "ward"
     t.string "ward_type"
     t.string "latitude"
     t.string "longitude"
-    t.datetime "closed_at"
+    t.datetime "closed_at", precision: nil
     t.jsonb "planx_data"
-    t.datetime "determination_date"
+    t.datetime "determination_date", precision: nil
     t.integer "user_role"
     t.boolean "updated_address_or_boundary_geojson", default: false
     t.boolean "constraints_checked", default: false, null: false
@@ -337,10 +337,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_122750) do
     t.string "parish_name"
     t.jsonb "feedback", default: {}
     t.string "reference"
-    t.datetime "validated_at"
-    t.datetime "received_at"
-    t.boolean "from_production", default: false
+    t.datetime "validated_at", precision: nil
+    t.datetime "received_at", precision: nil
     t.string "review_documents_for_recommendation_status", default: "not_started", null: false
+    t.boolean "from_production", default: false
     t.text "changed_constraints", array: true
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
@@ -381,7 +381,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_122750) do
     t.bigint "reviewer_id"
     t.text "assessor_comment"
     t.text "reviewer_comment"
-    t.datetime "reviewed_at"
+    t.datetime "reviewed_at", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "challenged"
@@ -405,11 +405,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_122750) do
     t.integer "sequence"
     t.date "notified_at"
     t.text "cancel_reason"
-    t.datetime "cancelled_at"
+    t.datetime "cancelled_at", precision: nil
     t.json "original_geojson"
     t.boolean "post_validation", default: false, null: false
     t.boolean "auto_closed", default: false, null: false
-    t.datetime "auto_closed_at"
+    t.datetime "auto_closed_at", precision: nil
   end
 
   create_table "replacement_document_validation_requests", force: :cascade do |t|
@@ -423,7 +423,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_122750) do
     t.integer "sequence"
     t.date "notified_at"
     t.text "cancel_reason"
-    t.datetime "cancelled_at"
+    t.datetime "cancelled_at", precision: nil
     t.text "reason"
     t.boolean "post_validation", default: false, null: false
     t.index ["new_document_id"], name: "index_document_change_requests_on_new_document_id"
@@ -446,6 +446,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_122750) do
     t.datetime "updated_at", null: false
     t.string "decision_type"
     t.string "status", default: "in_progress", null: false
+    t.boolean "removed"
+    t.boolean "reviewer_edited", default: false, null: false
+    t.string "review_status", default: "review_not_started", null: false
     t.index ["assessor_id"], name: "ix_review_immunity_details_on_assessor_id"
     t.index ["immunity_detail_id"], name: "ix_review_immunity_details_on_immunity_detail_id"
     t.index ["reviewer_id"], name: "ix_review_immunity_details_on_reviewer_id"
@@ -465,8 +468,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_122750) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "role", default: 0
@@ -492,7 +495,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_122750) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "planning_application_id"
-    t.datetime "closed_at"
+    t.datetime "closed_at", precision: nil
     t.boolean "update_counter", default: false, null: false
     t.index ["planning_application_id"], name: "ix_validation_requests_on_planning_application_id"
     t.index ["requestable_type", "requestable_id"], name: "ix_validation_requests_on_requestable_type__requestable_id", unique: true
