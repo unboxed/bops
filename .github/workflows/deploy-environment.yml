@@ -125,14 +125,17 @@ jobs:
         env:
           CLUSTER: bops-${{ inputs.environment-name }}
           TASK_DEFINITION: bops-db-migrate-${{ inputs.environment-name }}
+          LOG_GROUP: bops-db-migrate-${{ inputs.environment-name }}
           BOPS_SUBNETS: subnet-${{ secrets[format('{0}', inputs.db_subnets)] }}
           BOPS_SG: sg-${{ secrets[format('{0}', inputs.db_sg)] }}
         run: |
+          start_time=$(date -Iseconds)
           task_arn=$(aws ecs run-task --cluster $CLUSTER \
             --task-definition $TASK_DEFINITION --launch-type FARGATE \
             --network-configuration '{"awsvpcConfiguration": {"subnets": ["'$BOPS_SUBNETS'"],"securityGroups": ["'$BOPS_SG'"],"assignPublicIp": "ENABLED"}}' | \
              jq -r '.tasks[].taskArn')
           aws ecs wait tasks-stopped --cluster $CLUSTER --tasks "$task_arn"
+          aws logs tail $LOG_GROUP --format short --since $start_time
 
   deploy-services:
     name: Deploy services to ${{ inputs.environment-name }}
