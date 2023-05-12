@@ -128,9 +128,11 @@ jobs:
           BOPS_SUBNETS: subnet-${{ secrets[format('{0}', inputs.db_subnets)] }}
           BOPS_SG: sg-${{ secrets[format('{0}', inputs.db_sg)] }}
         run: |
-          aws ecs run-task --cluster $CLUSTER \
+          task_arn=$(aws ecs run-task --cluster $CLUSTER \
             --task-definition $TASK_DEFINITION --launch-type FARGATE \
-            --network-configuration '{"awsvpcConfiguration": {"subnets": ["'$BOPS_SUBNETS'"],"securityGroups": ["'$BOPS_SG'"],"assignPublicIp": "ENABLED"}}'
+            --network-configuration '{"awsvpcConfiguration": {"subnets": ["'$BOPS_SUBNETS'"],"securityGroups": ["'$BOPS_SG'"],"assignPublicIp": "ENABLED"}}' | \
+             jq -r '.tasks[].taskArn')
+          aws ecs wait tasks-stopped --cluster $CLUSTER --tasks "$task_arn"
 
   deploy-services:
     name: Deploy services to ${{ inputs.environment-name }}
