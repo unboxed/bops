@@ -1,11 +1,11 @@
 <%= form_with(
-  model: assessment_details_review,
-  url: planning_application_assessment_details_review_path(planning_application),
+  model: @form,
+  url: planning_application_review_assessment_details_path(planning_application),
   method: :put,
   builder: GOVUKDesignSystemFormBuilder::FormBuilder
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
-  <% AssessmentDetailsReview::ASSESSMENT_DETAILS.each_with_index do |assessment_detail, index| %>
+  <% ReviewAssessmentDetailsForm::ASSESSMENT_DETAILS.each_with_index do |assessment_detail, index| %>
     <% unless index == 0 %>
       <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
     <% end %>
@@ -78,7 +78,7 @@
       <%= back_link %>
       <%= link_to(
         t(".edit_review"),
-        edit_planning_application_assessment_details_review_path(
+        edit_planning_application_review_assessment_details_path(
           planning_application
         ),
         class: "govuk-link"

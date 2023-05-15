@@ -2,12 +2,12 @@
 
 require "rails_helper"
 
-RSpec.describe AssessmentDetailsReview do
+RSpec.describe ReviewAssessmentDetailsForm do
   describe "#save" do
     let(:planning_application) { create(:planning_application) }
     let(:user) { create(:user) }
 
-    let(:assessment_details_review) do
+    let(:review_assessment_details) do
       described_class.new(
         planning_application:,
         **params
@@ -66,7 +66,7 @@ RSpec.describe AssessmentDetailsReview do
         )
       end
 
-      before { assessment_details_review.save }
+      before { review_assessment_details.save }
 
       context "when status is 'in progress'" do
         context "when reviewer verdict 'accepted'" do
@@ -194,7 +194,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets summary of work error message" do
             expect(
-              assessment_details_review.errors.messages[:summary_of_work_comment_text]
+              review_assessment_details.errors.messages[:summary_of_work_comment_text]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -202,7 +202,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets site description error message" do
             expect(
-              assessment_details_review.errors.messages[:site_description_comment_text]
+              review_assessment_details.errors.messages[:site_description_comment_text]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -210,7 +210,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets additional evidence error message" do
             expect(
-              assessment_details_review.errors.messages[:additional_evidence_comment_text]
+              review_assessment_details.errors.messages[:additional_evidence_comment_text]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -218,7 +218,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets consultation summary error message" do
             expect(
-              assessment_details_review.errors.messages[:consultation_summary_comment_text]
+              review_assessment_details.errors.messages[:consultation_summary_comment_text]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -290,7 +290,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets summary of work error message" do
             expect(
-              assessment_details_review.errors.messages[:summary_of_work_entry]
+              review_assessment_details.errors.messages[:summary_of_work_entry]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -298,7 +298,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets site description error message" do
             expect(
-              assessment_details_review.errors.messages[:site_description_entry]
+              review_assessment_details.errors.messages[:site_description_entry]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -306,7 +306,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets additional evidence error message" do
             expect(
-              assessment_details_review.errors.messages[:additional_evidence_entry]
+              review_assessment_details.errors.messages[:additional_evidence_entry]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -314,7 +314,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets consultation summary error message" do
             expect(
-              assessment_details_review.errors.messages[:consultation_summary_entry]
+              review_assessment_details.errors.messages[:consultation_summary_entry]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -338,7 +338,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets summary of work error message" do
             expect(
-              assessment_details_review.errors.messages[:summary_of_work_entry]
+              review_assessment_details.errors.messages[:summary_of_work_entry]
             ).to contain_exactly(
               "must be edited"
             )
@@ -346,7 +346,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets site description error message" do
             expect(
-              assessment_details_review.errors.messages[:site_description_entry]
+              review_assessment_details.errors.messages[:site_description_entry]
             ).to contain_exactly(
               "must be edited"
             )
@@ -354,7 +354,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets additional evidence error message" do
             expect(
-              assessment_details_review.errors.messages[:additional_evidence_entry]
+              review_assessment_details.errors.messages[:additional_evidence_entry]
             ).to contain_exactly(
               "must be edited"
             )
@@ -362,7 +362,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets consultation summary error message" do
             expect(
-              assessment_details_review.errors.messages[:consultation_summary_entry]
+              review_assessment_details.errors.messages[:consultation_summary_entry]
             ).to contain_exactly(
               "must be edited"
             )
@@ -381,7 +381,7 @@ RSpec.describe AssessmentDetailsReview do
           end
 
           it "does not set an error" do
-            expect(assessment_details_review.errors.messages).to be_empty
+            expect(review_assessment_details.errors.messages).to be_empty
           end
         end
       end
@@ -419,7 +419,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets an error" do
             expect(
-              assessment_details_review.errors.messages[:summary_of_work_reviewer_verdict]
+              review_assessment_details.errors.messages[:summary_of_work_reviewer_verdict]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -429,7 +429,7 @@ RSpec.describe AssessmentDetailsReview do
     end
 
     context "when assessment detail records do not exist" do
-      before { assessment_details_review.save }
+      before { review_assessment_details.save }
 
       context "when status is 'in progress'" do
         context "when reviewer verdict 'accepted'" do
@@ -581,7 +581,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets summary of work error message" do
             expect(
-              assessment_details_review.errors.messages[:summary_of_work_comment_text]
+              review_assessment_details.errors.messages[:summary_of_work_comment_text]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -589,7 +589,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets site description error message" do
             expect(
-              assessment_details_review.errors.messages[:site_description_comment_text]
+              review_assessment_details.errors.messages[:site_description_comment_text]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -597,7 +597,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets additional evidence error message" do
             expect(
-              assessment_details_review.errors.messages[:additional_evidence_comment_text]
+              review_assessment_details.errors.messages[:additional_evidence_comment_text]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -605,7 +605,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets consultation summary error message" do
             expect(
-              assessment_details_review.errors.messages[:consultation_summary_comment_text]
+              review_assessment_details.errors.messages[:consultation_summary_comment_text]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -685,7 +685,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets summary of work error message" do
             expect(
-              assessment_details_review.errors.messages[:summary_of_work_entry]
+              review_assessment_details.errors.messages[:summary_of_work_entry]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -693,7 +693,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets site description error message" do
             expect(
-              assessment_details_review.errors.messages[:site_description_entry]
+              review_assessment_details.errors.messages[:site_description_entry]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -701,7 +701,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets additional evidence error message" do
             expect(
-              assessment_details_review.errors.messages[:additional_evidence_entry]
+              review_assessment_details.errors.messages[:additional_evidence_entry]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -709,7 +709,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets consultation summary error message" do
             expect(
-              assessment_details_review.errors.messages[:consultation_summary_entry]
+              review_assessment_details.errors.messages[:consultation_summary_entry]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -728,7 +728,7 @@ RSpec.describe AssessmentDetailsReview do
           end
 
           it "does not set an error" do
-            expect(assessment_details_review.errors.messages).to be_empty
+            expect(review_assessment_details.errors.messages).to be_empty
           end
         end
       end
@@ -768,7 +768,7 @@ RSpec.describe AssessmentDetailsReview do
 
           it "sets an error" do
             expect(
-              assessment_details_review.errors.messages[:summary_of_work_reviewer_verdict]
+              review_assessment_details.errors.messages[:summary_of_work_reviewer_verdict]
             ).to contain_exactly(
               "can't be blank"
             )
@@ -797,11 +797,11 @@ RSpec.describe AssessmentDetailsReview do
           challenged: false
         )
 
-        assessment_details_review.save
+        review_assessment_details.save
       end
 
       it "sets error" do
-        expect(assessment_details_review.errors[:base]).to contain_exactly(
+        expect(review_assessment_details.errors[:base]).to contain_exactly(
           "You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen"
         )
       end

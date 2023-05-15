@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module StatusTags
-  class AssessmentDetailsReviewComponent < StatusTags::BaseComponent
+  class ReviewAssessmentDetailsComponent < StatusTags::BaseComponent
     include AssessmentDetailable
     include Recommendable
 
@@ -16,7 +16,7 @@ module StatusTags
     def status
       if updated?
         :updated
-      elsif assessment_details_review_complete?
+      elsif review_assessment_details_complete?
         :checked
       elsif assessment_details.any?(&:reviewer_verdict)
         :in_progress
