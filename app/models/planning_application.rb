@@ -526,7 +526,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def assessment_details_for_review
-    AssessmentDetailsReview::ASSESSMENT_DETAILS.filter_map do |assessment_detail|
+    ReviewAssessmentDetailsForm::ASSESSMENT_DETAILS.filter_map do |assessment_detail|
       send(assessment_detail)
     end
   end

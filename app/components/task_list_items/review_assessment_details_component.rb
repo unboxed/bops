@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module TaskListItems
-  class AssessmentDetailsReviewComponent < TaskListItems::BaseComponent
+  class ReviewAssessmentDetailsComponent < TaskListItems::BaseComponent
     include AssessmentDetailable
 
     def initialize(planning_application:)
@@ -17,19 +17,19 @@ module TaskListItems
     end
 
     def link_path
-      if assessment_details_review_complete?
-        planning_application_assessment_details_review_path(
+      if review_assessment_details_complete?
+        planning_application_review_assessment_details_path(
           planning_application
         )
       else
-        edit_planning_application_assessment_details_review_path(
+        edit_planning_application_review_assessment_details_path(
           planning_application
         )
       end
     end
 
     def status_tag_component
-      StatusTags::AssessmentDetailsReviewComponent.new(
+      StatusTags::ReviewAssessmentDetailsComponent.new(
         planning_application:
       )
     end

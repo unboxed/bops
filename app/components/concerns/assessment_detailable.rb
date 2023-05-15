@@ -28,7 +28,7 @@ module AssessmentDetailable
       planning_application.rejected_assessment_detail(category:).present?
     end
 
-    def assessment_details_review_complete?
+    def review_assessment_details_complete?
       assessment_details.any? && assessment_details.all?(&:review_complete?)
     end
   end

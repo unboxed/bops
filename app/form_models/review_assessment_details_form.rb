@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AssessmentDetailsReview
+class ReviewAssessmentDetailsForm
   include Memoizable
   include ActiveModel::Model
   extend ActiveModel::Callbacks

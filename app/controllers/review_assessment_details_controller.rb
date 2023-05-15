@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AssessmentDetailsReviewsController < AuthenticationController
+class ReviewAssessmentDetailsController < AuthenticationController
   include CommitMatchable
 
   before_action :set_planning_application
@@ -11,12 +11,12 @@ class AssessmentDetailsReviewsController < AuthenticationController
   def edit; end
 
   def update
-    @assessment_details_review.attributes = assessment_details_review_params
+    @form.attributes = review_assessment_details_params
 
-    if @assessment_details_review.save
+    if @form.save
       redirect_to(
         planning_application_review_tasks_path(@planning_application),
-        notice: I18n.t("assessment_details_reviews.saved")
+        notice: I18n.t("review_assessment_details.saved")
       )
     else
       render :edit
@@ -26,20 +26,20 @@ class AssessmentDetailsReviewsController < AuthenticationController
   private
 
   def set_assessment_detail_review
-    @assessment_details_review = AssessmentDetailsReview.new(
+    @form = ReviewAssessmentDetailsForm.new(
       planning_application: @planning_application
     )
   end
 
-  def assessment_details_review_params
+  def review_assessment_details_params
     params
-      .require(:assessment_details_review)
+      .require(:review_assessment_details_form)
       .permit(permitted_attributes)
       .merge(status:)
   end
 
   def permitted_attributes
-    AssessmentDetailsReview::ASSESSMENT_DETAILS.map do |assessment_detail|
+    ReviewAssessmentDetailsForm::ASSESSMENT_DETAILS.map do |assessment_detail|
       [
         "#{assessment_detail}_reviewer_verdict",
         "#{assessment_detail}_entry",
