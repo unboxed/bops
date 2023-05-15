@@ -10,6 +10,9 @@
         <p>Assessor decision: <%= review_immunity_detail.decision %></p>
         <p>Reason: <%= review_immunity_detail.decision_reason %></p>
         <p>Summary: <%= review_immunity_detail.summary %></p>
+        <% if review_immunity_detail.reviewer_comment %>
+          <p><em>Reviewer comment: <%= review_immunity_detail.reviewer_comment %></em></p>
+        <% end %>
       <% end %>
     </div>
   </details>

@@ -496,6 +496,9 @@ en:
       replacement_document_validation_request:
         cancel_reason: Explain to the applicant why this request is being cancelled
         reason: List all issues with the document.
+      review_immunity_detail:
+        removed_reason: Describe how immune from enforcement have been removed
+        reviewer_comment: Explain to the assessor why this needs reviewing
       user:
         email: Email
         mobile_number: Mobile number
@@ -514,6 +517,9 @@ en:
         valid_fee: Is the fee valid?
         valid_red_line_boundary: Is this red line boundary valid?
         validated_at: Valid from
+      review_immunity_detail:
+        accepted: Is the application immune from enforcement?
+        removed: Is the application immune from enforcement?
   immunity_details:
     successfully_updated: Review immunity details was successfully updated
   local_authorities:
@@ -830,6 +836,8 @@ en:
       success: Replacement document validation request successfully created.
     update:
       success: Replacement document reason successfully updated.
+  review_immunity_enforcements:
+    successfully_updated: Review immunity details was successfully updated for enforcement
   review_policy_classes:
     navigation_component:
       view_next_class: View next class
@@ -927,6 +935,8 @@ en:
       review_documents_for: Review documents for recommendation
     review_immunity_details_component:
       evidence_of_immunity: Review evidence of immunity
+    review_immunity_enforcement_component:
+      review_immunity_enforcement: Review immunity enforcement
     review_permitted_development_right_component:
       review_permitted_development_rights: Review permitted development rights
     validation_decision_component:

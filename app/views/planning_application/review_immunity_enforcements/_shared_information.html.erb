@@ -1,0 +1,15 @@
+<% content_for :page_title do %>
+  Review immunity enforcement - <%= t('page_title') %>
+<% end %>
+
+<%= render(
+  partial: "shared/review_task_breadcrumbs",
+  locals: { planning_application: @planning_application  }
+) %>
+
+<% content_for :title, "Review immunity enforcement" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Review immunity enforcement" }
+) %>

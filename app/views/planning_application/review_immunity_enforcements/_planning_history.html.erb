@@ -1,0 +1,16 @@
+<section id="planning-history-section">
+  <h3 class="govuk-heading-s govuk-!-margin-top-5">
+    Historical information related to the property or to adjoining properties
+  </h3>
+
+  <% if past_application = @planning_application.past_applications %>
+    <ul class="govuk-list">
+      <li><p><strong><%= past_application.additional_information %></strong></p></li>
+      <li><p><%= past_application.entry %><p></li>
+    </ul>
+  <% else %>
+    <p class="govuk-body">
+      There is no relevant planning history
+    </p>
+  <% end %>
+</section>
