@@ -39,7 +39,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github_deploy
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/bops_github_deploy_${{ inputs.environment-name }}
           aws-region: eu-west-2
 
       - name: Login to Amazon ECR
@@ -94,7 +94,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github_deploy
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/bops_github_deploy_${{ inputs.environment-name }}
           aws-region: eu-west-2
 
       - name: Login to Amazon ECR
@@ -145,7 +145,7 @@ jobs:
     needs: [build-image, deploy-db-migrate-service]
     strategy:
       matrix:
-        service_type: [ 'console', 'worker' ]
+        service_type: ['console', 'worker']
 
     steps:
       - name: Get github commit sha
@@ -156,7 +156,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github_deploy
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/bops_github_deploy_${{ inputs.environment-name }}
           aws-region: eu-west-2
 
       - name: Login to Amazon ECR
@@ -220,7 +220,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github_deploy
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/bops_github_deploy_${{ inputs.environment-name }}
           aws-region: eu-west-2
 
       - name: Login to Amazon ECR
