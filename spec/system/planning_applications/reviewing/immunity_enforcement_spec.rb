@@ -27,9 +27,11 @@ RSpec.describe "Reviewing immunity enforcement" do
     )
   end
 
-  let!(:review_immunity_detail) { create(:review_immunity_detail, immunity_detail: planning_application.immunity_detail, assessor:) } # rubocop:disable RSpec/LetSetup
+  let!(:review_immunity_detail) { create(:review_immunity_detail, immunity_detail: planning_application.immunity_detail, assessor:) }
 
   before do
+    create(:review_immunity_detail, :evidence, immunity_detail: planning_application.immunity_detail, assessor:)
+
     sign_in reviewer
     visit(planning_application_review_tasks_path(planning_application))
   end
@@ -49,7 +51,7 @@ RSpec.describe "Reviewing immunity enforcement" do
       end
 
       expect(page).to have_current_path(
-        edit_planning_application_review_immunity_enforcement_path(planning_application, ReviewImmunityDetail.last)
+        edit_planning_application_review_immunity_enforcement_path(planning_application, review_immunity_detail)
       )
 
       expect(page).to have_content("Review immunity enforcement")

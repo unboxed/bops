@@ -17,7 +17,7 @@ module TaskListItems
     end
 
     def review_immunity_detail
-      immunity_detail.current_review_immunity_detail
+      immunity_detail.current_enforcement_review_immunity_detail
     end
 
     def link_path

@@ -113,11 +113,12 @@ class PlanningApplication
     end
 
     def set_review_immunity_details
-      @review_immunity_details = @planning_application.immunity_detail.review_immunity_details.reviewer_not_accepted
+      @review_immunity_details =
+        @planning_application.immunity_detail.review_immunity_details.enforcement.reviewer_not_accepted
     end
 
     def set_review_immunity_detail
-      @review_immunity_detail = @planning_application.immunity_detail.current_review_immunity_detail
+      @review_immunity_detail = @planning_application.immunity_detail.current_enforcement_review_immunity_detail
     end
 
     def review_immunity_detail_status

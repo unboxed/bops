@@ -13,7 +13,7 @@ class ReviewImmunityDetail < ApplicationRecord
   end
 
   with_options presence: true do
-    validates :decision, :decision_reason
+    validates :decision, :decision_reason, if: :enforcement?
     validates :summary, if: :decision_is_immune?
   end
 
@@ -29,7 +29,12 @@ class ReviewImmunityDetail < ApplicationRecord
     review_complete: "review_complete"
   }
 
-  validates :decision, inclusion: { in: DECISIONS }
+  enum review_type: {
+    enforcement: "enforcement",
+    evidence: "evidence"
+  }
+
+  validates :decision, inclusion: { in: DECISIONS }, allow_blank: true
 
   before_create :ensure_no_open_review_immunity_detail_response!
   before_update :set_status_to_be_reviewed, if: :reviewer_comment?
@@ -82,7 +87,9 @@ class ReviewImmunityDetail < ApplicationRecord
   end
 
   def ensure_no_open_review_immunity_detail_response!
-    last_review_immunity_detail = immunity_detail.current_review_immunity_detail
+    return if evidence?
+
+    last_review_immunity_detail = immunity_detail.current_enforcement_review_immunity_detail
     return unless last_review_immunity_detail
     return if last_review_immunity_detail.reviewed_at?
 

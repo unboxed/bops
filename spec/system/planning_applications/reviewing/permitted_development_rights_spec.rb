@@ -236,6 +236,7 @@ RSpec.describe "Permitted development right" do
       it "I can view the information on the review permitted development rights page" do
         immunity_detail = create(:immunity_detail, planning_application:)
         create(:review_immunity_detail, immunity_detail:)
+        create(:review_immunity_detail, :evidence, immunity_detail:)
         evidence_group = create(:evidence_group, missing_evidence: true, immunity_detail:)
         create(:document, evidence_group:)
 

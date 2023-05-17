@@ -10,6 +10,8 @@ class ImmunityDetail < ApplicationRecord
   accepts_nested_attributes_for :evidence_groups
   accepts_nested_attributes_for :comments
 
+  after_update :create_evidence_review_immunity_detail
+
   enum(
     status: {
       not_started: "not_started",
@@ -45,8 +47,12 @@ class ImmunityDetail < ApplicationRecord
     status == "complete" && (review_status == "review_complete" || review_status == "review_in_progress")
   end
 
-  def current_review_immunity_detail
-    review_immunity_details.where.not(id: nil).order(:created_at).last
+  def current_enforcement_review_immunity_detail
+    review_immunity_details.enforcement.where.not(id: nil).order(:created_at).last
+  end
+
+  def current_evidence_review_immunity_detail
+    review_immunity_details.evidence.where.not(id: nil).order(:created_at).last
   end
 
   def earliest_evidence_cover
@@ -61,5 +67,11 @@ class ImmunityDetail < ApplicationRecord
     return if evidence_groups.blank?
 
     evidence_groups.any?(&:missing_evidence?)
+  end
+
+  def create_evidence_review_immunity_detail
+    return if current_evidence_review_immunity_detail.try(:review_not_started?)
+
+    review_immunity_details.create!(review_type: "evidence", assessor: Current.user)
   end
 end
