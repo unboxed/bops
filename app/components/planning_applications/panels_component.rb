@@ -23,9 +23,9 @@ module PlanningApplications
     def all_planning_applications
       if search_filter.results
         if @exclude_others
-          search_filter.results.select { |pa| pa.user == @current_user || pa.user.nil? }
+          search_filter.results.includes([:user]).select { |pa| pa.user == @current_user || pa.user.nil? }
         else
-          search_filter.results
+          search_filter.results.includes([:user])
         end
       else
         planning_applications

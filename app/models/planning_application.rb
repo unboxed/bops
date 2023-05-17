@@ -25,7 +25,7 @@ class PlanningApplication < ApplicationRecord
 
   with_options dependent: :destroy do
     has_many :audits, -> { by_created_at }, inverse_of: :planning_application
-    has_many :documents, -> { with_file_attachment.by_created_at }, inverse_of: :planning_application
+    has_many :documents, -> { by_created_at }, inverse_of: :planning_application
 
     has_many(
       :recommendations,

@@ -5,7 +5,7 @@ module AccordionSections
     private
 
     def documents
-      planning_application.documents.active.order(:created_at)
+      planning_application.documents.with_file_attachment.active.order(:created_at)
     end
   end
 end

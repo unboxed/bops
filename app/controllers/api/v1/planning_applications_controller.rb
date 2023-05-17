@@ -9,7 +9,7 @@ module Api
       skip_before_action :set_default_format, only: %i[decision_notice]
 
       def index
-        @planning_applications = current_local_authority.planning_applications.all
+        @planning_applications = current_local_authority.planning_applications.all.includes([:user])
 
         respond_to(:json)
       end
