@@ -37,7 +37,7 @@
     <% end %>
 
     <% if @documents.any? %>
-      <%= render "documents/active_documents_table", documents: @documents %>
+      <%= render "documents/active_documents_table", documents: @documents.with_file_attachment %>
     <% end %>
 
     <%= form_with model: @planning_application, url: validate_documents_planning_application_path(@planning_application), builder: GOVUKDesignSystemFormBuilder::FormBuilder, local: true do |form| %>

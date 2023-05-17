@@ -32,7 +32,7 @@ class EvidenceGroup < ApplicationRecord
   end
 
   def persisted_comments
-    comments.select(&:persisted?).sort_by(&:created_at)
+    comments.includes(:user).select(&:persisted?).sort_by(&:created_at)
   end
 
   private

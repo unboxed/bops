@@ -39,7 +39,7 @@
 
         <%= render(
           EvidenceGroups::DocumentsComponent.new(
-            documents: section.documents
+            documents: section.documents.with_file_attachment
           )
         ) %>
 

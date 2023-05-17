@@ -257,7 +257,7 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def planning_applications_scope
-    @planning_applications_scope ||= current_local_authority.planning_applications.with_user.by_created_at_desc
+    @planning_applications_scope ||= current_local_authority.planning_applications.by_created_at_desc
   end
 
   def planning_application_params
