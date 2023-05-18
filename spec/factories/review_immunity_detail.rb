@@ -10,5 +10,9 @@ FactoryBot.define do
     trait :accepted do
       accepted { true }
     end
+
+    trait :evidence do
+      review_type { "evidence" }
+    end
   end
 end

@@ -65,7 +65,7 @@ class PlanningApplication
     end
 
     def set_review_immunity_detail
-      @review_immunity_detail = @immunity_detail.current_review_immunity_detail
+      @review_immunity_detail = @immunity_detail.current_evidence_review_immunity_detail
     end
 
     def immunity_detail_status

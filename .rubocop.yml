@@ -78,6 +78,9 @@ RSpec/ContextWording:
     - with
     - without
 
+RSpec/LetSetup:
+  Enabled: false
+
 RSpec/MessageSpies:
   Enabled: false
 

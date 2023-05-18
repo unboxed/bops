@@ -27,9 +27,10 @@ RSpec.describe "Reviewing evidence of immunity" do
     )
   end
 
-  let!(:review_immunity_detail) { create(:review_immunity_detail, immunity_detail: planning_application.immunity_detail, assessor:) } # rubocop:disable RSpec/LetSetup
+  let!(:review_immunity_detail) { create(:review_immunity_detail, immunity_detail: planning_application.immunity_detail, assessor:) }
 
   before do
+    create(:review_immunity_detail, :evidence, immunity_detail: planning_application.immunity_detail, assessor:)
     create(:evidence_group, :with_document, tag: "utility_bill", missing_evidence: true, missing_evidence_entry: "gaps everywhere", immunity_detail: planning_application.immunity_detail)
     create(:evidence_group, :with_document, tag: "building_control_certificate", end_date: nil, immunity_detail: planning_application.immunity_detail)
 

@@ -36,7 +36,7 @@ module TaskListItems
     end
 
     def status
-      if (review_immunity_detail = immunity_detail.current_review_immunity_detail)
+      if (review_immunity_detail = immunity_detail.current_enforcement_review_immunity_detail)
         review_immunity_detail.status.to_sym
       else
         :not_started

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_12_103706) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_17_102459) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -436,8 +436,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_12_103706) do
     t.bigint "immunity_detail_id"
     t.bigint "assessor_id"
     t.bigint "reviewer_id"
-    t.string "decision", null: false
-    t.text "decision_reason", null: false
+    t.string "decision"
+    t.text "decision_reason"
     t.text "summary"
     t.boolean "accepted", default: false, null: false
     t.text "reviewer_comment"
@@ -449,6 +449,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_12_103706) do
     t.boolean "removed"
     t.boolean "reviewer_edited", default: false, null: false
     t.string "review_status", default: "review_not_started", null: false
+    t.string "review_type", default: "enforcement", null: false
     t.index ["assessor_id"], name: "ix_review_immunity_details_on_assessor_id"
     t.index ["immunity_detail_id"], name: "ix_review_immunity_details_on_immunity_detail_id"
     t.index ["reviewer_id"], name: "ix_review_immunity_details_on_reviewer_id"

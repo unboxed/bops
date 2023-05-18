@@ -8,7 +8,7 @@ RSpec.describe ReviewImmunityDetail do
 
     describe "#decision" do
       it "validates presence for decision" do
-        expect { review_immunity_detail.valid? }.to change { review_immunity_detail.errors[:decision] }.to ["can't be blank", "is not included in the list"]
+        expect { review_immunity_detail.valid? }.to change { review_immunity_detail.errors[:decision] }.to ["can't be blank"]
       end
 
       it "validates inclusion in list ['Yes', 'No']" do

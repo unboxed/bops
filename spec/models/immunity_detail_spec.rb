@@ -19,6 +19,37 @@ RSpec.describe ImmunityDetail do
     end
   end
 
+  describe "callbacks" do
+    describe "::after_update #create_evidence_review_immunity_detail" do
+      let!(:planning_application) do
+        create(:planning_application, :not_started)
+      end
+      let!(:immunity_detail) do
+        create(:immunity_detail, planning_application:)
+      end
+
+      context "when there is already an evidence review immunity detail record pending review" do
+        before do
+          create(:review_immunity_detail, :evidence, immunity_detail:)
+        end
+
+        it "does not create a new evidence review immunity detail record" do
+          expect do
+            immunity_detail.update(end_date: Time.zone.now)
+          end.not_to change(ReviewImmunityDetail, :count)
+        end
+      end
+
+      context "when there is no existing evidence review immunity detail" do
+        it "creates a new evidence review immunity detail record" do
+          expect do
+            immunity_detail.update(end_date: Time.zone.now)
+          end.to change(ReviewImmunityDetail, :count).by(1)
+        end
+      end
+    end
+  end
+
   describe "#add_document" do
     let(:immunity_detail) { create(:immunity_detail) }
     let(:document) { create(:document, tags: ["Council Tax Document"]) }
