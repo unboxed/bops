@@ -185,7 +185,7 @@ jobs:
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ inputs.environment-name }}.json
+          task-definition: ${{ matrix.service_type }}.json
           container-name: bops
           image: ${{ steps.ecr-image.outputs.uri }}
 
