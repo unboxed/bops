@@ -1,7 +1,7 @@
 ---
 services:
   db:
-    image: postgres:13.4
+    image: postgres:14.3
     volumes:
       - type: volume
         source: db
@@ -13,7 +13,7 @@ services:
       - "5432:5432"
 
   redis:
-    image: redis:latest
+    image: redis:7.0
     command: redis-server
     ports:
       - "6379:6379"
