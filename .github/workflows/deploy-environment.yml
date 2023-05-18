@@ -145,9 +145,13 @@ jobs:
     needs: [build-image, deploy-db-migrate-service]
     strategy:
       matrix:
-        service_type: ['console', 'worker']
+        service_type: ['console', 'worker', 'web']
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        if: matrix.service_type == 'web'
+
       - name: Get github commit sha
         id: github
         run: |
@@ -177,83 +181,29 @@ jobs:
           aws ecs describe-task-definition --task-definition bops-${{ matrix.service_type }}-${{ inputs.environment-name }} --query taskDefinition | \
           jq -r 'del(.compatibilities, .taskDefinitionArn, .requiresAttributes, .revision, .status, .registeredAt, .registeredBy)' > ${{ matrix.service_type }}.json
 
-      - name: Generate task definition for console
-        if: matrix.service_type == 'console'
-        id: task-def-console
+      - name: Generate task definition for ${{ inputs.environment-name }}
+        id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: console.json
-          container-name: bops
-          image: ${{ steps.ecr-image.outputs.uri }}
-
-      - name: Generate task definition for worker
-        if: matrix.service_type == 'worker'
-        id: task-def-worker
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: worker.json
+          task-definition: ${{ inputs.environment-name }}.json
           container-name: bops
           image: ${{ steps.ecr-image.outputs.uri }}
 
       - name: Deploy ${{ matrix.service_type }}
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        if: matrix.service_type != 'web'
         with:
-          task-definition: ${{ steps[format('task-def-{0}', matrix.service_type)].outputs.task-definition }}
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
           service: bops-${{ matrix.service_type }}-${{ inputs.environment-name }}
           cluster: bops-${{ inputs.environment-name }}
           wait-for-service-stability: true
 
-  deploy-web-service:
-    name: Deploy web service to ${{ inputs.environment-name }}
-    runs-on: ubuntu-20.04
-    needs: [build-image, deploy-db-migrate-service, deploy-services]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Get github commit sha
-        id: github
-        run: |
-          echo "sha=$(echo ${GITHUB_SHA::7})" >>$GITHUB_OUTPUT
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/bops_github_deploy_${{ inputs.environment-name }}
-          aws-region: eu-west-2
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Get image URI
-        id: ecr-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: bops/${{ inputs.environment-name }}
-          IMAGE_TAG: ${{ steps.github.outputs.sha }}
-        run: |
-          echo "uri=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >>$GITHUB_OUTPUT
-
-      - name: Download task definition for web and strip unused properties
-        run: |
-          aws ecs describe-task-definition --task-definition bops-web-${{ inputs.environment-name }} --query taskDefinition | \
-          jq -r 'del(.compatibilities, .taskDefinitionArn, .requiresAttributes, .revision, .status, .registeredAt, .registeredBy)' > web.json
-
-      - name: Generate task definition for web
-        id: task-def-web
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: web.json
-          container-name: bops
-          image: ${{ steps.ecr-image.outputs.uri }}
-
       - name: Deploy web
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        if: matrix.service_type == 'web'
         with:
-          task-definition: ${{ steps.task-def-web.outputs.task-definition }}
-          service: bops-web-${{ inputs.environment-name }}
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: bops-${{ matrix.service_type }}-${{ inputs.environment-name }}
           cluster: bops-${{ inputs.environment-name }}
           wait-for-service-stability: true
           codedeploy-appspec: .aws/appspec.yml
