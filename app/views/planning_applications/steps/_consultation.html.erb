@@ -1,0 +1,21 @@
+<h2 class="govuk-heading-m govuk-!-margin-top-6">2. Consultation</h2>
+<ul class="app-task-list__items" id="consultation-section">
+  <li class="app-task-list__item">
+    <span class="app-task-list__task-name">
+        <%= link_to(
+           "Send letters to neighbours",
+           new_planning_application_consultation_path(@planning_application),
+           aria: { describedby: "consultation-completed" },
+           class: "govuk-link"
+        ) %>
+    </span>
+    <div class="app-task-list__task-tag">
+      <%= render(
+        StatusTags::BaseComponent.new(
+          ## Needs fixing - don't have any models to base this on yet
+          status: @planning_application.validation_status
+        )
+      ) %>
+    </div>
+  </li>
+</ul>
