@@ -138,6 +138,8 @@ jobs:
              jq -r '.tasks[].taskArn')
           aws ecs wait tasks-stopped --cluster $CLUSTER --tasks "$task_arn"
           aws logs tail $LOG_GROUP --format short --since $start_time
+          exit_code=$(aws ecs describe-tasks --cluster $CLUSTER --task $task_arn | jq -r '.tasks[].containers[0].exitCode')
+          exit $exit_code
 
   deploy-services:
     name: Deploy services to ${{ inputs.environment-name }}
