@@ -109,6 +109,45 @@ RSpec.describe PlanningApplication do
         expect(planning_application.fee_item_validation_requests).to eq([other_change_validation_request2])
       end
     end
+
+    describe "constraints" do
+      let!(:planning_application) { create(:planning_application) }
+
+      let!(:constraint1) { create(:constraint, name: "Constraint 1", category: "other") }
+      let!(:constraint2) { create(:constraint, name: "Constraint 2", category: "other") }
+
+      let!(:planning_application_constraints_query) { create(:planning_application_constraints_query, planning_application:) }
+      let!(:planning_application_constraint1) { create(:planning_application_constraint, planning_application_constraints_query:, planning_application:, constraint: constraint1) }
+      let!(:planning_application_constraint2) { create(:planning_application_constraint, planning_application_constraints_query:, planning_application:, constraint: constraint2) }
+
+      it "returns the associations for constraints" do
+        expect(constraint1.planning_application_constraints).to eq([planning_application_constraint1])
+        expect(constraint2.planning_application_constraints).to eq([planning_application_constraint2])
+      end
+
+      it "returns the associations for planning_application_constraints_query" do
+        expect(planning_application_constraints_query.constraints).to match_array([constraint1, constraint2])
+        expect(planning_application_constraints_query.planning_application_constraints).to match_array([planning_application_constraint1, planning_application_constraint2])
+        expect(planning_application_constraints_query.planning_application).to eq(planning_application)
+      end
+
+      it "returns the associations for planning_application" do
+        expect(planning_application.planning_application_constraints).to match_array([planning_application_constraint1, planning_application_constraint2])
+        # To change to "constraints" when we update the code to use the new association and are able to drop the "constraints" array field
+        expect(planning_application.constraints).to match_array([constraint1, constraint2])
+      end
+
+      it "returns the associations for planning_application_constraint" do
+        expect(planning_application_constraint1.planning_application).to eq(planning_application)
+        expect(planning_application_constraint2.planning_application).to eq(planning_application)
+
+        expect(planning_application_constraint1.planning_application_constraints_query).to eq(planning_application_constraints_query)
+        expect(planning_application_constraint2.planning_application_constraints_query).to eq(planning_application_constraints_query)
+
+        expect(planning_application_constraint1.constraint).to eq(constraint1)
+        expect(planning_application_constraint2.constraint).to eq(constraint2)
+      end
+    end
   end
 
   describe "scopes" do
