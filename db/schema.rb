@@ -228,6 +228,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_23_104534) do
     t.string "feedback_email", null: false
     t.string "reviewer_group_email"
     t.string "council_code", null: false
+    t.string "notify_api_key"
+    t.string "notify_letter_template"
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 
