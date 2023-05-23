@@ -25,14 +25,14 @@
       Review assessment
     </h2>
     <ul class="app-task-list__items" id="review-assessment-section">
-      <% if @planning_application.possibly_immune? && @planning_application.immunity_detail.review_immunity_details.any? %>
+      <% if @planning_application.possibly_immune? && @planning_application.immunity_detail.review_immunity_details.evidence.any? %>
           <%= render(
             TaskListItems::ReviewImmunityDetailsComponent.new(
               planning_application: @planning_application
             )
           ) %>
       <% end %>
-      <% if @planning_application.possibly_immune? && @planning_application.immunity_detail.review_immunity_details.any? %>
+      <% if @planning_application.possibly_immune? && @planning_application.immunity_detail.review_immunity_details.enforcement.any? %>
           <%= render(
             TaskListItems::ReviewImmunityEnforcementComponent.new(
               planning_application: @planning_application

@@ -14,5 +14,9 @@ FactoryBot.define do
     trait :evidence do
       review_type { "evidence" }
     end
+
+    trait :enforcement do
+      review_type { "enforcement" }
+    end
   end
 end
