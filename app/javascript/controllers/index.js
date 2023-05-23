@@ -1,5 +1,8 @@
 import { application } from "./application"
 
+import AddressFillController from "./address_fill_controller.js"
+application.register("address-fill", AddressFillController)
+
 import ClearFormController from "./clear_form_controller.js"
 application.register("clear-form", ClearFormController)
 

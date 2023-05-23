@@ -6,6 +6,7 @@
     "@opensystemslab/map": "^0.5.7",
     "@rails/activestorage": "^7.0.4-2",
     "@rails/ujs": "^7.0.4-2",
+    "accessible-autocomplete": "^2.0.4",
     "govuk-frontend": "^3.6.0",
     "is-svg": "^4.2.2",
     "puppeteer": "^11.0.0",
