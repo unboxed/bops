@@ -33,8 +33,8 @@ RSpec.describe "Reviewing immunity enforcement" do
       visit(planning_application_review_tasks_path(planning_application))
     end
 
-    it "I cannot view the link of Review immunity enforcement page" do
-      expect(page).not_to have_link("Review immunity enforcement")
+    it "I cannot view the link of Review assessment of immunity page" do
+      expect(page).not_to have_link("Review assessment of immunity")
     end
   end
 
@@ -47,24 +47,24 @@ RSpec.describe "Reviewing immunity enforcement" do
     end
 
     context "when planning application is awaiting determination" do
-      it "I can view the information on the review immunity enforcement page" do
+      it "I can view the information on the Review assessment of immunity page" do
         expect(page).to have_list_item_for(
-          "Review immunity enforcement",
+          "Review assessment of immunity",
           with: "Not started"
         )
 
-        click_link "Review immunity enforcement"
+        click_link "Review assessment of immunity"
 
         within(".govuk-breadcrumbs__list") do
           expect(page).to have_content("Review")
-          expect(page).to have_content("Review immunity enforcement")
+          expect(page).to have_content("Review assessment of immunity")
         end
 
         expect(page).to have_current_path(
           edit_planning_application_review_immunity_enforcement_path(planning_application, ReviewImmunityDetail.last)
         )
 
-        expect(page).to have_content("Review immunity enforcement")
+        expect(page).to have_content("Review assessment of immunity")
         expect(page).to have_content("Application number: #{planning_application.reference}")
         expect(page).to have_content(planning_application.full_address)
 
@@ -82,7 +82,7 @@ RSpec.describe "Reviewing immunity enforcement" do
       end
 
       it "I can save and come back later when adding my review or editing the immunity enforcement" do
-        click_link "Review immunity enforcement"
+        click_link "Review assessment of immunity"
 
         radio_buttons = find_all(".govuk-radios__item")
         within(radio_buttons[1]) do
@@ -93,11 +93,11 @@ RSpec.describe "Reviewing immunity enforcement" do
         expect(page).to have_content("Review immunity details was successfully updated for enforcement")
 
         expect(page).to have_list_item_for(
-          "Review immunity enforcement",
+          "Review assessment of immunity",
           with: "In progress"
         )
 
-        click_link "Review immunity enforcement"
+        click_link "Review assessment of immunity"
 
         expect(page).to have_checked_field("Accept")
 
@@ -109,11 +109,11 @@ RSpec.describe "Reviewing immunity enforcement" do
         expect(page).to have_content("Review immunity details was successfully updated for enforcement")
 
         expect(page).to have_list_item_for(
-          "Review immunity enforcement",
+          "Review assessment of immunity",
           with: "In progress"
         )
 
-        click_link "Review immunity enforcement"
+        click_link "Review assessment of immunity"
 
         expect(page).to have_checked_field("Return to officer with comment")
 
@@ -121,7 +121,7 @@ RSpec.describe "Reviewing immunity enforcement" do
       end
 
       it "I can save and mark as complete when adding my review to accept the review evidence of immunity response" do
-        click_link "Review immunity enforcement"
+        click_link "Review assessment of immunity"
 
         radio_buttons = find_all(".govuk-radios__item")
         within(radio_buttons[1]) do
@@ -131,17 +131,17 @@ RSpec.describe "Reviewing immunity enforcement" do
         click_button "Save and mark as complete"
 
         expect(page).to have_list_item_for(
-          "Review immunity enforcement",
+          "Review assessment of immunity",
           with: "Completed"
         )
 
-        click_link "Review immunity enforcement"
+        click_link "Review assessment of immunity"
 
         expect(page).not_to have_content("Save and mark as complete")
       end
 
       it "when I return it to officer with comments, they can see my comments" do
-        click_link "Review immunity enforcement"
+        click_link "Review assessment of immunity"
 
         choose "Return to officer with comment"
 

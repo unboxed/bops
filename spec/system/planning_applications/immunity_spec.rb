@@ -117,7 +117,7 @@ RSpec.describe "Immunity" do
       click_button "Save and mark as complete"
       expect(page).to have_content("Review immunity details was successfully updated")
 
-      click_link "Review immunity enforcement"
+      click_link "Review assessment of immunity"
       expect(page).to have_content("Assessor decision: Yes")
       expect(page).to have_content("Reason: no action is taken within 4 years for an unauthorised change of use to a single dwellinghouse")
       expect(page).to have_content("Summary: A summary")
@@ -193,7 +193,7 @@ RSpec.describe "Immunity" do
       click_button "Save and mark as complete"
       expect(page).to have_content("Review immunity details was successfully updated")
 
-      click_link "Review immunity enforcement"
+      click_link "Review assessment of immunity"
       expect(page).to have_content("Assessor decision: No")
       expect(page).to have_content("Reason: Application is not immune")
 

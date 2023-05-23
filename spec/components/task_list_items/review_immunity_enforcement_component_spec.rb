@@ -32,7 +32,7 @@ RSpec.describe TaskListItems::ReviewImmunityEnforcementComponent, type: :compone
 
     it "renders link to permitted development right review page" do
       expect(page).to have_link(
-        "Review immunity enforcement",
+        "Review assessment of immunity",
         href: "/planning_applications/#{planning_application.id}/review_immunity_enforcements/#{review_immunity_detail.id}"
       )
     end
@@ -43,7 +43,7 @@ RSpec.describe TaskListItems::ReviewImmunityEnforcementComponent, type: :compone
 
     it "renders link to edit permitted development right review page" do
       expect(page).to have_link(
-        "Review immunity enforcement",
+        "Review assessment of immunity",
         href: "/planning_applications/#{planning_application.id}/review_immunity_enforcements/#{review_immunity_detail.id}/edit"
       )
     end
