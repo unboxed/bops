@@ -44,25 +44,53 @@ RSpec.describe ReviewImmunityDetail do
   end
 
   describe "callbacks" do
-    describe "::before_create #ensure_no_open_review_immunity_detail_response!" do
+    describe "::before_create #ensure_no_open_evidence_review_immunity_detail_response!" do
       let(:immunity_detail) { create(:immunity_detail) }
 
-      context "when there is already an open review immunity detail response" do
-        let(:new_review_immunity_detail) { create(:review_immunity_detail, immunity_detail:) }
+      context "when there is already an open evidence review immunity detail response" do
+        let(:new_review_immunity_detail) { create(:review_immunity_detail, :evidence, immunity_detail:) }
 
-        before { create(:review_immunity_detail, immunity_detail:) }
+        before { create(:review_immunity_detail, :evidence, immunity_detail:) }
 
         it "raises an error" do
           expect do
             new_review_immunity_detail
-          end.to raise_error(described_class::NotCreatableError, "Cannot create a review immunity detail response when there is already an open response")
+          end.to raise_error(described_class::NotCreatableError, "Cannot create an evidence review immunity detail response when there is already an open response")
         end
       end
 
-      context "when there is no open review immunity detail response to be reviewed" do
-        let(:new_review_immunity_detail) { create(:review_immunity_detail, immunity_detail:) }
+      context "when there is no open evidence review immunity detail response to be reviewed" do
+        let(:new_review_immunity_detail) { create(:review_immunity_detail, :evidence, immunity_detail:) }
 
-        before { create(:review_immunity_detail, immunity_detail:, reviewed_at: Time.current) }
+        before { create(:review_immunity_detail, :evidence, immunity_detail:, reviewed_at: Time.current) }
+
+        it "does not raise an error" do
+          expect do
+            new_review_immunity_detail
+          end.not_to raise_error
+        end
+      end
+    end
+
+    describe "::before_create #ensure_no_open_enforcement_review_immunity_detail_response!" do
+      let(:immunity_detail) { create(:immunity_detail) }
+
+      context "when there is already an open enforcement review immunity detail response" do
+        let(:new_review_immunity_detail) { create(:review_immunity_detail, :enforcement, immunity_detail:) }
+
+        before { create(:review_immunity_detail, :enforcement, immunity_detail:) }
+
+        it "raises an error" do
+          expect do
+            new_review_immunity_detail
+          end.to raise_error(described_class::NotCreatableError, "Cannot create an enforcement review immunity detail response when there is already an open response")
+        end
+      end
+
+      context "when there is no open enforcement review immunity detail response to be reviewed" do
+        let(:new_review_immunity_detail) { create(:review_immunity_detail, :enforcement, immunity_detail:) }
+
+        before { create(:review_immunity_detail, :enforcement, immunity_detail:, reviewed_at: Time.current) }
 
         it "does not raise an error" do
           expect do

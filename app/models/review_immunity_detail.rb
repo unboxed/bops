@@ -36,7 +36,8 @@ class ReviewImmunityDetail < ApplicationRecord
 
   validates :decision, inclusion: { in: DECISIONS }, allow_blank: true
 
-  before_create :ensure_no_open_review_immunity_detail_response!
+  before_create :ensure_no_open_evidence_review_immunity_detail_response!
+  before_create :ensure_no_open_enforcement_review_immunity_detail_response!
   before_update :set_status_to_be_reviewed, if: :reviewer_comment?
   before_update :set_reviewer_edited, if: :decision_reason_changed?
 
@@ -86,14 +87,25 @@ class ReviewImmunityDetail < ApplicationRecord
     errors.add(:base, "Reviewer must be present when returning to officer with a comment")
   end
 
-  def ensure_no_open_review_immunity_detail_response!
-    return if evidence?
+  def ensure_no_open_evidence_review_immunity_detail_response!
+    return if enforcement?
 
-    last_review_immunity_detail = immunity_detail.current_enforcement_review_immunity_detail
-    return unless last_review_immunity_detail
-    return if last_review_immunity_detail.reviewed_at?
+    last_evidence_review_immunity_detail = immunity_detail.current_evidence_review_immunity_detail
+    return unless last_evidence_review_immunity_detail
+    return if last_evidence_review_immunity_detail.reviewed_at?
 
     raise NotCreatableError,
-          "Cannot create a review immunity detail response when there is already an open response"
+          "Cannot create an evidence review immunity detail response when there is already an open response"
+  end
+
+  def ensure_no_open_enforcement_review_immunity_detail_response!
+    return if evidence?
+
+    last_enforcement_review_immunity_detail = immunity_detail.current_enforcement_review_immunity_detail
+    return unless last_enforcement_review_immunity_detail
+    return if last_enforcement_review_immunity_detail.reviewed_at?
+
+    raise NotCreatableError,
+          "Cannot create an enforcement review immunity detail response when there is already an open response"
   end
 end

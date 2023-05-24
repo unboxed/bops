@@ -368,7 +368,7 @@ RSpec.describe "Assess immunity detail permitted development right" do
       end
 
       click_button "Save and mark as complete"
-      expect(page).to have_text("Cannot create a review immunity detail response when there is already an open response")
+      expect(page).to have_text("Cannot create an enforcement review immunity detail response when there is already an open response")
 
       expect(ReviewImmunityDetail.count).to eq(1)
     end
