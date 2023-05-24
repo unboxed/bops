@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_17_102459) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_23_104534) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -125,12 +125,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_17_102459) do
     t.index ["planning_application_id"], name: "ix_consistency_checklists_on_planning_application_id"
   end
 
+  create_table "consultations", force: :cascade do |t|
+    t.datetime "start_date"
+    t.bigint "planning_application_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_consultations_on_planning_application_id"
+  end
+
   create_table "consultees", force: :cascade do |t|
     t.string "name", null: false
     t.integer "origin", null: false
     t.bigint "planning_application_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "consultation_id"
+    t.index ["consultation_id"], name: "ix_consultees_on_consultation_id"
     t.index ["planning_application_id"], name: "ix_consultees_on_planning_application_id"
   end
 
@@ -219,6 +229,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_17_102459) do
     t.string "reviewer_group_email"
     t.string "council_code", null: false
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
+  end
+
+  create_table "neighbours", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.bigint "consultation_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["consultation_id"], name: "ix_neighbours_on_consultation_id"
   end
 
   create_table "notes", force: :cascade do |t|

@@ -152,7 +152,7 @@ Rails.application.routes.draw do
         patch :update, on: :collection
       end
 
-      resources :consultations, only: %i[new create edit update show]
+      resources :consultations, only: %i[new create edit update show destroy]
 
       resource :withdraw_or_cancel, only: %i[show update]
 
