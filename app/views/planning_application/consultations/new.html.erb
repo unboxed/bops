@@ -13,9 +13,7 @@
 ) %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <%= render "form", planning_application: @planning_application, consultation: @consultation %>
-
+  <div class="govuk-grid-column-full" data-controller="address-fill">
     <%= render(
       partial: "shared/location_map",
       locals: {
@@ -26,9 +24,9 @@
       }
     ) %>
 
-    <br>
-    <h3 class="govuk-heading-m">Summary of selected neighbours</h3>
-    <p class="govuk-body">No neighbours selected yet</p>
+    <%= render "form", planning_application: @planning_application, consultation: @consultation %>
+
+    <%= render "list", planning_application: @planning_application, consultation: @consultation %>
     <br>
     <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
   </div>

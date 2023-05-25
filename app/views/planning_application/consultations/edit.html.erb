@@ -14,8 +14,6 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full" data-controller="address-fill">
-    <%= render "form", planning_application: @planning_application, consultation: @consultation %>
-
     <%= render(
       partial: "shared/location_map",
       locals: {
@@ -26,57 +24,9 @@
       }
     ) %>
 
-    <br>
-    <h3 class="govuk-heading-m">Summary of selected neighbours</h3>
-    <% if @consultation.neighbours.any? %>
-      <% @consultation.neighbours.select(&:persisted?).each do |neighbour| %>
-        <hr>
-        <div data-controller="edit-form">
-          <p class="govuk-body"><%= neighbour.address %></p>
+    <%= render "form", planning_application: @planning_application, consultation: @consultation %>
 
-          <%= form_with(
-            model: [@planning_application, @consultation],
-            builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-            data: { action: "submit->submit-form#handleSubmit" },
-            class: "display-none"
-          ) do |form| %>
-            <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
-            <%= form.fields_for :neighbours, neighbour do |ff| %>
-              <%= ff.govuk_text_field :address %>
-              <%= ff.hidden_field :consultation_id, value: @consultation.id %>
-            <% end %>
-            <br>
-            <%= form.submit(
-              "Edit neighbour",
-              class: "govuk-button govuk-button--secondary"
-            ) %>
-          <% end %>
-
-          <div class="neighbour-action-links">
-            <%= link_to(
-                  "Remove from list",
-                  planning_application_consultation_path(
-                      @planning_application,
-                      @consultation,
-                      neighbour: neighbour
-                  ),
-                  method: :delete,
-                  class: "govuk-link"
-            ) %>
-
-            <%= link_to(
-                "Edit neighbour",
-                "#",
-                class: "govuk-link",
-                data: { action: "click->edit-form#handleClick" }
-              ) 
-            %>
-          </div>
-        </div>
-      <% end %>
-    <% else %>
-      <p class="govuk-body">No neighbours selected yet</p>
-    <% end %>
+    <%= render "list", planning_application: @planning_application, consultation: @consultation %>
     <br>
     <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
   </div>

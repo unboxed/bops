@@ -1,7 +1,7 @@
 <%= form_with(
   model: [planning_application, consultation],
   builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-  data: { action: "submit->submit-form#handleSubmit" }
+  class: "govuk-!-margin-top-5"
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <%= form.fields_for :neighbours, @consultation.neighbours.new do |ff| %>
@@ -11,6 +11,7 @@
     </div>
 
     <%= ff.hidden_field :consultation_id, value: consultation.id %>
+    <%= hidden_field_tag(:os_path, os_places_api_index_url) %>
   <% end %>
   <br>
   <%= form.submit(
@@ -18,4 +19,3 @@
     class: "govuk-button govuk-button--secondary"
   ) %>
 <% end %>
-
