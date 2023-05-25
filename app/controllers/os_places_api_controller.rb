@@ -3,8 +3,10 @@ require 'faraday'
 
 class OsPlacesApiController < ApplicationController
   def index
-    Faraday.new("https://api.os.uk/search/places/v1/find?maxresults=20&query=bla&key=#{ENV['OS_VECTOR_TILES_API_KEY']}").get do |request|
-      request.options[:timeout] = 5
+    response = Apis::OsPlaces::Query.new.get(params[:query])
+
+    respond_to do |format|
+      format.js { render json: JSON.parse(response.body) }
     end
   end
 end

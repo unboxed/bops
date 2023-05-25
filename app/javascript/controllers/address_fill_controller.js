@@ -12,9 +12,9 @@ export default class extends Controller {
         let results = []
         ajax({
           type: 'get',
-          url: document.querySelector('#os_path').value,
+          url: document.querySelector('#os_path').value + `?query=${query}`,
           success: (data) => {
-            for (var i of data.results) { 
+            for (var i of JSON.parse(data).results) { 
               results.push(i.DPA.ADDRESS) 
             }
             populateResults(results)
