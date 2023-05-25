@@ -2,8 +2,8 @@
 
 class Consultation < ApplicationRecord
   belongs_to :planning_application
-  has_many :consultees
-  has_many :neighbours
+  has_many :consultees, dependent: :destroy
+  has_many :neighbours, dependent: :destroy
 
   accepts_nested_attributes_for :consultees, :neighbours
 end

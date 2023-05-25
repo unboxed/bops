@@ -3,8 +3,8 @@
 class PlanningApplication
   class ConsultationsController < AuthenticationController
     before_action :set_planning_application
-    before_action :set_consultation, except: [:new, :create]
-    before_action :mess_with_params, only: [:update, :create]
+    before_action :set_consultation, except: %i[new create]
+    before_action :assign_params, only: %i[update create]
 
     def new
       @consultation = @planning_application.build_consultation
@@ -13,16 +13,6 @@ class PlanningApplication
     def edit
       respond_to do |format|
         format.html
-      end
-    end
-
-    def update
-      if @consultation.update!(@attributes)
-        respond_to do |format|
-          format.html { redirect_to edit_planning_application_consultation_path(@planning_application, @consultation) }
-        end
-      else
-        render :edit
       end
     end
 
@@ -38,11 +28,21 @@ class PlanningApplication
       end
     end
 
-    def destroy
-      if @consultation.neighbours.find(params[:neighbour]).destroy
+    def update
+      if @consultation.update!(@attributes)
         respond_to do |format|
           format.html { redirect_to edit_planning_application_consultation_path(@planning_application, @consultation) }
         end
+      else
+        render :edit
+      end
+    end
+
+    def destroy
+      return unless @consultation.neighbours.find(params[:neighbour]).destroy
+
+      respond_to do |format|
+        format.html { redirect_to edit_planning_application_consultation_path(@planning_application, @consultation) }
       end
     end
 
@@ -68,16 +68,16 @@ class PlanningApplication
 
     def consultation_params
       params.require(:consultation).permit(
-        :planning_application_id, 
-        neighbours_attributes: [:consultation_id, :address, :id]
+        :planning_application_id,
+        neighbours_attributes: %i[consultation_id address id]
       )
     end
 
-    def mess_with_params
+    def assign_params
       if params[:commit] == "Add neighbour"
         @attributes = consultation_params.clone
         @attributes[:neighbours_attributes][:"0"][:address] = params[:"input-autocomplete"]
-      else 
+      else
         @attributes = consultation_params
       end
     end

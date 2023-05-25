@@ -50,5 +50,7 @@ module Bops
 
     # Don't log certain requests that spam the log files
     config.middleware.insert_before Rails::Rack::Logger, QuietLogger, paths: ["/healthcheck"]
+
+    config.os_vector_tiles_api_key = ENV.fetch("OS_VECTOR_TILES_API_KEY", nil)
   end
 end

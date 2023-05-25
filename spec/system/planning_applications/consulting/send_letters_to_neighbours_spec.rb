@@ -12,6 +12,10 @@ RSpec.describe "Send letters to neighbours", js: true do
   end
 
   before do
+    ENV["OS_VECTOR_TILES_API_KEY"] = "testtest"
+    allow_any_instance_of(Faraday::Connection).to receive(:get).and_return(instance_double("response", status: 200, body: "some data")) # rubocop:disable RSpec/VerifiedDoubleReference
+    allow_any_instance_of(Apis::OsPlaces::Query).to receive(:get).and_return(Faraday.new.get)
+
     sign_in assessor
     visit planning_application_path(planning_application)
   end
@@ -36,12 +40,12 @@ RSpec.describe "Send letters to neighbours", js: true do
     click_link "Send letters to neighbours"
 
     fill_in "Add neighbours by address", with: "60-62 Commercial Street"
-    ## Something weird is happening with the javascript, so having to double click for it to register
-    ## This doesn't happen in "real life"
+    # # Something weird is happening with the javascript, so having to double click for it to register
+    # # This doesn't happen in "real life"
     page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
     expect(page).to have_content("60-62 Commercial Street")
-    
+
     fill_in "Add neighbours by address", with: "60-61 Commercial Road"
     page.find(:xpath, "//input[@value='Add neighbour']").click.click
 

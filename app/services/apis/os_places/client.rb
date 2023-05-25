@@ -16,7 +16,7 @@ module Apis
       private
 
       def faraday(query)
-        @faraday ||= Faraday.new(url: "https://api.os.uk/search/places/v1/find?maxresults=20&query=#{query}&key=#{ENV['OS_VECTOR_TILES_API_KEY']}")
+        @faraday ||= Faraday.new(url: "https://api.os.uk/search/places/v1/find?maxresults=20&query=#{query}&key=#{Rails.configuration.os_vector_tiles_api_key}")
       end
     end
   end

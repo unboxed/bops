@@ -7,4 +7,5 @@ require("@rails/ujs").start()
 require("@rails/activestorage").start()
 
 import "@opensystemslab/map"
+
 import "./controllers"
