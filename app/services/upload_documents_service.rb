@@ -9,7 +9,8 @@ class UploadDocumentsService
   def call
     files&.each do |file_params|
       filename = file_params[:filename]
-      file = URI.parse(filename).open("api-key" => ENV.fetch("PLANX_FILE_API_KEY", nil))
+
+      file = fetch_file(filename)
 
       raise Api::V1::Errors::WrongFileTypeError.new(nil, filename) if forbidden?(file.content_type)
 
@@ -35,6 +36,19 @@ class UploadDocumentsService
     planning_application.documents.create!(tags: Array(file_params[:tags]),
                                            applicant_description: file_params[:applicant_description]) do |document|
       document.file.attach(io: file, filename: new_filename(file_params[:filename]).to_s)
+    end
+  end
+
+  def fetch_file(filename)
+    URI.parse(filename).open("api-key" => planx_file_api_key)
+  end
+
+  def planx_file_api_key
+    if @planning_application.from_production?
+      ENV.fetch("PLANX_FILE_PRODUCTION_API_KEY",
+                nil)
+    else
+      ENV.fetch("PLANX_FILE_API_KEY", nil)
     end
   end
 end
