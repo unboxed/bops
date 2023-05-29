@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_26_133904) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_29_145123) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -339,7 +339,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_26_133904) do
     t.string "postcode"
     t.string "uprn"
     t.json "boundary_geojson"
-    t.text "constraints", default: [], null: false, array: true
+    t.text "old_constraints", default: [], null: false, array: true
     t.string "change_access_id"
     t.date "expiry_date"
     t.decimal "payment_amount", precision: 10, scale: 2
