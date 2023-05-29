@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Given("the planning application has the {string} constraint") do |constraint|
-  @planning_application.constraints << constraint
+  @planning_application.old_constraints << constraint
 
   @planning_application.save!
 end

@@ -714,13 +714,13 @@ RSpec.describe PlanningApplication do
     let(:planning_application) { build(:planning_application) }
 
     it "contains any custom constraint added" do
-      planning_application.constraints << "Foobar"
+      planning_application.old_constraints << "Foobar"
 
       expect(planning_application.custom_constraints).to contain_exactly "Foobar"
     end
 
     it "is empty when all constraints are predefined ones" do
-      planning_application.constraints << "Listed Building"
+      planning_application.old_constraints << "Listed Building"
 
       expect(planning_application.custom_constraints).to be_empty
     end
@@ -2108,7 +2108,7 @@ RSpec.describe PlanningApplication do
   end
 
   it "tracks changed constraints" do
-    planning_application.constraints << "test_constraint"
+    planning_application.old_constraints << "test_constraint"
     planning_application.save!
 
     expect(planning_application.changed_constraints).to include("test_constraint")

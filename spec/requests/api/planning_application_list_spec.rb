@@ -77,7 +77,7 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
         expect(planning_application_json["site"]["uprn"]).to eq(planning_application.uprn)
         expect(planning_application_json["site"]["latitude"]).to eq(planning_application.latitude)
         expect(planning_application_json["site"]["longitude"]).to eq(planning_application.longitude)
-        expect(planning_application_json["constraints"]).to eq(planning_application.constraints)
+        expect(planning_application_json["constraints"]).to eq(planning_application.old_constraints)
         expect(planning_application_json["documents"]).to eq([])
       end
 
@@ -125,7 +125,7 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
           expect(planning_application_json["site"]["county"]).to eq(planning_application.county)
           expect(planning_application_json["site"]["postcode"]).to eq(planning_application.postcode)
           expect(planning_application_json["site"]["uprn"]).to eq(planning_application.uprn)
-          expect(planning_application_json["constraints"]).to eq(planning_application.constraints)
+          expect(planning_application_json["constraints"]).to eq(planning_application.old_constraints)
           expect(planning_application_json["documents"].size).to eq(1)
           expect(planning_application_json["documents"].first["url"]).to eq(api_v1_planning_application_document_url(
                                                                               planning_application, document_with_number
