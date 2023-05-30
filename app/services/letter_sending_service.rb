@@ -13,17 +13,17 @@ class LetterSendingService
     @message = message
   end
 
-  def deliver!
+  def deliver! # rubocop:disable Metrics/AbcSize
     letter_record = NeighbourLetter.new(neighbour:, text: message)
     letter_record.save!
+
+    personalisation = { name: neighbour.name, message: }
+    personalisation.merge! address
 
     begin
       response = client.send_letter(
         template_id: notify_template_id,
-        personalisation: {
-          address: neighbour.address,
-          message:
-        }
+        personalisation:
       )
     rescue Notifications::Client::RequestError
       return
@@ -46,5 +46,13 @@ class LetterSendingService
 
   def notify_template_id
     @notify_template_id ||= @local_authority.notify_letter_template || DEFAULT_NOTIFY_TEMPLATE_ID
+  end
+
+  def address
+    # split on commas unless preceded by digits (i.e. house numbers)
+    address_lines = neighbour.address.split(/(?<!\d), */).compact
+    address_lines.each_with_index.to_h do |line, i|
+      ["address_line_#{i}", line]
+    end
   end
 end
