@@ -62,6 +62,16 @@ RSpec.describe "Reviewing assessment summaries" do
         entry: "site description"
       )
 
+      ## Created a second to show that previous summaries works
+      create(
+        :assessment_detail,
+        :site_description,
+        assessment_status: :complete,
+        planning_application:,
+        user: assessor,
+        entry: "site description"
+      )
+
       create(:consultee, planning_application:)
 
       create(
