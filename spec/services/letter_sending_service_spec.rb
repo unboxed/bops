@@ -39,6 +39,32 @@ RSpec.describe LetterSendingService do
         expect(letter.notify_response).to be_nil
         expect(letter.sent_at).to be_nil
       end
+
+      it "records a sending date for the letter" do
+        letter = NeighbourLetter.last
+        expect(letter.neighbour).to eq neighbour
+        expect(letter.notify_response).not_to be_nil
+        expect(letter.sent_at).not_to be_nil
+      end
+    end
+
+    context "when the request is unsuccessful" do
+      let(:notify_request) { stub_send_letter(neighbour:, message: "hello world", status: 400) }
+
+      before do
+        letter_sender.new(neighbour, "hello world").deliver!
+      end
+
+      it "calls send_letter on the notify client and makes a request" do
+        expect(notify_request).to have_been_requested
+      end
+
+      it "has no recorded sending date" do
+        letter = NeighbourLetter.last
+        expect(letter.neighbour).to eq neighbour
+        expect(letter.notify_response).to be_nil
+        expect(letter.sent_at).to be_nil
+      end
     end
   end
 end
