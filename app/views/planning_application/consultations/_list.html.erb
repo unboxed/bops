@@ -1,0 +1,50 @@
+<h3 class="govuk-heading-s">Summary of selected neighbours</h3>
+<% if @consultation.neighbours.select(&:persisted?).any? %>
+  <% @consultation.neighbours.select(&:persisted?).each do |neighbour| %>
+    <hr>
+    <div class="proposal-details-sub-heading" data-controller="edit-form">
+      <p class="govuk-body"><%= neighbour.address %></p>
+
+      <%= form_with(
+        model: [@planning_application, @consultation],
+        builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+        data: { action: "submit->submit-form#handleSubmit" },
+        class: "display-none"
+      ) do |form| %>
+        <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+        <%= form.fields_for :neighbours, neighbour do |ff| %>
+          <%= ff.govuk_text_field :address %>
+          <%= ff.hidden_field :consultation_id, value: @consultation.id %>
+        <% end %>
+        <br>
+        <%= form.submit(
+          "Save",
+          class: "govuk-button govuk-button--secondary"
+        ) %>
+      <% end %>
+
+      <div class="neighbour-action-links">
+        <%= link_to(
+            "Edit",
+            "#",
+            class: "govuk-link",
+            data: { action: "click->edit-form#handleClick" }
+          ) 
+        %>
+
+        <%= link_to(
+              "Remove",
+              planning_application_consultation_path(
+                  @planning_application,
+                  @consultation,
+                  neighbour: neighbour
+              ),
+              method: :delete,
+              class: "govuk-link"
+        ) %>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <p class="govuk-body">No neighbours selected yet</p>
+<% end %>

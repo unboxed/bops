@@ -27,6 +27,8 @@ Rails.application.routes.draw do
     get "resend_code", to: "users/sessions#resend_code", as: "resend_code"
   end
 
+  resources :os_places_api, only: %i[index]
+
   resources :users, only: %i[new create edit update]
 
   resources :planning_applications, only: %i[index show new edit create update] do
@@ -152,7 +154,7 @@ Rails.application.routes.draw do
         patch :update, on: :collection
       end
 
-      resources :consultations, only: %i[new create edit update show]
+      resources :consultations, only: %i[new create edit update show destroy]
 
       resource :withdraw_or_cancel, only: %i[show update]
 

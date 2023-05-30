@@ -2,6 +2,7 @@
 
 class Consultee < ApplicationRecord
   belongs_to :planning_application
+  belongs_to :consultation, optional: true
 
   validates :name, :origin, presence: true
 
