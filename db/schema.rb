@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_23_104534) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_26_133904) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -231,6 +231,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_23_104534) do
     t.string "notify_api_key"
     t.string "notify_letter_template"
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
+  end
+
+  create_table "neighbour_letters", force: :cascade do |t|
+    t.bigint "neighbour_id", null: false
+    t.string "text"
+    t.string "sent_at"
+    t.json "notify_response"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["neighbour_id"], name: "ix_neighbour_letters_on_neighbour_id"
   end
 
   create_table "neighbours", force: :cascade do |t|
