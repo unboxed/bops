@@ -55,6 +55,14 @@ class PlanningApplication
       end
     end
 
+    def send_neighbour_letters
+      return if @consultation.blank?
+
+      @consultation.neighbours.each do |neighbour|
+        LetterSendingService.new(neighbour, @consultation.neighbour_letter_text).deliver!
+      end
+    end
+
     private
 
     def set_planning_application
