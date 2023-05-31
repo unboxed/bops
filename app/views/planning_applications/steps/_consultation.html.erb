@@ -21,8 +21,7 @@
     <div class="app-task-list__task-tag">
       <%= render(
         StatusTags::BaseComponent.new(
-          ## Needs fixing - don't have any models to base this on yet
-          status: @planning_application.validation_status
+          status: @planning_application.consultation.status
         )
       ) %>
     </div>

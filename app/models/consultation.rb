@@ -7,4 +7,10 @@ class Consultation < ApplicationRecord
   has_many :neighbour_letters, through: :neighbours
 
   accepts_nested_attributes_for :consultees, :neighbours
+
+  enum status: {
+    not_started: "not_started",
+    in_progress: "in_progress",
+    complete: "complete",
+  }
 end

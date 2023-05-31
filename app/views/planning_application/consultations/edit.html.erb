@@ -27,7 +27,17 @@
     <%= render "form", planning_application: @planning_application, consultation: @consultation %>
 
     <%= render "list", planning_application: @planning_application, consultation: @consultation %>
-    <br>
-    <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+
+    <div class="govuk-button-group">
+      <%= form_with(
+          model: [@planning_application, @consultation],
+          builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+          class: "govuk-!-margin-top-5"
+        ) do |form| %>
+        <%= form.hidden_field :consultation_id %>
+        <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
+        <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      <% end %>
+    </div>
   </div>
 </div>

@@ -2,6 +2,8 @@
 
 class PlanningApplication
   class ConsultationsController < AuthenticationController
+    include CommitMatchable
+
     before_action :set_planning_application
     before_action :set_consultation, except: %i[new create]
     before_action :assign_params, only: %i[update create]
@@ -77,7 +79,7 @@ class PlanningApplication
       params.require(:consultation).permit(
         :planning_application_id,
         neighbours_attributes: %i[consultation_id address id]
-      )
+      ).merge(status:)
     end
 
     def assign_params
@@ -93,6 +95,10 @@ class PlanningApplication
       @consultation.neighbour_letters.each do |letter|
         letter.update_status unless letter.status == "received"
       end
+    end
+
+    def status
+      save_progress? ? :in_progress : :complete
     end
   end
 end
