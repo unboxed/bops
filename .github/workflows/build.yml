@@ -44,25 +44,26 @@ jobs:
     strategy:
       matrix:
         specs:
-          - ["models", "[a-p]*_spec.rb"]
-          - ["models", "[q-z]*_spec.rb"]
-          - ["controllers", "*_spec.rb"]
-          - ["requests", "*_spec.rb"]
-          - ["system", "a[a-s]*_spec.rb"]
-          - ["system", "a[t-z]*_spec.rb"]
-          - ["system", "[b-f]*_spec.rb"]
-          - ["system", "[g-k]*_spec.rb"]
-          - ["system", "[l-r]*_spec.rb"]
-          - ["system", "[s-z]*_spec.rb"]
-          - [
-              "other",
-              "*_spec.rb",
-              "{components,form_models,helpers,presenters,mailer,jobs,services,translations}",
-            ]
+          - { group: "models", pattern: "[a-p]*_spec.rb" }
+          - { group: "models", pattern: "[q-z]*_spec.rb" }
+          - { group: "controllers", pattern: "*_spec.rb" }
+          - { group: "requests", pattern: "*_spec.rb" }
+          - { group: "system", pattern: "a[a-s]*_spec.rb", want_pdf: true }
+          - { group: "system", pattern: "a[t-z]*_spec.rb" }
+          - { group: "system", pattern: "[b-f]*_spec.rb", want_pdf: true }
+          - { group: "system", pattern: "[g-k]*_spec.rb" }
+          - { group: "system", pattern: "[l-r]*_spec.rb" }
+          - { group: "system", pattern: "[s-z]*_spec.rb" }
+          - {
+              group: "other",
+              pattern: "*_spec.rb",
+              directories: "{components,form_models,helpers,presenters,mailer,jobs,services,translations}",
+            }
       fail-fast: false
     with:
-      name: "${{matrix.specs[0]}}: ${{matrix.specs[1]}}"
-      include: "spec/${{matrix.specs[2] || matrix.specs[0]}}/**/${{matrix.specs[1]}}"
+      name: "${{matrix.specs.group}}: ${{matrix.specs.pattern }}"
+      include: "spec/${{matrix.specs.directories || matrix.specs.group}}/**/${{matrix.specs.pattern}}"
+      want-pdf: "${{ !!matrix.specs.want_pdf }}"
     secrets: inherit
 
   cucumber:
@@ -70,4 +71,5 @@ jobs:
     with:
       name: "all"
       test-runner: "cucumber"
+      want-pdf: true
     secrets: inherit
