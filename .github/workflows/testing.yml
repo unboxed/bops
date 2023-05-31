@@ -18,6 +18,10 @@ on:
       test-runner:
         type: string
         default: rspec
+      want-pdf:
+        type: boolean
+        required: false
+        default: false
 
     secrets:
       NOTIFY_API_KEY:
@@ -66,6 +70,7 @@ jobs:
           yarn install --frozen-lockfile
 
       - name: Install file previewing tools
+        if: "${{ inputs.want-pdf }}"
         run: |
           sudo apt-get update
           sudo apt-get install -y ghostscript poppler-utils
