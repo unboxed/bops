@@ -23,6 +23,8 @@ class PlanningApplication < ApplicationRecord
 
   enum user_role: { applicant: 0, agent: 1, proxy: 2 }
 
+  alias_attribute :old_constraints, :constraints
+
   with_options dependent: :destroy do
     has_many :audits, -> { by_created_at }, inverse_of: :planning_application
     has_many :documents, -> { by_created_at }, inverse_of: :planning_application
@@ -390,7 +392,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def custom_constraints
-    constraints.difference(defined_constraints)
+    old_constraints.difference(defined_constraints)
   end
 
   def valid_from

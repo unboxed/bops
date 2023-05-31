@@ -1,4 +1,4 @@
-<% if @planning_application.constraints.empty? %>
+<% if @planning_application.old_constraints.empty? %>
   <p class="govuk-body">
     There are no planning constraints on the application site.
   </p>
@@ -7,7 +7,7 @@
     The application site has these constraints:
   </p>
   <ul class="govuk-list govuk-list--bullet">
-    <% @planning_application.constraints.each do |constraint| %>
+    <% @planning_application.old_constraints.each do |constraint| %>
       <li><%= constraint.humanize %></li>
     <% end %>
   </ul>
