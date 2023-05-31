@@ -24,7 +24,7 @@
           </legend>
           <div class="form-group">
             <div class="govuk-checkboxes govuk-checkboxes--small">
-              <%= form.collection_check_boxes :constraints, constraints, :itself, :itself do |b| %>
+              <%= form.collection_check_boxes :old_constraints, constraints, :itself, :itself do |b| %>
                 <div class="govuk-checkboxes__item">
                   <%= b.check_box class: "govuk-checkboxes__input" %>
                   <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
@@ -44,7 +44,7 @@
           </legend>
           <div class="form-group">
             <div class="govuk-checkboxes govuk-checkboxes--small">
-              <%= form.collection_check_boxes :constraints, @planning_application.custom_constraints, :itself, :itself do |b| %>
+              <%= form.collection_check_boxes :old_constraints, @planning_application.custom_constraints, :itself, :itself do |b| %>
                 <div class="govuk-checkboxes__item">
                   <%= b.check_box class: "govuk-checkboxes__input" %>
                   <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
@@ -56,8 +56,8 @@
       <% end %>
 
       <div class="form-group">
-        <%= form.label :constraints, "Add a local constraint", class: 'govuk-heading-s govuk-!-margin-top-6' %>
-        <%= form.text_area :constraints, class: "govuk-textarea", rows: "3", "aria-describedby": "constraints-hint", multiple: true, value: "" %>
+        <%= form.label :old_constraints, "Add a local constraint", class: 'govuk-heading-s govuk-!-margin-top-6' %>
+        <%= form.text_area :old_constraints, class: "govuk-textarea", rows: "3", "aria-describedby": "constraints-hint", multiple: true, value: "" %>
       </div>
 
       <div class="govuk-button-group">

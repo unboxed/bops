@@ -62,7 +62,7 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
             postcode: planning_application.postcode,
             uprn: planning_application.uprn,
             boundary_geojson: planning_application.boundary_geojson,
-            constraints: planning_application.old_constraints,
+            old_constraints: planning_application.old_constraints,
             agent_first_name: planning_application.agent_first_name,
             agent_email: planning_application.agent_email,
             applicant_email: planning_application.applicant_email,

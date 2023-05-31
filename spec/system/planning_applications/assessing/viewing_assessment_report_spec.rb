@@ -19,7 +19,7 @@ RSpec.describe "viewing assessment report" do
       :in_assessment,
       local_authority:,
       decision: :granted,
-      constraints: ["conservation_area"]
+      old_constraints: ["conservation_area"]
     )
   end
 

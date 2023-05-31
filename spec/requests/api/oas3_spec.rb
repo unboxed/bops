@@ -68,7 +68,7 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
     expect(PlanningApplication.last.work_status).to eq("proposed")
     expect(PlanningApplication.last.boundary_geojson).to eq('{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-0.07716178894042969,51.50094238217541],[-0.07645905017852783,51.50053497847238],[-0.07615327835083008,51.50115276135022],[-0.07716178894042969,51.50094238217541]]]}}')
     expect(PlanningApplication.last.proposal_details.first.question).to eq("What do you want to do?")
-    expect(PlanningApplication.last.constraints).to eq(%w[conservation_area])
+    expect(PlanningApplication.last.old_constraints).to eq(%w[conservation_area])
     expect(PlanningApplication.last.documents.first.file).to be_present
     expect(PlanningApplication.last.documents.first.applicant_description).to eq("This is the side plan")
     expect(PlanningApplication.last.result_flag).to eq("Planning permission / Permission needed")
@@ -83,7 +83,7 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
                                                           "Full")["data"].first
 
     planning_application = PlanningApplication.create! planning_application_hash.except("reference", "reference_in_full",
-                                                                                        "received_date", "documents", "site").merge(local_authority: default_local_authority)
+                                                                                        "received_date", "documents", "site", "constraints").merge(local_authority: default_local_authority, old_constraints: planning_application_hash["constraints"])
 
     planning_application.update!(planning_application_hash["site"])
     planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url")) do |document|
@@ -106,7 +106,7 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
     travel_to(DateTime.new(2020, 5, 14))
     planning_application_hash = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "Full")
     planning_application = PlanningApplication.create! planning_application_hash.except("reference", "reference_in_full",
-                                                                                        "received_date", "documents", "site").merge(local_authority: default_local_authority)
+                                                                                        "received_date", "documents", "site", "constraints").merge(local_authority: default_local_authority, old_constraints: planning_application_hash["constraints"])
     planning_application.update!(planning_application_hash["site"])
     planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url")) do |document|
       document.file.attach(io: Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf").open,
