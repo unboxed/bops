@@ -4,9 +4,11 @@ class NeighbourLetter < ApplicationRecord
   belongs_to :neighbour
 
   STATUSES = {
-    "accepted": "Sent to printer",
-    "received": "Dispatched"
-  }
+    rejected: "Rejected",
+    submitted: "Submitted",
+    accepted: "In progress",
+    received: "Sent"
+  }.freeze
 
   def update_status
     begin
@@ -17,10 +19,10 @@ class NeighbourLetter < ApplicationRecord
 
     self.status = response.status
     self.status_updated_at = response.sent_at || response.created_at
-    self.save
+    save
   end
 
   def notify_api_key
-    notify_api_key ||= (neighbour.consultation.planning_application.local_authority.notify_api_key || ENV.fetch("NOTIFY_API_KEY"))
+    neighbour.consultation.planning_application.local_authority.notify_api_key || ENV.fetch("NOTIFY_API_KEY")
   end
 end

@@ -7,7 +7,13 @@ class PlanningApplication
     before_action :set_planning_application
     before_action :set_consultation, except: %i[new create]
     before_action :assign_params, only: %i[update create]
-    before_action :update_letter_statuses, only: %i[show]
+    before_action :update_letter_statuses, only: %i[show edit]
+
+    def show
+      respond_to do |format|
+        format.html
+      end
+    end
 
     def new
       @consultation = @planning_application.build_consultation
@@ -38,12 +44,6 @@ class PlanningApplication
         end
       else
         render :edit
-      end
-    end
-
-    def show
-      respond_to do |format|
-        format.html
       end
     end
 
@@ -92,6 +92,10 @@ class PlanningApplication
     end
 
     def update_letter_statuses
+      return if @consultation.neighbour_letters.none?
+
+      # This is not ideal for now as will block the page loading, if it becomes a problem this would be
+      # a good place for optimisation
       @consultation.neighbour_letters.each do |letter|
         letter.update_status unless letter.status == "received"
       end

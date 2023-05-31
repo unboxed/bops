@@ -21,7 +21,7 @@
     <div class="app-task-list__task-tag">
       <%= render(
         StatusTags::BaseComponent.new(
-          status: @planning_application.consultation.status
+          status: @planning_application.consultation&.status || "not_started"
         )
       ) %>
     </div>

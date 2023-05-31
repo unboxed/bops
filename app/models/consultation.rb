@@ -11,6 +11,6 @@ class Consultation < ApplicationRecord
   enum status: {
     not_started: "not_started",
     in_progress: "in_progress",
-    complete: "complete",
+    complete: "complete"
   }
 end
