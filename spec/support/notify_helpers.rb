@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 module NotifyHelper
-  BASE_URL = "https://api.notifications.service.gov.uk/v2/notifications/sms"
+  BASE_URL = "https://api.notifications.service.gov.uk/v2/notifications/"
+  SMS_URL = "#{BASE_URL}sms".freeze
+  LETTER_URL = "#{BASE_URL}letter".freeze
 
   def stub_any_post_sms_notification
     stub_request(:post, /#{BASE_URL}.*/o)
@@ -14,7 +16,7 @@ module NotifyHelper
   end
 
   def stub_post_sms_notification(phone_number:, otp:, status:)
-    stub_request(:post, BASE_URL.to_s)
+    stub_request(:post, SMS_URL)
       .with(
         body: {
           template_id: "701e32b3-2c8c-4c16-9a1b-c883ef6aedee",
@@ -27,6 +29,23 @@ module NotifyHelper
       .to_return(
         status:,
         body: "{}"
+      )
+  end
+
+  def stub_send_letter(neighbour:, message:, status:)
+    body = { status_code: status }
+    body[:errors] = [{ error: "Exception", message: "Internal server error" }] if status >= 400
+
+    stub_request(:post, LETTER_URL)
+      .with do |request|
+      body = JSON.parse(request.body, symbolize_names: true)
+      body[:template_id] == "701e32b3-2c8c-4c16-9a1b-c883ef6aedee" &&
+        body[:personalisation][:message] == message &&
+        body[:personalisation][:name] == neighbour.name
+    end
+      .to_return(
+        status:,
+        body: body.to_json
       )
   end
 end
