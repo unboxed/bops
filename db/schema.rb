@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_29_145123) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_30_143613) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -240,6 +240,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_29_145123) do
     t.json "notify_response"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "notify_id"
+    t.string "status"
+    t.string "status_updated_at"
     t.index ["neighbour_id"], name: "ix_neighbour_letters_on_neighbour_id"
   end
 

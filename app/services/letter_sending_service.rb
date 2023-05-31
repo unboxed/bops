@@ -31,6 +31,8 @@ class LetterSendingService
 
     letter_record.sent_at = Time.zone.now
     letter_record.notify_response = response
+    letter_record.notify_id = response["id"]
+    letter_record.status = response["status"]
     letter_record.save!
   end
 

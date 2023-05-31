@@ -5,6 +5,7 @@ class PlanningApplication
     before_action :set_planning_application
     before_action :set_consultation, except: %i[new create]
     before_action :assign_params, only: %i[update create]
+    before_action :update_letter_statuses, only: %i[show]
 
     def new
       @consultation = @planning_application.build_consultation
@@ -35,6 +36,12 @@ class PlanningApplication
         end
       else
         render :edit
+      end
+    end
+
+    def show
+      respond_to do |format|
+        format.html
       end
     end
 
@@ -79,6 +86,12 @@ class PlanningApplication
         @attributes[:neighbours_attributes][:"0"][:address] = params[:"input-autocomplete"]
       else
         @attributes = consultation_params
+      end
+    end
+
+    def update_letter_statuses
+      @consultation.neighbour_letters.each do |letter|
+        letter.update_status unless letter.status == "received"
       end
     end
   end
