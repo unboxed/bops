@@ -674,6 +674,8 @@ en:
         check_and_assess: Check and assess
       validation:
         check_and_validate: Check and validate
+      consultation: 
+        send_letters_to_neighbours: Send letters to neighbours
     submit:
       success: Recommendation was successfully submitted.
     submit_recommendation:
@@ -897,6 +899,12 @@ en:
     updated: Updated
     valid: Valid
     waiting: Waiting
+    posted: Posted
+    submitted: Submitted
+    rejected: Rejected
+    accepted: Printing
+    technical_failure: Technical failure
+    permanent_failure: Permanent failure
   statuses:
     awaiting_determination: Awaiting determination
     determined: Determined
@@ -917,6 +925,8 @@ en:
       past_applications: History (manual)
       site_description: Site description
       summary_of_work: Summary of works
+    send_letters_to_neighbours_component:
+      send_letters_to_neighbours: Send letters to neighbours
     check_red_line_boundary_component:
       check_red_line: Check red line boundary
     document_component:

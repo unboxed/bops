@@ -30,7 +30,7 @@ class PlanningApplication
 
       if @consultation.save!
         respond_to do |format|
-          format.html { redirect_to edit_planning_application_consultation_path(@planning_application, @consultation) }
+          format.html { redirect_to planning_application_consultation_path(@planning_application, @consultation) }
         end
       else
         render :new
@@ -40,7 +40,7 @@ class PlanningApplication
     def update
       if @consultation.update!(@attributes)
         respond_to do |format|
-          format.html { redirect_to edit_planning_application_consultation_path(@planning_application, @consultation) }
+          format.html { redirect_to planning_application_consultation_path(@planning_application, @consultation) }
         end
       else
         render :edit
@@ -102,7 +102,7 @@ class PlanningApplication
     end
 
     def status
-      save_progress? ? :in_progress : :complete
+      (save_progress? || add_neighbour?) ? :in_progress : :complete
     end
   end
 end

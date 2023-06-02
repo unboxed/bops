@@ -14,4 +14,8 @@ module CommitMatchable
   def save_progress?
     params[:commit] == I18n.t("form_actions.save_and_come_back_later")
   end
+
+  def add_neighbour?
+    params[:commit] == "Add neighbour"
+  end
 end

@@ -1,17 +1,13 @@
 <h3 class="govuk-heading-s">Summary of selected neighbours</h3>
-<% if @consultation.neighbours.select(&:persisted?).any? %>
-  <% @consultation.neighbours.includes([:neighbour_letter]).select(&:persisted?).each do |neighbour| %>
+<% if @consultation.neighbours.without_letters.any? %>
+  <% @consultation.neighbours.without_letters.each do |neighbour| %>
+    <hr>
     <div class="proposal-details-sub-heading" data-controller="edit-form">
-      <p class="govuk-body">
-        <%= neighbour.address %>
-      </p>
-      <p class="govuk-body">
-        <% if neighbour.neighbour_letter %>
-          <%= NeighbourLetter::STATUSES[neighbour.neighbour_letter.status.to_sym] %> on <%= neighbour.neighbour_letter.status_updated_at.to_date.to_formatted_s(:day_month_year_slashes) %>
-        <% else %>
-          &nbsp;
-        <% end %>
-      </p>
+      <div class="width-80 govuk-!-margin-top-1">
+        <p class="govuk-body">
+          <%= neighbour.address %>
+        </p>
+      </div>
 
       <%= form_with(
         model: [@planning_application, @consultation],

@@ -27,8 +27,10 @@
     <%= render "form", planning_application: @planning_application, consultation: @consultation %>
 
     <%= render "selected_list", planning_application: @planning_application, consultation: @consultation %>
+    
+    <%= render "contacted_list", planning_application: @planning_application, consultation: @consultation %>
 
-    <div class="govuk-button-group">
+    <div class="govuk-button-group govuk-!-margin-top-5">
       <%= form_with(
           model: [@planning_application, @consultation],
           builder: GOVUKDesignSystemFormBuilder::FormBuilder,

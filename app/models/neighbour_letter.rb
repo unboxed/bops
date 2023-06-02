@@ -4,10 +4,12 @@ class NeighbourLetter < ApplicationRecord
   belongs_to :neighbour
 
   STATUSES = {
-    rejected: "Rejected",
-    submitted: "Submitted",
-    accepted: "In progress",
-    received: "Sent"
+    technical_failure: "technical failure",
+    permanent_failure: "permanent failure",
+    rejected: "rejected",
+    submitted: "submitted",
+    accepted: "printing",
+    received: "posted"
   }.freeze
 
   def update_status
@@ -17,7 +19,7 @@ class NeighbourLetter < ApplicationRecord
       return
     end
 
-    self.status = response.status
+    self.status = response.status.parameterize(separator: "_")
     self.status_updated_at = response.sent_at || response.created_at
     save
   end
