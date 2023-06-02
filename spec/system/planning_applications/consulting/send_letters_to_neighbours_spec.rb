@@ -50,7 +50,7 @@ RSpec.describe "Send letters to neighbours", js: true do
     page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
     expect(page).to have_content("60-61 Commercial Road")
-    
+
     expect(page).not_to have_content("Contacted neighbours")
   end
 
@@ -84,7 +84,7 @@ RSpec.describe "Send letters to neighbours", js: true do
   end
 
   it "shows the status of letters that have been sent" do
-    consultation = create(:consultation, planning_application: planning_application)
+    consultation = create(:consultation, planning_application:)
     neighbour = create(:neighbour, consultation:)
     neighbour_letter = create(:neighbour_letter, neighbour:, status: "submitted", notify_id: "123")
 

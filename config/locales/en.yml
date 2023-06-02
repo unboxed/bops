@@ -672,10 +672,10 @@ en:
     steps:
       assessment:
         check_and_assess: Check and assess
+      consultation:
+        send_letters_to_neighbours: Send letters to neighbours
       validation:
         check_and_validate: Check and validate
-      consultation: 
-        send_letters_to_neighbours: Send letters to neighbours
     submit:
       success: Recommendation was successfully submitted.
     submit_recommendation:
@@ -886,6 +886,7 @@ en:
     update:
       success: Site boundary has been updated
   status_tag_component:
+    accepted: Printing
     awaiting_determination: Awaiting determination
     checked: Checked
     complete: Completed
@@ -893,18 +894,17 @@ en:
     in_progress: In progress
     invalid: Invalid
     not_started: Not started
+    permanent_failure: Permanent failure
+    posted: Posted
     refused: To refuse
+    rejected: Rejected
     removed: Removed
+    submitted: Submitted
+    technical_failure: Technical failure
     to_be_reviewed: To be reviewed
     updated: Updated
     valid: Valid
     waiting: Waiting
-    posted: Posted
-    submitted: Submitted
-    rejected: Rejected
-    accepted: Printing
-    technical_failure: Technical failure
-    permanent_failure: Permanent failure
   statuses:
     awaiting_determination: Awaiting determination
     determined: Determined
@@ -925,8 +925,6 @@ en:
       past_applications: History (manual)
       site_description: Site description
       summary_of_work: Summary of works
-    send_letters_to_neighbours_component:
-      send_letters_to_neighbours: Send letters to neighbours
     check_red_line_boundary_component:
       check_red_line: Check red line boundary
     document_component:
@@ -949,6 +947,8 @@ en:
       review_immunity_enforcement: Review assessment of immunity
     review_permitted_development_right_component:
       review_permitted_development_rights: Review permitted development rights
+    send_letters_to_neighbours_component:
+      send_letters_to_neighbours: Send letters to neighbours
     validation_decision_component:
       send_validation_decision: Send validation decision
   user:

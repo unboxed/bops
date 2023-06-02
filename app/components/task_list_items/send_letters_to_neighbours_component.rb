@@ -24,7 +24,7 @@ module TaskListItems
         )
       else
         new_planning_application_consultation_path(
-          planning_application,
+          planning_application
         )
       end
     end

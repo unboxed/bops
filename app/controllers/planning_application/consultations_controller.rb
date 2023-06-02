@@ -102,7 +102,7 @@ class PlanningApplication
     end
 
     def status
-      (save_progress? || add_neighbour?) ? :in_progress : :complete
+      save_progress? || add_neighbour? ? :in_progress : :complete
     end
   end
 end
