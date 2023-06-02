@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_02_193936) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_02_193938) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -130,6 +130,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_02_193936) do
     t.string "category", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "local_authority_id"
+    t.index ["local_authority_id"], name: "ix_constraints_on_local_authority_id"
   end
 
   create_table "consultations", force: :cascade do |t|
@@ -576,6 +578,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_02_193936) do
   add_foreign_key "audits", "api_users"
   add_foreign_key "audits", "planning_applications"
   add_foreign_key "audits", "users"
+  add_foreign_key "constraints", "local_authorities"
   add_foreign_key "description_change_validation_requests", "planning_applications"
   add_foreign_key "description_change_validation_requests", "users"
   add_foreign_key "documents", "additional_document_validation_requests"

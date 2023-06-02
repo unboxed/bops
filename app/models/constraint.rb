@@ -3,6 +3,8 @@
 class Constraint < ApplicationRecord
   validates :category, :name, presence: true
 
+  belongs_to :local_authority, optional: true
+
   enum category: {
     flooding: "flooding",
     military_and_defence: "military_and_defence",
