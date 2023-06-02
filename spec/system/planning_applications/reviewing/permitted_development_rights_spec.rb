@@ -8,7 +8,7 @@ RSpec.describe "Permitted development right" do
   let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create(:planning_application, :in_assessment, constraints: [], local_authority: default_local_authority)
+    create(:planning_application, :in_assessment, old_constraints: [], local_authority: default_local_authority)
   end
 
   context "when signed in as a reviewer" do

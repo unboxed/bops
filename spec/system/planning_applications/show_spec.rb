@@ -46,7 +46,7 @@ RSpec.describe "Planning Application show page" do
       address_1: "7 Elm Grove",
       town: "London",
       postcode: "SE15 6UT",
-      constraints: ["Conservation Area", "Listed Building"],
+      old_constraints: ["Conservation Area", "Listed Building"],
       api_user:
     )
   end

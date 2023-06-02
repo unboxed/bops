@@ -31,7 +31,7 @@ FactoryBot.define do
     postcode { Faker::Address.postcode }
     latitude { Faker::Address.latitude }
     longitude { Faker::Address.longitude }
-    constraints { ["Conservation Area", "Listed Building"] }
+    old_constraints { ["Conservation Area", "Listed Building"] }
     result_flag { "Planning permission / Permission needed" }
     result_heading { Faker::Lorem.unique.sentence }
     result_description { Faker::Lorem.unique.sentence }

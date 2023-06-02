@@ -9,7 +9,7 @@ class ConstraintsController < AuthenticationController
   def edit; end
 
   def update
-    if @planning_application.update(old_constraints: constraints_params[:constraints].compact_blank)
+    if @planning_application.update(old_constraints: constraints_params[:old_constraints].compact_blank)
       redirect_to(after_update_path, notice: t(".success"))
     else
       render :edit
@@ -41,7 +41,7 @@ class ConstraintsController < AuthenticationController
   end
 
   def constraints_params
-    params.require(:planning_application).permit(constraints: [])
+    params.require(:planning_application).permit(old_constraints: [])
   end
 
   def ensure_constraint_edits_unlocked

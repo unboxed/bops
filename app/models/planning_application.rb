@@ -23,8 +23,6 @@ class PlanningApplication < ApplicationRecord
 
   enum user_role: { applicant: 0, agent: 1, proxy: 2 }
 
-  alias_attribute :old_constraints, :constraints
-
   with_options dependent: :destroy do
     has_many :audits, -> { by_created_at }, inverse_of: :planning_application
     has_many :documents, -> { by_created_at }, inverse_of: :planning_application
@@ -88,7 +86,7 @@ class PlanningApplication < ApplicationRecord
   before_update -> { reset_validation_requests_update_counter!(fee_item_validation_requests) }, if: :valid_fee?
   after_update :audit_updated!
   after_update :address_or_boundary_geojson_updated?
-  after_update :constraints_updated?
+  after_update :old_constraints_updated?
 
   accepts_nested_attributes_for :recommendations
   accepts_nested_attributes_for :documents
@@ -107,7 +105,7 @@ class PlanningApplication < ApplicationRecord
                                            agent_phone
                                            agent_email
                                            county
-                                           constraints
+                                           old_constraints
                                            created_at(3i)
                                            created_at(2i)
                                            created_at(1i)
@@ -642,16 +640,16 @@ class PlanningApplication < ApplicationRecord
     update!(updated_address_or_boundary_geojson: true)
   end
 
-  def constraints_updated?
-    return unless saved_changes.include? "constraints"
-    return if constraints.blank?
+  def old_constraints_updated?
+    return unless saved_changes.include? "old_constraints"
+    return if old_constraints.blank?
 
-    update!(changed_constraints: ((changed_constraints.presence || []) + constraints).uniq)
+    update!(changed_constraints: ((changed_constraints.presence || []) + old_constraints).uniq)
   end
 
   def attribute_to_audit(attribute_name)
-    if attribute_name.eql?("constraints")
-      audit_constraints!(saved_changes)
+    if attribute_name.eql?("old_constraints")
+      audit_old_constraints!(saved_changes)
     else
       audit!(activity_type: "updated",
              activity_information: attribute_name.humanize,
@@ -672,11 +670,11 @@ class PlanningApplication < ApplicationRecord
   end
 
   def audit_payment_amount
-    audit_constraints!(saved_changes) if attribute_name.eql?("constraints")
+    audit_old_constraints!(saved_changes) if attribute_name.eql?("old_constraints")
   end
 
-  def audit_constraints!(saved_changes)
-    prev_arr, new_arr = saved_changes[:constraints]
+  def audit_old_constraints!(saved_changes)
+    prev_arr, new_arr = saved_changes[:old_constraints]
 
     attr_removed = prev_arr - new_arr
     attr_added = new_arr - prev_arr

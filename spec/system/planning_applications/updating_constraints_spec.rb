@@ -9,7 +9,7 @@ RSpec.describe "updating constraints" do
     create(
       :planning_application,
       local_authority:,
-      constraints: []
+      old_constraints: []
     )
   end
 
