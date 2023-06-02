@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_02_193938) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_02_193939) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -131,6 +131,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_02_193938) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "local_authority_id"
+    t.index ["local_authority_id", "name"], name: "ix_constraints_on_local_authority_id__name", unique: true
     t.index ["local_authority_id"], name: "ix_constraints_on_local_authority_id"
   end
 

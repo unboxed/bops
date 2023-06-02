@@ -2,6 +2,7 @@
 
 class Constraint < ApplicationRecord
   validates :category, :name, presence: true
+  validates :name, uniqueness: { scope: :local_authority }
 
   belongs_to :local_authority, optional: true
 
