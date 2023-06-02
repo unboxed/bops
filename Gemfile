@@ -48,6 +48,7 @@ group :development, :test do
   gem "guard", require: false
   gem "guard-cucumber", require: false
   gem "guard-rspec", require: false
+  gem "parallel_tests"
   gem "pry-byebug"
   gem "rails-controller-testing"
   gem "rspec-rails", "~> 4.0.0"

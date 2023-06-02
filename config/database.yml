@@ -10,7 +10,8 @@ development:
 
 test:
   <<: *default
-  database: bops_test
+  database: bops_test<%= ENV['TEST_ENV_NUMBER'] %>
+  url: <%= ENV["DATABASE_URL"] %><%= ENV['TEST_ENV_NUMBER'] %>
 
 production:
   <<: *default

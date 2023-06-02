@@ -18,10 +18,10 @@ on:
       test-runner:
         type: string
         default: rspec
-      want-pdf:
-        type: boolean
+      parallel-group:
+        type: string
         required: false
-        default: false
+        default: 1
       dockerfile:
         type: string
         required: false
@@ -74,7 +74,6 @@ jobs:
           yarn install --frozen-lockfile
 
       - name: Install file previewing tools
-        if: "${{ inputs.want-pdf }}"
         run: |
           sudo apt-get update
           sudo apt-get install -y ghostscript poppler-utils
@@ -87,9 +86,10 @@ jobs:
       - name: Setup test database
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
+          PARALLEL_TEST_PROCESSORS: 6
           RAILS_ENV: test
         run: |
-          bundle exec rake db:create db:schema:load
+          bundle exec rake "parallel:setup"
 
       - name: Build assets
         run: bundle exec rake assets:precompile
@@ -102,8 +102,9 @@ jobs:
           NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
           OTP_SECRET_ENCRYPTION_KEY: ${{ secrets.OTP_SECRET_ENCRYPTION_KEY }}
           SPEC_OPTS: '-f doc  --exclude "${{ inputs.exclude }}" --pattern "${{ inputs.include }}"'
+          PARALLEL_TEST_PROCESSORS: 6
         run: |
-          bundle exec rake spec
+          bundle exec parallel_rspec
 
       - name: Run cucumber specs
         if: ${{ inputs.test-runner == 'cucumber' }}
