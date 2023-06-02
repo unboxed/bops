@@ -51,7 +51,7 @@ module NotifyHelper
 
   def stub_get_notify_status(notify_id:)
     stub_request(:get, "https://api.notifications.service.gov.uk/v2/notifications/#{notify_id}")
-      .to_return(status: 200, body: '{"status": "received"}', headers: {})
+      .to_return(status: 200, body: '{"status": "received", "created_at": "2023-06-01 13:56:46.195155325 +0100"}', headers: {})
   end
 end
 
