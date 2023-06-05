@@ -61,6 +61,10 @@ class PlanningApplication
       @consultation.neighbours.reject(&:letter_created?).each do |neighbour|
         LetterSendingService.new(neighbour, @consultation.neighbour_letter_text).deliver!
       end
+
+      respond_to do |format|
+        format.html { redirect_to edit_planning_application_consultation_path(@planning_application, @consultation) }
+      end
     end
 
     private
