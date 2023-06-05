@@ -28,12 +28,14 @@ module StatusTags
         "govuk-tag--grey"
       when :in_progress
         "govuk-tag--blue"
-      when :checked, :granted, :valid, :completed
+      when :checked, :granted, :valid, :completed, :posted
         "govuk-tag--green"
-      when :updated, :to_be_reviewed
+      when :updated, :to_be_reviewed, :submitted
         "govuk-tag--yellow"
-      when :refused, :removed, :invalid
+      when :refused, :removed, :invalid, :technical_failure, :permanent_failure, :rejected
         "govuk-tag--red"
+      when :printing
+        "govuk-tag--purple"
       end
     end
 

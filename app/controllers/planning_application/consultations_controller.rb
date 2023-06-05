@@ -2,9 +2,18 @@
 
 class PlanningApplication
   class ConsultationsController < AuthenticationController
+    include CommitMatchable
+
     before_action :set_planning_application
     before_action :set_consultation, except: %i[new create]
     before_action :assign_params, only: %i[update create]
+    before_action :update_letter_statuses, only: %i[show edit]
+
+    def show
+      respond_to do |format|
+        format.html
+      end
+    end
 
     def new
       @consultation = @planning_application.build_consultation
@@ -21,7 +30,7 @@ class PlanningApplication
 
       if @consultation.save!
         respond_to do |format|
-          format.html { redirect_to edit_planning_application_consultation_path(@planning_application, @consultation) }
+          format.html { redirect_to planning_application_consultation_path(@planning_application, @consultation) }
         end
       else
         render :new
@@ -31,7 +40,7 @@ class PlanningApplication
     def update
       if @consultation.update!(@attributes)
         respond_to do |format|
-          format.html { redirect_to edit_planning_application_consultation_path(@planning_application, @consultation) }
+          format.html { redirect_to planning_application_consultation_path(@planning_application, @consultation) }
         end
       else
         render :edit
@@ -70,7 +79,7 @@ class PlanningApplication
       params.require(:consultation).permit(
         :planning_application_id,
         neighbours_attributes: %i[consultation_id address id]
-      )
+      ).merge(status:)
     end
 
     def assign_params
@@ -80,6 +89,20 @@ class PlanningApplication
       else
         @attributes = consultation_params
       end
+    end
+
+    def update_letter_statuses
+      return if @consultation.neighbour_letters.none?
+
+      # This is not ideal for now as will block the page loading, if it becomes a problem this would be
+      # a good place for optimisation
+      @consultation.neighbour_letters.each do |letter|
+        letter.update_status unless letter.status == "received"
+      end
+    end
+
+    def status
+      save_progress? || add_neighbour? ? :in_progress : :complete
     end
   end
 end

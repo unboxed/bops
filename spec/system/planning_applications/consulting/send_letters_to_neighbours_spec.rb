@@ -50,6 +50,8 @@ RSpec.describe "Send letters to neighbours", js: true do
     page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
     expect(page).to have_content("60-61 Commercial Road")
+
+    expect(page).not_to have_content("Contacted neighbours")
   end
 
   it "allows me to edit addresses" do
@@ -79,5 +81,25 @@ RSpec.describe "Send letters to neighbours", js: true do
     click_link "Remove"
 
     expect(page).not_to have_content("60-62 Commercial Street")
+  end
+
+  it "shows the status of letters that have been sent" do
+    consultation = create(:consultation, planning_application:)
+    neighbour = create(:neighbour, consultation:)
+    neighbour_letter = create(:neighbour_letter, neighbour:, status: "submitted", notify_id: "123")
+
+    visit current_path
+    stub_get_notify_status(notify_id: neighbour_letter.notify_id)
+
+    click_link "Send letters to neighbours"
+
+    expect(page).to have_content("Contacted neighbours")
+    expect(page).to have_content(neighbour.address)
+    expect(page).to have_content("Posted")
+
+    fill_in "Add neighbours by address", with: "60-62 Commercial Street"
+    page.find(:xpath, "//input[@value='Add neighbour']").click.click
+
+    expect(page).to have_content("60-62 Commercial Street")
   end
 end

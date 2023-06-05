@@ -672,6 +672,8 @@ en:
     steps:
       assessment:
         check_and_assess: Check and assess
+      consultation:
+        send_letters_to_neighbours: Send letters to neighbours
       validation:
         check_and_validate: Check and validate
     submit:
@@ -884,6 +886,7 @@ en:
     update:
       success: Site boundary has been updated
   status_tag_component:
+    accepted: Printing
     awaiting_determination: Awaiting determination
     checked: Checked
     complete: Completed
@@ -891,8 +894,13 @@ en:
     in_progress: In progress
     invalid: Invalid
     not_started: Not started
+    permanent_failure: Permanent failure
+    posted: Posted
     refused: To refuse
+    rejected: Rejected
     removed: Removed
+    submitted: Submitted
+    technical_failure: Technical failure
     to_be_reviewed: To be reviewed
     updated: Updated
     valid: Valid
@@ -939,6 +947,8 @@ en:
       review_immunity_enforcement: Review assessment of immunity
     review_permitted_development_right_component:
       review_permitted_development_rights: Review permitted development rights
+    send_letters_to_neighbours_component:
+      send_letters_to_neighbours: Send letters to neighbours
     validation_decision_component:
       send_validation_decision: Send validation decision
   user:

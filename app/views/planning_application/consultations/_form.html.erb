@@ -13,9 +13,8 @@
     <%= ff.hidden_field :consultation_id, value: consultation.id %>
     <%= hidden_field_tag(:os_path, os_places_api_index_url) %>
   <% end %>
-  <br>
   <%= form.submit(
     "Add neighbour",
-    class: "govuk-button govuk-button--secondary"
+    class: "govuk-button govuk-button--secondary govuk-!-margin-top-5"
   ) %>
 <% end %>

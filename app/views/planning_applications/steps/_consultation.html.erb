@@ -1,30 +1,21 @@
 <h2 class="govuk-heading-m govuk-!-margin-top-6">2. Consultation</h2>
 <ul class="app-task-list__items" id="consultation-section">
-  <li class="app-task-list__item">
-    <span class="app-task-list__task-name">
-      <% if @planning_application.consultation.present? %>
-        <%= link_to(
-            "Send letters to neighbours",
-            edit_planning_application_consultation_path(@planning_application, @planning_application.consultation),
-            aria: { describedby: "consultation-completed" },
-            class: "govuk-link"
-        ) %>
-      <% else %>
-        <%= link_to(
-              "Send letters to neighbours",
-              new_planning_application_consultation_path(@planning_application),
-              aria: { describedby: "consultation-completed" },
-              class: "govuk-link"
-          ) %>
-      <% end %>
-    </span>
-    <div class="app-task-list__task-tag">
+  <% if @planning_application.validated? %>
+    <%= render(
+      TaskListItems::SendLettersToNeighboursComponent.new(
+        planning_application: @planning_application
+      )
+    ) %>
+  <% else %>
+    <li class="app-task-list__item">
+      <span class="app-task-list__task-name">
+        <%= t(".send_letters_to_neighbours") %>
+      </span>
       <%= render(
         StatusTags::BaseComponent.new(
-          ## Needs fixing - don't have any models to base this on yet
-          status: @planning_application.validation_status
+          status: "not_started"
         )
       ) %>
-    </div>
-  </li>
+    </li>
+  <% end %>
 </ul>

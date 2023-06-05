@@ -5,6 +5,7 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
 @import "components/flashes";
 @import "components/task_list";
 @import "proposal";
+@import "consultation";
 @import "decision_notice";
 @import "components/documents";
 
@@ -329,4 +330,8 @@ html * {
 
 .govuk-link__no-underline {
   text-decoration: none;
+}
+
+.width-80 {
+  width: 80%;
 }

@@ -22,6 +22,8 @@ RSpec.describe LetterSendingService do
         expect(letter.neighbour).to eq neighbour
         expect(letter.notify_response).not_to be_nil
         expect(letter.sent_at).not_to be_nil
+        expect(letter.id).not_to be_nil
+        expect(letter.status).not_to be_nil
       end
     end
 
@@ -38,6 +40,7 @@ RSpec.describe LetterSendingService do
         expect(letter.neighbour).to eq neighbour
         expect(letter.notify_response).to be_nil
         expect(letter.sent_at).to be_nil
+        expect(letter.status).to eq("rejected")
       end
     end
   end

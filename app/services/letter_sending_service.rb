@@ -26,11 +26,14 @@ class LetterSendingService
         personalisation:
       )
     rescue Notifications::Client::RequestError
+      letter_record.update(status: "rejected")
       return
     end
 
     letter_record.sent_at = Time.zone.now
     letter_record.notify_response = response
+    letter_record.notify_id = response.id
+    letter_record.status = "accepted"
     letter_record.save!
   end
 

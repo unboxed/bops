@@ -1,0 +1,19 @@
+<% if @consultation.neighbours.with_letters.any?  %>
+  <h3 class="govuk-heading-s govuk-!-margin-top-8">Contacted neighbours</h3>
+  <% @consultation.neighbours.with_letters.each do |neighbour| %>
+    <hr>
+    <div class="proposal-details-sub-heading">
+      <p class="govuk-body govuk-!-margin-top-1">
+        <%= neighbour.address %>
+      </p>
+      <div class="consultation-letter-status">
+        <div>
+          <%= render(StatusTags::BaseComponent.new(status: NeighbourLetter::STATUSES[neighbour.neighbour_letter.status.to_sym])) %>
+        </div>
+        <p class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">
+          on <%= neighbour.neighbour_letter.status_updated_at.to_date.to_formatted_s(:day_month_year_slashes) %>
+        </p>
+      </div>
+    </div>
+  <% end %>
+<% end %>
