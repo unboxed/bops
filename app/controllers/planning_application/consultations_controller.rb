@@ -63,7 +63,10 @@ class PlanningApplication
       end
 
       respond_to do |format|
-        format.html { redirect_to edit_planning_application_consultation_path(@planning_application, @consultation) }
+        format.html do
+          redirect_to planning_application_consultation_path(@planning_application, @consultation),
+                      flash: { sent_neighbour_letters: true }
+        end
       end
     end
 
