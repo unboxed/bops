@@ -83,6 +83,32 @@ RSpec.describe "Send letters to neighbours", js: true do
     expect(page).not_to have_content("60-62 Commercial Street")
   end
 
+  it "allows me to send letters" do
+    consultation = create(:consultation, planning_application:)
+    neighbour = create(:neighbour, consultation:)
+    neighbour_letter = create(:neighbour_letter, neighbour:, status: "submitted", notify_id: "123")
+
+    visit current_path
+
+    stub_send_letter(neighbour:, message: "hello world", status: 200)
+    stub_get_notify_status(notify_id: neighbour_letter.notify_id)
+
+    click_link "Send letters to neighbours"
+
+    fill_in "Add neighbours by address", with: "60-62 Commercial Street"
+    # # Something weird is happening with the javascript, so having to double click for it to register
+    # # This doesn't happen in "real life"
+    page.find(:xpath, "//input[@value='Add neighbour']").click.click
+
+    expect(page).to have_content("60-62 Commercial Street")
+
+    fill_in "Add neighbours by address", with: "60-61 Commercial Road"
+    page.find(:xpath, "//input[@value='Add neighbour']").click.click
+
+    click_button "Print and send letters"
+    expect(page).to have_content("Letters have been sent to neighbours")
+  end
+
   it "shows the status of letters that have been sent" do
     consultation = create(:consultation, planning_application:)
     neighbour = create(:neighbour, consultation:)
