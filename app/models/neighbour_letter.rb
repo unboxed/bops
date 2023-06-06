@@ -13,6 +13,8 @@ class NeighbourLetter < ApplicationRecord
   }.freeze
 
   def update_status
+    return false if notify_id.blank?
+
     begin
       response = Notifications::Client.new(notify_api_key).get_notification(notify_id)
     rescue Notifications::Client::RequestError

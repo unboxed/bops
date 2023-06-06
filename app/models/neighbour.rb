@@ -12,4 +12,12 @@ class Neighbour < ApplicationRecord
                            .joins(:neighbour_letter)
                            .where.not(neighbour_letter: { neighbour_id: nil })
                        }
+
+  def letter_created?
+    neighbour_letter.present?
+  end
+
+  def letter_sent?
+    letter_created? && neighbour_letter.sent_at.present?
+  end
 end

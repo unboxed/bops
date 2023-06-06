@@ -55,6 +55,21 @@ class PlanningApplication
       end
     end
 
+    def send_neighbour_letters
+      return if @consultation.blank?
+
+      @consultation.neighbours.reject(&:letter_created?).each do |neighbour|
+        LetterSendingService.new(neighbour, @consultation.neighbour_letter_text).deliver!
+      end
+
+      respond_to do |format|
+        format.html do
+          redirect_to planning_application_consultation_path(@planning_application, @consultation),
+                      flash: { sent_neighbour_letters: true }
+        end
+      end
+    end
+
     private
 
     def set_planning_application
