@@ -710,19 +710,19 @@ RSpec.describe PlanningApplication do
     end
   end
 
-  describe "custom_constraints" do
+  describe "local_constraints" do
     let(:planning_application) { build(:planning_application) }
 
     it "contains any custom constraint added" do
       planning_application.old_constraints << "Foobar"
 
-      expect(planning_application.custom_constraints).to contain_exactly "Foobar"
+      expect(planning_application.local_constraints).to contain_exactly "Foobar"
     end
 
     it "is empty when all constraints are predefined ones" do
       planning_application.old_constraints << "Listed Building"
 
-      expect(planning_application.custom_constraints).to be_empty
+      expect(planning_application.local_constraints).to be_empty
     end
   end
 

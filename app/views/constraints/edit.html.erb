@@ -35,7 +35,7 @@
         </fieldset>
       <% end %>
 
-      <% if @planning_application.custom_constraints.any? %>
+      <% if @planning_application.local_constraints.any? %>
         <fieldset class="govuk-fieldset govuk-!-margin-top-3">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
             <h2 class="govuk-fieldset__heading">
@@ -44,7 +44,7 @@
           </legend>
           <div class="form-group">
             <div class="govuk-checkboxes govuk-checkboxes--small">
-              <%= form.collection_check_boxes :old_constraints, @planning_application.custom_constraints, :itself, :itself do |b| %>
+              <%= form.collection_check_boxes :old_constraints, @planning_application.local_constraints, :itself, :itself do |b| %>
                 <div class="govuk-checkboxes__item">
                   <%= b.check_box class: "govuk-checkboxes__input" %>
                   <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
