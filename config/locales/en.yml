@@ -887,6 +887,7 @@ en:
       success: Site boundary has been updated
   status_tag_component:
     accepted: Printing
+    printing: Printing
     awaiting_determination: Awaiting determination
     checked: Checked
     complete: Completed
