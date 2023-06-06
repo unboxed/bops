@@ -389,7 +389,7 @@ class PlanningApplication < ApplicationRecord
     I18n.t("constraint_list").values.flatten
   end
 
-  def custom_constraints
+  def local_constraints
     old_constraints.difference(defined_constraints)
   end
 
