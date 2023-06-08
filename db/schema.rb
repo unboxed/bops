@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_31_150705) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_02_193939) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -123,6 +123,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_150705) do
     t.datetime "updated_at", null: false
     t.integer "site_map_correct", default: 0, null: false
     t.index ["planning_application_id"], name: "ix_consistency_checklists_on_planning_application_id"
+  end
+
+  create_table "constraints", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "category", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "local_authority_id"
+    t.index ["local_authority_id", "name"], name: "ix_constraints_on_local_authority_id__name", unique: true
+    t.index ["local_authority_id"], name: "ix_constraints_on_local_authority_id"
   end
 
   create_table "consultations", force: :cascade do |t|
@@ -303,6 +313,28 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_150705) do
     t.index ["assessor_id"], name: "ix_permitted_development_rights_on_assessor_id"
     t.index ["planning_application_id"], name: "ix_permitted_development_rights_on_planning_application_id"
     t.index ["reviewer_id"], name: "ix_permitted_development_rights_on_reviewer_id"
+  end
+
+  create_table "planning_application_constraints", force: :cascade do |t|
+    t.bigint "planning_application_id"
+    t.bigint "planning_application_constraints_query_id"
+    t.bigint "constraint_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["constraint_id"], name: "ix_planning_application_constraints_on_constraint_id"
+    t.index ["planning_application_constraints_query_id"], name: "ix_planning_application_constraints_on_planning_application_con"
+    t.index ["planning_application_id"], name: "ix_planning_application_constraints_on_planning_application_id"
+  end
+
+  create_table "planning_application_constraints_queries", force: :cascade do |t|
+    t.json "geojson", null: false
+    t.text "wkt", null: false
+    t.string "planx_query", null: false
+    t.string "planning_data_query", null: false
+    t.bigint "planning_application_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_planning_application_constraints_queries_on_planning_applica"
   end
 
   create_table "planning_applications", force: :cascade do |t|
@@ -547,6 +579,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_150705) do
   add_foreign_key "audits", "api_users"
   add_foreign_key "audits", "planning_applications"
   add_foreign_key "audits", "users"
+  add_foreign_key "constraints", "local_authorities"
   add_foreign_key "description_change_validation_requests", "planning_applications"
   add_foreign_key "description_change_validation_requests", "users"
   add_foreign_key "documents", "additional_document_validation_requests"
@@ -560,6 +593,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_150705) do
   add_foreign_key "other_change_validation_requests", "users"
   add_foreign_key "permitted_development_rights", "users", column: "assessor_id"
   add_foreign_key "permitted_development_rights", "users", column: "reviewer_id"
+  add_foreign_key "planning_application_constraints", "constraints"
+  add_foreign_key "planning_application_constraints", "planning_application_constraints_queries"
+  add_foreign_key "planning_application_constraints", "planning_applications"
+  add_foreign_key "planning_application_constraints_queries", "planning_applications"
   add_foreign_key "planning_applications", "api_users"
   add_foreign_key "planning_applications", "users"
   add_foreign_key "planning_applications", "users", column: "boundary_created_by_id"
