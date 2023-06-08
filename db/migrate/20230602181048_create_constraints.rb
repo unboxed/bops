@@ -7,6 +7,7 @@ class CreateConstraints < ActiveRecord::Migration[7.0]
     create_table :constraints do |t|
       t.string :name, null: false
       t.string :category, null: false
+      t.references :local_authority, null: true, index: true, foreign_key: true
 
       t.timestamps
     end
