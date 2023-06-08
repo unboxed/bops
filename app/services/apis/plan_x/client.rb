@@ -7,19 +7,25 @@ require "uri"
 module Apis
   module PlanX
     class Client
+      # https://api.editor.planx.uk/gis/opensystemslab?geom=POLYGON+%28%28-0.07629275321961124+51.48596289289142%2C+-0.0763061642646857+51.48591028066045%2C+-0.07555112242699404+51.48584764697301%2C+-0.07554173469544191+51.48590192950712%2C+-0.07629275321961124+51.48596289289142%29%29&analytics=false
       HOST = "https://api.editor.planx.uk"
       TIMEOUT = 5
 
       def call(wkt: nil, geojson: nil)
-        if wkt.nil?
-          raise ArgumentError, "Must provide either `wkt` or `geojson`" if geojson.nil?
+        if wkt.blank?
+          raise ArgumentError, "Must provide either `wkt` or `geojson`" if geojson.blank?
 
           wkt = geojson_to_wkt(geojson)
         end
 
-        faraday.get("/gis/opensystemslab?geom=#{URI.encode_uri_component wkt}&analytics=false") do |request|
+        return { response: nil } if wkt.blank?
+
+        request_url = "/gis/opensystemslab?geom=#{URI.encode_uri_component wkt}&analytics=false"
+        response = faraday.get(request_url) do |request|
           request.options[:timeout] = TIMEOUT
         end
+
+        { response:, wkt:, geojson:, planx_url: "#{HOST}#{request_url}" }
       end
 
       private
@@ -40,8 +46,10 @@ module Apis
           # element for our usecase.
           entries = geom.entries.filter_map(&:geometry).map(&:as_text)
           "GEOMETRYCOLLECTION (#{entries.join(', ')})"
-        else
-          geom.as_text # it's just a single feature
+        elsif geom.respond_to? :geometry
+          geom.geometry.as_text
+        elsif geom.respond_to? :as_text
+          geom.as_text
         end
       end
     end

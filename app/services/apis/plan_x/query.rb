@@ -6,10 +6,10 @@ module Apis
   module PlanX
     class Query
       def fetch(**args)
-        response = client.call(**args)
+        client.call(**args) => {response:, **query_details}
 
-        if response.success?
-          JSON.parse(response.body, symbolize_names: true)
+        if response&.success?
+          JSON.parse(response.body, symbolize_names: true).merge(query_details)
         else
           {}
         end
