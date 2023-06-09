@@ -5,6 +5,34 @@ require "rails_helper"
 RSpec.describe Apis::PlanningData::Query do
   let(:query) { described_class.new }
 
+  describe "#fetch" do
+    context "when the request is successful" do
+      context "when a valid council code reference is supplied" do
+        before do
+          stub_planning_data_api_request_for("BUC").to_return(planning_data_api_response(:ok, "BUC"))
+        end
+
+        it "returns buckinghamshire council's data" do
+          resp = query.fetch("BUC", ["local-authority"])
+          expect(resp["count"]).to eq(1)
+          expect(resp["entities"][0]["reference"]).to eq("BUC")
+        end
+      end
+
+      context "when an invalid council code reference is supplied" do
+        before do
+          stub_planning_data_api_request_for("TEST").to_return(planning_data_api_response(:ok, "TEST"))
+        end
+
+        it "returns an empty object" do
+          resp = query.fetch("TEST", ["local-authority"])
+          expect(resp["count"]).to eq(0)
+          expect(resp["entities"]).to be_empty
+        end
+      end
+    end
+  end
+
   describe "#council_code" do
     context "when the request is successful" do
       context "when a valid council code reference is supplied" do
