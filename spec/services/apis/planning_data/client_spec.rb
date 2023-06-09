@@ -7,7 +7,7 @@ RSpec.describe Apis::PlanningData::Client do
 
   describe "#call" do
     it "is successful" do
-      expect(client.call("LBH").status).to eq(200)
+      expect(client.call("reference=LBH&dataset=local-authority").status).to eq(200)
     end
   end
 end

@@ -6,7 +6,8 @@ module Apis
   module PlanningData
     class Query
       def fetch(reference)
-        response = client.call(reference)
+        query = "reference=#{reference}&dataset=local-authority"
+        response = client.call(query)
 
         if response.success?
           parse(JSON.parse(response.body))

@@ -8,8 +8,8 @@ module Apis
       HOST = "https://www.planning.data.gov.uk"
       TIMEOUT = 5
 
-      def call(reference)
-        faraday.get("/entity.json?reference=#{reference}&dataset=local-authority") do |request|
+      def call(query)
+        faraday.get("/entity.json?#{query}") do |request|
           request.options[:timeout] = TIMEOUT
         end
       end
