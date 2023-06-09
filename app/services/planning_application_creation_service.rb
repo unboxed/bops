@@ -53,6 +53,7 @@ class PlanningApplicationCreationService
   def save_planning_application!(planning_application)
     PlanningApplication.transaction do
       if planning_application.save!
+        ConstraintsCreationService.new(planning_application:, constraints_params: params[:constraints]).call
         UploadDocumentsJob.perform_now(planning_application:, files: params[:files])
         CreateImmunityDetailsJob.perform_now(planning_application:) if possibly_immune?(planning_application)
       end

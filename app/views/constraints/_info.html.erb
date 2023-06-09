@@ -5,7 +5,7 @@
 <% else %>
   <ul class="govuk-list govuk-list--bullet">
     <% constraints.each do |constraint| %>
-      <li><%= constraint %></li>
+      <li><%= constraint.name %></li>
     <% end %>
   </ul>
 <% end %>

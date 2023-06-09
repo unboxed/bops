@@ -350,7 +350,8 @@
   ],
   "constraints": {
     "conservation_area": true,
-    "protected_trees": false
+    "protected_trees": false,
+    "national_park": true
   },
   "files": [
     {

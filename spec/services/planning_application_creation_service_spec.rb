@@ -181,6 +181,10 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
         it "creates a new planning application from the params" do
           expect { create_planning_application }.to change(PlanningApplication, :count).by(1)
         end
+
+        it "calls the constraints creation service" do
+          expect { create_planning_application }.to change(Constraint, :count).by(2).and change(PlanningApplicationConstraint, :count).by(2)
+        end
       end
     end
   end

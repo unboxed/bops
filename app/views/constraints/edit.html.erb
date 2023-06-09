@@ -14,40 +14,38 @@
 <div class="govuk-grid-row">
   <%= form_with model: @planning_application, url: planning_application_constraints_path(@planning_application), local: true do |form| %>
     <%= form.hidden_field(:return_to, value: @back_path) %>
-    <div class="govuk-grid-column-two-thirds">
-      <% t("constraint_list").each do |type, constraints| %>
-        <fieldset class="govuk-fieldset govuk-!-margin-top-3">
-          <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-            <h2 class="govuk-fieldset__heading">
-              <%= type.to_s.humanize %>
-            </h2>
-          </legend>
-          <div class="form-group">
-            <div class="govuk-checkboxes govuk-checkboxes--small">
-              <%= form.collection_check_boxes :old_constraints, constraints, :itself, :itself do |b| %>
-                <div class="govuk-checkboxes__item">
-                  <%= b.check_box class: "govuk-checkboxes__input" %>
-                  <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        </fieldset>
-      <% end %>
 
-      <% if @planning_application.local_constraints.any? %>
+    <div class="govuk-grid-column-two-thirds">
+      <% Constraint.grouped_by_category(@planning_application.local_authority_id).each do |category, constraints| %>
         <fieldset class="govuk-fieldset govuk-!-margin-top-3">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
             <h2 class="govuk-fieldset__heading">
-              Local constraints
+              <% if category == "local" %>
+                Local constraints
+              <% else %>
+                <%= category.to_s.humanize %>
+              <% end %>
             </h2>
           </legend>
+
           <div class="form-group">
-            <div class="govuk-checkboxes govuk-checkboxes--small">
-              <%= form.collection_check_boxes :old_constraints, @planning_application.local_constraints, :itself, :itself do |b| %>
-                <div class="govuk-checkboxes__item">
-                  <%= b.check_box class: "govuk-checkboxes__input" %>
-                  <%= b.label class: "govuk-label govuk-checkboxes__label tag_checkbox_label" %>
+            <div class="govuk-checkboxes govuk-checkboxes--small">         
+              <% constraints.each do |constraint| %>
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <%= check_box_tag(
+                      "constraint_ids[]",
+                      constraint.id,
+                      @constraint_ids.include?(constraint.id),
+                      class: "govuk-checkboxes__input",
+                      id: "constraint_id_#{constraint.id}",
+                      ) %>
+                    <%= label_tag(
+                      "constraint_id_#{constraint.id}",
+                      constraint.name,
+                      class: "govuk-label govuk-checkboxes__label",
+                    ) %>
+                  </div>
                 </div>
               <% end %>
             </div>
@@ -56,8 +54,8 @@
       <% end %>
 
       <div class="form-group">
-        <%= form.label :old_constraints, "Add a local constraint", class: 'govuk-heading-s govuk-!-margin-top-6' %>
-        <%= form.text_area :old_constraints, class: "govuk-textarea", rows: "3", "aria-describedby": "constraints-hint", multiple: true, value: "" %>
+        <%= form.label :name, "Add a local constraint", class: 'govuk-heading-s govuk-!-margin-top-6' %>
+        <%= form.text_area :name, class: "govuk-textarea", rows: "3", "aria-describedby": "constraints-hint" %>
       </div>
 
       <div class="govuk-button-group">

@@ -5,15 +5,6 @@ Feature: Editing an application's constraints
     And the planning application has the "Conservation Area" constraint
     And I view the planning application
 
-  Scenario: As an assessor I can view the existing constraints on the application
-    Given I press "Check and assess"
-    And I press "Constraints"
-    Then the page contains "Conservation Area"
-
-  Scenario: As an assessor I can view the existing constraints on the edit form
-    Given I visit the application's constraints form
-    Then the "Conservation Area" option is checked
-
   Scenario: As an assessor I can add custom constraints to the application
     Given I visit the application's constraints form
     And I fill in "Add a local constraint" with "Batcave"

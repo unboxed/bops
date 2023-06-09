@@ -92,6 +92,7 @@ class PlanningApplication < ApplicationRecord
 
   accepts_nested_attributes_for :recommendations
   accepts_nested_attributes_for :documents
+  accepts_nested_attributes_for :constraints
 
   WORK_STATUSES = %w[proposed existing].freeze
 

@@ -30,4 +30,45 @@ RSpec.describe Constraint do
       end
     end
   end
+
+  describe "scopes" do
+    describe ".options_for_local_authority" do
+      let!(:local_authority1) { create(:local_authority) }
+      let!(:local_authority2) { create(:local_authority, :southwark) }
+
+      let!(:constraint1) { create(:constraint, local_authority: local_authority1) }
+      let!(:constraint2) { create(:constraint, local_authority: nil) }
+      let!(:constraint3) { create(:constraint, local_authority: local_authority2) }
+
+      it "returns available constraint options for a local authority" do
+        expect(described_class.options_for_local_authority(local_authority1)).to match_array([constraint1, constraint2])
+        expect(described_class.options_for_local_authority(local_authority2)).to match_array([constraint2, constraint3])
+      end
+    end
+  end
+
+  describe "class methods" do
+    describe "#grouped_by_category" do
+      let!(:local_authority1) { create(:local_authority) }
+      let!(:local_authority2) { create(:local_authority, :southwark) }
+
+      let!(:constraint1) { create(:constraint, category: "tree", local_authority: local_authority1) }
+      let!(:constraint2) { create(:constraint, category: "ecology", local_authority: nil) }
+      let!(:constraint3) { create(:constraint, category: "local", local_authority: local_authority2) }
+
+      it "returns all constraint options for a local authority grouped by category" do
+        expect(described_class.grouped_by_category(local_authority1)).to eq(
+          {
+            "tree" => [constraint1], "ecology" => [constraint2]
+          }
+        )
+
+        expect(described_class.grouped_by_category(local_authority2)).to eq(
+          {
+            "ecology" => [constraint2], "local" => [constraint3]
+          }
+        )
+      end
+    end
+  end
 end
