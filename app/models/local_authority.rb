@@ -48,7 +48,7 @@ class LocalAuthority < ApplicationRecord
   end
 
   def planning_data
-    @planning_data ||= Apis::PlanningData::Query.new.fetch(council_code)
+    @planning_data ||= Apis::PlanningData::Query.new.fetch(council_code, "local-authority")
   end
 
   def planning_data?

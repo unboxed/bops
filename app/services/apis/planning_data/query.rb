@@ -5,8 +5,9 @@ require "faraday"
 module Apis
   module PlanningData
     class Query
-      def fetch(reference)
-        query = "reference=#{reference}&dataset=local-authority"
+      def fetch(reference, datasets = [])
+        datasets = [datasets] unless datasets.is_a? Enumerable
+        query = "reference=#{reference}&" + datasets.map { |dataset| "dataset=#{dataset}" }.join("&")
         response = client.call(query)
 
         if response.success?
