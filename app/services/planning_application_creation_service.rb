@@ -39,7 +39,8 @@ class PlanningApplicationCreationService
         audit_log: params.to_json,
         user_role: params[:user_role].presence,
         payment_amount: params[:payment_amount].presence && payment_amount_in_pounds(params[:payment_amount]),
-        from_production: params[:from_production].present?
+        from_production: params[:from_production].present?,
+        application_type: ApplicationType.find_by(name: params[:application_type])
       )
     )
 

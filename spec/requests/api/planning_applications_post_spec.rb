@@ -5,7 +5,10 @@ require "rails_helper"
 RSpec.describe "Creating a planning application via the API", show_exceptions: true do
   let!(:api_user) { create(:api_user) }
 
-  before { create(:local_authority, :default) }
+  before do
+    create(:local_authority, :default)
+    create(:application_type)
+  end
 
   def post_with(params:, headers: {})
     post(
@@ -49,7 +52,7 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
       it "renders failure message" do
         post "/api/v1/planning_applications", params: json,
                                               headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
-        expect(response.body).to eq("{\"message\":\"Validation failed: Application type can't be blank, An applicant or agent email is required.\"}")
+        expect(response.body).to eq("{\"message\":\"Validation failed: Application type must exist, An applicant or agent email is required.\"}")
       end
     end
 

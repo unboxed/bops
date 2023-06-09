@@ -16,6 +16,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
   let!(:reviewer) { create(:user, :reviewer, local_authority:) }
   let!(:assessor) { create(:user, :assessor, local_authority:) }
+  let(:application_type) { create(:application_type) }
 
   let(:planning_application) do
     create(
@@ -30,7 +31,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       postcode: "AB3 4EF",
       description: "Add a chimney stack",
       created_at: DateTime.new(2022, 5, 1),
-      application_type: "lawfulness_certificate",
+      application_type:,
       validated_at: DateTime.new(2022, 10, 1)
     )
   end

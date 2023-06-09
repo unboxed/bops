@@ -42,7 +42,7 @@ paths:
                       longitude: '-0.0764165'
                       uprn: '100081043511'
                     status: not_started
-                    application_type: lawfulness_certificate
+                    application_type_name: lawfulness_certificate
                     description: Add chimnney stack
                     created_at: '2020-05-14T06:18:17.540+01:00'
                     received_date: '2020-05-14T09:00:00.000+01:00'
@@ -122,7 +122,7 @@ paths:
                           longitude: '-0.0764165'
                           uprn: '100081043511'
                         status: not_started
-                        application_type: lawfulness_certificate
+                        application_type_name: lawfulness_certificate
                         description: Add chimnney stack
                         created_at: '2020-05-14T06:18:17.540+01:00'
                         received_date: '2020-05-14T09:00:00.000+01:00'
