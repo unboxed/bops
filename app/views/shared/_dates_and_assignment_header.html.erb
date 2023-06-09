@@ -5,7 +5,7 @@
 
       <% if @planning_application.in_progress? %>
         <span class="govuk-!-margin-left-1">
-          <%= @planning_application.remaining_days_status_tag %>
+          <%= @planning_application.days_status_tag %>
         </span>
       <% end %>
     </p>

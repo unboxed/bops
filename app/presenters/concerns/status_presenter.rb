@@ -24,7 +24,7 @@ module StatusPresenter
       end
     end
 
-    def remaining_days_status_tag
+    def days_status_tag
       classes = ["govuk-tag govuk-tag--#{status_date_tag_colour}"]
 
       tag.span class: classes do
