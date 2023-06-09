@@ -7,6 +7,10 @@ RSpec.describe "Drawing a sitemap on a planning application" do
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority, name: "Assessor 1") }
 
   before do
+    stub_planx_api_response_for("POLYGON ((-0.054597 51.537331, -0.054588 51.537287, -0.054453 51.537313, -0.054597 51.537331))").to_return(
+      status: 200, body: "{}"
+    )
+
     sign_in assessor
     visit(planning_application_assessment_tasks_path(planning_application))
   end
