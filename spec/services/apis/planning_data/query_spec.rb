@@ -14,8 +14,8 @@ RSpec.describe Apis::PlanningData::Query do
 
         it "returns buckinghamshire council's data" do
           resp = query.fetch("BUC", ["local-authority"])
-          expect(resp["count"]).to eq(1)
-          expect(resp["entities"][0]["reference"]).to eq("BUC")
+          expect(resp[:count]).to eq(1)
+          expect(resp[:entities][0][:reference]).to eq("BUC")
         end
       end
 
@@ -26,8 +26,8 @@ RSpec.describe Apis::PlanningData::Query do
 
         it "returns an empty object" do
           resp = query.fetch("TEST", ["local-authority"])
-          expect(resp["count"]).to eq(0)
-          expect(resp["entities"]).to be_empty
+          expect(resp[:count]).to eq(0)
+          expect(resp[:entities]).to be_empty
         end
       end
     end
