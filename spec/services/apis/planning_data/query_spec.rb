@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe Apis::PlanningData::Query do
   let(:query) { described_class.new }
 
-  describe "#fetch" do
+  describe "#council_code" do
     context "when the request is successful" do
       context "when a valid council code reference is supplied" do
         before do
@@ -15,15 +15,15 @@ RSpec.describe Apis::PlanningData::Query do
         end
 
         it "returns buckinghamshire council's reference code" do
-          expect(query.fetch("BUC", "local-authority")).to eq("BUC")
+          expect(query.council_code("BUC")).to eq("BUC")
         end
 
         it "returns lambeth council's reference code" do
-          expect(query.fetch("LBH", "local-authority")).to eq("LBH")
+          expect(query.council_code("LBH")).to eq("LBH")
         end
 
         it "returns southwark council's reference code" do
-          expect(query.fetch("SWK", "local-authority")).to eq("SWK")
+          expect(query.council_code("SWK")).to eq("SWK")
         end
       end
 
@@ -33,7 +33,7 @@ RSpec.describe Apis::PlanningData::Query do
         end
 
         it "returns nil" do
-          expect(query.fetch("TEST", "local-authority")).to be_nil
+          expect(query.council_code("TEST")).to be_nil
         end
       end
     end
