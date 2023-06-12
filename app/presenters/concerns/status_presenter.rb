@@ -94,6 +94,7 @@ module StatusPresenter
   end
 
   def status_date_tag_colour
+    return "orange" if @planning_application.not_started?
     return "grey" if @planning_application.determined?
 
     number = planning_application.days_left
