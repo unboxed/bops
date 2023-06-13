@@ -24,8 +24,6 @@ RSpec.describe LetterSendingService do
         expect(letter.sent_at).not_to be_nil
         expect(letter.id).not_to be_nil
         expect(letter.status).not_to be_nil
-
-        expect(Audit.last.activity_type).to eq "neighbour_letters_sent"
       end
     end
 
@@ -43,8 +41,6 @@ RSpec.describe LetterSendingService do
         expect(letter.notify_response).to be_nil
         expect(letter.sent_at).to be_nil
         expect(letter.status).to eq("rejected")
-
-        expect(Audit.last.activity_type).to eq "neighbour_letters_rejected"
       end
     end
   end

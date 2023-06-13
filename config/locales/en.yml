@@ -290,12 +290,14 @@ en:
     system: Automated by the system
   audits:
     types:
-      additional_document_validation_request_added: 'Added: validation request (new document&#{args})'
+      additional_document_validation_request_added: 'Added: validation request (new document#%{args})'
       additional_document_validation_request_cancelled: 'Cancelled: validation request (new document#%{args})'
       additional_document_validation_request_cancelled_post_validation: 'Cancelled: Post-validation request (new document#%{args})'
-      additional_document_validation_request_received: 'Received: request for change (new document#&{args})'
+      additional_document_validation_request_received: 'Received: request for change (new document#%{args})'
       additional_document_validation_request_sent: 'Sent: validation request (new document#%{args})'
-      additional_document_validation_request_sent_post_validation: 'Sent: Post validation request (new document#%{args})'
+      additional_document_validation_request_sent_post_validation:
+        document: 'Sent: Post validation request (new document#%{args})'
+        reason: 'Sent: Post validation request (new document#%{args})'
       approved: Recommendation approved
       archived: Document archived
       assessed: Recommendation assessed
@@ -311,7 +313,7 @@ en:
       description_change_validation_request_auto_closed:
         auto_closed_validation: 'Auto-closed: validation request (description#%{sequence})'
       description_change_validation_request_cancelled: 'Cancelled: validation request (applicant approval for description change #%{args})'
-      description_change_validation_request_received: 'Received: request for change (description#&{args})'
+      description_change_validation_request_received: 'Received: request for change (description#%{args})'
       description_change_validation_request_sent: 'Sent: description change request (description#%{args})'
       determined: Decision Published
       document_changed_to_validated: "%{args} was modified from invalid to valid"
@@ -319,23 +321,23 @@ en:
       document_received_at_changed: "%{args} received at date was modified"
       invalidated: Application invalidated
       neighbour_letters_sent: Neighbour letters sent
-      other_change_validation_request_added: 'Added: validation request (other validation#&{args})'
+      other_change_validation_request_added: 'Added: validation request (other validation#%{args})'
       other_change_validation_request_cancelled: 'Cancelled: validation request (other change from applicant#%{args})'
       other_change_validation_request_received: 'Received: request for change (other validation#%{args})'
       other_change_validation_request_sent: 'Sent: validation request (other validation#%{args})'
-      red_line_boundary_change_validation_request_added: 'Added: validation request (red line boundary#&{args})'
+      red_line_boundary_change_validation_request_added: 'Added: validation request (red line boundary#%{args})'
       red_line_boundary_change_validation_request_auto_closed:
         auto_closed_validation: 'Auto-closed: validation request (red line boundary#%{sequence})'
       red_line_boundary_change_validation_request_cancelled: 'Cancelled: validation request (applicant approval for red line boundary change#%{args})'
       red_line_boundary_change_validation_request_cancelled_post_validation: 'Cancelled: Post-validation request (red line boundary#%{args})'
-      red_line_boundary_change_validation_request_received: 'Received: request for change (red line boundary#&{args})'
+      red_line_boundary_change_validation_request_received: 'Received: request for change (red line boundary#%{args})'
       red_line_boundary_change_validation_request_sent: 'Sent: validation request (red line boundary#%{args})'
       red_line_boundary_change_validation_request_sent_post_validation: 'Sent: Post-validation request (red line boundary#%{args})'
       red_line_created: Red line drawing created
       red_line_updated: Red line drawing updated
       replacement_document_validation_request_added: 'Added: validation request (replacement document#%{args})'
       replacement_document_validation_request_cancelled: 'Cancelled: validation request (replace document#%{args})'
-      replacement_document_validation_request_received: 'Received: request for change (replacement document#&{args})'
+      replacement_document_validation_request_received: 'Received: request for change (replacement document#%{args})'
       replacement_document_validation_request_sent: 'Sent: validation request (replacement document#%{args})'
       replacement_document_validation_request_sent_post_validation: 'Sent: Post-validation request (replacement document#%{args})'
       returned: Application returned

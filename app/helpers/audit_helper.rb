@@ -8,7 +8,7 @@ module AuditHelper
 
     if type_of_activity == "assigned"
       if args.blank?
-        t("audits.types.#{type_of_activity}_no_user", args:)
+        t("audits.types.#{type_of_activity}_no_user")
       else
         t("audits.types.#{type_of_activity}", args:)
       end
