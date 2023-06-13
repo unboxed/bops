@@ -7,7 +7,6 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
     create(
       :planning_application,
       description: "Test description",
-      application_type: :full,
       work_status:,
       address_1: "123 Long Lane",
       town: "Big City",
@@ -47,7 +46,7 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
 
     expect(page).to have_row_for(
       "Application type:",
-      with: "Full Householder Application (Proposed)"
+      with: "Lawful Development Certificate"
     )
   end
 

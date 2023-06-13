@@ -257,13 +257,16 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def planning_applications_scope
-    @planning_applications_scope ||= current_local_authority.planning_applications.by_created_at_desc
+    @planning_applications_scope ||= current_local_authority
+                                     .planning_applications.includes([:application_type])
+                                     .by_created_at_desc
   end
 
   def planning_application_params
     permitted_keys = %i[address_1
                         address_2
                         application_type
+                        application_type_id
                         applicant_first_name
                         applicant_last_name
                         applicant_phone
@@ -305,14 +308,6 @@ class PlanningApplicationsController < AuthenticationController
     Time.zone.parse(
       validation_date_fields.join("-")
     )
-  end
-
-  def payment_amount_params
-    if params[:planning_application]
-      params.require(:planning_application).permit(:payment_amount)
-    else
-      params.permit(:payment_amount)
-    end
   end
 
   def redirect_failed_withdraw_recommendation

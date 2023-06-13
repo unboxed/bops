@@ -21,7 +21,6 @@ FactoryBot.define do
     applicant_phone { Faker::Base.numerify("+44 7### ######") }
     applicant_email { Faker::Internet.email }
     user_role { "agent" }
-    application_type { :lawfulness_certificate }
     public_comment { "All GDPO compliant" }
     uprn { Faker::Base.numerify("00######") }
     address_1 { Faker::Address.street_address }
@@ -36,6 +35,7 @@ FactoryBot.define do
     result_heading { Faker::Lorem.unique.sentence }
     result_description { Faker::Lorem.unique.sentence }
     result_override { "Override" }
+    application_type
 
     proposal_details do
       [

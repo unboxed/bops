@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_02_193939) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_09_140723) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -68,6 +68,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_02_193939) do
     t.index ["local_authority_id"], name: "ix_api_users_on_local_authority_id"
     t.index ["name"], name: "ix_api_users_on_name", unique: true
     t.index ["token"], name: "ix_api_users_on_token", unique: true
+  end
+
+  create_table "application_types", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "part"
+    t.string "section"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "assessment_details", force: :cascade do |t|
@@ -339,7 +347,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_02_193939) do
 
   create_table "planning_applications", force: :cascade do |t|
     t.date "target_date", null: false
-    t.integer "application_type", null: false
     t.string "status", default: "not_started", null: false
     t.datetime "started_at", precision: nil
     t.datetime "determined_at", precision: nil
@@ -410,10 +417,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_02_193939) do
     t.string "review_documents_for_recommendation_status", default: "not_started", null: false
     t.boolean "from_production", default: false
     t.text "changed_constraints", array: true
+    t.bigint "application_type_id"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
     t.index ["application_number", "local_authority_id"], name: "ix_planning_applications_on_application_number__local_authority", unique: true
+    t.index ["application_type_id"], name: "ix_planning_applications_on_application_type_id"
     t.index ["boundary_created_by_id"], name: "ix_planning_applications_on_boundary_created_by_id"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
     t.index ["reference", "local_authority_id"], name: "ix_planning_applications_on_reference__local_authority_id", unique: true

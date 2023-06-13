@@ -7,6 +7,7 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
   let!(:document) { Openapi3Parser.load_file(Rails.public_path.join("api-docs/v1/_build/swagger_doc.yaml")) }
   let!(:api_user) { create(:api_user) }
   let!(:default_local_authority) { create(:local_authority, :default) }
+  let!(:application_type) { create(:application_type) }
 
   def example_request_json_for(path, http_method, example_name)
     document.paths[path][http_method].request_body.content["application/json"].examples[example_name].value.to_h.to_json
@@ -31,7 +32,7 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
            headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
     end.to change(PlanningApplication, :count).by(1)
     expect(response.code).to eq("200")
-    expect(PlanningApplication.last.application_type).to eq("lawfulness_certificate")
+    expect(PlanningApplication.last.application_type_name).to eq("lawfulness_certificate")
   end
 
   it "successfully creates the Full application as per the oas3 definition" do
@@ -47,7 +48,7 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
            headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
     end.to change(PlanningApplication, :count).by(1)
     expect(response.code).to eq("200")
-    expect(PlanningApplication.last.application_type).to eq("lawfulness_certificate")
+    expect(PlanningApplication.last.application_type_name).to eq("lawfulness_certificate")
     expect(PlanningApplication.last.description).to eq("Add a chimney stack")
     expect(PlanningApplication.last.payment_reference).to eq("PAY1")
     expect(PlanningApplication.last.payment_amount).to eq(103.00)
@@ -83,7 +84,12 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
                                                           "Full")["data"].first
 
     planning_application = PlanningApplication.create! planning_application_hash.except("reference", "reference_in_full",
-                                                                                        "received_date", "documents", "site", "constraints").merge(local_authority: default_local_authority, old_constraints: planning_application_hash["constraints"])
+                                                                                        "received_date", "documents", "site", "constraints", "application_type_name").merge(
+                                                                                          local_authority:
+                                                                                          default_local_authority,
+                                                                                          old_constraints: planning_application_hash["constraints"],
+                                                                                          application_type_id: ApplicationType.first.id
+                                                                                        )
 
     planning_application.update!(planning_application_hash["site"])
     planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url")) do |document|
@@ -106,7 +112,11 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
     travel_to(DateTime.new(2020, 5, 14))
     planning_application_hash = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "Full")
     planning_application = PlanningApplication.create! planning_application_hash.except("reference", "reference_in_full",
-                                                                                        "received_date", "documents", "site", "constraints").merge(local_authority: default_local_authority, old_constraints: planning_application_hash["constraints"])
+                                                                                        "received_date", "documents", "site", "constraints", "application_type_name").merge(
+                                                                                          local_authority: default_local_authority,
+                                                                                          old_constraints: planning_application_hash["constraints"],
+                                                                                          application_type_id: ApplicationType.first.id
+                                                                                        )
     planning_application.update!(planning_application_hash["site"])
     planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url")) do |document|
       document.file.attach(io: Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf").open,

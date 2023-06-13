@@ -19,8 +19,6 @@ class PlanningApplication < ApplicationRecord
 
   DAYS_TO_EXPIRE = 56
 
-  enum application_type: { lawfulness_certificate: 0, full: 1, prior_approval: 2 }
-
   enum user_role: { applicant: 0, agent: 1, proxy: 2 }
 
   with_options dependent: :destroy do
@@ -71,6 +69,7 @@ class PlanningApplication < ApplicationRecord
   belongs_to :api_user, optional: true
   belongs_to :boundary_created_by, class_name: "User", optional: true
   belongs_to :local_authority
+  belongs_to :application_type
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
   scope :with_user, -> { preload(:user) }
@@ -141,7 +140,7 @@ class PlanningApplication < ApplicationRecord
             inclusion: { in: WORK_STATUSES }
   validates :review_documents_for_recommendation_status,
             inclusion: { in: PROGRESS_STATUSES }
-  validates :application_type, :application_number, :reference, presence: true
+  validates :application_number, :reference, presence: true
   validates :payment_amount,
             :invalid_payment_amount,
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1_000_000 },
@@ -565,6 +564,8 @@ class PlanningApplication < ApplicationRecord
     updated_address_or_boundary_geojson || changed_constraints.present?
   end
 
+  delegate :name, to: :application_type, prefix: true
+
   private
 
   def set_reference
@@ -705,7 +706,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def application_type_code
-    I18n.t(work_status, scope: "application_type_codes.#{application_type}")
+    I18n.t(work_status, scope: "application_type_codes.#{application_type&.name}")
   end
 
   def public_url

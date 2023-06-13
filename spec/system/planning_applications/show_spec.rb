@@ -31,11 +31,13 @@ RSpec.describe "Planning Application show page" do
     ].to_json
   end
 
+  let(:application_type) { create(:application_type) }
+
   let!(:planning_application) do
     create(
       :planning_application,
       description: "Roof extension",
-      application_type: "lawfulness_certificate",
+      application_type:,
       status: :in_assessment,
       validated_at:,
       local_authority: default_local_authority,

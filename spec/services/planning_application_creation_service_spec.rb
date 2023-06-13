@@ -5,6 +5,8 @@ require "rails_helper"
 RSpec.describe PlanningApplicationCreationService, type: :service do
   describe "#call" do
     let(:api_user) { create(:api_user) }
+    let!(:application_type) { create(:application_type, name: "prior_approval") }
+    let!(:application_type1) { create(:application_type, name: "lawfulness_certificate") }
 
     before do
       stub_request(:get, "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf")
@@ -119,7 +121,7 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
 
             expect(planning_application.reference).not_to eq(cloned_planning_application.reference)
 
-            expect(cloned_planning_application.application_type).to eq("prior_approval")
+            expect(cloned_planning_application.application_type.name).to eq("prior_approval")
           end
         end
 

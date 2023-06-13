@@ -21,11 +21,11 @@ class PlanningApplicationPresenter
   end
 
   def application_type_name
-    I18n.t("application_types.#{application_type}")
+    I18n.t("application_types.#{application_type.name}")
   end
 
   def application_type_abbreviation
-    I18n.t("application_types.#{application_type}_abbr", default: application_type_name)
+    I18n.t("application_types.#{application_type.name}_abbr", default: application_type_name)
   end
 
   def application_type_with_status

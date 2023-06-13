@@ -351,8 +351,9 @@ RSpec.describe PlanningApplication do
 
   describe "#reference_in_full" do
     let(:local_authority) { create(:local_authority, :southwark) }
-    let(:planning_application1) { create(:planning_application, application_type: 0, local_authority:, work_status: "proposed") }
-    let(:planning_application2) { create(:planning_application, application_type: 0, local_authority:, work_status: "existing") }
+    let(:application_type) { create(:application_type) }
+    let(:planning_application1) { create(:planning_application, application_type:, local_authority:, work_status: "proposed") }
+    let(:planning_application2) { create(:planning_application, application_type:, local_authority:, work_status: "existing") }
 
     before do
       travel_to Time.zone.local(2022, 10, 10)
