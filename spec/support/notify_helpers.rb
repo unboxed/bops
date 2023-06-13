@@ -32,7 +32,7 @@ module NotifyHelper
       )
   end
 
-  def stub_send_letter(neighbour:, message:, status:)
+  def stub_send_letter(message:, status:)
     body = { status_code: status }
     body[:errors] = [{ error: "Exception", message: "Internal server error" }] if status >= 400
 
@@ -41,7 +41,7 @@ module NotifyHelper
       body = JSON.parse(request.body, symbolize_names: true)
       body[:template_id] == "7a7c541e-be0a-490b-8165-8e44dc9d13ad" &&
         body[:personalisation][:message] == message &&
-        body[:personalisation][:name] == neighbour.name
+        body[:personalisation][:address_line_1] == "The Occupier"
     end
       .to_return(
         status:,

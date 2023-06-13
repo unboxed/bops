@@ -90,7 +90,7 @@ RSpec.describe "Send letters to neighbours", js: true do
 
     visit current_path
 
-    stub_send_letter(neighbour:, message: "hello world", status: 200)
+    stub_send_letter(message: "hello world", status: 200)
     stub_get_notify_status(notify_id: neighbour_letter.notify_id)
 
     click_link "Send letters to neighbours"

@@ -19,7 +19,7 @@ class LetterSendingService
     letter_record = NeighbourLetter.new(neighbour:, text: message)
     letter_record.save!
 
-    personalisation = { name: neighbour.name, message: }
+    personalisation = { message:, heading: neighbour.consultation.planning_application.reference }
     personalisation.merge! address
 
     begin
@@ -56,8 +56,9 @@ class LetterSendingService
   def address
     # split on commas unless preceded by digits (i.e. house numbers)
     address_lines = neighbour.address.split(/(?<!\d), */).compact
+    address_lines.insert(0, "The Occupier")
     address_lines.each_with_index.to_h do |line, i|
-      ["address_line_#{i}", line]
+      ["address_line_#{i + 1}", line]
     end
   end
 end
