@@ -128,9 +128,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_02_193939) do
   create_table "constraints", force: :cascade do |t|
     t.string "name", null: false
     t.string "category", null: false
+    t.bigint "local_authority_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "local_authority_id"
     t.index ["local_authority_id", "name"], name: "ix_constraints_on_local_authority_id__name", unique: true
     t.index ["local_authority_id"], name: "ix_constraints_on_local_authority_id"
   end
