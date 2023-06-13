@@ -29,7 +29,6 @@ class LetterSendingService
       )
     rescue Notifications::Client::RequestError
       letter_record.update(status: "rejected")
-      update_audit("rejected")
       return
     end
 
@@ -38,7 +37,6 @@ class LetterSendingService
     letter_record.notify_id = response.id
     letter_record.status = "accepted"
     letter_record.save!
-    update_audit("sent")
   end
 
   private
@@ -61,13 +59,5 @@ class LetterSendingService
     address_lines.each_with_index.to_h do |line, i|
       ["address_line_#{i}", line]
     end
-  end
-
-  def update_audit(status)
-    Audit.create!(
-      planning_application_id: @neighbour.consultation.planning_application.id,
-      user: Current.user,
-      activity_type: "neighbour_letters_#{status}"
-    )
   end
 end

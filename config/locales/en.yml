@@ -318,7 +318,6 @@ en:
       document_invalidated: "%{args} was marked as invalid"
       document_received_at_changed: "%{args} received at date was modified"
       invalidated: Application invalidated
-      neighbour_letters_rejected: Neighbour letters rejected
       neighbour_letters_sent: Neighbour letters sent
       other_change_validation_request_added: 'Added: validation request (other validation#&{args})'
       other_change_validation_request_cancelled: 'Cancelled: validation request (other change from applicant#%{args})'
