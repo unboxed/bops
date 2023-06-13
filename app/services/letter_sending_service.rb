@@ -3,7 +3,7 @@
 require "notifications/client"
 
 class LetterSendingService
-  DEFAULT_NOTIFY_TEMPLATE_ID = "701e32b3-2c8c-4c16-9a1b-c883ef6aedee"
+  DEFAULT_NOTIFY_TEMPLATE_ID = "7a7c541e-be0a-490b-8165-8e44dc9d13ad"
 
   attr_reader :neighbour, :message
 
