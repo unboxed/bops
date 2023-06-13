@@ -39,7 +39,7 @@ module NotifyHelper
     stub_request(:post, LETTER_URL)
       .with do |request|
       body = JSON.parse(request.body, symbolize_names: true)
-      body[:template_id] == "701e32b3-2c8c-4c16-9a1b-c883ef6aedee" &&
+      body[:template_id] == "7a7c541e-be0a-490b-8165-8e44dc9d13ad" &&
         body[:personalisation][:message] == message &&
         body[:personalisation][:name] == neighbour.name
     end
