@@ -310,14 +310,6 @@ class PlanningApplicationsController < AuthenticationController
     )
   end
 
-  def payment_amount_params
-    if params[:planning_application]
-      params.require(:planning_application).permit(:payment_amount)
-    else
-      params.permit(:payment_amount)
-    end
-  end
-
   def redirect_failed_withdraw_recommendation
     redirect_to view_recommendation_planning_application_path(@planning_application),
                 alert: "Error withdrawing recommendation - please contact support."
