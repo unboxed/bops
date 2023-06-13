@@ -671,6 +671,9 @@ en:
       validate_application: Validate application
     create:
       success: Planning application was successfully created.
+    days_from:
+      one: 1 day received
+      other: "%{count} days received"
     days_left:
       one: 1 day remaining
       other: "%{count} days remaining"

@@ -8,7 +8,7 @@ Feature: As an assessor I can browse all applications
     And the application expires in 40 days
     Then I press "View all applications"
     Then I press "View my applications"
-    Then the page contains a "orange" tag containing "40 days remaining"
+    Then the page contains a "orange" tag containing "0 days received"
 
   Scenario Outline: I can see a colour-coded expiry date
     Given the time is 10:00 and the planning application is validated

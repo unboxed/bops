@@ -28,7 +28,9 @@ module StatusPresenter
       classes = ["govuk-tag govuk-tag--#{status_date_tag_colour}"]
 
       tag.span class: classes do
-        if expiry_date.past?
+        if not_started?
+          I18n.t("planning_applications.days_from", count: days_from)
+        elsif expiry_date.past?
           I18n.t("planning_applications.overdue", count: days_overdue)
         else
           I18n.t("planning_applications.days_left", count: days_left)
