@@ -9,7 +9,8 @@ class NeighbourLetter < ApplicationRecord
     rejected: "rejected",
     submitted: "submitted",
     accepted: "printing",
-    received: "posted"
+    received: "posted",
+    cancelled: "cancelled"
   }.freeze
 
   def update_status
@@ -25,6 +26,8 @@ class NeighbourLetter < ApplicationRecord
     self.status_updated_at = response.sent_at || response.created_at
     save
   end
+
+  private
 
   def notify_api_key
     neighbour.consultation.planning_application.local_authority.notify_api_key || ENV.fetch("NOTIFY_API_KEY")
