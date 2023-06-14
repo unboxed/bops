@@ -5,11 +5,12 @@ require "notifications/client"
 class LetterSendingService
   DEFAULT_NOTIFY_TEMPLATE_ID = "7a7c541e-be0a-490b-8165-8e44dc9d13ad"
 
-  attr_reader :neighbour, :message
+  attr_reader :neighbour, :message, :consultation
 
   def initialize(neighbour, message)
     @local_authority = neighbour.consultation.planning_application.local_authority
     @neighbour = neighbour
+    @consultation = neighbour.consultation
     @message = message
   end
 
@@ -17,9 +18,13 @@ class LetterSendingService
     return if NeighbourLetter.find_by(neighbour:).present?
 
     letter_record = NeighbourLetter.new(neighbour:, text: message)
-    letter_record.save!
 
-    personalisation = { message:, heading: neighbour.consultation.planning_application.reference }
+    ActiveRecord::Base.transaction do
+      letter_record.save!
+      consultation.update!(end_date: consultation.end_date_from_now)
+    end
+
+    personalisation = { message:, heading: consultation.planning_application.reference }
     personalisation.merge! address
 
     begin
@@ -29,14 +34,11 @@ class LetterSendingService
       )
     rescue Notifications::Client::RequestError => e
       letter_record.update(status: "rejected", failure_reason: e.message)
+      Appsignal.send_error(e)
       return
     end
 
-    letter_record.sent_at = Time.zone.now
-    letter_record.notify_response = response
-    letter_record.notify_id = response.id
-    letter_record.status = "accepted"
-    letter_record.save!
+    update_letter!(letter_record, response)
   end
 
   private
@@ -59,6 +61,17 @@ class LetterSendingService
     address_lines.insert(0, "The Occupier")
     address_lines.each_with_index.to_h do |line, i|
       ["address_line_#{i + 1}", line]
+    end
+  end
+
+  def update_letter!(letter_record, response)
+    letter_record.tap do |record|
+      record.sent_at = Time.zone.now
+      record.notify_response = response
+      record.notify_id = response.id
+      record.status = "accepted"
+
+      record.save!
     end
   end
 end
