@@ -671,6 +671,9 @@ en:
       validate_application: Validate application
     create:
       success: Planning application was successfully created.
+    days_from:
+      one: 1 day received
+      other: "%{count} days received"
     days_left:
       one: 1 day remaining
       other: "%{count} days remaining"
@@ -697,6 +700,7 @@ en:
       application_type_with_status: Application type
       awaiting_determination: Awaiting determination
       closed: Closed
+      days_status_tag: Days
       description: Description
       formatted_awaiting_determination_at: Recommendation date
       formatted_expiry_date: Expiry date
@@ -706,7 +710,6 @@ en:
       not_started_and_invalid: Not started
       outcome: Outcome
       reference: Application number
-      remaining_days_status_tag: Days left to expiry
       status_tag: Status
       to_be_reviewed: Corrections requested
       under_assessment: In assessment

@@ -1,7 +1,7 @@
 Feature: Editing documents for an application
   Background:
     Given I am logged in as an assessor
-    And a new planning application
+    And a validated planning application
     And the planning application has a document with reference "FOOBAR"
     And I view the planning application
     And I view the document with reference "FOOBAR"

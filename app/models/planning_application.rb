@@ -161,6 +161,10 @@ class PlanningApplication < ApplicationRecord
     update("#{aasm.to_state}_at": Time.zone.now)
   end
 
+  def days_from
+    created_at.to_date.business_days_until(Time.previous_business_day(Date.current))
+  end
+
   def days_left
     Date.current.business_days_until(expiry_date)
   end
