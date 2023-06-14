@@ -27,8 +27,8 @@ class LetterSendingService
         template_id: notify_template_id,
         personalisation:
       )
-    rescue Notifications::Client::RequestError
-      letter_record.update(status: "rejected")
+    rescue Notifications::Client::RequestError => e
+      letter_record.update(status: "rejected", failure_reason: e.message)
       return
     end
 
