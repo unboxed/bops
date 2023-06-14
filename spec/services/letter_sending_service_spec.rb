@@ -29,6 +29,7 @@ RSpec.describe LetterSendingService do
         expect(letter.id).not_to be_nil
         expect(letter.status).not_to be_nil
         expect(neighbour.consultation.end_date).to eq(DateTime.new(2023, 1, 27, 9))
+        expect(neighbour.consultation.start_date).to eq(DateTime.new(2023, 1, 6, 9))
       end
     end
 
