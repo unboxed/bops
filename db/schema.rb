@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_09_140723) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_14_101710) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -148,8 +148,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_09_140723) do
     t.bigint "planning_application_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status", default: "not_started", null: false
     t.string "neighbour_letter_text"
+    t.string "status", default: "not_started", null: false
     t.index ["planning_application_id"], name: "ix_consultations_on_planning_application_id"
   end
 
@@ -263,6 +263,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_09_140723) do
     t.string "notify_id"
     t.string "status"
     t.string "status_updated_at"
+    t.string "failure_reason"
     t.index ["neighbour_id"], name: "ix_neighbour_letters_on_neighbour_id"
   end
 
