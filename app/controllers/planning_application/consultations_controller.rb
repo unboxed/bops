@@ -62,6 +62,12 @@ class PlanningApplication
         LetterSendingService.new(neighbour, @consultation.neighbour_letter_text).deliver!
       end
 
+      Audit.create!(
+        planning_application_id: @consultation.planning_application.id,
+        user: Current.user,
+        activity_type: "neighbour_letters_sent"
+      )
+
       respond_to do |format|
         format.html do
           redirect_to planning_application_consultation_path(@planning_application, @consultation),
