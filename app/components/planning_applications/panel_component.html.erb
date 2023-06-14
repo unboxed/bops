@@ -11,7 +11,7 @@
   <% if search&.call && planning_applications.empty? %>
     <p class="govuk-body"><%= t(".no_planning_applications") %></p>
   <% else %>
-    <table class="govuk-table">
+    <table class="govuk-table planning-applications-table">
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
           <% attributes.each do |attribute| %>

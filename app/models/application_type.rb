@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class ApplicationType < ApplicationRecord
+  NAME_ORDER = %w[prior_approval lawfulness_certificate].freeze
+
+  default_scope { in_order_of(:name, NAME_ORDER).order(:name) }
+
   has_many :planning_applications, dependent: :restrict_with_exception
 
   validates :name, presence: true
