@@ -550,6 +550,22 @@ en:
       edit: Edit
       local_authority: Council information
       reviewer_group_email: Manager group email
+  neighbour_letter_template: |-
+    Application received: %{received_at}
+
+    Application expiry: %{expiry_date}
+
+    Site address
+    %{address}
+
+    Proposal of work
+    %{description}
+
+    If you wish to comment on the application view the plans and documents here
+
+    Application number: %{reference}
+
+    Consultation closing date: %{closing_date}
   other_change_validation_requests:
     create:
       success: Other validation change request successfully created.

@@ -59,7 +59,7 @@ class PlanningApplication
       return if @consultation.blank?
 
       @consultation.neighbours.reject(&:letter_created?).each do |neighbour|
-        LetterSendingService.new(neighbour, @consultation.neighbour_letter_text).deliver!
+        LetterSendingService.new(neighbour).deliver!
       end
 
       Audit.create!(

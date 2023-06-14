@@ -20,4 +20,8 @@ class Consultation < ApplicationRecord
     # Royal Mail delivers from Monday to Saturday, excluding bank holidays.
     1.business_day.from_now + 21.days
   end
+
+  def neighbour_letter_text
+    I18n.t("neighbour_letter_template")
+  end
 end

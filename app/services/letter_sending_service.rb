@@ -5,13 +5,12 @@ require "notifications/client"
 class LetterSendingService
   DEFAULT_NOTIFY_TEMPLATE_ID = "7a7c541e-be0a-490b-8165-8e44dc9d13ad"
 
-  attr_reader :neighbour, :message, :consultation
+  attr_reader :neighbour, :consultation
 
-  def initialize(neighbour, message)
+  def initialize(neighbour)
     @local_authority = neighbour.consultation.planning_application.local_authority
     @neighbour = neighbour
     @consultation = neighbour.consultation
-    @message = message
   end
 
   def deliver! # rubocop:disable Metrics/AbcSize
@@ -24,7 +23,7 @@ class LetterSendingService
       consultation.update!(end_date: consultation.end_date_from_now, start_date: 1.business_day.from_now)
     end
 
-    personalisation = { message:, heading: consultation.planning_application.reference }
+    personalisation = { message:, heading: "Public consultation" }
     personalisation.merge! address
 
     begin
@@ -73,5 +72,17 @@ class LetterSendingService
 
       record.save!
     end
+  end
+
+  def message
+    planning_application = @neighbour.consultation.planning_application
+
+    I18n.t("neighbour_letter_template",
+           received_at: planning_application.received_at.to_fs(:day_month_year_slashes),
+           expiry_date: planning_application.expiry_date.to_fs(:day_month_year_slashes),
+           address: planning_application.full_address,
+           description: planning_application.description,
+           reference: planning_application.reference,
+           closing_date: planning_application.received_at.to_fs(:day_month_year_slashes))
   end
 end

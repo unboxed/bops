@@ -17,8 +17,8 @@ RSpec.describe LetterSendingService do
       end
 
       it "makes a request and records it in the model" do
-        notify_request = stub_send_letter(message: "hello world", status: 200)
-        letter_sender.new(neighbour, "hello world").deliver!
+        notify_request = stub_send_letter(status: 200)
+        letter_sender.new(neighbour).deliver!
 
         expect(notify_request).to have_been_requested
 
@@ -30,6 +30,7 @@ RSpec.describe LetterSendingService do
         expect(letter.status).not_to be_nil
         expect(neighbour.consultation.end_date).to eq(DateTime.new(2023, 1, 27, 9))
         expect(neighbour.consultation.start_date).to eq(DateTime.new(2023, 1, 6, 9))
+        expect(letter.text).to include("Application received: #{neighbour.consultation.planning_application.received_at.to_fs(:day_month_year_slashes)}")
       end
     end
 
@@ -39,8 +40,8 @@ RSpec.describe LetterSendingService do
       it "makes a request but does not record a sending date" do
         expect(Appsignal).to receive(:send_error)
 
-        notify_request = stub_send_letter(message: "hello world", status:)
-        letter_sender.new(neighbour, "hello world").deliver!
+        notify_request = stub_send_letter(status:)
+        letter_sender.new(neighbour).deliver!
 
         expect(notify_request).to have_been_requested
 
