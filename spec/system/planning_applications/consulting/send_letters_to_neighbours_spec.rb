@@ -90,7 +90,7 @@ RSpec.describe "Send letters to neighbours", js: true do
 
     visit current_path
 
-    stub_send_letter(message: "hello world", status: 200)
+    stub_send_letter(status: 200)
     stub_get_notify_status(notify_id: neighbour_letter.notify_id)
 
     click_link "Send letters to neighbours"
@@ -101,6 +101,9 @@ RSpec.describe "Send letters to neighbours", js: true do
     page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
     expect(page).to have_content("60-62 Commercial Street")
+
+    expect(page).to have_content("Public consultation")
+    expect(page).to have_content("Application received: #{planning_application.received_at.to_fs(:day_month_year_slashes)}")
 
     fill_in "Add neighbours by address", with: "60-61 Commercial Road"
     page.find(:xpath, "//input[@value='Add neighbour']").click.click

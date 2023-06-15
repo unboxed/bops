@@ -1,0 +1,19 @@
+<h3 class="govuk-heading-s govuk-!-margin-top-8">
+  Neighbour letter preview
+</h3>
+
+<div class="neighbour-letter-template">
+  <h2>Public consultation</h2>
+  <%= 
+    simple_format(
+        t("neighbour_letter_template", 
+        received_at: @planning_application.received_at.to_formatted_s(:day_month_year_slashes), 
+        expiry_date: @planning_application.expiry_date.to_formatted_s(:day_month_year_slashes),
+        address: @planning_application.full_address,
+        description: @planning_application.description,
+        reference: @planning_application.reference,
+        closing_date: @consultation.end_date_from_now.to_formatted_s(:day_month_year_slashes)
+      )
+    )
+  %>
+</div>
