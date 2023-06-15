@@ -550,22 +550,7 @@ en:
       edit: Edit
       local_authority: Council information
       reviewer_group_email: Manager group email
-  neighbour_letter_template: |-
-    Application received: %{received_at}
-
-    Application expiry: %{expiry_date}
-
-    Site address
-    %{address}
-
-    Proposal of work
-    %{description}
-
-    If you wish to comment on the application view the plans and documents here
-
-    Application number: %{reference}
-
-    Consultation closing date: %{closing_date}
+  neighbour_letter_template: "We are writing to notify you that we have received a prior approval application for a larger extension at the address:\n%{address}\n\nProposal of work\n%{description}\n\nApplication received: %{received_at}\n\nApplication expiry: %{expiry_date}\n\nApplication number: %{reference}\n\nTo view more details about this application or to make a comment, \nsearch for it on the council's planning register using the application number %{reference}\n\nYou can comment on this application until %{closing_date}"
   other_change_validation_requests:
     create:
       success: Other validation change request successfully created.
