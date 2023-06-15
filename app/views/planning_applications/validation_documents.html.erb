@@ -21,11 +21,12 @@
           message: "One or more documents that the applicant submitted are not available due to a security issue. Ask the applicant or agent for replacements." %>
     <% end %>
 
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-    <p class="govuk-body">
-      <%= link_to "Add a request for a missing document",
-        new_planning_application_additional_document_validation_request_path(@planning_application), class: "govuk-link govuk-body-l" %>
-    </p>
+    <% if @planning_application.local_authority.document_checklist? %>
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+      <a href="<%= t("council_documents.#{@planning_application.local_authority.subdomain}.document_checklist")%>" target="_blank" class="govuk-link govuk-body-m">
+        Checklist for <%= @planning_application.application_type.name.humanize.downcase %> (opens in a new tab)
+      </a>
+    <% end %>
 
     <% if @additional_document_validation_requests.any? %>
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
@@ -39,6 +40,12 @@
     <% if @documents.any? %>
       <%= render "documents/active_documents_table", documents: @documents.with_file_attachment %>
     <% end %>
+
+    <p class="govuk-!-margin-bottom-6 govuk-!-margin-top-0">
+      <%= link_to "Add a request for a missing document",
+        new_planning_application_additional_document_validation_request_path(@planning_application), class: "govuk-link govuk-body-m" %>
+    </p>
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
     <%= form_with model: @planning_application, url: validate_documents_planning_application_path(@planning_application), builder: GOVUKDesignSystemFormBuilder::FormBuilder, local: true do |form| %>
       <%= form.hidden_field :documents_missing, value: @additional_document_validation_requests.any? %>
