@@ -5,6 +5,7 @@ class Consultation < ApplicationRecord
   has_many :consultees, dependent: :destroy
   has_many :neighbours, dependent: :destroy
   has_many :neighbour_letters, through: :neighbours
+  has_many :neighbour_responses, through: :neighbours
 
   accepts_nested_attributes_for :consultees, :neighbours
 

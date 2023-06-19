@@ -269,8 +269,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_19_170149) do
     t.index ["neighbour_id"], name: "ix_neighbour_letters_on_neighbour_id"
   end
 
-  create_table "neighbours", force: :cascade do |t|
+  create_table "neighbour_responses", force: :cascade do |t|
+    t.bigint "neighbour_id"
     t.string "name"
+    t.string "response"
+    t.string "email"
+    t.datetime "received_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["neighbour_id"], name: "ix_neighbour_responses_on_neighbour_id"
+  end
+
+  create_table "neighbours", force: :cascade do |t|
     t.string "address"
     t.bigint "consultation_id"
     t.datetime "created_at", null: false

@@ -156,6 +156,7 @@ Rails.application.routes.draw do
 
       resources :consultations, only: %i[new create edit update show destroy] do
         post :send_neighbour_letters
+        resources :neighbour_responses, only: %i[index new create]
       end
 
       resource :withdraw_or_cancel, only: %i[show update]
