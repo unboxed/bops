@@ -115,4 +115,16 @@ class PlanningApplicationMailer < ApplicationMailer
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
   end
+
+  def neighbour_consultation_letter_copy_mail(planning_application, email)
+    @planning_application = planning_application
+    @consultation = planning_application.consultation
+
+    view_mail(
+      NOTIFY_TEMPLATE_ID,
+      subject: subject(:neighbour_consultation_letter_copy_mail),
+      to: email,
+      reply_to_id: @planning_application.local_authority.reply_to_notify_id
+    )
+  end
 end

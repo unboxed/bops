@@ -14,6 +14,8 @@ class Consultation < ApplicationRecord
     complete: "complete"
   }
 
+  before_update :audit_letter_copy_sent!, if: :letter_copy_sent_at_changed?
+
   def end_date_from_now
     # Letters are printed at 5:30pm and dispatched the next working day (Monday to Friday)
     # Second class letters are delivered 2 days after they’re dispatched.
@@ -23,5 +25,27 @@ class Consultation < ApplicationRecord
 
   def neighbour_letter_text
     I18n.t("neighbour_letter_template")
+  end
+
+  def neighbour_letter_content
+    I18n.t("neighbour_letter_template",
+           received_at: planning_application.received_at.to_fs(:day_month_year_slashes),
+           expiry_date: planning_application.expiry_date.to_fs(:day_month_year_slashes),
+           address: planning_application.full_address,
+           description: planning_application.description,
+           reference: planning_application.reference,
+           closing_date: planning_application.received_at.to_fs(:day_month_year_slashes))
+  end
+
+  private
+
+  def audit_letter_copy_sent!
+    Audit.create!(
+      planning_application_id:,
+      user: Current.user,
+      activity_type: "neighbour_letter_copy_mail_sent",
+      audit_comment:
+        "Neighbour letter copy sent by email to #{planning_application.applicant_and_agent_email.join(', ')}"
+    )
   end
 end

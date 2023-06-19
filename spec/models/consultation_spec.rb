@@ -11,6 +11,42 @@ RSpec.describe Consultation do
     end
   end
 
+  describe "callbacks" do
+    describe "::after_update #audit_letter_copy_sent!" do
+      let!(:planning_application) do
+        create(:planning_application, :not_started, agent_email: "agent@example.com", applicant_email: "applicant@example.com")
+      end
+      let!(:consultation) do
+        create(:consultation, planning_application:)
+      end
+
+      context "when the letter copy sent at is updated" do
+        before { Current.user = planning_application.user }
+
+        it "creates an audit record" do
+          expect do
+            consultation.update(letter_copy_sent_at: Time.zone.now)
+          end.to change(Audit, :count).by(1)
+
+          expect(Audit.last).to have_attributes(
+            planning_application_id: planning_application.id,
+            activity_type: "neighbour_letter_copy_mail_sent",
+            audit_comment: "Neighbour letter copy sent by email to agent@example.com, applicant@example.com",
+            user: planning_application.user
+          )
+        end
+      end
+
+      context "when the letter copy sent at is not updated" do
+        it "does not create an audit record" do
+          expect do
+            consultation.update(end_date: Time.zone.now)
+          end.not_to change(Audit, :count)
+        end
+      end
+    end
+  end
+
   describe "#end_date_from_now" do
     let(:consultation) { create(:consultation) }
 

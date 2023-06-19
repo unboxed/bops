@@ -1,0 +1,21 @@
+<div class="govuk-inset-text">
+  <p class="govuk-body">A copy of the letter will also be sent by email to the applicant.</p>
+</div>
+
+<div class="govuk-button-group govuk-!-margin-top-5">
+  <%= form_with model: [planning_application, consultation], 
+    url: planning_application_consultation_send_neighbour_letters_path(planning_application: planning_application, consultation_id: consultation.id), 
+    method: 'post' do |form| %>
+      <%= form.submit "Print and send letters", class: "govuk-button govuk-button--primary", style: "margin-inline-end: 2rem;" %>
+    <% end %>
+
+    <%= form_with(
+      model: [planning_application, consultation],
+      builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+      class: "govuk-!-margin-top-5"
+    ) do |form| %>
+    <%= form.hidden_field :consultation_id %>
+    <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
+    <%= link_to "Back", planning_application_path(planning_application), class: "govuk-button govuk-button--secondary" %>
+  <% end %>
+</div>
