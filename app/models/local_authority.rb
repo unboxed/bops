@@ -34,6 +34,10 @@ class LocalAuthority < ApplicationRecord
     plan_x? ? council_code : subdomain.capitalize
   end
 
+  def document_checklist?
+    I18n.exists?("council_documents.#{subdomain}.document_checklist")
+  end
+
   private
 
   def council_code_exists
