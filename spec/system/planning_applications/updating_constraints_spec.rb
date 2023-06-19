@@ -8,8 +8,14 @@ RSpec.describe "updating constraints" do
   let(:planning_application) do
     create(
       :planning_application,
-      local_authority:,
-      old_constraints: []
+      local_authority:
+    )
+  end
+
+  let!(:constraint) do
+    create(
+      :constraint,
+      name: "Conservation Area"
     )
   end
 
@@ -22,6 +28,7 @@ RSpec.describe "updating constraints" do
     visit(planning_application_assessment_tasks_path(planning_application))
     click_button("Constraints")
     click_link("Update constraints")
+
     check("Conservation Area")
     click_button("Save")
 
@@ -38,8 +45,13 @@ RSpec.describe "updating constraints" do
 
     click_link("Application")
     click_button("Audit log")
+    click_link("View all audits")
 
-    expect(page).to have_content("Constraint added")
+    within("#audit_#{Audit.last.id}") do
+      expect(page).to have_content("Conservation Area")
+      expect(page).to have_content("Constraint added")
+      expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+    end
 
     visit(planning_application_assessment_tasks_path(planning_application))
     click_link("Check description, documents and proposal details")

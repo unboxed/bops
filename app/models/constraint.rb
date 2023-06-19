@@ -18,4 +18,12 @@ class Constraint < ApplicationRecord
   }
 
   has_many :planning_application_constraints, dependent: :destroy
+
+  scope :options_for_local_authority, ->(local_authority_id) { where(local_authority_id: [local_authority_id, nil]) }
+
+  class << self
+    def grouped_by_category(local_authority_id)
+      options_for_local_authority(local_authority_id).group_by(&:category)
+    end
+  end
 end

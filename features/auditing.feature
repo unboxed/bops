@@ -37,18 +37,6 @@ Feature: Auditing a planning application
     Then there is an audit entry containing "Application returned"
     And there is an audit entry containing "Applicant sent selfies instead of floor plans"
 
-  Scenario: Updating constraints displays all updates in the audit log
-    When I press "Check and validate"
-    And I press "Check constraints"
-    And I press "Update constraints"
-    And I check "National Park"
-    And I check "Broads"
-    And I uncheck "Conservation Area"
-    And I press "Save"
-    Then there is an audit entry containing "Constraint added National Park"
-    And there is an audit entry containing "Constraint added Broads"
-    And there is an audit entry containing "Constraint removed Conservation Area"
-
   Scenario: I can view an entry in the audit log showing application updates
     Given I press "Check and validate"
     And I press "Application information"

@@ -3,17 +3,39 @@
 class ConstraintsController < AuthenticationController
   before_action :set_planning_application
   before_action :ensure_constraint_edits_unlocked, only: %i[edit update]
+  before_action :set_planning_application_constraints, only: %i[update]
+  before_action :set_removed_constraints, only: %i[update]
 
   def show; end
 
-  def edit; end
+  def edit
+    @constraints = @planning_application.constraints
+    planning_application_constraints = @planning_application.planning_application_constraints.includes(:constraint)
+    @constraint_ids = planning_application_constraints.pluck(:constraint_id)
+  end
 
-  def update
-    if @planning_application.update(old_constraints: constraints_params[:old_constraints].compact_blank)
-      redirect_to(after_update_path, notice: t(".success"))
-    else
-      render :edit
+  def update # rubocop:disable Metrics/AbcSize
+    ActiveRecord::Base.transaction do
+      if local_constraint.present?
+        @planning_application.constraints.find_or_create_by!(
+          name: local_constraint.titleize,
+          category: "local",
+          local_authority_id: @planning_application.local_authority_id
+        )
+      end
+
+      constraint_ids.each do |constraint_id|
+        @planning_application_constraints.find_or_create_by!(constraint_id:)
+      end
+
+      @planning_application.update!(updated_address_or_boundary_geojson: true)
+      @removed_constraints.destroy_all if @removed_constraints.any?
     end
+
+    redirect_to(after_update_path, notice: t(".success"))
+  rescue ActiveRecord::ActiveRecordError => e
+    redirect_to planning_application_constraints_path(@planning_application),
+                alert: "Couldn't update constraints with error: #{e.message}. Please contact support."
   end
 
   def check
@@ -40,11 +62,26 @@ class ConstraintsController < AuthenticationController
     params.dig(:planning_application, :return_to) || @planning_application
   end
 
-  def constraints_params
-    params.require(:planning_application).permit(old_constraints: [])
+  def local_constraint
+    params.dig(:planning_application, :name)
+  end
+
+  def constraint_ids
+    ids = params[:constraint_ids]
+
+    ids ? ids.map(&:to_i) : []
   end
 
   def ensure_constraint_edits_unlocked
     render plain: "forbidden", status: :forbidden and return unless @planning_application.can_validate?
+  end
+
+  def set_planning_application_constraints
+    @planning_application_constraints = @planning_application.planning_application_constraints
+  end
+
+  def set_removed_constraints
+    removed_constraint_ids = @planning_application_constraints.pluck(:constraint_id).difference(constraint_ids)
+    @removed_constraints = @planning_application_constraints.where(constraint_id: removed_constraint_ids)
   end
 end
