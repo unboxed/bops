@@ -722,4 +722,63 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(mail.body.encoded).to include(planning_application.applicant_last_name)
     end
   end
+
+  describe "#neighbour_consultation_letter_copy_mail" do
+    let!(:consultation) do
+      travel_to("2022-01-01") { create(:consultation, planning_application:) }
+    end
+
+    let(:neighbour_consultation_letter_copy_mail) do
+      described_class.neighbour_consultation_letter_copy_mail(planning_application, planning_application.agent_email)
+    end
+
+    let(:mail_body) { neighbour_consultation_letter_copy_mail.body.encoded }
+
+    it "sets the subject" do
+      expect(neighbour_consultation_letter_copy_mail.subject).to eq(
+        "Neighbour consultation letter copy"
+      )
+    end
+
+    it "sets the recipient" do
+      expect(neighbour_consultation_letter_copy_mail.to).to contain_exactly(
+        "cookie_crackers@example.com"
+      )
+    end
+
+    it "includes the reference" do
+      expect(mail_body).to include(
+        "Application reference number: PlanX-22-00100-LDCP"
+      )
+    end
+
+    it "includes the address" do
+      expect(mail_body).to include(
+        "At: 123 High Street, Big City, AB3 4EF"
+      )
+    end
+
+    it "includes the main text body" do
+      expect(mail_body).to include(
+        "This is a copy of your neighbour consultation letter."
+      )
+      expect(mail_body).to include(
+        "We are writing to notify you that we have received a prior approval application for a larger extension at the address:"
+      )
+      expect(mail_body).to include(
+        "To view more details about this application or to make a comment"
+      )
+      expect(mail_body).to include(
+        "search for it on the council's planning register using the application number 22-00100-LDCP"
+      )
+      expect(mail_body).to include(
+        "You can comment on this application until 03/05/2022"
+      )
+    end
+
+    it "includes the name of the agent in the body if agent is present" do
+      expect(neighbour_consultation_letter_copy_mail.body.encoded).to include(planning_application.agent_first_name)
+      expect(neighbour_consultation_letter_copy_mail.body.encoded).to include(planning_application.agent_last_name)
+    end
+  end
 end

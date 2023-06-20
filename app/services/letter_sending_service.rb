@@ -75,14 +75,6 @@ class LetterSendingService
   end
 
   def message
-    planning_application = @neighbour.consultation.planning_application
-
-    I18n.t("neighbour_letter_template",
-           received_at: planning_application.received_at.to_fs(:day_month_year_slashes),
-           expiry_date: planning_application.expiry_date.to_fs(:day_month_year_slashes),
-           address: planning_application.full_address,
-           description: planning_application.description,
-           reference: planning_application.reference,
-           closing_date: planning_application.received_at.to_fs(:day_month_year_slashes))
+    consultation.neighbour_letter_content
   end
 end

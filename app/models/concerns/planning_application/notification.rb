@@ -50,6 +50,16 @@ class PlanningApplication
       send_update_notification(reviewer_group_email)
     end
 
+    def send_neighbour_consultation_letter_copy_mail
+      downcase_and_unique(applicant_and_agent_email).each do |email|
+        PlanningApplicationMailer
+          .neighbour_consultation_letter_copy_mail(self, email)
+          .deliver_later
+      end
+
+      consultation.update!(letter_copy_sent_at: Time.current)
+    end
+
     private
 
     def send_update_notification(to)

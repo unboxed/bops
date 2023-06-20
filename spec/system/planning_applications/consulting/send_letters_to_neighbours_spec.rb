@@ -8,7 +8,7 @@ RSpec.describe "Send letters to neighbours", js: true do
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create(:planning_application, local_authority: default_local_authority, api_user:)
+    create(:planning_application, local_authority: default_local_authority, api_user:, agent_email: "agent@example.com", applicant_email: "applicant@example.com")
   end
 
   before do
@@ -83,33 +83,62 @@ RSpec.describe "Send letters to neighbours", js: true do
     expect(page).not_to have_content("60-62 Commercial Street")
   end
 
-  it "allows me to send letters" do
-    consultation = create(:consultation, planning_application:)
-    neighbour = create(:neighbour, consultation:)
-    neighbour_letter = create(:neighbour_letter, neighbour:, status: "submitted", notify_id: "123")
+  context "when sending letters" do
+    before do
+      travel_to(Time.zone.local(2023, 9, 1, 10))
+      sign_in assessor
+      visit planning_application_path(planning_application)
 
-    visit current_path
+      consultation = create(:consultation, planning_application:)
+      neighbour = create(:neighbour, consultation:)
+      neighbour_letter = create(:neighbour_letter, neighbour:, status: "submitted", notify_id: "123")
 
-    stub_send_letter(status: 200)
-    stub_get_notify_status(notify_id: neighbour_letter.notify_id)
+      stub_send_letter(status: 200)
+      stub_get_notify_status(notify_id: neighbour_letter.notify_id)
+    end
 
-    click_link "Send letters to neighbours"
+    it "successfully sends letters to the neighbours and a copy of the letter to the applicant" do
+      expect(PlanningApplicationMailer).to receive(:neighbour_consultation_letter_copy_mail).with(planning_application, "agent@example.com").and_call_original
+      expect(PlanningApplicationMailer).to receive(:neighbour_consultation_letter_copy_mail).with(planning_application, "applicant@example.com").and_call_original
 
-    fill_in "Add neighbours by address", with: "60-62 Commercial Street"
-    # # Something weird is happening with the javascript, so having to double click for it to register
-    # # This doesn't happen in "real life"
-    page.find(:xpath, "//input[@value='Add neighbour']").click.click
+      sign_in assessor
+      visit planning_application_path(planning_application)
 
-    expect(page).to have_content("60-62 Commercial Street")
+      click_link "Send letters to neighbours"
 
-    expect(page).to have_content("Public consultation")
-    expect(page).to have_content("Application received: #{planning_application.received_at.to_fs(:day_month_year_slashes)}")
+      fill_in "Add neighbours by address", with: "60-62 Commercial Street"
+      # # Something weird is happening with the javascript, so having to double click for it to register
+      # # This doesn't happen in "real life"
+      page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
-    fill_in "Add neighbours by address", with: "60-61 Commercial Road"
-    page.find(:xpath, "//input[@value='Add neighbour']").click.click
+      expect(page).to have_content("60-62 Commercial Street")
 
-    click_button "Print and send letters"
-    expect(page).to have_content("Letters have been sent to neighbours")
+      expect(page).to have_content("Public consultation")
+      expect(page).to have_content("Application received: #{planning_application.received_at.to_fs(:day_month_year_slashes)}")
+
+      fill_in "Add neighbours by address", with: "60-61 Commercial Road"
+      page.find(:xpath, "//input[@value='Add neighbour']").click.click
+
+      expect(page).to have_content("A copy of the letter will also be sent by email to the applicant.")
+      click_button "Print and send letters"
+      expect(page).to have_content("Letters have been sent to neighbours and a copy of the letter has been sent to the applicant.")
+
+      expect(planning_application.consultation.reload.letter_copy_sent_at).to eq(Time.zone.local(2023, 9, 1, 10))
+
+      # View audit log
+      visit planning_application_audits_path(planning_application)
+      within("#audit_#{Audit.last.id}") do
+        expect(page).to have_content("Neighbour letters sent")
+        expect(page).to have_content(assessor.name)
+        expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+      end
+      within("#audit_#{Audit.last(2).first.id}") do
+        expect(page).to have_content("Neighbour consultation letter copy email sent")
+        expect(page).to have_content(assessor.name)
+        expect(page).to have_content("Neighbour letter copy sent by email to agent@example.com, applicant@example.com")
+        expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+      end
+    end
   end
 
   it "shows the status of letters that have been sent" do

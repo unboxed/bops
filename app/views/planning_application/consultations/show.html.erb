@@ -23,7 +23,7 @@
     </div>
     <div class="govuk-notification-banner__content">
       <h3 class="govuk-notification-banner__heading">
-        Letters have been sent to neighbours
+        Letters have been sent to neighbours and a copy of the letter has been sent to the applicant.
       </h3>
       <p class="govuk-body">Contact <a class="govuk-notification-banner__link" href="https://www.notifications.service.gov.uk/support">GOV.UK Notify</a> if you think there’s a problem.</p>
     </div>
@@ -50,21 +50,6 @@
 
     <%= render "letter_template", planning_application: @planning_application, consultation: @consultation %>
 
-    <div class="govuk-button-group govuk-!-margin-top-5">
-      <%= form_with model: [@planning_application, @consultation], url:
-  planning_application_consultation_send_neighbour_letters_path(planning_application: @planning_application, consultation_id: @consultation.id), method: 'post' do |form| %>
-        <%= form.submit "Print and send letters", class: "govuk-button govuk-button--primary", style: "margin-inline-end: 2rem;" %>
-      <% end %>
-
-      <%= form_with(
-          model: [@planning_application, @consultation],
-          builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-          class: "govuk-!-margin-top-5"
-        ) do |form| %>
-        <%= form.hidden_field :consultation_id %>
-        <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
-        <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
-      <% end %>
-    </div>
+    <%= render "form_actions", planning_application: @planning_application, consultation: @consultation %>
   </div>
 </div>

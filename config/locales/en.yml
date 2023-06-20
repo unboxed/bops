@@ -320,6 +320,7 @@ en:
       document_invalidated: "%{args} was marked as invalid"
       document_received_at_changed: "%{args} received at date was modified"
       invalidated: Application invalidated
+      neighbour_letter_copy_mail_sent: Neighbour consultation letter copy email sent
       neighbour_letters_sent: Neighbour letters sent
       other_change_validation_request_added: 'Added: validation request (other validation#%{args})'
       other_change_validation_request_cancelled: 'Cancelled: validation request (other change from applicant#%{args})'
@@ -460,6 +461,7 @@ en:
       description_change_mail: Lawful Development Certificate application - suggested changes
       description_closure_notification_mail: Changes to your Lawful Development Certificate application
       invalidation_notice_mail: Lawful Development Certificate application - changes needed
+      neighbour_consultation_letter_copy_mail: Neighbour consultation letter copy
       otp_mail: Back Office Planning System verification code
       post_validation_request_mail: Lawful Development Certificate application  - changes needed
       receipt_notice_mail: Lawful Development Certificate application received
