@@ -213,11 +213,13 @@ en:
       existing: LDCE
       proposed: LDCP
     prior_approval:
-      proposed: ''
+      existing: PA
+      proposed: PA
   application_types:
     lawfulness_certificate: Lawful Development Certificate
     lawfulness_certificate_abbr: LDC
     prior_approval: Prior approval
+    prior_approval_abbr: PA
   archive_reasons:
     design: Revise design
     dimensions: Revise dimensions
