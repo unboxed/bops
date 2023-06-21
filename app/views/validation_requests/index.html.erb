@@ -7,7 +7,7 @@
 <% end %>
 
 <% content_for :title, post_validation_requests_index? ? "Post-validation requests" : "Validation requests" %>
-<% add_parent_breadcrumb_link "Home", root_path(filter_options: PlanningApplication::FILTER_OPTIONS) %>
+<% add_parent_breadcrumb_link "Home", root_path %>
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
 <% add_parent_breadcrumb_link "Validation tasks", planning_application_validation_tasks_path(@planning_application) unless post_validation_requests_index? %>
 
