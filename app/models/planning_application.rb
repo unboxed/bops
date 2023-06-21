@@ -569,6 +569,19 @@ class PlanningApplication < ApplicationRecord
     updated_address_or_boundary_geojson || changed_constraints.present?
   end
 
+  def rear_wall_length
+    find_proposal_detail("Exactly how far will the new addition extend beyond the back wall of the original house?")
+      &.first&.response_values&.first
+  end
+
+  def max_height_extension
+    find_proposal_detail("What is the exact height of the extension?")&.first&.response_values&.first
+  end
+
+  def eave_height_extension
+    find_proposal_detail("Exactly how high are the eaves of the extension?")&.first&.response_values&.first
+  end
+
   delegate :name, to: :application_type, prefix: true
 
   private
