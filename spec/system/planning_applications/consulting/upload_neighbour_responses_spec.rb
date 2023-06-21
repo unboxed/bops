@@ -93,6 +93,55 @@ RSpec.describe "Upload neighbour responses" do
     expect(page).not_to have_content("123 Street")
   end
 
+  it "allows planning officer to edit neighbour responses" do
+    click_link "Upload neighbour responses"
+
+    expect(page).to have_content("08/07/2023")
+    expect(page).to have_content("No neighbour responses yet")
+
+    fill_in "Name", with: "Sarah Neighbour"
+    fill_in "Email", with: "sarah@email.com"
+    select(neighbour.address.to_s, from: "Select an existing neighbour address")
+    fill_in "Day", with: "21"
+    fill_in "Month", with: "1"
+    fill_in "Year", with: "2023"
+    fill_in "Response", with: "I think this proposal looks great"
+
+    click_button "Save response"
+
+    expect(page).to have_content("Date received: 21/01/2023")
+    expect(page).to have_content("Respondent: Sarah Neighbour")
+    expect(page).to have_content("Email: sarah@email.com")
+    expect(page).to have_content("Address: #{neighbour.address}")
+    expect(page).to have_content("I think this proposal looks great")
+
+    click_link "Edit"
+
+    fill_in "Name", with: "Sara Neighbour"
+    fill_in "Email", with: "sara@email.com"
+    fill_in "Address", with: "124 Made up Street"
+    fill_in "Day", with: "21"
+    fill_in "Month", with: "2"
+    fill_in "Year", with: "2023"
+    fill_in "Redacted response", with: "I think this proposal looks ****"
+
+    click_button "Update response"
+
+    expect(page).to have_content("Date received: 21/02/2023")
+    expect(page).to have_content("Respondent: Sara Neighbour")
+    expect(page).to have_content("Email: sara@email.com")
+    expect(page).to have_content("Address: 124 Made up Street")
+    expect(page).to have_content("I think this proposal looks ****")
+
+    # Check audit log
+    visit planning_application_audits_path(planning_application)
+    within("#audit_#{Audit.last.id}") do
+      expect(page).to have_content("Neighbour response edited")
+      expect(page).to have_content(assessor.name)
+      expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+    end
+  end
+
   it "shows error messages" do
     click_link "Upload neighbour responses"
 

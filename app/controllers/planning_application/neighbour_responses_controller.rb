@@ -4,11 +4,14 @@ class PlanningApplication
   class NeighbourResponsesController < AuthenticationController
     before_action :set_planning_application
     before_action :set_consultation
-    before_action :set_neighbour_responses
+    before_action :set_neighbour_responses, except: %i[edit update]
+    before_action :set_neighbour_response, only: %i[edit update]
 
     def new
       @neighbour_response = @consultation.neighbour_responses.new
     end
+
+    def edit; end
 
     def create
       @neighbour_response = @consultation.neighbour_responses.build(neighbour_response_params.except(:address,
@@ -21,10 +24,28 @@ class PlanningApplication
             redirect_to new_planning_application_consultation_neighbour_response_path(@planning_application,
                                                                                       @consultation)
           end
-          create_audit_log(@neighbour_response)
+          create_audit_log(@neighbour_response, "uploaded")
         end
       else
         render :new
+      end
+    end
+
+    def update
+      if @neighbour_response.update(neighbour_response_params.except(:address))
+        if neighbour_response_params.key?(:address)
+          @neighbour_response.neighbour.update(address: neighbour_response_params[:address])
+        end
+
+        respond_to do |format|
+          format.html do
+            redirect_to new_planning_application_consultation_neighbour_response_path(@planning_application,
+                                                                                      @consultation)
+          end
+          create_audit_log(@neighbour_response, "edited")
+        end
+      else
+        render :edit
       end
     end
 
@@ -52,6 +73,10 @@ class PlanningApplication
       @neighbour_responses = @consultation.neighbour_responses.includes([:neighbour]).select(&:persisted?)
     end
 
+    def set_neighbour_response
+      @neighbour_response = @consultation.neighbour_responses.find(Integer(params[:id]))
+    end
+
     def planning_applications_scope
       current_local_authority.planning_applications
     end
@@ -62,15 +87,16 @@ class PlanningApplication
 
     def neighbour_response_params
       params.require(:neighbour_response).permit(
-        :address, :name, :email, :received_at, :response, :new_address, :summary_tag
+        :address, :name, :email, :received_at, :response, :new_address, :summary_tag, :redacted_response
       )
     end
 
-    def create_audit_log(_neighbour_response)
+    def create_audit_log(_neighbour_response, action)
       Audit.create!(
         planning_application_id:,
         user: Current.user,
-        activity_type: "neighbour_response_uploaded"
+        activity_type: "neighbour_response_#{action}",
+        audit_comment: "Neighbour response from #{@neighbour_response.neighbour.address} was #{action}"
       )
     end
   end

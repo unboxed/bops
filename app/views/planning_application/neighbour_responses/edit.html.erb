@@ -1,0 +1,56 @@
+<% content_for :page_title do %>
+  Edit neighbour response - <%= t('page_title') %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Consultation", planning_application_path(@planning_application) %>
+<% content_for :title, "Edit neighbour response" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Edit neighbour response" }
+) %>
+
+<h2 class="govuk-heading-m govuk-!-margin-top-7">Edit the response</h2>
+<%= form_with(
+  model: [@planning_application, @consultation, @neighbour_response],
+  builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+  class: "govuk-!-margin-top-5",
+  method: :patch
+) do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <% if @neighbour_response.errors.any? %>
+    <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+      <h2 class="govuk-error-summary__title" id="error-summary-title">
+        There is a problem
+      </h2>
+      <div class="govuk-error-summary__body">
+        <ul class="govuk-list govuk-error-summary__list">
+          <% @neighbour_response.errors.full_messages.each do |error| %>
+            <li><%= error %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+  <%= form.govuk_text_field :name %>
+  <%= form.govuk_text_field :email %>
+  <div class="govuk-form-group">
+    <%= form.label :address, class: "govuk-label" %>
+    <%= form.text_field :address, value: form.object.neighbour.address, class: "govuk-input" %>
+  </div>
+  <%= form.govuk_date_field :received_at, legend: { text: "Response received on", size: "s", tag: "p" } %>
+  <%= form.govuk_text_area :response, hint: { text: "This won't be made public" } %>
+  <%= form.govuk_text_area :redacted_response, label: { text: "Redacted response" }, hint: { text: 'This will be made public' } %>
+    <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: { text: 'Is the response', size: 'm' } do %>
+    <%= form.govuk_radio_button :summary_tag, 'supportive', label: { text: 'Supportive' } %>
+    <%= form.govuk_radio_button :summary_tag, 'neutral', label: { text: 'Neutral' } %>
+    <%= form.govuk_radio_button :summary_tag, 'objection', label: { text: 'An objection' } %>
+  <% end %>
+  <%= form.submit(
+    "Update response",
+    class: "govuk-button govuk-button--primary govuk-!-margin-top-5"
+  ) %>
+  <%= link_to "Back", new_planning_application_consultation_neighbour_response_path(@planning_application, @consultation), class: "govuk-button govuk-button--secondary govuk-!-margin-top-5" %>
+<% end %>
