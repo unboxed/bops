@@ -58,6 +58,9 @@ local_authorities.each do |authority|
   end
 end
 
+ApplicationType.create(name: "lawfulness_certificate")
+ApplicationType.create(name: "prior_approval", part: 1, section: "A")
+
 constraints_list = {
   flooding: [
     "Flood zone",
