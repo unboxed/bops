@@ -32,6 +32,7 @@ RSpec.describe "Upload neighbour responses" do
     fill_in "Month", with: "1"
     fill_in "Year", with: "2023"
     fill_in "Response", with: "I think this proposal looks great"
+    choose "Supportive"
 
     click_button "Save response"
 
@@ -42,6 +43,7 @@ RSpec.describe "Upload neighbour responses" do
     expect(page).to have_content("Email: sarah@email.com")
     expect(page).to have_content("Address: #{neighbour.address}")
     expect(page).to have_content("I think this proposal looks great")
+    expect(page).to have_content("Supportive")
 
     # Check audit log
     visit planning_application_audits_path(planning_application)
@@ -65,6 +67,7 @@ RSpec.describe "Upload neighbour responses" do
     fill_in "Month", with: "1"
     fill_in "Year", with: "2023"
     fill_in "Response", with: "I think this proposal looks great"
+    choose "An objection"
 
     click_button "Save response"
 
@@ -75,6 +78,7 @@ RSpec.describe "Upload neighbour responses" do
     expect(page).to have_content("Email: sarah@email.com")
     expect(page).to have_content("Address: 123 Street")
     expect(page).to have_content("I think this proposal looks great")
+    expect(page).to have_content("Objection")
 
     # Check audit log
     visit planning_application_audits_path(planning_application)

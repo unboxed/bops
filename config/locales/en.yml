@@ -954,7 +954,9 @@ en:
     granted: To grant
     in_progress: In progress
     invalid: Invalid
+    neutral: Neutral
     not_started: Not started
+    objection: Objection
     permanent_failure: Permanent failure
     posted: Posted
     printing: Printing
@@ -962,6 +964,7 @@ en:
     rejected: Rejected
     removed: Removed
     submitted: Submitted
+    supportive: Supportive
     technical_failure: Technical failure
     to_be_reviewed: To be reviewed
     updated: Updated
