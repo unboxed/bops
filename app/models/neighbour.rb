@@ -12,6 +12,7 @@ class Neighbour < ApplicationRecord
   scope :without_letters, lambda {
                             left_outer_joins(:neighbour_letter)
                               .where(neighbour_letter: { neighbour_id: nil })
+                              .where(selected: true)
                           }
   scope :with_letters, lambda {
                          includes([:neighbour_letter])

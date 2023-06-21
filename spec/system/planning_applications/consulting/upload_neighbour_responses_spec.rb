@@ -33,7 +33,7 @@ RSpec.describe "Upload neighbour responses" do
     fill_in "Year", with: "2023"
     fill_in "Response", with: "I think this proposal looks great"
 
-    click_button "Save comment"
+    click_button "Save response"
 
     expect(page).not_to have_content("No neighbour responses yet")
 
@@ -66,7 +66,7 @@ RSpec.describe "Upload neighbour responses" do
     fill_in "Year", with: "2023"
     fill_in "Response", with: "I think this proposal looks great"
 
-    click_button "Save comment"
+    click_button "Save response"
 
     expect(page).not_to have_content("No neighbour responses yet")
 
@@ -83,12 +83,16 @@ RSpec.describe "Upload neighbour responses" do
       expect(page).to have_content(assessor.name)
       expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
     end
+
+    # Check neighbour is not added to the selected neighbours page
+    visit planning_application_consultation_path(planning_application, planning_application.consultation)
+    expect(page).not_to have_content("123 Street")
   end
 
   it "shows error messages" do
     click_link "Upload neighbour responses"
 
-    click_button "Save comment"
+    click_button "Save response"
 
     expect(page).to have_content("There is a problem")
     expect(page).to have_content("Neighbour must exist")

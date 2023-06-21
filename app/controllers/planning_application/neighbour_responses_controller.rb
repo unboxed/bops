@@ -32,7 +32,7 @@ class PlanningApplication
 
     def find_neighbour
       if neighbour_response_params[:new_address].present?
-        @consultation.neighbours.build(address: neighbour_response_params[:new_address])
+        @consultation.neighbours.build(address: neighbour_response_params[:new_address], selected: false)
       else
         @consultation.neighbours.find_by(address: neighbour_response_params[:address])
       end

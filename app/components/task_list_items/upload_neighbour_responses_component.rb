@@ -21,12 +21,12 @@ module TaskListItems
     end
 
     def link_path
-      if link_active?
-        new_planning_application_consultation_neighbour_response_path(
-          planning_application,
-          consultation
-        )
-      end
+      return unless link_active?
+
+      new_planning_application_consultation_neighbour_response_path(
+        planning_application,
+        consultation
+      )
     end
 
     def status_tag_component
