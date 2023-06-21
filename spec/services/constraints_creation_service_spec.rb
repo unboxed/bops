@@ -16,7 +16,7 @@ RSpec.describe ConstraintsCreationService, type: :service do
           "national_park" => true,
           "listed_building" => true
         }
-      )
+      ).to_unsafe_hash
     end
 
     let(:create_constraints) do
