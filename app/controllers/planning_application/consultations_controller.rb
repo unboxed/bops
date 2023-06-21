@@ -38,7 +38,7 @@ class PlanningApplication
     end
 
     def update
-      if @consultation.update!(@attributes)
+      if @consultation.update(@attributes)
         respond_to do |format|
           format.html { redirect_to planning_application_consultation_path(@planning_application, @consultation) }
         end

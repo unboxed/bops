@@ -81,7 +81,8 @@ class Audit < ApplicationRecord
       "replacement_document_validation_request_cancelled_post_validation",
     constraints_checked: "constraints_checked",
     neighbour_letters_sent: "neighbour_letters_sent",
-    neighbour_letter_copy_mail_sent: "neighbour_letter_copy_mail_sent"
+    neighbour_letter_copy_mail_sent: "neighbour_letter_copy_mail_sent",
+    neighbour_response_uploaded: "neighbour_response_uploaded"
   }
 
   validates :activity_type, presence: true

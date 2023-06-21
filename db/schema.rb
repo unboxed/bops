@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_19_170149) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_21_113010) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -269,12 +269,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_19_170149) do
     t.index ["neighbour_id"], name: "ix_neighbour_letters_on_neighbour_id"
   end
 
-  create_table "neighbours", force: :cascade do |t|
+  create_table "neighbour_responses", force: :cascade do |t|
+    t.bigint "neighbour_id"
     t.string "name"
+    t.string "response"
+    t.string "email"
+    t.datetime "received_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["neighbour_id"], name: "ix_neighbour_responses_on_neighbour_id"
+  end
+
+  create_table "neighbours", force: :cascade do |t|
     t.string "address"
     t.bigint "consultation_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "selected", default: true
     t.index ["consultation_id"], name: "ix_neighbours_on_consultation_id"
   end
 

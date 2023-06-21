@@ -324,6 +324,7 @@ en:
       invalidated: Application invalidated
       neighbour_letter_copy_mail_sent: Neighbour consultation letter copy email sent
       neighbour_letters_sent: Neighbour letters sent
+      neighbour_response_uploaded: Neighbour response uploaded
       other_change_validation_request_added: 'Added: validation request (other validation#%{args})'
       other_change_validation_request_cancelled: 'Cancelled: validation request (other change from applicant#%{args})'
       other_change_validation_request_received: 'Received: request for change (other validation#%{args})'
@@ -733,6 +734,7 @@ en:
         check_and_assess: Check and assess
       consultation:
         send_letters_to_neighbours: Send letters to neighbours
+        upload_neighbour_responses: Upload neighbour responses
       validation:
         check_and_validate: Check and validate
     submit:
@@ -1009,6 +1011,8 @@ en:
       review_permitted_development_rights: Review permitted development rights
     send_letters_to_neighbours_component:
       send_letters_to_neighbours: Send letters to neighbours
+    upload_neighbour_responses_component:
+      upload_neighbour_responses: Upload neighbour responses
     validation_decision_component:
       send_validation_decision: Send validation decision
   user:
