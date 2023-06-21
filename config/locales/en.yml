@@ -304,7 +304,6 @@ en:
       archived: Document archived
       assessed: Recommendation assessed
       assigned: Application assigned to %{args}
-      assigned_no_user: Application unassigned
       challenged: Recommendation challenged
       closed: Application closed
       constraint_added: Constraint added
@@ -325,6 +324,8 @@ en:
       neighbour_letter_copy_mail_sent: Neighbour consultation letter copy email sent
       neighbour_letters_sent: Neighbour letters sent
       neighbour_response_uploaded: Neighbour response uploaded
+      no_user:
+        assigned: Application unassigned
       other_change_validation_request_added: 'Added: validation request (other validation#%{args})'
       other_change_validation_request_cancelled: 'Cancelled: validation request (other change from applicant#%{args})'
       other_change_validation_request_received: 'Received: request for change (other validation#%{args})'
