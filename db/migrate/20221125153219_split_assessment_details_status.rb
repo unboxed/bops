@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class SplitAssessmentDetailsStatus < ActiveRecord::Migration[6.1]
-  # rubocop:disable Metrics/MethodLength
   def up
     rename_column(:assessment_details, :status, :assessment_status)
     add_column(:assessment_details, :review_status, :string)
@@ -60,5 +59,4 @@ class SplitAssessmentDetailsStatus < ActiveRecord::Migration[6.1]
     rename_column(:assessment_details, :assessment_status, :status)
     remove_column(:assessment_details, :review_status, :string)
   end
-  # rubocop:enable Metrics/MethodLength
 end

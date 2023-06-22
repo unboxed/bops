@@ -35,7 +35,7 @@ class ImmunityDetailsCreationService
     end
   end
 
-  def fill_in_evidence_group_information # rubocop:disable Metrics/AbcSize
+  def fill_in_evidence_group_information
     @planning_application.immunity_detail.evidence_groups.each do |eg|
       Document::EVIDENCE_QUESTIONS[eg.tag.to_sym].each do |question|
         case question

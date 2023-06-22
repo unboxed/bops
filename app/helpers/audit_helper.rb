@@ -4,12 +4,10 @@ module AuditHelper
   def activity(type_of_activity, args = nil)
     scope = %i[audits types]
 
-    if type_of_activity == "assigned" && args.blank?
-      scope << :no_user
-    end
+    scope << :no_user if type_of_activity == "assigned" && args.blank?
 
     t(type_of_activity, raise: true, scope:, args:)
-  rescue I18n::MissingTranslationData => e
+  rescue I18n::MissingTranslationData
     raise ArgumentError, "Activity type: #{type_of_activity} is not valid"
   end
 

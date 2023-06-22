@@ -28,7 +28,7 @@ class Consultation < ApplicationRecord
     I18n.t("neighbour_letter_template")
   end
 
-  def neighbour_letter_content # rubocop:disable Metrics/AbcSize
+  def neighbour_letter_content
     I18n.t("neighbour_letter_template",
            received_at: planning_application.received_at.to_fs(:day_month_year_slashes),
            expiry_date: planning_application.expiry_date.to_fs(:day_month_year_slashes),

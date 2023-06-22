@@ -14,7 +14,7 @@ class ConstraintsController < AuthenticationController
     @constraint_ids = planning_application_constraints.pluck(:constraint_id)
   end
 
-  def update # rubocop:disable Metrics/AbcSize
+  def update
     ActiveRecord::Base.transaction do
       if local_constraint.present?
         @planning_application.constraints.find_or_create_by!(

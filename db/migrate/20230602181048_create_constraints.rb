@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class CreateConstraints < ActiveRecord::Migration[7.0]
-  # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/AbcSize
   def change
     create_table :constraints do |t|
       t.string :name, null: false
@@ -72,6 +70,4 @@ class CreateConstraints < ActiveRecord::Migration[7.0]
       end
     end
   end
-  # rubocop:enable Metrics/AbcSize
-  # rubocop:enable Metrics/MethodLength
 end

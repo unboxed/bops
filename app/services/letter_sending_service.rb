@@ -13,7 +13,7 @@ class LetterSendingService
     @consultation = neighbour.consultation
   end
 
-  def deliver! # rubocop:disable Metrics/AbcSize
+  def deliver!
     return if NeighbourLetter.find_by(neighbour:).present?
 
     letter_record = NeighbourLetter.new(neighbour:, text: message)

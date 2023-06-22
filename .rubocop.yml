@@ -25,6 +25,9 @@ Style/Documentation:
   Enabled: false
 
 # be a bit kinder with our metrics
+Metrics/AbcSize:
+  Enabled: false
+
 Metrics/BlockLength:
   Max: 100
   Exclude:
@@ -35,7 +38,7 @@ Metrics/ClassLength:
   Enabled: false
 
 Metrics/MethodLength:
-  Max: 20
+  Enabled: false
 
 Layout/LineLength:
   AllowedPatterns: ['^\s*#']
