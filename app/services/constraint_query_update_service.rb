@@ -5,7 +5,7 @@ class ConstraintQueryUpdateService
     @planning_application = planning_application
   end
 
-  def call # rubocop:disable Metrics/AbcSize
+  def call
     geojson = @planning_application.boundary_geojson
     planx = Apis::PlanX::Query.new
     results = planx.fetch(geojson:)
