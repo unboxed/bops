@@ -28,14 +28,17 @@ class Consultation < ApplicationRecord
     I18n.t("neighbour_letter_template")
   end
 
-  def neighbour_letter_content
+  def neighbour_letter_content # rubocop:disable Metrics/AbcSize
     I18n.t("neighbour_letter_template",
            received_at: planning_application.received_at.to_fs(:day_month_year_slashes),
            expiry_date: planning_application.expiry_date.to_fs(:day_month_year_slashes),
            address: planning_application.full_address,
            description: planning_application.description,
            reference: planning_application.reference,
-           closing_date: planning_application.received_at.to_fs(:day_month_year_slashes))
+           closing_date: planning_application.received_at.to_fs(:day_month_year_slashes),
+           rear_wall: planning_application.rear_wall_length,
+           max_height: planning_application.max_height_extension,
+           eave_height: planning_application.eave_height_extension)
   end
 
   private
