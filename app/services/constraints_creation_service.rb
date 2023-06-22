@@ -29,7 +29,7 @@ class ConstraintsCreationService
 
   def constraints
     if constraints_params.present?
-      constraints_params.to_unsafe_hash.filter_map do |key, value|
+      constraints_params.filter_map do |key, value|
         key.humanize if value
       end
     else

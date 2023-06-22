@@ -410,6 +410,9 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     rexml (3.2.5)
+    rgeo (3.0.0)
+    rgeo-geojson (2.1.1)
+      rgeo (>= 1.0.0)
     rotp (6.2.0)
     rspec (3.10.0)
       rspec-core (~> 3.10.0)
@@ -577,6 +580,8 @@ DEPENDENCIES
   rails (~> 7.0)
   rails-controller-testing
   rails_autolink
+  rgeo
+  rgeo-geojson
   rspec-rails (~> 4.0.0)
   rswag-ui
   rubocop

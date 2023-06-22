@@ -660,6 +660,8 @@ class PlanningApplication < ApplicationRecord
     return unless saved_changes.keys.intersection(ADDRESS_AND_BOUNDARY_GEOJSON_FIELDS).any?
 
     update!(updated_address_or_boundary_geojson: true)
+
+    ConstraintQueryUpdateService.new(planning_application: self).call if boundary_geojson.present?
   end
 
   def old_constraints_updated?

@@ -127,6 +127,10 @@ RSpec.describe "Planning Application Assessment" do
   let!(:new_planning_application) { create(:planning_application, :not_started, local_authority: default_local_authority) }
 
   before do
+    stub_planx_api_response_for("POLYGON ((-0.054597 51.537331, -0.054588 51.537287, -0.054453 51.537313, -0.054597 51.537331))").to_return(
+      status: 200, body: "{}"
+    )
+
     sign_in assessor
     visit root_path
   end
