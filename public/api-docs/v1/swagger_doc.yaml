@@ -28,7 +28,7 @@ paths:
           content:
             application/json:
               examples:
-                Full:
+                ldc_proposed:
                   value: &planning_application
                     id: 10000
                     reference: '20-00100-LDCP'
@@ -100,7 +100,7 @@ paths:
           content:
             application/json:
               examples:
-                Full:
+                ldc_proposed:
                   value:
                     data:
                       - <<: *planning_application
@@ -293,19 +293,7 @@ paths:
                 - application_type
                 - applicant_email
             examples:
-              Minimum:
-                value:
-                  application_type: lawfulness_certificate
-                  site:
-                    uprn: '100081043511'
-                    address_1: 11 Abbey Gardens
-                    address_2: Southwark
-                    town: London
-                    postcode: SE16 3RQ
-                    latitude: '51.4842536'
-                    longitude: '-0.0764165'
-                  applicant_email: applicant@example.com
-              Full:
+              ldc_proposed:
                 value:
                   application_type: lawfulness_certificate
                   site:
@@ -502,7 +490,7 @@ paths:
                           - [-0.07645905017852783, 51.50053497847238]
                           - [-0.07615327835083008, 51.50115276135022]
                           - [-0.07716178894042969, 51.50094238217541]
-              Immunity:
+              ldc_existing:
                 value:
                   application_type: lawfulness_certificate
                   site:
@@ -1130,7 +1118,7 @@ paths:
                           - [-0.07645905017852783, 51.50053497847238]
                           - [-0.07615327835083008, 51.50115276135022]
                           - [-0.07716178894042969, 51.50094238217541]
-              prior_approval:
+              prior_approval_proposed:
                 value:
                   application_type: prior_approval
                   site:
@@ -1652,10 +1640,10 @@ paths:
                   files:
                     - filename: https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf
                       tags:
-                        - Utility Bill
+                        - Proposed
                     - filename: https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf
                       tags:
-                        - Utility Bill
+                        - Proposed
                   boundary_geojson:
                     type: Feature
                     geometry:
