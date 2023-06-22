@@ -17,7 +17,7 @@ module TaskListItems
     end
 
     def link_active?
-      @planning_application.consultation.present?
+      consultation.present? && consultation.end_date.present?
     end
 
     def link_path
