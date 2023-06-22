@@ -6,7 +6,7 @@ class ConstraintsCreationService
     @constraints_params = constraints_params
   end
 
-  def call # rubocop:disable Metrics/AbcSize
+  def call
     constraints.each do |constraint|
       existing_constraint = Constraint.options_for_local_authority(planning_application.local_authority_id)
                                       .find_by("LOWER(name)= ?", constraint.downcase)

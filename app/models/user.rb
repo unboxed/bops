@@ -80,7 +80,6 @@ class User < ApplicationRecord
   # Decrypt and return the `encrypted_otp_secret` attribute which was used in
   # prior versions of devise-two-factor (4.0.2)
   # @return [String] The decrypted OTP secret
-  # rubocop:disable Metrics/AbcSize
   def legacy_otp_secret
     return nil unless self[:encrypted_otp_secret]
     return nil unless self.class.otp_secret_encryption_key
@@ -144,5 +143,4 @@ class User < ApplicationRecord
     #    change to a block cipher mode.
     cipher.update(cipher_text) + cipher.final
   end
-  # rubocop:enable Metrics/AbcSize
 end

@@ -57,7 +57,7 @@ class AssessImmunityDetailPermittedDevelopmentRightForm
     end
   end
 
-  def update # rubocop:disable Metrics/AbcSize
+  def update
     review_immunity_detail.assign_attributes(
       **review_immunity_detail_params, status: params[:review_immunity_detail_status]
     )

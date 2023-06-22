@@ -2,7 +2,6 @@
 
 class CreatePolicyClasses < ActiveRecord::Migration[6.1]
   # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/AbcSize
   def up
     create_table :policy_classes do |t|
       t.string :schedule, null: false
@@ -47,7 +46,6 @@ class CreatePolicyClasses < ActiveRecord::Migration[6.1]
     end
   end
   # rubocop:enable Metrics/MethodLength
-  # rubocop:enable Metrics/AbcSize
 
   def down
     drop_table :policies

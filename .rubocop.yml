@@ -25,6 +25,9 @@ Style/Documentation:
   Enabled: false
 
 # be a bit kinder with our metrics
+Metrics/AbcSize:
+  Enabled: false
+
 Metrics/BlockLength:
   Max: 100
   Exclude:
