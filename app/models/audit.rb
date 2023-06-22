@@ -82,7 +82,8 @@ class Audit < ApplicationRecord
     constraints_checked: "constraints_checked",
     neighbour_letters_sent: "neighbour_letters_sent",
     neighbour_letter_copy_mail_sent: "neighbour_letter_copy_mail_sent",
-    neighbour_response_uploaded: "neighbour_response_uploaded"
+    neighbour_response_uploaded: "neighbour_response_uploaded",
+    neighbour_response_edited: "neighbour_response_edited"
   }
 
   validates :activity_type, presence: true

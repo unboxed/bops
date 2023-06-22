@@ -323,6 +323,7 @@ en:
       invalidated: Application invalidated
       neighbour_letter_copy_mail_sent: Neighbour consultation letter copy email sent
       neighbour_letters_sent: Neighbour letters sent
+      neighbour_response_edited: Neighbour response edited
       neighbour_response_uploaded: Neighbour response uploaded
       no_user:
         assigned: Application unassigned

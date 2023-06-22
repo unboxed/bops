@@ -2,7 +2,7 @@
   Upload neighbour responses - <%= t('page_title') %>
 <% end %>
 
-<% add_parent_breadcrumb_link "Home", root_path(filter_options: PlanningApplication::FILTER_OPTIONS) %>
+<% add_parent_breadcrumb_link "Home", root_path %>
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
 <% add_parent_breadcrumb_link "Consultation", planning_application_path(@planning_application) %>
 <% content_for :title, "Upload neighbour responses" %>
@@ -37,10 +37,16 @@
           </li>
         </ul>
       </div>
-      <div style="width: 50%">
-        <p class="govuk-body">
-          <%= simple_format(response.response) %>
-        </p>
+      <div style="width: 55%">
+        <p class="govuk-body-s"><strong>Original version:</strong></p>
+        <%= simple_format(response.response, class: "govuk-body") %>
+
+        <p class="govuk-body-s"><strong>Redacted version:</strong></p>
+        <%= simple_format(response.redacted_response, class: "govuk-body") %>
+
+      </div>
+      <div style="width: 4%;">
+        <%= link_to "Edit", edit_planning_application_consultation_neighbour_response_path(@planning_application, @consultation, response) %>
       </div>
     </div>
     <hr>
@@ -77,7 +83,8 @@
   <%= form.govuk_select :address, @consultation.neighbours.select(&:persisted?).map(&:address), options: { include_blank: true }, label: { text: "Select an existing neighbour address" } %>
   <%= form.govuk_text_field :new_address, label: { text: "Or add a new neighbour address" } %>
   <%= form.govuk_date_field :received_at, legend: { text: "Response received on", size: "s", tag: "p" } %>
-  <%= form.govuk_text_area :response %>
+  <%= form.govuk_text_area :response, hint: { text: "This won't be made public" } %>
+  <%= form.govuk_text_area :redacted_response, label: { text: "Redacted response" }, hint: { text: 'This will be made public' } %>
   <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: { text: 'Is the response', size: 'm' } do %>
     <%= form.govuk_radio_button :summary_tag, 'supportive', label: { text: 'Supportive' } %>
     <%= form.govuk_radio_button :summary_tag, 'neutral', label: { text: 'Neutral' } %>
