@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class UpdateAuditsGeneratedByApiUser < ActiveRecord::Migration[6.1]
-  # rubocop:disable Metrics/MethodLength
   def up
     execute(
       "UPDATE audits
@@ -29,7 +28,6 @@ class UpdateAuditsGeneratedByApiUser < ActiveRecord::Migration[6.1]
       AND b.created_at BETWEEN (a.created_at - INTERVAL '1 second') AND (a.created_at + INTERVAL '1 second');"
     )
   end
-  # rubocop:enable Metrics/MethodLength
 
   def down; end
 end

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class CreatePolicyClasses < ActiveRecord::Migration[6.1]
-  # rubocop:disable Metrics/MethodLength
   def up
     create_table :policy_classes do |t|
       t.string :schedule, null: false
@@ -45,7 +44,6 @@ class CreatePolicyClasses < ActiveRecord::Migration[6.1]
       end
     end
   end
-  # rubocop:enable Metrics/MethodLength
 
   def down
     drop_table :policies

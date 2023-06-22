@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class AddAutomatedActivityToAudits < ActiveRecord::Migration[6.1]
-  # rubocop:disable Metrics/MethodLength
   def up
     add_column(
       :audits,
@@ -33,7 +32,6 @@ class AddAutomatedActivityToAudits < ActiveRecord::Migration[6.1]
       AND b.created_at BETWEEN (a.created_at - INTERVAL '1 second') AND (a.created_at + INTERVAL '1 second');"
     )
   end
-  # rubocop:enable Metrics/MethodLength
 
   def down
     remove_column :audits, :automated_activity
