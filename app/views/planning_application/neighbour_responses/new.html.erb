@@ -20,7 +20,8 @@
   <hr>
   <% @neighbour_responses.each do |response| %>
     <div class="display-flex" style="align-items: baseline">
-      <div style="width: 50%;">
+      <div class="neighbour-response-section">
+        <%= render(StatusTags::BaseComponent.new(status: response.summary_tag)) %><br><br>
         <ul class="govuk-list">
           <li>
             <strong>Date received:</strong> <%= response.received_at.to_formatted_s(:day_month_year_slashes) %>
@@ -77,6 +78,11 @@
   <%= form.govuk_text_field :new_address, label: { text: "Or add a new neighbour address" } %>
   <%= form.govuk_date_field :received_at, legend: { text: "Response received on", size: "s", tag: "p" } %>
   <%= form.govuk_text_area :response %>
+  <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: { text: 'Is the response', size: 'm' } do %>
+    <%= form.govuk_radio_button :summary_tag, 'supportive', label: { text: 'Supportive' } %>
+    <%= form.govuk_radio_button :summary_tag, 'neutral', label: { text: 'Neutral' } %>
+    <%= form.govuk_radio_button :summary_tag, 'objection', label: { text: 'An objection' } %>
+  <% end %>
   <%= form.submit(
     "Save response",
     class: "govuk-button govuk-button--primary govuk-!-margin-top-5"

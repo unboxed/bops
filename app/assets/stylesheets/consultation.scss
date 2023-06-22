@@ -12,3 +12,11 @@
   border: 1px solid grey;
   padding: 50px;
 }
+
+.neighbour-response-section {
+  width: 50%;
+
+  .app-task-list__task-tag {
+    float: left
+  }
+}
