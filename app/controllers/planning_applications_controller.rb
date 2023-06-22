@@ -26,11 +26,7 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def index
-    @planning_applications = if helpers.exclude_others? && current_user.assessor?
-                               planning_applications_scope.for_user_and_null_users(current_user.id)
-                             else
-                               planning_applications_scope
-                             end
+    @planning_applications = PlanningApplicationSearch.new(params).call
 
     @search_filter = if params[:planning_application_search_filter].present?
                        PlanningApplicationSearchFilter.new(
@@ -254,12 +250,6 @@ class PlanningApplicationsController < AuthenticationController
   def validation_date_fields_invalid?
     validation_date_fields.any?(&:blank?) ||
       validation_date_fields.any? { |field| !field.match(/\A[0-9]*\z/) }
-  end
-
-  def planning_applications_scope
-    @planning_applications_scope ||= current_local_authority
-                                     .planning_applications.includes([:application_type])
-                                     .by_created_at_desc
   end
 
   def planning_application_params
