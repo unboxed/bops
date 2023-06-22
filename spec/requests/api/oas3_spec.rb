@@ -31,17 +31,7 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
     expect(document.valid?).to be(true)
   end
 
-  it "successfully creates the Minimum application as per the oas3 definition" do
-    expect do
-      post "/api/v1/planning_applications",
-           params: example_request_json_for("/api/v1/planning_applications", "post", "Minimum"),
-           headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
-    end.to change(PlanningApplication, :count).by(1)
-    expect(response.code).to eq("200")
-    expect(PlanningApplication.last.application_type_name).to eq("lawfulness_certificate")
-  end
-
-  it "successfully creates the Full application as per the oas3 definition" do
+  it "successfully creates the ldc_proposed application as per the oas3 definition" do
     stub_request(:get, "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf")
       .to_return(
         status: 200,
@@ -50,7 +40,7 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
       )
     expect do
       post "/api/v1/planning_applications",
-           params: example_request_json_for("/api/v1/planning_applications", "post", "Full"),
+           params: example_request_json_for("/api/v1/planning_applications", "post", "ldc_proposed"),
            headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
     end.to change(PlanningApplication, :count).by(1)
     expect(response.code).to eq("200")
@@ -87,7 +77,7 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
   it "successfully returns the listing of applications as specified" do
     travel_to(DateTime.new(2020, 5, 14))
     planning_application_hash = example_response_hash_for("/api/v1/planning_applications", "get", 200,
-                                                          "Full")["data"].first
+                                                          "ldc_proposed")["data"].first
 
     planning_application = PlanningApplication.create! planning_application_hash.except("reference", "reference_in_full",
                                                                                         "received_date", "documents", "site", "constraints", "application_type_name").merge(
@@ -106,7 +96,7 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
 
     get "/api/v1/planning_applications"
 
-    expected_response = example_response_hash_for("/api/v1/planning_applications", "get", 200, "Full")
+    expected_response = example_response_hash_for("/api/v1/planning_applications", "get", 200, "ldc_proposed")
     expected_response["data"].first["documents"].first["url"] =
       api_v1_planning_application_document_url(planning_application, planning_application_document)
 
@@ -116,7 +106,7 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
 
   it "successfully returns an application as specified" do
     travel_to(DateTime.new(2020, 5, 14))
-    planning_application_hash = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "Full")
+    planning_application_hash = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "ldc_proposed")
     planning_application = PlanningApplication.create! planning_application_hash.except("reference", "reference_in_full",
                                                                                         "received_date", "documents", "site", "constraints", "application_type_name").merge(
                                                                                           local_authority: default_local_authority,
@@ -132,7 +122,7 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
 
     get "/api/v1/planning_applications/#{planning_application_hash['id']}"
 
-    expected_response = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "Full")
+    expected_response = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "ldc_proposed")
     expected_response["documents"].first["url"] =
       api_v1_planning_application_document_url(planning_application, planning_application_document)
     expect(JSON.parse(response.body)).to eq(expected_response)
