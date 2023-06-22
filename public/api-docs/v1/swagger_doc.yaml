@@ -1130,6 +1130,541 @@ paths:
                           - [-0.07645905017852783, 51.50053497847238]
                           - [-0.07615327835083008, 51.50115276135022]
                           - [-0.07716178894042969, 51.50094238217541]
+              prior_approval:
+                value:
+                  application_type: prior_approval
+                  site:
+                    uprn: '100081043511'
+                    address_1: 11 Abbey Gardens
+                    address_2: Southwark
+                    town: London
+                    postcode: SE16 3RQ
+                    latitude: '51.4842536'
+                    longitude: '-0.0764165'
+                  description: Add a rear extension
+                  payment_reference: PAY1
+                  payment_amount: 10300
+                  work_status: proposed
+                  applicant_first_name: Albert
+                  applicant_last_name: Manteras
+                  applicant_phone: '23432325435'
+                  applicant_email: applicant@example.com
+                  agent_first_name: Jennifer
+                  agent_last_name: Harper
+                  agent_phone: '237878889'
+                  agent_email: agent@example.com
+                  user_role: agent
+                  feedback:
+                    result: feedback about the result
+                    find_property: feedback about the property
+                    planning_constraints: feedback about the constraints
+                  result:
+                    flag: 'Planning permission / Permission needed'
+                    heading: It looks like these changes will need planning permission
+                    description: Based on the information you have provided, we do not think this is eligible for a Lawful Development Certificate
+                    override: This was my reason for rejecting the result
+                  proposal_details:
+                    - question: Connections with London Borough of Lambeth
+                      responses:
+                        - value: None of the above apply to me
+                      metadata:
+                        auto_answered: true
+                        portal_name: declarations
+                    - question: Has the house already been extended?
+                      responses:
+                        - value: 'No'
+                      metadata:
+                        portal_name: prior-approval-files
+                    - question: Select your project
+                      responses:
+                        - value: Add a rear extension
+                      metadata:
+                        portal_name: Types of prior approval for houses
+                    - question: Exactly how high are the eaves of the extension?
+                      responses:
+                        - value: '2.5'
+                      metadata:
+                        policy_refs:
+                          - text: >-
+                              The Town and Country Planning (General Permitted Development)
+                              (England) Order 2015 Schedule 2, Part 1, Class APermitted
+                              Development Rights for Householders Technical Guidance (PDF, 500KB)
+                        portal_name: Rear and side extensions to houses
+                    - question: Are you applying on behalf of someone else?
+                      responses:
+                        - value: 'No'
+                      metadata:
+                        portal_name: about-the-applicant
+                    - question: Is any part of the extension within 2 metres of the boundary?
+                      responses:
+                        - value: 'Yes'
+                      metadata:
+                        auto_answered: true
+                        portal_name: Rear and side extensions to houses
+                    - question: What type of house is it?
+                      responses:
+                        - value: Mid terrace
+                      metadata:
+                        auto_answered: true
+                        portal_name: Rear and Side Extensions
+                    - question: Is your contact address the same as the property address?
+                      responses:
+                        - value: 'Yes'
+                      metadata:
+                        portal_name: about-the-applicant
+                    - question: How much of the property is covered by extensions and outbuildings?
+                      responses:
+                        - value: 50% or less of the available area around the original house
+                          metadata:
+                            flags:
+                              - Planning permission / Permitted development
+                      metadata:
+                        policy_refs:
+                          - text: >-
+                              The Town and Country Planning (General Permitted Development)
+                              (England) Order 2015 Schedule 2, Part 1, Class A
+                        portal_name: Rear and side extensions to houses
+                    - question: Connections with London Borough of Lambeth
+                      responses:
+                        - value: None of the above apply to me
+                      metadata:
+                        portal_name: apply-for-service-declarations
+                    - question: Was the house built before 2020?
+                      responses:
+                        - value: Yes, it was built before 2020
+                          metadata:
+                            flags:
+                              - Planning permission / Permitted development
+                      metadata:
+                        policy_refs:
+                          - text: >-
+                              The Town and Country Planning (General Permitted Development)
+                              (England) Order 2015 Schedule 2, Part 1, Class 1 A.
+                        portal_name: Rear and side extensions to houses
+                    - question: >-
+                        How far does the new addition extend beyond the back wall of the original
+                        house?
+                      responses:
+                        - value: 3 to 6m
+                          metadata:
+                            flags:
+                              - Planning permission / Prior approval
+                      metadata:
+                        policy_refs:
+                          - text: >-
+                              The Town and Country Planning (General Permitted Development)
+                              (England) Order 2015 Schedule 2, Part 1, Class A.1 (f)(i)
+                        portal_name: Extensions - No projection - Rear only
+                    - question: Is the property in Lambeth?
+                      responses:
+                        - value: 'Yes'
+                      metadata:
+                        auto_answered: true
+                        portal_name: _root
+                    - question: What type of prior approval application is it?
+                      responses:
+                        - value: Larger extension to a house
+                      metadata:
+                        auto_answered: true
+                        portal_name: prior-approval-files
+                    - question: What type of house is it?
+                      responses:
+                        - value: A terrace
+                      metadata:
+                        auto_answered: true
+                        portal_name: Extensions - No projection - Rear only
+                    - question: What type of property is it?
+                      responses:
+                        - value: House
+                      metadata:
+                        auto_answered: true
+                        portal_name: property-types
+                    - question: What type of prior approval application is it?
+                      responses:
+                        - value: Larger extension to a house
+                      metadata:
+                        auto_answered: true
+                        portal_name: Prior approval fees
+                    - question: What type of prior approval application is it?
+                      responses:
+                        - value: Larger extension to a house
+                      metadata:
+                        auto_answered: true
+                        portal_name: prior-approval-more-information
+                    - question: Has work already started?
+                      responses:
+                        - value: 'No'
+                      metadata:
+                        portal_name: _root
+                    - question: What is the exact height of the extension?
+                      responses:
+                        - value: '3'
+                      metadata:
+                        policy_refs:
+                          - text: >-
+                              The Town and Country Planning (General Permitted Development)
+                              (England) Order 2015 Schedule 2, Part 1, Class A
+                        portal_name: Rear and side extensions to houses
+                    - question: What type of property is it?
+                      responses:
+                        - value: House
+                      metadata:
+                        auto_answered: true
+                        portal_name: prior-approval-scope-check
+                    - question: Does the application qualify for a resubmission exemption?
+                      responses:
+                        - value: 'No'
+                      metadata:
+                        auto_answered: true
+                        portal_name: Prior Approval Fee exemptions
+                    - question: Would you like to upload any additional drawings, documents or images?
+                      responses:
+                        - value: 'No'
+                      metadata:
+                        portal_name: prior-approval-files
+                    - question: Is this a prior approval application for a larger rear extension?
+                      responses:
+                        - value: 'Yes'
+                      metadata:
+                        auto_answered: true
+                        portal_name: Rear and side extensions to houses
+                    - question: Does the original house have a projection to the rear?
+                      responses:
+                        - value: 'No'
+                      metadata:
+                        portal_name: Rear and side extensions to houses
+                    - question: Will any part of the extension be higher than 4m?
+                      responses:
+                        - value: 'No'
+                          metadata:
+                            flags:
+                              - Planning permission / Permitted development
+                      metadata:
+                        policy_refs:
+                          - text: >-
+                              The Town and Country Planning (General Permitted Development)
+                              (England) Order 2015 Schedule 2, Part 1, Class A.1 (g)(ii)Permitted
+                              Development Rights for Householders Technical Guidance (PDF, 500KB)
+                        portal_name: Rear and side extensions to houses
+                    - question: What type of house it is?
+                      responses:
+                        - value: Terrace
+                      metadata:
+                        auto_answered: true
+                        portal_name: property-types
+                    - question: Is this a prior approval application for a larger rear extension?
+                      responses:
+                        - value: 'Yes'
+                      metadata:
+                        auto_answered: true
+                        portal_name: Rear and side extensions to houses
+                    - question: Is this a prior approval application for a larger rear extension?
+                      responses:
+                        - value: 'Yes'
+                      metadata:
+                        auto_answered: true
+                        portal_name: Rear and side extensions to houses
+                    - question: Is the property on designated land?
+                      responses:
+                        - value: 'No'
+                      metadata:
+                        auto_answered: true
+                        portal_name: Rear and side extensions to houses
+                    - question: What type of prior approval application is it?
+                      responses:
+                        - value: Larger extension to a house
+                      metadata:
+                        auto_answered: true
+                        portal_name: Fee Exemptions check
+                    - question: How many storeys does the original house have?
+                      responses:
+                        - value: 2 or more
+                      metadata:
+                        portal_name: Rear and side extensions to houses
+                    - question: What will you use the extension for?
+                      responses:
+                        - value: Kitchen
+                          metadata:
+                            flags:
+                              - Planning permission / Permitted development
+                      metadata:
+                        policy_refs:
+                          - text: >-
+                              The Town and Country Planning (General Permitted Development)
+                              (England) Order 2015 Schedule 2, Part 1, Class A  Town and Country
+                              Planning Act 1990, Section 55
+                        portal_name: Rear and side extensions to houses
+                    - question: Describe the project.
+                      responses:
+                        - value: >-
+                            The new extension will be 4.5m in length beyond the original rear wall
+                            on the ground floor.nThe height of the new extension is 3 meters
+                            (measured from the ground to the highest point of the new extension)n
+                      metadata:
+                        portal_name: _root
+                    - question: Is the property subject to any Article 4 directions?
+                      responses:
+                        - value: 'No'
+                      metadata:
+                        auto_answered: true
+                        portal_name: _root
+                    - question: What works does the project involve?
+                      responses:
+                        - value: Extension
+                      metadata:
+                        auto_answered: true
+                        portal_name: Disability exemption check
+                    - question: Which Local Planning authority is it?
+                      responses:
+                        - value: Lambeth
+                      metadata:
+                        auto_answered: true
+                        portal_name: apply-for-service-declarations
+                    - question: Are the materials of the extension similar to the original house?
+                      responses:
+                        - value: 'Yes'
+                          metadata:
+                            flags:
+                              - Planning permission / Permitted development
+                      metadata:
+                        policy_refs:
+                          - text: >-
+                              The Town and Country Planning (General Permitted Development)
+                              (England) Order 2015 Schedule 2, Part 1, Class A
+                        portal_name: Rear and side extensions to houses
+                    - question: Is the property a site of special scientific interest?
+                      responses:
+                        - value: 'No'
+                      metadata:
+                        auto_answered: true
+                        portal_name: Extensions - No projection - Rear only
+                    - question: What type of prior approval application is it?application.type
+                      responses:
+                        - value: Larger extension to a house
+                      metadata:
+                        auto_answered: true
+                        portal_name: Lambeth confirmation page
+                    - question: >-
+                        Does the application qualify to the same-day-planning-application
+                        exemption?
+                      responses:
+                        - value: 'No'
+                      metadata:
+                        auto_answered: true
+                        policy_refs:
+                          - text: >-
+                              The Town and Country Planning (Fees for Applications, Deemed
+                              Applications, Requests and Site Visits) (England) Regulations 2012,
+                              Regulation 14
+                        portal_name: Prior Approval Fee exemptions
+                    - question: What type of planning application are you making?
+                      responses:
+                        - value: Prior approval
+                      metadata:
+                        auto_answered: true
+                        portal_name: fee-calculator
+                    - question: Was the house always a house?
+                      responses:
+                        - value: Yes, it was built as a house
+                      metadata:
+                        policy_refs:
+                          - text: >-
+                              The Town and Country Planning (General Permitted Development)
+                              (England) Order 2015, Schedule 2, Part 1, Class A
+                        portal_name: Rear and side extensions to houses
+                    - question: >-
+                        We may need to visit your site to assess your application. If we do, who
+                        should we contact to arrange the visit?
+                      responses:
+                        - value: Me, the applicant
+                      metadata:
+                        portal_name: about-the-applicant
+                    - question: How many storeys does the original house have?
+                      responses:
+                        - value: 2 or more
+                      metadata:
+                        auto_answered: true
+                        portal_name: Rear and side extensions to houses
+                    - question: >-
+                        Are you submitting a planning permission application as well as this prior
+                        approval application?
+                      responses:
+                        - value: 'No'
+                      metadata:
+                        policy_refs:
+                          - text: >-
+                              The Town and Country Planning (Fees for Applications, Deemed
+                              Applications, Requests and Site Visits) (England) Regulations 2012,
+                              Regulation 14
+                        portal_name: Planning applications exemption
+                    - question: Does the application qualify for a disability exemption?
+                      responses:
+                        - value: 'No'
+                      metadata:
+                        auto_answered: true
+                        portal_name: Prior Approval Fee exemptions
+                    - question: How high are the eaves of the extension?
+                      responses:
+                        - value: 3m or lower
+                          metadata:
+                            flags:
+                              - Planning permission / Permitted development
+                      metadata:
+                        policy_refs:
+                          - text: >-
+                              The Town and Country Planning (General Permitted Development)
+                              (England) Order 2015 Schedule 2, Part 1, Class A.1 (i)Permitted
+                              Development Rights for Householders Technical Guidance (PDF, 500KB)
+                        portal_name: Extensions - Two storey extensions
+                    - question: What type of property is it?
+                      responses:
+                        - value: House
+                      metadata:
+                        auto_answered: true
+                        policy_refs:
+                          - text: >-
+                              The Town and Country Planning (General Permitted Development)
+                              (England) Order 2015
+                        portal_name: Rear and Side Extensions
+                    - question: Do you want to add drawings to show elevations?
+                      responses:
+                        - value: 'No'
+                      metadata:
+                        portal_name: prior-approval-files
+                    - question: Is the property a home?
+                      responses:
+                        - value: 'Yes'
+                      metadata:
+                        auto_answered: true
+                        portal_name: Disability exemption check
+                    - question: Which of these best describes you (or your organisation)?
+                      responses:
+                        - value: Private individual
+                      metadata:
+                        portal_name: about-the-applicant
+                    - question: 'I confirm that:'
+                      responses:
+                        - value: >-
+                            The information contained in this application is truthful, accurate
+                            and complete, to the best of my knowledge
+                      metadata:
+                        portal_name: apply-for-service-declarations
+                    - question: 'I confirm that:'
+                      responses:
+                        - value: >-
+                            The information contained in this application is truthful, accurate
+                            and complete, to the best of my knowledge
+                      metadata:
+                        auto_answered: true
+                        portal_name: declarations
+                    - question: Which of these best describes your project?
+                      responses:
+                        - value: Rear only
+                      metadata:
+                        policy_refs:
+                          - text: General Permitted Development Order 2015, Technical guidance (PDF)
+                        portal_name: Rear and side extensions to houses
+                    - question: Your contact details
+                      responses:
+                        - value: joe@test.com Mr Blogs Joe 22211
+                      metadata:
+                        portal_name: about-the-applicant
+                    - question: Which Local Planning authority is it?
+                      responses:
+                        - value: Lambeth
+                      metadata:
+                        auto_answered: true
+                        portal_name: Confirmation pages
+                    - question: Which of these best describes the new extension?
+                      responses:
+                        - value: Single storey
+                      metadata:
+                        policy_refs:
+                          - text: >-
+                              The Town and Country Planning (General Permitted Development)
+                              (England) Order 2015 Section 2, Part 1, Class A
+                        portal_name: Rear and side extensions to houses
+                    - question: How many storeys does the original house have?
+                      responses:
+                        - value: 2 or more
+                      metadata:
+                        auto_answered: true
+                        portal_name: Rear and side extensions to houses
+                    - question: What type of roof does the extension have?
+                      responses:
+                        - value: Sloping
+                      metadata:
+                        portal_name: Rear and side extensions to houses
+                    - question: Is any part of the extension within 2 metres of the boundary?
+                      responses:
+                        - value: 'Yes'
+                      metadata:
+                        policy_refs:
+                          - text: >-
+                              The Town and Country Planning (General Permitted Development)
+                              (England) Order 2015 Schedule 2, Part 1, Class A
+                        portal_name: Extensions - No projection - Rear only
+                    - question: >-
+                        Is the sole purpose of the project to support the needs of a disabled
+                        resident?
+                      responses:
+                        - value: 'No'
+                      metadata:
+                        policy_refs:
+                          - text: >-
+                              The Town and Country Planning (Fees for Applications, Deemed
+                              Applications, Requests and Site Visits) (England) Regulations 2012,
+                              Regulation 14UK Statutory Instruments 2012 No. 2920 Regulation 4,
+                              Equalities Act 2010, Section 6 Children Act 1989, Part 3
+                        portal_name: Fee Exemptions
+                    - question: Does the original house have a projection to the rear?
+                      responses:
+                        - value: 'No'
+                      metadata:
+                        auto_answered: true
+                        portal_name: Rear and side extensions to houses
+                    - question: Is the property on designated land?
+                      responses:
+                        - value: 'No'
+                      metadata:
+                        auto_answered: true
+                        portal_name: Extensions - No projection - Rear only
+                    - question: >-
+                        Exactly how far will the new addition extend beyond the back wall of the
+                        original house?
+                      responses:
+                        - value: '4.5'
+                      metadata:
+                        policy_refs:
+                          - text: >-
+                              The Town and Country Planning (General Permitted Development)
+                              (England) Order 2015 Schedule 2, Part 1, Class A
+                        portal_name: Rear and side extensions to houses
+                    - question: What type of roof does the extension have?
+                      responses:
+                        - value: Sloping
+                      metadata:
+                        auto_answered: true
+                        portal_name: Rear and side extensions to houses
+                  constraints:
+                    conservation_area: true
+                    protected_trees: false
+                  files:
+                    - filename: https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf
+                      tags:
+                        - Utility Bill
+                    - filename: https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf
+                      tags:
+                        - Utility Bill
+                  boundary_geojson:
+                    type: Feature
+                    geometry:
+                      type: Polygon
+                      coordinates:
+                        - - [-0.07716178894042969, 51.50094238217541]
+                          - [-0.07645905017852783, 51.50053497847238]
+                          - [-0.07615327835083008, 51.50115276135022]
+                          - [-0.07716178894042969, 51.50094238217541]
 
   $ref: './validation_requests.yaml'
 
