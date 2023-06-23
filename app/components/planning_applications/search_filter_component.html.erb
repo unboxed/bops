@@ -1,8 +1,7 @@
 <%= form_with(
-  model: search_filter,
+  url: planning_applications_path(anchor: panel_type, filter_options: filter_types),
   builder: GOVUKDesignSystemFormBuilder::FormBuilder,
   method: :get,
-  url: planning_applications_path(anchor: panel_type, filter_options: filter_types),
   data: { controller: "clear-form" }
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>

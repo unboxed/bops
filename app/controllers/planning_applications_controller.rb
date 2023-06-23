@@ -32,7 +32,7 @@ class PlanningApplicationsController < AuthenticationController
                                planning_applications_scope
                              end
 
-    @search_filter = if params[:planning_application_search_filter].present?
+    @search_filter = if params[:filter_options].present? || params[:query].present?
                        PlanningApplicationSearchFilter.new(
                          planning_application_search_filter_params
                        )
@@ -245,10 +245,7 @@ class PlanningApplicationsController < AuthenticationController
   private
 
   def planning_application_search_filter_params
-    params
-      .require(:planning_application_search_filter)
-      .permit(:query, filter_options: [])
-      .merge(planning_applications: @planning_applications, submit: params[:submit])
+    params.permit(:query, filter_options: []).merge(planning_applications: @planning_applications, submit: params[:submit])
   end
 
   def validation_date_fields_invalid?
@@ -374,14 +371,14 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def check_filter_params
-    return unless current_user.reviewer? && params[:planning_application_search_filter] && helpers.exclude_others?
+    return unless current_user.reviewer? && params[:filter_options] && helpers.exclude_others?
 
-    params[:planning_application_search_filter][:filter_options] = filter_option_params.select do |a|
+    params[:filter_options] = filter_option_params.select do |a|
       PlanningApplication::REVIEWER_FILTER_OPTIONS.include?(a)
     end
   end
 
   def filter_option_params
-    params[:planning_application_search_filter][:filter_options]
+    params[:filter_options]
   end
 end

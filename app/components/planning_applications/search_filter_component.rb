@@ -20,7 +20,7 @@ module PlanningApplications
     end
 
     def selected_filters_count
-      search_filter&.filter_types&.count || filter_types.count
+      search_filter&.filter_types&.count || 0
     end
 
     attr_reader :search_filter, :panel_type, :exclude_others
@@ -30,7 +30,7 @@ module PlanningApplications
       planning_applications_path(
         anchor: panel_type,
         q:,
-        planning_application_search_filter: { filter_options: PlanningApplication::FILTER_OPTIONS }
+        filter_options: PlanningApplication::FILTER_OPTIONS
       )
     end
   end

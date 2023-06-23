@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   root to: "planning_applications#index", defaults:
     {
       q: "exclude_others",
-      planning_application_search_filter: { filter_options: PlanningApplication::FILTER_OPTIONS }
+      filter_options: PlanningApplication::FILTER_OPTIONS
     }
 
   mount Rswag::Ui::Engine => "api-docs"
