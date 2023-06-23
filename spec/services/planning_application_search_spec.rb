@@ -47,7 +47,7 @@ RSpec.describe PlanningApplicationSearch do
   describe "#call" do
     context "when is search with exclude_others" do
       let(:params) do
-        { q: "exclude_others" }
+        ActionController::Parameters.new({ q: "exclude_others" })
       end
 
       it "returns correct planning applications" do

@@ -4,8 +4,10 @@ class PlanningApplicationSearch
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  def initialize(params = {})
-    @view = params.fetch(:q, nil)
+  attribute :q, :string
+
+  def initialize(params = ActionController::Parameters.new)
+    super(filter_params(params))
   end
 
   def call
@@ -14,7 +16,9 @@ class PlanningApplicationSearch
 
   private
 
-  attr_reader :view
+  def filter_params(params)
+    params.permit(:q)
+  end
 
   def view_mine?
     exclude_others? && assessor?
@@ -29,7 +33,7 @@ class PlanningApplicationSearch
   end
 
   def exclude_others?
-    view == "exclude_others"
+    q == "exclude_others"
   end
 
   def current_user
