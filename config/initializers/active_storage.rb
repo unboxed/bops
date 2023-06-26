@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.config.to_prepare do
+  ActiveStorage::DiskController.include ActiveStorage::SetDiskBlob
   ActiveStorage::DiskController.include ActiveStorage::Authorize
   ActiveStorage::Blobs::RedirectController.include ActiveStorage::Authorize
   ActiveStorage::Blobs::ProxyController.include ActiveStorage::Authorize
