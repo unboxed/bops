@@ -5,14 +5,14 @@ module ActiveStorage
     extend ActiveSupport::Concern
 
     included do
-      before_action :verify_request
-      before_action :set_disk_blob
+      before_action :verify_request, only: %i[set_disk_blob]
+      before_action :set_disk_blob, if: :not_from_bops?
     end
 
     private
 
     def set_disk_blob
-      @blob ||= begin
+      @blob ||= begin # rubocop:disable Naming/MemoizedInstanceVariableName
         ActiveStorage::Blob.find_by(key: decrypted_hash[:key])
       rescue StandardError
         head :not_found
@@ -24,9 +24,7 @@ module ActiveStorage
     end
 
     def decrypted_hash
-      # rubocop:disable Security/MarshalLoad
-      Marshal.load(Base64.decode64(json_parsed_hash))
-      # rubocop:enable Security/MarshalLoad
+      Marshal.load(Base64.decode64(json_parsed_hash)) # rubocop:disable Security/MarshalLoad
     end
 
     def decoded_hash
@@ -39,6 +37,10 @@ module ActiveStorage
 
     def verify_request
       ActiveStorage.verifier.valid_message?(encrypted_hash)
+    end
+
+    def not_from_bops?
+      request.referer.include?("bops-care")
     end
   end
 end

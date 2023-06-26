@@ -6,10 +6,11 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
   let(:reviewer) { create(:user, :reviewer) }
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) do
-    create(:planning_application, :not_started, local_authority: default_local_authority, decision: "granted")
+    create(:planning_application, :in_assessment, local_authority: default_local_authority, decision: "granted")
   end
   let!(:lambeth) { build(:local_authority, :lambeth) }
   let!(:planning_application_lambeth) { create(:planning_application, :not_started, local_authority: lambeth) }
+  let!(:planning_application_not_validated) { create(:planning_application, :not_started, local_authority: default_local_authority) }
 
   describe "format" do
     let(:access_control_allow_origin) { response.headers["Access-Control-Allow-Origin"] }
@@ -46,14 +47,20 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
       expect(planning_application_json).to eq({ "message" => "Unable to find record" })
     end
 
+    it "returns 404 if planning application is not validated" do
+      get "/api/v1/planning_applications/#{planning_application_not_validated.id}"
+      expect(response.code).to eq("404")
+      expect(planning_application_json).to eq({ "message" => "Unable to find record" })
+    end
+
     context "with a new planning application" do
       it "returns the accurate data" do
         get "/api/v1/planning_applications/#{planning_application.id}"
-        expect(planning_application_json["status"]).to eq("not_started")
+        expect(planning_application_json["status"]).to eq("in_assessment")
         expect(planning_application_json["id"]).to eq(planning_application.id)
         expect(planning_application_json["reference"]).to eq(planning_application.reference)
         expect(planning_application_json["reference_in_full"]).to eq(planning_application.reference_in_full)
-        expect(planning_application_json["application_type_name"]).to eq("lawfulness_certificate")
+        expect(planning_application_json["application_type"]).to eq("lawfulness_certificate")
         expect(planning_application_json["description"]).to eq(planning_application.description)
         expect(planning_application_json["received_date"]).to eq(json_time_format(planning_application.received_at))
         expect(planning_application_json["determined_at"]).to eq(json_time_format(planning_application.determined_at))
@@ -99,7 +106,7 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
           expect(planning_application_json["id"]).to eq(planning_application.id)
           expect(planning_application_json["reference"]).to eq(planning_application.reference)
           expect(planning_application_json["reference_in_full"]).to eq(planning_application.reference_in_full)
-          expect(planning_application_json["application_type_name"]).to eq("lawfulness_certificate")
+          expect(planning_application_json["application_type"]).to eq("lawfulness_certificate")
           expect(planning_application_json["description"]).to eq(planning_application.description)
           expect(planning_application_json["received_date"]).to eq(json_time_format(planning_application.received_at))
           expect(planning_application_json["determined_at"]).to eq(json_time_format(planning_application.determined_at))

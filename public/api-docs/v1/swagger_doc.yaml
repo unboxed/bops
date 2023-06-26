@@ -85,7 +85,7 @@ paths:
                             - [-0.07716178894042969, 51.50094238217541]
                     documents:
                       - url: http://example.com/document_path.pdf
-                        blob_url: http://example.com/document_path.pdf
+                        blob_url: rails/active_storage/representations/redirect/123/docoument_name
                         created_at: '2020-05-16T06:18:17.540+01:00'
                         tags: ['Side', 'Elevation', 'Proposed']
                         numbers: PLAN01

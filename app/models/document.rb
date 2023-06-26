@@ -209,6 +209,10 @@ class Document < ApplicationRecord
     end
   end
 
+  def blob_url
+    file.representation(resize_to_limit: [1000, 1000]) if file.representable?
+  end
+
   private
 
   def no_open_replacement_request

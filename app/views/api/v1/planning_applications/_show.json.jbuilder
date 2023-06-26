@@ -8,7 +8,6 @@ json.extract! planning_application,
               :applicant_first_name,
               :applicant_last_name,
               :user_role,
-              :application_type_name,
               :awaiting_determination_at,
               :to_be_reviewed_at,
               :created_at,
@@ -35,6 +34,7 @@ if planning_application.user
   json.assigned_user_name planning_application.user.name
   json.assigned_user_role planning_application.user.role
 end
+json.application_type planning_application.application_type.name
 json.reference planning_application.reference
 json.reference_in_full planning_application.reference_in_full
 json.site do
@@ -52,7 +52,7 @@ json.decision planning_application.decision if planning_application.determined?
 json.constraints planning_application.old_constraints if planning_application.old_constraints
 json.documents planning_application.documents.for_publication do |document|
   json.url api_v1_planning_application_document_url(planning_application, document)
-  json.blob_url url_for(document.file.representation(resize_to_limit: [1000, 1000])).to_s
+  json.blob_url url_for(document.blob_url).to_s
   json.extract! document,
                 :created_at,
                 :tags,
