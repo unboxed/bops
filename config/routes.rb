@@ -190,6 +190,8 @@ Rails.application.routes.draw do
         resources :red_line_boundary_change_validation_requests, only: %i[index update show]
       end
 
+      resources :local_authorities, only: %i[show], param: :subdomain
+
       resources :documents, only: :show do
         get :tags, on: :collection
       end
