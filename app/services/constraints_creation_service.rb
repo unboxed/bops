@@ -24,7 +24,10 @@ class ConstraintsCreationService
       end
     end
 
-    planning_application.planning_application_constraints.active.each do |constraint|
+    previous_constraints =
+      planning_application.planning_application_constraints.active
+                          .where.not(planning_application_constraints_query: nil)
+    previous_constraints.each do |constraint|
       constraint.update!(removed_at: Time.current) unless constraints.include?(constraint.constraint.name.humanize)
     end
   rescue ActiveRecord::RecordInvalid, NoMethodError => e
