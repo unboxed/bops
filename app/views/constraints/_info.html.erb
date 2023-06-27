@@ -1,3 +1,5 @@
+<% show_update_button = local_assigns.fetch(:show_update_button, true) %>
+
 <% if constraints.empty? %>
   <p class="govuk-body audit_details">
     No constraints identified by PlanX
@@ -9,12 +11,12 @@
     <% end %>
   </ul>
 <% end %>
-<% if planning_application.can_validate? %>
+<% if planning_application.can_validate? && show_update_button %>
   <p class="govuk-body">
     <%= link_to(
-      t(".update_constraints"),
-      edit_planning_application_constraints_path(planning_application),
-      class: "govuk-link"
-    ) %>
+          t(".update_constraints"),
+          edit_planning_application_constraints_path(planning_application),
+          class: "govuk-link"
+        ) %>
   </p>
 <% end %>
