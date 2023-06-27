@@ -27,6 +27,7 @@ class ConstraintQueryUpdateService
       [constraint_key.to_s.split(".").last.underscore, true]
     end
 
-    ConstraintsCreationService.new(planning_application: @planning_application, constraints_params:).call
+    ConstraintsCreationService.new(planning_application: @planning_application, constraints_params:,
+                                   constraints_query: query).call
   end
 end
