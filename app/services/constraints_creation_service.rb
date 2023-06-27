@@ -19,6 +19,10 @@ class ConstraintsCreationService
         )
       end
     end
+
+    planning_application.planning_application_constraints.active.each do |constraint|
+      constraint.update!(removed_at: Time.current) unless constraints.include?(constraint.constraint.name.humanize)
+    end
   rescue ActiveRecord::RecordInvalid, NoMethodError => e
     Appsignal.send_error(e)
   end
