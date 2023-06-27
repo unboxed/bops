@@ -13,6 +13,9 @@ class PlanningApplicationConstraint < ApplicationRecord
   delegate :name, to: :constraint
   delegate :audits, to: :planning_application
 
+  scope :active, -> { where({ removed_at: nil }) }
+  scope :removed, -> { where.not({ removed_at: nil }) }
+
   private
 
   def audit_constraint_added!
