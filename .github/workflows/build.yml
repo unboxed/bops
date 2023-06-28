@@ -47,7 +47,7 @@ jobs:
           - { group: "models", pattern: "[a-p]*_spec.rb" }
           - { group: "models", pattern: "[q-z]*_spec.rb" }
           - { group: "controllers", pattern: "*_spec.rb" }
-          - { group: "requests", pattern: "*_spec.rb" }
+          - { group: "requests", pattern: "*_spec.rb", want_pdf: true }
           - { group: "system", pattern: "a[a-s]*_spec.rb", want_pdf: true }
           - { group: "system", pattern: "a[t-z]*_spec.rb" }
           - { group: "system", pattern: "[b-f]*_spec.rb", want_pdf: true }
