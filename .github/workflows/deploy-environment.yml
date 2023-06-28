@@ -138,7 +138,9 @@ jobs:
              jq -r '.tasks[].taskArn')
           aws ecs wait tasks-stopped --cluster $CLUSTER --tasks "$task_arn"
           aws logs tail $LOG_GROUP --format short --since $start_time
-          exit_code=$(aws ecs describe-tasks --cluster $CLUSTER --task $task_arn | jq -r '.tasks[].containers[0].exitCode')
+          result_json=$(aws ecs describe-tasks --cluster $CLUSTER --task $task_arn)
+          exit_code=$(echo "$result_json" | jq -r '.tasks[].containers[0].exitCode // 1')
+          if [ $exit_code -gt 0 ]; then echo "$result_json" | jq -r; fi
           exit $exit_code
 
   deploy-services:
