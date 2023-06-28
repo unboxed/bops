@@ -1,4 +1,4 @@
-FROM ruby:3.2.1
+FROM ruby:3.2.2
 
 # Match our Bundler version
 RUN gem install bundler -v 2.3.26
