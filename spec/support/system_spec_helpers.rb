@@ -6,7 +6,7 @@ module SystemSpecHelpers
   end
 
   def selected_govuk_tab
-    find("div[class='govuk-tabs__panel']")
+    find("div[class='govuk-tabs__panel']:not(.govuk-tabs__panel--hidden)")
   end
 
   def list_item(text, element = page)
