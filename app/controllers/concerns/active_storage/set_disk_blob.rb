@@ -40,7 +40,7 @@ module ActiveStorage
     end
 
     def not_from_bops?
-      request.referer.include?("bops-care")
+      request.referer.include?("bops-care") || request.referer.include?("bops-applicants")
     end
   end
 end
