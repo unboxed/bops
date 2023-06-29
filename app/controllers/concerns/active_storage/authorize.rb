@@ -11,8 +11,7 @@ module ActiveStorage
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
     def public?
-      return unless request.referer.include?("bops-care")
-      return unless request.referer.include?("bops-applicants")
+      return unless request.referer.include?("bops-care") || request.referer.include?("bops-applicants")
 
       if @blob.attachments.count == 1 && @blob.attachments.any? { |a| a.record_type == "ActiveStorage::VariantRecord" }
         @blob.attachments.first.record.blob.attachments.first.record.attachments.includes(:record).any? do |a|
