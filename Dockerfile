@@ -34,11 +34,15 @@ RUN yarn install
 
 WORKDIR /app
 
+RUN mkdir -p node_modules .cache
 RUN groupadd -r app && \
     useradd --no-log-init -r -g app -d /app app
+RUN chown -R app:app node_modules .cache
+
 USER app:app
 
 COPY . .
+
 
 # Sets an interactive shell as default command when the container starts
 CMD ["/bin/sh"]

@@ -66,6 +66,13 @@ services:
       - type: volume
         source: bops_node_modules
         target: /app/node_modules
+        volume:
+          nocopy: true
+      - type: volume
+        source: yarn_cache
+        target: /app/.cache
+        volume:
+          nocopy: true
   applicants:
     build: ./bops-applicants
     entrypoint: ./docker-entrypoint.sh
@@ -90,9 +97,17 @@ services:
       - type: volume
         source: applicants_node_modules
         target: /app/node_modules
+        volume:
+          nocopy: true
+      - type: volume
+        source: yarn_cache
+        target: /app/.cache
+        volume:
+          nocopy: true
 
 volumes:
   redis:
   db:
   bops_node_modules:
   applicants_node_modules:
+  yarn_cache:

@@ -24,6 +24,6 @@
     "rome": "^11.0.0"
   },
   "scripts": {
-    "build": "webpack --config ./config/webpack/webpack.config.js"
+    "build": "./node_modules/.bin/webpack --config ./config/webpack/webpack.config.js"
   }
 }

@@ -2,7 +2,7 @@
 .git
 log/*
 tmp/*
-node_modules/*
+node_modules
 public/packs/*
 public/packs-test/*
 storage/*
@@ -11,3 +11,4 @@ docker-compose.yml
 bops-applicants
 deploy
 pkg
+.cache
