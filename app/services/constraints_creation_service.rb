@@ -13,10 +13,10 @@ class ConstraintsCreationService
                                       .find_by("LOWER(name)= ?", constraint.downcase)
 
       if existing_constraint
-        planning_application.planning_application_constraints.create!(
+        planning_application.planning_application_constraints.find_or_create_by!(
           constraint_id: existing_constraint.id,
           planning_application_constraints_query: @constraints_query
-        )
+        ).save!
       else
         planning_application.constraints.find_or_create_by!(
           name: constraint.titleize, category: "local", local_authority_id: planning_application.local_authority_id
@@ -26,7 +26,6 @@ class ConstraintsCreationService
 
     previous_constraints =
       planning_application.planning_application_constraints.active
-                          .where.not(planning_application_constraints_query: nil)
     previous_constraints.each do |constraint|
       constraint.update!(removed_at: Time.current) unless constraints.include?(constraint.constraint.name.humanize)
     end

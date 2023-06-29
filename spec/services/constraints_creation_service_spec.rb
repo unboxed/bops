@@ -77,6 +77,36 @@ RSpec.describe ConstraintsCreationService, type: :service do
       end
     end
 
+    context "when constraints are removed" do
+      let!(:constraint1) { create(:constraint, name: "conservation area") }
+      let!(:constraint2) { create(:constraint, name: "Listed Building") }
+
+      before do
+        create_constraints
+      end
+
+      it "removes the removed constraints" do
+        described_class.new(
+          planning_application:,
+          constraints_params: {
+            "conservation_area" => true,
+            "protected_trees" => false,
+            "national_park" => false,
+            "listed_building" => true
+          }
+        ).call
+
+        app_constraints = planning_application.planning_application_constraints
+
+        expect(app_constraints.active.count).to eq(2)
+        expect(app_constraints.active.map(&:name)).to eq(["conservation area",
+                                                          "Listed Building"])
+        expect(app_constraints.removed.count).to eq(2)
+        expect(app_constraints.removed.map(&:name)).to eq(["Protected Trees",
+                                                           "National Park"])
+      end
+    end
+
     [ActiveRecord::RecordInvalid, NoMethodError].each do |error|
       context "when there is an error of type: #{error} creating the constraints" do
         before { allow_any_instance_of(Constraint).to receive(:save!).and_raise(error) }
