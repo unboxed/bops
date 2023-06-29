@@ -1,29 +1,28 @@
 <%= form_with(
-  url: planning_applications_path(anchor: panel_type, filter_options: filter_types),
-  builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-  method: :get,
-  data: { controller: "clear-form" }
-) do |form| %>
-  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+      url: planning_applications_path(anchor: panel_type, filter_options: filter_types),
+      builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+      method: :get,
+      data: { controller: "clear-form" }
+    ) do |form| %>
   <div class="search-form-inputs">
     <%= form.govuk_fieldset(legend: { text: nil }) do %>
       <%= form.govuk_text_field(
-        :query,
-        class: "govuk-input--width-30",
-        label: { text: t(".find_an_application") },
-        hint: { text: t(".you_can_search") }
-      ) %>
+            :query,
+            class: "govuk-input--width-30",
+            label: { text: t(".find_an_application") },
+            hint: { text: t(".you_can_search") }
+          ) %>
     <% end %>
     <% if exclude_others %>
       <%= hidden_field_tag(:q, "exclude_others") %>
     <% end %>
     <%= form.govuk_submit t(".search"), name: "submit", value: "search" %>
     <%= link_to(
-      t(".clear_search"),
-      clear_search_url,
-      class: "govuk-button govuk-button--secondary",
-      data: { action: "click->clear-form#handleClick" }
-    ) %>
+          t(".clear_search"),
+          clear_search_url,
+          class: "govuk-button govuk-button--secondary",
+          data: { action: "click->clear-form#handleClick" }
+        ) %>
   </div>
 
   <% if panel_type == :all %>
