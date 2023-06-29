@@ -125,6 +125,8 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       expect(planning_application.consultation.reload.letter_copy_sent_at).to eq(Time.zone.local(2023, 9, 1, 10))
 
+      expect(NeighbourLetter.last.text).to include("We are writing to notify you that we have received a prior approval application for a larger extension at the address:")
+
       # View audit log
       visit planning_application_audits_path(planning_application)
       within("#audit_#{Audit.last.id}") do
@@ -138,6 +140,34 @@ RSpec.describe "Send letters to neighbours", js: true do
         expect(page).to have_content("Neighbour letter copy sent by email to agent@example.com, applicant@example.com")
         expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
       end
+    end
+
+    it "I can edit the letter being sent" do
+      expect(PlanningApplicationMailer).to receive(:neighbour_consultation_letter_copy_mail).with(planning_application, "agent@example.com").and_call_original
+      expect(PlanningApplicationMailer).to receive(:neighbour_consultation_letter_copy_mail).with(planning_application, "applicant@example.com").and_call_original
+
+      sign_in assessor
+      visit planning_application_path(planning_application)
+
+      click_link "Send letters to neighbours"
+
+      fill_in "Add neighbours by address", with: "60-62 Commercial Street"
+      # # Something weird is happening with the javascript, so having to double click for it to register
+      # # This doesn't happen in "real life"
+      page.find(:xpath, "//input[@value='Add neighbour']").click.click
+
+      expect(page).to have_content("60-62 Commercial Street")
+
+      fill_in "Add neighbours by address", with: "60-61 Commercial Road"
+      page.find(:xpath, "//input[@value='Add neighbour']").click.click
+
+      fill_in "Neighbour letter preview", with: "This is some content I'm putting in"
+      click_button "Print and send letters"
+      expect(page).to have_content("Letters have been sent to neighbours and a copy of the letter has been sent to the applicant.")
+
+      expect(planning_application.consultation.reload.letter_copy_sent_at).to eq(Time.zone.local(2023, 9, 1, 10))
+
+      expect(NeighbourLetter.last.text).to eq("This is some content I'm putting in")
     end
   end
 

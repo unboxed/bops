@@ -1,22 +1,28 @@
-<h3 class="govuk-heading-s govuk-!-margin-top-8">
-  Neighbour letter preview
-</h3>
+<%= form_with(
+model: [@planning_application, @consultation],
+builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+url: planning_application_consultation_send_neighbour_letters_path(planning_application: @planning_application, consultation_id: @consultation.id),
+method: 'post'
+) do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.hidden_field :consultation_id, value: @consultation.id %>
+  <%= form.label :neighbour_letter_content, "Neighbour letter preview", class: "govuk-heading-s govuk-!-margin-top-8" %>
+  <%= form.text_area :neighbour_letter_content, rows: 25, class: "govuk-body neighbour-letter-template" %>
 
-<div class="neighbour-letter-template">
-  <h2>Public consultation</h2>
-  <%= 
-    simple_format(
-        t("neighbour_letter_template", 
-        received_at: @planning_application.received_at.to_formatted_s(:day_month_year_slashes), 
-        expiry_date: @planning_application.expiry_date.to_formatted_s(:day_month_year_slashes),
-        address: @planning_application.full_address,
-        description: @planning_application.description,
-        reference: @planning_application.reference,
-        closing_date: @consultation.end_date_from_now.to_formatted_s(:day_month_year_slashes),
-        rear_wall: @planning_application.rear_wall_length,
-        max_height: @planning_application.max_height_extension,
-        eave_height: @planning_application.eave_height_extension,
-      )
-    )
-  %>
+  <div class="govuk-inset-text">
+    <p class="govuk-body">Measurements in the letter have been taken from PlanX. Please amend if needed.</p>
+    <p class="govuk-body">A copy of the letter will also be sent by email to the applicant.</p>
+  </div>
+
+  <div class="govuk-button-group govuk-!-margin-top-5 align-buttons">
+      <%= form.submit "Print and send letters", class: "govuk-button govuk-button--primary", style: "margin-inline-end: 2rem;" %>
+    <% end %>
+  <%= form_with(
+    model: [planning_application, consultation],
+    builder: GOVUKDesignSystemFormBuilder::FormBuilder
+  ) do |form| %>
+    <%= form.hidden_field :consultation_id %>
+    <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
+    <%= link_to "Back", planning_application_path(planning_application), class: "govuk-button govuk-button--secondary" %>
+  <% end %>
 </div>

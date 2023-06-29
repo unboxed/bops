@@ -769,7 +769,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         "To view more details about this application or to make a comment"
       )
       expect(mail_body).to include(
-        "search for it on the council's planning register using the application number 22-00100-LDCP"
+        "use this link https://planx.bops-applicants.services/planning_applications/#{planning_application.id}"
       )
       expect(mail_body).to include(
         "You can comment on this application until 03/05/2022"
