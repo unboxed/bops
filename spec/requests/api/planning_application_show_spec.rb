@@ -99,6 +99,9 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
         let!(:document_with_number) { create(:document, :public, planning_application:) }
         let!(:document_without_number) { create(:document, planning_application:) }
         let!(:document_archived) { create(:document, :public, :archived, planning_application:) }
+        let!(:consultation) { create(:consultation, planning_application:) }
+        let!(:neighbour) { create(:neighbour, consultation:) }
+        let!(:neighbour_response) { create(:neighbour_response, neighbour:, redacted_response: "It's fine", received_at: 1.day.ago, summary_tag: "supportive") }
 
         it "returns the accurate data" do
           get "/api/v1/planning_applications/#{planning_application.id}"
@@ -147,6 +150,9 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
           expect(planning_application_json["documents"].first["archive_reason"]).to eq(document_with_number.archive_reason)
           expect(planning_application_json["documents"].first["tags"]).to eq(document_with_number.tags)
           expect(planning_application_json["documents"].first["numbers"]).to eq(document_with_number.numbers)
+          expect(planning_application_json["published_comments"].first["comment"]).to eq(neighbour_response.redacted_response)
+          expect(planning_application_json["published_comments"].first["received_at"]).to eq(json_time_format(neighbour_response.received_at))
+          expect(planning_application_json["published_comments"].first["summary_tag"]).to eq(neighbour_response.summary_tag)
         end
       end
     end
