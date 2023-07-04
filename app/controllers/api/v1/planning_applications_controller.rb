@@ -16,7 +16,7 @@ module Api
 
       def show
         @planning_application = current_local_authority.planning_applications.where(id: params[:id]).first
-        if @planning_application&.validated?
+        if @planning_application
           respond_to(:json)
         else
           send_not_found_response
