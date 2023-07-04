@@ -59,3 +59,10 @@ json.documents planning_application.documents.for_publication do |document|
                 :numbers,
                 :applicant_description
 end
+if planning_application.consultation.present?
+  json.published_comments planning_application.consultation.neighbour_responses.redacted do |response|
+    json.comment response.redacted_response
+    json.received_at response.received_at
+    json.summary_tag response.summary_tag
+  end
+end
