@@ -1,12 +1,11 @@
 <% content_for :page_title do %>
-  Constraints - <%= t('page_title') %>
+  Constraints - <%= t("page_title") %>
 <% end %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Check the constraints"  }
-) %>
-
+      partial: "shared/proposal_header",
+      locals: { heading: "Check the constraints" }
+    ) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -16,12 +15,22 @@
 
     <p class="govuk-body" id="constraints-review">Review the following constraints and update as necessary.</p>
     <%= render(
-      partial: "constraints/info",
-      locals: {
-        planning_application: @planning_application,
-        constraints: @planning_application.constraints
-      }
-    ) %>
+          partial: "constraints/info",
+          locals: {
+            planning_application: @planning_application,
+            constraints: @planning_application.planning_application_constraints.active
+          }
+        ) %>
+
+    <p class="govuk-body" id="constraints-removed">Removed constraints</p>
+    <%= render(
+          partial: "constraints/info",
+          locals: {
+            planning_application: @planning_application,
+            constraints: @planning_application.planning_application_constraints.removed,
+            show_update_button: false
+          }
+        ) %>
 
     <%= form_with model: @planning_application, url: check_planning_application_constraints_path(@planning_application), method: :patch do |form| %>
       <div class="govuk-button-group">

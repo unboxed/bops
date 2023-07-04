@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class ConstraintsCreationService
-  def initialize(planning_application:, constraints_params:)
+  def initialize(planning_application:, constraints_params:, constraints_query: nil)
     @planning_application = planning_application
     @constraints_params = constraints_params
+    @constraints_query = constraints_query
   end
 
   def call
@@ -12,12 +13,21 @@ class ConstraintsCreationService
                                       .find_by("LOWER(name)= ?", constraint.downcase)
 
       if existing_constraint
-        planning_application.planning_application_constraints.create!(constraint_id: existing_constraint.id)
+        planning_application.planning_application_constraints.find_or_create_by!(
+          constraint_id: existing_constraint.id,
+          planning_application_constraints_query: @constraints_query
+        ).save!
       else
         planning_application.constraints.find_or_create_by!(
           name: constraint.titleize, category: "local", local_authority_id: planning_application.local_authority_id
         )
       end
+    end
+
+    previous_constraints =
+      planning_application.planning_application_constraints.active
+    previous_constraints.each do |constraint|
+      constraint.update!(removed_at: Time.current) unless constraints.include?(constraint.constraint.name.humanize)
     end
   rescue ActiveRecord::RecordInvalid, NoMethodError => e
     Appsignal.send_error(e)

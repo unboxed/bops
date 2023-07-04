@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_21_153655) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_27_083704) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -345,6 +345,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_21_153655) do
     t.bigint "constraint_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "removed_at"
     t.index ["constraint_id"], name: "ix_planning_application_constraints_on_constraint_id"
     t.index ["planning_application_constraints_query_id"], name: "ix_planning_application_constraints_on_planning_application_con"
     t.index ["planning_application_id"], name: "ix_planning_application_constraints_on_planning_application_id"
