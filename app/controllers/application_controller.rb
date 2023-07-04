@@ -59,10 +59,6 @@ class ApplicationController < ActionController::Base
     response.headers["Expires"] = 100.years.ago
   end
 
-  def disable_flash_header
-    @disable_flash_header = true
-  end
-
   def set_current_user
     Current.user = current_user
   end
