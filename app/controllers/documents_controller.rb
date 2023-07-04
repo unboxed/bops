@@ -5,7 +5,6 @@ class DocumentsController < AuthenticationController
 
   before_action :set_planning_application
   before_action :set_document, only: %i[edit update archive confirm_archive unarchive]
-  before_action :disable_flash_header, only: :index
   before_action :ensure_document_edits_unlocked, only: %i[new edit update archive unarchive]
   before_action :ensure_blob_is_representable, only: %i[edit update archive unarchive]
   before_action :validate_document?, only: %i[edit update]
