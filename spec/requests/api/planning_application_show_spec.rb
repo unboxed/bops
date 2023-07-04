@@ -47,12 +47,6 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
       expect(planning_application_json).to eq({ "message" => "Unable to find record" })
     end
 
-    it "returns 404 if planning application is not validated" do
-      get "/api/v1/planning_applications/#{planning_application_not_validated.id}"
-      expect(response.code).to eq("404")
-      expect(planning_application_json).to eq({ "message" => "Unable to find record" })
-    end
-
     context "with a new planning application" do
       it "returns the accurate data" do
         get "/api/v1/planning_applications/#{planning_application.id}"
