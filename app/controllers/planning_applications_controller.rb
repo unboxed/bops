@@ -26,7 +26,7 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def index
-    @planning_applications = PlanningApplicationSearch.new(params).call
+    @planning_applications = search.call
 
     @search_filter = if params[:planning_application_search_filter].present?
                        PlanningApplicationSearchFilter.new(
@@ -247,6 +247,10 @@ class PlanningApplicationsController < AuthenticationController
       .merge(planning_applications: @planning_applications, submit: params[:submit])
   end
 
+  def search
+    @search ||= PlanningApplicationSearch.new(params)
+  end
+
   def validation_date_fields_invalid?
     validation_date_fields.any?(&:blank?) ||
       validation_date_fields.any? { |field| !field.match(/\A[0-9]*\z/) }
@@ -366,7 +370,7 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def check_filter_params
-    return unless current_user.reviewer? && params[:planning_application_search_filter] && helpers.exclude_others?
+    return unless current_user.reviewer? && params[:planning_application_search_filter] && search.exclude_others?
 
     params[:planning_application_search_filter][:filter_options] = filter_option_params.select do |a|
       PlanningApplication::REVIEWER_FILTER_OPTIONS.include?(a)

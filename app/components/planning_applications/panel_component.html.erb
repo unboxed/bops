@@ -5,7 +5,7 @@
       PlanningApplications::SearchFilterComponent.new(
         current_user: current_user,
         panel_type: type,
-        exclude_others: exclude_others,
+        exclude_others: @search&.exclude_others?,
         search_filter: search_filter
       )
     ) %>

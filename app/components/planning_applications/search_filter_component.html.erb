@@ -15,8 +15,8 @@
         hint: { text: t(".you_can_search") }
       ) %>
     <% end %>
-    <% if exclude_others %>
-      <%= hidden_field_tag(:q, "exclude_others") %>
+    <% unless exclude_others %>
+      <%= hidden_field_tag(:view, "all") %>
     <% end %>
     <%= form.govuk_submit t(".search"), name: "submit", value: "search" %>
     <%= link_to(

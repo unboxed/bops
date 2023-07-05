@@ -317,7 +317,7 @@ RSpec.describe "Planning Application index page" do
         end
 
         it "shows relevant application details" do
-          visit(planning_applications_path(q: "exclude_others"))
+          visit(planning_applications_path(view: "mine"))
 
           within(selected_govuk_tab) do
             expect(page).to have_content("Your live applications")

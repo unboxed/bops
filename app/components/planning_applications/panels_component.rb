@@ -4,9 +4,9 @@ module PlanningApplications
   class PanelsComponent < ViewComponent::Base
     def initialize(planning_applications:, exclude_others:, current_user:, search_filter:, local_authority:)
       @planning_applications = planning_applications
-      @exclude_others = exclude_others
       @current_user = current_user
       @search_filter = search_filter
+      @exclude_others = exclude_others
       @local_authority = local_authority
     end
 
@@ -14,10 +14,6 @@ module PlanningApplications
 
     def panel_types
       [:closed]
-    end
-
-    def reviewer_applications?
-      @reviewer_applications ||= exclude_others && current_user.reviewer?
     end
 
     def all_planning_applications

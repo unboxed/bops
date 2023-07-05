@@ -4,7 +4,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <% if exclude_others? %>
+    <% if @search.exclude_others? %>
       <h1 class="govuk-heading-l">
         Your planning applications
       </h1>
@@ -14,7 +14,7 @@
       <p class="govuk-body">
         <%= link_to "Add new application", new_planning_application_path, class: "govuk-link" %>
       </p>
-      <p class="govuk-body"><%= link_to "View all applications", planning_applications_path(planning_application_search_filter: { filter_options: PlanningApplication::FILTER_OPTIONS }), class: "govuk-button" %></p>
+      <p class="govuk-body"><%= link_to "View all applications", planning_applications_path(view: 'all', planning_application_search_filter: { filter_options: PlanningApplication::FILTER_OPTIONS }), class: "govuk-button" %></p>
     <% else %>
       <h1 class="govuk-heading-l">
         All planning applications
@@ -26,17 +26,7 @@
         <%= link_to "Add new application", new_planning_application_path, class: "govuk-link" %>
       </p>
       <p class="govuk-body">
-        <%= 
-          link_to "View my applications",
-          planning_applications_path(
-            q: "exclude_others",
-            planning_application_search_filter:
-              {
-                filter_options: current_user.reviewer? ? PlanningApplication::REVIEWER_FILTER_OPTIONS : PlanningApplication::FILTER_OPTIONS
-              }
-          ),
-          class: "govuk-button" 
-        %>
+        <%= link_to "View my applications", planning_applications_path(planning_application_search_filter: { filter_options: PlanningApplication::FILTER_OPTIONS }), class: "govuk-button" %>
       </p>
     <% end %>
   </div>
@@ -68,7 +58,7 @@
           planning_applications: @planning_applications,
           search_filter: @search_filter,
           current_user: current_user,
-          exclude_others: exclude_others?,
+          exclude_others: @search&.exclude_others?,
           local_authority: current_local_authority
         )
       ) %>
