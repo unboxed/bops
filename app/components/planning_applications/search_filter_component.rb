@@ -2,8 +2,8 @@
 
 module PlanningApplications
   class SearchFilterComponent < ViewComponent::Base
-    def initialize(current_user:, exclude_others:, panel_type:, search_filter:)
-      @panel_type = panel_type
+    def initialize(current_user:, exclude_others:, tab_type:, search_filter:)
+      @tab_type = tab_type
       @exclude_others = exclude_others
       @current_user = current_user
       @search_filter = search_filter
@@ -23,12 +23,12 @@ module PlanningApplications
       search_filter&.filter_types&.count || filter_types.count
     end
 
-    attr_reader :search_filter, :panel_type, :exclude_others
+    attr_reader :search_filter, :tab_type, :exclude_others
 
     def clear_search_url
       q = exclude_others ? "exclude_others" : nil
       planning_applications_path(
-        anchor: panel_type,
+        anchor: tab_type,
         q:,
         planning_application_search_filter: { filter_options: PlanningApplication::FILTER_OPTIONS }
       )

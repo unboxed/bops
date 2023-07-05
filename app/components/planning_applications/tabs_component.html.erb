@@ -1,5 +1,5 @@
 <%= render(
-  PlanningApplications::PanelComponent.new(
+  PlanningApplications::TabComponent.new(
     planning_applications: all_planning_applications,
     type: :all,
     search_filter: search_filter,
@@ -7,17 +7,17 @@
     current_user: current_user
   )
 ) %>
-<% panel_types.each do |panel_type| %>
+<% tab_types.each do |tab_type| %>
   <%= render(
-    PlanningApplications::PanelComponent.new(
-      planning_applications: planning_applications.send(panel_type),
-      type: panel_type,
+    PlanningApplications::TabComponent.new(
+      planning_applications: planning_applications.send(tab_type),
+      type: tab_type,
       current_user: current_user
     )
   ) %>
 <% end %>
 <%= render(
-  PlanningApplications::UpdatedPanelComponent.new(
+  PlanningApplications::UpdatedTabComponent.new(
     audits: local_authority_most_recent_audits_for_planning_applications
   )
 ) %>

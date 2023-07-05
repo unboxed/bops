@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module PlanningApplications
-  class UpdatedPanelComponent < ViewComponent::Base
+  class UpdatedTabComponent < ViewComponent::Base
     def initialize(audits:)
       @audits = audits
     end

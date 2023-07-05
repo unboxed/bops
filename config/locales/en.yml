@@ -700,28 +700,6 @@ en:
     overdue:
       one: 1 day overdue
       other: "%{count} days overdue"
-    panel_component:
-      all: All
-      all_applications: Live applications
-      all_your_applications: Your live applications
-      application_type_name: Application type
-      application_type_with_status: Application type
-      awaiting_determination: Awaiting determination
-      closed: Closed
-      days_status_tag: Days
-      description: Description
-      formatted_awaiting_determination_at: Recommendation date
-      formatted_expiry_date: Expiry date
-      formatted_outcome_date: Outcome date
-      full_address: Site address
-      no_planning_applications: No planning applications match your search
-      not_started_and_invalid: Not started
-      outcome: Outcome
-      reference: Application number
-      status_tag: Status
-      to_be_reviewed: Corrections requested
-      under_assessment: In assessment
-      user_name: Planning officer
     policy_consideration_list:
       proposal_details: Proposal details
     publish:
@@ -754,6 +732,28 @@ en:
     submit_recommendation_accordion:
       assessment_report: Assessment report details
       download_assessment_report: Download assessment report as PDF
+    tab_component:
+      all: All
+      all_applications: Live applications
+      all_your_applications: Your live applications
+      application_type_name: Application type
+      application_type_with_status: Application type
+      awaiting_determination: Awaiting determination
+      closed: Closed
+      days_status_tag: Days
+      description: Description
+      formatted_awaiting_determination_at: Recommendation date
+      formatted_expiry_date: Expiry date
+      formatted_outcome_date: Outcome date
+      full_address: Site address
+      no_planning_applications: No planning applications match your search
+      not_started_and_invalid: Not started
+      outcome: Outcome
+      reference: Application number
+      status_tag: Status
+      to_be_reviewed: Corrections requested
+      under_assessment: In assessment
+      user_name: Planning officer
     tabs:
       all_applications: Live applications
       all_your_applications: Your live applications

@@ -26,7 +26,7 @@
         <%= link_to "Add new application", new_planning_application_path, class: "govuk-link" %>
       </p>
       <p class="govuk-body">
-        <%= 
+        <%=
           link_to "View my applications",
           planning_applications_path(
             q: "exclude_others",
@@ -35,7 +35,7 @@
                 filter_options: current_user.reviewer? ? PlanningApplication::REVIEWER_FILTER_OPTIONS : PlanningApplication::FILTER_OPTIONS
               }
           ),
-          class: "govuk-button" 
+          class: "govuk-button"
         %>
       </p>
     <% end %>
@@ -57,7 +57,7 @@
       </h2>
       <%= render "planning_application_tabs" %>
       <%= render(
-        PlanningApplications::PanelsComponent.new(
+        PlanningApplications::TabsComponent.new(
           planning_applications: @planning_applications,
           search_filter: @search_filter,
           current_user: current_user,

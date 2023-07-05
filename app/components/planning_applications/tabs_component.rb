@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module PlanningApplications
-  class PanelsComponent < ViewComponent::Base
+  class TabsComponent < ViewComponent::Base
     def initialize(planning_applications:, exclude_others:, current_user:, search_filter:, local_authority:)
       @planning_applications = planning_applications
       @exclude_others = exclude_others
@@ -12,7 +12,7 @@ module PlanningApplications
 
     private
 
-    def panel_types
+    def tab_types
       [:closed]
     end
 

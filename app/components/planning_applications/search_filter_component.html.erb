@@ -2,7 +2,7 @@
   model: search_filter,
   builder: GOVUKDesignSystemFormBuilder::FormBuilder,
   method: :get,
-  url: planning_applications_path(anchor: panel_type, filter_options: filter_types),
+  url: planning_applications_path(anchor: tab_type, filter_options: filter_types),
   data: { controller: "clear-form" }
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
@@ -27,7 +27,7 @@
     ) %>
   </div>
 
-  <% if panel_type == :all %>
+  <% if tab_type == :all %>
     <div class="govuk-accordion single-section-accordion" data-module="govuk-accordion" data-controller="select-checkboxes">
       <div class="govuk-accordion__section">
         <div class="govuk-accordion__section-header">
