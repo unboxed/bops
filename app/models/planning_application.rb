@@ -582,6 +582,16 @@ class PlanningApplication < ApplicationRecord
     find_proposal_detail("Exactly how high are the eaves of the extension?")&.first&.response_values&.first
   end
 
+  def neighbour_addresses
+    proposal_details.select { |detail| detail.question.include? "adjoining property" }&.map(&:response_values)&.flatten
+  end
+
+  def neighbour_addresses_inline
+    neighbour_addresses.map do |address|
+      address.gsub(/[,\s]{2,}/, ", ")
+    end
+  end
+
   delegate :name, to: :application_type, prefix: true
 
   private

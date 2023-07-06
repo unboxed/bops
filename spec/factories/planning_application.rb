@@ -60,6 +60,22 @@ FactoryBot.define do
             ]
           }
         },
+        {
+          question: "Enter the address of the first adjoining property",
+          responses: [
+            {
+              value: "London, 80 Underhill Road , , , , SE22 0QU"
+            }
+          ]
+        },
+        {
+          question: "Enter the address of the second adjoining property",
+          responses: [
+            {
+              value: "London, 78 Underhill Road, , , , SE22 0QU"
+            }
+          ]
+        },
         question: "Is this a listed building?",
         responses: [
           {
