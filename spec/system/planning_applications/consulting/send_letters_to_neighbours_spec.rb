@@ -143,7 +143,7 @@ RSpec.describe "Send letters to neighbours", js: true do
     end
 
     it "I can edit the letter being sent" do
-      expect(PlanningApplicationMailer).to receive(:neighbour_consultation_letter_copy_mail).with(planning_application, "agent@example.com").and_call_original
+      expect(PlanningApplicationMailer).to receive(:neighbour_consultation_letter_copy_mail).twice.with(planning_application, "agent@example.com").and_call_original
       expect(PlanningApplicationMailer).to receive(:neighbour_consultation_letter_copy_mail).with(planning_application, "applicant@example.com").and_call_original
 
       sign_in assessor
@@ -168,6 +168,9 @@ RSpec.describe "Send letters to neighbours", js: true do
       expect(planning_application.consultation.reload.letter_copy_sent_at).to eq(Time.zone.local(2023, 9, 1, 10))
 
       expect(NeighbourLetter.last.text).to eq("This is some content I'm putting in")
+
+      expect(PlanningApplicationMailer.neighbour_consultation_letter_copy_mail(planning_application, planning_application.agent_email).body)
+        .to include("This is some content I'm putting in")
     end
   end
 

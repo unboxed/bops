@@ -734,6 +734,10 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     let(:mail_body) { neighbour_consultation_letter_copy_mail.body.encoded }
 
+    before do
+      consultation.update(neighbour_letter_text: consultation.neighbour_letter_content)
+    end
+
     it "sets the subject" do
       expect(neighbour_consultation_letter_copy_mail.subject).to eq(
         "Neighbour consultation letter copy"

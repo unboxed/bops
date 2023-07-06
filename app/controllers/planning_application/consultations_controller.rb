@@ -58,6 +58,8 @@ class PlanningApplication
     def send_neighbour_letters
       return if @consultation.blank?
 
+      @consultation.update(neighbour_letter_text: consultation_params[:neighbour_letter_content])
+
       @planning_application.send_neighbour_consultation_letter_copy_mail
 
       @consultation.neighbours.reject(&:letter_created?).each do |neighbour|
