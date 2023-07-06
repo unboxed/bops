@@ -338,3 +338,48 @@ html * {
 .width-80 {
   width: 80%;
 }
+
+.status-bar-container {
+  background-color: rgb(202, 222, 237);
+  width: calc(100vw);
+  margin-left: calc(-1 * ((100vw - 100%) / 2));
+
+  h2 {
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 1rem;
+  }
+}
+
+.status-bar {
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+
+  display: flex;
+  gap: 3rem;
+}
+
+.status-panel {
+  background-color: govuk-colour("light-grey", $legacy: "grey-3");
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+
+  h3 {
+    margin: 0;
+  }
+  p {
+    text-decoration: underline;
+    margin-bottom: 0;
+    margin-top: 0.5em;
+  }
+}
+
+.status-panel--highlighted {
+  background-color: white;
+  border: 5px solid govuk-colour("yellow");
+}

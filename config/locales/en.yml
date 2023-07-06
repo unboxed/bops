@@ -710,12 +710,14 @@ en:
     determine:
       success: Decision Notice sent to applicant
     index:
-      assessor_alert:
-        one: Your manager has requested corrections on <strong>%{count} application.</strong>
-        other: Your manager has requested corrections on <strong>%{count} applications.</strong>
-      reviewer_alert:
-        one: You have <strong>%{count} application</strong> returned to you with corrections.
-        other: You have <strong>%{count} applications</strong> returned to you with corrections.
+      prior_approvals:
+        one: "%{count} prior approval"
+        other: "%{count} prior approvals"
+        title: Not started
+      reviewer_requests:
+        one: "%{count} application"
+        other: "%{count} applications"
+        title: Reviewer requests
     invalidate:
       success: Application has been invalidated and email has been sent
     overdue:

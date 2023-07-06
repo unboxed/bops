@@ -18,6 +18,8 @@ RSpec.describe "Planning Application index page" do
   let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
   let(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
 
+  let(:application_type_prior_approval) { create(:application_type, name: :prior_approval) }
+
   context "as an assessor" do
     before do
       sign_in assessor
@@ -37,7 +39,7 @@ RSpec.describe "Planning Application index page" do
         visit root_path
 
         expect(page).to have_content(
-          "Your manager has requested corrections on 1 application."
+          "Reviewer requests 1 application "
         )
       end
     end
@@ -56,8 +58,57 @@ RSpec.describe "Planning Application index page" do
         visit root_path
 
         expect(page).to have_content(
-          "Your manager has requested corrections on 2 applications."
+          "Reviewer requests 2 applications "
         )
+      end
+    end
+
+    context "when a prior approval is not started" do
+      before do
+        create(
+          :planning_application,
+          :not_started,
+          :from_planx_prior_approval,
+          application_type: application_type_prior_approval,
+          local_authority: default_local_authority
+        )
+      end
+
+      it "renders alert message" do
+        visit root_path
+        expect(page).to have_content("Not started 1 prior approval ")
+      end
+    end
+
+    context "when multiple prior approvals are not started" do
+      before do
+        create_list(
+          :planning_application,
+          2,
+          :not_started,
+          :from_planx_prior_approval,
+          application_type: application_type_prior_approval,
+          local_authority: default_local_authority
+        )
+      end
+
+      it "renders alert message" do
+        visit root_path
+        expect(page).to have_content("Not started 2 prior approvals ")
+      end
+
+      context "when one gets marked as started" do
+        before do
+          app = PlanningApplication.prior_approvals.not_started.last
+          app.update!(validated_at: Time.zone.today)
+          app.start
+          app.save!
+        end
+
+        it "alters the alert message" do
+          visit root_path
+          expect(page).to have_content("Not started 1 prior approval ")
+        end
       end
     end
 
@@ -371,7 +422,7 @@ RSpec.describe "Planning Application index page" do
         visit root_path
 
         expect(page).to have_content(
-          "You have 1 application returned to you with corrections."
+          "Reviewer requests 1 application "
         )
       end
     end
@@ -390,7 +441,7 @@ RSpec.describe "Planning Application index page" do
         visit root_path
 
         expect(page).to have_content(
-          "You have 2 applications returned to you with corrections."
+          "Reviewer requests 2 applications "
         )
       end
     end
