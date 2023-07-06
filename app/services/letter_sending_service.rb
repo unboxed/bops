@@ -5,25 +5,26 @@ require "notifications/client"
 class LetterSendingService
   DEFAULT_NOTIFY_TEMPLATE_ID = "7a7c541e-be0a-490b-8165-8e44dc9d13ad"
 
-  attr_reader :neighbour, :consultation
+  attr_reader :neighbour, :consultation, :letter_content
 
-  def initialize(neighbour)
+  def initialize(neighbour, letter_content)
     @local_authority = neighbour.consultation.planning_application.local_authority
     @neighbour = neighbour
     @consultation = neighbour.consultation
+    @letter_content = letter_content
   end
 
   def deliver!
     return if NeighbourLetter.find_by(neighbour:).present?
 
-    letter_record = NeighbourLetter.new(neighbour:, text: message)
+    letter_record = NeighbourLetter.new(neighbour:, text: letter_content)
 
     ActiveRecord::Base.transaction do
       letter_record.save!
       consultation.update!(end_date: consultation.end_date_from_now, start_date: 1.business_day.from_now)
     end
 
-    personalisation = { message:, heading: "Public consultation" }
+    personalisation = { message: letter_content, heading: "Public consultation" }
     personalisation.merge! address
 
     begin
@@ -76,10 +77,6 @@ class LetterSendingService
 
       record.save!
     end
-  end
-
-  def message
-    consultation.neighbour_letter_content
   end
 
   def production?

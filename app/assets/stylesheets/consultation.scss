@@ -11,12 +11,18 @@
 .neighbour-letter-template {
   border: 1px solid grey;
   padding: 50px;
+  width: 100%;
 }
 
 .neighbour-response-section {
   width: 40%;
 
   .app-task-list__task-tag {
-    float: left
+    float: left;
   }
+}
+
+.align-buttons {
+  display: flex;
+  align-items: center;
 }

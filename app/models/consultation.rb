@@ -24,10 +24,6 @@ class Consultation < ApplicationRecord
     1.business_day.from_now + 21.days
   end
 
-  def neighbour_letter_text
-    I18n.t("neighbour_letter_template")
-  end
-
   def neighbour_letter_content
     I18n.t("neighbour_letter_template",
            received_at: planning_application.received_at.to_fs(:day_month_year_slashes),
@@ -38,10 +34,15 @@ class Consultation < ApplicationRecord
            closing_date: planning_application.received_at.to_fs(:day_month_year_slashes),
            rear_wall: planning_application.rear_wall_length,
            max_height: planning_application.max_height_extension,
-           eave_height: planning_application.eave_height_extension)
+           eave_height: planning_application.eave_height_extension,
+           application_link:)
   end
 
   private
+
+  def application_link
+    "https://#{planning_application.local_authority.subdomain}.bops-applicants.services/planning_applications/#{planning_application.id}"
+  end
 
   def audit_letter_copy_sent!
     Audit.create!(

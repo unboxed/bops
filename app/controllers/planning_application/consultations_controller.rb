@@ -58,10 +58,12 @@ class PlanningApplication
     def send_neighbour_letters
       return if @consultation.blank?
 
+      @consultation.update(neighbour_letter_text: consultation_params[:neighbour_letter_content])
+
       @planning_application.send_neighbour_consultation_letter_copy_mail
 
       @consultation.neighbours.reject(&:letter_created?).each do |neighbour|
-        LetterSendingService.new(neighbour).deliver!
+        LetterSendingService.new(neighbour, consultation_params[:neighbour_letter_content]).deliver!
       end
 
       Audit.create!(
@@ -101,6 +103,7 @@ class PlanningApplication
     def consultation_params
       params.require(:consultation).permit(
         :planning_application_id,
+        :neighbour_letter_content,
         neighbours_attributes: %i[consultation_id address id]
       ).merge(status:)
     end
