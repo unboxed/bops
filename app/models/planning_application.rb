@@ -308,7 +308,7 @@ class PlanningApplication < ApplicationRecord
 
   def immune_proposal_details
     proposal_details.select do |proposal_detail|
-      proposal_detail.portal_name == "immunity-check"
+      proposal_detail.flags == ["Planning permission / Immune"]
     end
   end
 

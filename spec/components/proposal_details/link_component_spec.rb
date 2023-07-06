@@ -7,15 +7,15 @@ RSpec.describe ProposalDetails::LinkComponent, type: :component do
     {
       question: "Test question 1",
       responses: [{ value: "Test response 1" }],
-      metadata: { portal_name: }
+      metadata: { section_name: }
     }.deep_stringify_keys
   end
 
-  let(:portal_name) { "group_x" }
+  let(:section_name) { "group_x" }
 
   let(:group) do
-    Struct.new(:portal_name, :proposal_details).new(
-      portal_name,
+    Struct.new(:section_name, :proposal_details).new(
+      section_name,
       [ProposalDetail.new(proposal_detail_attributes, 1)]
     )
   end
@@ -28,16 +28,8 @@ RSpec.describe ProposalDetails::LinkComponent, type: :component do
     expect(page).to have_link("Group x", href: "#groupx")
   end
 
-  context "when portal_name is '_root'" do
-    let(:portal_name) { "_root" }
-
-    it "renders link to 'Main'" do
-      expect(page).to have_link("Main", href: "#main")
-    end
-  end
-
-  context "when portal_name is nil" do
-    let(:portal_name) { nil }
+  context "when section_name is nil" do
+    let(:section_name) { nil }
 
     it "renders link to 'Other'" do
       expect(page).to have_link("Other", href: "#other")

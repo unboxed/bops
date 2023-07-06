@@ -8,17 +8,17 @@ RSpec.describe ProposalDetails::ListComponent, type: :component do
       {
         question: "Test question 1",
         responses: [{ value: "Test response 1" }],
-        metadata: { auto_answered: true, portal_name: "group_a" }
+        metadata: { auto_answered: true, section_name: "group_a" }
       },
       {
         question: "Test question 2",
         responses: [{ value: "Test response 2" }],
-        metadata: { auto_answered: true, portal_name: "group_b" }
+        metadata: { auto_answered: true, section_name: "group_b" }
       },
       {
         question: "Test question 3",
         responses: [{ value: "Test response 3" }],
-        metadata: { auto_answered: true, portal_name: "group_a" }
+        metadata: { auto_answered: true, section_name: "group_a" }
       }
     ].to_json
   end

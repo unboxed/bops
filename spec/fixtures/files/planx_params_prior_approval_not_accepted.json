@@ -233,7 +233,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "_root",
+        "section_name": "_root",
         "auto_answered": true
       },
       "question": "Is the property in Lambeth?"
@@ -245,7 +245,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "property-types",
+        "section_name": "property-types",
         "auto_answered": true
       },
       "question": "What type of property is it?"
@@ -257,7 +257,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "property-types",
+        "section_name": "property-types",
         "auto_answered": true
       },
       "question": "Which of these best describes the use of the property?"
@@ -269,7 +269,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "property-types"
+        "section_name": "property-types"
       },
       "question": "Is it any of these?"
     },
@@ -280,7 +280,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "property-types"
+        "section_name": "property-types"
       },
       "question": "What type of property is it?"
     },
@@ -291,7 +291,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "_root"
+        "section_name": "_root"
       },
       "question": "Has work already started?"
     },
@@ -302,7 +302,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "_root"
+        "section_name": "_root"
       },
       "question": "Describe the project."
     },
@@ -313,7 +313,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "prior-approval-scope-check",
+        "section_name": "prior-approval-scope-check",
         "auto_answered": true
       },
       "question": "What type of property is it?"
@@ -325,7 +325,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Solar panels",
+        "section_name": "Solar panels",
         "auto_answered": true
       },
       "question": "What type of property is it?"
@@ -337,7 +337,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Solar panels to a house or flats"
+        "section_name": "Solar panels to a house or flats"
       },
       "question": "What do you want to install?"
     },
@@ -348,7 +348,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Solar panels to a house or flats",
+        "section_name": "Solar panels to a house or flats",
         "policy_refs": [
           {
             "text": "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class A\nThe Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class K"
@@ -367,7 +367,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Solar panels to a house or flats",
+        "section_name": "Solar panels to a house or flats",
         "policy_refs": [
           {
             "text": "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class A"
@@ -386,7 +386,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Solar panels",
+        "section_name": "Solar panels",
         "auto_answered": true,
         "policy_refs": [
           {
@@ -406,7 +406,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Solar panels",
+        "section_name": "Solar panels",
         "auto_answered": true,
         "policy_refs": [
           {
@@ -423,7 +423,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Solar panels"
+        "section_name": "Solar panels"
       },
       "question": "Where are the new solar panels?"
     },
@@ -437,7 +437,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Solar panels",
+        "section_name": "Solar panels",
         "policy_refs": [
           {
             "text": "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class K"
@@ -456,7 +456,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Solar panels",
+        "section_name": "Solar panels",
         "policy_refs": [
           {
             "text": "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class K"
@@ -475,7 +475,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Solar panels",
+        "section_name": "Solar panels",
         "policy_refs": [
           {
             "text": "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class BThe Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class K"
@@ -494,7 +494,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Solar panels",
+        "section_name": "Solar panels",
         "policy_refs": [
           {
             "text": "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class BThe Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class K"
@@ -513,7 +513,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Solar panels",
+        "section_name": "Solar panels",
         "policy_refs": [
           {
             "text": "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class B"
@@ -529,7 +529,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Solar panels",
+        "section_name": "Solar panels",
         "auto_answered": true
       },
       "question": "Is the property in a conservation area?"
@@ -541,7 +541,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Solar panels",
+        "section_name": "Solar panels",
         "auto_answered": true
       },
       "question": "Is the property in a world heritage site?"
@@ -556,7 +556,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Solar panels",
+        "section_name": "Solar panels",
         "policy_refs": [
           {
             "text": "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class AThe Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 14, Class K"
@@ -572,7 +572,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Types of Prior Approval for commercial buildings",
+        "section_name": "Types of Prior Approval for commercial buildings",
         "auto_answered": true
       },
       "question": "What type of property is it?"
@@ -584,7 +584,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Types of Prior Approval for commercial buildings"
+        "section_name": "Types of Prior Approval for commercial buildings"
       },
       "question": "Select your project"
     },
@@ -595,7 +595,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "prior-approval-more-information",
+        "section_name": "prior-approval-more-information",
         "auto_answered": true
       },
       "question": "What type of prior approval application is it?"
@@ -607,7 +607,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "about-the-applicant"
+        "section_name": "about-the-applicant"
       },
       "question": "Are you applying on behalf of someone else?"
     },
@@ -618,7 +618,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "about-the-applicant"
+        "section_name": "about-the-applicant"
       },
       "question": "Which of these best describes you (or your organisation)?"
     },
@@ -629,7 +629,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "about-the-applicant"
+        "section_name": "about-the-applicant"
       },
       "question": "Your contact details"
     },
@@ -640,7 +640,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "about-the-applicant"
+        "section_name": "about-the-applicant"
       },
       "question": "Is your contact address the same as the property address?"
     },
@@ -651,7 +651,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "about-the-applicant"
+        "section_name": "about-the-applicant"
       },
       "question": "We may need to visit your site to assess your application. If we do, who should we contact to arrange the visit?"
     },
@@ -662,7 +662,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "prior-approval-files",
+        "section_name": "prior-approval-files",
         "auto_answered": true
       },
       "question": "What type of prior approval application is it?"
@@ -674,7 +674,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "prior-approval-files",
+        "section_name": "prior-approval-files",
         "auto_answered": true
       },
       "question": "Where will the solar panels be installed?"
@@ -686,7 +686,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "prior-approval-files"
+        "section_name": "prior-approval-files"
       },
       "question": "Your planning officer will need to check how far the solar panels stick out beyond the surface of the roof. What do you have that shows this?"
     },
@@ -697,7 +697,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "prior-approval-files"
+        "section_name": "prior-approval-files"
       },
       "question": "Do you want to upload any photographs?"
     },
@@ -708,7 +708,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "prior-approval-files"
+        "section_name": "prior-approval-files"
       },
       "question": "Would you like to upload any additional drawings, documents or images?"
     },
@@ -719,7 +719,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "fee-calculator",
+        "section_name": "fee-calculator",
         "auto_answered": true
       },
       "question": "What type of planning application are you making?"
@@ -731,7 +731,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Fee Exemptions"
+        "section_name": "Fee Exemptions"
       },
       "question": "Are the public allowed to access the building?"
     },
@@ -742,7 +742,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Prior approval fees",
+        "section_name": "Prior approval fees",
         "auto_answered": true
       },
       "question": "What type of prior approval application is it?"
@@ -754,7 +754,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Disability exemption check",
+        "section_name": "Disability exemption check",
         "auto_answered": true
       },
       "question": "Is the property a home?"
@@ -766,7 +766,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Disability exemption check",
+        "section_name": "Disability exemption check",
         "auto_answered": true
       },
       "question": "What type of changes does the project involve?"
@@ -778,7 +778,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Fee Exemptions check",
+        "section_name": "Fee Exemptions check",
         "auto_answered": true
       },
       "question": "What type of prior approval application is it?"
@@ -790,7 +790,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Prior Approval Fee exemptions",
+        "section_name": "Prior Approval Fee exemptions",
         "auto_answered": true
       },
       "question": "Does the application qualify for a disability exemption?"
@@ -802,7 +802,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Prior Approval Fee exemptions",
+        "section_name": "Prior Approval Fee exemptions",
         "auto_answered": true
       },
       "question": "Does the application qualify for a resubmission exemption?"
@@ -814,7 +814,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Prior Approval Fee exemptions",
+        "section_name": "Prior Approval Fee exemptions",
         "auto_answered": true,
         "policy_refs": [
           {
@@ -831,7 +831,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "apply-for-service-declarations",
+        "section_name": "apply-for-service-declarations",
         "auto_answered": true
       },
       "question": "Which Local Planning authority is it?"
@@ -843,7 +843,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "apply-for-service-declarations"
+        "section_name": "apply-for-service-declarations"
       },
       "question": "Connections with London Borough of Lambeth"
     },
@@ -854,7 +854,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "apply-for-service-declarations"
+        "section_name": "apply-for-service-declarations"
       },
       "question": "I confirm that:"
     },
@@ -865,7 +865,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "declarations",
+        "section_name": "declarations",
         "auto_answered": true
       },
       "question": "Connections with London Borough of Lambeth"
@@ -877,7 +877,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "declarations",
+        "section_name": "declarations",
         "auto_answered": true
       },
       "question": "I confirm that:"
@@ -889,7 +889,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Confirmation pages",
+        "section_name": "Confirmation pages",
         "auto_answered": true
       },
       "question": "Which Local Planning authority is it?"
@@ -901,7 +901,7 @@
         }
       ],
       "metadata": {
-        "portal_name": "Lambeth confirmation page",
+        "section_name": "Lambeth confirmation page",
         "auto_answered": true
       },
       "question": "What type of prior approval application is it?application.type"

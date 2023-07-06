@@ -12,7 +12,7 @@ module ProposalDetails
 
     attr_reader :group
 
-    delegate :portal_name, :proposal_details, to: :group
+    delegate :section_name, :proposal_details, to: :group
 
     def auto_answered?
       proposal_details.all?(&:auto_answered?)
@@ -27,13 +27,13 @@ module ProposalDetails
     end
 
     def name
-      case portal_name
+      case section_name
       when "_root"
         t("proposal_details.main")
       when nil
         t("proposal_details.other")
       else
-        portal_name
+        section_name
       end
     end
   end

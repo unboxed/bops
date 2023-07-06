@@ -8,7 +8,7 @@ RSpec.describe ProposalDetails::SummaryComponent, type: :component do
       question: "Test question 1",
       responses: [{ value: "Test response 1" }, { value: "Test response 2" }],
       metadata: {
-        portal_name: "group_x",
+        section_name: "group_x",
         notes: "Test note",
         auto_answered: true,
         policy_refs: [{ url: "www.example.com" }, { text: "Test ref" }]

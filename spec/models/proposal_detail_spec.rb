@@ -14,7 +14,7 @@ RSpec.describe ProposalDetail do
       ],
       metadata: {
         auto_answered: auto_asnwered,
-        portal_name: "Test portal",
+        section_name: "Test portal",
         policy_refs: [
           { text: "Test ref text", url: "https://www.exampleref.com" }
         ],
@@ -82,9 +82,9 @@ RSpec.describe ProposalDetail do
     end
   end
 
-  describe "#portal_name" do
+  describe "#section_name" do
     it "returns portal name" do
-      expect(proposal_detail.portal_name).to eq("Test portal")
+      expect(proposal_detail.section_name).to eq("Test portal")
     end
   end
 

@@ -27,6 +27,10 @@ class ProposalDetail
     metadata["policy_refs"] || []
   end
 
+  def section_name
+    metadata.fetch("section_name", nil)
+  end
+
   def portal_name
     metadata.fetch("portal_name", nil)
   end

@@ -12,17 +12,17 @@ RSpec.describe "Planning Application show page" do
       {
         question: "What do you want to do?",
         responses: [{ value: "Modify or extend" }],
-        metadata: { portal_name: "_root", auto_answered: true }
+        metadata: { section_name: "_root", auto_answered: true }
       },
       {
         question: "Is the property a house?",
         responses: [{ value: "Yes" }],
-        metadata: { portal_name: "_root" }
+        metadata: { section_name: "_root" }
       },
       {
         question: "What will the height of the new structure be?",
         responses: [{ value: "2.5m" }],
-        metadata: { portal_name: "Dimensions", auto_answered: true }
+        metadata: { section_name: "Dimensions", auto_answered: true }
       },
       {
         question: "Is the property in a world heritage site?",
