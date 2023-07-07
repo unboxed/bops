@@ -482,7 +482,7 @@ class PlanningApplication < ApplicationRecord
     assessment_complete? && policy_classes.none?
   end
 
-  def has_policy_class?(section)
+  def has_policy_class?(section) # rubocop:disable Naming/PredicateName
     policy_classes.pluck(:section).include?(section)
   end
 
@@ -636,7 +636,7 @@ class PlanningApplication < ApplicationRecord
     errors.add(:planning_application, "Please enter a valid date")
   end
 
-  def has_validation_date?
+  def has_validation_date? # rubocop:disable Naming/PredicateName
     !validated_at.nil?
   end
 

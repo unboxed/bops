@@ -59,7 +59,7 @@ module AuthenticateWithOtpTwoFactor
       sign_in(user, event: :authentication)
     else
       session[:failed_otp_attempt] = true
-      redirect_to two_factor_path, alert: "Your two factor code is invalid."
+      redirect_to two_factor_path, alert: "Your two factor code is invalid." # rubocop:disable Rails/I18nLocaleTexts
     end
   end
 

@@ -23,7 +23,7 @@ module ValidationRequests
         else
           format.html do
             redirect_to planning_application_validation_tasks_path(@planning_application),
-                        alert: "Couldn't delete validation request - please contact support."
+                        alert: "Couldn't delete validation request - please contact support." # rubocop:disable Rails/I18nLocaleTexts
           end
         end
       end
@@ -62,7 +62,7 @@ module ValidationRequests
     def redirect_failed_cancel_request
       redirect_to send("cancel_confirmation_planning_application_#{request_type}_path",
                        @planning_application, request_type_instance),
-                  alert: "Error cancelling validation request - please contact support."
+                  alert: "Error cancelling validation request - please contact support." # rubocop:disable Rails/I18nLocaleTexts
     end
 
     def cancel_validation_request_params

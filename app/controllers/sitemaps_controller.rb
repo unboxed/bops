@@ -16,7 +16,7 @@ class SitemapsController < AuthenticationController
       format.html do
         if @planning_application.valid_red_line_boundary?
           redirect_to planning_application_validation_tasks_path(@planning_application),
-                      notice: "Red line boundary was marked as valid."
+                      notice: "Red line boundary was marked as valid." # rubocop:disable Rails/I18nLocaleTexts
         elsif @planning_application.valid_red_line_boundary.nil?
           flash.now[:alert] = "You must first select Valid or Invalid to continue."
           render :show

@@ -238,7 +238,7 @@ class PlanningApplicationsController < AuthenticationController
     planning_application = PlanningApplicationCreationService.new(planning_application: @planning_application).call
 
     respond_to do |format|
-      format.html { redirect_to planning_application, notice: "Planning application was successfully cloned." }
+      format.html { redirect_to planning_application, notice: "Planning application was successfully cloned." } # rubocop:disable Rails/I18nLocaleTexts
     end
   end
 
@@ -263,6 +263,7 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def planning_application_params
+    # rubocop:disable Naming/VariableNumber
     permitted_keys = %i[address_1
                         address_2
                         application_type
@@ -287,6 +288,7 @@ class PlanningApplicationsController < AuthenticationController
                         town
                         uprn
                         work_status]
+    # rubocop:enable Naming/VariableNumber
     params.require(:planning_application).permit permitted_keys
   end
 
@@ -312,12 +314,12 @@ class PlanningApplicationsController < AuthenticationController
 
   def redirect_failed_withdraw_recommendation
     redirect_to view_recommendation_planning_application_path(@planning_application),
-                alert: "Error withdrawing recommendation - please contact support."
+                alert: "Error withdrawing recommendation - please contact support." # rubocop:disable Rails/I18nLocaleTexts
   end
 
   def redirect_failed_submit_recommendation
     redirect_to submit_recommendation_planning_application_path(@planning_application),
-                alert: "Error submitting recommendation - please contact support."
+                alert: "Error submitting recommendation - please contact support." # rubocop:disable Rails/I18nLocaleTexts
   end
 
   def redirect_failed_clone_planning_application(error)
@@ -329,10 +331,10 @@ class PlanningApplicationsController < AuthenticationController
     case params[:edit_action]&.to_sym
     when :edit_payment_amount
       redirect_to planning_application_fee_items_path(@planning_application, validate_fee: "yes"),
-                  notice: "Planning application payment amount was successfully updated."
+                  notice: "Planning application payment amount was successfully updated." # rubocop:disable Rails/I18nLocaleTexts
     when :edit_public_comment
       redirect_to edit_planning_application_recommendations_path(@planning_application),
-                  notice: "The information appearing on the decision notice was successfully updated."
+                  notice: "The information appearing on the decision notice was successfully updated." # rubocop:disable Rails/I18nLocaleTexts
     else
       redirect_to(after_update_url, notice: t(".success"))
     end
