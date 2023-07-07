@@ -1,16 +1,14 @@
 <div class="govuk-tabs__panel" id=<%= type %>>
   <h2 class="govuk-heading-m"><%= title %></h2>
-  <% if search_filter.present? %>
+  <% if search.present? %>
     <%= render(
-      PlanningApplications::SearchFilterComponent.new(
-        current_user: current_user,
+      PlanningApplications::SearchComponent.new(
         panel_type: type,
-        exclude_others: @search&.exclude_others?,
-        search_filter: search_filter
+        search: search
       )
     ) %>
   <% end %>
-  <% if search_filter&.results && planning_applications.empty? %>
+  <% if search&.call && planning_applications.empty? %>
     <p class="govuk-body"><%= t(".no_planning_applications") %></p>
   <% else %>
     <table class="govuk-table">

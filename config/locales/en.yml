@@ -732,8 +732,6 @@ en:
       other: "%{count} days overdue"
     panel_component:
       all: All
-      all_applications: Live applications
-      all_your_applications: Your live applications
       application_type_name: Application type
       application_type_with_status: Application type
       awaiting_determination: Awaiting determination
@@ -756,10 +754,11 @@ en:
       proposal_details: Proposal details
     publish:
       review_and_publish_determination: Review and publish determination
-    search_filter_component:
+    search_component:
       clear_search: Clear search
       find_an_application: Find an application
       search: Search
+      status_filter: Filter by status (%{selected} of %{total} selected)
       you_can_search: You can search by application number or description
     steps:
       assessment:

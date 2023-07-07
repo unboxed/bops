@@ -2,19 +2,15 @@
   PlanningApplications::PanelComponent.new(
     planning_applications: all_planning_applications,
     type: :all,
-    search_filter: search_filter,
-    current_user: current_user
+    search: search
   )
 ) %>
-<% panel_types.each do |panel_type| %>
-  <%= render(
-    PlanningApplications::PanelComponent.new(
-      planning_applications: planning_applications.send(panel_type),
-      type: panel_type,
-      current_user: current_user
-    )
-  ) %>
-<% end %>
+<%= render(
+  PlanningApplications::PanelComponent.new(
+    planning_applications: closed_planning_applications,
+    type: :closed
+  )
+) %>
 <%= render(
   PlanningApplications::UpdatedPanelComponent.new(
     audits: local_authority_most_recent_audits_for_planning_applications

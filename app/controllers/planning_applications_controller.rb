@@ -11,8 +11,6 @@ class PlanningApplicationsController < AuthenticationController
 
   before_action :ensure_draft_recommendation_complete, only: :update
 
-  before_action :check_filter_params, only: :index
-
   rescue_from PlanningApplication::WithdrawRecommendationError do |_exception|
     redirect_failed_withdraw_recommendation
   end
@@ -27,14 +25,6 @@ class PlanningApplicationsController < AuthenticationController
 
   def index
     @planning_applications = search.call
-
-    @search_filter = if params[:planning_application_search_filter].present?
-                       PlanningApplicationSearchFilter.new(
-                         planning_application_search_filter_params
-                       )
-                     else
-                       PlanningApplicationSearchFilter.new
-                     end
   end
 
   def show; end
@@ -240,13 +230,6 @@ class PlanningApplicationsController < AuthenticationController
 
   private
 
-  def planning_application_search_filter_params
-    params
-      .require(:planning_application_search_filter)
-      .permit(:query, filter_options: [])
-      .merge(planning_applications: @planning_applications, submit: params[:submit])
-  end
-
   def search
     @search ||= PlanningApplicationSearch.new(params)
   end
@@ -367,17 +350,5 @@ class PlanningApplicationsController < AuthenticationController
         before updating application fields."
 
     render :edit and return
-  end
-
-  def check_filter_params
-    return unless current_user.reviewer? && params[:planning_application_search_filter] && search.exclude_others?
-
-    params[:planning_application_search_filter][:filter_options] = filter_option_params.select do |a|
-      PlanningApplication::REVIEWER_FILTER_OPTIONS.include?(a)
-    end
-  end
-
-  def filter_option_params
-    params[:planning_application_search_filter][:filter_options]
   end
 end
