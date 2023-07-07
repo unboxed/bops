@@ -16,6 +16,7 @@ RSpec.describe "editing planning application" do
 
   before do
     sign_in(assessor)
+    create(:application_type, name: "prior_approval")
     visit(planning_application_path(planning_application))
   end
 
@@ -36,6 +37,8 @@ RSpec.describe "editing planning application" do
 
     expect(page).to have_content("An applicant or agent email is required.")
 
+    select("Prior approval")
+
     within(find(:fieldset, text: "Agent information")) do
       fill_in("Email address", with: "alice@example.com")
     end
@@ -49,6 +52,9 @@ RSpec.describe "editing planning application" do
     expect(page).to have_content(
       "Planning application was successfully updated."
     )
+    within("#planning-application-details") do
+      expect(page).to have_content("Prior approval")
+    end
 
     expect(page).to have_current_path(
       planning_application_assessment_tasks_path(planning_application)
@@ -57,6 +63,8 @@ RSpec.describe "editing planning application" do
     click_link("Check description, documents and proposal details")
     click_button("Application information")
     click_link("Edit details")
+
+    expect(page).to have_select("planning-application-application-type-id-field", selected: "Prior approval")
     fill_in("Address 1", with: "125 High Street")
     click_button("Save")
 
@@ -67,6 +75,15 @@ RSpec.describe "editing planning application" do
     expect(page).to have_current_path(
       new_planning_application_consistency_checklist_path(planning_application)
     )
+
+    # Check audit
+    visit planning_application_audits_path(planning_application)
+    within("#audit_#{Audit.find_by(activity_information: 'Application type').id}") do
+      expect(page).to have_content("Application type updated")
+      expect(page).to have_content("Application type changed from: Lawfulness certificate / Changed to: Prior approval")
+      expect(page).to have_content(assessor.name)
+      expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
+    end
   end
 
   context "when planning application status is assessment in progress" do

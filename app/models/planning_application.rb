@@ -86,6 +86,8 @@ class PlanningApplication < ApplicationRecord
                   reset_validation_requests_update_counter!(red_line_boundary_change_validation_requests)
                 }, if: :valid_red_line_boundary?
   before_update -> { reset_validation_requests_update_counter!(fee_item_validation_requests) }, if: :valid_fee?
+  before_update :audit_update_application_type!, if: :application_type_id_changed?
+
   after_update :audit_updated!
   after_update :address_or_boundary_geojson_updated?
   after_update :old_constraints_updated?
@@ -98,7 +100,6 @@ class PlanningApplication < ApplicationRecord
 
   PLANNING_APPLICATION_PERMITTED_KEYS = %w[address_1
                                            address_2
-                                           application_type
                                            applicant_first_name
                                            applicant_last_name
                                            applicant_phone
@@ -720,6 +721,17 @@ class PlanningApplication < ApplicationRecord
 
     attr_added.each { |attr| audit!(activity_type: "constraint_added", audit_comment: attr) }
     attr_removed.each { |attr| audit!(activity_type: "constraint_removed", audit_comment: attr) }
+  end
+
+  def audit_update_application_type!
+    old_application_type = ApplicationType.find(changes["application_type_id"].first)
+
+    audit!(
+      activity_type: "updated",
+      activity_information: "Application type",
+      audit_comment:
+        "Application type changed from: #{old_application_type.full_name} / Changed to: #{application_type.full_name}"
+    )
   end
 
   def determination_date_is_not_in_the_future

@@ -23,8 +23,9 @@ RSpec.describe "Creating a planning application" do
   it "allows for an application to be created by an assessor, using minimum details" do
     click_link "Add new application"
 
-    expect(page).to have_text("New Application: Residential Lawful Development Certificate")
+    expect(page).to have_text("New Application")
 
+    select("Lawfulness certificate")
     fill_in "Description", with: "Back shack"
 
     within_fieldset "Applicant information" do
@@ -42,8 +43,7 @@ RSpec.describe "Creating a planning application" do
   it "displays an error when both agent and applicant emails are missing" do
     click_link "Add new application"
 
-    expect(page).to have_text("New Application: Residential Lawful Development Certificate")
-
+    select("Lawfulness certificate")
     fill_in "Description", with: "Bad bad application"
 
     click_button "Save"
@@ -59,6 +59,13 @@ RSpec.describe "Creating a planning application" do
     expect(page).to have_text("Description: Bad bad application")
   end
 
+  it "displays an error when application type is not selected" do
+    click_link "Add new application"
+
+    click_button "Save"
+    expect(page).to have_text("Application type must exist")
+  end
+
   it "allows for an application to be created by a reviewer, using minimum details" do
     click_link "Log out"
     sign_in reviewer1
@@ -66,6 +73,7 @@ RSpec.describe "Creating a planning application" do
 
     click_link "Add new application"
 
+    select("Lawfulness certificate")
     fill_in "Description", with: "Bird house"
     within_fieldset "Applicant information" do
       fill_in "Email address", with: "mah@mah.com"
@@ -83,6 +91,7 @@ RSpec.describe "Creating a planning application" do
     before do
       click_link "Add new application"
 
+      select("Lawfulness certificate")
       fill_in "Description", with: "Backyard bird hotel"
       fill_in "Day", with: "3"
       fill_in "Month", with: "3"
