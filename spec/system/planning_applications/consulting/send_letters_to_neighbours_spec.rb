@@ -20,7 +20,7 @@ RSpec.describe "Send letters to neighbours", js: true do
     visit planning_application_path(planning_application)
   end
 
-  it "displays the planning application address and reference" do
+  it "displays the planning application address, reference, and addresses submitted by applicant" do
     expect(page).to have_content("2. Consultation")
 
     click_link "Send letters to neighbours"
@@ -34,6 +34,10 @@ RSpec.describe "Send letters to neighbours", js: true do
     expect(map_selector["latitude"]).to eq(planning_application.latitude)
     expect(map_selector["longitude"]).to eq(planning_application.longitude)
     expect(map_selector["showMarker"]).to eq("true")
+
+    expect(page).to have_content("Neighbours submitted by applicant")
+    expect(page).to have_content("London, 80 Underhill Road, SE22 0QU")
+    expect(page).to have_content("London, 78 Underhill Road, SE22 0QU")
   end
 
   it "allows me to add addresses" do
