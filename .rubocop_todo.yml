@@ -6,48 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 13
-# Configuration parameters: AllowedMethods, AllowedPatterns, IgnoredMethods, CountRepeatedAttributes, Max.
-Metrics/AbcSize:
-  Exclude:
-    - 'app/controllers/api/v1/other_change_validation_requests_controller.rb'
-    - 'app/controllers/documents_controller.rb'
-    - 'app/controllers/planning_application/review_documents_controller.rb'
-    - 'app/controllers/planning_applications_controller.rb'
-    - 'app/controllers/policy_classes_controller.rb'
-    - 'app/controllers/replacement_document_validation_requests_controller.rb'
-    - 'app/helpers/audit_helper.rb'
-    - 'app/helpers/planning_application_helper.rb'
-    - 'app/helpers/validation_request_helper.rb'
-    - 'app/services/planning_application_creation_service.rb'
-    - 'db/migrate/20200419000000_create_initial_schema.rb'
-
-# Offense count: 4
-# Configuration parameters: CountComments, Max, CountAsOne.
-Metrics/ClassLength:
-  Exclude:
-    - 'app/controllers/documents_controller.rb'
-    - 'app/controllers/planning_applications_controller.rb'
-    - 'app/models/document.rb'
-    - 'app/models/planning_application.rb'
-
-# Offense count: 4
-# Configuration parameters: CountComments, Max, CountAsOne, ExcludedMethods, AllowedMethods, AllowedPatterns, IgnoredMethods.
-Metrics/MethodLength:
-  Exclude:
-    - 'app/controllers/planning_applications_controller.rb'
-    - 'app/controllers/replacement_document_validation_requests_controller.rb'
-    - 'app/helpers/audit_helper.rb'
-    - 'db/migrate/20200419000000_create_initial_schema.rb'
-
-# Offense count: 3
-# Configuration parameters: AllowedMethods, AllowedPatterns, IgnoredMethods, Max.
-Metrics/PerceivedComplexity:
-  Exclude:
-    - 'app/helpers/audit_helper.rb'
-    - 'app/helpers/planning_application_helper.rb'
-    - 'app/helpers/validation_request_helper.rb'
-
 # Offense count: 4
 # Configuration parameters: NamePrefix, ForbiddenPrefixes, AllowedMethods, MethodDefinitionMacros.
 # NamePrefix: is_, has_, have_

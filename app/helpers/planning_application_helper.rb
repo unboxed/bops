@@ -18,7 +18,7 @@ module PlanningApplicationHelper
     end
   end
 
-  def validation_request_summary(validation_requests, planning_application) # rubocop:disable Metrics/CyclomaticComplexity
+  def validation_request_summary(validation_requests, planning_application)
     if planning_application.invalidated?
       "This application has #{pluralize(validation_requests.count(&:open?),
                                         'unresolved validation request')} and #{pluralize(

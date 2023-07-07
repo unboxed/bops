@@ -25,20 +25,15 @@ Style/Documentation:
   Enabled: false
 
 # be a bit kinder with our metrics
-Metrics/AbcSize:
+Metrics:
   Enabled: false
 
 Metrics/BlockLength:
+  Enabled: true
   Max: 100
   Exclude:
     - spec/**/*
     - config/routes.rb
-
-Metrics/ClassLength:
-  Enabled: false
-
-Metrics/MethodLength:
-  Enabled: false
 
 Layout/LineLength:
   AllowedPatterns: ['^\s*#']
