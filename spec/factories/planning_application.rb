@@ -304,19 +304,25 @@ FactoryBot.define do
         [
           {
             responses: [{
-              value: "Install a security alarm"
+              value: "Install a security alarm",
+              metadata: {
+                flags: ["Planning permission / Immune"]
+              }
             }],
             metadata: {
-              portal_name: "immunity-check"
+              section_name: "immunity-check"
             },
             question: "List the changes involved in the project"
           },
           {
             responses: [{
-              value: "Alteration"
+              value: "Alteration",
+              metadata: {
+                flags: ["Planning permission / Immune"]
+              }
             }],
             metadata: {
-              portal_name: "immunity-check",
+              section_name: "immunity-check",
               auto_answered: true
             },
             question: "What type of changes were they?"
@@ -329,7 +335,7 @@ FactoryBot.define do
               }
             }],
             metadata: {
-              portal_name: "immunity-check",
+              section_name: "immunity-check",
               policy_refs: [{
                 text: "Town and Country Planning Act 1990 Section 171B"
               }]
@@ -338,10 +344,13 @@ FactoryBot.define do
           },
           {
             responses: [{
-              value: "Yes"
+              value: "Yes",
+              metadata: {
+                flags: ["Planning permission / Immune"]
+              }
             }],
             metadata: {
-              portal_name: "immunity-check",
+              section_name: "immunity-check",
               policy_refs: [{
                 text: "Town and Country Planning Act 1990 Section 171B"
               }]
@@ -353,7 +362,7 @@ FactoryBot.define do
               value: "that it was certified"
             }],
             metadata: {
-              portal_name: "certificate-of-lawfulness-documents-immunity"
+              section_name: "certificate-of-lawfulness-documents-immunity"
             },
             question: "What do these building control certificates show?"
           },
@@ -362,7 +371,7 @@ FactoryBot.define do
               value: "2016-02-01"
             }],
             metadata: {
-              portal_name: "certificate-of-lawfulness-documents-immunity"
+              section_name: "certificate-of-lawfulness-documents-immunity"
             },
             question: "When was this building control certificate issued?"
           },
@@ -371,7 +380,7 @@ FactoryBot.define do
               value: "2013-03-02"
             }],
             metadata: {
-              portal_name: "certificate-of-lawfulness-documents-immunity"
+              section_name: "certificate-of-lawfulness-documents-immunity"
             },
             question: "What date do these utility bills start from?"
           },
@@ -380,7 +389,7 @@ FactoryBot.define do
               value: "2019-04-01"
             }],
             metadata: {
-              portal_name: "certificate-of-lawfulness-documents-immunity"
+              section_name: "certificate-of-lawfulness-documents-immunity"
             },
             question: "What date do these utility bills run until?"
           },
@@ -389,16 +398,19 @@ FactoryBot.define do
               value: "That i was paying water bills"
             }],
             metadata: {
-              portal_name: "certificate-of-lawfulness-documents-immunity"
+              section_name: "certificate-of-lawfulness-documents-immunity"
             },
             question: "What do these utility bills show?"
           },
           {
             responses: [{
-              value: "2015-02-01"
+              value: "2015-02-01",
+              metadata: {
+                flags: ["Planning permission / Immune"]
+              }
             }],
             metadata: {
-              portal_name: "immunity-check",
+              section_name: "immunity-check",
               policy_refs: [{
                 text: "Town and Country Planning Act 1990 Section 171B"
               }]
@@ -413,7 +425,7 @@ FactoryBot.define do
               }
             }],
             metadata: {
-              portal_name: "immunity-check",
+              section_name: "immunity-check",
               policy_refs: [{
                 text: "Secretary of State for Communities and Local Government and another v Welwyn Hatfield Borough Council and Bonsall / Jackson v Secretary of State for Communities and Local Government"
               }]
@@ -428,7 +440,7 @@ FactoryBot.define do
               }
             }],
             metadata: {
-              portal_name: "immunity-check",
+              section_name: "immunity-check",
               policy_refs: [{
                 text: "Enforcement action is defined in the Town and Country Planning Act 1990 Section 171A.\n'Lawful development' is defined in the Town and Country Planning Act 1990 Section 191."
               }]
@@ -452,19 +464,25 @@ FactoryBot.define do
         [
           {
             responses: [{
-              value: "Install a security alarm"
+              value: "Install a security alarm",
+              metadata: {
+                flags: ["Planning permission / Immune"]
+              }
             }],
             metadata: {
-              portal_name: "immunity-check"
+              section_name: "immunity-check"
             },
             question: "List the changes involved in the project"
           },
           {
             responses: [{
-              value: "Alteration"
+              value: "Alteration",
+              metadata: {
+                flags: ["Planning permission / Immune"]
+              }
             }],
             metadata: {
-              portal_name: "immunity-check",
+              section_name: "immunity-check",
               auto_answered: true
             },
             question: "What type of changes were they?"
@@ -477,7 +495,7 @@ FactoryBot.define do
               }
             }],
             metadata: {
-              portal_name: "immunity-check",
+              section_name: "immunity-check",
               policy_refs: [{
                 text: "Town and Country Planning Act 1990 Section 171B"
               }]
@@ -486,10 +504,13 @@ FactoryBot.define do
           },
           {
             responses: [{
-              value: "Yes"
+              value: "Yes",
+              metadata: {
+                flags: ["Planning permission / Immune"]
+              }
             }],
             metadata: {
-              portal_name: "immunity-check",
+              section_name: "immunity-check",
               policy_refs: [{
                 text: "Town and Country Planning Act 1990 Section 171B"
               }]
@@ -498,10 +519,13 @@ FactoryBot.define do
           },
           {
             responses: [{
-              value: "2015-02-01"
+              value: "2015-02-01",
+              metadata: {
+                flags: ["Planning permission / Immune"]
+              }
             }],
             metadata: {
-              portal_name: "immunity-check",
+              section_name: "immunity-check",
               policy_refs: [{
                 text: "Town and Country Planning Act 1990 Section 171B"
               }]
@@ -516,7 +540,7 @@ FactoryBot.define do
               }
             }],
             metadata: {
-              portal_name: "immunity-check",
+              section_name: "immunity-check",
               policy_refs: [{
                 text: "Secretary of State for Communities and Local Government and another v Welwyn Hatfield Borough Council and Bonsall / Jackson v Secretary of State for Communities and Local Government"
               }]
@@ -531,7 +555,7 @@ FactoryBot.define do
               }
             }],
             metadata: {
-              portal_name: "immunity-check",
+              section_name: "immunity-check",
               policy_refs: [{
                 text: "Enforcement action is defined in the Town and Country Planning Act 1990 Section 171A.\n'Lawful development' is defined in the Town and Country Planning Act 1990 Section 191."
               }]

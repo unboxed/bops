@@ -16,13 +16,13 @@ RSpec.describe "FeeItemsValidation" do
         {
           question: "What type of planning application are you making?",
           responses: [{ value: "Existing changes" }],
-          metadata: { portal_name: "fee-related" }
+          metadata: { section_name: "fee-related" }
         },
         {
           question: "What type of changes does the project involve?",
           responses: [{ value: "Alteration" }],
           metadata: {
-            portal_name: "fee-related",
+            section_name: "fee-related",
             policy_refs: [
               { text: "The Town and Country Planning Order 2015" },
               { url: "https://www.example.com/planning/policy/1" }

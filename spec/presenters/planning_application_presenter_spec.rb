@@ -153,27 +153,27 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
         {
           question: "Question 1",
           responses: [{ value: "Answer 1" }],
-          metadata: { portal_name: "Fee Related Group" }
+          metadata: { section_name: "Fee Related Group" }
         },
         {
           question: "Question 2",
           responses: [{ value: "Answer 2" }],
-          metadata: { portal_name: "group-about-fee" }
+          metadata: { section_name: "group-about-fee" }
         },
         {
           question: "Question 3",
           responses: [{ value: "Answer 3" }],
-          metadata: { portal_name: "a_fee_group" }
+          metadata: { section_name: "a_fee_group" }
         },
         {
           question: "Question 4",
           responses: [{ value: "Answer 4" }],
-          metadata: { portal_name: "Other Group" }
+          metadata: { section_name: "Other Group" }
         },
         {
           question: "Question 5",
           responses: [{ value: "Answer 5" }],
-          metadata: { portal_name: "Birdfeed Related" }
+          metadata: { section_name: "Birdfeed Related" }
         }
       ].to_json
     end
@@ -184,7 +184,7 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
 
     it "returns proposal details with 'fee' in the portal name" do
       expect(
-        presenter.fee_related_proposal_details.map(&:portal_name)
+        presenter.fee_related_proposal_details.map(&:section_name)
       ).to contain_exactly(
         "Fee Related Group",
         "group-about-fee",

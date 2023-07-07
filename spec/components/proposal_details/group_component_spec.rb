@@ -7,12 +7,12 @@ RSpec.describe ProposalDetails::GroupComponent, type: :component do
     {
       question: "Test question 1",
       responses: [{ value: "Test response 1" }],
-      metadata: { portal_name: "group_x" }
+      metadata: { section_name: "group_x" }
     }.deep_stringify_keys
   end
 
   let(:group) do
-    Struct.new(:portal_name, :proposal_details).new(
+    Struct.new(:section_name, :proposal_details).new(
       "group_x",
       [ProposalDetail.new(proposal_detail_attributes, 1)]
     )

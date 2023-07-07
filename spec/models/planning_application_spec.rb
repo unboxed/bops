@@ -681,7 +681,14 @@ RSpec.describe PlanningApplication do
       [
         {
           question: "Test question?",
-          responses: [{ value: "Test response" }],
+          responses: [
+            {
+              value: "Test response",
+              metadata: {
+                flags: ["Planning permission / Immune"]
+              }
+            }
+          ],
           metadata: {
             auto_answered: true,
             portal_name: "immunity-check",

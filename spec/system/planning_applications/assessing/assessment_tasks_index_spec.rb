@@ -94,17 +94,17 @@ RSpec.describe "Assessment tasks" do
         {
           question: "Question 1",
           responses: [{ value: "Answer 1" }],
-          metadata: { portal_name: "_root", auto_answered: true }
+          metadata: { section_name: "About the property", auto_answered: true }
         },
         {
           question: "Question 2",
           responses: [{ value: "Answer 2" }],
-          metadata: { portal_name: "_root" }
+          metadata: { section_name: "About the property" }
         },
         {
           question: "Question 3",
           responses: [{ value: "Answer 3" }],
-          metadata: { portal_name: "group_1", auto_answered: true }
+          metadata: { section_name: "group_1", auto_answered: true }
         },
         {
           question: "Question 4",
@@ -115,9 +115,9 @@ RSpec.describe "Assessment tasks" do
 
     it "displays the proposal details by group" do
       click_button("Proposal details")
-      click_link("Main")
+      click_link("About the property")
 
-      expect(current_url).to have_target_id("main")
+      expect(current_url).to have_target_id("abouttheproperty")
 
       within(find_all(".proposal-details-sub-list")[0]) do
         expect(page).to have_content("1.  Question 1")
@@ -149,7 +149,7 @@ RSpec.describe "Assessment tasks" do
       click_button("Proposal details")
       check("View ONLY applicant answers, hide 'Auto-answered by PlanX")
 
-      expect(page).to have_text(:visible, "Main")
+      expect(page).to have_text(:visible, "About the property")
       expect(page).not_to have_text(:visible, "Group 1")
       expect(page).to have_text(:visible, "Other")
 

@@ -38,7 +38,7 @@
 				"value": "Yes"
 			}],
 			"metadata": {
-				"portal_name": "_root",
+				"section_name": "_root",
 				"auto_answered": true
 			},
 			"question": "Is the property in London Borough of Southwark?"
@@ -48,7 +48,7 @@
 				"value": "Existing changes I have made in the past"
 			}],
 			"metadata": {
-				"portal_name": "_root",
+				"section_name": "_root",
 				"policy_refs": [{
 					"text": "Town and Country Planning Act 1990, Part 7, Section 191 &amp; Section 192"
 				}]
@@ -57,19 +57,25 @@
 		},
 		{
 			"responses": [{
-				"value": "Install a security alarm"
+				"value": "Install a security alarm",
+        "metadata": {
+          "flags": ["Planning permission / Immune"]
+        }
 			}],
 			"metadata": {
-				"portal_name": "immunity-check"
+				"section_name": "immunity-check"
 			},
 			"question": "List the changes involved in the project"
 		},
 		{
 			"responses": [{
-				"value": "Alteration"
+				"value": "Alteration",
+        "metadata": {
+          "flags": ["Planning permission / Immune"]
+        }
 			}],
 			"metadata": {
-				"portal_name": "immunity-check",
+				"section_name": "immunity-check",
 				"auto_answered": true
 			},
 			"question": "What type of changes were they?"
@@ -82,7 +88,7 @@
 				}
 			}],
 			"metadata": {
-				"portal_name": "immunity-check",
+				"section_name": "immunity-check",
 				"policy_refs": [{
 					"text": "Town and Country Planning Act 1990 Section 171B"
 				}]
@@ -91,10 +97,13 @@
 		},
 		{
 			"responses": [{
-				"value": "Yes"
+				"value": "Yes",
+        "metadata": {
+          "flags": ["Planning permission / Immune"]
+        }
 			}],
 			"metadata": {
-				"portal_name": "immunity-check",
+				"section_name": "immunity-check",
 				"policy_refs": [{
 					"text": "Town and Country Planning Act 1990 Section 171B"
 				}]
@@ -103,10 +112,13 @@
 		},
 		{
 			"responses": [{
-				"value": "2015-02-01"
+				"value": "2015-02-01",
+        "metadata": {
+          "flags": ["Planning permission / Immune"]
+        }
 			}],
 			"metadata": {
-				"portal_name": "immunity-check",
+				"section_name": "immunity-check",
 				"policy_refs": [{
 					"text": "Town and Country Planning Act 1990 Section 171B"
 				}]
@@ -121,7 +133,7 @@
 				}
 			}],
 			"metadata": {
-				"portal_name": "immunity-check",
+				"section_name": "immunity-check",
 				"policy_refs": [{
 					"text": "Secretary of State for Communities and Local Government and another v Welwyn Hatfield Borough Council and Bonsall / Jackson v Secretary of State for Communities and Local Government"
 				}]
@@ -136,7 +148,7 @@
 				}
 			}],
 			"metadata": {
-				"portal_name": "immunity-check",
+				"section_name": "immunity-check",
 				"policy_refs": [{
 					"text": "Enforcement action is defined in the Town and Country Planning Act 1990 Section 171A.\n'Lawful development' is defined in the Town and Country Planning Act 1990 Section 191."
 				}]
@@ -148,7 +160,7 @@
 				"value": "Install a security alarm"
 			}],
 			"metadata": {
-				"portal_name": "permitteddevelopment",
+				"section_name": "permitteddevelopment",
 				"auto_answered": true,
 				"policy_refs": [{
 					"text": "Town and Country Planning Act 1990 (Section 55), The Town and Country Planning (General Permitted Development) (England) Order 2015"
@@ -161,7 +173,7 @@
 				"value": "Yes"
 			}],
 			"metadata": {
-				"portal_name": "Alarms",
+				"section_name": "Alarms",
 				"auto_answered": true,
 				"policy_refs": [{
 					"text": "Town and Country Planning Act 1990, Section 55 (2)"
@@ -177,7 +189,7 @@
 				}
 			}],
 			"metadata": {
-				"portal_name": "Alarms",
+				"section_name": "Alarms",
 				"policy_refs": [{
 					"text": "Town and Country Planning Act 1990, Section 55 (2)"
 				}]
@@ -189,7 +201,7 @@
 				"value": "Yes"
 			}],
 			"metadata": {
-				"portal_name": "_root",
+				"section_name": "_root",
 				"auto_answered": true
 			},
 			"question": "Is any part of the property listed?"
@@ -202,7 +214,7 @@
 				}
 			}],
 			"metadata": {
-				"portal_name": "_root",
+				"section_name": "_root",
 				"auto_answered": true,
 				"policy_refs": [{
 					"text": "Planning (Listed Buildings and Conservation Areas) Act 1990"
@@ -215,7 +227,7 @@
 				"value": "Alteration"
 			}],
 			"metadata": {
-				"portal_name": "works-to-trees-filter",
+				"section_name": "works-to-trees-filter",
 				"auto_answered": true
 			},
 			"question": "What types of changes does the project involve?"
@@ -225,7 +237,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "works-to-trees-filter",
+				"section_name": "works-to-trees-filter",
 				"auto_answered": true
 			},
 			"question": "Have you already told us that you are doing works to a tree or hedge?"
@@ -235,7 +247,7 @@
 				"value": "Yes"
 			}],
 			"metadata": {
-				"portal_name": "works-to-trees-filter",
+				"section_name": "works-to-trees-filter",
 				"auto_answered": true
 			},
 			"question": "Are there any protected trees on the property?"
@@ -248,7 +260,7 @@
 				}
 			}],
 			"metadata": {
-				"portal_name": "works-to-trees-filter",
+				"section_name": "works-to-trees-filter",
 				"policy_refs": [{
 					"text": "The Town and Country Planning (Tree Preservation)(England) Regulations 2012"
 				}]
@@ -260,7 +272,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "_root",
+				"section_name": "_root",
 				"auto_answered": true
 			},
 			"question": "Should the applicant also apply for Works to Trees Consent?"
@@ -270,7 +282,7 @@
 				"value": "Existing changes I have made in the past"
 			}],
 			"metadata": {
-				"portal_name": "more-details",
+				"section_name": "more-details",
 				"auto_answered": true
 			},
 			"question": "What are you applying about?"
@@ -280,7 +292,7 @@
 				"value": "Alterations"
 			}],
 			"metadata": {
-				"portal_name": "more-details",
+				"section_name": "more-details",
 				"auto_answered": true
 			},
 			"question": "What do the works involve?"
@@ -290,7 +302,7 @@
 				"value": "Install a security alarm"
 			}],
 			"metadata": {
-				"portal_name": "more-details",
+				"section_name": "more-details",
 				"auto_answered": true
 			},
 			"question": "What does the project involve?"
@@ -300,7 +312,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "more-details",
+				"section_name": "more-details",
 				"auto_answered": true
 			},
 			"question": "Do the changes involve the creation of any new homes?"
@@ -310,7 +322,7 @@
 				"value": "Yes"
 			}],
 			"metadata": {
-				"portal_name": "more-details",
+				"section_name": "more-details",
 				"auto_answered": true,
 				"policy_refs": [{
 					"text": "Greater London Authority Act 1999"
@@ -323,7 +335,7 @@
 				"value": "Only one"
 			}],
 			"metadata": {
-				"portal_name": "London Datahub",
+				"section_name": "London Datahub",
 				"policy_refs": [{
 					"text": "Greater London Authority Act 1999"
 				}]
@@ -335,7 +347,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "London Datahub"
+				"section_name": "London Datahub"
 			},
 			"question": "Do you know the title number of the property?"
 		},
@@ -344,7 +356,7 @@
 				"value": "I don't know"
 			}],
 			"metadata": {
-				"portal_name": "London Datahub",
+				"section_name": "London Datahub",
 				"policy_refs": [{
 					"text": "Greater London Authority Act 1999"
 				}]
@@ -356,7 +368,7 @@
 				"value": "Lawful Development Certificate - Existing"
 			}],
 			"metadata": {
-				"portal_name": "London Datahub",
+				"section_name": "London Datahub",
 				"auto_answered": true,
 				"policy_refs": [{
 					"text": "Greater London Authority Act 1999"
@@ -369,7 +381,7 @@
 				"value": "2015-01-01"
 			}],
 			"metadata": {
-				"portal_name": "London Datahub",
+				"section_name": "London Datahub",
 				"policy_refs": [{
 					"text": "Greater London Authority Act 1999"
 				}]
@@ -381,7 +393,7 @@
 				"value": "2015-02-01"
 			}],
 			"metadata": {
-				"portal_name": "London Datahub",
+				"section_name": "London Datahub",
 				"policy_refs": [{
 					"text": "Greater London Authority Act 1999"
 				}]
@@ -393,7 +405,7 @@
 				"value": "None of these"
 			}],
 			"metadata": {
-				"portal_name": "London Datahub",
+				"section_name": "London Datahub",
 				"policy_refs": [{
 					"text": "Greater London Authority Act 1999"
 				}]
@@ -405,7 +417,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "about-the-applicant"
+				"section_name": "about-the-applicant"
 			},
 			"question": "Are you applying on behalf of someone else?"
 		},
@@ -414,7 +426,7 @@
 				"value": "Private individual"
 			}],
 			"metadata": {
-				"portal_name": "about-the-applicant"
+				"section_name": "about-the-applicant"
 			},
 			"question": "Which of these best describes you?"
 		},
@@ -423,7 +435,7 @@
 				"value": "jessica@opensystemslab.io Test Jess 0123456789"
 			}],
 			"metadata": {
-				"portal_name": "about-the-applicant"
+				"section_name": "about-the-applicant"
 			},
 			"question": "Enter your contact details"
 		},
@@ -432,7 +444,7 @@
 				"value": "Yes"
 			}],
 			"metadata": {
-				"portal_name": "about-the-applicant"
+				"section_name": "about-the-applicant"
 			},
 			"question": "Is your contact address the same as the property address?"
 		},
@@ -441,7 +453,7 @@
 				"value": "Me, the applicant"
 			}],
 			"metadata": {
-				"portal_name": "about-the-applicant"
+				"section_name": "about-the-applicant"
 			},
 			"question": "If a planning officer needs to make a site visit, who should they contact?"
 		},
@@ -450,7 +462,7 @@
 				"value": "Applicant"
 			}],
 			"metadata": {
-				"portal_name": "ownership",
+				"section_name": "ownership",
 				"auto_answered": true
 			},
 			"question": "Which of these best describes you?"
@@ -460,7 +472,7 @@
 				"value": "Sole owner"
 			}],
 			"metadata": {
-				"portal_name": "ownership",
+				"section_name": "ownership",
 				"policy_refs": [{
 					"text": "The Town and Country Planning (Development Management Procedure) (England) Order 2015"
 				}]
@@ -472,7 +484,7 @@
 				"value": "Lawful Development Certificate – Existing changes"
 			}],
 			"metadata": {
-				"portal_name": "community-infrastructure-levy",
+				"section_name": "community-infrastructure-levy",
 				"auto_answered": true
 			},
 			"question": "What type of application is it?"
@@ -485,7 +497,7 @@
 				}
 			}],
 			"metadata": {
-				"portal_name": "CIL Liability check",
+				"section_name": "CIL Liability check",
 				"auto_answered": true
 			},
 			"question": "What does the project involve?"
@@ -495,7 +507,7 @@
 				"value": "Changes that have already been made in the past"
 			}],
 			"metadata": {
-				"portal_name": "_root",
+				"section_name": "_root",
 				"auto_answered": true,
 				"policy_refs": [{
 					"text": "[Town and Country Planning Act 1990 Section 171B](https://www.legislation.gov.uk/ukpga/1990/8/section/171B)"
@@ -508,7 +520,7 @@
 				"value": "Yes"
 			}],
 			"metadata": {
-				"portal_name": "_root",
+				"section_name": "_root",
 				"auto_answered": true
 			},
 			"question": "Might the changes be immune?"
@@ -518,7 +530,7 @@
 				"value": "Alterations"
 			}],
 			"metadata": {
-				"portal_name": "certificate-of-lawfulness-existing-drawings-immunity",
+				"section_name": "certificate-of-lawfulness-existing-drawings-immunity",
 				"auto_answered": true
 			},
 			"question": "What types of changes did the project involve?"
@@ -528,7 +540,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "certificate-of-lawfulness-existing-drawings-immunity"
+				"section_name": "certificate-of-lawfulness-existing-drawings-immunity"
 			},
 			"question": "Did the works involve altering the appearance or layout of any roof?"
 		},
@@ -537,7 +549,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "certificate-of-lawfulness-existing-drawings-immunity"
+				"section_name": "certificate-of-lawfulness-existing-drawings-immunity"
 			},
 			"question": "Would you like to upload any detail drawings?"
 		},
@@ -546,7 +558,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "certificate-of-lawfulness-existing-drawings-immunity"
+				"section_name": "certificate-of-lawfulness-existing-drawings-immunity"
 			},
 			"question": "Did the works involve any alterations to ground levels?"
 		},
@@ -555,7 +567,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "certificate-of-lawfulness-existing-drawings-immunity"
+				"section_name": "certificate-of-lawfulness-existing-drawings-immunity"
 			},
 			"question": "Would you like to upload any photographs of the property as it is today?"
 		},
@@ -564,7 +576,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "certificate-of-lawfulness-existing-drawings-immunity"
+				"section_name": "certificate-of-lawfulness-existing-drawings-immunity"
 			},
 			"question": "Would you like to upload any other additional drawings or documents?"
 		},
@@ -573,7 +585,7 @@
 				"value": "Utility bills"
 			}],
 			"metadata": {
-				"portal_name": "certificate-of-lawfulness-documents-immunity"
+				"section_name": "certificate-of-lawfulness-documents-immunity"
 			},
 			"question": "Provide evidence of completion date"
 		},
@@ -582,7 +594,7 @@
 				"value": "2015-01-01"
 			}],
 			"metadata": {
-				"portal_name": "certificate-of-lawfulness-documents-immunity"
+				"section_name": "certificate-of-lawfulness-documents-immunity"
 			},
 			"question": "What date do these utility bills start from?"
 		},
@@ -591,7 +603,7 @@
 				"value": "2015-02-01"
 			}],
 			"metadata": {
-				"portal_name": "certificate-of-lawfulness-documents-immunity"
+				"section_name": "certificate-of-lawfulness-documents-immunity"
 			},
 			"question": "What date do these utility bills run until?"
 		},
@@ -600,7 +612,7 @@
 				"value": "Test evidence "
 			}],
 			"metadata": {
-				"portal_name": "certificate-of-lawfulness-documents-immunity"
+				"section_name": "certificate-of-lawfulness-documents-immunity"
 			},
 			"question": "What do these utility bills show?"
 		},
@@ -609,7 +621,7 @@
 				"value": "Lawful Development Certificate"
 			}],
 			"metadata": {
-				"portal_name": "fee-calculator",
+				"section_name": "fee-calculator",
 				"auto_answered": true
 			},
 			"question": "What type of planning application are you making?"
@@ -619,7 +631,7 @@
 				"value": "Existing changes"
 			}],
 			"metadata": {
-				"portal_name": "fee-calculator",
+				"section_name": "fee-calculator",
 				"auto_answered": true
 			},
 			"question": "What type of changes are you applying for?"
@@ -629,7 +641,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "LDC in Existing Use",
+				"section_name": "LDC in Existing Use",
 				"auto_answered": true
 			},
 			"question": "Is the property a home?"
@@ -639,7 +651,7 @@
 				"value": "Alteration"
 			}],
 			"metadata": {
-				"portal_name": "LDC in Existing Use",
+				"section_name": "LDC in Existing Use",
 				"auto_answered": true
 			},
 			"question": "What types of changes does the application relate to?"
@@ -649,7 +661,7 @@
 				"value": "Installation of plant equipment"
 			}],
 			"metadata": {
-				"portal_name": "LDC in Existing Use",
+				"section_name": "LDC in Existing Use",
 				"auto_answered": true
 			},
 			"question": "What did the alterations involve?"
@@ -659,7 +671,7 @@
 				"value": "5 hectares or less"
 			}],
 			"metadata": {
-				"portal_name": "LDC-E - Plant equipment or machinery",
+				"section_name": "LDC-E - Plant equipment or machinery",
 				"policy_refs": [{
 					"text": "The Town and Country Planning (Fees for Applications, Deemed Applications, Requests and Site Visits) (England) Regulations 2012 Schedule 1, Part 2"
 				}]
@@ -671,7 +683,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "Fee Exemptions",
+				"section_name": "Fee Exemptions",
 				"auto_answered": true
 			},
 			"question": "Is the property a home?"
@@ -681,7 +693,7 @@
 				"value": "Alteration"
 			}],
 			"metadata": {
-				"portal_name": "Fee Exemptions",
+				"section_name": "Fee Exemptions",
 				"auto_answered": true
 			},
 			"question": "What type of changes does the project involve?"
@@ -691,7 +703,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "Fee Exemptions"
+				"section_name": "Fee Exemptions"
 			},
 			"question": "Are the public allowed to access the building?"
 		},
@@ -700,7 +712,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "Fee Exemptions",
+				"section_name": "Fee Exemptions",
 				"policy_refs": [{
 					"text": "The Town and Country Planning (Fees for Applications, Deemed Applications, Requests and Site Visits) (England) Regulations 2012, Regulation 9"
 				}]
@@ -712,7 +724,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "Fee exemptions and adjustments",
+				"section_name": "Fee exemptions and adjustments",
 				"auto_answered": true
 			},
 			"question": "Does the application qualify for a disability exemption?"
@@ -722,7 +734,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "Fee exemptions and adjustments",
+				"section_name": "Fee exemptions and adjustments",
 				"auto_answered": true
 			},
 			"question": "Does the application qualify for a resubmission exemption?"
@@ -732,7 +744,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "Fee Reductions",
+				"section_name": "Fee Reductions",
 				"auto_answered": true,
 				"policy_refs": [{
 					"text": "The Town and Country Planning (Fees for Applications, Deemed Applications, Requests and Site Visits) (England) Regulations 2012 Chapter 2, Paragraph 3"
@@ -745,7 +757,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "Fee Reductions",
+				"section_name": "Fee Reductions",
 				"auto_answered": true,
 				"policy_refs": [{
 					"text": "The Town and Country Planning (Fees for Applications, Deemed Applications, Requests and Site Visits) (England) Regulations 2012 - Regulation 11"
@@ -758,7 +770,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "Fee Reductions",
+				"section_name": "Fee Reductions",
 				"policy_refs": [{
 					"text": "The Town and Country Planning (Fees for Applications, Deemed Applications, Requests and Site Visits) (England) Regulations 2012 Chapter 2, Paragraph 10"
 				}]
@@ -770,7 +782,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "Fee exemptions and adjustments",
+				"section_name": "Fee exemptions and adjustments",
 				"auto_answered": true
 			},
 			"question": "Does the application qualify for the sports club fee reduction?"
@@ -780,7 +792,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "Fee exemptions and adjustments",
+				"section_name": "Fee exemptions and adjustments",
 				"auto_answered": true,
 				"policy_refs": [{
 					"text": "The Town and Country Planning (Fees for Applications, Deemed Applications, Requests and Site Visits) (England) Regulations 2012 - Regulation 11"
@@ -793,7 +805,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "Fee exemptions and adjustments",
+				"section_name": "Fee exemptions and adjustments",
 				"auto_answered": true
 			},
 			"question": "Does the application qualify for the alternative application reduction?"
@@ -803,7 +815,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "pre-app-advice-check"
+				"section_name": "pre-app-advice-check"
 			},
 			"question": "Did you get any pre-application advice before making this application?"
 		},
@@ -812,7 +824,7 @@
 				"value": "None of the above apply to me"
 			}],
 			"metadata": {
-				"portal_name": "declarations"
+				"section_name": "declarations"
 			},
 			"question": "Connections with Southwark Council"
 		},
@@ -821,7 +833,7 @@
 				"value": "The information contained in this application is truthful, accurate and complete, to the best of my knowledge"
 			}],
 			"metadata": {
-				"portal_name": "declarations"
+				"section_name": "declarations"
 			},
 			"question": "I confirm that:"
 		},
@@ -830,7 +842,7 @@
 				"value": "Southwark"
 			}],
 			"metadata": {
-				"portal_name": "uniform-translator",
+				"section_name": "uniform-translator",
 				"auto_answered": true
 			},
 			"question": "What is the applicant's interest in the land?"
@@ -840,7 +852,7 @@
 				"value": "Applicant"
 			}],
 			"metadata": {
-				"portal_name": "uniform-translator",
+				"section_name": "uniform-translator",
 				"auto_answered": true
 			},
 			"question": "What is the user's role?"
@@ -850,7 +862,7 @@
 				"value": "None"
 			}],
 			"metadata": {
-				"portal_name": "uniform-translator",
+				"section_name": "uniform-translator",
 				"auto_answered": true
 			},
 			"question": "What is the applicant's declared connections?"
@@ -860,7 +872,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "_root",
+				"section_name": "_root",
 				"auto_answered": true
 			},
 			"question": "Does the application qualify for a disability exemption?"
@@ -870,7 +882,7 @@
 				"value": "2013-03-02"
 			}],
 			"metadata": {
-				"portal_name": "certificate-of-lawfulness-documents-immunity"
+				"section_name": "certificate-of-lawfulness-documents-immunity"
 			},
 			"question": "What date do these utility bills start from?"
 		},
@@ -879,7 +891,7 @@
 				"value": "2019-04-01"
 			}],
 			"metadata": {
-				"portal_name": "certificate-of-lawfulness-documents-immunity"
+				"section_name": "certificate-of-lawfulness-documents-immunity"
 			},
 			"question": "What date do these utility bills run until?"
 		},
@@ -888,7 +900,7 @@
 				"value": "That i was paying water bills"
 			}],
 			"metadata": {
-				"portal_name": "certificate-of-lawfulness-documents-immunity"
+				"section_name": "certificate-of-lawfulness-documents-immunity"
 			},
 			"question": "What do these utility bills show?"
 		},
@@ -897,7 +909,7 @@
 				"value": "2016-02-01"
 			}],
 			"metadata": {
-				"portal_name": "certificate-of-lawfulness-documents-immunity"
+				"section_name": "certificate-of-lawfulness-documents-immunity"
 			},
 			"question": "When was this building control certificate issued?"
 		},
@@ -906,7 +918,7 @@
 				"value": "that it was certified"
 			}],
 			"metadata": {
-				"portal_name": "certificate-of-lawfulness-documents-immunity"
+				"section_name": "certificate-of-lawfulness-documents-immunity"
 			},
 			"question": "What do these building control certificates show?"
 		},
@@ -915,7 +927,7 @@
 				"value": "No"
 			}],
 			"metadata": {
-				"portal_name": "_root",
+				"section_name": "_root",
 				"auto_answered": true
 			},
 			"question": "Does the application qualify for a resubmission exemption?"

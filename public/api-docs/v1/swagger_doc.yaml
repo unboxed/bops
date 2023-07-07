@@ -200,7 +200,7 @@ paths:
                       metadata:
                         type: object
                         properties:
-                          portal_name:
+                          section_name:
                             type: string
                             example: Property details
                           notes:
@@ -332,32 +332,32 @@ paths:
                       responses:
                         - value: 'Modify or extend'
                       metadata:
-                        portal_name: Property details
+                        section_name: Property details
                     - question: What is the dwelling used as?
                       responses:
                         - value: A family home
                       metadata:
-                        portal_name: Property details
+                        section_name: Property details
                     - question: Is the property a house?
                       responses:
                         - value: 'Yes'
                       metadata:
-                        portal_name: Property details
+                        section_name: Property details
                     - question: How many storeys will the new structure have?
                       responses:
                         - value: '1'
                       metadata:
-                        portal_name: Property details
+                        section_name: Property details
                     - question: Was the house always a house?
                       responses:
                         - value: 'Yes'
                       metadata:
-                        portal_name: Property details
+                        section_name: Property details
                     - question: Will the structure include a satellite dish or antenna?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: Property details
+                        section_name: Property details
                         policy_refs:
                           - url: http://example.com/planning/policy/1/234/a.html
                             text: 'GPDO 00.0000.000'
@@ -365,38 +365,38 @@ paths:
                       responses:
                         - value: 50% or less
                       metadata:
-                        portal_name: Dimensions
+                        section_name: Dimensions
                     - question: How high will the eaves of the new structure be?
                       responses:
                         - value: '2.5m or lower'
                       metadata:
-                        portal_name: Dimensions
+                        section_name: Dimensions
                     - question: What will the height of the new structure be?
                       responses:
                         - value: '2.5m or lower'
                       metadata:
-                        portal_name: Dimensions
+                        section_name: Dimensions
                     - question: How close will the new structure be to the site boundary?
                       responses:
                         - value: 'Within 2m'
                       metadata:
-                        portal_name: Front of house
+                        section_name: Front of house
                     - question: Will any part of the new structure be forward of the front of the original house?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: Front of house
+                        section_name: Front of house
                     - question: Will any part of the pool be forward of the front of the original house?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: Front of house
+                        section_name: Front of house
                     - question: What is the addition to the property?
                       responses:
                         - value: An outdoor pool
                         - value: An outbuilding
                       metadata:
-                        portal_name: Property details
+                        section_name: Property details
                         policy_refs:
                           - url: http://example.com/planning/policy/1/234/b.html
                             text: 'GPDO 00.0000.000'
@@ -406,36 +406,36 @@ paths:
                       responses:
                         - value: '1'
                       metadata:
-                        portal_name: Dimensions
+                        section_name: Dimensions
                     - question: Is the property on designated land?
                       responses:
                         - value: 'No'
                           auto_answered: true
                       metadata:
-                        portal_name: Surrounding Area
+                        section_name: Surrounding Area
                     - question: Is the property in an area of outstanding natural beauty?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: Surrounding Area
+                        section_name: Surrounding Area
                         auto_answered: true
                     - question: Is the property in the broads?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: Surrounding Area
+                        section_name: Surrounding Area
                         auto_answered: true
                     - question: Is the property in a world heritage site?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: Surrounding Area
+                        section_name: Surrounding Area
                         auto_answered: true
                     - question: Is the property in a national park?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: Surrounding Area
+                        section_name: Surrounding Area
                         auto_answered: true
                     - question: Is any part of the property listed?
                       responses:
@@ -444,12 +444,12 @@ paths:
                             flags:
                               - 'Listed building consent / Not required'
                       metadata:
-                        portal_name: Surrounding Area
+                        section_name: Surrounding Area
                     - question: Will the works affect a protected tree?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: Surrounding Area
+                        section_name: Surrounding Area
                         auto_answered: true
                     - question: Will the new addition allow you to do an activity that most houses do not provide a dedicated space for?
                       responses:
@@ -459,19 +459,19 @@ paths:
                             flags:
                               - 'Planning permission / Permission needed'
                       metadata:
-                        portal_name: Actitivies
+                        section_name: Actitivies
                     - question: What type of planning application are you making?
                       responses:
                         - value: Existing changes
                       metadata:
-                        portal_name: fee-calculator
+                        section_name: fee-calculator
                         policy_refs:
                           - url: http://example.com/planning/policy/1/234/a.html
                     - question: What type of changes does the project involve?
                       responses:
                         - value: Alteration
                       metadata:
-                        portal_name: Fee Exemptions
+                        section_name: Fee Exemptions
                         policy_refs:
                           - text: The Town and Country Planning (General Permitted Development) (England) Order 2015
                   constraints:
@@ -529,13 +529,13 @@ paths:
                       responses:
                         - value: 'Yes'
                       metadata:
-                        portal_name: _root
+                        section_name: _root
                         auto_answered: true
                     - question: What are you applying about?
                       responses:
                         - value: Existing changes I have made in the past
                       metadata:
-                        portal_name: _root
+                        section_name: _root
                         policy_refs:
                           - text: >-
                               Town and Country Planning Act 1990, Part 7, Section 191 &amp;
@@ -544,12 +544,12 @@ paths:
                       responses:
                         - value: Install a security alarm
                       metadata:
-                        portal_name: immunity-check
+                        section_name: immunity-check
                     - question: What type of changes were they?
                       responses:
                         - value: Alteration
                       metadata:
-                        portal_name: immunity-check
+                        section_name: immunity-check
                         auto_answered: true
                     - question: Were the works carried out more than 4 years ago?
                       responses:
@@ -558,21 +558,21 @@ paths:
                             flags:
                               - Planning permission / Immune
                       metadata:
-                        portal_name: immunity-check
+                        section_name: immunity-check
                         policy_refs:
                           - text: Town and Country Planning Act 1990 Section 171B
                     - question: Have the works been completed?
                       responses:
                         - value: 'Yes'
                       metadata:
-                        portal_name: immunity-check
+                        section_name: immunity-check
                         policy_refs:
                           - text: Town and Country Planning Act 1990 Section 171B
                     - question: When were the works completed?
                       responses:
                         - value: '2015-02-01'
                       metadata:
-                        portal_name: immunity-check
+                        section_name: immunity-check
                         policy_refs:
                           - text: Town and Country Planning Act 1990 Section 171B
                     - question: Has anyone ever attempted to conceal the changes?
@@ -582,7 +582,7 @@ paths:
                             flags:
                               - Planning permission / Immune
                       metadata:
-                        portal_name: immunity-check
+                        section_name: immunity-check
                         policy_refs:
                           - text: >-
                               Secretary of State for Communities and Local Government and another
@@ -595,7 +595,7 @@ paths:
                             flags:
                               - Planning permission / Immune
                       metadata:
-                        portal_name: immunity-check
+                        section_name: immunity-check
                         policy_refs:
                           - text: >-
                               Enforcement action is defined in the Town and Country Planning Act
@@ -607,7 +607,7 @@ paths:
                       responses:
                         - value: Install a security alarm
                       metadata:
-                        portal_name: permitteddevelopment
+                        section_name: permitteddevelopment
                         auto_answered: true
                         policy_refs:
                           - text: >-
@@ -618,7 +618,7 @@ paths:
                       responses:
                         - value: 'Yes'
                       metadata:
-                        portal_name: Alarms
+                        section_name: Alarms
                         auto_answered: true
                         policy_refs:
                           - text: Town and Country Planning Act 1990, Section 55 (2)
@@ -629,14 +629,14 @@ paths:
                             flags:
                               - Planning permission / Not development
                       metadata:
-                        portal_name: Alarms
+                        section_name: Alarms
                         policy_refs:
                           - text: Town and Country Planning Act 1990, Section 55 (2)
                     - question: Is any part of the property listed?
                       responses:
                         - value: 'Yes'
                       metadata:
-                        portal_name: _root
+                        section_name: _root
                         auto_answered: true
                     - question: What do the proposals involve?
                       responses:
@@ -645,7 +645,7 @@ paths:
                             flags:
                               - Listed building consent / Required
                       metadata:
-                        portal_name: _root
+                        section_name: _root
                         auto_answered: true
                         policy_refs:
                           - text: Planning (Listed Buildings and Conservation Areas) Act 1990
@@ -653,19 +653,19 @@ paths:
                       responses:
                         - value: Alteration
                       metadata:
-                        portal_name: works-to-trees-filter
+                        section_name: works-to-trees-filter
                         auto_answered: true
                     - question: Have you already told us that you are doing works to a tree or hedge?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: works-to-trees-filter
+                        section_name: works-to-trees-filter
                         auto_answered: true
                     - question: Are there any protected trees on the property?
                       responses:
                         - value: 'Yes'
                       metadata:
-                        portal_name: works-to-trees-filter
+                        section_name: works-to-trees-filter
                         auto_answered: true
                     - question: Do the works affect a protected tree?
                       responses:
@@ -674,7 +674,7 @@ paths:
                             flags:
                               - Works to trees & hedges / Not required
                       metadata:
-                        portal_name: works-to-trees-filter
+                        section_name: works-to-trees-filter
                         policy_refs:
                           - text: >-
                               The Town and Country Planning (Tree Preservation)(England)
@@ -683,37 +683,37 @@ paths:
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: _root
+                        section_name: _root
                         auto_answered: true
                     - question: What are you applying about?
                       responses:
                         - value: Existing changes I have made in the past
                       metadata:
-                        portal_name: more-details
+                        section_name: more-details
                         auto_answered: true
                     - question: What do the works involve?
                       responses:
                         - value: Alterations
                       metadata:
-                        portal_name: more-details
+                        section_name: more-details
                         auto_answered: true
                     - question: What does the project involve?
                       responses:
                         - value: Install a security alarm
                       metadata:
-                        portal_name: more-details
+                        section_name: more-details
                         auto_answered: true
                     - question: Do the changes involve the creation of any new homes?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: more-details
+                        section_name: more-details
                         auto_answered: true
                     - question: Is the property in the Greater London Authority area?
                       responses:
                         - value: 'Yes'
                       metadata:
-                        portal_name: more-details
+                        section_name: more-details
                         auto_answered: true
                         policy_refs:
                           - text: Greater London Authority Act 1999
@@ -721,26 +721,26 @@ paths:
                       responses:
                         - value: Only one
                       metadata:
-                        portal_name: London Datahub
+                        section_name: London Datahub
                         policy_refs:
                           - text: Greater London Authority Act 1999
                     - question: Do you know the title number of the property?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: London Datahub
+                        section_name: London Datahub
                     - question: Does the property have an Energy Performance Certificate (EPC)?
                       responses:
                         - value: I don't know
                       metadata:
-                        portal_name: London Datahub
+                        section_name: London Datahub
                         policy_refs:
                           - text: Greater London Authority Act 1999
                     - question: What type of application is this?
                       responses:
                         - value: Lawful Development Certificate - Existing
                       metadata:
-                        portal_name: London Datahub
+                        section_name: London Datahub
                         auto_answered: true
                         policy_refs:
                           - text: Greater London Authority Act 1999
@@ -748,59 +748,59 @@ paths:
                       responses:
                         - value: '2015-01-01'
                       metadata:
-                        portal_name: London Datahub
+                        section_name: London Datahub
                         policy_refs:
                           - text: Greater London Authority Act 1999
                     - question: When were the works completed?
                       responses:
                         - value: '2015-02-01'
                       metadata:
-                        portal_name: London Datahub
+                        section_name: London Datahub
                         policy_refs:
                           - text: Greater London Authority Act 1999
                     - question: Does the site include parking spaces for any of these?
                       responses:
                         - value: None of these
                       metadata:
-                        portal_name: London Datahub
+                        section_name: London Datahub
                         policy_refs:
                           - text: Greater London Authority Act 1999
                     - question: Are you applying on behalf of someone else?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: about-the-applicant
+                        section_name: about-the-applicant
                     - question: Which of these best describes you?
                       responses:
                         - value: Private individual
                       metadata:
-                        portal_name: about-the-applicant
+                        section_name: about-the-applicant
                     - question: Enter your contact details
                       responses:
                         - value: jessica@opensystemslab.io Test Jess 0123456789
                       metadata:
-                        portal_name: about-the-applicant
+                        section_name: about-the-applicant
                     - question: Is your contact address the same as the property address?
                       responses:
                         - value: 'Yes'
                       metadata:
-                        portal_name: about-the-applicant
+                        section_name: about-the-applicant
                     - question: If a planning officer needs to make a site visit, who should they contact?
                       responses:
                         - value: Me, the applicant
                       metadata:
-                        portal_name: about-the-applicant
+                        section_name: about-the-applicant
                     - question: Which of these best describes you?
                       responses:
                         - value: Applicant
                       metadata:
-                        portal_name: ownership
+                        section_name: ownership
                         auto_answered: true
                     - question: Which of these best describes your interest in the land?
                       responses:
                         - value: Sole owner
                       metadata:
-                        portal_name: ownership
+                        section_name: ownership
                         policy_refs:
                           - text: >-
                               The Town and Country Planning (Development Management Procedure)
@@ -809,7 +809,7 @@ paths:
                       responses:
                         - value: Lawful Development Certificate – Existing changes
                       metadata:
-                        portal_name: community-infrastructure-levy
+                        section_name: community-infrastructure-levy
                         auto_answered: true
                     - question: What does the project involve?
                       responses:
@@ -818,13 +818,13 @@ paths:
                             flags:
                               - Community infrastructure levy / Not liable
                       metadata:
-                        portal_name: CIL Liability check
+                        section_name: CIL Liability check
                         auto_answered: true
                     - question: What are you applying about?
                       responses:
                         - value: Changes that have already been made in the past
                       metadata:
-                        portal_name: _root
+                        section_name: _root
                         auto_answered: true
                         policy_refs:
                           - text: >-
@@ -834,94 +834,94 @@ paths:
                       responses:
                         - value: 'Yes'
                       metadata:
-                        portal_name: _root
+                        section_name: _root
                         auto_answered: true
                     - question: What types of changes did the project involve?
                       responses:
                         - value: Alterations
                       metadata:
-                        portal_name: certificate-of-lawfulness-existing-drawings-immunity
+                        section_name: certificate-of-lawfulness-existing-drawings-immunity
                         auto_answered: true
                     - question: Did the works involve altering the appearance or layout of any roof?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: certificate-of-lawfulness-existing-drawings-immunity
+                        section_name: certificate-of-lawfulness-existing-drawings-immunity
                     - question: Would you like to upload any detail drawings?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: certificate-of-lawfulness-existing-drawings-immunity
+                        section_name: certificate-of-lawfulness-existing-drawings-immunity
                     - question: Did the works involve any alterations to ground levels?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: certificate-of-lawfulness-existing-drawings-immunity
+                        section_name: certificate-of-lawfulness-existing-drawings-immunity
                     - question: Would you like to upload any photographs of the property as it is today?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: certificate-of-lawfulness-existing-drawings-immunity
+                        section_name: certificate-of-lawfulness-existing-drawings-immunity
                     - question: Would you like to upload any other additional drawings or documents?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: certificate-of-lawfulness-existing-drawings-immunity
+                        section_name: certificate-of-lawfulness-existing-drawings-immunity
                     - question: Provide evidence of completion date
                       responses:
                         - value: Utility bills
                       metadata:
-                        portal_name: certificate-of-lawfulness-documents-immunity
+                        section_name: certificate-of-lawfulness-documents-immunity
                     - question: What date do these utility bills start from?
                       responses:
                         - value: '2015-01-01'
                       metadata:
-                        portal_name: certificate-of-lawfulness-documents-immunity
+                        section_name: certificate-of-lawfulness-documents-immunity
                     - question: What date do these utility bills run until?
                       responses:
                         - value: '2015-02-01'
                       metadata:
-                        portal_name: certificate-of-lawfulness-documents-immunity
+                        section_name: certificate-of-lawfulness-documents-immunity
                     - question: What do these utility bills show?
                       responses:
                         - value: 'Test evidence '
                       metadata:
-                        portal_name: certificate-of-lawfulness-documents-immunity
+                        section_name: certificate-of-lawfulness-documents-immunity
                     - question: What type of planning application are you making?
                       responses:
                         - value: Lawful Development Certificate
                       metadata:
-                        portal_name: fee-calculator
+                        section_name: fee-calculator
                         auto_answered: true
                     - question: What type of changes are you applying for?
                       responses:
                         - value: Existing changes
                       metadata:
-                        portal_name: fee-calculator
+                        section_name: fee-calculator
                         auto_answered: true
                     - question: Is the property a home?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: LDC in Existing Use
+                        section_name: LDC in Existing Use
                         auto_answered: true
                     - question: What types of changes does the application relate to?
                       responses:
                         - value: Alteration
                       metadata:
-                        portal_name: LDC in Existing Use
+                        section_name: LDC in Existing Use
                         auto_answered: true
                     - question: What did the alterations involve?
                       responses:
                         - value: Installation of plant equipment
                       metadata:
-                        portal_name: LDC in Existing Use
+                        section_name: LDC in Existing Use
                         auto_answered: true
                     - question: The area of the site is
                       responses:
                         - value: 5 hectares or less
                       metadata:
-                        portal_name: LDC-E - Plant equipment or machinery
+                        section_name: LDC-E - Plant equipment or machinery
                         policy_refs:
                           - text: >-
                               The Town and Country Planning (Fees for Applications, Deemed
@@ -931,24 +931,24 @@ paths:
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: Fee Exemptions
+                        section_name: Fee Exemptions
                         auto_answered: true
                     - question: What type of changes does the project involve?
                       responses:
                         - value: Alteration
                       metadata:
-                        portal_name: Fee Exemptions
+                        section_name: Fee Exemptions
                         auto_answered: true
                     - question: Are the public allowed to access the building?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: Fee Exemptions
+                        section_name: Fee Exemptions
                     - question: Is this application a resubmission?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: Fee Exemptions
+                        section_name: Fee Exemptions
                         policy_refs:
                           - text: >-
                               The Town and Country Planning (Fees for Applications, Deemed
@@ -958,19 +958,19 @@ paths:
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: Fee exemptions and adjustments
+                        section_name: Fee exemptions and adjustments
                         auto_answered: true
                     - question: Does the application qualify for a resubmission exemption?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: Fee exemptions and adjustments
+                        section_name: Fee exemptions and adjustments
                         auto_answered: true
                     - question: Is the site a sports field?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: Fee Reductions
+                        section_name: Fee Reductions
                         auto_answered: true
                         policy_refs:
                           - text: >-
@@ -983,7 +983,7 @@ paths:
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: Fee Reductions
+                        section_name: Fee Reductions
                         auto_answered: true
                         policy_refs:
                           - text: >-
@@ -994,7 +994,7 @@ paths:
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: Fee Reductions
+                        section_name: Fee Reductions
                         policy_refs:
                           - text: >-
                               The Town and Country Planning (Fees for Applications, Deemed
@@ -1004,13 +1004,13 @@ paths:
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: Fee exemptions and adjustments
+                        section_name: Fee exemptions and adjustments
                         auto_answered: true
                     - question: Does the application qualify for the parish council reduction?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: Fee exemptions and adjustments
+                        section_name: Fee exemptions and adjustments
                         auto_answered: true
                         policy_refs:
                           - text: >-
@@ -1021,84 +1021,84 @@ paths:
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: Fee exemptions and adjustments
+                        section_name: Fee exemptions and adjustments
                         auto_answered: true
                     - question: Did you get any pre-application advice before making this application?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: pre-app-advice-check
+                        section_name: pre-app-advice-check
                     - question: Connections with Southwark Council
                       responses:
                         - value: None of the above apply to me
                       metadata:
-                        portal_name: declarations
+                        section_name: declarations
                     - question: 'I confirm that:'
                       responses:
                         - value: >-
                             The information contained in this application is truthful, accurate
                             and complete, to the best of my knowledge
                       metadata:
-                        portal_name: declarations
+                        section_name: declarations
                     - question: What is the applicant's interest in the land?
                       responses:
                         - value: Southwark
                       metadata:
-                        portal_name: uniform-translator
+                        section_name: uniform-translator
                         auto_answered: true
                     - question: What is the user's role?
                       responses:
                         - value: Applicant
                       metadata:
-                        portal_name: uniform-translator
+                        section_name: uniform-translator
                         auto_answered: true
                     - question: What is the applicant's declared connections?
                       responses:
                         - value: None
                       metadata:
-                        portal_name: uniform-translator
+                        section_name: uniform-translator
                         auto_answered: true
                     - question: Does the application qualify for a disability exemption?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: _root
+                        section_name: _root
                         auto_answered: true
                     - question: What do these photographs show?
                       responses:
                         - value: That it has happened
                       metadata:
-                        portal_name: certificate-of-lawfulness-documents-immunity
+                        section_name: certificate-of-lawfulness-documents-immunity
                     - question: What date do these utility bills start from?
                       responses:
                         - value: '2013-03-02'
                       metadata:
-                        portal_name: certificate-of-lawfulness-documents-immunity
+                        section_name: certificate-of-lawfulness-documents-immunity
                     - question: What date do these utility bills run until?
                       responses:
                         - value: '2019-04-01'
                       metadata:
-                        portal_name: certificate-of-lawfulness-documents-immunity
+                        section_name: certificate-of-lawfulness-documents-immunity
                     - question: What do these utility bills show?
                       responses:
                         - value: That i was paying water bills
                       metadata:
-                        portal_name: certificate-of-lawfulness-documents-immunity
+                        section_name: certificate-of-lawfulness-documents-immunity
                     - question: When was this building control certificate issued?
                       responses:
                         - value: '2019-04-01'
                       metadata:
-                        portal_name: certificate-of-lawfulness-documents-immunity
+                        section_name: certificate-of-lawfulness-documents-immunity
                     - question: What do these building control certificates show?
                       responses:
                         - value: that it was certified
                       metadata:
-                        portal_name: certificate-of-lawfulness-documents-immunity
+                        section_name: certificate-of-lawfulness-documents-immunity
                     - question: Does the application qualify for a resubmission exemption?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: _root
+                        section_name: _root
                         auto_answered: true
                   constraints:
                     conservation_area: true
@@ -1158,17 +1158,17 @@ paths:
                         - value: None of the above apply to me
                       metadata:
                         auto_answered: true
-                        portal_name: declarations
+                        section_name: declarations
                     - question: Has the house already been extended?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: prior-approval-files
+                        section_name: prior-approval-files
                     - question: Select your project
                       responses:
                         - value: Add a rear extension
                       metadata:
-                        portal_name: Types of prior approval for houses
+                        section_name: Types of prior approval for houses
                     - question: Exactly how high are the eaves of the extension?
                       responses:
                         - value: '2.5'
@@ -1178,29 +1178,29 @@ paths:
                               The Town and Country Planning (General Permitted Development)
                               (England) Order 2015 Schedule 2, Part 1, Class APermitted
                               Development Rights for Householders Technical Guidance (PDF, 500KB)
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: Are you applying on behalf of someone else?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: about-the-applicant
+                        section_name: about-the-applicant
                     - question: Is any part of the extension within 2 metres of the boundary?
                       responses:
                         - value: 'Yes'
                       metadata:
                         auto_answered: true
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: What type of house is it?
                       responses:
                         - value: Mid terrace
                       metadata:
                         auto_answered: true
-                        portal_name: Rear and Side Extensions
+                        section_name: Rear and Side Extensions
                     - question: Is your contact address the same as the property address?
                       responses:
                         - value: 'Yes'
                       metadata:
-                        portal_name: about-the-applicant
+                        section_name: about-the-applicant
                     - question: How much of the property is covered by extensions and outbuildings?
                       responses:
                         - value: 50% or less of the available area around the original house
@@ -1212,12 +1212,12 @@ paths:
                           - text: >-
                               The Town and Country Planning (General Permitted Development)
                               (England) Order 2015 Schedule 2, Part 1, Class A
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: Connections with London Borough of Lambeth
                       responses:
                         - value: None of the above apply to me
                       metadata:
-                        portal_name: apply-for-service-declarations
+                        section_name: apply-for-service-declarations
                     - question: Was the house built before 2020?
                       responses:
                         - value: Yes, it was built before 2020
@@ -1229,7 +1229,7 @@ paths:
                           - text: >-
                               The Town and Country Planning (General Permitted Development)
                               (England) Order 2015 Schedule 2, Part 1, Class 1 A.
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: >-
                         How far does the new addition extend beyond the back wall of the original
                         house?
@@ -1243,48 +1243,48 @@ paths:
                           - text: >-
                               The Town and Country Planning (General Permitted Development)
                               (England) Order 2015 Schedule 2, Part 1, Class A.1 (f)(i)
-                        portal_name: Extensions - No projection - Rear only
+                        section_name: Extensions - No projection - Rear only
                     - question: Is the property in Lambeth?
                       responses:
                         - value: 'Yes'
                       metadata:
                         auto_answered: true
-                        portal_name: _root
+                        section_name: _root
                     - question: What type of prior approval application is it?
                       responses:
                         - value: Larger extension to a house
                       metadata:
                         auto_answered: true
-                        portal_name: prior-approval-files
+                        section_name: prior-approval-files
                     - question: What type of house is it?
                       responses:
                         - value: A terrace
                       metadata:
                         auto_answered: true
-                        portal_name: Extensions - No projection - Rear only
+                        section_name: Extensions - No projection - Rear only
                     - question: What type of property is it?
                       responses:
                         - value: House
                       metadata:
                         auto_answered: true
-                        portal_name: property-types
+                        section_name: property-types
                     - question: What type of prior approval application is it?
                       responses:
                         - value: Larger extension to a house
                       metadata:
                         auto_answered: true
-                        portal_name: Prior approval fees
+                        section_name: Prior approval fees
                     - question: What type of prior approval application is it?
                       responses:
                         - value: Larger extension to a house
                       metadata:
                         auto_answered: true
-                        portal_name: prior-approval-more-information
+                        section_name: prior-approval-more-information
                     - question: Has work already started?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: _root
+                        section_name: _root
                     - question: What is the exact height of the extension?
                       responses:
                         - value: '3'
@@ -1293,35 +1293,35 @@ paths:
                           - text: >-
                               The Town and Country Planning (General Permitted Development)
                               (England) Order 2015 Schedule 2, Part 1, Class A
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: What type of property is it?
                       responses:
                         - value: House
                       metadata:
                         auto_answered: true
-                        portal_name: prior-approval-scope-check
+                        section_name: prior-approval-scope-check
                     - question: Does the application qualify for a resubmission exemption?
                       responses:
                         - value: 'No'
                       metadata:
                         auto_answered: true
-                        portal_name: Prior Approval Fee exemptions
+                        section_name: Prior Approval Fee exemptions
                     - question: Would you like to upload any additional drawings, documents or images?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: prior-approval-files
+                        section_name: prior-approval-files
                     - question: Is this a prior approval application for a larger rear extension?
                       responses:
                         - value: 'Yes'
                       metadata:
                         auto_answered: true
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: Does the original house have a projection to the rear?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: Will any part of the extension be higher than 4m?
                       responses:
                         - value: 'No'
@@ -1334,42 +1334,42 @@ paths:
                               The Town and Country Planning (General Permitted Development)
                               (England) Order 2015 Schedule 2, Part 1, Class A.1 (g)(ii)Permitted
                               Development Rights for Householders Technical Guidance (PDF, 500KB)
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: What type of house it is?
                       responses:
                         - value: Terrace
                       metadata:
                         auto_answered: true
-                        portal_name: property-types
+                        section_name: property-types
                     - question: Is this a prior approval application for a larger rear extension?
                       responses:
                         - value: 'Yes'
                       metadata:
                         auto_answered: true
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: Is this a prior approval application for a larger rear extension?
                       responses:
                         - value: 'Yes'
                       metadata:
                         auto_answered: true
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: Is the property on designated land?
                       responses:
                         - value: 'No'
                       metadata:
                         auto_answered: true
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: What type of prior approval application is it?
                       responses:
                         - value: Larger extension to a house
                       metadata:
                         auto_answered: true
-                        portal_name: Fee Exemptions check
+                        section_name: Fee Exemptions check
                     - question: How many storeys does the original house have?
                       responses:
                         - value: 2 or more
                       metadata:
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: What will you use the extension for?
                       responses:
                         - value: Kitchen
@@ -1382,7 +1382,7 @@ paths:
                               The Town and Country Planning (General Permitted Development)
                               (England) Order 2015 Schedule 2, Part 1, Class A  Town and Country
                               Planning Act 1990, Section 55
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: Describe the project.
                       responses:
                         - value: >-
@@ -1390,25 +1390,25 @@ paths:
                             on the ground floor.nThe height of the new extension is 3 meters
                             (measured from the ground to the highest point of the new extension)n
                       metadata:
-                        portal_name: _root
+                        section_name: _root
                     - question: Is the property subject to any Article 4 directions?
                       responses:
                         - value: 'No'
                       metadata:
                         auto_answered: true
-                        portal_name: _root
+                        section_name: _root
                     - question: What works does the project involve?
                       responses:
                         - value: Extension
                       metadata:
                         auto_answered: true
-                        portal_name: Disability exemption check
+                        section_name: Disability exemption check
                     - question: Which Local Planning authority is it?
                       responses:
                         - value: Lambeth
                       metadata:
                         auto_answered: true
-                        portal_name: apply-for-service-declarations
+                        section_name: apply-for-service-declarations
                     - question: Are the materials of the extension similar to the original house?
                       responses:
                         - value: 'Yes'
@@ -1420,19 +1420,19 @@ paths:
                           - text: >-
                               The Town and Country Planning (General Permitted Development)
                               (England) Order 2015 Schedule 2, Part 1, Class A
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: Is the property a site of special scientific interest?
                       responses:
                         - value: 'No'
                       metadata:
                         auto_answered: true
-                        portal_name: Extensions - No projection - Rear only
+                        section_name: Extensions - No projection - Rear only
                     - question: What type of prior approval application is it?application.type
                       responses:
                         - value: Larger extension to a house
                       metadata:
                         auto_answered: true
-                        portal_name: Lambeth confirmation page
+                        section_name: Lambeth confirmation page
                     - question: >-
                         Does the application qualify to the same-day-planning-application
                         exemption?
@@ -1445,13 +1445,13 @@ paths:
                               The Town and Country Planning (Fees for Applications, Deemed
                               Applications, Requests and Site Visits) (England) Regulations 2012,
                               Regulation 14
-                        portal_name: Prior Approval Fee exemptions
+                        section_name: Prior Approval Fee exemptions
                     - question: What type of planning application are you making?
                       responses:
                         - value: Prior approval
                       metadata:
                         auto_answered: true
-                        portal_name: fee-calculator
+                        section_name: fee-calculator
                     - question: Was the house always a house?
                       responses:
                         - value: Yes, it was built as a house
@@ -1460,20 +1460,20 @@ paths:
                           - text: >-
                               The Town and Country Planning (General Permitted Development)
                               (England) Order 2015, Schedule 2, Part 1, Class A
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: >-
                         We may need to visit your site to assess your application. If we do, who
                         should we contact to arrange the visit?
                       responses:
                         - value: Me, the applicant
                       metadata:
-                        portal_name: about-the-applicant
+                        section_name: about-the-applicant
                     - question: How many storeys does the original house have?
                       responses:
                         - value: 2 or more
                       metadata:
                         auto_answered: true
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: >-
                         Are you submitting a planning permission application as well as this prior
                         approval application?
@@ -1485,13 +1485,13 @@ paths:
                               The Town and Country Planning (Fees for Applications, Deemed
                               Applications, Requests and Site Visits) (England) Regulations 2012,
                               Regulation 14
-                        portal_name: Planning applications exemption
+                        section_name: Planning applications exemption
                     - question: Does the application qualify for a disability exemption?
                       responses:
                         - value: 'No'
                       metadata:
                         auto_answered: true
-                        portal_name: Prior Approval Fee exemptions
+                        section_name: Prior Approval Fee exemptions
                     - question: How high are the eaves of the extension?
                       responses:
                         - value: 3m or lower
@@ -1504,7 +1504,7 @@ paths:
                               The Town and Country Planning (General Permitted Development)
                               (England) Order 2015 Schedule 2, Part 1, Class A.1 (i)Permitted
                               Development Rights for Householders Technical Guidance (PDF, 500KB)
-                        portal_name: Extensions - Two storey extensions
+                        section_name: Extensions - Two storey extensions
                     - question: What type of property is it?
                       responses:
                         - value: House
@@ -1514,30 +1514,30 @@ paths:
                           - text: >-
                               The Town and Country Planning (General Permitted Development)
                               (England) Order 2015
-                        portal_name: Rear and Side Extensions
+                        section_name: Rear and Side Extensions
                     - question: Do you want to add drawings to show elevations?
                       responses:
                         - value: 'No'
                       metadata:
-                        portal_name: prior-approval-files
+                        section_name: prior-approval-files
                     - question: Is the property a home?
                       responses:
                         - value: 'Yes'
                       metadata:
                         auto_answered: true
-                        portal_name: Disability exemption check
+                        section_name: Disability exemption check
                     - question: Which of these best describes you (or your organisation)?
                       responses:
                         - value: Private individual
                       metadata:
-                        portal_name: about-the-applicant
+                        section_name: about-the-applicant
                     - question: 'I confirm that:'
                       responses:
                         - value: >-
                             The information contained in this application is truthful, accurate
                             and complete, to the best of my knowledge
                       metadata:
-                        portal_name: apply-for-service-declarations
+                        section_name: apply-for-service-declarations
                     - question: 'I confirm that:'
                       responses:
                         - value: >-
@@ -1545,25 +1545,25 @@ paths:
                             and complete, to the best of my knowledge
                       metadata:
                         auto_answered: true
-                        portal_name: declarations
+                        section_name: declarations
                     - question: Which of these best describes your project?
                       responses:
                         - value: Rear only
                       metadata:
                         policy_refs:
                           - text: General Permitted Development Order 2015, Technical guidance (PDF)
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: Your contact details
                       responses:
                         - value: joe@test.com Mr Blogs Joe 22211
                       metadata:
-                        portal_name: about-the-applicant
+                        section_name: about-the-applicant
                     - question: Which Local Planning authority is it?
                       responses:
                         - value: Lambeth
                       metadata:
                         auto_answered: true
-                        portal_name: Confirmation pages
+                        section_name: Confirmation pages
                     - question: Which of these best describes the new extension?
                       responses:
                         - value: Single storey
@@ -1572,18 +1572,18 @@ paths:
                           - text: >-
                               The Town and Country Planning (General Permitted Development)
                               (England) Order 2015 Section 2, Part 1, Class A
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: How many storeys does the original house have?
                       responses:
                         - value: 2 or more
                       metadata:
                         auto_answered: true
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: What type of roof does the extension have?
                       responses:
                         - value: Sloping
                       metadata:
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: Is any part of the extension within 2 metres of the boundary?
                       responses:
                         - value: 'Yes'
@@ -1592,7 +1592,7 @@ paths:
                           - text: >-
                               The Town and Country Planning (General Permitted Development)
                               (England) Order 2015 Schedule 2, Part 1, Class A
-                        portal_name: Extensions - No projection - Rear only
+                        section_name: Extensions - No projection - Rear only
                     - question: >-
                         Is the sole purpose of the project to support the needs of a disabled
                         resident?
@@ -1605,19 +1605,19 @@ paths:
                               Applications, Requests and Site Visits) (England) Regulations 2012,
                               Regulation 14UK Statutory Instruments 2012 No. 2920 Regulation 4,
                               Equalities Act 2010, Section 6 Children Act 1989, Part 3
-                        portal_name: Fee Exemptions
+                        section_name: Fee Exemptions
                     - question: Does the original house have a projection to the rear?
                       responses:
                         - value: 'No'
                       metadata:
                         auto_answered: true
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: Is the property on designated land?
                       responses:
                         - value: 'No'
                       metadata:
                         auto_answered: true
-                        portal_name: Extensions - No projection - Rear only
+                        section_name: Extensions - No projection - Rear only
                     - question: >-
                         Exactly how far will the new addition extend beyond the back wall of the
                         original house?
@@ -1628,13 +1628,13 @@ paths:
                           - text: >-
                               The Town and Country Planning (General Permitted Development)
                               (England) Order 2015 Schedule 2, Part 1, Class A
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                     - question: What type of roof does the extension have?
                       responses:
                         - value: Sloping
                       metadata:
                         auto_answered: true
-                        portal_name: Rear and side extensions to houses
+                        section_name: Rear and side extensions to houses
                   constraints:
                     conservation_area: true
                     protected_trees: false
