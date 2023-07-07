@@ -41,7 +41,9 @@ class SitemapsController < AuthenticationController
                       notice: t(".success")
         end
       else
-        format.html { render :edit }
+        flash.now[:alert] = "Invalid parameter"
+        flash.now[:alert] << (": #{@planning_application.errors.join('; ')}") if @planning_application.errors.present?
+        render :show
       end
     end
   end
