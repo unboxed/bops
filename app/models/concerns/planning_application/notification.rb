@@ -42,6 +42,10 @@ class PlanningApplication
       end
     end
 
+    def send_assigned_notification_to_assessor
+      send_assigned_notification(user_email)
+    end
+
     def send_update_notification_to_assessor
       send_update_notification(user_email)
     end
@@ -66,6 +70,12 @@ class PlanningApplication
       return if to.blank?
 
       UserMailer.update_notification_mail(self, to).deliver_later
+    end
+
+    def send_assigned_notification(to)
+      return if to.blank?
+
+      UserMailer.assigned_notification_mail(self, to).deliver_later
     end
 
     def downcase_and_unique(array)

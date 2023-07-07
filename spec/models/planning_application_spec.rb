@@ -916,16 +916,37 @@ RSpec.describe PlanningApplication do
     let(:planning_application) { create(:planning_application) }
     let(:user) { create(:user) }
 
-    it "sends notification to assigned user" do
-      expect { planning_application.assign!(user) }
-        .to have_enqueued_job
-        .on_queue("low_priority")
-        .with(
-          "UserMailer",
-          "update_notification_mail",
-          "deliver_now",
-          args: [planning_application, user.email]
-        )
+    context "when an LDC application" do
+      it "sends notification to assigned user" do
+        expect { planning_application.assign!(user) }
+          .to have_enqueued_job
+          .on_queue("low_priority")
+          .with(
+            "UserMailer",
+            "update_notification_mail",
+            "deliver_now",
+            args: [planning_application, user.email]
+          )
+      end
+    end
+
+    context "when a prior approval application" do
+      before do
+        prior_approval = create(:application_type, :prior_approval)
+        planning_application.update(application_type: prior_approval)
+      end
+
+      it "sends notification to assigned user" do
+        expect { planning_application.assign!(user) }
+          .to have_enqueued_job
+          .on_queue("low_priority")
+          .with(
+            "UserMailer",
+            "assigned_notification_mail",
+            "deliver_now",
+            args: [planning_application, user.email]
+          )
+      end
     end
 
     context "when an ActiveRecord error is raised" do

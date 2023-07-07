@@ -1,0 +1,5 @@
+# <%= t(".bops_updates") %>
+
+<%= t(".bops_case_reference", reference: @reference) %>
+
+[<%= t(".view_reference_on", reference: @reference) %>](<%= planning_application_url(@planning_application, subdomain: @planning_application.local_authority.subdomain) %>)

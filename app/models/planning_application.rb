@@ -445,7 +445,12 @@ class PlanningApplication < ApplicationRecord
     transaction do
       update!(user:)
       audit!(activity_type: "assigned", activity_information: user&.name)
-      send_update_notification_to_assessor
+
+      if application_type_name == "prior_approval"
+        send_assigned_notification_to_assessor
+      else
+        send_update_notification_to_assessor
+      end
     end
   end
 
