@@ -1,27 +1,16 @@
 <%= form_with model: @planning_application, local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
- <% if @planning_application.errors.any? %>
-    <span id="status-error" class="govuk-error-message">
-      <span class="govuk-visually-hidden">
-        <h2>
-          <%= pluralize(@planning_application.errors.count, "error") %>
-          prohibited this @planning_application from being saved:
-        </h2>
-      </span>
-      <ul>
-        <% @planning_application.errors.map do |error| %>
-          <li><%= error.message %></li>
-        <% end %>
-      </ul>
-    </span>
-  <% end %>
   <%= form.hidden_field(
     :return_to,
     value: local_assigns.fetch(:return_to, nil)
   ) %>
-  <%= form.hidden_field :application_type_id, value: ApplicationType.find_by(name: "lawfulness_certificate").id %>
   <div class="govuk-form-group">
     <% if action_name == "new" || action_name == "create" %>
+      <div class="govuk-form-group govuk-!-margin-bottom-4">
+        <%= form.govuk_select(:application_type_id, ApplicationType.menu, options: { include_blank: true }, label: { text: "Application type" }) %>
+      </div>
+      
       <p class="govuk-body">
         <%= form.label :description, "Description", class: "govuk-heading-m govuk-!-margin-bottom-1" %>
         <%= form.text_area :description, class: "govuk-textarea", rows: "5" %>
@@ -34,6 +23,8 @@
           <%= link_to "Propose a change to the description", new_planning_application_description_change_validation_request_path(@planning_application), class: "govuk-link" %>
         <% end %>
       </p>
+
+      <%= form.govuk_select(:application_type_id, ApplicationType.menu, label: { text: "Application type" }) %>
     <% end %>
   </div>
   <div class="govuk-form-group govuk-!-margin-top-8">

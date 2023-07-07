@@ -318,7 +318,7 @@ RSpec.describe PlanningApplication do
       end
     end
 
-    describe "::after_update" do
+    describe "::before_update" do
       context "when there is an update to any address or boundary geojson fields" do
         it "sets the updated_address_or_boundary_geojson to true" do
           planning_application.update!(address_1: "")
