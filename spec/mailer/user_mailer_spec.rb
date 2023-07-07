@@ -62,4 +62,44 @@ RSpec.describe UserMailer, type: :mailer do
       )
     end
   end
+
+  describe "#assigned_notification_mail" do
+    let!(:prior_approval) { create(:application_type, :prior_approval) }
+    let(:planning_application) { create(:planning_application, :prior_approval) }
+
+    let(:mail) do
+      described_class.assigned_notification_mail(
+        planning_application,
+        "assessor@example.com"
+      )
+    end
+
+    let(:mail_body) { mail.body.encoded }
+
+    it "sets subject" do
+      travel_to("2022-01-01 00:00:00 GMT") do
+        expect(mail.subject).to eq(
+          "You have been assigned to a prior approval case BUC-22-00100-PA"
+        )
+      end
+    end
+
+    it "sets recipient" do
+      expect(mail.to).to contain_exactly("assessor@example.com")
+    end
+
+    it "includes planning application reference" do
+      travel_to("2022-01-01 00:00:00 GMT") do
+        expect(mail_body).to include(
+          "You have been assigned to a prior approval case BUC-22-00100-PA."
+        )
+      end
+    end
+
+    it "includes plannng application url" do
+      expect(mail_body).to include(
+        "http://buckinghamshire.bops.services/planning_applications/#{planning_application.id}"
+      )
+    end
+  end
 end

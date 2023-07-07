@@ -211,6 +211,8 @@ FactoryBot.define do
           }
         ].to_json
       end
+
+      application_type { association :application_type, :prior_approval }
     end
 
     trait :with_consultees do

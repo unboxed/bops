@@ -461,6 +461,7 @@ en:
       success: Document has been updated
   emails:
     subjects:
+      assigned_notification_mail: You have been assigned to a prior approval case %{reference}
       cancelled_validation_request_mail: Update on your application for a Lawful Development Certificate
       decision_notice_mail: Decision on your Lawful Development Certificate  application
       description_change_mail: Lawful Development Certificate application - suggested changes
@@ -1044,6 +1045,10 @@ en:
     manager_role: Manager
     officer_role: Case Officer
   user_mailer:
+    assigned_notification_mail:
+      bops_case_reference: You have been assigned to a prior approval case %{reference}.
+      bops_updates: BoPS updates
+      view_reference_on: View %{reference} on BoPS
     otp_mail:
       otp_expires: It will expire in %{expires} minutes.
       otp_is_your: "%{otp} is your Back Office Planning System verification code."
