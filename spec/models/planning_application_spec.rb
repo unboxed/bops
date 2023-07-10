@@ -2186,11 +2186,4 @@ RSpec.describe PlanningApplication do
       end
     end
   end
-
-  it "tracks changed constraints" do
-    planning_application.old_constraints << "test_constraint"
-    planning_application.save!
-
-    expect(planning_application.changed_constraints).to include("test_constraint")
-  end
 end
