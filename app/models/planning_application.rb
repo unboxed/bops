@@ -35,10 +35,10 @@ class PlanningApplication < ApplicationRecord
     has_many :description_change_validation_requests
     has_many :replacement_document_validation_requests
     has_many :other_change_validation_requests
-    has_many :fee_item_validation_requests, lambda {
-                                              fee_item
-                                            }, class_name: "OtherChangeValidationRequest",
-                                               inverse_of: :planning_application
+    has_many :fee_item_validation_requests,
+             -> { fee_item },
+             class_name: "OtherChangeValidationRequest",
+             inverse_of: :planning_application
     has_many :additional_document_validation_requests
     has_many :red_line_boundary_change_validation_requests
     has_many :notes, -> { by_created_at_desc }, inverse_of: :planning_application
@@ -74,6 +74,7 @@ class PlanningApplication < ApplicationRecord
   scope :by_created_at_desc, -> { order(created_at: :desc) }
   scope :with_user, -> { preload(:user) }
   scope :for_user_and_null_users, ->(user_id) { where(user_id: [user_id, nil]) }
+  scope :prior_approvals, -> { joins(:application_type).where(application_type: { name: :prior_approval }) }
 
   before_validation :set_application_number, on: :create
   before_validation :set_reference, on: :create

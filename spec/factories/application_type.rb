@@ -7,5 +7,7 @@ FactoryBot.define do
     trait :prior_approval do
       name { "prior_approval" }
     end
+
+    initialize_with { ApplicationType.find_or_create_by(name:) }
   end
 end
