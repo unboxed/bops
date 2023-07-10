@@ -90,8 +90,8 @@ class PlanningApplication < ApplicationRecord
   before_update :audit_update_application_type!, if: :application_type_id_changed?
 
   after_update :audit_updated!
+  after_update :update_constraints
   after_update :address_or_boundary_geojson_updated?
-  after_update :old_constraints_updated?
 
   accepts_nested_attributes_for :recommendations
   accepts_nested_attributes_for :documents
@@ -677,15 +677,12 @@ class PlanningApplication < ApplicationRecord
     return unless saved_changes.keys.intersection(ADDRESS_AND_BOUNDARY_GEOJSON_FIELDS).any?
 
     update!(updated_address_or_boundary_geojson: true)
-
-    ConstraintQueryUpdateService.new(planning_application: self).call if boundary_geojson.present?
   end
 
-  def old_constraints_updated?
-    return unless saved_changes.include? "old_constraints"
-    return if old_constraints.blank?
+  def update_constraints
+    return unless saved_changes.include? "boundary_geojson"
 
-    update!(changed_constraints: ((changed_constraints.presence || []) + old_constraints).uniq)
+    ConstraintQueryUpdateService.new(planning_application: self).call
   end
 
   def attribute_to_audit(attribute_name)
