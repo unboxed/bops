@@ -73,6 +73,7 @@ class Audit < ApplicationRecord
       "additional_document_validation_request_cancelled_post_validation",
     description_change_validation_request_cancelled: "description_change_validation_request_cancelled",
     other_change_validation_request_cancelled: "other_change_validation_request_cancelled",
+    proposal_measurements_updated: "proposal_measurements_updated",
     red_line_boundary_change_validation_request_cancelled: "red_line_boundary_change_validation_request_cancelled",
     red_line_boundary_change_validation_request_cancelled_post_validation:
     "red_line_boundary_change_validation_request_cancelled_post_validation",

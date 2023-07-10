@@ -15,7 +15,15 @@
       <li>
         A list of the works involved in the project, such as alterations and extensions
       </li>
-      <li>Key dimensions</li>
+      <li>
+        Key dimensions
+        <% if @planning_application.proposal_measurement %>
+          <br>
+          Max height: <%= @planning_application.proposal_measurement.max_height %>m<br>
+          Eaves height: <%= @planning_application.proposal_measurement.eaves_height %>m<br>
+          Depth: <%= @planning_application.proposal_measurement.depth %>m<br>
+        <% end %>
+      </li>
       <li>Materials used in external works</li>
       <li>Specific features you want to draw attention to</li>
       <li>Details of a proposed use, such as opening hours</li>

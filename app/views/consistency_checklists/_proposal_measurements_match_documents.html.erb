@@ -1,0 +1,47 @@
+<%= form.govuk_radio_buttons_fieldset(
+  :proposal_measurements_match_documents,
+  legend: { text: t(".are_the_proposal"), size: "s" }
+  ) do %>
+  <p class="govuk-body govuk-!-margin-bottom-1">Applicant answers from PlanX</p>
+  <ul class="govuk-list">
+    <li>Maximum height: <%= @planning_application.max_height_extension %>m</li>
+    <li>Eaves height: <%= @planning_application.eave_height_extension %>m</li>
+    <li>Depth: <%= @planning_application.rear_wall_length %>m</li>
+  </ul>
+  <% if can_edit %>
+    <%= form.govuk_radio_button(
+      :proposal_measurements_match_documents,
+      :yes,
+      label: { text: t(".yes") },
+      link_errors: true
+    ) %>
+    <%= form.govuk_radio_button(
+      :proposal_measurements_match_documents,
+      :no,
+      label: { text: t(".no") }
+    ) do %>
+      <%= form.fields_for @planning_application.proposal_measurement do |ff| %>
+        <%= ff.govuk_text_field :max_height, label: { text: "Maximum height" } %>
+        <%= ff.govuk_text_field :eaves_height, label: { text: "Eaves height" } %>
+        <%= ff.govuk_text_field(:depth) %>
+      <% end  %>
+    <% end %>
+  <% else %>
+    <% if consistency_checklist.proposal_measurements_match_documents == "no" %>
+      <p class="govuk-body govuk-!-margin-bottom-1">Actual measurements according to plans</p>
+      <ul class="govuk-list">
+        <li>Maximum height: <%= @planning_application.proposal_measurement.max_height %>m</li>
+        <li>Eaves height: <%= @planning_application.proposal_measurement.eaves_height %>m</li>
+        <li>Depth: <%= @planning_application.proposal_measurement.depth %>m</li>
+      </ul>
+    <% end %>
+    <%= form.govuk_radio_button(
+      :proposal_measurements_match_documents,
+      consistency_checklist.proposal_measurements_match_documents,
+      label: {
+        text: t(".#{consistency_checklist.proposal_details_match_documents}")
+      },
+      disabled: true
+    ) %>
+  <% end %>
+<% end %>

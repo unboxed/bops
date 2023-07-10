@@ -40,6 +40,16 @@
       consistency_checklist: consistency_checklist
     }
   ) %>
+  <% if @planning_application.proposal_measurement %>
+    <%= render(
+      partial: "proposal_measurements_match_documents",
+      locals: {
+        form: form,
+        can_edit: can_edit,
+        consistency_checklist: consistency_checklist
+      }
+    ) %>
+  <% end %>
   <% if can_edit %>
     <%= render(partial: "shared/submit_buttons", locals: { form: form }) %>
   <% else %>

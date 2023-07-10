@@ -16,10 +16,12 @@ class ConsistencyChecklistsController < AuthenticationController
 
   def create
     @consistency_checklist = @planning_application.build_consistency_checklist(
-      consistency_checklist_params
+      consistency_checklist_params.except(:proposal_measurement)
     )
 
     if @consistency_checklist.save
+      update_proposal_measurements
+
       redirect_to(
         planning_application_assessment_tasks_path(@planning_application),
         notice: t(".successfully_updated_application")
@@ -30,7 +32,9 @@ class ConsistencyChecklistsController < AuthenticationController
   end
 
   def update
-    if @consistency_checklist.update(consistency_checklist_params)
+    if @consistency_checklist.update(consistency_checklist_params.except(:proposal_measurement))
+      update_proposal_measurements
+
       redirect_to(
         planning_application_assessment_tasks_path(@planning_application),
         notice: t(".successfully_updated_application")
@@ -54,16 +58,42 @@ class ConsistencyChecklistsController < AuthenticationController
   end
 
   def permitted_params
-    %i[
-      description_matches_documents
-      documents_consistent
-      proposal_details_match_documents
-      proposal_details_match_documents_comment
-      site_map_correct
+    [
+      :description_matches_documents,
+      :documents_consistent,
+      :proposal_details_match_documents,
+      :proposal_details_match_documents_comment,
+      :site_map_correct,
+      :proposal_measurements_match_documents,
+      { proposal_measurement: %i[eaves_height max_height depth] }
     ]
   end
 
   def status
     mark_as_complete? ? :complete : :in_assessment
+  end
+
+  def update_proposal_measurements
+    return unless @consistency_checklist.proposal_measurements_match_documents == "no"
+
+    height = @planning_application.proposal_measurement.max_height
+    depth = @planning_application.proposal_measurement.depth
+    eaves_height = @planning_application.proposal_measurement.eaves_height
+
+    @planning_application
+      .proposal_measurement
+      .update(consistency_checklist_params[:proposal_measurement])
+
+    Audit.create!(
+      planning_application_id: @planning_application.id,
+      user: Current.user,
+      activity_type: "proposal_measurements_updated",
+      audit_comment:
+        "Proposal measurements were updated from height: #{height}m,
+        eaves height: #{eaves_height}m, depth: #{depth}m,
+        to height: #{@planning_application.proposal_measurement.max_height}m,
+        eaves height: #{@planning_application.proposal_measurement.eaves_height}m,
+        depth: #{@planning_application.proposal_measurement.depth}m"
+    )
   end
 end

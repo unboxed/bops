@@ -213,6 +213,54 @@ FactoryBot.define do
             ]
           },
           {
+            question: "Exactly how far will the new addition extend beyond the back wall of the original house?",
+            responses: [
+              {
+                value: "4.5"
+              }
+            ],
+            metadata: {
+              policy_refs: [
+                {
+                  text: "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 1, Class A"
+                }
+              ],
+              section_name: "Rear and side extensions to houses"
+            }
+          },
+          {
+            question: "Exactly how high are the eaves of the extension?",
+            responses: [
+              {
+                value: "2.5"
+              }
+            ],
+            metadata: {
+              policy_ref: [
+                {
+                  text: "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 1, Class APermitted Development Rights for Householders Technical Guidance (PDF, 500KB)"
+                }
+              ],
+              section_name: "Rear and side extensions to houses"
+            }
+          },
+          {
+            question: "What is the exact height of the extension?",
+            responses: [
+              {
+                value: "3"
+              }
+            ],
+            metadata: {
+              policy_refs: [
+                {
+                  text: "The Town and Country Planning (General Permitted Development) (England) Order 2015 Schedule 2, Part 1, Class A"
+                }
+              ],
+              section_name: "Rear and side extensions to houses"
+            }
+          },
+          {
             question: "The height of the new roof will be higher than the old roof by",
             responses: [
               {
@@ -229,6 +277,10 @@ FactoryBot.define do
       end
 
       application_type { association :application_type, :prior_approval }
+
+      after(:create) do |planning_application|
+        create(:proposal_measurement, planning_application:)
+      end
     end
 
     trait :with_consultees do

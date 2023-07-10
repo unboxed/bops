@@ -17,6 +17,7 @@ FactoryBot.define do
       documents_consistent { :yes }
       proposal_details_match_documents { :yes }
       site_map_correct { :yes }
+      proposal_measurements_match_documents { :yes }
     end
   end
 end

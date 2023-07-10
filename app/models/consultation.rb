@@ -32,9 +32,9 @@ class Consultation < ApplicationRecord
            description: planning_application.description,
            reference: planning_application.reference,
            closing_date: planning_application.received_at.to_fs(:day_month_year_slashes),
-           rear_wall: planning_application.rear_wall_length,
-           max_height: planning_application.max_height_extension,
-           eave_height: planning_application.eave_height_extension,
+           rear_wall: planning_application&.proposal_measurement&.depth,
+           max_height: planning_application&.proposal_measurement&.max_height,
+           eaves_height: planning_application&.proposal_measurement&.eaves_height,
            application_link:)
   end
 

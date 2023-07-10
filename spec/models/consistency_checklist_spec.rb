@@ -120,6 +120,7 @@ RSpec.describe ConsistencyChecklist do
             description_matches_documents: :to_be_determined,
             documents_consistent: :yes,
             proposal_details_match_documents: :yes,
+            proposal_measurements_match_documents: :yes,
             site_map_correct: :yes
           )
         end
@@ -147,6 +148,7 @@ RSpec.describe ConsistencyChecklist do
             description_matches_documents: :yes,
             documents_consistent: :yes,
             proposal_details_match_documents: :to_be_determined,
+            proposal_measurements_match_documents: :yes,
             site_map_correct: :yes
           )
         end
@@ -163,6 +165,47 @@ RSpec.describe ConsistencyChecklist do
           ).to contain_exactly(
             "Determine whether the proposal details are consistent with the plans"
           )
+        end
+      end
+
+      context "when proposal_measurements_match_documents is not determined" do
+        let(:consistency_checklist) do
+          build(
+            :consistency_checklist,
+            :complete,
+            description_matches_documents: :yes,
+            documents_consistent: :yes,
+            proposal_details_match_documents: :yes,
+            proposal_measurements_match_documents: :to_be_determined,
+            site_map_correct: :yes
+          )
+        end
+
+        context "when needed" do
+          before do
+            planning_application = create(:planning_application, :prior_approval)
+            consistency_checklist.update(planning_application:)
+          end
+
+          it "returns false" do
+            expect(consistency_checklist.valid?).to be(false)
+          end
+
+          it "sets error message" do
+            consistency_checklist.valid?
+
+            expect(
+              consistency_checklist.errors.messages[:proposal_measurements_match_documents]
+            ).to contain_exactly(
+              "Determine whether the proposal measurements submitted by the applicant are consistent with the plans"
+            )
+          end
+        end
+
+        context "when not needed" do
+          it "returns true" do
+            expect(consistency_checklist.valid?).to be(true)
+          end
         end
       end
 
@@ -201,6 +244,7 @@ RSpec.describe ConsistencyChecklist do
             description_matches_documents: :yes,
             documents_consistent: :to_be_determined,
             proposal_details_match_documents: :yes,
+            proposal_measurements_match_documents: :yes,
             site_map_correct: :to_be_determined
           )
         end
