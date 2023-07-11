@@ -17,7 +17,7 @@ class ConstraintQueryUpdateService
       geojson: results[:geojson],
       wkt: results[:wkt],
       planx_query: results[:planx_url],
-      planning_data_query: results[:url]
+      planning_data_query: results[:sourceRequest]
     )
 
     query.save!
