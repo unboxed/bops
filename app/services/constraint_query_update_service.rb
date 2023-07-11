@@ -1,23 +1,26 @@
 # frozen_string_literal: true
 
 class ConstraintQueryUpdateService
+  class SaveError < StandardError; end
+
   def initialize(planning_application:)
     @planning_application = planning_application
+    @geojson = @planning_application.boundary_geojson
   end
 
+  attr_reader :planning_application, :geojson
+
   def call
-    geojson = @planning_application.boundary_geojson
-    planx = Apis::PlanX::Query.new
-    results = planx.fetch(geojson:)
+    results = planx_query.fetch(geojson:)
 
     return if results[:constraints].blank?
 
     query = PlanningApplicationConstraintsQuery.new(
-      planning_application: @planning_application,
+      planning_application:,
       geojson: results[:geojson],
       wkt: results[:wkt],
       planx_query: results[:planx_url],
-      planning_data_query: results[:url]
+      planning_data_query: results[:sourceRequest]
     )
 
     query.save!
@@ -27,7 +30,15 @@ class ConstraintQueryUpdateService
       [constraint_key.to_s.split(".").last.underscore, true]
     end
 
-    ConstraintsCreationService.new(planning_application: @planning_application, constraints_params:,
+    ConstraintsCreationService.new(planning_application:, constraints_params:,
                                    constraints_query: query).call
+  rescue ActiveRecord::RecordInvalid => e
+    raise SaveError, e.message
+  end
+
+  private
+
+  def planx_query
+    @planx_query ||= Apis::PlanX::Query.new
   end
 end
