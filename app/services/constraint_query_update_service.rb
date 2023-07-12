@@ -11,7 +11,7 @@ class ConstraintQueryUpdateService
   attr_reader :planning_application, :geojson
 
   def call
-    results = planx_query.fetch(geojson:)
+    results = Apis::PlanX::Query.query(geojson:)
 
     return if results[:constraints].blank?
 
@@ -34,11 +34,5 @@ class ConstraintQueryUpdateService
                                    constraints_query: query).call
   rescue ActiveRecord::RecordInvalid => e
     raise SaveError, e.message
-  end
-
-  private
-
-  def planx_query
-    @planx_query ||= Apis::PlanX::Query.new
   end
 end
