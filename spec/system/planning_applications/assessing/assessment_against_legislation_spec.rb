@@ -9,6 +9,7 @@ RSpec.describe "assessment against legislation" do
     create(
       :planning_application,
       :in_assessment,
+      :with_constraints,
       local_authority:
     )
   end
