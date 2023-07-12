@@ -30,7 +30,6 @@ FactoryBot.define do
     postcode { Faker::Address.postcode }
     latitude { Faker::Address.latitude }
     longitude { Faker::Address.longitude }
-    old_constraints { ["Conservation Area", "Listed Building"] }
     result_flag { "Planning permission / Permission needed" }
     result_heading { Faker::Lorem.unique.sentence }
     result_description { Faker::Lorem.unique.sentence }
@@ -302,6 +301,16 @@ FactoryBot.define do
           "find_property" => "feedback about the property",
           "planning_constraints" => "feedback about the constraints"
         }
+      end
+    end
+
+    trait :with_constraints do
+      after(:create) do |planning_application|
+        constraint1 = create(:constraint, name: "Conservation area", category: "heritage_and_conservation")
+        constraint2 = create(:constraint, name: "Listed building", category: "heritage_and_conservation")
+
+        planning_application.planning_application_constraints.find_or_create_by(constraint: constraint1).save!
+        planning_application.planning_application_constraints.find_or_create_by(constraint: constraint2).save!
       end
     end
 

@@ -33,6 +33,7 @@ RSpec.describe "Planning Application Assessment" do
     travel_to("2022-01-01") do
       create(
         :planning_application,
+        :with_constraints,
         local_authority: default_local_authority,
         public_comment: nil
       )
