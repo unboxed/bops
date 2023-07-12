@@ -5,11 +5,7 @@
 require "sidekiq/web"
 
 Rails.application.routes.draw do
-  root to: "planning_applications#index", defaults:
-    {
-      q: "exclude_others",
-      planning_application_search_filter: { filter_options: PlanningApplication::FILTER_OPTIONS }
-    }
+  root to: "planning_applications#index"
 
   mount Rswag::Ui::Engine => "api-docs"
 

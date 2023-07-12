@@ -1,8 +1,9 @@
 <%= form_with(
-  model: search_filter,
+  model: search,
+  scope: '',
   builder: GOVUKDesignSystemFormBuilder::FormBuilder,
   method: :get,
-  url: planning_applications_path(anchor: panel_type, filter_options: filter_types),
+  url: planning_applications_path(anchor: panel_type, status: selected_status),
   data: { controller: "clear-form" }
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
@@ -15,8 +16,8 @@
         hint: { text: t(".you_can_search") }
       ) %>
     <% end %>
-    <% if exclude_others %>
-      <%= hidden_field_tag(:q, "exclude_others") %>
+    <% unless exclude_others? %>
+      <%= hidden_field_tag(:view, "all") %>
     <% end %>
     <%= form.govuk_submit t(".search"), name: "submit", value: "search" %>
     <%= link_to(
@@ -33,13 +34,13 @@
         <div class="govuk-accordion__section-header">
           <h3 class="govuk-accordion__section-heading">
             <button type="button" class="govuk-accordion__section-button">
-              Filter by status (<%= selected_filters_count %> of <%= filter_types.count %> selected)
+              <%= t(".status_filter", selected: selected_status_count, total: total_status_count) %>
             </button>
             <span class="govuk-accordion__icon"></span>
           </h3>
         </div>
         <div class="govuk-accordion__section-content">
-          <%= form.govuk_collection_check_boxes(:filter_options, filter_types, :to_s, :humanize, small: true, legend: nil, classes: "display-flex") %>
+          <%= form.govuk_collection_check_boxes(:status, all_statuses, :to_s, :humanize, small: true, legend: nil, classes: "display-flex") %>
           <%= form.govuk_submit "Apply filters", class: "govuk-button govuk-button--secondary" %>
         </div>
       </div>

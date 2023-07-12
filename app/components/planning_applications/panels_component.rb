@@ -2,40 +2,32 @@
 
 module PlanningApplications
   class PanelsComponent < ViewComponent::Base
-    def initialize(planning_applications:, exclude_others:, current_user:, search_filter:, local_authority:)
+    def initialize(planning_applications:, search:, local_authority:)
       @planning_applications = planning_applications
-      @exclude_others = exclude_others
-      @current_user = current_user
-      @search_filter = search_filter
+      @search = search
       @local_authority = local_authority
     end
 
     private
 
+    delegate :exclude_others?, to: :search
+
+    attr_reader :planning_applications, :search, :local_authority
+
     def panel_types
       [:closed]
     end
 
-    def reviewer_applications?
-      @reviewer_applications ||= exclude_others && current_user.reviewer?
+    def all_planning_applications
+      search.call || planning_applications
     end
 
-    def all_planning_applications
-      if search_filter.results
-        if @exclude_others
-          search_filter.results.includes([:user]).select { |pa| pa.user == @current_user || pa.user.nil? }
-        else
-          search_filter.results.includes([:user])
-        end
-      else
-        planning_applications
-      end
+    def closed_planning_applications
+      search.current_planning_applications.closed
     end
 
     def local_authority_most_recent_audits_for_planning_applications
       local_authority.audits.most_recent_for_planning_applications
     end
-
-    attr_reader :planning_applications, :exclude_others, :current_user, :search_filter, :local_authority
   end
 end

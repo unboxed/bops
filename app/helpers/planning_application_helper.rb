@@ -1,15 +1,6 @@
 # frozen_string_literal: true
 
 module PlanningApplicationHelper
-  def exclude_others?
-    params[:q] == "exclude_others"
-  end
-
-  def all_applications_tab_title
-    key = exclude_others? ? :all_your_applications : :all_applications
-    t(key, scope: "planning_applications.tabs")
-  end
-
   def role_name
     if current_user.assessor?
       t("user.officer_role")
