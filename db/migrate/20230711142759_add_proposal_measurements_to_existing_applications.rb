@@ -8,9 +8,9 @@ class AddProposalMeasurementsToExistingApplications < ActiveRecord::Migration[7.
 
       ProposalMeasurement.create(
         planning_application_id: planning_application.id,
-        max_height: planning_application.max_height_extension,
-        eaves_height: planning_application.eave_height_extension,
-        depth: planning_application.rear_wall_length
+        max_height: planning_application.max_height_extension.to_f,
+        eaves_height: planning_application.eave_height_extension.to_f,
+        depth: planning_application.rear_wall_length.to_f
       )
     end
   end
