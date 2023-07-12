@@ -1,6 +1,4 @@
 ---
-inherit_from: .rubocop_todo.yml
-
 inherit_mode:
   merge:
     - Exclude
@@ -25,20 +23,15 @@ Style/Documentation:
   Enabled: false
 
 # be a bit kinder with our metrics
-Metrics/AbcSize:
+Metrics:
   Enabled: false
 
 Metrics/BlockLength:
+  Enabled: true
   Max: 100
   Exclude:
     - spec/**/*
     - config/routes.rb
-
-Metrics/ClassLength:
-  Enabled: false
-
-Metrics/MethodLength:
-  Enabled: false
 
 Layout/LineLength:
   AllowedPatterns: ['^\s*#']
@@ -47,6 +40,7 @@ Layout/LineLength:
 
 Naming/VariableNumber:
   Exclude:
+    - db/migrate/*
     - spec/**/*
 
 # we tend to use update_all in migrations
@@ -93,3 +87,17 @@ RSpec/StubbedMock:
 Lint/MissingSuper:
   Exclude:
     - app/components/**/*.rb
+
+# these two are ignored because they're migrations from the past and we
+# don't expect to go back and edit them ever
+Rails/BulkChangeTable:
+  Exclude:
+    - db/migrate/2020*
+    - db/migrate/2021*
+    - db/migrate/2022*
+
+Rails/ReversibleMigration:
+  Exclude:
+    - db/migrate/2020*
+    - db/migrate/2021*
+    - db/migrate/2022*

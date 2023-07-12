@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
 
     respond_to do |format|
       format.html do
-        flash[:notice] = "Signed in successfully."
+        flash[:notice] = "Signed in successfully." # rubocop:disable Rails/I18nLocaleTexts
         super
       end
     end

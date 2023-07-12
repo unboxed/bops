@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ValidationRequestable # rubocop:disable Metrics/ModuleLength
+module ValidationRequestable
   extend ActiveSupport::Concern
 
   with_options to: :planning_application do

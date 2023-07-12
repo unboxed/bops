@@ -8,8 +8,6 @@ module ActiveStorage
       before_action :authenticate_user!, unless: :public?
     end
 
-    # rubocop:disable Metrics/CyclomaticComplexity
-    # rubocop:disable Metrics/PerceivedComplexity
     def public?
       return unless request.referer.include?("bops-care") || request.referer.include?("bops-applicants")
 
