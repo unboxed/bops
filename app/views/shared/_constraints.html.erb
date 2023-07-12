@@ -1,4 +1,4 @@
-<% if @planning_application.old_constraints.empty? %>
+<% if @planning_application.planning_application_constraints.active.empty? %>
   <p class="govuk-body">
     There are no planning constraints on the application site.
   </p>
@@ -6,11 +6,13 @@
   <p class="govuk-body">
     The application site has these constraints:
   </p>
-  <ul class="govuk-list govuk-list--bullet">
-    <% @planning_application.old_constraints.each do |constraint| %>
-      <li><%= constraint.humanize %></li>
-    <% end %>
-  </ul>
+  <%= render(
+        partial: "constraints/info",
+        locals: {
+          planning_application: @planning_application,
+          constraints: @planning_application.planning_application_constraints.active
+        }
+      ) %>
 <% end %>
 
 <%= link_to_if(current_user.assessor?,
