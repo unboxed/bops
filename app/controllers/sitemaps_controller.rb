@@ -49,7 +49,7 @@ class SitemapsController < AuthenticationController
   rescue ConstraintQueryUpdateService::SaveError => e
     Appsignal.send_error(e)
     redirect_to planning_application_sitemap_path(@planning_application),
-                alert: "Something went wrong. Please contact support."
+                alert: "Something went wrong. Please contact support." # rubocop:disable Rails/I18nLocaleTexts
   end
 
   private
