@@ -50,6 +50,7 @@ class PlanningApplication < ApplicationRecord
     has_many :constraints, through: :planning_application_constraints, source: :constraint
     has_one :immunity_detail, required: false
     has_one :consultation, required: false
+    has_one :proposal_measurement, required: false
 
     has_many(
       :policy_classes,
@@ -82,6 +83,7 @@ class PlanningApplication < ApplicationRecord
   before_create :set_change_access_id
   after_create :set_ward_and_parish_information
   after_create :create_audit!
+  after_create :update_measurements, if: :prior_approval_case?
   before_update :set_key_dates
   before_update lambda {
                   reset_validation_requests_update_counter!(red_line_boundary_change_validation_requests)
@@ -96,6 +98,7 @@ class PlanningApplication < ApplicationRecord
   accepts_nested_attributes_for :recommendations
   accepts_nested_attributes_for :documents
   accepts_nested_attributes_for :constraints
+  accepts_nested_attributes_for :proposal_measurement
 
   WORK_STATUSES = %w[proposed existing].freeze
 
@@ -603,6 +606,15 @@ class PlanningApplication < ApplicationRecord
 
   private
 
+  def update_measurements
+    ProposalMeasurement.create!(
+      planning_application: self,
+      depth: rear_wall_length.to_f,
+      max_height: max_height_extension.to_f,
+      eaves_height: eave_height_extension.to_f
+    )
+  end
+
   def set_reference
     self.reference = [
       Date.current.strftime("%y"),
@@ -787,5 +799,9 @@ class PlanningApplication < ApplicationRecord
     else
       raise ArgumentError, "The status provided: #{status} is not valid"
     end
+  end
+
+  def prior_approval_case?
+    type == "Prior approval"
   end
 end

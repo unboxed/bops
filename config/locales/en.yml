@@ -135,6 +135,8 @@ en:
               open_additional_document_requests: Additional document requests must be closed or cancelled
             proposal_details_match_documents:
               not_determined: Determine whether the proposal details are consistent with the plans
+            proposal_measurements_match_documents:
+              not_determined: Determine whether the proposal measurements submitted by the applicant are consistent with the plans
             site_map_correct:
               not_determined: Determine whether the red line on the site map is correct
               open_red_line_boundary_change_requests: Red line boundary change requests must be closed or cancelled
@@ -331,6 +333,7 @@ en:
       other_change_validation_request_cancelled: 'Cancelled: validation request (other change from applicant#%{args})'
       other_change_validation_request_received: 'Received: request for change (other validation#%{args})'
       other_change_validation_request_sent: 'Sent: validation request (other validation#%{args})'
+      proposal_measurements_updated: Proposal measurements were updated
       red_line_boundary_change_validation_request_added: 'Added: validation request (red line boundary#%{args})'
       red_line_boundary_change_validation_request_auto_closed:
         auto_closed_validation: 'Auto-closed: validation request (red line boundary#%{sequence})'
@@ -399,6 +402,10 @@ en:
     proposal_details_match_documents:
       are_the_proposal: Are the proposal details consistent with the plans?
       how_are_the: How are the proposal details inconsistent?
+      'no': 'No'
+      'yes': 'Yes'
+    proposal_measurements_match_documents:
+      are_the_proposal: Do the measurements submitted by the applicant match the drawings?
       'no': 'No'
       'yes': 'Yes'
     red_line_boundary_change_validation_request:
@@ -568,7 +575,7 @@ en:
     %{description}
 
     Proposal dimensions
-    The new extension will extend %{rear_wall}m beyond the back wall of the original property, the maximum height of the extension is %{max_height}m, the eaves are %{eave_height}m high.
+    The new extension will extend %{rear_wall}m beyond the back wall of the original property, the maximum height of the extension is %{max_height}m, the eaves are %{eaves_height}m high.
 
     Application received: %{received_at}
 

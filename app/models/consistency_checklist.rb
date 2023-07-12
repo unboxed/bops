@@ -8,7 +8,12 @@ class ConsistencyChecklist < ApplicationRecord
     description_matches_documents
     documents_consistent
     proposal_details_match_documents
+    proposal_measurements_match_documents
     site_map_correct
+  ].freeze
+
+  PRIOR_APPROVAL_CHECKS = %i[
+    proposal_measurements_match_documents
   ].freeze
 
   REQUEST_TYPES = {
@@ -51,6 +56,7 @@ class ConsistencyChecklist < ApplicationRecord
 
   CHECKS.each do |check|
     define_method("#{check}_determined") do
+      return if planning_application.type == "Lawful Development Certificate" && PRIOR_APPROVAL_CHECKS.include?(check)
       return unless send("#{check}_to_be_determined?")
 
       errors.add(check, :not_determined)
