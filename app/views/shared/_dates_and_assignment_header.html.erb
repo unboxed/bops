@@ -27,5 +27,9 @@
         <strong>Note: application may be immune from enforcement</strong>
       </p>
     <% end %>
+
+    <p class="govuk-body">
+      Application is <%= @planning_application.make_public? ? "" : "not" %> public on BoPS applicants <span class="assignment_cta"><%= link_to "Change", make_public_planning_application_path(@planning_application), class: "govuk-link" %></span>
+    </p>
   </div>
 </div>

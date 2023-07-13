@@ -96,6 +96,7 @@ class PlanningApplicationsController < AuthenticationController
       render "confirm_validation"
     else
       @planning_application.validated_at = date_from_params
+      @planning_application.update(planning_application_params)
       @planning_application.start!
       @planning_application.send_validation_notice_mail
 
@@ -170,6 +171,8 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def publish; end
+
+  def make_public; end
 
   def determine
     respond_to do |format|
@@ -264,7 +267,8 @@ class PlanningApplicationsController < AuthenticationController
                         received_at
                         town
                         uprn
-                        work_status]
+                        work_status
+                        make_public]
     # rubocop:enable Naming/VariableNumber
     params.require(:planning_application).permit permitted_keys
   end

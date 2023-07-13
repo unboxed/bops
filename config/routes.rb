@@ -68,6 +68,7 @@ Rails.application.routes.draw do
       get :validation_documents
       patch :validate_documents
       post :clone
+      get :make_public
     end
 
     resource :constraints, only: %i[show edit update] do

@@ -66,3 +66,4 @@ if planning_application.consultation.present?
     json.summary_tag response.summary_tag
   end
 end
+json.make_public planning_application.make_public
