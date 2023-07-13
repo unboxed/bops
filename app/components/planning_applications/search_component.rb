@@ -20,12 +20,16 @@ module PlanningApplications
       search&.statuses
     end
 
-    def selected_status_count
-      selected_status&.count || total_status_count
-    end
-
     def total_status_count
       all_statuses.count
+    end
+
+    def selected_application_type
+      search&.application_type
+    end
+
+    def all_application_types
+      search&.application_types
     end
 
     def view
@@ -36,7 +40,8 @@ module PlanningApplications
       planning_applications_path(
         anchor: panel_type,
         view:,
-        status: all_statuses
+        status: all_statuses,
+        application_type: all_application_types
       )
     end
   end
