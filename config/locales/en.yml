@@ -626,7 +626,7 @@ en:
       past_applications:
         form_fields:
           application_reference_numbers: Add any relevant reference numbers. You can separate the reference numbers with a comma.
-          relevant_information: 'Provide relevant information about the planning history of the application site:'
+          relevant_information: 'Provide relevant information about the planning history of the application site. You should also check for any historic conditions, enforcement notices, and the appeal history at this site using the Planning Register or in your back-office planning system:'
         information:
           summary_of_the: Summary of the relevant historical applications
           this_information_will: This information will be made publicly available.
