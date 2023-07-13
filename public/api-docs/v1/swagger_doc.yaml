@@ -90,6 +90,7 @@ paths:
                         tags: ['Side', 'Elevation', 'Proposed']
                         numbers: PLAN01
                         applicant_description: 'This is the proposed side elevation'
+                    make_public: true
   '/api/v1/planning_applications':
     get:
       summary: Retrieves all determined planning applications
