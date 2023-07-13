@@ -95,7 +95,20 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
 
         perform_enqueued_jobs
 
-        expect(PlanningApplication.last.from_production).to be true
+        planning_application = PlanningApplication.last
+        expect(planning_application.from_production).to be true
+
+        expect(planning_application).to have_attributes(
+          from_production: true,
+          applicant_first_name: "XXXXX",
+          applicant_last_name: "XXXXX",
+          applicant_phone: "XXXXX",
+          applicant_email: "applicant@example.com",
+          agent_first_name: "XXXXX",
+          agent_last_name: "XXXXX",
+          agent_phone: "XXXXX",
+          agent_email: "agent@example.com"
+        )
       end
 
       it "doesn't post to staging if in staging env" do

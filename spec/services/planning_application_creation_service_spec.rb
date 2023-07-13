@@ -41,6 +41,8 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
         it "creates a new planning application identical to how it came via planx using the audit_log value as the params" do
           planning_application = PlanningApplication.last
 
+          expect(PlanningApplicationAnonymisationService).not_to receive(:new)
+
           expect do
             described_class.new(
               planning_application:

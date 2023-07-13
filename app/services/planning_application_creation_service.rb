@@ -53,6 +53,9 @@ class PlanningApplicationCreationService
   def save_planning_application!(planning_application)
     PlanningApplication.transaction do
       if planning_application.save!
+        if planning_application.from_production?
+          PlanningApplicationAnonymisationService.new(planning_application:).call!
+        end
         ConstraintsCreationService.new(planning_application:,
                                        constraints_params: params[:constraints]&.to_unsafe_hash).call
         UploadDocumentsJob.perform_now(planning_application:, files: params[:files])
