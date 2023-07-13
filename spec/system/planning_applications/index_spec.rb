@@ -113,18 +113,54 @@ RSpec.describe "Planning Application index page" do
     end
 
     context "when viewing tabs" do
+      let!(:prior_approval_not_started) do
+        create(
+          :planning_application,
+          :not_started,
+          :prior_approval,
+          local_authority: default_local_authority
+        )
+      end
+
+      let!(:prior_approval_in_assessment) do
+        create(
+          :planning_application,
+          :in_assessment,
+          :prior_approval,
+          local_authority: default_local_authority
+        )
+      end
+
       it "Planning Application status bar is present" do
         within(:planning_applications_status_tab) do
           expect(page).to have_link "Your live applications"
         end
       end
 
+      it "Planning Application filter options are checked by default" do
+        click_on "Filters"
+
+        within(".govuk-accordion__section") do
+          expect(page).to have_content("Application type")
+          expect(page).to have_field("Lawfulness certificate", checked: true)
+          expect(page).to have_field("Prior approval", checked: true)
+
+          expect(page).to have_content("Status")
+          expect(page).to have_field("Not started", checked: true)
+          expect(page).to have_field("Invalidated", checked: true)
+          expect(page).to have_field("In assessment", checked: true)
+          expect(page).to have_field("Awaiting determination", checked: true)
+          expect(page).to have_field("To be reviewed", checked: true)
+        end
+      end
+
       it "Only Planning Applications that are in_assessment are present when filtered" do
-        click_on "Filter by status (5 of 5 selected)"
+        click_on "Filters"
         uncheck "Not started"
         uncheck "Invalidated"
         uncheck "Awaiting determination"
         uncheck "To be reviewed"
+        uncheck "Prior approval"
         click_button "Apply filters"
 
         within(selected_govuk_tab) do
@@ -132,15 +168,18 @@ RSpec.describe "Planning Application index page" do
           expect(page).to have_link(planning_application_2.reference)
           expect(page).not_to have_link(planning_application_started.reference)
           expect(page).not_to have_link(planning_application_completed.reference)
+          expect(page).not_to have_link(prior_approval_not_started.reference)
+          expect(page).not_to have_link(prior_approval_in_assessment.reference)
         end
       end
 
       it "Only Planning Applications that are awaiting_determination are present when filtered" do
-        click_on "Filter by status (5 of 5 selected)"
+        click_on "Filters"
         uncheck "Not started"
         uncheck "Invalidated"
         uncheck "In assessment"
         uncheck "To be reviewed"
+        uncheck "Prior approval"
         click_button "Apply filters"
 
         within(selected_govuk_tab) do
@@ -148,7 +187,51 @@ RSpec.describe "Planning Application index page" do
           expect(page).not_to have_link(planning_application_1.reference)
           expect(page).not_to have_link(planning_application_2.reference)
           expect(page).not_to have_link(planning_application_completed.reference)
+          expect(page).not_to have_link(prior_approval_not_started.reference)
+          expect(page).not_to have_link(prior_approval_in_assessment.reference)
         end
+      end
+
+      it "Only Planning Applications that are in assessment and prior approval are present when filtered" do
+        click_on "Filters"
+        uncheck "Not started"
+        uncheck "Invalidated"
+        uncheck "To be reviewed"
+        uncheck "Awaiting determination"
+        uncheck "Lawfulness certificate"
+        click_button "Apply filters"
+
+        within(selected_govuk_tab) do
+          expect(page).not_to have_link(planning_application_started.reference)
+          expect(page).not_to have_link(planning_application_1.reference)
+          expect(page).not_to have_link(planning_application_2.reference)
+          expect(page).not_to have_link(planning_application_completed.reference)
+          expect(page).not_to have_link(prior_approval_not_started.reference)
+          expect(page).to have_link(prior_approval_in_assessment.reference)
+        end
+
+        expect(current_url).to include(
+          "query=&application_type%5B%5D=&application_type%5B%5D=prior_approval&status%5B%5D=&status%5B%5D=in_assessment#all"
+        )
+      end
+
+      it "Only Planning Applications that are prior approval are present when filtered" do
+        click_on "Filters"
+        uncheck "Lawfulness certificate"
+        click_button "Apply filters"
+
+        within(selected_govuk_tab) do
+          expect(page).not_to have_link(planning_application_started.reference)
+          expect(page).not_to have_link(planning_application_1.reference)
+          expect(page).not_to have_link(planning_application_2.reference)
+          expect(page).not_to have_link(planning_application_completed.reference)
+          expect(page).to have_link(prior_approval_not_started.reference)
+          expect(page).to have_link(prior_approval_in_assessment.reference)
+        end
+
+        expect(current_url).to include(
+          "query=&application_type%5B%5D=&application_type%5B%5D=prior_approval&status%5B%5D=&status%5B%5D=not_started&status%5B%5D=invalidated&status%5B%5D=in_assessment&status%5B%5D=awaiting_determination&status%5B%5D=to_be_reviewed#all"
+        )
       end
 
       context "when I view the closed tab" do
@@ -470,7 +553,7 @@ RSpec.describe "Planning Application index page" do
     end
 
     it "Only Planning Applications that are awaiting_determination are present in this tab" do
-      click_on "Filter by status (2 of 2 selected)"
+      click_on "Filter"
       uncheck "To be reviewed"
       click_button "Apply filters"
 

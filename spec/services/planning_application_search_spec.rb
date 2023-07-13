@@ -46,6 +46,24 @@ RSpec.describe PlanningApplicationSearch do
     end
   end
 
+  let!(:prior_approval_not_started) do
+    create(
+      :planning_application,
+      :not_started,
+      :prior_approval,
+      local_authority:
+    )
+  end
+
+  let!(:prior_approval_in_assessment) do
+    create(
+      :planning_application,
+      :in_assessment,
+      :prior_approval,
+      local_authority:
+    )
+  end
+
   before do
     Current.user = assessor
   end
@@ -59,6 +77,8 @@ RSpec.describe PlanningApplicationSearch do
       it "returns correct planning applications" do
         expect(search.call).to eq(
           [
+            prior_approval_in_assessment,
+            prior_approval_not_started,
             planning_application3,
             planning_application2,
             planning_application1
@@ -94,7 +114,9 @@ RSpec.describe PlanningApplicationSearch do
         expect(search.call).to contain_exactly(
           planning_application3,
           planning_application2,
-          planning_application1
+          planning_application1,
+          prior_approval_not_started,
+          prior_approval_in_assessment
         )
       end
 
@@ -230,7 +252,7 @@ RSpec.describe PlanningApplicationSearch do
 
         it "returns all planning applications" do
           expect(search.call).to contain_exactly(
-            planning_application1, planning_application2, planning_application3
+            planning_application1, planning_application2, planning_application3, prior_approval_not_started, prior_approval_in_assessment
           )
         end
 
@@ -262,7 +284,7 @@ RSpec.describe PlanningApplicationSearch do
       end
 
       it "returns correct planning applications" do
-        expect(search.call).to contain_exactly(planning_application1)
+        expect(search.call).to contain_exactly(planning_application1, prior_approval_not_started)
       end
     end
 
@@ -280,6 +302,80 @@ RSpec.describe PlanningApplicationSearch do
       it "returns correct planning applications" do
         expect(search.call).to contain_exactly(planning_application3)
       end
+    end
+
+    context "when filtering by several columns" do
+      context "when filtering by not started and prior approval" do
+        let(:params) do
+          ActionController::Parameters.new(
+            {
+              status: ["not_started"],
+              application_type: ["prior_approval"],
+              submit: "search"
+            }
+          )
+        end
+
+        it "returns correct planning applications" do
+          expect(search.call).to contain_exactly(prior_approval_not_started)
+        end
+      end
+
+      context "when filtering by in assessment and prior approval" do
+        let(:params) do
+          ActionController::Parameters.new(
+            {
+              status: ["in_assessment"],
+              application_type: ["prior_approval"],
+              submit: "search"
+            }
+          )
+        end
+
+        it "returns correct planning applications" do
+          expect(search.call).to contain_exactly(prior_approval_in_assessment)
+        end
+      end
+
+      context "when using search and filter with matching query" do
+        let(:params) do
+          ActionController::Parameters.new(
+            {
+              query: prior_approval_not_started.reference,
+              status: ["not_started"],
+              application_type: ["prior_approval"],
+              submit: "search"
+            }
+          )
+        end
+
+        it "returns correct planning applications" do
+          expect(search.call).to contain_exactly(prior_approval_not_started)
+        end
+      end
+
+      context "when using search and filter without matching query" do
+        let(:params) do
+          ActionController::Parameters.new(
+            {
+              query: prior_approval_in_assessment.reference,
+              status: ["not_started"],
+              application_type: ["prior_approval"],
+              submit: "search"
+            }
+          )
+        end
+
+        it "returns correct planning applications" do
+          expect(search.call).to eq([])
+        end
+      end
+    end
+  end
+
+  describe "APPLICATION_TYPES" do
+    it "returns the application type names" do
+      expect(described_class::APPLICATION_TYPES).to eq(ApplicationType.pluck(:name))
     end
   end
 end

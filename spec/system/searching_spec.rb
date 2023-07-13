@@ -105,7 +105,7 @@ RSpec.describe "searching planning applications" do
 
     it "allows user to search on filtered results", skip: "flaky" do
       within(selected_govuk_tab) do
-        click_button("Filter by status (5 of 5 selected)")
+        click_button("Filter")
         uncheck("Invalid")
         uncheck("Not started")
         uncheck("Awaiting determination")
@@ -229,7 +229,7 @@ RSpec.describe "searching planning applications" do
 
     it "allows user to search on filtered results", skip: "flaky" do
       within(selected_govuk_tab) do
-        click_button("Filter by status (5 of 5 selected)")
+        click_button("Filter")
         uncheck("Invalid")
         uncheck("Not started")
         uncheck("Awaiting determination")

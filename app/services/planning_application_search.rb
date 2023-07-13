@@ -7,7 +7,10 @@ class PlanningApplicationSearch
   STATUSES = %w[not_started invalidated in_assessment awaiting_determination to_be_reviewed].freeze
   REVIEWER_STATUSES = %w[awaiting_determination to_be_reviewed].freeze
 
+  APPLICATION_TYPES = %w[lawfulness_certificate prior_approval].freeze
+
   attribute :view, :enum, values: %w[all mine], default: "mine"
+  attribute :application_type, :list
   attribute :status, :list
   attribute :query, :string
   attribute :submit, :string
@@ -16,10 +19,11 @@ class PlanningApplicationSearch
 
   define_model_callbacks :initialize, only: :after
 
-  after_initialize :init_status
+  after_initialize :init_filter_options
 
-  def init_status
+  def init_filter_options
     self.status ||= statuses
+    self.application_type ||= application_types
   end
 
   def initialize(params = ActionController::Parameters.new)
@@ -29,19 +33,11 @@ class PlanningApplicationSearch
   end
 
   def call
-    if valid?
-      if query
-        records_matching_query.where(status: [status_type])
-      else
-        current_planning_applications&.where(status: [status_type])
-      end
+    if valid? && query
+      filtered_scope(records_matching_query)
     else
-      current_planning_applications&.where(status: [status_type])
+      filtered_scope
     end
-  end
-
-  def status_type
-    status&.reject(&:empty?)
   end
 
   def statuses
@@ -50,6 +46,10 @@ class PlanningApplicationSearch
     else
       STATUSES
     end
+  end
+
+  def application_types
+    APPLICATION_TYPES
   end
 
   def exclude_others?
@@ -67,7 +67,7 @@ class PlanningApplicationSearch
   private
 
   def filter_params(params)
-    params.permit(:view, :query, :submit, status: [])
+    params.permit(:view, :query, :submit, status: [], application_type: [])
   end
 
   def view_mine?
@@ -142,5 +142,17 @@ class PlanningApplicationSearch
 
   def query_submitted?
     submit.present?
+  end
+
+  def status_type
+    status&.reject(&:empty?)
+  end
+
+  def filtered_scope(scope = current_planning_applications)
+    scope.where(status: [status_type], application_type: [selected_application_type_ids])
+  end
+
+  def selected_application_type_ids
+    ApplicationType.where(name: application_type).pluck(:id)
   end
 end

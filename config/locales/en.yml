@@ -758,7 +758,6 @@ en:
       clear_search: Clear search
       find_an_application: Find an application
       search: Search
-      status_filter: Filter by status (%{selected} of %{total} selected)
       you_can_search: You can search by application number or description
     steps:
       assessment:
