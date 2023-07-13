@@ -178,6 +178,8 @@ paths:
                               - Proposed
                             numbers: PLAN01
                             applicant_description: This is the proposed side elevation
+                        make_public: true
+
     post:
       summary: Create new planning application
       tags:

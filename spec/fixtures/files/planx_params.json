@@ -758,7 +758,8 @@
       "result": "feedback about the result",
       "find_property": "feedback about the property",
       "planning_constraints": "feedback about the constraints"
-    }
+    },
+    "make_public": false 
   },
   "format": "json"
 }
