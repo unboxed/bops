@@ -1,22 +1,22 @@
 <% content_for :page_title do %>
-  <%= t('.validate_application') %> -  <%= t('page_title') %>
+  Make application public - <%= t('page_title') %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
-<% content_for :title, t('.validate_application') %>
+
+<% content_for :title, "Make application public" %>
 
 <%= render(
   partial: "shared/proposal_header",
-  locals: { heading: t('.validate_application')  }
+  locals: { heading: "Make application public" }
 ) %>
-
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body">
-      When all parts of the application have been checked and are correct, mark the application as valid.
-    </p>
-    <%= form_with model: @planning_application, url: validate_planning_application_path(@planning_application), local:true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+    <%= form_with model: @planning_application, 
+      url: planning_application_path(@planning_application), 
+      local: true,
+      builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
       <% if @planning_application.errors.any? %>
         <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
           <h2 class="govuk-error-summary__title" id="error-summary-title">
@@ -31,14 +31,14 @@
           </div>
         </div>
       <% end %>
-      <%= form.govuk_date_field :validated_at, legend: { size: 's' }, hint: { text: 'Enter valid date, for example, 28 12 2021' } %>
       <%= form.govuk_radio_buttons_fieldset :make_public, legend: { text: 'Publish application on BoPS Public Portal?' } do %>
         <%= form.govuk_radio_button :make_public, true, label: { text: 'Yes' } %>
         <%= form.govuk_radio_button :make_public, false, label: { text: 'No' } %>
       <% end %>
       <p>
-        <%= form.submit "Mark the application as valid", class: "govuk-button", data: { module: "govuk-button"} %>
+        <%= form.submit "Update application", class: "govuk-button", data: { module: "govuk-button"} %>
       </p>
     <% end %>
   </div>
 </div>
+

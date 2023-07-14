@@ -71,6 +71,7 @@ paths:
                     result_heading: It looks like these changes will need planning permission
                     result_description: Based on the information you have provided, we do not think this is eligible for a Lawful Development Certificate
                     result_override: This was my reason for rejecting the result
+                    make_public: true
                     constraints:
                       - Conservation Area
                       - Listed Building
