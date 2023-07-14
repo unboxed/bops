@@ -174,6 +174,8 @@ Rails.application.routes.draw do
         patch :update, on: :collection
       end
 
+      resources :conditions, only: %i[new create show edit update]
+
       resource :withdraw_or_cancel, only: %i[show update]
 
       resources :assign_users, only: %i[index] do

@@ -1,0 +1,31 @@
+<%= form_with model: [@planning_application],
+              local: true,
+              builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+              class: "govuk-!-margin-top-7",
+              url:,
+              method: method.to_sym do |form| %>
+  <%= form.govuk_check_boxes_fieldset :conditions, multiple: true do %>
+    <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+    <%= form.fields_for :conditions, @conditions do |ff| %>
+      <%= ff.govuk_check_box :text, ff.object.text.to_s, label: { text: ff.object.text.to_s }, checked: @planning_application.conditions.where(text: ff.object.text).any? do %>
+        <%= ff.hidden_field :text, value: ff.object.text %>
+        <%= ff.govuk_text_area :reason, value: ff.object.reason %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <div class="govuk-button-group">
+    <%= form.submit(
+          t("form_actions.save_and_mark_as_complete"),
+          class: "govuk-button",
+          data: { module: "govuk-button" },
+          disabled: local_assigns.fetch(:disabled, false)
+        ) %>
+    <%= form.submit(
+          t("form_actions.save_and_come_back_later"),
+          class: "govuk-button govuk-button--secondary",
+          data: { module: "govuk-button" },
+          disabled: local_assigns.fetch(:disabled, false)
+        ) %>
+    <%= back_link %>
+  </div>
+<% end %>

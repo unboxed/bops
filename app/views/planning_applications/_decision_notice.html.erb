@@ -106,6 +106,15 @@
   </div>
 
   <h3 class="govuk-heading-s">
+    Conditions:
+  </h3>
+  <ul class="govuk-list">
+    <% @planning_application.conditions.each do |condition| %>
+      <li><%= condition.text %></li>
+    <% end %>
+  </p>
+
+  <h3 class="govuk-heading-s">
     Notes:
   </h3>
   <p class="govuk-body">
