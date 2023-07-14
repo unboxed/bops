@@ -23,6 +23,23 @@
         )
       ) %>
     </li>
+    <% if @planning_application.type == "Householder Application for Planning Permission" && @planning_application.decision == "granted" %>
+      <li class="app-task-list__item">
+        <span class="app-task-list__task-name">
+          <%= link_to_if(
+            @planning_application.can_assess?,
+            "Add conditions",
+            new_planning_application_condition_path(@planning_application),
+            class: "govuk-link"
+          ) %>
+        </span>
+        <%= render(
+          StatusTags::AssessRecommendationComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
+      </li>
+    <% end %>
     <li class="app-task-list__item">
       <span class="app-task-list__task-name">
         <% if @planning_application.can_submit_recommendation? %>

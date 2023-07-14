@@ -1,0 +1,26 @@
+<% content_for :page_title do %>
+  Add conditions - <%= t('page_title') %>
+<% end %>
+
+<%= render(
+  partial: "shared/assessment_task_breadcrumbs",
+  locals: { planning_application: @planning_application  }
+) %>
+
+<% content_for :title, "Add conditions" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Add conditions"  }
+) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body govuk-!-margin-top-5">
+      Select all the conditions that apply, to support your approval
+    </p>
+    <%= render "shared/warning_text", message: "This information WILL be made publicly available." %>
+
+    <%= render "form", url: planning_application_conditions_path(@planning_application), method: "post" %>
+  </div>
+</div>
