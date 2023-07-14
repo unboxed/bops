@@ -7,11 +7,12 @@ RSpec.shared_examples "validate and invalidate" do
   let!(:second_planning_application) do
     create(:planning_application, :not_started, local_authority: default_local_authority)
   end
+  let(:govuk_tab_all) { find("div[class='govuk-tabs__panel']#all") }
 
   it "can be validated and displays link to notification" do
     delivered_emails = ActionMailer::Base.deliveries.count
 
-    within(selected_govuk_tab) do
+    within(govuk_tab_all) do
       click_link(planning_application.reference)
     end
 
@@ -50,7 +51,7 @@ RSpec.shared_examples "validate and invalidate" do
     create(:additional_document_validation_request, planning_application:, state: "open",
                                                     created_at: 12.days.ago)
 
-    within(selected_govuk_tab) do
+    within(govuk_tab_all) do
       click_link(planning_application.reference)
     end
 
@@ -75,7 +76,7 @@ RSpec.shared_examples "validate and invalidate" do
            state: "closed",
            updated_at: Time.zone.today - 3.days)
 
-    within(selected_govuk_tab) do
+    within(govuk_tab_all) do
       click_link(planning_application.reference)
     end
 
@@ -125,6 +126,8 @@ RSpec.describe "Planning Application Assessment" do
   end
 
   let!(:new_planning_application) { create(:planning_application, :not_started, local_authority: default_local_authority) }
+
+  let(:govuk_tab_all) { find("div[class='govuk-tabs__panel']#all") }
 
   before do
     stub_planx_api_response_for("POLYGON ((-0.054597 51.537331, -0.054588 51.537287, -0.054453 51.537313, -0.054597 51.537331))").to_return(
@@ -202,7 +205,7 @@ RSpec.describe "Planning Application Assessment" do
 
       delivered_emails = ActionMailer::Base.deliveries.count
 
-      within(selected_govuk_tab) do
+      within(govuk_tab_all) do
         click_link(planning_application.reference)
       end
 
@@ -228,7 +231,7 @@ RSpec.describe "Planning Application Assessment" do
     it "shows error if trying to mark as valid when open validation request exists on planning application" do
       create(:additional_document_validation_request, planning_application:, state: "open")
 
-      within(selected_govuk_tab) do
+      within(govuk_tab_all) do
         click_link(planning_application.reference)
       end
 
@@ -250,7 +253,7 @@ RSpec.describe "Planning Application Assessment" do
              planning_application:,
              validated: false, invalidated_document_reason: "Missing a lazy Suzan")
 
-      within(selected_govuk_tab) do
+      within(govuk_tab_all) do
         click_link(planning_application.reference)
       end
 
@@ -265,7 +268,7 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     it "shows error if invalid date is sent" do
-      within(selected_govuk_tab) do
+      within(govuk_tab_all) do
         click_link(new_planning_application.reference)
       end
 
@@ -285,7 +288,7 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     it "shows error if date is empty" do
-      within(selected_govuk_tab) do
+      within(govuk_tab_all) do
         click_link(new_planning_application.reference)
       end
 
@@ -305,7 +308,7 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     it "shows error if only part of the date is empty" do
-      within(selected_govuk_tab) do
+      within(govuk_tab_all) do
         click_link(new_planning_application.reference)
       end
 
@@ -345,7 +348,7 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     it "shows edit, upload and archive links for documents" do
-      within(selected_govuk_tab) do
+      within(govuk_tab_all) do
         click_link(planning_application.reference)
       end
 
