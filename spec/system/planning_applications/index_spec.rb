@@ -424,6 +424,107 @@ RSpec.describe "Planning Application index page" do
       end
     end
 
+    context "when there are prior approval planning applications" do
+      let!(:planning_application_not_started) do
+        create(
+          :planning_application,
+          :not_started,
+          local_authority: default_local_authority
+        )
+      end
+
+      let!(:planning_application_prior_approval) do
+        create(
+          :planning_application,
+          :not_started,
+          :prior_approval,
+          local_authority: default_local_authority
+        )
+      end
+
+      before do
+        visit(root_path)
+      end
+
+      it "sorts planning first" do
+        take_screenshot
+
+        within(selected_govuk_tab) do
+          within(".govuk-table.planning-applications-table") do
+            within(".govuk-table__head") do
+              within(all(".govuk-table__row").first) do
+                expect(page).to have_content("Application number")
+                expect(page).to have_content("Site address")
+                expect(page).to have_content("Application type")
+                expect(page).to have_content("Expiry date")
+                expect(page).to have_content("Days")
+                expect(page).to have_content("Status")
+              end
+            end
+
+            within(".govuk-table__body") do
+              rows = page.all(".govuk-table__row")
+
+              within(rows[0]) do
+                cells = page.all(".govuk-table__cell")
+
+                within(cells[2]) do
+                  expect(page).to have_content("PA Proposed")
+                end
+                within(cells[5]) do
+                  expect(page).to have_content("Not started")
+                end
+              end
+
+              within(rows[1]) do
+                cells = page.all(".govuk-table__cell")
+
+                within(cells[2]) do
+                  expect(page).to have_content("LDC Proposed")
+                end
+                within(cells[5]) do
+                  expect(page).to have_content("Not started")
+                end
+              end
+
+              within(rows[2]) do
+                cells = page.all(".govuk-table__cell")
+
+                within(cells[2]) do
+                  expect(page).to have_content("LDC Proposed")
+                end
+                within(cells[5]) do
+                  expect(page).to have_content("In assessment")
+                end
+              end
+
+              within(rows[3]) do
+                cells = page.all(".govuk-table__cell")
+
+                within(cells[2]) do
+                  expect(page).to have_content("LDC Proposed")
+                end
+                within(cells[5]) do
+                  expect(page).to have_content("In assessment")
+                end
+              end
+
+              within(rows[4]) do
+                cells = page.all(".govuk-table__cell")
+
+                within(cells[2]) do
+                  expect(page).to have_content("LDC Proposed")
+                end
+                within(cells[5]) do
+                  expect(page).to have_content("Awaiting determination")
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+
     context "with restricted views" do
       let!(:second_assessor) { create(:user, :assessor, local_authority: default_local_authority) }
       let!(:other_assessor_planning_application) do

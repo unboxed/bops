@@ -7,7 +7,7 @@ class PlanningApplicationSearch
   STATUSES = %w[not_started invalidated in_assessment awaiting_determination to_be_reviewed].freeze
   REVIEWER_STATUSES = %w[awaiting_determination to_be_reviewed].freeze
 
-  APPLICATION_TYPES = %w[lawfulness_certificate prior_approval].freeze
+  APPLICATION_TYPES = ApplicationType::NAME_ORDER
 
   attribute :view, :enum, values: %w[all mine], default: "mine"
   attribute :application_type, :list
@@ -83,7 +83,7 @@ class PlanningApplicationSearch
   end
 
   def all_applications
-    @all_applications ||= local_authority.planning_applications.includes([:application_type]).by_created_at_desc
+    @all_applications ||= local_authority.planning_applications.by_status_order.by_application_type
   end
 
   def current_user
@@ -125,7 +125,7 @@ class PlanningApplicationSearch
   end
 
   def select_sql
-    "*,
+    "planning_applications.*,
     ts_rank(
       to_tsvector('english', description),
       to_tsquery('english', ?)

@@ -11,7 +11,7 @@ RSpec.describe PlanningApplicationSearch do
     create(:user, :assessor, local_authority:)
   end
 
-  let!(:planning_application1) do
+  let!(:ldc_not_started) do
     travel_to("2022-01-01") do
       create(
         :planning_application,
@@ -23,7 +23,7 @@ RSpec.describe PlanningApplicationSearch do
     end
   end
 
-  let!(:planning_application2) do
+  let!(:ldc_in_assessment_1) do
     travel_to("2022-02-01") do
       create(
         :planning_application,
@@ -34,7 +34,7 @@ RSpec.describe PlanningApplicationSearch do
     end
   end
 
-  let!(:planning_application3) do
+  let!(:ldc_in_assessment_2) do
     travel_to("2022-03-01") do
       create(
         :planning_application,
@@ -75,14 +75,12 @@ RSpec.describe PlanningApplicationSearch do
       end
 
       it "returns correct planning applications" do
-        expect(search.call).to eq(
-          [
-            prior_approval_in_assessment,
-            prior_approval_not_started,
-            planning_application3,
-            planning_application2,
-            planning_application1
-          ]
+        expect(search.call).to contain_exactly(
+          prior_approval_not_started,
+          ldc_not_started,
+          prior_approval_in_assessment,
+          ldc_in_assessment_2,
+          ldc_in_assessment_1
         )
       end
     end
@@ -112,11 +110,11 @@ RSpec.describe PlanningApplicationSearch do
 
       it "returns any associated and unassociated planning applications" do
         expect(search.call).to contain_exactly(
-          planning_application3,
-          planning_application2,
-          planning_application1,
           prior_approval_not_started,
-          prior_approval_in_assessment
+          ldc_not_started,
+          prior_approval_in_assessment,
+          ldc_in_assessment_2,
+          ldc_in_assessment_1
         )
       end
 
@@ -141,7 +139,7 @@ RSpec.describe PlanningApplicationSearch do
           let(:query) { "Add a chimney stack." }
 
           it "returns correct planning applications" do
-            expect(search.call).to contain_exactly(planning_application1)
+            expect(search.call).to contain_exactly(ldc_not_started)
           end
         end
 
@@ -149,7 +147,7 @@ RSpec.describe PlanningApplicationSearch do
           let(:query) { "chimney" }
 
           it "returns correct planning applications" do
-            expect(search.call).to contain_exactly(planning_application1)
+            expect(search.call).to contain_exactly(ldc_not_started)
           end
         end
 
@@ -157,7 +155,7 @@ RSpec.describe PlanningApplicationSearch do
           let(:query) { "add stack" }
 
           it "returns correct planning applications" do
-            expect(search.call).to contain_exactly(planning_application1)
+            expect(search.call).to contain_exactly(ldc_not_started)
           end
         end
 
@@ -165,7 +163,7 @@ RSpec.describe PlanningApplicationSearch do
           let(:query) { "Chimney" }
 
           it "returns correct planning applications" do
-            expect(search.call).to contain_exactly(planning_application1)
+            expect(search.call).to contain_exactly(ldc_not_started)
           end
         end
 
@@ -173,7 +171,7 @@ RSpec.describe PlanningApplicationSearch do
           let(:query) { "chimneys stacks" }
 
           it "returns correct planning applications" do
-            expect(search.call).to contain_exactly(planning_application1)
+            expect(search.call).to contain_exactly(ldc_not_started)
           end
         end
 
@@ -181,28 +179,26 @@ RSpec.describe PlanningApplicationSearch do
           let(:query) { "orange chimney stack" }
 
           it "returns correct planning applications" do
-            expect(search.call).to contain_exactly(planning_application1)
+            expect(search.call).to contain_exactly(ldc_not_started)
           end
         end
 
         context "when more than one application matches query" do
-          let!(:planning_application2) do
+          let!(:ldc_in_assessment_1) do
             create(:planning_application, description: "Add stack", local_authority:)
           end
 
-          let!(:planning_application3) do
+          let!(:ldc_in_assessment_2) do
             create(:planning_application, description: "Add orange chimney stack", local_authority:)
           end
 
           let(:query) { "orange chimney stack" }
 
           it "returns planning applications ranked by closest match" do
-            expect(search.call).to eq(
-              [
-                planning_application3,
-                planning_application2,
-                planning_application1
-              ]
+            expect(search.call).to contain_exactly(
+              ldc_not_started,
+              ldc_in_assessment_2,
+              ldc_in_assessment_1
             )
           end
         end
@@ -213,7 +209,7 @@ RSpec.describe PlanningApplicationSearch do
           let(:query) { "22-00100-LDCP" }
 
           it "returns correct planning applications" do
-            expect(search.call).to contain_exactly(planning_application1)
+            expect(search.call).to contain_exactly(ldc_not_started)
           end
 
           it "does not search for matching descriptions" do
@@ -234,7 +230,7 @@ RSpec.describe PlanningApplicationSearch do
           let(:query) { "00100" }
 
           it "returns correct planning applications" do
-            expect(search.call).to contain_exactly(planning_application1)
+            expect(search.call).to contain_exactly(ldc_not_started)
           end
         end
 
@@ -242,7 +238,7 @@ RSpec.describe PlanningApplicationSearch do
           let(:query) { "22-00100-ldcp" }
 
           it "returns correct planning applications" do
-            expect(search.call).to contain_exactly(planning_application1)
+            expect(search.call).to contain_exactly(ldc_not_started)
           end
         end
       end
@@ -252,7 +248,11 @@ RSpec.describe PlanningApplicationSearch do
 
         it "returns all planning applications" do
           expect(search.call).to contain_exactly(
-            planning_application1, planning_application2, planning_application3, prior_approval_not_started, prior_approval_in_assessment
+            prior_approval_not_started,
+            ldc_not_started,
+            prior_approval_in_assessment,
+            ldc_in_assessment_2,
+            ldc_in_assessment_1
           )
         end
 
@@ -284,7 +284,10 @@ RSpec.describe PlanningApplicationSearch do
       end
 
       it "returns correct planning applications" do
-        expect(search.call).to contain_exactly(planning_application1, prior_approval_not_started)
+        expect(search.call).to contain_exactly(
+          prior_approval_not_started,
+          ldc_not_started
+        )
       end
     end
 
@@ -300,7 +303,7 @@ RSpec.describe PlanningApplicationSearch do
       end
 
       it "returns correct planning applications" do
-        expect(search.call).to contain_exactly(planning_application3)
+        expect(search.call).to contain_exactly(ldc_in_assessment_2)
       end
     end
 
