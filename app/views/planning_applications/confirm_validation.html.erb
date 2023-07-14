@@ -32,7 +32,10 @@
         </div>
       <% end %>
       <%= form.govuk_date_field :validated_at, legend: { size: 's' }, hint: { text: 'Enter valid date, for example, 28 12 2021' } %>
-      <%= form.govuk_check_box :make_public, 1, 0, multiple: false, label: { text: 'Publish application on BoPS applicants?'} %>
+      <%= form.govuk_radio_buttons_fieldset :make_public, legend: { text: 'Publish application on BoPS Public Portal?' } do %>
+        <%= form.govuk_radio_button :make_public, true, label: { text: 'Yes' } %>
+        <%= form.govuk_radio_button :make_public, false, label: { text: 'No' } %>
+      <% end %>
       <p>
         <%= form.submit "Mark the application as valid", class: "govuk-button", data: { module: "govuk-button"} %>
       </p>

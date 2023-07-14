@@ -27,24 +27,24 @@ RSpec.describe "making planning application public" do
 
     visit(planning_application_path(planning_application))
 
-    expect(page).to have_content("Application is not public on BoPS applicants")
+    expect(page).to have_content("Public on BoPS Public Portal: No")
 
     visit(make_public_planning_application_path(planning_application))
 
     expect(page).to have_content("Make application public")
 
-    check "Publish application on BoPS applicants?"
+    choose "Yes"
 
     click_button "Update application"
 
-    expect(page).to have_content("Application is public on BoPS applicants")
+    expect(page).to have_content("Public on BoPS Public Portal: Yes")
 
     visit(make_public_planning_application_path(planning_application))
 
-    uncheck "Publish application on BoPS applicants?"
+    choose "No"
 
     click_button "Update application"
 
-    expect(page).to have_content("Application is not public on BoPS applicants")
+    expect(page).to have_content("Public on BoPS Public Portal: No")
   end
 end

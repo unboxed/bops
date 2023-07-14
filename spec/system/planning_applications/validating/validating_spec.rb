@@ -25,12 +25,12 @@ RSpec.shared_examples "validate and invalidate" do
     fill_in "Month", with: "12"
     fill_in "Year", with: "2021"
 
-    check "Publish application on BoPS applicants?"
+    choose "Yes"
 
     click_button "Mark the application as valid"
 
     expect(page).to have_content("Application is ready for assessment")
-    expect(page).to have_content("Application is public on BoPS applicants")
+    expect(page).to have_content("Public on BoPS Public Portal: Yes")
 
     planning_application.reload
     expect(planning_application.status).to eq("in_assessment")
