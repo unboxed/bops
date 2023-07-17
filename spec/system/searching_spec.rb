@@ -40,6 +40,8 @@ RSpec.describe "searching planning applications" do
     )
   end
 
+  let(:govuk_tab_all) { find("div[class='govuk-tabs__panel']#all") }
+
   before { sign_in(user) }
 
   context "when user views her own planning applications" do
@@ -47,8 +49,8 @@ RSpec.describe "searching planning applications" do
       visit(root_path)
     end
 
-    it "allows user to search planning applications by reference", skip: "flaky" do
-      within(selected_govuk_tab) do
+    it "allows user to search planning applications by reference" do
+      within(govuk_tab_all) do
         expect(page).to have_content("Your live applications")
         expect(page).not_to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
@@ -57,7 +59,7 @@ RSpec.describe "searching planning applications" do
         click_button("Search")
       end
 
-      within(selected_govuk_tab) do
+      within(govuk_tab_all) do
         expect(page).to have_content("Your live applications")
         expect(page).to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
@@ -65,12 +67,12 @@ RSpec.describe "searching planning applications" do
         expect(page).not_to have_content(planning_application3.reference)
       end
 
-      within(selected_govuk_tab) do
+      within(govuk_tab_all) do
         fill_in("Find an application", with: "00100")
         click_button("Search")
       end
 
-      within(selected_govuk_tab) do
+      within(govuk_tab_all) do
         expect(page).to have_content("Your live applications")
         expect(page).not_to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
@@ -82,7 +84,7 @@ RSpec.describe "searching planning applications" do
       visit(root_path)
       visit(search_url)
 
-      within(selected_govuk_tab) do
+      within(govuk_tab_all) do
         expect(page).to have_content("Your live applications")
         expect(page).not_to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
@@ -90,12 +92,12 @@ RSpec.describe "searching planning applications" do
         expect(page).not_to have_content(planning_application3.reference)
       end
 
-      within(selected_govuk_tab) do
+      within(govuk_tab_all) do
         click_link("Clear search")
         expect(find_field("Find an application").value).to eq("")
       end
 
-      within(selected_govuk_tab) do
+      within(govuk_tab_all) do
         expect(page).to have_content("Your live applications")
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
@@ -103,8 +105,8 @@ RSpec.describe "searching planning applications" do
       end
     end
 
-    it "allows user to search on filtered results", skip: "flaky" do
-      within(selected_govuk_tab) do
+    it "allows user to search on filtered results" do
+      within(govuk_tab_all) do
         click_button("Filter")
         uncheck("Invalid")
         uncheck("Not started")
@@ -124,8 +126,8 @@ RSpec.describe "searching planning applications" do
       end
     end
 
-    it "allows user to search planning applications by description", skip: "flaky" do
-      within(selected_govuk_tab) do
+    it "allows user to search planning applications by description" do
+      within(govuk_tab_all) do
         fill_in("Find an application", with: "chimney")
         click_button("Search")
 
@@ -134,8 +136,8 @@ RSpec.describe "searching planning applications" do
       end
     end
 
-    it "allows user to clear form without submitting it", skip: "flaky" do
-      within(selected_govuk_tab) do
+    it "allows user to clear form without submitting it" do
+      within(govuk_tab_all) do
         fill_in("Find an application", with: "abc")
         click_link("Clear search")
 
@@ -148,8 +150,8 @@ RSpec.describe "searching planning applications" do
       end
     end
 
-    it "shows message when there are no search results", skip: "flaky" do
-      within(selected_govuk_tab) do
+    it "shows message when there are no search results" do
+      within(govuk_tab_all) do
         fill_in("Find an application", with: "something else entirely")
         click_button("Search")
 
@@ -161,15 +163,15 @@ RSpec.describe "searching planning applications" do
   context "when user views all planning applications" do
     before do
       visit(planning_applications_path)
-      click_link("Live applications")
+      click_link("View all applications")
 
-      within(selected_govuk_tab) do
+      within(govuk_tab_all) do
         click_link("Clear search")
       end
     end
 
-    it "allows user to search planning applications by reference", skip: "flaky" do
-      within(selected_govuk_tab) do
+    it "allows user to search planning applications by reference" do
+      within(govuk_tab_all) do
         expect(page).to have_content("Live applications")
         expect(page).not_to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
@@ -198,7 +200,7 @@ RSpec.describe "searching planning applications" do
       visit(root_path)
       visit(search_url)
 
-      within(selected_govuk_tab) do
+      within(govuk_tab_all) do
         expect(page).to have_content("Live applications")
         expect(page).not_to have_content("Query can't be blank")
         expect(page).to have_content(planning_application1.reference)
@@ -216,8 +218,8 @@ RSpec.describe "searching planning applications" do
       end
     end
 
-    it "allows user to search planning applications by description", skip: "flaky" do
-      within(selected_govuk_tab) do
+    it "allows user to search planning applications by description" do
+      within(govuk_tab_all) do
         fill_in("Find an application", with: "chimney")
         click_button("Search")
 
@@ -227,8 +229,8 @@ RSpec.describe "searching planning applications" do
       end
     end
 
-    it "allows user to search on filtered results", skip: "flaky" do
-      within(selected_govuk_tab) do
+    it "allows user to search on filtered results" do
+      within(govuk_tab_all) do
         click_button("Filter")
         uncheck("Invalid")
         uncheck("Not started")
@@ -251,8 +253,8 @@ RSpec.describe "searching planning applications" do
       end
     end
 
-    it "allows user to clear form without submitting it", skip: "flaky" do
-      within(selected_govuk_tab) do
+    it "allows user to clear form without submitting it" do
+      within(govuk_tab_all) do
         fill_in("Find an application", with: "abc")
         click_link("Clear search")
 
@@ -264,8 +266,8 @@ RSpec.describe "searching planning applications" do
       end
     end
 
-    it "shows message when there are no search results", skip: "flaky" do
-      within(selected_govuk_tab) do
+    it "shows message when there are no search results" do
+      within(govuk_tab_all) do
         fill_in("Find an application", with: "something else entirely")
         click_button("Search")
 
