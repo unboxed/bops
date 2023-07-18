@@ -875,12 +875,12 @@ en:
       assess_proposal: Assess the proposal
       assess_recommendation: Assess recommendation
       error: 'Error:'
-      is_the_use: Is the use or operation lawful?
+      is_the_use: Is the use or operation %{application_type}?
       make_draft_recommendation: Make draft recommendation
       'no': 'No'
       please_provide_supporting: Provide supporting information for your manager.
       refer_to_the: Refer to specific permitted development legislation to support your recommendation.
-      state_the_reason: State the reasons why this application is, or is not lawful.
+      state_the_reason: State the reasons why this application is, or is not  %{application_type}.
       there_are_outstanding_change_requests_html: There are outstanding change requests (last request %{last_request}). <a href='%{href}'>View all requests</a>.
       this_information_will: This information will appear on the decision notice.
       this_information_will_not: This information will not appear on the decision notice or the public register, but Freedom of Information requests will still apply.
