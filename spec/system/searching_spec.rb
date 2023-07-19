@@ -158,6 +158,17 @@ RSpec.describe "searching planning applications" do
         expect(page).to have_content("No planning applications match your search")
       end
     end
+
+    it "allows user to search using the status indicators" do
+      find_by_id("reviewer-requests").click
+      expect(page).to have_css("#reviewer-requests.status-panel--highlighted")
+    end
+
+    it "allows user to deselect the status indicators" do
+      find_by_id("reviewer-requests").click
+      find_by_id("reviewer-requests").click
+      expect(page).not_to have_css("#reviewer-requests.status-panel--highlighted")
+    end
   end
 
   context "when user views all planning applications" do

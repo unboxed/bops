@@ -367,7 +367,6 @@ html * {
   background-color: govuk-colour("light-grey", $legacy: "grey-3");
   margin-top: 1rem;
   margin-bottom: 1rem;
-  padding: 1rem;
 
   h3 {
     margin: 0;
@@ -376,6 +375,11 @@ html * {
     text-decoration: underline;
     margin-bottom: 0;
     margin-top: 0.5em;
+  }
+
+  .status-filter-link {
+    display: inline-block;
+    padding: 1rem;
   }
 }
 

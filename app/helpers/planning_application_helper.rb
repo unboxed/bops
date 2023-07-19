@@ -39,4 +39,11 @@ module PlanningApplicationHelper
   def map_link(full_address)
     "https://google.co.uk/maps/place/#{CGI.escape(full_address)}"
   end
+
+  def filter_enabled_uniquely?(**args)
+    filter = args.keys.first
+    value = args[filter]
+    filters = (%i[application_type status] - [filter])
+    params[filter]&.include?(value) && filters.all? { |param| params[param].blank? }
+  end
 end
