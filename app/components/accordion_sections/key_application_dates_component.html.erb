@@ -14,3 +14,13 @@
   <strong><%= t(".expiry_date") %></strong>
   <%= planning_application.expiry_date.to_fs %>
 </p>
+<% if planning_application.consultation.present? %>
+<p class="govuk-body">
+  <strong><%= t(".consultation_end_date") %></strong>
+  <% if planning_application.consultation.end_date.present? %>
+    <%= planning_application.consultation.end_date.strftime("%-d %B %Y") %>
+  <% else %>
+    <%= t(".consultation_end_date_not_set") %>
+  <% end %>
+</p>
+<% end %>

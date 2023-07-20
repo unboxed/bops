@@ -38,4 +38,41 @@ RSpec.describe AccordionSections::KeyApplicationDatesComponent, type: :component
       expect(page).to have_content("Not yet valid")
     end
   end
+
+  context "when there's a consultation" do
+    let(:consultation) { create(:consultation) }
+
+    before do
+      consultation.start_deadline
+      planning_application.consultation = consultation
+      planning_application.save!
+
+      render_inline(component)
+    end
+
+    it "renders consultation deadline" do
+      expect(page).to have_content("Consultation deadline:\n    14 August 2023")
+    end
+  end
+
+  context "when there's no consultation" do
+    it "does not render consultation deadline" do
+      expect(page).not_to have_content("Consultation deadline:")
+    end
+  end
+
+  context "when the consultation has not started" do
+    let(:consultation) { create(:consultation, start_date: nil) }
+
+    before do
+      planning_application.consultation = consultation
+      planning_application.save!
+
+      render_inline(component)
+    end
+
+    it "renders consultation deadline as not started" do
+      expect(page).to have_content("Consultation deadline:\n    Not yet started")
+    end
+  end
 end

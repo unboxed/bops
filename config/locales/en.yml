@@ -54,6 +54,8 @@ en:
       reason_given: <strong>Reason given:</strong> "%{feedback}"
     key_application_dates_component:
       application_received: 'Application received:'
+      consultation_end_date: 'Consultation deadline:'
+      consultation_end_date_not_set: Not yet started
       expiry_date: 'Expiry date:'
       not_yet_valid: Not yet valid
       target_date: 'Target date:'
