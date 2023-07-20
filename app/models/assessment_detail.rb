@@ -34,7 +34,8 @@ class AssessmentDetail < ApplicationRecord
     additional_evidence: "additional_evidence",
     site_description: "site_description",
     past_applications: "past_applications",
-    consultation_summary: "consultation_summary"
+    consultation_summary: "consultation_summary",
+    publicity_summary: "publicity_summary"
   }
 
   before_validation :set_user
