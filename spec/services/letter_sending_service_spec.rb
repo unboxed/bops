@@ -4,7 +4,8 @@ require "rails_helper"
 
 RSpec.describe LetterSendingService do
   let(:letter_sender) { described_class }
-  let(:neighbour) { create(:neighbour) }
+  let(:consultation) { create(:consultation, start_date: nil) }
+  let(:neighbour) { create(:neighbour, consultation:) }
 
   describe "#deliver!" do
     let(:user) { create(:user) }

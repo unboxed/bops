@@ -23,7 +23,7 @@ class Consultation < ApplicationRecord
   before_update :audit_letter_copy_sent!, if: :letter_copy_sent_at_changed?
 
   def start_deadline
-    update!(end_date: end_date_from_now, start_date: 1.business_day.from_now)
+    update!(end_date: end_date_from_now, start_date: start_date || 1.business_day.from_now)
   end
 
   def end_date_from_now
