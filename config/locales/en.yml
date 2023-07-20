@@ -245,12 +245,14 @@ en:
     edit_additional_evidence: Edit additional evidence
     edit_consultation_summary: Add consultation details
     edit_past_applications: History
+    edit_publicity_summary: Edit summary of neighbour responses
     edit_site_description: Edit site description
     edit_summary_of_work: Edit summary of works
     immunity_detail_successfully_updated: Evidence of immunity successfully updated
     new_additional_evidence: Add detail of additional evidence
     new_consultation_summary: Add consultation details
     new_past_applications: History
+    new_publicity_summary: Add summary of neighbour responses
     new_site_description: Create a description of the site
     new_summary_of_work: Create a summary of the works
     not_started: Not started
@@ -269,9 +271,13 @@ en:
       user_updated_consultation_summary: "%{user} updated consultation summary"
       user_updated_site_description: "%{user} updated site description"
       user_updated_summary_of_work: "%{user} updated summary of works"
+    publicity_summary: Summary of neighbour responses
+    publicity_summary_successfully_created: Summary of neighbour responses was successfully created.
+    publicity_summary_successfully_updated: Summary of neighbour responses was successfully updated.
     show_additional_evidence: Detail of additional evidence
     show_consultation_summary: Consultation details
     show_past_applications: History
+    show_publicity_summary: Summary of neighbour responses
     show_site_description: Site description
     show_summary_of_work: Summary of works
     site_description: Site description
@@ -634,6 +640,7 @@ en:
         edit_additional_evidence: Edit additional evidence
         edit_consultation_summary: Edit consultation details
         edit_past_applications: Edit history
+        edit_publicity_summary: Edit summary of neighbour responses
         edit_site_description: Edit site description
         edit_summary_of_work: Edit summary of work
     assessment_tasks:
@@ -1018,6 +1025,7 @@ en:
       additional_evidence: Summary of additional evidence
       consultation_summary: Summary of consultation
       past_applications: History (manual)
+      publicity_summary: Summary of neighbour responses
       site_description: Site description
       summary_of_work: Summary of works
     check_red_line_boundary_component:

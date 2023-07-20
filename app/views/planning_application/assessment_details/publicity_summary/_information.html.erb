@@ -1,0 +1,14 @@
+<div class="govuk-body">
+  <% if action_name == "show" %>
+    <p><strong>Summary</strong></p>
+  <% end %>
+
+  <%= render "shared/warning_text",
+             message: "This information will be made publicly available." %>
+  <%= render(
+        partial: "comment",
+        locals: { comment: rejected_assessment_detail&.comment }
+      ) %>
+  <% unless action_name == "show" %>
+  <% end %>
+</div>
