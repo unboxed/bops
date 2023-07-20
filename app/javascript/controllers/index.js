@@ -27,6 +27,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   if (sessionStorage.getItem(scrollPositionKey)) {
     window.scrollTo(0, sessionStorage.getItem(scrollPositionKey))
+    sessionStorage.setItem(scrollPositionKey, 0)
   }
 
   window.onbeforeunload = function () {
