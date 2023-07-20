@@ -2,7 +2,11 @@
 
 FactoryBot.define do
   factory :consultation do
-    start_date { 2.days.ago }
     planning_application
+
+    trait :started do
+      start_date { 2.days.ago }
+      end_date { 2.days.ago + 21.days }
+    end
   end
 end

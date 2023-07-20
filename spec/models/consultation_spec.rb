@@ -92,7 +92,7 @@ RSpec.describe Consultation do
     end
 
     context "when there isn't already a start date" do
-      let(:consultation) { create(:consultation, start_date: nil) }
+      let(:consultation) { create(:consultation) }
 
       before do
         consultation.start_deadline
@@ -108,7 +108,7 @@ RSpec.describe Consultation do
     end
 
     context "when the consultation is already started" do
-      let(:consultation) { create(:consultation, start_date: 2.days.ago) }
+      let(:consultation) { create(:consultation, :started) }
 
       before do
         consultation.start_deadline
