@@ -1,0 +1,43 @@
+<%= form_with(
+  model: [@planning_application, @consultation, @site_visit],
+  builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+  class: "govuk-!-margin-top-5",
+  method: :post
+) do |form| %>
+
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+  <div class="govuk-form-group">
+    <fieldset class="govuk-fieldset">
+      <%= form.govuk_radio_buttons_fieldset(
+        :decision,
+        legend: { text: "Add site visit", size: "s" }
+      ) do %>
+        <%= form.govuk_radio_button(
+          :decision, true, label: { text: "Yes" }
+        ) do %>
+          <%= form.govuk_date_field(:visited_at, rows: 6, legend: { text: "Site visited at" }) %>
+
+          <%= form.fields_for :documents, @site_visit.documents.new do |document_attributes| %>
+            <%= document_attributes.govuk_file_field :files, 
+              multiple: true, 
+              label: { text: "Upload photo(s)", 
+              class: "govuk-label govuk-!-font-weight-bold" }, 
+              accept: acceptable_file_mime_types
+            %>
+          <% end %>
+        <% end %>
+
+        <%= form.govuk_radio_button(:decision, false, label: { text: "No" }) %>
+
+        <%= form.govuk_text_area(:comment, rows: 6, label: { text: "Comment" }) %>
+      <% end %>
+    </fieldset>
+
+    <div class="govuk-button-group govuk-!-padding-top-7">
+      <%= form.submit "Save", class: "govuk-button govuk-button--primary" %>
+
+      <%= back_link %>
+    </div>
+  </div>
+<% end %>
