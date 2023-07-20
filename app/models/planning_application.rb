@@ -21,6 +21,8 @@ class PlanningApplication < ApplicationRecord
 
   enum user_role: { applicant: 0, agent: 1, proxy: 2 }
 
+  enum decision: { granted: "granted", refused: "refused" }
+
   with_options dependent: :destroy do
     has_many :audits, -> { by_created_at }, inverse_of: :planning_application
     has_many :documents, -> { by_created_at }, inverse_of: :planning_application
@@ -218,16 +220,8 @@ class PlanningApplication < ApplicationRecord
     true unless determined? || returned? || withdrawn? || closed?
   end
 
-  def refused?
-    decision == "refused"
-  end
-
   def validated?
     true unless not_started? || invalidated?
-  end
-
-  def granted?
-    decision == "granted"
   end
 
   def can_validate?
