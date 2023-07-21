@@ -1,24 +1,28 @@
 <p class="govuk-body">
   <strong><%= t(".application_received") %></strong>
-  <%= planning_application.received_at.to_date.to_fs %>
+  <%= time_tag planning_application.received_at.to_date %>
 </p>
 <p class="govuk-body">
   <strong><%= t(".valid_from") %></strong>
+  <% if valid_from.respond_to?(:to_fs) %>
+  <%= time_tag valid_from %>
+  <% else %>
   <%= valid_from %>
+  <% end %>
 </p>
 <p class="govuk-body">
   <strong><%= t(".target_date") %></strong>
-  <%= planning_application.target_date.to_fs %>
+  <%= time_tag planning_application.target_date %>
 </p>
 <p class="govuk-body">
   <strong><%= t(".expiry_date") %></strong>
-  <%= planning_application.expiry_date.to_fs %>
+  <%= time_tag planning_application.expiry_date %>
 </p>
 <% if planning_application.consultation.present? %>
 <p class="govuk-body">
   <strong><%= t(".consultation_end_date") %></strong>
   <% if planning_application.consultation.end_date.present? %>
-    <%= planning_application.consultation.end_date.strftime("%-d %B %Y") %>
+    <%= time_tag planning_application.consultation.end_date %>
   <% else %>
     <%= t(".consultation_end_date_not_set") %>
   <% end %>
