@@ -33,6 +33,10 @@ class Consultation < ApplicationRecord
     1.business_day.from_now + 21.days
   end
 
+  def days_left
+    (end_date - Time.zone.now).seconds.in_days.round
+  end
+
   def neighbour_letter_content
     I18n.t("neighbour_letter_template",
            received_at: planning_application.received_at.to_fs(:day_month_year_slashes),

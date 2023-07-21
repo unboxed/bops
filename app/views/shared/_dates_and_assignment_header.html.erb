@@ -5,6 +5,13 @@
         <strong>Consultation end date:</strong>
         <% if @planning_application.consultation.end_date.present? %>
           <%= time_tag @planning_application.consultation.end_date %>
+          <span class="govuk-tag govuk-tag--#{status_consultation_date_tag_colour}">
+            <% if @planning_application.consultation.days_left >0 %>
+              <%= t("planning_applications.days_left", count: @planning_application.consultation.days_left) %>
+            <% else %>
+             <%= t("planning_applications.overdue", count: @planning_application.consultation.days_left.abs) %>
+            <% end %>
+          </span>
         <% else %>
           <%= t(".consultation_end_date_not_set") %>
         <% end %>

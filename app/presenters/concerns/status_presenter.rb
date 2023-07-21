@@ -109,4 +109,19 @@ module StatusPresenter
       "red"
     end
   end
+
+  def status_consultation_date_tag_colour
+    return "grey" if planning_application.consultation.blank?
+    return "grey" if planning_application.consultation.start_date.blank?
+
+    number = planning_application.consultation.days_left
+
+    if number > 11
+      "green"
+    elsif number.between?(6, 10)
+      "yellow"
+    else
+      "red"
+    end
+  end
 end
