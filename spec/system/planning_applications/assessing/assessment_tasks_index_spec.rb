@@ -22,35 +22,79 @@ RSpec.describe "Assessment tasks" do
       )
     end
 
-    it "displays the assessment tasks list" do
-      within(".app-task-list") do
-        within("#check-consistency-assessment-tasks") do
-          expect(page).to have_content("Check application")
-          expect(page).to have_link("Check description, documents and proposal details")
-          expect(page).to have_link("History")
-          expect(page).to have_link("Permitted development rights")
+    context "when planning application is an LDC" do
+      it "displays the assessment tasks list" do
+        within(".app-task-list") do
+          within("#check-consistency-assessment-tasks") do
+            expect(page).to have_content("Check application")
+            expect(page).to have_link("Check description, documents and proposal details")
+            expect(page).to have_link("History")
+            expect(page).to have_link("Permitted development rights")
 
-          expect(page).not_to have_link("Evidence of immunity")
+            expect(page).not_to have_link("Evidence of immunity")
+          end
+
+          within("#assessment-information-tasks") do
+            expect(page).to have_content("Assessor remarks (optional)")
+            expect(page).to have_link("Summary of works")
+            expect(page).to have_link("Summary of additional evidence")
+            expect(page).to have_link("Site description")
+            expect(page).to have_link("Summary of consultation")
+          end
+
+          within("#assess-against-legislation-tasks") do
+            expect(page).to have_content("Assess against legislation")
+            expect(page).to have_link("Add assessment area")
+          end
+
+          within("#complete-assessment-tasks") do
+            expect(page).to have_content("Complete assessment")
+            expect(page).to have_link("Review documents for recommendation")
+            expect(page).to have_link("Make draft recommendation")
+            expect(page).to have_content("Review and submit recommendation")
+          end
         end
+      end
+    end
 
-        within("#assessment-information-tasks") do
-          expect(page).to have_content("Assessor remarks (optional)")
-          expect(page).to have_link("Summary of works")
-          expect(page).to have_link("Summary of additional evidence")
-          expect(page).to have_link("Site description")
-          expect(page).to have_link("Summary of consultation")
-        end
+    context "when planning application is a prior approval" do
+      before do
+        application_type = create(:application_type, :prior_approval)
+        planning_application.update(application_type:)
+        visit(planning_application_assessment_tasks_path(planning_application))
+      end
 
-        within("#assess-against-legislation-tasks") do
-          expect(page).to have_content("Assess against legislation")
-          expect(page).to have_link("Add assessment area")
-        end
+      it "displays the assessment tasks list" do
+        within(".app-task-list") do
+          within("#check-consistency-assessment-tasks") do
+            expect(page).to have_content("Check application")
+            expect(page).to have_link("Check description, documents and proposal details")
+            expect(page).to have_link("History")
+            expect(page).to have_link("Permitted development rights")
 
-        within("#complete-assessment-tasks") do
-          expect(page).to have_content("Complete assessment")
-          expect(page).to have_link("Review documents for recommendation")
-          expect(page).to have_link("Make draft recommendation")
-          expect(page).to have_content("Review and submit recommendation")
+            expect(page).not_to have_link("Evidence of immunity")
+          end
+
+          within("#assessment-information-tasks") do
+            expect(page).to have_content("Assessor remarks (optional)")
+            expect(page).to have_link("Summary of works")
+            expect(page).to have_link("Summary of additional evidence")
+            expect(page).to have_link("Site description")
+            expect(page).to have_link("Summary of consultation")
+            expect(page).to have_link("Amenity")
+          end
+
+          within("#assess-against-legislation-tasks") do
+            expect(page).to have_content("Assess against legislation")
+            expect(page).to have_link("Add assessment area")
+          end
+
+          within("#complete-assessment-tasks") do
+            expect(page).to have_content("Complete assessment")
+            expect(page).to have_link("Review documents for recommendation")
+            expect(page).to have_link("Make draft recommendation")
+            expect(page).to have_content("Review and submit recommendation")
+          end
         end
       end
     end

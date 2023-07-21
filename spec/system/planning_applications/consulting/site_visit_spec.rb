@@ -50,7 +50,7 @@ RSpec.describe "Site visit" do
   describe "viewing site visits" do
     let!(:site_visit1) { create(:site_visit, consultation:, comment: "Site visit 1") }
     let!(:site_visit2) { create(:site_visit, decision: false, consultation:, comment: "Site visit 2") }
-    let!(:neighbour_response) { create(:neighbour_response, summary_tag: "objection", neighbour:) }
+    let!(:neighbour_response) { create(:neighbour_response, summary_tag: "objection", neighbour:, received_at: Time.zone.now) }
 
     before do
       visit planning_application_path(planning_application)
@@ -69,7 +69,7 @@ RSpec.describe "Site visit" do
     it "I can view the objected neighbour responses" do
       expect(page).to have_content("Objected neighbour responses")
       expect(page).to have_content("Objection")
-      expect(page).to have_content("Date received: 20/07/2023")
+      expect(page).to have_content("Date received: #{Time.zone.now.strftime('%d/%m/%Y')}")
       expect(page).to have_content("Respondent:")
       expect(page).to have_content("Email: neighbour@example.com")
       expect(page).to have_content("Address: #{neighbour.address}")
@@ -98,7 +98,7 @@ RSpec.describe "Site visit" do
   end
 
   describe "adding a new site visit response" do
-    let!(:neighbour_response) { create(:neighbour_response, summary_tag: "objection", neighbour:) }
+    let!(:neighbour_response) { create(:neighbour_response, summary_tag: "objection", neighbour:, received_at: Time.zone.now) }
 
     before do
       visit planning_application_path(planning_application)
@@ -131,7 +131,7 @@ RSpec.describe "Site visit" do
     it "I can view the objected neighbour responses" do
       expect(page).to have_content("Objected neighbour responses")
       expect(page).to have_content("Objection")
-      expect(page).to have_content("Date received: 20/07/2023")
+      expect(page).to have_content("Date received: #{Time.zone.now.strftime('%d/%m/%Y')}")
       expect(page).to have_content("Respondent:")
       expect(page).to have_content("Email: neighbour@example.com")
       expect(page).to have_content("Address: #{neighbour.address}")

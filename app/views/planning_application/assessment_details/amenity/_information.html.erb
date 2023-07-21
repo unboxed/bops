@@ -1,0 +1,24 @@
+<h2 class="govuk-heading-m"><%= t(".summary_of_the") %></h2>
+<%= render(
+  partial: "shared/warning_text",
+  locals: { message: t(".this_information_will") }
+) %>
+
+<p class="govuk-body">
+  If a neighbour has objected, assess how the proposal may impact on the existing amenity.
+</p>
+
+<p class="govuk-body">
+  You should consider:
+</p>
+<ul class="govuk-body">
+  <li>Privacy</li>
+  <li>Daylight and sunlight</li>
+  <li>Outlook</li>
+  <li>Noise</li>
+</ul>
+
+<%= render(
+  partial: "comment",
+  locals: { comment: rejected_assessment_detail&.comment }
+) %>

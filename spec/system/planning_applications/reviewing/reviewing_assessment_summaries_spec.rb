@@ -27,6 +27,7 @@ RSpec.describe "Reviewing assessment summaries" do
     create(
       :planning_application,
       :awaiting_determination,
+      :prior_approval,
       local_authority:,
       decision: :granted
     )
@@ -42,433 +43,914 @@ RSpec.describe "Reviewing assessment summaries" do
     sign_in(reviewer)
   end
 
-  context "when assessor filled out summaries" do
-    before do
-      create(
-        :assessment_detail,
-        :summary_of_work,
-        assessment_status: :complete,
-        planning_application:,
-        user: assessor,
-        entry: "summary of works"
-      )
-
-      create(
-        :assessment_detail,
-        :site_description,
-        assessment_status: :complete,
-        planning_application:,
-        user: assessor,
-        entry: "site description"
-      )
-
-      ## Created a second to show that previous summaries works
-      create(
-        :assessment_detail,
-        :site_description,
-        assessment_status: :complete,
-        planning_application:,
-        user: assessor,
-        entry: "site description"
-      )
-
-      create(:consultee, planning_application:)
-
-      create(
-        :assessment_detail,
-        :consultation_summary,
-        assessment_status: :complete,
-        planning_application:,
-        user: assessor,
-        entry: "consultation summary",
-        created_at: Time.zone.local(2022, 11, 27, 12, 15)
-      )
-
-      create(
-        :assessment_detail,
-        :additional_evidence,
-        assessment_status: :complete,
-        planning_application:,
-        user: assessor,
-        entry: "additional evidence"
-      )
-    end
-
-    it "allows reviewer to submit correctly filled out form" do
-      travel_to(Time.zone.local(2022, 11, 28, 12, 30))
-      visit(planning_application_review_tasks_path(planning_application))
-
-      expect(page).to have_list_item_for(
-        "Review assessment summaries", with: "Not started"
-      )
-
-      click_link("Review assessment summaries")
-      click_button("Save and come back later")
-
-      expect(page).to have_list_item_for(
-        "Review assessment summaries", with: "Not started"
-      )
-
-      click_link("Review assessment summaries")
-
-      within(find("fieldset", text: "Summary of works")) do
-        expect(find(".govuk-tag")).to have_content("Completed")
-
-        choose("Accept")
-      end
-
-      click_button("Save and mark as complete")
-
-      expect(page).to have_content(
-        "Additional evidence reviewer verdict can't be blank"
-      )
-
-      expect(page).to have_content(
-        "Site description reviewer verdict can't be blank"
-      )
-
-      expect(page).to have_content(
-        "Consultation summary reviewer verdict can't be blank"
-      )
-
-      click_button("Save and come back later")
-
-      expect(page).to have_list_item_for(
-        "Review assessment summaries", with: "In progress"
-      )
-
-      click_link("Review assessment summaries")
-
-      within(find("fieldset", text: "Site description")) do
-        expect(page).to have_link(
-          "View site on Google Maps",
-          href: "https://google.co.uk/maps/place/#{CGI.escape(planning_application.full_address)}"
+  context "when planning application is a prior approval" do
+    context "when assessor filled out summaries" do
+      before do
+        create(
+          :assessment_detail,
+          :summary_of_work,
+          assessment_status: :complete,
+          planning_application:,
+          user: assessor,
+          entry: "summary of works"
         )
-        choose("Edit to accept")
-      end
 
-      click_button("Save and come back later")
+        create(
+          :assessment_detail,
+          :amenity,
+          assessment_status: :complete,
+          planning_application:,
+          user: assessor,
+          entry: "assessment of amenity"
+        )
 
-      expect(page).to have_content("Site description entry must be edited")
+        create(
+          :assessment_detail,
+          :site_description,
+          assessment_status: :complete,
+          planning_application:,
+          user: assessor,
+          entry: "site description"
+        )
 
-      within(find("fieldset", text: "Site description")) do
-        fill_in("Update site description", with: "")
-      end
+        ## Created a second to show that previous summaries works
+        create(
+          :assessment_detail,
+          :site_description,
+          assessment_status: :complete,
+          planning_application:,
+          user: assessor,
+          entry: "site description"
+        )
 
-      click_button("Save and come back later")
+        create(:consultee, planning_application:)
 
-      expect(page).to have_content("Site description entry can't be blank")
+        create(
+          :assessment_detail,
+          :consultation_summary,
+          assessment_status: :complete,
+          planning_application:,
+          user: assessor,
+          entry: "consultation summary",
+          created_at: Time.zone.local(2022, 11, 27, 12, 15)
+        )
 
-      within(find("fieldset", text: "Site description")) do
-        fill_in("Update site description", with: "edited site description")
-      end
+        create(
+          :assessment_detail,
+          :additional_evidence,
+          assessment_status: :complete,
+          planning_application:,
+          user: assessor,
+          entry: "additional evidence"
+        )
 
-      click_button("Save and come back later")
-
-      expect(page).to have_list_item_for(
-        "Review assessment summaries", with: "In progress"
-      )
-
-      click_link("Review assessment summaries")
-
-      within(find("fieldset", text: "Consultation")) do
-        choose("Return to officer with comment")
-      end
-
-      click_button("Save and come back later")
-
-      expect(page).to have_content(
-        "Consultation summary comment text can't be blank"
-      )
-
-      within(find("fieldset", text: "Consultation")) do
-        fill_in(
-          "Explain to the assessor why this needs reviewing",
-          with: "consultation comment"
+        create(
+          :assessment_detail,
+          :additional_evidence,
+          assessment_status: :complete,
+          planning_application:,
+          user: assessor,
+          entry: "public summary"
         )
       end
 
-      click_button("Save and come back later")
+      it "allows reviewer to submit correctly filled out form" do
+        travel_to(Time.zone.local(2022, 11, 28, 12, 30))
+        visit(planning_application_review_tasks_path(planning_application))
 
-      within("ul#review-assessment-section") do
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Not started"
+        )
+
+        click_link("Review assessment summaries")
+        click_button("Save and come back later")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Not started"
+        )
+
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Summary of works")) do
+          expect(find(".govuk-tag")).to have_content("Completed")
+
+          choose("Accept")
+        end
+
+        click_button("Save and mark as complete")
+
+        expect(page).to have_content(
+          "Additional evidence reviewer verdict can't be blank"
+        )
+
+        expect(page).to have_content(
+          "Site description reviewer verdict can't be blank"
+        )
+
+        expect(page).to have_content(
+          "Consultation summary reviewer verdict can't be blank"
+        )
+
+        expect(page).to have_content(
+          "Consultation summary reviewer verdict can't be blank"
+        )
+
+        expect(page).to have_content(
+          "Amenity reviewer verdict can't be blank"
+        )
+
+        expect(page).to have_content(
+          "Publicity summary reviewer verdict can't be blank"
+        )
+
+        click_button("Save and come back later")
+
         expect(page).to have_list_item_for(
           "Review assessment summaries", with: "In progress"
         )
-      end
 
-      click_link("Review assessment summaries")
+        click_link("Review assessment summaries")
 
-      within(find("fieldset", text: "Summary of additional evidence")) do
-        choose("Accept")
-      end
+        within(find("fieldset", text: "Site description")) do
+          expect(page).to have_link(
+            "View site on Google Maps",
+            href: "https://google.co.uk/maps/place/#{CGI.escape(planning_application.full_address)}"
+          )
+          choose("Edit to accept")
+        end
 
-      within(find("fieldset", text: "Summary of neighbour responses")) do
-        choose("Accept")
-      end
+        click_button("Save and come back later")
 
-      click_button("Save and mark as complete")
+        expect(page).to have_content("Site description entry must be edited")
 
-      expect(page).to have_list_item_for(
-        "Review assessment summaries", with: "Checked"
-      )
+        within(find("fieldset", text: "Site description")) do
+          fill_in("Update site description", with: "")
+        end
 
-      click_link("Sign-off recommendation")
-      choose("No (return the case for assessment)")
+        click_button("Save and come back later")
 
-      fill_in(
-        "Explain to the officer why the case is being returned",
-        with: "recommendation challenged"
-      )
+        expect(page).to have_content("Site description entry can't be blank")
 
-      click_button("Save and mark as complete")
-      click_link("Review assessment summaries")
+        within(find("fieldset", text: "Site description")) do
+          fill_in("Update site description", with: "edited site description")
+        end
 
-      within(find("fieldset", text: "Consultation")) do
-        expect(find(".govuk-tag")).to have_content("To be reviewed")
-      end
+        click_button("Save and come back later")
 
-      click_link("Log out")
-      sign_in(assessor)
-      visit(planning_application_path(planning_application))
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "In progress"
+        )
 
-      expect(page).to have_list_item_for(
-        "Check and assess", with: "To be reviewed"
-      )
+        click_link("Review assessment summaries")
 
-      click_link("Check and assess")
+        within(find("fieldset", text: "Consultation")) do
+          choose("Return to officer with comment")
+        end
 
-      expect(page).to have_list_item_for(
-        "Summary of consultation", with: "To be reviewed"
-      )
+        click_button("Save and come back later")
 
-      click_link("Summary of consultation")
+        expect(page).to have_content(
+          "Consultation summary comment text can't be blank"
+        )
 
-      expect(page).to have_content("Bella Jones marked this for review")
-      expect(page).to have_content("28 November 2022 12:30")
-      expect(page).to have_content("consultation comment")
+        within(find("fieldset", text: "Consultation")) do
+          fill_in(
+            "Explain to the assessor why this needs reviewing",
+            with: "consultation comment"
+          )
+        end
 
-      expect(page).to have_field(
-        "assessment-detail-entry-field",
-        with: "consultation summary"
-      )
+        click_button("Save and come back later")
 
-      fill_in(
-        "assessment-detail-entry-field",
-        with: "updated consultation summary"
-      )
+        within("ul#review-assessment-section") do
+          expect(page).to have_list_item_for(
+            "Review assessment summaries", with: "In progress"
+          )
+        end
 
-      click_button("Save and mark as complete")
+        click_link("Review assessment summaries")
 
-      expect(page).to have_content("Consultation summary successfully updated.")
+        within(find("fieldset", text: "Summary of additional evidence")) do
+          choose("Accept")
+        end
 
-      expect(page).to have_list_item_for(
-        "Summary of consultation", with: "Completed"
-      )
+        within(find("fieldset", text: "Summary of neighbour responses")) do
+          choose("Accept")
+        end
 
-      click_link("Application")
+        within(find("fieldset", text: "Amenity assessment")) do
+          choose("Accept")
+        end
 
-      click_link("Check and assess")
-      click_link("Make draft recommendation")
+        click_button("Save and mark as complete")
 
-      click_button("Update assessment")
-      click_link("Review and submit recommendation")
-      click_button("Submit recommendation")
-      click_link("Log out")
-      sign_in(reviewer)
-      visit(planning_application_path(planning_application))
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Checked"
+        )
 
-      expect(page).to have_list_item_for(
-        "Review and sign-off", with: "Updated"
-      )
+        click_link("Sign-off recommendation")
+        choose("No (return the case for assessment)")
 
-      click_link("Review and sign-off")
+        fill_in(
+          "Explain to the officer why the case is being returned",
+          with: "recommendation challenged"
+        )
 
-      expect(page).to have_list_item_for(
-        "Review assessment summaries", with: "Updated"
-      )
+        click_button("Save and mark as complete")
+        click_link("Review assessment summaries")
 
-      click_link("Review assessment summaries")
-      expect(page).to have_content("updated consultation summary")
+        within(find("fieldset", text: "Consultation")) do
+          expect(find(".govuk-tag")).to have_content("To be reviewed")
+        end
 
-      within(find("fieldset", text: "Consultation")) do
-        expect(find(".govuk-tag")).to have_content("Updated")
+        click_link("Log out")
+        sign_in(assessor)
+        visit(planning_application_path(planning_application))
 
-        find("span", text: "See previous summaries").click
+        expect(page).to have_list_item_for(
+          "Check and assess", with: "To be reviewed"
+        )
 
-        expect(page).to have_content("Alice Smith created consultation summary")
-        expect(page).to have_content("27 November 2022 12:15")
+        click_link("Check and assess")
+
+        expect(page).to have_list_item_for(
+          "Summary of consultation", with: "To be reviewed"
+        )
+
+        click_link("Summary of consultation")
+
         expect(page).to have_content("Bella Jones marked this for review")
         expect(page).to have_content("28 November 2022 12:30")
+        expect(page).to have_content("consultation comment")
 
-        choose("Accept")
-      end
-
-      click_button("Save and mark as complete")
-
-      expect(page).to have_list_item_for(
-        "Review assessment summaries", with: "Checked"
-      )
-
-      click_link("Review assessment summaries")
-
-      within(find("fieldset", text: "Consultation")) do
-        expect(find(".govuk-tag")).to have_content("Completed")
-      end
-
-      click_link("Review")
-      click_link("Sign-off recommendation")
-      choose("Yes")
-      click_button("Save and mark as complete")
-
-      click_link("Review assessment summaries")
-      click_link("Edit review")
-
-      within(find("fieldset", text: "Consultation")) do
-        choose("Return to officer with comment")
+        expect(page).to have_field(
+          "assessment-detail-entry-field",
+          with: "consultation summary"
+        )
 
         fill_in(
-          "Explain to the assessor why this needs reviewing",
-          with: "new consultation comment"
+          "assessment-detail-entry-field",
+          with: "updated consultation summary"
         )
-      end
 
-      click_button("Save and mark as complete")
+        click_button("Save and mark as complete")
 
-      expect(page).to have_content(
-        "You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen"
-      )
+        expect(page).to have_content("Consultation summary successfully updated.")
 
-      click_link("Review")
-      click_link("Sign-off recommendation")
-      choose("No (return the case for assessment)")
+        expect(page).to have_list_item_for(
+          "Summary of consultation", with: "Completed"
+        )
 
-      fill_in(
-        "Explain to the officer why the case is being returned",
-        with: "recommendation challenged again"
-      )
+        click_link("Application")
 
-      click_button("Save and mark as complete")
-      click_link("Review assessment summaries")
-      click_link("Edit review")
+        click_link("Check and assess")
+        click_link("Make draft recommendation")
 
-      within(find("fieldset", text: "Consultation")) do
-        choose("Return to officer with comment")
+        click_button("Update assessment")
+        click_link("Review and submit recommendation")
+        click_button("Submit recommendation")
+        click_link("Log out")
+        sign_in(reviewer)
+        visit(planning_application_path(planning_application))
+
+        expect(page).to have_list_item_for(
+          "Review and sign-off", with: "Updated"
+        )
+
+        click_link("Review and sign-off")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Updated"
+        )
+
+        click_link("Review assessment summaries")
+        expect(page).to have_content("updated consultation summary")
+
+        within(find("fieldset", text: "Consultation")) do
+          expect(find(".govuk-tag")).to have_content("Updated")
+
+          find("span", text: "See previous summaries").click
+
+          expect(page).to have_content("Alice Smith created consultation summary")
+          expect(page).to have_content("27 November 2022 12:15")
+          expect(page).to have_content("Bella Jones marked this for review")
+          expect(page).to have_content("28 November 2022 12:30")
+
+          choose("Accept")
+        end
+
+        click_button("Save and mark as complete")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Checked"
+        )
+
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Consultation")) do
+          expect(find(".govuk-tag")).to have_content("Completed")
+        end
+
+        click_link("Review")
+        click_link("Sign-off recommendation")
+        choose("Yes")
+        click_button("Save and mark as complete")
+
+        click_link("Review assessment summaries")
+        click_link("Edit review")
+
+        within(find("fieldset", text: "Consultation")) do
+          choose("Return to officer with comment")
+
+          fill_in(
+            "Explain to the assessor why this needs reviewing",
+            with: "new consultation comment"
+          )
+        end
+
+        click_button("Save and mark as complete")
+
+        expect(page).to have_content(
+          "You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen"
+        )
+
+        click_link("Review")
+        click_link("Sign-off recommendation")
+        choose("No (return the case for assessment)")
 
         fill_in(
-          "Explain to the assessor why this needs reviewing",
-          with: "new consultation comment"
+          "Explain to the officer why the case is being returned",
+          with: "recommendation challenged again"
+        )
+
+        click_button("Save and mark as complete")
+        click_link("Review assessment summaries")
+        click_link("Edit review")
+
+        within(find("fieldset", text: "Consultation")) do
+          choose("Return to officer with comment")
+
+          fill_in(
+            "Explain to the assessor why this needs reviewing",
+            with: "new consultation comment"
+          )
+        end
+
+        click_button("Save and mark as complete")
+
+        expect(page).to have_content("Review saved")
+      end
+    end
+
+    context "when assessor didn't fill out summaries" do
+      it "allows reviewer to submit correctly filled out form" do
+        visit(planning_application_review_tasks_path(planning_application))
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Not started"
+        )
+
+        click_link("Review assessment summaries")
+        click_button("Save and come back later")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Not started"
+        )
+
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Summary of works")) do
+          expect(find(".govuk-tag")).to have_content("Not started")
+
+          choose("Accept")
+        end
+
+        click_button("Save and mark as complete")
+
+        expect(page).to have_content(
+          "Additional evidence reviewer verdict can't be blank"
+        )
+
+        expect(page).to have_content(
+          "Site description reviewer verdict can't be blank"
+        )
+
+        expect(page).to have_content(
+          "Consultation summary reviewer verdict can't be blank"
+        )
+
+        click_button("Save and come back later")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "In progress"
+        )
+
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Site description")) do
+          choose("Edit to accept")
+        end
+
+        click_button("Save and come back later")
+
+        expect(page).to have_content("Site description entry can't be blank")
+
+        within(find("fieldset", text: "Site description")) do
+          fill_in("Update site description", with: "edited site description")
+        end
+
+        click_button("Save and come back later")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "In progress"
+        )
+
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Consultation")) do
+          choose("Return to officer with comment")
+        end
+
+        click_button("Save and come back later")
+
+        expect(page).to have_content(
+          "Consultation summary comment text can't be blank"
+        )
+
+        within(find("fieldset", text: "Consultation")) do
+          fill_in(
+            "Explain to the assessor why this needs reviewing",
+            with: "consultation comment"
+          )
+        end
+
+        click_button("Save and come back later")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "In progress"
+        )
+
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Summary of additional evidence")) do
+          choose("Accept")
+        end
+
+        within(find("fieldset", text: "Summary of neighbour responses")) do
+          choose("Accept")
+        end
+
+        within(find("fieldset", text: "Amenity assessment")) do
+          choose("Accept")
+        end
+
+        click_button("Save and mark as complete")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Checked"
         )
       end
-
-      click_button("Save and mark as complete")
-
-      expect(page).to have_content("Review saved")
     end
   end
 
-  context "when assessor didn't fill out summaries" do
-    it "allows reviewer to submit correctly filled out form" do
-      visit(planning_application_review_tasks_path(planning_application))
+  context "when planning application is an LDC" do
+    before do
+      ldc = create(:application_type)
+      planning_application.update(application_type: ldc)
+    end
 
-      expect(page).to have_list_item_for(
-        "Review assessment summaries", with: "Not started"
-      )
+    context "when assessor filled out summaries" do
+      before do
+        create(
+          :assessment_detail,
+          :summary_of_work,
+          assessment_status: :complete,
+          planning_application:,
+          user: assessor,
+          entry: "summary of works"
+        )
 
-      click_link("Review assessment summaries")
-      click_button("Save and come back later")
+        create(
+          :assessment_detail,
+          :site_description,
+          assessment_status: :complete,
+          planning_application:,
+          user: assessor,
+          entry: "site description"
+        )
 
-      expect(page).to have_list_item_for(
-        "Review assessment summaries", with: "Not started"
-      )
+        ## Created a second to show that previous summaries works
+        create(
+          :assessment_detail,
+          :site_description,
+          assessment_status: :complete,
+          planning_application:,
+          user: assessor,
+          entry: "site description"
+        )
 
-      click_link("Review assessment summaries")
+        create(:consultee, planning_application:)
 
-      within(find("fieldset", text: "Summary of works")) do
-        expect(find(".govuk-tag")).to have_content("Not started")
+        create(
+          :assessment_detail,
+          :consultation_summary,
+          assessment_status: :complete,
+          planning_application:,
+          user: assessor,
+          entry: "consultation summary",
+          created_at: Time.zone.local(2022, 11, 27, 12, 15)
+        )
 
-        choose("Accept")
-      end
-
-      click_button("Save and mark as complete")
-
-      expect(page).to have_content(
-        "Additional evidence reviewer verdict can't be blank"
-      )
-
-      expect(page).to have_content(
-        "Site description reviewer verdict can't be blank"
-      )
-
-      expect(page).to have_content(
-        "Consultation summary reviewer verdict can't be blank"
-      )
-
-      click_button("Save and come back later")
-
-      expect(page).to have_list_item_for(
-        "Review assessment summaries", with: "In progress"
-      )
-
-      click_link("Review assessment summaries")
-
-      within(find("fieldset", text: "Site description")) do
-        choose("Edit to accept")
-      end
-
-      click_button("Save and come back later")
-
-      expect(page).to have_content("Site description entry can't be blank")
-
-      within(find("fieldset", text: "Site description")) do
-        fill_in("Update site description", with: "edited site description")
-      end
-
-      click_button("Save and come back later")
-
-      expect(page).to have_list_item_for(
-        "Review assessment summaries", with: "In progress"
-      )
-
-      click_link("Review assessment summaries")
-
-      within(find("fieldset", text: "Consultation")) do
-        choose("Return to officer with comment")
-      end
-
-      click_button("Save and come back later")
-
-      expect(page).to have_content(
-        "Consultation summary comment text can't be blank"
-      )
-
-      within(find("fieldset", text: "Consultation")) do
-        fill_in(
-          "Explain to the assessor why this needs reviewing",
-          with: "consultation comment"
+        create(
+          :assessment_detail,
+          :additional_evidence,
+          assessment_status: :complete,
+          planning_application:,
+          user: assessor,
+          entry: "additional evidence"
         )
       end
 
-      click_button("Save and come back later")
+      it "allows reviewer to submit correctly filled out form" do
+        travel_to(Time.zone.local(2022, 11, 28, 12, 30))
+        visit(planning_application_review_tasks_path(planning_application))
 
-      expect(page).to have_list_item_for(
-        "Review assessment summaries", with: "In progress"
-      )
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Not started"
+        )
 
-      click_link("Review assessment summaries")
+        click_link("Review assessment summaries")
+        click_button("Save and come back later")
 
-      within(find("fieldset", text: "Summary of additional evidence")) do
-        choose("Accept")
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Not started"
+        )
+
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Summary of works")) do
+          expect(find(".govuk-tag")).to have_content("Completed")
+
+          choose("Accept")
+        end
+
+        click_button("Save and mark as complete")
+
+        expect(page).to have_content(
+          "Additional evidence reviewer verdict can't be blank"
+        )
+
+        expect(page).to have_content(
+          "Site description reviewer verdict can't be blank"
+        )
+
+        expect(page).to have_content(
+          "Consultation summary reviewer verdict can't be blank"
+        )
+
+        expect(page).to have_content(
+          "Consultation summary reviewer verdict can't be blank"
+        )
+
+        expect(page).not_to have_content(
+          "Amenity assessment reviewer verdict can't be blank"
+        )
+
+        expect(page).not_to have_content(
+          "Summary of neighbour responses reviewer verdict can't be blank"
+        )
+
+        click_button("Save and come back later")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "In progress"
+        )
+
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Site description")) do
+          expect(page).to have_link(
+            "View site on Google Maps",
+            href: "https://google.co.uk/maps/place/#{CGI.escape(planning_application.full_address)}"
+          )
+          choose("Edit to accept")
+        end
+
+        click_button("Save and come back later")
+
+        expect(page).to have_content("Site description entry must be edited")
+
+        within(find("fieldset", text: "Site description")) do
+          fill_in("Update site description", with: "")
+        end
+
+        click_button("Save and come back later")
+
+        expect(page).to have_content("Site description entry can't be blank")
+
+        within(find("fieldset", text: "Site description")) do
+          fill_in("Update site description", with: "edited site description")
+        end
+
+        click_button("Save and come back later")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "In progress"
+        )
+
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Consultation")) do
+          choose("Return to officer with comment")
+        end
+
+        click_button("Save and come back later")
+
+        expect(page).to have_content(
+          "Consultation summary comment text can't be blank"
+        )
+
+        within(find("fieldset", text: "Consultation")) do
+          fill_in(
+            "Explain to the assessor why this needs reviewing",
+            with: "consultation comment"
+          )
+        end
+
+        click_button("Save and come back later")
+
+        within("ul#review-assessment-section") do
+          expect(page).to have_list_item_for(
+            "Review assessment summaries", with: "In progress"
+          )
+        end
+
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Summary of additional evidence")) do
+          choose("Accept")
+        end
+
+        click_button("Save and mark as complete")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Checked"
+        )
+
+        click_link("Sign-off recommendation")
+        choose("No (return the case for assessment)")
+
+        fill_in(
+          "Explain to the officer why the case is being returned",
+          with: "recommendation challenged"
+        )
+
+        click_button("Save and mark as complete")
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Consultation")) do
+          expect(find(".govuk-tag")).to have_content("To be reviewed")
+        end
+
+        click_link("Log out")
+        sign_in(assessor)
+        visit(planning_application_path(planning_application))
+
+        expect(page).to have_list_item_for(
+          "Check and assess", with: "To be reviewed"
+        )
+
+        click_link("Check and assess")
+
+        expect(page).to have_list_item_for(
+          "Summary of consultation", with: "To be reviewed"
+        )
+
+        click_link("Summary of consultation")
+
+        expect(page).to have_content("Bella Jones marked this for review")
+        expect(page).to have_content("28 November 2022 12:30")
+        expect(page).to have_content("consultation comment")
+
+        expect(page).to have_field(
+          "assessment-detail-entry-field",
+          with: "consultation summary"
+        )
+
+        fill_in(
+          "assessment-detail-entry-field",
+          with: "updated consultation summary"
+        )
+
+        click_button("Save and mark as complete")
+
+        expect(page).to have_content("Consultation summary successfully updated.")
+
+        expect(page).to have_list_item_for(
+          "Summary of consultation", with: "Completed"
+        )
+
+        click_link("Application")
+
+        click_link("Check and assess")
+        click_link("Make draft recommendation")
+
+        click_button("Update assessment")
+        click_link("Review and submit recommendation")
+        click_button("Submit recommendation")
+        click_link("Log out")
+        sign_in(reviewer)
+        visit(planning_application_path(planning_application))
+
+        expect(page).to have_list_item_for(
+          "Review and sign-off", with: "Updated"
+        )
+
+        click_link("Review and sign-off")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Updated"
+        )
+
+        click_link("Review assessment summaries")
+        expect(page).to have_content("updated consultation summary")
+
+        within(find("fieldset", text: "Consultation")) do
+          expect(find(".govuk-tag")).to have_content("Updated")
+
+          find("span", text: "See previous summaries").click
+
+          expect(page).to have_content("Alice Smith created consultation summary")
+          expect(page).to have_content("27 November 2022 12:15")
+          expect(page).to have_content("Bella Jones marked this for review")
+          expect(page).to have_content("28 November 2022 12:30")
+
+          choose("Accept")
+        end
+
+        click_button("Save and mark as complete")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Checked"
+        )
+
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Consultation")) do
+          expect(find(".govuk-tag")).to have_content("Completed")
+        end
+
+        click_link("Review")
+        click_link("Sign-off recommendation")
+        choose("Yes")
+        click_button("Save and mark as complete")
+
+        click_link("Review assessment summaries")
+        click_link("Edit review")
+
+        within(find("fieldset", text: "Consultation")) do
+          choose("Return to officer with comment")
+
+          fill_in(
+            "Explain to the assessor why this needs reviewing",
+            with: "new consultation comment"
+          )
+        end
+
+        click_button("Save and mark as complete")
+
+        expect(page).to have_content(
+          "You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen"
+        )
+
+        click_link("Review")
+        click_link("Sign-off recommendation")
+        choose("No (return the case for assessment)")
+
+        fill_in(
+          "Explain to the officer why the case is being returned",
+          with: "recommendation challenged again"
+        )
+
+        click_button("Save and mark as complete")
+        click_link("Review assessment summaries")
+        click_link("Edit review")
+
+        within(find("fieldset", text: "Consultation")) do
+          choose("Return to officer with comment")
+
+          fill_in(
+            "Explain to the assessor why this needs reviewing",
+            with: "new consultation comment"
+          )
+        end
+
+        click_button("Save and mark as complete")
+
+        expect(page).to have_content("Review saved")
       end
+    end
 
-      within(find("fieldset", text: "Summary of neighbour responses")) do
-        choose("Accept")
+    context "when assessor didn't fill out summaries" do
+      it "allows reviewer to submit correctly filled out form" do
+        visit(planning_application_review_tasks_path(planning_application))
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Not started"
+        )
+
+        click_link("Review assessment summaries")
+        click_button("Save and come back later")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Not started"
+        )
+
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Summary of works")) do
+          expect(find(".govuk-tag")).to have_content("Not started")
+
+          choose("Accept")
+        end
+
+        click_button("Save and mark as complete")
+
+        expect(page).to have_content(
+          "Additional evidence reviewer verdict can't be blank"
+        )
+
+        expect(page).to have_content(
+          "Site description reviewer verdict can't be blank"
+        )
+
+        expect(page).to have_content(
+          "Consultation summary reviewer verdict can't be blank"
+        )
+
+        click_button("Save and come back later")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "In progress"
+        )
+
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Site description")) do
+          choose("Edit to accept")
+        end
+
+        click_button("Save and come back later")
+
+        expect(page).to have_content("Site description entry can't be blank")
+
+        within(find("fieldset", text: "Site description")) do
+          fill_in("Update site description", with: "edited site description")
+        end
+
+        click_button("Save and come back later")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "In progress"
+        )
+
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Consultation")) do
+          choose("Return to officer with comment")
+        end
+
+        click_button("Save and come back later")
+
+        expect(page).to have_content(
+          "Consultation summary comment text can't be blank"
+        )
+
+        within(find("fieldset", text: "Consultation")) do
+          fill_in(
+            "Explain to the assessor why this needs reviewing",
+            with: "consultation comment"
+          )
+        end
+
+        click_button("Save and come back later")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "In progress"
+        )
+
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Summary of additional evidence")) do
+          choose("Accept")
+        end
+
+        click_button("Save and mark as complete")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Checked"
+        )
       end
-
-      click_button("Save and mark as complete")
-
-      expect(page).to have_list_item_for(
-        "Review assessment summaries", with: "Checked"
-      )
     end
   end
 end

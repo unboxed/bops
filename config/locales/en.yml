@@ -245,10 +245,14 @@ en:
     additional_evidence: Summary of additional evidence
     additional_evidence_successfully_created: Additional evidence was successfully created.
     additional_evidence_successfully_updated: Additional evidence was successfully updated.
+    amenity: Amenity
+    amenity_successfully_created: Amenity assessment was successfully created.
+    amenity_successfully_updated: Amenity assessment was successfully updated.
     consultation_summary: Add consultation details
     consultation_summary_successfully_created: Consultation summary successfully added.
     consultation_summary_successfully_updated: Consultation summary successfully updated.
     edit_additional_evidence: Edit additional evidence
+    edit_amenity: Edit assessment of impact on neighbouring amenity
     edit_consultation_summary: Add consultation details
     edit_past_applications: History
     edit_publicity_summary: Edit summary of neighbour responses
@@ -256,6 +260,7 @@ en:
     edit_summary_of_work: Edit summary of works
     immunity_detail_successfully_updated: Evidence of immunity successfully updated
     new_additional_evidence: Add detail of additional evidence
+    new_amenity: Assess impact on neighbouring amenity
     new_consultation_summary: Add consultation details
     new_past_applications: History
     new_publicity_summary: Add summary of neighbour responses
@@ -281,6 +286,7 @@ en:
     publicity_summary_successfully_created: Summary of neighbour responses was successfully created.
     publicity_summary_successfully_updated: Summary of neighbour responses was successfully updated.
     show_additional_evidence: Detail of additional evidence
+    show_amenity: Amenity
     show_consultation_summary: Consultation details
     show_past_applications: History
     show_publicity_summary: Summary of neighbour responses
@@ -293,6 +299,7 @@ en:
     summary_of_work_successfully_created: Summary of works was successfully created.
     summary_of_work_successfully_updated: Summary of works was successfully updated.
     update_additional_evidence: Update additional evidence
+    update_amenity: Update amenity
     update_consultation_summary: Update consultation details
     update_site_description: Update site description
     update_summary_of_work: Update summary of works
@@ -616,6 +623,10 @@ en:
     successfully_updated: Permitted development rights response was successfully updated
   planning_application:
     assessment_details:
+      amenity:
+        information:
+          summary_of_the: Assess impact on neighbouring amenity
+          this_information_will: This information WILL be made public
       comment:
         user_marked_this: "%{user} marked this for review"
       consultation_summary:
@@ -644,6 +655,7 @@ en:
           this_information_will: This information will be made publicly available.
       show:
         edit_additional_evidence: Edit additional evidence
+        edit_amenity: Edit amenity assessment
         edit_consultation_summary: Edit consultation details
         edit_past_applications: Edit history
         edit_publicity_summary: Edit summary of neighbour responses
@@ -927,6 +939,7 @@ en:
     form:
       accept: Accept
       additional_evidence: Summary of additional evidence
+      amenity: Amenity assessment
       consultation_summary: Consultation
       edit_review: Edit review
       edit_to_accept: Edit to accept
@@ -937,6 +950,7 @@ en:
       summary_of_consultee: Summary of consultee responses
       summary_of_work: Summary of works
       update_additional_evidence: Update additional evidence
+      update_amenity: Update amenity
       update_consultation_summary: Update consultation summary
       update_publicity_summary: Update summary of neighbour responses
       update_site_description: Update site description
@@ -1034,6 +1048,7 @@ en:
       immune_permitted_development_rights: Immunity/permitted development rights
     assessment_detail_component:
       additional_evidence: Summary of additional evidence
+      amenity: Amenity
       consultation_summary: Summary of consultation
       past_applications: History (manual)
       publicity_summary: Summary of neighbour responses
