@@ -9,8 +9,7 @@
       Town and Country Planning (Development Management Procedure) (England) Order 2015 (as amended): Article 39
     </h3>
     <h2 class="govuk-heading-m">
-      Certificate of Lawful Use or Development <%= "Decision Notice" if @planning_application.refused? %><br/>
-      <strong><%= planning_application.decision.capitalize %></strong>
+      <%= t("recommendation.#{planning_application.application_type.name}.#{planning_application.decision}_html") %>
     </h2>
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
     <dl class="govuk-summary-list govuk-summary-list--no-border">

@@ -22,6 +22,7 @@ class RecommendationForm
     "public_comment=",
     :decision,
     "decision=",
+    :application_type_name,
     to: :planning_application
   )
 
@@ -38,5 +39,55 @@ class RecommendationForm
         planning_application.assess!
       end
     end
+  end
+
+  def decisions
+    ldc? ? ldc_decisions : pa_decisions
+  end
+
+  def decisions_text
+    ldc? ? ldc_decisions_text : pa_decisions_text
+  end
+
+  def reason_text
+    ldc? ? ldc_reason_text : pa_reason_text
+  end
+
+  private
+
+  def ldc?
+    application_type_name == "lawfulness_certificate"
+  end
+
+  def ldc_decisions
+    [
+      [:refused, I18n.t(".recommendations.new.no")],
+      [:granted, I18n.t(".recommendations.new.yes")]
+    ]
+  end
+
+  def pa_decisions
+    [
+      [:refused, I18n.t("recommendation.prior_approval.refused")],
+      [:granted, I18n.t("recommendation.prior_approval.granted")],
+      [:granted_not_required,
+       I18n.t("recommendation.prior_approval.granted_not_required")]
+    ]
+  end
+
+  def ldc_decisions_text
+    I18n.t(".recommendations.new.ldc_is_the_use")
+  end
+
+  def pa_decisions_text
+    I18n.t(".recommendations.new.pa_is_the_use")
+  end
+
+  def ldc_reason_text
+    I18n.t(".recommendations.new.ldc_state_the_reason")
+  end
+
+  def pa_reason_text
+    I18n.t(".recommendations.new.pa_state_the_reason")
   end
 end

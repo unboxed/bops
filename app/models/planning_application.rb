@@ -21,7 +21,7 @@ class PlanningApplication < ApplicationRecord
 
   enum user_role: { applicant: 0, agent: 1, proxy: 2 }
 
-  enum decision: { granted: "granted", refused: "refused" }
+  enum decision: { granted: "granted", refused: "refused", granted_not_required: "granted_not_required" }
 
   with_options dependent: :destroy do
     has_many :audits, -> { by_created_at }, inverse_of: :planning_application
