@@ -6,8 +6,10 @@ RSpec.describe "neighbour responses" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
+  let!(:application_type) { create(:application_type, name: :prior_approval) }
   let!(:planning_application) do
-    create(:planning_application, :in_assessment, local_authority: default_local_authority)
+    create(:planning_application, :in_assessment, :from_planx_immunity, application_type:,
+                                                                        local_authority: default_local_authority)
   end
 
   before do
@@ -113,6 +115,21 @@ RSpec.describe "neighbour responses" do
       visit new_planning_application_assessment_detail_path(planning_application)
 
       expect(page).to have_content("forbidden")
+    end
+  end
+
+  context "when it's an LDC application" do
+    let!(:application_type) { create(:application_type, name: :lawfulness_certificate) }
+    let!(:planning_application) do
+      create(:planning_application, :in_assessment, application_type:, local_authority: default_local_authority)
+    end
+
+    it "does not show neighbour responses as an option" do
+      click_link "Check and assess"
+
+      within("#assessment-information-tasks") do
+        expect(page).not_to have_content("Summary of neighbour responses")
+      end
     end
   end
 end

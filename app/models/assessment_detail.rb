@@ -63,6 +63,15 @@ class AssessmentDetail < ApplicationRecord
 
       categories.partition { |category| category != "additional_evidence" }.sum([])
     end
+
+    def categories_for(application_type)
+      case application_type
+      when :lawfulness_certificate
+        category_keys - ["publicity_summary"]
+      else
+        category_keys
+      end
+    end
   end
 
   def existing_or_new_comment
