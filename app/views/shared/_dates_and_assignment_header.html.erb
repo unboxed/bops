@@ -1,5 +1,16 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds" id="dates-and-assignment-details">
+      <% if @planning_application.consultation.present? %>
+      <p class="govuk-body">
+        <strong>Consultation end date:</strong>
+        <% if @planning_application.consultation.end_date.present? %>
+          <%= time_tag @planning_application.consultation.end_date %>
+        <% else %>
+          <%= t(".consultation_end_date_not_set") %>
+        <% end %>
+      </p>
+      <% end %>
+
     <p class="govuk-body">
       <%= @planning_application.next_relevant_date_tag %>
 

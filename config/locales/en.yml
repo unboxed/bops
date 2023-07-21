@@ -995,6 +995,8 @@ en:
       home: Home
     back_to_top_link:
       back_to_top: Back to top
+    dates_and_assignment_header:
+      consultation_end_date_not_set: Not yet started
     policy_classes:
       previous_comments:
         comment_deleted: Comment deleted %{time}
