@@ -335,6 +335,52 @@ RSpec.describe PlanningApplication do
         end
       end
     end
+
+    describe "::before_update #audit_update_application_type" do
+      let(:local_authority) { create(:local_authority, :southwark) }
+      let(:assessor) { create(:user, :assessor, local_authority:) }
+      let!(:pa_planning_application) do
+        travel_to(DateTime.new(2023, 1, 1)) { create(:planning_application, :prior_approval, local_authority:) }
+      end
+      let!(:ldc_planning_application) do
+        travel_to(DateTime.new(2023, 1, 1)) { create(:planning_application, local_authority:) }
+      end
+
+      before { Current.user = assessor }
+
+      context "when application type has not changed" do
+        it "does not trigger the callback" do
+          expect(Audit).not_to receive(:create!)
+          ldc_planning_application.update!(description: "A description")
+
+          expect(ldc_planning_application.reference).to eq("23-00101-LDCP")
+        end
+      end
+
+      context "when application type has changed" do
+        it "updates the application type id and sets a new application and reference number" do
+          expect(pa_planning_application.reference).to eq("23-00100-PA")
+          expect(ldc_planning_application.reference).to eq("23-00101-LDCP")
+
+          expect do
+            ldc_planning_application.update!(application_type_id: ApplicationType.find_by(name: "prior_approval").id)
+          end.to change(Audit, :count)
+             .by(1)
+            .and change(ldc_planning_application, :application_number)
+            .from("00101").to("00102")
+            .and change(ldc_planning_application, :reference)
+            .from("23-00101-LDCP").to("23-00102-PA")
+
+          expect(Audit.last).to have_attributes(
+            planning_application_id: ldc_planning_application.id,
+            activity_type: "updated",
+            activity_information: "Application type",
+            audit_comment: "Application type changed from: Lawfulness certificate / Changed to: Prior approval,\n         Reference changed from 23-00101-LDCP to 23-00102-PA",
+            user: assessor
+          )
+        end
+      end
+    end
   end
 
   describe "constants" do

@@ -15,6 +15,7 @@ RSpec.describe "editing planning application" do
   end
 
   before do
+    travel_to(DateTime.new(2023, 1, 1))
     sign_in(assessor)
     create(:application_type, name: "prior_approval")
     visit(planning_application_path(planning_application))
@@ -24,6 +25,8 @@ RSpec.describe "editing planning application" do
     click_link("Check and assess")
     click_button("Application information")
     click_link("Edit details")
+
+    expect(page).to have_content("Application number: 23-00100-LDC")
 
     within(find(:fieldset, text: "Agent information")) do
       fill_in("Email address", with: "")
@@ -64,6 +67,7 @@ RSpec.describe "editing planning application" do
     click_button("Application information")
     click_link("Edit details")
 
+    expect(page).to have_content("Application number: 23-00101-PA")
     expect(page).to have_select("planning-application-application-type-id-field", selected: "Prior approval")
     fill_in("Address 1", with: "125 High Street")
     click_button("Save")
@@ -80,7 +84,9 @@ RSpec.describe "editing planning application" do
     visit planning_application_audits_path(planning_application)
     within("#audit_#{Audit.find_by(activity_information: 'Application type').id}") do
       expect(page).to have_content("Application type updated")
-      expect(page).to have_content("Application type changed from: Lawfulness certificate / Changed to: Prior approval")
+      expect(page).to have_content(
+        "Application type changed from: Lawfulness certificate / Changed to: Prior approval, Reference changed from 23-00100-LDCP to 23-00101-PA"
+      )
       expect(page).to have_content(assessor.name)
       expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
     end
