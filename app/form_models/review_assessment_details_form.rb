@@ -5,12 +5,29 @@ class ReviewAssessmentDetailsForm
   include ActiveModel::Model
   extend ActiveModel::Callbacks
 
+  LDC_ASSESSMENT_DETAILS = %i[
+    summary_of_work
+    site_description
+    consultation_summary
+    additional_evidence
+  ].freeze
+
+  PRIOR_APPROVAL_ASSESSMENT_DETAILS = %i[
+    summary_of_work
+    site_description
+    consultation_summary
+    additional_evidence
+    publicity_summary
+    amenity
+  ].freeze
+
   ASSESSMENT_DETAILS = %i[
     summary_of_work
     site_description
     consultation_summary
     additional_evidence
     publicity_summary
+    amenity
   ].freeze
 
   define_model_callbacks :save
@@ -50,7 +67,7 @@ class ReviewAssessmentDetailsForm
     validates(
       "#{assessment_detail}_reviewer_verdict",
       presence: true,
-      if: :status_complete?
+      if: :status_complete? && :"#{assessment_detail}_for_application?"
     )
 
     validates(
@@ -104,9 +121,9 @@ class ReviewAssessmentDetailsForm
   def assessment_detail_types
     case planning_application.application_type.name.to_sym
     when :lawfulness_certificate
-      ASSESSMENT_DETAILS - ["publicity_summary"]
+      LDC_ASSESSMENT_DETAILS
     else
-      ASSESSMENT_DETAILS
+      PRIOR_APPROVAL_ASSESSMENT_DETAILS
     end
   end
 
@@ -130,5 +147,17 @@ class ReviewAssessmentDetailsForm
 
   def status_complete?
     status == :complete
+  end
+
+  ASSESSMENT_DETAILS.each do |assessment_detail|
+    define_method("#{assessment_detail}_for_application?") do
+      next if status == :in_progress
+
+      if planning_application.type == "Prior approval"
+        PRIOR_APPROVAL_ASSESSMENT_DETAILS.include? assessment_detail
+      else
+        LDC_ASSESSMENT_DETAILS.include? assessment_detail
+      end
+    end
   end
 end

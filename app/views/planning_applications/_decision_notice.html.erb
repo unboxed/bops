@@ -47,6 +47,16 @@
     <p class="govuk-body">
       <%= render(FormattedContentComponent.new(text: planning_application.public_comment)) %>
     </p>
+    <% if @planning_application.assessment_details.select { |ad| ad.category == "amenity" }.any? %>
+      <p class="govuk-body">
+        <strong>
+          Assessment of amenity:
+        </strong>
+      </p>
+      <p class="govuk-body">
+        <%= @planning_application.assessment_details.select { |ad| ad.category == "amenity" }.first.entry %>
+      </p>
+    <% end %>
     <h3 class="govuk-heading-s">
       This decision is based on the following approved plans:
     </h3>

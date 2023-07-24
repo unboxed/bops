@@ -35,7 +35,8 @@ class AssessmentDetail < ApplicationRecord
     site_description: "site_description",
     past_applications: "past_applications",
     consultation_summary: "consultation_summary",
-    publicity_summary: "publicity_summary"
+    publicity_summary: "publicity_summary",
+    amenity: "amenity"
   }
 
   before_validation :set_user
@@ -67,7 +68,7 @@ class AssessmentDetail < ApplicationRecord
     def categories_for(application_type)
       case application_type
       when :lawfulness_certificate
-        category_keys - ["publicity_summary"]
+        category_keys - %w[publicity_summary amenity]
       else
         category_keys
       end
@@ -96,7 +97,7 @@ class AssessmentDetail < ApplicationRecord
     return false if accepted? || rejected?
 
     summary_of_work? ||
-      site_description? ||
+      site_description? || amenity? || publicity_summary? ||
       (assessment_complete? && consultation_summary?)
   end
 

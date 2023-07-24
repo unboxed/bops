@@ -127,7 +127,7 @@ RSpec.describe AssessmentDetail do
     describe "#category_keys" do
       it "returns an array of categories with additional_evidence as the last item" do
         expect(described_class.category_keys).to eq(
-          %w[summary_of_work site_description consultation_summary publicity_summary additional_evidence]
+          %w[summary_of_work site_description consultation_summary publicity_summary amenity additional_evidence]
         )
       end
     end
