@@ -5,9 +5,9 @@
 <p class="govuk-body">
   <strong><%= t(".valid_from") %></strong>
   <% if valid_from.respond_to?(:to_fs) %>
-  <%= time_tag valid_from %>
+    <%= time_tag valid_from %>
   <% else %>
-  <%= valid_from %>
+    <%= valid_from %>
   <% end %>
 </p>
 <p class="govuk-body">

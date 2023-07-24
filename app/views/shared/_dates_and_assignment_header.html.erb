@@ -9,7 +9,7 @@
             <% if @planning_application.consultation.days_left >0 %>
               <%= t("planning_applications.days_left", count: @planning_application.consultation.days_left) %>
             <% else %>
-             <%= t("planning_applications.overdue", count: @planning_application.consultation.days_left.abs) %>
+              <%= t("planning_applications.overdue", count: @planning_application.consultation.days_left.abs) %>
             <% end %>
           </span>
         <% else %>
