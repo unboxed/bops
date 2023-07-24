@@ -83,4 +83,44 @@ RSpec.describe Consultation do
       end
     end
   end
+
+  describe "#start_deadline" do
+    let(:date) { Time.zone.local(2023, 9, 20, 13) }
+
+    before do
+      travel_to date
+    end
+
+    context "when there isn't already a start date" do
+      let(:consultation) { create(:consultation) }
+
+      before do
+        consultation.start_deadline
+      end
+
+      it "sets the start date to tomorrow" do
+        expect(consultation.start_date).to eq(Time.zone.local(2023, 9, 21, 13))
+      end
+
+      it "sets the end date to the future" do
+        expect(consultation.end_date).to eq(Time.zone.local(2023, 10, 12, 13))
+      end
+    end
+
+    context "when the consultation is already started" do
+      let(:consultation) { create(:consultation, :started) }
+
+      before do
+        consultation.start_deadline
+      end
+
+      it "leaves the start date alone" do
+        expect(consultation.start_date).to eq(2.days.ago)
+      end
+
+      it "sets the end date to the future" do
+        expect(consultation.end_date).to eq(Time.zone.local(2023, 10, 12, 13))
+      end
+    end
+  end
 end

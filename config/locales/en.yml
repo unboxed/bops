@@ -54,6 +54,8 @@ en:
       reason_given: <strong>Reason given:</strong> "%{feedback}"
     key_application_dates_component:
       application_received: 'Application received:'
+      consultation_end_date: 'Consultation deadline:'
+      consultation_end_date_not_set: Not yet started
       expiry_date: 'Expiry date:'
       not_yet_valid: Not yet valid
       target_date: 'Target date:'
@@ -450,6 +452,10 @@ en:
       update_constraints: Update constraints
     update:
       success: Constraints have been updated
+  date:
+    formats:
+      default: "%-d %B %Y"
+      long: "%-d %B %Y"
   description_change_validation_requests:
     cancel:
       success: Description change request successfully cancelled.
@@ -989,6 +995,8 @@ en:
       home: Home
     back_to_top_link:
       back_to_top: Back to top
+    dates_and_assignment_header:
+      consultation_end_date_not_set: Not yet started
     policy_classes:
       previous_comments:
         comment_deleted: Comment deleted %{time}
@@ -1084,6 +1092,10 @@ en:
       upload_neighbour_responses: Upload neighbour responses
     validation_decision_component:
       send_validation_decision: Send validation decision
+  time:
+    formats:
+      default: "%-d %B %Y"
+      long: "%-d %B %Y"
   user:
     manager_role: Manager
     officer_role: Case Officer

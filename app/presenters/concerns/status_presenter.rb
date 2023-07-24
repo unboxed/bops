@@ -41,7 +41,7 @@ module StatusPresenter
     alias_method :outcome, :status_tag
 
     def next_relevant_date_tag
-      tag.strong(next_date_label) + tag.span(next_date.to_fs)
+      tag.strong(next_date_label) + tag.time(next_date.to_fs, datetime: next_date.iso8601)
     end
 
     def next_date_label
@@ -100,6 +100,21 @@ module StatusPresenter
     return "grey" if @planning_application.determined?
 
     number = planning_application.days_left
+
+    if number > 11
+      "green"
+    elsif number.between?(6, 10)
+      "yellow"
+    else
+      "red"
+    end
+  end
+
+  def status_consultation_date_tag_colour
+    return "grey" if planning_application.consultation.blank?
+    return "grey" if planning_application.consultation.start_date.blank?
+
+    number = planning_application.consultation.days_left
 
     if number > 11
       "green"

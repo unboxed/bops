@@ -21,7 +21,7 @@ class LetterSendingService
 
     ActiveRecord::Base.transaction do
       letter_record.save!
-      consultation.update!(end_date: consultation.end_date_from_now, start_date: 1.business_day.from_now)
+      consultation.start_deadline
     end
 
     personalisation = { message: letter_content, heading: "Public consultation" }

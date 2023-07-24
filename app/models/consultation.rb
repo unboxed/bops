@@ -22,11 +22,19 @@ class Consultation < ApplicationRecord
 
   before_update :audit_letter_copy_sent!, if: :letter_copy_sent_at_changed?
 
+  def start_deadline
+    update!(end_date: end_date_from_now, start_date: start_date || 1.business_day.from_now)
+  end
+
   def end_date_from_now
     # Letters are printed at 5:30pm and dispatched the next working day (Monday to Friday)
     # Second class letters are delivered 2 days after they’re dispatched.
     # Royal Mail delivers from Monday to Saturday, excluding bank holidays.
     1.business_day.from_now + 21.days
+  end
+
+  def days_left
+    (end_date - Time.zone.now).seconds.in_days.round
   end
 
   def neighbour_letter_content
