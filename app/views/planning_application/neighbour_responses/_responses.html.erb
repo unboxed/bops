@@ -1,0 +1,32 @@
+<% neighbour_responses.each do |response| %>
+  <div class="display-flex" style="align-items: baseline">
+    <div class="neighbour-response-section">
+      <%= render(StatusTags::BaseComponent.new(status: response.summary_tag)) %><br><br>
+      <ul class="govuk-list">
+        <li>
+          <strong>Date received:</strong> <%= response.received_at.to_formatted_s(:day_month_year_slashes) %>
+        </li>
+        <li>
+          <strong>Respondent:</strong> <%= response.name %>
+        </li>
+        <li>
+          <strong>Email:</strong> <%= response.email %>
+        </li>
+        <li>
+          <strong>Address:</strong> <%= response.neighbour.address %>
+        </li>
+      </ul>
+    </div>
+    <div style="width: 55%">
+      <p class="govuk-body-s"><strong>Original version:</strong></p>
+      <%= simple_format(response.response, class: "govuk-body") %>
+
+      <p class="govuk-body-s"><strong>Redacted version:</strong></p>
+      <%= simple_format(response.redacted_response, class: "govuk-body") %>
+
+    </div>
+    <div style="width: 4%;">
+      <%= link_to "Edit", edit_planning_application_consultation_neighbour_response_path(@planning_application, @consultation, response) %>
+    </div>
+  </div>
+<% end %>

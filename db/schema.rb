@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_13_142122) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_18_134342) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -208,11 +208,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_13_142122) do
     t.bigint "replacement_document_validation_request_id"
     t.boolean "redacted", default: false, null: false
     t.bigint "evidence_group_id"
+    t.bigint "site_visit_id"
     t.index ["additional_document_validation_request_id"], name: "ix_documents_on_additional_document_validation_request_id"
     t.index ["api_user_id"], name: "ix_documents_on_api_user_id"
     t.index ["evidence_group_id"], name: "ix_documents_on_evidence_group_id"
     t.index ["planning_application_id"], name: "index_documents_on_planning_application_id"
     t.index ["replacement_document_validation_request_id"], name: "ix_documents_on_replacement_document_validation_request_id"
+    t.index ["site_visit_id"], name: "ix_documents_on_site_visit_id"
     t.index ["user_id"], name: "ix_documents_on_user_id"
   end
 
@@ -573,6 +575,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_13_142122) do
     t.index ["policy_class_id"], name: "ix_review_policy_classes_on_policy_class_id"
   end
 
+  create_table "site_visits", force: :cascade do |t|
+    t.bigint "consultation_id"
+    t.bigint "created_by_id", null: false
+    t.string "status", default: "not_started", null: false
+    t.text "comment", null: false
+    t.boolean "decision", null: false
+    t.datetime "visited_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["consultation_id"], name: "ix_site_visits_on_consultation_id"
+    t.index ["created_by_id"], name: "ix_site_visits_on_created_by_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -626,6 +641,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_13_142122) do
   add_foreign_key "documents", "api_users"
   add_foreign_key "documents", "evidence_groups"
   add_foreign_key "documents", "replacement_document_validation_requests"
+  add_foreign_key "documents", "site_visits"
   add_foreign_key "documents", "users"
   add_foreign_key "notes", "planning_applications"
   add_foreign_key "notes", "users"
@@ -650,5 +666,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_13_142122) do
   add_foreign_key "review_immunity_details", "users", column: "assessor_id"
   add_foreign_key "review_immunity_details", "users", column: "reviewer_id"
   add_foreign_key "review_policy_classes", "policy_classes"
+  add_foreign_key "site_visits", "consultations"
+  add_foreign_key "site_visits", "users", column: "created_by_id"
   add_foreign_key "validation_requests", "planning_applications"
 end

@@ -184,6 +184,10 @@ en:
           attributes:
             base:
               recommendation_accepted: You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen
+        site_visit:
+          attributes:
+            decision:
+              inclusion: You must choose 'Yes' or 'No'
         user:
           attributes:
             reset_password_token:
@@ -679,6 +683,9 @@ en:
       index:
         application_details: Application details
         review_and_sign_off: Review and sign-off
+    site_visits:
+      create:
+        success: Site visit was successfully created.
     validation_tasks:
       index:
         application_details: Application details
@@ -1044,6 +1051,8 @@ en:
       review_permitted_development_rights: Review permitted development rights
     send_letters_to_neighbours_component:
       send_letters_to_neighbours: Send letters to neighbours
+    site_visit_component:
+      site_visit: Site visit
     upload_neighbour_responses_component:
       upload_neighbour_responses: Upload neighbour responses
     validation_decision_component:

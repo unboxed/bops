@@ -2,8 +2,13 @@
 
 class Consultation < ApplicationRecord
   belongs_to :planning_application
-  has_many :consultees, dependent: :destroy
-  has_many :neighbours, dependent: :destroy
+
+  with_options dependent: :destroy do
+    has_many :consultees
+    has_many :neighbours
+    has_many :site_visits
+  end
+
   has_many :neighbour_letters, through: :neighbours
   has_many :neighbour_responses, through: :neighbours
 
@@ -36,6 +41,10 @@ class Consultation < ApplicationRecord
            max_height: planning_application&.proposal_measurement&.max_height,
            eaves_height: planning_application&.proposal_measurement&.eaves_height,
            application_link:)
+  end
+
+  def site_visit
+    site_visits.by_created_at_desc.first
   end
 
   private
