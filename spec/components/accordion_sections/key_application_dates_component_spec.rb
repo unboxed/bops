@@ -51,7 +51,7 @@ RSpec.describe AccordionSections::KeyApplicationDatesComponent, type: :component
     end
 
     it "renders consultation deadline" do
-      expect(page).to have_content("Consultation deadline:\n    14 August 2023")
+      expect(page).to have_content("Consultation deadline:\n    #{consultation.end_date.strftime('%d %B %Y')}")
     end
   end
 
