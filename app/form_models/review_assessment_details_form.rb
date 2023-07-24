@@ -10,6 +10,7 @@ class ReviewAssessmentDetailsForm
     site_description
     consultation_summary
     additional_evidence
+    publicity_summary
   ].freeze
 
   define_model_callbacks :save
@@ -98,6 +99,15 @@ class ReviewAssessmentDetailsForm
     end
 
     true
+  end
+
+  def assessment_detail_types
+    case planning_application.application_type.name.to_sym
+    when :lawfulness_certificate
+      ASSESSMENT_DETAILS - ["publicity_summary"]
+    else
+      ASSESSMENT_DETAILS
+    end
   end
 
   private

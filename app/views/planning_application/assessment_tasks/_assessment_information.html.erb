@@ -4,7 +4,7 @@
   </h2>
 
   <ul class="app-task-list__items">
-    <% AssessmentDetail.category_keys.each do |category| %>
+    <% AssessmentDetail.categories_for(@planning_application.application_type.name.to_sym).each do |category| %>
       <%= render(
         TaskListItems::AssessmentDetailComponent.new(
           planning_application: @planning_application,

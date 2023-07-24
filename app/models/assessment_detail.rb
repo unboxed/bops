@@ -34,7 +34,8 @@ class AssessmentDetail < ApplicationRecord
     additional_evidence: "additional_evidence",
     site_description: "site_description",
     past_applications: "past_applications",
-    consultation_summary: "consultation_summary"
+    consultation_summary: "consultation_summary",
+    publicity_summary: "publicity_summary"
   }
 
   before_validation :set_user
@@ -61,6 +62,15 @@ class AssessmentDetail < ApplicationRecord
       categories = AssessmentDetail.categories.keys.excluding("past_applications")
 
       categories.partition { |category| category != "additional_evidence" }.sum([])
+    end
+
+    def categories_for(application_type)
+      case application_type
+      when :lawfulness_certificate
+        category_keys - ["publicity_summary"]
+      else
+        category_keys
+      end
     end
   end
 

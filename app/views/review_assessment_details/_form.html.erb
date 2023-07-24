@@ -5,7 +5,7 @@
   builder: GOVUKDesignSystemFormBuilder::FormBuilder
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
-  <% ReviewAssessmentDetailsForm::ASSESSMENT_DETAILS.each_with_index do |assessment_detail, index| %>
+  <% @form.assessment_detail_types.each_with_index do |assessment_detail, index| %>
     <% unless index == 0 %>
       <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
     <% end %>
