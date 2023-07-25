@@ -875,6 +875,17 @@ en:
       related_legislation: Related legislation
     summary_component:
       auto_answered: Auto-answered by PlanX
+  recommendation:
+    lawfulness_certificate:
+      granted_html: Certificate of Lawful Use or Development <br> <strong>Granted</strong>
+      refused_html: Certificate of Lawful Use or Development <br> Decision Notice <strong>Refused</strong>
+    prior_approval:
+      granted: Prior approval required and approved
+      granted_html: "<strong>Prior approval required and approved</strong>"
+      granted_not_required: Prior approval not required
+      granted_not_required_html: "<strong>Prior approval not required</strong>"
+      refused: Prior approval required and refused
+      refused_html: "<strong>Prior approval required and refused</strong>"
   recommendations:
     documents:
       documents_included_in: Documents included in the decision notice
@@ -909,12 +920,14 @@ en:
       assess_proposal: Assess the proposal
       assess_recommendation: Assess recommendation
       error: 'Error:'
-      is_the_use: Is the use or operation lawful?
+      ldc_is_the_use: Is the use or operation lawful?
+      ldc_state_the_reason: State the reasons why this application is, or is not lawful.
       make_draft_recommendation: Make draft recommendation
       'no': 'No'
+      pa_is_the_use: What is your recommendation?
+      pa_state_the_reason: State the reasons for your recommendation.
       please_provide_supporting: Provide supporting information for your manager.
       refer_to_the: Refer to specific permitted development legislation to support your recommendation.
-      state_the_reason: State the reasons why this application is, or is not lawful.
       there_are_outstanding_change_requests_html: There are outstanding change requests (last request %{last_request}). <a href='%{href}'>View all requests</a>.
       this_information_will: This information will appear on the decision notice.
       this_information_will_not: This information will not appear on the decision notice or the public register, but Freedom of Information requests will still apply.

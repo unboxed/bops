@@ -49,13 +49,13 @@
       <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
       <%= form.govuk_collection_radio_buttons(
         :decision,
-        [[:granted, t(".yes")], [:refused, t(".no")]],
+        @recommendation.decisions,
         :first,
         :last,
-        legend: { text: t(".is_the_use"), size: "s" }
+        legend: { text: @recommendation.decisions_text, size: "s" }
       ) %>
       <div class="govuk-form-group <%= "govuk-form-group--error" if form.object.errors[:public_comment].any? %>">
-        <%= form.label(:public_comment, t(".state_the_reason"), class: "govuk-label govuk-label--s") %>
+        <%= form.label(:public_comment, @recommendation.reason_text, class: "govuk-label govuk-label--s") %>
         <div class="govuk-hint"><%= t(".refer_to_the") %></div>
         <%= render(
           partial: "shared/warning_text",
