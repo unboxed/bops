@@ -728,12 +728,17 @@ class PlanningApplication < ApplicationRecord
 
   def audit_update_application_type!
     old_application_type = ApplicationType.find(changes["application_type_id"].first)
+    old_reference = reference
+
+    set_application_number
+    set_reference
 
     audit!(
       activity_type: "updated",
       activity_information: "Application type",
       audit_comment:
-        "Application type changed from: #{old_application_type.full_name} / Changed to: #{application_type.full_name}"
+        "Application type changed from: #{old_application_type.full_name} / Changed to: #{application_type.full_name},
+         Reference changed from #{old_reference} to #{reference}"
     )
   end
 
