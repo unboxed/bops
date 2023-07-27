@@ -59,9 +59,11 @@
     <%= form.govuk_radio_button :summary_tag, 'neutral', label: { text: 'Neutral' } %>
     <%= form.govuk_radio_button :summary_tag, 'objection', label: { text: 'An objection' } %>
   <% end %>
-  <%= form.submit(
-    "Save response",
-    class: "govuk-button govuk-button--primary govuk-!-margin-top-5"
-  ) %>
-  <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary govuk-!-margin-top-5" %>
+  <div class="govuk-button-group">
+    <%= form.submit(
+      "Save response",
+      class: "govuk-button govuk-button--primary govuk-!-margin-top-5"
+    ) %>
+    <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary govuk-!-margin-top-5" %>
+  </div>
 <% end %>
