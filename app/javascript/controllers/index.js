@@ -20,24 +20,3 @@ application.register("submit-form", SubmitFormController)
 
 import UnsavedChangesController from "./unsaved_changes_controller.js"
 application.register("unsaved-changes", UnsavedChangesController)
-
-window.addEventListener("DOMContentLoaded", () => {
-  let pathname = window.location.pathname
-  let scrollPositionKey = `${pathname}-scrollPosition`
-
-  if (sessionStorage.getItem(scrollPositionKey)) {
-    window.scrollTo(0, sessionStorage.getItem(scrollPositionKey))
-    sessionStorage.setItem(scrollPositionKey, 0)
-  }
-
-  window.onbeforeunload = function () {
-    if (
-      scrollPositionKey === "/-scrollPosition" ||
-      scrollPositionKey === "/planning_applications-scrollPosition"
-    ) {
-      sessionStorage.setItem(scrollPositionKey, 0)
-    } else {
-      sessionStorage.setItem(scrollPositionKey, window.scrollY)
-    }
-  }
-})
