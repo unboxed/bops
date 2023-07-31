@@ -98,6 +98,7 @@ RSpec.describe "Upload neighbour responses" do
 
     expect(page).to have_content("08/07/2023")
     expect(page).to have_content("No neighbour responses yet")
+    expect(page).to have_link("Back", href: planning_application_path(planning_application))
 
     fill_in "Name", with: "Sarah Neighbour"
     fill_in "Email", with: "sarah@email.com"
@@ -132,6 +133,8 @@ RSpec.describe "Upload neighbour responses" do
     expect(page).to have_content("Email: sara@email.com")
     expect(page).to have_content("Address: 124 Made up Street")
     expect(page).to have_content("I think this proposal looks ****")
+
+    expect(page).to have_link("Back", href: planning_application_path(planning_application))
 
     # Check audit log
     visit planning_application_audits_path(planning_application)
