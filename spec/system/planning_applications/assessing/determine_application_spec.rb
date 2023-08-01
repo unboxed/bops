@@ -99,6 +99,9 @@ RSpec.describe "Planning Application Assessment" do
           "Certificate of Lawful Use or Development Granted"
         )
 
+        expect(page).to have_content("Town and Country Planning Act 1990 (as amended): sections 191 and 192")
+        expect(page).to have_content("Town and Country Planning (Development Management Procedure) (England) Order 2015 (as amended): Article 39")
+
         expect(page).to have_content("Jane Smith, Director")
 
         visit planning_application_path(planning_application)
@@ -156,6 +159,34 @@ RSpec.describe "Planning Application Assessment" do
           click_button("Publish determination")
 
           expect(page).to have_content("Decision Notice sent to applicant")
+        end
+      end
+
+      context "when the application is for a prior approval" do
+        let(:application_type) { create(:application_type, name: "prior_approval") }
+        let!(:planning_application) do
+          create(:planning_application, :awaiting_determination,
+                 :from_planx_prior_approval,
+                 application_type:,
+                 local_authority: default_local_authority,
+                 decision: "granted")
+        end
+
+        it "lists different legislation in the decision notice" do
+          click_link("Publish determination")
+
+          within("#determination-date") do
+            # Enter date today
+            fill_in "Day", with: "2"
+            fill_in "Month", with: "1"
+            fill_in "Year", with: "2024"
+          end
+
+          click_button("Publish determination")
+
+          click_link("View decision notice")
+          expect(page).to have_content("Town and Country Planning Act 1990 (as amended)")
+          expect(page).not_to have_content("Town and Country Planning (Development Management Procedure) (England) Order 2015 (as amended): Article 39")
         end
       end
     end

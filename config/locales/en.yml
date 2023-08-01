@@ -878,12 +878,14 @@ en:
   recommendation:
     lawfulness_certificate:
       granted_html: Certificate of Lawful Use or Development <br> <strong>Granted</strong>
+      legislation_html: 'Town and Country Planning Act 1990 (as amended): sections 191 and 192<br>Town and Country Planning (Development Management Procedure) (England) Order 2015 (as amended): Article 39'
       refused_html: Certificate of Lawful Use or Development <br> Decision Notice <strong>Refused</strong>
     prior_approval:
       granted: Prior approval required and approved
       granted_html: "<strong>Prior approval required and approved</strong>"
       granted_not_required: Prior approval not required
       granted_not_required_html: "<strong>Prior approval not required</strong>"
+      legislation_html: Town and Country Planning Act 1990 (as amended)
       refused: Prior approval required and refused
       refused_html: "<strong>Prior approval required and refused</strong>"
   recommendations:
