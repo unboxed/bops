@@ -687,7 +687,7 @@ class PlanningApplication < ApplicationRecord
   def update_constraints
     return unless saved_changes.include? "boundary_geojson"
 
-    ConstraintQueryUpdateService.new(planning_application: self).call
+    ConstraintQueryUpdateJob.perform_later(planning_application: self)
   end
 
   def attribute_to_audit(attribute_name)

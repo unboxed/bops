@@ -381,6 +381,48 @@ RSpec.describe PlanningApplication do
         end
       end
     end
+
+    describe "::after_update #update_constraints" do
+      let(:boundary_geojson) do
+        {
+          type: "Feature",
+          properties: {},
+          geometry: {
+            type: "Polygon",
+            coordinates: [
+              [
+                [-0.054597, 51.537331],
+                [-0.054588, 51.537287],
+                [-0.054453, 51.537313],
+                [-0.054597, 51.537331]
+              ]
+            ]
+          }
+        }.to_json
+      end
+
+      before do
+        stub_planx_api_response_for("POLYGON ((-0.054597 51.537331, -0.054588 51.537287, -0.054453 51.537313, -0.054597 51.537331))").to_return(
+          status: 200, body: "{}"
+        )
+      end
+
+      context "when boundary_geojson is changed" do
+        it "calls the ConstraintQueryUpdateJob" do
+          expect do
+            planning_application.update!(boundary_geojson:)
+          end.to have_enqueued_job(ConstraintQueryUpdateJob).with(planning_application:)
+        end
+      end
+
+      context "when boundary_geojson is not changed" do
+        it "does not call the ConstraintQueryUpdateJob" do
+          expect do
+            planning_application.update!(address_1: "Address 1")
+          end.not_to have_enqueued_job(ConstraintQueryUpdateJob)
+        end
+      end
+    end
   end
 
   describe "constants" do

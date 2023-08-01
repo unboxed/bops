@@ -75,6 +75,7 @@ RSpec.describe ConstraintQueryUpdateService, type: :service do
       it "creates some constraints" do
         planning_application.boundary_geojson = '{"type":"Polygon","coordinates":[[[-0.07629275321961124,51.48596289289142],[-0.07630616426468570,51.48591028066045],[-0.07555112242699404,51.48584764697301],[-0.07554173469544191,51.48590192950712],[-0.07629275321961124,51.48596289289142]]]}'
         planning_application.save!
+        perform_enqueued_jobs
 
         expect(planning_application.constraints).not_to be_empty
       end
@@ -90,6 +91,7 @@ RSpec.describe ConstraintQueryUpdateService, type: :service do
       it "does not create any constraints" do
         planning_application.boundary_geojson = '{"type":"Polygon","coordinates":[[[-0.07629275321961124,51.48596289289142],[-0.07630616426468570,51.48591028066045],[-0.07555112242699404,51.48584764697301],[-0.07554173469544191,51.48590192950712],[-0.07629275321961124,51.48596289289142]]]}'
         planning_application.save!
+        perform_enqueued_jobs
         expect(planning_application.constraints).to be_empty
       end
     end
@@ -104,11 +106,15 @@ RSpec.describe ConstraintQueryUpdateService, type: :service do
       stub_planx_api_response_for("POLYGON ((-0.07629275321961124 51.48596289289142, -0.0763061642646857 51.48591028066045, -0.07555112242699404 51.48584764697301, -0.07554173469544191 51.48590192950712, -0.07629275321961124 51.48596289289142))").to_return(
         status: 200, body: response_with_one_constraint
       )
+      ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
     end
 
     it "raises an error" do
       planning_application.boundary_geojson = '{"type":"Polygon","coordinates":[[[-0.07629275321961124,51.48596289289142],[-0.07630616426468570,51.48591028066045],[-0.07555112242699404,51.48584764697301],[-0.07554173469544191,51.48590192950712],[-0.07629275321961124,51.48596289289142]]]}'
-      expect { planning_application.save! }.to raise_error(ConstraintQueryUpdateService::SaveError)
+
+      expect do
+        planning_application.save!
+      end.to raise_error(ConstraintQueryUpdateService::SaveError)
     end
   end
 end
