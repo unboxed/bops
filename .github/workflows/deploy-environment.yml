@@ -49,6 +49,9 @@ jobs:
       - name: Expose GitHub Runtime for Docker build
         uses: crazy-max/ghaction-github-runtime@v2
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
       - name: Build, tag, and push ${{ inputs.environment-name }} image to Amazon ECR based github sha
         id: build-image
         env:
