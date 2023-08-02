@@ -1,6 +1,6 @@
 <tr class="govuk-table__row" id=<%= dom_id(planning_application) %>>
   <% attributes.each do |attribute| %>
-    <td class="govuk-table__cell<%= " bottom-border-none" if audit %>">
+    <td class="govuk-table__cell<%= " bottom-border-none" if audit %><%= " #{attribute}" %>">
       <%= link_to_if(
         attribute == :reference,
         planning_application.send(attribute),
