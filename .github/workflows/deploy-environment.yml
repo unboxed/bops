@@ -64,9 +64,9 @@ jobs:
           # push it to ECR so that it can
           # be deployed to ECS.
           DOCKER_BUILDKIT=1 docker buildx build \
+            --push \
             --cache-to type=gha,mode=max \
             --cache-from type=gha \
-            --push \
             --build-arg RAILS_MASTER_KEY=$RAILS_MASTER_KEY -t bops:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile.production .
 
   deploy-db-migrate-service:
