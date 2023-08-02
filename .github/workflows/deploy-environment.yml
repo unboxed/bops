@@ -46,6 +46,9 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Expose GitHub Runtime for Docker build
+        uses: crazy-max/ghaction-github-runtime@v2
+
       - name: Build, tag, and push ${{ inputs.environment-name }} image to Amazon ECR based github sha
         id: build-image
         env:
@@ -57,7 +60,7 @@ jobs:
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.
-          DOCKER_BUILDKIT=1 docker build \
+          DOCKER_BUILDKIT=1 docker buildx build \
             --cache-to type=gha,mode=max \
             --cache-from type=gha \
             --build-arg RAILS_MASTER_KEY=$RAILS_MASTER_KEY -t bops:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile.production .
