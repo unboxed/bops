@@ -929,7 +929,9 @@ en:
       pa_is_the_use: What is your recommendation?
       pa_state_the_reason: State the reasons for your recommendation.
       please_provide_supporting: Provide supporting information for your manager.
-      refer_to_the: Refer to specific permitted development legislation to support your recommendation.
+      refer_to_the:
+        lawfulness_certificate: Refer to specific permitted development legislation to support your recommendation.
+        prior_approval: Refer to specific permitted development legislation, and Local Plan policies in relation to impact on neighbouring amenity.
       there_are_outstanding_change_requests_html: There are outstanding change requests (last request %{last_request}). <a href='%{href}'>View all requests</a>.
       this_information_will: This information will appear on the decision notice.
       this_information_will_not: This information will not appear on the decision notice or the public register, but Freedom of Information requests will still apply.
