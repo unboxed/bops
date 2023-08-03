@@ -18,6 +18,15 @@ RSpec.describe "neighbour responses" do
   end
 
   context "when planning application is in assessment" do
+    let!(:consultation) { create(:consultation, end_date: Time.zone.now, planning_application:) }
+    let!(:neighbour1) { create(:neighbour, consultation:) }
+    let!(:neighbour2) { create(:neighbour, consultation:) }
+    let!(:neighbour3) { create(:neighbour, consultation:) }
+    let!(:objection_response) { create(:neighbour_response, neighbour: neighbour1, summary_tag: "objection") }
+    let!(:supportive_response1) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive") }
+    let!(:supportive_response2) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive") }
+    let!(:neutral_response) { create(:neighbour_response, neighbour: neighbour2, summary_tag: "neutral") }
+
     it "I can view the information on the neighbour responses page" do
       click_link "Check and assess"
 
@@ -27,6 +36,16 @@ RSpec.describe "neighbour responses" do
       within("#summary-of-neighbour-responses") do
         expect(page).to have_content("Not started")
         click_link "Summary of neighbour responses"
+      end
+
+      expect(page).to have_link(
+        "Upload neighbour responses",
+        href: new_planning_application_consultation_neighbour_response_path(planning_application, consultation)
+      )
+
+      within(".govuk-notification-banner") do
+        expect(page).to have_content("Neighbour responses")
+        expect(page).to have_content("There is 1 neutral, 1 objection, 2 supportive.")
       end
 
       expect(page).to have_current_path(
@@ -65,6 +84,11 @@ RSpec.describe "neighbour responses" do
 
       within(".govuk-breadcrumbs__list") do
         expect(page).to have_content("Edit summary of neighbour responses")
+      end
+
+      within(".govuk-notification-banner") do
+        expect(page).to have_content("Neighbour responses")
+        expect(page).to have_content("There is 1 neutral, 1 objection, 2 supportive.")
       end
 
       click_button "Save and come back later"
