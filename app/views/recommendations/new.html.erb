@@ -56,7 +56,7 @@
       ) %>
       <div class="govuk-form-group <%= "govuk-form-group--error" if form.object.errors[:public_comment].any? %>">
         <%= form.label(:public_comment, @recommendation.reason_text, class: "govuk-label govuk-label--s") %>
-        <div class="govuk-hint"><%= t(".refer_to_the") %></div>
+        <div class="govuk-hint"><%= t(".refer_to_the.#{@planning_application.application_type.name}") %></div>
         <%= render(
           partial: "shared/warning_text",
           locals: { message: t(".this_information_will") }
