@@ -13,6 +13,10 @@ class ApplicationType < ApplicationRecord
     name.humanize
   end
 
+  def human_name
+    I18n.t("application_types.#{name}")
+  end
+
   class << self
     def menu(scope = all)
       scope.order(name: :asc).select(:name, :id).map do |application_type|

@@ -319,7 +319,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
   describe "#post_validation_request_mail" do
     let!(:validation_request) do
-      create(:red_line_boundary_change_validation_request, planning_application: invalid_planning_application, user: assessor)
+      create(:red_line_boundary_change_validation_request, planning_application: invalid_planning_application,
+                                                           user: assessor)
     end
     let(:post_validation_request_mail) do
       described_class.post_validation_request_mail(planning_application, validation_request)
@@ -783,6 +784,238 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     it "includes the name of the agent in the body if agent is present" do
       expect(neighbour_consultation_letter_copy_mail.body.encoded).to include(planning_application.agent_first_name)
       expect(neighbour_consultation_letter_copy_mail.body.encoded).to include(planning_application.agent_last_name)
+    end
+  end
+
+  context "when the application is a prior approval" do
+    let(:application_type) { create(:application_type, name: "prior_approval") }
+
+    let(:planning_application) do
+      create(
+        :planning_application,
+        :determined,
+        :from_planx_prior_approval,
+        agent_email: "cookie_crackers@example.com",
+        applicant_email: "cookie_crumbs@example.com",
+        local_authority:,
+        decision: "granted",
+        address_1: "123 High Street",
+        town: "Big City",
+        postcode: "AB3 4EF",
+        description: "Add a chimney stack",
+        created_at: DateTime.new(2022, 5, 1),
+        application_type:,
+        validated_at: DateTime.new(2022, 10, 1)
+      )
+    end
+
+    describe "#decision_notice_mail" do
+      let(:mail) do
+        described_class.decision_notice_mail(
+          planning_application,
+          host,
+          planning_application.applicant_email
+        )
+      end
+
+      let(:mail_body) { mail.body.encoded }
+
+      it "sets the subject" do
+        expect(mail.subject).to eq(
+          "Decision on your Prior approval  application"
+        )
+      end
+
+      it "includes the decision" do
+        expect(mail_body).to include(
+          "a decision has been made to grant you a Prior approval"
+        )
+      end
+
+      context "with a rejected application" do
+        let(:planning_application) do
+          create(
+            :planning_application,
+            :determined,
+            :from_planx_prior_approval,
+            decision: "refused",
+            application_type:,
+            public_comment: "not valid"
+          )
+        end
+
+        it "includes the decision" do
+          expect(mail_body).to include(
+            "your application for a Prior approval has been refused"
+          )
+        end
+      end
+    end
+
+    describe "#invalidation_notice_mail" do
+      let(:planning_application) do
+        create(
+          :planning_application,
+          :invalidated,
+          :from_planx_prior_approval,
+          local_authority:,
+          application_type:,
+          address_1: "123 High Street",
+          town: "Big City",
+          postcode: "AB3 4EF",
+          invalidated_at: DateTime.new(2022, 6, 5)
+        )
+      end
+
+      let(:validation_request) do
+        create(:other_change_validation_request, planning_application:, user: assessor)
+      end
+
+      let(:invalidation_mail) do
+        described_class.invalidation_notice_mail(planning_application)
+      end
+
+      it "sets the subject" do
+        expect(invalidation_mail.subject).to eq(
+          "Prior approval application - changes needed"
+        )
+      end
+    end
+
+    describe "#validation_notice_mail" do
+      let(:validation_mail) do
+        described_class.validation_notice_mail(
+          planning_application,
+          planning_application.agent_email
+        )
+      end
+
+      it "sets the subject" do
+        expect(validation_mail.subject).to eq(
+          "Your application for a Prior approval"
+        )
+      end
+    end
+
+    describe "#validation_request_mail" do
+      let(:validation_request_mail) do
+        described_class.validation_request_mail(planning_application)
+      end
+
+      it "sets the subject" do
+        expect(validation_request_mail.subject).to eq(
+          "Prior approval application  - further changes needed"
+        )
+      end
+    end
+
+    describe "#post_validation_request_mail" do
+      let!(:validation_request) do
+        create(:red_line_boundary_change_validation_request, planning_application: invalid_planning_application,
+                                                             user: assessor)
+      end
+      let(:post_validation_request_mail) do
+        described_class.post_validation_request_mail(planning_application, validation_request)
+      end
+
+      it "sets the subject" do
+        expect(post_validation_request_mail.subject).to eq(
+          "Prior approval application  - changes needed"
+        )
+      end
+    end
+
+    describe "#cancelled_validation_request_mail" do
+      let(:cancelled_validation_request_mail) do
+        described_class.cancelled_validation_request_mail(planning_application)
+      end
+
+      it "sets subject" do
+        expect(cancelled_validation_request_mail.subject).to eq(
+          "Update on your application for a Prior approval"
+        )
+      end
+    end
+
+    describe "#receipt_notice_mail" do
+      let(:mail) do
+        described_class.receipt_notice_mail(
+          planning_application,
+          planning_application.agent_email
+        )
+      end
+
+      it "sets the subject" do
+        expect(mail.subject).to eq(
+          "Prior approval application received"
+        )
+      end
+    end
+
+    context "when creating description changes for an undetermined application" do
+      let(:planning_application) do
+        create(
+          :planning_application,
+          :from_planx_prior_approval,
+          application_type:,
+          agent_email: "agent@example.com",
+          local_authority:,
+          address_1: "123 High Street",
+          town: "Big City",
+          postcode: "AB3 4EF"
+        )
+      end
+
+      let(:description_change_request) do
+        create(
+          :description_change_validation_request,
+          planning_application:,
+          user: assessor,
+          created_at: DateTime.new(2022, 5, 10)
+        )
+      end
+
+      describe "#description_change_mail" do
+        let(:description_change_mail) do
+          described_class.description_change_mail(
+            planning_application,
+            description_change_request
+          )
+        end
+
+        it "sets the subject" do
+          expect(description_change_mail.subject).to eq(
+            "Prior approval application - suggested changes"
+          )
+        end
+      end
+
+      describe "#description_closure_notification_mail" do
+        let(:description_closure_mail) do
+          described_class.description_closure_notification_mail(
+            planning_application,
+            description_change_request
+          )
+        end
+
+        it "sets the subject" do
+          expect(description_closure_mail.subject).to eq(
+            "Changes to your Prior approval application"
+          )
+        end
+      end
+    end
+
+    describe "#validation_request_closure_mail" do
+      let(:validation_request_closure_mail) do
+        described_class.validation_request_closure_mail(planning_application)
+      end
+
+      it "sets the subject" do
+        expect(validation_request_closure_mail.subject).to eq(
+          "Changes to your Prior approval application"
+        )
+      end
     end
   end
 end
