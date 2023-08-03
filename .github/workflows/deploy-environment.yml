@@ -66,8 +66,8 @@ jobs:
           DOCKER_BUILDKIT=1 docker buildx build \
             --cache-to type=gha,mode=max \
             --cache-from type=gha \
-            --output type=image,name=$ECR_REGISTRY/$ECR_REPOSITORY,push=true \
-            --build-arg RAILS_MASTER_KEY=$RAILS_MASTER_KEY -t bops:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile.production .
+            --push \
+            --build-arg RAILS_MASTER_KEY=$RAILS_MASTER_KEY -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t bops:$IMAGE_TAG -f Dockerfile.production .
 
   deploy-db-migrate-service:
     name: Perform database migrations on ${{ inputs.environment-name }}
