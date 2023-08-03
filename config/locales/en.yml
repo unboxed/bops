@@ -494,19 +494,19 @@ en:
   emails:
     subjects:
       assigned_notification_mail: You have been assigned to a prior approval case %{reference}
-      cancelled_validation_request_mail: Update on your application for a Lawful Development Certificate
-      decision_notice_mail: Decision on your Lawful Development Certificate  application
-      description_change_mail: Lawful Development Certificate application - suggested changes
-      description_closure_notification_mail: Changes to your Lawful Development Certificate application
-      invalidation_notice_mail: Lawful Development Certificate application - changes needed
+      cancelled_validation_request_mail: Update on your application for a %{application_type_name}
+      decision_notice_mail: Decision on your %{application_type_name}  application
+      description_change_mail: "%{application_type_name} application - suggested changes"
+      description_closure_notification_mail: Changes to your %{application_type_name} application
+      invalidation_notice_mail: "%{application_type_name} application - changes needed"
       neighbour_consultation_letter_copy_mail: Neighbour consultation letter copy
       otp_mail: Back Office Planning System verification code
-      post_validation_request_mail: Lawful Development Certificate application  - changes needed
-      receipt_notice_mail: Lawful Development Certificate application received
+      post_validation_request_mail: "%{application_type_name} application  - changes needed"
+      receipt_notice_mail: "%{application_type_name} application received"
       update_notification_mail: BoPS case %{reference} has a new update
-      validation_notice_mail: Your application for a Lawful Development Certificate
-      validation_request_closure_mail: Changes to your Lawful Development Certificate application
-      validation_request_mail: Lawful Development Certificate application  - further changes needed
+      validation_notice_mail: Your application for a %{application_type_name}
+      validation_request_closure_mail: Changes to your %{application_type_name} application
+      validation_request_mail: "%{application_type_name} application  - further changes needed"
   fee_items:
     fee_item_table:
       description: Description
