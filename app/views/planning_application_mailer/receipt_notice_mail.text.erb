@@ -1,6 +1,6 @@
 Dear <%= @planning_application.agent_or_applicant_name %>,
 
-We’ve received your application for a Lawful Development Certificate.
+We’ve received your application for a <%= @planning_application.application_type.human_name %>.
 
 Here are the details of your application:
 
@@ -17,14 +17,16 @@ We will check your application for errors and missing information. This can take
 If there are no issues with your application, we will start assessing it against the relevant planning policies and legislation.
 
 We may contact you or a person of your choosing to arrange a site visit.
+<% if @planning_application.application_type.name == 'lawfulness_certificate' %>
 
 You have the right to appeal to the Secretary of State if by <%= (@planning_application.received_at + 8.weeks).strftime("%-d %B %Y") %>:
 
 - you have not been told that the application is invalid
 - you have not been given a decision in writing
 - you have not agreed in writing to extend the decision period
+<% end %>
 
-To find out how to appeal an application for a Lawful Development Certificate, go to: https://www.gov.uk/appeal-lawful-development-certificate-decision.
+You can find advice about your rights of appeal at https://www.gov.uk/topic/planning-development/planning-permission-appeals.
 
 If you need help with your application, contact us at <%= @planning_application.local_authority.email_address %>.
 

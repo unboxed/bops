@@ -4,7 +4,7 @@ Application reference number: <%= @planning_application.reference_in_full %>
 
 Address: <%= @planning_application.full_address %>
 
-Your application for a Lawful Development Certificate contains errors or missing information. We cannot continue with your application until you make the necessary changes.
+Your application for a <%= @planning_application.application_type.human_name %> contains errors or missing information. We cannot continue with your application until you make the necessary changes.
 
 To make changes, go to:
 
