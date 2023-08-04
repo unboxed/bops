@@ -55,6 +55,10 @@ class Consultation < ApplicationRecord
     site_visits.by_created_at_desc.first
   end
 
+  def neighbour_responses_by_summary_tag
+    neighbour_responses.group(:summary_tag).count
+  end
+
   private
 
   def application_link

@@ -123,4 +123,19 @@ RSpec.describe Consultation do
       end
     end
   end
+
+  describe "#neighbour_responses_by_summary_tag" do
+    let!(:consultation) { create(:consultation) }
+    let!(:neighbour1) { create(:neighbour, consultation:) }
+    let!(:neighbour2) { create(:neighbour, consultation:) }
+    let!(:neighbour3) { create(:neighbour, consultation:) }
+    let!(:objection_response) { create(:neighbour_response, neighbour: neighbour1, summary_tag: "objection") }
+    let!(:supportive_response1) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive") }
+    let!(:supportive_response2) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive") }
+    let!(:neutral_response) { create(:neighbour_response, neighbour: neighbour2, summary_tag: "neutral") }
+
+    it "returns correct count of summary tags" do
+      expect(consultation.neighbour_responses_by_summary_tag).to eq({ "objection" => 1, "supportive" => 2, "neutral" => 1 })
+    end
+  end
 end
