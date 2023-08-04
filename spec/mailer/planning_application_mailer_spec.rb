@@ -77,7 +77,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "sets the subject" do
       expect(mail.subject).to eq(
-        "Decision on your Lawful Development Certificate  application"
+        "Decision on your Lawful Development Certificate application"
       )
     end
 
@@ -273,7 +273,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "sets the subject" do
       expect(validation_request_mail.subject).to eq(
-        "Lawful Development Certificate application  - further changes needed"
+        "Lawful Development Certificate application - further changes needed"
       )
     end
 
@@ -381,7 +381,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "sets the subject" do
       expect(post_validation_request_mail.subject).to eq(
-        "Lawful Development Certificate application  - changes needed"
+        "Lawful Development Certificate application - changes needed"
       )
     end
 
@@ -822,7 +822,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "sets the subject" do
         expect(mail.subject).to eq(
-          "Decision on your Prior approval  application"
+          "Decision on your Prior approval application"
         )
       end
 
@@ -875,10 +875,17 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         described_class.invalidation_notice_mail(planning_application)
       end
 
+      let(:mail_body) { invalidation_mail.body.encoded }
+
       it "sets the subject" do
         expect(invalidation_mail.subject).to eq(
           "Prior approval application - changes needed"
         )
+      end
+
+      it "includes the application type" do
+        expect(mail_body).to include("Prior approval")
+        expect(mail_body).not_to include("Lawful Development Certificate")
       end
     end
 
@@ -889,11 +896,17 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
           planning_application.agent_email
         )
       end
+      let(:mail_body) { validation_mail.body.encoded }
 
       it "sets the subject" do
         expect(validation_mail.subject).to eq(
           "Your application for a Prior approval"
         )
+      end
+
+      it "includes the application type" do
+        expect(mail_body).to include("Prior approval")
+        expect(mail_body).not_to include("Lawful Development Certificate")
       end
     end
 
@@ -901,11 +914,17 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       let(:validation_request_mail) do
         described_class.validation_request_mail(planning_application)
       end
+      let(:mail_body) { validation_request_mail.body.encoded }
 
       it "sets the subject" do
         expect(validation_request_mail.subject).to eq(
-          "Prior approval application  - further changes needed"
+          "Prior approval application - further changes needed"
         )
+      end
+
+      it "includes the application type" do
+        expect(mail_body).to include("Prior approval")
+        expect(mail_body).not_to include("Lawful Development Certificate")
       end
     end
 
@@ -920,7 +939,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "sets the subject" do
         expect(post_validation_request_mail.subject).to eq(
-          "Prior approval application  - changes needed"
+          "Prior approval application - changes needed"
         )
       end
     end
@@ -944,11 +963,17 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
           planning_application.agent_email
         )
       end
+      let(:mail_body) { mail.body.encoded }
 
       it "sets the subject" do
         expect(mail.subject).to eq(
           "Prior approval application received"
         )
+      end
+
+      it "includes the application type" do
+        expect(mail_body).to include("Prior approval")
+        expect(mail_body).not_to include("Lawful Development Certificate")
       end
     end
 
@@ -983,10 +1008,17 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
           )
         end
 
+        let(:mail_body) { description_change_mail.body.encoded }
+
         it "sets the subject" do
           expect(description_change_mail.subject).to eq(
             "Prior approval application - suggested changes"
           )
+        end
+
+        it "includes the application type" do
+          expect(mail_body).to include("Prior approval")
+          expect(mail_body).not_to include("Lawful Development Certificate")
         end
       end
 
@@ -998,10 +1030,17 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
           )
         end
 
+        let(:mail_body) { description_closure_mail.body.encoded }
+
         it "sets the subject" do
           expect(description_closure_mail.subject).to eq(
             "Changes to your Prior approval application"
           )
+        end
+
+        it "includes the application type" do
+          expect(mail_body).to include("Prior approval")
+          expect(mail_body).not_to include("Lawful Development Certificate")
         end
       end
     end

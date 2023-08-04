@@ -4,11 +4,11 @@ Application reference number: <%= @planning_application.reference_in_full %>
 
 Address: <%= @planning_application.full_address %>
 
-Your application for a Lawful Development Certificate contains no errors or missing information. We can now start assessing your application against the relevant planning policies and legislation.
+Your application for a <%= @planning_application.application_type.human_name %> contains no errors or missing information. We can now start assessing your application against the relevant planning policies and legislation.
 
 We aim to reach a decision about your application by <%= @planning_application.expiry_date.strftime("%-d %B %Y") %>. If we need more time, we will contact you. If you have not heard back from us by then, you have the right to appeal to the Secretary of State.
 
-Find out [how to appeal an application for a Lawful Development Certificate](https://www.gov.uk/appeal-lawful-development-certificate-decision).
+You can find advice about your rights of appeal at https://www.gov.uk/topic/planning-development/planning-permission-appeals.
 
 If you need help with your application, contact us at  <%= @planning_application.local_authority.email_address %>.
 

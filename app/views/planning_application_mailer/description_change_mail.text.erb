@@ -4,7 +4,7 @@ Application reference number: <%= @planning_application.reference_in_full %>
 
 Address: <%= @planning_application.full_address %>
 
-We have suggested changes to the project description on your application for a Lawful Development Certificate.
+We have suggested changes to the project description on your application for a <%= @planning_application.application_type.human_name %>.
 
 You are invited to review and accept or reject the suggested changes. To review the changes, go to:
 
