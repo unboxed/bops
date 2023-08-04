@@ -29,6 +29,15 @@
         ) %>
         <h3><%= t(".summary_of_consultee") %><h3>
       <% end %>
+      <% if assessment_detail == :amenity %>
+        <% if consultation = @planning_application.consultation %>
+          <p>Neighbour responses: <%= neighbour_responses_summary_text(consultation.neighbour_responses_by_summary_tag) %></p>
+            
+          <p><%= link_to "View neighbour responses", new_planning_application_consultation_neighbour_response_path(@planning_application, consultation) %></p>
+        <% else %>
+          <p>There is no existing consultation for this planning application.</p>
+        <% end %>
+      <% end %>
       <%= render(
         FormattedContentComponent.new(
           text: form.object.send("#{assessment_detail}_entry"),
