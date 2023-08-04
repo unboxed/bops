@@ -13,6 +13,11 @@ class NeighbourLetter < ApplicationRecord
     cancelled: "cancelled"
   }.freeze
 
+  FAILURE_STATUSES = %i[technical_failure permanent_failure rejected].freeze
+
+  scope :failed, -> { where(status: FAILURE_STATUSES) }
+  scope :sent, -> { where.not(status: FAILURE_STATUSES) }
+
   def update_status
     return false if notify_id.blank?
 

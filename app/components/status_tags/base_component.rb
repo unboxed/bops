@@ -32,7 +32,7 @@ module StatusTags
         "govuk-tag--green"
       when :updated, :to_be_reviewed, :submitted, :neutral
         "govuk-tag--yellow"
-      when :refused, :removed, :invalid, :technical_failure, :permanent_failure, :rejected, :objection
+      when :refused, :removed, :invalid, :technical_failure, :permanent_failure, :rejected, :objection, :failed
         "govuk-tag--red"
       when :printing
         "govuk-tag--purple"
