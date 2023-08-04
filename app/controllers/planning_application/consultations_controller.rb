@@ -2,12 +2,14 @@
 
 class PlanningApplication
   class ConsultationsController < AuthenticationController
+    include ActionView::Helpers::SanitizeHelper
     include CommitMatchable
 
     before_action :set_planning_application
     before_action :set_consultation, except: %i[new create]
     before_action :assign_params, only: %i[update create]
     before_action :update_letter_statuses, only: %i[show edit]
+    before_action :ensure_public_portal_is_active, only: :send_neighbour_letters
 
     def show
       respond_to do |format|
@@ -129,6 +131,16 @@ class PlanningApplication
 
     def status
       save_progress? || add_neighbour? ? :in_progress : :complete
+    end
+
+    def ensure_public_portal_is_active
+      return if @planning_application.make_public?
+
+      flash.now[:alert] = sanitize "The planning application must be
+      #{view_context.link_to 'made public on the BoPS Public Portal', make_public_planning_application_path(@planning_application)}
+      before you can send letters to neighbours."
+
+      render :show and return
     end
   end
 end
