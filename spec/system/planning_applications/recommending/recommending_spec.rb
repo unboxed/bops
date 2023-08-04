@@ -852,8 +852,8 @@ RSpec.describe "Planning Application Assessment" do
           click_link "Review and submit recommendation"
           expect(page).to have_content("Prior approval required and refused")
 
-          expect(page).to have_content("We certify that on the date of the application")
-          expect(page).to have_content("not lawful")
+          expect(page).not_to have_content("We certify that on the date of the application")
+          expect(page).not_to have_content("not lawful")
           expect(page).to have_content("aggrieved")
 
           expect(page).to have_content("If you agree with this decision notice, submit it to your line manager.")
