@@ -114,6 +114,15 @@ RSpec.describe "Reviewing assessment summaries" do
         )
       end
 
+      let!(:consultation) { create(:consultation, end_date: Time.zone.now, planning_application:) }
+      let!(:neighbour1) { create(:neighbour, consultation:) }
+      let!(:neighbour2) { create(:neighbour, consultation:) }
+      let!(:neighbour3) { create(:neighbour, consultation:) }
+      let!(:objection_response) { create(:neighbour_response, neighbour: neighbour1, summary_tag: "objection") }
+      let!(:supportive_response1) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive") }
+      let!(:supportive_response2) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive") }
+      let!(:neutral_response) { create(:neighbour_response, neighbour: neighbour2, summary_tag: "neutral") }
+
       it "allows reviewer to submit correctly filled out form" do
         travel_to(Time.zone.local(2022, 11, 28, 12, 30))
         visit(planning_application_review_tasks_path(planning_application))
@@ -239,6 +248,13 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         within(find("fieldset", text: "Amenity assessment")) do
+          expect(page).to have_link(
+            "View neighbour responses",
+            href: new_planning_application_consultation_neighbour_response_path(planning_application, consultation)
+          )
+
+          expect(page).to have_content("Neighbour responses: There is 1 neutral, 1 objection, 2 supportive.")
+
           choose("Accept")
         end
 
