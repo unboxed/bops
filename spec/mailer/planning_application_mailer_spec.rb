@@ -77,7 +77,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "sets the subject" do
       expect(mail.subject).to eq(
-        "Decision on your Lawful Development Certificate  application"
+        "Decision on your Lawful Development Certificate application"
       )
     end
 
@@ -273,7 +273,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "sets the subject" do
       expect(validation_request_mail.subject).to eq(
-        "Lawful Development Certificate application  - further changes needed"
+        "Lawful Development Certificate application - further changes needed"
       )
     end
 
@@ -381,7 +381,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "sets the subject" do
       expect(post_validation_request_mail.subject).to eq(
-        "Lawful Development Certificate application  - changes needed"
+        "Lawful Development Certificate application - changes needed"
       )
     end
 
@@ -822,7 +822,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "sets the subject" do
         expect(mail.subject).to eq(
-          "Decision on your Prior approval  application"
+          "Decision on your Prior approval application"
         )
       end
 
@@ -918,7 +918,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "sets the subject" do
         expect(validation_request_mail.subject).to eq(
-          "Prior approval application  - further changes needed"
+          "Prior approval application - further changes needed"
         )
       end
 
@@ -939,7 +939,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "sets the subject" do
         expect(post_validation_request_mail.subject).to eq(
-          "Prior approval application  - changes needed"
+          "Prior approval application - changes needed"
         )
       end
     end
