@@ -1154,6 +1154,12 @@ paths:
                     description: Based on the information you have provided, we do not think this is eligible for a Lawful Development Certificate
                     override: This was my reason for rejecting the result
                   proposal_details:
+                    - question: Enter the address of the first adjoining property
+                      responses:
+                        - value: London, 80 Underhill Road , , , , SE22 0QU
+                    - question: Enter the address of the second adjoining property
+                      responses:
+                        - value: London, 78 Underhill Road, , , , SE22 0QU
                     - question: Connections with London Borough of Lambeth
                       responses:
                         - value: None of the above apply to me
@@ -1674,11 +1680,11 @@ paths:
                 tags: []
                 evidence_tags: []
                 document_tags: []
-    
+
   '/api/v1/local_authorities/{subdomain}':
     get:
       summary: Retrieves local authority information
-      tags: 
+      tags:
         - Local authority information
       parameters:
         - in: path
