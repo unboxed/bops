@@ -24,6 +24,8 @@
       }
     ) %>
 
+    <%= render "neighbours_added", planning_application: @planning_application, consultation: @consultation %>
+    
     <%= render "form", planning_application: @planning_application, consultation: @consultation %>
 
     <%= render "selected_list", planning_application: @planning_application, consultation: @consultation %>
