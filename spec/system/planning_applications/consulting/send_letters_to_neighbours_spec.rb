@@ -8,7 +8,7 @@ RSpec.describe "Send letters to neighbours", js: true do
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create(:planning_application, local_authority: default_local_authority, api_user:, agent_email: "agent@example.com", applicant_email: "applicant@example.com")
+    create(:planning_application, local_authority: default_local_authority, api_user:, agent_email: "agent@example.com", applicant_email: "applicant@example.com", make_public: true)
   end
 
   before do
@@ -175,6 +175,30 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       expect(PlanningApplicationMailer.neighbour_consultation_letter_copy_mail(planning_application, planning_application.agent_email).body)
         .to include("This is some content I'm putting in")
+    end
+
+    context "when planning application has not been made public on the BoPS Public Portal" do
+      let!(:planning_application) do
+        create(:planning_application, local_authority: default_local_authority, make_public: false)
+      end
+
+      it "prevents me sending letters and displays an alert" do
+        expect(LetterSendingService).not_to receive(:new)
+
+        sign_in assessor
+        visit planning_application_path(planning_application)
+        click_link "Send letters to neighbours"
+
+        fill_in "Add neighbours by address", with: "60-62 Commercial Street"
+        page.find(:xpath, "//input[@value='Add neighbour']").click.click
+
+        click_button "Print and send letters"
+
+        within(".govuk-error-summary__body") do
+          expect(page).to have_content("The planning application must be made public on the BoPS Public Portal before you can send letters to neighbours.")
+          expect(page).to have_link("made public on the BoPS Public Portal", href: make_public_planning_application_path(planning_application))
+        end
+      end
     end
   end
 
