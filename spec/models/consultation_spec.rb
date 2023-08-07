@@ -138,4 +138,45 @@ RSpec.describe Consultation do
       expect(consultation.neighbour_responses_by_summary_tag).to eq({ "objection" => 1, "supportive" => 2, "neutral" => 1 })
     end
   end
+
+  describe "publicity_active?" do
+    let(:consultation) { create(:consultation, end_date: Time.zone.local(2023, 9, 23, 13)) }
+
+    before do
+      travel_to date
+    end
+
+    context "when the consultation end date is not present" do
+      let(:consultation) { create(:consultation) }
+      let(:date) { Time.zone.local(2023, 9, 23, 13) }
+
+      it "returns false" do
+        expect(consultation.publicity_active?).to be(false)
+      end
+    end
+
+    context "when the consultation end date is after now" do
+      let(:date) { Time.zone.local(2023, 9, 20, 13) }
+
+      it "returns true" do
+        expect(consultation.publicity_active?).to be(true)
+      end
+    end
+
+    context "when the consultation end date is before now" do
+      let(:date) { Time.zone.local(2023, 9, 27, 13) }
+
+      it "returns false" do
+        expect(consultation.publicity_active?).to be(false)
+      end
+    end
+
+    context "when the consultation end date is today" do
+      let(:date) { Time.zone.local(2023, 9, 23, 13) }
+
+      it "returns true" do
+        expect(consultation.publicity_active?).to be(true)
+      end
+    end
+  end
 end

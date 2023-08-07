@@ -900,5 +900,31 @@ RSpec.describe "Planning Application Assessment" do
         end
       end
     end
+
+    context "when consultation is still ongoing" do
+      let!(:consultation) do
+        create(:consultation, end_date: 10.days.from_now, planning_application:)
+      end
+
+      it "displays a warning message with the consultation end date" do
+        visit new_planning_application_recommendation_path(planning_application)
+
+        within(".moj-banner__message") do
+          expect(page).to have_content("The consultation is still ongoing. It will end on the #{consultation.end_date.to_fs(:day_month_year_slashes)}. Are you sure you still want to make the recommendation?")
+        end
+      end
+    end
+
+    context "when consultation hasn't begun" do
+      let!(:consultation) do
+        create(:consultation, planning_application:)
+      end
+
+      it "does not display a warning message" do
+        visit new_planning_application_recommendation_path(planning_application)
+
+        expect(page).not_to have_css(".moj-banner__message")
+      end
+    end
   end
 end
