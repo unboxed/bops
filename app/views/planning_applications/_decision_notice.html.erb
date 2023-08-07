@@ -34,9 +34,11 @@
         </div>
       <% end %>
     </dl>
-    <p class="govuk-body">
-      We certify that on the date of the application, the <%= @planning_application.work_status %> use or operations described in the application and supporting plans were <%= @planning_application.granted? ? "lawful" : "not lawful" %> for the purposes of <%= @planning_application.work_status == "proposed" ? "S.192" : "S.191" %> of the Town and Country Planning Act 1990.
-    </p>
+    <% if @planning_application.application_type.name == "lawfulness_certificate"  %>
+      <p class="govuk-body">
+        We certify that on the date of the application, the <%= @planning_application.work_status %> use or operations described in the application and supporting plans were <%= @planning_application.granted? ? "lawful" : "not lawful" %> for the purposes of <%= @planning_application.work_status == "proposed" ? "S.192" : "S.191" %> of the Town and Country Planning Act 1990.
+      </p>
+    <% end  %>
     <p class="govuk-body">
       <strong>
         The proposal <%= @planning_application.granted? ? "complies" : "does not comply" %> due to the following reason(s):
@@ -45,7 +47,7 @@
     <p class="govuk-body">
       <%= render(FormattedContentComponent.new(text: planning_application.public_comment)) %>
     </p>
-    <% if @planning_application.assessment_details.select { |ad| ad.category == "amenity" }.any? %>
+    <% if @planning_application.assessment_details.select { |ad| ad.category == "amenity" }.any? &&  @planning_application.application_type.name == "lawfulness_certificate" %>
       <p class="govuk-body">
         <strong>
           Assessment of amenity:
