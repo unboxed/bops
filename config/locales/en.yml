@@ -1038,6 +1038,7 @@ en:
     awaiting_determination: Awaiting determination
     checked: Checked
     complete: Completed
+    failed: Failed
     granted: To grant
     in_progress: In progress
     invalid: Invalid

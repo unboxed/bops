@@ -31,7 +31,13 @@ module TaskListItems
 
     def status_tag_component
       StatusTags::BaseComponent.new(
-        status: @planning_application.consultation&.status || "not_started"
+        status: if @planning_application.consultation&.neighbour_letters_failed?
+                  "failed"
+                elsif @planning_application.consultation&.neighbour_letters_sent?
+                  "complete"
+                else
+                  "not_started"
+                end
       )
     end
   end

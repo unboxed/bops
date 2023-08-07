@@ -197,4 +197,45 @@ RSpec.describe "Send letters to neighbours", js: true do
 
     expect(page).to have_content("60-62 Commercial Street")
   end
+
+  describe "showing the status on the dashboard" do
+    let(:consultation) { create(:consultation, planning_application:) }
+
+    before do
+      sign_in assessor
+    end
+
+    context "when there are no letters" do
+      it "shows 'not started'" do
+        visit planning_application_path(planning_application)
+        expect(page).to have_content "Send letters to neighbours Not started"
+      end
+    end
+
+    context "when there are only successful letters" do
+      before do
+        neighbour = create(:neighbour, consultation:)
+        create(:neighbour_letter, neighbour:, status: "submitted", notify_id: "123")
+      end
+
+      it "shows 'completed'" do
+        visit planning_application_path(planning_application)
+        expect(page).to have_content "Send letters to neighbours Completed"
+      end
+    end
+
+    context "when there are failed letters" do
+      before do
+        neighbour1 = create(:neighbour, consultation:)
+        neighbour2 = create(:neighbour, consultation:)
+        create(:neighbour_letter, neighbour: neighbour1, status: "submitted", notify_id: "123")
+        create(:neighbour_letter, neighbour: neighbour2, status: "rejected", notify_id: "123")
+      end
+
+      it "shows 'failed'" do
+        visit planning_application_path(planning_application)
+        expect(page).to have_content "Send letters to neighbours Failed"
+      end
+    end
+  end
 end
