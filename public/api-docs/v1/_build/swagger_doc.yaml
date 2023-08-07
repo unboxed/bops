@@ -70,6 +70,7 @@ paths:
                     result_heading: It looks like these changes will need planning permission
                     result_description: 'Based on the information you have provided, we do not think this is eligible for a Lawful Development Certificate'
                     result_override: This was my reason for rejecting the result
+                    make_public: true
                     constraints:
                       - Conservation Area
                       - Listed Building
@@ -96,7 +97,6 @@ paths:
                           - Proposed
                         numbers: PLAN01
                         applicant_description: This is the proposed side elevation
-                    make_public: true
   /api/v1/planning_applications:
     get:
       summary: Retrieves all determined planning applications
@@ -152,6 +152,7 @@ paths:
                         result_heading: It looks like these changes will need planning permission
                         result_description: 'Based on the information you have provided, we do not think this is eligible for a Lawful Development Certificate'
                         result_override: This was my reason for rejecting the result
+                        make_public: true
                         constraints:
                           - Conservation Area
                           - Listed Building
@@ -178,8 +179,6 @@ paths:
                               - Proposed
                             numbers: PLAN01
                             applicant_description: This is the proposed side elevation
-                        make_public: true
-
     post:
       summary: Create new planning application
       tags:
@@ -1196,6 +1195,12 @@ paths:
                     description: 'Based on the information you have provided, we do not think this is eligible for a Lawful Development Certificate'
                     override: This was my reason for rejecting the result
                   proposal_details:
+                    - question: Enter the address of the first adjoining property
+                      responses:
+                        - value: 'London, 80 Underhill Road , , , , SE22 0QU'
+                    - question: Enter the address of the second adjoining property
+                      responses:
+                        - value: 'London, 78 Underhill Road, , , , SE22 0QU'
                     - question: Connections with London Borough of Lambeth
                       responses:
                         - value: None of the above apply to me
