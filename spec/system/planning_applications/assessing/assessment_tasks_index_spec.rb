@@ -80,7 +80,7 @@ RSpec.describe "Assessment tasks" do
             expect(page).to have_link("Summary of works")
             expect(page).to have_link("Summary of additional evidence")
             expect(page).to have_link("Site description")
-            expect(page).to have_link("Summary of consultation")
+            expect(page).not_to have_link("Summary of consultation")
             expect(page).to have_link("Amenity")
           end
 
