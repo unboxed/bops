@@ -1040,6 +1040,7 @@ en:
     complete: Completed
     failed: Failed
     granted: To grant
+    granted_not_required: Prior approval not required
     in_progress: In progress
     invalid: Invalid
     neutral: Neutral

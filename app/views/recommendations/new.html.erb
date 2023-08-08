@@ -41,6 +41,14 @@
         }
       ) %>
     <% end %>
+    <% if @planning_application.consultation.try(:publicity_active?) %>
+      <%= render(
+        partial: "shared/alert_banner",
+        locals: {
+          message: "The consultation is still ongoing. It will end on the #{@planning_application.consultation.end_date.to_fs(:day_month_year_slashes)}. Are you sure you still want to make the recommendation?"
+        }
+      ) %>
+    <% end %>
     <%= form_with(
       model: @recommendation,
       builder: GOVUKDesignSystemFormBuilder::FormBuilder,

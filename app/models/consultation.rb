@@ -67,6 +67,12 @@ class Consultation < ApplicationRecord
     neighbour_responses.group(:summary_tag).count
   end
 
+  def publicity_active?
+    return false unless end_date
+
+    end_date > Time.zone.now || (end_date.to_date == Time.zone.now.to_date)
+  end
+
   private
 
   def application_link
