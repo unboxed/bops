@@ -170,6 +170,7 @@ RSpec.describe "Site visit" do
           expect(page).to have_content("Response created at: #{SiteVisit.last.created_at.to_fs}")
           expect(page).to have_content("Visited at: 20 July 2023")
           expect(page).to have_content("Comment: Site visit is needed")
+          expect(page).to have_content("1 document added")
 
           click_link "View"
         end
