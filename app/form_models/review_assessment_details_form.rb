@@ -15,7 +15,6 @@ class ReviewAssessmentDetailsForm
   PRIOR_APPROVAL_ASSESSMENT_DETAILS = %i[
     summary_of_work
     site_description
-    consultation_summary
     additional_evidence
     publicity_summary
     amenity

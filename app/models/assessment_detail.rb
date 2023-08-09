@@ -69,6 +69,8 @@ class AssessmentDetail < ApplicationRecord
       case application_type
       when :lawfulness_certificate
         category_keys - %w[publicity_summary amenity]
+      when :prior_approval
+        category_keys - %w[consultation_summary]
       else
         category_keys
       end
