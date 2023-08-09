@@ -56,7 +56,11 @@ class LetterSendingService
   end
 
   def notify_template_id
-    @notify_template_id ||= @local_authority.notify_letter_template || DEFAULT_NOTIFY_TEMPLATE_ID
+    if production?
+      @notify_template_id ||= @local_authority.notify_letter_template || DEFAULT_NOTIFY_TEMPLATE_ID
+    else
+      @notify_template_id = DEFAULT_NOTIFY_TEMPLATE_ID
+    end
   end
 
   def address
