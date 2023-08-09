@@ -32,10 +32,6 @@ RSpec.describe AccordionComponent, type: :component do
       expect(page).to have_button("Proposal details")
     end
 
-    it "renders consultation section" do
-      expect(page).to have_button("Consultation")
-    end
-
     it "renders documents section" do
       expect(page).to have_button("Documents")
     end

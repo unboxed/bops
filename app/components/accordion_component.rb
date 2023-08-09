@@ -23,7 +23,6 @@ class AccordionComponent < ViewComponent::Base
       constraints
       pre_assessment_outcome
       proposal_details
-      consultation
       documents
     ]
   end
