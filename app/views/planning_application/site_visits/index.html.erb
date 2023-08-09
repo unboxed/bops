@@ -33,6 +33,7 @@
           <p class="govuk-body">Visited at: <%= site_visit.visited_at&.strftime("%-d %B %Y") %></p>
         <% end %>
         <p class="govuk-body">Comment: <%= site_visit.comment %></p>
+        <p class="govuk-body"><%= site_visit.documents.count %> document<%= site_visit.documents.count == 1 ? "" : "s" %> added</p>
         
         <p><%= link_to "View", planning_application_consultation_site_visit_path(@planning_application, @consultation, site_visit), class: "govuk-link" %></p>
         <hr>
