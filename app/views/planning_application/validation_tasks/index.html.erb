@@ -36,6 +36,8 @@
 
       <%= render "additional_document_validation" %>
 
+      <%= render "legislation" if @planning_application.application_type.legislation_description %>
+
       <%= render "other_validation_request" %>
 
       <%= render "review" %>

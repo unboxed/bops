@@ -1,0 +1,30 @@
+<% content_for :page_title do %>
+  Legislation - <%= t("page_title") %>
+<% end %>
+
+<%= render "validation_requests/validation_requests_breadcrumbs" %>
+<% content_for :title, "Check legislative requirements" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Check legislative requirements" }
+) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <p class="govuk-body"><%= @planning_application.application_type.legislation_description %></p>
+    <p class="govuk-body"><%= link_to @planning_application.application_type.legislation_link_text, @planning_application.application_type.legislation_link, target: "_blank" %></p>
+    
+    <%= render(
+      AccordionComponent.new(planning_application: @planning_application, sections: ["proposal_details"])
+    ) %>
+
+    <%= form_with model: @planning_application, url: planning_application_legislation_path(@planning_application), method: :patch do |form| %>
+      <div class="govuk-button-group">
+        <%= form.submit "Mark as checked", class: "govuk-button", data: { module: "govuk-button" } unless @planning_application.legislation_checked? %>
+        <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

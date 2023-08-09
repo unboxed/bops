@@ -103,6 +103,8 @@ RSpec.describe "Validation tasks" do
           )
         end
 
+        expect(page).not_to have_css("#check-legislation-task")
+
         within("#review-tasks") do
           expect(page).to have_content("Review")
           expect(page).to have_link(
@@ -113,6 +115,27 @@ RSpec.describe "Validation tasks" do
       end
 
       expect(page).to have_link("Back", href: planning_application_path(planning_application))
+    end
+
+    context "when planning application type is prior approval 1A" do
+      let!(:planning_application) do
+        create(:planning_application, :prior_approval, :not_started, local_authority: default_local_authority)
+      end
+
+      before do
+        planning_application.application_type.update(part: 1, section: "A")
+
+        sign_in assessor
+        visit planning_application_validation_tasks_path(planning_application)
+      end
+
+      it "shows the check legislation task" do
+        within("#check-legislation-task") do
+          expect(page).to have_content("Legislation")
+          expect(page).to have_content("Check legislative requirements")
+          expect(page).to have_content("Not started")
+        end
+      end
     end
   end
 
@@ -171,6 +194,8 @@ RSpec.describe "Validation tasks" do
           )
         end
 
+        expect(page).not_to have_css("#check-legislation-task")
+
         within("#review-tasks") do
           expect(page).to have_content("Review")
           expect(page).to have_link(
@@ -181,6 +206,26 @@ RSpec.describe "Validation tasks" do
       end
 
       expect(page).to have_link("Back", href: planning_application_path(planning_application))
+    end
+
+    context "when planning application type is prior approval 1A" do
+      let!(:planning_application) do
+        create(:planning_application, :prior_approval, :in_assessment, local_authority: default_local_authority)
+      end
+
+      before do
+        planning_application.application_type.update(part: 1, section: "A")
+
+        sign_in assessor
+        visit planning_application_validation_tasks_path(planning_application)
+      end
+
+      it "shows the check legislation task" do
+        within("#check-legislation-task") do
+          expect(page).to have_content("Legislation")
+          expect(page).to have_content("Planning application has already been validated")
+        end
+      end
     end
   end
 end

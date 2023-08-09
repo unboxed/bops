@@ -84,7 +84,8 @@ class Audit < ApplicationRecord
     neighbour_letters_sent: "neighbour_letters_sent",
     neighbour_letter_copy_mail_sent: "neighbour_letter_copy_mail_sent",
     neighbour_response_uploaded: "neighbour_response_uploaded",
-    neighbour_response_edited: "neighbour_response_edited"
+    neighbour_response_edited: "neighbour_response_edited",
+    legislation_checked: "legislation_checked"
   }
 
   validates :activity_type, presence: true

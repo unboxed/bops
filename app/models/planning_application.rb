@@ -595,6 +595,13 @@ class PlanningApplication < ApplicationRecord
     end
   end
 
+  def mark_legislation_as_checked!
+    transaction do
+      update!(legislation_checked: true)
+      audit!(activity_type: "legislation_checked")
+    end
+  end
+
   delegate :name, to: :application_type, prefix: true
 
   private

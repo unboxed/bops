@@ -228,6 +228,12 @@ en:
   application_types:
     lawfulness_certificate: Lawful Development Certificate
     lawfulness_certificate_abbr: LDC
+    legislation:
+      prior_approval:
+        1A:
+          description: Review Condition A.4 of GPDO 2015 (as amended) Schedule 2, Part 1, Class A.
+          link: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/made
+          link_text: The Town and Country Planning (General Permitted Development) (England) Order 2015
     prior_approval: Prior approval
     prior_approval_abbr: PA
   archive_reasons:
@@ -344,6 +350,7 @@ en:
       document_invalidated: "%{args} was marked as invalid"
       document_received_at_changed: "%{args} received at date was modified"
       invalidated: Application invalidated
+      legislation_checked: Legislative requirements checked
       neighbour_letter_copy_mail_sent: Neighbour consultation letter copy email sent
       neighbour_letters_sent: Neighbour letters sent
       neighbour_response_edited: Neighbour response edited
@@ -582,6 +589,10 @@ en:
         removed: Is the application immune from enforcement?
   immunity_details:
     successfully_updated: Review immunity details was successfully updated
+  legislations:
+    update:
+      alert: Couldn't mark legislative requirements as checked - please contact support.
+      success: Legislative requirements have been marked as checked.
   local_authorities:
     edit:
       edit_local_authority: Edit council information
@@ -1089,6 +1100,8 @@ en:
       check_fee: Check fee
     immunity_details_component:
       evidence_of_immunity: Evidence of immunity
+    legislation_component:
+      check_legislation: Check legislative requirements
     other_change_request_component:
       view_other_validation: 'View other validation request #%{number}'
     permitted_development_right_component:

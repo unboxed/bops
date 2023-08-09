@@ -1,0 +1,20 @@
+<li id="check-legislation-task">
+  <h2 class="app-task-list__section">
+    Legislation
+  </h2>
+  <ul class="app-task-list__items">
+    <% if @planning_application.validated? %>
+      <li class="app-task-list__item">
+        <span class="app-task-list__task-name">
+          Planning application has already been validated
+        </span>
+      </li>
+    <% else %>
+      <%= render(
+        TaskListItems::LegislationComponent.new(
+          planning_application: @planning_application
+        )
+      ) %>
+    <% end %>
+  </ul>
+</li>

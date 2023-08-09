@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_18_134342) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_09_135315) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -439,6 +439,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_18_134342) do
     t.text "changed_constraints", array: true
     t.bigint "application_type_id"
     t.boolean "make_public", default: false
+    t.boolean "legislation_checked", default: false, null: false
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"

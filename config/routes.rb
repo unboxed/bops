@@ -117,6 +117,8 @@ Rails.application.routes.draw do
 
     resource :planning_history, only: :show
 
+    resource :legislation, only: %i[show update]
+
     scope module: :planning_application do
       resources :notes, only: %i[index create]
 
