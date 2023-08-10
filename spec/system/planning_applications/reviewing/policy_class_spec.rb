@@ -103,6 +103,12 @@ RSpec.describe "Reviewing Policy Class" do
       expect(list_item("Part 1, Class A")).to have_content("To be reviewed")
 
       click_link("Part 1, Class A")
+
+      within("#reviewer_comment") do
+        expect(page).to have_content("Reviewer comment:")
+        expect(page).to have_content("Officer comment")
+      end
+
       choose("policy_class_policies_attributes_0_status_complies")
       click_button("Save and mark as complete")
 
