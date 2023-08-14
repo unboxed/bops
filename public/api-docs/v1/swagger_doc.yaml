@@ -1661,7 +1661,7 @@ paths:
                           - [-0.07645905017852783, 51.50053497847238]
                           - [-0.07615327835083008, 51.50115276135022]
                           - [-0.07716178894042969, 51.50094238217541]
-
+ 
   $ref: './validation_requests.yaml'
 
   '/api/v1/documents/tags':
@@ -1704,3 +1704,70 @@ paths:
               example:
                 council_code: LBH
                 email_address: lambeth@planning.com
+
+  '/api/v1/planning_applications/{id}/neighbour_responses':
+    post:
+      summary: Create new neighbour response
+      tags:
+        - Neighbour response
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The planning application ID
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: valid_request
+          content: {}
+        '400':
+          description: invalid_request
+          content: {}
+        '401':
+          description: unauthorized_user
+          content: {}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  enum:
+                    - 'Jo Blogs'
+                  example: 'Jo Blogs'
+                email:
+                  type: string
+                  enum:
+                    - 'jo@example.com'
+                  example: 'jo@example.com'
+                address:
+                  type: string
+                  enum:
+                    - '123 Street, London, E1 6LT'
+                  example: '123 Street, London, E1 6LT'
+                response:
+                  type: string
+                  enum:
+                    - 'I like it'
+                  example: 'I like it'
+                summary_tag:
+                  type: string
+                  enum:
+                    - 'supportive'
+                  example: 'supportive'
+              required:
+                - name
+            examples:
+              supportive:
+                value:
+                  name: 'Jo Blogs'
+                  email: 'jo@example.com'
+                  address: '123 Street, London, E1 6LT'
+                  response: 'I like it'
+                  summary_tag: 'supportive'

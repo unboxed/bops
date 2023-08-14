@@ -192,6 +192,7 @@ Rails.application.routes.draw do
         resources :documents, only: %i[show]
         resources :other_change_validation_requests, only: %i[index update show]
         resources :red_line_boundary_change_validation_requests, only: %i[index update show]
+        resources :neighbour_responses, only: :create
       end
 
       resources :local_authorities, only: %i[show], param: :subdomain
