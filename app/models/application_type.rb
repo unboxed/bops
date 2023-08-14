@@ -17,11 +17,33 @@ class ApplicationType < ApplicationRecord
     I18n.t("application_types.#{name}")
   end
 
+  def legislation_link
+    fetch_legislation_translation("link")
+  end
+
+  def legislation_link_text
+    fetch_legislation_translation("link_text")
+  end
+
+  def legislation_description
+    fetch_legislation_translation("description")
+  end
+
   class << self
     def menu(scope = all)
       scope.order(name: :asc).select(:name, :id).map do |application_type|
         [application_type.full_name, application_type.id]
       end
     end
+  end
+
+  private
+
+  def part_and_section
+    "#{part}#{section}"
+  end
+
+  def fetch_legislation_translation(key)
+    I18n.t("application_types.legislation.#{name}.#{part_and_section}.#{key}", default: false)
   end
 end

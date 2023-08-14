@@ -2274,4 +2274,20 @@ RSpec.describe PlanningApplication do
       end
     end
   end
+
+  describe "#mark_legislation_as_checked!" do
+    let(:planning_application) { create(:planning_application) }
+
+    it "sets legislation_checked as true and adds an audit record" do
+      expect { planning_application.mark_legislation_as_checked! }
+        .to change(planning_application, :legislation_checked)
+        .from(false)
+        .to(true)
+
+      expect(Audit.last).to have_attributes(
+        planning_application_id: planning_application.id,
+        activity_type: "legislation_checked"
+      )
+    end
+  end
 end
