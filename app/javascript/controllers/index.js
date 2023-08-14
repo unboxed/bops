@@ -12,6 +12,12 @@ application.register("delete-record", DeleteRecordController)
 import EditFormController from "./edit_form_controller.js"
 application.register("edit-form", EditFormController)
 
+import PolygonSearchController from "./polygon_search_controller.js"
+application.register("polygon-search", PolygonSearchController)
+
+import RadiusSearchController from "./radius_search_controller.js"
+application.register("radius-search", RadiusSearchController)
+
 import ShowHideController from "./show_hide_controller.js"
 application.register("show-hide", ShowHideController)
 

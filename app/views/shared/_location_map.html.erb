@@ -30,6 +30,14 @@
     hideResetControl="true"
     staticMode="true"
   <% end %>
+  <% if locals[:polygon_search] == true %>
+    drawMode="true"
+
+    showMarker
+    markerLatitude="<%= @planning_application.latitude %>"
+    markerLongitude="<%= @planning_application.longitude %>"
+    markerImage="pin"
+  <% end %>
 ></my-map>
 
 <script>

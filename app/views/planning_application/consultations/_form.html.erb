@@ -12,9 +12,24 @@
 
     <%= ff.hidden_field :consultation_id, value: consultation.id %>
     <%= hidden_field_tag(:os_path, os_places_api_index_url) %>
+    <%= hidden_field_tag(:os_polygon_path, search_addresses_by_polygon_path) %>
   <% end %>
   <%= form.submit(
     "Add neighbour",
     class: "govuk-button govuk-button--secondary govuk-!-margin-top-5"
   ) %>
+  <% if lat_lng = @planning_application.lat_lng %>
+    <div data-controller="radius-search">
+      <p class="govuk-body">Centre point coordinates: <%= lat_lng %></p>
+      <%= hidden_field_tag(:lat_lng, lat_lng) %>
+      <%= hidden_field_tag(:os_radius_path, search_addresses_by_radius_path) %>
+      <%= form.govuk_text_field :radius, data: { "radius-search-target": "radius" }, class: "govuk-input--width-10", label: { text: "Radius (m)" } %>
+
+      <button data-action="click->radius-search#fetchData" class="govuk-button govuk-button--secondary">
+        Search addresses within radius
+      </button>
+    </div>
+  <% end %>
 <% end %>
+
+<div id="address-container"></div>

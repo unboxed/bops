@@ -10,11 +10,11 @@ RSpec.describe Apis::OsPlaces::Query do
     stub_os_places_api_request_for("SE220HW")
   end
 
-  describe ".get" do
+  describe ".find_addresses" do
     it "initializes a Client object and invokes #call" do
       expect_any_instance_of(Apis::OsPlaces::Client).to receive(:call).with("SE220HW").and_call_original
 
-      described_class.new.get("SE220HW")
+      described_class.new.find_addresses("SE220HW")
     end
   end
 end

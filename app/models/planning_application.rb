@@ -602,6 +602,12 @@ class PlanningApplication < ApplicationRecord
     end
   end
 
+  def lat_lng
+    return unless latitude && longitude
+
+    "#{latitude}, #{longitude}"
+  end
+
   delegate :name, to: :application_type, prefix: true
 
   private

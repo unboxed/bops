@@ -24,6 +24,8 @@ Rails.application.routes.draw do
   end
 
   resources :os_places_api, only: %i[index]
+  post "search_addresses_by_polygon", to: "os_places_api#search_addresses_by_polygon"
+  get "search_addresses_by_radius", to: "os_places_api#search_addresses_by_radius"
 
   resources :users, only: %i[new create edit update]
 
