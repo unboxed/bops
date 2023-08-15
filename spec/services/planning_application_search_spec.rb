@@ -18,7 +18,8 @@ RSpec.describe PlanningApplicationSearch do
         :not_started,
         work_status: "proposed",
         description: "Add a chimney stack.",
-        local_authority:
+        local_authority:,
+        received_at: nil
       )
     end
   end
@@ -29,7 +30,8 @@ RSpec.describe PlanningApplicationSearch do
         :planning_application,
         :in_assessment,
         description: "Something else entirely",
-        local_authority:
+        local_authority:,
+        received_at: nil
       )
     end
   end
@@ -41,7 +43,8 @@ RSpec.describe PlanningApplicationSearch do
         :in_assessment,
         description: "Skylight",
         local_authority:,
-        user: assessor
+        user: assessor,
+        received_at: nil
       )
     end
   end
@@ -51,7 +54,8 @@ RSpec.describe PlanningApplicationSearch do
       :planning_application,
       :not_started,
       :prior_approval,
-      local_authority:
+      local_authority:,
+      received_at: nil
     )
   end
 
@@ -60,7 +64,8 @@ RSpec.describe PlanningApplicationSearch do
       :planning_application,
       :in_assessment,
       :prior_approval,
-      local_authority:
+      local_authority:,
+      received_at: nil
     )
   end
 
@@ -75,13 +80,13 @@ RSpec.describe PlanningApplicationSearch do
       end
 
       it "returns correct planning applications" do
-        expect(search.call).to contain_exactly(
-          prior_approval_not_started,
-          ldc_not_started,
-          prior_approval_in_assessment,
-          ldc_in_assessment_2,
-          ldc_in_assessment_1
-        )
+        expect(search.call).to eq([
+                                    prior_approval_not_started,
+                                    ldc_not_started,
+                                    prior_approval_in_assessment,
+                                    ldc_in_assessment_2,
+                                    ldc_in_assessment_1
+                                  ])
       end
     end
 
