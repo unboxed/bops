@@ -149,7 +149,7 @@ class PlanningApplicationSearch
   end
 
   def filtered_scope(scope = current_planning_applications)
-    scope.where(status: [status_type], application_type: [selected_application_type_ids])
+    scope.where(status: [status_type], application_type: [selected_application_type_ids]).by_created_at_desc
   end
 
   def selected_application_type_ids
