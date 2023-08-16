@@ -39,6 +39,16 @@ RSpec.describe AccordionSections::KeyApplicationDatesComponent, type: :component
     end
   end
 
+  context "when planning application is validated" do
+    let(:planning_application) do
+      create(:planning_application)
+    end
+
+    it "renders validation date" do
+      expect(page).to have_content("Valid from:\n    #{planning_application.valid_from.to_date.to_fs}\n")
+    end
+  end
+
   context "when there's a consultation" do
     let(:consultation) { create(:consultation) }
 
