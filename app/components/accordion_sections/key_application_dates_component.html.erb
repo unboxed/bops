@@ -20,11 +20,18 @@
 </p>
 <% if planning_application.consultation.present? %>
 <p class="govuk-body">
+  <strong><%= t(".consultation_start_date") %></strong>
+  <% if planning_application.consultation.start_date.present? %>
+    <%= time_tag planning_application.consultation.start_date %>
+  <% else %>
+    <%= t(".consultation_not_started") %>
+  <% end %>
+  <br>
   <strong><%= t(".consultation_end_date") %></strong>
   <% if planning_application.consultation.end_date.present? %>
     <%= time_tag planning_application.consultation.end_date %>
   <% else %>
-    <%= t(".consultation_end_date_not_set") %>
+    <%= t(".consultation_not_started") %>
   <% end %>
 </p>
 <% end %>

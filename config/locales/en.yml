@@ -55,7 +55,8 @@ en:
     key_application_dates_component:
       application_received: 'Application received:'
       consultation_end_date: 'Consultation deadline:'
-      consultation_end_date_not_set: Not yet started
+      consultation_not_started: Not yet started
+      consultation_start_date: 'Consultation started:'
       expiry_date: 'Expiry date:'
       not_yet_valid: Not yet valid
       target_date: 'Target date:'
