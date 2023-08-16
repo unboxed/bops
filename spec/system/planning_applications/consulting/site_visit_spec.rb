@@ -5,9 +5,11 @@ require "rails_helper"
 RSpec.describe "Site visit" do
   let!(:local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority:) }
+  let!(:application_type) { create(:application_type, :prior_approval) }
 
   let!(:planning_application) do
-    create(:planning_application, local_authority:)
+    create(:planning_application, :from_planx_prior_approval,
+           application_type:, local_authority:)
   end
 
   let!(:consultation) { create(:consultation, end_date: "2023-07-08 16:17:35 +0100", planning_application:) }
