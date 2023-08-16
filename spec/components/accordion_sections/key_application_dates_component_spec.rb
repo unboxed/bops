@@ -51,17 +51,17 @@ RSpec.describe AccordionSections::KeyApplicationDatesComponent, type: :component
     end
 
     it "renders consultation start date" do
-      expect(page).to have_content("Consultation started:\n    #{consultation.start_date.to_date.to_fs}\n")
+      expect(page).to have_content("Publicity started:\n    #{consultation.start_date.to_date.to_fs}\n")
     end
 
     it "renders consultation deadline" do
-      expect(page).to have_content("Consultation deadline:\n    #{consultation.end_date.to_date.to_fs}\n")
+      expect(page).to have_content("Publicity deadline:\n    #{consultation.end_date.to_date.to_fs}\n")
     end
   end
 
   context "when there's no consultation" do
     it "does not render consultation deadline" do
-      expect(page).not_to have_content("Consultation deadline:")
+      expect(page).not_to have_content("Publicity deadline:")
     end
   end
 
@@ -76,7 +76,7 @@ RSpec.describe AccordionSections::KeyApplicationDatesComponent, type: :component
     end
 
     it "renders consultation deadline as not started" do
-      expect(page).to have_content("Consultation deadline:\n    Not yet started")
+      expect(page).to have_content("Publicity deadline:\n    Not yet started")
     end
   end
 
@@ -91,7 +91,7 @@ RSpec.describe AccordionSections::KeyApplicationDatesComponent, type: :component
     end
 
     it "renders publicity end date" do
-      expect(page).to have_content("Consultation deadline:\n    #{consultation.end_date.to_date.to_fs}")
+      expect(page).to have_content("Publicity deadline:\n    #{consultation.end_date.to_date.to_fs}")
     end
   end
 end
