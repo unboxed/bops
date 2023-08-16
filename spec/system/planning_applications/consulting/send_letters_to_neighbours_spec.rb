@@ -21,7 +21,7 @@ RSpec.describe "Send letters to neighbours", js: true do
   end
 
   it "displays the planning application address, reference, and addresses submitted by applicant" do
-    expect(page).to have_content("2. Publicity")
+    expect(page).to have_content("Publicity")
 
     click_link "Send letters to neighbours"
 
