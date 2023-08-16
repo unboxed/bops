@@ -73,3 +73,18 @@ jobs:
       test-runner: "cucumber"
       want-pdf: true
     secrets: inherit
+
+  docker:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "all"
+      test-runner: "docker"
+    secrets: inherit
+
+  docker-prod:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "all"
+      test-runner: "docker"
+      dockerfile: Dockerfile.production
+    secrets: inherit

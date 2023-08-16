@@ -22,6 +22,10 @@ on:
         type: boolean
         required: false
         default: false
+      dockerfile:
+        type: string
+        required: false
+        default: Dockerfile
 
     secrets:
       NOTIFY_API_KEY:
@@ -111,3 +115,18 @@ jobs:
           OTP_SECRET_ENCRYPTION_KEY: ${{ secrets.OTP_SECRET_ENCRYPTION_KEY }}
         run: |
           bundle exec cucumber
+
+      - name: Expose GitHub Runtime for Docker build
+        uses: crazy-max/ghaction-github-runtime@v2
+        if: ${{ inputs.test-runner == 'docker' }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        if: ${{ inputs.test-runner == 'docker' }}
+
+      - name: Ensure ${{ inputs.dockerfile }} builds
+        if: ${{ inputs.test-runner == 'docker' }}
+        run: |
+          DOCKER_BUILDKIT=1 docker buildx build \
+            --cache-to type=gha,mode=max \
+            --build-arg RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }} -f ${{ inputs.dockerfile }} .
