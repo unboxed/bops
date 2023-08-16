@@ -87,7 +87,7 @@ class PlanningApplication
 
     def neighbour_response_params
       params.require(:neighbour_response).permit(
-        :address, :name, :email, :received_at, :response, :new_address, :summary_tag, :redacted_response
+        :address, :name, :email, :received_at, :response, :new_address, :summary_tag, :redacted_response, tags: []
       )
     end
 

@@ -79,6 +79,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_143619) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "application_types_conditions", id: false, force: :cascade do |t|
+    t.bigint "condition_id", null: false
+    t.bigint "application_type_id", null: false
+    t.index ["application_type_id"], name: "ix_application_types_conditions_on_application_type_id"
+    t.index ["condition_id"], name: "ix_application_types_conditions_on_condition_id"
+  end
+
   create_table "assessment_details", force: :cascade do |t|
     t.bigint "planning_application_id", null: false
     t.bigint "user_id", null: false
@@ -119,6 +126,30 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_143619) do
     t.datetime "deleted_at", precision: nil
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
     t.index ["user_id"], name: "ix_comments_on_user_id"
+  end
+
+  create_table "condition_reasons", force: :cascade do |t|
+    t.text "text"
+    t.bigint "condition_id"
+    t.bigint "local_authority_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["condition_id"], name: "ix_condition_reasons_on_condition_id"
+    t.index ["local_authority_id"], name: "ix_condition_reasons_on_local_authority_id"
+  end
+
+  create_table "condition_reasons_planning_applications", id: false, force: :cascade do |t|
+    t.bigint "condition_reason_id", null: false
+    t.bigint "planning_application_id", null: false
+    t.index ["condition_reason_id"], name: "ix_condition_reasons_planning_applications_on_condition_reason_"
+    t.index ["planning_application_id"], name: "ix_condition_reasons_planning_applications_on_planning_applicat"
+  end
+
+  create_table "conditions", force: :cascade do |t|
+    t.string "title"
+    t.text "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "consistency_checklists", force: :cascade do |t|
@@ -286,6 +317,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_143619) do
     t.datetime "updated_at", null: false
     t.string "summary_tag"
     t.text "redacted_response"
+    t.jsonb "tags", default: [], null: false
     t.index ["neighbour_id"], name: "ix_neighbour_responses_on_neighbour_id"
   end
 
@@ -456,7 +488,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_143619) do
     t.index ["reference", "local_authority_id"], name: "ix_planning_applications_on_reference__local_authority_id", unique: true
     t.index ["status", "application_type_id"], name: "ix_planning_applications_on_status__application_type_id"
     t.index ["status"], name: "ix_planning_applications_on_status"
-    t.index ["user_id"], name: "ix_planning_applications_on_user_id"
+    t.index ["user_id"], name: "index_planning_applications_on_user_id"
   end
 
   create_table "policies", force: :cascade do |t|

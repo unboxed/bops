@@ -1084,6 +1084,8 @@ en:
     updated: Updated
     valid: Valid
     waiting: Waiting
+  response_tag_component:
+    privacy: Privacy
   statuses:
     awaiting_determination: Awaiting determination
     determined: Determined

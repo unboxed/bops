@@ -1761,8 +1761,16 @@ paths:
                   enum:
                     - 'supportive'
                   example: 'supportive'
+                tags:
+                  type: array
+                  items:
+                    type: string
+                    enum: 
+                      - "privacy"
+                    example: "privacy"
               required:
                 - name
+                - response
             examples:
               supportive:
                 value:
@@ -1771,3 +1779,4 @@ paths:
                   address: '123 Street, London, E1 6LT'
                   response: 'I like it'
                   summary_tag: 'supportive'
+                  tags: ["privacy", "design"]

@@ -18,16 +18,18 @@
       </ul>
     </div>
     <div style="width: 55%">
-      <p class="govuk-body-s"><strong>Original version:</strong></p>
-      <%= simple_format(response.response, class: "govuk-body") %>
-
-      <p class="govuk-body-s"><strong>Redacted version:</strong></p>
-      <%= simple_format(response.redacted_response, class: "govuk-body") %>
-
+      <% response.tags.each do |tag| %>
+        <strong class="govuk-tag govuk-tag--grey"><%= tag.upcase %></strong>
+      <% end %>
     </div>
     <div style="width: 4%;">
       <%= link_to "Edit", edit_planning_application_consultation_neighbour_response_path(@planning_application, @consultation, response) %>
     </div>
   </div>
+    <p class="govuk-body-s"><strong>Original version:</strong></p>
+    <%= simple_format(response.response, class: "govuk-body") %>
+
+    <p class="govuk-body-s"><strong>Redacted version:</strong></p>
+    <%= simple_format(response.redacted_response, class: "govuk-body") %>
   <hr>
 <% end %>

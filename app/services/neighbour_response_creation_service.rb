@@ -42,12 +42,6 @@ class NeighbourResponseCreationService
   end
 
   def neighbour_response_params
-    permitted_keys = %i[name
-                        email
-                        address
-                        response
-                        summary_tag]
-
-    params.permit permitted_keys
+    params.permit(:name, :email, :address, :response, :summary_tag, tags: [])
   end
 end
