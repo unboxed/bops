@@ -2,7 +2,14 @@
   <div class="govuk-grid-column-two-thirds" id="dates-and-assignment-details">
       <% if @planning_application.consultation.present? %>
       <p class="govuk-body">
-        <strong>Consultation end date:</strong>
+        <strong>Publicity start date:</strong>
+        <% if @planning_application.consultation.start_date.present? %>
+          <%= time_tag @planning_application.consultation.start_date %>
+        <% else %>
+          <%= t(".consultation_end_date_not_set") %>
+        <% end %>
+        <br>
+        <strong>Publicity end date:</strong>
         <% if @planning_application.consultation.end_date.present? %>
           <%= time_tag @planning_application.consultation.end_date %>
           <span class="govuk-tag govuk-tag--#{status_consultation_date_tag_colour}">
