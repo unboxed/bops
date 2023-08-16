@@ -1,4 +1,6 @@
 <%= render 'planning_applications/steps/validation' %>
-<%= render 'planning_applications/steps/publicity' %>
+<% if @planning_application.application_type.name != 'lawfulness_certificate' %>
+  <%= render 'planning_applications/steps/publicity' %>
+<% end %>
 <%= render 'planning_applications/steps/assessment' %>
 <%= render 'planning_applications/steps/review' %>
