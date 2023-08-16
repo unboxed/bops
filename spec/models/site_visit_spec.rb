@@ -29,6 +29,24 @@ RSpec.describe SiteVisit do
         expect { site_visit.valid? }.to change { site_visit.errors[:comment] }.to ["can't be blank"]
       end
     end
+
+    describe "#visited_at" do
+      context "when decision is 'true'" do
+        subject(:site_visit) { described_class.new(decision: true) }
+
+        it "validates presence" do
+          expect { site_visit.valid? }.to change { site_visit.errors[:visited_at] }.to ["You must provide a site visited at date"]
+        end
+      end
+
+      context "when decision is 'false'" do
+        subject(:site_visit) { described_class.new(decision: false) }
+
+        it "does not validate presence" do
+          expect { site_visit.valid? }.not_to(change { site_visit.errors[:visited_at] })
+        end
+      end
+    end
   end
 
   describe "scopes" do

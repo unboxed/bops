@@ -193,6 +193,8 @@ en:
           attributes:
             decision:
               inclusion: You must choose 'Yes' or 'No'
+            visited_at:
+              blank: You must provide a site visited at date
         user:
           attributes:
             reset_password_token:

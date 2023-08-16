@@ -7,6 +7,7 @@ class SiteVisit < ApplicationRecord
 
   validates :status, :comment, presence: true
   validates :decision, inclusion: { in: [true, false] }
+  validates :visited_at, presence: true, if: :decision?
 
   enum status: {
     not_started: "not_started",
