@@ -126,6 +126,10 @@ RSpec.describe "Site visit" do
       click_button("Save")
 
       expect(page).to have_content("The selected file must be a PDF, JPG or PNG")
+
+      within("#site-visit-visited-at-error") do
+        expect(page).to have_content("You must provide a site visited at date")
+      end
     end
 
     it "I can view the objected neighbour responses" do
