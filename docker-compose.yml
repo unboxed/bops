@@ -64,8 +64,10 @@ services:
         source: .
         target: /app
   applicants:
-    build: ./bops-applicants
-    entrypoint: ./docker-entrypoint.sh
+    build:
+      context: ./bops-applicants/docker/ruby
+      dockerfile: Dockerfile
+    entrypoint: /home/rails/bops-applicants/docker/ruby/docker-entrypoint.sh
     stdin_open: true
     tty: true
     command: bash -c "bundle exec bin/dev"
@@ -81,9 +83,11 @@ services:
     ports:
       - "3001:3001"
     volumes:
-      - type: bind
-        source: ./bops-applicants/
-        target: /app
+    - type: bind
+      source: ./bops-applicants/
+      target: /home/rails/bops-applicants
+
+    working_dir: /home/rails/bops-applicants
 
 volumes:
   redis:
