@@ -66,6 +66,7 @@ docker run --rm -it -e DATABASE_URL=postgres://postgres@host.docker.internal:543
 ```sh
 $ bundle install
 $ yarn install
+$ brew install chromedriver  # as an admin user
 ```
 
 #### Create the databases
