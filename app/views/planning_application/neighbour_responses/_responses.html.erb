@@ -17,7 +17,7 @@
         </li>
       </ul>
     </div>
-    <div style="width: 55%">
+    <div style="width: 35%">
       <% response.tags.each do |tag| %>
         <strong class="govuk-tag govuk-tag--grey"><%= tag.upcase %></strong>
       <% end %>
@@ -26,10 +26,17 @@
       <%= link_to "Edit", edit_planning_application_consultation_neighbour_response_path(@planning_application, @consultation, response) %>
     </div>
   </div>
-    <p class="govuk-body-s"><strong>Original version:</strong></p>
-    <%= simple_format(response.response, class: "govuk-body") %>
-
-    <p class="govuk-body-s"><strong>Redacted version:</strong></p>
-    <%= simple_format(response.redacted_response, class: "govuk-body") %>
+  <div class="govuk-inset-text govuk-!-margin-top-2" data-controller="show-more-text">
+    <span class="truncated-comment">
+      <%= simple_format(response.truncated_comment) %>
+    </span>
+    
+    <% if response_been_truncated?(response) %>
+      <span class="display-none hidden-comment">
+        <%= simple_format(response.comment[truncated_length(response)..-1]) %>
+      </span>
+      <a href="#" class="show-more" data-action="click->show-more-text#handleClick">show more</a>
+    <% end %>
+  </div>
   <hr>
 <% end %>

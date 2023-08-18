@@ -23,14 +23,23 @@ class NeighbourResponseCreationService
       )
     )
 
-    response.neighbour = @planning_application.consultation.neighbours.build(
-      address: neighbour_response_params[:address], selected: false
-    )
+    response.neighbour = find_or_create_neighbour
 
     response
   end
 
-  # # match user input address to address in system?
+  def find_or_create_neighbour
+    neighbour = @planning_application.consultation.neighbours.find_by(address: neighbour_response_params[:address])
+
+    if neighbour.present? 
+      neighbour
+    else
+      @planning_application.consultation.neighbours.build(
+        address: neighbour_response_params[:address], selected: false
+      )
+    end
+  end
+
   def save_neighbour_response!(neighbour_response)
     NeighbourResponse.transaction do
       neighbour_response.save!
