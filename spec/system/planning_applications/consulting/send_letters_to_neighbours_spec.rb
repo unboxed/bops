@@ -6,9 +6,17 @@ RSpec.describe "Send letters to neighbours", js: true do
   let!(:api_user) { create(:api_user, name: "PlanX") }
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
+  let!(:application_type) { create(:application_type, :prior_approval) }
 
   let!(:planning_application) do
-    create(:planning_application, local_authority: default_local_authority, api_user:, agent_email: "agent@example.com", applicant_email: "applicant@example.com", make_public: true)
+    create(:planning_application,
+           :from_planx_prior_approval,
+           application_type:,
+           local_authority: default_local_authority,
+           api_user:,
+           agent_email: "agent@example.com",
+           applicant_email: "applicant@example.com",
+           make_public: true)
   end
 
   before do
@@ -16,12 +24,14 @@ RSpec.describe "Send letters to neighbours", js: true do
     allow_any_instance_of(Faraday::Connection).to receive(:get).and_return(instance_double("response", status: 200, body: "some data")) # rubocop:disable RSpec/VerifiedDoubleReference
     allow_any_instance_of(Apis::OsPlaces::Query).to receive(:get).and_return(Faraday.new.get)
 
+    stub_any_os_places_api_request
+
     sign_in assessor
     visit planning_application_path(planning_application)
   end
 
   it "displays the planning application address, reference, and addresses submitted by applicant" do
-    expect(page).to have_content("2. Publicity")
+    expect(page).to have_content("Publicity")
 
     click_link "Send letters to neighbours"
 
@@ -179,7 +189,11 @@ RSpec.describe "Send letters to neighbours", js: true do
 
     context "when planning application has not been made public on the BoPS Public Portal" do
       let!(:planning_application) do
-        create(:planning_application, local_authority: default_local_authority, make_public: false)
+        create(:planning_application,
+               :from_planx_prior_approval,
+               application_type:,
+               local_authority: default_local_authority,
+               make_public: false)
       end
 
       it "prevents me sending letters and displays an alert" do

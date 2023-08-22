@@ -1,4 +1,3 @@
-<%= render 'planning_applications/steps/validation' %>
-<%= render 'planning_applications/steps/publicity' %>
-<%= render 'planning_applications/steps/assessment' %>
-<%= render 'planning_applications/steps/review' %>
+<% @planning_application.application_type.steps_for_type.each  do |step| %>
+  <%= render "planning_applications/steps/#{step}" %>
+<% end %>

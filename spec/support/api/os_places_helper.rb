@@ -6,7 +6,7 @@ module OsPlacesHelper
   end
 
   def stub_any_os_places_api_request
-    stub_request(:get, "https://api.os.uk/search/places/v1/find?key=testtest&maxresults=20&query=")
+    stub_request(:get, "https://api.os.uk/search/places/v1/find").with(query: hash_including({}))
   end
 
   def os_places_api_response(status)

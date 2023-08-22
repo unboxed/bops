@@ -388,3 +388,12 @@ html * {
   background-color: white;
   border: 5px solid govuk-colour("yellow");
 }
+
+body {
+  counter-reset: application-step-heading;
+}
+
+.application-step-heading::before {
+  counter-increment: application-step-heading;
+  content: counter(application-step-heading) ". ";
+}
