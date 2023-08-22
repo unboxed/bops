@@ -443,6 +443,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_25_082636) do
     t.bigint "application_type_id"
     t.boolean "make_public", default: false
     t.boolean "legislation_checked", default: false, null: false
+    t.boolean "cil_liable"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
