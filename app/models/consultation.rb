@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Consultation < ApplicationRecord
+  class AddNeighbourAddressesError < StandardError; end
+
   belongs_to :planning_application
 
   with_options dependent: :destroy do
@@ -71,6 +73,18 @@ class Consultation < ApplicationRecord
     return false unless end_date
 
     end_date > Time.zone.now || (end_date.to_date == Time.zone.now.to_date)
+  end
+
+  def add_neighbour_addresses!(addresses, geojson)
+    transaction do
+      update!(polygon_geojson: geojson)
+
+      addresses.each do |address|
+        neighbours.create!(address:)
+      end
+    end
+  rescue ActiveRecord::ActiveRecordError, ActiveRecord::RecordNotUnique => e
+    raise AddNeighbourAddressesError, e.message
   end
 
   private

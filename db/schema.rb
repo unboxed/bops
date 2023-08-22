@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_09_135315) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_25_082636) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -153,6 +153,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_09_135315) do
     t.string "neighbour_letter_text"
     t.datetime "end_date"
     t.datetime "letter_copy_sent_at"
+    t.json "polygon_geojson"
+    t.string "polygon_colour", default: "#d870fc", null: false
     t.index ["planning_application_id"], name: "ix_consultations_on_planning_application_id"
   end
 
@@ -291,6 +293,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_09_135315) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "selected", default: true
+    t.index "lower((address)::text), consultation_id", name: "index_neighbours_on_lower_address_and_consultation_id", unique: true
     t.index ["consultation_id"], name: "ix_neighbours_on_consultation_id"
   end
 

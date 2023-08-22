@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   end
 
   resources :os_places_api, only: %i[index]
+  post "search_addresses_by_polygon", to: "os_places_api#search_addresses_by_polygon"
 
   resources :users, only: %i[new create edit update]
 
@@ -158,6 +159,8 @@ Rails.application.routes.draw do
         resources :neighbour_responses, only: %i[new create edit update]
         resources :site_visits, only: %i[index new create edit show update]
       end
+
+      resource :consultation_neighbour_addresses, only: %i[create]
 
       resource :withdraw_or_cancel, only: %i[show update]
 

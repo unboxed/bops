@@ -30,11 +30,19 @@
     hideResetControl="true"
     staticMode="true"
   <% end %>
+  <% if locals[:polygon_search] == true %>
+    id="polygon-search-map"
+    drawMode="true"
+  <% end %>
+  <% if locals[:geojson_color] %>
+    geojsonColor=<%=locals[:geojson_color]%>
+  <% end %>
 ></my-map>
 
 <script>
-  const map = document.querySelector("my-map");
   <% if locals[:geojson_field].present? %>
+    const map = document.querySelector("my-map");
+    
     map.addEventListener("geojsonChange", ({ detail: geoJSON }) => {
       document.querySelector("[id^='<%= locals[:geojson_field] %>']").value = JSON.stringify(geoJSON);
     });
