@@ -691,6 +691,9 @@ en:
         permitted_development_rights: Permitted development rights
       index:
         application_details: Application details
+    consultation_neighbour_addresses:
+      create:
+        success: Addresses have been successfully added.
     review_documents:
       update:
         success: Documents were successfully updated.

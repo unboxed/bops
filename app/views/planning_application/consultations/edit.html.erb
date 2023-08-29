@@ -13,16 +13,27 @@
 ) %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-full" data-controller="address-fill">
+  <div class="govuk-grid-column-full" data-controller="address-fill polygon-search">
     <%= render(
       partial: "shared/location_map",
       locals: {
         locals: {
           in_accordion: false,
-          geojson: @planning_application.boundary_geojson
+          polygon_search: true,
+          geojson: @planning_application.boundary_geojson,
+          geojson_field: "polygon-geojson-field",
         }
       }
     ) %>
+
+    <%= render "neighbour_addresses_form", planning_application: @planning_application, consultation: @consultation %>
+
+    <% if geojson = @consultation.polygon_geojson %>
+      <h2 class="govuk-heading-m govuk-!-padding-top-6">
+        Previously drawn area for neighbour addresses search
+      </h2>
+      <%= render "shared/location_map", locals: { geojson: geojson, geojson_color: @consultation.polygon_colour } %>
+    <% end %>
 
     <%= render "neighbours_added", planning_application: @planning_application, consultation: @consultation %>
     
@@ -30,4 +41,6 @@
 
     <%= render "selected_list", planning_application: @planning_application, consultation: @consultation %>
   </div>
+
+  <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
 </div>

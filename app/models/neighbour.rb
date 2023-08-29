@@ -6,6 +6,11 @@ class Neighbour < ApplicationRecord
   has_many :neighbour_responses, dependent: :destroy
 
   validates :address, presence: true
+  validates :address, uniqueness: {
+    scope: :consultation_id, case_sensitive: false, message: lambda { |_object, data|
+      "#{data[:value]} has already been added."
+    }
+  }
 
   accepts_nested_attributes_for :neighbour_responses
 

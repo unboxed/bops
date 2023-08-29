@@ -1,7 +1,8 @@
 <%= form_with(
   model: [planning_application, consultation],
   builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-  class: "govuk-!-margin-top-5"
+  class: "govuk-!-margin-top-5",
+  id: "consultation-form",
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <%= form.fields_for :neighbours, @consultation.neighbours.new do |ff| %>
@@ -12,6 +13,7 @@
 
     <%= ff.hidden_field :consultation_id, value: consultation.id %>
     <%= hidden_field_tag(:os_path, os_places_api_index_url) %>
+    <%= hidden_field_tag(:os_polygon_path, search_addresses_by_polygon_path) %>
   <% end %>
   <%= form.submit(
     "Add neighbour",

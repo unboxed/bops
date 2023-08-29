@@ -11,6 +11,28 @@ RSpec.describe Consultation do
     end
   end
 
+  describe "validations" do
+    describe "address" do
+      let!(:consultation) { create(:consultation) }
+      let!(:other_consultation) { create(:consultation) }
+      let!(:neighbour) { create(:neighbour, address: "1 Test lane", consultation:) }
+
+      it "validates uniqueness within the scope of consultation_id" do
+        expect { create(:neighbour, address: "1 Test lane", consultation:) }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Address 1 Test lane has already been added.")
+      end
+
+      it "is case insensitive when validating uniqueness within the scope of consultation_id" do
+        expect { create(:neighbour, address: "1 TEST LAnE", consultation:) }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Address 1 TEST LAnE has already been added.")
+      end
+
+      it "allows the same address for different consultations" do
+        neighbour_for_other_consultation = create(:neighbour, address: "1 Test lane", consultation: other_consultation)
+
+        expect(neighbour_for_other_consultation).to be_valid
+      end
+    end
+  end
+
   describe "callbacks" do
     describe "::after_update #audit_letter_copy_sent!" do
       let!(:planning_application) do
@@ -126,9 +148,9 @@ RSpec.describe Consultation do
 
   describe "#neighbour_responses_by_summary_tag" do
     let!(:consultation) { create(:consultation) }
-    let!(:neighbour1) { create(:neighbour, consultation:) }
-    let!(:neighbour2) { create(:neighbour, consultation:) }
-    let!(:neighbour3) { create(:neighbour, consultation:) }
+    let!(:neighbour1) { create(:neighbour, address: "1 Random Lane", consultation:) }
+    let!(:neighbour2) { create(:neighbour, address: "2 Random Lane", consultation:) }
+    let!(:neighbour3) { create(:neighbour, address: "3 Random Lane", consultation:) }
     let!(:objection_response) { create(:neighbour_response, neighbour: neighbour1, summary_tag: "objection") }
     let!(:supportive_response1) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive") }
     let!(:supportive_response2) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive") }
@@ -176,6 +198,49 @@ RSpec.describe Consultation do
 
       it "returns true" do
         expect(consultation.publicity_active?).to be(true)
+      end
+    end
+  end
+
+  describe "#add_neighbour_addresses!" do
+    let(:consultation) { create(:consultation) }
+    let!(:addresses) { ["1 FUN LANE", "2 FUN LANE", "32 BRICK LANE", "3 KING AVENUE"] }
+    let!(:geojson) do
+      {
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "Polygon",
+          coordinates: [
+            [
+              [-0.054597, 51.537331],
+              [-0.054588, 51.537287]
+            ]
+          ]
+        }
+      }.to_json
+    end
+
+    describe "when successful" do
+      it "adds neighbour addresses and updates the drawn polygon area" do
+        expect { consultation.add_neighbour_addresses!(addresses, geojson) }
+          .to change(consultation, :polygon_geojson).from(nil).to(geojson)
+
+        expect(consultation.neighbours.length).to eq(4)
+        expect(consultation.neighbours.pluck(:address)).to eq(addresses)
+      end
+    end
+
+    describe "when there is an ActiveRecord::RecordInvalid error" do
+      let!(:neighbour) { create(:neighbour, address: "1 Fun Lane", consultation:) }
+
+      it "raises AddNeighbourAddressesError" do
+        expect { consultation.add_neighbour_addresses!(addresses, geojson) }
+          .to raise_error(Consultation::AddNeighbourAddressesError, "Validation failed: Address 1 FUN LANE has already been added.")
+
+        expect(consultation.reload.polygon_geojson).to be_nil
+        expect(consultation.neighbours.length).to eq(1)
+        expect(consultation.neighbours.pluck(:address)).to eq(["1 Fun Lane"])
       end
     end
   end

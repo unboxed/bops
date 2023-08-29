@@ -53,7 +53,7 @@ class PlanningApplication
       return unless @consultation.neighbours.find(params[:neighbour]).destroy
 
       respond_to do |format|
-        format.html { redirect_to edit_planning_application_consultation_path(@planning_application, @consultation) }
+        format.html { redirect_to redirect_path }
       end
     end
 
@@ -141,6 +141,14 @@ class PlanningApplication
       before you can send letters to neighbours."
 
       render :show and return
+    end
+
+    def redirect_path
+      if request.referer&.include?("edit")
+        edit_planning_application_consultation_path(@planning_application, @consultation)
+      else
+        planning_application_consultation_path(@planning_application, @consultation)
+      end
     end
   end
 end

@@ -22,7 +22,7 @@ RSpec.describe "Send letters to neighbours", js: true do
   before do
     ENV["OS_VECTOR_TILES_API_KEY"] = "testtest"
     allow_any_instance_of(Faraday::Connection).to receive(:get).and_return(instance_double("response", status: 200, body: "some data")) # rubocop:disable RSpec/VerifiedDoubleReference
-    allow_any_instance_of(Apis::OsPlaces::Query).to receive(:get).and_return(Faraday.new.get)
+    allow_any_instance_of(Apis::OsPlaces::Query).to receive(:find_addresses).and_return(Faraday.new.get)
 
     stub_any_os_places_api_request
 
@@ -264,8 +264,8 @@ RSpec.describe "Send letters to neighbours", js: true do
 
     context "when there are failed letters" do
       before do
-        neighbour1 = create(:neighbour, consultation:)
-        neighbour2 = create(:neighbour, consultation:)
+        neighbour1 = create(:neighbour, address: "1 Test Lane", consultation:)
+        neighbour2 = create(:neighbour, address: "2 Test Lane", consultation:)
         create(:neighbour_letter, neighbour: neighbour1, status: "submitted", notify_id: "123")
         create(:neighbour_letter, neighbour: neighbour2, status: "rejected", notify_id: "123")
       end
@@ -273,6 +273,270 @@ RSpec.describe "Send letters to neighbours", js: true do
       it "shows 'failed'" do
         visit planning_application_path(planning_application)
         expect(page).to have_content "Send letters to neighbours Failed"
+      end
+    end
+  end
+
+  context "when drawing a polygon to search for addresses" do
+    let(:geojson) do
+      {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            geometry: {
+              type: "Polygon",
+              coordinates: [
+                [
+                  [-0.07837477827741827, 51.49960885888714],
+                  [-0.0783663401899492, 51.49932756979237],
+                  [-0.07795182562987539, 51.49943999679809],
+                  [-0.07803420855642619, 51.49966559098456],
+                  [-0.07837477827741827, 51.49960885888714]
+                ]
+              ]
+            }
+          }
+        ]
+      }
+    end
+
+    let(:reversed_geojson) do
+      {
+        "type" => "Feature",
+        "geometry" => {
+          "type" => "Polygon",
+          "coordinates" => [
+            [
+              [51.49960885888714, -0.07837477827741827],
+              [51.49932756979237, -0.0783663401899492],
+              [51.49943999679809, -0.07795182562987539],
+              [51.49966559098456, -0.07803420855642619],
+              [51.49960885888714, -0.07837477827741827]
+            ]
+          ]
+        }
+      }
+    end
+
+    before do
+      stub_os_places_api_request_for_polygon(reversed_geojson)
+      Rails.configuration.os_vector_tiles_api_key = "testtest"
+      click_link "Send letters to neighbours"
+
+      mock_csrf_token
+      # Mimic drawing the polygon on the map
+      dispatch_geojson_event(geojson)
+    end
+
+    it "shows the relevant content for searching by polygon" do
+      expect(page).to have_content("Neighbour addresses returned from drawn polygon")
+      map = find("my-map")
+      expect(map["geojsondata"]).to eq(planning_application.boundary_geojson)
+
+      expect(page).not_to have_content("Previously drawn area for neighbour addresses search")
+    end
+
+    it "I can add the neighbour addresses that are returned" do
+      within("#address-container") do
+        within(".address-entry#address-0") do
+          expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
+          expect(page).to have_selector('a.govuk-link[data-address-entry-div-id="address-0"]', text: "Remove")
+        end
+        within(".address-entry#address-1") do
+          expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
+          expect(page).to have_selector('a.govuk-link[data-address-entry-div-id="address-1"]', text: "Remove")
+        end
+      end
+
+      # Nothing is persisted to the database at this point
+      expect(Consultation.all.length).to eq(0)
+      expect(Neighbour.all.length).to eq(0)
+
+      click_button "Add neighbours"
+      expect(page).to have_content("Addresses have been successfully added.")
+
+      within("#selected-neighbours-list") do
+        expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
+        expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
+      end
+
+      expect(Consultation.last.neighbours.pluck(:address)).to eq(["5, COXSON WAY, LONDON, SE1 2XB", "6, COXSON WAY, LONDON, SE1 2XB"])
+
+      click_button "Print and send letters"
+      expect(page).to have_content("Letters have been sent to neighbours and a copy of the letter has been sent to the applicant.")
+    end
+
+    it "I can remove an address before adding the relevant neighbour addresses" do
+      within("#address-0") do
+        expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
+      end
+
+      within("#address-1") do
+        expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
+        click_link "Remove"
+      end
+
+      expect(page).not_to have_css("#address-1")
+      expect(page).not_to have_content("6, COXSON WAY, LONDON, SE1 2XB")
+
+      click_button "Add neighbours"
+
+      within("#selected-neighbours-list") do
+        expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
+      end
+
+      expect(Consultation.last.neighbours.pluck(:address)).to eq(["5, COXSON WAY, LONDON, SE1 2XB"])
+
+      click_button "Print and send letters"
+    end
+
+    it "I can view the previously drawn area" do
+      click_button "Add neighbours"
+
+      expect(page).to have_content("Previously drawn area for neighbour addresses search")
+      # Two maps should be displayed with the red line boundary and drawn polygon
+      map_selectors = all("my-map")
+      expect(map_selectors.first["geojsondata"]).to eq(planning_application.boundary_geojson)
+      expect(map_selectors.last["geojsondata"]).to eq(Consultation.last.polygon_geojson)
+      expect(map_selectors.last["geojsoncolor"]).to eq("#d870fc")
+    end
+
+    it "I can reset a drawn area" do
+      within("#address-0") do
+        expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
+      end
+      within("#address-1") do
+        expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
+      end
+
+      reset_map
+
+      expect(page).not_to have_css("#address-0")
+      expect(page).not_to have_content("5, COXSON WAY, LONDON, SE1 2XB")
+      expect(page).not_to have_css("#address-1")
+      expect(page).not_to have_content("6, COXSON WAY, LONDON, SE1 2XB")
+    end
+
+    it "I cannot add a neighbour address if it already exists" do
+      click_button "Add neighbours"
+
+      # Draw polygon for same addresses
+      mock_csrf_token
+      dispatch_geojson_event(geojson)
+
+      within("#address-0") do
+        expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
+      end
+      within("#address-1") do
+        expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
+      end
+
+      click_button "Add neighbours"
+
+      within(".govuk-error-summary") do
+        expect(page).to have_content(
+          "Error adding neighbour addresses with message: Validation failed: Address 5, COXSON WAY, LONDON, SE1 2XB has already been added."
+        )
+      end
+    end
+
+    context "when redrawing the polygon" do
+      before do
+        stub_os_places_api_request_for_polygon(reversed_redrawn_geojson, "redrawn_polygon_search")
+      end
+
+      let(:redrawn_geojson) do
+        {
+          type: "FeatureCollection",
+          features: [
+            {
+              type: "Feature",
+              geometry: {
+                type: "Polygon",
+                coordinates: [
+                  [
+                    [-0.08018430103465587, 51.497070661375886],
+                    [-0.08025903628948244, 51.49700191751015],
+                    [-0.08022688540367927, 51.49689298114299],
+                    [-0.08004421293717312, 51.49685137544674],
+                    [-0.07992821506988153, 51.496941695353854],
+                    [-0.07996192953503174, 51.49705721720349],
+                    [-0.08009447338556726, 51.49706107297908],
+                    [-0.08018430103465587, 51.497070661375886]
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      end
+
+      let(:reversed_redrawn_geojson) do
+        {
+          "type" => "Feature",
+          "geometry" => {
+            "type" => "Polygon",
+            "coordinates" => [
+              [
+                [51.497070661375886, -0.08018430103465587],
+                [51.49700191751015, -0.08025903628948244],
+                [51.49689298114299, -0.08022688540367927],
+                [51.49685137544674, -0.08004421293717312],
+                [51.496941695353854, -0.07992821506988153],
+                [51.49705721720349, -0.07996192953503174],
+                [51.49706107297908, -0.08009447338556726],
+                [51.497070661375886, -0.08018430103465587]
+              ]
+            ]
+          }
+        }
+      end
+
+      it "I can redraw the polygon to return different addresses" do
+        within("#address-0") do
+          expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
+        end
+        within("#address-1") do
+          expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
+        end
+
+        # Update drawn polygon
+        dispatch_geojson_event(redrawn_geojson)
+
+        expect(page).not_to have_content("5, COXSON WAY, LONDON, SE1 2XB")
+        expect(page).not_to have_content("6, COXSON WAY, LONDON, SE1 2XB")
+
+        within("#address-0") do
+          expect(page).to have_content("82, GRANGE WALK, LONDON, SE1 3DT")
+        end
+        within("#address-1") do
+          expect(page).to have_content("83, GRANGE WALK, LONDON, SE1 3DT")
+        end
+        within("#address-2") do
+          expect(page).to have_content("84, GRANGE WALK, LONDON, SE1 3DT")
+        end
+        within("#address-3") do
+          expect(page).to have_content("85, GRANGE WALK, LONDON, SE1 3DT")
+        end
+
+        click_button "Add neighbours"
+
+        within("#selected-neighbours-list") do
+          expect(page).to have_content("82, GRANGE WALK, LONDON, SE1 3DT")
+          expect(page).to have_content("83, GRANGE WALK, LONDON, SE1 3DT")
+          expect(page).to have_content("84, GRANGE WALK, LONDON, SE1 3DT")
+          expect(page).to have_content("85, GRANGE WALK, LONDON, SE1 3DT")
+        end
+
+        expect(Consultation.last.neighbours.pluck(:address)).to eq(
+          [
+            "82, GRANGE WALK, LONDON, SE1 3DT",
+            "83, GRANGE WALK, LONDON, SE1 3DT",
+            "84, GRANGE WALK, LONDON, SE1 3DT",
+            "85, GRANGE WALK, LONDON, SE1 3DT"
+          ]
+        )
       end
     end
   end
