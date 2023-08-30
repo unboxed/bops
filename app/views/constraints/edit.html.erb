@@ -2,8 +2,8 @@
   Edit constraints - <%= t('page_title') %>
 <% end %>
 
-<% add_parent_breadcrumb_link "Home", root_path %>
-<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<%= render "validation_requests/validation_requests_breadcrumbs" %>
+<% add_parent_breadcrumb_link "Constraints", planning_application_constraints_path(@planning_application) %>
 <% content_for :title, "Edit constraints" %>
 
 <%= render(
@@ -29,7 +29,7 @@
           </legend>
 
           <div class="form-group">
-            <div class="govuk-checkboxes govuk-checkboxes--small">         
+            <div class="govuk-checkboxes govuk-checkboxes--small">
               <% constraints.each do |constraint| %>
                 <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                   <div class="govuk-checkboxes__item">
