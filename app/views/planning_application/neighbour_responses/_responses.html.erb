@@ -9,14 +9,14 @@
         </h2>
       </div>
       <div id=<%= "accordion-default-content-#{index}" %> class="govuk-accordion__section-content" aria-labelledby=<%= "accordion-default-heading-#{index}" %>>
-        <% responses.group_by { |response| response&.neighbour&.selected? }.sort_by { |key, _value| key ? 0 : 1 }.each do |selected, sorted_responses| %>
+        <% responses.group_by { |response| response.neighbour.selected? }.sort_by { |key, _value| key ? 0 : 1 }.each do |selected, sorted_responses| %>
           <% sorted_responses.each do |response| %>
             <div class="neighbour-response-section">
               <div class="govuk-inset-text">
                 <div class="neighbour-response-top-section">
                   <div class="neighbour-response-content">
                     <%= render(StatusTags::BaseComponent.new(status: response.summary_tag)) %>
-                    <% if response&.neighbour&.selected? %>
+                    <% if response.neighbour.selected? %>
                       <strong class="govuk-tag app-task-list__task-tag govuk-!-margin-left-1">Adjoining neighbour</strong>
                     <% end %>
                     <br><br>
@@ -25,7 +25,7 @@
                         <strong><%= response.name %></strong> <span class="govuk-hint" style="display: inline;"><%= response.email %></span>
                       </li>
                       <li class="govuk-hint">
-                        <%= response&.neighbour&.address %>
+                        <%= response.neighbour.address %>
                       </li>
                       <li class="govuk-hint">
                         Received on <%= response.received_at.to_formatted_s(:day_month_year_slashes) %>

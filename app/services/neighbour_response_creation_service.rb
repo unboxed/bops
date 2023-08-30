@@ -32,7 +32,7 @@ class NeighbourResponseCreationService
   def find_or_create_neighbour
     neighbour = planning_application.consultation.neighbours.find_by(address: neighbour_response_params[:address])
 
-    (neighbour.presence || planning_application.consultation.neighbours.build(
+    (neighbour.presence || @planning_application.consultation.neighbours.build(
       address: neighbour_response_params[:address], selected: false
     ))
   end
