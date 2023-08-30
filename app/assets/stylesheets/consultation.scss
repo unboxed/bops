@@ -9,13 +9,33 @@
 }
 
 .neighbour-letter-template {
-  border: 1px solid grey;
+  border: 1px solid $govuk-border-colour;
   padding: 50px;
   width: 100%;
 }
 
-.neighbour-response-section {
-  width: 60%;
+.govuk-accordion__section-content { 
+  .neighbour-response-section {
+    border-bottom: 1px solid $govuk-border-colour;
+  }
+
+  .neighbour-response-section:last-child {
+    border-bottom: none;
+  }
+}
+
+.neighbour-tags {
+  width: 12%;
+}
+
+.neighbour-response-top-section {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.neighbour-response-content {
+  width: 80%;
 
   .app-task-list__task-tag {
     float: left;

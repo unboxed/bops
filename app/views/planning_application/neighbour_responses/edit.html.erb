@@ -46,7 +46,7 @@
     <%= form.govuk_radio_button :summary_tag, 'neutral', label: { text: 'Neutral' } %>
     <%= form.govuk_radio_button :summary_tag, 'objection', label: { text: 'An objection' } %>
   <% end %>
-  <%= form.govuk_collection_check_boxes :tags, [["design"],["privacy"]], :first, :first, legend: { text: 'Tags', size: 'm' } %>
+  <%= form.govuk_collection_check_boxes :tags, NeighbourResponse::TAGS.map(&:to_s), :to_s, :humanize, legend: { text: 'Tags', size: 'm' } %>
   <%= form.govuk_text_area :response, hint: { text: "This won't be made public" } %>
   <%= form.govuk_text_area :redacted_response, label: { text: "Redacted response" }, hint: { text: 'This will be made public' } %>
   <%= form.submit(

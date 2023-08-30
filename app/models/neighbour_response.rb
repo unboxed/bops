@@ -9,22 +9,22 @@ class NeighbourResponse < ApplicationRecord
 
   scope :redacted, -> { where.not(redacted_response: "") }
 
-  TAGS = %i[design new_use privacy disabled_access noise traffic other]
+  TAGS = %i[design new_use privacy disabled_access noise traffic other].freeze
 
   summary_tags.each do |tag|
     scope :"#{tag}", -> { where(tag:) }
   end
 
   before_save do
-    self.tags = self.tags.reject!(&:blank?)
+    self.tags = tags.compact_blank! if tags.any?
   end
 
   def truncated_comment
-    comment = redacted_response.present? ? redacted_response : response
+    comment = (redacted_response.presence || response)
     comment.truncate(100, separator: " ")
   end
 
   def comment
-    redacted_response.present? ? redacted_response : response
+    (redacted_response.presence || response)
   end
 end

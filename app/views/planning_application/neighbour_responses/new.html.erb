@@ -17,8 +17,7 @@
 
 <h2 class="govuk-heading-m govuk-!-margin-top-7">Responses</h2>
 <% if @neighbour_responses.any? %>
-  <hr>
-    <%= render "responses", neighbour_responses: @neighbour_responses %>
+  <%= render "responses", neighbour_responses: @neighbour_responses %>
 <% else %>
   <p class="govuk-body">No neighbour responses yet</p>
 <% end %>
