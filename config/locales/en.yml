@@ -691,6 +691,9 @@ en:
         permitted_development_rights: Permitted development rights
       index:
         application_details: Application details
+    cil_liability:
+      update:
+        success: CIL liability updated
     consultation_neighbour_addresses:
       create:
         success: Addresses have been successfully added.
@@ -1054,6 +1057,7 @@ en:
     accepted: Printing
     awaiting_determination: Awaiting determination
     checked: Checked
+    cil_liable: Liable
     complete: Completed
     failed: Failed
     granted: To grant
@@ -1061,6 +1065,7 @@ en:
     in_progress: In progress
     invalid: Invalid
     neutral: Neutral
+    not_cil_liable: Not liable
     not_started: Not started
     objection: Objection
     permanent_failure: Permanent failure
@@ -1100,6 +1105,8 @@ en:
       summary_of_work: Summary of works
     check_red_line_boundary_component:
       check_red_line: Check red line boundary
+    cil_liability_component:
+      link_text: CIL Liability
     document_component:
       check_document: Check document - %{document}
     fee_component:
