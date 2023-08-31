@@ -11,3 +11,4 @@ docker-compose.yml
 bops-applicants
 deploy
 pkg
+.cache
