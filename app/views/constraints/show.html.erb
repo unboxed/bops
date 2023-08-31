@@ -2,6 +2,9 @@
   Constraints - <%= t("page_title") %>
 <% end %>
 
+<%= render "validation_requests/validation_requests_breadcrumbs" %>
+<% content_for :title, "Constraints" %>
+
 <%= render(
       partial: "shared/proposal_header",
       locals: { heading: "Check the constraints" }
