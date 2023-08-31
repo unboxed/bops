@@ -69,6 +69,10 @@ class Consultation < ApplicationRecord
     neighbour_responses.group(:summary_tag).count
   end
 
+  def selected_neighbour_addresses
+    neighbours.select(&:persisted?).select(&:selected?).map(&:address)
+  end
+
   def publicity_active?
     return false unless end_date
 

@@ -71,12 +71,10 @@ RSpec.describe "Site visit" do
     it "I can view the objected neighbour responses" do
       expect(page).to have_content("Objected neighbour responses")
       expect(page).to have_content("Objection")
-      expect(page).to have_content("Date received: #{Time.zone.now.strftime('%d/%m/%Y')}")
-      expect(page).to have_content("Respondent:")
-      expect(page).to have_content("Email: neighbour@example.com")
-      expect(page).to have_content("Address: #{neighbour.address}")
-      expect(page).to have_content("Original version: I like it rude word")
-      expect(page).to have_content("Redacted version: I like it *****")
+      expect(page).to have_content("Received on #{Time.zone.now.strftime('%d/%m/%Y')}")
+      expect(page).to have_content("neighbour@example.com")
+      expect(page).to have_content(neighbour.address.to_s)
+      expect(page).to have_content("I like it *****")
     end
 
     context "when there are site visit responses" do
@@ -137,12 +135,10 @@ RSpec.describe "Site visit" do
     it "I can view the objected neighbour responses" do
       expect(page).to have_content("Objected neighbour responses")
       expect(page).to have_content("Objection")
-      expect(page).to have_content("Date received: #{Time.zone.now.strftime('%d/%m/%Y')}")
-      expect(page).to have_content("Respondent:")
-      expect(page).to have_content("Email: neighbour@example.com")
-      expect(page).to have_content("Address: #{neighbour.address}")
-      expect(page).to have_content("Original version: I like it rude word")
-      expect(page).to have_content("Redacted version: I like it *****")
+      expect(page).to have_content("Received on #{Time.zone.now.strftime('%d/%m/%Y')}")
+      expect(page).to have_content("neighbour@example.com")
+      expect(page).to have_content(neighbour.address.to_s)
+      expect(page).to have_content("I like it *****")
     end
 
     context "when a site visit is taking place" do

@@ -972,6 +972,8 @@ en:
       success: Replacement document validation request successfully created.
     update:
       success: Replacement document reason successfully updated.
+  response_tag_component:
+    privacy: Privacy
   review_assessment_details:
     breadcrumbs:
       application: Application
@@ -1084,8 +1086,6 @@ en:
     updated: Updated
     valid: Valid
     waiting: Waiting
-  response_tag_component:
-    privacy: Privacy
   statuses:
     awaiting_determination: Awaiting determination
     determined: Determined

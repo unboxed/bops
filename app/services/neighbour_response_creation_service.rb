@@ -3,9 +3,9 @@
 class NeighbourResponseCreationService
   class CreateError < StandardError; end
 
-  def initialize(planning_application:, **options)
+  def initialize(planning_application:, params:)
     @planning_application = planning_application
-    options.each { |k, v| instance_variable_set("@#{k}", v) unless v.nil? }
+    @params = params
   end
 
   def call
@@ -14,7 +14,7 @@ class NeighbourResponseCreationService
 
   private
 
-  attr_reader :local_authority, :params, :api_user
+  attr_reader :params, :planning_application
 
   def build_neighbour_response
     response = @planning_application.consultation.neighbour_responses.build(
@@ -30,20 +30,18 @@ class NeighbourResponseCreationService
   end
 
   def find_or_create_neighbour
-    neighbour = @planning_application.consultation.neighbours.find_by(address: neighbour_response_params[:address])
+    neighbour = planning_application.consultation.neighbours.find_by(address: neighbour_response_params[:address])
 
-    (neighbour.presence || @planning_application.consultation.neighbours.build(
+    (neighbour.presence || planning_application.consultation.neighbours.build(
       address: neighbour_response_params[:address], selected: false
     ))
   end
 
   def save_neighbour_response!(neighbour_response)
-    NeighbourResponse.transaction do
-      neighbour_response.save!
-    end
+    neighbour_response.save!
 
     neighbour_response
-  rescue ActiveRecord::RecordInvalid, ArgumentError, NoMethodError => e
+  rescue ActiveRecord::RecordInvalid => e
     raise CreateError, e.message
   end
 

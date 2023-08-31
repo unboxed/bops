@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Upload neighbour responses" do
+RSpec.describe "Upload neighbour responses", js: true do
   let!(:api_user) { create(:api_user, name: "PlanX") }
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
@@ -33,19 +33,26 @@ RSpec.describe "Upload neighbour responses" do
     fill_in "Day", with: "21"
     fill_in "Month", with: "1"
     fill_in "Year", with: "2023"
-    fill_in "Response", with: "I think this proposal looks great"
+    fill_in "Response", with: "I think this proposal looks great and I would like to make a really long comment about how great it is and please let this person build this thing."
     choose "Supportive"
 
     click_button "Save response"
 
     expect(page).not_to have_content("No neighbour responses yet")
 
-    expect(page).to have_content("Date received: 21/01/2023")
-    expect(page).to have_content("Respondent: Sarah Neighbour")
-    expect(page).to have_content("Email: sarah@email.com")
-    expect(page).to have_content("Address: #{neighbour.address}")
-    expect(page).to have_content("I think this proposal looks great")
+    click_button "Supportive responses (1)"
+
+    expect(page).to have_content("Received on 21/01/2023")
+    expect(page).to have_content("Sarah Neighbour")
+    expect(page).to have_content("sarah@email.com")
+    expect(page).to have_content(neighbour.address.to_s)
+    expect(page).to have_content("I think this proposal looks great and I would like to make a really long comment about how great...")
     expect(page).to have_content("Supportive")
+    expect(page).to have_content("Adjoining neighbour")
+
+    click_link "View more"
+
+    expect(page).to have_content("I think this proposal looks great and I would like to make a really long comment about how great it is and please let this person build this thing.")
 
     # Check audit log
     visit planning_application_audits_path(planning_application)
@@ -75,10 +82,12 @@ RSpec.describe "Upload neighbour responses" do
 
     expect(page).not_to have_content("No neighbour responses yet")
 
-    expect(page).to have_content("Date received: 21/01/2023")
-    expect(page).to have_content("Respondent: Sarah Neighbour")
-    expect(page).to have_content("Email: sarah@email.com")
-    expect(page).to have_content("Address: 123 Street")
+    click_button "Objection responses (1)"
+
+    expect(page).to have_content("Received on 21/01/2023")
+    expect(page).to have_content("Sarah Neighbour")
+    expect(page).to have_content("sarah@email.com")
+    expect(page).to have_content("123 Street")
     expect(page).to have_content("I think this proposal looks great")
     expect(page).to have_content("Objection")
 
@@ -109,13 +118,16 @@ RSpec.describe "Upload neighbour responses" do
     fill_in "Month", with: "1"
     fill_in "Year", with: "2023"
     fill_in "Response", with: "I think this proposal looks great"
+    choose "Supportive"
 
     click_button "Save response"
 
-    expect(page).to have_content("Date received: 21/01/2023")
-    expect(page).to have_content("Respondent: Sarah Neighbour")
-    expect(page).to have_content("Email: sarah@email.com")
-    expect(page).to have_content("Address: #{neighbour.address}")
+    click_button "Supportive responses (1)"
+
+    expect(page).to have_content("Received on 21/01/2023")
+    expect(page).to have_content("Sarah Neighbour")
+    expect(page).to have_content("sarah@email.com")
+    expect(page).to have_content(" #{neighbour.address}")
     expect(page).to have_content("I think this proposal looks great")
 
     click_link "Edit"
@@ -130,10 +142,10 @@ RSpec.describe "Upload neighbour responses" do
 
     click_button "Update response"
 
-    expect(page).to have_content("Date received: 21/02/2023")
-    expect(page).to have_content("Respondent: Sara Neighbour")
-    expect(page).to have_content("Email: sara@email.com")
-    expect(page).to have_content("Address: 124 Made up Street")
+    expect(page).to have_content("Received on 21/02/2023")
+    expect(page).to have_content("Sara Neighbour")
+    expect(page).to have_content("sara@email.com")
+    expect(page).to have_content("124 Made up Street")
     expect(page).to have_content("I think this proposal looks ****")
 
     expect(page).to have_link("Back", href: planning_application_path(planning_application))
@@ -156,6 +168,7 @@ RSpec.describe "Upload neighbour responses" do
     expect(page).to have_content("Neighbour must exist")
     expect(page).to have_content("Name can't be blank")
     expect(page).to have_content("Response can't be blank")
+    expect(page).to have_content("Summary tag can't be blank")
     expect(page).to have_content("Received at can't be blank")
   end
 end

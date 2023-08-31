@@ -3,10 +3,9 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   handleClick(event) {
     event.preventDefault()
-    console.log("I am here")
 
     // Remove the ellipses from the comment
-    let replaceText = event.target.parentElement
+    const replaceText = event.target.parentElement
       .getElementsByClassName("truncated-comment")[0]
       .innerText.slice(0, -3)
     event.target.parentElement.getElementsByClassName(

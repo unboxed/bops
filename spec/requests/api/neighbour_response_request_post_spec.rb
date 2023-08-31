@@ -20,7 +20,9 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
   it "successfully creates a new neighbour response" do
     json = '{
              "name": "Keira Walsh",
-             "response": "This is good" }'
+             "response": "This is good",
+             "address": "123 street",
+             "summary_tag": "supportive" }'
 
     post(path, params: json, headers:)
 
