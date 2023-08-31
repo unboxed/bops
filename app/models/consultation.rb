@@ -8,11 +8,11 @@ class Consultation < ApplicationRecord
   with_options dependent: :destroy do
     has_many :consultees
     has_many :neighbours
+    has_many :neighbour_responses
     has_many :site_visits
   end
 
   has_many :neighbour_letters, through: :neighbours
-  has_many :neighbour_responses, through: :neighbours
 
   accepts_nested_attributes_for :consultees, :neighbours
 

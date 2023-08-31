@@ -19,7 +19,8 @@ class NeighbourResponseCreationService
   def build_neighbour_response
     response = @planning_application.consultation.neighbour_responses.build(
       neighbour_response_params.except(:address).merge!(
-        received_at: Time.zone.now
+        received_at: Time.zone.now,
+        consultation_id: @planning_application.consultation
       )
     )
 

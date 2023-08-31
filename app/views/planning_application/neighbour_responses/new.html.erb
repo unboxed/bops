@@ -15,7 +15,7 @@
 <h2 class="govuk-heading-m govuk-!-margin-top-7">Date consultation will end</h2>
 <p class="govuk-body"><%= @consultation.end_date.to_formatted_s(:day_month_year_slashes) %></p>
 
-<h2 class="govuk-heading-m govuk-!-margin-top-7">Responses</h2>
+<h2 class="govuk-heading-m govuk-!-margin-top-7">Responses (<%= @neighbour_responses.count %>)</h2>
 <% if @neighbour_responses.any? %>
   <%= render "responses", neighbour_responses: @neighbour_responses %>
 <% else %>

@@ -2,6 +2,7 @@
 
 class NeighbourResponse < ApplicationRecord
   belongs_to :neighbour
+  belongs_to :consultation
 
   validates :name, :response, :received_at, presence: true
 
