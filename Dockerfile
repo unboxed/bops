@@ -7,7 +7,7 @@ RUN gem install bundler -v 2.3.26
 RUN apt-get update -y
 
 # Install Chromium for the feature tests
-RUN apt-get install -y --no-install-recommends chromium
+RUN apt-get install -y --no-install-recommends chromium chromium-driver
 
 # Install Poppler to generate PDF previews
 RUN apt-get install -y --no-install-recommends poppler-utils
