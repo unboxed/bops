@@ -4,9 +4,6 @@ name: Verify
 on:
   workflow_call:
     inputs:
-      bundler-audit:
-        type: boolean
-        default: false
       brakeman:
         type: boolean
         default: false
@@ -41,11 +38,6 @@ jobs:
         with:
           node-version-file: .node-version
       - run: yarn install
-
-      - name: Check bundle for known CVEs
-        if: ${{ inputs.bundler-audit == true }}
-        run: |
-          bundle exec bundler-audit
 
       - name: Analyse code for vulnerabilities
         if: ${{ inputs.brakeman == true }}

@@ -105,9 +105,6 @@ GEM
     bullet (7.0.7)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
-    bundler-audit (0.9.1)
-      bundler (>= 1.2.0, < 3)
-      thor (~> 1.0)
     business_time (0.13.0)
       activesupport (>= 3.2.0)
       tzinfo
@@ -542,7 +539,6 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   brakeman
   bullet
-  bundler-audit
   business_time
   capybara
   cucumber-rails

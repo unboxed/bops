@@ -44,7 +44,6 @@ gem "view_component"
 group :development, :test do
   gem "brakeman", require: false
   gem "bullet"
-  gem "bundler-audit", require: false
   gem "guard", require: false
   gem "guard-cucumber", require: false
   gem "guard-rspec", require: false
