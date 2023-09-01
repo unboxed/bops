@@ -1,4 +1,4 @@
-var govukall = require("govuk-frontend/govuk/all")
+const govukall = require("govuk-frontend/govuk/all")
 
 govukall.Accordion.prototype.originalsetExpanded =
   govukall.Accordion.prototype.setExpanded

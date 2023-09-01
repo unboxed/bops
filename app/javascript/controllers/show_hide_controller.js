@@ -13,7 +13,7 @@ export default class extends Controller {
     const selectedDecisionHtml = document.querySelector(
       'input[name="assess_immunity_detail_permitted_development_right_form[review_immunity_detail][decision]"]:checked',
     )
-    let selectedDecisionValue = selectedDecisionHtml.value
+    const selectedDecisionValue = selectedDecisionHtml.value
     let oppositeValue = "Yes"
 
     if (selectedDecisionValue === "Yes") {

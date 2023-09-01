@@ -6,8 +6,8 @@ export default class extends Controller {
     const dataset = event.currentTarget.dataset
 
     ajax({
-      type: dataset["deleteRecordAction"] || "delete",
-      url: dataset["deleteRecordPath"],
+      type: dataset.deleteRecordAction || "delete",
+      url: dataset.deleteRecordPath,
       success: (data) => {
         this.element.outerHTML = data.partial
       },
