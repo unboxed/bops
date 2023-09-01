@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
-import accessibleAutocomplete from "accessible-autocomplete"
 import { ajax } from "@rails/ujs"
+import accessibleAutocomplete from "accessible-autocomplete"
 
 export default class extends Controller {
   connect() {
@@ -8,12 +8,12 @@ export default class extends Controller {
       element: document.querySelector("#address-autocomplete-container"),
       id: "address-autocomplete", // To match it to the existing <label>.
       source: (query, populateResults) => {
-        let results = []
+        const results = []
         ajax({
           type: "get",
           url: `${document.querySelector("#os_path").value}?query=${query}`,
           success: (data) => {
-            for (var i of JSON.parse(data).results) {
+            for (const i of JSON.parse(data).results) {
               results.push(i.DPA.ADDRESS)
             }
             populateResults(results)
