@@ -5,6 +5,8 @@ class RedLineBoundaryChangeValidationRequest < ApplicationRecord
 
   include ValidationRequestable
 
+  include GeojsonFormattable
+
   belongs_to :planning_application
   belongs_to :user
 
@@ -19,6 +21,9 @@ class RedLineBoundaryChangeValidationRequest < ApplicationRecord
                 }
 
   delegate :reset_validation_requests_update_counter!, to: :planning_application
+
+  format_geojson_epsg :original_geojson
+  format_geojson_epsg :new_geojson
 
   def rejected_reason_is_present?
     return unless approved == false && rejection_reason.blank?

@@ -29,7 +29,7 @@ RSpec.describe Apis::OsPlaces::Client, exclude_stub_any_os_places_api_request: t
 
   describe "#post" do
     before do
-      stub_os_places_api_request_for_polygon(reversed_geojson)
+      stub_os_places_api_request_for_polygon(geojson)
     end
 
     let(:geojson) do
@@ -51,29 +51,11 @@ RSpec.describe Apis::OsPlaces::Client, exclude_stub_any_os_places_api_request: t
       }
     end
 
-    let(:reversed_geojson) do
-      {
-        "type" => "Feature",
-        "geometry" => {
-          "type" => "Polygon",
-          "coordinates" => [
-            [
-              [51.49960885888714, -0.07837477827741827],
-              [51.49932756979237, -0.0783663401899492],
-              [51.49943999679809, -0.07795182562987539],
-              [51.49966559098456, -0.07803420855642619],
-              [51.49960885888714, -0.07837477827741827]
-            ]
-          ]
-        }
-      }
-    end
-
     it "is successful" do
       result = client.post(
         geojson, {
-          output_srs: "EPSG:4326",
-          srs: "EPSG:4326"
+          output_srs: "EPSG:27700",
+          srs: "EPSG:27700"
         }
       )
 

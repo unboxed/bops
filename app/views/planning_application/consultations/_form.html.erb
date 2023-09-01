@@ -7,7 +7,7 @@
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <%= form.fields_for :neighbours, @consultation.neighbours.new do |ff| %>
     <div>
-      <label for="address-autocomplete" class="govuk-heading-s">Add neighbours by address</label>
+      <label for="address-autocomplete" class="govuk-heading-s">Manually add neighbours by address</label>
       <div id="address-autocomplete-container">
     </div>
 

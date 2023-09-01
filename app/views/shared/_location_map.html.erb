@@ -34,8 +34,11 @@
     id="polygon-search-map"
     drawMode="true"
   <% end %>
-  <% if locals[:geojson_color] %>
-    geojsonColor=<%=locals[:geojson_color]%>
+  
+  <% %w[geojson_color draw_color draw_fill_color].each do |color| %>
+    <% if locals[color.to_sym] %>
+      <%= color.camelize(:lower) %>=<%= locals[color.to_sym] %>
+    <% end %>
   <% end %>
 ></my-map>
 

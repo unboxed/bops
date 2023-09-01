@@ -1,0 +1,20 @@
+<h2 class="govuk-heading-m govuk-!-padding-top-6">
+  1) Select the neighbours you want to add
+</h2>
+<p class="govuk-body">You must click 'Add neighbours' to save the returned addresses</p>
+<h3 class="govuk-heading-s">
+  Use the map to select the boundary
+</h3>
+<%= render(
+  partial: "shared/location_map",
+  locals: {
+    locals: {
+      in_accordion: false,
+      polygon_search: true,
+      geojson: geojson,
+      geojson_field: "polygon-geojson-field",
+      draw_color: consultation.polygon_colour,
+      draw_fill_color: consultation.polygon_fill_colour
+    }
+  }
+) %>

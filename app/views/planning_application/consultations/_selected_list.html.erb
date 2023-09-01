@@ -1,5 +1,6 @@
-<div id="selected-neighbours-list">
-  <h3 class="govuk-heading-s">Summary of selected neighbours</h3>
+<div id="selected-neighbours-list" class="govuk-!-padding-bottom-5">
+  <h2 class="govuk-heading-m">2) Summary of selected neighbours</h2>
+  <p class="govuk-body">Please review the selected neighbour addresses and amend if necessary</p>
   <% if @consultation.neighbours.without_letters.any? %>
     <% @consultation.neighbours.without_letters.each do |neighbour| %>
       <hr>

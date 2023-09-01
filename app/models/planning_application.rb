@@ -17,6 +17,8 @@ class PlanningApplication < ApplicationRecord
 
   include PlanningApplication::Notification
 
+  include GeojsonFormattable
+
   DAYS_TO_EXPIRE = 56
 
   enum user_role: { applicant: 0, agent: 1, proxy: 2 }
@@ -159,6 +161,8 @@ class PlanningApplication < ApplicationRecord
   validate :decision_with_recommendations
   validate :determination_date_is_not_in_the_future
   validate :user_is_non_administrator
+
+  format_geojson_epsg :boundary_geojson
 
   def payment_amount=(amount)
     self[:payment_amount] = amount.to_s.delete("^0-9.-").to_d

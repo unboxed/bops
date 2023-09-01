@@ -224,7 +224,9 @@ RSpec.describe Consultation do
     describe "when successful" do
       it "adds neighbour addresses and updates the drawn polygon area" do
         expect { consultation.add_neighbour_addresses!(addresses, geojson) }
-          .to change(consultation, :polygon_geojson).from(nil).to(geojson)
+          .to change(consultation, :polygon_geojson).from(nil).to(
+            "{\"type\":\"Feature\",\"properties\":{\"type\":\"polygon_geojson\"},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[-0.054597,51.537331],[-0.054588,51.537287]]]}}"
+          )
 
         expect(consultation.neighbours.length).to eq(4)
         expect(consultation.neighbours.pluck(:address)).to eq(addresses)
@@ -241,6 +243,136 @@ RSpec.describe Consultation do
         expect(consultation.reload.polygon_geojson).to be_nil
         expect(consultation.neighbours.length).to eq(1)
         expect(consultation.neighbours.pluck(:address)).to eq(["1 Fun Lane"])
+      end
+    end
+  end
+
+  describe "#concatenate_geojsons" do
+    let(:geojson_feature_collection) { consultation.concatenate_geojsons(*args) }
+
+    let(:consultation) { create(:consultation) }
+
+    let(:feature) do
+      {
+        "type" => "Feature",
+        "properties" => {},
+        "geometry" => {
+          "type" => "Polygon",
+          "coordinates" => [
+            [[20, 10], [30, 30], [20, 10]]
+          ]
+        }
+      }.to_json
+    end
+
+    let(:feature_collection) do
+      {
+        "type" => "FeatureCollection",
+        "features" => [
+          {
+            "type" => "Feature",
+            "properties" => { "type" => "polygon_geojson" },
+            "geometry" => {
+              "type" => "Polygon",
+              "coordinates" => [
+                [[30, 10], [40, 40], [30, 10]]
+              ]
+            }
+          }
+        ]
+      }.to_json
+    end
+
+    context "when passed single Feature geojson" do
+      let(:args) { [feature] }
+
+      it "returns the same feature within a FeatureCollection" do
+        expect(
+          JSON.parse(geojson_feature_collection)
+        ).to eq(
+          {
+            "type" => "FeatureCollection",
+            "features" => [JSON.parse(feature)]
+          }
+        )
+      end
+    end
+
+    context "when passed multiple geojsons" do
+      let(:args) { [feature, feature_collection] }
+
+      it "concatenates all the features into a single FeatureCollection" do
+        expected_features = [
+          {
+            "type" => "Feature",
+            "properties" => {},
+            "geometry" => {
+              "type" => "Polygon",
+              "coordinates" => [
+                [
+                  [20, 10],
+                  [30, 30],
+                  [20, 10]
+                ]
+              ]
+            }
+          },
+          {
+            "type" => "Feature",
+            "properties" => {
+              "color" => "#d870fc",
+              "type" => "polygon_geojson"
+            },
+            "geometry" => {
+              "type" => "Polygon",
+              "coordinates" => [
+                [
+                  [30, 10],
+                  [40, 40],
+                  [30, 10]
+                ]
+              ]
+            }
+          }
+        ]
+
+        expect(JSON.parse(geojson_feature_collection)["features"]).to eq(expected_features)
+      end
+    end
+
+    context "when polygon_geojson without color is present" do
+      let(:args) do
+        [
+          {
+            "type" => "Feature",
+            "properties" => { "type" => "polygon_geojson" },
+            "geometry" => {
+              "type" => "Polygon",
+              "coordinates" => [
+                [[30, 10], [40, 40], [30, 10]]
+              ]
+            }
+          }.to_json
+        ]
+      end
+
+      it "adds default polygon color" do
+        expect(JSON.parse(geojson_feature_collection)["features"].first["properties"]["color"]).to eq(consultation.polygon_colour)
+      end
+    end
+
+    context "when passed null or invalid values" do
+      let(:args) { [nil] }
+
+      it "ignores the invalid values and returns an empty FeatureCollection" do
+        expect(
+          JSON.parse(geojson_feature_collection)
+        ).to eq(
+          {
+            "type" => "FeatureCollection",
+            "features" => []
+          }
+        )
       end
     end
   end

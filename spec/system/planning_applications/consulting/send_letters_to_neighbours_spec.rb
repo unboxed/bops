@@ -11,6 +11,7 @@ RSpec.describe "Send letters to neighbours", js: true do
   let!(:planning_application) do
     create(:planning_application,
            :from_planx_prior_approval,
+           :with_boundary_geojson,
            application_type:,
            local_authority: default_local_authority,
            api_user:,
@@ -40,11 +41,6 @@ RSpec.describe "Send letters to neighbours", js: true do
     expect(page).to have_content(planning_application.full_address)
     expect(page).to have_content(planning_application.reference)
 
-    map_selector = find("my-map")
-    expect(map_selector["latitude"]).to eq(planning_application.latitude)
-    expect(map_selector["longitude"]).to eq(planning_application.longitude)
-    expect(map_selector["showMarker"]).to eq("true")
-
     expect(page).to have_content("Neighbours submitted by applicant")
     expect(page).to have_content("London, 80 Underhill Road, SE22 0QU")
     expect(page).to have_content("London, 78 Underhill Road, SE22 0QU")
@@ -53,14 +49,14 @@ RSpec.describe "Send letters to neighbours", js: true do
   it "allows me to add addresses" do
     click_link "Send letters to neighbours"
 
-    fill_in "Add neighbours by address", with: "60-62 Commercial Street"
+    fill_in "Manually add neighbours by address", with: "60-62 Commercial Street"
     # # Something weird is happening with the javascript, so having to double click for it to register
     # # This doesn't happen in "real life"
     page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
     expect(page).to have_content("60-62 Commercial Street")
 
-    fill_in "Add neighbours by address", with: "60-61 Commercial Road"
+    fill_in "Manually add neighbours by address", with: "60-61 Commercial Road"
     page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
     expect(page).to have_content("60-61 Commercial Road")
@@ -71,7 +67,7 @@ RSpec.describe "Send letters to neighbours", js: true do
   it "allows me to edit addresses" do
     click_link "Send letters to neighbours"
 
-    fill_in "Add neighbours by address", with: "60-62 Commercial Street"
+    fill_in "Manually add neighbours by address", with: "60-62 Commercial Street"
     page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
     expect(page).to have_content("60-62 Commercial Street")
@@ -87,7 +83,7 @@ RSpec.describe "Send letters to neighbours", js: true do
   it "allows me to delete addresses" do
     click_link "Send letters to neighbours"
 
-    fill_in "Add neighbours by address", with: "60-62 Commercial Street"
+    fill_in "Manually add neighbours by address", with: "60-62 Commercial Street"
     page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
     expect(page).to have_content("60-62 Commercial Street")
@@ -120,7 +116,7 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       click_link "Send letters to neighbours"
 
-      fill_in "Add neighbours by address", with: "60-62 Commercial Street"
+      fill_in "Manually add neighbours by address", with: "60-62 Commercial Street"
       # # Something weird is happening with the javascript, so having to double click for it to register
       # # This doesn't happen in "real life"
       page.find(:xpath, "//input[@value='Add neighbour']").click.click
@@ -130,7 +126,7 @@ RSpec.describe "Send letters to neighbours", js: true do
       expect(page).to have_content("Public consultation")
       expect(page).to have_content("Application received: #{planning_application.received_at.to_fs(:day_month_year_slashes)}")
 
-      fill_in "Add neighbours by address", with: "60-61 Commercial Road"
+      fill_in "Manually add neighbours by address", with: "60-61 Commercial Road"
       page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
       expect(page).to have_content("A copy of the letter will also be sent by email to the applicant.")
@@ -165,14 +161,14 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       click_link "Send letters to neighbours"
 
-      fill_in "Add neighbours by address", with: "60-62 Commercial Street"
+      fill_in "Manually add neighbours by address", with: "60-62 Commercial Street"
       # # Something weird is happening with the javascript, so having to double click for it to register
       # # This doesn't happen in "real life"
       page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
       expect(page).to have_content("60-62 Commercial Street")
 
-      fill_in "Add neighbours by address", with: "60-61 Commercial Road"
+      fill_in "Manually add neighbours by address", with: "60-61 Commercial Road"
       page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
       fill_in "Neighbour letter preview", with: "This is some content I'm putting in"
@@ -203,7 +199,7 @@ RSpec.describe "Send letters to neighbours", js: true do
         visit planning_application_path(planning_application)
         click_link "Send letters to neighbours"
 
-        fill_in "Add neighbours by address", with: "60-62 Commercial Street"
+        fill_in "Manually add neighbours by address", with: "60-62 Commercial Street"
         page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
         click_button "Print and send letters"
@@ -230,7 +226,7 @@ RSpec.describe "Send letters to neighbours", js: true do
     expect(page).to have_content(neighbour.address)
     expect(page).to have_content("Posted")
 
-    fill_in "Add neighbours by address", with: "60-62 Commercial Street"
+    fill_in "Manually add neighbours by address", with: "60-62 Commercial Street"
     page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
     expect(page).to have_content("60-62 Commercial Street")
@@ -280,47 +276,52 @@ RSpec.describe "Send letters to neighbours", js: true do
   context "when drawing a polygon to search for addresses" do
     let(:geojson) do
       {
-        type: "FeatureCollection",
-        features: [
-          {
-            type: "Feature",
-            geometry: {
-              type: "Polygon",
-              coordinates: [
-                [
-                  [-0.07837477827741827, 51.49960885888714],
-                  [-0.0783663401899492, 51.49932756979237],
-                  [-0.07795182562987539, 51.49943999679809],
-                  [-0.07803420855642619, 51.49966559098456],
-                  [-0.07837477827741827, 51.49960885888714]
+        "EPSG:3857" => {
+          type: "FeatureCollection",
+          features: [
+            {
+              type: "Feature",
+              geometry: {
+                type: "Polygon",
+                coordinates: [
+                  [
+                    [-0.07837477827741827, 51.49960885888714],
+                    [-0.0783663401899492, 51.49932756979237],
+                    [-0.07795182562987539, 51.49943999679809],
+                    [-0.07803420855642619, 51.49966559098456],
+                    [-0.07837477827741827, 51.49960885888714]
+                  ]
                 ]
-              ]
+              }
             }
-          }
-        ]
-      }
-    end
-
-    let(:reversed_geojson) do
-      {
-        "type" => "Feature",
-        "geometry" => {
-          "type" => "Polygon",
-          "coordinates" => [
-            [
-              [51.49960885888714, -0.07837477827741827],
-              [51.49932756979237, -0.0783663401899492],
-              [51.49943999679809, -0.07795182562987539],
-              [51.49966559098456, -0.07803420855642619],
-              [51.49960885888714, -0.07837477827741827]
-            ]
+          ]
+        },
+        "EPSG:27700" => {
+          type: "FeatureCollection",
+          features: [
+            {
+              type: "Feature",
+              geometry: {
+                type: "Polygon",
+                coordinates: [
+                  [
+                    [533_660.325620841, 179_698.37392323086],
+                    [533_649.9051589356, 179_685.7419492526],
+                    [533_657.22377888, 179_679.7348004314],
+                    [533_666.9384742181, 179_692.96876213647],
+                    [533_660.325620841, 179_698.37392323086]
+                  ]
+                ]
+              },
+              properties: nil
+            }
           ]
         }
       }
     end
 
     before do
-      stub_os_places_api_request_for_polygon(reversed_geojson)
+      stub_os_places_api_request_for_polygon(geojson["EPSG:27700"][:features][0])
       Rails.configuration.os_vector_tiles_api_key = "testtest"
       click_link "Send letters to neighbours"
 
@@ -330,11 +331,11 @@ RSpec.describe "Send letters to neighbours", js: true do
     end
 
     it "shows the relevant content for searching by polygon" do
-      expect(page).to have_content("Neighbour addresses returned from drawn polygon")
+      expect(page).to have_content("1) Select the neighbours you want to add")
+      expect(page).to have_content("You must click 'Add neighbours' to save the returned addresses")
+      expect(page).to have_content("Use the map to select the boundary")
       map = find("my-map")
       expect(map["geojsondata"]).to eq(planning_application.boundary_geojson)
-
-      expect(page).not_to have_content("Previously drawn area for neighbour addresses search")
     end
 
     it "I can add the neighbour addresses that are returned" do
@@ -394,12 +395,50 @@ RSpec.describe "Send letters to neighbours", js: true do
     it "I can view the previously drawn area" do
       click_button "Add neighbours"
 
-      expect(page).to have_content("Previously drawn area for neighbour addresses search")
-      # Two maps should be displayed with the red line boundary and drawn polygon
-      map_selectors = all("my-map")
-      expect(map_selectors.first["geojsondata"]).to eq(planning_application.boundary_geojson)
-      expect(map_selectors.last["geojsondata"]).to eq(Consultation.last.polygon_geojson)
-      expect(map_selectors.last["geojsoncolor"]).to eq("#d870fc")
+      map = find("my-map")
+      geojson = JSON.parse(map["geojsondata"])
+
+      expect(geojson["features"][0]).to eq(
+        {
+          "type" => "Feature",
+          "properties" => {},
+          "geometry" => {
+            "type" => "Polygon",
+            "coordinates" =>
+              [
+                [
+                  [-0.054597, 51.537331],
+                  [-0.054588, 51.537287],
+                  [-0.054453, 51.537313],
+                  [-0.054597, 51.537331]
+                ]
+              ]
+          }
+        }
+      )
+
+      expect(geojson["features"][1]).to eq(
+        {
+          "type" => "Feature",
+          "geometry" => {
+            "type" => "Polygon",
+            "coordinates" =>
+              [
+                [
+                  [-0.07837477827741827, 51.49960885888714],
+                  [-0.0783663401899492, 51.49932756979237],
+                  [-0.07795182562987539, 51.49943999679809],
+                  [-0.07803420855642619, 51.49966559098456],
+                  [-0.07837477827741827, 51.49960885888714]
+                ]
+              ]
+          },
+          "properties" => {
+            "type" => "polygon_geojson",
+            "color" => "#d870fc"
+          }
+        }
+      )
     end
 
     it "I can reset a drawn area" do
@@ -443,51 +482,56 @@ RSpec.describe "Send letters to neighbours", js: true do
 
     context "when redrawing the polygon" do
       before do
-        stub_os_places_api_request_for_polygon(reversed_redrawn_geojson, "redrawn_polygon_search")
+        stub_os_places_api_request_for_polygon(redrawn_geojson["EPSG:27700"][:features][0], "redrawn_polygon_search")
       end
 
       let(:redrawn_geojson) do
         {
-          type: "FeatureCollection",
-          features: [
-            {
-              type: "Feature",
-              geometry: {
-                type: "Polygon",
-                coordinates: [
-                  [
-                    [-0.08018430103465587, 51.497070661375886],
-                    [-0.08025903628948244, 51.49700191751015],
-                    [-0.08022688540367927, 51.49689298114299],
-                    [-0.08004421293717312, 51.49685137544674],
-                    [-0.07992821506988153, 51.496941695353854],
-                    [-0.07996192953503174, 51.49705721720349],
-                    [-0.08009447338556726, 51.49706107297908],
-                    [-0.08018430103465587, 51.497070661375886]
+          "EPSG:3857" => {
+            type: "FeatureCollection",
+            features: [
+              {
+                type: "Feature",
+                geometry: {
+                  type: "Polygon",
+                  coordinates: [
+                    [
+                      [-0.08018430103465587, 51.497070661375886],
+                      [-0.08025903628948244, 51.49700191751015],
+                      [-0.08022688540367927, 51.49689298114299],
+                      [-0.08004421293717312, 51.49685137544674],
+                      [-0.07992821506988153, 51.496941695353854],
+                      [-0.07996192953503174, 51.49705721720349],
+                      [-0.08009447338556726, 51.49706107297908],
+                      [-0.08018430103465587, 51.497070661375886]
+                    ]
                   ]
-                ]
+                }
               }
-            }
-          ]
-        }
-      end
-
-      let(:reversed_redrawn_geojson) do
-        {
-          "type" => "Feature",
-          "geometry" => {
-            "type" => "Polygon",
-            "coordinates" => [
-              [
-                [51.497070661375886, -0.08018430103465587],
-                [51.49700191751015, -0.08025903628948244],
-                [51.49689298114299, -0.08022688540367927],
-                [51.49685137544674, -0.08004421293717312],
-                [51.496941695353854, -0.07992821506988153],
-                [51.49705721720349, -0.07996192953503174],
-                [51.49706107297908, -0.08009447338556726],
-                [51.497070661375886, -0.08018430103465587]
-              ]
+            ]
+          },
+          "EPSG:27700" => {
+            type: "FeatureCollection",
+            features: [
+              {
+                type: "Feature",
+                geometry: {
+                  type: "Polygon",
+                  coordinates: [
+                    [
+                      [533_378.6137480768, 179_308.4693687631],
+                      [533_379.2170422648, 179_306.59981187445],
+                      [533_373.4315282275, 179_297.8483378425],
+                      [533_367.6318595328, 179_299.8685499648],
+                      [533_358.2525280855, 179_307.0164626359],
+                      [533_363.4518187683, 179_316.33355877135],
+                      [533_373.4518187683, 179_310.43355877135],
+                      [533_378.6137480768, 179_308.4693687631]
+                    ]
+                  ]
+                },
+                properties: nil
+              }
             ]
           }
         }

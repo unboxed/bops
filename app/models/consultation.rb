@@ -3,6 +3,8 @@
 class Consultation < ApplicationRecord
   class AddNeighbourAddressesError < StandardError; end
 
+  include GeojsonFormattable
+
   belongs_to :planning_application
 
   with_options dependent: :destroy do
@@ -23,6 +25,8 @@ class Consultation < ApplicationRecord
   }
 
   before_update :audit_letter_copy_sent!, if: :letter_copy_sent_at_changed?
+
+  format_geojson_epsg :polygon_geojson, set_type: true
 
   def start_deadline
     update!(end_date: end_date_from_now, start_date: start_date || 1.business_day.from_now)
@@ -89,6 +93,38 @@ class Consultation < ApplicationRecord
     end
   rescue ActiveRecord::ActiveRecordError, ActiveRecord::RecordNotUnique => e
     raise AddNeighbourAddressesError, e.message
+  end
+
+  def polygon_fill_colour
+    "#{polygon_colour}20"
+  end
+
+  def concatenate_geojsons(*geojsons)
+    features = []
+
+    geojsons.compact.each do |geojson|
+      parsed = JSON.parse(geojson)
+
+      # Extract features based on whether the parsed object is a feature or a feature collection
+      if parsed["type"] == "Feature"
+        features << parsed
+      elsif parsed["type"] == "FeatureCollection" && parsed["features"].is_a?(Array)
+        features.concat(parsed["features"])
+      end
+    end
+
+    # Add polygon_colour to all polygon_geojson features
+    features.each do |feature|
+      next unless feature["properties"] && feature["properties"]["type"] == "polygon_geojson"
+
+      feature["properties"]["color"] ||= polygon_colour
+    end
+
+    # Return the combined features as a FeatureCollection
+    {
+      "type" => "FeatureCollection",
+      "features" => features
+    }.to_json
   end
 
   private
