@@ -38,7 +38,10 @@ module Api
 
         return if @planning_application
 
-        render json: { message: "Unable to find planning application with id: #{params[:planning_application_id]}" },
+        render json: {
+                 message:
+                  "Unable to find planning application with id: #{params[:planning_application_id]}"
+               },
                status: :not_found
       end
     end

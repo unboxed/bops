@@ -52,6 +52,34 @@
                     <% end %>
                   </div>
                 </div>
+                <% if response.documents.any? %>
+                  <tbody class="govuk-table__body">
+                    <% response.documents.each do |document| %>
+                      <tr class="govuk-table__row">
+                        <td class="govuk-table__cell govuk-!-width-one-third">
+                          <p class="govuk-body govuk-!-margin-bottom-1">
+                            <%= link_to image_tag(document.file.representation(resize: "300x212")),
+                                        url_for_document(document), target: :_blank %>
+                          </p>
+                          <p class="govuk-body">
+                            <%= truncate(document.name.to_s, length: 50) %><br>
+                            <%= link_to "View in new window", url_for_document(document), target: :_new %>
+                          </p>
+                        </td>
+                        <td class="govuk-table__cell govuk-!-width-one-third">
+                          <% document.tags.each do |tag| %>
+                            <strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong>
+                          <% end %>
+                        </td>
+                        <td class="govuk-table__cell govuk-!-width-one-third">
+                          <p class="govuk-body govuk-!-margin-bottom-1">
+                            <%= document.created_at.to_fs %>
+                          </p>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                <% end %>
                 <div class="display-flex">
                   <%= link_to "Edit", edit_planning_application_consultation_neighbour_response_path(@planning_application, @consultation, response) %>
                   <% if response.redacted_response.present? %>

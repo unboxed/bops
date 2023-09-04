@@ -18,11 +18,13 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
   end
 
   it "successfully creates a new neighbour response" do
-    json = '{
-             "name": "Keira Walsh",
-             "response": "This is good",
-             "address": "123 street",
-             "summary_tag": "supportive" }'
+    json = {
+      name: "Keira Walsh",
+      response: "This is good",
+      address: "123 street",
+      summary_tag: "supportive",
+      files: [""]
+    }.to_json
 
     post(path, params: json, headers:)
 
@@ -30,9 +32,11 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
   end
 
   it "captures errors successfully" do
-    json = '{
-      "name": "",
-      "response": "" }'
+    json = {
+      name: "",
+      response: "",
+      files: [""]
+    }.to_json
 
     post(path, params: json, headers:)
 
