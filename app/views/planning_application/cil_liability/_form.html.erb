@@ -1,0 +1,22 @@
+<%= form_with model: [@planning_application],
+              url: planning_application_cil_liability_url(@planning_application),
+              local: true,
+              builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+              class: "govuk-!-margin-top-7" do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+  <%= form.govuk_radio_buttons_fieldset(
+        :cil_liability,
+        legend: { text: "Is the application liable for CIL?", size: "s" }
+      ) do %>
+    <%= form.govuk_radio_button(
+          :cil_liable, true, checked: @planning_application.cil_liable, label: { text: "Yes" }
+        ) %>
+
+    <%= form.govuk_radio_button(
+          :cil_liable, false, checked: !@planning_application.cil_liable.nil? && !@planning_application.cil_liable, label: { text: "No" }
+        ) %>
+  <% end %>
+
+  <%= render(partial: "shared/submit_buttons", locals: { form: }) %>
+<% end %>

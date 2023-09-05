@@ -145,6 +145,7 @@ Rails.application.routes.draw do
       resources :review_immunity_details, only: %i[edit update show]
 
       resources :permitted_development_rights, only: %i[new create edit update show]
+      resource :cil_liability, only: %i[edit update], controller: :cil_liability
 
       resources :review_immunity_enforcements, only: %i[show edit update]
 

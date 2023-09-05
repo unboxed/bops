@@ -1,0 +1,17 @@
+<% content_for :page_title do %>
+  CIL Liability - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: { planning_application: @planning_application }
+    ) %>
+
+<% content_for :title, "CIL Liability" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: { heading: "CIL Liability" }
+    ) %>
+
+<%= render partial: "form" %>
