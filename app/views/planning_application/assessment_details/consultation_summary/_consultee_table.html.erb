@@ -8,6 +8,9 @@
         </td>
         <% unless read_only %>
           <td class="govuk-table__cell">
+            <%= link_to "Edit response", edit_planning_application_consultee_path(planning_application, consultee), class: "govuk-link" %>
+          </td>
+          <td class="govuk-table__cell">
             <%= button_tag(
               t(".remove_from_list"),
               class: "button-as-link",
