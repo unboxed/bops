@@ -75,6 +75,71 @@ RSpec.describe "Permitted development right" do
           expect(find_by_id("planning-application-cil-liable-field")).to be_selected
         end
       end
+
+      context "when there is no liability information from planx" do
+        it "explains that there is no liability information" do
+          visit planning_application_assessment_tasks_path(planning_application)
+          click_link "CIL Liability"
+
+          expect(page).to have_content("No information on potential CIL liability from PlanX.")
+        end
+
+        it "does not preselect any radio button" do
+          visit planning_application_assessment_tasks_path(planning_application)
+          click_link "CIL Liability"
+
+          expect(find_by_id("planning-application-cil-liable-true-field")).not_to be_selected
+          expect(find_by_id("planning-application-cil-liable-field")).not_to be_selected
+        end
+      end
+
+      context "when there is liability information from planx" do
+        before do
+          cil_liability_proposal_detail = instance_double(ProposalDetail)
+          allow(cil_liability_proposal_detail).to receive(:response_values).and_return([planx_response])
+          allow_any_instance_of(PlanningApplication).to receive(:cil_liability_proposal_detail).and_return(cil_liability_proposal_detail)
+        end
+
+        context "when the application might be liable" do
+          let(:planx_response) { "More than 100m²" }
+
+          it "shows relevant liability information" do
+            visit planning_application_assessment_tasks_path(planning_application)
+            click_link "CIL Liability"
+
+            expect(page).to have_content(planx_response)
+            expect(page).to have_content("This might mean that the application is liable for CIL.")
+          end
+
+          it "selects yes by default" do
+            visit planning_application_assessment_tasks_path(planning_application)
+            click_link "CIL Liability"
+
+            expect(find_by_id("planning-application-cil-liable-true-field")).not_to be_selected
+            expect(find_by_id("planning-application-cil-liable-field")).not_to be_selected
+          end
+        end
+
+        context "when the application might not be liable" do
+          let(:planx_response) { "Less than 100m²" }
+
+          it "shows relevant liability information" do
+            visit planning_application_assessment_tasks_path(planning_application)
+            click_link "CIL Liability"
+
+            expect(page).to have_content(planx_response)
+            expect(page).to have_content("This might mean that the application is not liable for CIL.")
+          end
+
+          it "selects no by default" do
+            visit planning_application_assessment_tasks_path(planning_application)
+            click_link "CIL Liability"
+
+            expect(find_by_id("planning-application-cil-liable-true-field")).not_to be_selected
+            expect(find_by_id("planning-application-cil-liable-field")).to be_selected
+          end
+        end
+      end
     end
   end
 
