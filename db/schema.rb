@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_05_150942) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_06_161817) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -153,7 +153,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_05_150942) do
     t.string "neighbour_letter_text"
     t.datetime "end_date"
     t.datetime "letter_copy_sent_at"
-    t.json "polygon_geojson"
+    t.jsonb "polygon_geojson"
     t.string "polygon_colour", default: "#d870fc", null: false
     t.index ["planning_application_id"], name: "ix_consultations_on_planning_application_id"
   end
@@ -265,7 +265,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_05_150942) do
     t.bigint "neighbour_id", null: false
     t.string "text"
     t.string "sent_at"
-    t.json "notify_response"
+    t.jsonb "notify_response"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "notify_id"
@@ -359,7 +359,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_05_150942) do
   end
 
   create_table "planning_application_constraints_queries", force: :cascade do |t|
-    t.json "geojson", null: false
+    t.jsonb "geojson", null: false
     t.text "wkt", null: false
     t.string "planx_query", null: false
     t.string "planning_data_query", null: false
@@ -406,7 +406,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_05_150942) do
     t.string "county"
     t.string "postcode"
     t.string "uprn"
-    t.json "boundary_geojson"
+    t.jsonb "boundary_geojson"
     t.text "old_constraints", default: [], null: false, array: true
     t.string "change_access_id"
     t.date "expiry_date"
@@ -512,7 +512,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_05_150942) do
     t.integer "planning_application_id", null: false
     t.integer "user_id", null: false
     t.string "state", null: false
-    t.json "new_geojson", null: false
+    t.jsonb "new_geojson", null: false
     t.string "reason", null: false
     t.string "rejection_reason"
     t.boolean "approved"
@@ -522,7 +522,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_05_150942) do
     t.date "notified_at"
     t.text "cancel_reason"
     t.datetime "cancelled_at", precision: nil
-    t.json "original_geojson"
+    t.jsonb "original_geojson"
     t.boolean "post_validation", default: false, null: false
     t.boolean "auto_closed", default: false, null: false
     t.datetime "auto_closed_at", precision: nil
