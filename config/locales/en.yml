@@ -462,6 +462,9 @@ en:
       update_constraints: Update constraints
     update:
       success: Constraints have been updated
+  consultees:
+    update:
+      success: Consultee response has been updated
   date:
     formats:
       default: "%-d %B %Y"

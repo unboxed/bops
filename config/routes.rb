@@ -30,7 +30,7 @@ Rails.application.routes.draw do
 
   resources :planning_applications, only: %i[index show new edit create update] do
     resource :assessment_report_download, only: :show
-    resources :consultees, only: %i[create destroy]
+    resources :consultees, only: %i[create destroy edit update]
     resource(:consistency_checklist, only: %i[new create edit update show])
     resource :review_assessment_details, only: %i[show edit update]
 
