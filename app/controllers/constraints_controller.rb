@@ -18,7 +18,7 @@ class ConstraintsController < AuthenticationController
     ActiveRecord::Base.transaction do
       if local_constraint.present?
         @planning_application.constraints.find_or_create_by!(
-          name: local_constraint.titleize,
+          type: local_constraint.titleize,
           category: "local",
           local_authority_id: @planning_application.local_authority_id
         )
@@ -63,7 +63,7 @@ class ConstraintsController < AuthenticationController
   end
 
   def local_constraint
-    params.dig(:planning_application, :name)
+    params.dig(:planning_application, :constraint_type)
   end
 
   def constraint_ids

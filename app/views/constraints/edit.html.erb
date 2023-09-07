@@ -42,7 +42,7 @@
                       ) %>
                     <%= label_tag(
                       "constraint_id_#{constraint.id}",
-                      constraint.name,
+                      constraint.type,
                       class: "govuk-label govuk-checkboxes__label",
                     ) %>
                   </div>
@@ -54,8 +54,8 @@
       <% end %>
 
       <div class="form-group">
-        <%= form.label :name, "Add a local constraint", class: 'govuk-heading-s govuk-!-margin-top-6' %>
-        <%= form.text_area :name, class: "govuk-textarea", rows: "3", "aria-describedby": "constraints-hint" %>
+        <%= form.label :constraint_type, "Add a local constraint", class: 'govuk-heading-s govuk-!-margin-top-6' %>
+        <%= form.text_area :constraint_type, class: "govuk-textarea", rows: "3", "aria-describedby": "constraints-hint" %>
       </div>
 
       <div class="govuk-button-group">

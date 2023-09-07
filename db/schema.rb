@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_11_135911) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_12_154603) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -136,12 +136,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_11_135911) do
   end
 
   create_table "constraints", force: :cascade do |t|
-    t.string "name", null: false
+    t.string "type", null: false
     t.string "category", null: false
     t.bigint "local_authority_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["local_authority_id", "name"], name: "ix_constraints_on_local_authority_id__name", unique: true
+    t.index ["local_authority_id", "type"], name: "ix_constraints_on_local_authority_id__type", unique: true
     t.index ["local_authority_id"], name: "ix_constraints_on_local_authority_id"
   end
 

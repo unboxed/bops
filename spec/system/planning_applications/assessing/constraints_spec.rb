@@ -67,7 +67,7 @@ RSpec.describe "Constraints" do
       check "Site of Special Scientific Interest (SSSI)"
       check "National Park"
 
-      fill_in "planning_application[name]", with: "local constraint"
+      fill_in "planning_application[constraint_type]", with: "local constraint"
 
       click_button "Save"
 
@@ -114,7 +114,7 @@ RSpec.describe "Constraints" do
 
       it "presents an error message to the user and does not persist any updates" do
         check "Flood zone"
-        fill_in "planning_application[name]", with: "local constraint"
+        fill_in "planning_application[constraint_type]", with: "local constraint"
 
         click_button "Save"
 
