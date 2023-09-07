@@ -126,8 +126,8 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       expect(page).to have_content("60-62 Commercial Street")
 
-      expect(page).to have_content("Public consultation")
-      expect(page).to have_content("Application received: #{planning_application.received_at.to_fs(:day_month_year_slashes)}")
+      expect(page).to have_content("# Submit your comments by")
+      expect(page).to have_content("Application number: #{planning_application.reference}")
 
       fill_in "Search for neighbours by address", with: "60-61 Commercial Road"
       page.find(:xpath, "//input[@value='Add neighbour']").click.click
@@ -138,7 +138,7 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       expect(planning_application.consultation.reload.letter_copy_sent_at).to eq(Time.zone.local(2023, 9, 1, 10))
 
-      expect(NeighbourLetter.last.text).to include("We are writing to notify you that we have received a prior approval application for a larger extension at the address:")
+      expect(NeighbourLetter.last.text).to include("A prior approval application has been made for the development described below:")
 
       # View audit log
       visit planning_application_audits_path(planning_application)

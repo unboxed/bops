@@ -631,27 +631,9 @@ en:
       edit: Edit
       local_authority: Council information
       reviewer_group_email: Manager group email
-  neighbour_letter_template: |-
-    Public consultation
-
-    We are writing to notify you that we have received a prior approval application for a larger extension at the address:
-    %{address}
-
-    Proposal of work
-    %{description}
-
-    Proposal dimensions
-    The new extension will extend %{rear_wall}m beyond the back wall of the original property, the maximum height of the extension is %{max_height}m, the eaves are %{eaves_height}m high.
-
-    Application received: %{received_at}
-
-    Application expiry: %{expiry_date}
-
-    Application number: %{reference}
-
-    To view more details about this application or to make a comment, use this link %{application_link}
-
-    You can comment on this application until %{closing_date}
+  neighbour_letter_header:
+    planning_permission: Submit your comments by %{closing_date}
+    prior_approval: Submit your comments by %{closing_date}
   other_change_validation_requests:
     create:
       success: Other validation change request successfully created.

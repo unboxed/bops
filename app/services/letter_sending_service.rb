@@ -24,7 +24,7 @@ class LetterSendingService
       consultation.start_deadline
     end
 
-    personalisation = { message: letter_content, heading: "Public consultation" }
+    personalisation = { message: letter_content, heading: @consultation.neighbour_letter_header }
     personalisation.merge! address
 
     begin
