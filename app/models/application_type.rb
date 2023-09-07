@@ -3,7 +3,7 @@
 class ApplicationType < ApplicationRecord
   APPLICATION_STEPS = %i[validation publicity assessment review].freeze
 
-  NAME_ORDER = %w[prior_approval lawfulness_certificate].freeze
+  NAME_ORDER = %w[prior_approval planning_permission lawfulness_certificate].freeze
 
   default_scope { in_order_of(:name, NAME_ORDER).order(:name) }
 

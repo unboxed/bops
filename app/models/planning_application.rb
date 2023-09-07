@@ -87,7 +87,7 @@ class PlanningApplication < ApplicationRecord
   before_create :set_change_access_id
   after_create :set_ward_and_parish_information
   after_create :create_audit!
-  after_create :update_measurements, if: :prior_approval_case?
+  after_create :update_measurements, if: :prior_approval?
   before_update :set_key_dates
   before_update lambda {
                   reset_validation_requests_update_counter!(red_line_boundary_change_validation_requests)
@@ -806,7 +806,9 @@ class PlanningApplication < ApplicationRecord
     end
   end
 
-  def prior_approval_case?
-    type == "Prior approval"
+  ApplicationType::NAME_ORDER.each do |name|
+    define_method "#{name}?" do
+      name == application_type_name
+    end
   end
 end

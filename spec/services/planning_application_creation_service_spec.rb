@@ -189,5 +189,26 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
         end
       end
     end
+
+    context "when application type is planning permission full householder" do
+      let(:local_authority) { create(:local_authority) }
+      let(:params) { ActionController::Parameters.new(JSON.parse(file_fixture("planx_params_planning_permission_full_householder.json").read)) }
+      let!(:application_type) { create(:application_type, name: "planning_permission") }
+
+      let(:create_planning_application) do
+        described_class.new(
+          local_authority:, params:, api_user:
+        ).call
+      end
+
+      context "when successful" do
+        it "creates a new planning application from the params" do
+          expect { create_planning_application }.to change(PlanningApplication, :count).by(1)
+
+          planning_application = PlanningApplication.last
+          expect(planning_application.reference).to eq("#{planning_application.created_at.year % 100}-00100-HAPP")
+        end
+      end
+    end
   end
 end

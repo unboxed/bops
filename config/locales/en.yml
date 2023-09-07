@@ -225,6 +225,8 @@ en:
     lawfulness_certificate:
       existing: LDCE
       proposed: LDCP
+    planning_permission:
+      proposed: HAPP
     prior_approval:
       existing: PA
       proposed: PA
@@ -237,6 +239,7 @@ en:
           description: Review Condition A.4 of GPDO 2015 (as amended) Schedule 2, Part 1, Class A.
           link: https://www.legislation.gov.uk/uksi/2015/596/schedule/2/made
           link_text: The Town and Country Planning (General Permitted Development) (England) Order 2015
+    planning_permission: Full householder planning permission
     prior_approval: Prior approval
     prior_approval_abbr: PA
   archive_reasons:

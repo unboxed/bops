@@ -58,8 +58,15 @@ local_authorities.each do |authority|
   end
 end
 
-ApplicationType.create(name: "lawfulness_certificate")
-ApplicationType.create(name: "prior_approval", part: 1, section: "A")
+application_types = [
+  { name: "lawfulness_certificate" },
+  { name: "prior_approval", part: 1, section: "A" },
+  { name: "planning_permission" }
+]
+
+application_types.each do |attrs|
+  ApplicationType.find_or_create_by!(attrs)
+end
 
 constraints_list = {
   flooding: [

@@ -8,6 +8,10 @@ FactoryBot.define do
       name { "prior_approval" }
     end
 
+    trait :planning_permission do
+      name { "planning_permission" }
+    end
+
     initialize_with { ApplicationType.find_or_create_by(name:) }
   end
 end
