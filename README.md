@@ -69,6 +69,10 @@ $ yarn install
 $ brew install chromedriver  # as an admin user
 ```
 
+#### Enable the PostGIS extension:
+
+If enabling PostGIS natively, please review the [installation guide](https://postgis.net/documentation/getting_started/).
+
 #### Create the databases
 
 ```sh
