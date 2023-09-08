@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_07_143619) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_08_091716) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -449,6 +449,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_143619) do
     t.boolean "make_public", default: false
     t.boolean "legislation_checked", default: false, null: false
     t.boolean "cil_liable"
+    t.geography "lonlat", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
@@ -456,6 +457,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_143619) do
     t.index ["application_type_id"], name: "ix_planning_applications_on_application_type_id"
     t.index ["boundary_created_by_id"], name: "ix_planning_applications_on_boundary_created_by_id"
     t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
+    t.index ["lonlat"], name: "ix_planning_applications_on_lonlat", using: :gist
     t.index ["reference", "local_authority_id"], name: "ix_planning_applications_on_reference__local_authority_id", unique: true
     t.index ["status", "application_type_id"], name: "ix_planning_applications_on_status__application_type_id"
     t.index ["status"], name: "ix_planning_applications_on_status"

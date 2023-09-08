@@ -115,8 +115,7 @@ class PlanningApplicationCreationService
       address_2: params[:site][:address_2], # rubocop:disable Naming/VariableNumber
       town: params[:site][:town],
       postcode: params[:site][:postcode],
-      latitude: params[:site][:latitude],
-      longitude: params[:site][:longitude] }
+      lonlat: lonlat(params[:site][:longitude], params[:site][:latitude]) }
   end
 
   def result_params
@@ -153,5 +152,11 @@ class PlanningApplicationCreationService
 
   def skip_email?
     params[:send_email] == "false" || @send_email == false
+  end
+
+  def lonlat(longitude, latitude)
+    return unless longitude.present? && latitude.present?
+
+    "POINT(#{longitude} #{latitude})"
   end
 end

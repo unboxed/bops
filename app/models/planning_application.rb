@@ -617,6 +617,14 @@ class PlanningApplication < ApplicationRecord
     end
   end
 
+  def latitude
+    super || lonlat.try(:y)
+  end
+
+  def longitude
+    super || lonlat.try(:x)
+  end
+
   delegate :name, to: :application_type, prefix: true
 
   private

@@ -41,8 +41,8 @@ RSpec.describe "Drawing a sitemap on a planning application" do
 
         # When no boundary set, map should be displayed zoomed in at latitiude/longitude if fields present
         map_selector = find("my-map")
-        expect(map_selector["latitude"]).to eq(planning_application.latitude)
-        expect(map_selector["longitude"]).to eq(planning_application.longitude)
+        expect(map_selector["latitude"]).to eq(planning_application.latitude.to_s)
+        expect(map_selector["longitude"]).to eq(planning_application.longitude.to_s)
         expect(map_selector["showMarker"]).to eq("true")
 
         # JS to emulate a polygon drawn on the map

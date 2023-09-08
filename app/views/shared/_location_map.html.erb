@@ -12,7 +12,7 @@
     <% if locals[:invalid_red_line_boundary].present? %>
       geojsonColor='#515151'
     <% end %>
-  <% elsif @planning_application.latitude && @planning_application.longitude %>
+  <% elsif @planning_application.lonlat %>
     zoom="19"
     latitude='<%= @planning_application.latitude %>'
     longitude='<%= @planning_application.longitude %>'

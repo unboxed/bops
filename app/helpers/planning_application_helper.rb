@@ -31,9 +31,7 @@ module PlanningApplicationHelper
   end
 
   def show_map_pin?(planning_application, data)
-    (data[:geojson].blank? || data[:invalid_red_line_boundary].present?) &&
-      planning_application.latitude.present? &&
-      planning_application.longitude.present?
+    (data[:geojson].blank? || data[:invalid_red_line_boundary].present?) && planning_application.lonlat.present?
   end
 
   def map_link(full_address)
