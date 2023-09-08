@@ -95,6 +95,15 @@ RSpec.describe "Planning Application show page" do
     it "Assessment tasks are visible" do
       expect(page).to have_text("Check and assess")
     end
+
+    context "when application type is planning permission" do
+      let(:application_type) { create(:application_type, :planning_permission) }
+
+      it "I can view the correct application type name and the planning application code" do
+        expect(page).to have_content("#{planning_application.created_at.year % 100}-00100-HAPP")
+        expect(page).to have_content("Full householder planning permission")
+      end
+    end
   end
 
   context "as an assessor when target date is within a week" do

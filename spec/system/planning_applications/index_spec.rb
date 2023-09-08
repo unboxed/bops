@@ -211,7 +211,7 @@ RSpec.describe "Planning Application index page" do
         end
 
         expect(current_url).to include(
-          "query=&application_type%5B%5D=&application_type%5B%5D=prior_approval&status%5B%5D=&status%5B%5D=in_assessment#all"
+          "query=&application_type%5B%5D=&application_type%5B%5D=prior_approval&application_type%5B%5D=planning_permission&status%5B%5D=&status%5B%5D=in_assessment#all"
         )
       end
 
@@ -230,7 +230,7 @@ RSpec.describe "Planning Application index page" do
         end
 
         expect(current_url).to include(
-          "query=&application_type%5B%5D=&application_type%5B%5D=prior_approval&status%5B%5D=&status%5B%5D=not_started&status%5B%5D=invalidated&status%5B%5D=in_assessment&status%5B%5D=awaiting_determination&status%5B%5D=to_be_reviewed#all"
+          "query=&application_type%5B%5D=&application_type%5B%5D=prior_approval&application_type%5B%5D=planning_permission&status%5B%5D=&status%5B%5D=not_started&status%5B%5D=invalidated&status%5B%5D=in_assessment&status%5B%5D=awaiting_determination&status%5B%5D=to_be_reviewed#all"
         )
       end
 

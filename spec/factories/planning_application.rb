@@ -282,6 +282,10 @@ FactoryBot.define do
       end
     end
 
+    trait :planning_permission do
+      application_type { association :application_type, :planning_permission }
+    end
+
     trait :with_consultees do
       after(:create) do |planning_application|
         create_list(:consultee, 3, planning_application:)

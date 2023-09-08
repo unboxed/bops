@@ -259,6 +259,17 @@ RSpec.describe PlanningApplication do
               .to("22-00100-PA")
           end
         end
+
+        it "is set for the planning permission full householder application type" do
+          planning_application = build(:planning_application, :planning_permission)
+
+          travel_to(DateTime.new(2022, 1, 1)) do
+            expect { planning_application.save }
+              .to change(planning_application, :reference)
+              .from(nil)
+              .to("22-00100-HAPP")
+          end
+        end
       end
     end
 

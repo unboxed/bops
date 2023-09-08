@@ -73,6 +73,7 @@ class PlanningApplicationCreationService
 
   def planning_application_params
     check_for_prior_approval
+    check_for_planning_permission
 
     permitted_keys = [:application_type,
                       :description,
@@ -140,6 +141,10 @@ class PlanningApplicationCreationService
     raise CreateError, "BoPS does not accept this Prior Approval type" unless permitted_prior_approval_type?
 
     params[:application_type] = "prior_approval"
+  end
+
+  def check_for_planning_permission
+    params[:application_type] = "planning_permission" if params[:application_type] == "Apply for planning permission"
   end
 
   def permitted_prior_approval_type?
