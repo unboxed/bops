@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_08_091716) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_08_124029) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -156,6 +156,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_08_091716) do
     t.datetime "letter_copy_sent_at"
     t.jsonb "polygon_geojson"
     t.string "polygon_colour", default: "#d870fc", null: false
+    t.geography "polygon_search", limit: {:srid=>4326, :type=>"geometry_collection", :geographic=>true}
     t.index ["planning_application_id"], name: "ix_consultations_on_planning_application_id"
   end
 

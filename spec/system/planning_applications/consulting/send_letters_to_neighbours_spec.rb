@@ -49,14 +49,14 @@ RSpec.describe "Send letters to neighbours", js: true do
   it "allows me to add addresses" do
     click_link "Send letters to neighbours"
 
-    fill_in "Manually add neighbours by address", with: "60-62 Commercial Street"
+    fill_in "Search for neighbours by address", with: "60-62 Commercial Street"
     # # Something weird is happening with the javascript, so having to double click for it to register
     # # This doesn't happen in "real life"
     page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
     expect(page).to have_content("60-62 Commercial Street")
 
-    fill_in "Manually add neighbours by address", with: "60-61 Commercial Road"
+    fill_in "Search for neighbours by address", with: "60-61 Commercial Road"
     page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
     expect(page).to have_content("60-61 Commercial Road")
@@ -67,7 +67,7 @@ RSpec.describe "Send letters to neighbours", js: true do
   it "allows me to edit addresses" do
     click_link "Send letters to neighbours"
 
-    fill_in "Manually add neighbours by address", with: "60-62 Commercial Street"
+    fill_in "Search for neighbours by address", with: "60-62 Commercial Street"
     page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
     expect(page).to have_content("60-62 Commercial Street")
@@ -83,7 +83,7 @@ RSpec.describe "Send letters to neighbours", js: true do
   it "allows me to delete addresses" do
     click_link "Send letters to neighbours"
 
-    fill_in "Manually add neighbours by address", with: "60-62 Commercial Street"
+    fill_in "Search for neighbours by address", with: "60-62 Commercial Street"
     page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
     expect(page).to have_content("60-62 Commercial Street")
@@ -116,7 +116,7 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       click_link "Send letters to neighbours"
 
-      fill_in "Manually add neighbours by address", with: "60-62 Commercial Street"
+      fill_in "Search for neighbours by address", with: "60-62 Commercial Street"
       # # Something weird is happening with the javascript, so having to double click for it to register
       # # This doesn't happen in "real life"
       page.find(:xpath, "//input[@value='Add neighbour']").click.click
@@ -126,7 +126,7 @@ RSpec.describe "Send letters to neighbours", js: true do
       expect(page).to have_content("Public consultation")
       expect(page).to have_content("Application received: #{planning_application.received_at.to_fs(:day_month_year_slashes)}")
 
-      fill_in "Manually add neighbours by address", with: "60-61 Commercial Road"
+      fill_in "Search for neighbours by address", with: "60-61 Commercial Road"
       page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
       expect(page).to have_content("A copy of the letter will also be sent by email to the applicant.")
@@ -161,17 +161,21 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       click_link "Send letters to neighbours"
 
-      fill_in "Manually add neighbours by address", with: "60-62 Commercial Street"
+      fill_in "Search for neighbours by address", with: "60-62 Commercial Street"
       # # Something weird is happening with the javascript, so having to double click for it to register
       # # This doesn't happen in "real life"
       page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
       expect(page).to have_content("60-62 Commercial Street")
 
-      fill_in "Manually add neighbours by address", with: "60-61 Commercial Road"
-      page.find(:xpath, "//input[@value='Add neighbour']").click.click
+      expect(page).to have_content("3) Check and edit letter")
+      expect(page).to have_content("This is a template letter. Edit the letter before you send to selected neighbours.")
+      fill_in "Saved letter", with: "This is some content I'm putting in"
 
-      fill_in "Neighbour letter preview", with: "This is some content I'm putting in"
+      expect(page).to have_content("4) Send letter")
+      expect(page).to have_content("The letter will be sent to all selected neighbours.")
+      expect(page).to have_content("A copy of the letter will be sent to the applicant by email.")
+
       click_button "Print and send letters"
       expect(page).to have_content("Letters have been sent to neighbours and a copy of the letter has been sent to the applicant.")
 
@@ -199,7 +203,7 @@ RSpec.describe "Send letters to neighbours", js: true do
         visit planning_application_path(planning_application)
         click_link "Send letters to neighbours"
 
-        fill_in "Manually add neighbours by address", with: "60-62 Commercial Street"
+        fill_in "Search for neighbours by address", with: "60-62 Commercial Street"
         page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
         click_button "Print and send letters"
@@ -226,7 +230,7 @@ RSpec.describe "Send letters to neighbours", js: true do
     expect(page).to have_content(neighbour.address)
     expect(page).to have_content("Posted")
 
-    fill_in "Manually add neighbours by address", with: "60-62 Commercial Street"
+    fill_in "Search for neighbours by address", with: "60-62 Commercial Street"
     page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
     expect(page).to have_content("60-62 Commercial Street")
@@ -331,11 +335,20 @@ RSpec.describe "Send letters to neighbours", js: true do
     end
 
     it "shows the relevant content for searching by polygon" do
-      expect(page).to have_content("1) Select the neighbours you want to add")
-      expect(page).to have_content("You must click 'Add neighbours' to save the returned addresses")
-      expect(page).to have_content("Use the map to select the boundary")
+      expect(page).to have_content("1) Select the neighbours you want to send letters to")
+      expect(page).to have_content("Selected addresses will appear in a list in the next step. You can check the list before sending letters.")
+      expect(page).to have_content("Click and drag your cursor to draw a line around all the neighbours you want to select. Draw around a whole property to select it.")
+      expect(page).to have_content("If you want to change your selection, use the reset button to start again.")
+
+      expect(page).to have_content("2) Check selected neighbours")
+      expect(page).to have_content("Add or remove neighbours before sending letters")
       map = find("my-map")
       expect(map["geojsondata"]).to eq(planning_application.boundary_geojson)
+
+      within("#map-legend") do
+        expect(page).to have_content("Red line boundary")
+        expect(page).to have_content("Area of selected neighbours")
+      end
     end
 
     it "I can add the neighbour addresses that are returned" do
@@ -401,25 +414,6 @@ RSpec.describe "Send letters to neighbours", js: true do
       expect(geojson["features"][0]).to eq(
         {
           "type" => "Feature",
-          "properties" => {},
-          "geometry" => {
-            "type" => "Polygon",
-            "coordinates" =>
-              [
-                [
-                  [-0.054597, 51.537331],
-                  [-0.054588, 51.537287],
-                  [-0.054453, 51.537313],
-                  [-0.054597, 51.537331]
-                ]
-              ]
-          }
-        }
-      )
-
-      expect(geojson["features"][1]).to eq(
-        {
-          "type" => "Feature",
           "geometry" => {
             "type" => "Polygon",
             "coordinates" =>
@@ -434,8 +428,26 @@ RSpec.describe "Send letters to neighbours", js: true do
               ]
           },
           "properties" => {
-            "type" => "polygon_geojson",
             "color" => "#d870fc"
+          }
+        }
+      )
+
+      expect(geojson["features"][1]).to eq(
+        {
+          "type" => "Feature",
+          "properties" => {},
+          "geometry" => {
+            "type" => "Polygon",
+            "coordinates" =>
+              [
+                [
+                  [-0.054597, 51.537331],
+                  [-0.054588, 51.537287],
+                  [-0.054453, 51.537313],
+                  [-0.054597, 51.537331]
+                ]
+              ]
           }
         }
       )

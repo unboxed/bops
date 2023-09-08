@@ -153,10 +153,9 @@ class PlanningApplication
     end
 
     def set_geojson_features
-      return unless (consultation_geojson = @consultation.polygon_geojson)
+      return unless @consultation.polygon_search
 
-      @geojson_features = @consultation.concatenate_geojsons(@planning_application.boundary_geojson,
-                                                             consultation_geojson)
+      @geojson_features = @consultation.polygon_search_and_boundary_geojson
     end
   end
 end

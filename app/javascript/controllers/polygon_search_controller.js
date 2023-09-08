@@ -75,7 +75,6 @@ export default class extends Controller {
   onGeojsonChange({ detail: geoJSON }) {
     const geoJsonFeatures = geoJSON["EPSG:27700"].features
     if (geoJsonFeatures === undefined) {
-      console.log("No geojson features were found")
       return
     }
 

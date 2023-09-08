@@ -205,17 +205,26 @@ RSpec.describe Consultation do
   describe "#add_neighbour_addresses!" do
     let(:consultation) { create(:consultation) }
     let!(:addresses) { ["1 FUN LANE", "2 FUN LANE", "32 BRICK LANE", "3 KING AVENUE"] }
-    let!(:geojson) do
+    let(:geojson) do
       {
-        type: "Feature",
-        properties: {},
-        geometry: {
-          type: "Polygon",
-          coordinates: [
-            [
-              [-0.054597, 51.537331],
-              [-0.054588, 51.537287]
-            ]
+        "EPSG:3857" => {
+          type: "FeatureCollection",
+          features: [
+            {
+              type: "Feature",
+              geometry: {
+                type: "Polygon",
+                coordinates: [
+                  [
+                    [-0.07837477827741827, 51.49960885888714],
+                    [-0.0783663401899492, 51.49932756979237],
+                    [-0.07795182562987539, 51.49943999679809],
+                    [-0.07803420855642619, 51.49966559098456],
+                    [-0.07837477827741827, 51.49960885888714]
+                  ]
+                ]
+              }
+            }
           ]
         }
       }.to_json
@@ -225,9 +234,23 @@ RSpec.describe Consultation do
       it "adds neighbour addresses and updates the drawn polygon area" do
         expect { consultation.add_neighbour_addresses!(addresses, geojson) }
           .to change(consultation, :polygon_geojson).from(nil).to(
-            "{\"type\":\"Feature\",\"properties\":{\"type\":\"polygon_geojson\"},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[-0.054597,51.537331],[-0.054588,51.537287]]]}}"
+            "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[-0.07837477827741827,51.49960885888714],[-0.0783663401899492,51.49932756979237],[-0.07795182562987539,51.49943999679809],[-0.07803420855642619,51.49966559098456],[-0.07837477827741827,51.49960885888714]]]}}]}"
           )
 
+        factory = RGeo::Geographic.spherical_factory(srid: 4326)
+        polygon = factory.polygon(
+          factory.linear_ring(
+            [
+              factory.point(-0.07837477827741827, 51.49960885888714),
+              factory.point(-0.0783663401899492, 51.49932756979237),
+              factory.point(-0.07795182562987539, 51.49943999679809),
+              factory.point(-0.07803420855642619, 51.49966559098456),
+              factory.point(-0.07837477827741827, 51.49960885888714)
+            ]
+          )
+        )
+
+        expect(consultation.polygon_search).to eq(factory.collection([polygon]))
         expect(consultation.neighbours.length).to eq(4)
         expect(consultation.neighbours.pluck(:address)).to eq(addresses)
       end
@@ -241,138 +264,189 @@ RSpec.describe Consultation do
           .to raise_error(Consultation::AddNeighbourAddressesError, "Validation failed: Address 1 FUN LANE has already been added.")
 
         expect(consultation.reload.polygon_geojson).to be_nil
+        expect(consultation.reload.polygon_search).to be_nil
         expect(consultation.neighbours.length).to eq(1)
         expect(consultation.neighbours.pluck(:address)).to eq(["1 Fun Lane"])
       end
     end
   end
 
-  describe "#concatenate_geojsons" do
-    let(:geojson_feature_collection) { consultation.concatenate_geojsons(*args) }
+  describe "#polygon_search_and_boundary_geojson" do
+    let!(:consultation) { create(:consultation, :with_polygon_search, planning_application:) }
 
-    let(:consultation) { create(:consultation) }
+    context "when boundary_geojson is a Feature" do
+      let(:planning_application) { create(:planning_application, boundary_geojson: feature) }
+      let(:feature) do
+        {
+          "type" => "Feature",
+          "properties" => {},
+          "geometry" => {
+            "type" => "Polygon",
+            "coordinates" => [
+              [[20, 10], [30, 30], [20, 10]]
+            ]
+          }
+        }.to_json
+      end
 
-    let(:feature) do
-      {
-        "type" => "Feature",
-        "properties" => {},
-        "geometry" => {
-          "type" => "Polygon",
-          "coordinates" => [
-            [[20, 10], [30, 30], [20, 10]]
+      it "appends the feature to the features of polygon_search_geojson" do
+        expect(
+          consultation.polygon_search_and_boundary_geojson
+        ).to eq(
+          {
+            "type" => "FeatureCollection",
+            "features" => [
+              {
+                "type" => "Feature",
+                "geometry" => {
+                  "type" => "Polygon",
+                  "coordinates" => [
+                    [
+                      [-0.07739927369747812, 51.501345554406896],
+                      [-0.0778893839394212, 51.501002280754676],
+                      [-0.07690508968054104, 51.50102474569704],
+                      [-0.07676672973966252, 51.50128963605792],
+                      [-0.07739927369747812, 51.501345554406896]
+                    ]
+                  ]
+                },
+                "properties" => {
+                  color: "#d870fc"
+                }
+              },
+              {
+                "type" => "Feature",
+                "properties" => {},
+                "geometry" => {
+                  "type" => "Polygon",
+                  "coordinates" => [
+                    [
+                      [20, 10],
+                      [30, 30],
+                      [20, 10]
+                    ]
+                  ]
+                }
+              }
+            ]
+          }
+        )
+      end
+    end
+
+    context "when planning_application.boundary_geojson is a FeatureCollection" do
+      let(:planning_application) { create(:planning_application, boundary_geojson: feature_collection) }
+      let(:feature_collection) do
+        {
+          "type" => "FeatureCollection",
+          "features" => [
+            {
+              "type" => "Feature",
+              "properties" => {},
+              "geometry" => {
+                "type" => "Polygon",
+                "coordinates" => [
+                  [[30, 10], [40, 40], [30, 10]]
+                ]
+              }
+            }
           ]
-        }
-      }.to_json
-    end
+        }.to_json
+      end
 
-    let(:feature_collection) do
-      {
-        "type" => "FeatureCollection",
-        "features" => [
-          {
-            "type" => "Feature",
-            "properties" => { "type" => "polygon_geojson" },
-            "geometry" => {
-              "type" => "Polygon",
-              "coordinates" => [
-                [[30, 10], [40, 40], [30, 10]]
-              ]
-            }
-          }
-        ]
-      }.to_json
-    end
-
-    context "when passed single Feature geojson" do
-      let(:args) { [feature] }
-
-      it "returns the same feature within a FeatureCollection" do
+      it "concatenates the features with the features of polygon_search_geojson" do
         expect(
-          JSON.parse(geojson_feature_collection)
+          consultation.polygon_search_and_boundary_geojson
         ).to eq(
           {
             "type" => "FeatureCollection",
-            "features" => [JSON.parse(feature)]
+            "features" => [
+              {
+                "type" => "Feature",
+                "geometry" => {
+                  "type" => "Polygon",
+                  "coordinates" => [
+                    [
+                      [-0.07739927369747812, 51.501345554406896],
+                      [-0.0778893839394212, 51.501002280754676],
+                      [-0.07690508968054104, 51.50102474569704],
+                      [-0.07676672973966252, 51.50128963605792],
+                      [-0.07739927369747812, 51.501345554406896]
+                    ]
+                  ]
+                },
+                "properties" => {
+                  color: "#d870fc"
+                }
+              },
+              {
+                "type" => "Feature",
+                "properties" => {},
+                "geometry" => {
+                  "type" => "Polygon",
+                  "coordinates" => [
+                    [
+                      [30, 10],
+                      [40, 40],
+                      [30, 10]
+                    ]
+                  ]
+                }
+              }
+            ]
           }
         )
       end
     end
 
-    context "when passed multiple geojsons" do
-      let(:args) { [feature, feature_collection] }
+    context "when boundary_geojson is nil" do
+      let(:planning_application) { create(:planning_application, boundary_geojson: nil) }
 
-      it "concatenates all the features into a single FeatureCollection" do
-        expected_features = [
-          {
-            "type" => "Feature",
-            "properties" => {},
-            "geometry" => {
-              "type" => "Polygon",
-              "coordinates" => [
-                [
-                  [20, 10],
-                  [30, 30],
-                  [20, 10]
-                ]
-              ]
-            }
-          },
-          {
-            "type" => "Feature",
-            "properties" => {
-              "color" => "#d870fc",
-              "type" => "polygon_geojson"
-            },
-            "geometry" => {
-              "type" => "Polygon",
-              "coordinates" => [
-                [
-                  [30, 10],
-                  [40, 40],
-                  [30, 10]
-                ]
-              ]
-            }
-          }
-        ]
-
-        expect(JSON.parse(geojson_feature_collection)["features"]).to eq(expected_features)
-      end
-    end
-
-    context "when polygon_geojson without color is present" do
-      let(:args) do
-        [
-          {
-            "type" => "Feature",
-            "properties" => { "type" => "polygon_geojson" },
-            "geometry" => {
-              "type" => "Polygon",
-              "coordinates" => [
-                [[30, 10], [40, 40], [30, 10]]
-              ]
-            }
-          }.to_json
-        ]
-      end
-
-      it "adds default polygon color" do
-        expect(JSON.parse(geojson_feature_collection)["features"].first["properties"]["color"]).to eq(consultation.polygon_colour)
-      end
-    end
-
-    context "when passed null or invalid values" do
-      let(:args) { [nil] }
-
-      it "ignores the invalid values and returns an empty FeatureCollection" do
-        expect(
-          JSON.parse(geojson_feature_collection)
-        ).to eq(
+      it "returns polygon_search_geojson" do
+        expect(consultation.polygon_search_and_boundary_geojson).to eq(
           {
             "type" => "FeatureCollection",
-            "features" => []
+            "features" => [
+              {
+                "type" => "Feature",
+                "geometry" => {
+                  "type" => "Polygon",
+                  "coordinates" => [
+                    [
+                      [-0.07739927369747812, 51.501345554406896],
+                      [-0.0778893839394212, 51.501002280754676],
+                      [-0.07690508968054104, 51.50102474569704],
+                      [-0.07676672973966252, 51.50128963605792],
+                      [-0.07739927369747812, 51.501345554406896]
+                    ]
+                  ]
+                },
+                "properties" => {
+                  color: "#d870fc"
+                }
+              }
+            ]
           }
         )
+      end
+    end
+
+    context "when polygon_search is nil" do
+      let!(:consultation) { create(:consultation, planning_application:) }
+      let(:planning_application) { create(:planning_application) }
+
+      it "returns nil" do
+        expect(consultation.polygon_search_and_boundary_geojson).to be_nil
+      end
+    end
+
+    context "when boundary_geojson is an invalid GeoJSON type" do
+      let(:planning_application) { create(:planning_application) }
+
+      it "raises an error" do
+        allow(planning_application).to receive(:boundary_geojson).and_return({ "type" => "InvalidType" }.to_json)
+
+        expect { consultation.polygon_search_and_boundary_geojson }.to raise_error(/Invalid GeoJSON type/)
       end
     end
   end
