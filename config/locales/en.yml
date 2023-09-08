@@ -972,6 +972,8 @@ en:
       success: Replacement document validation request successfully created.
     update:
       success: Replacement document reason successfully updated.
+  response_tag_component:
+    privacy: Privacy
   review_assessment_details:
     breadcrumbs:
       application: Application

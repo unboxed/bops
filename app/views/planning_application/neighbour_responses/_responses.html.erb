@@ -1,33 +1,68 @@
-<% neighbour_responses.each do |response| %>
-  <div class="display-flex" style="align-items: baseline">
-    <div class="neighbour-response-section">
-      <%= render(StatusTags::BaseComponent.new(status: response.summary_tag)) %><br><br>
-      <ul class="govuk-list">
-        <li>
-          <strong>Date received:</strong> <%= response.received_at.to_formatted_s(:day_month_year_slashes) %>
-        </li>
-        <li>
-          <strong>Respondent:</strong> <%= response.name %>
-        </li>
-        <li>
-          <strong>Email:</strong> <%= response.email %>
-        </li>
-        <li>
-          <strong>Address:</strong> <%= response.neighbour.address %>
-        </li>
-      </ul>
+<div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+  <% neighbour_responses.group_by(&:summary_tag).sort_by { |key, _value| key[0] }.reverse.each_with_index do |(tag, responses), index| %>
+    <div class="govuk-accordion__section">
+      <div class="govuk-accordion__section-header">
+        <h2 class="govuk-accordion__section-heading">
+          <span class="govuk-accordion__section-button" id=<%= "accordion-default-heading-#{index}" %>>
+            <%= "#{tag&.capitalize} responses (#{responses.count})" %>
+          </span>
+        </h2>
+      </div>
+      <div id=<%= "accordion-default-content-#{index}" %> class="govuk-accordion__section-content" aria-labelledby=<%= "accordion-default-heading-#{index}" %>>
+        <% responses.group_by { |response| response&.neighbour&.selected? }.sort_by { |key, _value| key ? 0 : 1 }.each do |selected, sorted_responses| %>
+          <% sorted_responses.each do |response| %>
+            <div class="neighbour-response-section">
+              <div class="govuk-inset-text">
+                <div class="neighbour-response-top-section">
+                  <div class="neighbour-response-content">
+                    <%= render(StatusTags::BaseComponent.new(status: response.summary_tag)) %>
+                    <% if response&.neighbour&.selected? %>
+                      <strong class="govuk-tag app-task-list__task-tag govuk-!-margin-left-1">Adjoining neighbour</strong>
+                    <% end %>
+                    <br><br>
+                    <ul class="govuk-list">
+                      <li>
+                        <strong><%= response.name %></strong> <span class="govuk-hint" style="display: inline;"><%= response.email %></span>
+                      </li>
+                      <li class="govuk-hint">
+                        <%= response&.neighbour&.address %>
+                      </li>
+                      <li class="govuk-hint">
+                        Received on <%= response.received_at.to_formatted_s(:day_month_year_slashes) %>
+                      </li>
+                    </ul>
+                    <div data-controller="show-more-text">
+                      <span class="truncated-comment">
+                        <%= simple_format(response.truncated_comment) %>
+                      </span>
+                      
+                      <% if response_been_truncated?(response) %>
+                        <span class="display-none hidden-comment">
+                          <%= simple_format(response.comment[truncated_length(response)..-1]) %>
+                        </span>
+                        <a href="#" class="show-more" data-action="click->show-more-text#handleClick">View more</a>
+                      <% end %>
+                    </div>
+                  </div>
+                  <div class="neighbour-tags">
+                    <% response.tags.each do |tag| %>
+                      <div class="govuk-!-margin-bottom-1">
+                        <strong class="govuk-tag govuk-tag--grey"><%= tag.humanize.upcase %></strong>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="display-flex">
+                  <%= link_to "Edit", edit_planning_application_consultation_neighbour_response_path(@planning_application, @consultation, response) %>
+                  <% if response.redacted_response.present? %>
+                    <span class="govuk-hint govuk-!-margin-left-1">(redacted)</span>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
     </div>
-    <div style="width: 55%">
-      <p class="govuk-body-s"><strong>Original version:</strong></p>
-      <%= simple_format(response.response, class: "govuk-body") %>
-
-      <p class="govuk-body-s"><strong>Redacted version:</strong></p>
-      <%= simple_format(response.redacted_response, class: "govuk-body") %>
-
-    </div>
-    <div style="width: 4%;">
-      <%= link_to "Edit", edit_planning_application_consultation_neighbour_response_path(@planning_application, @consultation, response) %>
-    </div>
-  </div>
-  <hr>
-<% end %>
+  <% end %>
+</div> 

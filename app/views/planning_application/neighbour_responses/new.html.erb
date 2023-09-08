@@ -15,10 +15,9 @@
 <h2 class="govuk-heading-m govuk-!-margin-top-7">Date consultation will end</h2>
 <p class="govuk-body"><%= @consultation.end_date.to_formatted_s(:day_month_year_slashes) %></p>
 
-<h2 class="govuk-heading-m govuk-!-margin-top-7">Responses</h2>
+<h2 class="govuk-heading-m govuk-!-margin-top-7">Responses (<%= @neighbour_responses.count %>)</h2>
 <% if @neighbour_responses.any? %>
-  <hr>
-    <%= render "responses", neighbour_responses: @neighbour_responses %>
+  <%= render "responses", neighbour_responses: @neighbour_responses %>
 <% else %>
   <p class="govuk-body">No neighbour responses yet</p>
 <% end %>
@@ -48,16 +47,17 @@
   <% end %>
   <%= form.govuk_text_field :name %>
   <%= form.govuk_text_field :email %>
-  <%= form.govuk_select :address, @consultation.neighbours.select(&:persisted?).map(&:address), options: { include_blank: true }, label: { text: "Select an existing neighbour address" } %>
+  <%= form.govuk_select :address, @consultation.selected_neighbour_addresses, options: { include_blank: true }, label: { text: "Select an existing neighbour address" } %>
   <%= form.govuk_text_field :new_address, label: { text: "Or add a new neighbour address" } %>
   <%= form.govuk_date_field :received_at, legend: { text: "Response received on", size: "s", tag: "p" } %>
-  <%= form.govuk_text_area :response, hint: { text: "This won't be made public" } %>
-  <%= form.govuk_text_area :redacted_response, label: { text: "Redacted response" }, hint: { text: 'This will be made public' } %>
   <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: { text: 'Is the response', size: 'm' } do %>
     <%= form.govuk_radio_button :summary_tag, 'supportive', label: { text: 'Supportive' } %>
     <%= form.govuk_radio_button :summary_tag, 'neutral', label: { text: 'Neutral' } %>
     <%= form.govuk_radio_button :summary_tag, 'objection', label: { text: 'An objection' } %>
   <% end %>
+  <%= form.govuk_collection_check_boxes :tags, NeighbourResponse::TAGS.map, :to_s, :to_s, legend: { text: 'Tags', size: 'm' } %>
+  <%= form.govuk_text_area :response, hint: { text: "This won't be made public" } %>
+  <%= form.govuk_text_area :redacted_response, label: { text: "Redacted response" }, hint: { text: 'This will be made public' } %>
   <div class="govuk-button-group">
     <%= form.submit(
       "Save response",

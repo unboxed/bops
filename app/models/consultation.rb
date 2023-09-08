@@ -8,11 +8,11 @@ class Consultation < ApplicationRecord
   with_options dependent: :destroy do
     has_many :consultees
     has_many :neighbours
+    has_many :neighbour_responses
     has_many :site_visits
   end
 
   has_many :neighbour_letters, through: :neighbours
-  has_many :neighbour_responses, through: :neighbours
 
   accepts_nested_attributes_for :consultees, :neighbours
 
@@ -67,6 +67,10 @@ class Consultation < ApplicationRecord
 
   def neighbour_responses_by_summary_tag
     neighbour_responses.group(:summary_tag).count
+  end
+
+  def selected_neighbour_addresses
+    neighbours.select(&:persisted?).select(&:selected?).map(&:address)
   end
 
   def publicity_active?

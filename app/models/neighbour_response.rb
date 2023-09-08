@@ -2,14 +2,30 @@
 
 class NeighbourResponse < ApplicationRecord
   belongs_to :neighbour
+  belongs_to :consultation
 
-  validates :name, :response, :received_at, presence: true
+  validates :name, :response, :summary_tag, :received_at, presence: true
 
   enum(summary_tag: { supportive: "supportive", neutral: "neutral", objection: "objection" })
 
   scope :redacted, -> { where.not(redacted_response: "") }
 
+  TAGS = %i[design new_use privacy disabled_access noise traffic other].freeze
+
   summary_tags.each do |tag|
     scope :"#{tag}", -> { where(tag:) }
+  end
+
+  before_save do
+    self.tags = tags.compact_blank! if tags.any?
+  end
+
+  def truncated_comment
+    comment = (redacted_response.presence || response)
+    comment.truncate(100, separator: " ")
+  end
+
+  def comment
+    (redacted_response.presence || response)
   end
 end
