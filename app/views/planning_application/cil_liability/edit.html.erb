@@ -14,4 +14,19 @@
       locals: { heading: "CIL Liability" }
     ) %>
 
+<p class="govuk-body">
+  <% if @planning_application.cil_liability_proposal_detail.present? %>
+      According to PlanX the new floor area being added is:
+      <strong><%= @planning_application.cil_liability_proposal_detail.response_values.to_sentence %></strong>.
+      <br>
+      This might mean that the application is
+      <% unless @planning_application.likely_cil_liable? %>
+        not
+      <% end %>
+      liable for CIL.
+  <% else %>
+    No information on potential CIL liability from PlanX.
+  <% end %>
+</p>
+
 <%= render partial: "form" %>

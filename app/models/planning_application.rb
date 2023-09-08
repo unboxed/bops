@@ -314,6 +314,17 @@ class PlanningApplication < ApplicationRecord
     proposal_details.select { |detail| detail.question == question }
   end
 
+  def cil_liability_proposal_detail
+    [
+      "How much new floor area is being added to the house?",
+      "How much new floor area is being created?"
+    ].filter_map { |q| find_proposal_detail(q) }.first&.first
+  end
+
+  def likely_cil_liable?
+    cil_liability_proposal_detail&.response_values&.first != "Less than 100m²"
+  end
+
   def secure_change_url
     protocol = Rails.env.production? ? "https" : "http"
 
