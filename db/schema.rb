@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_08_124029) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_11_135911) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -465,6 +465,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_08_124029) do
     t.index ["user_id"], name: "ix_planning_applications_on_user_id"
   end
 
+  create_table "planx_planning_data", force: :cascade do |t|
+    t.jsonb "entry", null: false
+    t.bigint "planning_application_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_planx_planning_data_on_planning_application_id"
+  end
+
   create_table "policies", force: :cascade do |t|
     t.string "section", null: false
     t.string "description", null: false
@@ -670,6 +678,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_08_124029) do
   add_foreign_key "planning_applications", "api_users"
   add_foreign_key "planning_applications", "users"
   add_foreign_key "planning_applications", "users", column: "boundary_created_by_id"
+  add_foreign_key "planx_planning_data", "planning_applications"
   add_foreign_key "recommendations", "planning_applications"
   add_foreign_key "recommendations", "users", column: "assessor_id"
   add_foreign_key "recommendations", "users", column: "reviewer_id"
