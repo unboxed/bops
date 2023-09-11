@@ -1,0 +1,368 @@
+{
+  "action": "create",
+  "application_type": "Apply for planning permission",
+  "applicant_first_name": "Albert",
+  "applicant_last_name": "Manteras",
+  "applicant_phone": "23432325435",
+  "applicant_email": "applicant@example.com",
+  "agent_first_name": "Jennifer",
+  "agent_last_name": "Harper",
+  "agent_phone": "237878889",
+  "agent_email": "agent@example.com",
+  "boundary_geojson": {
+    "geometry": {
+      "coordinates": [
+        [
+          [
+            -0.08776590228080519,
+            51.44966858819353
+          ],
+          [
+            -0.08766129612922446,
+            51.44968196065312
+          ],
+          [
+            -0.08747622370719702,
+            51.44934764798825
+          ],
+          [
+            -0.08756607770919585,
+            51.44930836608941
+          ],
+          [
+            -0.08776590228080519,
+            51.44966858819353
+          ]
+        ]
+      ],
+      "type": "Polygon"
+    },
+    "properties": null,
+    "type": "Feature"
+  },
+  "constraints": {
+    "article4": false,
+    "article4.southwark.caz": false,
+    "designated": true,
+    "designated.AONB": false,
+    "designated.SPA": false,
+    "designated.WHS": false,
+    "designated.conservationArea": true,
+    "designated.nationalPark": false,
+    "designated.nationalPark.broads": false,
+    "listed": false,
+    "locallyListed": false,
+    "monument": false,
+    "nature.ASNW": false,
+    "nature.SAC": false,
+    "nature.SSSI": false,
+    "registeredPark": false,
+    "road.classified": true,
+    "tpo": false
+  },
+  "constraints_proposed": [
+    {
+      "constraints": {
+        "article4": {
+          "category": "General policy",
+          "fn": "article4",
+          "text": "is not subject to local permitted development restrictions (known as Article 4 directions)",
+          "value": false
+        },
+        "article4.southwark.caz": {
+          "category": "General policy",
+          "fn": "article4.caz",
+          "text": "is not in the Central Activities Zone",
+          "value": false
+        },
+        "designated": {
+          "value": true
+        },
+        "designated.AONB": {
+          "category": "Heritage and conservation",
+          "fn": "designated.AONB",
+          "text": "is not in an Area of Outstanding Natural Beauty",
+          "value": false
+        },
+        "designated.SPA": {
+          "category": "Heritage and conservation",
+          "fn": "designated.SPA",
+          "text": "is not in a Special Protection Area (SPA)",
+          "value": false
+        },
+        "designated.WHS": {
+          "category": "Heritage and conservation",
+          "fn": "designated.WHS",
+          "text": "is not an UNESCO World Heritage Site",
+          "value": false
+        },
+        "designated.conservationArea": {
+          "category": "Heritage and conservation",
+          "data": [
+            {
+              "dataset": "conservation-area",
+              "documentation-url": "https://www.southwark.gov.uk/planning-and-building-control/design-and-conservation/conservation-areas?chapter=11",
+              "end-date": "",
+              "entity": 44007440,
+              "entry-date": "2023-08-16",
+              "name": "Dulwich Village",
+              "organisation-entity": "329",
+              "prefix": "conservation-area",
+              "reference": "7",
+              "start-date": "1968-09-27",
+              "typology": "geography"
+            }
+          ],
+          "fn": "designated.conservationArea",
+          "text": "is in a Conservation Area",
+          "value": true
+        },
+        "designated.nationalPark": {
+          "category": "Heritage and conservation",
+          "fn": "designated.nationalPark",
+          "text": "is not in a National Park",
+          "value": false
+        },
+        "designated.nationalPark.broads": {
+          "fn": "designated.nationalPark.broads",
+          "value": false
+        },
+        "listed": {
+          "category": "Heritage and conservation",
+          "fn": "listed",
+          "text": "is not, or is not within, a Listed Building",
+          "value": false
+        },
+        "locallyListed": {
+          "category": "Heritage and conservation",
+          "fn": "locallyListed",
+          "text": "is not, or is not within, a Locally Listed Building",
+          "value": false
+        },
+        "monument": {
+          "category": "Heritage and conservation",
+          "fn": "monument",
+          "text": "is not the site of a Scheduled Monument",
+          "value": false
+        },
+        "nature.ASNW": {
+          "category": "Ecology",
+          "fn": "nature.ASNW",
+          "text": "is not in an Ancient Semi-Natural Woodland (ASNW)",
+          "value": false
+        },
+        "nature.SAC": {
+          "category": "Ecology",
+          "fn": "nature.SAC",
+          "text": "is not in a Special Area of Conservation (SAC)",
+          "value": false
+        },
+        "nature.SSSI": {
+          "category": "Ecology",
+          "fn": "nature.SSSI",
+          "text": "is not a Site of Special Scientific Interest (SSSI)",
+          "value": false
+        },
+        "registeredPark": {
+          "category": "Heritage and conservation",
+          "fn": "registeredPark",
+          "text": "is not in a Historic Park or Garden",
+          "value": false
+        },
+        "tpo": {
+          "category": "Trees",
+          "fn": "tpo",
+          "text": "is not in a Tree Preservation Order (TPO) Zone",
+          "value": false
+        }
+      },
+      "planxRequest": "https://api.editor.planx.dev/gis/southwark?geom=POLYGON+%28%28-0.08776590228080519+51.44966858819353%2C+-0.08766129612922446+51.44968196065312%2C+-0.08747622370719702+51.44934764798825%2C+-0.08756607770919585+51.44930836608941%2C+-0.08776590228080519+51.44966858819353%29%29&analytics=false&sessionId=59848044-2967-482f-95fa-51b8edc32dd1",
+      "sourceRequest": "https://www.planning.data.gov.uk/entity.json?entries=current&geometry=POLYGON+%28%28-0.08776590228080519+51.44966858819353%2C+-0.08766129612922446+51.44968196065312%2C+-0.08747622370719702+51.44934764798825%2C+-0.08756607770919585+51.44930836608941%2C+-0.08776590228080519+51.44966858819353%29%29&geometry_relation=intersects&limit=100&dataset=article-4-direction-area&dataset=central-activities-zone&dataset=listed-building&dataset=listed-building-outline&dataset=locally-listed-building&dataset=park-and-garden&dataset=conservation-area&dataset=area-of-outstanding-natural-beauty&dataset=national-park&dataset=world-heritage-site&dataset=world-heritage-site-buffer-zone&dataset=special-protection-area&dataset=scheduled-monument&dataset=tree&dataset=tree-preservation-order&dataset=tree-preservation-zone&dataset=site-of-special-scientific-interest&dataset=special-area-of-conservation&dataset=ancient-woodland"
+    }
+  ],
+  "controller": "api/v1/planning_applications",
+  "description": "Alterations to roof to create a loft conversion using an 'L' shaped dormer, to provide additional residential accommodation.",
+  "files": [
+    {
+      "filename": "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
+      "applicant_description": "This is the side plan",
+      "tags": [
+        "Side"
+      ]
+    }
+	],
+  "format": "json",
+  "payment_amount": 20600,
+  "payment_reference": "fb4v6c47coecjk40seh3ima37k",
+  "planning_application": {
+    "boundary_geojson": {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -0.08776590228080519,
+              51.44966858819353
+            ],
+            [
+              -0.08766129612922446,
+              51.44968196065312
+            ],
+            [
+              -0.08747622370719702,
+              51.44934764798825
+            ],
+            [
+              -0.08756607770919585,
+              51.44930836608941
+            ],
+            [
+              -0.08776590228080519,
+              51.44966858819353
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": null,
+      "type": "Feature"
+    },
+    "description": "Alterations to roof to create a loft conversion using an 'L' shaped dormer, to provide additional residential accommodation.",
+    "payment_amount": 20600,
+    "payment_reference": "fb4v6c47coecjk40seh3ima37k",
+    "proposal_details": [
+      {
+        "metadata": {
+          "auto_answered": true,
+          "section_name": "The property"
+        },
+        "question": "Is the property in Southwark?",
+        "responses": [
+          {
+            "value": "Yes"
+          }
+        ]
+      },
+      {
+        "metadata": {
+          "auto_answered": true,
+          "section_name": "The property"
+        },
+        "question": "Is the property in a flood zone?",
+        "responses": [
+          {
+            "value": "No"
+          }
+        ]
+      },
+      {
+        "metadata": {
+          "auto_answered": true,
+          "section_name": "About the project"
+        },
+        "question": "What type of property is it?",
+        "responses": [
+          {
+            "metadata": {
+              "flags": [
+                "Listed building consent / Not required"
+              ]
+            },
+            "value": "House"
+          }
+        ]
+      },
+      {
+        "metadata": {
+          "section_name": "About the project"
+        },
+        "question": "List the changes involved in the project",
+        "responses": [
+          {
+            "metadata": {
+              "flags": [
+                "Listed building consent / Not required"
+              ]
+            },
+            "value": "Add roof dormers"
+          }
+        ]
+      },
+      {
+        "metadata": {
+          "section_name": "About the project"
+        },
+        "question": "Have works already started?",
+        "responses": [
+          {
+            "value": "No"
+          }
+        ]
+      },
+      {
+        "metadata": {
+          "auto_answered": true,
+          "section_name": "About the project"
+        },
+        "question": "Is the property in a flood zone?",
+        "responses": [
+          {
+            "value": "No"
+          }
+        ]
+      },
+      {
+        "metadata": {
+          "auto_answered": true,
+          "section_name": "About the project"
+        },
+        "question": "What type of changes does the project involve?",
+        "responses": [
+          {
+            "value": "Extension"
+          }
+        ]
+      },
+      {
+        "metadata": {
+          "auto_answered": true,
+          "section_name": "About the project"
+        },
+        "question": "Is the project to add an outbuilding?",
+        "responses": [
+          {
+            "value": "No"
+          }
+        ]
+      },
+      {
+        "metadata": {
+          "section_name": "About the project"
+        },
+        "question": "How much new floor area is being added to the house?",
+        "responses": [
+          {
+            "value": "Less than 100m²"
+          }
+        ]
+      },
+      {
+        "metadata": {
+          "policy_refs": [
+            {
+              "text": "The Town and Country Planning (Development Management Procedure) (England) 2015 (as amended)"
+            }
+          ],
+          "section_name": "About the project"
+        },
+        "question": "How much exactly is the internal floor area of the property increasing by?",
+        "responses": [
+          {
+            "value": "35"
+          }
+        ]
+      },
+      "[This array has been truncated from '73' values to '10' values]"
+    ],
+    "user_role": "agent"
+  }
+}

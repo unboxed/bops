@@ -191,9 +191,9 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
       end
     end
 
-    context "when application type is planning permission full householder" do
+    context "when application type is Householder Application for Planning Permission" do
       let(:local_authority) { create(:local_authority) }
-      let(:params) { ActionController::Parameters.new(JSON.parse(file_fixture("planx_params_planning_permission_full_householder.json").read)) }
+      let(:params) { ActionController::Parameters.new(JSON.parse(file_fixture("planx_params_householder_application_for_planning_permission.json").read)) }
       let!(:application_type) { create(:application_type, name: "planning_permission") }
 
       let(:create_planning_application) do

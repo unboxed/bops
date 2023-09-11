@@ -260,7 +260,7 @@ RSpec.describe PlanningApplication do
           end
         end
 
-        it "is set for the planning permission full householder application type" do
+        it "is set for the Householder Application for Planning Permission application type" do
           planning_application = build(:planning_application, :planning_permission)
 
           travel_to(DateTime.new(2022, 1, 1)) do

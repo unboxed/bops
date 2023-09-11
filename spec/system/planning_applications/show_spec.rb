@@ -101,7 +101,7 @@ RSpec.describe "Planning Application show page" do
 
       it "I can view the correct application type name and the planning application code" do
         expect(page).to have_content("#{planning_application.created_at.year % 100}-00100-HAPP")
-        expect(page).to have_content("Full householder planning permission")
+        expect(page).to have_content("Householder Application for Planning Permission")
       end
     end
   end
