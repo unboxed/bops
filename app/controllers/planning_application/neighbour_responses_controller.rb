@@ -14,9 +14,12 @@ class PlanningApplication
     def edit; end
 
     def create
-      @neighbour_response = @consultation.neighbour_responses.build(neighbour_response_params.except(:address,
-                                                                                                     :new_address))
+      @neighbour_response = @consultation.neighbour_responses
+                                         .build(neighbour_response_params.except(:address, :new_address, :files))
+
       @neighbour_response.neighbour = find_neighbour
+
+      create_files(@neighbour_response) if neighbour_response_params[:files].compact_blank.any?
 
       if @neighbour_response.save
         respond_to do |format|
@@ -32,10 +35,12 @@ class PlanningApplication
     end
 
     def update
-      if @neighbour_response.update(neighbour_response_params.except(:address))
+      if @neighbour_response.update(neighbour_response_params.except(:address, :files))
         if neighbour_response_params.key?(:address)
           @neighbour_response.neighbour.update(address: neighbour_response_params[:address])
         end
+
+        create_files(@neighbour_response) if neighbour_response_params[:files].compact_blank.any?
 
         respond_to do |format|
           format.html do
@@ -56,6 +61,12 @@ class PlanningApplication
         @consultation.neighbours.build(address: neighbour_response_params[:new_address], selected: false)
       else
         @consultation.neighbours.find_by(address: neighbour_response_params[:address])
+      end
+    end
+
+    def create_files(response)
+      neighbour_response_params[:files].compact_blank.each do |file|
+        @planning_application.documents.create!(file:, neighbour_response: response)
       end
     end
 
@@ -87,7 +98,8 @@ class PlanningApplication
 
     def neighbour_response_params
       params.require(:neighbour_response).permit(
-        :address, :name, :email, :received_at, :response, :new_address, :summary_tag, :redacted_response, tags: []
+        :address, :name, :email, :received_at, :response, :new_address, :summary_tag,
+        :redacted_response, tags: [], files: []
       )
     end
 

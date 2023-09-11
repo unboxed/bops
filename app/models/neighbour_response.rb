@@ -4,6 +4,8 @@ class NeighbourResponse < ApplicationRecord
   belongs_to :neighbour
   belongs_to :consultation
 
+  has_many :documents, dependent: :destroy
+
   validates :name, :response, :summary_tag, :received_at, presence: true
 
   enum(summary_tag: { supportive: "supportive", neutral: "neutral", objection: "objection" })

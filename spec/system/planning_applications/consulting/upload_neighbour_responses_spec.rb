@@ -3,6 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "Upload neighbour responses", js: true do
+  include ActionDispatch::TestProcess::FixtureFile
+
   let!(:api_user) { create(:api_user, name: "PlanX") }
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
@@ -157,6 +159,31 @@ RSpec.describe "Upload neighbour responses", js: true do
       expect(page).to have_content(assessor.name)
       expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
     end
+  end
+
+  it "shows documents associated with responses" do
+    click_link "Upload neighbour responses"
+
+    fill_in "Name", with: "Sarah Neighbour"
+    fill_in "Email", with: "sarah@email.com"
+    select(neighbour.address.to_s, from: "Select an existing neighbour address")
+    fill_in "Day", with: "21"
+    fill_in "Month", with: "1"
+    fill_in "Year", with: "2023"
+    fill_in "Response", with: "I think this proposal looks great"
+    choose "Supportive"
+    attach_file("Upload documents", "spec/fixtures/images/proposed-floorplan.png")
+
+    click_button "Save response"
+
+    click_button "Supportive responses (1)"
+
+    expect(page).to have_content("Received on 21/01/2023")
+    expect(page).to have_content("Sarah Neighbour")
+    expect(page).to have_content("sarah@email.com")
+    expect(page).to have_content(neighbour.address.to_s)
+    expect(page).to have_content("I think this proposal looks great")
+    expect(page).to have_content("proposed-floorplan")
   end
 
   it "shows error messages" do

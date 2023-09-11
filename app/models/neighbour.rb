@@ -5,7 +5,7 @@ class Neighbour < ApplicationRecord
   has_one :neighbour_letter, dependent: :destroy
   has_many :neighbour_responses, dependent: :destroy
 
-  validates :address, presence: true, unless: :response_present?
+  validates :address, presence: true, unless: :not_selected?
   validates :address, uniqueness: {
     scope: :consultation_id, case_sensitive: false, message: lambda { |_object, data|
       "#{data[:value]} has already been added."
@@ -35,7 +35,7 @@ class Neighbour < ApplicationRecord
 
   private
 
-  def response_present?
-    neighbour_responses.any?
+  def not_selected?
+    selected == false
   end
 end

@@ -17,8 +17,8 @@ class NeighbourResponseCreationService
   attr_reader :params, :planning_application
 
   def build_neighbour_response
-    response = @planning_application.consultation.neighbour_responses.build(
-      neighbour_response_params.except(:address).merge!(
+    response = planning_application.consultation.neighbour_responses.build(
+      response_params.except(:address, :files, :planning_application_id).merge!(
         received_at: Time.zone.now,
         consultation_id: @planning_application.consultation
       )
@@ -26,15 +26,23 @@ class NeighbourResponseCreationService
 
     response.neighbour = find_or_create_neighbour
 
+    create_files(response) if params[:files].compact_blank.any?
+
     response
   end
 
   def find_or_create_neighbour
-    neighbour = planning_application.consultation.neighbours.find_by(address: neighbour_response_params[:address])
+    neighbour = planning_application.consultation.neighbours.find_by(address: params[:address])
 
     (neighbour.presence || planning_application.consultation.neighbours.build(
-      address: neighbour_response_params[:address], selected: false
+      address: params[:address], selected: false
     ))
+  end
+
+  def create_files(response)
+    params[:files].each do |file|
+      planning_application.documents.create!(file:, neighbour_response: response)
+    end
   end
 
   def save_neighbour_response!(neighbour_response)
@@ -45,7 +53,10 @@ class NeighbourResponseCreationService
     raise CreateError, e.message
   end
 
-  def neighbour_response_params
-    params.permit(:name, :email, :address, :response, :summary_tag, tags: [])
+  def response_params
+    params.permit(
+      :address, :name, :email, :received_at, :response, :new_address, :summary_tag,
+      :redacted_response, tags: [], files: []
+    )
   end
 end

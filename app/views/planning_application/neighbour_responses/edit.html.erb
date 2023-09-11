@@ -49,6 +49,11 @@
   <%= form.govuk_collection_check_boxes :tags, NeighbourResponse::TAGS.map(&:to_s), :to_s, :humanize, legend: { text: 'Tags', size: 'm' } %>
   <%= form.govuk_text_area :response, hint: { text: "This won't be made public" } %>
   <%= form.govuk_text_area :redacted_response, label: { text: "Redacted response" }, hint: { text: 'This will be made public' } %>
+  <%= form.govuk_file_field :files, 
+    label: { text: 'Upload documents' }, 
+    hint: { text: "Add any documents that the respondent sent." },
+    multiple: true
+  %>
   <%= form.submit(
     "Update response",
     class: "govuk-button govuk-button--primary govuk-!-margin-top-5"
