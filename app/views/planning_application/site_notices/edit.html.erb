@@ -1,0 +1,34 @@
+<% content_for :page_title do %>
+  Site notice - <%= t('page_title') %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Publicity", planning_application_path(@planning_application) %>
+<% content_for :title, "Site notice" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Confirm site notice is in places" }
+) %>
+
+<%= form_with(
+  model: [@planning_application, @site_notice],
+  builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+  class: "govuk-!-margin-top-5",
+  method: :patch
+) do |form| %>
+
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+  <%= form.govuk_date_field :displayed_at, legend: { text: '1. What date was the site notice displayed?' } %>
+
+  <%= form.govuk_file_field :file, label: { text: '2. Upload evidence of site notice in place', size: 'm' }, hint: { text: 'Add any photos of the site notice being displayed' } %>
+
+  <div class="govuk-button-group govuk-!-padding-top-7">
+    <%= form.submit "Save and mark as complete", class: "govuk-button", data: { module: "govuk-button" } %>
+    <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
+
+    <%= back_link %>
+  </div>
+<% end %>

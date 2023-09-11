@@ -1,0 +1,57 @@
+<% content_for :page_title do %>
+  Site notice - <%= t('page_title') %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Publicity", planning_application_path(@planning_application) %>
+<% content_for :title, "Site notice" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Create site notice" }
+) %>
+
+<%= form_with(
+  model: [@planning_application, @site_notice],
+  builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+  class: "govuk-!-margin-top-5",
+  method: :post
+) do |form| %>
+
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+  <%= form.govuk_radio_buttons_fieldset(
+    :required,
+    legend: { text: "1. Does this application require a site notice?", size: "m" }
+  ) do %>
+    <%= form.govuk_radio_button :required, :yes, label: { text: "Yes" } %>
+    <%= form.govuk_radio_button :required, :no, label: { text: "No" } %>
+  <% end %>
+
+  <h2 class="govuk-heading-m">
+    2. Review the site notice 
+  </h2>
+  <p class="govuk-hint">
+    If any details are incorrect, update them in the application information step
+  </p>
+  <div class="decision-notice govuk-!-margin-bottom-6">
+    <%= @site_notice.preview_content %>
+  </div>
+
+  <%= form.govuk_radio_buttons_fieldset(
+    :method,
+    legend: { text: "3. Choose how to send the site notice", size: "m" }
+  ) do %>
+    <%= form.govuk_radio_button :method, :print, label: { text: "Create, print and post a PDF (opens in a new tab)" } %>
+    <%= form.govuk_radio_button :method, :internal_team, label: { text: "Send it by email to internal team to post" } %>
+    <%= form.govuk_radio_button :method, :applicant, label: { text: "Send it by email to applicant" } %>
+  <% end %>
+
+  <div class="govuk-button-group govuk-!-padding-top-7">
+    <%= form.submit "Create site notice", class: "govuk-button govuk-button--primary", formtarget: "_blank" %>
+    <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary" %>
+
+    <%= back_link %>
+  </div>
+<% end %>

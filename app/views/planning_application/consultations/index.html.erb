@@ -28,6 +28,18 @@
             planning_application: @planning_application
           )
         ) %>
+        <%= render(
+          TaskListItems::SiteNoticeComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
+        <% if @planning_application.site_notices.any? && @planning_application.site_notices.last.required %>
+          <%= render(
+            TaskListItems::ConfirmSiteNoticeComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
+        <% end %>
         <% if consultation = @planning_application.consultation %>
           <% if consultation.site_visits.any? || consultation.neighbour_responses.objection.any? %>
             <%= render(

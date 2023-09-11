@@ -52,6 +52,7 @@ class PlanningApplication < ApplicationRecord
     has_many :planning_application_constraints
     has_many :planning_application_constraints_queries
     has_many :constraints, through: :planning_application_constraints, source: :constraint
+    has_many :site_notices
     has_one :immunity_detail, required: false
     has_one :consultation, required: false
     has_one :proposal_measurement, required: false

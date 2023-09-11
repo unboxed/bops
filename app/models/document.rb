@@ -6,6 +6,7 @@ class Document < ApplicationRecord
   belongs_to :planning_application
   belongs_to :evidence_group, optional: true
   belongs_to :site_visit, optional: true
+  belongs_to :site_notice, optional: true
   belongs_to :neighbour_response, optional: true
 
   delegate :audits, to: :planning_application

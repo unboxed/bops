@@ -150,6 +150,8 @@ Rails.application.routes.draw do
 
       resource :consultation_neighbour_addresses, only: %i[create]
 
+      resources :site_notices
+
       resources :review_immunity_details, only: %i[edit update show]
 
       resources :permitted_development_rights, only: %i[new create edit update show]
