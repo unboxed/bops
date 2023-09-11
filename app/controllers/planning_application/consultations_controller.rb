@@ -10,6 +10,7 @@ class PlanningApplication
     before_action :assign_params, only: %i[update create]
     before_action :update_letter_statuses, only: %i[show edit]
     before_action :ensure_public_portal_is_active, only: :send_neighbour_letters
+    before_action :set_geojson_features, only: %i[show edit update]
 
     def show
       respond_to do |format|
@@ -149,6 +150,12 @@ class PlanningApplication
       else
         planning_application_consultation_path(@planning_application, @consultation)
       end
+    end
+
+    def set_geojson_features
+      return unless @consultation.polygon_search
+
+      @geojson_features = @consultation.polygon_search_and_boundary_geojson
     end
   end
 end

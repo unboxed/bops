@@ -7,7 +7,10 @@
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <%= form.fields_for :neighbours, @consultation.neighbours.new do |ff| %>
     <div>
-      <label for="address-autocomplete" class="govuk-heading-s">Add neighbours by address</label>
+      <label for="address-autocomplete" class="govuk-heading-s">Search for neighbours by address</label>
+        <span id="address-autocomplete-hint" class="govuk-hint">
+          Start typing address or postcode
+        </span>
       <div id="address-autocomplete-container">
     </div>
 

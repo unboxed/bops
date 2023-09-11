@@ -3,6 +3,8 @@
 class Consultation < ApplicationRecord
   class AddNeighbourAddressesError < StandardError; end
 
+  include GeojsonFormattable
+
   belongs_to :planning_application
 
   with_options dependent: :destroy do
@@ -23,6 +25,8 @@ class Consultation < ApplicationRecord
   }
 
   before_update :audit_letter_copy_sent!, if: :letter_copy_sent_at_changed?
+
+  format_geojson_epsg :polygon_geojson
 
   def start_deadline
     update!(end_date: end_date_from_now, start_date: start_date || 1.business_day.from_now)
@@ -81,7 +85,7 @@ class Consultation < ApplicationRecord
 
   def add_neighbour_addresses!(addresses, geojson)
     transaction do
-      update!(polygon_geojson: geojson)
+      update!(polygon_search: geometry_collection(geojson), polygon_geojson: geojson)
 
       addresses.each do |address|
         neighbours.create!(address:)
@@ -89,6 +93,30 @@ class Consultation < ApplicationRecord
     end
   rescue ActiveRecord::ActiveRecordError, ActiveRecord::RecordNotUnique => e
     raise AddNeighbourAddressesError, e.message
+  end
+
+  def polygon_fill_colour
+    "#{polygon_colour}20"
+  end
+
+  def polygon_search_and_boundary_geojson
+    return unless polygon_search
+    return polygon_search_geojson unless planning_application.boundary_geojson
+
+    boundary_geojson = JSON.parse(planning_application.boundary_geojson)
+    feature_collection_geojson = polygon_search_geojson
+
+    case boundary_geojson["type"]
+    when "Feature"
+      feature_collection_geojson["features"] << boundary_geojson
+    when "FeatureCollection"
+      feature_collection_geojson["features"].concat(boundary_geojson["features"])
+    else
+      raise ArgumentError,
+            "Invalid GeoJSON type. Expected 'Feature' or 'FeatureCollection', got #{boundary_geojson['type']}."
+    end
+
+    feature_collection_geojson
   end
 
   private
@@ -105,5 +133,32 @@ class Consultation < ApplicationRecord
       audit_comment:
         "Neighbour letter copy sent by email to #{planning_application.applicant_and_agent_email.join(', ')}"
     )
+  end
+
+  def factory
+    @factory ||= RGeo::Geographic.spherical_factory(srid: 4326)
+  end
+
+  def geometry_collection(geojson)
+    parsed = JSON.parse(geojson)["EPSG:3857"]
+    decoded = RGeo::GeoJSON.decode(parsed)
+    geometries = decoded.map(&:geometry)
+
+    factory.collection(geometries)
+  end
+
+  def polygon_search_geojson
+    features = polygon_search.map do |geometry|
+      {
+        "type" => "Feature",
+        "geometry" => RGeo::GeoJSON.encode(geometry),
+        "properties" => { color: polygon_colour }
+      }
+    end
+
+    {
+      "type" => "FeatureCollection",
+      "features" => features
+    }
   end
 end

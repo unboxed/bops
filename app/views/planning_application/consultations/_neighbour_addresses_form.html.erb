@@ -5,9 +5,7 @@
   method: :post,
   url: planning_application_consultation_neighbour_addresses_path(planning_application),
 ) do |form| %>
-  <h3 class="govuk-heading-s">Neighbour addresses returned from drawn polygon</h3>
-
-  <%= form.govuk_text_area :polygon_geojson,
+  <%= form.govuk_text_area :polygon_search,
                             label: { class: "govuk-visually-hidden" },
                             class: "govuk-visually-hidden" %>
 

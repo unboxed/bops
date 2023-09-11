@@ -6,7 +6,7 @@ module OsPlacesHelper
   end
 
   def stub_os_places_api_request_for_polygon(body, results = "polygon_search")
-    stub_request(:post, "https://api.os.uk/search/places/v1/polygon?key=testtest&output_srs=EPSG:4326&srs=EPSG:4326")
+    stub_request(:post, "https://api.os.uk/search/places/v1/polygon?key=testtest&output_srs=EPSG:27700&srs=EPSG:27700")
       .with(
         body:
       )

@@ -1,3 +1,6 @@
+<h2 class="govuk-heading-m">3) Check and edit letter</h2>
+<p class="govuk-body">This is a template letter. Edit the letter before you send to selected neighbours.</p>
+
 <%= form_with(
 model: [@planning_application, @consultation],
 builder: GOVUKDesignSystemFormBuilder::FormBuilder,
@@ -6,7 +9,7 @@ method: 'post'
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <%= form.hidden_field :consultation_id, value: @consultation.id %>
-  <%= form.label :neighbour_letter_content, "Neighbour letter preview", class: "govuk-heading-s govuk-!-margin-top-8" %>
+  <%= form.label :neighbour_letter_content, "Saved letter", class: "govuk-heading-s govuk-!-margin-top-8" %>
   <%= form.text_area :neighbour_letter_content, rows: 25, class: "govuk-body neighbour-letter-template" %>
 
   <div class="govuk-inset-text">
@@ -16,9 +19,13 @@ method: 'post'
     <p class="govuk-body">A copy of the letter will also be sent by email to the applicant.</p>
   </div>
 
+  <h2 class="govuk-heading-m">4) Send letter</h2>
+  <p class="govuk-body">The letter will be sent to all selected neighbours.</p>
+  <p class="govuk-body">A copy of the letter will be sent to the applicant by email.</p>
   <div class="govuk-button-group govuk-!-margin-top-5 align-buttons">
-      <%= form.submit "Print and send letters", class: "govuk-button govuk-button--primary", style: "margin-inline-end: 2rem;" %>
-    <% end %>
+    <%= form.submit "Print and send letters", class: "govuk-button govuk-button--primary", style: "margin-inline-end: 2rem;" %>
+  <% end %>
+
   <%= form_with(
     model: [planning_application, consultation],
     builder: GOVUKDesignSystemFormBuilder::FormBuilder

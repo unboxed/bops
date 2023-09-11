@@ -6,7 +6,7 @@ module Apis
   module OsPlaces
     class Query
       MAX_RESULTS = 20
-      SRS = "EPSG:4326" # https://epsg.io/4326
+      SRS = "EPSG:27700" # https://epsg.io/27700
 
       def find_addresses(query)
         handle_request { client.get("find", find_addresses_params(query)) }

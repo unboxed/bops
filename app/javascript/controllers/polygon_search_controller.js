@@ -73,7 +73,7 @@ export default class extends Controller {
   }
 
   onGeojsonChange({ detail: geoJSON }) {
-    const geoJsonFeatures = geoJSON.features
+    const geoJsonFeatures = geoJSON["EPSG:27700"].features
     if (geoJsonFeatures === undefined) {
       return
     }

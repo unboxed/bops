@@ -28,8 +28,7 @@ FactoryBot.define do
     town { Faker::Address.city }
     county { Faker::Address.state }
     postcode { Faker::Address.postcode }
-    latitude { Faker::Address.latitude }
-    longitude { Faker::Address.longitude }
+    lonlat { "POINT(#{Faker::Address.longitude} #{Faker::Address.latitude})" }
     result_flag { "Planning permission / Permission needed" }
     result_heading { Faker::Lorem.unique.sentence }
     result_description { Faker::Lorem.unique.sentence }

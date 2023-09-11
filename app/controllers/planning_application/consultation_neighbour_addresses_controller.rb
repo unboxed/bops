@@ -11,7 +11,7 @@ class PlanningApplication
     end
 
     def create
-      @consultation.add_neighbour_addresses!(params[:addresses], params[:polygon_geojson])
+      @consultation.add_neighbour_addresses!(params[:addresses], params[:polygon_search])
 
       respond_to do |format|
         format.html do

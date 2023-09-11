@@ -18,7 +18,7 @@ module Apis
         response = faraday.post("polygon") do |request|
           request.params = params.merge(key)
           request.headers["Content-Type"] = "application/json"
-          request.body = format_geojson(body)
+          request.body = body.to_json
         end
 
         data = JSON.parse(response.body)
@@ -29,20 +29,6 @@ module Apis
 
       def key
         { key: Rails.configuration.os_vector_tiles_api_key }
-      end
-
-      def format_geojson(geojson)
-        reversed_coordinates = geojson["geometry"]["coordinates"].map do |coordinates_group|
-          coordinates_group.map(&:reverse)
-        end
-
-        {
-          "type" => "Feature",
-          "geometry" => {
-            "type" => "Polygon",
-            "coordinates" => reversed_coordinates
-          }
-        }.to_json
       end
 
       def faraday
