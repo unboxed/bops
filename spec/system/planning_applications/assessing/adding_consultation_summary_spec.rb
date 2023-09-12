@@ -98,20 +98,34 @@ RSpec.describe "adding consultation summary" do
         expect(page).to have_content("Edit response")
       end
 
+      expect(page).not_to have_content("Consultation responses")
+
       click_link("Edit response")
       fill_in("Response", with: "test 123")
       click_button("Update response")
 
       expect(page).not_to have_content("No response")
-
       click_button("Save and come back later")
       expect(page).to have_content("Consultation summary successfully added.")
 
       click_link("Summary of consultation")
+      expect(page).to have_content("Consultation responses")
+      within(".govuk-accordion") do
+        expect(page).to have_content("Alice Smith")
+        click_button("Alice Smith")
+        expect(page).to have_content("test 123")
+      end
 
       fill_in("Enter a new consultee", with: "Bob Smith")
       choose("External consultee")
       click_button("Add consultee")
+
+      click_button("Save and come back later")
+      click_link("Summary of consultation")
+
+      within(".govuk-accordion") do
+        expect(page).not_to have_content("Bob Smith")
+      end
 
       within(".govuk-table__row:nth-child(2)") do
         expect(page).to have_content("No response")
@@ -122,6 +136,13 @@ RSpec.describe "adding consultation summary" do
       click_button("Update response")
       click_button("Save and come back later")
       expect(page).to have_content("Consultation summary successfully updated.")
+
+      click_link("Summary of consultation")
+      within(".govuk-accordion") do
+        expect(page).to have_content("Bob Smith")
+        click_button("Bob Smith")
+        expect(page).to have_content("test 234")
+      end
 
       expect(planning_application.consultees.length).to eq(2)
       expect(planning_application.consultees.first.name).to eq("Alice Smith")
