@@ -67,7 +67,7 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
 
         planning_application = PlanningApplication.last
         expect(planning_application).to be_valid
-        expect(JSON.parse(planning_application.planx_data)).to be_a(Hash)
+        expect(JSON.parse(planning_application.planx_planning_data.entry)).to be_a(Hash)
       end
 
       it "saves the feedback as a hash" do
