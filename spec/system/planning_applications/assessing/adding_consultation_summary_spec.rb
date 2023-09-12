@@ -93,22 +93,29 @@ RSpec.describe "adding consultation summary" do
       choose("Internal consultee")
       click_button("Add consultee")
 
-      expect(page).to have_content("Edit response")
+      within(".govuk-table__row:first-child") do
+        expect(page).to have_content("No response")
+        expect(page).to have_content("Edit response")
+      end
 
       click_link("Edit response")
       fill_in("Response", with: "test 123")
       click_button("Update response")
+
+      expect(page).not_to have_content("No response")
+
       click_button("Save and come back later")
       expect(page).to have_content("Consultation summary successfully added.")
 
       click_link("Summary of consultation")
+
       fill_in("Enter a new consultee", with: "Bob Smith")
       choose("External consultee")
       click_button("Add consultee")
 
-      expect(page).to have_content("Edit response")
-
       within(".govuk-table__row:nth-child(2)") do
+        expect(page).to have_content("No response")
+        expect(page).to have_content("Edit response")
         click_link("Edit response")
       end
       fill_in("Response", with: "test 234")
