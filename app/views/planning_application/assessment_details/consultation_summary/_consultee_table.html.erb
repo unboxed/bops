@@ -6,6 +6,9 @@
         <td class="govuk-table__cell">
           <%= consultee.external? ? t(".external") : t(".internal")  %>
         </td>
+        <td class="govuk-table__cell">
+          <% if consultee.response.blank? %>No response<% end %>
+        </td>
         <% unless read_only %>
           <td class="govuk-table__cell">
             <%= link_to "Edit response", edit_planning_application_consultee_path(planning_application, consultee), class: "govuk-link" %>

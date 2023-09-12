@@ -7,4 +7,6 @@ class Consultee < ApplicationRecord
   validates :name, :origin, presence: true
 
   enum origin: { internal: 0, external: 1 }
+
+  scope :with_response, -> { where.not(response: nil) }
 end
