@@ -56,6 +56,11 @@ class PlanningApplicationCreationService
         if planning_application.from_production?
           PlanningApplicationAnonymisationService.new(planning_application:).call!
         end
+        if params[:planx_debug_data].present?
+          PlanxPlanningData.create!(
+            planning_application:, entry: params[:planx_debug_data].to_json
+          )
+        end
         ConstraintsCreationService.new(planning_application:,
                                        constraints_params: params[:constraints]&.to_unsafe_hash).call
         UploadDocumentsJob.perform_now(planning_application:, files: params[:files])
