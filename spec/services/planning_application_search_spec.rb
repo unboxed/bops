@@ -69,7 +69,7 @@ RSpec.describe PlanningApplicationSearch do
     )
   end
 
-  let!(:planning_permission_full_householder_in_assessment) do
+  let!(:householder_application_for_planning_permission_in_assessment) do
     create(
       :planning_application,
       :in_assessment,
@@ -94,7 +94,7 @@ RSpec.describe PlanningApplicationSearch do
                                     prior_approval_not_started,
                                     ldc_not_started,
                                     prior_approval_in_assessment,
-                                    planning_permission_full_householder_in_assessment,
+                                    householder_application_for_planning_permission_in_assessment,
                                     ldc_in_assessment_2,
                                     ldc_in_assessment_1
                                   ])
@@ -131,7 +131,7 @@ RSpec.describe PlanningApplicationSearch do
           prior_approval_in_assessment,
           ldc_in_assessment_2,
           ldc_in_assessment_1,
-          planning_permission_full_householder_in_assessment
+          householder_application_for_planning_permission_in_assessment
         )
       end
 
@@ -270,7 +270,7 @@ RSpec.describe PlanningApplicationSearch do
             prior_approval_in_assessment,
             ldc_in_assessment_2,
             ldc_in_assessment_1,
-            planning_permission_full_householder_in_assessment
+            householder_application_for_planning_permission_in_assessment
           )
         end
 
