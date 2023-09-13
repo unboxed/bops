@@ -107,9 +107,9 @@ constraints_list = {
   ]
 }
 
-constraints_list.each do |category, names|
-  names.each do |name|
-    Constraint.create!(name:, category: category.to_s)
+constraints_list.each do |category, types|
+  types.each do |type|
+    Constraint.create!(type:, category: category.to_s)
   rescue ActiveRecord::RecordInvalid, ArgumentError => e
     raise "Could not create constraint with category: '#{category}' and name: '#{name}' with error: #{e.message}"
   end

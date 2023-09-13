@@ -309,8 +309,8 @@ FactoryBot.define do
 
     trait :with_constraints do
       after(:create) do |planning_application|
-        constraint1 = create(:constraint, name: "Conservation area", category: "heritage_and_conservation")
-        constraint2 = create(:constraint, name: "Listed building", category: "heritage_and_conservation")
+        constraint1 = create(:constraint, type: "Conservation area", category: "heritage_and_conservation")
+        constraint2 = create(:constraint, type: "Listed building", category: "heritage_and_conservation")
 
         planning_application.planning_application_constraints.find_or_create_by(constraint: constraint1).save!
         planning_application.planning_application_constraints.find_or_create_by(constraint: constraint2).save!

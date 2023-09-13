@@ -6,16 +6,16 @@ RSpec.describe Constraint do
   describe "validations" do
     subject(:constraint) { described_class.new }
 
-    describe "#name" do
+    describe "#type" do
       it "validates presence" do
-        expect { constraint.valid? }.to change { constraint.errors[:name] }.to ["can't be blank"]
+        expect { constraint.valid? }.to change { constraint.errors[:type] }.to ["can't be blank"]
       end
 
       it "validates uniqueness" do
-        create(:constraint, name: "Flood zone")
+        create(:constraint, type: "flood_zone")
 
-        expect { described_class.create!(name: "Flood zone") }.to raise_error(
-          ActiveRecord::RecordInvalid, "Validation failed: Category can't be blank, Name has already been taken"
+        expect { described_class.create!(type: "flood_zone") }.to raise_error(
+          ActiveRecord::RecordInvalid, "Validation failed: Category can't be blank, Type has already been taken"
         )
       end
     end

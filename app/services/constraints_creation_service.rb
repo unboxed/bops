@@ -10,7 +10,7 @@ class ConstraintsCreationService
   def call
     constraints.each do |constraint|
       existing_constraint = Constraint.options_for_local_authority(planning_application.local_authority_id)
-                                      .find_by("LOWER(name)= ?", constraint.downcase)
+                                      .find_by("LOWER(type)= ?", constraint.downcase)
 
       if existing_constraint
         planning_application.planning_application_constraints.find_or_create_by!(
@@ -19,7 +19,7 @@ class ConstraintsCreationService
         ).save!
       else
         planning_application.constraints.find_or_create_by!(
-          name: constraint.titleize, category: "local", local_authority_id: planning_application.local_authority_id
+          type: constraint.titleize, category: "local", local_authority_id: planning_application.local_authority_id
         )
       end
     end
@@ -27,7 +27,7 @@ class ConstraintsCreationService
     previous_constraints =
       planning_application.planning_application_constraints.active
     previous_constraints.each do |constraint|
-      constraint.update!(removed_at: Time.current) unless constraints.include?(constraint.constraint.name.humanize)
+      constraint.update!(removed_at: Time.current) unless constraints.include?(constraint.constraint.type.humanize)
     end
   rescue ActiveRecord::RecordInvalid, NoMethodError => e
     Appsignal.send_error(e)

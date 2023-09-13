@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 class Constraint < ApplicationRecord
-  validates :category, :name, presence: true
-  validates :name, uniqueness: { scope: :local_authority }
+  self.inheritance_column = "inheritance_type"
+
+  validates :category, :type, presence: true
+  validates :type, uniqueness: { scope: :local_authority }
 
   belongs_to :local_authority, optional: true
 

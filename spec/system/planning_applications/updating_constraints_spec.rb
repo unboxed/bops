@@ -15,7 +15,7 @@ RSpec.describe "updating constraints" do
   let!(:constraint) do
     create(
       :constraint,
-      name: "Conservation Area"
+      type: "Conservation Area"
     )
   end
 

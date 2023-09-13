@@ -113,8 +113,8 @@ RSpec.describe PlanningApplication do
     describe "constraints" do
       let!(:planning_application) { create(:planning_application) }
 
-      let!(:constraint1) { create(:constraint, name: "Constraint 1", category: "other") }
-      let!(:constraint2) { create(:constraint, name: "Constraint 2", category: "other") }
+      let!(:constraint1) { create(:constraint, type: "Constraint 1", category: "other") }
+      let!(:constraint2) { create(:constraint, type: "Constraint 2", category: "other") }
 
       let!(:planning_application_constraints_query) { create(:planning_application_constraints_query, planning_application:) }
       let!(:planning_application_constraint1) { create(:planning_application_constraint, planning_application_constraints_query:, planning_application:, constraint: constraint1) }

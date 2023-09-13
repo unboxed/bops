@@ -10,7 +10,7 @@ class PlanningApplicationConstraint < ApplicationRecord
   after_create :audit_constraint_added!
   before_destroy :audit_constraint_removed!
 
-  delegate :name, to: :constraint
+  delegate :type, to: :constraint
   delegate :audits, to: :planning_application
 
   scope :active, -> { where({ removed_at: nil }) }
@@ -19,10 +19,10 @@ class PlanningApplicationConstraint < ApplicationRecord
   private
 
   def audit_constraint_added!
-    audit!(activity_type: "constraint_added", audit_comment: name)
+    audit!(activity_type: "constraint_added", audit_comment: type)
   end
 
   def audit_constraint_removed!
-    audit!(activity_type: "constraint_removed", audit_comment: name)
+    audit!(activity_type: "constraint_removed", audit_comment: type)
   end
 end

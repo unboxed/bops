@@ -32,7 +32,7 @@ RSpec.describe ConstraintsCreationService, type: :service do
           create_constraints
         end.to change(Constraint, :count).by(4).and change(PlanningApplicationConstraint, :count).by(4)
 
-        expect(Constraint.pluck(:name, :category, :local_authority_id)).to eq(
+        expect(Constraint.pluck(:type, :category, :local_authority_id)).to eq(
           [
             ["Conservation Area", "local", local_authority1.id],
             ["Protected Trees", "local", local_authority1.id],
@@ -47,11 +47,11 @@ RSpec.describe ConstraintsCreationService, type: :service do
     end
 
     context "when existing constraints are added" do
-      let!(:constraint1) { create(:constraint, name: "conservation area", local_authority: local_authority1) }
-      let!(:constraint2) { create(:constraint, name: "Protected trees") }
-      let!(:constraint3) { create(:constraint, name: "National Park") }
+      let!(:constraint1) { create(:constraint, type: "conservation area", local_authority: local_authority1) }
+      let!(:constraint2) { create(:constraint, type: "Protected trees") }
+      let!(:constraint3) { create(:constraint, type: "National Park") }
       # Constraint for another local authority
-      let!(:constraint4) { create(:constraint, name: "Listed building", local_authority: local_authority2) }
+      let!(:constraint4) { create(:constraint, type: "Listed building", local_authority: local_authority2) }
 
       it "creates planning application constraints using the existing constraint for the local authority" do
         expect do
@@ -64,8 +64,8 @@ RSpec.describe ConstraintsCreationService, type: :service do
     end
 
     context "when existing and new constraints are added" do
-      let!(:constraint1) { create(:constraint, name: "conservation area") }
-      let!(:constraint2) { create(:constraint, name: "Protected trees") }
+      let!(:constraint1) { create(:constraint, type: "conservation area") }
+      let!(:constraint2) { create(:constraint, type: "Protected trees") }
 
       it "creates the non existing constraints and planning application constraints" do
         expect do
@@ -78,8 +78,8 @@ RSpec.describe ConstraintsCreationService, type: :service do
     end
 
     context "when constraints are removed" do
-      let!(:constraint1) { create(:constraint, name: "conservation area") }
-      let!(:constraint2) { create(:constraint, name: "Listed Building") }
+      let!(:constraint1) { create(:constraint, type: "conservation area") }
+      let!(:constraint2) { create(:constraint, type: "Listed Building") }
 
       before do
         create_constraints
@@ -99,10 +99,10 @@ RSpec.describe ConstraintsCreationService, type: :service do
         app_constraints = planning_application.planning_application_constraints
 
         expect(app_constraints.active.count).to eq(2)
-        expect(app_constraints.active.map(&:name)).to eq(["conservation area",
+        expect(app_constraints.active.map(&:type)).to eq(["conservation area",
                                                           "Listed Building"])
         expect(app_constraints.removed.count).to eq(2)
-        expect(app_constraints.removed.map(&:name)).to eq(["Protected Trees",
+        expect(app_constraints.removed.map(&:type)).to eq(["Protected Trees",
                                                            "National Park"])
       end
     end
