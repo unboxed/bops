@@ -2,6 +2,7 @@
   model: [@planning_application, @consultation, @site_visit],
   builder: GOVUKDesignSystemFormBuilder::FormBuilder,
   class: "govuk-!-margin-top-5",
+  url: planning_application_publicity_site_visits_path(@planning_application, @consultation, @site_visit),
   method: :post
 ) do |form| %>
 

@@ -700,7 +700,7 @@ en:
     cil_liability:
       update:
         success: CIL liability updated
-    consultation_neighbour_addresses:
+    publicity_neighbour_addresses:
       create:
         success: Addresses have been successfully added.
     review_documents:

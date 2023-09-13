@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 class PlanningApplication
-  class ConsultationNeighbourAddressesController < AuthenticationController
+  class PublicityNeighbourAddressesController < AuthenticationController
     before_action :set_planning_application
     before_action :set_consultation
 
     rescue_from Consultation::AddNeighbourAddressesError do |error|
-      redirect_to planning_application_consultation_path(@planning_application, @consultation),
+      redirect_to planning_application_publicity_path(@planning_application, @consultation),
                   alert: "Error adding neighbour addresses with message: #{error.message}"
     end
 
@@ -15,7 +15,7 @@ class PlanningApplication
 
       respond_to do |format|
         format.html do
-          redirect_to planning_application_consultation_path(@planning_application, @consultation),
+          redirect_to planning_application_publicity_path(@planning_application, @consultation),
                       notice: t(".success")
         end
       end

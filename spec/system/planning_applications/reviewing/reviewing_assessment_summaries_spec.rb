@@ -209,7 +209,7 @@ RSpec.describe "Reviewing assessment summaries" do
         within(find("fieldset", text: "Amenity assessment")) do
           expect(page).to have_link(
             "View neighbour responses",
-            href: new_planning_application_consultation_neighbour_response_path(planning_application, consultation)
+            href: new_planning_application_publicity_neighbour_response_path(planning_application, consultation)
           )
 
           expect(page).to have_content("Neighbour responses: There is 1 neutral, 1 objection, 2 supportive.")

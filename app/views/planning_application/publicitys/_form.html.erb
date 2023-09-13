@@ -1,6 +1,7 @@
 <%= form_with(
   model: [planning_application, consultation],
   builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+  url: url,
   class: "govuk-!-margin-top-5",
   id: "consultation-form",
 ) do |form| %>

@@ -15,6 +15,7 @@
           model: [@planning_application, @consultation],
           builder: GOVUKDesignSystemFormBuilder::FormBuilder,
           data: { action: "submit->submit-form#handleSubmit" },
+          url: planning_application_publicity_path(@planning_application, @consultation),
           class: "display-none"
         ) do |form| %>
           <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
@@ -40,7 +41,7 @@
 
           <%= link_to(
                 "Remove",
-                planning_application_consultation_path(
+                planning_application_publicity_path(
                     @planning_application,
                     @consultation,
                     neighbour: neighbour

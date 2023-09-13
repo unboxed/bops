@@ -4,7 +4,7 @@
 
 <% add_parent_breadcrumb_link "Home", root_path %>
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
-<% add_parent_breadcrumb_link "Publicity", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Publicity", planning_application_publicitys_path(@planning_application) %>
 <% content_for :title, "Send letters to neighbours" %>
 
 <%= render(
@@ -20,7 +20,7 @@
 
     <p class="govuk-body">or</p>
 
-    <%= render "form", planning_application: @planning_application, consultation: @consultation %>
+    <%= render "form", planning_application: @planning_application, consultation: @consultation, url: planning_application_publicitys_path(@planning_application.id) %>
 
     <%= render "neighbours_added", planning_application: @planning_application, consultation: @consultation %>
 
@@ -28,13 +28,14 @@
 
     <div class="govuk-button-group">
       <%= form_with(
-          model: [@planning_application, @consultation],
+          model: [@planning_application],
           builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-          class: "govuk-!-margin-top-5"
+          class: "govuk-!-margin-top-5",
+          url: planning_application_publicitys_path(@planning_application),
+          method: :patch
         ) do |form| %>
-        <%= form.hidden_field :consultation_id %>
         <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
-        <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+        <%= link_to "Back", planning_application_publicitys_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
       <% end %>
     </div>
   </div>
