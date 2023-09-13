@@ -49,7 +49,7 @@ module Api
 
       def send_failed_response(error, params)
         Appsignal.send_error(error) do |transaction|
-          transaction.params = { params: }
+          transaction.params = { params: params.to_unsafe_hash }
         end
 
         render json: { message: error.message.to_s || "Unable to create application" },
