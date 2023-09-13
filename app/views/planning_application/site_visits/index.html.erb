@@ -30,7 +30,7 @@
         <p class="govuk-body">Response created by: <%= site_visit.created_by.name %></p>
         <p class="govuk-body">Response created at: <%= site_visit.created_at.to_fs %></p>
         <% if site_visit.decision? %>
-          <p class="govuk-body">Visited at: <%= site_visit.visited_at&.strftime("%-d %B %Y") %></p>
+          <p class="govuk-body">Visited at: <%= site_visit.visited_at&.to_fs %></p>
         <% end %>
         <p class="govuk-body">Comment: <%= site_visit.comment %></p>
         <p class="govuk-body"><%= site_visit.documents.count %> document<%= site_visit.documents.count == 1 ? "" : "s" %> added</p>

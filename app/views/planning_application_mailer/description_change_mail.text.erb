@@ -10,7 +10,7 @@ You are invited to review and accept or reject the suggested changes. To review 
 
 <%= @planning_application.secure_change_url %>
 
-If you do not review them by <%= @description_change_request.request_expiry_date.strftime("%-d %B %Y") %>, the changes will be automatically accepted. This is to avoid delays to your application.
+If you do not review them by <%= @description_change_request.request_expiry_date.to_fs %>, the changes will be automatically accepted. This is to avoid delays to your application.
 
 If you need help with your application, contact us at <%= @planning_application.local_authority.email_address %>.
 
