@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_12_154603) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_13_143019) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -366,8 +366,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_12_154603) do
   end
 
   create_table "planning_application_constraints_queries", force: :cascade do |t|
-    t.jsonb "geojson", null: false
-    t.text "wkt", null: false
+    t.jsonb "geojson"
+    t.text "wkt"
     t.string "planx_query", null: false
     t.string "planning_data_query", null: false
     t.bigint "planning_application_id"
