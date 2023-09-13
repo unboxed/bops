@@ -322,7 +322,7 @@ class PlanningApplication < ApplicationRecord
     [
       "How much new floor area is being added to the house?",
       "How much new floor area is being created?"
-    ].filter_map { |q| find_proposal_detail(q) }.first&.first
+    ].filter_map { |q| find_proposal_detail(q) }.flatten.first
   end
 
   def likely_cil_liable?
