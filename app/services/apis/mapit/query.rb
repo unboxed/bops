@@ -30,6 +30,8 @@ module Apis
         ward_id = body["shortcuts"]["ward"]
         ward_object = areas[ward_id.to_s]
 
+        return [] unless ward_object
+
         [ward_object["type_name"], ward_object["name"], parish_name(areas)]
       end
 
