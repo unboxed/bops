@@ -171,6 +171,10 @@ en:
               inclusion: "%{attribute} must be Not started, In progress or Complete"
             work_status:
               inclusion: Work Status should be proposed or existing
+        planning_application_constraints_query:
+          attributes:
+            base:
+              coordinate_method_not_present: Select at least one coordinate method
         policy_class:
           attributes:
             status:
