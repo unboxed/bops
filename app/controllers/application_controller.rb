@@ -56,7 +56,7 @@ class ApplicationController < ActionController::Base
   def prevent_caching
     response.headers["Cache-Control"] = "no-cache, no-store"
     response.headers["Pragma"] = "no-cache"
-    response.headers["Expires"] = 100.years.ago
+    response.headers["Expires"] = 0
   end
 
   def set_current_user
