@@ -36,7 +36,7 @@ RSpec.describe PolicyClasses::CommentFieldComponent, type: :component do
 
     it "renders field with existing comment" do
       expect(page).to have_field(
-        "Comment added on 19 Dec 2022 by Alice Smith",
+        "Comment added on 19 December 2022 by Alice Smith",
         with: "test"
       )
     end
@@ -76,7 +76,7 @@ RSpec.describe PolicyClasses::CommentFieldComponent, type: :component do
 
     it "renders field with submitted blank text" do
       expect(page).to have_field(
-        "Comment added on 19 Dec 2022 by Alice Smith",
+        "Comment added on 19 December 2022 by Alice Smith",
         with: ""
       )
     end

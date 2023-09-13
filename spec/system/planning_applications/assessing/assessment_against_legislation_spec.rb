@@ -155,7 +155,7 @@ RSpec.describe "assessment against legislation" do
 
       within(row_with_content("D.1a")) do
         expect(page).to have_field(
-          "Comment added on 01 Sep 2022 by Alice Smith",
+          "Comment added on 1 September 2022 by Alice Smith",
           with: "New comment"
         )
 
@@ -173,7 +173,7 @@ RSpec.describe "assessment against legislation" do
 
       within(row_with_content("D.1a")) do
         fill_in(
-          "Comment added on 01 Sep 2022 by Alice Smith",
+          "Comment added on 1 September 2022 by Alice Smith",
           with: ""
         )
       end
@@ -186,7 +186,7 @@ RSpec.describe "assessment against legislation" do
         expect(page).to have_content("can't be blank")
 
         expect(page).to have_field(
-          "Comment added on 01 Sep 2022 by Alice Smith",
+          "Comment added on 1 September 2022 by Alice Smith",
           with: ""
         )
       end
@@ -214,14 +214,14 @@ RSpec.describe "assessment against legislation" do
 
         within(row_with_content("A.1A")) do
           expect(page).to have_field(
-            "Comment updated on 01 Oct 2022 by Alice Smith",
+            "Comment updated on 1 October 2022 by Alice Smith",
             with: "Updated comment"
           )
 
           find("span", text: "Previous comments").click
 
           expect(page).to have_content(
-            "Comment added on 01 Sep 2022 by Alice Smith"
+            "Comment added on 1 September 2022 by Alice Smith"
           )
 
           expect(page).to have_content("Original comment")
@@ -267,7 +267,7 @@ RSpec.describe "assessment against legislation" do
 
       within(row_with_content("D.1a")) do
         expect(page).to have_field(
-          "Comment added on 01 Sep 2022 by Alice Smith",
+          "Comment added on 1 September 2022 by Alice Smith",
           with: "Test comment"
         )
       end
@@ -279,11 +279,11 @@ RSpec.describe "assessment against legislation" do
       expect(page).to have_list_item_for("Part 1, Class D", with: "Completed")
 
       click_link("Part 1, Class D")
-      expect(page).to have_content("Comment added on 01 Sep 2022 by Alice Smith")
+      expect(page).to have_content("Comment added on 1 September 2022 by Alice Smith")
       expect(page).to have_content("Test comment")
 
       expect(page).not_to have_field(
-        "Comment added on 01 Sep 2022 by Alice Smith",
+        "Comment added on 1 September 2022 by Alice Smith",
         with: "Test comment"
       )
 
@@ -294,7 +294,7 @@ RSpec.describe "assessment against legislation" do
       click_link("Edit assessment")
 
       expect(page).to have_field(
-        "Comment added on 01 Sep 2022 by Alice Smith",
+        "Comment added on 1 September 2022 by Alice Smith",
         with: "Test comment"
       )
 
@@ -337,7 +337,7 @@ RSpec.describe "assessment against legislation" do
       expect(page).to have_content("Part 1, Class D")
 
       expect(page).to have_field(
-        "Comment added on 01 Sep 2022 by Alice Smith",
+        "Comment added on 1 September 2022 by Alice Smith",
         with: "Test comment"
       )
 
@@ -390,7 +390,7 @@ RSpec.describe "assessment against legislation" do
         find("span", text: "Previous comments").click
 
         expect(page).to have_content(
-          "Comment added on 01 Sep 2022 by Alice Smith"
+          "Comment added on 1 September 2022 by Alice Smith"
         )
 
         expect(page).to have_content("Test comment")
@@ -404,7 +404,7 @@ RSpec.describe "assessment against legislation" do
 
       within(row_with_content("D.1a")) do
         expect(page).to have_field(
-          "Comment added on 01 Sep 2022 by Alice Smith",
+          "Comment added on 1 September 2022 by Alice Smith",
           with: "New comment"
         )
       end

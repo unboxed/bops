@@ -53,7 +53,7 @@ module ApplicationHelper
 
     t(
       "policy_classes.comment_#{action}_on",
-      time: comment.created_at.strftime("%d %b %Y"),
+      time: comment.created_at.to_date.to_fs,
       user: user_name
     )
   end
