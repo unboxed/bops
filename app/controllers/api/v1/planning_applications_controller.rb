@@ -37,7 +37,7 @@ module Api
 
         post_application_to_staging if production?
       rescue PlanningApplicationCreationService::CreateError => e
-        send_failed_response(e)
+        send_failed_response(e, params)
       end
 
       private
@@ -47,8 +47,10 @@ module Api
                        message: "Application created" }, status: :ok
       end
 
-      def send_failed_response(error)
-        Appsignal.send_error(error)
+      def send_failed_response(error, params)
+        Appsignal.send_error(error) do |transaction|
+          transaction.params = { params: }
+        end
 
         render json: { message: error.message.to_s || "Unable to create application" },
                status: :bad_request
