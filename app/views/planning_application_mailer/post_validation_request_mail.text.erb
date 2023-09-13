@@ -1,6 +1,6 @@
 Application number: <%= @planning_application.reference_in_full %>
 
-Application received: <%= @planning_application.received_at.strftime("%-d %B %Y") %>
+Application received: <%= @planning_application.received_at.to_date.to_fs %>
 
 At: <%= @planning_application.full_address %>
 
@@ -12,7 +12,7 @@ To review and accept or reject the changes, follow the link below:
 
 <%= @planning_application.secure_change_url %>
 
-If your response is not received by <%= @validation_request.request_expiry_date.strftime("%-d %B %Y") %>, the proposed changes to your application will be automatically accepted. This is to avoid delays in making a determination on your application.
+If your response is not received by <%= @validation_request.request_expiry_date.to_fs %>, the proposed changes to your application will be automatically accepted. This is to avoid delays in making a determination on your application.
 
 Yours faithfully,
 

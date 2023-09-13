@@ -178,7 +178,7 @@ RSpec.describe "Reviewing Policy Class" do
         expect(page).to have_selector("p", text: "Policy description")
 
         expect(page).to have_text(
-          "Comment added on 15 Oct 2020 by Chuck The Assessor"
+          "Comment added on 15 October 2020 by Chuck The Assessor"
         )
 
         expect(page).to have_text("policy comment")
@@ -189,12 +189,12 @@ RSpec.describe "Reviewing Policy Class" do
           click_button("Edit comment")
 
           expect(page).to have_field(
-            "Comment added on 15 Oct 2020 by Chuck The Assessor",
+            "Comment added on 15 October 2020 by Chuck The Assessor",
             with: "policy comment"
           )
 
           fill_in(
-            "Comment added on 15 Oct 2020 by Chuck The Assessor",
+            "Comment added on 15 October 2020 by Chuck The Assessor",
             with: ""
           )
 
@@ -203,14 +203,14 @@ RSpec.describe "Reviewing Policy Class" do
           expect(page).to have_content("Text can't be blank")
 
           fill_in(
-            "Comment added on 15 Oct 2020 by Chuck The Assessor",
+            "Comment added on 15 October 2020 by Chuck The Assessor",
             with: "edited policy comment"
           )
 
           click_button("Update")
 
           expect(page).to have_content(
-            "Comment updated on 16 Oct 2020 by Charlize The Reviever"
+            "Comment updated on 16 October 2020 by Charlize The Reviever"
           )
 
           expect(page).to have_content("edited policy comment")
@@ -218,7 +218,7 @@ RSpec.describe "Reviewing Policy Class" do
           find("span", text: "Previous comments").click
 
           expect(page).to have_content(
-            "Comment added on 15 Oct 2020 by Chuck The Assessor"
+            "Comment added on 15 October 2020 by Chuck The Assessor"
           )
 
           expect(page).to have_content("policy comment")

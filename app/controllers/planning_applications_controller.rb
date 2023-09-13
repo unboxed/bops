@@ -138,7 +138,7 @@ class PlanningApplicationsController < AuthenticationController
 
   def view_recommendation
     @assessor_name = @planning_application.recommendation.assessor.name
-    @recommended_date = @planning_application.recommendation.created_at.strftime("%d %b %Y")
+    @recommended_date = @planning_application.recommendation.created_at.to_date.to_fs
   end
 
   def withdraw_recommendation

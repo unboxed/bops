@@ -7,8 +7,8 @@ Here are the details of your application:
 Application reference number: <%= @planning_application.reference_in_full %>
 Project description: <%= @planning_application.description %>
 Address: <%= @planning_application.full_address %>
-Application sent: <%= @planning_application.created_at.strftime("%-d %B %Y") %>
-Application received: <%= @planning_application.received_at.strftime("%-d %B %Y") %>
+Application sent: <%= @planning_application.created_at.to_date.to_fs %>
+Application received: <%= @planning_application.received_at.to_date.to_fs %>
 
 What happens next:
 
@@ -19,7 +19,7 @@ If there are no issues with your application, we will start assessing it against
 We may contact you or a person of your choosing to arrange a site visit.
 <% if @planning_application.application_type.name == 'lawfulness_certificate' %>
 
-You have the right to appeal to the Secretary of State if by <%= (@planning_application.received_at + 8.weeks).strftime("%-d %B %Y") %>:
+You have the right to appeal to the Secretary of State if by <%= (@planning_application.received_at + 8.weeks).to_date.to_fs %>:
 
 - you have not been told that the application is invalid
 - you have not been given a decision in writing

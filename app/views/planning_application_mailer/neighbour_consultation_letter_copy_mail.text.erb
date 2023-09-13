@@ -1,6 +1,6 @@
 Application reference number: <%= @planning_application.reference_in_full %>
 
-Application received: <%= @planning_application.received_at.strftime("%-d %B %Y") %>
+Application received: <%= @planning_application.received_at.to_date.to_fs %>
 
 At: <%= @planning_application.full_address %>
 

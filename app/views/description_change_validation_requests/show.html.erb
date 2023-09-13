@@ -13,7 +13,7 @@
     </h1>
     <p class="govuk-body">
       <strong>At:</strong> <%= @planning_application.full_address  %> <br>
-      <strong>Date received:</strong> <%= @planning_application.received_at.strftime("%e %B %Y") %> <br>
+      <strong>Date received:</strong> <%= @planning_application.received_at.to_date.to_fs %> <br>
       <strong>Application number:</strong> <%= @planning_application.reference  %>
     </p>
 
@@ -27,7 +27,7 @@
     </div>
     <p class="govuk-body">
       <% if @description_change_request.open? %>
-        Sent on <%= @description_change_request.created_at.strftime("%e %B %Y") %>. Agent or applicant has not yet responded.
+        Sent on <%= @description_change_request.created_at.to_date.to_fs %>. Agent or applicant has not yet responded.
       <% else %>
         <%= @description_change_request.approved? ? 'Approved' : 'Rejected' %>
       <% end %>

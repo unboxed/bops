@@ -419,7 +419,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the information about the validation request being auto accepted" do
       expect(mail_body).to include(
-        "If your response is not received by #{validation_request.request_expiry_date.strftime('%-d %B %Y')}, the proposed changes to your application will be automatically accepted."
+        "If your response is not received by #{validation_request.request_expiry_date.to_fs}, the proposed changes to your application will be automatically accepted."
       )
       expect(mail_body).to include(
         "This is to avoid delays in making a determination on your application."
