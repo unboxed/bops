@@ -15,10 +15,6 @@ module ApplicationHelper
     end
   end
 
-  def accessible_time(datetime)
-    tag.time(datetime.strftime("%e %B %G at %R%P"), { datetime: datetime.iso8601 })
-  end
-
   def unsaved_changes_data
     {
       controller: "unsaved-changes",
