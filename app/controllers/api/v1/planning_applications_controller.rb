@@ -35,7 +35,7 @@ module Api
 
         send_success_response
 
-        post_application_to_staging if production?
+        post_application_to_staging if Rails.configuration.production_environment
       rescue PlanningApplicationCreationService::CreateError => e
         send_failed_response(e, params)
       end
@@ -63,10 +63,6 @@ module Api
 
       def post_application_to_staging
         PostApplicationToStagingJob.perform_later(current_local_authority, @planning_application)
-      end
-
-      def production?
-        ENV.fetch("STAGING_ENABLED", "false") == "false"
       end
     end
   end

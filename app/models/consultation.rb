@@ -130,7 +130,7 @@ class Consultation < ApplicationRecord
   private
 
   def application_link
-    if production?
+    if Rails.configuration.production_environment
       "https://planningapplications.#{planning_application.local_authority.subdomain}.gov.uk/planning_applications/#{planning_application.id}"
     else
       "https://#{planning_application.local_authority.subdomain}.bops-applicants.services/planning_applications/#{planning_application.id}"
@@ -172,9 +172,5 @@ class Consultation < ApplicationRecord
       "type" => "FeatureCollection",
       "features" => features
     }
-  end
-
-  def production?
-    ENV.fetch("STAGING_ENABLED", "false") == "false"
   end
 end

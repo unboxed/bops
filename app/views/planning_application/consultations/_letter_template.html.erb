@@ -1,5 +1,5 @@
-<h2 class="govuk-heading-m govuk-!-margin-top-6">3) Check and edit letter</h2>
-<p class="govuk-body">This is a template letter. Edit the letter before you send to selected neighbours.</p>
+<h2 class="govuk-heading-m govuk-!-margin-top-6">3) Check letter</h2>
+<p class="govuk-body">Check the letter. You can edit the letter before you send it to selected neighbours.</p>
 
 <%= form_with(
 model: [planning_application, consultation],
@@ -8,8 +8,7 @@ url: planning_application_consultation_send_neighbour_letters_path(planning_appl
 method: 'post'
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
-  <%= form.hidden_field :consultation_id, value: consultation.id %>
-  <%= form.label :neighbour_letter_content, "Saved letter", class: "govuk-heading-s govuk-!-margin-top-8" %>
+  <%= form.hidden_field :consultation_id, value: @consultation.id %>
   <%= form.text_area :neighbour_letter_content, 
       value: @consultation.neighbour_letter_text || neighbour_letter_content(@consultation).html_safe, 
       rows: 25, 
@@ -24,7 +23,6 @@ method: 'post'
         Measurements in the letter have been taken from PlanX. Please amend in the template or in the consistency checklist in the assessment task list.
       </p>
     <% end %>
-    <p class="govuk-body">A copy of the letter will also be sent by email to the applicant.</p>
   </div>
 
   <h2 class="govuk-heading-m govuk-!-margin-top-6">4) Send letter</h2>
