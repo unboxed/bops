@@ -45,7 +45,7 @@
         <%= render(
           partial: "shared/alert_banner",
           locals: {
-            message: t(".awaiting_approval_to", date: @planning_application.open_description_change_request.created_at.strftime("%d/%m/%Y"))
+            message: t(".awaiting_approval_to", date: @planning_application.open_description_change_request.created_at.to_date.to_fs(:day_month_year_slashes))
           }
         ) %>
       <% end %>
