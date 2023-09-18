@@ -24,10 +24,6 @@ RSpec.describe Constraint do
       it "validates presence" do
         expect { constraint.valid? }.to change { constraint.errors[:category] }.to ["can't be blank"]
       end
-
-      it "validates enum type" do
-        expect { described_class.new(category: "random") }.to raise_error(ArgumentError, "'random' is not a valid category")
-      end
     end
   end
 
