@@ -462,6 +462,24 @@ en:
       'yes': 'Yes'
     update:
       successfully_updated_application: Successfully updated application checklist
+  constraint_type_codes:
+    article4:
+      caz: Central activities zones
+    designated:
+      AONB: Area of outstanding natural beauty
+      SPA: Special protection area
+      WHS: World heritage site buffer zone
+      conservationArea: Conservation area
+      nationalPark: National park
+    listed: Listed building outline
+    locallyListed: Locally listed building
+    monument: Scheduled monument
+    nature:
+      ASNW: Ancient woodland
+      SAC: Special area of conservation
+      SSSI: Site of special scientific interest
+    registeredPark: Historic parks and gardens
+    tpo: Tree preservation zone
   constraints:
     check:
       success: Constraints was successfully checked.

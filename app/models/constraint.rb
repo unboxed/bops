@@ -12,6 +12,14 @@ class Constraint < ApplicationRecord
 
   scope :options_for_local_authority, ->(local_authority_id) { where(local_authority_id: [local_authority_id, nil]) }
 
+  def type_code
+    if I18n.t("constraint_type_codes.#{type}").include?("translation missing")
+      type.titleize
+    else
+      I18n.t("constraint_type_codes.#{type}")
+    end
+  end
+
   class << self
     def grouped_by_category(local_authority_id)
       options_for_local_authority(local_authority_id).group_by(&:category)

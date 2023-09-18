@@ -12,9 +12,9 @@ RSpec.describe Constraint do
       end
 
       it "validates uniqueness" do
-        create(:constraint, type: "flood_zone")
+        create(:constraint, type: "designated.conservationArea")
 
-        expect { described_class.create!(type: "flood_zone") }.to raise_error(
+        expect { described_class.create!(type: "designated.conservationArea") }.to raise_error(
           ActiveRecord::RecordInvalid, "Validation failed: Category can't be blank, Type has already been taken"
         )
       end
@@ -48,20 +48,20 @@ RSpec.describe Constraint do
       let!(:local_authority1) { create(:local_authority) }
       let!(:local_authority2) { create(:local_authority, :southwark) }
 
-      let!(:constraint1) { create(:constraint, category: "tree", local_authority: local_authority1) }
+      let!(:constraint1) { create(:constraint, category: "trees", local_authority: local_authority1) }
       let!(:constraint2) { create(:constraint, category: "ecology", local_authority: nil) }
-      let!(:constraint3) { create(:constraint, category: "local", local_authority: local_authority2) }
+      let!(:constraint3) { create(:constraint, category: "heritage_and_conservation", local_authority: local_authority2) }
 
       it "returns all constraint options for a local authority grouped by category" do
         expect(described_class.grouped_by_category(local_authority1)).to eq(
           {
-            "tree" => [constraint1], "ecology" => [constraint2]
+            "trees" => [constraint1], "ecology" => [constraint2]
           }
         )
 
         expect(described_class.grouped_by_category(local_authority2)).to eq(
           {
-            "ecology" => [constraint2], "local" => [constraint3]
+            "ecology" => [constraint2], "heritage_and_conservation" => [constraint3]
           }
         )
       end

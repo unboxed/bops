@@ -878,7 +878,7 @@ RSpec.describe PlanningApplication do
     end
 
     it "is empty when all constraints are predefined ones" do
-      planning_application.old_constraints << "Listed Building"
+      planning_application.old_constraints << "listed"
 
       expect(planning_application.local_constraints).to be_empty
     end

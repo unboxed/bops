@@ -133,7 +133,7 @@ RSpec.describe "assessment against legislation" do
       within(".govuk-accordion__section") do
         click_button("Constraints")
         expect(page).to have_content("Conservation area")
-        expect(page).to have_content("Listed building")
+        expect(page).to have_content("Listed building outline")
 
         expect(page).to have_link("Edit constraints",
                                   href: edit_planning_application_constraints_path(planning_application))
@@ -433,7 +433,7 @@ RSpec.describe "assessment against legislation" do
       within(".govuk-accordion__section") do
         click_button("Constraints")
         expect(page).to have_content("Conservation area")
-        expect(page).to have_content("Listed building")
+        expect(page).to have_content("Listed building outline")
 
         expect(page).not_to have_link("Edit constraints",
                                       href: edit_planning_application_constraints_path(planning_application))

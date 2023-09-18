@@ -27,7 +27,7 @@ class ConstraintQueryUpdateService
 
     present_constraints = results[:constraints].filter { |_, constraint| constraint[:value] }
     constraints_params = present_constraints.to_h do |constraint_key, _constraint_hash|
-      [constraint_key.to_s.split(".").last.underscore, true]
+      [constraint_key, true]
     end
 
     ConstraintsCreationService.new(planning_application:, constraints_params:,

@@ -69,41 +69,34 @@ application_types.each do |attrs|
 end
 
 constraints_list = {
-  flooding: [
-    "Flood zone",
-    "Flood zone 1",
-    "Flood zone 2",
-    "Flood zone 3"
-  ],
-  military_and_defence: [
-    "Explosives & ordnance storage",
-    "Safeguarded land"
+  central_activities_zone: [
+    "article4.caz"
   ],
   ecology: [
-    "Special Area of Conservation (SAC)",
-    "Site of Special Scientific Interest (SSSI)",
-    "Ancient Semi-Natural Woodland (ASNW)",
-    "Local Wildlife / Biological notification site",
-    "Priority habitat"
-  ],
-  heritage_and_conservation: [
-    "Listed Building",
-    "Conservation Area",
-    "Area of Outstanding Natural Beauty",
-    "National Park",
-    "World Heritage Site",
-    "Broads"
+    "nature.ASNW",
+    "nature.SAC",
+    "nature.SSSI"
   ],
   general_policy: [
-    "Article 4 area",
-    "Green belt"
+    "article4",
+    "road.classified"
   ],
-  tree: [
-    "Tree Preservation Order"
+  heritage_and_conservation: [
+    "designated.AONB",
+    "designated.conservationArea",
+    "designated.nationalPark",
+    "designated.SPA",
+    "designated.WHS",
+    "listed",
+    "locallyListed",
+    "monument",
+    "registeredPark"
+  ],
+  trees: [
+    "tpo"
   ],
   other: [
-    "Safety hazard area",
-    "Within 3km of the perimeter of an aerodrome"
+    "designated.nationalPark.broads"
   ]
 }
 

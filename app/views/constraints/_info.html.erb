@@ -1,13 +1,13 @@
 <% show_update_button = local_assigns.fetch(:show_update_button, true) %>
 
-<% if constraints.empty? %>
+<% if planning_application_constraints.empty? %>
   <p class="govuk-body audit_details">
     No constraints identified by PlanX
   </p>
 <% else %>
   <ul class="govuk-list govuk-list--bullet">
-    <% constraints.each do |constraint| %>
-      <li><%= constraint.type %></li>
+    <% planning_application_constraints.each do |planning_application_constraint| %>
+      <li><%= planning_application_constraint.constraint.type_code %></li>
     <% end %>
   </ul>
 <% end %>
