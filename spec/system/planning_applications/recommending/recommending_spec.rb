@@ -563,13 +563,13 @@ RSpec.describe "Planning Application Assessment" do
 
           within(events[0]) do
             expect(page).to have_content("Submitted recommendation")
-            expect(page).to have_content("by Alice Aplin, 23 August 2022 at 09:00am")
+            expect(page).to have_content("by Alice Aplin, 23 August 2022 at 09:00")
             expect(page).to have_content("Requirements met.")
           end
 
           within(events[1]) do
             expect(page).to have_content("Recommendation queried")
-            expect(page).to have_content("by Bella Brook, 23 August 2022 at 09:00am")
+            expect(page).to have_content("by Bella Brook, 23 August 2022 at 09:00")
             expect(page).to have_content("Requirements not met.")
           end
         end

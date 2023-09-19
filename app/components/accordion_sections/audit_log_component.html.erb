@@ -7,7 +7,7 @@
     <%= t(
       ".date_at_time",
       date: last_audit.created_at.to_date.to_fs,
-      time: last_audit.created_at.strftime("%H:%M")
+      time: last_audit.created_at.to_fs(:time_only)
     ) %>
   </p>
 <% end %>
