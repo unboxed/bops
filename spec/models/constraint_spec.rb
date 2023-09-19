@@ -12,9 +12,9 @@ RSpec.describe Constraint do
       end
 
       it "validates uniqueness" do
-        create(:constraint, type: "designated.conservationArea")
+        create(:constraint, type: "designated_conservationarea")
 
-        expect { described_class.create!(type: "designated.conservationArea") }.to raise_error(
+        expect { described_class.create!(type: "designated_conservationarea") }.to raise_error(
           ActiveRecord::RecordInvalid, "Validation failed: Category can't be blank, Type has already been taken"
         )
       end

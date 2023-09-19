@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :constraint do
-    type { "designated.conservationArea" }
+    type { "designated_conservationarea" }
     category { "heritage_and_conservation" }
     local_authority { nil }
 
@@ -20,7 +20,7 @@ FactoryBot.define do
   end
 
   trait :national_park do
-    type { "designated.nationalPark" }
+    type { "designated_nationalpark" }
     category { "heritage_and_conservation" }
   end
 end

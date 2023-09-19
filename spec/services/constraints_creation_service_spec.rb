@@ -35,9 +35,9 @@ RSpec.describe ConstraintsCreationService, type: :service do
 
         expect(Constraint.pluck(:type, :category, :local_authority_id)).to eq(
           [
-            ["designated.conservationArea", "local", local_authority1.id],
+            ["designated_conservationarea", "local", local_authority1.id],
             ["tpo", "local", local_authority1.id],
-            ["designated.nationalPark", "local", local_authority1.id],
+            ["designated_nationalpark", "local", local_authority1.id],
             ["listed", "local", local_authority1.id]
           ]
         )
@@ -65,8 +65,8 @@ RSpec.describe ConstraintsCreationService, type: :service do
     end
 
     context "when existing and new constraints are added" do
-      let!(:constraint1) { create(:constraint, type: "designated.conservationArea") }
-      let!(:constraint2) { create(:constraint, type: "tpo") }
+      let!(:constraint1) { create(:constraint) }
+      let!(:constraint2) { create(:constraint, :tpo) }
 
       it "creates the non existing constraints and planning application constraints" do
         expect do
@@ -79,8 +79,8 @@ RSpec.describe ConstraintsCreationService, type: :service do
     end
 
     context "when constraints are removed" do
-      let!(:constraint1) { create(:constraint, type: "designated.conservationArea") }
-      let!(:constraint2) { create(:constraint, type: "listed") }
+      let!(:constraint1) { create(:constraint) }
+      let!(:constraint2) { create(:constraint, :listed) }
 
       before do
         create_constraints
@@ -100,11 +100,11 @@ RSpec.describe ConstraintsCreationService, type: :service do
         app_constraints = planning_application.planning_application_constraints
 
         expect(app_constraints.active.count).to eq(2)
-        expect(app_constraints.active.map(&:type)).to eq(["designated.conservationArea",
-                                                          "listed"])
+        expect(app_constraints.active.map(&:type)).to eq(%w[designated_conservationarea
+                                                            listed])
         expect(app_constraints.removed.count).to eq(2)
-        expect(app_constraints.removed.map(&:type)).to eq(["tpo",
-                                                           "designated.nationalPark"])
+        expect(app_constraints.removed.map(&:type)).to eq(%w[tpo
+                                                             designated_nationalpark])
       end
     end
 

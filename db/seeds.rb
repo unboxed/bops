@@ -70,33 +70,33 @@ end
 
 constraints_list = {
   central_activities_zone: [
-    "article4.caz"
+    "article4_caz"
   ],
-  ecology: [
-    "nature.ASNW",
-    "nature.SAC",
-    "nature.SSSI"
+  ecology: %w[
+    nature_asnw
+    nature_sac
+    nature_sssi
   ],
-  general_policy: [
-    "article4",
-    "road.classified"
+  general_policy: %w[
+    article4
+    road_classified
   ],
-  heritage_and_conservation: [
-    "designated.AONB",
-    "designated.conservationArea",
-    "designated.nationalPark",
-    "designated.SPA",
-    "designated.WHS",
-    "listed",
-    "locallyListed",
-    "monument",
-    "registeredPark"
+  heritage_and_conservation: %w[
+    designated_aonb
+    designated_conservationarea
+    designated_nationalpark
+    designated_spa
+    designated_whs
+    listed
+    locallylisted
+    monument
+    registeredpark
   ],
   trees: [
     "tpo"
   ],
   other: [
-    "designated.nationalPark.broads"
+    "designated_nationalpark_broads"
   ]
 }
 

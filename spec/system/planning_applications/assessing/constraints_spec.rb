@@ -75,7 +75,7 @@ RSpec.describe "Constraints" do
         expect(page).to have_text("Conservation area")
         expect(page).to have_text("Site of special scientific interest")
         expect(page).to have_text("National park")
-        expect(page).to have_text("Local Constraint")
+        expect(page).to have_text("Local constraint")
       end
 
       expect(planning_application.constraints.length).to eq(4)
@@ -92,7 +92,7 @@ RSpec.describe "Constraints" do
         expect(page).not_to have_text("Conservation area")
         expect(page).not_to have_text("Site of special scientific interest")
         expect(page).to have_text("National park")
-        expect(page).to have_text("Local Constraint")
+        expect(page).to have_text("Local constraint")
       end
 
       planning_application.reload

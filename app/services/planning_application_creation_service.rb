@@ -105,7 +105,7 @@ class PlanningApplicationCreationService
   def constraints_array_from_param(constraints_params)
     if constraints_params.present?
       constraints_params.to_unsafe_hash.filter_map do |key, value|
-        key if value
+        key.parameterize.underscore if value
       end
     else
       []

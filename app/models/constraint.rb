@@ -14,7 +14,7 @@ class Constraint < ApplicationRecord
 
   def type_code
     if I18n.t("constraint_type_codes.#{type}").include?("translation missing")
-      type.titleize
+      type.titleize.capitalize
     else
       I18n.t("constraint_type_codes.#{type}")
     end

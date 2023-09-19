@@ -19,7 +19,8 @@ class ConstraintsCreationService
         ).save!
       else
         planning_application.constraints.find_or_create_by!(
-          type: constraint, category: "local", local_authority_id: planning_application.local_authority_id
+          type: constraint.parameterize.underscore,
+          category: "local", local_authority_id: planning_application.local_authority_id
         )
       end
     end
@@ -27,7 +28,9 @@ class ConstraintsCreationService
     previous_constraints =
       planning_application.planning_application_constraints.active
     previous_constraints.each do |constraint|
-      constraint.update!(removed_at: Time.current) unless constraints.include?(constraint.constraint.type)
+      next if constraints.include?(constraint.constraint.type.parameterize.underscore)
+
+      constraint.update!(removed_at: Time.current)
     end
   rescue ActiveRecord::RecordInvalid, NoMethodError => e
     Appsignal.send_error(e)
@@ -40,7 +43,7 @@ class ConstraintsCreationService
   def constraints
     if constraints_params.present?
       constraints_params.filter_map do |key, value|
-        key if value
+        key.parameterize.underscore if value
       end
     else
       []
