@@ -16,14 +16,6 @@ class ConstraintsController < AuthenticationController
 
   def update
     ActiveRecord::Base.transaction do
-      if local_constraint.present?
-        @planning_application.constraints.find_or_create_by!(
-          type: local_constraint.titleize,
-          category: "local",
-          local_authority_id: @planning_application.local_authority_id
-        )
-      end
-
       constraint_ids.each do |constraint_id|
         @planning_application_constraints.find_or_create_by!(constraint_id:)
       end
@@ -60,10 +52,6 @@ class ConstraintsController < AuthenticationController
 
   def after_update_path
     params.dig(:planning_application, :return_to) || @planning_application
-  end
-
-  def local_constraint
-    params.dig(:planning_application, :constraint_type)
   end
 
   def constraint_ids

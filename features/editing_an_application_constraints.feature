@@ -5,13 +5,6 @@ Feature: Editing an application's constraints
     And the planning application has the "Conservation Area" constraint
     And I view the planning application
 
-  Scenario: As an assessor I can add custom constraints to the application
-    Given I visit the application's constraints form
-    And I fill in "Add a local constraint" with "Batcave"
-    And I press "Save"
-    When I visit the application's constraints form
-    Then the "Batcave" option is checked
-
   Scenario: As an assessor I cannot add constraints past determination
     Given a recommendation is submitted for the planning application
     When I press "Check and assess"

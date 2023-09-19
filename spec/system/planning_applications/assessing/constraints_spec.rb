@@ -62,12 +62,10 @@ RSpec.describe "Constraints" do
       click_link "Update constraints"
     end
 
-    it "I can check/uncheck constraints and add local constraints" do
+    it "I can check/uncheck constraints" do
       check "Conservation area"
       check "Site of special scientific interest"
       check "National park"
-
-      fill_in "planning_application[constraint_type]", with: "local constraint"
 
       click_button "Save"
 
@@ -75,11 +73,10 @@ RSpec.describe "Constraints" do
         expect(page).to have_text("Conservation area")
         expect(page).to have_text("Site of special scientific interest")
         expect(page).to have_text("National park")
-        expect(page).to have_text("Local constraint")
       end
 
-      expect(planning_application.constraints.length).to eq(4)
-      expect(planning_application.planning_application_constraints.length).to eq(4)
+      expect(planning_application.constraints.length).to eq(3)
+      expect(planning_application.planning_application_constraints.length).to eq(3)
 
       click_link "Update constraints"
 
@@ -92,12 +89,11 @@ RSpec.describe "Constraints" do
         expect(page).not_to have_text("Conservation area")
         expect(page).not_to have_text("Site of special scientific interest")
         expect(page).to have_text("National park")
-        expect(page).to have_text("Local constraint")
       end
 
       planning_application.reload
-      expect(planning_application.constraints.length).to eq(2)
-      expect(planning_application.planning_application_constraints.length).to eq(2)
+      expect(planning_application.constraints.length).to eq(1)
+      expect(planning_application.planning_application_constraints.length).to eq(1)
 
       visit planning_application_audits_path(planning_application)
 
@@ -105,25 +101,6 @@ RSpec.describe "Constraints" do
         expect(page).to have_content("Conservation area")
         expect(page).to have_content("Constraint removed")
         expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
-      end
-    end
-
-    context "when there is an error with saving a new local constraint" do
-      before do
-        allow_any_instance_of(Constraint).to receive(:save!).and_raise(ActiveRecord::RecordInvalid)
-      end
-
-      it "presents an error message to the user and does not persist any updates" do
-        check "Conservation area"
-        fill_in "planning_application[constraint_type]", with: "local constraint"
-
-        click_button "Save"
-
-        expect(page).to have_content("Couldn't update constraints with error: Record invalid. Please contact support.")
-
-        planning_application.reload
-        expect(planning_application.constraints.length).to eq(0)
-        expect(planning_application.planning_application_constraints.length).to eq(0)
       end
     end
 
