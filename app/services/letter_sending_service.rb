@@ -5,23 +5,28 @@ require "notifications/client"
 class LetterSendingService
   DEFAULT_NOTIFY_TEMPLATE_ID = "7a7c541e-be0a-490b-8165-8e44dc9d13ad"
 
-  attr_reader :neighbour, :consultation, :letter_content
+  attr_reader :neighbour, :consultation, :letter_content, :resend_reason
 
-  def initialize(neighbour, letter_content)
+  def initialize(neighbour, letter_content, resend_reason: nil)
     @local_authority = neighbour.consultation.planning_application.local_authority
     @neighbour = neighbour
     @consultation = neighbour.consultation
     @letter_content = letter_content
+    @resend_reason = resend_reason
   end
 
   def deliver!
-    return if NeighbourLetter.find_by(neighbour:).present?
+    return if resend_reason.nil? && NeighbourLetter.find_by(neighbour:).present?
 
-    letter_record = NeighbourLetter.new(neighbour:, text: letter_content)
+    letter_record = NeighbourLetter.new(neighbour:, text: letter_content, resend_reason:)
 
     ActiveRecord::Base.transaction do
       letter_record.save!
       consultation.start_deadline
+    end
+
+    if resend_reason.present?
+      letter_content.prepend "# Application updated\nThis application has been updated. Reason: #{resend_reason}\n\n"
     end
 
     personalisation = { message: letter_content, heading: @consultation.neighbour_letter_header }

@@ -23,6 +23,13 @@ method: 'post'
   <h2 class="govuk-heading-m govuk-!-margin-top-6">4) Send letter</h2>
   <p class="govuk-body">The letter will be sent to all selected neighbours.</p>
   <p class="govuk-body">A copy of the letter will be sent to the applicant by email.</p>
+
+  <%= form.govuk_check_boxes_fieldset :resend_existing, legend: -> { "" } do %>
+    <%= form.govuk_check_box :resend_existing, true, label: { text: "Resend letters to previously-contacted neighbours" }, link_errors: true, multiple: false do %>
+      <%= form.govuk_text_field :resend_reason, label: { text: "Specify a reason for resending" }, hint: { text: "This will be included in the letter" } %>
+    <% end %>
+  <% end %>
+
   <div class="govuk-button-group govuk-!-margin-top-5 align-buttons">
     <%= form.submit "Print and send letters", class: "govuk-button govuk-button--primary", style: "margin-inline-end: 2rem;" %>
   <% end %>

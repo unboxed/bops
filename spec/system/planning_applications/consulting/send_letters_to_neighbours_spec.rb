@@ -610,4 +610,85 @@ RSpec.describe "Send letters to neighbours", js: true do
       end
     end
   end
+
+  context "when letters have already been sent" do
+    let(:neighbour) { create(:neighbour, address: "1 Test Lane", consultation:) }
+
+    before do
+      travel_to(2.weeks.ago) do
+        consultation.start_deadline
+      end
+
+      sign_in assessor
+
+      neighbour_letter = create(:neighbour_letter, neighbour:, status: "submitted", notify_id: "123")
+      neighbour.touch(:last_letter_sent_at)
+      stub_get_notify_status(notify_id: neighbour_letter.notify_id)
+    end
+
+    it "shows that letters have been sent" do
+      visit planning_application_path(planning_application)
+      click_link "Consultees, neighbours and publicity"
+
+      expect(page).not_to have_content "Send letters to neighbours Not started"
+      expect(page).to have_content "Send letters to neighbours Completed"
+
+      click_link "Send letters to neighbours"
+      within("#contacted-neighbours-list") do
+        expect(page).to have_content(neighbour.address)
+      end
+    end
+
+    it "allows resending of letters" do
+      visit planning_application_path(planning_application)
+      click_link "Consultees, neighbours and publicity"
+      click_link "Send letters to neighbours"
+
+      check "Resend letters to previously-contacted neighbours"
+      fill_in("Specify a reason for resending",
+              with: "Previous letter mistakenly listed applicant's address as Buckingham Palace.")
+
+      orig_deadline = consultation.end_date
+
+      click_button "Print and send letters"
+      expect(neighbour.neighbour_letters.length).to eq(2)
+      expect(consultation.reload.end_date).to be_after(orig_deadline)
+    end
+
+    it "does not resend letters unless selected" do
+      visit planning_application_path(planning_application)
+      click_link "Consultees, neighbours and publicity"
+      click_link "Send letters to neighbours"
+
+      uncheck "Resend letters to previously-contacted neighbours"
+
+      click_button "Print and send letters"
+      expect(neighbour.neighbour_letters.length).to eq(1)
+    end
+
+    it "requires a reason to resend letters" do
+      visit planning_application_path(planning_application)
+      click_link "Consultees, neighbours and publicity"
+      click_link "Send letters to neighbours"
+
+      check "Resend letters to previously-contacted neighbours"
+
+      click_button "Print and send letters"
+      expect(neighbour.neighbour_letters.length).to eq(1)
+    end
+
+    it "includes a reason in the letter when resending letters" do
+      visit planning_application_path(planning_application)
+      click_link "Consultees, neighbours and publicity"
+      click_link "Send letters to neighbours"
+
+      check "Resend letters to previously-contacted neighbours"
+      fill_in("Specify a reason for resending",
+              with: "Previous letter mistakenly listed applicant's address as Buckingham Palace.")
+
+      expect_any_instance_of(Notifications::Client).to receive(:send_letter).with(template_id: anything,
+                                                                                  personalisation: hash_including(message: match_regex(/# Application updated\nThis application has been updated. Reason: Previous letter mistakenly listed applicant's address as Buckingham Palace.\n\n# Submit your comments by #{(1.business_day.from_now + 21.days).to_date}\r\n\r\nDear Resident/))).and_call_original
+      click_button "Print and send letters"
+    end
+  end
 end

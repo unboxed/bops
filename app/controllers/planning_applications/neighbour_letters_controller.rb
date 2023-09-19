@@ -9,6 +9,7 @@ module PlanningApplications
     before_action :set_neighbour, only: %i[update destroy]
     before_action :update_letter_statuses, only: %i[index]
     before_action :ensure_public_portal_is_active, only: %i[send_letters]
+    before_action :require_reason_when_resending, only: :send_letters
 
     def index
       respond_to do |format|
@@ -52,12 +53,18 @@ module PlanningApplications
     end
 
     def send_letters
-      @consultation.update!(consultation_params.merge(status: "complete"))
+      @consultation.update!(consultation_params.except(:resend_existing, :resend_reason).merge(status: "complete"))
       @planning_application.send_neighbour_consultation_letter_copy_mail
 
-      # TODO: does this logic need to change when multiple letters can exist?
-      @consultation.neighbours.reject(&:letter_created?).each do |neighbour|
-        LetterSendingService.new(neighbour, @consultation.neighbour_letter_text).deliver!
+      if consultation_params[:resend_existing] == "true"
+        @consultation.neighbours.each do |neighbour|
+          LetterSendingService.new(neighbour, @consultation.neighbour_letter_text,
+                                   resend_reason: consultation_params[:resend_reason]).deliver!
+        end
+      else
+        @consultation.neighbours.reject(&:letter_created?).each do |neighbour|
+          LetterSendingService.new(neighbour, @consultation.neighbour_letter_text).deliver!
+        end
       end
 
       Audit.create!(
@@ -87,6 +94,8 @@ module PlanningApplications
     def consultation_params
       params.require(:consultation).permit(
         :neighbour_letter_text,
+        :resend_existing,
+        :resend_reason,
         :polygon_geojson,
         neighbours_attributes: %i[id address]
       )
@@ -113,6 +122,14 @@ module PlanningApplications
       #{view_context.link_to 'made public on the BoPS Public Portal', make_public_planning_application_path(@planning_application)}
       before you can send letters to neighbours."
 
+      render :index and return
+    end
+
+    def require_reason_when_resending
+      return unless consultation_params[:resend_existing] == "true"
+      return if consultation_params[:resend_reason].present?
+
+      flash.now[:alert] = t(".require_resend_reason")
       render :index and return
     end
   end

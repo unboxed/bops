@@ -22,7 +22,7 @@ module PlanningApplications
     private
 
     def consultation_params
-      params.require(:consultation).permit(:neighbour_letter_text)
+      params.require(:consultation).permit(:neighbour_letter_text, :resend_existing, :resend_reason)
     end
   end
 end
