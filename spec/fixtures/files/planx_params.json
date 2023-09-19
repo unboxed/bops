@@ -761,5 +761,11 @@
     },
     "make_public": false 
   },
+  "planx_debug_data": {
+    "session_id": "21161b70-0e29-40e6-9a38-c42f61f25ab9",
+    "passport": {
+      "data": {}
+    }
+  },
   "format": "json"
 }
