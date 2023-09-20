@@ -81,7 +81,7 @@
                   </tbody>
                 <% end %>
                 <div class="display-flex">
-                  <%= link_to "Edit", edit_planning_application_publicity_neighbour_response_path(@planning_application, @consultation, response) %>
+                  <%= link_to "Edit", edit_planning_application_consultation_neighbour_response_path(@planning_application, @consultation, response) %>
                   <% if response.redacted_response.present? %>
                     <span class="govuk-hint govuk-!-margin-left-1">(redacted)</span>
                   <% end %>

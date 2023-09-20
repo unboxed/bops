@@ -23,7 +23,7 @@ module TaskListItems
     def link_path
       return unless link_active?
 
-      new_planning_application_publicity_neighbour_response_path(
+      new_planning_application_consultation_neighbour_response_path(
         planning_application,
         consultation
       )

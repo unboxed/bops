@@ -4,7 +4,7 @@
 <%= form_with(
 model: [planning_application, consultation],
 builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-url: planning_application_publicity_send_neighbour_letters_path(planning_application, consultation),
+url: planning_application_consultation_send_neighbour_letters_path(planning_application, consultation),
 method: 'post'
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
@@ -29,11 +29,11 @@ method: 'post'
   <%= form_with(
     model: [planning_application, consultation],
     builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-    url: planning_application_publicity_path(planning_application, consultation)
+    url: planning_application_consultation_path(planning_application, consultation)
   ) do |form| %>
     <%= form.hidden_field :consultation_id, value: consultation.id %>
     <%= form.hidden_field :neighbour_letter_content %>
     <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
-    <%= link_to "Back", planning_application_publicitys_path(planning_application), class: "govuk-button govuk-button--secondary" %>
+    <%= link_to "Back", planning_application_consultations_path(planning_application), class: "govuk-button govuk-button--secondary" %>
   <% end %>
 </div>

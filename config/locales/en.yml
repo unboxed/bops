@@ -704,7 +704,7 @@ en:
     cil_liability:
       update:
         success: CIL liability updated
-    publicity_neighbour_addresses:
+    consultation_neighbour_addresses:
       create:
         success: Addresses have been successfully added.
     review_documents:
@@ -1068,6 +1068,7 @@ en:
   status_tag_component:
     accepted: Printing
     awaiting_determination: Awaiting determination
+    cancelled: Cancelled
     checked: Checked
     cil_liable: Liable
     complete: Completed

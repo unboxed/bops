@@ -142,13 +142,13 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :publicitys do
+      resources :consultations do
         post :send_neighbour_letters
         resources :neighbour_responses, only: %i[new create edit update]
         resources :site_visits, only: %i[index new create edit show update]
       end
 
-      resource :publicity_neighbour_addresses, only: %i[create]
+      resource :consultation_neighbour_addresses, only: %i[create]
 
       resources :review_immunity_details, only: %i[edit update show]
 
@@ -162,8 +162,6 @@ Rails.application.routes.draw do
       resources :review_documents, only: %i[index] do
         patch :update, on: :collection
       end
-
-      resources :consultations, only: :index
 
       resource :withdraw_or_cancel, only: %i[show update]
 
