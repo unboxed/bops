@@ -10,7 +10,7 @@ module TaskListItems
     private
 
     def link_text
-      "Confirm site notice is in place"
+      "Confirm site notice"
     end
 
     def link_path

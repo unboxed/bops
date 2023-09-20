@@ -2,7 +2,7 @@
 
 class SiteNotice < ApplicationRecord
   belongs_to :planning_application
-  has_one :document
+  has_one :document, dependent: :destroy
 
   attr_reader :method
 

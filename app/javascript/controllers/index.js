@@ -18,6 +18,9 @@ application.register("polygon-search", PolygonSearchController)
 import ShowHideController from "./show_hide_controller.js"
 application.register("show-hide", ShowHideController)
 
+import ShowHideFormController from "./show_hide_form_controller.js"
+application.register("show-hide-form", ShowHideFormController)
+
 import ShowMoreTextController from "./show_more_text_controller.js"
 application.register("show-more-text", ShowMoreTextController)
 

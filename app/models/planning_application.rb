@@ -338,6 +338,22 @@ class PlanningApplication < ApplicationRecord
     public_url_enabled? ? "#{protocol}://#{public_url}" : "#{protocol}://#{internal_url}"
   end
 
+  def site_notice_link
+    protocol = Rails.env.production? ? "https" : "http"
+
+    if Rails.configuration.production_environment
+      "#{protocol}://planningapplications.#{local_authority.subdomain}.gov.uk
+        /planning_applications/#{id}/site_notice.pdf"
+    else
+      "#{protocol}://#{local_authority.subdomain}.bops-applicants.services
+        /planning_applications/#{id}/site_notice.pdf"
+    end
+  end
+
+  def last_site_notice_audit
+    audits.where(activity_type: "site_notice_created").order(:created_at).last
+  end
+
   def invalid_documents_without_validation_request
     invalid_documents.reject { |x| replacement_document_validation_requests.where(old_document: x).any? }
   end

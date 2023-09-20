@@ -64,12 +64,10 @@ class PlanningApplication
       consultation.update!(letter_copy_sent_at: Time.current)
     end
 
-    def send_site_notice_copy_mail
-      downcase_and_unique(applicant_and_agent_email).each do |email|
-        PlanningApplicationMailer
-          .neighbour_site_notice_copy(self, email)
-          .deliver_later
-      end
+    def send_site_notice_copy_mail(email)
+      PlanningApplicationMailer
+        .neighbour_site_notice_copy_mail(self, email)
+        .deliver_later
     end
 
     private

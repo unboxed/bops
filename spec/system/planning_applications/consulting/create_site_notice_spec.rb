@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Create a site notice" do
+RSpec.describe "Create a site notice", js: true do
   let!(:api_user) { create(:api_user, name: "PlanX") }
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
@@ -23,46 +23,76 @@ RSpec.describe "Create a site notice" do
   before do
     sign_in(assessor)
 
-    visit planning_application_path(planning_application)
+    visit planning_application_consultations_path(planning_application)
   end
 
   it "allows officers to create a site notice and print it" do
-    click_link "Create site notice"
+    click_link "Send site notice"
+    expect(page).to have_content("Send site notice")
 
     choose "Yes"
 
-    choose "Create, print and post a PDF (opens in a new tab)"
+    expect(page).to have_content("Print the site notice")
 
-    click_button "Create site notice"
+    fill_in "Day", with: "1"
+    fill_in "Month", with: "2"
+    fill_in "Year", with: "2023"
+
+    click_button "Create PDF and mark as complete"
   end
 
   it "allows officers to create a site notice and email it to the applicant" do
-    click_link "Create site notice"
+    click_link "Send site notice"
+    expect(page).to have_content("Send site notice")
 
     choose "Yes"
+
+    expect(page).to have_content("Email the site notice")
 
     choose "Send it by email to applicant"
 
-    click_button "Create site notice"
+    click_button "Email site notice and mark as complete"
+
+    perform_enqueued_jobs
+    email_notification = ActionMailer::Base.deliveries.last
+
+    expect(email_notification.to).to contain_exactly(planning_application.applicant_email)
+
+    expect(email_notification.subject).to eq("Site notice copy")
+
+    expect(page).to have_content "Site notice was successfully emailed"
   end
 
   it "allows officers to create a site notice and email it to the internal team" do
-    click_link "Create site notice"
+    click_link "Send site notice"
+    expect(page).to have_content("Send site notice")
 
     choose "Yes"
 
+    expect(page).to have_content("Email the site notice")
+
     choose "Send it by email to internal team to post"
 
-    click_button "Create site notice"
+    fill_in "Internal team email", with: "internal@email.com"
+
+    click_button "Email site notice and mark as complete"
+
+    perform_enqueued_jobs
+    email_notification = ActionMailer::Base.deliveries.last
+
+    expect(email_notification.to).to contain_exactly("internal@email.com")
+
+    expect(email_notification.subject).to eq("Site notice copy")
+
+    expect(page).to have_content "Site notice was successfully emailed"
   end
 
-
   it "allows officers to confirm site notice is not needed" do
-    click_link "Create site notice"
+    click_link "Send site notice"
 
     choose "No"
 
-    click_button "Create site notice"
+    click_button "Save and mark as complete"
 
     expect(page).not_to have_content "Confirm site notice is in place"
   end

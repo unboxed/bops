@@ -395,6 +395,7 @@ en:
       replacement_document_validation_request_sent: 'Sent: validation request (replacement document#%{args})'
       replacement_document_validation_request_sent_post_validation: 'Sent: Post-validation request (replacement document#%{args})'
       returned: Application returned
+      site_notice_created: Site notice created
       started: Application validated
       submitted: Recommendation submitted
       unarchived: Document unarchived
@@ -544,7 +545,7 @@ en:
       description_closure_notification_mail: Changes to your %{application_type_name} application
       invalidation_notice_mail: "%{application_type_name} application - changes needed"
       neighbour_consultation_letter_copy_mail: Neighbour consultation letter copy
-      neighbour_site_notice_copy: Site notice copy
+      neighbour_site_notice_copy: Print this site notice 
       otp_mail: Back Office Planning System verification code
       post_validation_request_mail: "%{application_type_name} application - changes needed"
       receipt_notice_mail: "%{application_type_name} application received"
@@ -754,9 +755,14 @@ en:
       index:
         application_details: Application details
         review_and_sign_off: Review and sign-off
+    site_notices:
+      create: 
+        success: Site notice was successfully emailed
+      update:
+        success: Site notice was successfully updated
     site_visits:
       create:
-        success: Site visit was successfully created.
+        success: Site visit was successfully created
     validation_tasks:
       index:
         application_details: Application details

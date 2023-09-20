@@ -10,15 +10,11 @@ module TaskListItems
     private
 
     def link_text
-      "Create site notice"
+      "Send site notice"
     end
 
     def link_path
-      if @site_notice.present?
-        planning_application_site_notice_path(@planning_application, @planning_application.site_notices.last)
-      else
-        new_planning_application_site_notice_path(@planning_application)
-      end
+      new_planning_application_site_notice_path(@planning_application)
     end
 
     def status_tag_component
@@ -30,7 +26,7 @@ module TaskListItems
         StatusTags::BaseComponent.new(
           status: "complete"
         )
-      else 
+      else
         StatusTags::BaseComponent.new(
           status: "in_progress"
         )

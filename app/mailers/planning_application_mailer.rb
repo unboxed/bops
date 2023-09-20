@@ -136,7 +136,7 @@ class PlanningApplicationMailer < ApplicationMailer
     )
   end
 
-  def neighbour_site_notice_copy
+  def neighbour_site_notice_copy_mail(planning_application, email)
     @planning_application = planning_application
     @site_notice = @planning_application.site_notices.last
 

@@ -4,13 +4,29 @@
 
 <% add_parent_breadcrumb_link "Home", root_path %>
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
-<% add_parent_breadcrumb_link "Publicity", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Consultation", planning_application_consultations_path(@planning_application) %>
 <% content_for :title, "Site notice" %>
 
 <%= render(
   partial: "shared/proposal_header",
-  locals: { heading: "Confirm site notice is in places" }
+  locals: { heading: "Confirm site notice is in place" }
 ) %>
+
+<hr>
+<div class="proposal-details-sub-heading govuk-!-margin-top-3 govuk-!-margin-bottom-3">
+  <p class="govuk-body govuk-!-margin-top-1">
+    <%= @planning_application.last_site_notice_audit.audit_comment %>
+  </p>
+  <div class="consultation-letter-status">
+    <div>
+      <%= render(StatusTags::BaseComponent.new(status: :complete)) %>
+    </div>
+    <p class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">
+      on <%= @planning_application.last_site_notice_audit.created_at.to_fs(:day_month_year_slashes) %>
+    </p>
+  </div>
+</div>
+<hr>
 
 <%= form_with(
   model: [@planning_application, @site_notice],

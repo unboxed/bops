@@ -807,6 +807,73 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
   end
 
+  describe "#neighbour_site_notice_copy_mail" do
+    let!(:consultation) do
+      travel_to("2022-01-01") { create(:consultation, planning_application:) }
+    end
+
+    let(:application_type) { create(:application_type, :prior_approval) }
+
+    let(:planning_application) do
+      create(
+        :planning_application,
+        :determined,
+        agent_email: "cookie_crackers@example.com",
+        applicant_email: "cookie_crumbs@example.com",
+        local_authority:,
+        decision: "granted",
+        address_1: "123 High Street",
+        town: "Big City",
+        postcode: "AB3 4EF",
+        description: "Add a chimney stack",
+        created_at: DateTime.new(2022, 5, 1),
+        application_type:,
+        validated_at: DateTime.new(2022, 10, 1)
+      )
+    end
+
+    let(:site_notice) { create(:site_notice, planning_application:) }
+
+    let(:neighbour_site_notice_copy_mail) do
+      described_class.neighbour_site_notice_copy_mail(planning_application, planning_application.applicant_email)
+    end
+
+    let(:mail_body) { neighbour_site_notice_copy_mail.body.encoded }
+
+    it "sets the subject" do
+      expect(neighbour_site_notice_copy_mail.subject).to eq(
+        "Print this site notice"
+      )
+    end
+
+    it "sets the recipient" do
+      expect(neighbour_site_notice_copy_mail.to).to contain_exactly(
+        "cookie_crumbs@example.com"
+      )
+    end
+
+    it "includes the reference" do
+      expect(mail_body).to include(
+        "Application reference number: PlanX-22-00100-PA"
+      )
+    end
+
+    it "includes the address" do
+      expect(mail_body).to include(
+        "At: 123 High Street, Big City, AB3 4EF"
+      )
+    end
+
+    it "includes the main text body" do
+      expect(mail_body).to include(
+        "This is a copy of your site notice"
+      )
+      expect(mail_body).to include(
+        "http://planningapplications.planx.gov.uk/planning_applications/#{planning_application.id}/site_notice.pdf"
+      )
+    end
+  end
+
   context "when the application is a prior approval" do
     let(:application_type) { create(:application_type, name: "prior_approval") }
 
