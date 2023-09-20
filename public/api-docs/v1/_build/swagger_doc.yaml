@@ -548,8 +548,23 @@ paths:
                         policy_refs:
                           - text: The Town and Country Planning (General Permitted Development) (England) Order 2015
                   constraints:
-                    conservation_area: true
-                    protected_trees: false
+                    tpo: true
+                    listed: true
+                    article4: false
+                    monument: false
+                    designated: true
+                    nature.SAC: false
+                    nature.ASNW: false
+                    nature.SSSI: false
+                    locallyListed: false
+                    designated.SPA: false
+                    designated.WHS: false
+                    registeredPark: false
+                    designated.AONB: false
+                    designated.nationalPark: false
+                    designated.conservationArea: true
+                    designated.nationalPark.broads: false
+                    road.classified: false
                   files:
                     - filename: 'https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf'
                       applicant_description: This is the side plan
@@ -1139,8 +1154,23 @@ paths:
                         section_name: _root
                         auto_answered: true
                   constraints:
-                    conservation_area: true
-                    protected_trees: false
+                    tpo: true
+                    listed: true
+                    article4: false
+                    monument: false
+                    designated: true
+                    nature.SAC: false
+                    nature.ASNW: false
+                    nature.SSSI: false
+                    locallyListed: false
+                    designated.SPA: false
+                    designated.WHS: false
+                    registeredPark: false
+                    designated.AONB: false
+                    designated.nationalPark: false
+                    designated.conservationArea: true
+                    designated.nationalPark.broads: false
+                    road.classified: false
                   files:
                     - filename: 'https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf'
                       tags:
@@ -1623,8 +1653,24 @@ paths:
                         auto_answered: true
                         section_name: Rear and side extensions to houses
                   constraints:
-                    conservation_area: true
-                    protected_trees: false
+                    tpo: true
+                    listed: true
+                    article4: false
+                    monument: false
+                    designated: true
+                    nature.SAC: false
+                    nature.ASNW: false
+                    nature.SSSI: false
+                    locallyListed: false
+                    designated.SPA: false
+                    designated.WHS: false
+                    registeredPark: false
+                    designated.AONB: false
+                    article4.southwark.caz: false
+                    designated.nationalPark: false
+                    designated.conservationArea: true
+                    designated.nationalPark.broads: false
+                    road.classified: false
                   files:
                     - filename: 'https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf'
                       tags:

@@ -63,19 +63,19 @@ RSpec.describe "Constraints" do
     end
 
     it "I can check/uncheck constraints and add local constraints" do
-      check "Flood zone"
-      check "Site of Special Scientific Interest (SSSI)"
-      check "National Park"
+      check "Conservation area"
+      check "Site of special scientific interest"
+      check "National park"
 
       fill_in "planning_application[constraint_type]", with: "local constraint"
 
       click_button "Save"
 
       within(".govuk-list") do
-        expect(page).to have_text("Flood zone")
-        expect(page).to have_text("Site of Special Scientific Interest (SSSI)")
-        expect(page).to have_text("National Park")
-        expect(page).to have_text("Local Constraint")
+        expect(page).to have_text("Conservation area")
+        expect(page).to have_text("Site of special scientific interest")
+        expect(page).to have_text("National park")
+        expect(page).to have_text("Local constraint")
       end
 
       expect(planning_application.constraints.length).to eq(4)
@@ -83,16 +83,16 @@ RSpec.describe "Constraints" do
 
       click_link "Update constraints"
 
-      uncheck "Flood zone"
-      uncheck "Site of Special Scientific Interest (SSSI)"
+      uncheck "Conservation area"
+      uncheck "Site of special scientific interest"
 
       click_button "Save"
 
       within(".govuk-list") do
-        expect(page).not_to have_text("Flood zone")
-        expect(page).not_to have_text("Site of Special Scientific Interest (SSSI)")
-        expect(page).to have_text("National Park")
-        expect(page).to have_text("Local Constraint")
+        expect(page).not_to have_text("Conservation area")
+        expect(page).not_to have_text("Site of special scientific interest")
+        expect(page).to have_text("National park")
+        expect(page).to have_text("Local constraint")
       end
 
       planning_application.reload
@@ -100,8 +100,9 @@ RSpec.describe "Constraints" do
       expect(planning_application.planning_application_constraints.length).to eq(2)
 
       visit planning_application_audits_path(planning_application)
+
       within("#audit_#{Audit.last.id}") do
-        expect(page).to have_content("Site of Special Scientific Interest (SSSI)")
+        expect(page).to have_content("Conservation area")
         expect(page).to have_content("Constraint removed")
         expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
       end
@@ -113,7 +114,7 @@ RSpec.describe "Constraints" do
       end
 
       it "presents an error message to the user and does not persist any updates" do
-        check "Flood zone"
+        check "Conservation area"
         fill_in "planning_application[constraint_type]", with: "local constraint"
 
         click_button "Save"
@@ -132,7 +133,7 @@ RSpec.describe "Constraints" do
       end
 
       it "presents an error message to the user and does not persist any updates" do
-        check "Flood zone"
+        check "Conservation area"
 
         click_button "Save"
 
@@ -150,12 +151,12 @@ RSpec.describe "Constraints" do
       end
 
       it "presents an error message to the user and does not persist any updates" do
-        check "Flood zone"
+        check "Conservation area"
         click_button "Save"
         click_link "Update constraints"
-        uncheck "Flood zone"
-        check "Site of Special Scientific Interest (SSSI)"
-        check "National Park"
+        uncheck "Conservation area"
+        check "Site of special scientific interest"
+        check "National park"
         click_button "Save"
 
         expect(page).to have_content("Couldn't update constraints with error: Record invalid. Please contact support.")

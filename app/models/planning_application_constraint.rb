@@ -19,10 +19,10 @@ class PlanningApplicationConstraint < ApplicationRecord
   private
 
   def audit_constraint_added!
-    audit!(activity_type: "constraint_added", audit_comment: type)
+    audit!(activity_type: "constraint_added", audit_comment: constraint.type_code)
   end
 
   def audit_constraint_removed!
-    audit!(activity_type: "constraint_removed", audit_comment: type)
+    audit!(activity_type: "constraint_removed", audit_comment: constraint.type_code)
   end
 end

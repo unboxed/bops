@@ -462,6 +462,23 @@ en:
       'yes': 'Yes'
     update:
       successfully_updated_application: Successfully updated application checklist
+  constraint_type_codes:
+    article4: Article 4 direction area
+    article4_caz: Central activities zones
+    designated: Designated
+    designated_aonb: Area of outstanding natural beauty
+    designated_conservationarea: Conservation area
+    designated_nationalpark: National park
+    designated_spa: Special protection area
+    designated_whs: World heritage site buffer zone
+    listed: Listed building outline
+    locallylisted: Locally listed building
+    monument: Scheduled monument
+    nature_asnw: Ancient woodland
+    nature_sac: Special area of conservation
+    nature_sssi: Site of special scientific interest
+    registeredpark: Historic parks and gardens
+    tpo: Tree preservation zone
   constraints:
     check:
       success: Constraints was successfully checked.

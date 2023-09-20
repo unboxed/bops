@@ -11,10 +11,10 @@ RSpec.describe ConstraintsCreationService, type: :service do
     let!(:constraints_params) do
       ActionController::Parameters.new(
         {
-          "conservation_area" => true,
-          "protected_trees" => true,
-          "national_park" => true,
-          "listed_building" => true
+          "designated.conservationArea" => true,
+          "tpo" => true,
+          "designated.nationalPark" => true,
+          "listed" => true
         }
       ).to_unsafe_hash
     end
@@ -27,6 +27,7 @@ RSpec.describe ConstraintsCreationService, type: :service do
     end
 
     context "when new constraints are added" do
+      # FIXME: This will change when we will read the category from constraints_proposed
       it "creates the constraint and planning application constraints for the local authority" do
         expect do
           create_constraints
@@ -34,10 +35,10 @@ RSpec.describe ConstraintsCreationService, type: :service do
 
         expect(Constraint.pluck(:type, :category, :local_authority_id)).to eq(
           [
-            ["Conservation Area", "local", local_authority1.id],
-            ["Protected Trees", "local", local_authority1.id],
-            ["National Park", "local", local_authority1.id],
-            ["Listed Building", "local", local_authority1.id]
+            ["designated_conservationarea", "local", local_authority1.id],
+            ["tpo", "local", local_authority1.id],
+            ["designated_nationalpark", "local", local_authority1.id],
+            ["listed", "local", local_authority1.id]
           ]
         )
 
@@ -47,11 +48,11 @@ RSpec.describe ConstraintsCreationService, type: :service do
     end
 
     context "when existing constraints are added" do
-      let!(:constraint1) { create(:constraint, type: "conservation area", local_authority: local_authority1) }
-      let!(:constraint2) { create(:constraint, type: "Protected trees") }
-      let!(:constraint3) { create(:constraint, type: "National Park") }
+      let!(:constraint1) { create(:constraint, local_authority: local_authority1) }
+      let!(:constraint2) { create(:constraint, :tpo) }
+      let!(:constraint3) { create(:constraint, :national_park) }
       # Constraint for another local authority
-      let!(:constraint4) { create(:constraint, type: "Listed building", local_authority: local_authority2) }
+      let!(:constraint4) { create(:constraint, :listed, local_authority: local_authority2) }
 
       it "creates planning application constraints using the existing constraint for the local authority" do
         expect do
@@ -64,8 +65,8 @@ RSpec.describe ConstraintsCreationService, type: :service do
     end
 
     context "when existing and new constraints are added" do
-      let!(:constraint1) { create(:constraint, type: "conservation area") }
-      let!(:constraint2) { create(:constraint, type: "Protected trees") }
+      let!(:constraint1) { create(:constraint) }
+      let!(:constraint2) { create(:constraint, :tpo) }
 
       it "creates the non existing constraints and planning application constraints" do
         expect do
@@ -78,8 +79,8 @@ RSpec.describe ConstraintsCreationService, type: :service do
     end
 
     context "when constraints are removed" do
-      let!(:constraint1) { create(:constraint, type: "conservation area") }
-      let!(:constraint2) { create(:constraint, type: "Listed Building") }
+      let!(:constraint1) { create(:constraint) }
+      let!(:constraint2) { create(:constraint, :listed) }
 
       before do
         create_constraints
@@ -89,21 +90,21 @@ RSpec.describe ConstraintsCreationService, type: :service do
         described_class.new(
           planning_application:,
           constraints_params: {
-            "conservation_area" => true,
-            "protected_trees" => false,
-            "national_park" => false,
-            "listed_building" => true
+            "designated.conservationArea" => true,
+            "tpo" => false,
+            "designated.nationalPark" => false,
+            "listed" => true
           }
         ).call
 
         app_constraints = planning_application.planning_application_constraints
 
         expect(app_constraints.active.count).to eq(2)
-        expect(app_constraints.active.map(&:type)).to eq(["conservation area",
-                                                          "Listed Building"])
+        expect(app_constraints.active.map(&:type)).to eq(%w[designated_conservationarea
+                                                            listed])
         expect(app_constraints.removed.count).to eq(2)
-        expect(app_constraints.removed.map(&:type)).to eq(["Protected Trees",
-                                                           "National Park"])
+        expect(app_constraints.removed.map(&:type)).to eq(%w[tpo
+                                                             designated_nationalpark])
       end
     end
 
