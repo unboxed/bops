@@ -348,11 +348,636 @@
       }
     }
   ],
-  "constraints": {
-    "conservation_area": true,
-    "protected_trees": false,
-    "national_park": true
-  },
+  "constraints_proposed": [
+    {
+      "sourceRequest": "https://www.planning.data.gov.uk/entity.json?entries=current &geometry =POLYGON+%28%28-0.07629275321961124+51.48596289289142%2C+-0.0763061642646857+51.48591028066045%2C+-0.07555112242699404+51.48584764697301%2C+-0.07554173469544191+51.48590192950712%2C+-0.07629275321961124+51.48596289289142%29%29 &geometry_relation =intersects &limit =100 &dataset =article-4-direction-area &dataset =central-activities-zone &dataset =listed-building &dataset =listed-building-outline &dataset =locally-listed-building &dataset =park-and-garden &dataset =conservation-area &dataset =area-of-outstanding-natural-beauty &dataset =national-park &dataset =world-heritage-site &dataset =world-heritage-site-buffer-zone &dataset =special-protection-area &dataset =scheduled-monument &dataset =tree &dataset =tree-preservation-order &dataset =tree-preservation-zone &dataset =site-of-special-scientific-interest &dataset =special-area-of-conservation &dataset =ancient-woodland",
+      "planxRequest": "https://api.1827.planx.pizza/gis/southwark?geom=POLYGON+%28%28-0.07629275321961124+51.48596289289142%2C+-0.0763061642646857+51.48591028066045%2C+-0.07555112242699404+51.48584764697301%2C+-0.07554173469544191+51.48590192950712%2C+-0.07629275321961124+51.48596289289142%29%29 &analytics =false &sessionId =89420b67-21e4-4c1e-96df-5cd0d9394672",
+      "constraints": {
+        "tpo": {
+          "fn": "tpo",
+          "data": [
+            {
+              "name": "School Nature Area, Cobourg Road",
+              "entity": 19109825,
+              "prefix": "tree-preservation-zone",
+              "dataset": "tree-preservation-zone",
+              "end-date": "",
+              "typology": "geography",
+              "reference": "",
+              "entry-date": "2021-12-02",
+              "start-date": "1993-01-13",
+              "organisation-entity": "329",
+              "tree-preservation-type": "Woodland",
+              "tree-preservation-order": "228"
+            }
+          ],
+          "text": "is in a Tree Preservation Order (TPO) Zone",
+          "value": true,
+          "category": "Trees"
+        },
+        "listed": {
+          "fn": "listed",
+          "data": [
+            {
+              "name": "47, COBOURG ROAD",
+              "entity": 31834148,
+              "prefix": "listed-building",
+              "dataset": "listed-building",
+              "end-date": "",
+              "typology": "geography",
+              "reference": "1378486",
+              "entry-date": "2023-05-25",
+              "start-date": "1986-01-24",
+              "documentation-url": "https://historicengland.org.uk/listing/the-list/list-entry/1378486",
+              "organisation-entity": "16",
+              "listed-building-grade": "II"
+            },
+            {
+              "name": "",
+              "entity": 42102419,
+              "prefix": "listed-building-outline",
+              "dataset": "listed-building-outline",
+              "end-date": "",
+              "typology": "geography",
+              "reference": "470787",
+              "entry-date": "2021-12-08",
+              "start-date": "1986-01-24",
+              "documentation-url": "https://geo.southwark.gov.uk/connect/analyst/Includes/ListedBuildings/SwarkLB201.pdf",
+              "organisation-entity": "329",
+              "listed-building-grade": "II"
+            }
+          ],
+          "text": "is, or is within, a Listed Building",
+          "value": true,
+          "category": "Heritage and conservation"
+        },
+        "article4": {
+          "fn": "article4",
+          "text": "is not subject to local permitted development restrictions (known as Article 4 directions)",
+          "value": false,
+          "category": "General policy"
+        },
+        "monument": {
+          "fn": "monument",
+          "text": "is not the site of a Scheduled Monument",
+          "value": false,
+          "category": "Heritage and conservation"
+        },
+        "designated": {
+          "value": true
+        },
+        "nature.SAC": {
+          "fn": "nature.SAC",
+          "text": "is not in a Special Area of Conservation (SAC)",
+          "value": false,
+          "category": "Ecology"
+        },
+        "nature.ASNW": {
+          "fn": "nature.ASNW",
+          "text": "is not in an Ancient Semi-Natural Woodland (ASNW)",
+          "value": false,
+          "category": "Ecology"
+        },
+        "nature.SSSI": {
+          "fn": "nature.SSSI",
+          "text": "is not a Site of Special Scientific Interest (SSSI)",
+          "value": false,
+          "category": "Ecology"
+        },
+        "locallyListed": {
+          "fn": "locallyListed",
+          "text": "is not, or is not within, a Locally Listed Building",
+          "value": false,
+          "category": "Heritage and conservation"
+        },
+        "designated.SPA": {
+          "fn": "designated.SPA",
+          "text": "is not in a Special Protection Area (SPA)",
+          "value": false,
+          "category": "Heritage and conservation"
+        },
+        "designated.WHS": {
+          "fn": "designated.WHS",
+          "text": "is not an UNESCO World Heritage Site",
+          "value": false,
+          "category": "Heritage and conservation"
+        },
+        "registeredPark": {
+          "fn": "registeredPark",
+          "text": "is not in a Historic Park or Garden",
+          "value": false,
+          "category": "Heritage and conservation"
+        },
+        "designated.AONB": {
+          "fn": "designated.AONB",
+          "text": "is not in an Area of Outstanding Natural Beauty",
+          "value": false,
+          "category": "Heritage and conservation"
+        },
+        "article4.southwark.caz": {
+          "fn": "article4.caz",
+          "text": "is not in the Central Activities Zone",
+          "value": false,
+          "category": "General policy"
+        },
+        "designated.nationalPark": {
+          "fn": "designated.nationalPark",
+          "text": "is not in a National Park",
+          "value": false,
+          "category": "Heritage and conservation"
+        },
+        "designated.conservationArea": {
+          "fn": "designated.conservationArea",
+          "data": [
+            {
+              "name": "Cobourg Road",
+              "entity": 44002366,
+              "prefix": "conservation-area",
+              "dataset": "conservation-area",
+              "end-date": "",
+              "typology": "geography",
+              "reference": "19",
+              "entry-date": "2022-04-09",
+              "start-date": "1980-02-05",
+              "documentation-url": "https://www.southwark.gov.uk/planning-and-building-control/design-and-conservation/conservation-areas?chapter=10",
+              "organisation-entity": "329"
+            }
+          ],
+          "text": "is in a Conservation Area",
+          "value": true,
+          "category": "Heritage and conservation"
+        },
+        "designated.nationalPark.broads": {
+          "fn": "designated.nationalPark.broads",
+          "value": false
+        }
+      },
+      "metadata": {
+        "tpo": {
+          "name": "Tree preservation zone",
+          "text": "A Tree Preservation Order (TPO) can be placed on single trees, groups of trees and even whole woodlands. Tree Preservation Orders are made by local planning authorities following [guidance](https://www.gov.uk/guidance/tree-preservation-orders-and-trees-in-conservation-areas) provided by the [Department for Levelling Up, Housing and Communities](https://www.gov.uk/government/organisations/department-for-levelling-up-housing-and-communities).\n\nEach [tree preservation order](/dataset/tree-preservation-order) may apply to a number of tree preservation order zones, and a number of individual [trees](/dataset/tree).\n\nThis dataset contains data from [a small group of local planning authorities](/about/) who we are working with to develop a [data specification for tree preservation orders](https://www.digital-land.info/guidance/specifications/tree-preservation-order).",
+          "plural": "Trees preservation zones",
+          "prefix": "",
+          "themes": [
+            "environment"
+          ],
+          "dataset": "tree-preservation-zone",
+          "licence": "ogl3",
+          "end-date": "",
+          "entities": "",
+          "typology": "geography",
+          "wikidata": "Q10884",
+          "wikipedia": "Tree",
+          "collection": "tree-preservation-order",
+          "entry-date": "",
+          "start-date": "",
+          "attribution": "crown-copyright",
+          "description": "An area covered by a tree preservation order",
+          "entity-count": {
+            "count": 13161,
+            "dataset": "tree-preservation-zone"
+          },
+          "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+          "paint-options": "",
+          "attribution-text": "© Crown copyright and database right 2023"
+        },
+        "listed": {
+          "name": "Listed building outline",
+          "text": "The geospatial boundary for [listed buildings](https://historicengland.org.uk/listing/what-is-designation/listed-buildings) as designated by [Historic England](https://historicengland.org.uk/) as collected from local planning authorities.\n\nWe are [working with a group of local planning authorities](/about/) to help them publish their data to inform planning decisions, and to develop a [data specification for listed building outlines](https://www.digital-land.info/guidance/specifications/listed-building).\n\nWe expect to eventually merge this dataset with the [listed building](/dataset/listed-building) dataset.",
+          "plural": "Listed building outlines",
+          "prefix": "",
+          "themes": [
+            "heritage"
+          ],
+          "dataset": "listed-building-outline",
+          "licence": "ogl3",
+          "end-date": "",
+          "entities": "",
+          "typology": "geography",
+          "wikidata": "Q570600",
+          "wikipedia": "Listed_building",
+          "collection": "listed-building",
+          "entry-date": "",
+          "start-date": "",
+          "attribution": "crown-copyright",
+          "description": "boundary of a listed building",
+          "entity-count": {
+            "count": 12237,
+            "dataset": "listed-building-outline"
+          },
+          "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+          "paint-options": {
+            "colour": "#F9C744"
+          },
+          "attribution-text": "© Crown copyright and database right 2023"
+        },
+        "article4": {
+          "name": "Article 4 direction area",
+          "text": "A local planning authority may create an [article 4 direction](https://www.gov.uk/guidance/when-is-permission-required#article-4-direction) to alter or remove [permitted development rights](https://www.gov.uk/government/publications/permitted-development-rights-for-householders-technical-guidance) from a building or area.\n\nEach [article 4 direction](/dataset/article-4-direction) may apply to one or more article 4 direction areas, each with one or more [article 4 direction rules](/dataset/article-4-direction-rule).\n\nThis dataset contains data from [a small group of local planning authorities](/about/) who we are working with to develop a [data specification for article 4 directions](https://www.digital-land.info/guidance/specifications/article-4-direction).",
+          "plural": "Article 4 direction areas",
+          "prefix": "",
+          "themes": [
+            "heritage"
+          ],
+          "dataset": "article-4-direction-area",
+          "licence": "ogl3",
+          "end-date": "",
+          "entities": "",
+          "typology": "geography",
+          "wikidata": "",
+          "wikipedia": "",
+          "collection": "article-4-direction",
+          "entry-date": "",
+          "start-date": "",
+          "attribution": "crown-copyright",
+          "description": "Orders made by the local planning authority to remove all or some of the permitted development rights on a site in order to protect it",
+          "entity-count": {
+            "count": 1351,
+            "dataset": "article-4-direction-area"
+          },
+          "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+          "paint-options": "",
+          "attribution-text": "© Crown copyright and database right 2023"
+        },
+        "monument": {
+          "name": "Scheduled monument",
+          "text": "Historic buildings or sites such as Roman remains, burial mounds, castles, bridges, earthworks, the remains of deserted villages and industrial sites can be designated scheduled monuments by the Secretary of State for [Digital, Culture, Media and Sport](https://www.gov.uk/government/organisations/department-for-digital-culture-media-sport). \n\nThis list of scheduled monuments is kept and maintained by [Historic England](https://historicengland.org.uk/).",
+          "plural": "Scheduled monuments",
+          "prefix": "",
+          "themes": [
+            "heritage"
+          ],
+          "dataset": "scheduled-monument",
+          "licence": "ogl3",
+          "end-date": "",
+          "entities": "",
+          "typology": "geography",
+          "wikidata": "Q219538",
+          "wikipedia": "Scheduled_monument",
+          "collection": "historic-england",
+          "entry-date": "",
+          "start-date": "",
+          "attribution": "historic-england",
+          "description": "",
+          "entity-count": {
+            "count": 19935,
+            "dataset": "scheduled-monument"
+          },
+          "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+          "paint-options": {
+            "colour": "#0F9CDA"
+          },
+          "attribution-text": "© Historic England 2023. Contains Ordnance Survey data © Crown copyright and database right 2023.\nThe Historic England GIS Data contained in this material was obtained on [date].\nThe most publicly available up to date Historic England GIS Data can be obtained from [HistoricEngland.org.uk](https://historicengland.org.uk)."
+        },
+        "nature.SAC": {
+          "name": "Special area of conservation",
+          "text": "Special areas of conservation (SACs) are area of land which have been designated by\n[DEFRA](https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs),\nwith advice from the [Joint Nature Conservation Committee](https://jncc.gov.uk/),\nto protect specific habitats and species.\n\nDEFRA and [Natural England](https://www.gov.uk/government/organisations/natural-england) publish\n[guidance](https://www.gov.uk/guidance/protected-sites-and-areas-how-to-review-planning-applications)\non how to review planning applications in protected sites and areas.",
+          "plural": "Special areas of conservation",
+          "prefix": "",
+          "themes": [
+            "environment"
+          ],
+          "dataset": "special-area-of-conservation",
+          "licence": "ogl3",
+          "end-date": "",
+          "entities": "",
+          "typology": "geography",
+          "wikidata": "Q1191622",
+          "wikipedia": "Special_Area_of_Conservation",
+          "collection": "special-area-of-conservation",
+          "entry-date": "",
+          "start-date": "",
+          "attribution": "natural-england",
+          "description": "",
+          "entity-count": {
+            "count": 256,
+            "dataset": "special-area-of-conservation"
+          },
+          "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+          "paint-options": {
+            "colour": "#7A8705"
+          },
+          "attribution-text": "© Natural England copyright. Contains Ordnance Survey data © Crown copyright and database right 2023."
+        },
+        "nature.ASNW": {
+          "name": "Ancient woodland",
+          "text": "An area designated as ancient woodland by Natural England.\n\nNatural England and Forestry Commission [Guidance](https://www.gov.uk/guidance/ancient-woodland-and-veteran-trees-protection-surveys-licences)  is used in planning decisions.",
+          "plural": "Ancient woodlands",
+          "prefix": "",
+          "themes": [
+            "environment"
+          ],
+          "dataset": "ancient-woodland",
+          "licence": "ogl3",
+          "end-date": "",
+          "entities": "",
+          "typology": "geography",
+          "wikidata": "Q3078732",
+          "wikipedia": "Ancient_woodland",
+          "collection": "ancient-woodland",
+          "entry-date": "",
+          "start-date": "",
+          "attribution": "natural-england",
+          "description": "An area that’s been wooded continuously since at least 1600 AD",
+          "entity-count": {
+            "count": 44355,
+            "dataset": "ancient-woodland"
+          },
+          "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+          "paint-options": {
+            "colour": "#00703c",
+            "opacity": 0.2
+          },
+          "attribution-text": "© Natural England copyright. Contains Ordnance Survey data © Crown copyright and database right 2023."
+        },
+        "nature.SSSI": {
+          "name": "Site of special scientific interest",
+          "text": "Sites of special scientific interest (SSSI) are nationally protected sites that have features such as wildlife or geology. \n\nSSSIs are designated by [Natural England](https://www.gov.uk/government/organisations/natural-england).\nThere is [guidance](https://www.gov.uk/guidance/protected-areas-sites-of-special-scientific-interest) to help local authorities decide on planning applications in protected SSSIs.",
+          "plural": "Sites of special scientific interest",
+          "prefix": "",
+          "themes": [
+            "environment"
+          ],
+          "dataset": "site-of-special-scientific-interest",
+          "licence": "ogl3",
+          "end-date": "",
+          "entities": "",
+          "typology": "geography",
+          "wikidata": "Q422211",
+          "wikipedia": "Site_of_Special_Scientific_Interest",
+          "collection": "site-of-special-scientific-interest",
+          "entry-date": "",
+          "start-date": "",
+          "attribution": "natural-england",
+          "description": "",
+          "entity-count": {
+            "count": 4128,
+            "dataset": "site-of-special-scientific-interest"
+          },
+          "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+          "paint-options": {
+            "colour": "#308fac"
+          },
+          "attribution-text": "© Natural England copyright. Contains Ordnance Survey data © Crown copyright and database right 2023."
+        },
+        "article4.caz": {
+          "name": "Central activities zone",
+          "text": "The [Greater London Authority](https://www.london.gov.uk/) (GLA) designates a central area of London with [implications for planning](https://www.london.gov.uk/what-we-do/planning/implementing-london-plan/london-plan-guidance-and-spgs/central-activities-zone)\nThis dataset combines data provided by the GLA with the boundary from the individual London boroughs.",
+          "plural": "Central activities zones",
+          "prefix": "",
+          "themes": [
+            "development"
+          ],
+          "dataset": "central-activities-zone",
+          "licence": "ogl3",
+          "end-date": "",
+          "entities": "",
+          "typology": "geography",
+          "wikidata": "",
+          "wikipedia": "",
+          "collection": "central-activities-zone",
+          "entry-date": "",
+          "start-date": "",
+          "attribution": "crown-copyright",
+          "description": "",
+          "entity-count": {
+            "count": 10,
+            "dataset": "central-activities-zone"
+          },
+          "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+          "paint-options": "",
+          "attribution-text": "© Crown copyright and database right 2023"
+        },
+        "locallyListed": {
+          "name": "Locally listed building",
+          "text": "A building or site in a local planning authority’s area that make a positive contribution to its local character and sense of place because of their heritage value. Although such heritage assets may not be nationally designated or even located within the boundaries of a conservation area, they may be offered some level of protection by the local planning authority identifying them on a formally adopted list of local heritage assets.\n\nThis is an experimental dataset of locally listed buildings found on [data.gov.uk](https://www.data.gov.uk/search?q=locally+listed+buildings).\nWe are [working with a group of local planning authorities](/about/) to help them publish their locally listed buildings, and to develop a data specification for locally listed buildings.",
+          "plural": "Locally listed buildings",
+          "prefix": "",
+          "themes": [
+            "heritage"
+          ],
+          "dataset": "locally-listed-building",
+          "licence": "ogl3",
+          "end-date": "",
+          "entities": "",
+          "typology": "geography",
+          "wikidata": "Q570600",
+          "wikipedia": "Listed_building#Locally_listed_buildings",
+          "collection": "listed-building",
+          "entry-date": "",
+          "start-date": "",
+          "attribution": "crown-copyright",
+          "description": "locally listed heritage assets, including buildings",
+          "entity-count": {
+            "count": 448,
+            "dataset": "locally-listed-building"
+          },
+          "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+          "paint-options": {
+            "colour": "#F9C744"
+          },
+          "attribution-text": "© Crown copyright and database right 2023"
+        },
+        "designated.SPA": {
+          "name": "Special protection area",
+          "text": "[Special protection areas](https://naturalengland-defra.opendata.arcgis.com/maps/Defra::special-protection-areas-england/about) is an area designated \nfor the protection of birds and wildlife. This dataset is provided by [Natural England](https://www.gov.uk/government/organisations/natural-england).",
+          "plural": "Special protection areas",
+          "prefix": "",
+          "themes": [
+            "environment"
+          ],
+          "dataset": "special-protection-area",
+          "licence": "ogl3",
+          "end-date": "",
+          "entities": "",
+          "typology": "geography",
+          "wikidata": "",
+          "wikipedia": "",
+          "collection": "special-protection-area",
+          "entry-date": "",
+          "start-date": "",
+          "attribution": "natural-england",
+          "description": "",
+          "entity-count": {
+            "count": 88,
+            "dataset": "special-protection-area"
+          },
+          "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+          "paint-options": "",
+          "attribution-text": "© Natural England copyright. Contains Ordnance Survey data © Crown copyright and database right 2023."
+        },
+        "designated.WHS": {
+          "name": "World heritage site buffer zone",
+          "text": "A [World Heritage Site](/dataset/world-heritage-site) may have a [buffer zone](https://whc.unesco.org/en/series/25/) with implications for planning.",
+          "plural": "World heritage site buffer zones",
+          "prefix": "",
+          "themes": [
+            "heritage"
+          ],
+          "dataset": "world-heritage-site-buffer-zone",
+          "licence": "ogl3",
+          "end-date": "",
+          "entities": "",
+          "typology": "geography",
+          "wikidata": "Q9259",
+          "wikipedia": "World_Heritage_Site",
+          "collection": "historic-england",
+          "entry-date": "",
+          "start-date": "",
+          "attribution": "historic-england",
+          "description": "",
+          "entity-count": {
+            "count": 8,
+            "dataset": "world-heritage-site-buffer-zone"
+          },
+          "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+          "paint-options": {
+            "colour": "#EB1EE5"
+          },
+          "attribution-text": "© Historic England 2023. Contains Ordnance Survey data © Crown copyright and database right 2023.\nThe Historic England GIS Data contained in this material was obtained on [date].\nThe most publicly available up to date Historic England GIS Data can be obtained from [HistoricEngland.org.uk](https://historicengland.org.uk)."
+        },
+        "registeredPark": {
+          "name": "Historic parks and gardens",
+          "text": "Historic parks and gardens as listed by [Historic England](https://historicengland.org.uk/) in the [Register of Parks and Gardens of Special Historic Interest](https://historicengland.org.uk/listing/what-is-designation/registered-parks-and-gardens/).",
+          "plural": "Parks and gardens",
+          "prefix": "",
+          "themes": [
+            "environment",
+            "heritage"
+          ],
+          "dataset": "park-and-garden",
+          "licence": "ogl3",
+          "end-date": "",
+          "entities": "",
+          "typology": "geography",
+          "wikidata": "Q6975250",
+          "wikipedia": "Register_of_Historic_Parks_and_Gardens_of_Special_Historic_Interest_in_England",
+          "collection": "historic-england",
+          "entry-date": "",
+          "start-date": "",
+          "attribution": "historic-england",
+          "description": "",
+          "entity-count": {
+            "count": 1699,
+            "dataset": "park-and-garden"
+          },
+          "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+          "paint-options": {
+            "colour": "#0EB951"
+          },
+          "attribution-text": "© Historic England 2023. Contains Ordnance Survey data © Crown copyright and database right 2023.\nThe Historic England GIS Data contained in this material was obtained on [date].\nThe most publicly available up to date Historic England GIS Data can be obtained from [HistoricEngland.org.uk](https://historicengland.org.uk)."
+        },
+        "designated.AONB": {
+          "name": "Area of outstanding natural beauty",
+          "text": "An area of outstanding natural beauty (AONB) as designated by [Natural England](https://www.gov.uk/government/organisations/natural-england).\n\nNatural England provides [guidance](https://www.gov.uk/guidance/protected-sites-and-areas-how-to-review-planning-applications) to help local authorities decide on planning applications in protected sites and areas.",
+          "plural": "Areas of outstanding natural beauty",
+          "prefix": "",
+          "themes": [
+            "environment"
+          ],
+          "dataset": "area-of-outstanding-natural-beauty",
+          "licence": "ogl3",
+          "end-date": "",
+          "entities": "",
+          "typology": "geography",
+          "wikidata": "Q174945",
+          "wikipedia": "Area_of_Outstanding_Natural_Beauty",
+          "collection": "area-of-outstanding-natural-beauty",
+          "entry-date": "",
+          "start-date": "",
+          "attribution": "natural-england",
+          "description": "Land protected by law to conserve and enhance its natural beauty",
+          "entity-count": {
+            "count": 34,
+            "dataset": "area-of-outstanding-natural-beauty"
+          },
+          "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+          "paint-options": {
+            "colour": "#d53880"
+          },
+          "attribution-text": "© Natural England copyright. Contains Ordnance Survey data © Crown copyright and database right 2023."
+        },
+        "designated.nationalPark": {
+          "name": "National park",
+          "text": "The administrative boundaries of [national park authorities](/dataset/national-park-authority) in England as provided by the ONS for the purposes of producing statistics.",
+          "plural": "National parks",
+          "prefix": "statistical-geography",
+          "themes": [
+            "heritage"
+          ],
+          "dataset": "national-park",
+          "licence": "ogl3",
+          "end-date": "",
+          "entities": "",
+          "typology": "geography",
+          "wikidata": "Q60256727",
+          "wikipedia": "National_park",
+          "collection": "national-park",
+          "entry-date": "",
+          "start-date": "",
+          "attribution": "ons-boundary",
+          "description": "",
+          "entity-count": {
+            "count": 10,
+            "dataset": "national-park"
+          },
+          "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+          "paint-options": {
+            "colour": "#3DA52C"
+          },
+          "attribution-text": "Source: Office for National Statistics licensed under the Open Government Licence v.3.0\nContains OS data © Crown copyright and database right 2023"
+        },
+        "designated.conservationArea": {
+          "name": "Conservation area",
+          "text": "Local planning authorities are responsible for designating conservation areas, though [Historic England](https://historicengland.org.uk/) and the Secretary of State also have powers to create them.\n\nThis dataset also contains the boundaries of conservation areas from Historic England, as well as other data found on [data.gov.uk](https://www.data.gov.uk/search?q=conservation+area) and currently contains a number of duplicate areas we are working to remove.\n\nWe are also [working with a group of local planning authorities](/about/) to help them publish their conservation areas, and to develop a [data specification for conservation areas](https://www.digital-land.info/guidance/specifications/conservation-area).\n\nHistoric England provide [guidance](https://historicengland.org.uk/advice/your-home/owning-historic-property/conservation-area/) to help householders understand the implications of living in a conservation area for planning applications.",
+          "plural": "Conservation areas",
+          "prefix": "",
+          "themes": [
+            "heritage"
+          ],
+          "dataset": "conservation-area",
+          "licence": "ogl3",
+          "end-date": "",
+          "entities": "",
+          "typology": "geography",
+          "wikidata": "Q5162904",
+          "wikipedia": "Conservation_area_(United_Kingdom)",
+          "collection": "conservation-area",
+          "entry-date": "",
+          "start-date": "",
+          "attribution": "historic-england",
+          "description": "Special architectural or historic interest, the character or appearance of which it is desirable to preserve or enhance",
+          "entity-count": {
+            "count": 8600,
+            "dataset": "conservation-area"
+          },
+          "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+          "paint-options": {
+            "colour": "#78AA00"
+          },
+          "attribution-text": "© Historic England 2023. Contains Ordnance Survey data © Crown copyright and database right 2023.\nThe Historic England GIS Data contained in this material was obtained on [date].\nThe most publicly available up to date Historic England GIS Data can be obtained from [HistoricEngland.org.uk](https://historicengland.org.uk)."
+        }
+      }
+    },
+    {
+      "sourceRequest": "https://api.os.uk/features/v1/wfs?service=WFS &request =GetFeature &version =2.0.0 &typeNames =Highways_RoadLink &outputFormat =GEOJSON &srsName =urn%3Aogc%3Adef%3Acrs%3AEPSG%3A%3A4326 &count =1 &filter =%0A++++%3Cogc%3AFilter%3E%0A++++++%3Cogc%3APropertyIsLike+wildCard%3D%22%25%22+singleChar%3D%22%23%22+escapeChar%3D%22%21%22%3E%0A++++++++%3Cogc%3APropertyName%3EFormsPartOf%3C%2Fogc%3APropertyName%3E%0A++++++++%3Cogc%3ALiteral%3E%25Street%23usrn22500531%25%3C%2Fogc%3ALiteral%3E%0A++++++%3C%2Fogc%3APropertyIsLike%3E%0A++++%3C%2Fogc%3AFilter%3E%0A++&",
+      "planxRequest": "https://api.1827.planx.pizza/roads?usrn=22500531",
+      "constraints": {
+        "road.classified": {
+          "fn": "road.classified",
+          "text": "is not on a Classified Road",
+          "value": false,
+          "category": "General policy"
+        }
+      },
+      "metadata": {
+          "road.classified": {
+            "name": "Classified road",
+            "plural": "Classified roads"
+          }
+        }
+    }
+  ],
   "files": [
     {
       "filename": "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf",
@@ -748,10 +1373,636 @@
         ]
       }
     },
-    "constraints": {
-      "conservation_area": true,
-      "protected_trees": false
-    },
+    "constraints_proposed": [
+      {
+        "sourceRequest": "https://www.planning.data.gov.uk/entity.json?entries=current &geometry =POLYGON+%28%28-0.07629275321961124+51.48596289289142%2C+-0.0763061642646857+51.48591028066045%2C+-0.07555112242699404+51.48584764697301%2C+-0.07554173469544191+51.48590192950712%2C+-0.07629275321961124+51.48596289289142%29%29 &geometry_relation =intersects &limit =100 &dataset =article-4-direction-area &dataset =central-activities-zone &dataset =listed-building &dataset =listed-building-outline &dataset =locally-listed-building &dataset =park-and-garden &dataset =conservation-area &dataset =area-of-outstanding-natural-beauty &dataset =national-park &dataset =world-heritage-site &dataset =world-heritage-site-buffer-zone &dataset =special-protection-area &dataset =scheduled-monument &dataset =tree &dataset =tree-preservation-order &dataset =tree-preservation-zone &dataset =site-of-special-scientific-interest &dataset =special-area-of-conservation &dataset =ancient-woodland",
+        "planxRequest": "https://api.1827.planx.pizza/gis/southwark?geom=POLYGON+%28%28-0.07629275321961124+51.48596289289142%2C+-0.0763061642646857+51.48591028066045%2C+-0.07555112242699404+51.48584764697301%2C+-0.07554173469544191+51.48590192950712%2C+-0.07629275321961124+51.48596289289142%29%29 &analytics =false &sessionId =89420b67-21e4-4c1e-96df-5cd0d9394672",
+        "constraints": {
+          "tpo": {
+            "fn": "tpo",
+            "data": [
+              {
+                "name": "School Nature Area, Cobourg Road",
+                "entity": 19109825,
+                "prefix": "tree-preservation-zone",
+                "dataset": "tree-preservation-zone",
+                "end-date": "",
+                "typology": "geography",
+                "reference": "",
+                "entry-date": "2021-12-02",
+                "start-date": "1993-01-13",
+                "organisation-entity": "329",
+                "tree-preservation-type": "Woodland",
+                "tree-preservation-order": "228"
+              }
+            ],
+            "text": "is in a Tree Preservation Order (TPO) Zone",
+            "value": true,
+            "category": "Trees"
+          },
+          "listed": {
+            "fn": "listed",
+            "data": [
+              {
+                "name": "47, COBOURG ROAD",
+                "entity": 31834148,
+                "prefix": "listed-building",
+                "dataset": "listed-building",
+                "end-date": "",
+                "typology": "geography",
+                "reference": "1378486",
+                "entry-date": "2023-05-25",
+                "start-date": "1986-01-24",
+                "documentation-url": "https://historicengland.org.uk/listing/the-list/list-entry/1378486",
+                "organisation-entity": "16",
+                "listed-building-grade": "II"
+              },
+              {
+                "name": "",
+                "entity": 42102419,
+                "prefix": "listed-building-outline",
+                "dataset": "listed-building-outline",
+                "end-date": "",
+                "typology": "geography",
+                "reference": "470787",
+                "entry-date": "2021-12-08",
+                "start-date": "1986-01-24",
+                "documentation-url": "https://geo.southwark.gov.uk/connect/analyst/Includes/ListedBuildings/SwarkLB201.pdf",
+                "organisation-entity": "329",
+                "listed-building-grade": "II"
+              }
+            ],
+            "text": "is, or is within, a Listed Building",
+            "value": true,
+            "category": "Heritage and conservation"
+          },
+          "article4": {
+            "fn": "article4",
+            "text": "is not subject to local permitted development restrictions (known as Article 4 directions)",
+            "value": false,
+            "category": "General policy"
+          },
+          "monument": {
+            "fn": "monument",
+            "text": "is not the site of a Scheduled Monument",
+            "value": false,
+            "category": "Heritage and conservation"
+          },
+          "designated": {
+            "value": true
+          },
+          "nature.SAC": {
+            "fn": "nature.SAC",
+            "text": "is not in a Special Area of Conservation (SAC)",
+            "value": false,
+            "category": "Ecology"
+          },
+          "nature.ASNW": {
+            "fn": "nature.ASNW",
+            "text": "is not in an Ancient Semi-Natural Woodland (ASNW)",
+            "value": false,
+            "category": "Ecology"
+          },
+          "nature.SSSI": {
+            "fn": "nature.SSSI",
+            "text": "is not a Site of Special Scientific Interest (SSSI)",
+            "value": false,
+            "category": "Ecology"
+          },
+          "locallyListed": {
+            "fn": "locallyListed",
+            "text": "is not, or is not within, a Locally Listed Building",
+            "value": false,
+            "category": "Heritage and conservation"
+          },
+          "designated.SPA": {
+            "fn": "designated.SPA",
+            "text": "is not in a Special Protection Area (SPA)",
+            "value": false,
+            "category": "Heritage and conservation"
+          },
+          "designated.WHS": {
+            "fn": "designated.WHS",
+            "text": "is not an UNESCO World Heritage Site",
+            "value": false,
+            "category": "Heritage and conservation"
+          },
+          "registeredPark": {
+            "fn": "registeredPark",
+            "text": "is not in a Historic Park or Garden",
+            "value": false,
+            "category": "Heritage and conservation"
+          },
+          "designated.AONB": {
+            "fn": "designated.AONB",
+            "text": "is not in an Area of Outstanding Natural Beauty",
+            "value": false,
+            "category": "Heritage and conservation"
+          },
+          "article4.southwark.caz": {
+            "fn": "article4.caz",
+            "text": "is not in the Central Activities Zone",
+            "value": false,
+            "category": "General policy"
+          },
+          "designated.nationalPark": {
+            "fn": "designated.nationalPark",
+            "text": "is not in a National Park",
+            "value": false,
+            "category": "Heritage and conservation"
+          },
+          "designated.conservationArea": {
+            "fn": "designated.conservationArea",
+            "data": [
+              {
+                "name": "Cobourg Road",
+                "entity": 44002366,
+                "prefix": "conservation-area",
+                "dataset": "conservation-area",
+                "end-date": "",
+                "typology": "geography",
+                "reference": "19",
+                "entry-date": "2022-04-09",
+                "start-date": "1980-02-05",
+                "documentation-url": "https://www.southwark.gov.uk/planning-and-building-control/design-and-conservation/conservation-areas?chapter=10",
+                "organisation-entity": "329"
+              }
+            ],
+            "text": "is in a Conservation Area",
+            "value": true,
+            "category": "Heritage and conservation"
+          },
+          "designated.nationalPark.broads": {
+            "fn": "designated.nationalPark.broads",
+            "value": false
+          }
+        },
+        "metadata": {
+          "tpo": {
+            "name": "Tree preservation zone",
+            "text": "A Tree Preservation Order (TPO) can be placed on single trees, groups of trees and even whole woodlands. Tree Preservation Orders are made by local planning authorities following [guidance](https://www.gov.uk/guidance/tree-preservation-orders-and-trees-in-conservation-areas) provided by the [Department for Levelling Up, Housing and Communities](https://www.gov.uk/government/organisations/department-for-levelling-up-housing-and-communities).\n\nEach [tree preservation order](/dataset/tree-preservation-order) may apply to a number of tree preservation order zones, and a number of individual [trees](/dataset/tree).\n\nThis dataset contains data from [a small group of local planning authorities](/about/) who we are working with to develop a [data specification for tree preservation orders](https://www.digital-land.info/guidance/specifications/tree-preservation-order).",
+            "plural": "Trees preservation zones",
+            "prefix": "",
+            "themes": [
+              "environment"
+            ],
+            "dataset": "tree-preservation-zone",
+            "licence": "ogl3",
+            "end-date": "",
+            "entities": "",
+            "typology": "geography",
+            "wikidata": "Q10884",
+            "wikipedia": "Tree",
+            "collection": "tree-preservation-order",
+            "entry-date": "",
+            "start-date": "",
+            "attribution": "crown-copyright",
+            "description": "An area covered by a tree preservation order",
+            "entity-count": {
+              "count": 13161,
+              "dataset": "tree-preservation-zone"
+            },
+            "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+            "paint-options": "",
+            "attribution-text": "© Crown copyright and database right 2023"
+          },
+          "listed": {
+            "name": "Listed building outline",
+            "text": "The geospatial boundary for [listed buildings](https://historicengland.org.uk/listing/what-is-designation/listed-buildings) as designated by [Historic England](https://historicengland.org.uk/) as collected from local planning authorities.\n\nWe are [working with a group of local planning authorities](/about/) to help them publish their data to inform planning decisions, and to develop a [data specification for listed building outlines](https://www.digital-land.info/guidance/specifications/listed-building).\n\nWe expect to eventually merge this dataset with the [listed building](/dataset/listed-building) dataset.",
+            "plural": "Listed building outlines",
+            "prefix": "",
+            "themes": [
+              "heritage"
+            ],
+            "dataset": "listed-building-outline",
+            "licence": "ogl3",
+            "end-date": "",
+            "entities": "",
+            "typology": "geography",
+            "wikidata": "Q570600",
+            "wikipedia": "Listed_building",
+            "collection": "listed-building",
+            "entry-date": "",
+            "start-date": "",
+            "attribution": "crown-copyright",
+            "description": "boundary of a listed building",
+            "entity-count": {
+              "count": 12237,
+              "dataset": "listed-building-outline"
+            },
+            "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+            "paint-options": {
+              "colour": "#F9C744"
+            },
+            "attribution-text": "© Crown copyright and database right 2023"
+          },
+          "article4": {
+            "name": "Article 4 direction area",
+            "text": "A local planning authority may create an [article 4 direction](https://www.gov.uk/guidance/when-is-permission-required#article-4-direction) to alter or remove [permitted development rights](https://www.gov.uk/government/publications/permitted-development-rights-for-householders-technical-guidance) from a building or area.\n\nEach [article 4 direction](/dataset/article-4-direction) may apply to one or more article 4 direction areas, each with one or more [article 4 direction rules](/dataset/article-4-direction-rule).\n\nThis dataset contains data from [a small group of local planning authorities](/about/) who we are working with to develop a [data specification for article 4 directions](https://www.digital-land.info/guidance/specifications/article-4-direction).",
+            "plural": "Article 4 direction areas",
+            "prefix": "",
+            "themes": [
+              "heritage"
+            ],
+            "dataset": "article-4-direction-area",
+            "licence": "ogl3",
+            "end-date": "",
+            "entities": "",
+            "typology": "geography",
+            "wikidata": "",
+            "wikipedia": "",
+            "collection": "article-4-direction",
+            "entry-date": "",
+            "start-date": "",
+            "attribution": "crown-copyright",
+            "description": "Orders made by the local planning authority to remove all or some of the permitted development rights on a site in order to protect it",
+            "entity-count": {
+              "count": 1351,
+              "dataset": "article-4-direction-area"
+            },
+            "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+            "paint-options": "",
+            "attribution-text": "© Crown copyright and database right 2023"
+          },
+          "monument": {
+            "name": "Scheduled monument",
+            "text": "Historic buildings or sites such as Roman remains, burial mounds, castles, bridges, earthworks, the remains of deserted villages and industrial sites can be designated scheduled monuments by the Secretary of State for [Digital, Culture, Media and Sport](https://www.gov.uk/government/organisations/department-for-digital-culture-media-sport). \n\nThis list of scheduled monuments is kept and maintained by [Historic England](https://historicengland.org.uk/).",
+            "plural": "Scheduled monuments",
+            "prefix": "",
+            "themes": [
+              "heritage"
+            ],
+            "dataset": "scheduled-monument",
+            "licence": "ogl3",
+            "end-date": "",
+            "entities": "",
+            "typology": "geography",
+            "wikidata": "Q219538",
+            "wikipedia": "Scheduled_monument",
+            "collection": "historic-england",
+            "entry-date": "",
+            "start-date": "",
+            "attribution": "historic-england",
+            "description": "",
+            "entity-count": {
+              "count": 19935,
+              "dataset": "scheduled-monument"
+            },
+            "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+            "paint-options": {
+              "colour": "#0F9CDA"
+            },
+            "attribution-text": "© Historic England 2023. Contains Ordnance Survey data © Crown copyright and database right 2023.\nThe Historic England GIS Data contained in this material was obtained on [date].\nThe most publicly available up to date Historic England GIS Data can be obtained from [HistoricEngland.org.uk](https://historicengland.org.uk)."
+          },
+          "nature.SAC": {
+            "name": "Special area of conservation",
+            "text": "Special areas of conservation (SACs) are area of land which have been designated by\n[DEFRA](https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs),\nwith advice from the [Joint Nature Conservation Committee](https://jncc.gov.uk/),\nto protect specific habitats and species.\n\nDEFRA and [Natural England](https://www.gov.uk/government/organisations/natural-england) publish\n[guidance](https://www.gov.uk/guidance/protected-sites-and-areas-how-to-review-planning-applications)\non how to review planning applications in protected sites and areas.",
+            "plural": "Special areas of conservation",
+            "prefix": "",
+            "themes": [
+              "environment"
+            ],
+            "dataset": "special-area-of-conservation",
+            "licence": "ogl3",
+            "end-date": "",
+            "entities": "",
+            "typology": "geography",
+            "wikidata": "Q1191622",
+            "wikipedia": "Special_Area_of_Conservation",
+            "collection": "special-area-of-conservation",
+            "entry-date": "",
+            "start-date": "",
+            "attribution": "natural-england",
+            "description": "",
+            "entity-count": {
+              "count": 256,
+              "dataset": "special-area-of-conservation"
+            },
+            "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+            "paint-options": {
+              "colour": "#7A8705"
+            },
+            "attribution-text": "© Natural England copyright. Contains Ordnance Survey data © Crown copyright and database right 2023."
+          },
+          "nature.ASNW": {
+            "name": "Ancient woodland",
+            "text": "An area designated as ancient woodland by Natural England.\n\nNatural England and Forestry Commission [Guidance](https://www.gov.uk/guidance/ancient-woodland-and-veteran-trees-protection-surveys-licences)  is used in planning decisions.",
+            "plural": "Ancient woodlands",
+            "prefix": "",
+            "themes": [
+              "environment"
+            ],
+            "dataset": "ancient-woodland",
+            "licence": "ogl3",
+            "end-date": "",
+            "entities": "",
+            "typology": "geography",
+            "wikidata": "Q3078732",
+            "wikipedia": "Ancient_woodland",
+            "collection": "ancient-woodland",
+            "entry-date": "",
+            "start-date": "",
+            "attribution": "natural-england",
+            "description": "An area that’s been wooded continuously since at least 1600 AD",
+            "entity-count": {
+              "count": 44355,
+              "dataset": "ancient-woodland"
+            },
+            "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+            "paint-options": {
+              "colour": "#00703c",
+              "opacity": 0.2
+            },
+            "attribution-text": "© Natural England copyright. Contains Ordnance Survey data © Crown copyright and database right 2023."
+          },
+          "nature.SSSI": {
+            "name": "Site of special scientific interest",
+            "text": "Sites of special scientific interest (SSSI) are nationally protected sites that have features such as wildlife or geology. \n\nSSSIs are designated by [Natural England](https://www.gov.uk/government/organisations/natural-england).\nThere is [guidance](https://www.gov.uk/guidance/protected-areas-sites-of-special-scientific-interest) to help local authorities decide on planning applications in protected SSSIs.",
+            "plural": "Sites of special scientific interest",
+            "prefix": "",
+            "themes": [
+              "environment"
+            ],
+            "dataset": "site-of-special-scientific-interest",
+            "licence": "ogl3",
+            "end-date": "",
+            "entities": "",
+            "typology": "geography",
+            "wikidata": "Q422211",
+            "wikipedia": "Site_of_Special_Scientific_Interest",
+            "collection": "site-of-special-scientific-interest",
+            "entry-date": "",
+            "start-date": "",
+            "attribution": "natural-england",
+            "description": "",
+            "entity-count": {
+              "count": 4128,
+              "dataset": "site-of-special-scientific-interest"
+            },
+            "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+            "paint-options": {
+              "colour": "#308fac"
+            },
+            "attribution-text": "© Natural England copyright. Contains Ordnance Survey data © Crown copyright and database right 2023."
+          },
+          "article4.caz": {
+            "name": "Central activities zone",
+            "text": "The [Greater London Authority](https://www.london.gov.uk/) (GLA) designates a central area of London with [implications for planning](https://www.london.gov.uk/what-we-do/planning/implementing-london-plan/london-plan-guidance-and-spgs/central-activities-zone)\nThis dataset combines data provided by the GLA with the boundary from the individual London boroughs.",
+            "plural": "Central activities zones",
+            "prefix": "",
+            "themes": [
+              "development"
+            ],
+            "dataset": "central-activities-zone",
+            "licence": "ogl3",
+            "end-date": "",
+            "entities": "",
+            "typology": "geography",
+            "wikidata": "",
+            "wikipedia": "",
+            "collection": "central-activities-zone",
+            "entry-date": "",
+            "start-date": "",
+            "attribution": "crown-copyright",
+            "description": "",
+            "entity-count": {
+              "count": 10,
+              "dataset": "central-activities-zone"
+            },
+            "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+            "paint-options": "",
+            "attribution-text": "© Crown copyright and database right 2023"
+          },
+          "locallyListed": {
+            "name": "Locally listed building",
+            "text": "A building or site in a local planning authority’s area that make a positive contribution to its local character and sense of place because of their heritage value. Although such heritage assets may not be nationally designated or even located within the boundaries of a conservation area, they may be offered some level of protection by the local planning authority identifying them on a formally adopted list of local heritage assets.\n\nThis is an experimental dataset of locally listed buildings found on [data.gov.uk](https://www.data.gov.uk/search?q=locally+listed+buildings).\nWe are [working with a group of local planning authorities](/about/) to help them publish their locally listed buildings, and to develop a data specification for locally listed buildings.",
+            "plural": "Locally listed buildings",
+            "prefix": "",
+            "themes": [
+              "heritage"
+            ],
+            "dataset": "locally-listed-building",
+            "licence": "ogl3",
+            "end-date": "",
+            "entities": "",
+            "typology": "geography",
+            "wikidata": "Q570600",
+            "wikipedia": "Listed_building#Locally_listed_buildings",
+            "collection": "listed-building",
+            "entry-date": "",
+            "start-date": "",
+            "attribution": "crown-copyright",
+            "description": "locally listed heritage assets, including buildings",
+            "entity-count": {
+              "count": 448,
+              "dataset": "locally-listed-building"
+            },
+            "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+            "paint-options": {
+              "colour": "#F9C744"
+            },
+            "attribution-text": "© Crown copyright and database right 2023"
+          },
+          "designated.SPA": {
+            "name": "Special protection area",
+            "text": "[Special protection areas](https://naturalengland-defra.opendata.arcgis.com/maps/Defra::special-protection-areas-england/about) is an area designated \nfor the protection of birds and wildlife. This dataset is provided by [Natural England](https://www.gov.uk/government/organisations/natural-england).",
+            "plural": "Special protection areas",
+            "prefix": "",
+            "themes": [
+              "environment"
+            ],
+            "dataset": "special-protection-area",
+            "licence": "ogl3",
+            "end-date": "",
+            "entities": "",
+            "typology": "geography",
+            "wikidata": "",
+            "wikipedia": "",
+            "collection": "special-protection-area",
+            "entry-date": "",
+            "start-date": "",
+            "attribution": "natural-england",
+            "description": "",
+            "entity-count": {
+              "count": 88,
+              "dataset": "special-protection-area"
+            },
+            "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+            "paint-options": "",
+            "attribution-text": "© Natural England copyright. Contains Ordnance Survey data © Crown copyright and database right 2023."
+          },
+          "designated.WHS": {
+            "name": "World heritage site buffer zone",
+            "text": "A [World Heritage Site](/dataset/world-heritage-site) may have a [buffer zone](https://whc.unesco.org/en/series/25/) with implications for planning.",
+            "plural": "World heritage site buffer zones",
+            "prefix": "",
+            "themes": [
+              "heritage"
+            ],
+            "dataset": "world-heritage-site-buffer-zone",
+            "licence": "ogl3",
+            "end-date": "",
+            "entities": "",
+            "typology": "geography",
+            "wikidata": "Q9259",
+            "wikipedia": "World_Heritage_Site",
+            "collection": "historic-england",
+            "entry-date": "",
+            "start-date": "",
+            "attribution": "historic-england",
+            "description": "",
+            "entity-count": {
+              "count": 8,
+              "dataset": "world-heritage-site-buffer-zone"
+            },
+            "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+            "paint-options": {
+              "colour": "#EB1EE5"
+            },
+            "attribution-text": "© Historic England 2023. Contains Ordnance Survey data © Crown copyright and database right 2023.\nThe Historic England GIS Data contained in this material was obtained on [date].\nThe most publicly available up to date Historic England GIS Data can be obtained from [HistoricEngland.org.uk](https://historicengland.org.uk)."
+          },
+          "registeredPark": {
+            "name": "Historic parks and gardens",
+            "text": "Historic parks and gardens as listed by [Historic England](https://historicengland.org.uk/) in the [Register of Parks and Gardens of Special Historic Interest](https://historicengland.org.uk/listing/what-is-designation/registered-parks-and-gardens/).",
+            "plural": "Parks and gardens",
+            "prefix": "",
+            "themes": [
+              "environment",
+              "heritage"
+            ],
+            "dataset": "park-and-garden",
+            "licence": "ogl3",
+            "end-date": "",
+            "entities": "",
+            "typology": "geography",
+            "wikidata": "Q6975250",
+            "wikipedia": "Register_of_Historic_Parks_and_Gardens_of_Special_Historic_Interest_in_England",
+            "collection": "historic-england",
+            "entry-date": "",
+            "start-date": "",
+            "attribution": "historic-england",
+            "description": "",
+            "entity-count": {
+              "count": 1699,
+              "dataset": "park-and-garden"
+            },
+            "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+            "paint-options": {
+              "colour": "#0EB951"
+            },
+            "attribution-text": "© Historic England 2023. Contains Ordnance Survey data © Crown copyright and database right 2023.\nThe Historic England GIS Data contained in this material was obtained on [date].\nThe most publicly available up to date Historic England GIS Data can be obtained from [HistoricEngland.org.uk](https://historicengland.org.uk)."
+          },
+          "designated.AONB": {
+            "name": "Area of outstanding natural beauty",
+            "text": "An area of outstanding natural beauty (AONB) as designated by [Natural England](https://www.gov.uk/government/organisations/natural-england).\n\nNatural England provides [guidance](https://www.gov.uk/guidance/protected-sites-and-areas-how-to-review-planning-applications) to help local authorities decide on planning applications in protected sites and areas.",
+            "plural": "Areas of outstanding natural beauty",
+            "prefix": "",
+            "themes": [
+              "environment"
+            ],
+            "dataset": "area-of-outstanding-natural-beauty",
+            "licence": "ogl3",
+            "end-date": "",
+            "entities": "",
+            "typology": "geography",
+            "wikidata": "Q174945",
+            "wikipedia": "Area_of_Outstanding_Natural_Beauty",
+            "collection": "area-of-outstanding-natural-beauty",
+            "entry-date": "",
+            "start-date": "",
+            "attribution": "natural-england",
+            "description": "Land protected by law to conserve and enhance its natural beauty",
+            "entity-count": {
+              "count": 34,
+              "dataset": "area-of-outstanding-natural-beauty"
+            },
+            "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+            "paint-options": {
+              "colour": "#d53880"
+            },
+            "attribution-text": "© Natural England copyright. Contains Ordnance Survey data © Crown copyright and database right 2023."
+          },
+          "designated.nationalPark": {
+            "name": "National park",
+            "text": "The administrative boundaries of [national park authorities](/dataset/national-park-authority) in England as provided by the ONS for the purposes of producing statistics.",
+            "plural": "National parks",
+            "prefix": "statistical-geography",
+            "themes": [
+              "heritage"
+            ],
+            "dataset": "national-park",
+            "licence": "ogl3",
+            "end-date": "",
+            "entities": "",
+            "typology": "geography",
+            "wikidata": "Q60256727",
+            "wikipedia": "National_park",
+            "collection": "national-park",
+            "entry-date": "",
+            "start-date": "",
+            "attribution": "ons-boundary",
+            "description": "",
+            "entity-count": {
+              "count": 10,
+              "dataset": "national-park"
+            },
+            "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+            "paint-options": {
+              "colour": "#3DA52C"
+            },
+            "attribution-text": "Source: Office for National Statistics licensed under the Open Government Licence v.3.0\nContains OS data © Crown copyright and database right 2023"
+          },
+          "designated.conservationArea": {
+            "name": "Conservation area",
+            "text": "Local planning authorities are responsible for designating conservation areas, though [Historic England](https://historicengland.org.uk/) and the Secretary of State also have powers to create them.\n\nThis dataset also contains the boundaries of conservation areas from Historic England, as well as other data found on [data.gov.uk](https://www.data.gov.uk/search?q=conservation+area) and currently contains a number of duplicate areas we are working to remove.\n\nWe are also [working with a group of local planning authorities](/about/) to help them publish their conservation areas, and to develop a [data specification for conservation areas](https://www.digital-land.info/guidance/specifications/conservation-area).\n\nHistoric England provide [guidance](https://historicengland.org.uk/advice/your-home/owning-historic-property/conservation-area/) to help householders understand the implications of living in a conservation area for planning applications.",
+            "plural": "Conservation areas",
+            "prefix": "",
+            "themes": [
+              "heritage"
+            ],
+            "dataset": "conservation-area",
+            "licence": "ogl3",
+            "end-date": "",
+            "entities": "",
+            "typology": "geography",
+            "wikidata": "Q5162904",
+            "wikipedia": "Conservation_area_(United_Kingdom)",
+            "collection": "conservation-area",
+            "entry-date": "",
+            "start-date": "",
+            "attribution": "historic-england",
+            "description": "Special architectural or historic interest, the character or appearance of which it is desirable to preserve or enhance",
+            "entity-count": {
+              "count": 8600,
+              "dataset": "conservation-area"
+            },
+            "licence-text": "Licensed under the [Open Government Licence v.3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).",
+            "paint-options": {
+              "colour": "#78AA00"
+            },
+            "attribution-text": "© Historic England 2023. Contains Ordnance Survey data © Crown copyright and database right 2023.\nThe Historic England GIS Data contained in this material was obtained on [date].\nThe most publicly available up to date Historic England GIS Data can be obtained from [HistoricEngland.org.uk](https://historicengland.org.uk)."
+          }
+        }
+      },
+      {
+        "sourceRequest": "https://api.os.uk/features/v1/wfs?service=WFS &request =GetFeature &version =2.0.0 &typeNames =Highways_RoadLink &outputFormat =GEOJSON &srsName =urn%3Aogc%3Adef%3Acrs%3AEPSG%3A%3A4326 &count =1 &filter =%0A++++%3Cogc%3AFilter%3E%0A++++++%3Cogc%3APropertyIsLike+wildCard%3D%22%25%22+singleChar%3D%22%23%22+escapeChar%3D%22%21%22%3E%0A++++++++%3Cogc%3APropertyName%3EFormsPartOf%3C%2Fogc%3APropertyName%3E%0A++++++++%3Cogc%3ALiteral%3E%25Street%23usrn22500531%25%3C%2Fogc%3ALiteral%3E%0A++++++%3C%2Fogc%3APropertyIsLike%3E%0A++++%3C%2Fogc%3AFilter%3E%0A++&",
+        "planxRequest": "https://api.1827.planx.pizza/roads?usrn=22500531",
+        "constraints": {
+          "road.classified": {
+            "fn": "road.classified",
+            "text": "is not on a Classified Road",
+            "value": false,
+            "category": "General policy"
+          }
+        },
+        "metadata": {
+            "road.classified": {
+              "name": "Classified road",
+              "plural": "Classified roads"
+            }
+          }
+      }
+    ],
     "payment_amount": 10300,
     "user_role": "agent",
     "feedback": {
@@ -759,7 +2010,7 @@
       "find_property": "feedback about the property",
       "planning_constraints": "feedback about the constraints"
     },
-    "make_public": false 
+    "make_public": false
   },
   "planx_debug_data": {
     "session_id": "21161b70-0e29-40e6-9a38-c42f61f25ab9",

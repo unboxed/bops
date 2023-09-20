@@ -173,6 +173,8 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
 
     context "when no planning application is provided" do
       let(:local_authority) { create(:local_authority) }
+      let!(:constraint1) { create(:constraint) }
+      let!(:constraint2) { create(:constraint, :listed) }
       let(:params) { ActionController::Parameters.new(JSON.parse(file_fixture("planx_params.json").read)) }
 
       let(:create_planning_application) do
@@ -187,7 +189,7 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
         end
 
         it "calls the constraints creation service" do
-          expect { create_planning_application }.to change(Constraint, :count).by(2).and change(PlanningApplicationConstraint, :count).by(2)
+          expect { create_planning_application }.to change(PlanningApplicationConstraint, :count).by(2)
         end
 
         it "creates a new planx planning data record" do
