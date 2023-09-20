@@ -18,12 +18,12 @@ module TaskListItems
 
     def link_path
       if consultation.present?
-        planning_application_publicity_path(
+        planning_application_consultation_path(
           planning_application,
           consultation
         )
       else
-        new_planning_application_publicity_path(
+        new_planning_application_consultation_path(
           planning_application
         )
       end

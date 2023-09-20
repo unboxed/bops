@@ -3,7 +3,7 @@
   class: "govuk-!-margin-top-5",
   id: "consultation-neighbour-addresses-form",
   method: :post,
-  url: planning_application_publicity_neighbour_addresses_path(planning_application),
+  url: planning_application_consultation_neighbour_addresses_path(planning_application)
 ) do |form| %>
   <%= form.govuk_text_area :polygon_search,
                             label: { class: "govuk-visually-hidden" },

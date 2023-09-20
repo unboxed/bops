@@ -21,7 +21,7 @@ RSpec.describe "Upload neighbour responses", js: true do
   before do
     sign_in assessor
     visit planning_application_path(planning_application)
-    click_link "Publicity"
+    click_link "Consultees, neighbours and publicity"
   end
 
   it "allows planning officer to upload neighbour response who was consulted" do
@@ -103,7 +103,7 @@ RSpec.describe "Upload neighbour responses", js: true do
     end
 
     # Check neighbour is not added to the selected neighbours page
-    visit planning_application_publicity_path(planning_application, planning_application.consultation)
+    visit planning_application_consultation_path(planning_application, planning_application.consultation)
     expect(page).not_to have_content("123 Street")
   end
 

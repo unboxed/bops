@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Consultation - Consultation
+  Consultation
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -8,23 +8,75 @@
 
 <%= render(
   partial: "shared/proposal_header",
-  locals: { heading: "Consultation"  }
+  locals: { heading: "Consultation" }
 ) %>
 
-<%#= render "shared/dates_and_assignment_header" %>
+<%= render "shared/dates_and_assignment_header" %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m govuk-!-margin-bottom-0 govuk-!-margin-top-5">
-      Application details
-    </h2>
-    <%= render(
-      AccordionComponent.new(planning_application: @planning_application)
-    ) %>
+    <ol class="app-task-list govuk-!-margin-top-8">
+      <h2 class="govuk-heading-m">Neighbours</h2>
+      <ul class="app-task-list__items" id="neighbour-section">
+        <%= render(
+        TaskListItems::SendLettersToNeighboursComponent.new(
+          planning_application: @planning_application
+        )
+        ) %>
+        <%= render(
+          TaskListItems::UploadNeighbourResponsesComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
+        <% if consultation = @planning_application.consultation %>
+          <% if consultation.site_visits.any? || consultation.neighbour_responses.objection.any? %>
+            <%= render(
+              TaskListItems::SiteVisitComponent.new(
+                planning_application: @planning_application
+              )
+            ) %>
+          <% end %>
+        <% end %>
+      </ul>
 
-    <h2 class="govuk-heading-m">Consultation</h2>
-    <ul class="app-task-list__items" id="consultation-section">
-    </ul>
+      <h2 class="govuk-heading-m">Consultees</h2>
+      <ul class="app-task-list__items" id="consultation-section">
+        <li class="app-task-list__item" id="send-letters-to-neighbours">
+          <span class="app-task-list__task-name">
+            <a class="govuk-link" href="#">Email consultees</a>
+          </span>
+        </li>
+        <li class="app-task-list__item" id="send-letters-to-neighbours">
+          <span class="app-task-list__task-name">
+            <a class="govuk-link" href="#">Consultee responses</a>
+          </span>
+        </li>
+      </ul>
+
+      <h2 class="govuk-heading-m">Publicity</h2>
+      <ul class="app-task-list__items" id="consultation-section">
+        <li class="app-task-list__item" id="send-letters-to-neighbours">
+          <span class="app-task-list__task-name">
+            <a class="govuk-link" href="#">Send site notice</a>
+          </span>
+        </li>
+        <li class="app-task-list__item" id="send-letters-to-neighbours">
+          <span class="app-task-list__task-name">
+            <a class="govuk-link" href="#">Confirm site notice</a>
+          </span>
+        </li>
+        <li class="app-task-list__item" id="send-letters-to-neighbours">
+          <span class="app-task-list__task-name">
+            <a class="govuk-link" href="#">Send press notice</a>
+          </span>
+        </li>
+        <li class="app-task-list__item" id="send-letters-to-neighbours">
+          <span class="app-task-list__task-name">
+            <a class="govuk-link" href="#">Confirm press notice</a>
+          </span>
+        </li>
+      </ul>
+    <ol>
 
     <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
   </div>

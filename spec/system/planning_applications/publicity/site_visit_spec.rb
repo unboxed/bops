@@ -25,7 +25,7 @@ RSpec.describe "Site visit" do
 
       it "shows the site visit item in the tasklist" do
         visit planning_application_path(planning_application)
-        click_link "Publicity"
+        click_link "Consultees, neighbours and publicity"
 
         expect(page).to have_css("#site-visit")
       end
@@ -36,7 +36,7 @@ RSpec.describe "Site visit" do
 
       it "shows the site visit item in the tasklist" do
         visit planning_application_path(planning_application)
-        click_link "Publicity"
+        click_link "Consultees, neighbours and publicity"
 
         expect(page).to have_css("#site-visit")
       end
@@ -48,7 +48,7 @@ RSpec.describe "Site visit" do
 
       it "does not show the site visit item in the tasklist" do
         visit planning_application_path(planning_application)
-        click_link "Publicity"
+        click_link "Consultees, neighbours and publicity"
 
         expect(page).not_to have_css("#site-visit")
       end
@@ -62,7 +62,7 @@ RSpec.describe "Site visit" do
 
     before do
       visit planning_application_path(planning_application)
-      click_link "Publicity"
+      click_link "Consultees, neighbours and publicity"
       click_link "Site visit"
     end
 
@@ -109,7 +109,7 @@ RSpec.describe "Site visit" do
 
     before do
       visit planning_application_path(planning_application)
-      click_link "Publicity"
+      click_link "Consultees, neighbours and publicity"
       within("#site-visit") do
         click_link "Site visit"
       end
@@ -165,7 +165,7 @@ RSpec.describe "Site visit" do
 
         expect(page).to have_link(
           "Site visit",
-          href: "/planning_applications/#{planning_application.id}/publicitys/#{consultation.id}/site_visits"
+          href: "/planning_applications/#{planning_application.id}/consultations/#{consultation.id}/site_visits"
         )
         expect(page).to have_content("Completed")
 
@@ -202,7 +202,7 @@ RSpec.describe "Site visit" do
 
         click_link "Back"
         expect(current_url).to include(
-          "/planning_applications/#{planning_application.id}/publicitys/#{consultation.id}/site_visits"
+          "/planning_applications/#{planning_application.id}/consultations/#{consultation.id}/site_visits"
         )
       end
     end
