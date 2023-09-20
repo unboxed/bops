@@ -53,11 +53,6 @@
         </fieldset>
       <% end %>
 
-      <div class="form-group">
-        <%= form.label :constraint_type, "Add a local constraint", class: 'govuk-heading-s govuk-!-margin-top-6' %>
-        <%= form.text_area :constraint_type, class: "govuk-textarea", rows: "3", "aria-describedby": "constraints-hint" %>
-      </div>
-
       <div class="govuk-button-group">
         <%= form.submit "Save", class: "govuk-button", data: { module: "govuk-button" } %>
         <%= back_link %>
