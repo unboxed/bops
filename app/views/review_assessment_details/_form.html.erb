@@ -31,7 +31,7 @@
       <% end %>
       <% if assessment_detail == :amenity %>
         <% if consultation = @planning_application.consultation %>
-          <p>Neighbour responses: <%= neighbour_responses_summary_text(consultation.neighbour_responses_by_summary_tag) %></p>
+          <p>View neighbour responses: <%= neighbour_responses_summary_text(consultation.neighbour_responses_by_summary_tag) %></p>
             
           <p><%= link_to "View neighbour responses", new_planning_application_consultation_neighbour_response_path(@planning_application, consultation) %></p>
         <% else %>

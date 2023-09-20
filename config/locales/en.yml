@@ -844,8 +844,8 @@ en:
       assessment:
         check_and_assess: Check and assess
       consultation:
+        neighbour_responses: View neighbour responses
         send_letters_to_neighbours: Send letters to neighbours
-        upload_neighbour_responses: Upload neighbour responses
       validation:
         check_and_validate: Check and validate
     submit:
@@ -1145,6 +1145,8 @@ en:
       evidence_of_immunity: Evidence of immunity
     legislation_component:
       check_legislation: Check legislative requirements
+    neighbour_responses_component:
+      neighbour_responses: View neighbour responses
     other_change_request_component:
       view_other_validation: 'View other validation request #%{number}'
     permitted_development_right_component:
@@ -1163,8 +1165,6 @@ en:
       send_letters_to_neighbours: Send letters to neighbours
     site_visit_component:
       site_visit: Site visit
-    upload_neighbour_responses_component:
-      upload_neighbour_responses: Upload neighbour responses
     validation_decision_component:
       send_validation_decision: Send validation decision
   time:

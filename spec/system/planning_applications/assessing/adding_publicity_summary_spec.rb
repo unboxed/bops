@@ -39,12 +39,12 @@ RSpec.describe "neighbour responses" do
       end
 
       expect(page).to have_link(
-        "Upload neighbour responses",
+        "View neighbour responses",
         href: new_planning_application_consultation_neighbour_response_path(planning_application, consultation)
       )
 
       within(".govuk-notification-banner") do
-        expect(page).to have_content("Neighbour responses")
+        expect(page).to have_content("View neighbour responses")
         expect(page).to have_content("There is 1 neutral, 1 objection, 2 supportive.")
       end
 
@@ -87,7 +87,7 @@ RSpec.describe "neighbour responses" do
       end
 
       within(".govuk-notification-banner") do
-        expect(page).to have_content("Neighbour responses")
+        expect(page).to have_content("View neighbour responses")
         expect(page).to have_content("There is 1 neutral, 1 objection, 2 supportive.")
       end
 

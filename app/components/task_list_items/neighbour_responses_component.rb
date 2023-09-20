@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module TaskListItems
-  class UploadNeighbourResponsesComponent < TaskListItems::BaseComponent
+  class NeighbourResponsesComponent < TaskListItems::BaseComponent
     def initialize(planning_application:)
       @planning_application = planning_application
     end
@@ -13,7 +13,7 @@ module TaskListItems
     delegate(:consultation, to: :planning_application)
 
     def link_text
-      t(".upload_neighbour_responses")
+      t(".neighbour_responses")
     end
 
     def link_active?
@@ -23,7 +23,7 @@ module TaskListItems
     def link_path
       return unless link_active?
 
-      new_planning_application_consultation_neighbour_response_path(
+      planning_application_consultation_neighbour_responses_path(
         planning_application,
         consultation
       )
