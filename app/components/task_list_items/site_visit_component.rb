@@ -19,9 +19,9 @@ module TaskListItems
 
     def link_path
       if @consultation.site_visits.any?
-        planning_application_consultation_site_visits_path(@planning_application, @consultation)
+        planning_application_publicity_site_visits_path(@planning_application, @consultation)
       else
-        new_planning_application_consultation_site_visit_path(@planning_application, @consultation)
+        new_planning_application_publicity_site_visit_path(@planning_application, @consultation)
       end
     end
 

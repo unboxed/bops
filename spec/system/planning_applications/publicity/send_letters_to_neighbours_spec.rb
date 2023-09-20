@@ -32,8 +32,7 @@ RSpec.describe "Send letters to neighbours", js: true do
   end
 
   it "displays the planning application address, reference, and addresses submitted by applicant" do
-    expect(page).to have_content("Publicity")
-
+    click_link "Publicity"
     click_link "Send letters to neighbours"
 
     expect(page).to have_content("Send letters to neighbours")
@@ -47,6 +46,7 @@ RSpec.describe "Send letters to neighbours", js: true do
   end
 
   it "allows me to add addresses" do
+    click_link "Publicity"
     click_link "Send letters to neighbours"
 
     fill_in "Search for neighbours by address", with: "60-62 Commercial Street"
@@ -65,6 +65,7 @@ RSpec.describe "Send letters to neighbours", js: true do
   end
 
   it "allows me to edit addresses" do
+    click_link "Publicity"
     click_link "Send letters to neighbours"
 
     fill_in "Search for neighbours by address", with: "60-62 Commercial Street"
@@ -81,6 +82,7 @@ RSpec.describe "Send letters to neighbours", js: true do
   end
 
   it "allows me to delete addresses" do
+    click_link "Publicity"
     click_link "Send letters to neighbours"
 
     fill_in "Search for neighbours by address", with: "60-62 Commercial Street"
@@ -114,6 +116,7 @@ RSpec.describe "Send letters to neighbours", js: true do
       sign_in assessor
       visit planning_application_path(planning_application)
 
+      click_link "Publicity"
       click_link "Send letters to neighbours"
 
       fill_in "Search for neighbours by address", with: "60-62 Commercial Street"
@@ -159,6 +162,7 @@ RSpec.describe "Send letters to neighbours", js: true do
       sign_in assessor
       visit planning_application_path(planning_application)
 
+      click_link "Publicity"
       click_link "Send letters to neighbours"
 
       fill_in "Search for neighbours by address", with: "60-62 Commercial Street"
@@ -201,6 +205,7 @@ RSpec.describe "Send letters to neighbours", js: true do
 
         sign_in assessor
         visit planning_application_path(planning_application)
+        click_link "Publicity"
         click_link "Send letters to neighbours"
 
         fill_in "Search for neighbours by address", with: "60-62 Commercial Street"
@@ -224,6 +229,7 @@ RSpec.describe "Send letters to neighbours", js: true do
     visit current_path
     stub_get_notify_status(notify_id: neighbour_letter.notify_id)
 
+    click_link "Publicity"
     click_link "Send letters to neighbours"
 
     expect(page).to have_content("Contacted neighbours")
@@ -246,6 +252,7 @@ RSpec.describe "Send letters to neighbours", js: true do
     context "when there are no letters" do
       it "shows 'not started'" do
         visit planning_application_path(planning_application)
+        click_link "Publicity"
         expect(page).to have_content "Send letters to neighbours Not started"
       end
     end
@@ -258,6 +265,7 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       it "shows 'completed'" do
         visit planning_application_path(planning_application)
+        click_link "Publicity"
         expect(page).to have_content "Send letters to neighbours Completed"
       end
     end
@@ -272,6 +280,7 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       it "shows 'failed'" do
         visit planning_application_path(planning_application)
+        click_link "Publicity"
         expect(page).to have_content "Send letters to neighbours Failed"
       end
     end
@@ -327,6 +336,7 @@ RSpec.describe "Send letters to neighbours", js: true do
     before do
       stub_os_places_api_request_for_polygon(geojson["EPSG:27700"][:features][0])
       Rails.configuration.os_vector_tiles_api_key = "testtest"
+      click_link "Publicity"
       click_link "Send letters to neighbours"
 
       mock_csrf_token

@@ -24,8 +24,8 @@ class PlanningApplication
       if @neighbour_response.save
         respond_to do |format|
           format.html do
-            redirect_to new_planning_application_consultation_neighbour_response_path(@planning_application,
-                                                                                      @consultation)
+            redirect_to new_planning_application_publicity_neighbour_response_path(@planning_application,
+                                                                                   @consultation)
           end
           create_audit_log(@neighbour_response, "uploaded")
         end
@@ -44,8 +44,8 @@ class PlanningApplication
 
         respond_to do |format|
           format.html do
-            redirect_to new_planning_application_consultation_neighbour_response_path(@planning_application,
-                                                                                      @consultation)
+            redirect_to new_planning_application_publicity_neighbour_response_path(@planning_application,
+                                                                                   @consultation)
           end
           create_audit_log(@neighbour_response, "edited")
         end

@@ -1,0 +1,51 @@
+<% content_for :page_title do %>
+  Consultation - Publicity
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% content_for :title, "Publicity" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Publicity"  }
+) %>
+
+<%= render "shared/dates_and_assignment_header" %>
+
+<div class="govuk-grid-row govuk-!-">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-0 govuk-!-margin-top-5">
+      Application details
+    </h2>
+    <%= render(
+      AccordionComponent.new(planning_application: @planning_application)
+    ) %>
+    <ol class="app-task-list govuk-!-margin-top-8">
+      <h2 class="govuk-heading-m">Publicity</h2>
+      <ul class="app-task-list__items" id="consultation-section">
+        <%= render(
+        TaskListItems::SendLettersToNeighboursComponent.new(
+          planning_application: @planning_application
+        )
+        ) %>
+        <%= render(
+          TaskListItems::UploadNeighbourResponsesComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
+        <% if consultation = @planning_application.consultation %>
+          <% if consultation.site_visits.any? || consultation.neighbour_responses.objection.any? %>
+            <%= render(
+              TaskListItems::SiteVisitComponent.new(
+                planning_application: @planning_application
+              )
+            ) %>
+          <% end %>
+        <% end %>
+      </ul>
+    <ol>
+
+    <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+  </div>
+</div>

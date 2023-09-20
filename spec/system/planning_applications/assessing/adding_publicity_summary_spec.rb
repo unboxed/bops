@@ -40,7 +40,7 @@ RSpec.describe "neighbour responses" do
 
       expect(page).to have_link(
         "Upload neighbour responses",
-        href: new_planning_application_consultation_neighbour_response_path(planning_application, consultation)
+        href: new_planning_application_publicity_neighbour_response_path(planning_application, consultation)
       )
 
       within(".govuk-notification-banner") do

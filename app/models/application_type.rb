@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationType < ApplicationRecord
-  APPLICATION_STEPS = %i[validation publicity assessment review].freeze
+  APPLICATION_STEPS = %i[validation consultation assessment review].freeze
 
   NAME_ORDER = %w[prior_approval planning_permission lawfulness_certificate].freeze
 
@@ -34,7 +34,7 @@ class ApplicationType < ApplicationRecord
   def steps_for_type
     case name
     when "lawfulness_certificate"
-      APPLICATION_STEPS - %i[publicity]
+      APPLICATION_STEPS - %i[consultation]
     else
       APPLICATION_STEPS
     end

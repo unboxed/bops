@@ -4,7 +4,7 @@
 
 <% add_parent_breadcrumb_link "Home", root_path %>
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
-<% add_parent_breadcrumb_link "Publicity", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Publicity", planning_application_publicitys_path(@planning_application) %>
 <% content_for :title, "Site visit" %>
 
 <%= render(
@@ -35,7 +35,7 @@
         <p class="govuk-body">Comment: <%= site_visit.comment %></p>
         <p class="govuk-body"><%= site_visit.documents.count %> document<%= site_visit.documents.count == 1 ? "" : "s" %> added</p>
         
-        <p><%= link_to "View", planning_application_consultation_site_visit_path(@planning_application, @consultation, site_visit), class: "govuk-link" %></p>
+        <p><%= link_to "View", planning_application_publicity_site_visit_path(@planning_application, @consultation, site_visit), class: "govuk-link" %></p>
         <hr>
       <% end %>
     </div>
@@ -46,7 +46,7 @@
   </p>
 <% end %>
 
-<%= link_to "Add site visit response", new_planning_application_consultation_site_visit_path(@planning_application, @consultation), class: "govuk-link" %>
+<%= link_to "Add site visit response", new_planning_application_publicity_site_visit_path(@planning_application, @consultation), class: "govuk-link" %>
 
 <div class="govuk-button-group govuk-!-padding-top-7">
   <%= back_link %>

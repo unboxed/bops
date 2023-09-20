@@ -2,13 +2,13 @@
 <p class="govuk-body">This is a template letter. Edit the letter before you send to selected neighbours.</p>
 
 <%= form_with(
-model: [@planning_application, @consultation],
+model: [planning_application, consultation],
 builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-url: planning_application_consultation_send_neighbour_letters_path(planning_application: @planning_application, consultation_id: @consultation.id),
+url: planning_application_publicity_send_neighbour_letters_path(planning_application, consultation),
 method: 'post'
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
-  <%= form.hidden_field :consultation_id, value: @consultation.id %>
+  <%= form.hidden_field :consultation_id, value: consultation.id %>
   <%= form.label :neighbour_letter_content, "Saved letter", class: "govuk-heading-s govuk-!-margin-top-8" %>
   <%= form.text_area :neighbour_letter_content, rows: 25, class: "govuk-body neighbour-letter-template" %>
 
@@ -28,10 +28,12 @@ method: 'post'
 
   <%= form_with(
     model: [planning_application, consultation],
-    builder: GOVUKDesignSystemFormBuilder::FormBuilder
+    builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+    url: planning_application_publicity_path(planning_application, consultation)
   ) do |form| %>
-    <%= form.hidden_field :consultation_id %>
+    <%= form.hidden_field :consultation_id, value: consultation.id %>
+    <%= form.hidden_field :neighbour_letter_content %>
     <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
-    <%= link_to "Back", planning_application_path(planning_application), class: "govuk-button govuk-button--secondary" %>
+    <%= link_to "Back", planning_application_publicitys_path(planning_application), class: "govuk-button govuk-button--secondary" %>
   <% end %>
 </div>

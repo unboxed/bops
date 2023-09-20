@@ -142,6 +142,14 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :publicitys do
+        post :send_neighbour_letters
+        resources :neighbour_responses, only: %i[new create edit update]
+        resources :site_visits, only: %i[index new create edit show update]
+      end
+
+      resource :publicity_neighbour_addresses, only: %i[create]
+
       resources :review_immunity_details, only: %i[edit update show]
 
       resources :permitted_development_rights, only: %i[new create edit update show]
@@ -155,13 +163,7 @@ Rails.application.routes.draw do
         patch :update, on: :collection
       end
 
-      resources :consultations, only: %i[new create edit update show destroy] do
-        post :send_neighbour_letters
-        resources :neighbour_responses, only: %i[new create edit update]
-        resources :site_visits, only: %i[index new create edit show update]
-      end
-
-      resource :consultation_neighbour_addresses, only: %i[create]
+      resources :consultations, only: :index
 
       resource :withdraw_or_cancel, only: %i[show update]
 

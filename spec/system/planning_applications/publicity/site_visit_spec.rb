@@ -25,6 +25,8 @@ RSpec.describe "Site visit" do
 
       it "shows the site visit item in the tasklist" do
         visit planning_application_path(planning_application)
+        click_link "Publicity"
+
         expect(page).to have_css("#site-visit")
       end
     end
@@ -34,6 +36,8 @@ RSpec.describe "Site visit" do
 
       it "shows the site visit item in the tasklist" do
         visit planning_application_path(planning_application)
+        click_link "Publicity"
+
         expect(page).to have_css("#site-visit")
       end
     end
@@ -44,6 +48,8 @@ RSpec.describe "Site visit" do
 
       it "does not show the site visit item in the tasklist" do
         visit planning_application_path(planning_application)
+        click_link "Publicity"
+
         expect(page).not_to have_css("#site-visit")
       end
     end
@@ -56,6 +62,7 @@ RSpec.describe "Site visit" do
 
     before do
       visit planning_application_path(planning_application)
+      click_link "Publicity"
       click_link "Site visit"
     end
 
@@ -102,6 +109,7 @@ RSpec.describe "Site visit" do
 
     before do
       visit planning_application_path(planning_application)
+      click_link "Publicity"
       within("#site-visit") do
         click_link "Site visit"
       end
@@ -155,15 +163,13 @@ RSpec.describe "Site visit" do
 
         expect(page).to have_content("Site visit was successfully created.")
 
-        within("#site-visit") do
-          expect(page).to have_link(
-            "Site visit",
-            href: "/planning_applications/#{planning_application.id}/consultations/#{consultation.id}/site_visits"
-          )
-          expect(page).to have_content("Completed")
+        expect(page).to have_link(
+          "Site visit",
+          href: "/planning_applications/#{planning_application.id}/publicitys/#{consultation.id}/site_visits"
+        )
+        expect(page).to have_content("Completed")
 
-          click_link "Site visit"
-        end
+        click_link "Site visit"
 
         find("span", text: "See previous site visit responses").click
         within(".govuk-details__text") do
@@ -196,7 +202,7 @@ RSpec.describe "Site visit" do
 
         click_link "Back"
         expect(current_url).to include(
-          "/planning_applications/#{planning_application.id}/consultations/#{consultation.id}/site_visits"
+          "/planning_applications/#{planning_application.id}/publicitys/#{consultation.id}/site_visits"
         )
       end
     end
