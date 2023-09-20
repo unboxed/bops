@@ -8,7 +8,7 @@ RUN apt-get update -y
 RUN apt-get install -y ca-certificates curl gnupg
 
 # Install Chromium for the feature tests
-RUN apt-get install -y --no-install-recommends chromium chromium-driver
+RUN apt-get update && apt-get install -y --no-install-recommends chromium chromium-driver
 
 # Install Poppler to generate PDF previews
 RUN apt-get install -y --no-install-recommends poppler-utils
