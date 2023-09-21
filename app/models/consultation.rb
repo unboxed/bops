@@ -58,7 +58,6 @@ class Consultation < ApplicationRecord
 
   def neighbour_letter_content
     I18n.t("neighbour_letter_template.#{planning_application.application_type.name}",
-           received_at: planning_application.received_at.to_date.to_fs,
            expiry_date: planning_application.expiry_date.to_date.to_fs,
            address: planning_application.full_address,
            council: planning_application.local_authority.subdomain.capitalize,
@@ -70,6 +69,7 @@ class Consultation < ApplicationRecord
            max_height: planning_application&.proposal_measurement&.max_height,
            eaves_height: planning_application&.proposal_measurement&.eaves_height,
            current_user: "CURRENT_USER",
+           council_address: I18n.t("council_addresses.#{planning_application.local_authority.subdomain}"),
            application_link:)
   end
 

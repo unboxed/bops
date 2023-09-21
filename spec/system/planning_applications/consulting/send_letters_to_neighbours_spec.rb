@@ -132,7 +132,7 @@ RSpec.describe "Send letters to neighbours", js: true do
       fill_in "Search for neighbours by address", with: "60-61 Commercial Road"
       page.find(:xpath, "//input[@value='Add neighbour']").click.click
 
-      expect(page).to have_content("A copy of the letter will also be sent by email to the applicant.")
+      expect(page).to have_content("A copy of the letter will be sent to the applicant by email.")
       click_button "Print and send letters"
       expect(page).to have_content("Letters have been sent to neighbours and a copy of the letter has been sent to the applicant.")
 
@@ -172,9 +172,9 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       expect(page).to have_content("60-62 Commercial Street")
 
-      expect(page).to have_content("3) Check and edit letter")
-      expect(page).to have_content("This is a template letter. Edit the letter before you send to selected neighbours.")
-      fill_in "Saved letter", with: "This is some content I'm putting in"
+      expect(page).to have_content("3) Check letter")
+      expect(page).to have_content("Check the letter. You can edit the letter before you send it to selected neighbours.")
+      fill_in "Neighbour letter", with: "This is some content I'm putting in"
 
       expect(page).to have_content("4) Send letter")
       expect(page).to have_content("The letter will be sent to all selected neighbours.")

@@ -9,6 +9,7 @@ method: 'post'
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <%= form.hidden_field :consultation_id, value: @consultation.id %>
+  <%= form.label :neighbour_letter_content, "Neighbour letter", class: "display-none" %>
   <%= form.text_area :neighbour_letter_content, 
       value: @consultation.neighbour_letter_text || neighbour_letter_content(@consultation).html_safe, 
       rows: 25, 
