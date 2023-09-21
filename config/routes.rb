@@ -168,6 +168,8 @@ Rails.application.routes.draw do
       resources :assign_users, only: %i[index] do
         patch :update, on: :collection
       end
+
+      resources :press_notices, only: %i[index new create show edit update]
     end
   end
 

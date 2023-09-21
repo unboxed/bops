@@ -19,9 +19,9 @@
       <h2 class="govuk-heading-m">Neighbours</h2>
       <ul class="app-task-list__items" id="neighbour-section">
         <%= render(
-        TaskListItems::SendLettersToNeighboursComponent.new(
-          planning_application: @planning_application
-        )
+          TaskListItems::SendLettersToNeighboursComponent.new(
+            planning_application: @planning_application
+          )
         ) %>
         <%= render(
           TaskListItems::NeighbourResponsesComponent.new(
@@ -54,7 +54,7 @@
       </ul>
 
       <h2 class="govuk-heading-m">Publicity</h2>
-      <ul class="app-task-list__items" id="consultation-section">
+      <ul class="app-task-list__items" id="publicity-section">
         <li class="app-task-list__item" id="send-letters-to-neighbours">
           <span class="app-task-list__task-name">
             <a class="govuk-link" href="#">Send site notice</a>
@@ -65,12 +65,12 @@
             <a class="govuk-link" href="#">Confirm site notice</a>
           </span>
         </li>
-        <li class="app-task-list__item" id="send-letters-to-neighbours">
-          <span class="app-task-list__task-name">
-            <a class="govuk-link" href="#">Send press notice</a>
-          </span>
-        </li>
-        <li class="app-task-list__item" id="send-letters-to-neighbours">
+        <%= render(
+          TaskListItems::PressNoticeComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
+        <li class="app-task-list__item" id="confirm-press-notice">
           <span class="app-task-list__task-name">
             <a class="govuk-link" href="#">Confirm press notice</a>
           </span>
