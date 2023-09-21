@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Upload neighbour responses", js: true do
+RSpec.describe "View neighbour responses", js: true do
   include ActionDispatch::TestProcess::FixtureFile
 
   let!(:api_user) { create(:api_user, name: "PlanX") }
@@ -25,10 +25,12 @@ RSpec.describe "Upload neighbour responses", js: true do
   end
 
   it "allows planning officer to upload neighbour response who was consulted" do
-    click_link "Upload neighbour responses"
+    click_link "View neighbour responses"
 
     expect(page).to have_content("08/07/2023")
     expect(page).to have_content("No neighbour responses yet")
+
+    click_link "Add a new neighbour response"
 
     fill_in "Name", with: "Sarah Neighbour"
     fill_in "Email", with: "sarah@email.com"
@@ -67,10 +69,12 @@ RSpec.describe "Upload neighbour responses", js: true do
   end
 
   it "allows planning officer to upload neighbour response who was not consulted" do
-    click_link "Upload neighbour responses"
+    click_link "View neighbour responses"
 
     expect(page).to have_content("08/07/2023")
     expect(page).to have_content("No neighbour responses yet")
+
+    click_link "Add a new neighbour response"
 
     fill_in "Name", with: "Sarah Neighbour"
     fill_in "Email", with: "sarah@email.com"
@@ -108,11 +112,13 @@ RSpec.describe "Upload neighbour responses", js: true do
   end
 
   it "allows planning officer to edit neighbour responses" do
-    click_link "Upload neighbour responses"
+    click_link "View neighbour responses"
 
     expect(page).to have_content("08/07/2023")
     expect(page).to have_content("No neighbour responses yet")
-    expect(page).to have_link("Back", href: planning_application_path(planning_application))
+    expect(page).to have_link("Back", href: planning_application_consultations_path(planning_application))
+
+    click_link "Add a new neighbour response"
 
     fill_in "Name", with: "Sarah Neighbour"
     fill_in "Email", with: "sarah@email.com"
@@ -120,8 +126,8 @@ RSpec.describe "Upload neighbour responses", js: true do
     fill_in "Day", with: "21"
     fill_in "Month", with: "1"
     fill_in "Year", with: "2023"
-    fill_in "Response", with: "I think this proposal looks great"
     choose "Supportive"
+    fill_in "Response", with: "I think this proposal looks great"
 
     click_button "Save response"
 
@@ -151,7 +157,7 @@ RSpec.describe "Upload neighbour responses", js: true do
     expect(page).to have_content("124 Made up Street")
     expect(page).to have_content("I think this proposal looks ****")
 
-    expect(page).to have_link("Back", href: planning_application_path(planning_application))
+    expect(page).to have_link("Back", href: planning_application_consultations_path(planning_application, @consultation))
 
     # Check audit log
     visit planning_application_audits_path(planning_application)
@@ -163,7 +169,9 @@ RSpec.describe "Upload neighbour responses", js: true do
   end
 
   it "shows documents associated with responses" do
-    click_link "Upload neighbour responses"
+    click_link "View neighbour responses"
+
+    click_link "Add a new neighbour response"
 
     fill_in "Name", with: "Sarah Neighbour"
     fill_in "Email", with: "sarah@email.com"
@@ -188,7 +196,9 @@ RSpec.describe "Upload neighbour responses", js: true do
   end
 
   it "shows error messages" do
-    click_link "Upload neighbour responses"
+    click_link "View neighbour responses"
+
+    click_link "Add a new neighbour response"
 
     click_button "Save response"
 

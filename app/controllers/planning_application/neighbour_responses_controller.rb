@@ -7,6 +7,8 @@ class PlanningApplication
     before_action :set_neighbour_responses, except: %i[edit update]
     before_action :set_neighbour_response, only: %i[edit update]
 
+    def index; end
+
     def new
       @neighbour_response = @consultation.neighbour_responses.new
     end
@@ -24,8 +26,7 @@ class PlanningApplication
       if @neighbour_response.save
         respond_to do |format|
           format.html do
-            redirect_to new_planning_application_consultation_neighbour_response_path(@planning_application,
-                                                                                      @consultation)
+            redirect_to planning_application_consultation_neighbour_responses_path(@planning_application, @consultation)
           end
           create_audit_log(@neighbour_response, "uploaded")
         end
@@ -44,8 +45,8 @@ class PlanningApplication
 
         respond_to do |format|
           format.html do
-            redirect_to new_planning_application_consultation_neighbour_response_path(@planning_application,
-                                                                                      @consultation)
+            redirect_to planning_application_consultation_neighbour_responses_path(@planning_application,
+                                                                                   @consultation)
           end
           create_audit_log(@neighbour_response, "edited")
         end

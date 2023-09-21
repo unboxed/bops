@@ -1,0 +1,31 @@
+<% content_for :page_title do %>
+  Upload neighbour responses - <%= t('page_title') %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Consultation", planning_application_consultations_path(@planning_application) %>
+<% content_for :title, "View neighbour responses" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "View neighbour responses" }
+) %>
+
+<h2 class="govuk-heading-m govuk-!-margin-top-7">Date consultation will end</h2>
+<p class="govuk-body"><%= @consultation.end_date.to_formatted_s(:day_month_year_slashes) %></p>
+
+<h2 class="govuk-heading-m govuk-!-margin-top-7">Responses (<%= @neighbour_responses.count %>)</h2>
+<% if @neighbour_responses.any? %>
+  <%= render "responses", neighbour_responses: @neighbour_responses %>
+<% else %>
+  <p class="govuk-body">No neighbour responses yet</p>
+<% end %>
+
+<p class="govuk-body">
+  <%= link_to "Add a new neighbour response", new_planning_application_consultation_neighbour_response_path(@planning_application), class: "govuk-link" %>
+</p>
+
+<div class="govuk-button-group">
+  <%= link_to "Back", planning_application_consultations_path(@planning_application), class: "govuk-button govuk-button--secondary govuk-!-margin-top-5" %>
+</div>
