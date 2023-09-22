@@ -112,7 +112,7 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
       end
 
       it "doesn't post to staging if in staging env" do
-        ENV["STAGING_ENABLED"] = "true"
+        Rails.configuration.production_environment = false
         post_with(params: permitted_development_json)
 
         expect(PostApplicationToStagingJob).not_to have_been_enqueued

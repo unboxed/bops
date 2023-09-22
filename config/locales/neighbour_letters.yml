@@ -1,0 +1,113 @@
+en: 
+  neighbour_letter_template:
+    planning_permission: |-
+      # Town and Country Planning Act 1990
+      
+      Dear Resident
+      
+      A planning application has been made for the development described below:
+
+      Site address: %{address}
+      
+      Proposal: %{description}
+
+      Name of applicant: %{applicant_name}
+
+      Application number: %{reference}
+
+      You can comment on this planning application until %{closing_date}. If we receive your comments after this date, we may not be able to take them into consideration if a decision has already been made.
+
+      If you are not the owner or landlord of this property, please forward this letter to the person who is.
+
+      # View, comment and track planning applications online
+
+      Use this link to:
+      * view the application documents
+      * submit your comments about the application
+
+      %{application_link}
+      
+      # Commenting on this application
+      
+      Tell us about anything that you think we should consider when making a decision about this application.
+      
+      We can only consider comments that relate to the actual proposals. Please review the application documents before making comments.
+      
+      Your comments will be published on our website. Do not include any personal details or information that you do not wish to be made public.
+
+      # If a decision is appealed
+      
+      If the Council's decision is appealed and you have commented, we will write to you to let you know. Your comments will be shared with the Planning Inspectorate. You will not be able to make any further comments if the decision is appealed.
+      
+      You will be notified of a decision about the appeal.
+      
+      # Commenting by post
+      
+      The quickest way to make a comment is by using the link in this letter.
+      
+      You can make a comment by post to this address:
+      
+      Please include the application number and site address.
+
+      Yours
+      
+      %{current_user}
+      Planning officer
+    prior_approval: |-
+      Dear Resident
+      
+      A prior approval application has been made for the development described below: 
+      
+      Site address: %{address}
+      
+      Proposal: %{description}. The new extension will extend %{rear_wall}m beyond the back wall of the original property. The maximum height of the extension is %{max_height}m. The eaves are %{eaves_height}m high.
+      
+      Name of applicant: %{applicant_name}
+
+      Application number: %{reference}
+      
+      You can comment on this planning application until %{closing_date}. If we receive your comments after this date, we may not be able to take them into consideration if a decision has already been made.
+      
+      If you are not the owner or landlord of this property, please forward this letter to the person who is.
+      
+      # View, comment and track planning applications online
+      
+      Use this link to:
+      * view the application documents
+      * submit your comments about the application
+
+      %{application_link}
+      
+      # Commenting on this application
+      
+      Tell us about anything that you think we should consider when making a decision about this application.
+      
+      We can only consider comments that relate to the actual proposals. Please review the application documents before making comments.
+      
+      Your comments will be published on our website. Do not include any personal details or information that you do not wish to be made public.
+      
+      # When we make a decision
+      
+      We will make a decision about this application by %{expiry_date}.
+      
+      You can view our decision after this date on our website. Search for an application using the application number or site address.
+      
+      # If a decision is appealed
+      
+      If the Council's decision is appealed and you have commented, we will write to you to let you know. Your comments will be shared with the Planning Inspectorate. You will not be able to make any further comments if the decision is appealed.
+      
+      You will be notified of a decision about the appeal.
+      
+      # Commenting by post
+      
+      The quickest way to make a comment is by using the link in this letter.
+      
+      You can make a comment by post to this address:
+      %{council_address}
+      
+      Please include the application number and site address.
+
+      Yours
+      
+      %{current_user}
+      Planning officer

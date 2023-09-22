@@ -24,7 +24,7 @@ class LetterSendingService
       consultation.start_deadline
     end
 
-    personalisation = { message: letter_content, heading: "Public consultation" }
+    personalisation = { message: letter_content, heading: @consultation.neighbour_letter_header }
     personalisation.merge! address
 
     begin
@@ -48,7 +48,7 @@ class LetterSendingService
   end
 
   def notify_api_key
-    if production?
+    if Rails.configuration.production_environment
       @notify_api_key ||= (@local_authority.notify_api_key || ENV.fetch("NOTIFY_API_KEY"))
     else
       @notify_api_key = ENV.fetch("NOTIFY_LETTER_API_KEY")
@@ -56,7 +56,7 @@ class LetterSendingService
   end
 
   def notify_template_id
-    if production?
+    if Rails.configuration.production_environment
       @notify_template_id ||= @local_authority.notify_letter_template || DEFAULT_NOTIFY_TEMPLATE_ID
     else
       @notify_template_id = DEFAULT_NOTIFY_TEMPLATE_ID
@@ -81,9 +81,5 @@ class LetterSendingService
 
       record.save!
     end
-  end
-
-  def production?
-    ENV.fetch("STAGING_ENABLED", "false") == "false"
   end
 end

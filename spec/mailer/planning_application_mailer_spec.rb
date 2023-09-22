@@ -729,6 +729,26 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       travel_to("2022-01-01") { create(:consultation, planning_application:) }
     end
 
+    let(:application_type) { create(:application_type, :prior_approval) }
+
+    let(:planning_application) do
+      create(
+        :planning_application,
+        :determined,
+        agent_email: "cookie_crackers@example.com",
+        applicant_email: "cookie_crumbs@example.com",
+        local_authority:,
+        decision: "granted",
+        address_1: "123 High Street",
+        town: "Big City",
+        postcode: "AB3 4EF",
+        description: "Add a chimney stack",
+        created_at: DateTime.new(2022, 5, 1),
+        application_type:,
+        validated_at: DateTime.new(2022, 10, 1)
+      )
+    end
+
     let(:neighbour_consultation_letter_copy_mail) do
       described_class.neighbour_consultation_letter_copy_mail(planning_application, planning_application.agent_email)
     end
@@ -753,7 +773,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the reference" do
       expect(mail_body).to include(
-        "Application reference number: PlanX-22-00100-LDCP"
+        "Application reference number: PlanX-22-00100-PA"
       )
     end
 
@@ -768,16 +788,13 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         "This is a copy of your neighbour consultation letter."
       )
       expect(mail_body).to include(
-        "We are writing to notify you that we have received a prior approval application for a larger extension at the address:"
+        "Submit your comments by #{(1.business_day.from_now + 21.days).to_date.to_fs(:day_month_year)}"
       )
       expect(mail_body).to include(
-        "To view more details about this application or to make a comment"
+        "A prior approval application has been made for the development described below:"
       )
       expect(mail_body).to include(
-        "use this link https://planx.bops-applicants.services/planning_applications/#{planning_application.id}"
-      )
-      expect(mail_body).to include(
-        "You can comment on this application until 03/05/2022"
+        "https://planningapplications.planx.gov.uk/planning_applications/#{planning_application.id}"
       )
     end
 

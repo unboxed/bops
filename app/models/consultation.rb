@@ -51,17 +51,25 @@ class Consultation < ApplicationRecord
     neighbour_letters.sent.present?
   end
 
+  def neighbour_letter_header
+    I18n.t("neighbour_letter_header.#{planning_application.application_type.name}",
+           closing_date: end_date_from_now.to_date.to_fs)
+  end
+
   def neighbour_letter_content
-    I18n.t("neighbour_letter_template",
-           received_at: planning_application.received_at.to_fs(:day_month_year_slashes),
-           expiry_date: planning_application.expiry_date.to_fs(:day_month_year_slashes),
+    I18n.t("neighbour_letter_template.#{planning_application.application_type.name}",
+           expiry_date: planning_application.expiry_date.to_date.to_fs,
            address: planning_application.full_address,
+           council: planning_application.local_authority.subdomain.capitalize,
+           applicant_name: "#{planning_application.applicant_first_name} #{planning_application.applicant_last_name}",
            description: planning_application.description,
            reference: planning_application.reference,
-           closing_date: planning_application.received_at.to_fs(:day_month_year_slashes),
+           closing_date: end_date_from_now.to_date.to_fs,
            rear_wall: planning_application&.proposal_measurement&.depth,
            max_height: planning_application&.proposal_measurement&.max_height,
            eaves_height: planning_application&.proposal_measurement&.eaves_height,
+           current_user: "CURRENT_USER",
+           council_address: I18n.t("council_addresses.#{planning_application.local_authority.subdomain}"),
            application_link:)
   end
 
@@ -122,7 +130,11 @@ class Consultation < ApplicationRecord
   private
 
   def application_link
-    "https://#{planning_application.local_authority.subdomain}.bops-applicants.services/planning_applications/#{planning_application.id}"
+    if Rails.configuration.production_environment
+      "https://planningapplications.#{planning_application.local_authority.subdomain}.gov.uk/planning_applications/#{planning_application.id}"
+    else
+      "https://#{planning_application.local_authority.subdomain}.bops-applicants.services/planning_applications/#{planning_application.id}"
+    end
   end
 
   def audit_letter_copy_sent!
