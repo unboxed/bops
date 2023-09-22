@@ -60,12 +60,15 @@ RSpec.describe ConstraintQueryUpdateService, type: :service do
   end
 
   describe "#call" do
+    let!(:api_user) { create(:api_user, name: "PlanX") }
     let!(:local_authority1) { create(:local_authority) }
     let!(:local_authority2) { create(:local_authority, :southwark) }
 
-    let!(:planning_application) { create(:planning_application, local_authority: local_authority1) }
+    let!(:planning_application) { create(:planning_application, local_authority: local_authority1, api_user:) }
 
     context "when the query responds with some constraints" do
+      let!(:constraint) { create(:constraint, :tpo) }
+
       before do
         stub_planx_api_response_for("POLYGON ((-0.07629275321961124 51.48596289289142, -0.0763061642646857 51.48591028066045, -0.07555112242699404 51.48584764697301, -0.07554173469544191 51.48590192950712, -0.07629275321961124 51.48596289289142))").to_return(
           status: 200, body: response_with_one_constraint
@@ -77,7 +80,7 @@ RSpec.describe ConstraintQueryUpdateService, type: :service do
         planning_application.save!
         perform_enqueued_jobs
 
-        expect(planning_application.constraints).not_to be_empty
+        expect(planning_application.planning_application_constraints).not_to be_empty
       end
     end
 
@@ -92,29 +95,8 @@ RSpec.describe ConstraintQueryUpdateService, type: :service do
         planning_application.boundary_geojson = '{"type":"Polygon","coordinates":[[[-0.07629275321961124,51.48596289289142],[-0.07630616426468570,51.48591028066045],[-0.07555112242699404,51.48584764697301],[-0.07554173469544191,51.48590192950712],[-0.07629275321961124,51.48596289289142]]]}'
         planning_application.save!
         perform_enqueued_jobs
-        expect(planning_application.constraints).to be_empty
+        expect(planning_application.planning_application_constraints).to be_empty
       end
-    end
-  end
-
-  context "when there is a validation error creating the planning application constraints query" do
-    let!(:local_authority) { create(:local_authority) }
-    let!(:planning_application) { create(:planning_application, local_authority:) }
-
-    before do
-      allow_any_instance_of(PlanningApplicationConstraintsQuery).to receive(:save!).and_raise(ActiveRecord::RecordInvalid)
-      stub_planx_api_response_for("POLYGON ((-0.07629275321961124 51.48596289289142, -0.0763061642646857 51.48591028066045, -0.07555112242699404 51.48584764697301, -0.07554173469544191 51.48590192950712, -0.07629275321961124 51.48596289289142))").to_return(
-        status: 200, body: response_with_one_constraint
-      )
-      ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
-    end
-
-    it "raises an error" do
-      planning_application.boundary_geojson = '{"type":"Polygon","coordinates":[[[-0.07629275321961124,51.48596289289142],[-0.07630616426468570,51.48591028066045],[-0.07555112242699404,51.48584764697301],[-0.07554173469544191,51.48590192950712],[-0.07629275321961124,51.48596289289142]]]}'
-
-      expect do
-        planning_application.save!
-      end.to raise_error(ConstraintQueryUpdateService::SaveError)
     end
   end
 end

@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 class ConstraintsCreationService
-  def initialize(planning_application:, constraints_params:, constraints_query: nil)
+  def initialize(planning_application:, constraints_params:)
     @planning_application = planning_application
     @constraints_params = constraints_params
-    @constraints_query = constraints_query
   end
 
   def call
@@ -12,7 +11,8 @@ class ConstraintsCreationService
       query = PlanningApplicationConstraintsQuery.create!(
         planning_application:,
         geojson: planning_application.boundary_geojson,
-        planx_query: constraint["planxRequest"],
+        wkt: constraint["wkt"],
+        planx_query: constraint["planxRequest"] || constraint["planx_url"],
         planning_data_query: constraint["sourceRequest"]
       )
 
@@ -22,13 +22,15 @@ class ConstraintsCreationService
         existing_constraint = Constraint.find_by("LOWER(type)= ?", k.parameterize.underscore)
 
         if existing_constraint
+          metadata = constraint["metadata"][k] if constraint["metadata"]
+
           planning_application.planning_application_constraints.create!(
             constraint_id: existing_constraint.id,
             planning_application_constraints_query: query,
             identified: true,
             identified_by: planning_application.api_user.name,
             data: v["data"],
-            metadata: constraint["metadata"][k]
+            metadata:
           )
         else
           Appsignal.send_error("Unexpected constraint type: #{k}, category #{v['category']}")
@@ -52,7 +54,7 @@ class ConstraintsCreationService
   attr_reader :planning_application, :constraints_params
 
   def constraints
-    @constraints ||= constraints_params
+    @constraints ||= Array.wrap(constraints_params)
   end
 
   def present_constraints
