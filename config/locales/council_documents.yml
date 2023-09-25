@@ -2,8 +2,18 @@ en:
   council_documents:
     lambeth: 
       document_checklist: https://www.lambeth.gov.uk/sites/default/files/LAR_Final_22.07.2016.pdf
+      planning_policy_and_guidance: https://www.lambeth.gov.uk/planning-building-control/planning-policy-guidance
     southwark: 
       document_checklist: https://www.southwark.gov.uk/planning-and-building-control/planning-applications/how-to-prepare-a-valid-planning-application?chapter=7
+      planning_policy_and_guidance: https://www.southwark.gov.uk/planning-and-building-control/planning-policy-and-guidance
     buckinghamshire: 
       document_checklist: https://www.buckinghamshire.gov.uk/planning-and-building-control/building-or-improving-your-property/how-to-prepare-a-valid-planning-application/
+      planning_policy_and_guidance: https://www.buckinghamshire.gov.uk/planning-and-building-control/planning-policy/
+    gloucester:
+      planning_policy_and_guidance: https://www.gloucester.gov.uk/planning-development/planning-policy/
+    camden: 
+      planning_policy_and_guidance: https://www.camden.gov.uk/planning-policy
+    medway:
+      planning_policy_and_guidance: https://www.medway.gov.uk/info/200149/planning_policy
+
 

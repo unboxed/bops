@@ -510,6 +510,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_175416) do
     t.index ["planning_application_id"], name: "ix_policy_classes_on_planning_application_id"
   end
 
+  create_table "policy_guidances", force: :cascade do |t|
+    t.text "policies"
+    t.text "assessment"
+    t.bigint "planning_application_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_policy_guidances_on_planning_application_id"
+  end
+
   create_table "press_notices", force: :cascade do |t|
     t.bigint "planning_application_id", null: false
     t.boolean "required", null: false

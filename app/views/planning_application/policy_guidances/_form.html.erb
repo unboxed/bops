@@ -1,0 +1,11 @@
+<%= form_with(
+  model: [planning_application, policy_guidance],
+  builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+  url: planning_application_policy_guidance_path(planning_application, policy_guidance),
+  class: "govuk-!-margin-top-5"
+) do |form| %>
+  <%= form.govuk_text_area :policies, label: { text: "Which local policies and guidance did you assess against?", size: "m" }, hint: { text: "Separate each policy using a comma" } %>
+  <%= form.govuk_text_area :assessment, label: { text: "What is your assessment of those policies?", size: "m" } %>
+
+  <%= render(partial: "shared/submit_buttons", locals: { form: }) %>
+<% end %>

@@ -1,0 +1,37 @@
+<% content_for :page_title do %>
+  Check against policies and guidance - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: { planning_application: @planning_application }
+    ) %>
+
+<% content_for :title, "Check against policies and guidance" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: { heading: "Check against policies and guidance" }
+    ) %>
+
+<%= link_to "Check your local policies and guidance in a new tab", I18n.t("council_documents.#{@planning_application.local_authority.subdomain}"), target: "_blank", class: "govuk-link govuk-body" %>
+
+<h2 class="govuk-heading-m govuk-!-margin-top-6">
+  Which local policies and guidance did you assess against?
+</h2>
+<p class="govuk-body">
+  <%= @policy_guidance.policies %>
+</p>
+
+<h2 class="govuk-heading-m">
+  What is your assessment of those policies?
+</h2>
+<p class="govuk-body">
+  <%= @policy_guidance.assessment %>
+</p>
+
+<div class="govuk-button-group">
+  <%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+  <%= link_to "Edit check against policies and guidance", edit_planning_application_policy_guidance_path(@planning_application, @policy_guidance), class: "govuk-link govuk-body" %>
+</div>
+
