@@ -57,7 +57,6 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
             id: planning_application.id + 1,
             local_authority_id: planning_application.local_authority.id,
             api_user_id: planning_application.api_user.id,
-            planx_data: planning_application.planx_data,
             audit_log: planning_application.audit_log,
             address_1: planning_application.address_1,
             address_2: planning_application.address_2,
@@ -75,6 +74,8 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
             from_production: false,
             lonlat: RGeo::Geographic.spherical_factory(srid: 4326).point(planning_application.longitude, planning_application.latitude)
           )
+
+          expect(planning_application.planx_planning_data.entry).to eq(cloned_planning_application.planx_planning_data.entry)
 
           # Proposal details have their own object id i.e. ProposalDetail:0x00007fe42a8476a8 so compare the json value instead
           proposal_details = planning_application.proposal_details.map(&:to_json)

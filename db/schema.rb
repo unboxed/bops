@@ -430,7 +430,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_143019) do
     t.string "latitude"
     t.string "longitude"
     t.datetime "closed_at", precision: nil
-    t.jsonb "planx_data"
     t.datetime "determination_date", precision: nil
     t.integer "user_role"
     t.boolean "updated_address_or_boundary_geojson", default: false
