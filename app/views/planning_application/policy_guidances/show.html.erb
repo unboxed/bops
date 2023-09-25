@@ -16,6 +16,8 @@
 
 <%= link_to "Check your local policies and guidance in a new tab", I18n.t("council_documents.#{@planning_application.local_authority.subdomain}"), target: "_blank", class: "govuk-link govuk-body" %>
 
+<%= render "comment" %>
+
 <h2 class="govuk-heading-m govuk-!-margin-top-6">
   Which local policies and guidance did you assess against?
 </h2>

@@ -4,6 +4,20 @@
   url: planning_application_policy_guidance_path(planning_application, policy_guidance),
   class: "govuk-!-margin-top-5"
 ) do |form| %>
+  <% if policy_guidance.errors.any? %>
+    <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+      <h2 class="govuk-error-summary__title" id="error-summary-title">
+        There is a problem
+      </h2>
+      <div class="govuk-error-summary__body">
+        <ul class="govuk-list govuk-error-summary__list">
+          <% policy_guidance.errors.full_messages.each do |error| %>
+            <li><%= error %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
   <%= form.govuk_text_area :policies, label: { text: "Which local policies and guidance did you assess against?", size: "m" }, hint: { text: "Separate each policy using a comma" } %>
   <%= form.govuk_text_area :assessment, label: { text: "What is your assessment of those policies?", size: "m" } %>
 

@@ -2,36 +2,38 @@
 
 class PlanningApplication
   class PolicyGuidancesController < AuthenticationController
+    include CommitMatchable
+
     before_action :set_planning_application
     before_action :set_policy_guidance, only: %i[show edit update]
+
+    def show; end
 
     def new
       @policy_guidance = @planning_application.build_policy_guidance
     end
+
+    def edit; end
 
     def create
       @policy_guidance = @planning_application.build_policy_guidance(policy_guidance_params)
 
       if @policy_guidance.save
         redirect_to planning_application_assessment_tasks_path(@planning_application),
-          notice: I18n.t("policy_guidances.successfully_created")
+                    notice: I18n.t("policy_guidances.successfully_created")
       else
         render :new
       end
     end
 
-    def edit; end
-
     def update
       if @policy_guidance.update(policy_guidance_params)
         redirect_to planning_application_assessment_tasks_path(@planning_application),
-        notice: I18n.t("policy_guidances.successfully_updated")
+                    notice: I18n.t("policy_guidances.successfully_updated")
       else
         render :edit
       end
     end
-
-    def show; end
 
     private
 
@@ -53,8 +55,12 @@ class PlanningApplication
       @policy_guidance = @planning_application.policy_guidance
     end
 
+    def status
+      mark_as_complete? ? :complete : :in_progress
+    end
+
     def policy_guidance_params
-      params.require(:policy_guidance).permit(:policies, :assessment)
+      params.require(:policy_guidance).permit(:policies, :assessment).to_h.merge(status:)
     end
   end
 end

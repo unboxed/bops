@@ -17,7 +17,11 @@ module TaskListItems
 
     def link_path
       if @planning_application.policy_guidance.present?
-        planning_application_policy_guidance_path(planning_application, policy_guidance)
+        if policy_guidance.status == "complete"
+          planning_application_policy_guidance_path(planning_application, policy_guidance)
+        else
+          edit_planning_application_policy_guidance_path(planning_application, policy_guidance)
+        end
       else
         new_planning_application_policy_guidance_path(planning_application)
       end
@@ -31,7 +35,7 @@ module TaskListItems
 
     def status
       if @planning_application.policy_guidance.present?
-        "complete"
+        policy_guidance.status
       else
         "not_started"
       end

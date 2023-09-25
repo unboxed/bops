@@ -917,6 +917,9 @@ en:
     title: Part %{part}, Class %{class}
     update:
       successfully_updated_policy: Successfully updated policy class
+  policy_guidances:
+    successfully_created: Check against policy and guidance response was sucessfully created
+    successfully_updated: Check against policy and guidance response was successfully updated
   proposal_details:
     list_component:
       the_proposal_details: The proposal details are grouped under the following categories

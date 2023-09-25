@@ -516,7 +516,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_175416) do
     t.bigint "planning_application_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "review_status", default: "review_not_started", null: false
+    t.string "status", default: "not_started", null: false
+    t.bigint "assessor_id"
+    t.bigint "reviewer_id"
+    t.datetime "reviewed_at"
+    t.index ["assessor_id"], name: "ix_policy_guidances_on_assessor_id"
     t.index ["planning_application_id"], name: "ix_policy_guidances_on_planning_application_id"
+    t.index ["reviewer_id"], name: "ix_policy_guidances_on_reviewer_id"
   end
 
   create_table "press_notices", force: :cascade do |t|
@@ -642,6 +649,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_175416) do
     t.index ["planning_application_id"], name: "ix_site_notices_on_planning_application_id"
   end
 
+  create_table "review_policy_guidances", force: :cascade do |t|
+    t.bigint "policy_guidance_id"
+    t.bigint "assessor_id"
+    t.bigint "reviewer_id"
+    t.boolean "accepted", default: false, null: false
+    t.string "status", default: "in_progress", null: false
+    t.string "review_status", default: "review_not_started", null: false
+    t.boolean "reviewer_edited", default: false, null: false
+    t.text "reviewer_comment"
+    t.datetime "reviewed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assessor_id"], name: "ix_review_policy_guidances_on_assessor_id"
+    t.index ["policy_guidance_id"], name: "ix_review_policy_guidances_on_policy_guidance_id"
+    t.index ["reviewer_id"], name: "ix_review_policy_guidances_on_reviewer_id"
+  end
+
   create_table "site_visits", force: :cascade do |t|
     t.bigint "consultation_id"
     t.bigint "created_by_id", null: false
@@ -730,6 +754,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_175416) do
   add_foreign_key "planning_applications", "users"
   add_foreign_key "planning_applications", "users", column: "boundary_created_by_id"
   add_foreign_key "planx_planning_data", "planning_applications"
+  add_foreign_key "policy_guidances", "users", column: "assessor_id"
+  add_foreign_key "policy_guidances", "users", column: "reviewer_id"
   add_foreign_key "press_notices", "planning_applications"
   add_foreign_key "recommendations", "planning_applications"
   add_foreign_key "recommendations", "users", column: "assessor_id"
@@ -741,6 +767,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_175416) do
   add_foreign_key "review_immunity_details", "users", column: "assessor_id"
   add_foreign_key "review_immunity_details", "users", column: "reviewer_id"
   add_foreign_key "review_policy_classes", "policy_classes"
+  add_foreign_key "review_policy_guidances", "users", column: "assessor_id"
+  add_foreign_key "review_policy_guidances", "users", column: "reviewer_id"
   add_foreign_key "site_visits", "consultations"
   add_foreign_key "site_visits", "neighbours"
   add_foreign_key "site_visits", "users", column: "created_by_id"

@@ -66,14 +66,27 @@
 <% end %>
 <section id="policy-classes-section" class="govuk-!-padding-bottom-5">
   <h3 class="govuk-heading-s"><%= t(".legislation") %></h3>
-  <% if policy_classes.any? %>
-    <% policy_classes.each do |policy_class| %>
-      <%= render(
-        PolicyClasses::SummaryComponent.new(policy_class: policy_class)
-      ) %>
+  <% if @planning_application.application_type.name == "planning_permission" %>
+    <% if @planning_application.policy_guidance.present? %>
+      <p class="govuk-body">
+        <%= @planning_application.policy_guidance.policies %>
+      </p>
+      <p class="govuk-body">
+        <%= @planning_application.policy_guidance.assessment %>
+      </p>
+    <% else %>
+      <p class="govuk-body"><%= t(".no_legislation_assessed") %></p>
     <% end %>
   <% else %>
-    <p class="govuk-body"><%= t(".no_legislation_assessed") %></p>
+    <% if policy_classes.any? %>
+      <% policy_classes.each do |policy_class| %>
+        <%= render(
+          PolicyClasses::SummaryComponent.new(policy_class: policy_class)
+        ) %>
+      <% end %>
+    <% else %>
+      <p class="govuk-body"><%= t(".no_legislation_assessed") %></p>
+    <% end %>
   <% end %>
 </section>
 
