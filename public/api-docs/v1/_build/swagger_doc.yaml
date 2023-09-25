@@ -71,7 +71,7 @@ paths:
                     result_description: 'Based on the information you have provided, we do not think this is eligible for a Lawful Development Certificate'
                     result_override: This was my reason for rejecting the result
                     make_public: true
-                    site_notice_content: Hi
+                    site_notice_content: This is the site notice
                     constraints:
                       - Conservation Area
                       - Listed Building
@@ -154,7 +154,7 @@ paths:
                         result_description: 'Based on the information you have provided, we do not think this is eligible for a Lawful Development Certificate'
                         result_override: This was my reason for rejecting the result
                         make_public: true
-                        site_notice_content: Hi
+                        site_notice_content: This is the site notice
                         constraints:
                           - Conservation Area
                           - Listed Building

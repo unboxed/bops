@@ -343,10 +343,10 @@ class PlanningApplication < ApplicationRecord
 
     if Rails.configuration.production_environment
       "#{protocol}://planningapplications.#{local_authority.subdomain}.gov.uk
-        /planning_applications/#{id}/site_notice.pdf"
+        /planning_applications/#{id}/site_notices/download"
     else
       "#{protocol}://#{local_authority.subdomain}.bops-applicants.services
-        /planning_applications/#{id}/site_notice.pdf"
+        /planning_applications/#{id}/site_notices/download"
     end
   end
 

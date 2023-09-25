@@ -2,8 +2,11 @@
 
 class PlanningApplication
   class SiteNoticesController < AuthenticationController
+    include ActionView::Helpers::SanitizeHelper
+
     before_action :set_planning_application
     before_action :set_site_notice, except: %i[new create]
+    before_action :ensure_public_portal_is_active, only: :create
 
     def show
       respond_to do |format|
@@ -99,6 +102,16 @@ class PlanningApplication
       new_end_date = @site_notice.displayed_at + 21.days
 
       @planning_application.consultation.update(end_date: new_end_date)
+    end
+
+    def ensure_public_portal_is_active
+      return if @planning_application.make_public? || site_notice_params[:required] == "No"
+
+      flash.now[:alert] = sanitize "The planning application must be
+      #{view_context.link_to 'made public on the BoPS Public Portal', make_public_planning_application_path(@planning_application)}
+      before you can create a site notice."
+
+      render :new and return
     end
 
     def create_audit_log(action)

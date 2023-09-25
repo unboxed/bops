@@ -30,7 +30,7 @@ json.extract! planning_application,
               :withdrawn_at,
               :work_status,
               :boundary_geojson
-if planning_application.site_notices.any? 
+if planning_application.site_notices.any?
   json.site_notice_content planning_application.site_notices.order(:created_at).last.content
 end
 if planning_application.user

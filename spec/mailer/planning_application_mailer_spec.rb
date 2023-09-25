@@ -869,7 +869,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         "This is a copy of your site notice"
       )
       expect(mail_body).to include(
-        "http://planningapplications.planx.gov.uk/planning_applications/#{planning_application.id}/site_notice.pdf"
+        "http://planningapplications.planx.gov.uk/planning_applications/#{planning_application.id}/site_notices/download"
       )
     end
   end
