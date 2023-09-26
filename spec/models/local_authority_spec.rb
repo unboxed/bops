@@ -126,24 +126,4 @@ RSpec.describe LocalAuthority do
       end
     end
   end
-
-  describe "#staging?" do
-    let(:local_authority) { build(:local_authority, :lambeth) }
-
-    it "returns false when staging env is not set" do
-      expect(local_authority).not_to be_staging
-    end
-
-    it "returns false when staging env is not set to false" do
-      allow(ENV).to receive(:fetch).with("STAGING_ENABLED", "false").and_return("false")
-
-      expect(local_authority).not_to be_staging
-    end
-
-    it "returns true when staging env set" do
-      allow(ENV).to receive(:fetch).with("STAGING_ENABLED", "false").and_return("true")
-
-      expect(local_authority).to be_staging
-    end
-  end
 end

@@ -9,6 +9,11 @@ RSpec.describe LetterSendingService do
   describe "#deliver!" do
     let(:user) { create(:user) }
 
+    before do
+      allow(ENV).to receive(:fetch).and_call_original
+      allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
+    end
+
     context "when the request is successful" do
       let(:status) { 200 }
 

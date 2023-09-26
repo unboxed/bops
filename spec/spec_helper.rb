@@ -27,4 +27,9 @@ RSpec.configure do |config|
   config.profile_examples = 10
   config.order = :random
   Kernel.srand config.seed
+
+  config.before do
+    allow(ENV).to receive(:fetch).and_call_original
+    allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("test")
+  end
 end

@@ -2164,9 +2164,10 @@ RSpec.describe PlanningApplication do
       end
     end
 
-    context "when STAGING_ENABLED env variable is set to true" do
+    context "when environment is production" do
       before do
-        allow(ENV).to receive(:fetch).with("STAGING_ENABLED", "false").and_return("true")
+        allow(ENV).to receive(:fetch).and_call_original
+        allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
       end
 
       it "returns true" do
@@ -2174,9 +2175,10 @@ RSpec.describe PlanningApplication do
       end
     end
 
-    context "when not in the dev environment and STAGING_ENABLED env variable is not set" do
+    context "when environment is staging" do
       before do
-        allow(ENV).to receive(:fetch).with("STAGING_ENABLED", "false").and_return("false")
+        allow(ENV).to receive(:fetch).and_call_original
+        allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("staging")
       end
 
       it "returns false" do

@@ -35,7 +35,7 @@ module Api
 
         send_success_response
 
-        post_application_to_staging if Rails.configuration.production_environment
+        post_application_to_staging if Bops.env.production?
       rescue PlanningApplicationCreationService::CreateError => e
         send_failed_response(e, params)
       end

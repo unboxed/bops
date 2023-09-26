@@ -756,6 +756,9 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     let(:mail_body) { neighbour_consultation_letter_copy_mail.body.encoded }
 
     before do
+      allow(ENV).to receive(:fetch).and_call_original
+      allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
+
       consultation.update(neighbour_letter_text: consultation.neighbour_letter_content)
     end
 
