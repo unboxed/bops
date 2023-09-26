@@ -1,0 +1,52 @@
+<%= form_with model: [@planning_application, @press_notice],
+              local: true,
+              builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+  <%= form.govuk_radio_buttons_fieldset(
+    :required,
+    legend: nil
+  ) do %>
+    <%= form.govuk_radio_button(
+      :required, true, checked: @press_notice.required, label: { text: "Yes" }
+    ) do %>
+      <fieldset class="govuk-fieldset govuk-!-margin-top-3">
+        <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+          <% PressNotice.reasons_list.each do |key, values| %>
+            <div class="govuk-checkboxes__item">
+              <%= check_box_tag(
+                "press_notice[reasons][#{key}]",
+                values.first,
+                @press_notice.reasons&.key?(key.to_s),
+                class: "govuk-checkboxes__input",
+                id: "press_notice_reason_#{key}"
+              ) %>
+              <%= label_tag(
+                "press_notice_reason_#{key}",
+                values.first,
+                class: "govuk-label govuk-checkboxes__label",
+              ) %>
+            </div>
+          <% end %>
+
+          <p class="govuk-body-s">or</p>
+
+          <%= form.govuk_check_box :other_reason_selected, 1, 0, multiple: false, label: { text: "Other" }, checked: @press_notice.reasons&.key?("other") do %>
+            <%= form.govuk_text_area :"reasons[other]", value: @press_notice.reasons&.dig("other"), label: { text: "Provide an other reason why this application requires a press notice" } %>
+          <% end %>
+        </div>
+      </fieldset>
+    <% end %>
+
+    <%= form.govuk_radio_button(
+      :required, false, checked: @press_notice.required == false, label: { text: "No" }
+    ) %>
+  <% end %>
+
+  <div class="govuk-button-group">
+    <%= form.submit "Save and mark as complete", class: "govuk-button", data: { module: "govuk-button" } %>
+    <%= back_link %>
+  </div>
+<% end %>
+
+

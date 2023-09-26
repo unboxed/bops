@@ -1,0 +1,8 @@
+<%= render(
+  layout: "template",
+  locals: { planning_application: @planning_application }
+) do %>
+  <h2 class="govuk-heading-m">Press notice details</h2>
+  
+  <%= render "form" %>
+<% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_13_143019) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_21_094853) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -497,6 +497,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_143019) do
     t.index ["planning_application_id"], name: "ix_policy_classes_on_planning_application_id"
   end
 
+  create_table "press_notices", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.boolean "required", null: false
+    t.jsonb "reasons"
+    t.datetime "requested_at"
+    t.datetime "press_sent_at"
+    t.datetime "published_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_press_notices_on_planning_application_id"
+  end
+
   create_table "proposal_measurements", force: :cascade do |t|
     t.bigint "planning_application_id"
     t.float "eaves_height"
@@ -681,6 +693,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_143019) do
   add_foreign_key "planning_applications", "users"
   add_foreign_key "planning_applications", "users", column: "boundary_created_by_id"
   add_foreign_key "planx_planning_data", "planning_applications"
+  add_foreign_key "press_notices", "planning_applications"
   add_foreign_key "recommendations", "planning_applications"
   add_foreign_key "recommendations", "users", column: "assessor_id"
   add_foreign_key "recommendations", "users", column: "reviewer_id"
