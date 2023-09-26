@@ -1,0 +1,34 @@
+<h2 class="govuk-heading-m">
+  <%= text %>
+</h2>
+
+<table class="govuk-table constraints-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">
+        Category
+      </th>
+      <th scope="col" class="govuk-table__header">
+        Constraint
+      </th>
+      <th scope="col" class="govuk-table__header">
+        Start date
+      </th>
+      <th scope="col" class="govuk-table__header">
+        Description
+      </th>
+      <th scope="col" class="govuk-table__header">
+        Check if relevant
+      </th>
+    </tr>
+  </thead>
+
+  <tbody class="govuk-table__body">
+    <% planning_application_constraints.each do |planning_application_constraint| %>
+    <%= render(
+          partial: "row",
+          locals: { planning_application_constraint: planning_application_constraint }
+        ) %>
+    <% end %>
+  </tbody>
+</table>

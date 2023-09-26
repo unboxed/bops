@@ -11,35 +11,42 @@
     ) %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <% if @planning_application.api_user.present? %>
-      <h2 class="govuk-heading-m">Constraints identified by <%= @planning_application.api_user.name %></h2>
-    <% end %>
+  <div class="govuk-grid-column-full">
+  <%= form_with model: @planning_application, url: planning_application_constraints_path(@planning_application), local: true do |form| %>
+      <% @planning_application.planning_application_constraints.group_by(&:identified_by).each do |identifier, constraints| %>
+        <%= render(
+              partial: "table",
+              locals: {
+                text: "Constraints suggested by: #{identifier}  (#{constraints.count})",
+                planning_application_constraints: constraints
+              }
+            ) %>
+      <% end %>
+      <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-with-other-constraints-sections">
+        <div class="govuk-accordion__section">
+          <div class="govuk-accordion__section-header">
+            <h2 class="govuk-accordion__section-heading">
+              <span class="govuk-accordion__section-button" id="accordion-with-other-constraints-sections-heading-1">
+                Other constraints
+              </span>
+            </h2>
+          </div>
+          <div id="accordion-with-other-constraints-sections-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-with-other-constraints-sections-heading-1">
+            <%= render(
+                  partial: "table",
+                  locals: {
+                    text: "",
+                    planning_application_constraints: Constraint.non_applicable_constraints(@planning_application.planning_application_constraints.active).sort_by(&:category)
+                  }
+                ) %>
+          </div>
+        </div>
+      </div>
 
-    <p class="govuk-body" id="constraints-review">Review the following constraints and update as necessary.</p>
-    <%= render(
-          partial: "constraints/info",
-          locals: {
-            planning_application: @planning_application,
-            planning_application_constraints: @planning_application.planning_application_constraints.active
-          }
-        ) %>
-
-    <p class="govuk-body" id="constraints-removed">Removed constraints</p>
-    <%= render(
-          partial: "constraints/info",
-          locals: {
-            planning_application: @planning_application,
-            planning_application_constraints: @planning_application.planning_application_constraints.removed,
-            show_update_button: false
-          }
-        ) %>
-
-    <%= form_with model: @planning_application, url: check_planning_application_constraints_path(@planning_application), method: :patch do |form| %>
       <div class="govuk-button-group">
-        <%= form.submit "Marked as checked", class: "govuk-button", data: { module: "govuk-button" } unless @planning_application.constraints_checked? %>
+        <%= form.submit "Save and mark as checked", class: "govuk-button", data: { module: "govuk-button" } %>
         <%= link_to "Back", planning_application_validation_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
       </div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
 </div>
