@@ -560,7 +560,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def can_clone?
-    Rails.env.development? || ENV.fetch("STAGING_ENABLED", "false") == "true"
+    Rails.env.development? || Bops.env.production?
   end
 
   def withdraw_or_cancel!(status, comment, document_params)

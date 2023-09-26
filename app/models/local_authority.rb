@@ -26,10 +26,6 @@ class LocalAuthority < ApplicationRecord
     plan_x? ? subdomain.capitalize : "#{subdomain.capitalize} Council"
   end
 
-  def staging?
-    ENV.fetch("STAGING_ENABLED", "false") == "true"
-  end
-
   def formatted_subdomain
     plan_x? ? council_code : subdomain.capitalize
   end

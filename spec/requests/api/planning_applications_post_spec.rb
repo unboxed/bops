@@ -83,14 +83,18 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
       end
 
       it "posts to staging if in production env" do
-        ENV["STAGING_ENABLED"] = "false"
+        allow(ENV).to receive(:fetch).and_call_original
+        allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
+
         post_with(params: permitted_development_json)
 
         expect(PostApplicationToStagingJob).to have_been_enqueued
       end
 
       it "indicates whether it's from production" do
-        ENV["STAGING_ENABLED"] = "false"
+        allow(ENV).to receive(:fetch).and_call_original
+        allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
+
         post_with(params: JSON.parse(permitted_development_json).merge("from_production" => "true").to_json)
 
         perform_enqueued_jobs
@@ -112,14 +116,18 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
       end
 
       it "doesn't post to staging if in staging env" do
-        Rails.configuration.production_environment = false
+        allow(ENV).to receive(:fetch).and_call_original
+        allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("staging")
+
         post_with(params: permitted_development_json)
 
         expect(PostApplicationToStagingJob).not_to have_been_enqueued
       end
 
       it "doesn't queue mailer job if posted from production" do
-        ENV["STAGING_ENABLED"] = "false"
+        allow(ENV).to receive(:fetch).and_call_original
+        allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
+
         post_with(params: JSON.parse(permitted_development_json).merge("send_email" => "false").to_json)
         perform_enqueued_jobs
 

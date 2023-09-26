@@ -13,7 +13,7 @@
 
     <% unless @blank_layout == true %>
       <%= link_to "Skip to main content", "#main-content", class: "govuk-skip-link", 'data-module': 'govuk-skip-link' %>
-      <%= render(EnvironmentBannerComponent.new(display: @current_local_authority.staging?)) %>
+      <%= render(EnvironmentBannerComponent.new(display: Bops.env.staging?)) %>
       <%= render "header" %>
     <% end %>
 
