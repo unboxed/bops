@@ -755,7 +755,7 @@ en:
         review_and_sign_off: Review and sign-off
     site_notices:
       create:
-        success: Site notice was successfully emailed
+        success: Site notice was successfully %{action}
       update:
         success: Site notice was successfully updated
     site_visits:
@@ -1089,7 +1089,6 @@ en:
       application: Application
       home: Home
       review_application: Review
-  site_notice_template: Hi there
   sitemaps:
     update:
       success: Site boundary has been updated

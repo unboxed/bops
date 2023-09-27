@@ -4,7 +4,6 @@ module TaskListItems
   class SiteNoticeComponent < TaskListItems::BaseComponent
     def initialize(planning_application:)
       @planning_application = planning_application
-      @site_notice = @planning_application.site_notices&.last
     end
 
     private
@@ -18,17 +17,13 @@ module TaskListItems
     end
 
     def status_tag_component
-      if @site_notice.nil?
+      if @planning_application.site_notices.empty?
         StatusTags::BaseComponent.new(
           status: "not_started"
         )
-      elsif @site_notice.required == false || @site_notice.displayed_at.present?
-        StatusTags::BaseComponent.new(
-          status: "complete"
-        )
       else
         StatusTags::BaseComponent.new(
-          status: "in_progress"
+          status: "complete"
         )
       end
     end

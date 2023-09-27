@@ -30,23 +30,17 @@ class PlanningApplication
                                     .merge(planning_application_id: @planning_application.id))
 
       if @site_notice.save
-        @site_notice.update(content: @site_notice.preview_content)
-        if params[:commit] == "Create PDF and mark as complete"
-          respond_to do |format|
-            format.html do
-              redirect_to site_notice_api_v1_planning_application_path(@planning_application, format: "pdf")
-            end
-          end
-        else
-          if params[:commit] == "Email site notice and mark as complete"
-            email = (site_notice_params[:internal_team_email].presence || @planning_application.applicant_email)
-            @planning_application.send_site_notice_copy_mail(email)
-          end
+        @site_notice.update(content: @site_notice.preview_content(@planning_application))
 
-          respond_to do |format|
-            format.html do
-              redirect_to planning_application_consultations_path(@planning_application), notice: t(".success")
-            end
+        if params[:commit] == "Email site notice and mark as complete"
+          email = (site_notice_params[:internal_team_email].presence || @planning_application.applicant_email)
+          @planning_application.send_site_notice_copy_mail(email)
+        end
+
+        respond_to do |format|
+          format.html do
+            action = params[:commit] == "Email site notice and mark as complete" ? "emailed" : "created"
+            redirect_to planning_application_consultations_path(@planning_application), notice: t(".success", action:)
           end
         end
 

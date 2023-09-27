@@ -38,8 +38,9 @@ RSpec.describe "Create a site notice", js: true do
     fill_in "Month", with: "2"
     fill_in "Year", with: "2023"
 
-    # Test this somehow? Grover and test env doesn't seem to mix well
-    # click_button "Create PDF and mark as complete"
+    click_button "Create PDF and mark as complete"
+
+    expect(page).to have_content "Site notice was successfully created"
   end
 
   it "allows officers to create a site notice and email it to the applicant" do
