@@ -11,7 +11,7 @@ class LocalAuthority < ApplicationRecord
             :feedback_email, presence: true
 
   validates(
-    :reviewer_group_email,
+    :reviewer_group_email, :press_notice_email,
     format: { with: URI::MailTo::EMAIL_REGEXP },
     allow_blank: true
   )

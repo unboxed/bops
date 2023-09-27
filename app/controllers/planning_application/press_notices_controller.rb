@@ -19,10 +19,10 @@ class PlanningApplication
 
     def create
       @press_notice = @planning_application.build_press_notice(assign_press_notice_params)
-      @press_notice.assign_attributes(requested_at: Time.current) if @press_notice.required?
 
       respond_to do |format|
         if @press_notice.save
+          @press_notice.send_press_notice_mail
           format.html do
             redirect_to planning_application_consultations_path(@planning_application), notice: t(".success")
           end
@@ -33,11 +33,9 @@ class PlanningApplication
     end
 
     def update
-      @press_notice.assign_attributes(assign_press_notice_params)
-      @press_notice.assign_attributes(requested_at: Time.current) if @press_notice.required?
-
       respond_to do |format|
-        if @press_notice.save
+        if @press_notice.update(assign_press_notice_params)
+          @press_notice.send_press_notice_mail
           format.html do
             redirect_to planning_application_consultations_path(@planning_application), notice: t(".success")
           end

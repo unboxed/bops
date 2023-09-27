@@ -4,6 +4,7 @@ class PressNotice < ApplicationRecord
   include Auditable
 
   belongs_to :planning_application
+  has_many :documents, dependent: :destroy
 
   with_options presence: true do
     validates :reasons, if: :required?
@@ -14,6 +15,11 @@ class PressNotice < ApplicationRecord
   after_save :audit_press_notice!
 
   delegate :audits, to: :planning_application
+  delegate :press_notice_email, to: "planning_application.local_authority", allow_nil: true
+
+  scope :required, -> { where(required: true) }
+
+  accepts_nested_attributes_for :documents
 
   class << self
     def reasons_list
@@ -25,9 +31,26 @@ class PressNotice < ApplicationRecord
     end
   end
 
+  def send_press_notice_mail
+    return unless required
+    return if press_notice_email.blank?
+
+    transaction do
+      PlanningApplicationMailer.press_notice_mail(self).deliver_now
+      update!(requested_at: Time.current)
+
+      audit!(
+        activity_type: "press_notice_mail",
+        audit_comment: "Press notice request was sent to #{press_notice_email}"
+      )
+    end
+  end
+
   private
 
   def audit_press_notice!
+    return unless saved_change_to_required? || saved_change_to_reasons?
+
     comment = if reasons.present?
                 "Press notice has been marked as required with the following reasons: #{joined_reasons}"
               else

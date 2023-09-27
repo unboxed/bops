@@ -171,7 +171,8 @@ Rails.application.routes.draw do
         patch :update, on: :collection
       end
 
-      resources :press_notices, only: %i[index new create show edit update]
+      resources :press_notices, only: %i[new create show update]
+      resources :confirm_press_notices, only: %i[edit update]
     end
   end
 

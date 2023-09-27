@@ -78,7 +78,7 @@ RSpec.describe PressNotice do
           Current.user = assessor
         end
 
-        context "when reasons is present" do
+        context "when press notice marked as required" do
           let(:press_notice) { create(:press_notice, :required, planning_application:) }
 
           it "adds an audit entry with the reasons when creating the press notice response" do
@@ -110,7 +110,7 @@ RSpec.describe PressNotice do
           end
         end
 
-        context "when reasons is not present" do
+        context "when press notice marked as not required" do
           let(:press_notice) { create(:press_notice, planning_application:) }
 
           it "adds an audit entry when creating the press notice response" do
@@ -124,6 +124,52 @@ RSpec.describe PressNotice do
               audit_comment: "Press notice has been marked as not required",
               user: assessor
             )
+          end
+        end
+      end
+    end
+
+    describe "instance methods" do
+      describe "#send_press_notice_mail" do
+        subject(:send_press_notice_mail) { press_notice.send_press_notice_mail }
+
+        let(:local_authority) { create(:local_authority, :default, press_notice_email: "pressnotice@example.com") }
+        let!(:planning_application) { create(:planning_application, local_authority:) }
+
+        before { travel_to(Time.zone.local(2023, 3, 15, 12)) }
+
+        context "when press notice is not required" do
+          let!(:press_notice) { create(:press_notice, required: false, planning_application:) }
+
+          it "does not send an email to the press notice team" do
+            expect { send_press_notice_mail }.not_to change(press_notice, :requested_at)
+            expect { send_press_notice_mail }.not_to change(Audit, :count)
+            expect { send_press_notice_mail }.not_to change(ActionMailer::Base.deliveries, :count)
+          end
+        end
+
+        context "when press notice email has not been set" do
+          let(:local_authority) { create(:local_authority, :default, press_notice_email: "") }
+          let!(:press_notice) { create(:press_notice, :required) }
+
+          it "does not send an email to the press notice team" do
+            expect { send_press_notice_mail }.not_to change(press_notice, :requested_at)
+            expect { send_press_notice_mail }.not_to change(Audit, :count)
+            expect { send_press_notice_mail }.not_to change(ActionMailer::Base.deliveries, :count)
+          end
+        end
+
+        context "when press notice is required" do
+          let!(:press_notice) { create(:press_notice, :required, requested_at: nil, planning_application:) }
+
+          it "sends an email to the press notice team and audits the request" do
+            expect do
+              send_press_notice_mail
+            end.to change(press_notice, :requested_at)
+              .from(nil).to(Time.zone.local(2023, 3, 15, 12))
+              .and change(Audit, :count)
+              .by(1)
+              .and change(ActionMailer::Base.deliveries, :count).by(1)
           end
         end
       end

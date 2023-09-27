@@ -2,13 +2,21 @@
   <caption class="govuk-table__caption govuk-table__caption--m">
     <%= t(".local_authority") %>
   </caption>
+
   <tbody class="govuk-table__body">
+    <% fields = [
+        { label: ".reviewer_group_email", method: :reviewer_group_email },
+        { label: ".press_notice_email", method: :press_notice_email }
+      ]
+    %>
+
+    <% fields.each do |field| %>
       <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">
-          <%= t(".reviewer_group_email") %>
+          <%= t(field[:label]) %>
         </th>
         <td class="govuk-table__cell">
-          <%= local_authority.reviewer_group_email %>
+          <%= local_authority.public_send(field[:method]) %>
         </td>
         <td class="govuk-table__cell">
           <%= link_to(
@@ -18,5 +26,6 @@
           ) %>
         </td>
       </tr>
+    <% end %>
   </tbody>
 </table>

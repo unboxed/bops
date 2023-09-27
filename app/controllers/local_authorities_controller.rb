@@ -22,7 +22,7 @@ class LocalAuthoritiesController < ApplicationController
   private
 
   def local_authority_params
-    params.require(:local_authority).permit(:reviewer_group_email)
+    params.require(:local_authority).permit(:reviewer_group_email, :press_notice_email)
   end
 
   def set_local_authority

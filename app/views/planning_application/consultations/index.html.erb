@@ -72,11 +72,13 @@
             planning_application: @planning_application
           )
         ) %>
-        <li class="app-task-list__item" id="confirm-press-notice">
-          <span class="app-task-list__task-name">
-            <a class="govuk-link" href="#">Confirm press notice</a>
-          </span>
-        </li>
+        <% if @planning_application.press_notice.try(:required) %>
+          <%= render(
+            TaskListItems::ConfirmPressNoticeComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
+        <% end %>
       </ul>
     <ol>
     <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>

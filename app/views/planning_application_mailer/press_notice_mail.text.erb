@@ -1,0 +1,11 @@
+Application reference number: <%= @planning_application.reference_in_full %>
+
+Address: <%= @planning_application.full_address %>
+
+This application requires a press notice with the following reasons:
+
+<% @press_notice.reasons.values.each do |reason| %>
+- <%= reason %>
+<% end %>
+
+View the application at <%= edit_planning_application_confirm_press_notice_url(@planning_application, @press_notice) %>.

@@ -61,6 +61,10 @@ class PlanningApplicationMailerPreview < ActionMailer::Preview
     PlanningApplicationMailer.validation_request_closure_mail(planning_application)
   end
 
+  def press_notice_mail
+    PlanningApplicationMailer.press_notice_mail(PressNotice.required.last)
+  end
+
   private
 
   def planning_application

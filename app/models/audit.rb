@@ -87,6 +87,7 @@ class Audit < ApplicationRecord
     neighbour_response_edited: "neighbour_response_edited",
     legislation_checked: "legislation_checked",
     press_notice: "press_notice",
+    press_notice_mail: "press_notice_mail",
     site_notice_created: "site_notice_created"
   }
 

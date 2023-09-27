@@ -26,4 +26,25 @@ RSpec.describe "managing council information" do
       with: "list@example.com"
     )
   end
+
+  it "allows the administrator to manage the press notice email" do
+    sign_in(user)
+    visit(administrator_dashboard_path)
+    row = row_with_content("Press notice email")
+    within(row) { click_link("Edit") }
+    fill_in("Press notice email", with: "ssssss")
+    click_button("Submit")
+
+    expect(page).to have_content("Press notice email is invalid")
+
+    fill_in("Press notice email", with: "press_notice@example.com")
+    click_button("Submit")
+
+    expect(page).to have_content("Council information successfully updated")
+
+    expect(page).to have_row_for(
+      "Press notice email",
+      with: "press_notice@example.com"
+    )
+  end
 end
