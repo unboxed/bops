@@ -127,6 +127,18 @@ class Consultation < ApplicationRecord
     feature_collection_geojson
   end
 
+  def not_started?
+    !started?
+  end
+
+  def started?
+    neighbour_responses.present? && end_date.present?
+  end
+
+  def complete?
+    started? && end_date < Time.zone.now
+  end
+
   private
 
   def application_link

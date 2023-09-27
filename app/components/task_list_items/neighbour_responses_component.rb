@@ -36,10 +36,10 @@ module TaskListItems
     end
 
     def status
-      if @planning_application.consultation.nil? || @planning_application.consultation.neighbour_responses.none?
+      if @planning_application.consultation.nil? ||
+         @planning_application.consultation.not_started?
         "not_started"
-      elsif @planning_application.consultation.neighbour_responses.any? &&
-            @planning_application.consultation.end_date < Time.zone.now
+      elsif @planning_application.consultation.complete?
         "complete"
       else
         "in_progress"

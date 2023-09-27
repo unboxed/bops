@@ -209,4 +209,15 @@ RSpec.describe "View neighbour responses", js: true do
     expect(page).to have_content("Summary tag can't be blank")
     expect(page).to have_content("Received at can't be blank")
   end
+
+  context "when there is no end date yet but there are responses" do
+    let!(:consultation) { create(:consultation, end_date: nil, planning_application:) }
+    let!(:response) { create(:neighbour_response, neighbour:, consultation:) }
+
+    it "is marked as not started" do
+      visit planning_application_path(planning_application)
+      click_link "Consultees, neighbours and publicity"
+      expect(page).to have_content("View neighbour responses Not started")
+    end
+  end
 end
