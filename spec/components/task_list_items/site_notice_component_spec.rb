@@ -11,7 +11,7 @@ RSpec.describe TaskListItems::SiteNoticeComponent, type: :component do
     described_class.new(planning_application:)
   end
 
-  context "a site notice has not been created before" do
+  context "when a site notice has not been created before" do
     before { render_inline(component) }
 
     it "renders 'Not started' status" do
@@ -26,8 +26,8 @@ RSpec.describe TaskListItems::SiteNoticeComponent, type: :component do
     end
   end
 
-  context "when there is a previous site notice" do  
-    before do 
+  context "when there is a previous site notice" do
+    before do
       create(:site_notice, planning_application:)
       render_inline(component)
     end

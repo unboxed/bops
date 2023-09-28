@@ -33,8 +33,11 @@ class PlanningApplication
         @site_notice.update(content: @site_notice.preview_content(@planning_application))
 
         if params[:commit] == "Email site notice and mark as complete"
-          email = (site_notice_params[:internal_team_email].presence || @planning_application.applicant_email)
-          @planning_application.send_site_notice_copy_mail(email)
+          if site_notice_params[:internal_team_email].presence
+            @planning_application.send_internal_team_site_notice_mail(site_notice_params[:internal_team_email])
+          else
+            @planning_application.send_site_notice_mail(@planning_application.applicant_email)
+          end
         end
 
         respond_to do |format|

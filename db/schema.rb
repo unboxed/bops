@@ -467,7 +467,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_094350) do
     t.index ["reference", "local_authority_id"], name: "ix_planning_applications_on_reference__local_authority_id", unique: true
     t.index ["status", "application_type_id"], name: "ix_planning_applications_on_status__application_type_id"
     t.index ["status"], name: "ix_planning_applications_on_status"
-    t.index ["user_id"], name: "ix_planning_applications_on_user_id"
+    t.index ["user_id"], name: "index_planning_applications_on_user_id"
   end
 
   create_table "planx_planning_data", force: :cascade do |t|

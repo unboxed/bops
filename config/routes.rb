@@ -188,7 +188,6 @@ Rails.application.routes.draw do
       resources :planning_applications, only: %i[index create show] do
         member do
           get :decision_notice
-          get :site_notice
         end
         resources :validation_requests, only: :index
         resources :description_change_validation_requests, only: %i[index update show]

@@ -8,20 +8,19 @@ class SiteNotice < ApplicationRecord
 
   def preview_content(planning_application)
     I18n.t("site_notice_template",
-      council: planning_application.local_authority.subdomain.capitalize,
-      reference: planning_application.reference,
-      application_description: planning_application.description,
-      site_address: planning_application.full_address,
-      applicant_name: "#{planning_application.applicant_first_name} #{planning_application.applicant_last_name}",
-      application_link: application_link(planning_application),
-      council_address: I18n.t("council_addresses.#{planning_application.local_authority.subdomain}"),
-      consultation_end_date: end_date_from_now.to_date.to_fs,
-      site_notice_display_date: Date.today
-    )
+           council: planning_application.local_authority.subdomain.capitalize,
+           reference: planning_application.reference,
+           application_description: planning_application.description,
+           site_address: planning_application.full_address,
+           applicant_name: "#{planning_application.applicant_first_name} #{planning_application.applicant_last_name}",
+           application_link: application_link(planning_application),
+           council_address: I18n.t("council_addresses.#{planning_application.local_authority.subdomain}"),
+           consultation_end_date: end_date_from_now.to_date.to_fs,
+           site_notice_display_date: Time.zone.today)
   end
 
   def end_date_from_now
-    Date.today + 23.days
+    Time.zone.today + 23.days
   end
 
   private

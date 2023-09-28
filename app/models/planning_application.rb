@@ -340,13 +340,12 @@ class PlanningApplication < ApplicationRecord
 
   def site_notice_link
     protocol = Rails.env.production? ? "https" : "http"
+    path = "planning_applications/#{id}/site_notices/download"
 
     if Rails.configuration.production_environment
-      "#{protocol}://planningapplications.#{local_authority.subdomain}.gov.uk
-        /planning_applications/#{id}/site_notices/download"
+      "#{protocol}://planningapplications.#{local_authority.subdomain}.gov.uk/#{path}"
     else
-      "#{protocol}://#{local_authority.subdomain}.bops-applicants.services
-        /planning_applications/#{id}/site_notices/download"
+      "#{protocol}://#{local_authority.subdomain}.bops-applicants.services/#{path}"
     end
   end
 

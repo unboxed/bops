@@ -807,10 +807,12 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
   end
 
-  describe "#neighbour_site_notice_copy_mail" do
+  describe "#site_notice_mail" do
     let!(:consultation) do
       travel_to("2022-01-01") { create(:consultation, planning_application:) }
     end
+
+    let(:user) { create(:user) }
 
     let(:application_type) { create(:application_type, :prior_approval) }
 
@@ -828,45 +830,104 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         description: "Add a chimney stack",
         created_at: DateTime.new(2022, 5, 1),
         application_type:,
-        validated_at: DateTime.new(2022, 10, 1)
+        validated_at: DateTime.new(2022, 10, 1),
+        user:
       )
     end
 
     let(:site_notice) { create(:site_notice, planning_application:) }
 
-    let(:neighbour_site_notice_copy_mail) do
-      described_class.neighbour_site_notice_copy_mail(planning_application, planning_application.applicant_email)
+    let(:site_notice_mail) do
+      described_class.site_notice_mail(planning_application, planning_application.applicant_email)
     end
 
-    let(:mail_body) { neighbour_site_notice_copy_mail.body.encoded }
+    let(:mail_body) { site_notice_mail.body.encoded }
 
     it "sets the subject" do
-      expect(neighbour_site_notice_copy_mail.subject).to eq(
-        "Print this site notice"
+      expect(site_notice_mail.subject).to eq(
+        "Display site notice for your application #{planning_application.reference}"
       )
     end
 
     it "sets the recipient" do
-      expect(neighbour_site_notice_copy_mail.to).to contain_exactly(
+      expect(site_notice_mail.to).to contain_exactly(
         "cookie_crumbs@example.com"
       )
     end
 
     it "includes the reference" do
       expect(mail_body).to include(
-        "Application reference number: PlanX-22-00100-PA"
-      )
-    end
-
-    it "includes the address" do
-      expect(mail_body).to include(
-        "At: 123 High Street, Big City, AB3 4EF"
+        "Application number PlanX-22-00100-PA"
       )
     end
 
     it "includes the main text body" do
       expect(mail_body).to include(
-        "This is a copy of your site notice"
+        "As part of the application process"
+      )
+      expect(mail_body).to include(
+        "http://planningapplications.planx.gov.uk/planning_applications/#{planning_application.id}/site_notices/download"
+      )
+    end
+  end
+
+  describe "#internal_site_notice_mail" do
+    let!(:consultation) do
+      travel_to("2022-01-01") { create(:consultation, planning_application:) }
+    end
+
+    let(:user) { create(:user) }
+
+    let(:application_type) { create(:application_type, :prior_approval) }
+
+    let(:planning_application) do
+      create(
+        :planning_application,
+        :determined,
+        agent_email: "cookie_crackers@example.com",
+        applicant_email: "cookie_crumbs@example.com",
+        local_authority:,
+        decision: "granted",
+        address_1: "123 High Street",
+        town: "Big City",
+        postcode: "AB3 4EF",
+        description: "Add a chimney stack",
+        created_at: DateTime.new(2022, 5, 1),
+        application_type:,
+        validated_at: DateTime.new(2022, 10, 1),
+        user:
+      )
+    end
+
+    let(:site_notice) { create(:site_notice, planning_application:) }
+
+    let(:internal_team_site_notice_mail) do
+      described_class.internal_team_site_notice_mail(planning_application, planning_application.applicant_email)
+    end
+
+    let(:mail_body) { internal_team_site_notice_mail.body.encoded }
+
+    it "sets the subject" do
+      expect(internal_team_site_notice_mail.subject).to eq(
+        "Site notice for application number #{planning_application.reference}"
+      )
+    end
+
+    it "sets the recipient" do
+      expect(internal_team_site_notice_mail.to).to contain_exactly(
+        "cookie_crumbs@example.com"
+      )
+    end
+
+    it "includes the reference" do
+      expect(mail_body).to include(
+        "Application number PlanX-22-00100-PA"
+      )
+    end
+
+    it "includes the main text body" do
+      expect(mail_body).to include(
+        "The site notice for this application is ready for display"
       )
       expect(mail_body).to include(
         "http://planningapplications.planx.gov.uk/planning_applications/#{planning_application.id}/site_notices/download"
