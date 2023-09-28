@@ -39,6 +39,7 @@ class LetterSendingService
     end
 
     update_letter!(letter_record, response)
+    neighbour.touch :last_letter_sent_at
   end
 
   private

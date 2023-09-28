@@ -71,6 +71,7 @@ class PlanningApplication
 
       @planning_application.send_neighbour_consultation_letter_copy_mail
 
+      # TODO: does this logic need to change when multiple letters can exist?
       @consultation.neighbours.reject(&:letter_created?).each do |neighbour|
         LetterSendingService.new(neighbour, consultation_params[:neighbour_letter_content]).deliver!
       end

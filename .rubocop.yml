@@ -48,6 +48,9 @@ Rails/SkipsModelValidations:
   Exclude:
     - db/migrate/*.rb
 
+  AllowedMethods:
+    - touch
+
 # Rspec
 RSpec/MultipleExpectations:
   Enabled: false

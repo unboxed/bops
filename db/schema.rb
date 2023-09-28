@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_21_094853) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_28_094350) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -276,6 +276,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_21_094853) do
     t.string "status"
     t.string "status_updated_at"
     t.string "failure_reason"
+    t.string "resend_reason"
     t.index ["neighbour_id"], name: "ix_neighbour_letters_on_neighbour_id"
   end
 
@@ -301,6 +302,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_21_094853) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "selected", default: true
+    t.datetime "last_letter_sent_at"
     t.index "lower((address)::text), consultation_id", name: "index_neighbours_on_lower_address_and_consultation_id", unique: true
     t.index ["consultation_id"], name: "ix_neighbours_on_consultation_id"
   end
