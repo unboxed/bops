@@ -3,6 +3,9 @@
 class NeighbourLetter < ApplicationRecord
   belongs_to :neighbour
 
+  validates :resend_reason, absence: true, unless: :resend?
+  validates :resend_reason, presence: true, if: :resend?
+
   STATUSES = {
     technical_failure: "technical failure",
     permanent_failure: "permanent failure",
@@ -36,5 +39,9 @@ class NeighbourLetter < ApplicationRecord
 
   def notify_api_key
     neighbour.consultation.planning_application.local_authority.notify_api_key || ENV.fetch("NOTIFY_API_KEY")
+  end
+
+  def resend?
+    neighbour.last_letter_sent_at.present?
   end
 end

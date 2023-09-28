@@ -23,4 +23,40 @@ RSpec.describe NeighbourLetter do
       expect(neighbour_letter.status).to eq("received")
     end
   end
+
+  context "when setting a resend reason" do
+    let(:neighbour) { create(:neighbour) }
+    let(:neighbour_letter) { build(:neighbour_letter, neighbour:) }
+
+    context "when sending the first letter to a neighbour" do
+      it "must not have a reason" do
+        neighbour_letter.resend_reason = "blah blah"
+        expect do
+          neighbour_letter.save!
+        end.to raise_error(ActiveRecord::RecordInvalid)
+
+        neighbour_letter.resend_reason = nil
+        expect do
+          neighbour_letter.save!
+        end.not_to raise_error
+      end
+    end
+
+    context "when resending a letter to a neighbour" do
+      let(:previous_neighbour_letter) { create(:neighbour_letter, neighbour:) }
+
+      before { neighbour.touch(:last_letter_sent_at) }
+
+      it "must have a reason" do
+        expect do
+          neighbour_letter.save!
+        end.to raise_error(ActiveRecord::RecordInvalid)
+
+        neighbour_letter.resend_reason = "blah blah"
+        expect do
+          neighbour_letter.save!
+        end.not_to raise_error
+      end
+    end
+  end
 end
