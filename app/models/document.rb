@@ -63,6 +63,10 @@ class Document < ApplicationRecord
     "Site Visit"
   ].freeze
 
+  SITE_NOTICE_TAGS = [
+    "Site Notice"
+  ].freeze
+
   ## Needs to be better
   EVIDENCE_QUESTIONS = {
     utility_bill: [
@@ -99,7 +103,7 @@ class Document < ApplicationRecord
     other: ["What do these documents show?"]
   }.freeze
 
-  TAGS = PLAN_TAGS + EVIDENCE_TAGS + SITE_VISIT_TAGS
+  TAGS = PLAN_TAGS + EVIDENCE_TAGS + SITE_VISIT_TAGS + SITE_NOTICE_TAGS
 
   PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"].freeze
 
@@ -112,7 +116,7 @@ class Document < ApplicationRecord
   validate :numbered
   validate :created_date_is_in_the_past
 
-  default_scope -> { where(site_visit_id: nil) }
+  default_scope -> { where(site_visit_id: nil, site_notice_id: nil) }
 
   scope :by_created_at, -> { order(created_at: :asc) }
   scope :active, -> { where(archived_at: nil) }
