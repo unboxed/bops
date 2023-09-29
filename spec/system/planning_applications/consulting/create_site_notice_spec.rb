@@ -17,12 +17,14 @@ RSpec.describe "Create a site notice", js: true do
            api_user:,
            agent_email: "agent@example.com",
            applicant_email: "applicant@example.com",
+           user: assessor,
            make_public: true)
   end
 
   before do
+    allow(ENV).to receive(:fetch).and_call_original
+    allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("test")
     sign_in(assessor)
-
     visit planning_application_consultations_path(planning_application)
   end
 
@@ -60,7 +62,7 @@ RSpec.describe "Create a site notice", js: true do
 
     expect(email_notification.to).to contain_exactly(planning_application.applicant_email)
 
-    expect(email_notification.subject).to eq("Print this site notice")
+    expect(email_notification.subject).to eq("Display site notice for your application 23-00100-PA")
 
     expect(page).to have_content "Site notice was successfully emailed"
   end
@@ -84,7 +86,7 @@ RSpec.describe "Create a site notice", js: true do
 
     expect(email_notification.to).to contain_exactly("internal@email.com")
 
-    expect(email_notification.subject).to eq("Print this site notice")
+    expect(email_notification.subject).to eq("Site notice for application number 23-00100-PA")
 
     expect(page).to have_content "Site notice was successfully emailed"
   end

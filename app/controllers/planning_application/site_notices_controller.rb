@@ -108,6 +108,7 @@ class PlanningApplication
       #{view_context.link_to 'made public on the BoPS Public Portal', make_public_planning_application_path(@planning_application)}
       before you can create a site notice."
 
+      @site_notice = SiteNotice.new
       render :new and return
     end
 

@@ -81,7 +81,7 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
 
     planning_application = PlanningApplication.create! planning_application_hash.except("reference", "reference_in_full",
                                                                                         "received_date", "documents", "site", "constraints",
-                                                                                        "application_type", "site_notice_content").merge(
+                                                                                        "application_type").merge(
                                                                                           local_authority:
                                                                                           default_local_authority,
                                                                                           old_constraints: planning_application_hash["constraints"],
@@ -113,7 +113,7 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
     planning_application_hash = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "ldc_proposed")
     planning_application = PlanningApplication.create! planning_application_hash.except("reference", "reference_in_full", "status",
                                                                                         "received_date", "documents", "site", "constraints",
-                                                                                        "application_type", "site_notice_content").merge(
+                                                                                        "application_type").merge(
                                                                                           local_authority: default_local_authority,
                                                                                           old_constraints: planning_application_hash["constraints"],
                                                                                           application_type_id: ApplicationType.first.id,

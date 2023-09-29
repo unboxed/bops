@@ -543,13 +543,13 @@ en:
       decision_notice_mail: Decision on your %{application_type_name} application
       description_change_mail: "%{application_type_name} application - suggested changes"
       description_closure_notification_mail: Changes to your %{application_type_name} application
+      internal_team_site_notice_mail: Site notice for application number %{reference}
       invalidation_notice_mail: "%{application_type_name} application - changes needed"
       neighbour_consultation_letter_copy_mail: Neighbour consultation letter copy
-      site_notice_mail: Display site notice for your application %{reference}
-      internal_team_site_notice_mail: Site notice for application number %{reference}
       otp_mail: Back Office Planning System verification code
       post_validation_request_mail: "%{application_type_name} application - changes needed"
       receipt_notice_mail: "%{application_type_name} application received"
+      site_notice_mail: Display site notice for your application %{reference}
       update_notification_mail: BoPS case %{reference} has a new update
       validation_notice_mail: Your application for a %{application_type_name}
       validation_request_closure_mail: Changes to your %{application_type_name} application

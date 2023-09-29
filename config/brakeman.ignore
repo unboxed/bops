@@ -1,6 +1,40 @@
 {
   "ignored_warnings": [
     {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "94d5f97b77111da9ab36e00c152c31b53d555dde3ba80a08fd462ce141eed664",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/planning_application/site_notices/new.html.erb",
+      "line": 44,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "SiteNotice.new(site_notice_params.except(:method, :internal_team_email).merge(:planning_application_id => PlanningApplicationPresenter.new(view_context, planning_applications_scope.find(planning_application_id)).id)).preview_content(PlanningApplicationPresenter.new(view_context, planning_applications_scope.find(planning_application_id)).planning_application)",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "PlanningApplication::SiteNoticesController",
+          "method": "create",
+          "line": 52,
+          "file": "app/controllers/planning_application/site_notices_controller.rb",
+          "rendered": {
+            "name": "planning_application/site_notices/new",
+            "file": "app/views/planning_application/site_notices/new.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "planning_application/site_notices/new"
+      },
+      "user_input": null,
+      "confidence": "High",
+      "cwe_id": [
+        79
+      ],
+      "note": ""
+    },
+    {
       "warning_type": "HTTP Verb Confusion",
       "warning_code": 118,
       "fingerprint": "9629e1b14cc8c66eb28d151ebd4ca28a458a3add860a62c9130def76133d424c",
@@ -24,6 +58,6 @@
       "note": ""
     }
   ],
-  "updated": "2023-03-07 12:40:18 +0200",
+  "updated": "2023-09-29 10:01:46 +0000",
   "brakeman_version": "5.4.0"
 }

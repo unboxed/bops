@@ -342,7 +342,7 @@ class PlanningApplication < ApplicationRecord
     protocol = Rails.env.production? ? "https" : "http"
     path = "planning_applications/#{id}/site_notices/download"
 
-    if Rails.configuration.production_environment
+    if Bops.env.production?
       "#{protocol}://planningapplications.#{local_authority.subdomain}.gov.uk/#{path}"
     else
       "#{protocol}://#{local_authority.subdomain}.bops-applicants.services/#{path}"

@@ -26,7 +26,7 @@ class SiteNotice < ApplicationRecord
   private
 
   def application_link(planning_application)
-    if Rails.configuration.production_environment
+    if Bops.env.production?
       "https://planningapplications.#{planning_application.local_authority.subdomain}.gov.uk/planning_applications/#{planning_application.id}"
     else
       "https://#{planning_application.local_authority.subdomain}.bops-applicants.services/planning_applications/#{planning_application.id}"
