@@ -1,0 +1,41 @@
+<%= form_with(
+  model: [planning_application, policy_area],
+  builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+  url: planning_application_policy_areas_path(planning_application),
+  class: "govuk-!-margin-top-5"
+) do |form| %>
+  <% if policy_area.errors.any? %>
+    <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+      <h2 class="govuk-error-summary__title" id="error-summary-title">
+        There is a problem
+      </h2>
+      <div class="govuk-error-summary__body">
+        <ul class="govuk-list govuk-error-summary__list">
+          <% policy_area.errors.full_messages.each do |error| %>
+            <li><%= error %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <%= form.govuk_check_boxes_fieldset :areas, multiple: true, legend: { text: "Select the topics you want to comment on", size: "m" } do %>
+    <% PolicyArea::AREAS.each do |area| %>
+      <%= form.govuk_check_box :areas, :"#{area}", label: { text: "#{area.to_s.humanize}" } do %>
+        <%= form.fields_for :considerations, @policy_area.considerations.new do |ff| %>
+          <%= ff.hidden_field :area, value: area.to_s %>
+          <%= ff.govuk_text_field :policies, label: { text: "Which policies are relevant", size: "s" }, hint: { text: "Enter the policy reference" } %>
+          <%= ff.govuk_radio_buttons_fieldset(:policy, legend: { size: 's', text: 'Is there relevant guidance?' }) do %>
+            <%= ff.govuk_radio_button :policy, 'Yes', label: { text: 'Yes' } do %>
+              <%= ff.govuk_text_field :guidance, label: { text: "Which guidance? (e.g. the design code)", size: "s" } %>
+            <% end %>
+            <%= ff.govuk_radio_button :policy, 'No', label: { text: 'No' } %>
+          <% end %>
+          <%= ff.govuk_text_area :assessment, label: { text: "Enter your assessment", size: "s" } %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= render(partial: "shared/submit_buttons", locals: { form: }) %>
+<% end %>

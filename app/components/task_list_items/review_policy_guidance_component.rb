@@ -10,27 +10,27 @@ module TaskListItems
 
     attr_reader :planning_application
 
-    delegate(:policy_guidance, to: :planning_application)
+    delegate(:policy_area, to: :planning_application)
 
     def link_text
-      "Review check against policies and guidance"
+      "Review Assess against policies and guidance"
     end
 
-    def review_policy_guidance
-      policy_guidance.current_review_policy_guidance
+    def review_policy_area
+      policy_area.current_review_policy_area
     end
 
     def link_path
-      if review_policy_guidance&.reviewed_at.present? &&
-         policy_guidance.review_status == "review_complete"
-        planning_application_review_policy_guidance_path(
+      if review_policy_area&.reviewed_at.present? &&
+         policy_area.review_status == "review_complete"
+        planning_application_review_policy_area_path(
           planning_application,
-          review_policy_guidance
+          review_policy_area
         )
       else
-        edit_planning_application_review_policy_guidance_path(
+        edit_planning_application_review_policy_area_path(
           planning_application,
-          review_policy_guidance
+          review_policy_area
         )
       end
     end
@@ -38,7 +38,7 @@ module TaskListItems
     def status_tag_component
       StatusTags::ReviewPolicyGuidanceComponent.new(
         planning_application:,
-        review_policy_guidance:
+        review_policy_area:
       )
     end
   end

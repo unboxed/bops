@@ -8,8 +8,8 @@ class PlanningApplication
     before_action :set_planning_application
     before_action :ensure_planning_application_is_validated
     before_action :ensure_user_is_reviewer
-    before_action :set_policy_guidance, only: %i[show edit update]
-    before_action :set_review_policy_guidance, only: %i[show edit update]
+    before_action :set_policy_area, only: %i[show edit update]
+    before_action :set_review_policy_area, only: %i[show edit update]
 
     def show
       respond_to do |format|
@@ -25,14 +25,14 @@ class PlanningApplication
 
     def update
       respond_to do |format|
-        if update_policy_guidances
+        if update_policy_areas
           format.html do
             redirect_to planning_application_review_tasks_path(@planning_application),
-                        notice: I18n.t("policy_guidances.successfully_updated")
+                        notice: I18n.t("policy_areas.successfully_updated")
           end
         else
-          set_policy_guidance
-          set_review_policy_guidance
+          set_policy_area
+          set_review_policy_area
           format.html { render :edit }
         end
       end
@@ -40,22 +40,22 @@ class PlanningApplication
 
     private
 
-    def update_policy_guidances
+    def update_policy_areas
       ActiveRecord::Base.transaction do
-        @review_policy_guidance.update(review_policy_guidance_params) &&
-          @policy_guidance.update(status: policy_guidance_status, review_status:, assessment:)
+        @review_policy_area.update(review_policy_area_params) &&
+          @policy_area.update(status: policy_area_status, review_status:, assessment:)
       end
     end
 
-    def review_policy_guidance_params
-      params.require(:review_policy_guidance)
+    def review_policy_area_params
+      params.require(:review_policy_area)
             .permit(:reviewer_comment, :accepted)
             .to_h
             .deep_merge(
               reviewed_at: Time.current,
               reviewer: current_user,
               review_status:,
-              status: policy_guidance_status
+              status: policy_area_status
             )
     end
 
@@ -64,24 +64,24 @@ class PlanningApplication
     end
 
     def assessment
-      params.require(:review_policy_guidance)
+      params.require(:review_policy_area)
             .permit(:assessment)[:assessment]
     end
 
-    def set_policy_guidance
-      @policy_guidance = @planning_application.policy_guidance
+    def set_policy_area
+      @policy_area = @planning_application.policy_area
     end
 
-    def set_review_policy_guidance
-      @review_policy_guidance = @policy_guidance.current_review_policy_guidance
+    def set_review_policy_area
+      @review_policy_area = @policy_area.current_review_policy_area
     end
 
-    def policy_guidance_status
+    def policy_area_status
       return_to_officer? ? :to_be_reviewed : :complete
     end
 
     def return_to_officer?
-      params.dig(:review_policy_guidance, :accepted) == "false"
+      params.dig(:review_policy_area, :accepted) == "false"
     end
 
     def ensure_user_is_reviewer

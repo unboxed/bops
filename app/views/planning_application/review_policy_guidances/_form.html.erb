@@ -1,24 +1,24 @@
-<%= form_with model: [@planning_application, @review_policy_guidance],
-              url: planning_application_review_policy_guidance_path(@planning_application, @review_policy_guidance),
+<%= form_with model: [@planning_application, @review_policy_area],
+              url: planning_application_review_policy_area_path(@planning_application, @review_policy_area),
               builder: GOVUKDesignSystemFormBuilder::FormBuilder,
               class: "govuk-!-margin-top-7" do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
   <%= form.govuk_radio_buttons_fieldset :accepted, legend: { text: "Actions" } do %>
     <%= form.govuk_radio_button(
-      :accepted, true, disabled: !editable, checked: @review_policy_guidance.accepted && !@review_policy_guidance.reviewer_edited, label: { text: "Accept" }
+      :accepted, true, disabled: !editable, checked: @review_policy_area.accepted && !@review_policy_area.reviewer_edited, label: { text: "Accept" }
     ) %>
 
     <%= form.govuk_radio_button(
-      :accepted, true, disabled: !editable, checked: @review_policy_guidance.accepted && @review_policy_guidance.reviewer_edited, label: { text: "Edit to accept", id: "edit-to-accept" }
+      :accepted, true, disabled: !editable, checked: @review_policy_area.accepted && @review_policy_area.reviewer_edited, label: { text: "Edit to accept", id: "edit-to-accept" }
     ) do %>
       <%= form.govuk_text_area(
-        :assessment, readonly: !editable, rows: 6, label: { text: "Update officer comment" }, value: @policy_guidance.assessment
+        :assessment, readonly: !editable, rows: 6, label: { text: "Update officer comment" }, value: @policy_area.assessment
       ) %>
     <% end %>
 
     <%= form.govuk_radio_button(
-      :accepted, false, disabled: !editable, checked: !@review_policy_guidance.accepted && @review_policy_guidance.reviewer_comment?, label: { text: "Return to officer with comment" }
+      :accepted, false, disabled: !editable, checked: !@review_policy_area.accepted && @review_policy_area.reviewer_comment?, label: { text: "Return to officer with comment" }
     ) do %>
       <%= form.govuk_text_area(
         :reviewer_comment, readonly: !editable, rows: 6, label: { text: "Comment" }
@@ -35,7 +35,7 @@
     <%= back_link %>
 
     <% if !editable %>
-      <%= link_to "Edit review policy guidance", edit_planning_application_review_policy_guidance_path(@planning_application, @review_policy_guidance), class: "govuk-link" %>
+      <%= link_to "Edit review policy guidance", edit_planning_application_review_policy_area_path(@planning_application, @review_policy_area), class: "govuk-link" %>
     <% end %>
   </div>
 <% end %>

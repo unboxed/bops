@@ -58,7 +58,7 @@ class PlanningApplication < ApplicationRecord
     has_one :proposal_measurement, required: false
     has_one :planx_planning_data, required: false
     has_one :press_notice, required: false
-    has_one :policy_guidance, required: false
+    has_one :policy_area, required: false
 
     has_many(
       :policy_classes,

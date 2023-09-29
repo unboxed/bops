@@ -81,6 +81,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_175416) do
     t.string "steps", default: ["validation", "consultation", "assessment", "review"], array: true
   end
 
+  create_table "application_types_conditions", id: false, force: :cascade do |t|
+    t.bigint "condition_id", null: false
+    t.bigint "application_type_id", null: false
+    t.index ["application_type_id"], name: "ix_application_types_conditions_on_application_type_id"
+    t.index ["condition_id"], name: "ix_application_types_conditions_on_condition_id"
+  end
+
   create_table "assessment_details", force: :cascade do |t|
     t.bigint "planning_application_id", null: false
     t.bigint "user_id", null: false
@@ -121,6 +128,41 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_175416) do
     t.datetime "deleted_at", precision: nil
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
     t.index ["user_id"], name: "ix_comments_on_user_id"
+  end
+
+  create_table "condition_reasons", force: :cascade do |t|
+    t.text "text"
+    t.bigint "condition_id"
+    t.bigint "local_authority_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["condition_id"], name: "ix_condition_reasons_on_condition_id"
+    t.index ["local_authority_id"], name: "ix_condition_reasons_on_local_authority_id"
+  end
+
+  create_table "condition_reasons_planning_applications", id: false, force: :cascade do |t|
+    t.bigint "condition_reason_id", null: false
+    t.bigint "planning_application_id", null: false
+    t.index ["condition_reason_id"], name: "ix_condition_reasons_planning_applications_on_condition_reason_"
+    t.index ["planning_application_id"], name: "ix_condition_reasons_planning_applications_on_planning_applicat"
+  end
+
+  create_table "conditions", force: :cascade do |t|
+    t.string "title"
+    t.text "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "considerations", force: :cascade do |t|
+    t.string "area"
+    t.string "policies"
+    t.string "guidance"
+    t.text "assessment"
+    t.bigint "policy_area_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["policy_area_id"], name: "ix_considerations_on_policy_area_id"
   end
 
   create_table "consistency_checklists", force: :cascade do |t|
@@ -215,8 +257,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_175416) do
     t.bigint "replacement_document_validation_request_id"
     t.boolean "redacted", default: false, null: false
     t.bigint "evidence_group_id"
-    t.bigint "site_visit_id"
     t.bigint "neighbour_response_id"
+    t.bigint "site_visit_id"
     t.bigint "site_notice_id"
     t.bigint "press_notice_id"
     t.index ["additional_document_validation_request_id"], name: "ix_documents_on_additional_document_validation_request_id"
@@ -497,6 +539,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_175416) do
     t.index ["policy_class_id"], name: "ix_policies_on_policy_class_id"
   end
 
+  create_table "policy_areas", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "review_status", default: "review_not_started", null: false
+    t.string "status", default: "not_started", null: false
+    t.bigint "assessor_id"
+    t.bigint "reviewer_id"
+    t.datetime "reviewed_at"
+    t.index ["assessor_id"], name: "ix_policy_areas_on_assessor_id"
+    t.index ["planning_application_id"], name: "ix_policy_areas_on_planning_application_id"
+    t.index ["reviewer_id"], name: "ix_policy_areas_on_reviewer_id"
+  end
+
   create_table "policy_classes", force: :cascade do |t|
     t.string "schedule", null: false
     t.integer "part", null: false
@@ -508,22 +564,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_175416) do
     t.datetime "updated_at", null: false
     t.integer "status", null: false
     t.index ["planning_application_id"], name: "ix_policy_classes_on_planning_application_id"
-  end
-
-  create_table "policy_guidances", force: :cascade do |t|
-    t.text "policies"
-    t.text "assessment"
-    t.bigint "planning_application_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "review_status", default: "review_not_started", null: false
-    t.string "status", default: "not_started", null: false
-    t.bigint "assessor_id"
-    t.bigint "reviewer_id"
-    t.datetime "reviewed_at"
-    t.index ["assessor_id"], name: "ix_policy_guidances_on_assessor_id"
-    t.index ["planning_application_id"], name: "ix_policy_guidances_on_planning_application_id"
-    t.index ["reviewer_id"], name: "ix_policy_guidances_on_reviewer_id"
   end
 
   create_table "press_notices", force: :cascade do |t|
@@ -629,8 +669,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_175416) do
     t.index ["reviewer_id"], name: "ix_review_immunity_details_on_reviewer_id"
   end
 
-  create_table "review_policy_classes", force: :cascade do |t|
-    t.bigint "policy_class_id", null: false
+  create_table "review_policy_areas", force: :cascade do |t|
+    t.bigint "policy_area_id", null: false
     t.integer "mark", null: false
     t.string "comment"
     t.integer "status", null: false
@@ -661,9 +701,29 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_175416) do
     t.datetime "reviewed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["assessor_id"], name: "ix_review_policy_guidances_on_assessor_id"
-    t.index ["policy_guidance_id"], name: "ix_review_policy_guidances_on_policy_guidance_id"
-    t.index ["reviewer_id"], name: "ix_review_policy_guidances_on_reviewer_id"
+    t.index ["assessor_id"], name: "ix_review_policy_areas_on_assessor_id"
+    t.index ["policy_area_id"], name: "ix_review_policy_areas_on_policy_area_id"
+    t.index ["reviewer_id"], name: "ix_review_policy_areas_on_reviewer_id"
+  end
+
+  create_table "review_policy_classes", force: :cascade do |t|
+    t.bigint "policy_class_id", null: false
+    t.integer "mark", null: false
+    t.string "comment"
+    t.integer "status", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["policy_class_id"], name: "ix_review_policy_classes_on_policy_class_id"
+  end
+
+  create_table "site_notices", force: :cascade do |t|
+    t.bigint "planning_application_id"
+    t.boolean "required"
+    t.text "content"
+    t.datetime "displayed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_site_notices_on_planning_application_id"
   end
 
   create_table "site_visits", force: :cascade do |t|
@@ -754,8 +814,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_175416) do
   add_foreign_key "planning_applications", "users"
   add_foreign_key "planning_applications", "users", column: "boundary_created_by_id"
   add_foreign_key "planx_planning_data", "planning_applications"
-  add_foreign_key "policy_guidances", "users", column: "assessor_id"
-  add_foreign_key "policy_guidances", "users", column: "reviewer_id"
+  add_foreign_key "policy_areas", "users", column: "assessor_id"
+  add_foreign_key "policy_areas", "users", column: "reviewer_id"
   add_foreign_key "press_notices", "planning_applications"
   add_foreign_key "recommendations", "planning_applications"
   add_foreign_key "recommendations", "users", column: "assessor_id"
@@ -766,9 +826,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_175416) do
   add_foreign_key "replacement_document_validation_requests", "users"
   add_foreign_key "review_immunity_details", "users", column: "assessor_id"
   add_foreign_key "review_immunity_details", "users", column: "reviewer_id"
+  add_foreign_key "review_policy_areas", "users", column: "assessor_id"
+  add_foreign_key "review_policy_areas", "users", column: "reviewer_id"
   add_foreign_key "review_policy_classes", "policy_classes"
-  add_foreign_key "review_policy_guidances", "users", column: "assessor_id"
-  add_foreign_key "review_policy_guidances", "users", column: "reviewer_id"
   add_foreign_key "site_visits", "consultations"
   add_foreign_key "site_visits", "neighbours"
   add_foreign_key "site_visits", "users", column: "created_by_id"

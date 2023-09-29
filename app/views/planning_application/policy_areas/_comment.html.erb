@@ -1,9 +1,9 @@
-<% if @policy_guidance.review_policy_guidances.where.not(reviewer_comment: nil).any? %>
+<% if @policy_area.review_policy_areas.where.not(reviewer_comment: nil).any? %>
   <div class="govuk-inset-text" id="reviewer_comment">
     <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">
       Reviewer comment:
     </p>
-    <% @comment = @policy_guidance.review_policy_guidances.where.not(reviewer_comment: nil).order(:created_at).last %>
+    <% @comment = @policy_area.review_policy_areas.where.not(reviewer_comment: nil).order(:created_at).last %>
     <p class="govuk-body govuk-!-margin-top-1"><%= @comment.created_at.to_fs %></p>
     <p class="govuk-body italic"><%=  @comment.reviewer_comment %></p>
   </div>

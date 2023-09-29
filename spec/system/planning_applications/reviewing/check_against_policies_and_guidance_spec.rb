@@ -11,7 +11,7 @@ RSpec.describe "Permitted development right" do
     create(:planning_application, :awaiting_determination, :planning_permission, local_authority: default_local_authority)
   end
 
-  let!(:policy_guidance) { create(:policy_guidance, planning_application:, status: "complete") }
+  let!(:policy_area) { create(:policy_area, planning_application:, status: "complete") }
 
   context "when signed in as a reviewer" do
     before do
@@ -22,16 +22,16 @@ RSpec.describe "Permitted development right" do
     context "when planning application is awaiting determination" do
       it "I can accept the planning officer's decision" do
         expect(page).to have_list_item_for(
-          "Review check against policies and guidance",
+          "Review Assess against policies and guidance",
           with: "Not started"
         )
 
-        click_link "Review check against policies and guidance"
+        click_link "Review Assess against policies and guidance"
 
-        expect(page).to have_content("Review check against policies and guidance")
+        expect(page).to have_content("Review Assess against policies and guidance")
 
-        expect(page).to have_content(policy_guidance.policies)
-        expect(page).to have_content(policy_guidance.assessment)
+        expect(page).to have_content(policy_area.policies)
+        expect(page).to have_content(policy_area.assessment)
 
         radio_buttons = find_all(".govuk-radios__item")
         within(radio_buttons[1]) do
@@ -43,24 +43,24 @@ RSpec.describe "Permitted development right" do
         expect(page).to have_content("Check against policy and guidance response was successfully updated")
 
         expect(page).to have_list_item_for(
-          "Review check against policies and guidance",
+          "Review Assess against policies and guidance",
           with: "Completed"
         )
 
-        review_policy_guidance = ReviewPolicyGuidance.last
-        expect(review_policy_guidance.review_status).to eq "review_complete"
-        expect(review_policy_guidance.policy_guidance.review_status).to eq "review_complete"
-        expect(review_policy_guidance.status).to eq "complete"
-        expect(review_policy_guidance.policy_guidance.status).to eq "complete"
+        review_policy_area = ReviewPolicyGuidance.last
+        expect(review_policy_area.review_status).to eq "review_complete"
+        expect(review_policy_area.policy_area.review_status).to eq "review_complete"
+        expect(review_policy_area.status).to eq "complete"
+        expect(review_policy_area.policy_area.status).to eq "complete"
       end
 
       it "I can edit to accept the planning officer's decision" do
         expect(page).to have_list_item_for(
-          "Review check against policies and guidance",
+          "Review Assess against policies and guidance",
           with: "Not started"
         )
 
-        click_link "Review check against policies and guidance"
+        click_link "Review Assess against policies and guidance"
 
         radio_buttons = find_all(".govuk-radios__item")
         within(radio_buttons[1]) do
@@ -74,25 +74,25 @@ RSpec.describe "Permitted development right" do
         expect(page).to have_content("Check against policy and guidance response was successfully updated")
 
         expect(page).to have_list_item_for(
-          "Review check against policies and guidance",
+          "Review Assess against policies and guidance",
           with: "Completed"
         )
 
-        review_policy_guidance = ReviewPolicyGuidance.last
-        expect(review_policy_guidance.review_status).to eq "review_complete"
-        expect(review_policy_guidance.policy_guidance.review_status).to eq "review_complete"
-        expect(review_policy_guidance.status).to eq "complete"
-        expect(review_policy_guidance.policy_guidance.status).to eq "complete"
-        expect(review_policy_guidance.policy_guidance.assessment).to eq "This is the right comment"
+        review_policy_area = ReviewPolicyGuidance.last
+        expect(review_policy_area.review_status).to eq "review_complete"
+        expect(review_policy_area.policy_area.review_status).to eq "review_complete"
+        expect(review_policy_area.status).to eq "complete"
+        expect(review_policy_area.policy_area.status).to eq "complete"
+        expect(review_policy_area.policy_area.assessment).to eq "This is the right comment"
       end
 
       it "I can return to officer with comment" do
         expect(page).to have_list_item_for(
-          "Review check against policies and guidance",
+          "Review Assess against policies and guidance",
           with: "Not started"
         )
 
-        click_link "Review check against policies and guidance"
+        click_link "Review Assess against policies and guidance"
 
         choose "Return to officer with comment"
 
@@ -103,7 +103,7 @@ RSpec.describe "Permitted development right" do
         expect(page).to have_content("Check against policy and guidance response was successfully updated")
 
         expect(page).to have_list_item_for(
-          "Review check against policies and guidance",
+          "Review Assess against policies and guidance",
           with: "Completed"
         )
 
@@ -113,11 +113,11 @@ RSpec.describe "Permitted development right" do
         visit planning_application_assessment_tasks_path(planning_application)
 
         expect(page).to have_list_item_for(
-          "Check against policies and guidance",
+          "Assess against policies and guidance",
           with: "To be reviewed"
         )
 
-        click_link "Check against policies and guidance"
+        click_link "Assess against policies and guidance"
 
         expect(page).to have_content("I don't think you've assessed Policy 1 correctly")
 
@@ -131,11 +131,11 @@ RSpec.describe "Permitted development right" do
         visit planning_application_review_tasks_path(planning_application)
 
         expect(page).to have_list_item_for(
-          "Review check against policies and guidance",
+          "Review Assess against policies and guidance",
           with: "Not started"
         )
 
-        click_link "Review check against policies and guidance"
+        click_link "Review Assess against policies and guidance"
 
         expect(page).to have_content "A better response"
 
@@ -149,15 +149,15 @@ RSpec.describe "Permitted development right" do
         expect(page).to have_content("Check against policy and guidance response was successfully updated")
 
         expect(page).to have_list_item_for(
-          "Review check against policies and guidance",
+          "Review Assess against policies and guidance",
           with: "Completed"
         )
 
-        review_policy_guidance = ReviewPolicyGuidance.last
-        expect(review_policy_guidance.review_status).to eq "review_complete"
-        expect(review_policy_guidance.policy_guidance.review_status).to eq "review_complete"
-        expect(review_policy_guidance.status).to eq "complete"
-        expect(review_policy_guidance.policy_guidance.status).to eq "complete"
+        review_policy_area = ReviewPolicyGuidance.last
+        expect(review_policy_area.review_status).to eq "review_complete"
+        expect(review_policy_area.policy_area.review_status).to eq "review_complete"
+        expect(review_policy_area.status).to eq "complete"
+        expect(review_policy_area.policy_area.status).to eq "complete"
       end
     end
   end

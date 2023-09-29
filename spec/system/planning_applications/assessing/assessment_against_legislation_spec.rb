@@ -617,7 +617,6 @@ RSpec.describe "assessment against legislation" do
     it "doesn't show policy classes" do
       click_link "Check and assess"
 
-<<<<<<< HEAD
       click_link("Part 1, Class D")
       within(".govuk-accordion__section") do
         click_button("Constraints")
@@ -627,10 +626,8 @@ RSpec.describe "assessment against legislation" do
         expect(page).not_to have_link("Edit constraints",
                                       href: planning_application_constraints_path(planning_application))
       end
-=======
-      expect(page).to have_content("Check against policies and guidance")
+      expect(page).to have_content("Assess against policies and guidance")
       expect(page).not_to have_content("Add assessment area")
->>>>>>> 35f74e88 (Add assessing against policies to review process)
     end
   end
 

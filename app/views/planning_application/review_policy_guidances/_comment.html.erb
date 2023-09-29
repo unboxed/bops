@@ -1,4 +1,4 @@
-<% if @policy_guidance.review_policy_guidances.count > 1 %>
+<% if @policy_area.review_policy_areas.count > 1 %>
   <details class="govuk-details govuk-!-margin-top-5 govuk-!-margin-bottom-3" data-module="govuk-details">
     <summary class="govuk-details__summary">
       <span class="govuk-details__summary-text">
@@ -6,13 +6,13 @@
       </span>
     </summary>
     <div class="govuk-details__text">
-      <% @policy_guidance.review_policy_guidances[0..-2].each do |comment| %>
+      <% @policy_area.review_policy_areas[0..-2].each do |comment| %>
         <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-1">
           <%= comment.reviewer.name %>
         </p>
         <p class="govuk-body"><%= comment.created_at.to_fs %></p>
-        <p class="govuk-body"><strong>Policies:</strong> <%= comment.policy_guidance.policies %></p>
-        <p class="govuk-body"><strong>Assessment:</strong> <%= comment.policy_guidance.assessment %></p>
+        <p class="govuk-body"><strong>Policies:</strong> <%= comment.policy_area.policies %></p>
+        <p class="govuk-body"><strong>Assessment:</strong> <%= comment.policy_area.assessment %></p>
         <p class="govuk-body"><strong>Reviewer comment:</strong> <%= comment.reviewer_comment %></p>
         <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--s">
       <% end %>

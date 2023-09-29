@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Check against policies and guidance - <%= t("page_title") %>
+  Assess against policies and guidance - <%= t("page_title") %>
 <% end %>
 
 <%= render(
@@ -7,15 +7,15 @@
       locals: { planning_application: @planning_application }
     ) %>
 
-<% content_for :title, "Check against policies and guidance" %>
+<% content_for :title, "Assess against policies and guidance" %>
 
 <%= render(
       partial: "shared/proposal_header",
-      locals: { heading: "Check against policies and guidance" }
+      locals: { heading: "Assess against policies and guidance" }
     ) %>
 
 <%= link_to "Check your local policies and guidance in a new tab", I18n.t("council_documents.#{@planning_application.local_authority.subdomain}"), target: "_blank", class: "govuk-link govuk-body" %>
 
 <%= render "comment" %>
 
-<%= render "form", planning_application: @planning_application, policy_guidance: @policy_guidance %>
+<%= render "form", planning_application: @planning_application, policy_area: @policy_area %>

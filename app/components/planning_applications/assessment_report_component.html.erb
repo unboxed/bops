@@ -67,12 +67,12 @@
 <section id="policy-classes-section" class="govuk-!-padding-bottom-5">
   <h3 class="govuk-heading-s"><%= t(".legislation") %></h3>
   <% if @planning_application.application_type.name == "planning_permission" %>
-    <% if @planning_application.policy_guidance.present? %>
+    <% if @planning_application.policy_area.present? %>
       <p class="govuk-body">
-        <%= @planning_application.policy_guidance.policies %>
+        <%= @planning_application.policy_area.policies %>
       </p>
       <p class="govuk-body">
-        <%= @planning_application.policy_guidance.assessment %>
+        <%= @planning_application.policy_area.assessment %>
       </p>
     <% else %>
       <p class="govuk-body"><%= t(".no_legislation_assessed") %></p>

@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Review check against policies and guidance - <%= t('page_title') %>
+  Review Assess against policies and guidance - <%= t('page_title') %>
 <% end %>
 
 <%= render(
@@ -7,11 +7,11 @@
   locals: { planning_application: @planning_application  }
 ) %>
 
-<% content_for :title, "Review check against policies and guidance" %>
+<% content_for :title, "Review Assess against policies and guidance" %>
 
 <%= render(
   partial: "shared/proposal_header",
-  locals: { heading: "Review check against policies and guidance" }
+  locals: { heading: "Review Assess against policies and guidance" }
 ) %>
 
 <%= render "comment" %>
@@ -23,7 +23,7 @@
     </h2>
 
     <p class="govuk-body">
-      <%= @policy_guidance.policies %>
+      <%= @policy_area.policies %>
     </p>
 
     <h2 class="govuk-heading-m govuk-!-margin-top-7">
@@ -31,7 +31,7 @@
     </h2>
 
     <p class="govuk-body">
-      <%= @policy_guidance.assessment %>
+      <%= @policy_area.assessment %>
     </p>
 
     <%= render "form", editable: false %>

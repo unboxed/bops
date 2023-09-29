@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
-class ReviewPolicyGuidance < ApplicationRecord
+class ReviewPolicyArea < ApplicationRecord
   class NotCreatableError < StandardError; end
 
   DECISIONS = %w[Yes No].freeze
 
-  belongs_to :policy_guidance
+  belongs_to :policy_area
 
   with_options class_name: "User", optional: true do
     belongs_to :assessor
     belongs_to :reviewer
   end
 
-  before_update :set_status_to_be_reviewed, if: :reviewer_comment?
+before_update :set_status_to_be_reviewed, if: :reviewer_comment?
   before_update :set_reviewer_edited, if: :assessment_changed?
 
   enum status: {
@@ -45,6 +45,6 @@ class ReviewPolicyGuidance < ApplicationRecord
   end
 
   def assessment_changed?
-    policy_guidance.assessment_changed?
+    policy_area.assessment_changed?
   end
 end

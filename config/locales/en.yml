@@ -917,7 +917,7 @@ en:
     title: Part %{part}, Class %{class}
     update:
       successfully_updated_policy: Successfully updated policy class
-  policy_guidances:
+  policy_areas:
     successfully_created: Check against policy and guidance response was sucessfully created
     successfully_updated: Check against policy and guidance response was successfully updated
   proposal_details:
