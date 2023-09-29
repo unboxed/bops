@@ -1,7 +1,8 @@
 ---
 services:
   db:
-    image: postgis/postgis:14-3.4
+    image: bops/postgis
+    build: docker/postgis
     volumes:
       - type: volume
         source: db
