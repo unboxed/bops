@@ -5,13 +5,14 @@ require "rails_helper"
 RSpec.describe "Constraints" do
   let!(:api_user) { create(:api_user, name: "PlanX") }
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
+  let!(:assessor) { create(:user, :assessor, name: "Robert", local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create(:planning_application, :invalidated, local_authority: default_local_authority, api_user:)
+    create(:planning_application, :invalidated, :with_constraints, local_authority: default_local_authority, api_user:)
   end
 
   before do
+    Rails.application.load_seed
     sign_in assessor
     visit planning_application_constraints_path(planning_application)
   end
@@ -27,19 +28,31 @@ RSpec.describe "Constraints" do
         expect(page).to have_text("Check the constraints")
       end
 
-      within(".govuk-heading-m") do
-        expect(page).to have_text("Constraints identified by PlanX")
+      within("#planx") do
+        expect(page).to have_text("Constraints suggested by: PlanX (2)")
       end
 
-      within("#constraints-review") do
-        expect(page).to have_text("Review the following constraints and update as necessary.")
+      within(".planx-constraints-table") do
+        expect(page).to have_text("Conservation area")
+        expect(page).to have_text("Listed building outline")
       end
+
+      within("#accordion-with-other-constraints-sections-heading-1") do
+        expect(page).to have_text("Other constraints")
+      end
+
+      within(".other-constraints-table") do
+        expect(page).not_to have_text("Conservation area")
+        expect(page).not_to have_text("Listed building outline")
+      end
+
+      click_button "Other constraints"
 
       expect(page).to have_link("Back", href: planning_application_validation_tasks_path(planning_application))
 
-      click_button "Marked as checked"
+      click_button "Save and mark as checked"
 
-      expect(page).to have_text("Constraints was successfully checked.")
+      expect(page).to have_text("Constraints was successfully checked")
 
       expect(page).to have_link(
         "Check constraints",
@@ -56,50 +69,58 @@ RSpec.describe "Constraints" do
   end
 
   context "when adding constraints" do
-    before do
-      Rails.application.load_seed
-
-      click_link "Update constraints"
-    end
-
     it "I can check/uncheck constraints" do
-      check "Conservation area"
-      check "Site of special scientific interest"
-      check "National park"
+      within(".planx-constraints-table") do
+        find_checkbox_by_id("constraint_id_#{planning_application.planning_application_constraints.first.constraint_id}").click
+      end
 
-      click_button "Save"
+      click_button "Other constraints"
 
-      within(".govuk-list") do
+      find_checkbox_by_id("constraint_id_#{Constraint.find_by(type: 'monument').id}").click
+      find_checkbox_by_id("constraint_id_#{Constraint.find_by(type: 'nature_asnw').id}").click
+
+      click_button "Save and mark as checked"
+
+      visit planning_application_constraints_path(planning_application)
+
+      within("#planx") do
+        expect(page).to have_text("Constraints suggested by: PlanX (2)")
+      end
+
+      within(".planx-constraints-table") do
         expect(page).to have_text("Conservation area")
-        expect(page).to have_text("Site of special scientific interest")
-        expect(page).to have_text("National park")
+        expect(page).to have_text("Listed building outline")
       end
 
-      expect(planning_application.constraints.length).to eq(3)
-      expect(planning_application.planning_application_constraints.length).to eq(3)
+      within("#robert") do
+        expect(page).to have_text("Constraints suggested by: Robert (2)")
+      end
 
-      click_link "Update constraints"
+      within(".robert-constraints-table") do
+        expect(page).to have_text("Scheduled monument")
+        expect(page).to have_text("Ancient woodland")
+      end
 
-      uncheck "Conservation area"
-      uncheck "Site of special scientific interest"
+      within("#accordion-with-other-constraints-sections-heading-1") do
+        expect(page).to have_text("Other constraints")
+      end
 
-      click_button "Save"
+      click_button "Other constraints"
 
-      within(".govuk-list") do
+      within(".other-constraints-table") do
         expect(page).not_to have_text("Conservation area")
-        expect(page).not_to have_text("Site of special scientific interest")
-        expect(page).to have_text("National park")
+        expect(page).not_to have_text("Listed building outline")
+        expect(page).not_to have_text("Scheduled monument")
+        expect(page).not_to have_text("Ancient woodland")
       end
 
-      planning_application.reload
-      expect(planning_application.constraints.length).to eq(1)
-      expect(planning_application.planning_application_constraints.length).to eq(1)
+      expect(planning_application.planning_application_constraints.active.length).to eq(3)
+      expect(planning_application.planning_application_constraints.length).to eq(4)
 
       visit planning_application_audits_path(planning_application)
 
       within("#audit_#{Audit.last.id}") do
-        expect(page).to have_content("Conservation area")
-        expect(page).to have_content("Constraint removed")
+        expect(page).to have_content("Constraints Checked")
         expect(page).to have_content(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
       end
     end
@@ -110,37 +131,17 @@ RSpec.describe "Constraints" do
       end
 
       it "presents an error message to the user and does not persist any updates" do
-        check "Conservation area"
+        within(".planx-constraints-table") do
+          find_checkbox_by_id("constraint_id_#{planning_application.planning_application_constraints.first.constraint_id}").click
+        end
 
-        click_button "Save"
-
-        expect(page).to have_content("Couldn't update constraints with error: Record invalid. Please contact support.")
-
-        planning_application.reload
-        expect(planning_application.constraints.length).to eq(0)
-        expect(planning_application.planning_application_constraints.length).to eq(0)
-      end
-    end
-
-    context "when there is an error with destroying the removed constraints" do
-      before do
-        allow_any_instance_of(PlanningApplicationConstraint).to receive(:destroy).and_raise(ActiveRecord::RecordInvalid)
-      end
-
-      it "presents an error message to the user and does not persist any updates" do
-        check "Conservation area"
-        click_button "Save"
-        click_link "Update constraints"
-        uncheck "Conservation area"
-        check "Site of special scientific interest"
-        check "National park"
-        click_button "Save"
+        click_button "Save and mark as checked"
 
         expect(page).to have_content("Couldn't update constraints with error: Record invalid. Please contact support.")
 
         planning_application.reload
-        expect(planning_application.constraints.length).to eq(1)
-        expect(planning_application.planning_application_constraints.length).to eq(1)
+        expect(planning_application.constraints.length).to eq(2)
+        expect(planning_application.planning_application_constraints.length).to eq(2)
       end
     end
   end

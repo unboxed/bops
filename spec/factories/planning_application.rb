@@ -312,8 +312,8 @@ FactoryBot.define do
         constraint1 = create(:constraint)
         constraint2 = create(:constraint, :listed)
 
-        planning_application.planning_application_constraints.find_or_create_by(constraint: constraint1).save!
-        planning_application.planning_application_constraints.find_or_create_by(constraint: constraint2).save!
+        planning_application.planning_application_constraints.find_or_create_by(constraint: constraint1, identified: true, identified_by: planning_application.api_user.name).save!
+        planning_application.planning_application_constraints.find_or_create_by(constraint: constraint2, identified: true, identified_by: planning_application.api_user.name).save!
       end
     end
 

@@ -17,6 +17,7 @@
         <%= render(
               partial: "table",
               locals: {
+                identifier: identifier.downcase,
                 text: "Constraints suggested by: #{identifier}  (#{constraints.count})",
                 planning_application_constraints: constraints
               }
@@ -35,8 +36,9 @@
             <%= render(
                   partial: "table",
                   locals: {
+                    identifier: "other",
                     text: "",
-                    planning_application_constraints: Constraint.non_applicable_constraints(@planning_application.planning_application_constraints.active).sort_by(&:category)
+                    planning_application_constraints: Constraint.non_applicable_constraints(@planning_application.planning_application_constraints).sort_by(&:category)
                   }
                 ) %>
           </div>

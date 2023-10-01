@@ -12,7 +12,7 @@ class Constraint < ApplicationRecord
 
   scope :options_for_local_authority, ->(local_authority_id) { where(local_authority_id: [local_authority_id, nil]) }
 
-  alias_method :constraint_id, :id
+  alias constraint_id id
 
   def type_code
     if I18n.t("constraint_type_codes.#{type}").include?("translation missing")

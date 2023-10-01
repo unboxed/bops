@@ -3,6 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "assessment against legislation" do
+  let!(:api_user) { create(:api_user, name: "PlanX") }
   let(:local_authority) { create(:local_authority, :default) }
 
   let(:planning_application) do
@@ -10,7 +11,8 @@ RSpec.describe "assessment against legislation" do
       :planning_application,
       :in_assessment,
       :with_constraints,
-      local_authority:
+      local_authority:,
+      api_user:
     )
   end
 
