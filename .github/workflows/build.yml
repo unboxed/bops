@@ -69,11 +69,22 @@ jobs:
       want-pdf: true
     secrets: inherit
 
-  docker:
+  docker-postgis:
     uses: ./.github/workflows/testing.yml
     with:
       name: "all"
       test-runner: "docker"
+      dockerfile: docker/postgis/Dockerfile
+      context: docker/postgis
+    secrets: inherit
+
+  docker-ruby:
+    uses: ./.github/workflows/testing.yml
+    with:
+      name: "all"
+      test-runner: "docker"
+      dockerfile: docker/ruby/Dockerfile
+      context: docker/ruby
     secrets: inherit
 
   docker-prod:
