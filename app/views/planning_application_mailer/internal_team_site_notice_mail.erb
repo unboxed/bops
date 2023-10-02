@@ -2,6 +2,7 @@ Application number <%= @planning_application.reference_in_full %>
 
 The site notice for this application is ready for display.
 
-<%= link_to "Print site notice", @planning_application.site_notice_link %>.
+To print the site notice, go to:
+<%= @planning_application.site_notice_link %>
 
 Case officer: <%= @planning_application.user.name %>

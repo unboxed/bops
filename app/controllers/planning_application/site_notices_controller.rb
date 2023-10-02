@@ -7,6 +7,7 @@ class PlanningApplication
     before_action :set_planning_application
     before_action :set_site_notice, except: %i[new create]
     before_action :ensure_public_portal_is_active, only: :create
+    before_action :ensure_application_is_assigned, only: :create
 
     def show
       respond_to do |format|
@@ -50,7 +51,8 @@ class PlanningApplication
     def update
       if @site_notice.update(site_notice_params.except(:file))
         if site_notice_params[:file]
-          @planning_application.documents.create!(file: site_notice_params[:file], site_notice: @site_notice)
+          @planning_application.documents.create!(file: site_notice_params[:file], site_notice: @site_notice,
+                                                  tags: ["Site Notice"])
         end
 
         calculate_consultation_end_date
@@ -108,6 +110,17 @@ class PlanningApplication
 
       flash.now[:alert] = sanitize "The planning application must be
       #{view_context.link_to 'made public on the BoPS Public Portal', make_public_planning_application_path(@planning_application)}
+      before you can create a site notice."
+
+      @site_notice = SiteNotice.new
+      render :new and return
+    end
+
+    def ensure_application_is_assigned
+      return if @planning_application.user.present?
+
+      flash.now[:alert] = sanitize "The planning application must be
+      #{view_context.link_to 'assigned to an officer', planning_application_assign_users_path(@planning_application)}
       before you can create a site notice."
 
       @site_notice = SiteNotice.new
