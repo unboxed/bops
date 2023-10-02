@@ -41,7 +41,7 @@ RSpec.describe "Create a site notice", js: true do
     fill_in "Month", with: "2"
     fill_in "Year", with: "2023"
 
-    click_button "Create PDF and mark as complete"
+    click_button "Save and mark as complete", visible: true
 
     expect(page).to have_content "Site notice was successfully created"
   end
@@ -97,7 +97,7 @@ RSpec.describe "Create a site notice", js: true do
 
     choose "No"
 
-    click_button "Save and mark as complete"
+    click_button "Save and mark as complete", visible: true
 
     expect(page).not_to have_content "Confirm site notice is in place"
   end

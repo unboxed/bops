@@ -25,6 +25,7 @@
   ) do |form| %>
     <div data-controller="show-hide-form">
       <div class="display-none">
+        <span id="application-reference"><%= @planning_application.reference %></span>
         <div id="site-notice-content">
           <div style="width: 430px;">
             <%= @site_notice.preview_content(@planning_application.planning_application).html_safe %>
@@ -42,7 +43,7 @@
       <% end %>
 
       <div class="display-none" id="site-notice-options">
-        <div class="grey-box">
+        <div class="grey-box" id="email-site-notice">
           <%= form.govuk_radio_buttons_fieldset(
             :method,
             legend: { text: "Email the site notice", size: "m" },
@@ -59,10 +60,12 @@
 
         <h3 class="govuk-heading-s">OR</h3>
 
-        <div class="grey-box">
+        <div class="grey-box" id="print-site-notice">
           <%= form.govuk_date_field :displayed_at, legend: { text: "Print the site notice" }, hint: { text: "Automatically download a PDF which you can print. Enter the date the site notice will be displayed" } %>
-
-          <%= form.submit "Create PDF and mark as complete", class: "govuk-button govuk-button--primary govuk-!-margin-bottom-0", "data-action": "click->pdf#handleClick" %>
+          <p class="govuk-body">
+            <%= link_to "Download site notice PDF", "#", "data-action": "click->pdf#handleClick", class: "govuk-link" %>
+          </p>
+          <%= form.submit "Save and mark as complete", class: "govuk-button govuk-button--primary govuk-!-margin-bottom-0" %>
         </div>
 
         <div class="govuk-button-group govuk-!-padding-top-7">
