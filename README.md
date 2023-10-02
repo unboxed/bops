@@ -144,14 +144,6 @@ you'll have to clone/setup/boot the app manually and point BOPS to it
 through the environment variable `APPLICANTS_APP_HOST`. See
 `./env.example`.
 
-Another benefit of using Docker is being able to run some end-to-end tests
-that integrate both BOPS and BOPS applicants:
-
-```sh
-make e2e   # actually runs the Cucumber tests tagged with `@e2e`
-```
-
-
 Note that because of the limitations of Docker network aliases (which
 can't accept wildcards, we will add a small DNS service eventually),
 BOPS applicants has to operate against the Southwark local authority

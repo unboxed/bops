@@ -17,17 +17,14 @@ ENV LANG=en_US.UTF-8
 # Generates localisation files from templates
 RUN locale-gen
 
-# Install NODE_MAJOR
-ARG NODE_MAJOR=18
-RUN bash -c "export DEBIAN_FRONTEND=noninteractive && \
-    curl -sL https://deb.nodesource.com/setup_$NODE_MAJOR.x | bash - && \
-    apt-get update && apt-get install -y nodejs"
-
-# Install Yarn via Debian package repository
-RUN bash -c "export DEBIAN_FRONTEND=noninteractive && \
-    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
-    echo 'deb https://dl.yarnpkg.com/debian/ stable main' | tee /etc/apt/sources.list.d/yarn.list && \
-    apt-get update -qq && apt install yarn"
+# Install NodeJS
+ARG NODE_VERSION=18.16.1
+ARG YARN_VERSION=1.22.19
+ENV PATH=/usr/local/node/bin:$PATH
+RUN bash -c "curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
+    /tmp/node-build-master/bin/node-build '$NODE_VERSION' /usr/local/node && \
+    npm install -g yarn@$YARN_VERSION && \
+    rm -rf /tmp/node-build-master"
 
 # Install Bundler
 ARG BUNDLER_VERSION=2.3.26

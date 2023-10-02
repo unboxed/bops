@@ -11,50 +11,36 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
 
   redis:
     image: redis:7.0
     command: redis-server
     ports:
-      - "6379:6379"
+      - "127.0.0.1:6379:6379"
     volumes:
       - type: volume
         source: redis
         target: /var/lib/redis/data
 
-  sidekiq:
-    entrypoint: ./docker-entrypoint.sh
-    depends_on:
-      - redis
-    build: .
-    command: bundle exec sidekiq
-    volumes:
-      - type: bind
-        source: .
-        target: /app
-    environment:
-      REDIS_URL: redis://redis:6379/1
-      DATABASE_URL: postgres://postgres:postgres@db:5432
-
   web:
-    build: .
-    entrypoint: ./docker-entrypoint.sh
-    command: bash -c "bundle exec bin/dev"
+    image: bops/ruby
+    build: docker/ruby
+    working_dir: /home/rails/bops
+    command: ["bin/dev"]
     stdin_open: true
     tty: true
     environment:
       DATABASE_URL: postgres://postgres:postgres@db:5432
       APPLICANTS_APP_HOST: southwark.localhost:3001
       GROVER_NO_SANDBOX: "true"
+      PIDFILE: /tmp/pids/server.pid
       OS_VECTOR_TILES_API_KEY: ${OS_VECTOR_TILES_API_KEY}
       REDIS_URL: redis://redis:6379/1
     ports:
-      - "3000:3000"
-      - "3333:3333"
+      - "127.0.0.1:3000:3000"
     depends_on:
       - db
-      - sidekiq
       - redis
     networks:
       default:
@@ -63,33 +49,50 @@ services:
     volumes:
       - type: bind
         source: .
-        target: /app
+        target: /home/rails/bops
+      - type: volume
+        source: bundle
+        target: /home/rails/bundle
+      - type: volume
+        source: node_modules
+        target: /home/rails/bops/node_modules
+      - type: tmpfs
+        target: /tmp/pids
+
   applicants:
-    build:
-      context: ./bops-applicants/docker/ruby
-      dockerfile: Dockerfile
-    entrypoint: /home/rails/bops-applicants/docker/ruby/docker-entrypoint.sh
+    image: bops/applicants
+    build: bops-applicants/docker/ruby
+    working_dir: /home/rails/bops-applicants
+    command: ["bin/dev"]
     stdin_open: true
     tty: true
-    command: bash -c "bundle exec bin/dev"
-    depends_on:
-      - web
     environment:
       API_BEARER: 123
       API_HOST: southwark.localhost:3000
       API_USER: api_user
+      PIDFILE: /tmp/pids/server.pid
       PORT: 3001
       PROTOCOL: http
       OS_VECTOR_TILES_API_KEY: ${OS_VECTOR_TILES_API_KEY}
     ports:
-      - "3001:3001"
+      - "127.0.0.1:3001:3001"
     volumes:
-    - type: bind
-      source: ./bops-applicants/
-      target: /home/rails/bops-applicants
-
-    working_dir: /home/rails/bops-applicants
+      - type: bind
+        source: bops-applicants
+        target: /home/rails/bops-applicants
+      - type: volume
+        source: applicants_bundle
+        target: /home/rails/bundle
+      - type: volume
+        source: applicants_node_modules
+        target: /home/rails/bops-applicants/node_modules
+      - type: tmpfs
+        target: /tmp/pids
 
 volumes:
   redis:
   db:
+  bundle:
+  node_modules:
+  applicants_bundle:
+  applicants_node_modules:

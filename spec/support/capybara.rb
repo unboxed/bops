@@ -16,6 +16,7 @@ Capybara.register_driver :chrome_headless do |app|
   browser_options.args << "--allow-insecure-localhost"
   browser_options.args << "--window-size=1280,2800"
   browser_options.args << "--disable-gpu" if Gem.win_platform?
+  browser_options.args << "--disable-dev-shm-usage"
   browser_options.args << "--host-rules=MAP * 127.0.0.1"
 
   if Gem::Platform.local.os == "darwin" && !(File.exist? "/Applications/Google Chrome for Testing.app")
