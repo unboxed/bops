@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "checking against policies and guidance" do
+RSpec.describe "assess against policies and guidance" do
   let(:local_authority) { create(:local_authority, :default) }
 
   let(:planning_application) do
@@ -37,8 +37,23 @@ RSpec.describe "checking against policies and guidance" do
 
     expect(page).to have_content("Assess against policies and guidance")
 
-    fill_in "Which local policies and guidance did you assess against?", with: "Policy 1, Policy 2"
-    fill_in "What is your assessment of those policies?", with: "This application meets those"
+    expect(page).to have_content "Design"
+    expect(page).to have_content "Impact on neighbours"
+    expect(page).to have_content "Other"
+
+    check "Design"
+    within("#policy-area-considerations-attributes-0-areas-design-conditional") do
+      fill_in "Which policies are relevant", with: "Q1, Q2"
+      choose "Yes"
+      fill_in "Which guidance? (e.g. the design code)", with: "P1, P2"
+      fill_in "Enter your assessment", with: "It's all fine"
+    end
+
+    check "Other"
+    within("#policy-area-considerations-attributes-2-areas-other-conditional") do
+      fill_in "Which policies are relevant", with: "S1, S2"
+      choose "No"
+    end
 
     click_button "Save and come back later"
 

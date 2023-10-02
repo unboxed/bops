@@ -9,7 +9,7 @@ class PolicyArea < ApplicationRecord
   after_create :create_review_policy_area
   before_update :maybe_create_review_policy_area
 
-  AREAS = %i[design impact_on_neighbours other]
+  AREAS = %w[design impact_on_neighbours other]
 
   accepts_nested_attributes_for :considerations
 

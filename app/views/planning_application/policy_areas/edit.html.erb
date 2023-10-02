@@ -18,4 +18,4 @@
 
 <%= render "comment" %>
 
-<%= render "form", planning_application: @planning_application, policy_area: @policy_area %>
+<%= render "form", planning_application: @planning_application, policy_area: @policy_area, url: planning_application_policy_area_path(@planning_application, @policy_area), considerations: @considerations %>

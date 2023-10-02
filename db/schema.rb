@@ -669,16 +669,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_175416) do
     t.index ["reviewer_id"], name: "ix_review_immunity_details_on_reviewer_id"
   end
 
-  create_table "review_policy_areas", force: :cascade do |t|
-    t.bigint "policy_area_id", null: false
-    t.integer "mark", null: false
-    t.string "comment"
-    t.integer "status", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["policy_class_id"], name: "ix_review_policy_classes_on_policy_class_id"
-  end
-
   create_table "site_notices", force: :cascade do |t|
     t.bigint "planning_application_id"
     t.boolean "required"
@@ -689,8 +679,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_175416) do
     t.index ["planning_application_id"], name: "ix_site_notices_on_planning_application_id"
   end
 
-  create_table "review_policy_guidances", force: :cascade do |t|
-    t.bigint "policy_guidance_id"
+  create_table "review_policy_areas", force: :cascade do |t|
+    t.bigint "policy_area_id"
     t.bigint "assessor_id"
     t.bigint "reviewer_id"
     t.boolean "accepted", default: false, null: false
