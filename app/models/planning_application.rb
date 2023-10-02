@@ -343,9 +343,9 @@ class PlanningApplication < ApplicationRecord
     path = "planning_applications/#{id}/site_notices/download"
 
     if Bops.env.production?
-      "#{protocol}://planningapplications.#{local_authority.subdomain}.gov.uk/#{path}"
+      "#{protocol}://#{ENV.fetch('APPLICANTS_APP_HOST')}.#{local_authority.subdomain}.gov.uk/#{path}"
     else
-      "#{protocol}://#{local_authority.subdomain}.bops-applicants.services/#{path}"
+      "#{protocol}://#{local_authority.subdomain}.#{ENV.fetch('APPLICANTS_APP_HOST')}/#{path}"
     end
   end
 

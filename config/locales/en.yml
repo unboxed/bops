@@ -1148,6 +1148,8 @@ en:
       check_red_line: Check red line boundary
     cil_liability_component:
       link_text: CIL Liability
+    confirm_site_notice_component:
+      link_text: Confirm site notice
     document_component:
       check_document: Check document - %{document}
     fee_component:
@@ -1174,6 +1176,8 @@ en:
       review_permitted_development_rights: Review permitted development rights
     send_letters_to_neighbours_component:
       send_letters_to_neighbours: Send letters to neighbours
+    site_notice_component:
+      link_text: Send site notice
     site_visit_component:
       site_visit: Site visit
     validation_decision_component:

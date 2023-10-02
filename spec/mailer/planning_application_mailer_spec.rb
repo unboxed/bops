@@ -61,8 +61,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
   before do
     allow(ENV).to receive(:[])
-    allow(ENV).to receive(:[]).with("APPLICANTS_APP_HOST").and_return("example.com")
     allow(ENV).to receive(:fetch).and_call_original
+    allow(ENV).to receive(:[]).with("APPLICANTS_APP_HOST").and_return("example.com")
     allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("test")
   end
 
@@ -810,6 +810,11 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   describe "#site_notice_mail" do
+    before do
+      allow(ENV).to receive(:[]).with("APPLICANTS_APP_HOST").and_return("example.com")
+      allow(ENV).to receive(:fetch).with("APPLICANTS_APP_HOST").and_return("example.com")
+    end
+
     let!(:consultation) do
       travel_to("2022-01-01") { create(:consultation, planning_application:) }
     end
@@ -868,12 +873,17 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         "As part of the application process"
       )
       expect(mail_body).to include(
-        "http://planx.bops-applicants.services/planning_applications/#{planning_application.id}/site_notices/download"
+        "http://planx.example.com/planning_applications/#{planning_application.id}/site_notices/download"
       )
     end
   end
 
   describe "#internal_site_notice_mail" do
+    before do
+      allow(ENV).to receive(:[]).with("APPLICANTS_APP_HOST").and_return("example.com")
+      allow(ENV).to receive(:fetch).with("APPLICANTS_APP_HOST").and_return("example.com")
+    end
+
     let!(:consultation) do
       travel_to("2022-01-01") { create(:consultation, planning_application:) }
     end
@@ -932,7 +942,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         "The site notice for this application is ready for display"
       )
       expect(mail_body).to include(
-        "http://planx.bops-applicants.services/planning_applications/#{planning_application.id}/site_notices/download"
+        "http://planx.example.com/planning_applications/#{planning_application.id}/site_notices/download"
       )
     end
   end

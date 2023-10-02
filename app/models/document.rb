@@ -59,11 +59,8 @@ class Document < ApplicationRecord
     "Other"
   ].freeze
 
-  SITE_VISIT_TAGS = [
-    "Site Visit"
-  ].freeze
-
-  SITE_NOTICE_TAGS = [
+  OTHER_TAGS = [
+    "Site Visit",
     "Site Notice"
   ].freeze
 
@@ -103,7 +100,7 @@ class Document < ApplicationRecord
     other: ["What do these documents show?"]
   }.freeze
 
-  TAGS = PLAN_TAGS + EVIDENCE_TAGS + SITE_VISIT_TAGS + SITE_NOTICE_TAGS
+  TAGS = PLAN_TAGS + EVIDENCE_TAGS + OTHER_TAGS
 
   PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"].freeze
 

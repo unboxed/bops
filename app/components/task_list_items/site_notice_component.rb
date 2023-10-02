@@ -9,7 +9,7 @@ module TaskListItems
     private
 
     def link_text
-      "Send site notice"
+      t(".link_text")
     end
 
     def link_path

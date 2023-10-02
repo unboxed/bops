@@ -9,15 +9,17 @@ module TaskListItems
 
     private
 
+    attr_reader :planning_application, :site_notice
+
     def link_text
-      "Confirm site notice"
+      t(".link_text")
     end
 
     def link_path
       if @site_notice.displayed_at.nil?
-        edit_planning_application_site_notice_path(@planning_application, @planning_application.site_notices.last)
+        edit_planning_application_site_notice_path(planning_application, site_notice)
       else
-        planning_application_site_notice_path(@planning_application, @planning_application.site_notices.last)
+        planning_application_site_notice_path(planning_application, site_notice)
       end
     end
 
@@ -26,7 +28,7 @@ module TaskListItems
         StatusTags::BaseComponent.new(
           status: "not_started"
         )
-      elsif @site_notice.displayed_at.present?
+      else
         StatusTags::BaseComponent.new(
           status: "complete"
         )

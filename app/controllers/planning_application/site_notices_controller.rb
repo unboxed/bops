@@ -29,16 +29,10 @@ class PlanningApplication
                                     .except(:method, :internal_team_email)
                                     .merge(planning_application_id: @planning_application.id))
 
-      if @site_notice.save
-        @site_notice.update(content: @site_notice.preview_content(@planning_application))
+      @site_notice.assign_attributes(content: @site_notice.preview_content(@planning_application))
 
-        if params[:commit] == "Email site notice and mark as complete"
-          if site_notice_params[:internal_team_email].presence
-            @planning_application.send_internal_team_site_notice_mail(site_notice_params[:internal_team_email])
-          else
-            @planning_application.send_site_notice_mail(@planning_application.applicant_email)
-          end
-        end
+      if @site_notice.save
+        send_mail if params[:commit] == "Email site notice and mark as complete"
 
         respond_to do |format|
           format.html do
@@ -99,6 +93,14 @@ class PlanningApplication
       new_end_date = @site_notice.displayed_at + 21.days
 
       @planning_application.consultation.update(end_date: new_end_date)
+    end
+
+    def send_mail
+      if site_notice_params[:internal_team_email].presence
+        @planning_application.send_internal_team_site_notice_mail(site_notice_params[:internal_team_email])
+      else
+        @planning_application.send_site_notice_mail(@planning_application.applicant_email)
+      end
     end
 
     def ensure_public_portal_is_active
