@@ -17,15 +17,9 @@ module TaskListItems
     end
 
     def status_tag_component
-      if @planning_application.site_notices.empty?
-        StatusTags::BaseComponent.new(
-          status: "not_started"
-        )
-      else
-        StatusTags::BaseComponent.new(
-          status: "complete"
-        )
-      end
+      StatusTags::BaseComponent.new(
+        status: @planning_application.site_notices.empty? ? "not_started" : "complete"
+      )
     end
   end
 end

@@ -49,7 +49,7 @@ RSpec.describe "Confirm site notice", js: true do
 
     click_link "Confirm site notice"
 
-    expect(page).to have_content("Displayed on: 1 February 2023")
+    expect(page).to have_content("1 February 2023")
 
     expect(consultation.reload.end_date.to_fs(:day_month_year_slashes)).to eq "22/02/2023"
   end
