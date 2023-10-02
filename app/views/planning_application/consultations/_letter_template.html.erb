@@ -10,21 +10,20 @@ method: 'post'
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <%= form.hidden_field :consultation_id, value: @consultation.id %>
   <%= form.label :neighbour_letter_content, "Neighbour letter", class: "display-none" %>
-  <%= form.text_area :neighbour_letter_content, 
-      value: @consultation.neighbour_letter_text || neighbour_letter_content(@consultation).html_safe, 
-      rows: 25, 
-      class: "govuk-body neighbour-letter-template" 
-  %>
-
   <div class="govuk-inset-text">
     <p class="govuk-body">Text marked with a # (hashtag) will appear as a header in the printed letter.</p>
     <p class="govuk-body">Text marked with a * (asterisk) will appear as a bullet point in the printed letter.</p>
     <% if @planning_application.type == "Prior approval" %>
       <p class="govuk-body">
-        Measurements in the letter have been taken from PlanX. Please amend in the template or in the consistency checklist in the assessment task list.
+        Measurements in the letter have been taken from PlanX. If measurements are incorrect, <%= link_to "change the measurements in the consistency checklist", new_planning_application_consistency_checklist_path(planning_application) %> then return to this template.
       </p>
     <% end %>
   </div>
+  <%= form.text_area :neighbour_letter_content, 
+      value: @consultation.neighbour_letter_text || neighbour_letter_content(@consultation).html_safe, 
+      rows: 25, 
+      class: "govuk-body neighbour-letter-template" 
+  %>
 
   <h2 class="govuk-heading-m govuk-!-margin-top-6">4) Send letter</h2>
   <p class="govuk-body">The letter will be sent to all selected neighbours.</p>
