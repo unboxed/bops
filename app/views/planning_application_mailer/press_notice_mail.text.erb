@@ -8,4 +8,4 @@ This application requires a press notice with the following reasons:
 - <%= reason %>
 <% end %>
 
-View the application at <%= edit_planning_application_confirm_press_notice_url(@planning_application, @press_notice) %>.
+View the application at <%= edit_planning_application_confirm_press_notice_url(@planning_application, @press_notice, subdomain: @planning_application.local_authority.subdomain) %>.
