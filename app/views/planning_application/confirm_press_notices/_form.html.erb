@@ -1,0 +1,36 @@
+<%= form_with(
+  model: [@planning_application, @press_notice],
+  builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+  class: "govuk-!-margin-top-5",
+  url: planning_application_confirm_press_notice_path(@planning_application, @press_notice),
+  method: :patch
+) do |form| %>
+
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+  <div class="govuk-form-group">
+    <fieldset class="govuk-fieldset">
+      <%= form.govuk_date_field(:press_sent_at, rows: 6, id: "press-sent-at-field", legend: { size: "s", text: "What date was the press notice sent?" }) %>
+      <%= form.govuk_date_field(:published_at, rows: 6, id: "published-at-field", legend: { size: "s", text: "What date was the press notice published?" }) %>
+
+      <%= render "documents", documents: @press_notice.documents %>
+
+      <%= form.fields_for :documents, @press_notice.documents.new do |document_attributes| %>
+        <%= document_attributes.govuk_file_field :files, 
+          multiple: true, 
+          label: { text: "Upload photo(s)", 
+          class: "govuk-label govuk-!-font-weight-bold" },
+          accept: acceptable_file_mime_types
+        %>
+      <% end %>
+
+      <%= form.govuk_text_area(:comment, rows: 3, label: { text: "Optional comment" }) %>
+    </fieldset>
+
+    <div class="govuk-button-group govuk-!-padding-top-7">
+      <%= form.submit "Save", class: "govuk-button govuk-button--primary" %>
+
+      <%= back_link %>
+    </div>
+  </div>
+<% end %>

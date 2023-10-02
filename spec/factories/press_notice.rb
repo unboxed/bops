@@ -14,6 +14,7 @@ FactoryBot.define do
           development_plan: "The application does not accord with the provisions of the development plan"
         }
       end
+      requested_at { Time.zone.now }
     end
 
     trait :with_other_reason do

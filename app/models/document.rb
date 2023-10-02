@@ -61,7 +61,8 @@ class Document < ApplicationRecord
 
   OTHER_TAGS = [
     "Site Visit",
-    "Site Notice"
+    "Site Notice",
+    "Press Notice"
   ].freeze
 
   ## Needs to be better
@@ -113,7 +114,7 @@ class Document < ApplicationRecord
   validate :numbered
   validate :created_date_is_in_the_past
 
-  default_scope -> { where(site_visit_id: nil, site_notice_id: nil) }
+  default_scope -> { where(site_visit_id: nil, site_notice_id: nil, press_notice_id: nil) }
 
   scope :by_created_at, -> { order(created_at: :asc) }
   scope :active, -> { where(archived_at: nil) }

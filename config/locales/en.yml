@@ -378,6 +378,7 @@ en:
       other_change_validation_request_received: 'Received: request for change (other validation#%{args})'
       other_change_validation_request_sent: 'Sent: validation request (other validation#%{args})'
       press_notice: Press notice response added
+      press_notice_mail: Request made for press notice
       proposal_measurements_updated: Proposal measurements were updated
       red_line_boundary_change_validation_request_added: 'Added: validation request (red line boundary#%{args})'
       red_line_boundary_change_validation_request_auto_closed:
@@ -548,6 +549,7 @@ en:
       neighbour_consultation_letter_copy_mail: Neighbour consultation letter copy
       otp_mail: Back Office Planning System verification code
       post_validation_request_mail: "%{application_type_name} application - changes needed"
+      press_notice_mail: Request for press notice
       receipt_notice_mail: "%{application_type_name} application received"
       site_notice_mail: Display site notice for your application %{reference}
       update_notification_mail: BoPS case %{reference} has a new update
@@ -640,6 +642,7 @@ en:
     table:
       edit: Edit
       local_authority: Council information
+      press_notice_email: Press notice email
       reviewer_group_email: Manager group email
   neighbour_letter_header:
     planning_permission: Submit your comments by %{closing_date}
@@ -713,6 +716,9 @@ en:
     cil_liability:
       update:
         success: CIL liability updated
+    confirm_press_notices:
+      update:
+        success: Press notice response has been successfully updated
     consultation_neighbour_addresses:
       create:
         success: Addresses have been successfully added.
@@ -1053,6 +1059,7 @@ en:
   shared:
     administrator_layout:
       add_user: Add user
+      press_notice_email: Press notice email
       reviewer_group_email: Manager group email
       submit: Submit
     alert_banner:
@@ -1100,6 +1107,7 @@ en:
     checked: Checked
     cil_liable: Liable
     complete: Completed
+    emailed: Emailed
     failed: Failed
     granted: To grant
     granted_not_required: Prior approval not required

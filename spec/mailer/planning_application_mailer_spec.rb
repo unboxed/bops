@@ -1217,4 +1217,73 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       end
     end
   end
+
+  describe "#press_notice_mail" do
+    let!(:local_authority) do
+      create(
+        :local_authority,
+        :default,
+        press_notice_email: "pressnotice@example.com"
+      )
+    end
+    let(:press_notice) do
+      create(
+        :press_notice,
+        :required,
+        reasons: {
+          "environment" => "An environmental statement accompanies this application",
+          "major_development" => "The application is for a Major Development"
+        },
+        planning_application:
+      )
+    end
+
+    let(:press_notice_mail) do
+      described_class.press_notice_mail(press_notice)
+    end
+
+    let(:mail_body) { press_notice_mail.body.encoded }
+
+    it "emails the press notice team" do
+      expect(press_notice_mail.to).to eq(["pressnotice@example.com"])
+    end
+
+    it "sets the subject" do
+      expect(press_notice_mail.subject).to eq(
+        "Request for press notice"
+      )
+    end
+
+    it "includes the reference" do
+      travel_to("2022-01-01") do
+        expect(mail_body).to include(
+          "Application reference number: PlanX-22-00100-LDCP"
+        )
+      end
+    end
+
+    it "includes the address" do
+      expect(mail_body).to include(
+        "Address: 123 High Street, Big City, AB3 4EF"
+      )
+    end
+
+    it "includes the main text body" do
+      expect(mail_body).to include(
+        "This application requires a press notice with the following reasons:"
+      )
+      expect(mail_body).to include(
+        "An environmental statement accompanies this application"
+      )
+      expect(mail_body).to include(
+        "The application is for a Major Development"
+      )
+    end
+
+    it "includes the bops request url" do
+      expect(mail_body).to include(
+        "View the application at http://bops.services/planning_applications/#{planning_application.id}/confirm_press_notices/#{press_notice.id}/edit."
+      )
+    end
+  end
 end

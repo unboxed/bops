@@ -216,11 +216,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_094350) do
     t.bigint "site_visit_id"
     t.bigint "neighbour_response_id"
     t.bigint "site_notice_id"
+    t.bigint "press_notice_id"
     t.index ["additional_document_validation_request_id"], name: "ix_documents_on_additional_document_validation_request_id"
     t.index ["api_user_id"], name: "ix_documents_on_api_user_id"
     t.index ["evidence_group_id"], name: "ix_documents_on_evidence_group_id"
     t.index ["neighbour_response_id"], name: "ix_documents_on_neighbour_response_id"
     t.index ["planning_application_id"], name: "index_documents_on_planning_application_id"
+    t.index ["press_notice_id"], name: "ix_documents_on_press_notice_id"
     t.index ["replacement_document_validation_request_id"], name: "ix_documents_on_replacement_document_validation_request_id"
     t.index ["site_notice_id"], name: "ix_documents_on_site_notice_id"
     t.index ["site_visit_id"], name: "ix_documents_on_site_visit_id"
@@ -265,6 +267,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_094350) do
     t.string "notify_api_key"
     t.string "notify_letter_template"
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
+    t.string "press_notice_email"
   end
 
   create_table "neighbour_letters", force: :cascade do |t|
@@ -510,6 +513,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_094350) do
     t.datetime "published_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "comment"
     t.index ["planning_application_id"], name: "ix_press_notices_on_planning_application_id"
   end
 
@@ -689,6 +693,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_094350) do
   add_foreign_key "documents", "api_users"
   add_foreign_key "documents", "evidence_groups"
   add_foreign_key "documents", "neighbour_responses"
+  add_foreign_key "documents", "press_notices"
   add_foreign_key "documents", "replacement_document_validation_requests"
   add_foreign_key "documents", "site_notices"
   add_foreign_key "documents", "site_visits"

@@ -159,4 +159,16 @@ class PlanningApplicationMailer < ApplicationMailer
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
   end
+
+  def press_notice_mail(press_notice)
+    @press_notice = press_notice
+    @planning_application = press_notice.planning_application
+
+    view_mail(
+      NOTIFY_TEMPLATE_ID,
+      subject: subject(:press_notice_mail),
+      to: press_notice.press_notice_email,
+      reply_to_id: @planning_application.local_authority.reply_to_notify_id
+    )
+  end
 end

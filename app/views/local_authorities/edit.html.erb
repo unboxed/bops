@@ -13,6 +13,11 @@
          label: { text: t(".reviewer_group_email") },
          class: "govuk-input--width-30"
       ) %>
+      <%= form.govuk_text_field(
+         :press_notice_email,
+         label: { text: t(".press_notice_email") },
+         class: "govuk-input--width-30"
+      ) %>
     <% end %>
     <%= form.govuk_submit(t(".submit")) %>
   <% end %>
