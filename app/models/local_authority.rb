@@ -23,11 +23,11 @@ class LocalAuthority < ApplicationRecord
   end
 
   def council_name
-    plan_x? ? subdomain.capitalize : "#{subdomain.capitalize} Council"
+    plan_x? ? council_code : "#{subdomain.titleize} Council"
   end
 
   def formatted_subdomain
-    plan_x? ? council_code : subdomain.capitalize
+    plan_x? ? council_code : subdomain.titleize
   end
 
   def document_checklist?
