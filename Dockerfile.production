@@ -58,7 +58,9 @@ RUN bash -c "export DEBIAN_FRONTEND=noninteractive && \
 RUN bash -c "export DEBIAN_FRONTEND=noninteractive && \
     apt-get update -qq && \
     apt-get upgrade -y && \
-    apt-get install -y imagemagick libmagickwand-dev ghostscript poppler-utils xvfb"
+    apt-get install -y imagemagick libmagickwand-dev ghostscript poppler-utils xvfb && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*"
 
 # Create a directory for our application
 # and set it as the working directory
