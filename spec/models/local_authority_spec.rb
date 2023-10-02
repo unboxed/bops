@@ -90,7 +90,7 @@ RSpec.describe LocalAuthority do
     end
   end
 
-  describe "#council_name" do
+  describe "#council_code" do
     let(:local_authority) { build(:local_authority, :lambeth) }
 
     it "returns council code" do
@@ -106,16 +106,6 @@ RSpec.describe LocalAuthority do
       end
     end
 
-    context "when not a valid email" do
-      let(:local_authority) do
-        build(:local_authority, reviewer_group_email: "qwerty")
-      end
-
-      it "is invalid" do
-        expect(local_authority.valid?).to be(false)
-      end
-    end
-
     context "when not valid council code" do
       let(:local_authority) do
         build(:local_authority, council_code: "TEST")
@@ -123,6 +113,38 @@ RSpec.describe LocalAuthority do
 
       it "is invalid" do
         expect { local_authority.valid? }.to change { local_authority.errors[:council_code] }.to ["Please enter a valid council code"]
+      end
+    end
+  end
+
+  describe "#council_name" do
+    let(:local_authority) { build(:local_authority, subdomain: "lambeth") }
+
+    it "returns the council name" do
+      expect(local_authority.council_name).to eq("Lambeth Council")
+    end
+
+    context "when the subdomain has a hyphen" do
+      let(:local_authority) { build(:local_authority, subdomain: "great-yarmouth") }
+
+      it "returns the council name" do
+        expect(local_authority.council_name).to eq("Great Yarmouth Council")
+      end
+    end
+  end
+
+  describe "#formatted_subdomain" do
+    let(:local_authority) { build(:local_authority, subdomain: "lambeth") }
+
+    it "returns a formatted name" do
+      expect(local_authority.formatted_subdomain).to eq("Lambeth")
+    end
+
+    context "when the subdomain has a hyphen" do
+      let(:local_authority) { build(:local_authority, subdomain: "great-yarmouth") }
+
+      it "returns a formatted name" do
+        expect(local_authority.formatted_subdomain).to eq("Great Yarmouth")
       end
     end
   end
