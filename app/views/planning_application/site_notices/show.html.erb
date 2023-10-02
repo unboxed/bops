@@ -1,0 +1,56 @@
+<% content_for :page_title do %>
+  Site notice - <%= t('page_title') %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Consultation", planning_application_consultations_path(@planning_application) %>
+<% content_for :title, "Site notice" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Site notice" }
+) %>
+
+<%= render "status", planning_application: @planning_application %>
+
+<% if @site_notice.document %>
+  <table class="govuk-table govuk-!-margin-top-6">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header govuk-!-width-one-third">Document</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-third">Tags</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-third">Date displayed</th>
+      </tr>
+    </thead>
+
+    <tbody class="govuk-table__body">
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell govuk-!-width-one-third">
+          <p class="govuk-body govuk-!-margin-bottom-1">
+            <%= link_to image_tag(@site_notice.document.file.representation(resize: "300x212")),
+                        url_for_document(@site_notice.document), target: :_blank %>
+          </p>
+          <p class="govuk-body">
+            <%= truncate(@site_notice.document.name.to_s, length: 50) %><br>
+            <%= link_to "View in new window", url_for_document(@site_notice.document), target: :_new %>
+          </p>
+        </td>
+        <td class="govuk-table__cell govuk-!-width-one-third">
+          <% @site_notice.document.tags.each do |tag| %>
+            <strong class="govuk-tag govuk-tag--turquoise"><%= tag %></strong>
+          <% end %>
+        </td>
+        <td class="govuk-table__cell govuk-!-width-one-third">
+          <p class="govuk-body govuk-!-margin-bottom-1">
+            <%= @site_notice.displayed_at.to_date.to_fs %>
+          </p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<% else %>
+  <p class="govuk-body"><strong>Date displayed:</strong> <%= @site_notice.displayed_at.to_date.to_fs %></p>
+<% end %>
+
+<%= back_link %>

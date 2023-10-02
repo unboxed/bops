@@ -52,6 +52,7 @@ class PlanningApplication < ApplicationRecord
     has_many :planning_application_constraints
     has_many :planning_application_constraints_queries
     has_many :constraints, through: :planning_application_constraints, source: :constraint
+    has_many :site_notices
     has_one :immunity_detail, required: false
     has_one :consultation, required: false
     has_one :proposal_measurement, required: false
@@ -335,6 +336,21 @@ class PlanningApplication < ApplicationRecord
     protocol = Rails.env.production? ? "https" : "http"
 
     public_url_enabled? ? "#{protocol}://#{public_url}" : "#{protocol}://#{internal_url}"
+  end
+
+  def site_notice_link
+    protocol = Rails.env.production? ? "https" : "http"
+    path = "planning_applications/#{id}/site_notices/download"
+
+    if Bops.env.production?
+      "#{protocol}://#{ENV.fetch('APPLICANTS_APP_HOST')}.#{local_authority.subdomain}.gov.uk/#{path}"
+    else
+      "#{protocol}://#{local_authority.subdomain}.#{ENV.fetch('APPLICANTS_APP_HOST')}/#{path}"
+    end
+  end
+
+  def last_site_notice_audit
+    audits.where(activity_type: "site_notice_created").order(:created_at).last
   end
 
   def invalid_documents_without_validation_request

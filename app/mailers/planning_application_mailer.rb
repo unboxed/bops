@@ -135,4 +135,28 @@ class PlanningApplicationMailer < ApplicationMailer
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
   end
+
+  def site_notice_mail(planning_application, email)
+    @planning_application = planning_application
+    @site_notice = @planning_application.site_notices.last
+
+    view_mail(
+      NOTIFY_TEMPLATE_ID,
+      subject: subject(:site_notice_mail, reference: planning_application.reference),
+      to: email,
+      reply_to_id: @planning_application.local_authority.reply_to_notify_id
+    )
+  end
+
+  def internal_team_site_notice_mail(planning_application, email)
+    @planning_application = planning_application
+    @site_notice = @planning_application.site_notices.last
+
+    view_mail(
+      NOTIFY_TEMPLATE_ID,
+      subject: subject(:internal_team_site_notice_mail, reference: planning_application.reference),
+      to: email,
+      reply_to_id: @planning_application.local_authority.reply_to_notify_id
+    )
+  end
 end

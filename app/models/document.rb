@@ -6,6 +6,7 @@ class Document < ApplicationRecord
   belongs_to :planning_application
   belongs_to :evidence_group, optional: true
   belongs_to :site_visit, optional: true
+  belongs_to :site_notice, optional: true
   belongs_to :neighbour_response, optional: true
 
   delegate :audits, to: :planning_application
@@ -58,8 +59,9 @@ class Document < ApplicationRecord
     "Other"
   ].freeze
 
-  SITE_VISIT_TAGS = [
-    "Site Visit"
+  OTHER_TAGS = [
+    "Site Visit",
+    "Site Notice"
   ].freeze
 
   ## Needs to be better
@@ -98,7 +100,7 @@ class Document < ApplicationRecord
     other: ["What do these documents show?"]
   }.freeze
 
-  TAGS = PLAN_TAGS + EVIDENCE_TAGS + SITE_VISIT_TAGS
+  TAGS = PLAN_TAGS + EVIDENCE_TAGS + OTHER_TAGS
 
   PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"].freeze
 
@@ -111,7 +113,7 @@ class Document < ApplicationRecord
   validate :numbered
   validate :created_date_is_in_the_past
 
-  default_scope -> { where(site_visit_id: nil) }
+  default_scope -> { where(site_visit_id: nil, site_notice_id: nil) }
 
   scope :by_created_at, -> { order(created_at: :asc) }
   scope :active, -> { where(archived_at: nil) }

@@ -61,7 +61,9 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
   before do
     allow(ENV).to receive(:[])
+    allow(ENV).to receive(:fetch).and_call_original
     allow(ENV).to receive(:[]).with("APPLICANTS_APP_HOST").and_return("example.com")
+    allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("test")
   end
 
   describe "#decision_notice_mail" do
@@ -804,6 +806,144 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     it "includes the name of the agent in the body if agent is present" do
       expect(neighbour_consultation_letter_copy_mail.body.encoded).to include(planning_application.agent_first_name)
       expect(neighbour_consultation_letter_copy_mail.body.encoded).to include(planning_application.agent_last_name)
+    end
+  end
+
+  describe "#site_notice_mail" do
+    before do
+      allow(ENV).to receive(:[]).with("APPLICANTS_APP_HOST").and_return("example.com")
+      allow(ENV).to receive(:fetch).with("APPLICANTS_APP_HOST").and_return("example.com")
+    end
+
+    let!(:consultation) do
+      travel_to("2022-01-01") { create(:consultation, planning_application:) }
+    end
+
+    let(:user) { create(:user) }
+
+    let(:application_type) { create(:application_type, :prior_approval) }
+
+    let(:planning_application) do
+      create(
+        :planning_application,
+        :determined,
+        agent_email: "cookie_crackers@example.com",
+        applicant_email: "cookie_crumbs@example.com",
+        local_authority:,
+        decision: "granted",
+        address_1: "123 High Street",
+        town: "Big City",
+        postcode: "AB3 4EF",
+        description: "Add a chimney stack",
+        created_at: DateTime.new(2022, 5, 1),
+        application_type:,
+        validated_at: DateTime.new(2022, 10, 1),
+        user:
+      )
+    end
+
+    let(:site_notice) { create(:site_notice, planning_application:) }
+
+    let(:site_notice_mail) do
+      described_class.site_notice_mail(planning_application, planning_application.applicant_email)
+    end
+
+    let(:mail_body) { site_notice_mail.body.encoded }
+
+    it "sets the subject" do
+      expect(site_notice_mail.subject).to eq(
+        "Display site notice for your application #{planning_application.reference}"
+      )
+    end
+
+    it "sets the recipient" do
+      expect(site_notice_mail.to).to contain_exactly(
+        "cookie_crumbs@example.com"
+      )
+    end
+
+    it "includes the reference" do
+      expect(mail_body).to include(
+        "Application number PlanX-22-00100-PA"
+      )
+    end
+
+    it "includes the main text body" do
+      expect(mail_body).to include(
+        "As part of the application process"
+      )
+      expect(mail_body).to include(
+        "http://planx.example.com/planning_applications/#{planning_application.id}/site_notices/download"
+      )
+    end
+  end
+
+  describe "#internal_site_notice_mail" do
+    before do
+      allow(ENV).to receive(:[]).with("APPLICANTS_APP_HOST").and_return("example.com")
+      allow(ENV).to receive(:fetch).with("APPLICANTS_APP_HOST").and_return("example.com")
+    end
+
+    let!(:consultation) do
+      travel_to("2022-01-01") { create(:consultation, planning_application:) }
+    end
+
+    let(:user) { create(:user) }
+
+    let(:application_type) { create(:application_type, :prior_approval) }
+
+    let(:planning_application) do
+      create(
+        :planning_application,
+        :determined,
+        agent_email: "cookie_crackers@example.com",
+        applicant_email: "cookie_crumbs@example.com",
+        local_authority:,
+        decision: "granted",
+        address_1: "123 High Street",
+        town: "Big City",
+        postcode: "AB3 4EF",
+        description: "Add a chimney stack",
+        created_at: DateTime.new(2022, 5, 1),
+        application_type:,
+        validated_at: DateTime.new(2022, 10, 1),
+        user:
+      )
+    end
+
+    let(:site_notice) { create(:site_notice, planning_application:) }
+
+    let(:internal_team_site_notice_mail) do
+      described_class.internal_team_site_notice_mail(planning_application, planning_application.applicant_email)
+    end
+
+    let(:mail_body) { internal_team_site_notice_mail.body.encoded }
+
+    it "sets the subject" do
+      expect(internal_team_site_notice_mail.subject).to eq(
+        "Site notice for application number #{planning_application.reference}"
+      )
+    end
+
+    it "sets the recipient" do
+      expect(internal_team_site_notice_mail.to).to contain_exactly(
+        "cookie_crumbs@example.com"
+      )
+    end
+
+    it "includes the reference" do
+      expect(mail_body).to include(
+        "Application number PlanX-22-00100-PA"
+      )
+    end
+
+    it "includes the main text body" do
+      expect(mail_body).to include(
+        "The site notice for this application is ready for display"
+      )
+      expect(mail_body).to include(
+        "http://planx.example.com/planning_applications/#{planning_application.id}/site_notices/download"
+      )
     end
   end
 

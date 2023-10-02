@@ -1,0 +1,29 @@
+en: 
+  site_notice_template: |-
+    <div style="font-size: 10px; padding-left: 20px; padding-right: 20px;">
+    <div style="width: 420px; text-align: center">
+      <h1 style="margin-bottom: 5px;">Planning notice</h1>
+      <h2 style="margin-bottom: 5px;">%{council} Council</h2>
+      <h3>Town and country Planning Act 1990</h3>
+      <p>We have received an application for the following development:</p>
+    </div>
+    <h3>Application number %{reference}</h3>
+    <h3>Proposed development</h3>
+    <p>%{application_description}</p>
+    <h3>Location</h3>
+    <p>%{site_address}</p>
+    <h3>Applicant name</h3>
+    <p>%{applicant_name}</p>
+    <hr style="border-top: 1px solid #B1B4B6; border-bottom: none;">
+    <h2>View and comment on this application</h2>
+    <p>Use this link to:</p>
+    <ul>
+    <li>view the application documents</li>
+    <li>submit a comment about the application</li>
+    </ul>
+    <p>%{application_link}</p>
+    <p>Your comments will be published on our website. If the Council’s decision is appealed, all comments will be shared with the Planning Inspectorate. You will not be able to make any further comments.</p>
+    <p>Comment by post to %{council_address}.</p>
+    <h2>Submit your comments by %{consultation_end_date}</h2>
+    <h3>Site notice displayed on %{site_notice_display_date}</h3>
+    </div>

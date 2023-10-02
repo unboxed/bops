@@ -215,12 +215,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_094350) do
     t.bigint "evidence_group_id"
     t.bigint "site_visit_id"
     t.bigint "neighbour_response_id"
+    t.bigint "site_notice_id"
     t.index ["additional_document_validation_request_id"], name: "ix_documents_on_additional_document_validation_request_id"
     t.index ["api_user_id"], name: "ix_documents_on_api_user_id"
     t.index ["evidence_group_id"], name: "ix_documents_on_evidence_group_id"
     t.index ["neighbour_response_id"], name: "ix_documents_on_neighbour_response_id"
     t.index ["planning_application_id"], name: "index_documents_on_planning_application_id"
     t.index ["replacement_document_validation_request_id"], name: "ix_documents_on_replacement_document_validation_request_id"
+    t.index ["site_notice_id"], name: "ix_documents_on_site_notice_id"
     t.index ["site_visit_id"], name: "ix_documents_on_site_visit_id"
     t.index ["user_id"], name: "ix_documents_on_user_id"
   end
@@ -465,7 +467,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_094350) do
     t.index ["reference", "local_authority_id"], name: "ix_planning_applications_on_reference__local_authority_id", unique: true
     t.index ["status", "application_type_id"], name: "ix_planning_applications_on_status__application_type_id"
     t.index ["status"], name: "ix_planning_applications_on_status"
-    t.index ["user_id"], name: "ix_planning_applications_on_user_id"
+    t.index ["user_id"], name: "index_planning_applications_on_user_id"
   end
 
   create_table "planx_planning_data", force: :cascade do |t|
@@ -611,6 +613,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_094350) do
     t.index ["policy_class_id"], name: "ix_review_policy_classes_on_policy_class_id"
   end
 
+  create_table "site_notices", force: :cascade do |t|
+    t.bigint "planning_application_id"
+    t.boolean "required"
+    t.text "content"
+    t.datetime "displayed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_site_notices_on_planning_application_id"
+  end
+
   create_table "site_visits", force: :cascade do |t|
     t.bigint "consultation_id"
     t.bigint "created_by_id", null: false
@@ -678,6 +690,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_094350) do
   add_foreign_key "documents", "evidence_groups"
   add_foreign_key "documents", "neighbour_responses"
   add_foreign_key "documents", "replacement_document_validation_requests"
+  add_foreign_key "documents", "site_notices"
   add_foreign_key "documents", "site_visits"
   add_foreign_key "documents", "users"
   add_foreign_key "neighbour_responses", "consultations"

@@ -1,0 +1,35 @@
+Dear <%= @planning_application.agent_or_applicant_name %>,
+
+Application number <%= @planning_application.reference_in_full %>
+
+As part of the application process, you must display a site notice  in a public place for 21 days. We have a duty to inform neighbours and other residents about your proposed development and give them the opportunity to comment.
+
+If a site notice is not displayed the Council will not be able to make a decision about your application.
+
+What you need to do
+
+1. Print the site notice 
+Download the site notice as a printable PDF at <%= @planning_application.site_notice_link %>.
+
+2. Protect the site notice with a waterproof covering
+You can use a clear plastic bag or sticky polythene film to protect it from bad weather.
+
+3. Display the site notice
+This must be in a public place at or near the location of your proposed development. It must be visible by people using public roads and footpaths. For example, you could attach the notice to a lamppost or wall outside the property. Make sure the site notice is securely fixed.
+
+4. Tell us when you put it up
+Send an email to <%= @planning_application.user.email %> including:
+
+- a photo showing the location of the site notice 
+- the date you displayed the site notice
+- description of where you put the site notice
+
+Make sure that the text of the site notice is clear in the photo.
+
+You can remove the site notice 21 days from the date you put it up.
+
+If you are not able to print or display the site notice, contact me at <%= @planning_application.user.email %>. This may delay our decision about your application.
+
+Yours 
+
+<%= @planning_application.user.name %>

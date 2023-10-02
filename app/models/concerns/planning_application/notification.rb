@@ -64,6 +64,18 @@ class PlanningApplication
       consultation.update!(letter_copy_sent_at: Time.current)
     end
 
+    def send_site_notice_mail(email)
+      PlanningApplicationMailer
+        .site_notice_mail(self, email)
+        .deliver_later
+    end
+
+    def send_internal_team_site_notice_mail(email)
+      PlanningApplicationMailer
+        .internal_team_site_notice_mail(self, email)
+        .deliver_later
+    end
+
     private
 
     def send_update_notification(to)

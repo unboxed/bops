@@ -55,16 +55,18 @@
 
       <h2 class="govuk-heading-m">Publicity</h2>
       <ul class="app-task-list__items" id="publicity-section">
-        <li class="app-task-list__item" id="send-letters-to-neighbours">
-          <span class="app-task-list__task-name">
-            <a class="govuk-link" href="#">Send site notice</a>
-          </span>
-        </li>
-        <li class="app-task-list__item" id="send-letters-to-neighbours">
-          <span class="app-task-list__task-name">
-            <a class="govuk-link" href="#">Confirm site notice</a>
-          </span>
-        </li>
+        <%= render(
+          TaskListItems::SiteNoticeComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
+        <% if @planning_application.site_notices&.last&.required %>
+          <%= render(
+            TaskListItems::ConfirmSiteNoticeComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
+        <% end %>
         <%= render(
           TaskListItems::PressNoticeComponent.new(
             planning_application: @planning_application
@@ -77,7 +79,6 @@
         </li>
       </ul>
     <ol>
-
     <%= link_to "Back", planning_application_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
   </div>
 </div>

@@ -398,3 +398,10 @@ body {
   counter-increment: application-step-heading;
   content: counter(application-step-heading) ". ";
 }
+
+.grey-box {
+  background-color: govuk-colour("light-grey", $legacy: "grey-3");
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 2rem;
+}
