@@ -18,19 +18,12 @@
 
 <%= render "comment" %>
 
-<h2 class="govuk-heading-m govuk-!-margin-top-6">
-  Which local policies and guidance did you assess against?
-</h2>
-<p class="govuk-body">
-  <%= @policy_area.policies %>
-</p>
-
-<h2 class="govuk-heading-m">
-  What is your assessment of those policies?
-</h2>
-<p class="govuk-body">
-  <%= @policy_area.assessment %>
-</p>
+<% @policy_area.considerations.each do |consideration| %>
+  <h3 class="govuk-heading-s"><%= consideration.area.humanize %></h3>
+  <p class="govuk-body"><strong>Policies:</strong> <%= consideration.policies %></p>
+  <p class="govuk-body"><strong>Guidance</strong> <%= consideration.guidance %></p>
+  <p class="govuk-body"><strong>Assessment:</strong> <%= consideration.assessment %></p>
+<% end %>
 
 <div class="govuk-button-group">
   <%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>

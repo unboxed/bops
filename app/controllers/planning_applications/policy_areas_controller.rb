@@ -17,14 +17,13 @@ module PlanningApplication
     def edit; end
 
     def create
-      boos = policy_area_params[:areas].compact_blank
-
-      policy_area_params[:considerations_attributes].each do |hash|
-        unless boos.include? hash[1][:area]
-          policy_area_params.reject(hash)
-        end
+      new_params = policy_area_params[:considerations_attributes].select do |key, value|
+        value[:policies].present? || value[:guidance].present? || value[:assessment].present?
       end
-      @policy_area = @planning_application.build_policy_area(policy_area_params)
+
+      policy_area_params[:considerations_attributes] = new_params
+
+      @policy_area = @planning_application.build_policy_area(policy_area_params.except(:areas))
 
       if @policy_area.save
         redirect_to planning_application_assessment_tasks_path(@planning_application),
@@ -60,7 +59,7 @@ module PlanningApplication
     end
 
     def set_policy_area
-      @policy_area = @planning_application.policy_areas
+      @policy_area = @planning_application.policy_area
     end
 
     def status

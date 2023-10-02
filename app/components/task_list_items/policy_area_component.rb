@@ -4,20 +4,20 @@ module TaskListItems
   class PolicyAreaComponent < TaskListItems::BaseComponent
     def initialize(planning_application:)
       @planning_application = planning_application
-      @policy_areas = @planning_application.policy_areas
+      @policy_area = @planning_application.policy_area
     end
 
     private
 
-    attr_reader :policy_areas, :planning_application
+    attr_reader :policy_area, :planning_application
 
     def link_text
       "Assess against policies and guidance"
     end
 
     def link_path
-      if @planning_application.policy_areas.any?
-        if policy_areas.all? { |area| area.status == "complete" }
+      if @planning_application.policy_area.present?
+        if policy_area.status == "complete"
           planning_application_policy_area_path(planning_application, policy_area)
         else
           edit_planning_application_policy_area_path(planning_application, policy_area)
@@ -34,8 +34,8 @@ module TaskListItems
     end
 
     def status
-      if @planning_application.policy_areas.any?
-        policy_areas.first.status
+      if @planning_application.policy_area.present?
+        policy_area.status
       else
         "not_started"
       end
