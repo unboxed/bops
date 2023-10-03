@@ -32,7 +32,7 @@ services:
     tty: true
     environment:
       DATABASE_URL: postgres://postgres:postgres@db:5432
-      APPLICANTS_APP_HOST: southwark.localhost:3001
+      APPLICANTS_APP_HOST: southwark.bops-applicants.localhost:3001
       GROVER_NO_SANDBOX: "true"
       PIDFILE: /tmp/pids/server.pid
       OS_VECTOR_TILES_API_KEY: ${OS_VECTOR_TILES_API_KEY}
@@ -45,7 +45,7 @@ services:
     networks:
       default:
         aliases:
-          - southwark.southwark.localhost
+          - southwark.bops.localhost
     volumes:
       - type: bind
         source: .
@@ -68,7 +68,7 @@ services:
     tty: true
     environment:
       API_BEARER: 123
-      API_HOST: southwark.localhost:3000
+      API_HOST: southwark.bops.localhost:3000
       API_USER: api_user
       PIDFILE: /tmp/pids/server.pid
       PORT: 3001
@@ -76,6 +76,10 @@ services:
       OS_VECTOR_TILES_API_KEY: ${OS_VECTOR_TILES_API_KEY}
     ports:
       - "127.0.0.1:3001:3001"
+    networks:
+      default:
+        aliases:
+          - southwark.bops-applicants.localhost
     volumes:
       - type: bind
         source: bops-applicants
