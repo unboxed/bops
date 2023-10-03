@@ -79,19 +79,18 @@ module PlanningApplication
       new_params = policy_area_params
 
       new_params[:considerations_attributes] = considerations_attributes
-
       new_params
     end
 
     def set_considerations
-      areas = @policy_area.present? ? @policy_area&.considerations&.map(&:area) : []
+      areas = @policy_area.present? ? @policy_area.considerations.map(&:area) : []
       current_considerations = @policy_area.present? ? @policy_area.considerations : []
 
       considerations = (PolicyArea::AREAS - areas).map do |area|
         Consideration.new(area:)
       end
 
-      @considerations = considerations + current_considerations
+      @considerations = (considerations + current_considerations).sort_by(&:area)
     end
   end
 end

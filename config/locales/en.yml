@@ -130,6 +130,12 @@ en:
           attributes:
             base:
               no_consultees_added: Consultees must be added
+        consideration:
+          attributes:
+            assessment:
+              blank: Fill in your assessment
+            policies:
+              blank: Fill in the policies you consulted
         consistency_checklist:
           attributes:
             description_matches_documents:
@@ -877,6 +883,9 @@ en:
       withdrawn: Application has been withdrawn
     withdraw_recommendation:
       success: Recommendation was successfully withdrawn.
+  policy_areas:
+    successfully_created: Check against policy and guidance response was sucessfully created
+    successfully_updated: Check against policy and guidance response was successfully updated
   policy_classes:
     add_comment: Add comment
     comment:
@@ -917,9 +926,6 @@ en:
     title: Part %{part}, Class %{class}
     update:
       successfully_updated_policy: Successfully updated policy class
-  policy_areas:
-    successfully_created: Check against policy and guidance response was sucessfully created
-    successfully_updated: Check against policy and guidance response was successfully updated
   proposal_details:
     list_component:
       the_proposal_details: The proposal details are grouped under the following categories

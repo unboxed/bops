@@ -12,6 +12,8 @@ class PolicyArea < ApplicationRecord
   AREAS = %w[design impact_on_neighbours other]
 
   accepts_nested_attributes_for :considerations
+  validates_associated :considerations
+  validates_presence_of :considerations, if: :completed?
 
   enum(
     status: {
@@ -37,6 +39,8 @@ class PolicyArea < ApplicationRecord
     review_policy_areas.where.not(id: nil).order(:created_at).last
   end
 
+  private
+
   def maybe_create_review_policy_area
     return unless status_changed? && status_change == %w[to_be_reviewed complete]
 
@@ -45,5 +49,9 @@ class PolicyArea < ApplicationRecord
 
   def create_review_policy_area
     ReviewPolicyArea.create!(assessor: Current.user, policy_area: self)
+  end
+
+  def completed?
+    status == "complete"
   end
 end

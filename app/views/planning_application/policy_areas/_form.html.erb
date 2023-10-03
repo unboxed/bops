@@ -4,21 +4,7 @@
   url: url,
   class: "govuk-!-margin-top-5"
 ) do |form| %>
-  <% if policy_area.errors.any? %>
-    <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
-      <h2 class="govuk-error-summary__title" id="error-summary-title">
-        There is a problem
-      </h2>
-      <div class="govuk-error-summary__body">
-        <ul class="govuk-list govuk-error-summary__list">
-          <% policy_area.errors.full_messages.each do |error| %>
-            <li><%= error %></li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-  <% end %>
-
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <%= form.govuk_check_boxes_fieldset :areas, multiple: true, legend: { text: "Select the topics you want to comment on", size: "m" } do %>
     <%= form.fields_for :considerations, considerations do |ff| %>
       <%= ff.govuk_check_box :areas, :"#{ff.object.area}", label: { text: "#{ff.object.area.to_s.humanize}" }, checked: @policy_area.considerations.any? { |consideration| consideration.area == "#{ff.object.area}" } do %>

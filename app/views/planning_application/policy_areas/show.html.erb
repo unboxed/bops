@@ -18,12 +18,16 @@
 
 <%= render "comment" %>
 
-<% @policy_area.considerations.each do |consideration| %>
-  <h3 class="govuk-heading-s"><%= consideration.area.humanize %></h3>
-  <p class="govuk-body"><strong>Policies:</strong> <%= consideration.policies %></p>
-  <p class="govuk-body"><strong>Guidance</strong> <%= consideration.guidance %></p>
-  <p class="govuk-body"><strong>Assessment:</strong> <%= consideration.assessment %></p>
-<% end %>
+<div class="govuk-!-margin-top-6">
+  <% @policy_area.considerations.each do |consideration| %>
+    <h2 class="govuk-heading-m"><%= consideration.area.humanize %></h2>
+    <p class="govuk-body"><strong>Policies:</strong> <%= consideration.policies %></p>
+    <% if consideration.guidance.present? %>
+      <p class="govuk-body"><strong>Guidance</strong> <%= consideration.guidance %></p>
+    <% end %>
+    <p class="govuk-body"><strong>Assessment:</strong> <%= consideration.assessment %></p>
+  <% end %>
+</div>
 
 <div class="govuk-button-group">
   <%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>

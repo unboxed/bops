@@ -64,6 +64,10 @@ RSpec.describe "assess against policies and guidance" do
 
     expect(page).to have_content("Assess against policies and guidance")
 
+    within("#policy-area-considerations-attributes-2-areas-other-conditional") do
+      fill_in "Enter your assessment", with: "It's also all fine"
+    end
+
     click_button "Save and mark as complete"
 
     within("#assess-against-legislation-tasks") do
@@ -77,8 +81,20 @@ RSpec.describe "assess against policies and guidance" do
       click_link "Assess against policies and guidance"
     end
 
-    fill_in "Which local policies and guidance did you assess against?", with: "Policy 1, Policy 2"
-    fill_in "What is your assessment of those policies?", with: "This application meets those"
+    check "Design"
+    within("#policy-area-considerations-attributes-0-areas-design-conditional") do
+      fill_in "Which policies are relevant", with: "Q1, Q2"
+      choose "Yes"
+      fill_in "Which guidance? (e.g. the design code)", with: "P1, P2"
+      fill_in "Enter your assessment", with: "It's all fine"
+    end
+
+    check "Other"
+    within("#policy-area-considerations-attributes-2-areas-other-conditional") do
+      fill_in "Which policies are relevant", with: "S1, S2"
+      choose "No"
+      fill_in "Enter your assessment", with: "It's also all fine"
+    end
 
     click_button "Save and mark as complete"
 
@@ -87,15 +103,21 @@ RSpec.describe "assess against policies and guidance" do
       click_link "Assess against policies and guidance"
     end
 
-    expect(page).to have_content("Policy 1, Policy 2")
-    expect(page).to have_content("This application meets those")
+    expect(page).to have_content("Design")
+    expect(page).to have_content("Q1, Q2")
+    expect(page).to have_content("P1, P2")
+    expect(page).to have_content("It's all fine")
+    expect(page).to have_content("Other")
+    expect(page).to have_content("S1, S2")
+    expect(page).to have_content("It's also all fine")
 
     expect(page).not_to have_content("Save and mark as complete")
 
     click_link "Edit Assess against policies and guidance"
 
-    fill_in "Which local policies and guidance did you assess against?", with: "Policy 1, Policy 2, Policy 3"
-    fill_in "What is your assessment of those policies?", with: "This application meets those really"
+    within("#policy-area-considerations-attributes-0-areas-design-conditional") do
+      fill_in "Which policies are relevant", with: "Q1, Q2, Q3"
+    end
 
     click_button "Save and mark as complete"
 
@@ -104,8 +126,7 @@ RSpec.describe "assess against policies and guidance" do
       click_link "Assess against policies and guidance"
     end
 
-    expect(page).to have_content("Policy 1, Policy 2, Policy 3")
-    expect(page).to have_content("This application meets those really")
+    expect(page).to have_content("Q1, Q2, Q3")
   end
 
   it "shows errors" do
@@ -113,8 +134,7 @@ RSpec.describe "assess against policies and guidance" do
 
     click_button "Save and mark as complete"
 
-    expect(page).to have_content("Policies can't be blank")
-    expect(page).to have_content("Assessment can't be blank")
+    expect(page).to have_content("Considerations can't be blank ")
 
     click_button "Save and come back later"
 

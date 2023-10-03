@@ -68,12 +68,14 @@
   <h3 class="govuk-heading-s"><%= t(".legislation") %></h3>
   <% if @planning_application.application_type.name == "planning_permission" %>
     <% if @planning_application.policy_area.present? %>
-      <p class="govuk-body">
-        <%= @planning_application.policy_area.policies %>
-      </p>
-      <p class="govuk-body">
-        <%= @planning_application.policy_area.assessment %>
-      </p>
+      <% @planning_application.policy_area.considerations.each do |consideration| %>
+        <p class="govuk-body"><strong><%= consideration.area.humanize %></strong></p>
+        <p class="govuk-body"><strong>Policies:</strong> <%= consideration.policies %></p>
+        <% if consideration.guidance.present? %>
+          <p class="govuk-body"><strong>Guidance</strong> <%= consideration.guidance %></p>
+        <% end %>
+        <p class="govuk-body"><strong>Assessment:</strong> <%= consideration.assessment %></p>
+      <% end %>
     <% else %>
       <p class="govuk-body"><%= t(".no_legislation_assessed") %></p>
     <% end %>
