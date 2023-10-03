@@ -489,12 +489,10 @@ en:
     registeredpark: Historic parks and gardens
     tpo: Tree preservation zone
   constraints:
-    check:
-      success: Constraints was successfully checked.
     info:
       update_constraints: Update constraints
     update:
-      success: Constraints have been updated
+      success: Constraints was successfully checked
   consultees:
     update:
       success: Consultee response has been updated

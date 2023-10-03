@@ -3,6 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "viewing assessment report" do
+  let!(:api_user) { create(:api_user, name: "PlanX") }
   let(:local_authority) { create(:local_authority, :default) }
 
   let!(:assessor) do
@@ -20,7 +21,8 @@ RSpec.describe "viewing assessment report" do
       :with_constraints,
       local_authority:,
       decision: :granted,
-      old_constraints: ["conservation_area"]
+      old_constraints: ["conservation_area"],
+      api_user:
     )
   end
 

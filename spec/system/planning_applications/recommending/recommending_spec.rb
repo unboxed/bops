@@ -3,6 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application Assessment" do
+  let!(:api_user) { create(:api_user, name: "PlanX") }
   let!(:default_local_authority) do
     create(
       :local_authority,
@@ -36,7 +37,8 @@ RSpec.describe "Planning Application Assessment" do
           :planning_application,
           :with_constraints,
           local_authority: default_local_authority,
-          public_comment: nil
+          public_comment: nil,
+          api_user:
         )
       end
     end

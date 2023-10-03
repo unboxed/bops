@@ -3,6 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "assessment against legislation" do
+  let!(:api_user) { create(:api_user, name: "PlanX") }
   let(:local_authority) { create(:local_authority, :default) }
 
   let(:planning_application) do
@@ -10,7 +11,8 @@ RSpec.describe "assessment against legislation" do
       :planning_application,
       :in_assessment,
       :with_constraints,
-      local_authority:
+      local_authority:,
+      api_user:
     )
   end
 
@@ -136,7 +138,7 @@ RSpec.describe "assessment against legislation" do
         expect(page).to have_content("Listed building outline")
 
         expect(page).to have_link("Edit constraints",
-                                  href: edit_planning_application_constraints_path(planning_application))
+                                  href: planning_application_constraints_path(planning_application))
       end
     end
 
@@ -436,7 +438,7 @@ RSpec.describe "assessment against legislation" do
         expect(page).to have_content("Listed building outline")
 
         expect(page).not_to have_link("Edit constraints",
-                                      href: edit_planning_application_constraints_path(planning_application))
+                                      href: planning_application_constraints_path(planning_application))
       end
     end
   end

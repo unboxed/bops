@@ -33,7 +33,7 @@ class PlanningApplicationCreationService
         local_authority_id: local_authority.id,
         boundary_geojson: (params[:boundary_geojson].to_json if params[:boundary_geojson].present?),
         proposal_details: (params[:proposal_details].to_json if params[:proposal_details].present?),
-        old_constraints: constraints_array_from_param(params[:constraints]),
+        old_constraints: constraints_array_from_param(params[:constraints_proposed]&.map(&:to_unsafe_hash)),
         api_user:,
         audit_log: params.to_json,
         user_role: params[:user_role].presence,
@@ -61,7 +61,7 @@ class PlanningApplicationCreationService
           )
         end
         ConstraintsCreationService.new(planning_application:,
-                                       constraints_params: params[:constraints]&.to_unsafe_hash).call
+                                       constraints_params: params[:constraints_proposed].map(&:to_unsafe_hash)).call
         UploadDocumentsJob.perform_now(planning_application:, files: params[:files])
         CreateImmunityDetailsJob.perform_now(planning_application:) if possibly_immune?(planning_application)
       end
@@ -103,9 +103,11 @@ class PlanningApplicationCreationService
 
   def constraints_array_from_param(constraints_params)
     if constraints_params.present?
-      constraints_params.to_unsafe_hash.filter_map do |key, value|
-        key.parameterize.underscore if value
-      end
+      Array.wrap(constraints_params).filter_map do |constraint|
+        constraint["constraints"].filter_map do |key, value|
+          key.parameterize.underscore if value["value"]
+        end
+      end.flatten
     else
       []
     end

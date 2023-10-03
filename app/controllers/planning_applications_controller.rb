@@ -257,7 +257,7 @@ class PlanningApplicationsController < AuthenticationController
                         agent_phone
                         agent_email
                         county
-                        constraints
+                        constraints_proposed
                         description
                         proposal_details
                         payment_reference

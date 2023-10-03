@@ -1,0 +1,19 @@
+<tr class="govuk-table__row">
+  <td class="govuk-table__cell">
+    <strong class="govuk-tag govuk-tag--grey">
+      <%=  planning_application_constraint.category.humanize %>
+    </strong>
+  </td>
+  <td class="govuk-table__cell">
+    <%= planning_application_constraint.type_code %>
+  </td>
+  <td class="govuk-table__cell">
+    <%= planning_application_constraint.start_date.presence || "N/A" %>
+  </td>
+  <td class="govuk-table__cell">
+    <%=  planning_application_constraint.description.presence || "N/A" %>
+  </td>
+  <td class="govuk-table__cell">
+    <%= render "checkboxes", constraint: planning_application_constraint %>
+  </td>
+</tr>

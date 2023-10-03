@@ -1,0 +1,20 @@
+<div class="govuk-form-group">
+  <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+    <div class="govuk-checkboxes__item">
+      <div class="govuk-checkboxes__item">
+        <%= check_box_tag(
+          "constraint_ids[]",
+          constraint.constraint_id,
+          constraint.checked?,
+          class: "govuk-checkboxes__input",
+          id: "constraint_id_#{constraint.constraint_id}",
+          ) %>
+        <%= label_tag(
+          "constraint_id_#{constraint.constraint_id}",
+          "",
+          class: "govuk-label govuk-checkboxes__label",
+        ) %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -72,9 +72,7 @@ Rails.application.routes.draw do
       get :make_public
     end
 
-    resource :constraints, only: %i[show edit update] do
-      patch :check
-    end
+    resource :constraints, only: %i[show update]
 
     resource :fee_items, only: %i[show] do
       patch :validate
