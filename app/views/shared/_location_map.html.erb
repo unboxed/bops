@@ -42,7 +42,7 @@
   <% end %>
 ></my-map>
 
-<script>
+<%= javascript_tag nonce: true do %>
   <% if locals[:geojson_field].present? %>
     const map = document.querySelector("my-map");
     
@@ -55,4 +55,4 @@
       window.dispatchEvent(new Event("resize"));
     }
   <% end %>
-</script>
+<% end %>

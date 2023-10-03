@@ -12,7 +12,7 @@ RSpec.describe "Feedback fish" do
 
   context "when FEEDBACK_FISH_ID env variable is set" do
     before do
-      ENV["FEEDBACK_FISH_ID"] = "randomid123"
+      Rails.configuration.feedback_fish_id = "randomid123"
     end
 
     it "is displayed with a reference to the user's email" do
@@ -26,7 +26,7 @@ RSpec.describe "Feedback fish" do
 
   context "when FEEDBACK_FISH_ID env variable is not set" do
     before do
-      ENV["FEEDBACK_FISH_ID"] = nil
+      Rails.configuration.feedback_fish_id = nil
     end
 
     it "is not displayed" do
