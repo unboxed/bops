@@ -12,7 +12,7 @@ class ReviewPolicyArea < ApplicationRecord
     belongs_to :reviewer
   end
 
-before_update :set_status_to_be_reviewed, if: :reviewer_comment?
+  before_update :set_status_to_be_reviewed, if: :reviewer_comment?
   before_update :set_reviewer_edited, if: :assessment_changed?
 
   enum status: {
@@ -45,6 +45,8 @@ before_update :set_status_to_be_reviewed, if: :reviewer_comment?
   end
 
   def assessment_changed?
-    policy_area.assessment_changed?
+    policy_area.considerations.each do |consideration|
+      consideration.saved_changes.any?
+    end
   end
 end

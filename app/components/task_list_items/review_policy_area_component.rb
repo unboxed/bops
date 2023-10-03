@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module TaskListItems
-  class ReviewPolicyGuidanceComponent < TaskListItems::BaseComponent
+  class ReviewPolicyAreaComponent < TaskListItems::BaseComponent
     def initialize(planning_application:)
       @planning_application = planning_application
     end
@@ -13,7 +13,7 @@ module TaskListItems
     delegate(:policy_area, to: :planning_application)
 
     def link_text
-      "Review Assess against policies and guidance"
+      t(".link_text")
     end
 
     def review_policy_area
@@ -36,7 +36,7 @@ module TaskListItems
     end
 
     def status_tag_component
-      StatusTags::ReviewPolicyGuidanceComponent.new(
+      StatusTags::ReviewPolicyAreaComponent.new(
         planning_application:,
         review_policy_area:
       )

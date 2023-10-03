@@ -172,7 +172,7 @@ Rails.application.routes.draw do
       end
 
       resources :press_notices, only: %i[new create show update]
-      resources :press_notices, only: %i[index new create show edit update]
+      resources :confirm_press_notices, only: %i[index new create show edit update]
 
       resources :policy_areas, only: %i[show new edit create update]
     end

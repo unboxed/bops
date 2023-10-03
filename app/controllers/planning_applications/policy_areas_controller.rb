@@ -64,15 +64,15 @@ module PlanningApplication
 
     def policy_area_params
       params.require(:policy_area)
-        .permit(
-          areas: [],
-          considerations_attributes: [:area, :policies, :guidance, :assessment, :id]
-        )
-        .to_h.merge(status:)
+            .permit(
+              areas: [],
+              considerations_attributes: %i[area policies guidance assessment id]
+            )
+            .to_h.merge(status:)
     end
 
     def assign_params
-      considerations_attributes = policy_area_params[:considerations_attributes].select do |key, value|
+      considerations_attributes = policy_area_params[:considerations_attributes].select do |_key, value|
         value[:policies].present? || value[:guidance].present? || value[:assessment].present?
       end
 

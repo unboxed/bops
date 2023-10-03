@@ -81,13 +81,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_175416) do
     t.string "steps", default: ["validation", "consultation", "assessment", "review"], array: true
   end
 
-  create_table "application_types_conditions", id: false, force: :cascade do |t|
-    t.bigint "condition_id", null: false
-    t.bigint "application_type_id", null: false
-    t.index ["application_type_id"], name: "ix_application_types_conditions_on_application_type_id"
-    t.index ["condition_id"], name: "ix_application_types_conditions_on_condition_id"
-  end
-
   create_table "assessment_details", force: :cascade do |t|
     t.bigint "planning_application_id", null: false
     t.bigint "user_id", null: false
@@ -128,30 +121,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_175416) do
     t.datetime "deleted_at", precision: nil
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
     t.index ["user_id"], name: "ix_comments_on_user_id"
-  end
-
-  create_table "condition_reasons", force: :cascade do |t|
-    t.text "text"
-    t.bigint "condition_id"
-    t.bigint "local_authority_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["condition_id"], name: "ix_condition_reasons_on_condition_id"
-    t.index ["local_authority_id"], name: "ix_condition_reasons_on_local_authority_id"
-  end
-
-  create_table "condition_reasons_planning_applications", id: false, force: :cascade do |t|
-    t.bigint "condition_reason_id", null: false
-    t.bigint "planning_application_id", null: false
-    t.index ["condition_reason_id"], name: "ix_condition_reasons_planning_applications_on_condition_reason_"
-    t.index ["planning_application_id"], name: "ix_condition_reasons_planning_applications_on_planning_applicat"
-  end
-
-  create_table "conditions", force: :cascade do |t|
-    t.string "title"
-    t.text "text"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "considerations", force: :cascade do |t|
@@ -257,8 +226,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_175416) do
     t.bigint "replacement_document_validation_request_id"
     t.boolean "redacted", default: false, null: false
     t.bigint "evidence_group_id"
-    t.bigint "neighbour_response_id"
     t.bigint "site_visit_id"
+    t.bigint "neighbour_response_id"
     t.bigint "site_notice_id"
     t.bigint "press_notice_id"
     t.index ["additional_document_validation_request_id"], name: "ix_documents_on_additional_document_validation_request_id"

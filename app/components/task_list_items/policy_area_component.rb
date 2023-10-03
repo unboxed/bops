@@ -12,7 +12,7 @@ module TaskListItems
     attr_reader :policy_area, :planning_application
 
     def link_text
-      "Assess against policies and guidance"
+      t(".link_text")
     end
 
     def link_path

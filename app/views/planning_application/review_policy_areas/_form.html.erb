@@ -12,9 +12,24 @@
     <%= form.govuk_radio_button(
       :accepted, true, disabled: !editable, checked: @review_policy_area.accepted && @review_policy_area.reviewer_edited, label: { text: "Edit to accept", id: "edit-to-accept" }
     ) do %>
-      <%= form.govuk_text_area(
-        :assessment, readonly: !editable, rows: 6, label: { text: "Update officer comment" }, value: @policy_area.assessment
-      ) %>
+      <%= form.govuk_check_boxes_fieldset :areas, multiple: true, legend: { text: "Select the topics you want to comment on", size: "m" } do %>
+        <%= form.fields_for :policy_area, @review_policy_area.policy_area do |ff| %>
+          <%= ff.fields_for :considerations, ff.object.considerations do |fff| %>
+            <%= fff.govuk_check_box :areas, :"#{fff.object.area}", label: { text: "#{fff.object.area.to_s.humanize}" }, checked: @policy_area.considerations.any? { |consideration| consideration.area == "#{fff.object.area}" } do %>
+              <%= fff.hidden_field :area, value: fff.object.area.to_s %>
+              <%= fff.hidden_field :id, value: fff.object.id %>
+              <%= fff.govuk_text_field :policies, label: { text: "Which policies are relevant", size: "s" }, hint: { text: "Enter the policy reference" } %>
+              <%= fff.govuk_radio_buttons_fieldset(:policy, legend: { size: 's', text: 'Is there relevant guidance?' }) do %>
+                <%= fff.govuk_radio_button :policy, 'Yes', label: { text: 'Yes' }, checked: fff.object.guidance.present? do %>
+                  <%= fff.govuk_text_field :guidance, label: { text: "Which guidance? (e.g. the design code)", size: "s" } %>
+                <% end %>
+                <%= fff.govuk_radio_button :policy, 'No', label: { text: 'No' }, checked: fff.object.id.present? && !fff.object.guidance.present? %>
+              <% end %>
+              <%= fff.govuk_text_area :assessment, label: { text: "Enter your assessment", size: "s" } %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
     <% end %>
 
     <%= form.govuk_radio_button(

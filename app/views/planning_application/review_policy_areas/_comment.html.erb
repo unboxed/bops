@@ -11,8 +11,14 @@
           <%= comment.reviewer.name %>
         </p>
         <p class="govuk-body"><%= comment.created_at.to_fs %></p>
-        <p class="govuk-body"><strong>Policies:</strong> <%= comment.policy_area.policies %></p>
-        <p class="govuk-body"><strong>Assessment:</strong> <%= comment.policy_area.assessment %></p>
+        <% comment.policy_area.considerations.each do |consideration| %>
+          <p class="govuk-body"><strong><%= consideration.area %></strong></p>
+          <p class="govuk-body"><strong>Policies:</strong> <%= consideration.policies %></p>
+          <% if consideration.guidance.present? %>
+            <p class="govuk-body"><strong>Guidance:</strong> <%= consideration.guidance %></p>
+          <% end %>
+          <p class="govuk-body"><strong>Assessment:</strong> <%= consideration.assessment %></p>
+        <% end %>
         <p class="govuk-body"><strong>Reviewer comment:</strong> <%= comment.reviewer_comment %></p>
         <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--s">
       <% end %>

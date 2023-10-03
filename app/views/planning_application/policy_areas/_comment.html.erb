@@ -1,4 +1,4 @@
-<% if @policy_area.review_policy_areas.where.not(reviewer_comment: nil).any? %>
+<% if @policy_area.review_policy_areas.where.not(reviewer_comment: "").any? %>
   <div class="govuk-inset-text" id="reviewer_comment">
     <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-0">
       Reviewer comment:

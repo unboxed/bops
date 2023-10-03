@@ -1178,6 +1178,8 @@ en:
       view_other_validation: 'View other validation request #%{number}'
     permitted_development_right_component:
       permitted_development_rights: Permitted development rights
+    policy_area_component:
+      link_text: Assess against policies and guidance
     review_assessment_details_component:
       review_assessment_summaries: Review assessment summaries
     review_documents_component:
@@ -1188,6 +1190,8 @@ en:
       review_immunity_enforcement: Review assessment of immunity
     review_permitted_development_right_component:
       review_permitted_development_rights: Review permitted development rights
+    review_policy_area_component:
+      link_text: Review assessment against policies and guidance
     send_letters_to_neighbours_component:
       send_letters_to_neighbours: Send letters to neighbours
     site_notice_component:
