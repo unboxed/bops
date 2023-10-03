@@ -37,6 +37,7 @@ services:
       PIDFILE: /tmp/pids/server.pid
       OS_VECTOR_TILES_API_KEY: ${OS_VECTOR_TILES_API_KEY}
       REDIS_URL: redis://redis:6379/1
+      PUPPETEER_EXECUTABLE_PATH: /usr/bin/chromium
     ports:
       - "127.0.0.1:3000:3000"
     depends_on:
