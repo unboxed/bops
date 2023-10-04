@@ -68,7 +68,7 @@ class Consultation < ApplicationRecord
            rear_wall: planning_application&.proposal_measurement&.depth,
            max_height: planning_application&.proposal_measurement&.max_height,
            eaves_height: planning_application&.proposal_measurement&.eaves_height,
-           current_user: "CURRENT_USER",
+           current_user: Current.user.name,
            council_address: I18n.t("council_addresses.#{planning_application.local_authority.subdomain}"),
            application_link:)
   end

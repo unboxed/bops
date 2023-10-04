@@ -761,6 +761,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       allow(ENV).to receive(:fetch).and_call_original
       allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
 
+      allow(Current).to receive(:user).and_return(:assessor)
+
       consultation.update(neighbour_letter_text: consultation.neighbour_letter_content)
     end
 
