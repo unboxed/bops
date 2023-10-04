@@ -2171,7 +2171,7 @@ RSpec.describe PlanningApplication do
       end
 
       it "returns true" do
-        expect(planning_application.can_clone?).to be(true)
+        expect(planning_application.can_clone?).to be(false)
       end
     end
 
@@ -2181,8 +2181,8 @@ RSpec.describe PlanningApplication do
         allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("staging")
       end
 
-      it "returns false" do
-        expect(planning_application.can_clone?).to be(false)
+      it "returns true" do
+        expect(planning_application.can_clone?).to be(true)
       end
     end
   end
