@@ -41,6 +41,9 @@ RSpec.describe "Confirm site notice", js: true do
     fill_in "Month", with: "02"
     fill_in "Year", with: "2023"
 
+    # Can't upload docs via Capybara yet
+    create(:document, site_notice:)
+
     click_button "Save and mark as complete"
 
     expect(page).to have_content("Site notice was successfully updated")

@@ -353,6 +353,10 @@ class PlanningApplication < ApplicationRecord
     audits.where(activity_type: "site_notice_created").order(:created_at).last
   end
 
+  def last_site_notice
+    site_notices.order(:created_at).last
+  end
+
   def invalid_documents_without_validation_request
     invalid_documents.reject { |x| replacement_document_validation_requests.where(old_document: x).any? }
   end
