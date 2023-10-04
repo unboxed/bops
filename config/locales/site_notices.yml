@@ -1,6 +1,6 @@
 en: 
   site_notice_template: |-
-    <div style="font-size: 10px; padding-left: 20px; padding-right: 20px;">
+    <div style="font-size: 10px; padding-left: 20px; padding-right: 20px; letter-spacing: 0.02px;">
     <div style="width: 420px; text-align: center">
       <h1 style="margin-bottom: 5px;">Planning notice</h1>
       <h2 style="margin-bottom: 5px;">%{council} Council</h2>
