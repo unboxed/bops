@@ -40,7 +40,7 @@ module Apis
           request.options[:timeout] = TIMEOUT
         end
 
-        { response:, wkt:, geojson:, planx_url: "#{HOST}#{request_url}" }
+        { response:, wkt:, geojson:, planxRequest: "#{HOST}#{request_url}" }
       end
 
       def self.geojson_to_wkt(geojson)

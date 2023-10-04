@@ -12,7 +12,7 @@ class ConstraintsCreationService
         planning_application:,
         geojson: planning_application.boundary_geojson,
         wkt: constraint["wkt"],
-        planx_query: constraint["planxRequest"] || constraint["planx_url"],
+        planx_query: constraint["planxRequest"],
         planning_data_query: constraint["sourceRequest"]
       )
 
