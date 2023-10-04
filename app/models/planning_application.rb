@@ -576,7 +576,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def can_clone?
-    Rails.env.development? || Bops.env.production?
+    !Bops.env.production?
   end
 
   def withdraw_or_cancel!(status, comment, document_params)
