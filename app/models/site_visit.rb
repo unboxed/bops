@@ -4,6 +4,7 @@ class SiteVisit < ApplicationRecord
   belongs_to :created_by, class_name: "User"
   belongs_to :consultation
   has_many :documents, dependent: :destroy
+  belongs_to :neighbour, optional: true
 
   validates :status, :comment, presence: true
   validates :decision, inclusion: { in: [true, false] }

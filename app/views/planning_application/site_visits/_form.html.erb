@@ -19,6 +19,8 @@
         ) do %>
           <%= form.govuk_date_field(:visited_at, rows: 6, legend: { text: "Site visited at" }) %>
 
+          <%= form.govuk_collection_select :neighbour_id, @consultation.selected_neighbours, :id, :address, options: { include_blank: true }, label: { text: "Select site visit address" } %>
+
           <%= form.fields_for :documents, @site_visit.documents.new do |document_attributes| %>
             <%= document_attributes.govuk_file_field :files, 
               multiple: true, 

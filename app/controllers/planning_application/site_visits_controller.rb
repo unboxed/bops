@@ -63,7 +63,7 @@ class PlanningApplication
     end
 
     def site_visit_params
-      params.require(:site_visit).permit(:decision, :comment, :visited_at).merge(documents_attributes:)
+      params.require(:site_visit).permit(:decision, :comment, :visited_at, :neighbour_id).merge(documents_attributes:)
     end
 
     def documents_attributes

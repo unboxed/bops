@@ -14,6 +14,7 @@ RSpec.describe "Site visit" do
 
   let!(:consultation) { create(:consultation, end_date: "2023-07-08 16:17:35 +0100", planning_application:) }
   let!(:neighbour) { create(:neighbour, consultation:) }
+  let!(:neighbour2) { create(:neighbour, consultation:, address: "123 Another Address") }
 
   before do
     sign_in assessor
@@ -56,7 +57,7 @@ RSpec.describe "Site visit" do
   end
 
   describe "viewing site visits" do
-    let!(:site_visit1) { create(:site_visit, consultation:, comment: "Site visit 1") }
+    let!(:site_visit1) { create(:site_visit, consultation:, comment: "Site visit 1", neighbour:) }
     let!(:site_visit2) { create(:site_visit, decision: false, consultation:, comment: "Site visit 2") }
     let!(:neighbour_response) { create(:neighbour_response, summary_tag: "objection", neighbour:, received_at: Time.zone.now) }
 
@@ -91,6 +92,7 @@ RSpec.describe "Site visit" do
           expect(page).to have_content("Site visit needed: Yes")
           expect(page).to have_content("Response created by: #{site_visit1.created_by.name}")
           expect(page).to have_content("Response created at: #{site_visit1.created_at.to_fs}")
+          expect(page).to have_content("Neighbour: #{site_visit1.neighbour.address}")
           expect(page).to have_content("Comment: Site visit 1")
 
           expect(page).to have_content("Site visit needed: No")
@@ -156,6 +158,8 @@ RSpec.describe "Site visit" do
         fill_in "Month", with: "7"
         fill_in "Year", with: "2023"
 
+        select neighbour.address
+
         attach_file("Upload photo(s)", "spec/fixtures/images/proposed-floorplan.png")
 
         fill_in "Comment", with: "Site visit is needed"
@@ -190,6 +194,7 @@ RSpec.describe "Site visit" do
         expect(page).to have_content("Response created by: #{assessor.name}")
         expect(page).to have_content("Response created at: #{SiteVisit.last.created_at.to_fs}")
         expect(page).to have_content("Visited at: 20 July 2023")
+        expect(page).to have_content("Neighbour: #{neighbour.address}")
         expect(page).to have_content("Comment: Site visit is needed")
 
         within(".govuk-table") do

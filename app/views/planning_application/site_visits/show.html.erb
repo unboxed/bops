@@ -20,6 +20,9 @@
 <% if @site_visit.decision? %>
   <p class="govuk-body">Visited at: <%= @site_visit.visited_at&.to_date&.to_fs %></p>
 <% end %>
+<% if @site_visit.neighbour.present? %>
+  <p class="govuk-body">Neighbour: <%= @site_visit.neighbour.address %></p>
+<% end %>
 <p class="govuk-body">Comment: <%= @site_visit.comment %></p>
 
 <% if @site_visit.documents.any? %>
