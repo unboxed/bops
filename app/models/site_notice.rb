@@ -16,11 +16,15 @@ class SiteNotice < ApplicationRecord
            application_link: application_link(planning_application),
            council_address: I18n.t("council_addresses.#{planning_application.local_authority.subdomain}"),
            consultation_end_date: end_date_from_now.to_date.to_fs,
-           site_notice_display_date: Time.zone.today)
+           site_notice_display_date: displayed_at&.to_date&.to_fs || Time.zone.today.to_fs)
   end
 
   def end_date_from_now
-    Time.zone.today + 23.days
+    if displayed_at.present?
+      displayed_at + 21.days
+    else
+      Time.zone.today + 23.days
+    end
   end
 
   private

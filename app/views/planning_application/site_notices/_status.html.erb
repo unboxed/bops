@@ -1,7 +1,8 @@
 <hr>
-<div class="proposal-details-sub-heading govuk-!-margin-top-3 govuk-!-margin-bottom-3">
+<div class="proposal-details-sub-heading govuk-!-margin-top-3 govuk-!-margin-bottom-3" data-controller="pdf">
   <p class="govuk-body govuk-!-margin-top-1">
-    <%= @planning_application.last_site_notice_audit&.audit_comment %>
+    <%= @planning_application.last_site_notice_audit&.audit_comment %><br>
+    <%= link_to "Download site notice PDF", "#", "data-action": "click->pdf#handleClick", class: "govuk-link" %>
   </p>
   <div class="consultation-letter-status">
     <div>
@@ -13,4 +14,11 @@
   </div>
 </div>
 <hr>
-
+<div class="display-none">
+  <span id="application-reference"><%= @planning_application.reference %></span>
+  <div id="site-notice-content">
+    <div style="width: 430px;">
+      <%= @planning_application.last_site_notice.preview_content(@planning_application.planning_application).html_safe %>
+    </div>
+  </div>
+</div>

@@ -44,6 +44,10 @@ RSpec.describe "Create a site notice", js: true do
     click_button "Save and mark as complete", visible: true
 
     expect(page).to have_content "Site notice was successfully created"
+    expect(page).to have_link(
+      "Download site notice PDF",
+      href: "#"
+    )
   end
 
   it "allows officers to create a site notice and email it to the applicant" do
@@ -61,7 +65,7 @@ RSpec.describe "Create a site notice", js: true do
     perform_enqueued_jobs
     email_notification = ActionMailer::Base.deliveries.last
 
-    expect(email_notification.to).to contain_exactly(planning_application.applicant_email)
+    expect(email_notification.to).to contain_exactly(planning_application.agent_email)
 
     expect(email_notification.subject).to eq("Display site notice for your application 23-00100-PA")
 

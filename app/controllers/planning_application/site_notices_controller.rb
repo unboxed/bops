@@ -36,13 +36,18 @@ class PlanningApplication
         send_mail if params[:commit] == "Email site notice and mark as complete"
 
         respond_to do |format|
+          action = params[:commit] == "Email site notice and mark as complete" ? "emailed" : "created"
           format.html do
-            action = params[:commit] == "Email site notice and mark as complete" ? "emailed" : "created"
-            redirect_to planning_application_consultations_path(@planning_application), notice: t(".success", action:)
+            if @site_notice.displayed_at.present?
+              redirect_to new_planning_application_site_notice_path(@planning_application),
+                          notice: t(".success", action:)
+            else
+              redirect_to planning_application_consultations_path(@planning_application), notice: t(".success", action:)
+            end
           end
         end
 
-        create_audit_log(params[:commit])
+        create_audit_log
       else
         render :new
       end
@@ -101,7 +106,9 @@ class PlanningApplication
       if site_notice_params[:internal_team_email].presence
         @planning_application.send_internal_team_site_notice_mail(site_notice_params[:internal_team_email])
       else
-        @planning_application.send_site_notice_mail(@planning_application.applicant_email)
+        @planning_application.send_site_notice_mail(
+          @planning_application.agent_email || @planning_application.applicant_email
+        )
       end
     end
 
@@ -127,20 +134,20 @@ class PlanningApplication
       render :new and return
     end
 
-    def create_audit_log(action)
-      action = if action.include?("PDF")
-                 "Site notice PDF was created"
-               elsif site_notice_params[:internal_team_email].present?
-                 "Site notice was emailed to internal team to print"
-               else
-                 "Site notice was emailed to the applicant"
-               end
+    def create_audit_log
+      comment = if site_notice_params[:internal_team_email].present?
+                  "Site notice was emailed to internal team to print"
+                elsif params[:commit] == "Email site notice and mark as complete"
+                  "Site notice was emailed to the applicant"
+                else
+                  "Site notice PDF was created"
+                end
 
       Audit.create!(
         planning_application_id:,
         user: Current.user,
         activity_type: "site_notice_created",
-        audit_comment: action.to_s
+        audit_comment: comment
       )
     end
   end

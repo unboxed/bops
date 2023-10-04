@@ -16,23 +16,17 @@ module TaskListItems
     end
 
     def link_path
-      if @site_notice.displayed_at.nil?
-        edit_planning_application_site_notice_path(planning_application, site_notice)
-      else
+      if @site_notice.document.present?
         planning_application_site_notice_path(planning_application, site_notice)
+      else
+        edit_planning_application_site_notice_path(planning_application, site_notice)
       end
     end
 
     def status_tag_component
-      if @site_notice.displayed_at.nil?
-        StatusTags::BaseComponent.new(
-          status: "not_started"
-        )
-      else
-        StatusTags::BaseComponent.new(
-          status: "complete"
-        )
-      end
+      StatusTags::BaseComponent.new(
+        status: @site_notice.document.present? ? "complete" : "not_started"
+      )
     end
   end
 end
