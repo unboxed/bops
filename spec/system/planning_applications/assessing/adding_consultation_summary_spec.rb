@@ -101,6 +101,11 @@ RSpec.describe "adding consultation summary" do
       expect(page).not_to have_content("Consultation responses")
 
       click_link("Edit response")
+      expect(page).to have_content("Edit consultee response")
+      click_link("Back")
+      expect(page).to have_content("Add consultation details")
+
+      click_link("Edit response")
       fill_in("Response", with: "test 123")
       click_button("Update response")
 
@@ -132,6 +137,17 @@ RSpec.describe "adding consultation summary" do
         expect(page).to have_content("Edit response")
         click_link("Edit response")
       end
+
+      expect(page).to have_content("Edit consultee response")
+      click_link("Back")
+      expect(page).to have_content("Add consultation details")
+
+      within(".govuk-table__row:nth-child(2)") do
+        expect(page).to have_content("No response")
+        expect(page).to have_content("Edit response")
+        click_link("Edit response")
+      end
+
       fill_in("Response", with: "test 234")
       click_button("Update response")
       click_button("Save and come back later")
