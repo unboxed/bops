@@ -3,13 +3,25 @@
   <%= render "head" %>
 
   <body class="govuk-template__body app-body-class" data-test="My value" data-other="report:details">
-    <script>
+    <%= javascript_tag nonce: true do %>
       document.body.className = (
         (document.body.className)
           ? document.body.className + ' js-enabled'
           : 'js-enabled'
       );
-    </script>
+    <% end %>
+
+    <% if gtmid = Rails.configuration.google_tag_manager_id  %>
+      <!-- Google Tag Manager (noscript) -->
+      <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=<%= gtmid %>"
+                height="0"
+                width="0"
+                style="display:none;visibility:hidden">
+        </iframe>
+      </noscript>
+      <!-- End Google Tag Manager (noscript) -->
+    <% end %>
 
     <% unless @blank_layout == true %>
       <%= link_to "Skip to main content", "#main-content", class: "govuk-skip-link", 'data-module': 'govuk-skip-link' %>
@@ -24,7 +36,7 @@
             beta
           </strong>
 
-          <% if ENV["FEEDBACK_FISH_ID"].present? %>
+          <% if Rails.configuration.feedback_fish_id %>
             <span class="govuk-phase-banner__text">
               This is a new service – your
               <a class="govuk-link" href="#"

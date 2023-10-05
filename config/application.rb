@@ -52,6 +52,8 @@ module Bops
     config.middleware.insert_before Rails::Rack::Logger, QuietLogger, paths: ["/healthcheck"]
 
     config.os_vector_tiles_api_key = ENV.fetch("OS_VECTOR_TILES_API_KEY", nil)
+    config.feedback_fish_id = ENV.fetch("FEEDBACK_FISH_ID", nil)
+    config.google_tag_manager_id = ENV.fetch("GOOGLE_TAG_MANAGER_ID", nil)
   end
 
   def self.env
