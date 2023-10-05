@@ -21,6 +21,12 @@ aprompt:
 console:
 	$(DOCKER-RUN) web rails console
 
+migrate:
+	$(DOCKER-RUN) web rails db:migrate
+
+rollback:
+	$(DOCKER-RUN) web rails db:rollback
+
 rspec:
 	$(DOCKER-RUN) web rspec
 
