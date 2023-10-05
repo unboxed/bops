@@ -109,7 +109,7 @@ RSpec.describe "Summary of works" do
 
       expect(page).to have_link(
         "Edit summary of work",
-        href: edit_planning_application_assessment_detail_path(planning_application, AssessmentDetail.summary_of_work.last)
+        href: edit_planning_application_assessment_detail_path(planning_application, AssessmentDetail.summary_of_work.last, category: :summary_of_work)
       )
     end
   end

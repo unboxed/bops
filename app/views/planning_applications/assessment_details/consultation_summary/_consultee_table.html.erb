@@ -1,6 +1,6 @@
 <table class="govuk-table" data-controller="delete-record">
   <tbody class="govuk-table__body">
-    <% planning_application.consultees.select(&:persisted?).each do |consultee| %>
+    <% @consultation.consultees.select(&:persisted?).each do |consultee| %>
       <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header"><%= consultee.name %></th>
         <td class="govuk-table__cell">

@@ -288,7 +288,8 @@ FactoryBot.define do
 
     trait :with_consultees do
       after(:create) do |planning_application|
-        create_list(:consultee, 3, planning_application:)
+        consultation = planning_application.consultation || planning_application.create_consultation!
+        create_list(:consultee, 3, consultation:)
       end
     end
 

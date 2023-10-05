@@ -109,7 +109,7 @@ RSpec.describe "Site description" do
 
       expect(page).to have_link(
         "Edit site description",
-        href: edit_planning_application_assessment_detail_path(planning_application, AssessmentDetail.site_description.last)
+        href: edit_planning_application_assessment_detail_path(planning_application, AssessmentDetail.site_description.last, category: :site_description)
       )
     end
   end

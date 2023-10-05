@@ -5,6 +5,7 @@ require "rails_helper"
 RSpec.describe ReviewAssessmentDetailsForm do
   describe "#save" do
     let(:planning_application) { create(:planning_application) }
+    let(:consultation) { create(:consultation, planning_application:) }
     let(:user) { create(:user) }
 
     let(:review_assessment_details) do
@@ -21,7 +22,7 @@ RSpec.describe ReviewAssessmentDetailsForm do
         planning_application:
       )
 
-      create(:consultee, planning_application:)
+      create(:consultee, consultation:)
       Current.user = user
     end
 

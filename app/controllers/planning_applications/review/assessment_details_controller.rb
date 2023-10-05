@@ -6,6 +6,7 @@ module PlanningApplications
       include CommitMatchable
 
       before_action :set_planning_application
+      before_action :set_consultation
       before_action :set_assessment_detail_review
 
       def show; end

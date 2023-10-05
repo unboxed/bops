@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class Consultee < ApplicationRecord
-  belongs_to :planning_application
-  belongs_to :consultation, optional: true
+  belongs_to :consultation
 
   validates :name, :origin, presence: true
 

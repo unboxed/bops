@@ -35,7 +35,6 @@ class PlanningApplication < ApplicationRecord
       inverse_of: :planning_application
     )
 
-    has_many :consultees, dependent: :destroy
     has_many :description_change_validation_requests
     has_many :replacement_document_validation_requests
     has_many :other_change_validation_requests

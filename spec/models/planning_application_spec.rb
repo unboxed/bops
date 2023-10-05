@@ -1604,8 +1604,9 @@ RSpec.describe PlanningApplication do
 
   describe "#existing_or_new_consultation_summary" do
     let(:planning_application) { create(:planning_application) }
+    let(:consultation) { create(:consultation, planning_application:) }
 
-    before { create(:consultee, planning_application:) }
+    before { create(:consultee, consultation:) }
 
     context "when record exists" do
       let!(:assessment_detail) do

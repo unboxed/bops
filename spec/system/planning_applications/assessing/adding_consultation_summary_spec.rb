@@ -13,8 +13,13 @@ RSpec.describe "adding consultation summary" do
     create(
       :planning_application,
       :in_assessment,
+      :planning_permission,
       local_authority: default_local_authority
     )
+  end
+
+  let!(:consultation) do
+    planning_application.consultation
   end
 
   before do
@@ -79,14 +84,6 @@ RSpec.describe "adding consultation summary" do
   end
 
   context "when setting consultee responses" do
-    let!(:planning_application) do
-      create(
-        :planning_application,
-        :in_assessment,
-        local_authority: default_local_authority
-      )
-    end
-
     it "allows adding details of consultee responses" do
       click_link("Summary of consultation")
       fill_in("Enter a new consultee", with: "Alice Smith")
@@ -160,11 +157,11 @@ RSpec.describe "adding consultation summary" do
         expect(page).to have_content("test 234")
       end
 
-      expect(planning_application.consultees.length).to eq(2)
-      expect(planning_application.consultees.first.name).to eq("Alice Smith")
-      expect(planning_application.consultees.first.response).to eq("test 123")
-      expect(planning_application.consultees.last.name).to eq("Bob Smith")
-      expect(planning_application.consultees.last.response).to eq("test 234")
+      expect(consultation.consultees.length).to eq(2)
+      expect(consultation.consultees.first.name).to eq("Alice Smith")
+      expect(consultation.consultees.first.response).to eq("test 123")
+      expect(consultation.consultees.last.name).to eq("Bob Smith")
+      expect(consultation.consultees.last.response).to eq("test 234")
     end
   end
 end
