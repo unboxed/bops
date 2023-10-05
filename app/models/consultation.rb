@@ -85,6 +85,10 @@ class Consultation < ApplicationRecord
     neighbours.select(&:persisted?).select(&:selected?).map(&:address)
   end
 
+  def selected_neighbours
+    neighbours.select(&:persisted?).select(&:selected?)
+  end
+
   def publicity_active?
     return false unless end_date
 

@@ -29,6 +29,9 @@
         <p class="govuk-body">Site visit needed: <%= site_visit.decision? ? "Yes" : "No" %></p>
         <p class="govuk-body">Response created by: <%= site_visit.created_by.name %></p>
         <p class="govuk-body">Response created at: <%= site_visit.created_at.to_fs %></p>
+        <% if site_visit.neighbour.present? %>
+          <p class="govuk-body">Neighbour: <%= site_visit.neighbour.address %></p>
+        <% end %>
         <% if site_visit.decision? %>
           <p class="govuk-body">Visited at: <%= site_visit.visited_at&.to_fs %></p>
         <% end %>
