@@ -152,7 +152,7 @@ Rails.application.routes.draw do
 
       resources :review_immunity_details, only: %i[edit update show]
 
-      resources :review_policy_areas, only: %i[edit update show]
+      resources :review_local_policies, only: %i[edit update show]
 
       resources :permitted_development_rights, only: %i[new create edit update show]
       resource :cil_liability, only: %i[edit update], controller: :cil_liability
@@ -172,9 +172,9 @@ Rails.application.routes.draw do
       end
 
       resources :press_notices, only: %i[new create show update]
-      resources :confirm_press_notices, only: %i[index new create show edit update]
+      resources :confirm_press_notices, only: %i[edit update]
 
-      resources :policy_areas, only: %i[show new edit create update]
+      resources :local_policies, only: %i[show new edit create update]
     end
   end
 

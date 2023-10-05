@@ -19,16 +19,16 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <div class="govuk-!-margin-top-6">
-      <% @policy_area.considerations.each do |consideration| %>
-        <h2 class="govuk-heading-m"><%= consideration.area.humanize %></h2>
-        <p class="govuk-body"><strong>Policies:</strong> <%= consideration.policies %></p>
-        <% if consideration.guidance.present? %>
-          <p class="govuk-body"><strong>Guidance</strong> <%= consideration.guidance %></p>
+      <% @local_policy.local_policy_areas.each do |local_policy_area| %>
+        <h2 class="govuk-heading-m"><%= local_policy_area.area.humanize %></h2>
+        <p class="govuk-body"><strong>Policies:</strong> <%= local_policy_area.policies %></p>
+        <% if local_policy_area.guidance.present? %>
+          <p class="govuk-body"><strong>Guidance</strong> <%= local_policy_area.guidance %></p>
         <% end %>
-        <p class="govuk-body"><strong>Assessment:</strong> <%= consideration.assessment %></p>
+        <p class="govuk-body"><strong>Assessment:</strong> <%= local_policy_area.assessment %></p>
       <% end %>
     </div>
 
-    <%= render "form", editable: true %>
+    <%= render "form", editable: false %>
   </div>
 </div>

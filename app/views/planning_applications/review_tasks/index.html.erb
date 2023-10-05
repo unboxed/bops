@@ -59,9 +59,9 @@
           planning_application: @planning_application,
         )
       )%>
-      <% if @planning_application.policy_area.present? %>
+      <% if @planning_application.local_policy.present? %>
         <%= render(
-          TaskListItems::ReviewPolicyAreaComponent.new(
+          TaskListItems::ReviewLocalPolicyComponent.new(
             planning_application: @planning_application,
           )
         )%>

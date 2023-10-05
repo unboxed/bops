@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
-class PolicyArea < ApplicationRecord
+class LocalPolicy < ApplicationRecord
   belongs_to :planning_application
 
-  has_many :considerations, dependent: :destroy
-  has_many :review_policy_areas, dependent: :destroy
+  has_many :local_policy_areas, dependent: :destroy
+  has_many :review_local_policies, dependent: :destroy
 
-  after_create :create_review_policy_area
-  before_update :maybe_create_review_policy_area
+  after_create :create_review_local_policy
+  before_update :maybe_create_review_local_policy
 
   AREAS = %w[design impact_on_neighbours other].freeze
 
-  accepts_nested_attributes_for :considerations
-  validates_associated :considerations
-  validates :considerations, presence: { if: :completed? }
+  accepts_nested_attributes_for :local_policy_areas
+  validates_associated :local_policy_areas
+  validates :local_policy_areas, presence: { if: :completed? }
 
   enum(
     status: {
@@ -35,20 +35,20 @@ class PolicyArea < ApplicationRecord
     validates :status, :review_status
   end
 
-  def current_review_policy_area
-    review_policy_areas.where.not(id: nil).order(:created_at).last
+  def current_review_local_policy
+    review_local_policies.where.not(id: nil).order(:created_at).last
   end
 
   private
 
-  def maybe_create_review_policy_area
+  def maybe_create_review_local_policy
     return unless status_changed? && status_change == %w[to_be_reviewed complete]
 
-    create_review_policy_area
+    create_review_local_policy
   end
 
-  def create_review_policy_area
-    ReviewPolicyArea.create!(assessor: Current.user, policy_area: self)
+  def create_review_local_policy
+    ReviewLocalPolicy.create!(assessor: Current.user, local_policy: self)
   end
 
   def completed?

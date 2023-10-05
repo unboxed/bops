@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-class ReviewPolicyArea < ApplicationRecord
+class ReviewLocalPolicy < ApplicationRecord
   class NotCreatableError < StandardError; end
 
   DECISIONS = %w[Yes No].freeze
 
-  belongs_to :policy_area
+  belongs_to :local_policy
 
   with_options class_name: "User", optional: true do
     belongs_to :assessor
@@ -45,8 +45,8 @@ class ReviewPolicyArea < ApplicationRecord
   end
 
   def assessment_changed?
-    policy_area.considerations.each do |consideration|
-      consideration.saved_changes.any?
+    local_policy.local_policy_areas.each do |local_policy_area|
+      local_policy_area.saved_changes.any?
     end
   end
 end

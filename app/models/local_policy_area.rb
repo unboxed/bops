@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class Consideration < ApplicationRecord
-  belongs_to :policy_area
+class LocalPolicyArea < ApplicationRecord
+  belongs_to :local_policy
 
   validates :assessment, :policies, :area, presence: { if: :completed? }
 
@@ -10,6 +10,6 @@ class Consideration < ApplicationRecord
   private
 
   def completed?
-    policy_area.status == "complete"
+    local_policy.status == "complete"
   end
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PlanningApplication
+module PlanningApplication
   class ReviewLocalPoliciesController < AuthenticationController
     include CommitMatchable
     include PlanningApplicationAssessable

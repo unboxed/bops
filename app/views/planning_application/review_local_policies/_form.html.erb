@@ -1,21 +1,21 @@
-<%= form_with model: [@planning_application, @review_policy_area],
-              url: planning_application_review_policy_area_path(@planning_application, @review_policy_area),
+<%= form_with model: [@planning_application, @review_local_policy],
+              url: planning_application_review_local_policy_path(@planning_application, @review_local_policy),
               builder: GOVUKDesignSystemFormBuilder::FormBuilder,
               class: "govuk-!-margin-top-7" do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
 
   <%= form.govuk_radio_buttons_fieldset :accepted, legend: { text: "Actions" } do %>
     <%= form.govuk_radio_button(
-      :accepted, true, disabled: !editable, checked: @review_policy_area.accepted && !@review_policy_area.reviewer_edited, label: { text: "Accept" }
+      :accepted, true, disabled: !editable, checked: @review_local_policy.accepted && !@review_local_policy.reviewer_edited, label: { text: "Accept" }
     ) %>
 
     <%= form.govuk_radio_button(
-      :accepted, true, disabled: !editable, checked: @review_policy_area.accepted && @review_policy_area.reviewer_edited, label: { text: "Edit to accept", id: "edit-to-accept" }
+      :accepted, true, disabled: !editable, checked: @review_local_policy.accepted && @review_local_policy.reviewer_edited, label: { text: "Edit to accept", id: "edit-to-accept" }
     ) do %>
       <%= form.govuk_check_boxes_fieldset :areas, multiple: true, legend: { text: "Select the topics you want to comment on", size: "m" } do %>
-        <%= form.fields_for :policy_area, @review_policy_area.policy_area do |ff| %>
-          <%= ff.fields_for :considerations, ff.object.considerations do |fff| %>
-            <%= fff.govuk_check_box :areas, :"#{fff.object.area}", label: { text: "#{fff.object.area.to_s.humanize}" }, checked: @policy_area.considerations.any? { |consideration| consideration.area == "#{fff.object.area}" } do %>
+        <%= form.fields_for :local_policy, @review_local_policy.local_policy do |ff| %>
+          <%= ff.fields_for :local_policy_areas, ff.object.local_policy_areas do |fff| %>
+            <%= fff.govuk_check_box :areas, :"#{fff.object.area}", label: { text: "#{fff.object.area.to_s.humanize}" }, checked: @local_policy.local_policy_areas.any? { |local_policy_area| local_policy_area.area == "#{fff.object.area}" } do %>
               <%= fff.hidden_field :area, value: fff.object.area.to_s %>
               <%= fff.hidden_field :id, value: fff.object.id %>
               <%= fff.govuk_text_field :policies, label: { text: "Which policies are relevant", size: "s" }, hint: { text: "Enter the policy reference" } %>
@@ -33,7 +33,7 @@
     <% end %>
 
     <%= form.govuk_radio_button(
-      :accepted, false, disabled: !editable, checked: !@review_policy_area.accepted && @review_policy_area.reviewer_comment?, label: { text: "Return to officer with comment" }
+      :accepted, false, disabled: !editable, checked: !@review_local_policy.accepted && @review_local_policy.reviewer_comment?, label: { text: "Return to officer with comment" }
     ) do %>
       <%= form.govuk_text_area(
         :reviewer_comment, readonly: !editable, rows: 6, label: { text: "Comment" }
@@ -50,7 +50,7 @@
     <%= back_link %>
 
     <% if !editable %>
-      <%= link_to "Edit review policy guidance", edit_planning_application_review_policy_area_path(@planning_application, @review_policy_area), class: "govuk-link" %>
+      <%= link_to "Edit review policy guidance", edit_planning_application_review_local_policy_path(@planning_application, @review_local_policy), class: "govuk-link" %>
     <% end %>
   </div>
 <% end %>

@@ -11,12 +11,12 @@ RSpec.describe "Permitted development right" do
     create(:planning_application, :awaiting_determination, :planning_permission, local_authority: default_local_authority)
   end
 
-  let!(:consideration1) { create(:consideration) }
-  let!(:consideration2) { create(:consideration, policy_area: consideration1.policy_area, area: "Other") }
+  let!(:local_policy_area1) { create(:local_policy_area) }
+  let!(:local_policy_area2) { create(:local_policy_area, local_policy: local_policy_area1.local_policy, area: "Other") }
 
   context "when signed in as a reviewer" do
     before do
-      consideration1.policy_area.update(planning_application:)
+      local_policy_area1.local_policy.update(planning_application:)
       sign_in(reviewer)
       visit planning_application_review_tasks_path(planning_application)
     end
@@ -32,15 +32,15 @@ RSpec.describe "Permitted development right" do
 
         expect(page).to have_content("Review assessment against policies and guidance")
 
-        expect(page).to have_content(consideration1.area)
-        expect(page).to have_content(consideration1.policies)
-        expect(page).to have_content(consideration1.guidance)
-        expect(page).to have_content(consideration1.assessment)
+        expect(page).to have_content(local_policy_area1.area)
+        expect(page).to have_content(local_policy_area1.policies)
+        expect(page).to have_content(local_policy_area1.guidance)
+        expect(page).to have_content(local_policy_area1.assessment)
 
-        expect(page).to have_content(consideration2.area)
-        expect(page).to have_content(consideration2.policies)
-        expect(page).to have_content(consideration2.guidance)
-        expect(page).to have_content(consideration2.assessment)
+        expect(page).to have_content(local_policy_area2.area)
+        expect(page).to have_content(local_policy_area2.policies)
+        expect(page).to have_content(local_policy_area2.guidance)
+        expect(page).to have_content(local_policy_area2.assessment)
 
         radio_buttons = find_all(".govuk-radios__item")
         within(radio_buttons[1]) do
@@ -56,11 +56,11 @@ RSpec.describe "Permitted development right" do
           with: "Completed"
         )
 
-        review_policy_area = ReviewPolicyArea.last
-        expect(review_policy_area.review_status).to eq "review_complete"
-        expect(review_policy_area.policy_area.review_status).to eq "review_complete"
-        expect(review_policy_area.status).to eq "complete"
-        expect(review_policy_area.policy_area.status).to eq "complete"
+        review_local_policy = ReviewLocalPolicy.last
+        expect(review_local_policy.review_status).to eq "review_complete"
+        expect(review_local_policy.local_policy.review_status).to eq "review_complete"
+        expect(review_local_policy.status).to eq "complete"
+        expect(review_local_policy.local_policy.status).to eq "complete"
       end
 
       it "I can edit to accept the planning officer's decision" do
@@ -76,7 +76,7 @@ RSpec.describe "Permitted development right" do
           choose "Edit to accept"
         end
 
-        within("#review-policy-area-policy-area-considerations-attributes-0-areas-design-conditional") do
+        within("#review-local-policy-local-policy-local-policy-areas-attributes-0-areas-design-conditional") do
           fill_in "Enter your assessment", with: "It's all fine actually"
         end
 
@@ -89,12 +89,12 @@ RSpec.describe "Permitted development right" do
           with: "Completed"
         )
 
-        review_policy_area = ReviewPolicyArea.last
-        expect(review_policy_area.review_status).to eq "review_complete"
-        expect(review_policy_area.policy_area.review_status).to eq "review_complete"
-        expect(review_policy_area.status).to eq "complete"
-        expect(review_policy_area.policy_area.status).to eq "complete"
-        expect(review_policy_area.policy_area.considerations.where(area: "Design").first.assessment).to eq "It's all fine actually"
+        review_local_policy = ReviewLocalPolicy.last
+        expect(review_local_policy.review_status).to eq "review_complete"
+        expect(review_local_policy.local_policy.review_status).to eq "review_complete"
+        expect(review_local_policy.status).to eq "complete"
+        expect(review_local_policy.local_policy.status).to eq "complete"
+        expect(review_local_policy.local_policy.local_policy_areas.where(area: "Design").first.assessment).to eq "It's all fine actually"
       end
 
       it "I can return to officer with comment" do
@@ -132,7 +132,7 @@ RSpec.describe "Permitted development right" do
 
         expect(page).to have_content("I don't think you've assessed Policy 1 correctly")
 
-        within("#policy-area-considerations-attributes-0-areas-design-conditional") do
+        within("#local-policy-local-policy-areas-attributes-0-areas-design-conditional") do
           fill_in "Enter your assessment", with: "A better response"
         end
 
@@ -166,11 +166,11 @@ RSpec.describe "Permitted development right" do
           with: "Completed"
         )
 
-        review_policy_area = ReviewPolicyArea.last
-        expect(review_policy_area.review_status).to eq "review_complete"
-        expect(review_policy_area.policy_area.review_status).to eq "review_complete"
-        expect(review_policy_area.status).to eq "complete"
-        expect(review_policy_area.policy_area.status).to eq "complete"
+        review_local_policy = ReviewLocalPolicy.last
+        expect(review_local_policy.review_status).to eq "review_complete"
+        expect(review_local_policy.local_policy.review_status).to eq "review_complete"
+        expect(review_local_policy.status).to eq "complete"
+        expect(review_local_policy.local_policy.status).to eq "complete"
       end
     end
   end
