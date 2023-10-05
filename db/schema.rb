@@ -185,6 +185,29 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
     t.index ["planning_application_id"], name: "ix_consultees_on_planning_application_id"
   end
 
+  create_table "contacts", force: :cascade do |t|
+    t.bigint "local_authority_id"
+    t.string "origin", null: false
+    t.string "category", null: false
+    t.string "name", null: false
+    t.string "role"
+    t.string "organisation"
+    t.string "address_1"
+    t.string "address_2"
+    t.string "town"
+    t.string "county"
+    t.string "postcode"
+    t.string "email_address"
+    t.string "phone_number"
+    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (((((COALESCE(name, ''::character varying))::text || ' '::text) || (COALESCE(role, ''::character varying))::text) || ' '::text) || (COALESCE(organisation, ''::character varying))::text))", stored: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["local_authority_id", "category"], name: "ix_contacts_on_local_authority_id__category"
+    t.index ["local_authority_id"], name: "ix_contacts_on_local_authority_id"
+    t.index ["name"], name: "ix_contacts_on_name"
+    t.index ["search"], name: "ix_contacts_on_search", using: :gin
+  end
+
   create_table "description_change_validation_requests", force: :cascade do |t|
     t.bigint "planning_application_id", null: false
     t.bigint "user_id", null: false
@@ -750,6 +773,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
   add_foreign_key "audits", "planning_applications"
   add_foreign_key "audits", "users"
   add_foreign_key "constraints", "local_authorities"
+  add_foreign_key "contacts", "local_authorities"
   add_foreign_key "description_change_validation_requests", "planning_applications"
   add_foreign_key "description_change_validation_requests", "users"
   add_foreign_key "documents", "additional_document_validation_requests"
