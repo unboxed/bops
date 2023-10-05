@@ -3,8 +3,11 @@
 class NeighbourResponse < ApplicationRecord
   belongs_to :neighbour
   belongs_to :consultation
+  belongs_to :redacted_by, class_name: "User", optional: true
 
   has_many :documents, dependent: :destroy
+
+  attr_readonly :comment
 
   validates :name, :response, :summary_tag, :received_at, presence: true
 
@@ -23,7 +26,6 @@ class NeighbourResponse < ApplicationRecord
   end
 
   def truncated_comment
-    comment = (redacted_response.presence || response)
     comment.truncate(100, separator: " ")
   end
 

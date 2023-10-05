@@ -22,6 +22,7 @@ class PlanningApplication
       @neighbour_response.neighbour = find_neighbour
 
       create_files(@neighbour_response) if neighbour_response_params[:files].compact_blank.any?
+      @neighbour_response.redacted_by = current_user if @neighbour_response.redacted_response
 
       if @neighbour_response.save
         respond_to do |format|

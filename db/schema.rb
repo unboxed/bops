@@ -297,8 +297,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_04_160325) do
     t.text "redacted_response"
     t.jsonb "tags", default: [], null: false
     t.bigint "consultation_id"
+    t.bigint "redacted_by_id"
     t.index ["consultation_id"], name: "ix_neighbour_responses_on_consultation_id"
     t.index ["neighbour_id"], name: "ix_neighbour_responses_on_neighbour_id"
+    t.index ["redacted_by_id"], name: "ix_neighbour_responses_on_redacted_by_id"
   end
 
   create_table "neighbours", force: :cascade do |t|
@@ -705,6 +707,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_04_160325) do
   add_foreign_key "documents", "site_visits"
   add_foreign_key "documents", "users"
   add_foreign_key "neighbour_responses", "consultations"
+  add_foreign_key "neighbour_responses", "users", column: "redacted_by_id"
   add_foreign_key "notes", "planning_applications"
   add_foreign_key "notes", "users"
   add_foreign_key "other_change_validation_requests", "planning_applications"

@@ -1,0 +1,70 @@
+<% content_for :page_title do %>
+  Redact comment - <%= t('page_title') %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Consultation", planning_application_consultations_path(@planning_application) %>
+<% content_for :title, "Redact comment" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Redact comment" }
+) %>
+
+<h2 class="govuk-heading-m govuk-!-margin-top-5">Comment submitted by</h2>
+<hr>
+
+<ul class="govuk-list">
+  <li>
+    <strong><%= @neighbour_response.name %></strong> <span class="govuk-hint" style="display: inline;"><%= @neighbour_response.email %></span>
+  </li>
+  <li class="govuk-hint">
+    <%= @neighbour_response.neighbour.address %>
+  </li>
+  <li class="govuk-hint">
+    Received on <%= @neighbour_response.received_at.to_formatted_s(:day_month_year_slashes) %>
+  </li>
+</ul>
+
+<details class="govuk-details" data-module="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      What you need to redact
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    <%= raw I18n.t("redaction_guidelines") %>
+  </div>
+</details>
+
+<%= form_with(
+  model: [@planning_application, @consultation, @neighbour_response],
+  builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+  class: "govuk-!-margin-top-5",
+  url: planning_application_consultation_redact_neighbour_response_path(@planning_application, @consultation, @neighbour_response),
+  method: :patch,
+  data: { controller: "reset-text" }
+) do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+  <%= form.govuk_text_area :response, 
+    rows: 8, 
+    label: { size: "l", text: "Full comment" }, 
+    data: { reset_text_target: "source" },
+    readonly: true
+  %>
+
+  <%= form.label :redacted_response, "Redacted comment", class: "govuk-label govuk-label--l" %>
+  <%= content_tag :span, "Replace text you want to redact with [redacted] then save to publish the comment.", class: "govuk-hint" %>
+  <%= button_tag "Reset comment", type: "button", class: "button-as-link govuk-!-margin-bottom-3", data: { action: "click->reset-text#reset"  } %>
+  <%= form.text_area :redacted_response, class: "govuk-textarea", rows: 8, data: { reset_text_target: "destination" } %>
+  
+  <div class="govuk-button-group">
+    <%= form.submit(
+      "Save and publish",
+      class: "govuk-button govuk-button--primary govuk-!-margin-top-5"
+    ) %>
+    <%= link_to "Back", planning_application_consultation_neighbour_responses_path(@planning_application, @consultation), class: "govuk-button govuk-button--secondary govuk-!-margin-top-5" %>
+  </div>
+<% end %>

@@ -1,0 +1,43 @@
+en: 
+  redaction_guidelines: |
+    <div class="govuk-body">
+      <p>You need to redact any:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>personal data</li>
+        <li>special category data</li>
+      </ul>
+
+      <strong>Personal data</strong>
+      <p>This includes any words or phrases that could identify a particular person, such as names, addresses or descriptions.</p>
+
+      <strong>Names</strong>
+      <p>Redact the name of the person or people making the comment.</p>
+      <p>The applicant’s name does not usually need to be redacted. However, you may need to redact it if the nature of the application could mean that the applicant’s name is linked to ‘special category data’. For example, when a flat is obviously being adapted for a disabled person.</p>
+      <p>Redact any other names or references to neighbours.</p>
+
+      <strong>Third party address</strong>
+      <p>Do not redact the address of the person making the comment. This may be made public by the Planning Inspectorate in the event of an appeal in order to give the comment weight.</p>
+      <p>Redact any other third party addresses.</p>
+
+      <strong>Contact information</strong>
+      <p>Redact all contact information such as telephone, email or websites.</p>
+
+      <strong>Personal details</strong>
+      <p>Redact any words or phrases that could help someone to identify a person. This includes descriptions of:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>how a person looks or speaks</li>
+        <li>a person’s occupation</li>
+        <li>a place in relation to the site, for example, ‘the garden two doors down on the right’</li>
+      </ul>
+
+      <strong>Special category data</strong>
+      <p>Redact any information about a person’s:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>race or ethnic origin</li>
+        <li>politics, religion or philosophical beliefs</li>
+        <li>trade union membership</li>
+        <li>health</li>
+        <li>sex life or sexual orientation</li>
+      </ul>
+    </div>

@@ -18,6 +18,9 @@ application.register("pdf", PdfController)
 import PolygonSearchController from "./polygon_search_controller.js"
 application.register("polygon-search", PolygonSearchController)
 
+import ResetTextController from "./reset_text_controller.js"
+application.register("reset-text", ResetTextController)
+
 import ShowHideController from "./show_hide_controller.js"
 application.register("show-hide", ShowHideController)
 

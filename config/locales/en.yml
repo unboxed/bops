@@ -573,6 +573,8 @@ en:
     save_and_mark_as_complete: Save and mark as complete
   helpers:
     hint:
+      neighbour_response:
+        response: This is the full text of the comment before redaction.
       other_change_validation_request:
         suggestion: Add all information that they will need to complete this action.
     label:
@@ -725,6 +727,9 @@ en:
         success: Press notice response has been successfully added
       update:
         success: Press notice response has been successfully updated
+    redact_neighbour_responses:
+      update:
+        success: Neighbour response was successully updated.
     review_documents:
       update:
         success: Documents were successfully updated.
