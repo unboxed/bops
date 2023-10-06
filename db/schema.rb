@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_06_134128) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_06_175416) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -78,6 +78,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_134128) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "assessment_details", array: true
+    t.string "steps", default: ["validation", "consultation", "assessment", "review"], array: true
   end
 
   create_table "assessment_details", force: :cascade do |t|
@@ -158,7 +159,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_134128) do
     t.jsonb "polygon_geojson"
     t.string "polygon_colour", default: "#d870fc", null: false
     t.geography "polygon_search", limit: {:srid=>4326, :type=>"geometry_collection", :geographic=>true}
-    t.index ["planning_application_id"], name: "ix_consultations_on_planning_application_id"
+    t.index ["planning_application_id"], name: "ix_consultations_on_planning_application_id", unique: true
   end
 
   create_table "consultees", force: :cascade do |t|

@@ -20,7 +20,7 @@ RSpec.describe "Confirm site notice", js: true do
            make_public: true)
   end
 
-  let!(:consultation) { create(:consultation, planning_application:) }
+  let!(:consultation) { planning_application.consultation }
 
   let!(:site_notice) { create(:site_notice, planning_application:) }
   let!(:audit) { create(:audit, planning_application:, activity_type: "site_notice_created", audit_comment: "Site notice was emailed to the applicant") }

@@ -296,6 +296,24 @@ RSpec.describe PlanningApplication do
           expect(planning_application.ward_type).to be_nil
         end
       end
+
+      context "when a application type doesn't have a consultation" do
+        let(:application_type) { create(:application_type) }
+        let(:planning_application) { build(:planning_application, application_type:) }
+
+        it "doesn't create a consultation record after creating the planning application" do
+          expect { planning_application.save! }.not_to change(planning_application, :consultation).from(nil)
+        end
+      end
+
+      context "when a application type has a consultation" do
+        let(:application_type) { create(:application_type, :prior_approval) }
+        let(:planning_application) { build(:planning_application, application_type:) }
+
+        it "creates a consultation record after creating the planning application" do
+          expect { planning_application.save! }.to change(planning_application, :consultation).from(nil).to(an_instance_of(Consultation))
+        end
+      end
     end
 
     describe "::before_update #reset_validation_requests_update_counter" do

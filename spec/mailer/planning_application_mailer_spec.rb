@@ -727,10 +727,6 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   describe "#neighbour_consultation_letter_copy_mail" do
-    let!(:consultation) do
-      travel_to("2022-01-01") { create(:consultation, planning_application:) }
-    end
-
     let(:application_type) { create(:application_type, :prior_approval) }
 
     let(:planning_application) do
@@ -751,6 +747,10 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       )
     end
 
+    let(:consultation) do
+      planning_application.consultation
+    end
+
     let(:neighbour_consultation_letter_copy_mail) do
       described_class.neighbour_consultation_letter_copy_mail(planning_application, planning_application.agent_email)
     end
@@ -758,6 +758,10 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     let(:mail_body) { neighbour_consultation_letter_copy_mail.body.encoded }
 
     before do
+      travel_to("2022-01-01") do
+        consultation.update(start_date: 2.days.ago, end_date: (2.days.ago + 21.days))
+      end
+
       allow(ENV).to receive(:fetch).and_call_original
       allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
 
@@ -812,15 +816,6 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   describe "#site_notice_mail" do
-    before do
-      allow(ENV).to receive(:[]).with("APPLICANTS_APP_HOST").and_return("example.com")
-      allow(ENV).to receive(:fetch).with("APPLICANTS_APP_HOST").and_return("example.com")
-    end
-
-    let!(:consultation) do
-      travel_to("2022-01-01") { create(:consultation, planning_application:) }
-    end
-
     let(:user) { create(:user) }
 
     let(:application_type) { create(:application_type, :prior_approval) }
@@ -844,6 +839,10 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       )
     end
 
+    let(:consultation) do
+      planning_application.consultation
+    end
+
     let(:site_notice) { create(:site_notice, planning_application:) }
 
     let(:site_notice_mail) do
@@ -851,6 +850,15 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     let(:mail_body) { site_notice_mail.body.encoded }
+
+    before do
+      travel_to("2022-01-01") do
+        consultation.update(start_date: 2.days.ago, end_date: (2.days.ago + 21.days))
+      end
+
+      allow(ENV).to receive(:[]).with("APPLICANTS_APP_HOST").and_return("example.com")
+      allow(ENV).to receive(:fetch).with("APPLICANTS_APP_HOST").and_return("example.com")
+    end
 
     it "sets the subject" do
       expect(site_notice_mail.subject).to eq(
@@ -881,15 +889,6 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   describe "#internal_site_notice_mail" do
-    before do
-      allow(ENV).to receive(:[]).with("APPLICANTS_APP_HOST").and_return("example.com")
-      allow(ENV).to receive(:fetch).with("APPLICANTS_APP_HOST").and_return("example.com")
-    end
-
-    let!(:consultation) do
-      travel_to("2022-01-01") { create(:consultation, planning_application:) }
-    end
-
     let(:user) { create(:user) }
 
     let(:application_type) { create(:application_type, :prior_approval) }
@@ -913,6 +912,10 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       )
     end
 
+    let(:consultation) do
+      planning_application.consultation
+    end
+
     let(:site_notice) { create(:site_notice, planning_application:) }
 
     let(:internal_team_site_notice_mail) do
@@ -920,6 +923,15 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     let(:mail_body) { internal_team_site_notice_mail.body.encoded }
+
+    before do
+      travel_to("2022-01-01") do
+        consultation.update(start_date: 2.days.ago, end_date: (2.days.ago + 21.days))
+      end
+
+      allow(ENV).to receive(:[]).with("APPLICANTS_APP_HOST").and_return("example.com")
+      allow(ENV).to receive(:fetch).with("APPLICANTS_APP_HOST").and_return("example.com")
+    end
 
     it "sets the subject" do
       expect(internal_team_site_notice_mail.subject).to eq(

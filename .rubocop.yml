@@ -51,6 +51,11 @@ Rails/SkipsModelValidations:
   AllowedMethods:
     - touch
 
+# allow ActiveRecord::Base as a parent class in migrations
+Rails/ApplicationRecord:
+  Exclude:
+    - db/migrate/*.rb
+
 # Rspec
 RSpec/MultipleExpectations:
   Enabled: false

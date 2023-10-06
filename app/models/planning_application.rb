@@ -69,6 +69,7 @@ class PlanningApplication < ApplicationRecord
     has_one :consistency_checklist, dependent: :destroy
   end
 
+  delegate :consultation?, to: :application_type
   delegate :reviewer_group_email, to: :local_authority
   delegate :email, to: :user, prefix: true, allow_nil: true
   delegate :name, to: :user, prefix: true, allow_nil: true
@@ -93,6 +94,7 @@ class PlanningApplication < ApplicationRecord
   after_create :set_ward_and_parish_information
   after_create :create_audit!
   after_create :update_measurements, if: :prior_approval?
+  after_create :create_consultation!, if: :consultation?
   before_update :set_key_dates
   before_update lambda {
                   reset_validation_requests_update_counter!(red_line_boundary_change_validation_requests)
