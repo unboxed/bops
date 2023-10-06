@@ -1,0 +1,21 @@
+<div data-controller="submit-form">
+  <p class="govuk-body govuk-!-font-weight-bold">
+    <%= t(".list_who_was") %>
+  </p>
+  <%= render(
+    partial: "planning_applications/assessment_details/consultation_summary/consultee_table",
+    locals: {
+      planning_application: planning_application,
+      read_only: read_only
+    }
+  ) %>
+  <% unless read_only %>
+    <%= render(
+      partial: "planning_applications/assessment_details/consultation_summary/consultee_form",
+      locals: {
+        planning_application: planning_application,
+        consultee: consultee
+      }
+    ) %>
+  <% end %>
+</div>

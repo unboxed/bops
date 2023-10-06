@@ -3,29 +3,29 @@
     {
       "warning_type": "Cross-Site Scripting",
       "warning_code": 2,
-      "fingerprint": "94d5f97b77111da9ab36e00c152c31b53d555dde3ba80a08fd462ce141eed664",
+      "fingerprint": "1340c35bdf0fb49e664e917b289d969603dfaf470391628f5fbd6702c3236f27",
       "check_name": "CrossSiteScripting",
       "message": "Unescaped model attribute",
-      "file": "app/views/planning_application/site_notices/new.html.erb",
-      "line": 44,
+      "file": "app/views/planning_applications/confirm_validation.html.erb",
+      "line": 28,
       "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
-      "code": "SiteNotice.new(site_notice_params.except(:method, :internal_team_email).merge(:planning_application_id => PlanningApplicationPresenter.new(view_context, planning_applications_scope.find(planning_application_id)).id)).preview_content(PlanningApplicationPresenter.new(view_context, planning_applications_scope.find(planning_application_id)).planning_application)",
+      "code": "(Unresolved Model).new.message",
       "render_path": [
         {
           "type": "controller",
-          "class": "PlanningApplication::SiteNoticesController",
-          "method": "create",
-          "line": 52,
-          "file": "app/controllers/planning_application/site_notices_controller.rb",
+          "class": "PlanningApplicationsController",
+          "method": "confirm_validation",
+          "line": 74,
+          "file": "app/controllers/planning_applications_controller.rb",
           "rendered": {
-            "name": "planning_application/site_notices/new",
-            "file": "app/views/planning_application/site_notices/new.html.erb"
+            "name": "planning_applications/confirm_validation",
+            "file": "app/views/planning_applications/confirm_validation.html.erb"
           }
         }
       ],
       "location": {
         "type": "template",
-        "template": "planning_application/site_notices/new"
+        "template": "planning_applications/confirm_validation"
       },
       "user_input": null,
       "confidence": "High",
@@ -56,8 +56,42 @@
         352
       ],
       "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "c418e59906d847f7e4233e6bf0c80c90100a4bbfffc83cad09c9ff3d0fba3556",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/planning_applications/make_public.html.erb",
+      "line": 28,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "(Unresolved Model).new.message",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "PlanningApplicationsController",
+          "method": "make_public",
+          "line": 176,
+          "file": "app/controllers/planning_applications_controller.rb",
+          "rendered": {
+            "name": "planning_applications/make_public",
+            "file": "app/views/planning_applications/make_public.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "planning_applications/make_public"
+      },
+      "user_input": null,
+      "confidence": "High",
+      "cwe_id": [
+        79
+      ],
+      "note": ""
     }
   ],
-  "updated": "2023-09-29 10:01:46 +0000",
+  "updated": "2023-10-06 16:04:25 +0000",
   "brakeman_version": "5.4.0"
 }

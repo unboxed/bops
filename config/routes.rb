@@ -118,7 +118,7 @@ Rails.application.routes.draw do
 
     resource :legislation, only: %i[show update]
 
-    scope module: :planning_application do
+    scope module: :planning_applications do
       resources :notes, only: %i[index create]
 
       resources :validation_tasks, only: :index
