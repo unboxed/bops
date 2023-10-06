@@ -992,16 +992,17 @@ en:
       assess_recommendation: Assess recommendation
       error: 'Error:'
       ldc_is_the_use: Is the use or operation lawful?
-      ldc_state_the_reason: State the reasons why this application is, or is not lawful.
       make_draft_recommendation: Make draft recommendation
       'no': 'No'
       pa_is_the_use: What is your recommendation?
-      pa_state_the_reason: State the reasons for your recommendation.
       please_provide_supporting: Provide supporting information for your manager.
       refer_to_the:
         lawfulness_certificate: Refer to specific permitted development legislation to support your recommendation.
         planning_permission: Refer to specific planning permission legislation to support your recommendation.
         prior_approval: Refer to specific permitted development legislation, and Local Plan policies in relation to impact on neighbouring amenity.
+      state_the_reason:
+        lawfulness_certificate: State the reasons why this application is, or is not lawful.
+        prior_approval: State the reasons for your recommendation.
       there_are_outstanding_change_requests_html: There are outstanding change requests (last request %{last_request}). <a href='%{href}'>View all requests</a>.
       this_information_will: This information will appear on the decision notice.
       this_information_will_not: This information will not appear on the decision notice or the public register, but Freedom of Information requests will still apply.

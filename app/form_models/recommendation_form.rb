@@ -50,7 +50,7 @@ class RecommendationForm
   end
 
   def reason_text
-    ldc? ? ldc_reason_text : pa_reason_text
+    I18n.t(".recommendations.new.state_the_reason.#{application_type_name}")
   end
 
   private
@@ -81,13 +81,5 @@ class RecommendationForm
 
   def pa_decisions_text
     I18n.t(".recommendations.new.pa_is_the_use")
-  end
-
-  def ldc_reason_text
-    I18n.t(".recommendations.new.ldc_state_the_reason")
-  end
-
-  def pa_reason_text
-    I18n.t(".recommendations.new.pa_state_the_reason")
   end
 end
