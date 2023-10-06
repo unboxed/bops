@@ -132,7 +132,7 @@
   "constraints_proposed": [
     {
       "sourceRequest": "https://www.planning.data.gov.uk/entity.json?entries=current &geometry =POLYGON+%28%28-0.07629275321961124+51.48596289289142%2C+-0.0763061642646857+51.48591028066045%2C+-0.07555112242699404+51.48584764697301%2C+-0.07554173469544191+51.48590192950712%2C+-0.07629275321961124+51.48596289289142%29%29 &geometry_relation =intersects &limit =100 &dataset =article-4-direction-area &dataset =central-activities-zone &dataset =listed-building &dataset =listed-building-outline &dataset =locally-listed-building &dataset =park-and-garden &dataset =conservation-area &dataset =area-of-outstanding-natural-beauty &dataset =national-park &dataset =world-heritage-site &dataset =world-heritage-site-buffer-zone &dataset =special-protection-area &dataset =scheduled-monument &dataset =tree &dataset =tree-preservation-order &dataset =tree-preservation-zone &dataset =site-of-special-scientific-interest &dataset =special-area-of-conservation &dataset =ancient-woodland",
-      "planxRequest": "https://api.1827.planx.pizza/gis/southwark?geom=POLYGON+%28%28-0.07629275321961124+51.48596289289142%2C+-0.0763061642646857+51.48591028066045%2C+-0.07555112242699404+51.48584764697301%2C+-0.07554173469544191+51.48590192950712%2C+-0.07629275321961124+51.48596289289142%29%29 &analytics =false &sessionId =89420b67-21e4-4c1e-96df-5cd0d9394672",
+      "planxRequest": "https://api.editor.planx.dev/gis/southwark?geom=POLYGON+%28%28-0.07629275321961124+51.48596289289142%2C+-0.0763061642646857+51.48591028066045%2C+-0.07555112242699404+51.48584764697301%2C+-0.07554173469544191+51.48590192950712%2C+-0.07629275321961124+51.48596289289142%29%29 &analytics =false &sessionId =89420b67-21e4-4c1e-96df-5cd0d9394672",
       "constraints": {
         "tpo": {
           "fn": "tpo",
@@ -742,7 +742,7 @@
     },
     {
       "sourceRequest": "https://api.os.uk/features/v1/wfs?service=WFS &request =GetFeature &version =2.0.0 &typeNames =Highways_RoadLink &outputFormat =GEOJSON &srsName =urn%3Aogc%3Adef%3Acrs%3AEPSG%3A%3A4326 &count =1 &filter =%0A++++%3Cogc%3AFilter%3E%0A++++++%3Cogc%3APropertyIsLike+wildCard%3D%22%25%22+singleChar%3D%22%23%22+escapeChar%3D%22%21%22%3E%0A++++++++%3Cogc%3APropertyName%3EFormsPartOf%3C%2Fogc%3APropertyName%3E%0A++++++++%3Cogc%3ALiteral%3E%25Street%23usrn22500531%25%3C%2Fogc%3ALiteral%3E%0A++++++%3C%2Fogc%3APropertyIsLike%3E%0A++++%3C%2Fogc%3AFilter%3E%0A++&",
-      "planxRequest": "https://api.1827.planx.pizza/roads?usrn=22500531",
+      "planxRequest": "https://api.editor.planx.dev/roads?usrn=22500531",
       "constraints": {
         "road.classified": {
           "fn": "road.classified",
