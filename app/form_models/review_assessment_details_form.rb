@@ -5,29 +5,6 @@ class ReviewAssessmentDetailsForm
   include ActiveModel::Model
   extend ActiveModel::Callbacks
 
-  LDC_ASSESSMENT_DETAILS = %i[
-    summary_of_work
-    site_description
-    consultation_summary
-    additional_evidence
-  ].freeze
-
-  PRIOR_APPROVAL_ASSESSMENT_DETAILS = %i[
-    summary_of_work
-    site_description
-    additional_evidence
-    publicity_summary
-    amenity
-  ].freeze
-
-  PLANNING_PERMISSION_ASSESSMENT_DETAILS = %i[
-    summary_of_work
-    site_description
-    additional_evidence
-    consultation_summary
-    publicity_summary
-  ].freeze
-
   ASSESSMENT_DETAILS = %i[
     summary_of_work
     site_description
@@ -125,17 +102,6 @@ class ReviewAssessmentDetailsForm
     true
   end
 
-  def assessment_detail_types
-    case planning_application.application_type.name.to_sym
-    when :lawfulness_certificate
-      LDC_ASSESSMENT_DETAILS
-    when :prior_approval
-      PRIOR_APPROVAL_ASSESSMENT_DETAILS
-    else
-      PLANNING_PERMISSION_ASSESSMENT_DETAILS
-    end
-  end
-
   private
 
   def recommendation_not_accepted
@@ -162,14 +128,7 @@ class ReviewAssessmentDetailsForm
     define_method("#{assessment_detail}_for_application?") do
       next if status == :in_progress
 
-      case planning_application.type
-      when "Lawful Development Certificate"
-        LDC_ASSESSMENT_DETAILS.include? assessment_detail
-      when "Prior approval"
-        PRIOR_APPROVAL_ASSESSMENT_DETAILS.include? assessment_detail
-      when "Householder Application for Planning Permission"
-        PLANNING_PERMISSION_ASSESSMENT_DETAILS.include? assessment_detail
-      end
+      planning_application.application_type.assessment_details.include? assessment_detail.to_s
     end
   end
 end

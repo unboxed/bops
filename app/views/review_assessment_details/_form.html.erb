@@ -5,7 +5,7 @@
   builder: GOVUKDesignSystemFormBuilder::FormBuilder
 ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
-  <% @form.assessment_detail_types.each_with_index do |assessment_detail, index| %>
+  <% planning_application.application_type.assessment_details.each_with_index do |assessment_detail, index| %>
     <% unless index == 0 %>
       <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
     <% end %>
@@ -19,17 +19,17 @@
           assessment_detail: form.object.send(assessment_detail)
         )
       ) %>
-      <% if assessment_detail == :site_description %>
+      <% if assessment_detail == "site_description" %>
         <p><%= link_to 'View site on Google Maps', map_link(@planning_application.full_address), target: '_blank', class: "govuk-link" %></p>
       <% end %>
-      <% if assessment_detail == :consultation_summary %>
+      <% if assessment_detail == "consultation_summary" %>
         <%= render(
           partial: "consultees",
           locals: { consultees: planning_application.consultees }
         ) %>
         <h3><%= t(".summary_of_consultee") %><h3>
       <% end %>
-      <% if assessment_detail == :amenity || assessment_detail == :publicity_summary %>
+      <% if assessment_detail == "amenity" || assessment_detail == "publicity_summary" %>
         <% if consultation = @planning_application.consultation %>
           <p>View neighbour responses: <%= neighbour_responses_summary_text(consultation.neighbour_responses_by_summary_tag) %></p>
           <p><%= link_to "View neighbour responses", new_planning_application_consultation_neighbour_response_path(@planning_application, consultation) %></p>
