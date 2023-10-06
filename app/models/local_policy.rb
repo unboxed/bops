@@ -39,6 +39,10 @@ class LocalPolicy < ApplicationRecord
     review_local_policies.where.not(id: nil).order(:created_at).last
   end
 
+  def review_local_polices_with_comments
+    review_local_policies.where.not("reviewer_comment = '' OR reviewer_comment IS NULL").order(:created_at)
+  end
+
   private
 
   def maybe_create_review_local_policy
