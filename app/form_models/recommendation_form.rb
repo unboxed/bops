@@ -46,7 +46,7 @@ class RecommendationForm
   end
 
   def decisions_text
-    ldc? ? ldc_decisions_text : pa_decisions_text
+    I18n.t(".recommendations.new.is_the_use.#{application_type_name}")
   end
 
   def reason_text
@@ -73,13 +73,5 @@ class RecommendationForm
       [:granted_not_required,
        I18n.t("recommendation.prior_approval.granted_not_required")]
     ]
-  end
-
-  def ldc_decisions_text
-    I18n.t(".recommendations.new.ldc_is_the_use")
-  end
-
-  def pa_decisions_text
-    I18n.t(".recommendations.new.pa_is_the_use")
   end
 end

@@ -991,10 +991,11 @@ en:
       assess_proposal: Assess the proposal
       assess_recommendation: Assess recommendation
       error: 'Error:'
-      ldc_is_the_use: Is the use or operation lawful?
+      is_the_use:
+        lawfulness_certificate: Is the use or operation lawful?
+        prior_approval: What is your recommendation?
       make_draft_recommendation: Make draft recommendation
       'no': 'No'
-      pa_is_the_use: What is your recommendation?
       please_provide_supporting: Provide supporting information for your manager.
       refer_to_the:
         lawfulness_certificate: Refer to specific permitted development legislation to support your recommendation.
