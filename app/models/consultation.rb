@@ -78,7 +78,7 @@ class Consultation < ApplicationRecord
   end
 
   def neighbour_responses_by_summary_tag
-    neighbour_responses.group(:summary_tag).count
+    neighbour_responses.group(:summary_tag).order(:summary_tag).count
   end
 
   def selected_neighbour_addresses
