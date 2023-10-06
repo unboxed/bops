@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_04_160325) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_06_134128) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -77,6 +77,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_04_160325) do
     t.string "section"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "assessment_details", array: true
   end
 
   create_table "assessment_details", force: :cascade do |t|
