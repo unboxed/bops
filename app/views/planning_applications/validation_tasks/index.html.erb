@@ -1,5 +1,5 @@
 <% content_for :page_title do %>
-  Validation tasks - <%= t('page_title') %>
+  Validation tasks - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
@@ -7,9 +7,9 @@
 <% content_for :title, "Validation tasks" %>
 
 <%= render(
-  partial: "shared/proposal_header",
-  locals: { heading: "Check the application"  }
-) %>
+      partial: "shared/proposal_header",
+      locals: { heading: "Check the application" }
+    ) %>
 
 <%= render "shared/dates_and_assignment_header" %>
 
@@ -20,15 +20,17 @@
       <%= t(".application_details") %>
     </h2>
     <%= render(
-      AccordionComponent.new(
-        planning_application: @planning_application,
-        sections: %i[application_information proposal_details documents]
-      )
-    ) %>
+          AccordionComponent.new(
+            planning_application: @planning_application,
+            sections: %i[application_information proposal_details documents]
+          )
+        ) %>
     <ol class="app-task-list govuk-!-margin-top-8">
       <%= render "red_line_boundary" %>
 
       <%= render "fee_validation" %>
+
+      <%= render "cil_liability" %>
 
       <%= render "constraints" %>
 

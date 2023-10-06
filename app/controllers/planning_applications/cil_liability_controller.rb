@@ -4,7 +4,6 @@ module PlanningApplications
   class CilLiabilityController < ApplicationController
     include PlanningApplicationAssessable
     before_action :set_planning_application
-    before_action :ensure_planning_application_is_validated
 
     def edit
       respond_to do |format|
@@ -14,7 +13,7 @@ module PlanningApplications
 
     def update
       if @planning_application.update(cil_liability_params)
-        redirect_to planning_application_assessment_tasks_path(@planning_application), notice: t(".success")
+        redirect_to planning_application_validation_tasks_path(@planning_application), notice: t(".success")
       else
         render :edit
       end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module TaskListItems
-  class CilLiabilityComponent < TaskListItems::BaseComponent
+module StatusTags
+  class CilLiabilityComponent < StatusTags::BaseComponent
     def initialize(planning_application:)
       @planning_application = planning_application
     end
@@ -11,16 +11,6 @@ module TaskListItems
     attr_reader :planning_application
 
     delegate(:cil_liable, to: :planning_application)
-
-    def link_text
-      t(".link_text")
-    end
-
-    def link_path
-      edit_planning_application_cil_liability_path(
-        planning_application
-      )
-    end
 
     def status
       case cil_liable
