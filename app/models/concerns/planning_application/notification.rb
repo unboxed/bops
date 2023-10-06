@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PlanningApplication
+class PlanningApplication < ApplicationRecord
   module Notification
     extend ActiveSupport::Concern
 

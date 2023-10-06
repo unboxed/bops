@@ -49,7 +49,7 @@ class ConsulteesController < AuthenticationController
 
   def consultees_partial(consultee)
     render_to_string(
-      partial: "planning_application/assessment_details/consultation_summary/consultees",
+      partial: "planning_applications/assessment_details/consultation_summary/consultees",
       locals: {
         planning_application:,
         consultee:,
@@ -60,7 +60,7 @@ class ConsulteesController < AuthenticationController
 
   def consultee_table_partial
     render_to_string(
-      partial: "planning_application/assessment_details/consultation_summary/consultee_table",
+      partial: "planning_applications/assessment_details/consultation_summary/consultee_table",
       locals: {
         planning_application:,
         read_only: false

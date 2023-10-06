@@ -27,7 +27,7 @@ class CommentsController < AuthenticationController
 
   def create_policy_comment_partial(new_comment)
     render_to_string(
-      partial: "planning_application/review_policy_classes/comment",
+      partial: "planning_applications/review_policy_classes/comment",
       locals: {
         planning_application:,
         policy_class:,
@@ -40,7 +40,7 @@ class CommentsController < AuthenticationController
 
   def create_evidence_group_comment_partial(new_comment)
     render_to_string(
-      partial: "planning_application/review_immunity_details/comment",
+      partial: "planning_applications/review_immunity_details/comment",
       locals: {
         planning_application:,
         evidence_group:,

@@ -1,0 +1,57 @@
+<%= render "shared_information" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "planning_applications/permitted_development_rights/information" %>
+
+    <%= render(
+        PlanningApplications::ImmunityDetailsAssessmentComponent.new(planning_application: @planning_application, evidence_groups: @planning_application.immunity_detail.evidence_groups)
+      )
+    %>
+
+    <%= render "planning_applications/permitted_development_rights/previous", permitted_development_rights: @permitted_development_rights %>
+
+    <% if @review_immunity_detail %>
+      <p class="govuk-body govuk-!-padding-top-5">
+        <strong>Is the application immune from enforcement?</strong>
+      </p>
+
+      <p class="govuk-body">Assessor decision: <%= @review_immunity_detail.decision %></p>
+      <p class="govuk-body">Reason: <%= @review_immunity_detail.decision_reason %></p>
+      <p class="govuk-body">Summary: <%= @review_immunity_detail.summary %></p>
+
+      <% unless @review_immunity_detail.reviewed_at %>
+          <div class="govuk-button-group govuk-!-padding-top-5">
+        <%= link_to(
+          "Edit immunity/permitted development rights",
+          edit_planning_application_assess_immunity_detail_permitted_development_right_path(@planning_application),
+          class: "govuk-link"
+        ) %>
+      </div>
+      <% end %>
+    <% end %>
+
+    <% if @review_immunity_detail.try(:decision_is_not_immune?) && @permitted_development_right %>
+      <p class="govuk-body govuk-!-padding-top-5">
+        <strong>Have the permitted development rights relevant for this application been removed?</strong>
+      </p>
+
+      <% if @permitted_development_right.removed %>
+        <p class="govuk-body"><strong>Yes</strong></p>
+        <p class="govuk-body"><%= @permitted_development_right.removed_reason %></p>
+      <% else %>
+        <p class="govuk-body"><strong>No</strong></p>
+      <% end %>
+
+      <% if @permitted_development_right.accepted && @permitted_development_right.reviewed_at %>
+        <p class="govuk-body">
+          <strong><%= @permitted_development_right.reviewer.name %> accepted this response on <%= @permitted_development_right.reviewed_at %></strong>
+        </p>
+      <% end %>
+    <% end %>
+
+    <div class="govuk-button-group">
+      <%= back_link %>
+    </div>
+  </div>
+</div>

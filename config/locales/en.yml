@@ -661,7 +661,7 @@ en:
     review_assessment_error: You agreed with the assessor recommendation, to request any change you must change your decision on the Sign-off recommendation screen
     successfully_created: Permitted development rights response was successfully created
     successfully_updated: Permitted development rights response was successfully updated
-  planning_application:
+  planning_applications:
     assessment_details:
       amenity:
         information:
@@ -701,6 +701,19 @@ en:
         edit_publicity_summary: Edit summary of neighbour responses
         edit_site_description: Edit site description
         edit_summary_of_work: Edit summary of work
+    assessment_report_component:
+      additional_evidence: Summary of additional evidence
+      constraints_including_article: Constraints including Article 4 direction(s)
+      consultation_documents: Consultation documents
+      documents_included_in: Documents included in the decision notice
+      have_the_permitted_development_rights: Have the permitted development rights relevant for this application been removed?
+      immunity_from_enforcement: Immunity from enforcement
+      legislation: Legislation
+      location_description: Location description
+      no_documents_listed: There are no documents listed on the decision notice.
+      no_legislation_assessed: There is no legislation assessment for this application.
+      planning_history: Planning history
+      summary_of_works: Summary of works
     assessment_tasks:
       check_consistency:
         check_application: Check application
@@ -717,81 +730,11 @@ en:
     confirm_press_notices:
       update:
         success: Press notice response has been successfully updated
+    confirm_validation:
+      validate_application: Validate application
     consultation_neighbour_addresses:
       create:
         success: Addresses have been successfully added.
-    press_notices:
-      create:
-        success: Press notice response has been successfully added
-      update:
-        success: Press notice response has been successfully updated
-    review_documents:
-      update:
-        success: Documents were successfully updated.
-    review_policy_classes:
-      comment:
-        edit_comment: Edit comment
-        update: Update
-      edit:
-        application: Application
-        complies: Complies
-        does_not_comply: Does not comply
-        home: Home
-        open_legislation_in: Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window
-        please_indicate_if: Complete the assessment to show whether the application complies or does not comply with the selected legislative class. You can add comments to provide more information to support your assessment.
-        policy_reference: Policy reference
-        review: Review
-        review_and_sign_off: Review and sign-off
-        review_heading: Review - Part%{part}, Class %{class}
-        table_caption: Part %{part}, Class %{class} - %{name}
-        to_be_determined: To be determined
-      show:
-        application: Application
-        home: Home
-        open_legislation_in: Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window
-        please_indicate_if: Complete the assessment to show whether the application complies or does not comply with the selected legislative class. You can add comments to provide more information to support your assessment.
-        review: Review
-        review_heading: Review - Part%{part}, Class %{class}
-      update:
-        successfully_updated_policy_class: Successfully updated policy class
-    review_tasks:
-      index:
-        application_details: Application details
-        review_and_sign_off: Review and sign-off
-    site_notices:
-      create:
-        success: Site notice was successfully %{action}
-      update:
-        success: Site notice was successfully updated
-    site_visits:
-      create:
-        success: Site visit was successfully created.
-    validation_tasks:
-      index:
-        application_details: Application details
-    withdraw_or_cancels:
-      closed: Application has been closed
-      returned: Application has been returned
-      show:
-        upload_hint_html: Optionally add a <strong>redacted</strong> document to support the decision
-        upload_label: Upload a supporting document
-      withdrawn: Application has been withdrawn
-  planning_applications:
-    assessment_report_component:
-      additional_evidence: Summary of additional evidence
-      constraints_including_article: Constraints including Article 4 direction(s)
-      consultation_documents: Consultation documents
-      documents_included_in: Documents included in the decision notice
-      have_the_permitted_development_rights: Have the permitted development rights relevant for this application been removed?
-      immunity_from_enforcement: Immunity from enforcement
-      legislation: Legislation
-      location_description: Location description
-      no_documents_listed: There are no documents listed on the decision notice.
-      no_legislation_assessed: There is no legislation assessment for this application.
-      planning_history: Planning history
-      summary_of_works: Summary of works
-    confirm_validation:
-      validate_application: Validate application
     create:
       success: Planning application was successfully created.
     days_from:
@@ -839,13 +782,59 @@ en:
       user_name: Planning officer
     policy_consideration_list:
       proposal_details: Proposal details
+    press_notices:
+      create:
+        success: Press notice response has been successfully added
+      update:
+        success: Press notice response has been successfully updated
     publish:
       review_and_publish_determination: Review and publish determination
+    review_documents:
+      update:
+        success: Documents were successfully updated.
+    review_policy_classes:
+      comment:
+        edit_comment: Edit comment
+        update: Update
+      edit:
+        application: Application
+        complies: Complies
+        does_not_comply: Does not comply
+        home: Home
+        open_legislation_in: Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window
+        please_indicate_if: Complete the assessment to show whether the application complies or does not comply with the selected legislative class. You can add comments to provide more information to support your assessment.
+        policy_reference: Policy reference
+        review: Review
+        review_and_sign_off: Review and sign-off
+        review_heading: Review - Part%{part}, Class %{class}
+        table_caption: Part %{part}, Class %{class} - %{name}
+        to_be_determined: To be determined
+      show:
+        application: Application
+        home: Home
+        open_legislation_in: Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window
+        please_indicate_if: Complete the assessment to show whether the application complies or does not comply with the selected legislative class. You can add comments to provide more information to support your assessment.
+        review: Review
+        review_heading: Review - Part%{part}, Class %{class}
+      update:
+        successfully_updated_policy_class: Successfully updated policy class
+    review_tasks:
+      index:
+        application_details: Application details
+        review_and_sign_off: Review and sign-off
     search_component:
       clear_search: Clear search
       find_an_application: Find an application
       search: Search
       you_can_search: You can search by application number or description
+    site_notices:
+      create:
+        success: Site notice was successfully %{action}
+      update:
+        success: Site notice was successfully updated
+    site_visits:
+      create:
+        success: Site visit was successfully created.
     steps:
       assessment:
         check_and_assess: Check and assess
@@ -876,6 +865,16 @@ en:
       success: Planning application was successfully updated.
     validate:
       success: Application is ready for assessment and an email notification has been sent.
+    validation_tasks:
+      index:
+        application_details: Application details
+    withdraw_or_cancels:
+      closed: Application has been closed
+      returned: Application has been returned
+      show:
+        upload_hint_html: Optionally add a <strong>redacted</strong> document to support the decision
+        upload_label: Upload a supporting document
+      withdrawn: Application has been withdrawn
     withdraw_recommendation:
       success: Recommendation was successfully withdrawn.
   policy_classes:
