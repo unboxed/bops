@@ -94,11 +94,11 @@ RSpec.describe "Reviewing assessment summaries" do
 
         create(
           :assessment_detail,
-          :additional_evidence,
+          :publicity_summary,
           assessment_status: :complete,
           planning_application:,
           user: assessor,
-          entry: "public summary"
+          entry: "publicity summary"
         )
       end
 
@@ -202,11 +202,11 @@ RSpec.describe "Reviewing assessment summaries" do
           choose("Accept")
         end
 
-        within(find("fieldset", text: "Summary of neighbour responses")) do
+        within(find("fieldset", text: "Amenity assessment")) do
           choose("Accept")
         end
 
-        within(find("fieldset", text: "Amenity assessment")) do
+        within(find("fieldset", text: "Summary of neighbour responses")) do
           expect(page).to have_link(
             "View neighbour responses",
             href: new_planning_application_consultation_neighbour_response_path(planning_application, consultation)
@@ -431,10 +431,6 @@ RSpec.describe "Reviewing assessment summaries" do
 
         expect(page).to have_content(
           "Site description reviewer verdict can't be blank"
-        )
-
-        expect(page).to have_content(
-          "Consultation summary reviewer verdict can't be blank"
         )
 
         expect(page).to have_content(
@@ -771,6 +767,310 @@ RSpec.describe "Reviewing assessment summaries" do
         click_link("Review assessment summaries")
 
         within(find("fieldset", text: "Summary of additional evidence")) do
+          choose("Accept")
+        end
+
+        click_button("Save and mark as complete")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Checked"
+        )
+      end
+    end
+  end
+
+  context "when planning application is planning permission" do
+    before do
+      planning_permission = create(:application_type, :planning_permission)
+      planning_application.update(application_type: planning_permission)
+    end
+
+    context "when assessor filled out summaries" do
+      before do
+        create(
+          :assessment_detail,
+          :summary_of_work,
+          assessment_status: :complete,
+          planning_application:,
+          user: assessor,
+          entry: "summary of works"
+        )
+
+        create(
+          :assessment_detail,
+          :site_description,
+          assessment_status: :complete,
+          planning_application:,
+          user: assessor,
+          entry: "site description"
+        )
+
+        create(
+          :assessment_detail,
+          :additional_evidence,
+          assessment_status: :complete,
+          planning_application:,
+          user: assessor,
+          entry: "additional evidence"
+        )
+
+        create(
+          :assessment_detail,
+          :additional_evidence,
+          assessment_status: :complete,
+          planning_application:,
+          user: assessor,
+          entry: "public summary"
+        )
+
+        create(
+          :assessment_detail,
+          :consultation_summary,
+          assessment_status: :complete,
+          planning_application:,
+          user: assessor,
+          entry: "consultation summary"
+        )
+
+        create(
+          :assessment_detail,
+          :publicity_summary,
+          assessment_status: :complete,
+          planning_application:,
+          user: assessor,
+          entry: "publicity summary"
+        )
+      end
+
+      let!(:consultation) { create(:consultation, end_date: Time.zone.now, planning_application:) }
+      let!(:neighbour1) { create(:neighbour, address: "1 Cookie Avenue", consultation:) }
+      let!(:neighbour2) { create(:neighbour, address: "2 Cookie Avenue", consultation:) }
+      let!(:neighbour3) { create(:neighbour, address: "3 Cookie Avenue", consultation:) }
+      let!(:objection_response) { create(:neighbour_response, neighbour: neighbour1, summary_tag: "objection") }
+      let!(:supportive_response1) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive") }
+      let!(:supportive_response2) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive") }
+      let!(:neutral_response) { create(:neighbour_response, neighbour: neighbour2, summary_tag: "neutral") }
+
+      it "allows reviewer to submit correctly filled out form" do
+        travel_to(Time.zone.local(2022, 11, 28, 12, 30))
+        visit(planning_application_review_tasks_path(planning_application))
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Not started"
+        )
+
+        click_link("Review assessment summaries")
+        click_button("Save and come back later")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Not started"
+        )
+
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Summary of works")) do
+          expect(find(".govuk-tag")).to have_content("Completed")
+
+          choose("Accept")
+        end
+
+        click_button("Save and mark as complete")
+
+        expect(page).to have_content(
+          "Additional evidence reviewer verdict can't be blank"
+        )
+
+        expect(page).to have_content(
+          "Site description reviewer verdict can't be blank"
+        )
+
+        expect(page).to have_content(
+          "Publicity summary reviewer verdict can't be blank"
+        )
+
+        expect(page).to have_content(
+          "Consultation summary reviewer verdict can't be blank"
+        )
+
+        click_button("Save and come back later")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "In progress"
+        )
+
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Site description")) do
+          expect(page).to have_link(
+            "View site on Google Maps",
+            href: "https://google.co.uk/maps/place/#{CGI.escape(planning_application.full_address)}"
+          )
+          choose("Edit to accept")
+        end
+
+        click_button("Save and come back later")
+
+        expect(page).to have_content("Site description entry must be edited")
+
+        within(find("fieldset", text: "Site description")) do
+          fill_in("Update site description", with: "")
+        end
+
+        click_button("Save and come back later")
+
+        expect(page).to have_content("Site description entry can't be blank")
+
+        within(find("fieldset", text: "Site description")) do
+          fill_in("Update site description", with: "edited site description")
+        end
+
+        click_button("Save and come back later")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "In progress"
+        )
+
+        within("ul#review-assessment-section") do
+          expect(page).to have_list_item_for(
+            "Review assessment summaries", with: "In progress"
+          )
+        end
+
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Summary of additional evidence")) do
+          choose("Accept")
+        end
+
+        within(find("fieldset", text: "Summary of neighbour responses")) do
+          choose("Accept")
+        end
+
+        within(find("fieldset", text: "Consultation")) do
+          choose("Accept")
+        end
+
+        click_button("Save and mark as complete")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Checked"
+        )
+
+        click_link("Sign-off recommendation")
+        choose("No (return the case for assessment)")
+
+        fill_in(
+          "Explain to the officer why the case is being returned",
+          with: "recommendation challenged"
+        )
+
+        click_button("Save and mark as complete")
+        click_link("Review assessment summaries")
+
+        click_link("Log out")
+        sign_in(assessor)
+        visit(planning_application_path(planning_application))
+
+        expect(page).to have_list_item_for(
+          "Check and assess", with: "To be reviewed"
+        )
+
+        click_link("Check and assess")
+        click_link("Make draft recommendation")
+
+        click_button("Update assessment")
+        click_link("Review and submit recommendation")
+        click_button("Submit recommendation")
+        click_link("Log out")
+        sign_in(reviewer)
+        visit(planning_application_path(planning_application))
+
+        click_link("Review and sign-off")
+        click_link("Sign-off recommendation")
+        choose("Yes")
+        click_button("Save and mark as complete")
+        click_link("Review assessment summaries")
+      end
+    end
+
+    context "when assessor didn't fill out summaries" do
+      it "allows reviewer to submit correctly filled out form" do
+        visit(planning_application_review_tasks_path(planning_application))
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Not started"
+        )
+
+        click_link("Review assessment summaries")
+        click_button("Save and come back later")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "Not started"
+        )
+
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Summary of works")) do
+          expect(find(".govuk-tag")).to have_content("Not started")
+
+          choose("Accept")
+        end
+
+        click_button("Save and mark as complete")
+
+        expect(page).to have_content(
+          "Additional evidence reviewer verdict can't be blank"
+        )
+
+        expect(page).to have_content(
+          "Site description reviewer verdict can't be blank"
+        )
+
+        expect(page).to have_content(
+          "Publicity summary reviewer verdict can't be blank"
+        )
+
+        expect(page).to have_content(
+          "Consultation summary reviewer verdict can't be blank"
+        )
+
+        click_button("Save and come back later")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "In progress"
+        )
+
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Site description")) do
+          choose("Edit to accept")
+        end
+
+        click_button("Save and come back later")
+
+        expect(page).to have_content("Site description entry can't be blank")
+
+        within(find("fieldset", text: "Site description")) do
+          fill_in("Update site description", with: "edited site description")
+        end
+
+        click_button("Save and come back later")
+
+        expect(page).to have_list_item_for(
+          "Review assessment summaries", with: "In progress"
+        )
+
+        click_link("Review assessment summaries")
+
+        within(find("fieldset", text: "Summary of additional evidence")) do
+          choose("Accept")
+        end
+
+        within(find("fieldset", text: "Summary of neighbour responses")) do
+          choose("Accept")
+        end
+
+        within(find("fieldset", text: "Consultation")) do
           choose("Accept")
         end
 

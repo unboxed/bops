@@ -20,6 +20,14 @@ class ReviewAssessmentDetailsForm
     amenity
   ].freeze
 
+  PLANNING_PERMISSION_ASSESSMENT_DETAILS = %i[
+    summary_of_work
+    site_description
+    additional_evidence
+    consultation_summary
+    publicity_summary
+  ].freeze
+
   ASSESSMENT_DETAILS = %i[
     summary_of_work
     site_description
@@ -121,8 +129,10 @@ class ReviewAssessmentDetailsForm
     case planning_application.application_type.name.to_sym
     when :lawfulness_certificate
       LDC_ASSESSMENT_DETAILS
-    else
+    when :prior_approval
       PRIOR_APPROVAL_ASSESSMENT_DETAILS
+    else
+      PLANNING_PERMISSION_ASSESSMENT_DETAILS
     end
   end
 
@@ -152,10 +162,13 @@ class ReviewAssessmentDetailsForm
     define_method("#{assessment_detail}_for_application?") do
       next if status == :in_progress
 
-      if planning_application.type == "Prior approval"
-        PRIOR_APPROVAL_ASSESSMENT_DETAILS.include? assessment_detail
-      else
+      case planning_application.type
+      when "Lawful Development Certificate"
         LDC_ASSESSMENT_DETAILS.include? assessment_detail
+      when "Prior approval"
+        PRIOR_APPROVAL_ASSESSMENT_DETAILS.include? assessment_detail
+      when "Householder Application for Planning Permission"
+        PLANNING_PERMISSION_ASSESSMENT_DETAILS.include? assessment_detail
       end
     end
   end
