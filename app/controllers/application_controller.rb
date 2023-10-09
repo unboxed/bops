@@ -29,11 +29,32 @@ class ApplicationController < ActionController::Base
   protected
 
   def set_planning_application
-    application = current_local_authority
-                  .planning_applications
-                  .find(params[:planning_application_id] || params[:id])
-
+    application = planning_applications_scope.find(planning_application_id)
     @planning_application = PlanningApplicationPresenter.new(view_context, application)
+  end
+
+  def planning_applications_scope
+    current_local_authority.planning_applications
+  end
+
+  def planning_application_id
+    if request.path_parameters.key?(:planning_application_id)
+      Integer(params[:planning_application_id].to_s)
+    else
+      Integer(params[:id].to_s)
+    end
+  end
+
+  def set_consultation
+    if @planning_application.consultation.nil?
+      error = <<~ERROR
+        "Couldn't find Consulation with 'planning_application_id'=#{@planning_application_id}"
+      ERROR
+
+      raise ActiveRecord::RecordNotFound, error
+    end
+
+    @consultation = @planning_application.consultation
   end
 
   def configure_permitted_parameters

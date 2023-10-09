@@ -48,20 +48,6 @@ module PlanningApplications
 
     private
 
-    def set_planning_application
-      planning_application = planning_applications_scope.find(planning_application_id)
-
-      @planning_application = PlanningApplicationPresenter.new(view_context, planning_application)
-    end
-
-    def planning_applications_scope
-      current_local_authority.planning_applications
-    end
-
-    def planning_application_id
-      Integer(params[:planning_application_id])
-    end
-
     def site_visit_params
       params.require(:site_visit).permit(:decision, :comment, :visited_at, :neighbour_id).merge(documents_attributes:)
     end
@@ -71,10 +57,6 @@ module PlanningApplications
       files.map.with_index do |file, i|
         [i.to_s, { file:, planning_application_id: @planning_application.id, tags: ["Site Visit"] }]
       end.to_h
-    end
-
-    def set_consultation
-      @consultation = @planning_application.consultation
     end
 
     def set_objected_neighbour_responses
