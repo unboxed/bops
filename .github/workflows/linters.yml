@@ -23,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BUNDLE_WITHOUT: development
+      RAILS_ENV: test
 
     steps:
       - name: Check out code
