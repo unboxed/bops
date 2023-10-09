@@ -28,5 +28,9 @@ module PlanningApplications
     def documents
       planning_application.documents_for_decision_notice
     end
+
+    def local_policy_areas
+      planning_application.local_policy.present? ? planning_application.local_policy.local_policy_areas : []
+    end
   end
 end

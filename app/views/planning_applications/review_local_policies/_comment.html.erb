@@ -1,0 +1,27 @@
+<% if @local_policy.review_local_policies.count > 1 %>
+  <details class="govuk-details govuk-!-margin-top-5 govuk-!-margin-bottom-3" data-module="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        Previous comments
+      </span>
+    </summary>
+    <div class="govuk-details__text">
+      <% @local_policy.review_local_policies[0..-2].each do |comment| %>
+        <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-1">
+          <%= comment.reviewer.name %>
+        </p>
+        <p class="govuk-body"><%= comment.created_at.to_fs %></p>
+        <% comment.local_policy.local_policy_areas.each do |local_policy_area| %>
+          <p class="govuk-body"><strong><%= local_policy_area.area %></strong></p>
+          <p class="govuk-body"><strong>Policies:</strong> <%= local_policy_area.policies %></p>
+          <% if local_policy_area.guidance.present? %>
+            <p class="govuk-body"><strong>Guidance:</strong> <%= local_policy_area.guidance %></p>
+          <% end %>
+          <p class="govuk-body"><strong>Assessment:</strong> <%= local_policy_area.assessment %></p>
+        <% end %>
+        <p class="govuk-body"><strong>Reviewer comment:</strong> <%= comment.reviewer_comment %></p>
+        <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--s">
+      <% end %>
+    </div>
+  </details>
+<% end %>

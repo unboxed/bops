@@ -1,0 +1,26 @@
+<%= form_with(
+  model: [planning_application, local_policy],
+  builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+  url: url,
+  class: "govuk-!-margin-top-5"
+) do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+  <%= form.govuk_check_boxes_fieldset :areas, multiple: true, legend: { text: "Select the topics you want to comment on", size: "m" } do %>
+    <%= form.fields_for :local_policy_areas, local_policy_areas do |ff| %>
+      <%= ff.govuk_check_box :areas, :"#{ff.object.area}", label: { text: "#{ff.object.area.to_s.humanize}" }, checked: @local_policy.local_policy_areas.any? { |local_policy_area| local_policy_area.area == "#{ff.object.area}" } do %>
+        <%= ff.hidden_field :area, value: ff.object.area.to_s %>
+        <%= ff.hidden_field :id, value: ff.object.id %>
+        <%= ff.govuk_text_field :policies, label: { text: "Which policies are relevant", size: "s" }, hint: { text: "Enter the policy reference" } %>
+        <%= ff.govuk_radio_buttons_fieldset(:policy, legend: { size: 's', text: 'Is there relevant guidance?' }) do %>
+          <%= ff.govuk_radio_button :policy, 'Yes', label: { text: 'Yes' }, checked: ff.object.guidance.present? do %>
+            <%= ff.govuk_text_field :guidance, label: { text: "Which guidance? (e.g. the design code)", size: "s" } %>
+          <% end %>
+          <%= ff.govuk_radio_button :policy, 'No', label: { text: 'No' }, checked: ff.object.id.present? && !ff.object.guidance.present? %>
+        <% end %>
+        <%= ff.govuk_text_area :assessment, label: { text: "Enter your assessment", size: "s" } %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= render(partial: "shared/submit_buttons", locals: { form: }) %>
+<% end %>

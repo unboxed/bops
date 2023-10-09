@@ -1,0 +1,34 @@
+<% content_for :page_title do %>
+  Review assessment against policies and guidance - <%= t('page_title') %>
+<% end %>
+
+<%= render(
+  partial: "shared/review_task_breadcrumbs",
+  locals: { planning_application: @planning_application  }
+) %>
+
+<% content_for :title, "Review assessment against policies and guidance" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Review assessment against policies and guidance" }
+) %>
+
+<%= render "comment" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <div class="govuk-!-margin-top-6">
+      <% @local_policy.local_policy_areas.each do |local_policy_area| %>
+        <h2 class="govuk-heading-m"><%= local_policy_area.area.humanize %></h2>
+        <p class="govuk-body"><strong>Policies:</strong> <%= local_policy_area.policies %></p>
+        <% if local_policy_area.guidance.present? %>
+          <p class="govuk-body"><strong>Guidance</strong> <%= local_policy_area.guidance %></p>
+        <% end %>
+        <p class="govuk-body"><strong>Assessment:</strong> <%= local_policy_area.assessment %></p>
+      <% end %>
+    </div>
+
+    <%= render "form", editable: false %>
+  </div>
+</div>

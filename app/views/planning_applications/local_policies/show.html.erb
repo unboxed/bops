@@ -1,0 +1,36 @@
+<% content_for :page_title do %>
+  Assess against policies and guidance - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: { planning_application: @planning_application }
+    ) %>
+
+<% content_for :title, "Assess against policies and guidance" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: { heading: "Assess against policies and guidance" }
+    ) %>
+
+<%= link_to "Check your local policies and guidance in a new tab", I18n.t("council_documents.#{@planning_application.local_authority.subdomain}"), target: "_blank", class: "govuk-link govuk-body" %>
+
+<%= render "comment" %>
+
+<div class="govuk-!-margin-top-6">
+  <% @local_policy.local_policy_areas.each do |local_policy_area| %>
+    <h2 class="govuk-heading-m"><%= local_policy_area.area.humanize %></h2>
+    <p class="govuk-body"><strong>Policies:</strong> <%= local_policy_area.policies %></p>
+    <% if local_policy_area.guidance.present? %>
+      <p class="govuk-body"><strong>Guidance</strong> <%= local_policy_area.guidance %></p>
+    <% end %>
+    <p class="govuk-body"><strong>Assessment:</strong> <%= local_policy_area.assessment %></p>
+  <% end %>
+</div>
+
+<div class="govuk-button-group">
+  <%= link_to "Back", planning_application_assessment_tasks_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+  <%= link_to "Edit Assess against policies and guidance", edit_planning_application_local_policy_path(@planning_application, @local_policy), class: "govuk-link govuk-body" %>
+</div>
+

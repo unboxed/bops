@@ -1,0 +1,56 @@
+<%= form_with model: [@planning_application, @review_local_policy],
+              url: planning_application_review_local_policy_path(@planning_application, @review_local_policy),
+              builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+              class: "govuk-!-margin-top-7" do |form| %>
+  <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+  <%= form.govuk_radio_buttons_fieldset :accepted, legend: { text: "Actions" } do %>
+    <%= form.govuk_radio_button(
+      :accepted, true, disabled: !editable, checked: @review_local_policy.accepted && !@review_local_policy.reviewer_edited, label: { text: "Accept" }
+    ) %>
+
+    <%= form.govuk_radio_button(
+      :accepted, true, disabled: !editable, checked: @review_local_policy.accepted && @review_local_policy.reviewer_edited, label: { text: "Edit to accept", id: "edit-to-accept" }
+    ) do %>
+      <%= form.govuk_check_boxes_fieldset :areas, multiple: true, legend: { text: "Select the topics you want to comment on", size: "m" } do %>
+        <%= form.fields_for :local_policy, @review_local_policy.local_policy do |ff| %>
+          <%= ff.fields_for :local_policy_areas, ff.object.local_policy_areas do |fff| %>
+            <%= fff.govuk_check_box :areas, :"#{fff.object.area}", label: { text: "#{fff.object.area.to_s.humanize}" }, checked: @local_policy.local_policy_areas.any? { |local_policy_area| local_policy_area.area == "#{fff.object.area}" } do %>
+              <%= fff.hidden_field :area, value: fff.object.area.to_s %>
+              <%= fff.hidden_field :id, value: fff.object.id %>
+              <%= fff.govuk_text_field :policies, label: { text: "Which policies are relevant", size: "s" }, hint: { text: "Enter the policy reference" } %>
+              <%= fff.govuk_radio_buttons_fieldset(:policy, legend: { size: 's', text: 'Is there relevant guidance?' }) do %>
+                <%= fff.govuk_radio_button :policy, 'Yes', label: { text: 'Yes' }, checked: fff.object.guidance.present? do %>
+                  <%= fff.govuk_text_field :guidance, label: { text: "Which guidance? (e.g. the design code)", size: "s" } %>
+                <% end %>
+                <%= fff.govuk_radio_button :policy, 'No', label: { text: 'No' }, checked: fff.object.id.present? && !fff.object.guidance.present? %>
+              <% end %>
+              <%= fff.govuk_text_area :assessment, label: { text: "Enter your assessment", size: "s" } %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%= form.govuk_radio_button(
+      :accepted, false, disabled: !editable, checked: !@review_local_policy.accepted && @review_local_policy.reviewer_comment?, label: { text: "Return to officer with comment" }
+    ) do %>
+      <%= form.govuk_text_area(
+        :reviewer_comment, readonly: !editable, rows: 6, label: { text: "Comment" }
+      ) %>
+    <% end %>
+  <% end %>
+
+  <div class="govuk-button-group">
+    <% if editable %>
+      <%= form.submit "Save and mark as complete", class: "govuk-button", data: { module: "govuk-button" } %>
+      <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
+    <% end %>
+
+    <%= back_link %>
+
+    <% if !editable %>
+      <%= link_to "Edit review policy guidance", edit_planning_application_review_local_policy_path(@planning_application, @review_local_policy), class: "govuk-link" %>
+    <% end %>
+  </div>
+<% end %>

@@ -3,33 +3,41 @@
     Assess against legislation
   </h2>
   <ul class="app-task-list__items" id="assess-policy-section">
-    <% if @planning_application.no_policy_classes_after_assessment? %>
-      <li class="app-task-list__item">
-        <span class="app-task-list__task-name">
-          No policy classes were added.
-        </span>
-      </li>
-    <% else %>
-      <% @planning_application.policy_classes.each do |policy_class| %>
+    <% if @planning_application.application_type.name == "planning_permission" %>
         <%= render(
-          TaskListItems::PolicyClassComponent.new(
-            policy_class: policy_class,
-            planning_application: @planning_application
-          )
-        ) %>
-      <% end %>
-    <% end %>
-
-    <% if @planning_application.can_assess? %>
-      <li class="app-task-list__item">
-        <span class="app-task-list__task-name">
-          <%= link_to(
-            "Add assessment area",
-            part_new_planning_application_policy_class_path(@planning_application),
-            class: "govuk-link"
+            TaskListItems::LocalPolicyComponent.new(
+              planning_application: @planning_application
+            )
           ) %>
-        </span>
-      </li>
+    <% else %>
+      <% if @planning_application.no_policy_classes_after_assessment? %>
+        <li class="app-task-list__item">
+          <span class="app-task-list__task-name">
+            No policy classes were added.
+          </span>
+        </li>
+      <% else %>
+        <% @planning_application.policy_classes.each do |policy_class| %>
+          <%= render(
+            TaskListItems::PolicyClassComponent.new(
+              policy_class: policy_class,
+              planning_application: @planning_application
+            )
+          ) %>
+        <% end %>
+      <% end %>
+
+      <% if @planning_application.can_assess? %>
+        <li class="app-task-list__item">
+          <span class="app-task-list__task-name">
+            <%= link_to(
+              "Add assessment area",
+              part_new_planning_application_policy_class_path(@planning_application),
+              class: "govuk-link"
+            ) %>
+          </span>
+        </li>
+      <% end %>
     <% end %>
   </ul>
 </li>

@@ -59,6 +59,13 @@
           planning_application: @planning_application,
         )
       )%>
+      <% if @planning_application.local_policy.present? %>
+        <%= render(
+          TaskListItems::ReviewLocalPolicyComponent.new(
+            planning_application: @planning_application,
+          )
+        )%>
+      <% end %>
 
       <%= render partial: "policy_classes", locals: { planning_application: @planning_application, policy_class: @policy_class } %>
 

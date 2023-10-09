@@ -155,6 +155,12 @@ en:
               missing_numbers: All documents listed on the decision notice must have a document number
             tags:
               unpermitted_tags: Please choose valid tags
+        local_policy_area:
+          attributes:
+            assessment:
+              blank: Fill in your assessment
+            policies:
+              blank: Fill in the policies you consulted
         planning_application:
           attributes:
             base:
@@ -642,6 +648,9 @@ en:
       local_authority: Council information
       press_notice_email: Press notice email
       reviewer_group_email: Manager group email
+  local_policies:
+    successfully_created: Check against policy and guidance response was sucessfully created
+    successfully_updated: Check against policy and guidance response was successfully updated
   neighbour_letter_header:
     planning_permission: Submit your comments by %{closing_date}
     prior_approval: Submit your comments by %{closing_date}
@@ -1163,6 +1172,8 @@ en:
       evidence_of_immunity: Evidence of immunity
     legislation_component:
       check_legislation: Check legislative requirements
+    local_policy_component:
+      link_text: Assess against policies and guidance
     neighbour_responses_component:
       neighbour_responses: View neighbour responses
     other_change_request_component:
@@ -1177,6 +1188,8 @@ en:
       evidence_of_immunity: Review evidence of immunity
     review_immunity_enforcement_component:
       review_immunity_enforcement: Review assessment of immunity
+    review_local_policy_component:
+      link_text: Review assessment against policies and guidance
     review_permitted_development_right_component:
       review_permitted_development_rights: Review permitted development rights
     send_letters_to_neighbours_component:
