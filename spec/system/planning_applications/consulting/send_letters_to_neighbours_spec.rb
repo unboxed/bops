@@ -20,6 +20,10 @@ RSpec.describe "Send letters to neighbours", js: true do
            make_public: true)
   end
 
+  let!(:consultation) do
+    planning_application.consultation
+  end
+
   before do
     allow(ENV).to receive(:fetch).and_call_original
     allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
@@ -104,7 +108,6 @@ RSpec.describe "Send letters to neighbours", js: true do
       sign_in assessor
       visit planning_application_path(planning_application)
 
-      consultation = create(:consultation, planning_application:)
       neighbour = create(:neighbour, consultation:)
       neighbour_letter = create(:neighbour_letter, neighbour:, status: "submitted", notify_id: "123")
 
@@ -225,7 +228,6 @@ RSpec.describe "Send letters to neighbours", js: true do
   end
 
   it "shows the status of letters that have been sent" do
-    consultation = create(:consultation, planning_application:)
     neighbour = create(:neighbour, consultation:)
     neighbour_letter = create(:neighbour_letter, neighbour:, status: "submitted", notify_id: "123")
 
@@ -246,8 +248,6 @@ RSpec.describe "Send letters to neighbours", js: true do
   end
 
   describe "showing the status on the dashboard" do
-    let(:consultation) { create(:consultation, planning_application:) }
-
     before do
       sign_in assessor
     end
@@ -377,7 +377,6 @@ RSpec.describe "Send letters to neighbours", js: true do
       end
 
       # Nothing is persisted to the database at this point
-      expect(Consultation.all.length).to eq(0)
       expect(Neighbour.all.length).to eq(0)
 
       click_button "Add neighbours"

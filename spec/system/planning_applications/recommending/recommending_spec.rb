@@ -774,6 +774,10 @@ RSpec.describe "Planning Application Assessment" do
       end
     end
 
+    let!(:consultation) do
+      planning_application.consultation
+    end
+
     before do
       sign_in assessor
       visit planning_applications_path
@@ -904,8 +908,8 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     context "when consultation is still ongoing" do
-      let!(:consultation) do
-        create(:consultation, end_date: 10.days.from_now, planning_application:)
+      before do
+        consultation.update(end_date: 10.days.from_now)
       end
 
       it "displays a warning message with the consultation end date" do
@@ -918,8 +922,8 @@ RSpec.describe "Planning Application Assessment" do
     end
 
     context "when consultation hasn't begun" do
-      let!(:consultation) do
-        create(:consultation, planning_application:)
+      before do
+        consultation.update(end_date: nil)
       end
 
       it "does not display a warning message" do

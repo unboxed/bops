@@ -33,6 +33,10 @@ RSpec.describe "Reviewing assessment summaries" do
     )
   end
 
+  let!(:consultation) do
+    planning_application.consultation
+  end
+
   before do
     create(
       :recommendation,
@@ -102,7 +106,6 @@ RSpec.describe "Reviewing assessment summaries" do
         )
       end
 
-      let!(:consultation) { create(:consultation, end_date: Time.zone.now, planning_application:) }
       let!(:neighbour1) { create(:neighbour, address: "1 Cookie Avenue", consultation:) }
       let!(:neighbour2) { create(:neighbour, address: "2 Cookie Avenue", consultation:) }
       let!(:neighbour3) { create(:neighbour, address: "3 Cookie Avenue", consultation:) }
@@ -842,7 +845,6 @@ RSpec.describe "Reviewing assessment summaries" do
         )
       end
 
-      let!(:consultation) { create(:consultation, end_date: Time.zone.now, planning_application:) }
       let!(:neighbour1) { create(:neighbour, address: "1 Cookie Avenue", consultation:) }
       let!(:neighbour2) { create(:neighbour, address: "2 Cookie Avenue", consultation:) }
       let!(:neighbour3) { create(:neighbour, address: "3 Cookie Avenue", consultation:) }

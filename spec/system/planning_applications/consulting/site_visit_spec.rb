@@ -12,7 +12,7 @@ RSpec.describe "Site visit" do
            application_type:, local_authority:)
   end
 
-  let!(:consultation) { create(:consultation, end_date: "2023-07-08 16:17:35 +0100", planning_application:) }
+  let!(:consultation) { planning_application.consultation }
   let!(:neighbour) { create(:neighbour, consultation:) }
   let!(:neighbour2) { create(:neighbour, consultation:, address: "123 Another Address") }
 

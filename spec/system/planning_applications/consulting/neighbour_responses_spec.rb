@@ -15,10 +15,12 @@ RSpec.describe "View neighbour responses", js: true do
            application_type:, local_authority: default_local_authority, api_user:)
   end
 
-  let!(:consultation) { create(:consultation, end_date: "2023-07-08 16:17:35 +0100", planning_application:) }
+  let!(:consultation) { planning_application.consultation }
   let!(:neighbour) { create(:neighbour, consultation:) }
 
   before do
+    consultation.update(end_date: "2023-07-08 16:17:35 +0100")
+
     sign_in assessor
     visit planning_application_path(planning_application)
     click_link "Consultees, neighbours and publicity"
@@ -211,8 +213,11 @@ RSpec.describe "View neighbour responses", js: true do
   end
 
   context "when there is no end date yet but there are responses" do
-    let!(:consultation) { create(:consultation, end_date: nil, planning_application:) }
     let!(:response) { create(:neighbour_response, neighbour:, consultation:) }
+
+    before do
+      consultation.update(end_date: nil)
+    end
 
     it "is marked as not started" do
       visit planning_application_path(planning_application)

@@ -3,6 +3,8 @@
 FactoryBot.define do
   factory :application_type do
     name { "lawfulness_certificate" }
+    steps { %w[validation assessment review] }
+
     assessment_details do
       %w[
         summary_of_work
@@ -14,6 +16,8 @@ FactoryBot.define do
 
     trait :prior_approval do
       name { "prior_approval" }
+      steps { %w[validation consultation assessment review] }
+
       assessment_details do
         %w[
           summary_of_work
@@ -27,6 +31,8 @@ FactoryBot.define do
 
     trait :planning_permission do
       name { "planning_permission" }
+      steps { %w[validation consultation assessment review] }
+
       assessment_details do
         %w[
           summary_of_work
