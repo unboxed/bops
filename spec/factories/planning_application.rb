@@ -89,6 +89,7 @@ FactoryBot.define do
     trait :awaiting_determination do
       status                    { :awaiting_determination }
       awaiting_determination_at { Time.zone.now }
+      decision { "granted" }
 
       after(:create) do |pa|
         pa.target_date = 35.business_days.from_now

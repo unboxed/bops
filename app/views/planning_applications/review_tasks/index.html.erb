@@ -24,6 +24,14 @@
     <h2 class="app-task-list__section govuk-!-margin-top-8">
       Review assessment
     </h2>
+    <span class="govuk-body govuk-!-font-weight-bold">
+      Assessor recommendation
+      <%= render(
+      StatusTags::DecisionComponent.new(
+        planning_application: @planning_application
+      )
+    ) %>
+    </span>
     <ul class="app-task-list__items" id="review-assessment-section">
       <% if @planning_application.possibly_immune? && @planning_application.immunity_detail.review_immunity_details.evidence.any? %>
           <%= render(
