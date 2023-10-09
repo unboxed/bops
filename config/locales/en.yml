@@ -990,12 +990,19 @@ en:
     new:
       assess_proposal: Assess the proposal
       assess_recommendation: Assess recommendation
+      decision:
+        lawfulness_certificate:
+          granted: 'Yes'
+          refused: 'No'
+        prior_approval:
+          granted: Prior approval required and approved
+          granted_not_required: Prior approval not required
+          refused: Prior approval required and refused
       error: 'Error:'
       is_the_use:
         lawfulness_certificate: Is the use or operation lawful?
         prior_approval: What is your recommendation?
       make_draft_recommendation: Make draft recommendation
-      'no': 'No'
       please_provide_supporting: Provide supporting information for your manager.
       refer_to_the:
         lawfulness_certificate: Refer to specific permitted development legislation to support your recommendation.
@@ -1008,7 +1015,6 @@ en:
       this_information_will: This information will appear on the decision notice.
       this_information_will_not: This information will not appear on the decision notice or the public register, but Freedom of Information requests will still apply.
       update_assessment: Update assessment
-      'yes': 'Yes'
     update:
       success: Recommendation was successfully reviewed.
   red_line_boundary_change_validation_requests:

@@ -42,7 +42,7 @@ class RecommendationForm
   end
 
   def decisions
-    ldc? ? ldc_decisions : pa_decisions
+    pa? ? prior_approval_decisions : granted_and_refused
   end
 
   def decisions_text
@@ -55,23 +55,22 @@ class RecommendationForm
 
   private
 
-  def ldc?
-    application_type_name == "lawfulness_certificate"
+  def pa?
+    application_type_name == "prior_approval"
   end
 
-  def ldc_decisions
+  def granted_and_refused
     [
-      [:refused, I18n.t(".recommendations.new.no")],
-      [:granted, I18n.t(".recommendations.new.yes")]
+      [:refused, I18n.t(".recommendations.new.decision.#{application_type_name}.refused")],
+      [:granted, I18n.t(".recommendations.new.decision.#{application_type_name}.granted")]
     ]
   end
 
-  def pa_decisions
-    [
-      [:refused, I18n.t("recommendation.prior_approval.refused")],
-      [:granted, I18n.t("recommendation.prior_approval.granted")],
-      [:granted_not_required,
-       I18n.t("recommendation.prior_approval.granted_not_required")]
-    ]
+  def prior_approval_decisions
+    granted_and_refused.push(granted_not_required)
+  end
+
+  def granted_not_required
+    [:granted_not_required, I18n.t(".recommendations.new.decision.#{application_type_name}.granted_not_required")]
   end
 end
