@@ -69,16 +69,6 @@ module PlanningApplications
 
     private
 
-    def set_planning_application
-      planning_application = planning_applications_scope.find(planning_application_id)
-
-      @planning_application = PlanningApplicationPresenter.new(view_context, planning_application)
-    end
-
-    def planning_application_id
-      Integer(params[:planning_application_id])
-    end
-
     def permitted_development_right_params
       params.require(:permitted_development_right).permit(:removed, :removed_reason)
     end

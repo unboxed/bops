@@ -71,30 +71,12 @@ module PlanningApplications
       end
     end
 
-    def set_planning_application
-      planning_application = planning_applications_scope.find(planning_application_id)
-
-      @planning_application = PlanningApplicationPresenter.new(view_context, planning_application)
-    end
-
-    def set_consultation
-      @consultation = @planning_application.consultation
-    end
-
     def set_neighbour_responses
       @neighbour_responses = @consultation.neighbour_responses.includes([:neighbour]).select(&:persisted?)
     end
 
     def set_neighbour_response
       @neighbour_response = @consultation.neighbour_responses.find(Integer(params[:id]))
-    end
-
-    def planning_applications_scope
-      current_local_authority.planning_applications
-    end
-
-    def planning_application_id
-      Integer(params[:planning_application_id])
     end
 
     def neighbour_response_params

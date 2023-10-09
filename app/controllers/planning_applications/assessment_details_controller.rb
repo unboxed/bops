@@ -73,22 +73,8 @@ module PlanningApplications
       @rejected_assessment_detail = @planning_application.rejected_assessment_detail(category: @category)
     end
 
-    def set_planning_application
-      planning_application = planning_applications_scope.find(planning_application_id)
-
-      @planning_application = PlanningApplicationPresenter.new(view_context, planning_application)
-    end
-
     def set_assessment_detail
       @assessment_detail = @planning_application.assessment_details.find(assessment_detail_id)
-    end
-
-    def planning_applications_scope
-      current_local_authority.planning_applications
-    end
-
-    def planning_application_id
-      Integer(params[:planning_application_id])
     end
 
     def assessment_detail_id

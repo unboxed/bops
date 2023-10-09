@@ -10,8 +10,4 @@ module PermittedDevelopmentRights
   def set_permitted_development_rights
     @permitted_development_rights = @planning_application.permitted_development_rights.returned
   end
-
-  def planning_applications_scope
-    current_local_authority.planning_applications
-  end
 end

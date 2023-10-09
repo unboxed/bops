@@ -42,22 +42,8 @@ module PlanningApplications
 
     private
 
-    def set_planning_application
-      planning_application = planning_applications_scope.find(planning_application_id)
-
-      @planning_application = PlanningApplicationPresenter.new(view_context, planning_application)
-    end
-
     def set_immunity_detail
       @immunity_detail = @planning_application.immunity_detail
-    end
-
-    def planning_applications_scope
-      current_local_authority.planning_applications
-    end
-
-    def planning_application_id
-      Integer(params[:planning_application_id])
     end
 
     def immunity_details_params

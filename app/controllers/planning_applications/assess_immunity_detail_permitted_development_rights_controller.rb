@@ -82,16 +82,6 @@ module PlanningApplications
 
     private
 
-    def set_planning_application
-      planning_application = planning_applications_scope.find(planning_application_id)
-
-      @planning_application = PlanningApplicationPresenter.new(view_context, planning_application)
-    end
-
-    def planning_application_id
-      Integer(params[:planning_application_id])
-    end
-
     def assess_immunity_detail_permitted_development_right_form_params
       params.require(:assess_immunity_detail_permitted_development_right_form).permit(
         review_immunity_detail: %i[decision decision_reason yes_decision_reason no_decision_reason decision_type

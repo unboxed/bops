@@ -36,22 +36,12 @@ module PlanningApplications
 
     private
 
-    def set_planning_application
-      planning_application = planning_applications_scope.find(planning_application_id)
-
-      @planning_application = PlanningApplicationPresenter.new(view_context, planning_application)
+    def planning_applications_scope
+      super.includes(:documents)
     end
 
     def set_documents
       @documents = @planning_application.documents.active
-    end
-
-    def planning_applications_scope
-      current_local_authority.planning_applications.includes(:documents)
-    end
-
-    def planning_application_id
-      Integer(params[:planning_application_id])
     end
 
     def referenced_in_decision_notice?(document_id)

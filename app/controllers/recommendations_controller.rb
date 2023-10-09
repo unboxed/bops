@@ -3,8 +3,7 @@
 class RecommendationsController < AuthenticationController
   include CommitMatchable
 
-  before_action :set_planning_application, only: %i[new create]
-  before_action :set_planning_application_with_recommendations, only: %i[edit update]
+  before_action :set_planning_application
   before_action :ensure_user_is_reviewer_checking_assessment, only: %i[update edit]
   before_action :set_recommendations, only: %i[update edit]
   before_action :set_recommendation, only: :update
@@ -60,22 +59,16 @@ class RecommendationsController < AuthenticationController
 
   private
 
-  def set_planning_application_with_recommendations
-    planning_application = planning_applications_scope.find(planning_application_id)
-
-    @planning_application = PlanningApplicationPresenter.new(view_context, planning_application)
+  def planning_applications_scope
+    if action_name.in?(%w[edit update])
+      super.includes(:recommendations)
+    else
+      super
+    end
   end
 
   def set_recommendations
     @recommendations = @planning_application.recommendations
-  end
-
-  def planning_applications_scope
-    current_local_authority.planning_applications.includes(:recommendations)
-  end
-
-  def planning_application_id
-    Integer(params[:planning_application_id])
   end
 
   def set_recommendation
