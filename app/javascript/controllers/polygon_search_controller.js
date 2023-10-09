@@ -73,12 +73,13 @@ export default class extends Controller {
   }
 
   onGeojsonChange({ detail: geoJSON }) {
-    const geoJsonFeatures = geoJSON["EPSG:27700"].features
+    const geoJsonFeatures = geoJSON["EPSG:27700"]
+
     if (geoJsonFeatures === undefined) {
       return
     }
 
-    this.handleGeojsonChange(geoJsonFeatures[0])
+    this.handleGeojsonChange(geoJsonFeatures.features[0])
   }
 
   clearAddresses = () => {

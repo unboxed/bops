@@ -23,8 +23,15 @@ Rails.application.routes.draw do
     get "resend_code", to: "users/sessions#resend_code", as: "resend_code"
   end
 
-  resources :os_places_api, only: %i[index]
-  post "search_addresses_by_polygon", to: "os_places_api#search_addresses_by_polygon"
+  defaults format: "json" do
+    get "/os_places_api",
+        to: "os_places_api#index",
+        as: "os_places_api_index"
+
+    post "/search_addresses_by_polygon",
+         to: "os_places_api#search_addresses_by_polygon",
+         as: "search_addresses_by_polygon"
+  end
 
   resources :users, only: %i[new create edit update]
 
