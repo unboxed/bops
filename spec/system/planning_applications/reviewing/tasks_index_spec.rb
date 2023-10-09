@@ -25,6 +25,7 @@ RSpec.describe "Reviewing Tasks Index" do
       click_on "Review and sign-off"
 
       expect(page).to have_title("Review and sign-off")
+      expect(page).to have_content("Assessor recommendation To grant")
 
       click_on "Back"
 
