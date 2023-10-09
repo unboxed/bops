@@ -61,7 +61,7 @@ class PlanningApplicationCreationService
           )
         end
         ConstraintsCreationService.new(planning_application:,
-                                       constraints_params: params[:constraints_proposed].map(&:to_unsafe_hash)).call
+                                       constraints_params: params[:constraints_proposed]&.map(&:to_unsafe_hash)).call
         UploadDocumentsJob.perform_now(planning_application:, files: params[:files])
         CreateImmunityDetailsJob.perform_now(planning_application:) if possibly_immune?(planning_application)
       end
