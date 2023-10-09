@@ -32,3 +32,6 @@ application.register("submit-form", SubmitFormController)
 
 import UnsavedChangesController from "./unsaved_changes_controller.js"
 application.register("unsaved-changes", UnsavedChangesController)
+
+import ResetTextController from "./reset_text_controller.js"
+application.register("reset-text", ResetTextController)

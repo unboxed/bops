@@ -11,4 +11,14 @@ FactoryBot.define do
     neighbour
     consultation { neighbour.consultation }
   end
+
+  trait :objection do
+    summary_tag { "objection" }
+    response { "I hate it rude word" }
+    redacted_response { "I hate it [redacted]" }
+  end
+
+  trait :without_redaction do
+    redacted_response { nil }
+  end
 end

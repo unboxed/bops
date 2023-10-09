@@ -58,4 +58,14 @@ RSpec.describe NeighbourResponse do
       end
     end
   end
+
+  describe "#response" do
+    let!(:neighbour_response) { create(:neighbour_response, response: "A response") }
+
+    it "response is a readonly attribute" do
+      neighbour_response.update(response: "A new response")
+
+      expect(neighbour_response.reload.response).to eq("A response")
+    end
+  end
 end
