@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require "faraday"
 
 RSpec.describe "Send letters to neighbours", js: true do
-  let!(:api_user) { create(:api_user, name: "PlanX") }
-  let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
-  let!(:application_type) { create(:application_type, :prior_approval) }
+  let(:api_user) { create(:api_user, name: "PlanX") }
+  let(:default_local_authority) { create(:local_authority, :default) }
+  let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
+  let(:application_type) { create(:application_type, :prior_approval) }
 
-  let!(:planning_application) do
+  let(:planning_application) do
     create(:planning_application,
            :from_planx_prior_approval,
            :with_boundary_geojson,
@@ -20,7 +21,7 @@ RSpec.describe "Send letters to neighbours", js: true do
            make_public: true)
   end
 
-  let!(:consultation) do
+  let(:consultation) do
     planning_application.consultation
   end
 
@@ -31,6 +32,7 @@ RSpec.describe "Send letters to neighbours", js: true do
     ENV["OS_VECTOR_TILES_API_KEY"] = "testtest"
     allow_any_instance_of(Faraday::Connection).to receive(:get).and_return(instance_double("response", status: 200, body: "some data")) # rubocop:disable RSpec/VerifiedDoubleReference
     allow_any_instance_of(Apis::OsPlaces::Query).to receive(:find_addresses).and_return(Faraday.new.get)
+    allow_any_instance_of(Apis::Mapit::Query).to receive(:fetch).and_return(Faraday.new.get)
 
     stub_any_os_places_api_request
 
@@ -198,7 +200,7 @@ RSpec.describe "Send letters to neighbours", js: true do
     end
 
     context "when planning application has not been made public on the BoPS Public Portal" do
-      let!(:planning_application) do
+      let(:planning_application) do
         create(:planning_application,
                :from_planx_prior_approval,
                application_type:,
