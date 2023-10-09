@@ -994,6 +994,9 @@ en:
         lawfulness_certificate:
           granted: 'Yes'
           refused: 'No'
+        planning_permission:
+          granted: Granted
+          refused: Refused
         prior_approval:
           granted: Prior approval required and approved
           granted_not_required: Prior approval not required
@@ -1001,6 +1004,7 @@ en:
       error: 'Error:'
       is_the_use:
         lawfulness_certificate: Is the use or operation lawful?
+        planning_permission: What is your recommendation?
         prior_approval: What is your recommendation?
       make_draft_recommendation: Make draft recommendation
       please_provide_supporting: Provide supporting information for your manager.
@@ -1010,6 +1014,7 @@ en:
         prior_approval: Refer to specific permitted development legislation, and Local Plan policies in relation to impact on neighbouring amenity.
       state_the_reason:
         lawfulness_certificate: State the reasons why this application is, or is not lawful.
+        planning_permission: State the reasons for your recommendation.
         prior_approval: State the reasons for your recommendation.
       there_are_outstanding_change_requests_html: There are outstanding change requests (last request %{last_request}). <a href='%{href}'>View all requests</a>.
       this_information_will: This information will appear on the decision notice.
