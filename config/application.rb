@@ -53,7 +53,7 @@ module Bops
 
     config.os_vector_tiles_api_key = ENV.fetch("OS_VECTOR_TILES_API_KEY", nil)
     config.feedback_fish_id = ENV.fetch("FEEDBACK_FISH_ID", nil)
-    config.google_tag_manager_id = ENV.fetch("GOOGLE_TAG_MANAGER_ID", nil)
+    config.google_tag_manager_id = ENV.fetch("GOOGLE_TAG_MANAGER_ID", " ").presence
   end
 
   def self.env
