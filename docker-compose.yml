@@ -94,6 +94,14 @@ services:
       - type: tmpfs
         target: /tmp/pids
 
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.23.0.0/16
+          ip_range: 172.23.9.0/24
+          gateway: 172.23.9.254
+
 volumes:
   redis:
   db:

@@ -77,4 +77,7 @@ Rails.application.configure do
   config.hosts << ".bops-care.link"
   config.hosts << "southwark.bops.web"
   config.hosts << "southwark.bops.localhost"
+
+  # Allow web-console connections into docker
+  config.web_console.permissions = %w( 127.0.0.1 ::1 172.23.9.254 )
 end
