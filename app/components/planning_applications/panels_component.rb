@@ -27,7 +27,7 @@ module PlanningApplications
     end
 
     def local_authority_most_recent_audits_for_planning_applications
-      local_authority.audits.most_recent_for_planning_applications
+      local_authority.audits.most_recent_for_planning_applications.limit(20)
     end
   end
 end
