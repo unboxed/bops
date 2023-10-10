@@ -21,8 +21,8 @@
   ) %>
   <link rel="stylesheet" href="https://use.typekit.net/zmv8alo.css">
 
-  <%= stylesheet_link_tag 'application', 'data-turbolinks-track': 'reload', media: 'all' %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
 
   <% if feedback_fish_id = Rails.configuration.feedback_fish_id %>
     <%= tag.script(src: "https://feedback.fish/ff.js?pid=#{feedback_fish_id}", defer: "defer", nonce: request.content_security_policy_nonce) %>
