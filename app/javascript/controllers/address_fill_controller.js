@@ -13,7 +13,7 @@ export default class extends Controller {
           type: "get",
           url: `${document.querySelector("#os_path").value}?query=${query}`,
           success: (data) => {
-            for (const i of JSON.parse(data).results) {
+            for (const i of data.results) {
               results.push(i.DPA.ADDRESS)
             }
             populateResults(results)

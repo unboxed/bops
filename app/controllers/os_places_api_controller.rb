@@ -5,7 +5,7 @@ class OsPlacesApiController < ApplicationController
     response = Apis::OsPlaces::Query.new.find_addresses(params[:query])
 
     respond_to do |format|
-      format.js { render json: response.body }
+      format.json { render json: response.body }
     end
   end
 
@@ -15,7 +15,7 @@ class OsPlacesApiController < ApplicationController
     response = Apis::OsPlaces::Query.new.find_addresses_by_polygon(geojson)
 
     respond_to do |format|
-      format.js { render json: response }
+      format.json { render json: response }
     end
   end
 end
