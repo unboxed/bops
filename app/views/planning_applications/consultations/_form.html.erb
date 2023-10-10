@@ -16,8 +16,6 @@
     </div>
 
     <%= ff.hidden_field :consultation_id, value: consultation.id %>
-    <%= hidden_field_tag(:os_path, os_places_api_index_url) %>
-    <%= hidden_field_tag(:os_polygon_path, search_addresses_by_polygon_path) %>
   <% end %>
   <%= form.submit(
     "Add neighbour",

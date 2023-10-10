@@ -23,7 +23,7 @@ export default class extends Controller {
   }
 
   getUrlPath() {
-    return document.querySelector("#os_polygon_path").value
+    return this.data.get("url")
   }
 
   getAddressContainer() {

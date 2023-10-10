@@ -31,7 +31,11 @@
 <% end %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-full" data-controller="address-fill polygon-search">
+  <%= content_tag :div, class: "govuk-grid-column-full", data: {
+    controller: "address-fill polygon-search",
+    address_fill_url: os_places_api_index_path,
+    polygon_search_url: search_addresses_by_polygon_path
+  } do %>
     <%= render "select_neighbours", geojson: @geojson_features || @planning_application.boundary_geojson, consultation: @consultation %>
 
     <%= render "neighbour_addresses_form", planning_application: @planning_application, consultation: @consultation %>
@@ -39,13 +43,13 @@
     <p class="govuk-body">or</p>
 
     <%= render "form", planning_application: @planning_application, consultation: @consultation, url: planning_application_consultation_path(@planning_application, @consultation)  %>
-    
+
     <%= render "neighbours_added", planning_application: @planning_application, consultation: @consultation %>
 
     <%= render "selected_list", planning_application: @planning_application, consultation: @consultation %>
-    
+
     <%= render "contacted_list", planning_application: @planning_application, consultation: @consultation %>
 
     <%= render "letter_template", planning_application: @planning_application, consultation: @consultation %>
-  </div>
+  <% end %>
 </div>
