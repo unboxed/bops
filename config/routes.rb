@@ -174,7 +174,11 @@ Rails.application.routes.draw do
         patch :update, on: :collection
       end
 
-      resources :conditions, only: %i[new create show edit update]
+      resources :conditions, only: %i[new create] do
+        get :edit, on: :collection
+        get :show, on: :collection
+        patch :update, on: :collection
+      end
 
       resource :withdraw_or_cancel, only: %i[show update]
 

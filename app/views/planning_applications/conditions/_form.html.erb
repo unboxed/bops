@@ -7,7 +7,8 @@
   <%= form.govuk_check_boxes_fieldset :conditions, multiple: true do %>
     <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
     <%= form.fields_for :conditions, @conditions do |ff| %>
-      <%= ff.govuk_check_box :text, ff.object.text.to_s, label: { text: ff.object.text.to_s }, checked: @planning_application.conditions.where(text: ff.object.text).any? do %>
+      <%= ff.govuk_check_box :conditions, true, label: { text: ff.object.text.to_s }, checked: @planning_application.conditions.where(text: ff.object.text).any? do %>
+        <%= ff.hidden_field :id, value: ff.object.id %>
         <%= ff.hidden_field :text, value: ff.object.text %>
         <%= ff.govuk_text_area :reason, value: ff.object.reason %>
       <% end %>
