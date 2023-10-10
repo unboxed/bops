@@ -42,52 +42,35 @@ class RecommendationForm
   end
 
   def decisions
-    ldc? ? ldc_decisions : pa_decisions
+    pa? ? prior_approval_decisions : granted_and_refused
   end
 
   def decisions_text
-    ldc? ? ldc_decisions_text : pa_decisions_text
+    I18n.t(".recommendations.new.is_the_use.#{application_type_name}")
   end
 
   def reason_text
-    ldc? ? ldc_reason_text : pa_reason_text
+    I18n.t(".recommendations.new.state_the_reason.#{application_type_name}")
   end
 
   private
 
-  def ldc?
-    application_type_name == "lawfulness_certificate"
+  def pa?
+    application_type_name == "prior_approval"
   end
 
-  def ldc_decisions
+  def granted_and_refused
     [
-      [:refused, I18n.t(".recommendations.new.no")],
-      [:granted, I18n.t(".recommendations.new.yes")]
+      [:refused, I18n.t(".recommendations.new.decision.#{application_type_name}.refused")],
+      [:granted, I18n.t(".recommendations.new.decision.#{application_type_name}.granted")]
     ]
   end
 
-  def pa_decisions
-    [
-      [:refused, I18n.t("recommendation.prior_approval.refused")],
-      [:granted, I18n.t("recommendation.prior_approval.granted")],
-      [:granted_not_required,
-       I18n.t("recommendation.prior_approval.granted_not_required")]
-    ]
+  def prior_approval_decisions
+    granted_and_refused.push(granted_not_required)
   end
 
-  def ldc_decisions_text
-    I18n.t(".recommendations.new.ldc_is_the_use")
-  end
-
-  def pa_decisions_text
-    I18n.t(".recommendations.new.pa_is_the_use")
-  end
-
-  def ldc_reason_text
-    I18n.t(".recommendations.new.ldc_state_the_reason")
-  end
-
-  def pa_reason_text
-    I18n.t(".recommendations.new.pa_state_the_reason")
+  def granted_not_required
+    [:granted_not_required, I18n.t(".recommendations.new.decision.#{application_type_name}.granted_not_required")]
   end
 end
