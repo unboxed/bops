@@ -11,7 +11,7 @@ export default class extends Controller {
         const results = []
         ajax({
           type: "get",
-          url: `${document.querySelector("#os_path").value}?query=${query}`,
+          url: `${this.data.get("url")}?query=${query}`,
           success: (data) => {
             for (const i of data.results) {
               results.push(i.DPA.ADDRESS)
