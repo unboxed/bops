@@ -10,35 +10,19 @@ module TaskListItems
 
     attr_reader :planning_application
 
-    delegate(:consultation, to: :planning_application)
+    delegate :consultation, to: :planning_application
+    delegate :neighbour_letters_status, to: :consultation
 
     def link_text
       t(".send_letters_to_neighbours")
     end
 
     def link_path
-      if consultation.present?
-        planning_application_consultation_path(
-          planning_application,
-          consultation
-        )
-      else
-        new_planning_application_consultation_path(
-          planning_application
-        )
-      end
+      planning_application_consultation_path(planning_application, consultation)
     end
 
     def status_tag_component
-      StatusTags::BaseComponent.new(
-        status: if @planning_application.consultation&.neighbour_letters_failed?
-                  "failed"
-                elsif @planning_application.consultation&.neighbour_letters_sent?
-                  "complete"
-                else
-                  "not_started"
-                end
-      )
+      StatusTags::BaseComponent.new(status: neighbour_letters_status)
     end
   end
 end

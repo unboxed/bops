@@ -43,12 +43,14 @@ class Consultation < ApplicationRecord
     (end_date - Time.zone.now).seconds.in_days.round
   end
 
-  def neighbour_letters_failed?
-    neighbour_letters.failed.present?
-  end
-
-  def neighbour_letters_sent?
-    neighbour_letters.sent.present?
+  def neighbour_letters_status
+    if neighbour_letters.failed.present?
+      "failed"
+    elsif neighbour_letters.sent.present?
+      "complete"
+    else
+      "not_started"
+    end
   end
 
   def neighbour_letter_header
