@@ -93,7 +93,7 @@ module PlanningApplications
         @planning_application.send_internal_team_site_notice_mail(site_notice_params[:internal_team_email])
       else
         @planning_application.send_site_notice_mail(
-          @planning_application.agent_email || @planning_application.applicant_email
+          @planning_application.agent_email.presence || @planning_application.applicant_email
         )
       end
     end
