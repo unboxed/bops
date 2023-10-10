@@ -80,12 +80,13 @@
                     <% end %>
                   </tbody>
                 <% end %>
-                <div class="display-flex">
-                  <%= link_to "Edit", edit_planning_application_consultation_neighbour_response_path(@planning_application, @consultation, response) %>
-                  <% if response.redacted_response.present? %>
-                    <span class="govuk-hint govuk-!-margin-left-1">(redacted)</span>
+                <p class="govuk-body">
+                  <%= link_to "Redact and publish", edit_planning_application_consultation_redact_neighbour_response_path(@planning_application, @consultation, response), class: "govuk-link" %>
+                  <% if response.redacted_by.try(:name) %>
+                    (Redacted by: <%= response.redacted_by.name %>)
                   <% end %>
-                </div>
+                </p>
+                <%= link_to "Edit", edit_planning_application_consultation_neighbour_response_path(@planning_application, @consultation, response) %>
               </div>
             </div>
           <% end %>

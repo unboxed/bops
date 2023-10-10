@@ -150,6 +150,7 @@ Rails.application.routes.draw do
       resources :consultations do
         post :send_neighbour_letters
         resources :neighbour_responses, only: %i[new index create edit update]
+        resources :redact_neighbour_responses, only: %i[edit update]
         resources :site_visits, only: %i[index new create edit show update]
       end
 

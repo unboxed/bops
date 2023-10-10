@@ -4,7 +4,7 @@ module PlanningApplications
   class NeighbourResponsesController < AuthenticationController
     before_action :set_planning_application
     before_action :set_consultation
-    before_action :set_neighbour_responses, except: %i[edit update]
+    before_action :set_neighbour_responses, only: :index
     before_action :set_neighbour_response, only: %i[edit update]
 
     def index; end
@@ -22,6 +22,7 @@ module PlanningApplications
       @neighbour_response.neighbour = find_neighbour
 
       create_files(@neighbour_response) if neighbour_response_params[:files].compact_blank.any?
+      @neighbour_response.redacted_by = current_user if @neighbour_response.redacted_response.present?
 
       if @neighbour_response.save
         respond_to do |format|
@@ -72,7 +73,9 @@ module PlanningApplications
     end
 
     def set_neighbour_responses
-      @neighbour_responses = @consultation.neighbour_responses.includes([:neighbour]).select(&:persisted?)
+      @neighbour_responses = @consultation.neighbour_responses.includes(
+        %i[neighbour redacted_by documents]
+      ).select(&:persisted?)
     end
 
     def set_neighbour_response
