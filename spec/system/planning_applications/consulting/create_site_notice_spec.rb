@@ -50,7 +50,7 @@ RSpec.describe "Create a site notice", js: true do
     )
   end
 
-  it "allows officers to create a site notice and email it to the applicant" do
+  it "allows officers to create a site notice and email it to the agent" do
     click_link "Send site notice"
     expect(page).to have_content("Send site notice")
 
@@ -66,6 +66,27 @@ RSpec.describe "Create a site notice", js: true do
     email_notification = ActionMailer::Base.deliveries.last
 
     expect(email_notification.to).to contain_exactly(planning_application.agent_email)
+
+    expect(email_notification.subject).to eq("Display site notice for your application 23-00100-PA")
+
+    expect(page).to have_content "Site notice was successfully emailed"
+  end
+
+  it "sends it to the applicant if agent email is not present" do
+    planning_application.update(agent_email: "")
+
+    click_link "Send site notice"
+
+    choose "Yes"
+
+    choose "Send it by email to applicant"
+
+    click_button "Email site notice and mark as complete"
+
+    perform_enqueued_jobs
+    email_notification = ActionMailer::Base.deliveries.last
+
+    expect(email_notification.to).to contain_exactly(planning_application.applicant_email)
 
     expect(email_notification.subject).to eq("Display site notice for your application 23-00100-PA")
 
