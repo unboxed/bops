@@ -8,10 +8,8 @@ RSpec.describe "Add conditions" do
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create(:planning_application, :invalidated, local_authority: default_local_authority, api_user:)
+    create(:planning_application, :planning_permission, :in_assessment, local_authority: default_local_authority, api_user:, decision: "granted")
   end
-
-  let!(:condtion) { create(:condition) }
 
   before do
     sign_in assessor
@@ -19,13 +17,26 @@ RSpec.describe "Add conditions" do
     click_link "Check and assess"
   end
 
-  context "when adding conditions" do
-    it "displays the constraints" do
-      click_link "Add conditions"
+  context "when planning application is planning permission" do
+    context "when it's been granted" do
+      it "you can add conditions" do
+        click_link "Add conditions"
 
-      expect(page).to have_content("Add conditions")
+        expect(page).to have_content("Add conditions")
 
-      check condition.title.to_s
+        check "The development herby permitted shall be commenced within three years of the date of this permission"
+        check "The development herby permitted must be undertaken in accordance with the approved plans and documents."
+
+        click_button "Save and mark as complete"
+
+        expect(page).to have_content "Conditions successfully created"
+
+        within("#add-conditions") do
+          expect(page).to have_content "Completed"
+        end
+
+        expect(planning_application.conditions.count).to eq 2
+      end
     end
   end
 end

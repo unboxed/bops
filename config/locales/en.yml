@@ -420,6 +420,11 @@ en:
       destroy:
         failure: Couldn't delete validation request — please contact support.
         success: Validation request was successfully deleted.
+  conditions:
+    create:
+      success: Conditions successfully created
+    update:
+      success: Conditions successfully updated
   consistency_checklists:
     additional_document_validation_request:
       cancelled: Cancelled %{time}
