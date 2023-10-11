@@ -12,17 +12,14 @@
         </div>
 
         <%= form_with(
-          model: [@planning_application, @consultation],
+          model: neighbour,
           builder: GOVUKDesignSystemFormBuilder::FormBuilder,
           data: { action: "submit->submit-form#handleSubmit" },
-          url: planning_application_consultation_path(@planning_application, @consultation),
+          url: planning_application_consultation_neighbour_letter_path(planning_application, neighbour),
           class: "display-none"
         ) do |form| %>
           <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
-          <%= form.fields_for :neighbours, neighbour do |ff| %>
-            <%= ff.govuk_text_field :address %>
-            <%= ff.hidden_field :consultation_id, value: @consultation.id %>
-          <% end %>
+          <%= form.govuk_text_field :address %>
           <br>
           <%= form.submit(
             "Save",
@@ -36,15 +33,14 @@
               "#",
               class: "govuk-link",
               data: { action: "click->edit-form#handleClick" }
-            ) 
+            )
           %>
 
           <%= link_to(
                 "Remove",
-                planning_application_consultation_path(
+                planning_application_consultation_neighbour_letter_path(
                     @planning_application,
-                    @consultation,
-                    neighbour: neighbour
+                    neighbour
                 ),
                 method: :delete,
                 class: "govuk-link"

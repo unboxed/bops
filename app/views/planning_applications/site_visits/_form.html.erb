@@ -1,8 +1,8 @@
 <%= form_with(
-  model: [@planning_application, @consultation, @site_visit],
+  model: @site_visit,
   builder: GOVUKDesignSystemFormBuilder::FormBuilder,
   class: "govuk-!-margin-top-5",
-  url: planning_application_consultation_site_visits_path(@planning_application, @consultation, @site_visit),
+  url: planning_application_consultation_site_visits_path(@planning_application, @site_visit),
   method: :post
 ) do |form| %>
 
@@ -22,10 +22,10 @@
           <%= form.govuk_collection_select :neighbour_id, @consultation.selected_neighbours, :id, :address, options: { include_blank: true }, label: { text: "Select site visit address" } %>
 
           <%= form.fields_for :documents, @site_visit.documents.new do |document_attributes| %>
-            <%= document_attributes.govuk_file_field :files, 
-              multiple: true, 
-              label: { text: "Upload photo(s)", 
-              class: "govuk-label govuk-!-font-weight-bold" }, 
+            <%= document_attributes.govuk_file_field :files,
+              multiple: true,
+              label: { text: "Upload photo(s)",
+              class: "govuk-label govuk-!-font-weight-bold" },
               accept: acceptable_file_mime_types
             %>
           <% end %>

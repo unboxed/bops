@@ -39,7 +39,7 @@ module PlanningApplications
     end
 
     def neighbour_responses_path
-      planning_application_consultation_neighbour_responses_path(@planning_application, @consultation)
+      planning_application_consultation_neighbour_responses_path(@planning_application)
     end
   end
 end

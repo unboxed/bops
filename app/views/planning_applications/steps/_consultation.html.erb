@@ -2,7 +2,10 @@
 <ul class="app-task-list__items" id="consultation-section">
   <li class="app-task-list__item">
     <span class="app-task-list__task-name">
-      <%= link_to "Consultees, neighbours and publicity", planning_application_consultations_path(@planning_application), class: "govuk-link" %>
+      <%= link_to "Consultees, neighbours and publicity", planning_application_consultation_path(@planning_application), class: "govuk-link" %>
     </span>
+    <div class="app-task-list__task-tag">
+      <%= render(StatusTags::BaseComponent.new(status: @planning_application.consultation.status)) %>
+    </div>
   </li>
 </ul>

@@ -457,6 +457,7 @@ RSpec.describe "assessment against legislation" do
 
       planning_permission = create(:application_type, :planning_permission)
       planning_application.update(application_type: planning_permission)
+      planning_application.create_consultation!
 
       sign_in(assessor)
       visit planning_application_path(planning_application)

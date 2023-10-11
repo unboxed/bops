@@ -18,7 +18,7 @@ module TaskListItems
     end
 
     def link_path
-      planning_application_consultation_path(planning_application, consultation)
+      planning_application_consultation_neighbour_letters_path(planning_application)
     end
 
     def status_tag_component

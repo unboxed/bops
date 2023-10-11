@@ -42,7 +42,7 @@ module PlanningApplications
               redirect_to new_planning_application_site_notice_path(@planning_application),
                           notice: t(".success", action:)
             else
-              redirect_to planning_application_consultations_path(@planning_application), notice: t(".success", action:)
+              redirect_to planning_application_consultation_path(@planning_application), notice: t(".success", action:)
             end
           end
         end
@@ -64,7 +64,7 @@ module PlanningApplications
 
         respond_to do |format|
           format.html do
-            redirect_to planning_application_consultations_path(@planning_application), notice: t(".success")
+            redirect_to planning_application_consultation_path(@planning_application), notice: t(".success")
           end
         end
       else

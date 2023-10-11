@@ -366,13 +366,13 @@ RSpec.describe "Send letters to neighbours", js: true do
 
     it "I can add the neighbour addresses that are returned" do
       within("#address-container") do
-        within(".address-entry#address-0") do
+        within(".address-entry#neighbour-addresses-0") do
           expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
-          expect(page).to have_selector('a.govuk-link[data-address-entry-div-id="address-0"]', text: "Remove")
+          expect(page).to have_selector('a.govuk-link[data-address-entry-div-id="neighbour-addresses-0"]', text: "Remove")
         end
-        within(".address-entry#address-1") do
+        within(".address-entry#neighbour-addresses-1") do
           expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
-          expect(page).to have_selector('a.govuk-link[data-address-entry-div-id="address-1"]', text: "Remove")
+          expect(page).to have_selector('a.govuk-link[data-address-entry-div-id="neighbour-addresses-1"]', text: "Remove")
         end
       end
 
@@ -394,11 +394,11 @@ RSpec.describe "Send letters to neighbours", js: true do
     end
 
     it "I can remove an address before adding the relevant neighbour addresses" do
-      within("#address-0") do
+      within("#neighbour-addresses-0") do
         expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
       end
 
-      within("#address-1") do
+      within("#neighbour-addresses-1") do
         expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
         click_link "Remove"
       end
@@ -466,18 +466,18 @@ RSpec.describe "Send letters to neighbours", js: true do
     end
 
     it "I can reset a drawn area" do
-      within("#address-0") do
+      within("#neighbour-addresses-0") do
         expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
       end
-      within("#address-1") do
+      within("#neighbour-addresses-1") do
         expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
       end
 
       reset_map
 
-      expect(page).not_to have_css("#address-0")
+      expect(page).not_to have_css("#neighbour-addresses-0")
       expect(page).not_to have_content("5, COXSON WAY, LONDON, SE1 2XB")
-      expect(page).not_to have_css("#address-1")
+      expect(page).not_to have_css("#neighbour-addresses-1")
       expect(page).not_to have_content("6, COXSON WAY, LONDON, SE1 2XB")
     end
 
@@ -488,10 +488,10 @@ RSpec.describe "Send letters to neighbours", js: true do
       mock_csrf_token
       dispatch_geojson_event(geojson)
 
-      within("#address-0") do
+      within("#neighbour-addresses-0") do
         expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
       end
-      within("#address-1") do
+      within("#neighbour-addresses-1") do
         expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
       end
 
@@ -499,7 +499,7 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       within(".govuk-error-summary") do
         expect(page).to have_content(
-          "Error adding neighbour addresses with message: Validation failed: Address 5, COXSON WAY, LONDON, SE1 2XB has already been added."
+          "Error adding neighbour addresses with message: Validation failed: Neighbours address 5, COXSON WAY, LONDON, SE1 2XB has already been added."
         )
       end
     end
@@ -562,10 +562,10 @@ RSpec.describe "Send letters to neighbours", js: true do
       end
 
       it "I can redraw the polygon to return different addresses" do
-        within("#address-0") do
+        within("#neighbour-addresses-0") do
           expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
         end
-        within("#address-1") do
+        within("#neighbour-addresses-1") do
           expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
         end
 
@@ -575,16 +575,16 @@ RSpec.describe "Send letters to neighbours", js: true do
         expect(page).not_to have_content("5, COXSON WAY, LONDON, SE1 2XB")
         expect(page).not_to have_content("6, COXSON WAY, LONDON, SE1 2XB")
 
-        within("#address-0") do
+        within("#neighbour-addresses-0") do
           expect(page).to have_content("82, GRANGE WALK, LONDON, SE1 3DT")
         end
-        within("#address-1") do
+        within("#neighbour-addresses-1") do
           expect(page).to have_content("83, GRANGE WALK, LONDON, SE1 3DT")
         end
-        within("#address-2") do
+        within("#neighbour-addresses-2") do
           expect(page).to have_content("84, GRANGE WALK, LONDON, SE1 3DT")
         end
-        within("#address-3") do
+        within("#neighbour-addresses-3") do
           expect(page).to have_content("85, GRANGE WALK, LONDON, SE1 3DT")
         end
 

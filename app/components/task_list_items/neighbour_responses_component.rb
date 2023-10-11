@@ -23,10 +23,7 @@ module TaskListItems
     def link_path
       return unless link_active?
 
-      planning_application_consultation_neighbour_responses_path(
-        planning_application,
-        consultation
-      )
+      planning_application_consultation_neighbour_responses_path(planning_application)
     end
 
     def status_tag_component

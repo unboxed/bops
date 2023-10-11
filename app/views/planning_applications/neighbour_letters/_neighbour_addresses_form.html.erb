@@ -1,11 +1,12 @@
 <%= form_with(
+  model: consultation,
   builder: GOVUKDesignSystemFormBuilder::FormBuilder,
   class: "govuk-!-margin-top-5",
   id: "consultation-neighbour-addresses-form",
   method: :post,
-  url: planning_application_consultation_neighbour_addresses_path(planning_application)
+  url: planning_application_consultation_neighbour_letters_path(planning_application)
 ) do |form| %>
-  <%= form.govuk_text_area :polygon_search,
+  <%= form.govuk_text_area :polygon_geojson,
                             label: { class: "govuk-visually-hidden" },
                             class: "govuk-visually-hidden" %>
 

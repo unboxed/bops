@@ -16,7 +16,7 @@ module PlanningApplications
       respond_to do |format|
         if @press_notice.update(press_notice_params)
           format.html do
-            redirect_to planning_application_consultations_path(@planning_application), notice: t(".success")
+            redirect_to planning_application_consultation_path(@planning_application), notice: t(".success")
           end
         else
           format.html { render :edit }

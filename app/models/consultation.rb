@@ -58,7 +58,7 @@ class Consultation < ApplicationRecord
            closing_date: end_date_from_now.to_date.to_fs)
   end
 
-  def neighbour_letter_content
+  def neighbour_letter_body
     I18n.t("neighbour_letter_template.#{planning_application.application_type.name}",
            expiry_date: planning_application.expiry_date.to_date.to_fs,
            address: planning_application.full_address,
@@ -73,6 +73,14 @@ class Consultation < ApplicationRecord
            current_user: Current.user.name,
            council_address: I18n.t("council_addresses.#{planning_application.local_authority.subdomain}"),
            application_link:)
+  end
+
+  def neighbour_letter_content
+    "# #{neighbour_letter_header}\n\n#{neighbour_letter_body}"
+  end
+
+  def neighbour_letter_text
+    super.presence || neighbour_letter_content
   end
 
   def site_visit
@@ -97,16 +105,9 @@ class Consultation < ApplicationRecord
     end_date > Time.zone.now || (end_date.to_date == Time.zone.now.to_date)
   end
 
-  def add_neighbour_addresses!(addresses, geojson)
-    transaction do
-      update!(polygon_search: geometry_collection(geojson), polygon_geojson: geojson)
-
-      addresses.each do |address|
-        neighbours.create!(address:)
-      end
-    end
-  rescue ActiveRecord::ActiveRecordError, ActiveRecord::RecordNotUnique => e
-    raise AddNeighbourAddressesError, e.message
+  def polygon_geojson=(value)
+    self.polygon_search = geometry_collection(value) if value.present?
+    super
   end
 
   def polygon_fill_colour

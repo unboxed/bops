@@ -27,7 +27,7 @@ module PlanningApplications
       if @neighbour_response.save
         respond_to do |format|
           format.html do
-            redirect_to planning_application_consultation_neighbour_responses_path(@planning_application, @consultation)
+            redirect_to planning_application_consultation_neighbour_responses_path(@planning_application)
           end
           create_audit_log(@neighbour_response, "uploaded")
         end
