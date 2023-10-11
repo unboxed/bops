@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require "faraday"
 
 RSpec.describe "Send letters to neighbours", js: true do
-  let!(:api_user) { create(:api_user, name: "PlanX") }
-  let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
-  let!(:application_type) { create(:application_type, :prior_approval) }
+  let(:api_user) { create(:api_user, name: "PlanX") }
+  let(:default_local_authority) { create(:local_authority, :default) }
+  let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
+  let(:application_type) { create(:application_type, :prior_approval) }
 
-  let!(:planning_application) do
+  let(:planning_application) do
     create(:planning_application,
            :from_planx_prior_approval,
            :with_boundary_geojson,
@@ -20,7 +21,7 @@ RSpec.describe "Send letters to neighbours", js: true do
            make_public: true)
   end
 
-  let!(:consultation) do
+  let(:consultation) do
     planning_application.consultation
   end
 
@@ -31,6 +32,7 @@ RSpec.describe "Send letters to neighbours", js: true do
     ENV["OS_VECTOR_TILES_API_KEY"] = "testtest"
     allow_any_instance_of(Faraday::Connection).to receive(:get).and_return(instance_double("response", status: 200, body: "some data")) # rubocop:disable RSpec/VerifiedDoubleReference
     allow_any_instance_of(Apis::OsPlaces::Query).to receive(:find_addresses).and_return(Faraday.new.get)
+    allow_any_instance_of(Apis::Mapit::Query).to receive(:fetch).and_return(Faraday.new.get)
 
     stub_any_os_places_api_request
 
@@ -198,7 +200,7 @@ RSpec.describe "Send letters to neighbours", js: true do
     end
 
     context "when planning application has not been made public on the BoPS Public Portal" do
-      let!(:planning_application) do
+      let(:planning_application) do
         create(:planning_application,
                :from_planx_prior_approval,
                application_type:,
@@ -606,6 +608,87 @@ RSpec.describe "Send letters to neighbours", js: true do
           ]
         )
       end
+    end
+  end
+
+  context "when letters have already been sent" do
+    let(:neighbour) { create(:neighbour, address: "1 Test Lane", consultation:) }
+
+    before do
+      travel_to(2.weeks.ago) do
+        consultation.start_deadline
+      end
+
+      sign_in assessor
+
+      neighbour_letter = create(:neighbour_letter, neighbour:, status: "submitted", notify_id: "123")
+      neighbour.touch(:last_letter_sent_at)
+      stub_get_notify_status(notify_id: neighbour_letter.notify_id)
+    end
+
+    it "shows that letters have been sent" do
+      visit planning_application_path(planning_application)
+      click_link "Consultees, neighbours and publicity"
+
+      expect(page).not_to have_content "Send letters to neighbours Not started"
+      expect(page).to have_content "Send letters to neighbours Completed"
+
+      click_link "Send letters to neighbours"
+      within("#contacted-neighbours-list") do
+        expect(page).to have_content(neighbour.address)
+      end
+    end
+
+    it "allows resending of letters" do
+      visit planning_application_path(planning_application)
+      click_link "Consultees, neighbours and publicity"
+      click_link "Send letters to neighbours"
+
+      check "Resend letters to previously-contacted neighbours"
+      fill_in("Specify a reason for resending",
+              with: "Previous letter mistakenly listed applicant's address as Buckingham Palace.")
+
+      orig_deadline = consultation.end_date
+
+      click_button "Print and send letters"
+      expect(neighbour.neighbour_letters.length).to eq(2)
+      expect(consultation.reload.end_date).to be_after(orig_deadline)
+    end
+
+    it "does not resend letters unless selected" do
+      visit planning_application_path(planning_application)
+      click_link "Consultees, neighbours and publicity"
+      click_link "Send letters to neighbours"
+
+      uncheck "Resend letters to previously-contacted neighbours"
+
+      click_button "Print and send letters"
+      expect(neighbour.neighbour_letters.length).to eq(1)
+    end
+
+    it "requires a reason to resend letters" do
+      visit planning_application_path(planning_application)
+      click_link "Consultees, neighbours and publicity"
+      click_link "Send letters to neighbours"
+
+      check "Resend letters to previously-contacted neighbours"
+
+      click_button "Print and send letters"
+      expect(neighbour.neighbour_letters.length).to eq(1)
+    end
+
+    it "includes a reason in the letter when resending letters" do
+      visit planning_application_path(planning_application)
+      click_link "Consultees, neighbours and publicity"
+      click_link "Send letters to neighbours"
+
+      check "Resend letters to previously-contacted neighbours"
+      fill_in("Specify a reason for resending",
+              with: "Previous letter mistakenly listed applicant's address as Buckingham Palace.")
+
+      expect_any_instance_of(Notifications::Client).to receive(:send_letter).with(template_id: anything,
+                                                                                  personalisation: hash_including(message: match_regex(/# Application updated\nThis application has been updated. Reason: Previous letter mistakenly listed applicant's address as Buckingham Palace.\n\n# Submit your comments by #{(1.business_day.from_now + 21.days).to_date}\r\n\r\nDear Resident/))).and_call_original
+      click_button "Print and send letters"
     end
   end
 end

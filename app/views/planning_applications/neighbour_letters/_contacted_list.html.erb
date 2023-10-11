@@ -1,8 +1,8 @@
-<% if @consultation.neighbours.with_letters.any?  %>
+<% if @consultation.neighbours.with_letters.any? %>
   <h3 class="govuk-heading-s govuk-!-margin-top-4">Contacted neighbours</h3>
   <% @consultation.neighbours.with_letters.each do |neighbour| %>
     <hr>
-    <div class="proposal-details-sub-heading">
+    <div class="proposal-details-sub-heading" id="contacted-neighbours-list">
       <p class="govuk-body govuk-!-margin-top-1">
         <%= neighbour.address %>
       </p>

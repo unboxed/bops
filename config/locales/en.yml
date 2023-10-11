@@ -769,6 +769,8 @@ en:
       create:
         failure: 'Error adding neighbour addresses with message: %{message}'
         success: Addresses have been successfully added.
+      send_letters:
+        require_resend_reason: Must provide a reason when resending letters to previously-contacted neighbours
     overdue:
       one: 1 day overdue
       other: "%{count} days overdue"
