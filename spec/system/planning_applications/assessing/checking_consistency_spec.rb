@@ -125,6 +125,7 @@ RSpec.describe "checking consistency" do
     before do
       type = create(:application_type, :prior_approval)
       planning_application.update(application_type: type)
+      planning_application.create_consultation!
       create(:proposal_measurement, planning_application:)
     end
 

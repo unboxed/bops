@@ -743,9 +743,6 @@ en:
         success: Press notice response has been successfully updated
     confirm_validation:
       validate_application: Validate application
-    consultation_neighbour_addresses:
-      create:
-        success: Addresses have been successfully added.
     create:
       success: Planning application was successfully created.
     days_from:
@@ -768,6 +765,10 @@ en:
         title: Reviewer requests
     invalidate:
       success: Application has been invalidated and email has been sent
+    neighbour_letters:
+      create:
+        failure: 'Error adding neighbour addresses with message: %{message}'
+        success: Addresses have been successfully added.
     overdue:
       one: 1 day overdue
       other: "%{count} days overdue"

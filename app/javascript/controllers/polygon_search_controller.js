@@ -108,10 +108,10 @@ export default class extends Controller {
   createHiddenInputElement(address, index) {
     const hiddenInput = document.createElement("input")
     hiddenInput.type = "hidden"
-    hiddenInput.name = "addresses[]"
+    hiddenInput.name = this.data.get("name")
     hiddenInput.value = address
 
-    const hiddenInputAddressId = `hidden-address-${index}`
+    const hiddenInputAddressId = `hidden-${this.data.get("id")}-${index}`
     hiddenInput.id = hiddenInputAddressId
 
     return hiddenInput
@@ -121,7 +121,7 @@ export default class extends Controller {
     const addressEntryDiv = document.createElement("div")
     addressEntryDiv.className = "address-entry"
 
-    const addressId = `address-${index}`
+    const addressId = `${this.data.get("id")}-${index}`
     addressEntryDiv.id = addressId
 
     // Create <hr>
@@ -200,7 +200,7 @@ export default class extends Controller {
 
   removeHiddenAddressInputs() {
     const hiddenInputs = document.querySelectorAll(
-      'input[type="hidden"][name="addresses[]"]',
+      `input[type="hidden"][name="${this.data.get("name")}"]`,
     )
 
     hiddenInputs.forEach((input) => input.parentNode.removeChild(input))

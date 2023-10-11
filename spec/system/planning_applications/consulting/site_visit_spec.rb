@@ -169,7 +169,7 @@ RSpec.describe "Site visit" do
 
         expect(page).to have_link(
           "Site visit",
-          href: "/planning_applications/#{planning_application.id}/consultations/#{consultation.id}/site_visits"
+          href: "/planning_applications/#{planning_application.id}/consultation/site_visits"
         )
         expect(page).to have_content("Completed")
 
@@ -207,7 +207,7 @@ RSpec.describe "Site visit" do
 
         click_link "Back"
         expect(current_url).to include(
-          "/planning_applications/#{planning_application.id}/consultations/#{consultation.id}/site_visits"
+          "/planning_applications/#{planning_application.id}/consultation/site_visits"
         )
       end
     end

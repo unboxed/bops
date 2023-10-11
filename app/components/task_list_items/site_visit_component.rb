@@ -4,30 +4,30 @@ module TaskListItems
   class SiteVisitComponent < TaskListItems::BaseComponent
     def initialize(planning_application:)
       @planning_application = planning_application
-      @consultation = planning_application.consultation
     end
 
     private
 
-    attr_reader :consultation
+    attr_reader :planning_application
 
-    delegate(:site_visit, to: :consultation)
+    delegate :consultation, to: :planning_application
+    delegate :site_visit, to: :consultation
 
     def link_text
       "Site visit"
     end
 
     def link_path
-      if @consultation.site_visits.any?
-        planning_application_consultation_site_visits_path(@planning_application, @consultation)
+      if consultation.site_visits.any?
+        planning_application_consultation_site_visits_path(@planning_application)
       else
-        new_planning_application_consultation_site_visit_path(@planning_application, @consultation)
+        new_planning_application_consultation_site_visit_path(@planning_application)
       end
     end
 
     def status_tag_component
       StatusTags::BaseComponent.new(
-        status: @consultation.site_visit&.status || "not_started"
+        status: site_visit&.status || "not_started"
       )
     end
   end

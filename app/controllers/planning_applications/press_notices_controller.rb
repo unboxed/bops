@@ -24,7 +24,7 @@ module PlanningApplications
         if @press_notice.save
           @press_notice.send_press_notice_mail
           format.html do
-            redirect_to planning_application_consultations_path(@planning_application), notice: t(".success")
+            redirect_to planning_application_consultation_path(@planning_application), notice: t(".success")
           end
         else
           format.html { render :new }
@@ -37,7 +37,7 @@ module PlanningApplications
         if @press_notice.update(assign_press_notice_params)
           @press_notice.send_press_notice_mail
           format.html do
-            redirect_to planning_application_consultations_path(@planning_application), notice: t(".success")
+            redirect_to planning_application_consultation_path(@planning_application), notice: t(".success")
           end
         else
           format.html { render :show }

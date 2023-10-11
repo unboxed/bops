@@ -1,0 +1,59 @@
+<% content_for :page_title do %>
+  Send letters to neighbours - <%= t('page_title') %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Consultation", planning_application_consultation_path(@planning_application) %>
+<% content_for :title, "Send letters to neighbours" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Send letters to neighbours" }
+) %>
+
+<% if flash[:sent_neighbour_letters].present? %>
+  <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
+    aria-labelledby="govuk-notification-banner-title"
+    data-module="govuk-notification-banner">
+    <div class="govuk-notification-banner__header">
+      <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+        Success
+      </h2>
+    </div>
+    <div class="govuk-notification-banner__content">
+      <h3 class="govuk-notification-banner__heading">
+        Letters have been sent to neighbours and a copy of the letter has been sent to the applicant.
+      </h3>
+      <p class="govuk-body">Contact <a class="govuk-notification-banner__link" href="https://www.notifications.service.gov.uk/support">GOV.UK Notify</a> if you think there’s a problem.</p>
+    </div>
+  </div>
+<% end %>
+
+<div class="govuk-grid-row">
+  <%= content_tag :div, class: "govuk-grid-column-full", data: {
+    controller: "address-fill polygon-search",
+    address_fill_url: os_places_api_index_path,
+    address_fill_id: "neighbour-address",
+    address_fill_name: "consultation[neighbours_attributes][][address]",
+    polygon_search_url: search_addresses_by_polygon_path,
+    polygon_search_id: "neighbour-addresses",
+    polygon_search_name: "consultation[neighbours_attributes][][address]"
+  } do %>
+    <%= render "select_neighbours", planning_application: @planning_application, consultation: @consultation %>
+
+    <%= render "neighbour_addresses_form", planning_application: @planning_application, consultation: @consultation %>
+
+    <p class="govuk-body">or</p>
+
+    <%= render "form", planning_application: @planning_application, consultation: @consultation %>
+
+    <%= render "neighbours_added", planning_application: @planning_application, consultation: @consultation %>
+
+    <%= render "selected_list", planning_application: @planning_application, consultation: @consultation %>
+
+    <%= render "contacted_list", planning_application: @planning_application, consultation: @consultation %>
+
+    <%= render "letter_template", planning_application: @planning_application, consultation: @consultation %>
+  <% end %>
+</div>

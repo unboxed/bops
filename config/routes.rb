@@ -147,14 +147,15 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :consultations do
-        post :send_neighbour_letters
+      resource :consultation, only: %i[show update] do
+        resources :neighbour_letters, only: %i[index create update destroy] do
+          post :send_letters, on: :collection
+        end
+
         resources :neighbour_responses, only: %i[new index create edit update]
         resources :redact_neighbour_responses, only: %i[edit update]
         resources :site_visits, only: %i[index new create edit show update]
       end
-
-      resource :consultation_neighbour_addresses, only: %i[create]
 
       resources :site_notices
 

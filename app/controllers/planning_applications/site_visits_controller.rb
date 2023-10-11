@@ -37,7 +37,7 @@ module PlanningApplications
       respond_to do |format|
         if @site_visit.save
           format.html do
-            redirect_to planning_application_consultations_path(@planning_application), notice: t(".success")
+            redirect_to planning_application_consultation_path(@planning_application), notice: t(".success")
           end
         else
           set_objected_neighbour_responses

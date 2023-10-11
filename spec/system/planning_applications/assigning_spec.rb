@@ -56,6 +56,7 @@ RSpec.describe "assigning planning application" do
     before do
       prior_approval = create(:application_type, :prior_approval)
       planning_application.update(application_type: prior_approval)
+      planning_application.create_consultation!
     end
 
     it "lets a planning application be assigned to a user" do

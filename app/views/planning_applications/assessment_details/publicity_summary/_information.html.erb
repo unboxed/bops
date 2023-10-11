@@ -1,12 +1,12 @@
 <div class="govuk-body">
   <% if consultation = @planning_application.consultation %>
-    <%= render "shared/notification_banner", 
+    <%= render "shared/notification_banner",
       banner_class: "govuk-notification-banner",
       role: "region",
       title: "View neighbour responses",
       heading: neighbour_responses_summary_text(consultation.neighbour_responses_by_summary_tag) %>
-      
-    <p><%= link_to "View neighbour responses", new_planning_application_consultation_neighbour_response_path(@planning_application, consultation) %></p>
+
+    <p><%= link_to "View neighbour responses", new_planning_application_consultation_neighbour_response_path(@planning_application) %></p>
   <% else %>
     <p>There is no existing consultation for this planning application.</p>
   <% end %>

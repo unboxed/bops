@@ -5,8 +5,9 @@ import accessibleAutocomplete from "accessible-autocomplete"
 export default class extends Controller {
   connect() {
     accessibleAutocomplete({
-      element: document.querySelector("#address-autocomplete-container"),
-      id: "address-autocomplete", // To match it to the existing <label>.
+      element: document.querySelector(`#${this.data.get("id")}-container`),
+      id: this.data.get("id"),
+      name: this.data.get("name"),
       source: (query, populateResults) => {
         const results = []
         ajax({
