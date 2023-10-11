@@ -14,7 +14,7 @@
       locals: { heading: "Assess against policies and guidance" }
     ) %>
 
-<%= link_to "Check your local policies and guidance in a new tab", I18n.t("council_documents.#{@planning_application.local_authority.subdomain}"), target: "_blank", class: "govuk-link govuk-body" %>
+<%= link_to "Check your local policies and guidance in a new tab", I18n.t("council_documents.#{@planning_application.local_authority.subdomain}.planning_policy_and_guidance"), target: "_blank", class: "govuk-link govuk-body" %>
 
 <%= render "comment" %>
 
