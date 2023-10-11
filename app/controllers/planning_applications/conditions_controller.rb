@@ -57,16 +57,16 @@ module PlanningApplications
     end
 
     def set_new_conditions
-      @conditions = t("conditions").map do |condition|
-        Condition.new(text: condition.second[:condition], reason: condition.second[:reason])
+      @conditions = t("conditions_list").map do |key, value|
+        Condition.new(text: value[:condition], reason: value[:reason], title: value[:title])
       end
     end
 
     def set_conditions
-      new_conditions = t("conditions").map do |condition|
-        next if @planning_application.conditions.pluck(:text).include? condition.second[:condition]
+      new_conditions = t("conditions_list").map do |key, value|
+        next if @planning_application.conditions.pluck(:text).include? value[:condition]
 
-        Condition.new(text: condition.second[:condition], reason: condition.second[:reason])
+        Condition.new(text: value[:condition], reason: value[:reason])
       end.compact_blank
 
       @conditions = @planning_application.conditions + new_conditions
