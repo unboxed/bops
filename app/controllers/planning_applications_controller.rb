@@ -11,6 +11,10 @@ class PlanningApplicationsController < AuthenticationController
 
   before_action :ensure_draft_recommendation_complete, only: :update
 
+  before_action :ensure_site_notice_displayed_at, only: %i[determine]
+
+  before_action :ensure_press_notice_published_at, only: %i[determine]
+
   rescue_from PlanningApplication::WithdrawRecommendationError do |_exception|
     redirect_failed_withdraw_recommendation
   end
@@ -354,5 +358,29 @@ class PlanningApplicationsController < AuthenticationController
         before updating application fields."
 
     render :edit and return
+  end
+
+  def ensure_site_notice_displayed_at
+    return unless @planning_application.site_notice_needs_displayed_at?
+
+    flash.now[:alert] = sanitize "You must
+        #{view_context.link_to 'confirm the site notice displayed at date',
+                               edit_planning_application_site_notice_path(@planning_application,
+                                                                          @planning_application.site_notice)}
+        before determining the application."
+
+    render :publish and return
+  end
+
+  def ensure_press_notice_published_at
+    return unless @planning_application.press_notice_needs_published_at?
+
+    flash.now[:alert] = sanitize "You must
+        #{view_context.link_to 'confirm the press notice published at date',
+                               edit_planning_application_confirm_press_notice_path(@planning_application,
+                                                                                   @planning_application.press_notice)}
+        before determining the application."
+
+    render :publish and return
   end
 end
