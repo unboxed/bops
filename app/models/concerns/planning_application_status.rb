@@ -37,7 +37,7 @@ module PlanningApplicationStatus
       state :closed
 
       event :start do
-        transitions from: %i[not_started invalidated in_assessment], to: :in_assessment, guard: :has_validation_date?
+        transitions from: %i[not_started invalidated in_assessment], to: :in_assessment, guard: :validation_date?
 
         after { audit!(activity_type: "started") }
       end
