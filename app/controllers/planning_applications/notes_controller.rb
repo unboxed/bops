@@ -20,7 +20,7 @@ module PlanningApplications
       respond_to do |format|
         if @note.save
           format.html do
-            redirect_to planning_application_path(@planning_application), notice: "Note was successfully created." # rubocop:disable Rails/I18nLocaleTexts
+            redirect_to planning_application_path(@planning_application), notice: t(".success")
           end
         else
           format.html { render :index }

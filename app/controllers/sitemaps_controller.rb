@@ -16,9 +16,9 @@ class SitemapsController < AuthenticationController
       format.html do
         if @planning_application.valid_red_line_boundary?
           redirect_to planning_application_validation_tasks_path(@planning_application),
-                      notice: "Red line boundary was marked as valid." # rubocop:disable Rails/I18nLocaleTexts
+                      notice: t(".success")
         elsif @planning_application.valid_red_line_boundary.nil?
-          flash.now[:alert] = "You must first select Valid or Invalid to continue."
+          flash.now[:alert] = t(".failure")
           render :show
         else
           redirect_to new_planning_application_red_line_boundary_change_validation_request_path
@@ -41,7 +41,7 @@ class SitemapsController < AuthenticationController
                       notice: t(".success")
         end
       else
-        flash.now[:alert] = "Invalid parameter"
+        flash.now[:alert] = t(".failure")
         flash.now[:alert] << (": #{@planning_application.errors.join('; ')}") if @planning_application.errors.present?
         render :show
       end
@@ -49,7 +49,7 @@ class SitemapsController < AuthenticationController
   rescue ConstraintQueryUpdateService::SaveError => e
     Appsignal.send_error(e)
     redirect_to planning_application_sitemap_path(@planning_application),
-                alert: "Something went wrong. Please contact support." # rubocop:disable Rails/I18nLocaleTexts
+                alert: t(".error")
   end
 
   private

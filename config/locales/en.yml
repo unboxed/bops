@@ -415,8 +415,10 @@ en:
   concerns:
     validation_requests:
       cancel:
+        failure: Error cancelling validation request - please contact support.
         success: Validation request was successfully cancelled.
       destroy:
+        failure: Couldn't delete validation request — please contact support.
         success: Validation request was successfully deleted.
   consistency_checklists:
     additional_document_validation_request:
@@ -498,6 +500,7 @@ en:
     info:
       update_constraints: Update constraints
     update:
+      failure: Couldn't check constraints — please contact support.
       success: Constraints was successfully checked
   consultees:
     update:
@@ -738,6 +741,9 @@ en:
     cil_liability:
       update:
         success: CIL liability updated
+    clone:
+      failure: 'Error cloning application with message: %{message}.'
+      success: Planning application was successfully cloned.
     confirm_press_notices:
       update:
         success: Press notice response has been successfully updated
@@ -764,6 +770,7 @@ en:
         other: "%{count} applications"
         title: Reviewer requests
     invalidate:
+      failure: Please create at least one validation request before invalidating
       success: Application has been invalidated and email has been sent
     neighbour_letters:
       create:
@@ -771,6 +778,9 @@ en:
         success: Addresses have been successfully added.
       send_letters:
         require_resend_reason: Must provide a reason when resending letters to previously-contacted neighbours
+    notes:
+      create:
+        success: Note was successfully created.
     overdue:
       one: 1 day overdue
       other: "%{count} days overdue"
@@ -867,6 +877,7 @@ en:
       decision_notice: Decision notice
       download_as_pdf: Download as PDF
       edit_recommendation: Edit recommendation
+      failure: Error submitting recommendation - please contact support.
       if_you_agree: If you agree with this decision notice, submit it to your line manager.
       if_your_manager: If your manager disagrees with your recommendation they will send it back to you to make changes.
       review_and_submit_recommendation: Review and submit recommendation
@@ -879,6 +890,8 @@ en:
       all_applications: Live applications
       all_your_applications: Your live applications
     update:
+      edit_payment_amount: Planning application payment amount was successfully updated.
+      edit_public_comment: The information appearing on the decision notice was successfully updated.
       success: Planning application was successfully updated.
     validate:
       success: Application is ready for assessment and an email notification has been sent.
@@ -893,6 +906,7 @@ en:
         upload_label: Upload a supporting document
       withdrawn: Application has been withdrawn
     withdraw_recommendation:
+      failure: Error withdrawing recommendation - please contact support.
       success: Recommendation was successfully withdrawn.
   policy_classes:
     add_comment: Add comment
@@ -1126,7 +1140,12 @@ en:
       review_application: Review
   sitemaps:
     update:
+      error: Something went wrong. Please contact support.
+      failure: Invalid parameter
       success: Site boundary has been updated
+    validate:
+      failure: You must first select Valid or Invalid to continue.
+      success: Red line boundary was marked as valid.
   status_tag_component:
     accepted: Printing
     awaiting_determination: Awaiting determination
@@ -1250,6 +1269,9 @@ en:
       submit: Submit
     new:
       add_user: Add a new user
+    sessions:
+      create:
+        two_factor_invalid: Your two factor code is invalid.
     table:
       actions: Actions
       edit: Edit
@@ -1264,6 +1286,7 @@ en:
       'true': 'Yes'
       users: Users
   validation_requests:
+    email_failure: Notify was unable to send applicant email. Please contact the applicant directly.
     index:
       for_new_document: For new document requests, requests will remain open until responded, cancelled or the application is decided.
       for_redline_and: For redline and description requests, the applicant can reject or accept these changes within 5 working days. After that these requests will be automatically accepted.

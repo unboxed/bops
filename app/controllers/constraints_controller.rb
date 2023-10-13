@@ -42,7 +42,7 @@ class ConstraintsController < AuthenticationController
       else
         format.html do
           redirect_to planning_application_validation_tasks_path(@planning_application),
-                      alert: "Couldn't check constraints - please contact support." # rubocop:disable Rails/I18nLocaleTexts
+                      alert: t(".failure")
         end
       end
     end

@@ -30,7 +30,7 @@ RSpec.describe "Send letters to neighbours", js: true do
     allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
 
     ENV["OS_VECTOR_TILES_API_KEY"] = "testtest"
-    allow_any_instance_of(Faraday::Connection).to receive(:get).and_return(instance_double("response", status: 200, body: "some data")) # rubocop:disable RSpec/VerifiedDoubleReference
+    allow_any_instance_of(Faraday::Connection).to receive(:get).and_return(instance_double(Faraday::Response, status: 200, body: "some data"))
     allow_any_instance_of(Apis::OsPlaces::Query).to receive(:find_addresses).and_return(Faraday.new.get)
     allow_any_instance_of(Apis::Mapit::Query).to receive(:fetch).and_return(Faraday.new.get)
 
