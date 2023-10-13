@@ -18,7 +18,12 @@
 <ol class="govuk-list govuk-list--number">
   <% @planning_application.conditions.each do |condition| %>
     <li>
-      <span class="govuk-!-font-weight-bold"><%= condition.text %></span><br>
+      <% if condition.title %>
+        <span class="govuk-!-font-weight-bold"><%= condition&.title %></span><br>
+        <%= condition.text %><br>
+      <% else %>
+        <span class="govuk-!-font-weight-bold"><%= condition.text %></span><br>
+      <% end %>
       <%= condition.reason %>
     </li>
   <% end %>

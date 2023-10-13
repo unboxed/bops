@@ -6,27 +6,45 @@
               method: method.to_sym do |form| %>
   <%= form.govuk_check_boxes_fieldset :conditions, legend: { text: "Suggested conditions" }, multiple: true do %>
     <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
-    <%= form.fields_for :conditions, @conditions do |ff| %>
-      <%= ff.govuk_check_box :conditions, true, label: { text: ff.object.title }, checked: @planning_application.conditions.where(text: ff.object.text).any? do %>
+    <%= form.fields_for(:conditions, @conditions.select(&:standard?)) do |ff| %>
+      <%= ff.govuk_check_box :conditions, true, label: { text: ff.object.title }, checked: @planning_application.conditions.where(title: ff.object.title).any? do %>
         <%= ff.hidden_field :id, value: ff.object.id %>
-        <%= ff.govuk_text_area :text, value: ff.object.text %>
-        <%= ff.govuk_text_area :reason, value: ff.object.reason %>
+        <%= ff.hidden_field :standard, value: true %>
+        <%= ff.hidden_field :title, value: ff.object.title %>
+        <%= ff.govuk_text_area :text, label: { text: "Condition", size: "s" }, value: ff.object.text %>
+        <%= ff.govuk_text_area :reason, label: { text: "Reason", size: "s" }, value: ff.object.reason %>
       <% end %>
     <% end %>
+
     <div data-controller="add-condition">
       <h2>Other conditions</h2>
-      <%= link_to "+ Add condition", "#", class: "govuk-body govuk-link", "data-action": "click->add-condition#handleClick" %>
+      <%= form.fields_for(:conditions, @conditions.reject(&:standard?)) do |ff| %>
+        <div class="condition-form govuk-!-margin-bottom-5">
+          <%= ff.hidden_field :id, value: ff.object.id %>
+          <%= ff.hidden_field :standard, value: false %>
+          <%= ff.hidden_field :new_condition, value: true %>
+          <%= ff.govuk_text_area :text, label: { text: "Condition", size: "s" } %>
+          <%= ff.govuk_text_area :reason, label: { text: "Reason", size: "s" } %>
+          <%= link_to "Remove condition", "#", class: "govuk-body govuk-link", "data-action": "click->add-condition#removeCondition" %>
+        </div>
+      <% end %>
+      <div class="display-none govuk-!-margin-bottom-5 condition-form" id="add-condition-form">
+        <%= form.fields_for :conditions, Condition.new(planning_application: @planning_application.planning_application) do |ff| %>
+          <%= ff.hidden_field :standard, value: false %>
+          <%= ff.hidden_field :new_condition, value: true %>
+          <%= ff.govuk_text_area :text, label: { text: "Condition", size: "s" } %>
+          <%= ff.govuk_text_area :reason, label: { text: "Reason", size: "s" } %>
+          <%= link_to "Remove condition", "#", class: "govuk-body govuk-link", "data-action": "click->add-condition#removeCondition" %>
+        <% end %>
+       </div>
+      <div id="new-forms"></div>
+      <%= link_to "+ Add condition", "#", class: "govuk-body govuk-link", "data-action": "click->add-condition#addCondition" %>
     </div>
   <% end %>
   <div class="govuk-button-group">
     <%= form.submit(
           t("form_actions.save_and_mark_as_complete"),
           class: "govuk-button",
-          data: { module: "govuk-button" }
-        ) %>
-    <%= form.submit(
-          t("form_actions.save_and_come_back_later"),
-          class: "govuk-button govuk-button--secondary",
           data: { module: "govuk-button" }
         ) %>
     <%= back_link %>
