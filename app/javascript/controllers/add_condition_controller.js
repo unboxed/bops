@@ -22,9 +22,9 @@ export default class extends Controller {
     const inputs = form.getElementsByTagName("input")
 
     for (let a = 0; a < inputs.length; a++) {
-      const blah = 3 + length
-      inputs[a].name = inputs[a].name.replace(/\d/g, `${blah}`)
-      inputs[a].id = inputs[a].id.replace(/\d/g, `${blah}`)
+      const formCount = 3 + length
+      inputs[a].name = inputs[a].name.replace(/\d/g, `${formCount}`)
+      inputs[a].id = inputs[a].id.replace(/\d/g, `${formCount}`)
     }
 
     const divs = form.getElementsByTagName("div")
