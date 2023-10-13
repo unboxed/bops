@@ -3,6 +3,7 @@ en:
   accordion_component:
     application_information: Application information
     audit_log: Audit log
+    considerations: Considerations
     constraints: Constraints
     consultation: Consultation
     contact_information: Contact information

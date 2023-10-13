@@ -1,0 +1,12 @@
+<% if @planning_application.local_policy.present? %>
+  <% @planning_application.local_policy.local_policy_areas.each do |local_policy_area| %>
+    <p class="govuk-!-font-weight-bold govuk-body"><%= local_policy_area.area.humanize %></p>
+    <p class="govuk-body">Policies: <%= local_policy_area.policies %></p>
+    <% if local_policy_area.guidance.present? %>
+      <p class="govuk-body">Guidance: <%= local_policy_area.guidance %></p>
+    <% end %>
+    <p class="govuk-body">Assessment: <%= local_policy_area.assessment %></p>
+  <% end %>
+<% else %>
+  <p class="govuk-body">There are no considerations</p>
+<% end %>
