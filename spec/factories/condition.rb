@@ -2,11 +2,8 @@
 
 FactoryBot.define do
   factory :condition do
-    title { "The proposal must be built within three years of receiving approval" }
-    text { "The development hereby permitted shall begin before the expiration of three years" }
-
-    after(:create) do |condition|
-      condition.application_types << create(:application_type, :prior_approval)
-    end
+    title { "Time limit" }
+    text { "The development herby permitted shall be commenced within three years of the date of this permission." }
+    reason { "To comply with the provisions of Section 91 of the Town and Country Planning Act 1990 (as amended)." }
   end
 end

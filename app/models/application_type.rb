@@ -6,8 +6,6 @@ class ApplicationType < ApplicationRecord
   default_scope { in_order_of(:name, NAME_ORDER).order(:name) }
 
   has_many :planning_applications, dependent: :restrict_with_exception
-  has_many :application_type_conditions, class_name: "ApplicationTypesCondition", dependent: :destroy
-  has_many :conditions, through: :application_type_conditions
 
   validates :name, presence: true
 

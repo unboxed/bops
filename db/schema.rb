@@ -21,7 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
     t.datetime "created_at", precision: nil, null: false
-    t.index ["blob_id"], name: "ix_active_storage_attachments_on_blob_id"
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
@@ -34,7 +34,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
     t.string "checksum", null: false
     t.datetime "created_at", precision: nil, null: false
     t.string "service_name", null: false
-    t.index ["key"], name: "ix_active_storage_blobs_on_key", unique: true
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
@@ -56,8 +56,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
     t.text "cancel_reason"
     t.datetime "cancelled_at", precision: nil
     t.boolean "post_validation", default: false, null: false
-    t.index ["planning_application_id"], name: "ix_additional_document_validation_requests_on_planning_applicat"
-    t.index ["user_id"], name: "ix_additional_document_validation_requests_on_user_id"
+    t.index ["planning_application_id"], name: "index_document_create_requests_on_planning_application_id"
+    t.index ["user_id"], name: "index_document_create_requests_on_user_id"
   end
 
   create_table "api_users", force: :cascade do |t|
@@ -106,9 +106,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
     t.datetime "updated_at", null: false
     t.bigint "api_user_id"
     t.boolean "automated_activity", default: false, null: false
-    t.index ["api_user_id"], name: "ix_audits_on_api_user_id"
-    t.index ["planning_application_id"], name: "ix_audits_on_planning_application_id"
-    t.index ["user_id"], name: "ix_audits_on_user_id"
+    t.index ["api_user_id"], name: "index_audits_on_api_user_id"
+    t.index ["planning_application_id"], name: "index_audits_on_planning_application_id"
+    t.index ["user_id"], name: "index_audits_on_user_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -124,12 +124,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
   end
 
   create_table "conditions", force: :cascade do |t|
-    t.string "text"
+    t.string "title"
+    t.text "text"
     t.text "reason"
+    t.boolean "standard"
     t.bigint "planning_application_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["planning_application_id"], name: "ix_conditions_on_planning_application_id"
+    t.index ["planning_application_id"], name: "index_conditions_on_planning_application_id"
   end
 
   create_table "consistency_checklists", force: :cascade do |t|
@@ -200,8 +202,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
     t.boolean "auto_closed", default: false
     t.boolean "post_validation", default: false, null: false
     t.datetime "auto_closed_at", precision: nil
-    t.index ["planning_application_id"], name: "ix_description_change_validation_requests_on_planning_applicati"
-    t.index ["user_id"], name: "ix_description_change_validation_requests_on_user_id"
+    t.index ["planning_application_id"], name: "index_description_change_requests_on_planning_application_id"
+    t.index ["user_id"], name: "index_description_change_requests_on_user_id"
   end
 
   create_table "documents", force: :cascade do |t|
@@ -232,7 +234,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
     t.index ["api_user_id"], name: "ix_documents_on_api_user_id"
     t.index ["evidence_group_id"], name: "ix_documents_on_evidence_group_id"
     t.index ["neighbour_response_id"], name: "ix_documents_on_neighbour_response_id"
-    t.index ["planning_application_id"], name: "ix_documents_on_planning_application_id"
+    t.index ["planning_application_id"], name: "index_documents_on_planning_application_id"
     t.index ["press_notice_id"], name: "ix_documents_on_press_notice_id"
     t.index ["replacement_document_validation_request_id"], name: "ix_documents_on_replacement_document_validation_request_id"
     t.index ["site_notice_id"], name: "ix_documents_on_site_notice_id"
@@ -278,7 +280,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
     t.string "notify_api_key"
     t.string "notify_letter_template"
     t.string "press_notice_email"
-    t.index ["subdomain"], name: "ix_local_authorities_on_subdomain", unique: true
+    t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 
   create_table "local_policies", force: :cascade do |t|
@@ -390,7 +392,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
     t.text "reviewer_comment"
     t.boolean "reviewer_edited", default: false, null: false
     t.boolean "accepted", default: false, null: false
-    t.datetime "reviewed_at"
+    t.datetime "reviewed_at", precision: nil
     t.bigint "assessor_id"
     t.bigint "reviewer_id"
     t.index ["assessor_id"], name: "ix_permitted_development_rights_on_assessor_id"
@@ -453,7 +455,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
     t.datetime "returned_at", precision: nil
     t.string "payment_reference"
     t.text "closed_or_cancellation_comment"
-    t.date "validated_at"
     t.string "work_status", default: "proposed"
     t.string "decision"
     t.text "public_comment"
@@ -481,8 +482,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
     t.string "longitude"
     t.datetime "closed_at", precision: nil
     t.datetime "determination_date", precision: nil
-    t.boolean "updated_address_or_boundary_geojson", default: false
     t.integer "user_role"
+    t.boolean "updated_address_or_boundary_geojson", default: false
     t.boolean "constraints_checked", default: false, null: false
     t.boolean "valid_fee"
     t.boolean "documents_missing"
@@ -492,6 +493,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
     t.string "parish_name"
     t.jsonb "feedback", default: {}
     t.string "reference"
+    t.datetime "validated_at", precision: nil
     t.datetime "received_at", precision: nil
     t.string "review_documents_for_recommendation_status", default: "not_started", null: false
     t.boolean "from_production", default: false
@@ -507,12 +509,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
     t.index ["application_number", "local_authority_id"], name: "ix_planning_applications_on_application_number__local_authority", unique: true
     t.index ["application_type_id"], name: "ix_planning_applications_on_application_type_id"
     t.index ["boundary_created_by_id"], name: "ix_planning_applications_on_boundary_created_by_id"
-    t.index ["local_authority_id"], name: "ix_planning_applications_on_local_authority_id"
+    t.index ["local_authority_id"], name: "index_planning_applications_on_local_authority_id"
     t.index ["lonlat"], name: "ix_planning_applications_on_lonlat", using: :gist
     t.index ["reference", "local_authority_id"], name: "ix_planning_applications_on_reference__local_authority_id", unique: true
     t.index ["status", "application_type_id"], name: "ix_planning_applications_on_status__application_type_id"
     t.index ["status"], name: "ix_planning_applications_on_status"
-    t.index ["user_id"], name: "ix_planning_applications_on_user_id"
+    t.index ["user_id"], name: "index_planning_applications_on_user_id"
   end
 
   create_table "planx_planning_data", force: :cascade do |t|
@@ -581,9 +583,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
     t.boolean "challenged"
     t.boolean "submitted"
     t.integer "status", default: 0, null: false
-    t.index ["assessor_id"], name: "ix_recommendations_on_assessor_id"
-    t.index ["planning_application_id"], name: "ix_recommendations_on_planning_application_id"
-    t.index ["reviewer_id"], name: "ix_recommendations_on_reviewer_id"
+    t.index ["assessor_id"], name: "index_recommendations_on_assessor_id"
+    t.index ["planning_application_id"], name: "index_recommendations_on_planning_application_id"
+    t.index ["reviewer_id"], name: "index_recommendations_on_reviewer_id"
   end
 
   create_table "red_line_boundary_change_validation_requests", force: :cascade do |t|
@@ -603,7 +605,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
     t.jsonb "original_geojson"
     t.boolean "post_validation", default: false, null: false
     t.boolean "auto_closed", default: false, null: false
-    t.datetime "auto_closed_at"
+    t.datetime "auto_closed_at", precision: nil
   end
 
   create_table "replacement_document_validation_requests", force: :cascade do |t|
@@ -620,10 +622,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
     t.datetime "cancelled_at", precision: nil
     t.text "reason"
     t.boolean "post_validation", default: false, null: false
-    t.index ["new_document_id"], name: "ix_replacement_document_validation_requests_on_new_document_id"
-    t.index ["old_document_id"], name: "ix_replacement_document_validation_requests_on_old_document_id"
-    t.index ["planning_application_id"], name: "ix_replacement_document_validation_requests_on_planning_applica"
-    t.index ["user_id"], name: "ix_replacement_document_validation_requests_on_user_id"
+    t.index ["new_document_id"], name: "index_document_change_requests_on_new_document_id"
+    t.index ["old_document_id"], name: "index_document_change_requests_on_old_document_id"
+    t.index ["planning_application_id"], name: "index_document_change_requests_on_planning_application_id"
+    t.index ["user_id"], name: "index_document_change_requests_on_user_id"
   end
 
   create_table "review_immunity_details", force: :cascade do |t|
@@ -720,10 +722,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
     t.string "mobile_number"
     t.integer "otp_delivery_method", default: 0
     t.string "otp_secret"
-    t.index ["email", "local_authority_id"], name: "ix_users_on_email__local_authority_id", unique: true
+    t.index ["email", "local_authority_id"], name: "index_users_on_email_and_local_authority_id", unique: true
     t.index ["encrypted_otp_secret"], name: "ix_users_on_encrypted_otp_secret", unique: true
-    t.index ["local_authority_id"], name: "ix_users_on_local_authority_id"
-    t.index ["reset_password_token"], name: "ix_users_on_reset_password_token", unique: true
+    t.index ["local_authority_id"], name: "index_users_on_local_authority_id"
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   create_table "validation_requests", force: :cascade do |t|
