@@ -4,6 +4,8 @@ class SiteNotice < ApplicationRecord
   belongs_to :planning_application
   has_one :document, dependent: :destroy
 
+  scope :by_created_at_desc, -> { order(created_at: :desc) }
+
   attr_reader :method
 
   def preview_content(planning_application)

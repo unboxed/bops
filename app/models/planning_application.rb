@@ -72,8 +72,12 @@ class PlanningApplication < ApplicationRecord
 
   delegate :consultation?, to: :application_type
   delegate :reviewer_group_email, to: :local_authority
-  delegate :email, to: :user, prefix: true, allow_nil: true
-  delegate :name, to: :user, prefix: true, allow_nil: true
+  with_options prefix: true, allow_nil: true do
+    delegate :email, to: :user
+    delegate :name, to: :user
+    delegate :required?, to: :press_notice
+    delegate :required?, to: :site_notice
+  end
 
   belongs_to :user, optional: true
   belongs_to :api_user, optional: true
@@ -648,6 +652,18 @@ class PlanningApplication < ApplicationRecord
 
   def longitude
     super || lonlat.try(:x)
+  end
+
+  def site_notice
+    site_notices.by_created_at_desc.first
+  end
+
+  def site_notice_needs_displayed_at?
+    site_notice_required? && site_notice.displayed_at.nil?
+  end
+
+  def press_notice_needs_published_at?
+    press_notice_required? && press_notice.published_at.nil?
   end
 
   delegate :name, to: :application_type, prefix: true

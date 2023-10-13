@@ -127,6 +127,47 @@ RSpec.describe PressNotice do
           end
         end
       end
+
+      describe "::after_update #update_consultation_end_date!" do
+        let(:default_local_authority) { create(:local_authority, :default) }
+        let!(:planning_application) { create(:planning_application, local_authority: default_local_authority) }
+        let!(:consultation) { create(:consultation, planning_application:) }
+        let(:press_notice) { create(:press_notice, planning_application:) }
+
+        context "when there is an update to the published_at date" do
+          it "there is an update of 21 days added to the consultation end date" do
+            expect do
+              press_notice.update(published_at: Time.zone.local(2023, 3, 15, 12))
+            end.to change(consultation, :end_date)
+              .from(nil).to(Time.zone.local(2023, 3, 15, 12) + 21.days)
+          end
+        end
+
+        context "when there is an update to another field" do
+          it "there is no update to the consultation end date" do
+            expect { press_notice.update(press_sent_at: Time.zone.local(2023, 3, 15, 12)) }.not_to change(consultation, :end_date)
+          end
+        end
+
+        context "when consultation end date is later than the published at date + 21 days" do
+          let!(:consultation) { create(:consultation, planning_application:, end_date: Time.zone.local(2023, 3, 15, 12) + 22.days) }
+
+          it "there is no update to the consultation end date" do
+            expect { press_notice.update(published_at: Time.zone.local(2023, 3, 15, 12)) }.not_to change(consultation, :end_date)
+          end
+        end
+
+        context "when consultation end date is less than the published at date + 21 days" do
+          let!(:consultation) { create(:consultation, planning_application:, end_date: Time.zone.local(2023, 3, 15, 12) + 20.days) }
+
+          it "there is an update to the consultation end date" do
+            expect do
+              press_notice.update(published_at: Time.zone.local(2023, 3, 15, 12))
+            end.to change(consultation, :end_date)
+              .from(Time.zone.local(2023, 3, 15, 12) + 20.days).to(Time.zone.local(2023, 3, 15, 12) + 21.days)
+          end
+        end
+      end
     end
 
     describe "instance methods" do

@@ -189,6 +189,42 @@ RSpec.describe "Planning Application Assessment" do
           expect(page).not_to have_content("Town and Country Planning (Development Management Procedure) (England) Order 2015 (as amended): Article 39")
         end
       end
+
+      context "when there is a required site notice without a displayed at date" do
+        let!(:site_notice) do
+          create(:site_notice, planning_application:, displayed_at: nil)
+        end
+
+        it "displays a warning when trying to determine an application" do
+          click_link("Publish determination")
+          click_button("Publish determination")
+
+          within(".govuk-error-summary") do
+            expect(page).to have_content("You must confirm the site notice displayed at date before determining the application")
+            expect(page).to have_link(
+              "confirm the site notice displayed at date", href: edit_planning_application_site_notice_path(planning_application, site_notice)
+            )
+          end
+        end
+      end
+
+      context "when there is a required press notice without a published at date" do
+        let!(:press_notice) do
+          create(:press_notice, :required, planning_application:, published_at: nil)
+        end
+
+        it "displays a warning when trying to determine an application" do
+          click_link("Publish determination")
+          click_button("Publish determination")
+
+          within(".govuk-error-summary") do
+            expect(page).to have_content("You must confirm the press notice published at date before determining the application")
+            expect(page).to have_link(
+              "confirm the press notice published at date", href: edit_planning_application_confirm_press_notice_path(planning_application, press_notice)
+            )
+          end
+        end
+      end
     end
 
     context "when I'm signed in as an assessor" do

@@ -44,4 +44,15 @@ module PlanningApplicationHelper
     filters = (%i[application_type status] - [filter])
     params[filter]&.include?(value) && filters.all? { |param| params[param].blank? }
   end
+
+  def display_or_publish_required?(planning_application, type)
+    case type
+    when :site
+      planning_application.site_notice_needs_displayed_at?
+    when :press
+      planning_application.press_notice_needs_published_at?
+    else
+      raise ArgumentError, "Unexpected value for 'type': #{type.inspect}"
+    end
+  end
 end

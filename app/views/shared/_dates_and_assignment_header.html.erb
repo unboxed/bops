@@ -1,39 +1,58 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds" id="dates-and-assignment-details">
-      <p class="govuk-body">
-        <strong>Validation date:</strong>
-        <% if @planning_application.valid_from.present? %>
-          <%= time_tag @planning_application.valid_from %>
-        <% else %>
-          Not yet valid
-        <% end %>
-      </p>
-      <% if @planning_application.consultation.present? %>
-      <p class="govuk-body">
+    <p class="govuk-body">
+      <strong>Validation date:</strong>
+      <% if @planning_application.valid_from.present? %>
+        <%= time_tag @planning_application.valid_from %>
+      <% else %>
+        Not yet valid
+      <% end %>
+    </p>
+    <% if @planning_application.consultation.present? %>
+      <p class="govuk-body govuk-!-margin-bottom-0">
         <strong>Consultation start date:</strong>
         <% if @planning_application.consultation.start_date.present? %>
           <%= time_tag @planning_application.consultation.start_date %>
         <% else %>
           <%= t(".consultation_end_date_not_set") %>
         <% end %>
-        <br>
+      </p>
+
+      <p class="govuk-body">
         <strong>Consultation end date:</strong>
         <% if @planning_application.consultation.end_date.present? %>
-          <%= time_tag @planning_application.consultation.end_date %>
-          <span class="govuk-!-margin-left-1">
-            <span class="govuk-tag govuk-tag--#{status_consultation_date_tag_colour}">
-            <% if @planning_application.consultation.days_left >0 %>
-              <%= t("planning_applications.days_left", count: @planning_application.consultation.days_left) %>
-            <% else %>
-              <%= t("planning_applications.overdue", count: @planning_application.consultation.days_left.abs) %>
-            <% end %>
+          <% unless display_or_publish_required?(@planning_application, :site) || display_or_publish_required?(@planning_application, :press) %>
+            <%= time_tag @planning_application.consultation.end_date %>
+            <span class="govuk-!-margin-left-1">
+              <span class="govuk-tag govuk-tag--#{status_consultation_date_tag_colour}">
+                <% days_left = @planning_application.consultation.days_left %>
+                <%= days_left > 0 ? t("planning_applications.days_left", count: days_left) : t("planning_applications.overdue", count: days_left.abs) %>
+              </span>
             </span>
-          </span>
+          <% end %>
+
+          <% if display_or_publish_required?(@planning_application, :site) %>
+            <div id="confirm-site-notice-warning">
+              <%= render(
+                partial: "shared/warning_text",
+                locals: { message: link_to("Confirm site notice display date", edit_planning_application_site_notice_path(@planning_application, @planning_application.site_notice)) }
+              ) %>
+            </div>
+          <% end %>
+
+          <% if display_or_publish_required?(@planning_application, :press) %>
+            <div id="confirm-press-notice-warning">
+              <%= render(
+                partial: "shared/warning_text",
+                locals: { message: link_to("Confirm press notice publication date", edit_planning_application_confirm_press_notice_path(@planning_application, @planning_application.press_notice)) }
+              ) %>
+            </div>
+          <% end %>
         <% else %>
           <%= t(".consultation_end_date_not_set") %>
         <% end %>
       </p>
-      <% end %>
+    <% end %>
 
     <p class="govuk-body">
       <%= @planning_application.next_relevant_date_tag %>

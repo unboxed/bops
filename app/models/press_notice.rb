@@ -12,9 +12,11 @@ class PressNotice < ApplicationRecord
 
   validates :required, inclusion: { in: [true, false] }
 
+  after_update :update_consultation_end_date!
   after_save :audit_press_notice!
 
   delegate :audits, to: :planning_application
+  delegate :consultation, to: :planning_application
   delegate :press_notice_email, to: "planning_application.local_authority", allow_nil: true
 
   scope :required, -> { where(required: true) }
@@ -65,5 +67,16 @@ class PressNotice < ApplicationRecord
 
   def joined_reasons
     reasons.values.join(", ")
+  end
+
+  def update_consultation_end_date!
+    return unless consultation
+    return unless saved_changes.include? "published_at"
+
+    new_end_date = published_at + 21.days
+
+    return unless consultation.end_date.nil? || new_end_date > consultation.end_date
+
+    consultation.update!(end_date: new_end_date)
   end
 end
