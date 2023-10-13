@@ -148,6 +148,25 @@ RSpec.describe PressNotice do
             expect { press_notice.update(press_sent_at: Time.zone.local(2023, 3, 15, 12)) }.not_to change(consultation, :end_date)
           end
         end
+
+        context "when consultation end date is later than the published at date + 21 days" do
+          let!(:consultation) { create(:consultation, planning_application:, end_date: Time.zone.local(2023, 3, 15, 12) + 22.days) }
+
+          it "there is no update to the consultation end date" do
+            expect { press_notice.update(published_at: Time.zone.local(2023, 3, 15, 12)) }.not_to change(consultation, :end_date)
+          end
+        end
+
+        context "when consultation end date is less than the published at date + 21 days" do
+          let!(:consultation) { create(:consultation, planning_application:, end_date: Time.zone.local(2023, 3, 15, 12) + 20.days) }
+
+          it "there is an update to the consultation end date" do
+            expect do
+              press_notice.update(published_at: Time.zone.local(2023, 3, 15, 12))
+            end.to change(consultation, :end_date)
+              .from(Time.zone.local(2023, 3, 15, 12) + 20.days).to(Time.zone.local(2023, 3, 15, 12) + 21.days)
+          end
+        end
       end
     end
 

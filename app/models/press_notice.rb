@@ -73,6 +73,10 @@ class PressNotice < ApplicationRecord
     return unless consultation
     return unless saved_changes.include? "published_at"
 
-    consultation.update!(end_date: published_at + 21.days)
+    new_end_date = published_at + 21.days
+
+    return unless consultation.end_date.nil? || new_end_date > consultation.end_date
+
+    consultation.update!(end_date: new_end_date)
   end
 end
