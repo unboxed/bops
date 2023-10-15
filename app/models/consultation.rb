@@ -48,6 +48,20 @@ class Consultation < ApplicationRecord
       "failed"
     elsif neighbour_letters.sent.present?
       "complete"
+    elsif neighbours.present?
+      "in_progress"
+    else
+      "not_started"
+    end
+  end
+
+  def neighbour_responses_status
+    return "not_started" if end_date.blank?
+
+    if complete?
+      "complete"
+    elsif neighbour_responses.present?
+      "in_progress"
     else
       "not_started"
     end
