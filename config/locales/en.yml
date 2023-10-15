@@ -279,12 +279,12 @@ en:
     amenity: Amenity
     amenity_successfully_created: Amenity assessment was successfully created.
     amenity_successfully_updated: Amenity assessment was successfully updated.
-    consultation_summary: Add consultation details
+    consultation_summary: Add consultation summary
     consultation_summary_successfully_created: Consultation summary successfully added.
     consultation_summary_successfully_updated: Consultation summary successfully updated.
     edit_additional_evidence: Edit additional evidence
     edit_amenity: Edit assessment of impact on neighbouring amenity
-    edit_consultation_summary: Add consultation details
+    edit_consultation_summary: Add consultation summary
     edit_past_applications: History
     edit_publicity_summary: Edit summary of neighbour responses
     edit_site_description: Edit site description
@@ -292,7 +292,7 @@ en:
     immunity_detail_successfully_updated: Evidence of immunity successfully updated
     new_additional_evidence: Add detail of additional evidence
     new_amenity: Assess impact on neighbouring amenity
-    new_consultation_summary: Add consultation details
+    new_consultation_summary: Add consultation summary
     new_past_applications: History
     new_publicity_summary: Add summary of neighbour responses
     new_site_description: Create a description of the site
@@ -698,8 +698,6 @@ en:
           external: External
           internal: Internal
           remove_from_list: Remove from list
-        consultees:
-          list_who_was: List who was consulted about this application
         fields:
           summary_of_consultation: Summary of consultation responses
           this_information_will: This information will be made publicly available.

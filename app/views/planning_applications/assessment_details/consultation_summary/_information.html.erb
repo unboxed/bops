@@ -1,22 +1,15 @@
-<%= render(
-  partial: "planning_applications/assessment_details/consultation_summary/consultees",
-  locals: {
-    planning_application: @planning_application,
-    consultee: @consultation.consultees.new,
-    read_only: read_only
-  }
-) %>
-
 <% if @consultation.consultees.with_response.present? %>
   <h3>Consultation responses</h3>
-  <div class="govuk-accordion" data-module="govuk-accordion">
+  <div class="govuk-accordion" data-module="govuk-accordion" id="consultation-responses">
     <% @consultation.consultees.with_response.each do |consultee| %>
       <div class="govuk-accordion__section">
         <div class="govuk-accordion__section-header">
           <h3 class="govuk-accordion__section-heading">
             <button type="button"
                     class="govuk-accordion__section-button"
-                    id="accordion-default-heading-<%= consultee.id %>"><%= consultee.name %></button>
+                    id="accordion-default-heading-<%= consultee.id %>">
+                      <%= consultee.name %>
+            </button>
             <span class="govuk-accordion__icon"></span>
           </h3>
         </div>

@@ -22,6 +22,14 @@ RSpec.describe "adding consultation summary" do
     planning_application.consultation
   end
 
+  let!(:alice_smith) do
+    create(:consultee, :internal, :with_response, name: "Alice Smith", consultation:)
+  end
+
+  let!(:bella_jones) do
+    create(:consultee, :external, :with_response, name: "Bella Jones", consultation:)
+  end
+
   before do
     sign_in(assessor)
     visit(planning_application_path(planning_application))
@@ -38,26 +46,10 @@ RSpec.describe "adding consultation summary" do
       "Summary of consultation responses can't be blank"
     )
 
-    click_button("Add consultee")
-
-    expect(page).to have_content("Name can't be blank")
-    expect(page).to have_content("Origin can't be blank")
-
-    fill_in("Enter a new consultee", with: "Alice Smith")
-    choose("Internal consultee")
-    click_button("Add consultee")
-
-    expect(page).to have_row_for("Alice Smith", with: "Internal")
-
-    fill_in("Enter a new consultee", with: "Bella Jones")
-    choose("External consultee")
-    click_button("Add consultee")
-
-    expect(page).to have_row_for("Bella Jones", with: "External")
-
-    within(row_with_content("Bella Jones")) { click_button("Remove from list") }
-
-    expect(page).not_to have_content("Bella Jones")
+    within "#consultation-responses" do
+      expect(page).to have_content("Alice Smith")
+      expect(page).to have_content("Bella Jones")
+    end
 
     click_button("Save and come back later")
 
@@ -73,7 +65,11 @@ RSpec.describe "adding consultation summary" do
 
     click_link("Summary of consultation")
 
-    expect(page).to have_row_for("Alice Smith", with: "Internal")
+    within "#consultation-responses" do
+      expect(page).to have_content("Alice Smith")
+      expect(page).to have_content("Bella Jones")
+    end
+
     expect(page).to have_content("Lorem ipsum")
 
     click_link("Edit consultation details")
@@ -81,87 +77,5 @@ RSpec.describe "adding consultation summary" do
     click_button("Save and mark as complete")
 
     expect(page).to have_content("Consultation summary successfully updated.")
-  end
-
-  context "when setting consultee responses" do
-    it "allows adding details of consultee responses" do
-      click_link("Summary of consultation")
-      fill_in("Enter a new consultee", with: "Alice Smith")
-      choose("Internal consultee")
-      click_button("Add consultee")
-
-      within(".govuk-table__row:first-child") do
-        expect(page).to have_content("No response")
-        expect(page).to have_content("Edit response")
-      end
-
-      expect(page).not_to have_content("Consultation responses")
-
-      click_link("Edit response")
-      expect(page).to have_content("Edit consultee response")
-      click_link("Back")
-      expect(page).to have_content("Add consultation details")
-
-      click_link("Edit response")
-      fill_in("Response", with: "test 123")
-      click_button("Update response")
-
-      expect(page).not_to have_content("No response")
-      click_button("Save and come back later")
-      expect(page).to have_content("Consultation summary successfully added.")
-
-      click_link("Summary of consultation")
-      expect(page).to have_content("Consultation responses")
-      within(".govuk-accordion") do
-        expect(page).to have_content("Alice Smith")
-        click_button("Alice Smith")
-        expect(page).to have_content("test 123")
-      end
-
-      fill_in("Enter a new consultee", with: "Bob Smith")
-      choose("External consultee")
-      click_button("Add consultee")
-
-      click_button("Save and come back later")
-      click_link("Summary of consultation")
-
-      within(".govuk-accordion") do
-        expect(page).not_to have_content("Bob Smith")
-      end
-
-      within(".govuk-table__row:nth-child(2)") do
-        expect(page).to have_content("No response")
-        expect(page).to have_content("Edit response")
-        click_link("Edit response")
-      end
-
-      expect(page).to have_content("Edit consultee response")
-      click_link("Back")
-      expect(page).to have_content("Add consultation details")
-
-      within(".govuk-table__row:nth-child(2)") do
-        expect(page).to have_content("No response")
-        expect(page).to have_content("Edit response")
-        click_link("Edit response")
-      end
-
-      fill_in("Response", with: "test 234")
-      click_button("Update response")
-      click_button("Save and come back later")
-      expect(page).to have_content("Consultation summary successfully updated.")
-
-      click_link("Summary of consultation")
-      within(".govuk-accordion") do
-        expect(page).to have_content("Bob Smith")
-        click_button("Bob Smith")
-        expect(page).to have_content("test 234")
-      end
-
-      expect(consultation.consultees.length).to eq(2)
-      expect(consultation.consultees.first.name).to eq("Alice Smith")
-      expect(consultation.consultees.first.response).to eq("test 123")
-      expect(consultation.consultees.last.name).to eq("Bob Smith")
-      expect(consultation.consultees.last.response).to eq("test 234")
-    end
   end
 end
