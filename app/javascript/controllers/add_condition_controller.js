@@ -21,28 +21,28 @@ export default class extends Controller {
   changeIds(form, length) {
     const inputs = form.getElementsByTagName("input")
 
-    for (let a = 0; a < inputs.length; a++) {
+    for (const input of inputs) {
       const formCount = 3 + length
-      inputs[a].name = inputs[a].name.replace(/\d/g, `${formCount}`)
-      inputs[a].id = inputs[a].id.replace(/\d/g, `${formCount}`)
+      input.name = input.name.replace(/\d/g, `${formCount}`)
+      input.id = input.id.replace(/\d/g, `${formCount}`)
     }
 
     const divs = form.getElementsByTagName("div")
 
-    for (let b = 0; b < divs.length; b++) {
+    for (const div of divs) {
       const count = 3 + length
-      const children = divs[b].childNodes
+      const children = div.childNodes
 
-      for (let k = 0; k < children.length; k++) {
-        if (children[k].hasAttribute("for")) {
-          children[k].setAttribute(
+      for (const child of children) {
+        if (child.hasAttribute("for")) {
+          child.setAttribute(
             "for",
-            children[k].getAttribute("for").replace(/\d/g, `${count}`),
+            child.getAttribute("for").replace(/\d/g, `${count}`),
           )
         }
-        if (children[k].hasAttribute("name")) {
-          children[k].name = children[k].name.replace(/\d/g, `${count}`)
-          children[k].id = children[k].id.replace(/\d/g, `${count}`)
+        if (child.hasAttribute("name")) {
+          child.name = child.name.replace(/\d/g, `${count}`)
+          child.id = child.id.replace(/\d/g, `${count}`)
         }
       }
     }
