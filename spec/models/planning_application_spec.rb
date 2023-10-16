@@ -1274,7 +1274,7 @@ RSpec.describe PlanningApplication do
     end
   end
 
-  describe "#has_policy_class?" do
+  describe "#policy_class?" do
     let(:planning_application) { create(:planning_application) }
 
     context "when planning application has policy class" do
@@ -1287,13 +1287,13 @@ RSpec.describe PlanningApplication do
       end
 
       it "returns true" do
-        expect(planning_application.has_policy_class?("1A")).to be(true)
+        expect(planning_application.policy_class?("1A")).to be(true)
       end
     end
 
     context "when planning application does not have policy class" do
       it "returns false" do
-        expect(planning_application.has_policy_class?("1A")).to be(false)
+        expect(planning_application.policy_class?("1A")).to be(false)
       end
     end
   end

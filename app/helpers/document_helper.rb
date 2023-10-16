@@ -5,11 +5,11 @@ module DocumentHelper
     documents.select { |file| file.archived? == true }
   end
 
-  def is_plan_tag(tag) # rubocop:disable Naming/PredicateName
+  def plan_tag?(tag)
     Document::PLAN_TAGS.include?(tag)
   end
 
-  def is_evidence_tag(tag) # rubocop:disable Naming/PredicateName
+  def evidence_tag?(tag)
     Document::EVIDENCE_TAGS.include?(tag)
   end
 

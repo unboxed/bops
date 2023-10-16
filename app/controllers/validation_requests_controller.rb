@@ -60,7 +60,7 @@ class ValidationRequestsController < AuthenticationController
   end
 
   def validation_notice_request_error(exception)
-    flash[:alert] = "Notify was unable to send applicant email. Please contact the applicant directly." # rubocop:disable Rails/I18nLocaleTexts
+    flash[:alert] = t("validation_requests.email_failure")
 
     Appsignal.send_error(exception)
     render "planning_applications/show"

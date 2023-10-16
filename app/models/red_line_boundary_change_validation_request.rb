@@ -17,8 +17,8 @@ class RedLineBoundaryChangeValidationRequest < ApplicationRecord
 
   before_create :set_original_geojson
   before_create lambda {
-                  reset_validation_requests_update_counter!(planning_application.red_line_boundary_change_validation_requests) # rubocop:disable Layout/LineLength
-                }
+    reset_validation_requests_update_counter!(planning_application.red_line_boundary_change_validation_requests)
+  }
 
   delegate :reset_validation_requests_update_counter!, to: :planning_application
 

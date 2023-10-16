@@ -19,7 +19,5 @@ module ActiveStorage
         @blob.attachments.includes(:record).any? { |a| a.record.published? }
       end
     end
-    # rubocop:enable Metrics/CyclomaticComplexity
-    # rubocop:enable Metrics/PerceivedComplexity
   end
 end

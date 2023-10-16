@@ -47,7 +47,7 @@
               :name
             ) do |b| %>
               <div class="govuk-checkboxes__item">
-                <% if @planning_application.has_policy_class?(b.object.section) %>
+                <% if @planning_application.policy_class?(b.object.section) %>
                   <%= b.check_box(class: "govuk-checkboxes__input", disabled: true, checked: true) %>
                 <% else %>
                   <%= b.check_box(class: "govuk-checkboxes__input") %>

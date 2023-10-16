@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
 
     respond_to do |format|
       format.html do
-        flash[:notice] = "Signed in successfully." # rubocop:disable Rails/I18nLocaleTexts
+        flash[:notice] = t("devise.sessions.signed_in")
         super
       end
     end
