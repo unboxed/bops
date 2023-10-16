@@ -1,16 +1,17 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
+  static targets = ["form", "newForms"]
+
   addCondition(event) {
     event.preventDefault()
-    const form = document.getElementById("add-condition-form")
-    const clone = form.cloneNode(true)
+    const clone = this.formTarget.cloneNode(true)
     const length = document.querySelectorAll(".condition-form").length
     this.changeIds(clone, length)
     clone.id = `add-condition-form-${length}`
     clone.classList.remove("display-none")
-    const place = document.getElementById("new-forms")
-    place.appendChild(clone)
+    clone.data = {} // to remove the stimulus target
+    this.newFormsTarget.appendChild(clone)
   }
 
   removeCondition(event) {

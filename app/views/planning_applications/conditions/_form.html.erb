@@ -28,7 +28,7 @@
           <%= link_to "Remove condition", "#", class: "govuk-body govuk-link", "data-action": "click->add-condition#removeCondition" %>
         </div>
       <% end %>
-      <div class="display-none govuk-!-margin-bottom-5 condition-form" id="add-condition-form">
+      <div class="display-none govuk-!-margin-bottom-5 condition-form" id="add-condition-form" data-add-condition-target="form">
         <%= form.fields_for :conditions, Condition.new(planning_application: @planning_application.planning_application) do |ff| %>
           <%= ff.hidden_field :standard, value: false %>
           <%= ff.hidden_field :new_condition, value: true %>
@@ -37,7 +37,7 @@
           <%= link_to "Remove condition", "#", class: "govuk-body govuk-link", "data-action": "click->add-condition#removeCondition" %>
         <% end %>
        </div>
-      <div id="new-forms"></div>
+      <div id="new-forms" data-add-condition-target="newForms"></div>
       <%= link_to "+ Add condition", "#", class: "govuk-body govuk-link", "data-action": "click->add-condition#addCondition" %>
     </div>
   <% end %>
