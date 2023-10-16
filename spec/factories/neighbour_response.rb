@@ -9,7 +9,6 @@ FactoryBot.define do
     name { "Neighbour" }
     email { "neighbour@example.com" }
     neighbour
-    consultation { neighbour.consultation }
   end
 
   trait :objection do

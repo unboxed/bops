@@ -29,12 +29,6 @@ RSpec.describe NeighbourResponse do
         expect { neighbour_response.valid? }.to change { neighbour_response.errors[:neighbour] }.to ["must exist"]
       end
     end
-
-    describe "#consultation" do
-      it "validates presence" do
-        expect { neighbour_response.valid? }.to change { neighbour_response.errors[:consultation] }.to ["must exist"]
-      end
-    end
   end
 
   describe "scopes" do

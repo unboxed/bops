@@ -244,7 +244,7 @@ RSpec.describe "View neighbour responses", js: true do
   end
 
   context "when there is no end date yet but there are responses" do
-    let!(:response) { create(:neighbour_response, neighbour:, consultation:) }
+    let!(:response) { create(:neighbour_response, neighbour:) }
 
     before do
       consultation.update(end_date: nil)
@@ -258,7 +258,7 @@ RSpec.describe "View neighbour responses", js: true do
   end
 
   context "when redacting a response" do
-    let!(:response) { create(:neighbour_response, :objection, :without_redaction, neighbour:, consultation:, response: "It will be too noisy, I hate my neighbour!") }
+    let!(:response) { create(:neighbour_response, :objection, :without_redaction, neighbour:, response: "It will be too noisy, I hate my neighbour!") }
 
     it "shows the relevant content for redacting a comment" do
       click_link "View neighbour responses"

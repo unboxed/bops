@@ -2,7 +2,6 @@
 
 class NeighbourResponse < ApplicationRecord
   belongs_to :neighbour
-  belongs_to :consultation
   belongs_to :redacted_by, class_name: "User", optional: true
 
   has_many :documents, dependent: :destroy
