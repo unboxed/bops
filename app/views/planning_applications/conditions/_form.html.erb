@@ -5,7 +5,7 @@
               url:,
               html: { data: { controller: "add-condition" } },
               method: method.to_sym do |form| %>
-  <%= form.govuk_check_boxes_fieldset :conditions, legend: { text: "Suggested conditions" }, multiple: true do %>
+  <%= form.govuk_check_boxes_fieldset :conditions, legend: { text: "Suggested conditions" }, multiple: true, form_group: { data: { "add-condition-target": "standardConditions" } } do %>
     <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
     <%= form.fields_for(:conditions, @conditions.select(&:standard?)) do |ff| %>
       <%= ff.govuk_check_box :conditions, true, label: { text: ff.object.title }, checked: @planning_application.conditions.where(title: ff.object.title).any? do %>

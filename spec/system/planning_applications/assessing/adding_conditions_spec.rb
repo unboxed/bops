@@ -66,7 +66,7 @@ RSpec.describe "Add conditions" do
       expect(page).to have_content "Custom condition 1"
       expect(page).to have_content "Custom reason 1"
       expect(page).to have_content "Custom condition 2"
-      expect(page).to have_content "Custom condition 2"
+      expect(page).to have_content "Custom reason 2"
       expect(page).not_to have_content "Custom condition 3"
     end
 

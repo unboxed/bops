@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["form", "newForms"]
+  static targets = ["form", "newForms", "standardConditions"]
 
   addCondition(event) {
     event.preventDefault()
@@ -21,9 +21,13 @@ export default class extends Controller {
 
   changeIds(form, length) {
     const inputs = form.getElementsByTagName("input")
+    const standardConditionsCount =
+      this.standardConditionsTarget.querySelectorAll(
+        ".govuk-checkboxes__item",
+      ).length
 
     for (const input of inputs) {
-      const formCount = 3 + length
+      const formCount = standardConditionsCount + length
       input.name = input.name.replace(/\d/g, `${formCount}`)
       input.id = input.id.replace(/\d/g, `${formCount}`)
     }
@@ -31,7 +35,7 @@ export default class extends Controller {
     const divs = form.getElementsByTagName("div")
 
     for (const div of divs) {
-      const count = 3 + length
+      const count = standardConditionsCount + length
       const children = div.childNodes
 
       for (const child of children) {
