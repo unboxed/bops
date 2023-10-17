@@ -8,14 +8,25 @@ class Consultation < ApplicationRecord
   belongs_to :planning_application
 
   with_options dependent: :destroy do
-    has_many :consultees
+    has_many :consultees, extend: ConsulteesExtension
     has_many :neighbours
     has_many :site_visits
+  end
+
+  with_options through: :consultees do
+    has_many :consultee_emails, source: :emails, class_name: "Consultee::Email"
+    has_many :consultee_responses, source: :responses, class_name: "Consultee::Response"
   end
 
   with_options through: :neighbours do
     has_many :neighbour_letters
     has_many :neighbour_responses
+  end
+
+  validate do
+    next if consultees.none?
+
+    errors.add(:consultees, :blank) if consultees.none_selected?
   end
 
   accepts_nested_attributes_for :consultees, :neighbours
@@ -67,6 +78,38 @@ class Consultation < ApplicationRecord
     else
       "not_started"
     end
+  end
+
+  def consultee_emails_status
+    if consultee_emails.any?(&:failed?)
+      "failed"
+    elsif consultee_emails.any?(&:delivered?)
+      "complete"
+    elsif consultees.present?
+      "in_progress"
+    else
+      "not_started"
+    end
+  end
+
+  def consultee_responses_status
+    return "not_started" if end_date.blank?
+
+    if complete?
+      "complete"
+    elsif consultee_responses.present?
+      "in_progress"
+    else
+      "not_started"
+    end
+  end
+
+  def consultee_email_subject
+    super.presence || I18n.t("subject", scope: "consultee_emails")
+  end
+
+  def consultee_email_body
+    super.presence || I18n.t("body", scope: "consultee_emails")
   end
 
   def neighbour_letter_header

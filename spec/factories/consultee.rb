@@ -14,7 +14,7 @@ FactoryBot.define do
     end
 
     trait :with_response do
-      response { Faker::Lorem.paragraph }
+      responses { build_list(:consultee_response, 1) }
     end
   end
 end

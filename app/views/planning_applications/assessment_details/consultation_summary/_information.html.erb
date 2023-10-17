@@ -14,7 +14,9 @@
           </h3>
         </div>
         <div class="govuk-accordion__section-content">
-          <p><%= consultee.response %></p>
+          <% consultee.responses.each do |response| %>
+            <p><%= response.response %></p>
+          <% end %>
         </div>
       </div>
     <% end %>

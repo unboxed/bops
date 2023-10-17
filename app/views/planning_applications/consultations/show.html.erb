@@ -2,6 +2,24 @@
   Consultation
 <% end %>
 
+<% if flash[:sent_consultee_emails] %>
+  <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
+    aria-labelledby="govuk-notification-banner-title"
+    data-module="govuk-notification-banner">
+    <div class="govuk-notification-banner__header">
+      <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+        Success
+      </h2>
+    </div>
+    <div class="govuk-notification-banner__content">
+      <h3 class="govuk-notification-banner__heading">
+        Emails have been sent to the selected consultees.
+      </h3>
+      <p class="govuk-body">Contact <a class="govuk-notification-banner__link" href="https://www.notifications.service.gov.uk/support">GOV.UK Notify</a> if you think there’s a problem.</p>
+    </div>
+  </div>
+<% end %>
+
 <% add_parent_breadcrumb_link "Home", root_path %>
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
 <% content_for :title, "Consultation" %>
@@ -39,16 +57,16 @@
 
       <h2 class="govuk-heading-m">Consultees</h2>
       <ul class="app-task-list__items" id="consultation-section">
-        <li class="app-task-list__item" id="send-letters-to-neighbours">
-          <span class="app-task-list__task-name">
-            <a class="govuk-link" href="#">Email consultees</a>
-          </span>
-        </li>
-        <li class="app-task-list__item" id="send-letters-to-neighbours">
-          <span class="app-task-list__task-name">
-            <a class="govuk-link" href="#">Consultee responses</a>
-          </span>
-        </li>
+        <%= render(
+          TaskListItems::EmailConsulteesComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
+        <%= render(
+          TaskListItems::ConsulteeResponsesComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
       </ul>
 
       <h2 class="govuk-heading-m">Publicity</h2>

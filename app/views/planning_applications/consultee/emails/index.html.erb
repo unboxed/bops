@@ -1,0 +1,95 @@
+<% content_for :page_title do %>
+  Send emails to consultees - <%= t('page_title') %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Consultation", planning_application_consultation_path(@planning_application) %>
+<% content_for :title, "Send emails to consultees" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Send emails to consultees" }
+) %>
+
+<div class="govuk-grid-row">
+  <%= content_tag(:div, class: "govuk-grid-column-full", data: {
+    controller: "consultees",
+    consultees_planning_application_id: @planning_application.id
+  }) do %>
+    <%= form_with(
+      model: @consultation,
+      url: planning_application_consultee_emails_path(@planning_application),
+      builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+      method: :post,
+      data: { consultees_target: "form" }
+    ) do |form| %>
+      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+      <h2 class="govuk-heading-m">
+        1) Select the consultees to consult
+      </h2>
+
+      <div data-consultees-target="consultees">
+        <%= render partial: "consultees", locals: { consultees: @consultees } %>
+      </div>
+
+      <%= content_tag(:details, class: "govuk-details", open: @consultees.none?, data: { module: "govuk-details" }) do %>
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Add additional consultees
+          </span>
+        </summary>
+        <div class="govuk-!-margin-top-3">
+          <label for="add-consultee" class="govuk-label--s">Search for consultees</label>
+          <span id="add-consultee-hint" class="govuk-hint">Start typing name, organisation or role</span>
+          <div id="add-consultee-container" class="govuk-!-width-two-thirds govuk-!-display-inline-block" data-consultees-target="container"></div>
+
+          <%= form.button(
+            "Add consultee",
+            type: "button",
+            class: "govuk-button govuk-button--secondary",
+            data: {
+              action: "click->consultees#addConsultee",
+              consultees_target: "addConsultee"
+            }
+          ) %>
+        </div>
+      <% end %>
+
+      <h2 class="govuk-heading-m">
+        2) Send email to selected consultees
+      </h2>
+
+      <details class="govuk-details" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            View/edit email template
+          </span>
+        </summary>
+        <div class="govuk-!-margin-top-3">
+          <div class="govuk-form-group">
+            <%= form.label :consultee_email_subject, class: "govuk-label govuk-label--s" do %>
+              Message subject
+            <% end %>
+            <%= form.text_field :consultee_email_subject, class: "govuk-input" %>
+          </div>
+          <div class="govuk-form-group">
+            <%= form.label :consultee_email_body, class: "govuk-label govuk-label--s" do %>
+              Message body
+            <% end %>
+            <%= form.text_area :consultee_email_body, rows: 25, class: "govuk-textarea" %>
+          </div>
+          <p class="govuk-hint">
+            The message is formatted using <a href="https://www.notifications.service.gov.uk/using-notify/formatting">GOV.UK Notify formatting rules</a>. Placeholders like <code>%{name}</code> will be substituted when the email is sent.
+          </p>
+        </div>
+      </details>
+
+      <div class="govuk-button-group">
+        <%= form.submit "Send emails to consultees", class: "govuk-button", data: { consultees_target: "submit" } %>
+        <%= link_to "Back", planning_application_consultation_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

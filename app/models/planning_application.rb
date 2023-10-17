@@ -679,6 +679,10 @@ class PlanningApplication < ApplicationRecord
     press_notice_required? && press_notice.published_at.nil?
   end
 
+  def address
+    [address_1, address_2, town, county, postcode].compact_blank.join(", ")
+  end
+
   delegate :name, to: :application_type, prefix: true
 
   ApplicationType::NAME_ORDER.each do |name|

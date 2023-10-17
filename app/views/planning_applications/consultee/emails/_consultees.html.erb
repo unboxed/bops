@@ -1,0 +1,143 @@
+<% if consultees.present? %>
+  <% consultees.by_name do |consultee| %>
+    <% content_for :"#{consultee.origin}_consultees" do %>
+      <%= fields_for "consultation[consultees_attributes]", consultee, index: consultee.id do |fields| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell govuk-!-padding-0">
+            <%= fields.hidden_field :id %>
+            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+              <div class="govuk-checkboxes__item">
+                <%= fields.check_box :selected, class: "govuk-checkboxes__input" %>
+                <%= fields.label :selected, class: "govuk-label govuk-checkboxes__label" do %>
+                  <span class="govuk-visually-hidden">Select consultee</span>
+                <% end %>
+              </div>
+            </div>
+          </td>
+          <td class="govuk-table__cell govuk-!-width-one-third">
+            <%= consultee.name %>
+          </td>
+          <td class="govuk-table__cell govuk-table__cell--centred">
+            <% if consultee.expired? %>
+              <span class="expired"><%= pluralize(consultee.period, "days") %></span>
+            <% elsif consultee.email_sent_at? %>
+              <%= pluralize(consultee.period, "days") %>
+            <% else %>
+              &ndash;
+            <% end %>
+          </td>
+          <td class="govuk-table__cell govuk-table__cell--centred">
+            <% if consultee.email_sent_at %>
+              <%= consultee.email_sent_at.to_fs(:day_month_year_slashes) %>
+            <% else %>
+              &ndash;
+            <% end %>
+          </td>
+          <td class="govuk-table__cell govuk-table__cell--numeric govuk-!-width-one-quarter">
+            <% case consultee.status %>
+            <% when "not_consulted" %>
+              <span class="govuk-tag govuk-tag--grey">Not consulted</span>
+            <% when "consulted" %>
+              <span class="govuk-tag govuk-tag--blue">Consulted</span>
+            <% when "failed" %>
+              <span class="govuk-tag govuk-tag--red">Failed</span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <div class="govuk-accordion" data-module="govuk-accordion">
+    <% if content_for?(:external_consultees) %>
+      <div id="external-consultees" class="govuk-accordion__section govuk-accordion__section--expanded">
+        <div class="govuk-accordion__section-header">
+          <h3 class="govuk-accordion__section-heading">
+            <button type="button" class="govuk-accordion__section-button">
+              <%= t(".external_header", count: consultees.external.size) %>
+            </button>
+            <span class="govuk-accordion__icon"></span>
+          </h3>
+        </div>
+        <div class="govuk-accordion__section-content govuk-!-padding-top-0">
+          <table class="govuk-table consultee-emails">
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header govuk-!-padding-0">
+                  <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item">
+                      <%= check_box_tag(
+                        "toggle-external-consultees", "1",
+                        consultees.external.all?(&:selected?),
+                        class: "govuk-checkboxes__input",
+                        name: nil, data: {
+                          action: "change->consultees#toggleExternalConsultees"
+                        }) %>
+                      <label class="govuk-label govuk-checkboxes__label" for="toggle-external-consultees">
+                        <span class="govuk-visually-hidden">Toggle selection</span>
+                      </label>
+                    </div>
+                  </div>
+                </th>
+                <th scope="col" class="govuk-table__header">Consultee</th>
+                <th scope="col" class="govuk-table__header govuk-table__header--centred">Period</th>
+                <th scope="col" class="govuk-table__header govuk-table__header--centred">Date consulted</th>
+                <th scope="col" class="govuk-table__header govuk-table__header--numeric govuk-!-width-one-quarter">Status</th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              <%= content_for(:external_consultees) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <% end %>
+
+    <% if content_for?(:internal_consultees) %>
+      <div id="internal-consultees" class="govuk-accordion__section govuk-accordion__section--expanded">
+        <div class="govuk-accordion__section-header">
+          <h3 class="govuk-accordion__section-heading">
+            <button type="button" class="govuk-accordion__section-button">
+              <%= t(".internal_header", count: consultees.internal.size) %>
+            </button>
+            <span class="govuk-accordion__icon"></span>
+          </h3>
+        </div>
+        <div class="govuk-accordion__section-content govuk-!-padding-top-0">
+          <table class="govuk-table consultee-emails">
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header govuk-!-padding-0">
+                  <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item">
+                      <%= check_box_tag(
+                        "toggle-internal-consultees", "1",
+                        consultees.internal.all?(&:selected?),
+                        class: "govuk-checkboxes__input",
+                        name: nil, data: {
+                          action: "change->consultees#toggleInternalConsultees"
+                        }) %>
+
+                      <label class="govuk-label govuk-checkboxes__label" for="toggle-external-consultees">
+                        <span class="govuk-visually-hidden">Toggle selection</span>
+                      </label>
+                    </div>
+                  </div>
+                </th>
+                <th scope="col" class="govuk-table__header">Consultee</th>
+                <th scope="col" class="govuk-table__header govuk-table__header--centred">Period</th>
+                <th scope="col" class="govuk-table__header govuk-table__header--centred">Date consulted</th>
+                <th scope="col" class="govuk-table__header govuk-table__header--numeric govuk-!-width-one-quarter">Status</th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              <%= content_for(:internal_consultees) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="govuk-body">No consultees have been added to the consultation yet.</p>
+<% end %>

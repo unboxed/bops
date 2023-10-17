@@ -1,15 +1,18 @@
 # frozen_string_literal: true
 
 class Contact < ApplicationRecord
-  ORIGINS = %w[internal external].freeze
-  CATEGORIES = %w[consultee].freeze
-
   belongs_to :local_authority, optional: true
 
-  validates :origin, inclusion: { in: ORIGINS }
-  validates :category, inclusion: { in: CATEGORIES }
-
   validates :name, presence: true
+
+  enum :origin, {
+    internal: "internal",
+    external: "external"
+  }, scopes: false
+
+  enum :category, {
+    consultee: "consultee"
+  }, scopes: false
 
   class << self
     def search(query, local_authority: nil, category: nil)
