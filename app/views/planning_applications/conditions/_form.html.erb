@@ -26,7 +26,7 @@
           <%= ff.hidden_field :new_condition, value: true %>
           <%= ff.govuk_text_area :text, label: { text: "Condition", size: "s" } %>
           <%= ff.govuk_text_area :reason, label: { text: "Reason", size: "s" } %>
-          <%= link_to "Remove condition", "#", class: "govuk-body govuk-link", "data-action": "click->add-condition#removeCondition" %>
+          <%= link_to "Remove condition", "#", class: "govuk-body govuk-link", data: { action: "add-condition#removeCondition" } %>
         </div>
       <% end %>
       <div class="display-none govuk-!-margin-bottom-5 condition-form" id="add-condition-form" data-add-condition-target="form">
@@ -35,11 +35,11 @@
           <%= ff.hidden_field :new_condition, value: true %>
           <%= ff.govuk_text_area :text, label: { text: "Condition", size: "s" } %>
           <%= ff.govuk_text_area :reason, label: { text: "Reason", size: "s" } %>
-          <%= link_to "Remove condition", "#", class: "govuk-body govuk-link", "data-action": "click->add-condition#removeCondition" %>
+          <%= link_to "Remove condition", "#", class: "govuk-body govuk-link", data: { action: "add-condition#removeCondition" } %>
         <% end %>
        </div>
       <div id="new-forms" data-add-condition-target="newForms"></div>
-      <%= link_to "+ Add condition", "#", class: "govuk-body govuk-link", "data-action": "click->add-condition#addCondition" %>
+      <%= link_to "+ Add condition", "#", class: "govuk-body govuk-link", data: { action: "add-condition#addCondition" } %>
     </div>
   <% end %>
   <div class="govuk-button-group">
