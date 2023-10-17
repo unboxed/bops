@@ -3,6 +3,7 @@
               builder: GOVUKDesignSystemFormBuilder::FormBuilder,
               class: "govuk-!-margin-top-7",
               url:,
+              html: { data: { controller: "add-condition" } },
               method: method.to_sym do |form| %>
   <%= form.govuk_check_boxes_fieldset :conditions, legend: { text: "Suggested conditions" }, multiple: true do %>
     <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
@@ -16,7 +17,7 @@
       <% end %>
     <% end %>
 
-    <div data-controller="add-condition">
+    <div>
       <h2>Other conditions</h2>
       <%= form.fields_for(:conditions, @conditions.reject(&:standard?)) do |ff| %>
         <div class="condition-form govuk-!-margin-bottom-5">
