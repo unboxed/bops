@@ -680,6 +680,12 @@ class PlanningApplication < ApplicationRecord
 
   delegate :name, to: :application_type, prefix: true
 
+  ApplicationType::NAME_ORDER.each do |name|
+    define_method "#{name}?" do
+      name == application_type_name
+    end
+  end
+
   private
 
   def update_measurements
@@ -879,12 +885,6 @@ class PlanningApplication < ApplicationRecord
       "close!"
     else
       raise ArgumentError, "The status provided: #{status} is not valid"
-    end
-  end
-
-  ApplicationType::NAME_ORDER.each do |name|
-    define_method "#{name}?" do
-      name == application_type_name
     end
   end
 end

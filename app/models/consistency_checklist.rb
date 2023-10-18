@@ -56,7 +56,7 @@ class ConsistencyChecklist < ApplicationRecord
 
   CHECKS.each do |check|
     define_method("#{check}_determined") do
-      return if planning_application.type == "Lawful Development Certificate" && PRIOR_APPROVAL_CHECKS.include?(check)
+      return if !planning_application.prior_approval? && PRIOR_APPROVAL_CHECKS.include?(check)
       return unless send("#{check}_to_be_determined?")
 
       errors.add(check, :not_determined)
