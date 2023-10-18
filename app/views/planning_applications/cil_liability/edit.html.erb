@@ -15,7 +15,7 @@
     ) %>
 
 <p class="govuk-body">
-  <% if @planning_application.cil_liability_proposal_detail.present? %>
+  <% if @planning_application.cil_liability_planx_answer? %>
       According to PlanX the new floor area being added is:
       <strong><%= @planning_application.cil_liability_proposal_detail.response_values.to_sentence %></strong>.
       <br>
