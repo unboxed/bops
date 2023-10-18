@@ -23,6 +23,13 @@
         )
       ) %>
     </li>
+    <% if @planning_application.type == "Householder Application for Planning Permission" %>
+      <%= render(
+        TaskListItems::ConditionsComponent.new(
+          planning_application: @planning_application
+        )
+      ) %>
+    <% end %>
     <li class="app-task-list__item">
       <span class="app-task-list__task-name">
         <% if @planning_application.can_submit_recommendation? %>

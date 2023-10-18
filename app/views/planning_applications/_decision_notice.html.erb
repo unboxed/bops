@@ -58,6 +58,17 @@
       </p>
     <% end %>
     <h3 class="govuk-heading-s">
+      Conditions:
+    </h3>
+    <ul class="govuk-list">
+      <% @planning_application.conditions.each do |condition| %>
+        <li>
+          <%= condition.text %><br>
+          <%= condition.reason %>
+        </li>
+      <% end %>
+    </p>
+    <h3 class="govuk-heading-s">
       This decision is based on the following approved plans:
     </h3>
     <% if planning_application.documents_for_decision_notice.any? %>

@@ -3,6 +3,7 @@ en:
   accordion_component:
     application_information: Application information
     audit_log: Audit log
+    considerations: Considerations
     constraints: Constraints
     consultation: Consultation
     contact_information: Contact information
@@ -420,6 +421,11 @@ en:
       destroy:
         failure: Couldn't delete validation request — please contact support.
         success: Validation request was successfully deleted.
+  conditions:
+    create:
+      success: Conditions successfully created
+    update:
+      success: Conditions successfully updated
   consistency_checklists:
     additional_document_validation_request:
       cancelled: Cancelled %{time}

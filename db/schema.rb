@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_09_093157) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -121,6 +121,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_093157) do
     t.datetime "deleted_at", precision: nil
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
     t.index ["user_id"], name: "ix_comments_on_user_id"
+  end
+
+  create_table "conditions", force: :cascade do |t|
+    t.string "title"
+    t.text "text"
+    t.text "reason"
+    t.boolean "standard"
+    t.bigint "planning_application_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "index_conditions_on_planning_application_id"
   end
 
   create_table "consistency_checklists", force: :cascade do |t|

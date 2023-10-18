@@ -1,0 +1,45 @@
+<% content_for :page_title do %>
+  Add conditions - <%= t("page_title") %>
+<% end %>
+
+<%= render(
+      partial: "shared/assessment_task_breadcrumbs",
+      locals: { planning_application: @planning_application }
+    ) %>
+
+<% content_for :title, "Add conditions" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: { heading: "Add conditions" }
+    ) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render(
+          AccordionComponent.new(
+            planning_application: @planning_application,
+            sections: %w[constraints considerations]
+          )
+        ) %>
+    <h2 class="govuk-heading-m">Conditions</h2>
+    <ol class="govuk-list govuk-list--number">
+      <% @planning_application.conditions.each do |condition| %>
+        <li>
+          <% if condition.title %>
+            <span class="govuk-!-font-weight-bold"><%= condition&.title %></span><br>
+            <%= condition.text %><br>
+          <% else %>
+            <span class="govuk-!-font-weight-bold"><%= condition.text %></span><br>
+          <% end %>
+          <%= condition.reason %>
+        </li>
+      <% end %>
+    </ol>
+
+    <div class="govuk-button-group">
+      <%= back_link %>
+      <%= link_to "Edit conditions", edit_planning_application_conditions_path(@planning_application), class: "govuk-link govuk-body" %>
+    </div>
+  </div>
+</div>

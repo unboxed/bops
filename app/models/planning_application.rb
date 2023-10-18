@@ -53,6 +53,7 @@ class PlanningApplication < ApplicationRecord
     has_many :planning_application_constraints_queries
     has_many :constraints, through: :planning_application_constraints, source: :constraint
     has_many :site_notices
+    has_many :conditions
     has_one :immunity_detail, required: false
     has_one :consultation, required: false
     has_one :proposal_measurement, required: false
@@ -115,6 +116,7 @@ class PlanningApplication < ApplicationRecord
   accepts_nested_attributes_for :documents
   accepts_nested_attributes_for :constraints
   accepts_nested_attributes_for :proposal_measurement
+  accepts_nested_attributes_for :conditions
 
   WORK_STATUSES = %w[proposed existing].freeze
 
