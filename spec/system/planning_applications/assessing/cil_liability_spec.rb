@@ -3,11 +3,11 @@
 require "rails_helper"
 
 RSpec.describe "Permitted development right" do
-  let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
-  let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
+  let(:default_local_authority) { create(:local_authority, :default) }
+  let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
+  let(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
 
-  let!(:planning_application) do
+  let(:planning_application) do
     create(:planning_application, :not_started, old_constraints: [], local_authority: default_local_authority)
   end
 
@@ -95,7 +95,7 @@ RSpec.describe "Permitted development right" do
     before do
       cil_liability_proposal_detail = instance_double(ProposalDetail)
       allow(cil_liability_proposal_detail).to receive(:response_values).and_return([planx_response])
-      allow_any_instance_of(PlanningApplication).to receive(:cil_liability_proposal_detail).and_return(cil_liability_proposal_detail)
+      allow_any_instance_of(PlanningApplication).to receive(:cil_liability_planx_answers).and_return([cil_liability_proposal_detail])
     end
 
     context "when the application might be liable" do
@@ -113,7 +113,7 @@ RSpec.describe "Permitted development right" do
         visit planning_application_validation_tasks_path(planning_application)
         click_link "CIL liability"
 
-        expect(find_by_id("planning-application-cil-liable-true-field")).not_to be_selected
+        expect(find_by_id("planning-application-cil-liable-true-field")).to be_selected
         expect(find_by_id("planning-application-cil-liable-field")).not_to be_selected
       end
     end

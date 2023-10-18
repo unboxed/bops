@@ -328,15 +328,27 @@ class PlanningApplication < ApplicationRecord
     proposal_details.select { |detail| detail.question == question }
   end
 
-  def cil_liability_proposal_detail
+  def cil_liability_questions
     [
       "How much new floor area is being added to the house?",
       "How much new floor area is being created?"
-    ].filter_map { |q| find_proposal_detail(q) }.flatten.first
+    ]
+  end
+
+  def cil_liability_planx_answers
+    cil_liability_questions.filter_map { |q| find_proposal_detail(q) }.flatten
+  end
+
+  def cil_liability_proposal_detail
+    cil_liability_planx_answers.first
+  end
+
+  def cil_liability_planx_answer?
+    cil_liability_planx_answers.present?
   end
 
   def likely_cil_liable?
-    cil_liability_proposal_detail&.response_values&.first != "Less than 100m²"
+    cil_liability_planx_answer? && cil_liability_proposal_detail&.response_values&.first != "Less than 100m²"
   end
 
   def secure_change_url

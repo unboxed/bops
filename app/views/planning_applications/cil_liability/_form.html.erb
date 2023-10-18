@@ -11,7 +11,7 @@
       ) do %>
     <% if @planning_application.cil_liable.nil? %>
       <%= form.govuk_radio_button(:cil_liable, true, checked: @planning_application.likely_cil_liable?, label: { text: "Yes" }) %>
-      <%= form.govuk_radio_button(:cil_liable, false, checked: !@planning_application.likely_cil_liable?, label: { text: "No" }) %>
+      <%= form.govuk_radio_button(:cil_liable, false, checked: @planning_application.cil_liability_planx_answer? && !@planning_application.likely_cil_liable?, label: { text: "No" }) %>
     <% else %>
       <%= form.govuk_radio_button(:cil_liable, true, checked: @planning_application.cil_liable, label: { text: "Yes" }) %>
       <%= form.govuk_radio_button(:cil_liable, false, checked: !@planning_application.cil_liable, label: { text: "No" }) %>
