@@ -46,7 +46,10 @@ export default class extends Controller {
 
     // Prevent the enter key from submitting the form
     this.formTarget.addEventListener("keypress", (event) => {
-      if (event.keyCode === 13) {
+      if (
+        event.keyCode === 13 &&
+        event.srcElement.id !== "send-emails-button"
+      ) {
         event.preventDefault()
       }
     })

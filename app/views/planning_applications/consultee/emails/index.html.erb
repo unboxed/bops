@@ -33,7 +33,7 @@
       <%= render ConsulteeEmailComponent.new(form: form) %>
 
       <div class="govuk-button-group">
-        <%= form.submit "Send emails to consultees", class: "govuk-button", data: { consultees_target: "submit" } %>
+        <%= form.submit "Send emails to consultees", id: "send-emails-button", class: "govuk-button", data: { consultees_target: "submit" } %>
         <%= link_to "Back", planning_application_consultation_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
       </div>
     <% end %>
