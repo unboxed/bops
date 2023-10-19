@@ -4,18 +4,6 @@ class ConsistencyChecklist < ApplicationRecord
   include Memoizable
   belongs_to :planning_application
 
-  CHECKS = %i[
-    description_matches_documents
-    documents_consistent
-    proposal_details_match_documents
-    proposal_measurements_match_documents
-    site_map_correct
-  ].freeze
-
-  PRIOR_APPROVAL_CHECKS = %i[
-    proposal_measurements_match_documents
-  ].freeze
-
   REQUEST_TYPES = {
     description_matches_documents: :description_change,
     documents_consistent: :additional_document,
@@ -23,7 +11,7 @@ class ConsistencyChecklist < ApplicationRecord
   }.freeze
 
   with_options if: :complete? do
-    CHECKS.each { |check| validate("#{check}_determined".to_sym) }
+    planning_application.application_type.consistency_checklist.each { |check| validate("#{check}_determined".to_sym) }
 
     REQUEST_TYPES.each_value do |request_type|
       validate("#{request_type}_requests_closed".to_sym)
@@ -32,8 +20,8 @@ class ConsistencyChecklist < ApplicationRecord
 
   enum status: {in_assessment: 0, complete: 1}, _default: :in_assessment
 
-  CHECKS.each do |check|
-    enum(check => {to_be_determined: 0, yes: 1, no: 2}, :_prefix => check)
+  planning_application.application_type.consistency_checklist.each do |check|
+    enum(check => { to_be_determined: 0, yes: 1, no: 2 }, _prefix: check)
   end
 
   REQUEST_TYPES.each do |check, request_type|
@@ -54,9 +42,8 @@ class ConsistencyChecklist < ApplicationRecord
 
   private
 
-  CHECKS.each do |check|
+  planning_application.application_type.consistency_checklist.each do |check|
     define_method("#{check}_determined") do
-      return if !planning_application.prior_approval? && PRIOR_APPROVAL_CHECKS.include?(check)
       return unless send("#{check}_to_be_determined?")
 
       errors.add(check, :not_determined)

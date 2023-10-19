@@ -15,6 +15,15 @@ FactoryBot.define do
       ]
     end
 
+    consistency_checklist do
+      %w[
+        description_matches_documents
+        documents_consistent
+        proposal_details_match_documents
+        site_map_correct
+      ]
+    end
+
     trait :prior_approval do
       name { "prior_approval" }
       steps { %w[validation consultation assessment review] }
@@ -27,6 +36,16 @@ FactoryBot.define do
           publicity_summary
           amenity
           past_applications
+        ]
+      end
+
+      consistency_checklist do
+        %w[
+          description_matches_documents
+          documents_consistent
+          proposal_details_match_documents
+          proposal_measurements_match_documents
+          site_map_correct
         ]
       end
     end
@@ -43,6 +62,15 @@ FactoryBot.define do
           consultation_summary
           publicity_summary
           past_applications
+        ]
+      end
+
+      consistency_checklist do
+        %w[
+          description_matches_documents
+          documents_consistent
+          proposal_details_match_documents
+          site_map_correct
         ]
       end
     end
