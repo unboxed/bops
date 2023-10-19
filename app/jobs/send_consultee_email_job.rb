@@ -32,7 +32,7 @@ class SendConsulteeEmailJob < NotifyEmailJob
           email_sent_at: Time.current
         )
 
-        UpdateConsulteeEmailStatusJob.set(wait: 1.minute).perform_later(consultee_email)
+        UpdateConsulteeEmailStatusJob.set(wait: 30.seconds).perform_later(consultee_email)
       rescue Notifications::Client::RequestError => e
         consultee_email.update!(
           status: "technical-failure",

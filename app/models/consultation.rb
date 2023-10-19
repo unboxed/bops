@@ -24,6 +24,7 @@ class Consultation < ApplicationRecord
   end
 
   validate do
+    next unless validation_context == :send_consultee_emails
     next if consultees.none?
 
     errors.add(:consultees, :blank) if consultees.none_selected?
@@ -40,6 +41,26 @@ class Consultation < ApplicationRecord
   before_update :audit_letter_copy_sent!, if: :letter_copy_sent_at_changed?
 
   format_geojson_epsg :polygon_geojson
+
+  def send_consultee_emails(attributes)
+    self.attributes = attributes
+    return false unless save(context: :send_consultee_emails)
+
+    SendConsulteeEmailsJob.perform_now(
+      self,
+      consultees.selected,
+      consultee_email_subject,
+      consultee_email_body
+    )
+
+    start_deadline
+
+    Audit.create!(
+      planning_application_id: planning_application_id,
+      user: Current.user,
+      activity_type: "consultee_emails_sent"
+    )
+  end
 
   def start_deadline
     update!(end_date: end_date_from_now, start_date: start_date || 1.business_day.from_now)
@@ -81,9 +102,9 @@ class Consultation < ApplicationRecord
   end
 
   def consultee_emails_status
-    if consultee_emails.any?(&:failed?)
+    if consultees.any?(&:failed?)
       "failed"
-    elsif consultee_emails.any?(&:delivered?)
+    elsif consultees.any?(&:consulted?) && consultees.none?(&:sending?)
       "complete"
     elsif consultees.present?
       "in_progress"

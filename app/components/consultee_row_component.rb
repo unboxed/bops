@@ -31,21 +31,23 @@ class ConsulteeRowComponent < ViewComponent::Base
   def consultee_period
     if consultee.expired?
       content_tag(:span, pluralize(consultee.period, "day"), class: "expired")
-    elsif consultee.email_sent_at?
+    elsif consultee.email_delivered_at?
       pluralize(consultee.period, "day")
     end
   end
 
-  def consultee_email_sent_at
-    consultee.email_sent_at? && consultee.email_sent_at.to_fs(:day_month_year_slashes)
+  def consultee_date_consulted
+    consultee.email_delivered_at? && consultee.email_delivered_at.to_fs(:day_month_year_slashes)
   end
 
   def consultee_status
     case consultee.status
+    when "sending"
+      content_tag(:span, t(".sending"), class: "govuk-tag govuk-tag--blue")
     when "failed"
       content_tag(:span, t(".failed"), class: "govuk-tag govuk-tag--red")
     when "consulted"
-      content_tag(:span, t(".consulted"), class: "govuk-tag govuk-tag--blue")
+      content_tag(:span, t(".consulted"), class: "govuk-tag govuk-tag--green")
     else
       content_tag(:span, t(".not_consulted"), class: "govuk-tag govuk-tag--grey")
     end

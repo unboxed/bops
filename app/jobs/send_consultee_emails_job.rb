@@ -28,6 +28,13 @@ class SendConsulteeEmailsJob < NotifyEmailJob
         body: format(body, variables)
       )
 
+      consultee.update!(
+        selected: false,
+        status: "sending",
+        email_sent_at: nil,
+        email_delivered_at: nil
+      )
+
       SendConsulteeEmailJob.perform_later(consultee_email)
     end
   end

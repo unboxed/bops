@@ -14,6 +14,7 @@ class Consultee < ApplicationRecord
 
   enum :status, {
     not_consulted: "not_consulted",
+    sending: "sending",
     consulted: "consulted",
     failed: "failed"
   }, scopes: false
@@ -25,14 +26,14 @@ class Consultee < ApplicationRecord
   end
 
   def expires_at
-    (email_sent_at + 21.days).at_end_of_day
+    (email_delivered_at + 21.days).at_end_of_day
   end
 
   def expired?(now = Time.current)
-    email_sent_at ? now > expires_at : false
+    email_delivered_at ? now > expires_at : false
   end
 
   def period(now = Time.current)
-    email_sent_at? ? ((expires_at - now) / 86_400.0).floor.abs : nil
+    email_delivered_at? ? ((expires_at - now) / 86_400.0).floor.abs : nil
   end
 end

@@ -15,9 +15,7 @@ module PlanningApplications
 
       def create
         respond_to do |format|
-          if @consultation.update(permitted_params)
-            enqueue_send_consultation_emails_job
-
+          if @consultation.send_consultee_emails(permitted_params)
             format.html do
               redirect_to consultation_url, flash: { sent_consultee_emails: true }
             end
@@ -47,23 +45,6 @@ module PlanningApplications
 
       def consultation_url
         planning_application_consultation_url(@planning_application)
-      end
-
-      def enqueue_send_consultation_emails_job
-        SendConsulteeEmailsJob.perform_later(
-          @consultation,
-          @consultees.selected,
-          @consultation.consultee_email_subject,
-          @consultation.consultee_email_body
-        )
-
-        @consultation.start_deadline
-
-        Audit.create!(
-          planning_application_id: @planning_application.id,
-          user: Current.user,
-          activity_type: "consultee_emails_sent"
-        )
       end
     end
   end

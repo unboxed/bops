@@ -566,6 +566,7 @@ en:
     failed: Failed
     not_consulted: Not consulted
     select_consultee: Select consultee
+    sending: Sending
   consultees:
     update:
       success: Consultee response has been updated
@@ -820,9 +821,9 @@ en:
     consultee:
       emails:
         index:
-          send_emails_to_consultees: Send emails to consultees?
           please_search_for_a_consultee: Please search for a consultee first
-          unable_to_add_consultee: "Error: Unable to add the consultee to the list"
+          send_emails_to_consultees: Send emails to consultees?
+          unable_to_add_consultee: 'Error: Unable to add the consultee to the list'
     create:
       success: Planning application was successfully created.
     days_from:

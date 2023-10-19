@@ -13,9 +13,12 @@ class UpdateConsulteeEmailStatusJob < ApplicationJob
       next unless consultee_email.update_status!
 
       if consultee_email.delivered?
-        consultee_email.consultee.update!(status: "consulted", selected: false)
+        consultee_email.consultee.update!(
+          status: "consulted",
+          email_delivered_at: Time.current
+        )
       elsif consultee_email.failed?
-        consultee_email.consultee.update!(status: "failed", selected: false)
+        consultee_email.consultee.update!(status: "failed")
       end
 
       retry_job wait: 5.minutes unless consultee_email.finalized?
