@@ -1,0 +1,48 @@
+<%= section_tag do %>
+  <div class="govuk-accordion__section-header">
+    <h3 class="govuk-accordion__section-heading">
+      <button type="button" class="govuk-accordion__section-button">
+        <%= t(".#{origin}_header_html", count: consultees.size) %>
+      </button>
+      <span class="govuk-accordion__icon"></span>
+    </h3>
+  </div>
+
+  <div class="govuk-accordion__section-content govuk-!-padding-top-0">
+    <table class="govuk-table consultee-emails">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header govuk-!-padding-0">
+            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+              <div class="govuk-checkboxes__item">
+                <%= toggle_all_tag %>
+                <label class="govuk-label govuk-checkboxes__label" for="toggle-external-consultees">
+                  <span class="govuk-visually-hidden">
+                    <%= t(".toggle_selection") %>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </th>
+          <th scope="col" class="govuk-table__header">
+            <%= t(".consultee") %>
+          </th>
+          <th scope="col" class="govuk-table__header govuk-table__header--centred">
+            <%= t(".period") %>
+          </th>
+          <th scope="col" class="govuk-table__header govuk-table__header--centred">
+            <%= t(".date_consulted") %>
+          </th>
+          <th scope="col" class="govuk-table__header govuk-table__header--numeric govuk-!-width-one-quarter">
+            <%= t(".status") %>
+          </th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <% consultees.each do |consultee| %>
+          <%= render ConsulteeRowComponent.new(consultee: consultee) %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

@@ -7,16 +7,10 @@ module PlanningApplications
     before_action :set_consultees
 
     def create
-      @consultee = @consultees.new(consultee_params)
+      @consultee = @consultees.create!(consultee_params)
 
       respond_to do |format|
-        if @consultee.save
-          format.json do
-            render json: { consultees: render_consultees }
-          end
-        else
-          format.json { head :unprocessable_content }
-        end
+        format.json
       end
     end
 
@@ -32,14 +26,6 @@ module PlanningApplications
 
     def consultee_attributes
       %i[origin name email_address role organisation]
-    end
-
-    def render_consultees
-      render_to_string(
-        partial: "planning_applications/consultee/emails/consultees",
-        locals: { consultees: @consultees },
-        formats: :html
-      )
     end
   end
 end

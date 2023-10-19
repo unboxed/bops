@@ -67,4 +67,18 @@
   .expired {
     color: govuk-colour("red");
   }
+
+  .just-added {
+    animation: 1s hilite-added-row
+  }
+}
+
+@keyframes hilite-added-row {
+  0% {
+    background: govuk-tint($govuk-success-colour, 90%);
+  }
+
+  100% {
+    background: initial;
+  }
 }

@@ -220,6 +220,11 @@ en:
           attributes:
             reset_password_token:
               invalid: The reset password link you used no longer works. Please request a new link and try again.
+  add_consultee_component:
+    add_additional_consultees: Add additional consultees
+    add_consultee: Add consultee
+    search_for_consultees: Search for consultees
+    start_typing: Start typing name, organisation or role
   additional_document_validation_requests:
     create:
       success: Additional document request successfully created.
@@ -513,6 +518,20 @@ en:
     update:
       failure: Couldn't check constraints — please contact support.
       success: Constraints was successfully checked
+  consultee_accordian_section_component:
+    consultee: Consultee
+    date_consulted: Date consulted
+    external_header_html: External (<span data-consultees-target="externalCount">%{count}</span>)
+    internal_header_html: Internal (<span data-consultees-target="internalCount">%{count}</span>)
+    period: Period
+    status: Status
+    toggle_selection: Toggle selection
+  consultee_email_component:
+    formatting_hint_html: The message is formatted using <a href="https://www.notifications.service.gov.uk/using-notify/formatting">GOV.UK Notify formatting rules</a>. Placeholders like <code>%{name}</code> will be substituted when the email is sent.
+    header: 2) Send email to selected consultees
+    message_body_label: Message body
+    message_subject_label: Message subject
+    view_or_edit_email_template: View/edit email template
   consultee_emails:
     body: |
       Dear %{name}
@@ -542,9 +561,18 @@ en:
       %{signatory_job_title}
       %{local_authority}
     subject: Application for planning permission %{reference}
+  consultee_row_component:
+    consulted: Consulted
+    failed: Failed
+    not_consulted: Not consulted
+    select_consultee: Select consultee
   consultees:
     update:
       success: Consultee response has been updated
+  consultees_component:
+    header: 1) Select the consultees to consult
+    not_consulted: Not consulted
+    select_consultee: Select consultee
   date:
     formats:
       default: "%-d %B %Y"
@@ -699,6 +727,8 @@ en:
   neighbour_letter_header:
     planning_permission: Submit your comments by %{closing_date}
     prior_approval: Submit your comments by %{closing_date}
+  no_consultees_component:
+    no_consultees_yet: No consultees have been added to the consultation yet.
   other_change_validation_requests:
     create:
       success: Other validation change request successfully created.
@@ -789,9 +819,10 @@ en:
       validate_application: Validate application
     consultee:
       emails:
-        consultees:
-          external_header: External (%{count})
-          internal_header: Internal (%{count})
+        index:
+          send_emails_to_consultees: Send emails to consultees?
+          please_search_for_a_consultee: Please search for a consultee first
+          unable_to_add_consultee: "Error: Unable to add the consultee to the list"
     create:
       success: Planning application was successfully created.
     days_from:

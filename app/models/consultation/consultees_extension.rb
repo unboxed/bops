@@ -2,16 +2,12 @@
 
 class Consultation < ApplicationRecord
   module ConsulteesExtension
-    def by_name(&)
-      sort_by { |c| c.values_at(:name, :id) }.each(&)
-    end
-
     def internal
-      select(&:internal?)
+      select(&:internal?).sort_by(&:created_at)
     end
 
     def external
-      select(&:external?)
+      select(&:external?).sort_by(&:created_at)
     end
 
     def selected

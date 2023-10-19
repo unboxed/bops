@@ -1,0 +1,17 @@
+<%= details_tag do %>
+  <%= summary_tag do %>
+    <%= t(".add_additional_consultees") %>
+  <% end %>
+
+  <%= wrapper_tag do %>
+    <%= label_tag do %>
+      <%= t(".search_for_consultees") %>
+    <% end %>
+    <%= hint_tag do %>
+      <%= t(".start_typing") %>
+    <% end %>
+
+    <%= container_tag %>
+    <%= button_tag %>
+  <% end %>
+<% end %>

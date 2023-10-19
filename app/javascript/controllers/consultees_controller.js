@@ -3,7 +3,19 @@ import { ajax } from "@rails/ujs"
 import accessibleAutocomplete from "accessible-autocomplete"
 
 export default class extends Controller {
-  static targets = ["consultees", "container", "form", "submit", "addConsultee"]
+  static targets = [
+    "form",
+    "accordian",
+    "externalConsultees",
+    "externalCount",
+    "internalConsultees",
+    "internalCount",
+    "noConsultees",
+    "container",
+    "addConsultee",
+    "template",
+    "submit",
+  ]
 
   connect() {
     this.selected = null
@@ -41,7 +53,7 @@ export default class extends Controller {
 
     // Confirm that the user wants to send the emails
     this.submitTarget.addEventListener("click", (event) => {
-      if (!confirm("Send emails to consultees?")) {
+      if (!confirm(this.confirmationMessage)) {
         event.preventDefault()
         this.submitTarget.blur()
       }
@@ -110,7 +122,7 @@ export default class extends Controller {
   toggleExternalConsultees(event) {
     const checked = event.srcElement.checked
 
-    for (const checkbox of this.externalConsultees) {
+    for (const checkbox of this.externalConsulteeCheckboxes) {
       checkbox.checked = checked
     }
   }
@@ -118,7 +130,7 @@ export default class extends Controller {
   toggleInternalConsultees(event) {
     const checked = event.srcElement.checked
 
-    for (const checkbox of this.internalConsultees) {
+    for (const checkbox of this.internalConsulteeCheckboxes) {
       checkbox.checked = checked
     }
   }
@@ -138,21 +150,83 @@ export default class extends Controller {
         url: `/planning_applications/${this.planningApplicationId}/consultees.json`,
         data: params,
         success: (data) => {
-          this.consulteesTarget.innerHTML = data.consultees
-          this.selected = null
-          this.autocompleteInput.value = ""
-
-          setTimeout(() => {
-            this.autocompleteInput.focus()
-          }, 250)
+          this.appendConsultee(data)
+          this.resetAutocomplete()
         },
-        failure: () => {
-          alert("Error: Unable to add the consultee to the list")
+        error: () => {
+          alert(this.errorMessage)
         },
       })
     } else {
-      alert("Please search for a consultee first")
+      alert(this.promptMessage)
     }
+  }
+
+  appendConsultee(data) {
+    const consultee = this.buildConsultee(data)
+
+    const consulteesTarget =
+      data.origin === "external"
+        ? this.externalConsulteesTarget
+        : this.internalConsulteesTarget
+
+    const countTarget =
+      data.origin === "external"
+        ? this.externalCountTarget
+        : this.internalCountTarget
+
+    const tableBody = consulteesTarget.querySelector("tbody")
+    tableBody.appendChild(consultee)
+
+    const newCount = tableBody.querySelectorAll("tr").length
+    countTarget.textContent = newCount
+
+    this.noConsulteesTarget.style.display = "none"
+    this.accordianTarget.style.display = ""
+    consulteesTarget.style.display = ""
+  }
+
+  buildConsultee(data) {
+    const consultee = this.templateTarget.content.cloneNode(true)
+
+    const idInput = consultee.querySelector(
+      "td:first-child input[type=hidden]:first-child",
+    )
+
+    const hiddenInput = consultee.querySelector(
+      ".govuk-checkboxes__item input[type=hidden]",
+    )
+
+    const checkboxInput = consultee.querySelector(
+      ".govuk-checkboxes__item input[type=checkbox]",
+    )
+
+    const inputLabel = consultee.querySelector(".govuk-checkboxes__item label")
+    const nameCell = consultee.querySelector("td:nth-child(2)")
+    const fieldName = `consultation[consultees_attributes][${data.id}][selected]`
+    const domId = `consultation_consultees_attributes_${data.id}_selected`
+
+    consultee.id = `consultee_${data.id}`
+    idInput.id = `consultation_consultees_attributes_${data.id}_id`
+    idInput.name = `consultation[consultees_attributes][${data.id}][id]`
+    idInput.value = data.id
+    hiddenInput.name = fieldName
+    checkboxInput.name = fieldName
+    checkboxInput.id = domId
+    inputLabel.htmlFor = domId
+    nameCell.textContent = data.name
+
+    return consultee
+  }
+
+  resetAutocomplete() {
+    this.selected = null
+    this.autocompleteInput.value = ""
+    this.autocompleteInput.scrollIntoView(true)
+
+    setTimeout(() => {
+      this.autocompleteInput.focus()
+    }, 250)
   }
 
   onConfirm(selected) {
@@ -163,15 +237,27 @@ export default class extends Controller {
     return this.data.get("planning-application-id")
   }
 
-  get internalConsultees() {
-    return this.element.querySelectorAll(
-      "#internal-consultees td input[type=checkbox]",
+  get confirmationMessage() {
+    return this.data.get("confirmation-message")
+  }
+
+  get errorMessage() {
+    return this.data.get("error-message")
+  }
+
+  get promptMessage() {
+    return this.data.get("prompt-message")
+  }
+
+  get externalConsulteeCheckboxes() {
+    return this.externalConsulteesTarget.querySelectorAll(
+      "input[type=checkbox]",
     )
   }
 
-  get externalConsultees() {
-    return this.element.querySelectorAll(
-      "#external-consultees td input[type=checkbox]",
+  get internalConsulteeCheckboxes() {
+    return this.internalConsulteesTarget.querySelectorAll(
+      "input[type=checkbox]",
     )
   }
 

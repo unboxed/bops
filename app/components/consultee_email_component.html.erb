@@ -1,0 +1,25 @@
+<h2 class="govuk-heading-m">
+  <%= t(".header") %>
+</h2>
+
+<%= details_tag do %>
+  <%= summary_tag do %>
+    <%= t(".view_or_edit_email_template") %>
+  <% end %>
+
+  <%= wrapper_tag do %>
+    <%= form_group_tag do %>
+      <%= label_tag :consultee_email_subject, t(".message_subject_label") %>
+      <%= text_field_tag :consultee_email_subject %>
+    <% end %>
+
+    <%= form_group_tag do %>
+      <%= label_tag :consultee_email_body, t(".message_body_label") %>
+      <%= text_area_tag :consultee_email_body, rows: 25 %>
+    <% end %>
+
+    <%= hint_tag do %>
+      <%= t(".formatting_hint_html") %>
+    <% end %>
+  <% end %>
+<% end %>
