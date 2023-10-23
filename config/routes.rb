@@ -175,8 +175,6 @@ Rails.application.routes.draw do
 
       resources :local_policies, only: %i[show new edit create update]
 
-      resources :review_tasks, only: :index
-
       namespace :review do
         resources :documents, only: %i[index] do
           patch :update, on: :collection
@@ -191,6 +189,8 @@ Rails.application.routes.draw do
         resources :permitted_development_rights, only: %i[show edit update]
 
         resources :policy_classes, only: %i[edit update show]
+
+        resources :tasks, only: :index
       end
     end
   end

@@ -852,10 +852,10 @@ en:
           review_heading: Review - Part%{part}, Class %{class}
         update:
           successfully_updated_policy_class: Successfully updated policy class
-    review_tasks:
-      index:
-        application_details: Application details
-        review_and_sign_off: Review and sign-off
+      tasks:
+        index:
+          application_details: Application details
+          review_and_sign_off: Review and sign-off
     search_component:
       clear_search: Clear search
       find_an_application: Find an application
@@ -1063,6 +1063,11 @@ en:
       success: Replacement document reason successfully updated.
   response_tag_component:
     privacy: Privacy
+  review:
+    policy_class:
+      navigation_component:
+        view_next_class: View next class
+        view_previous_class: View previous class
   review_assessment_details:
     breadcrumbs:
       application: Application
@@ -1100,11 +1105,6 @@ en:
     saved: Review saved
   review_immunity_enforcements:
     successfully_updated: Review immunity details was successfully updated for enforcement
-  review:
-    policy_class:
-      navigation_component:
-        view_next_class: View next class
-        view_previous_class: View previous class
   shared:
     administrator_layout:
       add_user: Add user
