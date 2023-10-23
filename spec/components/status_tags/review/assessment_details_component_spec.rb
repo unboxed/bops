@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe StatusTags::ReviewAssessmentDetailsComponent, type: :component do
+RSpec.describe StatusTags::Review::AssessmentDetailsComponent, type: :component do
   let(:planning_application) { create(:planning_application) }
   let(:review_status) { nil }
   let(:assessment_status) { :complete }

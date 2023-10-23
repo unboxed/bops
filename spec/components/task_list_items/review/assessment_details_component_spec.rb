@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe TaskListItems::ReviewAssessmentDetailsComponent, type: :component do
+RSpec.describe TaskListItems::Review::AssessmentDetailsComponent, type: :component do
   let(:planning_application) do
     create(:planning_application, :awaiting_determination)
   end
@@ -27,7 +27,7 @@ RSpec.describe TaskListItems::ReviewAssessmentDetailsComponent, type: :component
     it "renders link to show assessment details review page" do
       expect(page).to have_link(
         "Review assessment summaries",
-        href: "/planning_applications/#{planning_application.id}/review_assessment_details"
+        href: "/planning_applications/#{planning_application.id}/review/assessment_details"
       )
     end
   end
@@ -44,7 +44,7 @@ RSpec.describe TaskListItems::ReviewAssessmentDetailsComponent, type: :component
     it "renders link to edit assessment details review page" do
       expect(page).to have_link(
         "Review assessment summaries",
-        href: "/planning_applications/#{planning_application.id}/review_assessment_details/edit"
+        href: "/planning_applications/#{planning_application.id}/review/assessment_details/edit"
       )
     end
   end

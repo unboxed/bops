@@ -823,6 +823,40 @@ en:
       update:
         success: Neighbour response was successully updated.
     review:
+      assessment_details:
+        breadcrumbs:
+          application: Application
+          home: Home
+          review: Review
+          review_assessment_summaries: Review assessment summaries
+        consultees:
+          external: External
+          internal: Internal
+          list_of_who: List of who was consulted about this application
+        form:
+          accept: Accept
+          additional_evidence: Summary of additional evidence
+          amenity: Amenity assessment
+          consultation_summary: Consultation
+          edit_review: Edit review
+          edit_to_accept: Edit to accept
+          explain_to_the: Explain to the assessor why this needs reviewing
+          publicity_summary: Summary of neighbour responses
+          return_to_officer: Return to officer with comment
+          site_description: Site description
+          summary_of_consultee: Summary of consultee responses
+          summary_of_work: Summary of works
+          update_additional_evidence: Update additional evidence
+          update_amenity: Update amenity
+          update_consultation_summary: Update consultation summary
+          update_publicity_summary: Update summary of neighbour responses
+          update_site_description: Update site description
+          update_summary_of_work: Update summary of works
+        information:
+          assessor_recommendation: The assessor recommends that the application should be %{decision}.
+          assessor_remarks: Assessor's remarks
+          review_assessment_summaries: Review assessment summaries
+          this_information_will: This information will be made publicly available.
       documents:
         update:
           success: Documents were successfully updated.
@@ -1069,39 +1103,6 @@ en:
         view_next_class: View next class
         view_previous_class: View previous class
   review_assessment_details:
-    breadcrumbs:
-      application: Application
-      home: Home
-      review: Review
-      review_assessment_summaries: Review assessment summaries
-    consultees:
-      external: External
-      internal: Internal
-      list_of_who: List of who was consulted about this application
-    form:
-      accept: Accept
-      additional_evidence: Summary of additional evidence
-      amenity: Amenity assessment
-      consultation_summary: Consultation
-      edit_review: Edit review
-      edit_to_accept: Edit to accept
-      explain_to_the: Explain to the assessor why this needs reviewing
-      publicity_summary: Summary of neighbour responses
-      return_to_officer: Return to officer with comment
-      site_description: Site description
-      summary_of_consultee: Summary of consultee responses
-      summary_of_work: Summary of works
-      update_additional_evidence: Update additional evidence
-      update_amenity: Update amenity
-      update_consultation_summary: Update consultation summary
-      update_publicity_summary: Update summary of neighbour responses
-      update_site_description: Update site description
-      update_summary_of_work: Update summary of works
-    information:
-      assessor_recommendation: The assessor recommends that the application should be %{decision}.
-      assessor_remarks: Assessor's remarks
-      review_assessment_summaries: Review assessment summaries
-      this_information_will: This information will be made publicly available.
     saved: Review saved
   review_immunity_enforcements:
     successfully_updated: Review immunity details was successfully updated for enforcement
@@ -1229,6 +1230,8 @@ en:
     permitted_development_right_component:
       permitted_development_rights: Permitted development rights
     review:
+      assessment_details_component:
+        review_assessment_summaries: Review assessment summaries
       documents_component:
         review_documents_for: Review documents for recommendation
       immunity_details_component:
@@ -1239,8 +1242,6 @@ en:
         link_text: Review assessment against policies and guidance
       permitted_development_right_component:
         review_permitted_development_rights: Review permitted development rights
-    review_assessment_details_component:
-      review_assessment_summaries: Review assessment summaries
     send_letters_to_neighbours_component:
       send_letters_to_neighbours: Send letters to neighbours
     site_notice_component:

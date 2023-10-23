@@ -39,7 +39,6 @@ Rails.application.routes.draw do
     resource :assessment_report_download, only: :show
     resources :consultees, only: %i[create destroy edit update]
     resource(:consistency_checklist, only: %i[new create edit update show])
-    resource :review_assessment_details, only: %i[show edit update]
 
     resources :policy_classes, except: %i[index] do
       get :part, on: :new
@@ -176,6 +175,8 @@ Rails.application.routes.draw do
       resources :local_policies, only: %i[show new edit create update]
 
       namespace :review do
+        resource :assessment_details, only: %i[show edit update]
+
         resources :documents, only: %i[index] do
           patch :update, on: :collection
         end
