@@ -2,11 +2,11 @@
 <p class="govuk-body">Check the letter. You can edit the letter before you send it to selected neighbours.</p>
 
 <%= form_with(
-model: consultation,
-builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-url: send_letters_planning_application_consultation_neighbour_letters_path(planning_application),
-method: 'post'
-) do |form| %>
+      model: consultation,
+      builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+      url: send_letters_planning_application_consultation_neighbour_letters_path(planning_application),
+      method: "post"
+    ) do |form| %>
   <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
   <%= form.label :neighbour_letter_text, "Neighbour letter", class: "display-none" %>
   <div class="govuk-inset-text">
@@ -24,9 +24,11 @@ method: 'post'
   <p class="govuk-body">The letter will be sent to all selected neighbours.</p>
   <p class="govuk-body">A copy of the letter will be sent to the applicant by email.</p>
 
-  <%= form.govuk_check_boxes_fieldset :resend_existing, legend: -> { "" } do %>
-    <%= form.govuk_check_box :resend_existing, true, label: { text: "Resend letters to previously-contacted neighbours" }, link_errors: true, multiple: false do %>
-      <%= form.govuk_text_field :resend_reason, label: { text: "Specify a reason for resending" }, hint: { text: "This will be included in the letter" } %>
+  <% if consultation.neighbour_letters.present? %>
+    <%= form.govuk_check_boxes_fieldset :resend_existing, legend: -> { "" } do %>
+      <%= form.govuk_check_box :resend_existing, true, label: { text: "Resend letters to previously-contacted neighbours" }, link_errors: true, multiple: false do %>
+        <%= form.govuk_text_field :resend_reason, label: { text: "Specify a reason for resending" }, hint: { text: "This will be included in the letter" } %>
+      <% end %>
     <% end %>
   <% end %>
 
@@ -35,10 +37,10 @@ method: 'post'
   <% end %>
 
   <%= form_with(
-    model: consultation,
-    builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-    url: planning_application_consultation_path(planning_application)
-  ) do |form| %>
+        model: consultation,
+        builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+        url: planning_application_consultation_path(planning_application)
+      ) do |form| %>
     <%= form.hidden_field :neighbour_letter_text %>
     <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
     <%= link_to "Back", planning_application_consultation_path(planning_application), class: "govuk-button govuk-button--secondary" %>
