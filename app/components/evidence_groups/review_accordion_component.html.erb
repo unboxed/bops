@@ -46,12 +46,12 @@
         <hr>
 
         <%= render(
-          partial: "planning_applications/review_immunity_details/comment",
+          partial: "planning_applications/review/review_immunity_details/comment",
           locals: {
             planning_application: @planning_application,
             evidence_group: section,
-            comment: section.comment, 
-            new_comment: section.comments.new 
+            comment: section.comment,
+            new_comment: section.comments.new
           }
         ) %>
 

@@ -822,35 +822,36 @@ en:
     redact_neighbour_responses:
       update:
         success: Neighbour response was successully updated.
-    review_documents:
-      update:
-        success: Documents were successfully updated.
-    review_policy_classes:
-      comment:
-        edit_comment: Edit comment
-        update: Update
-      edit:
-        application: Application
-        complies: Complies
-        does_not_comply: Does not comply
-        home: Home
-        open_legislation_in: Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window
-        please_indicate_if: Complete the assessment to show whether the application complies or does not comply with the selected legislative class. You can add comments to provide more information to support your assessment.
-        policy_reference: Policy reference
-        review: Review
-        review_and_sign_off: Review and sign-off
-        review_heading: Review - Part%{part}, Class %{class}
-        table_caption: Part %{part}, Class %{class} - %{name}
-        to_be_determined: To be determined
-      show:
-        application: Application
-        home: Home
-        open_legislation_in: Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window
-        please_indicate_if: Complete the assessment to show whether the application complies or does not comply with the selected legislative class. You can add comments to provide more information to support your assessment.
-        review: Review
-        review_heading: Review - Part%{part}, Class %{class}
-      update:
-        successfully_updated_policy_class: Successfully updated policy class
+    review:
+      review_documents:
+        update:
+          success: Documents were successfully updated.
+      review_policy_classes:
+        comment:
+          edit_comment: Edit comment
+          update: Update
+        edit:
+          application: Application
+          complies: Complies
+          does_not_comply: Does not comply
+          home: Home
+          open_legislation_in: Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window
+          please_indicate_if: Complete the assessment to show whether the application complies or does not comply with the selected legislative class. You can add comments to provide more information to support your assessment.
+          policy_reference: Policy reference
+          review: Review
+          review_and_sign_off: Review and sign-off
+          review_heading: Review - Part%{part}, Class %{class}
+          table_caption: Part %{part}, Class %{class} - %{name}
+          to_be_determined: To be determined
+        show:
+          application: Application
+          home: Home
+          open_legislation_in: Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window
+          please_indicate_if: Complete the assessment to show whether the application complies or does not comply with the selected legislative class. You can add comments to provide more information to support your assessment.
+          review: Review
+          review_heading: Review - Part%{part}, Class %{class}
+        update:
+          successfully_updated_policy_class: Successfully updated policy class
     review_tasks:
       index:
         application_details: Application details
