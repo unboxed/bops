@@ -177,20 +177,20 @@ Rails.application.routes.draw do
 
       resources :review_tasks, only: :index
 
-      scope module: :review do
-        resources :review_documents, only: %i[index] do
+      namespace :review do
+        resources :documents, only: %i[index] do
           patch :update, on: :collection
         end
 
-        resources :review_immunity_details, only: %i[edit update show]
+        resources :immunity_details, only: %i[edit update show]
 
-        resources :review_immunity_enforcements, only: %i[show edit update]
+        resources :immunity_enforcements, only: %i[show edit update]
 
-        resources :review_local_policies, only: %i[edit update show]
+        resources :local_policies, only: %i[edit update show]
 
-        resources :review_permitted_development_rights, only: %i[show edit update]
+        resources :permitted_development_rights, only: %i[show edit update]
 
-        resources :review_policy_classes, only: %i[edit update show]
+        resources :policy_classes, only: %i[edit update show]
       end
     end
   end

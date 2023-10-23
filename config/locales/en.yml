@@ -823,10 +823,10 @@ en:
       update:
         success: Neighbour response was successully updated.
     review:
-      review_documents:
+      documents:
         update:
           success: Documents were successfully updated.
-      review_policy_classes:
+      policy_classes:
         comment:
           edit_comment: Edit comment
           update: Update

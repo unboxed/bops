@@ -2,7 +2,7 @@
 
 module PlanningApplications
   module Review
-    class ReviewPolicyClassesController < AuthenticationController
+    class PolicyClassesController < AuthenticationController
       include CommitMatchable
       before_action :set_planning_application
       before_action :ensure_user_is_reviewer

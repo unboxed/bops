@@ -2,7 +2,7 @@
 
 module PlanningApplications
   module Review
-    class ReviewPermittedDevelopmentRightsController < AuthenticationController
+    class PermittedDevelopmentRightsController < AuthenticationController
       include CommitMatchable
       include PlanningApplicationAssessable
       include PermittedDevelopmentRights

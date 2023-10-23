@@ -2,7 +2,7 @@
 
 module PlanningApplications
   module Review
-    class ReviewDocumentsController < AuthenticationController
+    class DocumentsController < AuthenticationController
       include CommitMatchable
       include PlanningApplicationAssessable
 

@@ -2,7 +2,7 @@
 
 module PlanningApplications
   module Review
-    class ReviewImmunityDetailsController < AuthenticationController
+    class ImmunityDetailsController < AuthenticationController
       include CommitMatchable
       include PlanningApplicationAssessable
 

@@ -34,7 +34,7 @@ RSpec.describe TaskListItems::ReviewImmunityDetailsComponent, type: :component d
     it "renders link to permitted development right review page" do
       expect(page).to have_link(
         "Review evidence of immunity",
-        href: "/planning_applications/#{planning_application.id}/review_immunity_details/#{review_immunity_detail.id}"
+        href: "/planning_applications/#{planning_application.id}/review/immunity_details/#{review_immunity_detail.id}"
       )
     end
   end
@@ -45,7 +45,7 @@ RSpec.describe TaskListItems::ReviewImmunityDetailsComponent, type: :component d
     it "renders link to edit permitted development right review page" do
       expect(page).to have_link(
         "Review evidence of immunity",
-        href: "/planning_applications/#{planning_application.id}/review_immunity_details/#{review_immunity_detail.id}/edit"
+        href: "/planning_applications/#{planning_application.id}/review/immunity_details/#{review_immunity_detail.id}/edit"
       )
     end
   end

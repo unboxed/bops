@@ -2,7 +2,7 @@
 
 module PlanningApplications
   module Review
-    class ReviewLocalPoliciesController < AuthenticationController
+    class LocalPoliciesController < AuthenticationController
       include CommitMatchable
       include PlanningApplicationAssessable
 
