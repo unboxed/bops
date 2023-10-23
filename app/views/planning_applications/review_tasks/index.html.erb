@@ -35,21 +35,21 @@
     <ul class="app-task-list__items" id="review-assessment-section">
       <% if @planning_application.possibly_immune? && @planning_application.immunity_detail.review_immunity_details.evidence.any? %>
           <%= render(
-            TaskListItems::ReviewImmunityDetailsComponent.new(
+            TaskListItems::Review::ImmunityDetailsComponent.new(
               planning_application: @planning_application
             )
           ) %>
       <% end %>
       <% if @planning_application.possibly_immune? && @planning_application.immunity_detail.review_immunity_details.enforcement.any? %>
           <%= render(
-            TaskListItems::ReviewImmunityEnforcementComponent.new(
+            TaskListItems::Review::ImmunityEnforcementComponent.new(
               planning_application: @planning_application
             )
           ) %>
       <% end %>
       <% if @planning_application.permitted_development_right %>
         <%= render(
-          TaskListItems::ReviewPermittedDevelopmentRightComponent.new(
+          TaskListItems::Review::PermittedDevelopmentRightComponent.new(
             planning_application: @planning_application
           )
         ) %>
@@ -61,7 +61,7 @@
       )%>
       <% if @planning_application.local_policy.present? %>
         <%= render(
-          TaskListItems::ReviewLocalPolicyComponent.new(
+          TaskListItems::Review::LocalPolicyComponent.new(
             planning_application: @planning_application,
           )
         )%>

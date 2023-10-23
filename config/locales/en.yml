@@ -1100,10 +1100,11 @@ en:
     saved: Review saved
   review_immunity_enforcements:
     successfully_updated: Review immunity details was successfully updated for enforcement
-  review_policy_classes:
-    navigation_component:
-      view_next_class: View next class
-      view_previous_class: View previous class
+  review:
+    policy_class:
+      navigation_component:
+        view_next_class: View next class
+        view_previous_class: View previous class
   shared:
     administrator_layout:
       add_user: Add user
@@ -1227,18 +1228,19 @@ en:
       view_other_validation: 'View other validation request #%{number}'
     permitted_development_right_component:
       permitted_development_rights: Permitted development rights
+    review:
+      documents_component:
+        review_documents_for: Review documents for recommendation
+      immunity_details_component:
+        evidence_of_immunity: Review evidence of immunity
+      immunity_enforcement_component:
+        review_immunity_enforcement: Review assessment of immunity
+      local_policy_component:
+        link_text: Review assessment against policies and guidance
+      permitted_development_right_component:
+        review_permitted_development_rights: Review permitted development rights
     review_assessment_details_component:
       review_assessment_summaries: Review assessment summaries
-    review_documents_component:
-      review_documents_for: Review documents for recommendation
-    review_immunity_details_component:
-      evidence_of_immunity: Review evidence of immunity
-    review_immunity_enforcement_component:
-      review_immunity_enforcement: Review assessment of immunity
-    review_local_policy_component:
-      link_text: Review assessment against policies and guidance
-    review_permitted_development_right_component:
-      review_permitted_development_rights: Review permitted development rights
     send_letters_to_neighbours_component:
       send_letters_to_neighbours: Send letters to neighbours
     site_notice_component:
