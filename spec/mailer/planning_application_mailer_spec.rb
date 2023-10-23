@@ -955,7 +955,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   context "when the application is a prior approval" do
-    let(:application_type) { create(:application_type, name: "prior_approval") }
+    let(:application_type) { create(:application_type, :prior_approval) }
 
     let(:planning_application) do
       create(

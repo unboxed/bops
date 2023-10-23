@@ -163,7 +163,7 @@ RSpec.describe "Planning Application Assessment" do
       end
 
       context "when the application is for a prior approval" do
-        let(:application_type) { create(:application_type, name: "prior_approval") }
+        let(:application_type) { create(:application_type, :prior_approval) }
         let!(:planning_application) do
           create(:planning_application, :awaiting_determination,
             :from_planx_prior_approval,

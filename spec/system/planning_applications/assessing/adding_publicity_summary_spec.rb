@@ -6,7 +6,7 @@ RSpec.describe "neighbour responses" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
-  let!(:application_type) { create(:application_type, name: :prior_approval) }
+  let!(:application_type) { create(:application_type, :prior_approval) }
   let!(:planning_application) do
     create(:planning_application, :in_assessment, :from_planx_immunity, application_type:,
       local_authority: default_local_authority)
@@ -18,7 +18,7 @@ RSpec.describe "neighbour responses" do
   end
 
   context "when planning application is in assessment" do
-    let!(:consultation) { create(:consultation, end_date: Time.zone.now, planning_application:) }
+    let!(:consultation) { planning_application.consultation }
     let!(:neighbour1) { create(:neighbour, address: "1 Test Lane", consultation:) }
     let!(:neighbour2) { create(:neighbour, address: "2 Test Lane", consultation:) }
     let!(:neighbour3) { create(:neighbour, address: "3 Test Lane", consultation:) }
@@ -143,7 +143,7 @@ RSpec.describe "neighbour responses" do
   end
 
   context "when it's an LDC application" do
-    let!(:application_type) { create(:application_type, name: :lawfulness_certificate) }
+    let!(:application_type) { create(:application_type) }
     let!(:planning_application) do
       create(:planning_application, :in_assessment, application_type:, local_authority: default_local_authority)
     end
