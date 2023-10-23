@@ -6,7 +6,7 @@ RSpec.describe "Creating a planning application" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor1) { create(:user, :assessor, local_authority: default_local_authority, name: "Assessor 1") }
   let!(:reviewer1) { create(:user, :reviewer, local_authority: default_local_authority, name: "Reviewer 1") }
-  let!(:application_type) { create(:application_type) }
+  let!(:application_type) { ApplicationType.find_by(name: "lawfulness_certificate") }
 
   before do
     sign_in assessor1

@@ -54,7 +54,7 @@ RSpec.describe "assigning planning application" do
 
   context "when a prior approval type" do
     before do
-      prior_approval = create(:application_type, :prior_approval)
+      prior_approval = ApplicationType.find_by(name: "prior_approval")
       planning_application.update(application_type: prior_approval)
       planning_application.create_consultation!
     end

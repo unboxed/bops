@@ -15,8 +15,8 @@ RSpec.describe ApplicationType do
 
   describe "class methods" do
     describe "#menu" do
-      let!(:lawfulness_certificate) { create(:application_type) }
-      let!(:prior_approval) { create(:application_type, :prior_approval) }
+      let!(:lawfulness_certificate) { ApplicationType.find_by(name: "lawfulness_certificate") }
+      let!(:prior_approval) { ApplicationType.find_by(name: "prior_approval") }
 
       it "returns an array of application type names (humanized) and ids" do
         expect(described_class.menu).to eq(
@@ -50,7 +50,7 @@ RSpec.describe ApplicationType do
     end
 
     context "when planning application type has no legislation details defined in en.yml translation" do
-      let!(:application_type) { create(:application_type) }
+      let!(:application_type) { ApplicationType.find_by(name: "lawfulness_certificate") }
 
       %w[legislation_link legislation_link_text legislation_description].each do |translation|
         describe translation.to_s do

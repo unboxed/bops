@@ -123,7 +123,7 @@ RSpec.describe "checking consistency" do
 
   context "when the application is a prior approval" do
     before do
-      type = create(:application_type, :prior_approval)
+      type = ApplicationType.find_by(name: "prior_approval")
       planning_application.update(application_type: type)
       planning_application.create_consultation!
       create(:proposal_measurement, planning_application:)

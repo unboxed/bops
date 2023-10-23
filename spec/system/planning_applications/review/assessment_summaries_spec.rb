@@ -372,7 +372,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
   context "when planning application is an LDC" do
     before do
-      ldc = create(:application_type)
+      ldc = ApplicationType.find_by(name: "lawfulness_certificate")
       planning_application.update(application_type: ldc)
     end
 
@@ -834,7 +834,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
   context "when planning application is planning permission" do
     before do
-      planning_permission = create(:application_type, :planning_permission)
+      planning_permission = ApplicationType.find_by(name: "planning_permission")
       planning_application.update(application_type: planning_permission)
     end
 

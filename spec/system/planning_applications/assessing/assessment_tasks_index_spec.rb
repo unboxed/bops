@@ -58,7 +58,7 @@ RSpec.describe "Assessment tasks" do
 
     context "when planning application is a prior approval" do
       before do
-        application_type = create(:application_type, :prior_approval)
+        application_type = ApplicationType.find_by(name: "prior_approval")
         planning_application.update(application_type:)
         visit(planning_application_assessment_tasks_path(planning_application))
       end

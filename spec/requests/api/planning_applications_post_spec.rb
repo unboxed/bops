@@ -7,7 +7,7 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
 
   before do
     create(:local_authority, :default)
-    create(:application_type)
+    ApplicationType.find_by(name: "lawfulness_certificate")
   end
 
   def post_with(params:, headers: {})

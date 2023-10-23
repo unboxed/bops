@@ -7,7 +7,7 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
   let!(:document) { Openapi3Parser.load_file(Rails.public_path.join("api-docs/v1/_build/swagger_doc.yaml")) }
   let!(:api_user) { create(:api_user) }
   let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:application_type) { create(:application_type) }
+  let!(:application_type) { ApplicationType.find_by(name: "lawfulness_certificate") }
 
   before do
     stub_planx_api_response_for("POLYGON ((-0.07716178894042969 51.50094238217541, -0.07645905017852783 51.50053497847238, -0.07615327835083008 51.50115276135022, -0.07716178894042969 51.50094238217541))").to_return(

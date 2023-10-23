@@ -163,7 +163,7 @@ RSpec.describe "Planning Application Assessment" do
       end
 
       context "when the application is for a prior approval" do
-        let(:application_type) { create(:application_type, :prior_approval) }
+        let(:application_type) { ApplicationType.find_by(name: "prior_approval") }
         let!(:planning_application) do
           create(:planning_application, :awaiting_determination,
             :from_planx_prior_approval,
@@ -227,7 +227,7 @@ RSpec.describe "Planning Application Assessment" do
       end
 
       context "when the decision is for a householder application" do
-        let(:application_type) { create(:application_type, :planning_permission) }
+        let(:application_type) { ApplicationType.find_by(name: "planning_permission") }
         let!(:planning_application) do
           create(:planning_application, :awaiting_determination,
             :from_planx_prior_approval,

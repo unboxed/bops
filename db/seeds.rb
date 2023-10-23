@@ -2,53 +2,56 @@
 
 require "faker"
 
-lambeth = LocalAuthority.find_or_create_by!(
-  council_code: "LBH",
-  subdomain: "lambeth",
-  short_name: "Lambeth",
-  council_name: "Lambeth Council",
-  applicants_url: "http://lambeth.bops-applicants.localhost:3001",
-  signatory_name: "Christina Thompson",
-  signatory_job_title: "Director of Finance & Property",
-  enquiries_paragraph: "Planning, London Borough of Lambeth, PO Box 734, Winchester SO23 5DG",
-  email_address: "planning@lambeth.gov.uk",
-  feedback_email: "digitalplanning@lambeth.gov.uk",
-  press_notice_email: "digitalplanning@lambeth.gov.uk"
-)
-southwark = LocalAuthority.find_or_create_by!(
-  council_code: "SWK",
-  subdomain: "southwark",
-  short_name: "Southwark",
-  council_name: "Southwark Council",
-  applicants_url: "http://southwark.bops-applicants.localhost:3001",
-  signatory_name: "Stephen Platts",
-  signatory_job_title: "Director of Planning and Growth",
-  enquiries_paragraph: "Planning, London Borough of Southwark, PO Box 734, Winchester SO23 5DG",
-  email_address: "planning@southwark.gov.uk",
-  feedback_email: "digital.projects@southwark.gov.uk",
-  press_notice_email: "digital.projects@southwark.gov.uk"
-)
+if !Rails.env.test?
+  lambeth = LocalAuthority.find_or_create_by!(
+    council_code: "LBH",
+    subdomain: "lambeth",
+    short_name: "Lambeth",
+    council_name: "Lambeth Council",
+    applicants_url: "http://lambeth.bops-applicants.localhost:3001",
+    signatory_name: "Christina Thompson",
+    signatory_job_title: "Director of Finance & Property",
+    enquiries_paragraph: "Planning, London Borough of Lambeth, PO Box 734, Winchester SO23 5DG",
+    email_address: "planning@lambeth.gov.uk",
+    feedback_email: "digitalplanning@lambeth.gov.uk",
+    press_notice_email: "digitalplanning@lambeth.gov.uk"
+  )
 
-buckinghamshire = LocalAuthority.find_or_create_by!(
-  council_code: "BUC",
-  subdomain: "buckinghamshire",
-  short_name: "Buckinghamshire",
-  council_name: "Buckinghamshire Council",
-  applicants_url: "http://buckinghamshire.bops-applicants.localhost:3001",
-  signatory_name: "Steve Bambick",
-  signatory_job_title: "Director of Planning",
-  enquiries_paragraph: "Planning, Buckinghamshire Council, Gatehouse Rd, Aylesbury HP19 8FF",
-  email_address: "planning@buckinghamshire.gov.uk",
-  feedback_email: "planning.digital@buckinghamshire.gov.uk",
-  press_notice_email: "planning.digital@buckinghamshire.gov.uk"
-)
+  southwark = LocalAuthority.find_or_create_by!(
+    council_code: "SWK",
+    subdomain: "southwark",
+    short_name: "Southwark",
+    council_name: "Southwark Council",
+    applicants_url: "http://southwark.bops-applicants.localhost:3001",
+    signatory_name: "Stephen Platts",
+    signatory_job_title: "Director of Planning and Growth",
+    enquiries_paragraph: "Planning, London Borough of Southwark, PO Box 734, Winchester SO23 5DG",
+    email_address: "planning@southwark.gov.uk",
+    feedback_email: "digital.projects@southwark.gov.uk",
+    press_notice_email: "digital.projects@southwark.gov.uk"
+  )
+
+  buckinghamshire = LocalAuthority.find_or_create_by!(
+    council_code: "BUC",
+    subdomain: "buckinghamshire",
+    short_name: "Buckinghamshire",
+    council_name: "Buckinghamshire Council",
+    applicants_url: "http://buckinghamshire.bops-applicants.localhost:3001",
+    signatory_name: "Steve Bambick",
+    signatory_job_title: "Director of Planning",
+    enquiries_paragraph: "Planning, Buckinghamshire Council, Gatehouse Rd, Aylesbury HP19 8FF",
+    email_address: "planning@buckinghamshire.gov.uk",
+    feedback_email: "planning.digital@buckinghamshire.gov.uk",
+    press_notice_email: "planning.digital@buckinghamshire.gov.uk"
+  )
+end
 
 ApiUser.find_or_create_by!(name: "api_user", token: (ENV["API_TOKEN"] || "123"))
 
 admin_roles = %i[assessor reviewer administrator]
 local_authorities = [southwark, lambeth, buckinghamshire]
 
-local_authorities.each do |authority|
+local_authorities.compact.each do |authority|
   authority.readonly!
 
   admin_roles.each do |admin_role|

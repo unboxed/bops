@@ -170,7 +170,7 @@ RSpec.describe "Add conditions" do
 
   context "when planning application is not planning permission" do
     it "you cannot add conditions" do
-      type = create(:application_type)
+      type = ApplicationType.find_by(name: "lawfulness_certificate")
       planning_application.update(application_type: type)
 
       visit planning_application_path(planning_application)

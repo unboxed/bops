@@ -16,7 +16,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
   let!(:reviewer) { create(:user, :reviewer, local_authority:) }
   let!(:assessor) { create(:user, :assessor, local_authority:) }
-  let(:application_type) { create(:application_type) }
+  let(:application_type) { ApplicationType.find_by(name: "lawfulness_certificate") }
 
   let(:planning_application) do
     create(
@@ -726,7 +726,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   describe "#neighbour_consultation_letter_copy_mail" do
-    let(:application_type) { create(:application_type, :prior_approval) }
+    let(:application_type) { ApplicationType.find_by(name: "prior_approval") }
 
     let(:planning_application) do
       create(
@@ -817,7 +817,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   describe "#site_notice_mail" do
     let(:user) { create(:user) }
 
-    let(:application_type) { create(:application_type, :prior_approval) }
+    let(:application_type) { ApplicationType.find_by(name: "prior_approval") }
 
     let(:planning_application) do
       create(
@@ -887,7 +887,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   describe "#internal_site_notice_mail" do
     let(:user) { create(:user) }
 
-    let(:application_type) { create(:application_type, :prior_approval) }
+    let(:application_type) { ApplicationType.find_by(name: "prior_approval") }
 
     let(:planning_application) do
       create(
@@ -955,7 +955,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   end
 
   context "when the application is a prior approval" do
-    let(:application_type) { create(:application_type, :prior_approval) }
+    let(:application_type) { ApplicationType.find_by(name: "prior_approval") }
 
     let(:planning_application) do
       create(

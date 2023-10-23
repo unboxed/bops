@@ -17,7 +17,7 @@ RSpec.describe "editing planning application" do
   before do
     travel_to(DateTime.new(2023, 1, 1))
     sign_in(assessor)
-    create(:application_type, :prior_approval)
+    ApplicationType.find_by(name: "prior_approval")
     visit(planning_application_path(planning_application))
   end
 

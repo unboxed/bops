@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe "Site visit" do
   let!(:local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority:) }
-  let!(:application_type) { create(:application_type, :prior_approval) }
+  let!(:application_type) { ApplicationType.find_by(name: "prior_approval") }
 
   let!(:planning_application) do
     create(:planning_application, :from_planx_prior_approval,

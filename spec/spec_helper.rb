@@ -32,4 +32,8 @@ RSpec.configure do |config|
     allow(ENV).to receive(:fetch).and_call_original
     allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("test")
   end
+
+  config.before(:suite) do
+    Rails.application.load_seed
+  end
 end

@@ -33,7 +33,7 @@ FactoryBot.define do
     result_heading { Faker::Lorem.unique.sentence }
     result_description { Faker::Lorem.unique.sentence }
     result_override { "Override" }
-    application_type
+    application_type { ApplicationType.first }
 
     proposal_details do
       [
@@ -275,7 +275,7 @@ FactoryBot.define do
         ].to_json
       end
 
-      application_type { association :application_type, :prior_approval }
+      application_type { ApplicationType.find_by(name: :prior_approval) }
 
       after(:create) do |planning_application|
         create(:proposal_measurement, planning_application:)
@@ -283,7 +283,7 @@ FactoryBot.define do
     end
 
     trait :planning_permission do
-      application_type { association :application_type, :planning_permission }
+      application_type { ApplicationType.find_by(name: :planning_permission) }
     end
 
     trait :with_consultees do

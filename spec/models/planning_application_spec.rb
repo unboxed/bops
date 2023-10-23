@@ -249,7 +249,7 @@ RSpec.describe PlanningApplication do
         end
 
         it "works for other planning application types" do
-          prior_approval_type = create(:application_type, :prior_approval)
+          prior_approval_type = ApplicationType.find_by(name: "prior_approval")
           planning_application = build(:planning_application, work_status: "proposed", application_type: prior_approval_type)
 
           travel_to(DateTime.new(2022, 1, 1)) do
@@ -298,7 +298,7 @@ RSpec.describe PlanningApplication do
       end
 
       context "when a application type doesn't have a consultation" do
-        let(:application_type) { create(:application_type) }
+        let(:application_type) { ApplicationType.find_by(name: "lawfulness_certificate") }
         let(:planning_application) { build(:planning_application, application_type:) }
 
         it "doesn't create a consultation record after creating the planning application" do
@@ -307,7 +307,7 @@ RSpec.describe PlanningApplication do
       end
 
       context "when a application type has a consultation" do
-        let(:application_type) { create(:application_type, :prior_approval) }
+        let(:application_type) { ApplicationType.find_by(name: "prior_approval") }
         let(:planning_application) { build(:planning_application, application_type:) }
 
         it "creates a consultation record after creating the planning application" do
@@ -480,7 +480,7 @@ RSpec.describe PlanningApplication do
 
   describe "#reference_in_full" do
     let(:local_authority) { create(:local_authority, :southwark) }
-    let(:application_type) { create(:application_type) }
+    let(:application_type) { ApplicationType.find_by(name: "lawfulness_certificate") }
     let(:planning_application1) { create(:planning_application, application_type:, local_authority:, work_status: "proposed") }
     let(:planning_application2) { create(:planning_application, application_type:, local_authority:, work_status: "existing") }
 
@@ -1056,7 +1056,7 @@ RSpec.describe PlanningApplication do
 
     context "when a prior approval application" do
       before do
-        prior_approval = create(:application_type, :prior_approval)
+        prior_approval = ApplicationType.find_by(name: "prior_approval")
         planning_application.update(application_type: prior_approval)
       end
 

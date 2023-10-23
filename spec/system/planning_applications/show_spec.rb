@@ -31,7 +31,7 @@ RSpec.describe "Planning Application show page" do
     ].to_json
   end
 
-  let(:application_type) { create(:application_type) }
+  let(:application_type) { ApplicationType.find_by(name: "lawfulness_certificate") }
 
   let!(:planning_application) do
     create(
@@ -97,7 +97,7 @@ RSpec.describe "Planning Application show page" do
     end
 
     context "when application type is planning permission" do
-      let(:application_type) { create(:application_type, :planning_permission) }
+      let(:application_type) { ApplicationType.find_by(name: "planning_permission") }
 
       it "I can view the correct application type name and the planning application code" do
         expect(page).to have_content("#{planning_application.created_at.year % 100}-00100-HAPP")

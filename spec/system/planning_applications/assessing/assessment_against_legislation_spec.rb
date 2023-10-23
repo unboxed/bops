@@ -455,7 +455,7 @@ RSpec.describe "assessment against legislation" do
           name: "Alice Smith"
         )
 
-      planning_permission = create(:application_type, :planning_permission)
+      planning_permission = ApplicationType.find_by(name: "planning_permission")
       planning_application.update(application_type: planning_permission)
       planning_application.create_consultation!
 

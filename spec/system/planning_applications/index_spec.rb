@@ -18,7 +18,7 @@ RSpec.describe "Planning Application index page" do
   let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
   let(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
 
-  let(:application_type_prior_approval) { create(:application_type, :prior_approval) }
+  let(:application_type_prior_approval) { ApplicationType.find_by(name: "prior_approval") }
 
   context "as an assessor" do
     before do

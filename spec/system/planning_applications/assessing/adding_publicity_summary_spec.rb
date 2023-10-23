@@ -6,7 +6,7 @@ RSpec.describe "neighbour responses" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
-  let!(:application_type) { create(:application_type, :prior_approval) }
+  let!(:application_type) { ApplicationType.find_by(name: "prior_approval") }
   let!(:planning_application) do
     create(:planning_application, :in_assessment, :from_planx_immunity, application_type:,
       local_authority: default_local_authority)
@@ -143,7 +143,7 @@ RSpec.describe "neighbour responses" do
   end
 
   context "when it's an LDC application" do
-    let!(:application_type) { create(:application_type) }
+    let!(:application_type) { ApplicationType.find_by(name: "lawfulness_certificate") }
     let!(:planning_application) do
       create(:planning_application, :in_assessment, application_type:, local_authority: default_local_authority)
     end
