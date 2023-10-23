@@ -6,6 +6,7 @@ class Consultation < ApplicationRecord
   include GeojsonFormattable
 
   belongs_to :planning_application
+  delegate :local_authority, to: :planning_application
 
   with_options dependent: :destroy do
     has_many :consultees, extend: ConsulteesExtension
@@ -142,7 +143,7 @@ class Consultation < ApplicationRecord
     I18n.t("neighbour_letter_template.#{planning_application.application_type.name}",
            expiry_date: planning_application.expiry_date.to_date.to_fs,
            address: planning_application.full_address,
-           council: planning_application.local_authority.subdomain.capitalize,
+           council: local_authority.short_name,
            applicant_name: "#{planning_application.applicant_first_name} #{planning_application.applicant_last_name}",
            description: planning_application.description,
            reference: planning_application.reference,
@@ -151,7 +152,7 @@ class Consultation < ApplicationRecord
            max_height: planning_application&.proposal_measurement&.max_height,
            eaves_height: planning_application&.proposal_measurement&.eaves_height,
            current_user: Current.user.name,
-           council_address: I18n.t("council_addresses.#{planning_application.local_authority.subdomain}"),
+           council_address: I18n.t("council_addresses.#{local_authority.subdomain}"),
            application_link:)
   end
 
@@ -226,15 +227,11 @@ class Consultation < ApplicationRecord
     started? && end_date < Time.zone.now
   end
 
-  private
-
   def application_link
-    if Bops.env.production?
-      "https://planningapplications.#{planning_application.local_authority.subdomain}.gov.uk/planning_applications/#{planning_application.id}"
-    else
-      "https://#{planning_application.local_authority.subdomain}.bops-applicants.services/planning_applications/#{planning_application.id}"
-    end
+    "#{local_authority.applicants_url}/planning_applications/#{planning_application_id}"
   end
+
+  private
 
   def audit_letter_copy_sent!
     Audit.create!(

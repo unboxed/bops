@@ -40,7 +40,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     create(:planning_application, :invalidated)
   end
 
-  let(:host) { "planx.example.com" }
+  let(:host) { local_authority.applicants_url }
 
   let(:validation_request) do
     create(:other_change_validation_request, planning_application: invalid_planning_application, user: assessor)
@@ -62,7 +62,6 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   before do
     allow(ENV).to receive(:[])
     allow(ENV).to receive(:fetch).and_call_original
-    allow(ENV).to receive(:[]).with("APPLICANTS_APP_HOST").and_return("example.com")
     allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("test")
   end
 
@@ -109,7 +108,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes a link to the decision notice" do
       expect(mail_body).to include(
-        "http://planx.example.com/api/v1/planning_applications/#{planning_application.id}/decision_notice.pdf"
+        "https://planx.bops-applicants.services/api/v1/planning_applications/#{planning_application.id}/decision_notice.pdf"
       )
     end
 
@@ -131,7 +130,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "includes a link to the decision notice" do
         expect(mail_body).to include(
-          "http://planx.example.com/api/v1/planning_applications/#{planning_application.id}/decision_notice.pdf"
+          "https://planx.bops-applicants.services/api/v1/planning_applications/#{planning_application.id}/decision_notice.pdf"
         )
       end
 
@@ -205,7 +204,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the validation request url" do
       expect(mail_body).to include(
-        "http://planx.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+        "https://planx.bops-applicants.services/validation_requests?change_access_id=#{planning_application.change_access_id}&planning_application_id=#{planning_application.id}"
       )
     end
 
@@ -301,7 +300,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the validation request url" do
       expect(mail_body).to include(
-        "http://planx.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+        "https://planx.bops-applicants.services/validation_requests?change_access_id=#{planning_application.change_access_id}&planning_application_id=#{planning_application.id}"
       )
     end
 
@@ -415,7 +414,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the validation request url" do
       expect(mail_body).to include(
-        "http://planx.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+        "https://planx.bops-applicants.services/validation_requests?change_access_id=#{planning_application.change_access_id}&planning_application_id=#{planning_application.id}"
       )
     end
 
@@ -471,7 +470,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the validation request url" do
       expect(mail_body).to include(
-        "http://planx.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+        "https://planx.bops-applicants.services/validation_requests?change_access_id=#{planning_application.change_access_id}&planning_application_id=#{planning_application.id}"
       )
     end
 
@@ -593,7 +592,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "includes the validation request url" do
         expect(mail_body).to include(
-          "http://planx.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+          "https://planx.bops-applicants.services/validation_requests?change_access_id=#{planning_application.change_access_id}&planning_application_id=#{planning_application.id}"
         )
       end
 
@@ -644,7 +643,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "includes the validation request url" do
         expect(mail_body).to include(
-          "http://planx.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+          "https://planx.bops-applicants.services/validation_requests?change_access_id=#{planning_application.change_access_id}&planning_application_id=#{planning_application.id}"
         )
       end
     end
@@ -702,7 +701,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the validation request url" do
       expect(mail_body).to include(
-        "http://planx.example.com/validation_requests?planning_application_id=#{planning_application.id}&change_access_id=#{planning_application.change_access_id}"
+        "https://planx.bops-applicants.services/validation_requests?change_access_id=#{planning_application.change_access_id}&planning_application_id=#{planning_application.id}"
       )
     end
 
@@ -805,7 +804,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         "A prior approval application has been made for the development described below:"
       )
       expect(mail_body).to include(
-        "https://planningapplications.planx.gov.uk/planning_applications/#{planning_application.id}"
+        "https://planx.bops-applicants.services/planning_applications/#{planning_application.id}"
       )
     end
 
@@ -855,9 +854,6 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       travel_to("2022-01-01") do
         consultation.update(start_date: 2.days.ago, end_date: (2.days.ago + 21.days))
       end
-
-      allow(ENV).to receive(:[]).with("APPLICANTS_APP_HOST").and_return("example.com")
-      allow(ENV).to receive(:fetch).with("APPLICANTS_APP_HOST").and_return("example.com")
     end
 
     it "sets the subject" do
@@ -883,7 +879,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         "As part of the application process"
       )
       expect(mail_body).to include(
-        "http://planx.example.com/planning_applications/#{planning_application.id}/site_notices/download"
+        "https://planx.bops-applicants.services/planning_applications/#{planning_application.id}/site_notices/download"
       )
     end
   end
@@ -928,9 +924,6 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       travel_to("2022-01-01") do
         consultation.update(start_date: 2.days.ago, end_date: (2.days.ago + 21.days))
       end
-
-      allow(ENV).to receive(:[]).with("APPLICANTS_APP_HOST").and_return("example.com")
-      allow(ENV).to receive(:fetch).with("APPLICANTS_APP_HOST").and_return("example.com")
     end
 
     it "sets the subject" do
@@ -956,7 +949,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         "The site notice for this application is ready for display"
       )
       expect(mail_body).to include(
-        "http://planx.example.com/planning_applications/#{planning_application.id}/site_notices/download"
+        "https://planx.bops-applicants.services/planning_applications/#{planning_application.id}/site_notices/download"
       )
     end
   end

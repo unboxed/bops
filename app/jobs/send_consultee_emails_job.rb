@@ -14,7 +14,7 @@ class SendConsulteeEmailsJob < NotifyEmailJob
       reference: planning_application.reference,
       description: planning_application.description,
       address: planning_application.address,
-      link: "https://www.example.com",
+      link: consultation.application_link,
       closing_date: consultation.end_date_from_now.to_date.to_fs
     }
 

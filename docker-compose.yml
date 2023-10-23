@@ -32,7 +32,6 @@ services:
     tty: true
     environment:
       DATABASE_URL: postgres://postgres:postgres@db:5432
-      APPLICANTS_APP_HOST: southwark.bops-applicants.localhost:3001
       GROVER_NO_SANDBOX: "true"
       PIDFILE: /tmp/pids/server.pid
       OS_VECTOR_TILES_API_KEY: ${OS_VECTOR_TILES_API_KEY}

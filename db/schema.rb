@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_19_094551) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_23_085212) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -341,6 +341,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_19_094551) do
     t.string "notify_api_key"
     t.string "notify_letter_template"
     t.string "press_notice_email"
+    t.string "short_name", null: false
+    t.string "council_name", null: false
+    t.string "applicants_url", null: false
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 

@@ -1149,21 +1149,11 @@ RSpec.describe PlanningApplication do
   end
 
   describe "#secure_change_url" do
-    it "returns the internal_url" do
-      allow(ENV).to receive(:[])
-      allow(ENV).to receive(:[]).with("APPLICANTS_APP_HOST").and_return("example.com")
+    let(:local_authority) { planning_application.local_authority }
 
-      expect(planning_application.secure_change_url).to match("http://buckinghamshire.example.com/validation_requests")
-    end
-
-    context "when ENV['PUBLIC_URL_ENABLED'] is set to true" do
-      it "returns the public_url" do
-        allow(ENV).to receive(:[])
-        allow(ENV).to receive(:[]).with("APPLICANTS_APP_HOST").and_return("planning")
-        allow(ENV).to receive(:fetch).with("PUBLIC_URL_ENABLED", "false").and_return("true")
-
-        expect(planning_application.secure_change_url).to match("http://planning.buckinghamshire.gov.uk/validation_requests")
-      end
+    it "returns the applicants url from the local authority" do
+      expect(local_authority).to receive(:applicants_url).and_return("https://planning.buckinghamshire.gov.uk")
+      expect(planning_application.secure_change_url).to match(%r{https://planning\.buckinghamshire\.gov\.uk/validation_requests})
     end
   end
 

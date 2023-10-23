@@ -4,6 +4,9 @@ class LocalAuthorityCreationService
   def initialize(params)
     @subdomain = params.fetch(:subdomain, nil)
     @council_code = params.fetch(:council_code, nil)
+    @short_name = params.fetch(:short_name, nil)
+    @council_name = params.fetch(:council_name, nil)
+    @applicants_url = params.fetch(:applicants_url, nil)
     @signatory_name = params.fetch(:signatory_name, nil)
     @signatory_job_title = params.fetch(:signatory_job_title, nil)
     @enquiries_paragraph = params.fetch(:enquiries_paragraph, nil)
@@ -18,8 +21,9 @@ class LocalAuthorityCreationService
 
   private
 
-  attr_reader :subdomain, :council_code, :signatory_name, :signatory_job_title, :enquiries_paragraph, :email_address,
-              :feedback_email, :admin_email
+  attr_reader :subdomain, :council_code, :short_name, :council_name, :applicants_url,
+              :signatory_name, :signatory_job_title, :enquiries_paragraph,
+              :email_address, :feedback_email, :admin_email
 
   def setup
     local_authority
@@ -31,6 +35,9 @@ class LocalAuthorityCreationService
     @local_authority ||= LocalAuthority.find_or_create_by!(
       subdomain:,
       council_code:,
+      short_name:,
+      council_name:,
+      applicants_url:,
       signatory_name:,
       signatory_job_title:,
       enquiries_paragraph:,

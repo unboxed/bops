@@ -5,7 +5,7 @@
       class: "govuk-header__link govuk-header__link--homepage"
     ) do %>
       <span class="govuk-header__product-name">
-        <strong><%= current_local_authority.formatted_subdomain %></strong>
+        <strong><%= current_local_authority.short_name %></strong>
         <%= t(".back_office_planning") %>
       </span>
     <% end %>

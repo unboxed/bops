@@ -4,6 +4,9 @@ FactoryBot.define do
   factory :local_authority do
     council_code { "BUC" }
     subdomain { "buckinghamshire" }
+    short_name { "Buckinghamshire" }
+    council_name { "Buckinghamshire Council" }
+    applicants_url { "https://planningapplications.buckinghamshire.gov.uk" }
     signatory_name { Faker::FunnyName.two_word_name }
     signatory_job_title { "Director" }
     enquiries_paragraph { Faker::Lorem.unique.sentence }
@@ -13,6 +16,9 @@ FactoryBot.define do
     trait :default do
       council_code { "PlanX" }
       subdomain { "planx" }
+      short_name { "PlanX" }
+      council_name { "PlanX Council" }
+      applicants_url { "https://planx.bops-applicants.services" }
       signatory_name { Faker::FunnyName.two_word_name }
       signatory_job_title { "Director" }
       enquiries_paragraph { Faker::Lorem.unique.sentence }
@@ -23,6 +29,9 @@ FactoryBot.define do
     trait :lambeth do
       council_code { "LBH" }
       subdomain { "lambeth" }
+      short_name { "Lambeth" }
+      council_name { "Lambeth Council" }
+      applicants_url { "https://planningapplications.lambeth.gov.uk" }
       signatory_name { "Christina Thompson" }
       signatory_job_title { "Director of Finance & Property" }
       enquiries_paragraph { "Planning, London Borough of Lambeth, PO Box 734, Winchester SO23 5DG" }
@@ -33,6 +42,9 @@ FactoryBot.define do
     trait :southwark do
       council_code { "SWK" }
       subdomain { "southwark" }
+      short_name { "Southwark" }
+      council_name { "Southwark Council" }
+      applicants_url { "https://planningapplications.southwark.gov.uk" }
       signatory_name { "Stephen Platts" }
       signatory_job_title { "Director of Planning and Growth" }
       enquiries_paragraph { "Planning, London Borough of Southwark, PO Box 734, Winchester SO23 5DG" }

@@ -116,36 +116,4 @@ RSpec.describe LocalAuthority do
       end
     end
   end
-
-  describe "#council_name" do
-    let(:local_authority) { build(:local_authority, subdomain: "lambeth") }
-
-    it "returns the council name" do
-      expect(local_authority.council_name).to eq("Lambeth Council")
-    end
-
-    context "when the subdomain has a hyphen" do
-      let(:local_authority) { build(:local_authority, subdomain: "great-yarmouth") }
-
-      it "returns the council name" do
-        expect(local_authority.council_name).to eq("Great Yarmouth Council")
-      end
-    end
-  end
-
-  describe "#formatted_subdomain" do
-    let(:local_authority) { build(:local_authority, subdomain: "lambeth") }
-
-    it "returns a formatted name" do
-      expect(local_authority.formatted_subdomain).to eq("Lambeth")
-    end
-
-    context "when the subdomain has a hyphen" do
-      let(:local_authority) { build(:local_authority, subdomain: "great-yarmouth") }
-
-      it "returns a formatted name" do
-        expect(local_authority.formatted_subdomain).to eq("Great Yarmouth")
-      end
-    end
-  end
 end

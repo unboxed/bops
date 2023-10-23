@@ -353,20 +353,12 @@ class PlanningApplication < ApplicationRecord
   end
 
   def secure_change_url
-    protocol = Rails.env.production? ? "https" : "http"
-
-    public_url_enabled? ? "#{protocol}://#{public_url}" : "#{protocol}://#{internal_url}"
+    params = { planning_application_id: id, change_access_id: }
+    "#{local_authority.applicants_url}/validation_requests?#{params.to_query}"
   end
 
   def site_notice_link
-    protocol = Rails.env.production? ? "https" : "http"
-    path = "planning_applications/#{id}/site_notices/download"
-
-    if Bops.env.production?
-      "#{protocol}://#{ENV.fetch('APPLICANTS_APP_HOST')}.#{local_authority.subdomain}.gov.uk/#{path}"
-    else
-      "#{protocol}://#{local_authority.subdomain}.#{ENV.fetch('APPLICANTS_APP_HOST')}/#{path}"
-    end
+    "#{local_authority.applicants_url}/planning_applications/#{id}/site_notices/download"
   end
 
   def last_site_notice_audit
@@ -856,20 +848,6 @@ class PlanningApplication < ApplicationRecord
 
   def application_type_code
     I18n.t(work_status, scope: "application_type_codes.#{application_type&.name}")
-  end
-
-  def public_url
-    "#{ENV['APPLICANTS_APP_HOST']}.#{local_authority.subdomain}.gov.uk/" + # rubocop:disable Style/FetchEnvVar
-      "validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}"
-  end
-
-  def internal_url
-    "#{local_authority.subdomain}.#{ENV['APPLICANTS_APP_HOST']}/" + # rubocop:disable Style/FetchEnvVar
-      "validation_requests?planning_application_id=#{id}&change_access_id=#{change_access_id}"
-  end
-
-  def public_url_enabled?
-    ENV.fetch("PUBLIC_URL_ENABLED", "false") == "true"
   end
 
   def valid_from_date
