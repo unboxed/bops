@@ -46,8 +46,10 @@ class ConsulteeRowComponent < ViewComponent::Base
       content_tag(:span, t(".sending"), class: "govuk-tag govuk-tag--blue")
     when "failed"
       content_tag(:span, t(".failed"), class: "govuk-tag govuk-tag--red")
-    when "consulted"
-      content_tag(:span, t(".consulted"), class: "govuk-tag govuk-tag--green")
+    when "awaiting_response"
+      content_tag(:span, t(".awaiting_response"), class: "govuk-tag govuk-tag--blue")
+    when "responded"
+      content_tag(:span, t(".responded"), class: "govuk-tag govuk-tag--green")
     else
       content_tag(:span, t(".not_consulted"), class: "govuk-tag govuk-tag--grey")
     end

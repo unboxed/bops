@@ -103,10 +103,12 @@ class Consultation < ApplicationRecord
   end
 
   def consultee_emails_status
-    if consultees.any?(&:failed?)
+    if consultees.failed?
       "failed"
-    elsif consultees.any?(&:consulted?) && consultees.none?(&:sending?)
+    elsif consultees.complete?
       "complete"
+    elsif consultees.awaiting_responses?
+      "awaiting_responses"
     elsif consultees.present?
       "in_progress"
     else

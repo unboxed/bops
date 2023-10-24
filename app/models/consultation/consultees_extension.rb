@@ -17,5 +17,21 @@ class Consultation < ApplicationRecord
     def none_selected?
       selected.none?
     end
+
+    def consulted
+      reject(&:not_consulted?)
+    end
+
+    def failed?
+      consulted.any?(&:failed?)
+    end
+
+    def awaiting_responses?
+      consulted.any?(&:awaiting_response?)
+    end
+
+    def complete?
+      consulted.present? && consulted.all?(&:responded?)
+    end
   end
 end

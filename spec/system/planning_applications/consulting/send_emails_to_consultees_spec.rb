@@ -251,7 +251,7 @@ RSpec.describe "Consultation", js: true do
         expect(page).to have_selector("td:nth-child(2)", text: "Chris Wood")
         expect(page).to have_selector("td:nth-child(3)", text: "21 days")
         expect(page).to have_selector("td:nth-child(4)", text: current_date)
-        expect(page).to have_selector("td:nth-child(5)", text: "Consulted")
+        expect(page).to have_selector("td:nth-child(5)", text: "Awaiting response")
       end
     end
 
@@ -275,7 +275,7 @@ RSpec.describe "Consultation", js: true do
 
       within "#consultee-tasks" do
         expect(page).to have_selector("li:first-child a", text: "Send emails to consultees")
-        expect(page).to have_selector("li:first-child .govuk-tag", text: "In progress")
+        expect(page).to have_selector("li:first-child .govuk-tag", text: "Awaiting responses")
       end
     end.to have_enqueued_job(SendConsulteeEmailJob).exactly(:once)
 
@@ -335,7 +335,7 @@ RSpec.describe "Consultation", js: true do
     expect(page).to have_selector("h1", text: "Consultation")
 
     within "#consultee-tasks" do
-      expect(page).to have_selector("li:first-child .govuk-tag", text: "Completed")
+      expect(page).to have_selector("li:first-child .govuk-tag", text: "Awaiting responses")
     end
 
     click_link "Send emails to consultees"
@@ -347,7 +347,7 @@ RSpec.describe "Consultation", js: true do
         expect(page).to have_selector("td:nth-child(2)", text: "Consultations")
         expect(page).to have_selector("td:nth-child(3)", text: "21 days")
         expect(page).to have_selector("td:nth-child(4)", text: current_date)
-        expect(page).to have_selector("td:nth-child(5)", text: "Consulted")
+        expect(page).to have_selector("td:nth-child(5)", text: "Awaiting response")
       end
     end
   end

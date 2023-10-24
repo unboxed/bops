@@ -14,7 +14,7 @@ class UpdateConsulteeEmailStatusJob < ApplicationJob
 
       if consultee_email.delivered?
         consultee_email.consultee.update!(
-          status: "consulted",
+          status: "awaiting_response",
           email_delivered_at: Time.current
         )
       elsif consultee_email.failed?
