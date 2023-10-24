@@ -171,7 +171,10 @@ RSpec.describe "Review documents for recommendation" do
 
     it "I can edit whether documents are on the decision notice / made public and save and come back later" do
       click_link "Check and assess"
+      expect(page).to have_selector("h1", text: "Assess the application")
+
       click_link "Review documents for recommendation"
+      expect(page).to have_selector("h1", text: "Review documents for recommendation")
 
       within(".govuk-table__body") do
         document_with_reference_and_tags__decision_notice_checkbox.click
@@ -193,7 +196,10 @@ RSpec.describe "Review documents for recommendation" do
 
     it "I see a link to add a document reference when a reference hasn't been set" do
       click_link "Check and assess"
+      expect(page).to have_selector("h1", text: "Assess the application")
+
       click_link "Review documents for recommendation"
+      expect(page).to have_selector("h1", text: "Review documents for recommendation")
 
       within("#document_#{document_without_reference.id}") do
         expect(page).to have_link(
@@ -211,7 +217,10 @@ RSpec.describe "Review documents for recommendation" do
 
       it "there is an error message and no update is persisted" do
         click_link "Check and assess"
+        expect(page).to have_selector("h1", text: "Assess the application")
+
         click_link "Review documents for recommendation"
+        expect(page).to have_selector("h1", text: "Review documents for recommendation")
 
         document_with_reference__decision_notice_checkbox.click
         document_with_reference_and_tags__decision_notice_checkbox.click
