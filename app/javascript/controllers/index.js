@@ -6,6 +6,9 @@ application.register("add-condition", AddConditionController)
 import AddressFillController from "./address_fill_controller.js"
 application.register("address-fill", AddressFillController)
 
+import ConsulteesController from "./consultees_controller.js"
+application.register("consultees", ConsulteesController)
+
 import ClearFormController from "./clear_form_controller.js"
 application.register("clear-form", ClearFormController)
 

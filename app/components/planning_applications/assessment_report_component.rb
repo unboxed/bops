@@ -17,7 +17,7 @@ module PlanningApplications
       :summary_of_work,
       :site_description,
       :consultation_summary,
-      :consultees,
+      :consultation,
       :policy_classes,
       :permitted_development_right,
       :additional_evidence,

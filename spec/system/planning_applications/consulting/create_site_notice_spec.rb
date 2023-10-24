@@ -24,7 +24,6 @@ RSpec.describe "Create a site notice", js: true do
   before do
     allow(ENV).to receive(:fetch).and_call_original
     allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("test")
-    allow(ENV).to receive(:fetch).with("APPLICANTS_APP_HOST").and_return("example.com")
     sign_in(assessor)
     visit planning_application_consultation_path(planning_application)
   end

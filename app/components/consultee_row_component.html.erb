@@ -1,0 +1,27 @@
+<%= table_row_tag do |fields| %>
+  <td class="govuk-table__cell govuk-!-padding-0">
+    <%= fields.hidden_field :id %>
+    <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+      <div class="govuk-checkboxes__item">
+        <%= fields.check_box :selected, class: "govuk-checkboxes__input" %>
+        <%= fields.label :selected, class: "govuk-label govuk-checkboxes__label" do %>
+          <span class="govuk-visually-hidden">
+            <%= t(".select_consultee") %>
+          </span>
+        <% end %>
+      </div>
+    </div>
+  </td>
+  <td class="govuk-table__cell govuk-!-width-one-third">
+    <%= consultee_name %>
+  </td>
+  <td class="govuk-table__cell govuk-table__cell--centred">
+    <%= consultee_period || "–" %>
+  </td>
+  <td class="govuk-table__cell govuk-table__cell--centred">
+    <%= consultee_date_consulted || "–" %>
+  </td>
+  <td class="govuk-table__cell govuk-table__cell--numeric govuk-!-width-one-quarter">
+    <%= consultee_status %>
+  </td>
+<% end %>

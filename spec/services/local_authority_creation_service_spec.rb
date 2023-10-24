@@ -9,6 +9,9 @@ RSpec.describe LocalAuthorityCreationService do
         {
           subdomain: "lambeth",
           council_code: "LBH",
+          short_name: "Lambeth",
+          council_name: "Lambeth Council",
+          applicants_url: "https://planningapplications.lambeth.gov.uk",
           signatory_name: "Christina Thompson",
           signatory_job_title: "Director of Finance & Property",
           enquiries_paragraph: "Planning, London Borough of Lambeth, PO Box 734, Winchester SO23 5DG",
@@ -45,6 +48,9 @@ RSpec.describe LocalAuthorityCreationService do
       let(:options) do
         {
           subdomain: "lambeth",
+          short_name: "Lambeth",
+          council_name: "Lambeth Council",
+          applicants_url: "https://planningapplications.lambeth.gov.uk",
           signatory_name: "Christina Thompson",
           signatory_job_title: "Director of Finance & Property",
           enquiries_paragraph: "Planning, London Borough of Lambeth, PO Box 734, Winchester SO23 5DG",

@@ -37,7 +37,8 @@
         t(".edit_#{@assessment_detail.category}"),
         edit_planning_application_assessment_detail_path(
           @planning_application,
-          @assessment_detail
+          @assessment_detail,
+          category: @category
         ),
         class: "govuk-link"
       )%>

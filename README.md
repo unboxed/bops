@@ -140,9 +140,8 @@ BOPS.
 
 If you're using Docker, `bops-applicants` is already part of the
 Compose group and should be running on port 3001. If you're not,
-you'll have to clone/setup/boot the app manually and point BOPS to it
-through the environment variable `APPLICANTS_APP_HOST`. See
-`./env.example`.
+you'll have to clone/setup/boot the app manually and set the
+`applicants_url` column on the local authority record.
 
 Note that because of the limitations of Docker network aliases (which
 can't accept wildcards, we will add a small DNS service eventually),

@@ -31,14 +31,17 @@ Rails.application.routes.draw do
     post "/search_addresses_by_polygon",
          to: "os_places_api#search_addresses_by_polygon",
          as: "search_addresses_by_polygon"
+
+    scope "/contacts" do
+      get "/consultees", to: "contacts#index", defaults: { category: "consultee" }
+    end
   end
 
   resources :users, only: %i[new create edit update]
 
   resources :planning_applications, only: %i[index show new edit create update] do
     resource :assessment_report_download, only: :show
-    resources :consultees, only: %i[create destroy edit update]
-    resource(:consistency_checklist, only: %i[new create edit update show])
+    resource :consistency_checklist, only: %i[new create edit update show]
 
     resources :policy_classes, except: %i[index] do
       get :part, on: :new
@@ -140,6 +143,13 @@ Rails.application.routes.draw do
         resources :evidence_groups do
           resources :comments, only: %i[update]
         end
+      end
+
+      resources :consultees, only: %i[create]
+
+      namespace :consultee do
+        resources :emails, only: %i[index create]
+        resources :responses, only: %i[index]
       end
 
       resource :consultation, only: %i[show update] do

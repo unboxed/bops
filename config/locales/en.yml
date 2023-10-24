@@ -146,6 +146,10 @@ en:
             site_map_correct:
               not_determined: Determine whether the red line on the site map is correct
               open_red_line_boundary_change_requests: Red line boundary change requests must be closed or cancelled
+        consultation:
+          attributes:
+            consultees:
+              blank: Please select at least one consultee
         document:
           attributes:
             file:
@@ -216,6 +220,11 @@ en:
           attributes:
             reset_password_token:
               invalid: The reset password link you used no longer works. Please request a new link and try again.
+  add_consultee_component:
+    add_additional_consultees: Add additional consultees
+    add_consultee: Add consultee
+    search_for_consultees: Search for consultees
+    start_typing: Start typing name, organisation or role
   additional_document_validation_requests:
     create:
       success: Additional document request successfully created.
@@ -279,12 +288,12 @@ en:
     amenity: Amenity
     amenity_successfully_created: Amenity assessment was successfully created.
     amenity_successfully_updated: Amenity assessment was successfully updated.
-    consultation_summary: Add consultation details
+    consultation_summary: Add consultation summary
     consultation_summary_successfully_created: Consultation summary successfully added.
     consultation_summary_successfully_updated: Consultation summary successfully updated.
     edit_additional_evidence: Edit additional evidence
     edit_amenity: Edit assessment of impact on neighbouring amenity
-    edit_consultation_summary: Add consultation details
+    edit_consultation_summary: Add consultation summary
     edit_past_applications: History
     edit_publicity_summary: Edit summary of neighbour responses
     edit_site_description: Edit site description
@@ -292,7 +301,7 @@ en:
     immunity_detail_successfully_updated: Evidence of immunity successfully updated
     new_additional_evidence: Add detail of additional evidence
     new_amenity: Assess impact on neighbouring amenity
-    new_consultation_summary: Add consultation details
+    new_consultation_summary: Add consultation summary
     new_past_applications: History
     new_publicity_summary: Add summary of neighbour responses
     new_site_description: Create a description of the site
@@ -361,6 +370,7 @@ en:
       constraint_added: Constraint added
       constraint_removed: Constraint removed
       constraints_checked: Constraints Checked
+      consultee_emails_sent: Consultee emails sent
       created: Application created by %{args}
       description_change_request_cancelled: 'Cancelled: description change request (description#%{args})'
       description_change_validation_request_auto_closed:
@@ -508,9 +518,63 @@ en:
     update:
       failure: Couldn't check constraints — please contact support.
       success: Constraints was successfully checked
+  consultee_accordian_section_component:
+    consultee: Consultee
+    date_consulted: Date consulted
+    external_header_html: External (<span data-consultees-target="externalCount">%{count}</span>)
+    internal_header_html: Internal (<span data-consultees-target="internalCount">%{count}</span>)
+    period: Period
+    status: Status
+    toggle_selection: Toggle selection
+  consultee_email_component:
+    formatting_hint_html: The message is formatted using <a href="https://www.notifications.service.gov.uk/using-notify/formatting">GOV.UK Notify formatting rules</a>. Placeholders like <code>%{name}</code> will be substituted when the email is sent.
+    header: 2) Send email to selected consultees
+    message_body_label: Message body
+    message_subject_label: Message subject
+    view_or_edit_email_template: View/edit email template
+  consultee_emails:
+    body: |
+      Dear %{name}
+
+      Application number %{reference}
+
+      We have received an application for the development described below.
+
+      ## Proposal
+
+      %{description}
+
+      ## Site address
+
+      %{address}
+
+      To view the application documents, visit %{link}.
+
+      ## Comment on this application
+
+      Please submit your comments by %{closing_date} by replying to this email. You can include attachments. We may not be able to consider comments received after this date.
+
+      Yours
+
+
+      %{signatory_name}
+      %{signatory_job_title}
+      %{local_authority}
+    subject: Application for planning permission %{reference}
+  consultee_row_component:
+    awaiting_response: Awaiting response
+    failed: Failed
+    not_consulted: Not consulted
+    responded: Responded
+    select_consultee: Select consultee
+    sending: Sending
   consultees:
     update:
       success: Consultee response has been updated
+  consultees_component:
+    header: 1) Select the consultees to consult
+    not_consulted: Not consulted
+    select_consultee: Select consultee
   date:
     formats:
       default: "%-d %B %Y"
@@ -665,6 +729,8 @@ en:
   neighbour_letter_header:
     planning_permission: Submit your comments by %{closing_date}
     prior_approval: Submit your comments by %{closing_date}
+  no_consultees_component:
+    no_consultees_yet: No consultees have been added to the consultation yet.
   other_change_validation_requests:
     create:
       success: Other validation change request successfully created.
@@ -698,8 +764,6 @@ en:
           external: External
           internal: Internal
           remove_from_list: Remove from list
-        consultees:
-          list_who_was: List who was consulted about this application
         fields:
           summary_of_consultation: Summary of consultation responses
           this_information_will: This information will be made publicly available.
@@ -755,6 +819,12 @@ en:
         success: Press notice response has been successfully updated
     confirm_validation:
       validate_application: Validate application
+    consultee:
+      emails:
+        index:
+          please_search_for_a_consultee: Please search for a consultee first
+          send_emails_to_consultees: Send emails to consultees?
+          unable_to_add_consultee: 'Error: Unable to add the consultee to the list'
     create:
       success: Planning application was successfully created.
     days_from:
@@ -1158,6 +1228,7 @@ en:
   status_tag_component:
     accepted: Printing
     awaiting_determination: Awaiting determination
+    awaiting_responses: Awaiting responses
     cancelled: Cancelled
     checked: Checked
     cil_liable: Liable
@@ -1213,8 +1284,12 @@ en:
       link_text: CIL Liability
     confirm_site_notice_component:
       link_text: Confirm site notice
+    consultee_responses_component:
+      consultee_responses: View consultee responses
     document_component:
       check_document: Check document - %{document}
+    email_consultees_component:
+      email_consultees: Send emails to consultees
     fee_component:
       check_fee: Check fee
     immunity_details_component:

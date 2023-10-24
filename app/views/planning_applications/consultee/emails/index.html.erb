@@ -1,0 +1,41 @@
+<% content_for :page_title do %>
+  Send emails to consultees - <%= t('page_title') %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Consultation", planning_application_consultation_path(@planning_application) %>
+<% content_for :title, "Send emails to consultees" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Send emails to consultees" }
+) %>
+
+<div class="govuk-grid-row">
+  <%= content_tag(:div, class: "govuk-grid-column-full", data: {
+    controller: "consultees",
+    consultees_planning_application_id: @planning_application.id,
+    consultees_confirmation_message: t(".send_emails_to_consultees"),
+    consultees_prompt_message: t(".please_search_for_a_consultee"),
+    consultees_error_message: t(".unable_to_add_consultee")
+  }) do %>
+    <%= form_with(
+      model: @consultation,
+      url: planning_application_consultee_emails_path(@planning_application),
+      builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+      method: :post,
+      data: { consultees_target: "form" }
+    ) do |form| %>
+      <%= form.govuk_error_summary(presenter: ErrorPresenter) %>
+
+      <%= render ConsulteesComponent.new(consultees: @consultees, form: form) %>
+      <%= render ConsulteeEmailComponent.new(form: form) %>
+
+      <div class="govuk-button-group">
+        <%= form.submit "Send emails to consultees", id: "send-emails-button", class: "govuk-button", data: { consultees_target: "submit" } %>
+        <%= link_to "Back", planning_application_consultation_path(@planning_application), class: "govuk-button govuk-button--secondary" %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

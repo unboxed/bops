@@ -7,27 +7,32 @@ class LocalAuthority < ApplicationRecord
   has_many :constraints, dependent: :destroy
   has_one :api_user, dependent: :destroy
 
-  validates :council_code, :subdomain, :signatory_name, :signatory_job_title, :enquiries_paragraph, :email_address,
-            :feedback_email, presence: true
+  with_options presence: true do
+    validates :council_code, :subdomain
+    validates :short_name, :council_name
+    validates :applicants_url, :email_address
+    validates :signatory_name, :signatory_job_title
+    validates :enquiries_paragraph, :feedback_email
+  end
 
-  validates(
-    :reviewer_group_email, :press_notice_email,
-    format: { with: URI::MailTo::EMAIL_REGEXP },
-    allow_blank: true
-  )
+  with_options format: { with: URI::HTTP::ABS_URI } do
+    with_options allow_blank: true do
+      validates :applicants_url
+    end
+  end
+
+  with_options format: { with: URI::MailTo::EMAIL_REGEXP } do
+    with_options allow_blank: true do
+      validates :email_address
+      validates :reviewer_group_email
+      validates :press_notice_email
+    end
+  end
 
   validate :council_code_exists
 
   def signatory
     "#{signatory_name}, #{signatory_job_title}"
-  end
-
-  def council_name
-    plan_x? ? council_code : "#{subdomain.titleize} Council"
-  end
-
-  def formatted_subdomain
-    plan_x? ? council_code : subdomain.titleize
   end
 
   def document_checklist?

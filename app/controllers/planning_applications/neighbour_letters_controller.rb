@@ -53,7 +53,7 @@ module PlanningApplications
     end
 
     def send_letters
-      @consultation.update!(consultation_params.except(:resend_existing, :resend_reason).merge(status: "complete"))
+      @consultation.update!(consultation_params.except(:resend_existing, :resend_reason).merge(status: "in_progress"))
       @planning_application.send_neighbour_consultation_letter_copy_mail
 
       if consultation_params[:resend_existing] == "true"

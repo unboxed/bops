@@ -381,7 +381,7 @@ RSpec.describe "Reviewing assessment summaries" do
           entry: "site description"
         )
 
-        create(:consultee, planning_application:)
+        create(:consultee, consultation:)
 
         create(
           :assessment_detail,

@@ -27,12 +27,14 @@ module TaskListItems
       when :in_progress
         edit_planning_application_assessment_detail_path(
           planning_application,
-          assessment_detail
+          assessment_detail,
+          category:
         )
       else
         planning_application_assessment_detail_path(
           planning_application,
-          assessment_detail
+          assessment_detail,
+          category:
         )
       end
     end

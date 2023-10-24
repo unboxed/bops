@@ -123,7 +123,7 @@ RSpec.describe "neighbour responses" do
       expect(page).to have_link(
         "Edit summary of neighbour responses",
         href: edit_planning_application_assessment_detail_path(planning_application,
-                                                               AssessmentDetail.publicity_summary.last)
+                                                               AssessmentDetail.publicity_summary.last, category: "publicity_summary")
       )
     end
   end

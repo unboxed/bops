@@ -87,7 +87,7 @@ RSpec.describe TaskListItems::AssessmentDetailComponent, type: :component do
     it "renders link to edit assessment detail page" do
       expect(page).to have_link(
         "Summary of works",
-        href: "/planning_applications/#{planning_application.id}/assessment_details/#{assessment_detail.id}/edit"
+        href: "/planning_applications/#{planning_application.id}/assessment_details/#{assessment_detail.id}/edit?category=summary_of_work"
       )
     end
 
@@ -118,7 +118,7 @@ RSpec.describe TaskListItems::AssessmentDetailComponent, type: :component do
     it "renders link to show assessment detail page" do
       expect(page).to have_link(
         "Summary of works",
-        href: "/planning_applications/#{planning_application.id}/assessment_details/#{assessment_detail.id}"
+        href: "/planning_applications/#{planning_application.id}/assessment_details/#{assessment_detail.id}?category=summary_of_work"
       )
     end
 

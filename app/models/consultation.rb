@@ -6,15 +6,30 @@ class Consultation < ApplicationRecord
   include GeojsonFormattable
 
   belongs_to :planning_application
+  delegate :local_authority, to: :planning_application
 
   with_options dependent: :destroy do
-    has_many :consultees
+    has_many :consultees, extend: ConsulteesExtension
     has_many :neighbours
-    has_many :neighbour_responses
     has_many :site_visits
   end
 
-  has_many :neighbour_letters, through: :neighbours
+  with_options through: :consultees do
+    has_many :consultee_emails, source: :emails, class_name: "Consultee::Email"
+    has_many :consultee_responses, source: :responses, class_name: "Consultee::Response"
+  end
+
+  with_options through: :neighbours do
+    has_many :neighbour_letters
+    has_many :neighbour_responses
+  end
+
+  validate do
+    next unless validation_context == :send_consultee_emails
+    next if consultees.none?
+
+    errors.add(:consultees, :blank) if consultees.none_selected?
+  end
 
   accepts_nested_attributes_for :consultees, :neighbours
 
@@ -27,6 +42,26 @@ class Consultation < ApplicationRecord
   before_update :audit_letter_copy_sent!, if: :letter_copy_sent_at_changed?
 
   format_geojson_epsg :polygon_geojson
+
+  def send_consultee_emails(attributes)
+    self.attributes = attributes
+    return false unless save(context: :send_consultee_emails)
+
+    SendConsulteeEmailsJob.perform_now(
+      self,
+      consultees.selected,
+      consultee_email_subject,
+      consultee_email_body
+    )
+
+    start_deadline
+
+    Audit.create!(
+      planning_application_id: planning_application_id,
+      user: Current.user,
+      activity_type: "consultee_emails_sent"
+    )
+  end
 
   def start_deadline
     update!(end_date: end_date_from_now, start_date: start_date || 1.business_day.from_now)
@@ -48,9 +83,57 @@ class Consultation < ApplicationRecord
       "failed"
     elsif neighbour_letters.sent.present?
       "complete"
+    elsif neighbours.present?
+      "in_progress"
     else
       "not_started"
     end
+  end
+
+  def neighbour_responses_status
+    return "not_started" if end_date.blank?
+
+    if complete?
+      "complete"
+    elsif neighbour_responses.present?
+      "in_progress"
+    else
+      "not_started"
+    end
+  end
+
+  def consultee_emails_status
+    if consultees.failed?
+      "failed"
+    elsif consultees.complete?
+      "complete"
+    elsif consultees.awaiting_responses?
+      "awaiting_responses"
+    elsif consultees.present?
+      "in_progress"
+    else
+      "not_started"
+    end
+  end
+
+  def consultee_responses_status
+    return "not_started" if end_date.blank?
+
+    if complete?
+      "complete"
+    elsif consultee_responses.present?
+      "in_progress"
+    else
+      "not_started"
+    end
+  end
+
+  def consultee_email_subject
+    super.presence || I18n.t("subject", scope: "consultee_emails")
+  end
+
+  def consultee_email_body
+    super.presence || I18n.t("body", scope: "consultee_emails")
   end
 
   def neighbour_letter_header
@@ -62,7 +145,7 @@ class Consultation < ApplicationRecord
     I18n.t("neighbour_letter_template.#{planning_application.application_type.name}",
            expiry_date: planning_application.expiry_date.to_date.to_fs,
            address: planning_application.full_address,
-           council: planning_application.local_authority.subdomain.capitalize,
+           council: local_authority.short_name,
            applicant_name: "#{planning_application.applicant_first_name} #{planning_application.applicant_last_name}",
            description: planning_application.description,
            reference: planning_application.reference,
@@ -71,7 +154,7 @@ class Consultation < ApplicationRecord
            max_height: planning_application&.proposal_measurement&.max_height,
            eaves_height: planning_application&.proposal_measurement&.eaves_height,
            current_user: Current.user.name,
-           council_address: I18n.t("council_addresses.#{planning_application.local_authority.subdomain}"),
+           council_address: I18n.t("council_addresses.#{local_authority.subdomain}"),
            application_link:)
   end
 
@@ -146,15 +229,11 @@ class Consultation < ApplicationRecord
     started? && end_date < Time.zone.now
   end
 
-  private
-
   def application_link
-    if Bops.env.production?
-      "https://planningapplications.#{planning_application.local_authority.subdomain}.gov.uk/planning_applications/#{planning_application.id}"
-    else
-      "https://#{planning_application.local_authority.subdomain}.bops-applicants.services/planning_applications/#{planning_application.id}"
-    end
+    "#{local_authority.applicants_url}/planning_applications/#{planning_application_id}"
   end
+
+  private
 
   def audit_letter_copy_sent!
     Audit.create!(

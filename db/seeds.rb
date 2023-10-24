@@ -5,6 +5,9 @@ require "faker"
 lambeth = LocalAuthority.find_or_create_by!(
   council_code: "LBH",
   subdomain: "lambeth",
+  short_name: "Lambeth",
+  council_name: "Lambeth Council",
+  applicants_url: "http://lambeth.bops-applicants.localhost:3001",
   signatory_name: "Christina Thompson",
   signatory_job_title: "Director of Finance & Property",
   enquiries_paragraph: "Planning, London Borough of Lambeth, PO Box 734, Winchester SO23 5DG",
@@ -15,6 +18,9 @@ lambeth = LocalAuthority.find_or_create_by!(
 southwark = LocalAuthority.find_or_create_by!(
   council_code: "SWK",
   subdomain: "southwark",
+  short_name: "Southwark",
+  council_name: "Southwark Council",
+  applicants_url: "http://southwark.bops-applicants.localhost:3001",
   signatory_name: "Stephen Platts",
   signatory_job_title: "Director of Planning and Growth",
   enquiries_paragraph: "Planning, London Borough of Southwark, PO Box 734, Winchester SO23 5DG",
@@ -26,6 +32,9 @@ southwark = LocalAuthority.find_or_create_by!(
 buckinghamshire = LocalAuthority.find_or_create_by!(
   council_code: "BUC",
   subdomain: "buckinghamshire",
+  short_name: "Buckinghamshire",
+  council_name: "Buckinghamshire Council",
+  applicants_url: "http://buckinghamshire.bops-applicants.localhost:3001",
   signatory_name: "Steve Bambick",
   signatory_job_title: "Director of Planning",
   enquiries_paragraph: "Planning, Buckinghamshire Council, Gatehouse Rd, Aylesbury HP19 8FF",

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_23_085212) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -170,19 +170,80 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
     t.jsonb "polygon_geojson"
     t.string "polygon_colour", default: "#d870fc", null: false
     t.geography "polygon_search", limit: {:srid=>4326, :type=>"geometry_collection", :geographic=>true}
+    t.string "consultee_email_subject"
+    t.text "consultee_email_body"
     t.index ["planning_application_id"], name: "ix_consultations_on_planning_application_id", unique: true
+  end
+
+  create_table "consultee_emails", force: :cascade do |t|
+    t.bigint "consultee_id", null: false
+    t.string "subject"
+    t.text "body"
+    t.datetime "sent_at"
+    t.uuid "notify_id"
+    t.string "status", default: "pending", null: false
+    t.datetime "status_updated_at"
+    t.string "failure_reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["consultee_id"], name: "ix_consultee_emails_on_consultee_id"
+  end
+
+  create_table "consultee_responses", force: :cascade do |t|
+    t.bigint "consultee_id", null: false
+    t.string "name"
+    t.string "email"
+    t.text "response"
+    t.datetime "received_at"
+    t.text "redacted_response"
+    t.bigint "redacted_by_id"
+    t.datetime "redacted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["consultee_id"], name: "ix_consultee_responses_on_consultee_id"
+    t.index ["redacted_by_id"], name: "ix_consultee_responses_on_redacted_by_id"
   end
 
   create_table "consultees", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "origin", null: false
+    t.string "origin", null: false
     t.bigint "planning_application_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "consultation_id"
     t.text "response"
+    t.string "role"
+    t.string "organisation"
+    t.string "email_address"
+    t.string "status", default: "not_consulted"
+    t.boolean "selected", default: true
+    t.datetime "email_sent_at"
+    t.datetime "email_delivered_at"
     t.index ["consultation_id"], name: "ix_consultees_on_consultation_id"
     t.index ["planning_application_id"], name: "ix_consultees_on_planning_application_id"
+  end
+
+  create_table "contacts", force: :cascade do |t|
+    t.bigint "local_authority_id"
+    t.string "origin", null: false
+    t.string "category", null: false
+    t.string "name", null: false
+    t.string "role"
+    t.string "organisation"
+    t.string "address_1"
+    t.string "address_2"
+    t.string "town"
+    t.string "county"
+    t.string "postcode"
+    t.string "email_address"
+    t.string "phone_number"
+    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (((((COALESCE(name, ''::character varying))::text || ' '::text) || (COALESCE(role, ''::character varying))::text) || ' '::text) || (COALESCE(organisation, ''::character varying))::text))", stored: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["local_authority_id", "category"], name: "ix_contacts_on_local_authority_id__category"
+    t.index ["local_authority_id"], name: "ix_contacts_on_local_authority_id"
+    t.index ["name"], name: "ix_contacts_on_name"
+    t.index ["search"], name: "ix_contacts_on_search", using: :gin
   end
 
   create_table "description_change_validation_requests", force: :cascade do |t|
@@ -280,6 +341,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
     t.string "notify_api_key"
     t.string "notify_letter_template"
     t.string "press_notice_email"
+    t.string "short_name", null: false
+    t.string "council_name", null: false
+    t.string "applicants_url", null: false
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 
@@ -750,6 +814,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_145226) do
   add_foreign_key "audits", "planning_applications"
   add_foreign_key "audits", "users"
   add_foreign_key "constraints", "local_authorities"
+  add_foreign_key "consultee_emails", "consultees"
+  add_foreign_key "consultee_responses", "consultees"
+  add_foreign_key "consultee_responses", "users", column: "redacted_by_id"
+  add_foreign_key "consultees", "consultations"
+  add_foreign_key "contacts", "local_authorities"
   add_foreign_key "description_change_validation_requests", "planning_applications"
   add_foreign_key "description_change_validation_requests", "users"
   add_foreign_key "documents", "additional_document_validation_requests"

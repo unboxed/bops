@@ -13,6 +13,9 @@ namespace :local_authority do |args|
     opts.banner = "Usage: rake local_authority:create [options]"
     opts.on("-sd", "--subdomain ARG", String) { |subdomain| options[:subdomain] = subdomain }
     opts.on("-cc", "--council_code ARG", String) { |council_code| options[:council_code] = council_code }
+    opts.on("-sc", "--short_name ARG", String) { |short_name| options[:short_name] = short_name }
+    opts.on("-cn", "--council_name ARG", String) { |council_name| options[:council_name] = council_name }
+    opts.on("-au", "--applicants_url ARG", String) { |applicants_url| options[:applicants_url] = applicants_url }
     opts.on("-sn", "--signatory_name ARG", String) { |signatory_name| options[:signatory_name] = signatory_name }
     opts.on("-sjt", "--signatory_job_title ARG", String) do |signatory_job_title|
       options[:signatory_job_title] = signatory_job_title

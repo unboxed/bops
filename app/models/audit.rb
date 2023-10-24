@@ -88,7 +88,8 @@ class Audit < ApplicationRecord
     legislation_checked: "legislation_checked",
     press_notice: "press_notice",
     press_notice_mail: "press_notice_mail",
-    site_notice_created: "site_notice_created"
+    site_notice_created: "site_notice_created",
+    consultee_emails_sent: "consultee_emails_sent"
   }
 
   validates :activity_type, presence: true

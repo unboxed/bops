@@ -97,7 +97,7 @@ RSpec.describe "Additional evidence" do
 
       expect(page).to have_link(
         "Edit additional evidence",
-        href: edit_planning_application_assessment_detail_path(planning_application, AssessmentDetail.additional_evidence.last)
+        href: edit_planning_application_assessment_detail_path(planning_application, AssessmentDetail.additional_evidence.last, category: "additional_evidence")
       )
     end
   end

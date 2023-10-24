@@ -1,8 +1,8 @@
 .consultation-letter-status {
-  display: flex; 
-  flex-direction: column; 
+  display: flex;
+  flex-direction: column;
   justify-content: flex-start;
-  
+
   p {
     width: 109px;
   }
@@ -14,7 +14,7 @@
   width: 100%;
 }
 
-.govuk-accordion__section-content { 
+.govuk-accordion__section-content {
   .neighbour-response-section {
     border-bottom: 1px solid $govuk-border-colour;
   }
@@ -45,4 +45,40 @@
 .align-buttons {
   display: flex;
   align-items: center;
+}
+
+.consultee-emails {
+  .govuk-table__header, .govuk-table__cell {
+    border-bottom: none;
+  }
+
+  .govuk-table__cell {
+    border-top: 1px solid $govuk-border-colour;
+  }
+
+  .govuk-table__header--centred , .govuk-table__cell--centred {
+    text-align: center;
+  }
+
+  .govuk-checkboxes {
+    margin-top: 2px;
+  }
+
+  .expired {
+    color: govuk-colour("red");
+  }
+
+  .just-added {
+    animation: 1s hilite-added-row
+  }
+}
+
+@keyframes hilite-added-row {
+  0% {
+    background: govuk-tint($govuk-success-colour, 90%);
+  }
+
+  100% {
+    background: initial;
+  }
 }
