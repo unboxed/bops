@@ -7,8 +7,8 @@ module Api
 
       before_action :check_token_and_set_application
       before_action :check_file_params_are_present,
-                    :check_file_size,
-                    :check_file_type, only: :update
+        :check_file_size,
+        :check_file_type, only: :update
 
       def index
         respond_to do |format|
@@ -28,7 +28,7 @@ module Api
               render json: {
                        message: "Unable to find replacement document validation request with id: #{params[:id]}"
                      },
-                     status: :not_found
+                status: :not_found
             end
           end
         end
@@ -45,9 +45,9 @@ module Api
 
         @replacement_document_validation_request.create_api_audit!
         @planning_application.send_update_notification_to_assessor
-        render(json: { message: t(".success") }, status: :ok)
-      rescue StandardError
-        render(json: { message: t(".error") }, status: :bad_request)
+        render(json: {message: t(".success")}, status: :ok)
+      rescue
+        render(json: {message: t(".error")}, status: :bad_request)
       end
 
       private
@@ -55,19 +55,19 @@ module Api
       def check_file_type
         return if Document::PERMITTED_CONTENT_TYPES.include? params[:new_file].content_type
 
-        render json: { message: "The file type must be JPEG, PNG or PDF" }, status: :bad_request
+        render json: {message: "The file type must be JPEG, PNG or PDF"}, status: :bad_request
       end
 
       def check_file_size
         return unless file_size_over_30mb?(params[:new_file])
 
-        render json: { message: "The file must be smaller than 30MB" }, status: :payload_too_large
+        render json: {message: "The file must be smaller than 30MB"}, status: :payload_too_large
       end
 
       def check_file_params_are_present
         return if params[:new_file].present?
 
-        render json: { message: "A file must be selected to proceed." }, status: :bad_request
+        render json: {message: "A file must be selected to proceed."}, status: :bad_request
       end
     end
   end

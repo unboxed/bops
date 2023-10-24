@@ -12,7 +12,7 @@ class AddReferenceToPlanningApplications < ActiveRecord::Migration[6.1]
 
     private
 
-    enum application_type: { lawfulness_certificate: 0, full: 1 }
+    enum application_type: {lawfulness_certificate: 0, full: 1}
 
     def application_number
       self[:application_number].to_s.rjust(5, "0")

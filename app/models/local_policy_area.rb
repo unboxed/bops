@@ -3,7 +3,7 @@
 class LocalPolicyArea < ApplicationRecord
   belongs_to :local_policy
 
-  validates :assessment, :policies, :area, presence: { if: :completed? }
+  validates :assessment, :policies, :area, presence: {if: :completed?}
 
   attr_reader :policy
 

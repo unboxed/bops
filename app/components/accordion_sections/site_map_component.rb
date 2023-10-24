@@ -35,9 +35,9 @@ module AccordionSections
 
     def change_request
       @change_request ||= planning_application
-                          .red_line_boundary_change_validation_requests
-                          .post_validation
-                          .last
+        .red_line_boundary_change_validation_requests
+        .post_validation
+        .last
     end
   end
 end

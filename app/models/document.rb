@@ -21,11 +21,11 @@ class Document < ApplicationRecord
   end
 
   has_one :replacement_document_validation_request,
-          lambda { |document|
-            unscope(:where).where(old_document_id: document.id, cancelled_at: nil)
-          },
-          dependent: :destroy,
-          inverse_of: false
+    lambda { |document|
+      unscope(:where).where(old_document_id: document.id, cancelled_at: nil)
+    },
+    dependent: :destroy,
+    inverse_of: false
 
   has_one_attached :file, dependent: :destroy
   after_create :create_audit!
@@ -156,7 +156,7 @@ class Document < ApplicationRecord
   def archive(archive_reason)
     if replacement_document_validation_request.try(:open_or_pending?)
       raise NotArchiveableError,
-            "Cannot archive document with an open or pending validation request"
+        "Cannot archive document with an open or pending validation request"
     end
 
     return if archived?
@@ -187,13 +187,13 @@ class Document < ApplicationRecord
 
     if saved_change_to_attribute?("received_at")
       audit!(activity_type: "document_received_at_changed", activity_information: file.filename,
-             audit_comment: audit_date_comment)
+        audit_comment: audit_date_comment)
     end
     if saved_change_to_attribute?(:validated, from: false, to: true)
       audit!(activity_type: "document_changed_to_validated", activity_information: file.filename)
     elsif saved_change_to_attribute?(:validated, to: false)
       audit!(activity_type: "document_invalidated", activity_information: file.filename,
-             audit_comment: invalidated_document_reason)
+        audit_comment: invalidated_document_reason)
     end
   end
 
@@ -262,8 +262,8 @@ class Document < ApplicationRecord
   end
 
   def audit_date_comment
-    { previous_received_date: saved_change_to_received_at.first,
-      updated_received_date: saved_change_to_received_at.second }.to_json
+    {previous_received_date: saved_change_to_received_at.first,
+     updated_received_date: saved_change_to_received_at.second}.to_json
   end
 
   def reset_replacement_document_validation_request_update_counter!

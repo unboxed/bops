@@ -10,12 +10,12 @@ module ValidationRequestHelper
       end
     elsif validation_request.class.name.include?("Other") && validation_request.closed?
       link_to("View response",
-              planning_application_other_change_validation_request_path(validation_request.planning_application,
-                                                                        validation_request))
+        planning_application_other_change_validation_request_path(validation_request.planning_application,
+          validation_request))
     elsif validation_request.closed?
       link_to(validation_request.new_document.name.to_s,
-              edit_planning_application_document_path(validation_request.planning_application,
-                                                      validation_request.new_document.id.to_s))
+        edit_planning_application_document_path(validation_request.planning_application,
+          validation_request.new_document.id.to_s))
     end
   end
 
@@ -31,26 +31,26 @@ module ValidationRequestHelper
 
   def edit_request_url(planning_application, validation_request, classname: nil)
     link_to "Edit request",
-            send("edit_planning_application_#{request_type(validation_request)}_path", planning_application,
-                 validation_request), class: classname
+      send("edit_planning_application_#{request_type(validation_request)}_path", planning_application,
+        validation_request), class: classname
   end
 
   def cancel_confirmation_request_url(planning_application, validation_request, classname: nil)
     link_to "Cancel request",
-            send("cancel_confirmation_planning_application_#{request_type(validation_request)}_path",
-                 planning_application, validation_request), class: classname
+      send("cancel_confirmation_planning_application_#{request_type(validation_request)}_path",
+        planning_application, validation_request), class: classname
   end
 
   def delete_confirmation_request_url(planning_application, validation_request, classname: nil)
     link_to "Delete request",
-            send("planning_application_#{request_type(validation_request)}_path",
-                 planning_application, validation_request),
-            method: :delete, data: { confirm: "Are you sure?" }, class: classname
+      send("planning_application_#{request_type(validation_request)}_path",
+        planning_application, validation_request),
+      method: :delete, data: {confirm: "Are you sure?"}, class: classname
   end
 
   def cancel_request_url(planning_application, validation_request)
     send("cancel_planning_application_#{request_type(validation_request)}_path", planning_application,
-         validation_request)
+      validation_request)
   end
 
   def edit_validation_request_url(planning_application, validation_request)
@@ -63,7 +63,7 @@ module ValidationRequestHelper
 
   def document_url(document)
     link_to(document.name.to_s,
-            edit_planning_application_document_path(document.planning_application, document.id))
+      edit_planning_application_document_path(document.planning_application, document.id))
   end
 
   def show_validation_request_link(application, request)

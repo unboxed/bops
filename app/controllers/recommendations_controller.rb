@@ -52,7 +52,7 @@ class RecommendationsController < AuthenticationController
 
       format.html do
         redirect_to planning_application_review_tasks_path(@planning_application),
-                    notice: t(".success")
+          notice: t(".success")
       end
     end
   end

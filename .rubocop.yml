@@ -1,106 +1,36 @@
 ---
-inherit_mode:
-  merge:
-    - Exclude
-
 require:
+  - standard
+  - standard-custom
+  - standard-performance
+  - standard-rails
   - rubocop-performance
   - rubocop-rails
-  - rubocop-rspec
+
+inherit_gem:
+  standard: config/base.yml
+  standard-custom: config/base.yml
+  standard-performance: config/base.yml
+  standard-rails: config/base.yml
 
 AllCops:
   TargetRubyVersion: 3.2.2
   NewCops: enable
   Exclude:
+    - 'bin/*'
     - 'bops-applicants/**/*'
+    - 'db/schema.rb'
     - 'config/environments/**'
     - 'config/puma.rb'
+    - 'vendor/**/*'
 
-Style/HashSyntax:
-  EnforcedShorthandSyntax: either
-
-Style/StringLiterals:
-  EnforcedStyle: double_quotes
-
-Style/Documentation:
-  Enabled: false
-
-# be a bit kinder with our metrics
-Metrics:
-  Enabled: false
-
-Metrics/BlockLength:
-  Enabled: true
-  Max: 100
+# TODO
+Rails/EnvironmentVariableAccess:
   Exclude:
-    - spec/**/*
-    - config/routes.rb
+    - app/**/*
 
-Layout/LineLength:
-  AllowedPatterns: ['^\s*#']
-  Exclude:
-    - spec/**/*
-
-Naming/VariableNumber:
-  Exclude:
-    - db/migrate/*
-    - spec/**/*
-
-# we tend to use update_all in migrations
-Rails/SkipsModelValidations:
-  Exclude:
-    - db/migrate/*.rb
-
-  AllowedMethods:
-    - touch
-
-# allow ActiveRecord::Base as a parent class in migrations
-Rails/ApplicationRecord:
-  Exclude:
-    - db/migrate/*.rb
-
-# Rspec
-RSpec/MultipleExpectations:
-  Enabled: false
-
-RSpec/ExampleLength:
-  Enabled: false
-
-RSpec/NestedGroups:
-  Max: 5
-
-RSpec/InstanceVariable:
-  Enabled: false
-
-RSpec/MultipleMemoizedHelpers:
-  Enabled: false
-
-RSpec/AnyInstance:
-  Enabled: false
-
-RSpec/ContextWording:
-  Prefixes:
-    - as
-    - before
-    - when
-    - with
-    - without
-
-RSpec/LetSetup:
-  Enabled: false
-
-RSpec/MessageSpies:
-  Enabled: false
-
-RSpec/StubbedMock:
-  Enabled: false
-
-Lint/MissingSuper:
-  Exclude:
-    - app/components/**/*.rb
-
-# these two are ignored because they're migrations from the past and we
-# don't expect to go back and edit them ever
+# past migrations are ignored; we don't expect to go back and edit them ever,
+# we'll fix them in future migrations if at all.
 Rails/BulkChangeTable:
   Exclude:
     - db/migrate/2020*
@@ -112,3 +42,16 @@ Rails/ReversibleMigration:
     - db/migrate/2020*
     - db/migrate/2021*
     - db/migrate/2022*
+
+Rails/ThreeStateBooleanColumn:
+  Exclude:
+    - db/migrate/2020*
+    - db/migrate/2021*
+    - db/migrate/2022*
+    - db/migrate/20230*
+    - db/migrate/202310*
+
+# False positive: if being used in migrations, behaviour is different and intentional
+Rails/ApplicationRecord:
+  Exclude:
+    - db/migrate/*

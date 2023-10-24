@@ -21,8 +21,8 @@ class DescriptionChangeValidationRequest < ApplicationRecord
     return unless approved == false && rejection_reason.blank?
 
     errors.add(:base,
-               "Please include a comment for the case officer to " \
-               "indicate why the description change has been rejected.")
+      "Please include a comment for the case officer to " \
+      "indicate why the description change has been rejected.")
   end
 
   def set_previous_application_description
@@ -79,14 +79,14 @@ class DescriptionChangeValidationRequest < ApplicationRecord
 
   def audit_api_comment
     if approved?
-      { response: "approved" }.to_json
+      {response: "approved"}.to_json
     else
-      { response: "rejected", reason: rejection_reason }.to_json
+      {response: "rejected", reason: rejection_reason}.to_json
     end
   end
 
   def audit_comment
-    { previous: planning_application.description,
-      proposed: proposed_description }.to_json
+    {previous: planning_application.description,
+     proposed: proposed_description}.to_json
   end
 end

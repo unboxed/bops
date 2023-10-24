@@ -157,7 +157,7 @@ RSpec.describe Consultation do
     let!(:neutral_response) { create(:neighbour_response, neighbour: neighbour2, summary_tag: "neutral") }
 
     it "returns correct count of summary tags" do
-      expect(consultation.neighbour_responses_by_summary_tag).to eq({ "objection" => 1, "supportive" => 2, "neutral" => 1 })
+      expect(consultation.neighbour_responses_by_summary_tag).to eq({"objection" => 1, "supportive" => 2, "neutral" => 1})
     end
   end
 
@@ -375,7 +375,7 @@ RSpec.describe Consultation do
       let(:planning_application) { create(:planning_application) }
 
       it "raises an error" do
-        allow(planning_application).to receive(:boundary_geojson).and_return({ "type" => "InvalidType" }.to_json)
+        allow(planning_application).to receive(:boundary_geojson).and_return({"type" => "InvalidType"}.to_json)
 
         expect { consultation.polygon_search_and_boundary_geojson }.to raise_error(/Invalid GeoJSON type/)
       end

@@ -61,7 +61,7 @@ class PlanningApplicationCreationService
           )
         end
         ConstraintsCreationService.new(planning_application:,
-                                       constraints_params: params[:constraints_proposed]&.map(&:to_unsafe_hash)).call
+          constraints_params: params[:constraints_proposed]&.map(&:to_unsafe_hash)).call
         UploadDocumentsJob.perform_now(planning_application:, files: params[:files])
         CreateImmunityDetailsJob.perform_now(planning_application:) if possibly_immune?(planning_application)
       end
@@ -71,7 +71,7 @@ class PlanningApplicationCreationService
 
     planning_application
   rescue Api::V1::Errors::WrongFileTypeError, Api::V1::Errors::GetFileError, ActiveRecord::RecordInvalid,
-         ArgumentError, NoMethodError => e
+    ArgumentError, NoMethodError => e
     raise CreateError, e.message
   end
 
@@ -80,23 +80,23 @@ class PlanningApplicationCreationService
     check_for_planning_permission
 
     permitted_keys = [:application_type,
-                      :description,
-                      :applicant_first_name,
-                      :applicant_last_name,
-                      :applicant_phone,
-                      :applicant_email,
-                      :agent_first_name,
-                      :agent_last_name,
-                      :agent_phone,
-                      :agent_email,
-                      :user_role,
-                      :proposal_details,
-                      :files,
-                      :payment_reference,
-                      :work_status,
-                      :planx_debug_data,
-                      :from_production,
-                      { feedback: %i[result find_property planning_constraints] }]
+      :description,
+      :applicant_first_name,
+      :applicant_last_name,
+      :applicant_phone,
+      :applicant_email,
+      :agent_first_name,
+      :agent_last_name,
+      :agent_phone,
+      :agent_email,
+      :user_role,
+      :proposal_details,
+      :files,
+      :payment_reference,
+      :work_status,
+      :planx_debug_data,
+      :from_production,
+      {feedback: %i[result find_property planning_constraints]}]
 
     params.permit permitted_keys
   end
@@ -116,21 +116,21 @@ class PlanningApplicationCreationService
   def site_params
     return unless params[:site]
 
-    { uprn: params[:site][:uprn],
-      address_1: params[:site][:address_1], # rubocop:disable Naming/VariableNumber
-      address_2: params[:site][:address_2], # rubocop:disable Naming/VariableNumber
-      town: params[:site][:town],
-      postcode: params[:site][:postcode],
-      lonlat: lonlat(params[:site][:longitude], params[:site][:latitude]) }
+    {uprn: params[:site][:uprn],
+     address_1: params[:site][:address_1], # rubocop:disable Naming/VariableNumber
+     address_2: params[:site][:address_2], # rubocop:disable Naming/VariableNumber
+     town: params[:site][:town],
+     postcode: params[:site][:postcode],
+     lonlat: lonlat(params[:site][:longitude], params[:site][:latitude])}
   end
 
   def result_params
     return unless params[:result]
 
-    { result_flag: params[:result][:flag],
-      result_heading: params[:result][:heading],
-      result_description: params[:result][:description],
-      result_override: params[:result][:override] }
+    {result_flag: params[:result][:flag],
+     result_heading: params[:result][:heading],
+     result_description: params[:result][:description],
+     result_override: params[:result][:override]}
   end
 
   def payment_amount_in_pounds(amount)

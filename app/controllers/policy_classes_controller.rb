@@ -11,7 +11,8 @@ class PolicyClassesController < PlanningApplicationsController
     @part_number = params[:part]&.to_i
   end
 
-  def show; end
+  def show
+  end
 
   def new
     @part = params[:part]
@@ -19,10 +20,11 @@ class PolicyClassesController < PlanningApplicationsController
     return if @part.present?
 
     redirect_to part_new_planning_application_policy_class_path(@planning_application),
-                alert: t(".failure")
+      alert: t(".failure")
   end
 
-  def edit; end
+  def edit
+  end
 
   def create
     class_ids = planning_application_params[:policy_classes].compact_blank
@@ -33,8 +35,8 @@ class PolicyClassesController < PlanningApplicationsController
     end
 
     classes = PolicyClass
-              .classes_for_part(params[:part])
-              .select { |c| class_ids.include?(c.section) }
+      .classes_for_part(params[:part])
+      .select { |c| class_ids.include?(c.section) }
 
     @planning_application.policy_classes += classes
 
@@ -42,7 +44,7 @@ class PolicyClassesController < PlanningApplicationsController
       success_redirect_url
     else
       redirect_to new_planning_application_policy_class_path(@planning_application, part: params[:part]),
-                  alert: @planning_application.errors.full_messages
+        alert: @planning_application.errors.full_messages
     end
   end
 
@@ -80,7 +82,7 @@ class PolicyClassesController < PlanningApplicationsController
   def policy_class_params
     params
       .require(:policy_class)
-      .permit(policies_attributes: [:id, :status, { comments_attributes: [:text] }])
+      .permit(policies_attributes: [:id, :status, {comments_attributes: [:text]}])
       .merge(status:)
   end
 
@@ -100,6 +102,6 @@ class PolicyClassesController < PlanningApplicationsController
 
   def success_redirect_url
     redirect_to planning_application_assessment_tasks_path(@planning_application),
-                notice: t(".success")
+      notice: t(".success")
   end
 end

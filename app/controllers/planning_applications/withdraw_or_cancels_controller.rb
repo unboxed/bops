@@ -53,7 +53,7 @@ module PlanningApplications
 
     def redirect_failed_withdraw_or_cancel(error)
       redirect_to planning_application_withdraw_or_cancel_path(@planning_application),
-                  alert: "Error withdrawing or cancelling the application with message: #{error.message}."
+        alert: "Error withdrawing or cancelling the application with message: #{error.message}."
     end
   end
 end

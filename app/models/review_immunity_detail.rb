@@ -34,7 +34,7 @@ class ReviewImmunityDetail < ApplicationRecord
     evidence: "evidence"
   }
 
-  validates :decision, inclusion: { in: DECISIONS }, allow_blank: true
+  validates :decision, inclusion: {in: DECISIONS}, allow_blank: true
 
   before_create :ensure_no_open_evidence_review_immunity_detail_response!
   before_create :ensure_no_open_enforcement_review_immunity_detail_response!
@@ -95,7 +95,7 @@ class ReviewImmunityDetail < ApplicationRecord
     return if last_evidence_review_immunity_detail.reviewed_at?
 
     raise NotCreatableError,
-          "Cannot create an evidence review immunity detail response when there is already an open response"
+      "Cannot create an evidence review immunity detail response when there is already an open response"
   end
 
   def ensure_no_open_enforcement_review_immunity_detail_response!
@@ -106,6 +106,6 @@ class ReviewImmunityDetail < ApplicationRecord
     return if last_enforcement_review_immunity_detail.reviewed_at?
 
     raise NotCreatableError,
-          "Cannot create an enforcement review immunity detail response when there is already an open response"
+      "Cannot create an enforcement review immunity detail response when there is already an open response"
   end
 end

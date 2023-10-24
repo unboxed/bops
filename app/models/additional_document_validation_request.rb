@@ -67,7 +67,7 @@ class AdditionalDocumentValidationRequest < ApplicationRecord
   end
 
   def audit_comment
-    { document: document_request_type,
-      reason: document_request_reason }.to_json
+    {document: document_request_type,
+     reason: document_request_reason}.to_json
   end
 end

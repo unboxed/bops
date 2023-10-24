@@ -52,7 +52,7 @@ RSpec.shared_examples "validate and invalidate" do
 
   it "allows document edit, archive and upload after invalidation" do
     create(:additional_document_validation_request, planning_application:, state: "open",
-                                                    created_at: 12.days.ago)
+      created_at: 12.days.ago)
 
     within(govuk_tab_all) do
       click_link(planning_application.reference)
@@ -70,14 +70,14 @@ RSpec.shared_examples "validate and invalidate" do
 
   it "displays a validation date of the last closed validation request if any closed validation requests exist" do
     create(:additional_document_validation_request,
-           planning_application:,
-           state: "closed",
-           updated_at: Time.zone.today - 2.days)
+      planning_application:,
+      state: "closed",
+      updated_at: Time.zone.today - 2.days)
 
     create(:replacement_document_validation_request,
-           planning_application:,
-           state: "closed",
-           updated_at: Time.zone.today - 3.days)
+      planning_application:,
+      state: "closed",
+      updated_at: Time.zone.today - 3.days)
 
     within(govuk_tab_all) do
       click_link(planning_application.reference)
@@ -204,7 +204,7 @@ RSpec.describe "Planning Application Assessment" do
   context "when checking documents from Not Started status" do
     it "can be invalidated and email is sent when there is an open validation request" do
       create(:additional_document_validation_request, planning_application:, state: "pending",
-                                                      created_at: 12.days.ago)
+        created_at: 12.days.ago)
 
       delivered_emails = ActionMailer::Base.deliveries.count
 
@@ -253,8 +253,8 @@ RSpec.describe "Planning Application Assessment" do
   context "when planning application does not transition when expected inputs are not sent" do
     it "shows an error when invalid documents are present" do
       create(:document, :with_file,
-             planning_application:,
-             validated: false, invalidated_document_reason: "Missing a lazy Suzan")
+        planning_application:,
+        validated: false, invalidated_document_reason: "Missing a lazy Suzan")
 
       within(govuk_tab_all) do
         click_link(planning_application.reference)
@@ -410,7 +410,7 @@ RSpec.describe "Planning Application Assessment" do
   context "when application invalidated" do
     it "does not show the invalidate button when application is invalid" do
       invalid_planning_application = create(:planning_application, :invalidated,
-                                            local_authority: default_local_authority)
+        local_authority: default_local_authority)
 
       visit planning_application_path(invalid_planning_application)
       click_link "Check and validate"

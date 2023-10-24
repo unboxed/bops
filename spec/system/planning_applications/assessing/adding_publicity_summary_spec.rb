@@ -9,7 +9,7 @@ RSpec.describe "neighbour responses" do
   let!(:application_type) { create(:application_type, name: :prior_approval) }
   let!(:planning_application) do
     create(:planning_application, :in_assessment, :from_planx_immunity, application_type:,
-                                                                        local_authority: default_local_authority)
+      local_authority: default_local_authority)
   end
 
   before do
@@ -123,7 +123,7 @@ RSpec.describe "neighbour responses" do
       expect(page).to have_link(
         "Edit summary of neighbour responses",
         href: edit_planning_application_assessment_detail_path(planning_application,
-                                                               AssessmentDetail.publicity_summary.last, category: "publicity_summary")
+          AssessmentDetail.publicity_summary.last, category: "publicity_summary")
       )
     end
   end

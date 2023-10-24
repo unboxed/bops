@@ -82,7 +82,7 @@ RSpec.describe "editing planning application" do
 
     # Check audit
     visit planning_application_audits_path(planning_application)
-    within("#audit_#{Audit.find_by(activity_information: 'Application type').id}") do
+    within("#audit_#{Audit.find_by(activity_information: "Application type").id}") do
       expect(page).to have_content("Application type updated")
       expect(page).to have_content(
         "Application type changed from: Lawfulness certificate / Changed to: Prior approval, Reference changed from 23-00100-LDCP to 23-00101-PA"

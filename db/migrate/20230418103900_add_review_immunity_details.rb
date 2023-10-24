@@ -4,8 +4,8 @@ class AddReviewImmunityDetails < ActiveRecord::Migration[7.0]
   def up
     create_table :review_immunity_details do |t|
       t.references :immunity_detail
-      t.references :assessor, foreign_key: { to_table: :users }
-      t.references :reviewer, foreign_key: { to_table: :users }
+      t.references :assessor, foreign_key: {to_table: :users}
+      t.references :reviewer, foreign_key: {to_table: :users}
       t.string :decision
       t.text :decision_reason
       t.text :summary
@@ -25,8 +25,8 @@ class AddReviewImmunityDetails < ActiveRecord::Migration[7.0]
     drop_table :review_immunity_details if table_exists?(:review_immunity_details)
 
     change_table :immunity_details, bulk: true do |t|
-      t.references :assessor, foreign_key: { to_table: :users }
-      t.references :reviewer, foreign_key: { to_table: :users }
+      t.references :assessor, foreign_key: {to_table: :users}
+      t.references :reviewer, foreign_key: {to_table: :users}
       t.datetime :reviewed_at
     end
   end

@@ -23,7 +23,7 @@ RSpec.describe "cloning a planning application" do
       .to_return(
         status: 200,
         body: Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf").read,
-        headers: { "Content-Type" => "application/pdf" }
+        headers: {"Content-Type" => "application/pdf"}
       )
 
     sign_in(assessor)

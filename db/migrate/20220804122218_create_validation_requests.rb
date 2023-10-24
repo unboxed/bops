@@ -15,8 +15,8 @@ class CreateValidationRequests < ActiveRecord::Migration[6.1]
 
   def up
     create_table :validation_requests do |t|
-      t.bigint  :requestable_id, null: false
-      t.string  :requestable_type, null: false
+      t.bigint :requestable_id, null: false
+      t.string :requestable_type, null: false
 
       t.timestamps
     end

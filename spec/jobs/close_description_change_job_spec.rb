@@ -7,8 +7,8 @@ RSpec.describe CloseDescriptionChangeJob do
 
   let!(:description_change_request) do
     create(:description_change_validation_request,
-           planning_application:,
-           created_at: 6.business_days.ago)
+      planning_application:,
+      created_at: 6.business_days.ago)
   end
 
   it "changes the application's description" do

@@ -51,7 +51,7 @@ RSpec.describe "Requesting a new document for a planning application" do
 
   it "displays the details of the received request in the audit log" do
     create(:audit, planning_application_id: planning_application.id,
-                   activity_type: "additional_document_validation_request_received", activity_information: 1, audit_comment: "roof_plan.pdf", api_user:)
+      activity_type: "additional_document_validation_request_received", activity_information: 1, audit_comment: "roof_plan.pdf", api_user:)
 
     sign_in assessor
     visit planning_application_path(planning_application)

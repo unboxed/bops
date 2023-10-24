@@ -16,6 +16,6 @@ class CreateEvidenceGroups < ActiveRecord::Migration[7.0]
     end
 
     add_reference :documents, :evidence_group, references: :evidence_groups,
-                                               foreign_key: { to_table: :evidence_groups }, null: true
+      foreign_key: {to_table: :evidence_groups}, null: true
   end
 end

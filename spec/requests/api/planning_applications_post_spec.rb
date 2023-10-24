@@ -27,7 +27,7 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
         .to_return(
           status: 200,
           body: Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf").read,
-          headers: { "Content-Type" => "application/pdf" }
+          headers: {"Content-Type" => "application/pdf"}
         )
     end
 
@@ -44,14 +44,14 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
       end
 
       it "returns 401 if user is not authenticated" do
-        post_with(params: json, headers: { Authorization: "Bearer dasfdsafdsaf" })
+        post_with(params: json, headers: {Authorization: "Bearer dasfdsafdsaf"})
 
         expect(response).to have_http_status(:unauthorized)
       end
 
       it "renders failure message" do
         post "/api/v1/planning_applications", params: json,
-                                              headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
+          headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
         expect(response.body).to eq("{\"message\":\"Validation failed: Application type must exist, An applicant or agent email is required.\"}")
       end
     end
@@ -147,26 +147,26 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
 
       it "downloads and saves the plan against the planning application" do
         post "/api/v1/planning_applications", params: permitted_development_json,
-                                              headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
+          headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
         expect(PlanningApplication.last.documents.first.file).to be_present
       end
 
       it "returns a 200 response" do
         post "/api/v1/planning_applications", params: permitted_development_json,
-                                              headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
+          headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
         expect(response).to have_http_status(:ok)
       end
 
       it "renders success message" do
         post "/api/v1/planning_applications", params: permitted_development_json,
-                                              headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
-        expect(response.body).to eq({ id: PlanningApplication.all[0].reference.to_s,
-                                      message: "Application created" }.to_json)
+          headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
+        expect(response.body).to eq({id: PlanningApplication.all[0].reference.to_s,
+                                     message: "Application created"}.to_json)
       end
 
       it "returns 401 if user is not authenticated" do
         post "/api/v1/planning_applications", params: permitted_development_json,
-                                              headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer dasfdsafdsaf" }
+          headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer dasfdsafdsaf"}
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -177,32 +177,32 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
 
       it "saves a valid planning application" do
         post "/api/v1/planning_applications", params: minimal_development_json,
-                                              headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
+          headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
         expect(PlanningApplication.all[0]).to be_valid
       end
 
       it "returns a 200 response" do
         post "/api/v1/planning_applications", params: minimal_development_json,
-                                              headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
+          headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
         expect(response).to have_http_status(:ok)
       end
 
       it "renders success message" do
         post "/api/v1/planning_applications", params: minimal_development_json,
-                                              headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
-        expect(response.body).to eq({ id: PlanningApplication.all[0].reference.to_s,
-                                      message: "Application created" }.to_json)
+          headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
+        expect(response.body).to eq({id: PlanningApplication.all[0].reference.to_s,
+                                     message: "Application created"}.to_json)
       end
 
       it "returns 401 if user is not authenticated" do
         post "/api/v1/planning_applications", params: minimal_development_json,
-                                              headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer dasfdsafdsaf" }
+          headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer dasfdsafdsaf"}
         expect(response).to have_http_status(:unauthorized)
       end
 
       it "returns 401 if no authorization is supplied" do
         post "/api/v1/planning_applications", params: minimal_development_json,
-                                              headers: { "CONTENT-TYPE": "application/json" }
+          headers: {"CONTENT-TYPE": "application/json"}
         expect(response).to have_http_status(:unauthorized)
         expect(response.body).to eq('{"error":"HTTP Token: Access denied."}')
       end
@@ -233,7 +233,7 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
   context "with the wrong type of document" do
     before do
       stub_request(:get, "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf")
-        .to_return(status: 200, body: "some document", headers: { "Content-Type" => "application/octet-stream" })
+        .to_return(status: 200, body: "some document", headers: {"Content-Type" => "application/octet-stream"})
     end
 
     context "when passed a request with the minimal parameters" do

@@ -26,7 +26,7 @@ module SystemSpecHelpers
   end
 
   def pick(value, from:)
-    listbox = "ul[@id='#{from.delete_prefix('#')}__listbox']"
+    listbox = "ul[@id='#{from.delete_prefix("#")}__listbox']"
     option = "li[@role='option' and normalize-space(.)='#{value}']"
 
     find(:xpath, "//#{listbox}/#{option}").click

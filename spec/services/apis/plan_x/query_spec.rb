@@ -5,9 +5,9 @@ require "rails_helper"
 RSpec.describe Apis::PlanX::Query do
   before do
     stub_request(:get,
-                 "https://api.editor.planx.uk/gis/opensystemslab").with(
-                   query: hash_including({ geom: /POLYGON/ })
-                 ).to_return(body: {}.to_json)
+      "https://api.editor.planx.uk/gis/opensystemslab").with(
+        query: hash_including({geom: /POLYGON/})
+      ).to_return(body: {}.to_json)
   end
 
   describe "#request" do

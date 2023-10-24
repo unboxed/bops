@@ -59,7 +59,7 @@ module PlanningApplications
       if consultation_params[:resend_existing] == "true"
         @consultation.neighbours.each do |neighbour|
           LetterSendingService.new(neighbour, @consultation.neighbour_letter_text,
-                                   resend_reason: consultation_params[:resend_reason]).deliver!
+            resend_reason: consultation_params[:resend_reason]).deliver!
         end
       else
         @consultation.neighbours.reject(&:letter_created?).each do |neighbour|
@@ -76,7 +76,7 @@ module PlanningApplications
       respond_to do |format|
         format.html do
           redirect_to planning_application_consultation_neighbour_letters_path(@planning_application),
-                      flash: { sent_neighbour_letters: true }
+            flash: {sent_neighbour_letters: true}
         end
       end
     end
@@ -119,7 +119,7 @@ module PlanningApplications
       return if @planning_application.make_public?
 
       flash.now[:alert] = sanitize "The planning application must be
-      #{view_context.link_to 'made public on the BoPS Public Portal', make_public_planning_application_path(@planning_application)}
+      #{view_context.link_to "made public on the BoPS Public Portal", make_public_planning_application_path(@planning_application)}
       before you can send letters to neighbours."
 
       render :index and return

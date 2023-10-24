@@ -4,7 +4,7 @@ class Constraint < ApplicationRecord
   self.inheritance_column = "inheritance_type"
 
   validates :category, :type, presence: true
-  validates :type, uniqueness: { scope: :local_authority }
+  validates :type, uniqueness: {scope: :local_authority}
 
   belongs_to :local_authority, optional: true
 
@@ -12,7 +12,7 @@ class Constraint < ApplicationRecord
 
   scope :options_for_local_authority, ->(local_authority_id) { where(local_authority_id: [local_authority_id, nil]) }
 
-  alias constraint_id id
+  alias_method :constraint_id, :id
 
   def type_code
     if I18n.t("constraint_type_codes.#{type}").include?("translation missing")

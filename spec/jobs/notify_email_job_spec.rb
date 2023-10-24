@@ -66,7 +66,7 @@ RSpec.describe NotifyEmailJob do
             },
             body: {
               errors: [
-                { error: "Exception", message: "Internal server error" }
+                {error: "Exception", message: "Internal server error"}
               ]
             }.to_json
           )
@@ -95,7 +95,7 @@ RSpec.describe NotifyEmailJob do
             },
             body: {
               errors: [
-                { error: "BadRequestError", message: "Can't send to this recipient using a team-only API key" }
+                {error: "BadRequestError", message: "Can't send to this recipient using a team-only API key"}
               ]
             }.to_json
           )
@@ -124,7 +124,7 @@ RSpec.describe NotifyEmailJob do
             },
             body: {
               errors: [
-                { error: "AuthError", message: "Invalid token: API key not found" }
+                {error: "AuthError", message: "Invalid token: API key not found"}
               ]
             }.to_json
           )
@@ -153,7 +153,7 @@ RSpec.describe NotifyEmailJob do
             },
             body: {
               errors: [
-                { error: "NotFoundError", message: "Not Found" }
+                {error: "NotFoundError", message: "Not Found"}
               ]
             }.to_json
           )
@@ -182,7 +182,7 @@ RSpec.describe NotifyEmailJob do
             },
             body: {
               errors: [
-                { error: "RequestTimeoutError", message: "Request Timeout" }
+                {error: "RequestTimeoutError", message: "Request Timeout"}
               ]
             }.to_json
           )
@@ -211,7 +211,7 @@ RSpec.describe NotifyEmailJob do
             },
             body: {
               errors: [
-                { error: "RateLimitError", message: "Exceeded rate limit for key type LIVE of 3000 requests per 60 seconds" }
+                {error: "RateLimitError", message: "Exceeded rate limit for key type LIVE of 3000 requests per 60 seconds"}
               ]
             }.to_json
           )
@@ -240,7 +240,7 @@ RSpec.describe NotifyEmailJob do
             },
             body: {
               errors: [
-                { error: "TooManyRequestsError", message: "Exceeded send limits (250,000) for today" }
+                {error: "TooManyRequestsError", message: "Exceeded send limits (250,000) for today"}
               ]
             }.to_json
           )

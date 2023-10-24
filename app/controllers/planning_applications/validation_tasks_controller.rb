@@ -5,7 +5,8 @@ module PlanningApplications
     before_action :set_planning_application
     before_action :set_items_counter, only: :index
 
-    def index; end
+    def index
+    end
 
     private
 

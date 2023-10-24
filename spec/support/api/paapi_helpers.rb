@@ -11,12 +11,12 @@ module PaapiHelper
     status = Rack::Utils.status_code(status)
 
     body = if body == "no_result"
-             []
-           else
-             Rails.root.join("spec", "fixtures", "paapi", "#{body}.json").read
-           end
+      []
+    else
+      Rails.root.join("spec", "fixtures", "paapi", "#{body}.json").read
+    end
 
-    { status:, body: }
+    {status:, body:}
   end
 end
 

@@ -7,9 +7,9 @@ module Api
 
       before_action :check_token_and_set_application
       before_action :check_files_params_are_present,
-                    :check_files_size,
-                    :check_files_type,
-                    :current_api_user, only: :update
+        :check_files_size,
+        :check_files_type,
+        :current_api_user, only: :update
 
       rescue_from AdditionalDocumentValidationRequest::UploadFilesError do |_exception|
         render_failed_request
@@ -30,8 +30,8 @@ module Api
             format.json
           else
             format.json do
-              render json: { message: "Unable to find additional document validation request with id: #{params[:id]}" },
-                     status: :not_found
+              render json: {message: "Unable to find additional document validation request with id: #{params[:id]}"},
+                status: :not_found
             end
           end
         end
@@ -44,7 +44,7 @@ module Api
         if @additional_document_validation_request.can_upload?
           @additional_document_validation_request.upload_files!(params[:files])
           @planning_application.send_update_notification_to_assessor
-          render json: { message: "Validation request updated" }, status: :ok
+          render json: {message: "Validation request updated"}, status: :ok
         else
           render_failed_request
         end
@@ -55,23 +55,23 @@ module Api
       def check_files_params_are_present
         return unless params[:files].empty?
 
-        render json: { message: "At least one file must be selected to proceed." }, status: :bad_request
+        render json: {message: "At least one file must be selected to proceed."}, status: :bad_request
       end
 
       def check_files_size
         params[:files].each do |file|
           next unless file_size_over_30mb?(file)
 
-          render json: { message: "The file: '#{file.original_filename}' exceeds the limit of 30mb. " \
-                                  "Each file must be 30MB or less" },
-                 status: :payload_too_large
+          render json: {message: "The file: '#{file.original_filename}' exceeds the limit of 30mb. " \
+                                  "Each file must be 30MB or less"},
+            status: :payload_too_large
         end
       end
 
       def check_files_type
         return unless params[:files].any? { |file| Document::PERMITTED_CONTENT_TYPES.exclude? file.content_type }
 
-        render json: { message: "The file type must be JPEG, PNG or PDF" }, status: :bad_request
+        render json: {message: "The file type must be JPEG, PNG or PDF"}, status: :bad_request
       end
     end
   end

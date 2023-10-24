@@ -32,7 +32,7 @@ module PlanningApplications
         if @immunity_detail.update(immunity_details_params)
           format.html do
             redirect_to planning_application_assessment_tasks_path(@planning_application),
-                        notice: I18n.t("assessment_details.immunity_detail_successfully_updated")
+              notice: I18n.t("assessment_details.immunity_detail_successfully_updated")
           end
         else
           format.html { render :edit }
@@ -48,18 +48,18 @@ module PlanningApplications
 
     def immunity_details_params
       params.require(:immunity_detail)
-            .permit(
-              evidence_groups_attributes:
-                [
-                  :id,
-                  :start_date,
-                  :end_date,
-                  :missing_evidence,
-                  :missing_evidence_entry,
-                  { comments_attributes: [:text] }
-                ]
-            )
-            .merge(status:)
+        .permit(
+          evidence_groups_attributes:
+            [
+              :id,
+              :start_date,
+              :end_date,
+              :missing_evidence,
+              :missing_evidence_entry,
+              {comments_attributes: [:text]}
+            ]
+        )
+        .merge(status:)
     end
 
     def status

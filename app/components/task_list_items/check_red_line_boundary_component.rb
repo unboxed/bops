@@ -36,14 +36,14 @@ module TaskListItems
 
     def status
       @status = if valid?
-                  :valid
-                elsif red_line_boundary_change_validation_requests.open_or_pending.any?
-                  :invalid
-                elsif change_request&.approved == false
-                  :updated
-                else
-                  :not_started
-                end
+        :valid
+      elsif red_line_boundary_change_validation_requests.open_or_pending.any?
+        :invalid
+      elsif change_request&.approved == false
+        :updated
+      else
+        :not_started
+      end
     end
 
     def render_sitemap_path?
@@ -57,9 +57,9 @@ module TaskListItems
 
     def change_request
       @change_request ||= red_line_boundary_change_validation_requests
-                          .not_cancelled
-                          .order(:created_at)
-                          .last
+        .not_cancelled
+        .order(:created_at)
+        .last
     end
   end
 end

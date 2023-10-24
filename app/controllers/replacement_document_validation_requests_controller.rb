@@ -27,7 +27,7 @@ class ReplacementDocumentValidationRequestsController < ValidationRequestsContro
     ActiveRecord::Base.transaction do
       @replacement_document_validation_request =
         @planning_application
-        .replacement_document_validation_requests.new(replacement_document_validation_request_params).tap do |record|
+          .replacement_document_validation_requests.new(replacement_document_validation_request_params).tap do |record|
           record.old_document = @document
           record.post_validation = @planning_application.validated? unless @planning_application.validated?.nil?
           record.user = current_user
@@ -49,7 +49,7 @@ class ReplacementDocumentValidationRequestsController < ValidationRequestsContro
     respond_to do |format|
       format.html do
         redirect_to planning_application_validation_tasks_path(@planning_application),
-                    alert: "Could not find document with id: #{document_id}"
+          alert: "Could not find document with id: #{document_id}"
       end
     end
   end
@@ -70,10 +70,10 @@ class ReplacementDocumentValidationRequestsController < ValidationRequestsContro
 
   def set_document
     @document = if @replacement_document_validation_request
-                  @replacement_document_validation_request.old_document
-                else
-                  @planning_application.documents.find(params[:document])
-                end
+      @replacement_document_validation_request.old_document
+    else
+      @planning_application.documents.find(params[:document])
+    end
   end
 
   def set_replacement_document_validation_request

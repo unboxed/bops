@@ -51,8 +51,8 @@ module AccordionSections
 
     def description_change_request
       @description_change_request ||= planning_application
-                                      .open_description_change_requests
-                                      .last
+        .open_description_change_requests
+        .last
     end
 
     def payment_reference
@@ -60,7 +60,7 @@ module AccordionSections
     end
 
     def work_already_started
-      planning_application.work_status == "proposed" ? t(".no") : t(".yes")
+      (planning_application.work_status == "proposed") ? t(".no") : t(".yes")
     end
 
     def map_link

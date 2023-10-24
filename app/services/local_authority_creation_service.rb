@@ -22,8 +22,8 @@ class LocalAuthorityCreationService
   private
 
   attr_reader :subdomain, :council_code, :short_name, :council_name, :applicants_url,
-              :signatory_name, :signatory_job_title, :enquiries_paragraph,
-              :email_address, :feedback_email, :admin_email
+    :signatory_name, :signatory_job_title, :enquiries_paragraph,
+    :email_address, :feedback_email, :admin_email
 
   def setup
     local_authority

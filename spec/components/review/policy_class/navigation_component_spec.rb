@@ -21,7 +21,7 @@ RSpec.describe Review::PolicyClass::NavigationComponent, type: :component do
     render_inline(described_class.new(policy_class:))
 
     expect(page).to have_link "View previous class",
-                              href: edit_planning_application_review_policy_class_path(planning_application, prv)
+      href: edit_planning_application_review_policy_class_path(planning_application, prv)
     expect(page).not_to have_text "View next class"
   end
 
@@ -33,7 +33,7 @@ RSpec.describe Review::PolicyClass::NavigationComponent, type: :component do
 
     expect(page).not_to have_text "View previous class"
     expect(page).to have_link "View next class",
-                              href: edit_planning_application_review_policy_class_path(planning_application, nxt)
+      href: edit_planning_application_review_policy_class_path(planning_application, nxt)
   end
 
   it "displays both links with higher and lower sort policy_class" do
@@ -44,8 +44,8 @@ RSpec.describe Review::PolicyClass::NavigationComponent, type: :component do
     render_inline(described_class.new(policy_class:))
 
     expect(page).to have_link "View previous class",
-                              href: edit_planning_application_review_policy_class_path(planning_application, prv)
+      href: edit_planning_application_review_policy_class_path(planning_application, prv)
     expect(page).to have_link "View next class",
-                              href: edit_planning_application_review_policy_class_path(planning_application, nxt)
+      href: edit_planning_application_review_policy_class_path(planning_application, nxt)
   end
 end

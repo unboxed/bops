@@ -131,43 +131,43 @@ RSpec.describe "Consultation", js: true do
 
     internal = \
       stub_request(:post, "#{notify_url}/email")
-      .with(body: hash_including(
-        {
-          email_address: "chris.wood@planx.gov.uk",
-          personalisation: hash_including(
-            "subject" => "Consultation for planning application #{planning_application.reference}"
-          )
-        }
-      ))
-      .to_return(
-        status: 200,
-        headers: {
-          "Content-Type" => "application/json"
-        },
-        body: {
-          id: "ee35ce55-f32e-4269-a217-18517745fe8b"
-        }.to_json
-      )
+        .with(body: hash_including(
+          {
+            email_address: "chris.wood@planx.gov.uk",
+            personalisation: hash_including(
+              "subject" => "Consultation for planning application #{planning_application.reference}"
+            )
+          }
+        ))
+        .to_return(
+          status: 200,
+          headers: {
+            "Content-Type" => "application/json"
+          },
+          body: {
+            id: "ee35ce55-f32e-4269-a217-18517745fe8b"
+          }.to_json
+        )
 
     external = \
       stub_request(:post, "#{notify_url}/email")
-      .with(body: hash_including(
-        {
-          email_address: "planning@london.gov.uk",
-          personalisation: hash_including(
-            "subject" => "Consultation for planning application #{planning_application.reference}"
-          )
-        }
-      ))
-      .to_return(
-        status: 200,
-        headers: {
-          "Content-Type" => "application/json"
-        },
-        body: {
-          id: "48025d96-abc9-4b1d-a519-3cbc1c7f700b"
-        }.to_json
-      )
+        .with(body: hash_including(
+          {
+            email_address: "planning@london.gov.uk",
+            personalisation: hash_including(
+              "subject" => "Consultation for planning application #{planning_application.reference}"
+            )
+          }
+        ))
+        .to_return(
+          status: 200,
+          headers: {
+            "Content-Type" => "application/json"
+          },
+          body: {
+            id: "48025d96-abc9-4b1d-a519-3cbc1c7f700b"
+          }.to_json
+        )
 
     perform_enqueued_jobs(at: Time.current)
     expect(internal).to have_been_requested
@@ -199,27 +199,27 @@ RSpec.describe "Consultation", js: true do
 
     internal_status = \
       stub_request(:get, "#{notify_url}/ee35ce55-f32e-4269-a217-18517745fe8b")
-      .to_return(
-        status: 200,
-        headers: {
-          "Content-Type" => "application/json"
-        },
-        body: {
-          status: "delivered"
-        }.to_json
-      )
+        .to_return(
+          status: 200,
+          headers: {
+            "Content-Type" => "application/json"
+          },
+          body: {
+            status: "delivered"
+          }.to_json
+        )
 
     external_status = \
       stub_request(:get, "#{notify_url}/48025d96-abc9-4b1d-a519-3cbc1c7f700b")
-      .to_return(
-        status: 200,
-        headers: {
-          "Content-Type" => "application/json"
-        },
-        body: {
-          status: "permanent-failure"
-        }.to_json
-      )
+        .to_return(
+          status: 200,
+          headers: {
+            "Content-Type" => "application/json"
+          },
+          body: {
+            status: "permanent-failure"
+          }.to_json
+        )
 
     perform_enqueued_jobs
     expect(internal_status).to have_been_requested
@@ -281,23 +281,23 @@ RSpec.describe "Consultation", js: true do
 
     resend = \
       stub_request(:post, "#{notify_url}/email")
-      .with(body: hash_including(
-        {
-          email_address: "planning@london.gov.uk",
-          personalisation: hash_including(
-            "subject" => "Resend: Consultation for planning application #{planning_application.reference}"
-          )
-        }
-      ))
-      .to_return(
-        status: 200,
-        headers: {
-          "Content-Type" => "application/json"
-        },
-        body: {
-          id: "17d69fb7-5d4c-400b-af11-2952266d2e2b"
-        }.to_json
-      )
+        .with(body: hash_including(
+          {
+            email_address: "planning@london.gov.uk",
+            personalisation: hash_including(
+              "subject" => "Resend: Consultation for planning application #{planning_application.reference}"
+            )
+          }
+        ))
+        .to_return(
+          status: 200,
+          headers: {
+            "Content-Type" => "application/json"
+          },
+          body: {
+            id: "17d69fb7-5d4c-400b-af11-2952266d2e2b"
+          }.to_json
+        )
 
     perform_enqueued_jobs(at: Time.current)
     expect(resend).to have_been_requested
@@ -318,15 +318,15 @@ RSpec.describe "Consultation", js: true do
 
     resend_status = \
       stub_request(:get, "#{notify_url}/17d69fb7-5d4c-400b-af11-2952266d2e2b")
-      .to_return(
-        status: 200,
-        headers: {
-          "Content-Type" => "application/json"
-        },
-        body: {
-          status: "delivered"
-        }.to_json
-      )
+        .to_return(
+          status: 200,
+          headers: {
+            "Content-Type" => "application/json"
+          },
+          body: {
+            status: "delivered"
+          }.to_json
+        )
 
     perform_enqueued_jobs
     expect(resend_status).to have_been_requested

@@ -25,15 +25,15 @@ Rails.application.routes.draw do
 
   defaults format: "json" do
     get "/os_places_api",
-        to: "os_places_api#index",
-        as: "os_places_api_index"
+      to: "os_places_api#index",
+      as: "os_places_api_index"
 
     post "/search_addresses_by_polygon",
-         to: "os_places_api#search_addresses_by_polygon",
-         as: "search_addresses_by_polygon"
+      to: "os_places_api#search_addresses_by_polygon",
+      as: "search_addresses_by_polygon"
 
     scope "/contacts" do
-      get "/consultees", to: "contacts#index", defaults: { category: "consultee" }
+      get "/consultees", to: "contacts#index", defaults: {category: "consultee"}
     end
   end
 

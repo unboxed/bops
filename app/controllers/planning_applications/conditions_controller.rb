@@ -8,18 +8,21 @@ module PlanningApplications
     before_action :set_new_conditions, only: :new
     before_action :set_conditions, only: :edit
 
-    def show; end
+    def show
+    end
 
-    def new; end
+    def new
+    end
 
-    def edit; end
+    def edit
+    end
 
     def create
       if @planning_application.update(assign_params)
         respond_to do |format|
           format.html do
             redirect_to(planning_application_assessment_tasks_path(@planning_application),
-                        notice: I18n.t("conditions.create.success"))
+              notice: I18n.t("conditions.create.success"))
           end
         end
       else
@@ -33,7 +36,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             redirect_to(planning_application_assessment_tasks_path(@planning_application),
-                        notice: I18n.t("conditions.update.success"))
+              notice: I18n.t("conditions.update.success"))
           end
         end
       else
@@ -52,9 +55,9 @@ module PlanningApplications
 
     def condition_params
       params.require(:planning_application)
-            .permit(
-              conditions_attributes: [:title, :text, :reason, :id, :standard, :new_condition, { conditions: [] }]
-            )
+        .permit(
+          conditions_attributes: [:title, :text, :reason, :id, :standard, :new_condition, {conditions: []}]
+        )
     end
 
     def assign_params

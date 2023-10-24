@@ -43,22 +43,22 @@ module Api
       private
 
       def send_success_response
-        render json: { id: @planning_application.reference.to_s,
-                       message: "Application created" }, status: :ok
+        render json: {id: @planning_application.reference.to_s,
+                      message: "Application created"}, status: :ok
       end
 
       def send_failed_response(error, params)
         Appsignal.send_error(error) do |transaction|
-          transaction.params = { params: params.to_unsafe_hash }
+          transaction.params = {params: params.to_unsafe_hash}
         end
 
-        render json: { message: error.message.to_s || "Unable to create application" },
-               status: :bad_request
+        render json: {message: error.message.to_s || "Unable to create application"},
+          status: :bad_request
       end
 
       def send_not_found_response
-        render json: { message: "Unable to find record" },
-               status: :not_found
+        render json: {message: "Unable to find record"},
+          status: :not_found
       end
 
       def post_application_to_staging

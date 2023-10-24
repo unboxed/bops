@@ -1,35 +1,35 @@
 # frozen_string_literal: true
 
 json.extract! planning_application,
-              :agent_first_name,
-              :agent_last_name,
-              :agent_phone,
-              :agent_email,
-              :applicant_first_name,
-              :applicant_last_name,
-              :user_role,
-              :awaiting_determination_at,
-              :to_be_reviewed_at,
-              :created_at,
-              :description,
-              :determined_at,
-              :determination_date,
-              :id,
-              :invalidated_at,
-              :in_assessment_at,
-              :payment_reference,
-              :payment_amount,
-              :result_flag,
-              :result_heading,
-              :result_description,
-              :result_override,
-              :returned_at,
-              :started_at,
-              :status,
-              :target_date,
-              :withdrawn_at,
-              :work_status,
-              :boundary_geojson
+  :agent_first_name,
+  :agent_last_name,
+  :agent_phone,
+  :agent_email,
+  :applicant_first_name,
+  :applicant_last_name,
+  :user_role,
+  :awaiting_determination_at,
+  :to_be_reviewed_at,
+  :created_at,
+  :description,
+  :determined_at,
+  :determination_date,
+  :id,
+  :invalidated_at,
+  :in_assessment_at,
+  :payment_reference,
+  :payment_amount,
+  :result_flag,
+  :result_heading,
+  :result_description,
+  :result_override,
+  :returned_at,
+  :started_at,
+  :status,
+  :target_date,
+  :withdrawn_at,
+  :work_status,
+  :boundary_geojson
 if planning_application.site_notices.any?
   json.site_notice_content planning_application.site_notices.order(:created_at).last.content
 end
@@ -57,10 +57,10 @@ json.documents planning_application.documents.for_publication do |document|
   json.url api_v1_planning_application_document_url(planning_application, document)
   json.blob_url url_for(document.blob_url).to_s
   json.extract! document,
-                :created_at,
-                :tags,
-                :numbers,
-                :applicant_description
+    :created_at,
+    :tags,
+    :numbers,
+    :applicant_description
 end
 if planning_application.consultation.present?
   json.published_comments planning_application.consultation.neighbour_responses.redacted do |response|

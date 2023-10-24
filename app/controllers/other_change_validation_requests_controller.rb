@@ -42,7 +42,7 @@ class OtherChangeValidationRequestsController < ValidationRequestsController
       if @other_change_validation_request.save
         format.html do
           redirect_to planning_application_validation_tasks_path(@planning_application),
-                      notice: t(".success")
+            notice: t(".success")
         end
       else
         format.html { render :new, validate_fee: params[:validate_fee] }
@@ -55,7 +55,7 @@ class OtherChangeValidationRequestsController < ValidationRequestsController
       if @other_change_validation_request.update(other_change_validation_request_params)
         format.html do
           redirect_to planning_application_validation_tasks_path(@planning_application),
-                      notice: t(".success")
+            notice: t(".success")
         end
       else
         format.html { render :edit }

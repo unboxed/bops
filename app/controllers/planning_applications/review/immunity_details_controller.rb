@@ -31,7 +31,7 @@ module PlanningApplications
           if update_immunity_details
             format.html do
               redirect_to planning_application_review_tasks_path(@planning_application),
-                          notice: I18n.t("immunity_details.successfully_updated")
+                notice: I18n.t("immunity_details.successfully_updated")
             end
           else
             set_immunity_detail
@@ -52,9 +52,9 @@ module PlanningApplications
 
       def review_immunity_detail_params
         params.require(:review_immunity_detail)
-              .permit(:reviewer_comment, :accepted)
-              .to_h
-              .deep_merge(reviewed_at: Time.current, reviewer: current_user)
+          .permit(:reviewer_comment, :accepted)
+          .to_h
+          .deep_merge(reviewed_at: Time.current, reviewer: current_user)
       end
 
       def review_status

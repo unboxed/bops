@@ -15,14 +15,14 @@ module MapitHelper
     status = Rack::Utils.status_code(status)
 
     body = if block
-             yield
-           elsif body == "no_result"
-             []
-           else
-             Rails.root.join("spec", "fixtures", "mapit", "#{body}.json").read
-           end
+      yield
+    elsif body == "no_result"
+      []
+    else
+      Rails.root.join("spec", "fixtures", "mapit", "#{body}.json").read
+    end
 
-    { status:, body: }
+    {status:, body:}
   end
 end
 

@@ -192,7 +192,7 @@ RSpec.describe "Planning Application Assessment" do
           click_link("Make draft recommendation")
           expect(page).to have_checked_field("Yes")
           expect(page).to have_field("Provide supporting information for your manager.",
-                                     with: "This is a private assessor comment")
+            with: "This is a private assessor comment")
           choose "No"
           fill_in "State the reasons why this application is, or is not lawful.", with: "This is a new public comment"
           fill_in "Provide supporting information for your manager.", with: "Edited private assessor comment"
@@ -273,7 +273,7 @@ RSpec.describe "Planning Application Assessment" do
 
       let!(:recommendation) do
         create(:recommendation, :reviewed, planning_application:,
-                                           reviewer_comment: "I disagree", assessor_comment: "This looks good")
+          reviewer_comment: "I disagree", assessor_comment: "This looks good")
       end
 
       it "displays the previous recommendations" do
@@ -291,7 +291,7 @@ RSpec.describe "Planning Application Assessment" do
 
         choose "Yes"
         fill_in "State the reasons why this application is, or is not lawful.",
-                with: "This is so granted and GDPO everything"
+          with: "This is so granted and GDPO everything"
         fill_in "Provide supporting information for your manager.", with: "This is a private assessor comment"
         click_button "Update assessment"
 
@@ -311,7 +311,7 @@ RSpec.describe "Planning Application Assessment" do
 
         expect(page).to have_checked_field("Yes")
         expect(page).to have_field("Provide supporting information for your manager.",
-                                   with: "This is a private assessor comment")
+          with: "This is a private assessor comment")
       end
     end
 
@@ -504,7 +504,7 @@ RSpec.describe "Planning Application Assessment" do
           expect(page).to have_checked_field("Yes")
           expect(page).to have_content("This is a public comment")
           expect(page).to have_field("Provide supporting information for your manager.",
-                                     with: "This is a private assessor comment")
+            with: "This is a private assessor comment")
         end
       end
 
@@ -818,7 +818,7 @@ RSpec.describe "Planning Application Assessment" do
           expect(page).not_to have_checked_field("Prior approval required and refused")
 
           expect(page).to have_field("Provide supporting information for your manager.",
-                                     with: "This is a private assessor comment")
+            with: "This is a private assessor comment")
           choose "Prior approval not required"
           fill_in "State the reasons for your recommendation.", with: "This is a new public comment"
           fill_in "Provide supporting information for your manager.", with: "Edited private assessor comment"
@@ -843,7 +843,7 @@ RSpec.describe "Planning Application Assessment" do
           expect(page).not_to have_checked_field("Prior approval required and refused")
 
           expect(page).to have_field("Provide supporting information for your manager.",
-                                     with: "Edited private assessor comment")
+            with: "Edited private assessor comment")
           choose "Prior approval required and refused"
           fill_in "State the reasons for your recommendation.", with: "This is a new public comment"
           fill_in "Provide supporting information for your manager.", with: "Edited private assessor comment"

@@ -38,7 +38,7 @@ RSpec.describe "API request to show a local authority", show_exceptions: true do
     it "returns a 404 if local authority not there" do
       get "/api/v1/local_authorities/xxx"
       expect(response.code).to eq("404")
-      expect(local_authority_json).to eq({ "message" => "Unable to find record" })
+      expect(local_authority_json).to eq({"message" => "Unable to find record"})
     end
 
     it "returns the accurate data" do

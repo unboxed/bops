@@ -10,7 +10,7 @@ module Api
       protect_from_forgery with: :null_session
 
       rescue_from ActionController::ParameterMissing do |e|
-        render json: { error: e.message }, status: :bad_request
+        render json: {error: e.message}, status: :bad_request
       end
 
       def set_default_format
@@ -39,11 +39,11 @@ module Api
           if params[:change_access_id] == @planning_application.change_access_id
             @planning_application
           else
-            render json: { message: "Change access id is invalid" }, status: :unauthorized
+            render json: {message: "Change access id is invalid"}, status: :unauthorized
           end
         else
-          render json: { message: "Unable to find planning application with id: #{params[:planning_application_id]}" },
-                 status: :not_found
+          render json: {message: "Unable to find planning application with id: #{params[:planning_application_id]}"},
+            status: :not_found
         end
       end
 
@@ -65,7 +65,7 @@ module Api
 
       def request_http_token_authentication(realm = "Application", _message = nil)
         headers["WWW-Authenticate"] = %(Token realm="#{realm.delete('"')}")
-        render json: { error: "HTTP Token: Access denied." }, status: :unauthorized
+        render json: {error: "HTTP Token: Access denied."}, status: :unauthorized
       end
     end
   end

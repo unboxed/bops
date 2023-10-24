@@ -27,6 +27,6 @@ class AddPlanningApplicationToValidationRequests < ActiveRecord::Migration[6.1]
 
   def down
     remove_reference :validation_requests, :planning_application if column_exists?(:validation_requests,
-                                                                                   :planning_application_id)
+      :planning_application_id)
   end
 end

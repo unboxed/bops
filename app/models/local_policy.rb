@@ -13,7 +13,7 @@ class LocalPolicy < ApplicationRecord
 
   accepts_nested_attributes_for :local_policy_areas
   validates_associated :local_policy_areas
-  validates :local_policy_areas, presence: { if: :completed? }
+  validates :local_policy_areas, presence: {if: :completed?}
 
   enum(
     status: {

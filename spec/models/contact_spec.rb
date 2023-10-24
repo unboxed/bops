@@ -78,7 +78,7 @@ RSpec.describe Contact do
 
     context "when no local authority is specified" do
       let(:options) do
-        { category: "consultee" }
+        {category: "consultee"}
       end
 
       it "returns only external consultees" do
@@ -90,7 +90,7 @@ RSpec.describe Contact do
 
     context "when the local authority is specified" do
       let(:options) do
-        { category: "consultee", local_authority: lambeth }
+        {category: "consultee", local_authority: lambeth}
       end
 
       it "returns internal and external contacts" do

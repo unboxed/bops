@@ -8,6 +8,6 @@ module AssessmentDetailHelper
       "#{count} #{tag}"
     end
 
-    "There is #{summary_text.join(', ')}."
+    "There is #{summary_text.join(", ")}."
   end
 end

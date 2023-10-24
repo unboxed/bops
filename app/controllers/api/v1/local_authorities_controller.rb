@@ -18,8 +18,8 @@ module Api
       end
 
       def send_not_found_response
-        render json: { message: "Unable to find record" },
-               status: :not_found
+        render json: {message: "Unable to find record"},
+          status: :not_found
       end
     end
   end

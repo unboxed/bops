@@ -394,7 +394,7 @@ RSpec.describe PlanningApplication do
           expect do
             ldc_planning_application.update!(application_type_id: ApplicationType.find_by(name: "prior_approval").id)
           end.to change(Audit, :count)
-             .by(1)
+            .by(1)
             .and change(ldc_planning_application, :application_number)
             .from("00101").to("00102")
             .and change(ldc_planning_application, :reference)
@@ -512,14 +512,14 @@ RSpec.describe PlanningApplication do
 
     it "returns true if name and email are given" do
       planning_application.update!(agent_first_name: "first", agent_last_name: "last",
-                                   agent_phone: "", agent_email: "agent@example.com")
+        agent_phone: "", agent_email: "agent@example.com")
 
       expect(planning_application.agent?).to be true
     end
 
     it "returns true if name and phone are given" do
       planning_application.update!(agent_first_name: "first", agent_last_name: "last",
-                                   agent_phone: "34433454", agent_email: "")
+        agent_phone: "34433454", agent_email: "")
 
       expect(planning_application.agent?).to be true
     end
@@ -528,28 +528,28 @@ RSpec.describe PlanningApplication do
   describe "#applicant?" do
     it "returns false if no values are given" do
       planning_application.update!(applicant_first_name: "", applicant_last_name: "",
-                                   applicant_phone: "", applicant_email: "")
+        applicant_phone: "", applicant_email: "")
 
       expect(planning_application.applicant?).to be false
     end
 
     it "returns true if only name is given" do
       planning_application.update!(applicant_first_name: "first", applicant_last_name: "last",
-                                   applicant_phone: "", applicant_email: "")
+        applicant_phone: "", applicant_email: "")
 
       expect(planning_application.applicant?).to be true
     end
 
     it "returns true if name and email are given" do
       planning_application.update!(applicant_first_name: "first", applicant_last_name: "last",
-                                   applicant_phone: "", applicant_email: "applicant@example.com")
+        applicant_phone: "", applicant_email: "applicant@example.com")
 
       expect(planning_application.applicant?).to be true
     end
 
     it "returns true if name and phone are given" do
       planning_application.update!(applicant_first_name: "first", applicant_last_name: "last",
-                                   applicant_phone: "34433454", applicant_email: "")
+        applicant_phone: "34433454", applicant_email: "")
 
       expect(planning_application.applicant?).to be true
     end
@@ -741,7 +741,7 @@ RSpec.describe PlanningApplication do
         [
           {
             question: "Test question?",
-            responses: [{ value: "Test response" }],
+            responses: [{value: "Test response"}],
             metadata: {
               auto_answered: true,
               portal_name: "Test portal",
@@ -850,7 +850,7 @@ RSpec.describe PlanningApplication do
       [
         {
           question: "Test question?",
-          responses: [{ value: "Test response" }],
+          responses: [{value: "Test response"}],
           metadata: {
             auto_answered: true,
             portal_name: "immunity-check"
@@ -858,7 +858,7 @@ RSpec.describe PlanningApplication do
         },
         {
           question: "Test question 2?",
-          responses: [{ value: "Test response" }],
+          responses: [{value: "Test response"}],
           metadata: {
             auto_answered: true,
             portal_name: "immunity-check"
@@ -929,7 +929,7 @@ RSpec.describe PlanningApplication do
       it "submits the recommendation and creates an audit record" do
         expect { planning_application.submit_recommendation! }
           .to change(planning_application, :status).from("in_assessment").to("awaiting_determination")
-                                                   .and change(planning_application.recommendation.reload, :submitted).from(false).to(true)
+          .and change(planning_application.recommendation.reload, :submitted).from(false).to(true)
 
         expect(planning_application.awaiting_determination_at).to eq(Time.current)
 
@@ -997,7 +997,7 @@ RSpec.describe PlanningApplication do
       it "withdraws the recommendation and creates an audit record" do
         expect { planning_application.withdraw_last_recommendation! }
           .to change(planning_application, :status).from("awaiting_determination").to("in_assessment")
-                                                   .and change(planning_application.recommendation.reload, :submitted).from(true).to(false)
+          .and change(planning_application.recommendation.reload, :submitted).from(true).to(false)
 
         expect(planning_application.in_assessment_at).to eq(Time.current)
 
@@ -1452,10 +1452,10 @@ RSpec.describe PlanningApplication do
         statuses.each do |status|
           it "returns false when #{status} and the last recommendation when challenge is #{challenge}" do
             create(:recommendation,
-                   status:,
-                   challenged: challenge,
-                   reviewer_comment: "Nope",
-                   planning_application:)
+              status:,
+              challenged: challenge,
+              reviewer_comment: "Nope",
+              planning_application:)
 
             expect(planning_application.last_recommendation_accepted?).to be false
           end
@@ -1467,9 +1467,9 @@ RSpec.describe PlanningApplication do
       %i[assessment_in_progress assessment_complete review_in_progress].each do |status|
         it "returns false when #{status} and the last recommendation is challenged" do
           create(:recommendation,
-                 status:,
-                 challenged: false,
-                 planning_application:)
+            status:,
+            challenged: false,
+            planning_application:)
 
           expect(planning_application.last_recommendation_accepted?).to be false
         end
@@ -1477,9 +1477,9 @@ RSpec.describe PlanningApplication do
 
       it "returns true when the last recommendation is accepted" do
         create(:recommendation,
-               status: :review_complete,
-               challenged: false,
-               planning_application:)
+          status: :review_complete,
+          challenged: false,
+          planning_application:)
 
         expect(planning_application.last_recommendation_accepted?).to be true
       end

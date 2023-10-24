@@ -15,7 +15,7 @@ RSpec.describe "Edit document" do
 
   let!(:document) do
     create(:document, :with_file, planning_application:,
-                                  applicant_description: "This file shows the drawing")
+      applicant_description: "This file shows the drawing")
   end
   let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 

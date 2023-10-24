@@ -15,7 +15,7 @@
           "type": "controller",
           "class": "PlanningApplicationsController",
           "method": "confirm_validation",
-          "line": 74,
+          "line": 80,
           "file": "app/controllers/planning_applications_controller.rb",
           "rendered": {
             "name": "planning_applications/confirm_validation",
@@ -41,7 +41,7 @@
       "check_name": "VerbConfusion",
       "message": "Potential HTTP verb confusion. `HEAD` is routed like `GET` but `request.get?` will return `false`",
       "file": "app/controllers/application_controller.rb",
-      "line": 46,
+      "line": 67,
       "link": "https://brakemanscanner.org/docs/warning_types/http_verb_confusion/",
       "code": "session[:back_path] = request.referer if request.get?",
       "render_path": null,
@@ -72,7 +72,7 @@
           "type": "controller",
           "class": "PlanningApplicationsController",
           "method": "make_public",
-          "line": 176,
+          "line": 183,
           "file": "app/controllers/planning_applications_controller.rb",
           "rendered": {
             "name": "planning_applications/make_public",
@@ -92,6 +92,6 @@
       "note": ""
     }
   ],
-  "updated": "2023-10-06 16:04:25 +0000",
-  "brakeman_version": "5.4.0"
+  "updated": "2023-10-24 14:24:08 +0100",
+  "brakeman_version": "6.0.1"
 }

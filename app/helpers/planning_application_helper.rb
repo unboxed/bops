@@ -12,21 +12,21 @@ module PlanningApplicationHelper
   def validation_request_summary(validation_requests, planning_application)
     if planning_application.invalidated?
       "This application has #{pluralize(validation_requests.count(&:open?),
-                                        'unresolved validation request')} and #{pluralize(
-                                          validation_requests.count(&:closed?), 'resolved validation request'
-                                        )}"
+        "unresolved validation request")} and #{pluralize(
+          validation_requests.count(&:closed?), "resolved validation request"
+        )}"
     elsif planning_application.validation_requests.none? &&
-          (planning_application.recommendable? || planning_application.closed_or_cancelled?)
+        (planning_application.recommendable? || planning_application.closed_or_cancelled?)
       "This application had no validation requests"
     elsif planning_application.recommendable? ||
-          (planning_application.closed_or_cancelled? && planning_application.validation_requests.present?)
-      "This application has #{pluralize(validation_requests.count(&:closed?), 'resolved validation request')}"
+        (planning_application.closed_or_cancelled? && planning_application.validation_requests.present?)
+      "This application has #{pluralize(validation_requests.count(&:closed?), "resolved validation request")}"
     else # rubocop:disable Lint/DuplicateBranch
       # FIXME: same body as first branch
       "This application has #{pluralize(validation_requests.count(&:open?),
-                                        'unresolved validation request')} and #{pluralize(
-                                          validation_requests.count(&:closed?), 'resolved validation request'
-                                        )}"
+        "unresolved validation request")} and #{pluralize(
+          validation_requests.count(&:closed?), "resolved validation request"
+        )}"
     end
   end
 

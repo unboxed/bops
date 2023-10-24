@@ -33,7 +33,7 @@ class ConstraintsCreationService
             metadata:
           )
         else
-          Appsignal.send_error("Unexpected constraint type: #{k}, category #{v['category']}")
+          Appsignal.send_error("Unexpected constraint type: #{k}, category #{v["category"]}")
         end
       end
     end

@@ -142,7 +142,7 @@ RSpec.describe "Validation tasks" do
   context "when application has been validated" do
     let!(:planning_application) do
       create(:planning_application, :in_assessment, :with_boundary_geojson, local_authority: default_local_authority,
-                                                                            constraints_checked: true)
+        constraints_checked: true)
     end
 
     it "displays the validation tasks list but no actions to create new requests can be taken" do

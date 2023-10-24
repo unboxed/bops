@@ -5,7 +5,8 @@ class LocalAuthoritiesController < ApplicationController
 
   before_action :set_local_authority, only: %i[edit update]
 
-  def edit; end
+  def edit
+  end
 
   def update
     if @local_authority.update(local_authority_params)

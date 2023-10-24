@@ -119,7 +119,7 @@ module ValidationRequestable
       cancel!
       reset_columns
       audit!(activity_type: "#{self.class.name.underscore}_#{cancel_audit_event}", activity_information: sequence,
-             audit_comment: { cancel_reason: }.to_json)
+        audit_comment: {cancel_reason:}.to_json)
     end
   rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
     raise RecordCancelError, e.message
@@ -141,12 +141,12 @@ module ValidationRequestable
 
   def create_audit!
     event = if planning_application.not_started?
-              "added"
-            elsif post_validation?
-              "sent_post_validation"
-            else
-              "sent"
-            end
+      "added"
+    elsif post_validation?
+      "sent_post_validation"
+    else
+      "sent"
+    end
 
     create_audit_for!(event)
   end
@@ -155,19 +155,19 @@ module ValidationRequestable
     return unless planning_application_validated?
 
     raise ValidationRequestNotCreatableError,
-          "Cannot create #{self.class.name.titleize} when planning application has been validated"
+      "Cannot create #{self.class.name.titleize} when planning application has been validated"
   end
 
   def ensure_planning_application_not_closed_or_cancelled!
     return unless planning_application_closed_or_cancelled?
 
     raise ValidationRequestNotCreatableError,
-          "Cannot create #{self.class.name.titleize} when planning application has been closed or cancelled"
+      "Cannot create #{self.class.name.titleize} when planning application has been closed or cancelled"
   end
 
   def create_validation_request!
     ValidationRequest.create!(requestable_id: id, requestable_type: self.class,
-                              planning_application:)
+      planning_application:)
   end
 
   def open_or_pending?
@@ -205,8 +205,8 @@ module ValidationRequestable
 
   def update_counter!
     unless is_a?(ReplacementDocumentValidationRequest) ||
-           is_a?(RedLineBoundaryChangeValidationRequest) ||
-           is_a?(OtherChangeValidationRequest)
+        is_a?(RedLineBoundaryChangeValidationRequest) ||
+        is_a?(OtherChangeValidationRequest)
       return
     end
 

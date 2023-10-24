@@ -22,7 +22,7 @@ module DocumentHelper
   end
 
   def document_name_and_reference(document)
-    "#{document.name}#{document.numbers? ? " - #{document.numbers}" : ''}"
+    "#{document.name}#{document.numbers? ? " - #{document.numbers}" : ""}"
   end
 
   def titled_reference_or_file_name(document)

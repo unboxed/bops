@@ -87,7 +87,7 @@ FactoryBot.define do
     end
 
     trait :awaiting_determination do
-      status                    { :awaiting_determination }
+      status { :awaiting_determination }
       awaiting_determination_at { Time.zone.now }
       decision { "granted" }
 
@@ -128,7 +128,7 @@ FactoryBot.define do
     end
 
     trait :determined do
-      status        { :determined }
+      status { :determined }
       determined_at { Time.zone.now }
       determination_date { Time.zone.now }
       decision { "granted" }
@@ -150,7 +150,7 @@ FactoryBot.define do
     end
 
     trait :closed do
-      status    { :closed }
+      status { :closed }
       closed_at { Time.zone.now }
     end
 

@@ -21,9 +21,9 @@ class PlanningApplication < ApplicationRecord
 
   DAYS_TO_EXPIRE = 56
 
-  enum user_role: { applicant: 0, agent: 1, proxy: 2 }
+  enum user_role: {applicant: 0, agent: 1, proxy: 2}
 
-  enum decision: { granted: "granted", refused: "refused", granted_not_required: "granted_not_required" }
+  enum decision: {granted: "granted", refused: "refused", granted_not_required: "granted_not_required"}
 
   with_options dependent: :destroy do
     has_many :audits, -> { by_created_at }, inverse_of: :planning_application
@@ -39,9 +39,9 @@ class PlanningApplication < ApplicationRecord
     has_many :replacement_document_validation_requests
     has_many :other_change_validation_requests
     has_many :fee_item_validation_requests,
-             -> { fee_item },
-             class_name: "OtherChangeValidationRequest",
-             inverse_of: :planning_application
+      -> { fee_item },
+      class_name: "OtherChangeValidationRequest",
+      inverse_of: :planning_application
     has_many :additional_document_validation_requests
     has_many :red_line_boundary_change_validation_requests
     has_many :notes, -> { by_created_at_desc }, inverse_of: :planning_application
@@ -90,7 +90,7 @@ class PlanningApplication < ApplicationRecord
   scope :by_status_order, -> { in_order_of(:status, PlanningApplication.aasm.states.map(&:name)) }
   scope :with_user, -> { preload(:user) }
   scope :for_user_and_null_users, ->(user_id) { where(user_id: [user_id, nil]) }
-  scope :prior_approvals, -> { joins(:application_type).where(application_type: { name: :prior_approval }) }
+  scope :prior_approvals, -> { joins(:application_type).where(application_type: {name: :prior_approval}) }
 
   before_validation :set_application_number, on: :create
   before_validation :set_reference, on: :create
@@ -120,51 +120,51 @@ class PlanningApplication < ApplicationRecord
   WORK_STATUSES = %w[proposed existing].freeze
 
   PLANNING_APPLICATION_PERMITTED_KEYS = %w[address_1
-                                           address_2
-                                           applicant_first_name
-                                           applicant_last_name
-                                           applicant_phone
-                                           applicant_email
-                                           agent_first_name
-                                           agent_last_name
-                                           agent_phone
-                                           agent_email
-                                           county
-                                           old_constraints
-                                           created_at(3i)
-                                           created_at(2i)
-                                           created_at(1i)
-                                           description
-                                           proposal_details
-                                           payment_reference
-                                           payment_amount
-                                           postcode
-                                           public_comment
-                                           town
-                                           uprn
-                                           work_status].freeze
+    address_2
+    applicant_first_name
+    applicant_last_name
+    applicant_phone
+    applicant_email
+    agent_first_name
+    agent_last_name
+    agent_phone
+    agent_email
+    county
+    old_constraints
+    created_at(3i)
+    created_at(2i)
+    created_at(1i)
+    description
+    proposal_details
+    payment_reference
+    payment_amount
+    postcode
+    public_comment
+    town
+    uprn
+    work_status].freeze
 
   ADDRESS_AND_BOUNDARY_GEOJSON_FIELDS = %w[address_1
-                                           address_2
-                                           county
-                                           postcode
-                                           town
-                                           uprn
-                                           boundary_geojson].freeze
+    address_2
+    county
+    postcode
+    town
+    uprn
+    boundary_geojson].freeze
 
   PROGRESS_STATUSES = %w[not_started in_progress complete].freeze
 
   private_constant :PLANNING_APPLICATION_PERMITTED_KEYS
 
   validates :work_status,
-            inclusion: { in: WORK_STATUSES }
+    inclusion: {in: WORK_STATUSES}
   validates :review_documents_for_recommendation_status,
-            inclusion: { in: PROGRESS_STATUSES }
+    inclusion: {in: PROGRESS_STATUSES}
   validates :application_number, :reference, presence: true
   validates :payment_amount,
-            :invalid_payment_amount,
-            numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1_000_000 },
-            allow_nil: true
+    :invalid_payment_amount,
+    numericality: {greater_than_or_equal_to: 0, less_than_or_equal_to: 1_000_000},
+    allow_nil: true
 
   validate :applicant_or_agent_email
   validate :validated_at_date
@@ -353,7 +353,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def secure_change_url
-    params = { planning_application_id: id, change_access_id: }
+    params = {planning_application_id: id, change_access_id:}
     "#{local_authority.applicants_url}/validation_requests?#{params.to_query}"
   end
 
@@ -465,7 +465,7 @@ class PlanningApplication < ApplicationRecord
         planning_application_id: id,
         user: Current.user,
         activity_type: "submitted",
-        audit_comment: { assessor_comment: recommendation.assessor_comment }.to_json
+        audit_comment: {assessor_comment: recommendation.assessor_comment}.to_json
       )
     end
 
@@ -781,8 +781,8 @@ class PlanningApplication < ApplicationRecord
       audit_old_constraints!(saved_changes)
     else
       audit!(activity_type: "updated",
-             activity_information: attribute_name.humanize,
-             audit_comment: audit_comment(attribute_name))
+        activity_information: attribute_name.humanize,
+        audit_comment: audit_comment(attribute_name))
     end
   end
 
@@ -791,8 +791,8 @@ class PlanningApplication < ApplicationRecord
     new_attribute = saved_change_to_attribute(attribute_name).second
 
     if attribute_name == "payment_amount"
-      "Changed from: £#{format('%.2f',
-                               original_attribute.to_f)} \r\n Changed to: £#{format('%.2f', new_attribute.to_f)}"
+      "Changed from: £#{format("%.2f",
+        original_attribute.to_f)} \r\n Changed to: £#{format("%.2f", new_attribute.to_f)}"
     else
       "Changed from: #{original_attribute} \r\n Changed to: #{new_attribute}"
     end
@@ -840,10 +840,10 @@ class PlanningApplication < ApplicationRecord
     local_authority_planning_applications = local_authority.planning_applications
 
     self.application_number = if local_authority_planning_applications.any?
-                                local_authority_planning_applications.maximum(:application_number) + 1
-                              else
-                                100
-                              end
+      local_authority_planning_applications.maximum(:application_number) + 1
+    else
+      100
+    end
   end
 
   def application_type_code

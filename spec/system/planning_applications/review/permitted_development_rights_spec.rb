@@ -204,9 +204,9 @@ RSpec.describe "Permitted development right" do
       context "when reviewer has signed off and agreed with the recommendation" do
         let!(:recommendation) do
           create(:recommendation,
-                 planning_application:,
-                 assessor_comment: "New assessor comment",
-                 submitted: true)
+            planning_application:,
+            assessor_comment: "New assessor comment",
+            submitted: true)
         end
 
         before { planning_application.recommendations << recommendation }

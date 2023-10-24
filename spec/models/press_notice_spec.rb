@@ -40,14 +40,14 @@ RSpec.describe PressNotice do
       describe "#reasons_list" do
         it "returns the reasons for press notice" do
           expect(described_class.reasons_list).to eq(
-            { conservation_area: ["The site of the application is within/affecting the setting of a designated Conservation Area (Section 73) of the Planning (Listed Buildings and Conservation Areas) Act 1990"],
-              listed_building: ["The application relates to, or affects the setting of a Listed Building (Section 67) of the Planning (Listed Buildings and Conservation Areas) Act 1990"],
-              major_development: ["The application is for a Major Development"],
-              wildlife_and_countryside: ["The application would affect a right of way to which Part III of the Wildlife and Countryside Act 1981 (as amended) applies"],
-              development_plan: ["The application does not accord with the provisions of the development plan"],
-              environment: ["An environmental statement accompanies this application"],
-              ancient_monument: ["The site of the application is affecting the setting of an Ancient Monument"],
-              public_interest: ["Wider Public interest"] }
+            {conservation_area: ["The site of the application is within/affecting the setting of a designated Conservation Area (Section 73) of the Planning (Listed Buildings and Conservation Areas) Act 1990"],
+             listed_building: ["The application relates to, or affects the setting of a Listed Building (Section 67) of the Planning (Listed Buildings and Conservation Areas) Act 1990"],
+             major_development: ["The application is for a Major Development"],
+             wildlife_and_countryside: ["The application would affect a right of way to which Part III of the Wildlife and Countryside Act 1981 (as amended) applies"],
+             development_plan: ["The application does not accord with the provisions of the development plan"],
+             environment: ["An environmental statement accompanies this application"],
+             ancient_monument: ["The site of the application is affecting the setting of an Ancient Monument"],
+             public_interest: ["Wider Public interest"]}
           )
         end
       end
@@ -56,13 +56,13 @@ RSpec.describe PressNotice do
         it "returns the reason types for press notice" do
           expect(described_class.reason_keys).to eq(
             %i[conservation_area
-               listed_building
-               major_development
-               wildlife_and_countryside
-               development_plan
-               environment
-               ancient_monument
-               public_interest]
+              listed_building
+              major_development
+              wildlife_and_countryside
+              development_plan
+              environment
+              ancient_monument
+              public_interest]
           )
         end
       end
@@ -98,7 +98,7 @@ RSpec.describe PressNotice do
             press_notice
 
             expect do
-              press_notice.update!(reasons: { ancient_monument: "The site of the application is affecting the setting of an Ancient Monument" })
+              press_notice.update!(reasons: {ancient_monument: "The site of the application is affecting the setting of an Ancient Monument"})
             end.to change(Audit, :count).by(1)
 
             expect(Audit.last).to have_attributes(

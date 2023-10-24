@@ -15,13 +15,13 @@ class LocalAuthority < ApplicationRecord
     validates :enquiries_paragraph, :feedback_email
   end
 
-  with_options format: { with: URI::HTTP::ABS_URI } do
+  with_options format: {with: URI::HTTP::ABS_URI} do
     with_options allow_blank: true do
       validates :applicants_url
     end
   end
 
-  with_options format: { with: URI::MailTo::EMAIL_REGEXP } do
+  with_options format: {with: URI::MailTo::EMAIL_REGEXP} do
     with_options allow_blank: true do
       validates :email_address
       validates :reviewer_group_email

@@ -21,7 +21,7 @@ class ErrorPresenter
     if message.match?(/\A[A-Z].+\Z/)
       message
     else
-      "#{attribute.to_s.humanize.tr('.', ' ')} #{message}"
+      "#{attribute.to_s.humanize.tr(".", " ")} #{message}"
     end
   end
 

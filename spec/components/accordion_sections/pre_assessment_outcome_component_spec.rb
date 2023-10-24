@@ -72,7 +72,7 @@ RSpec.describe AccordionSections::PreAssessmentOutcomeComponent, type: :componen
 
     context "when 'result' feedback is present" do
       let(:feedback) do
-        { result: "feedback" }
+        {result: "feedback"}
       end
 
       it "renders feedback" do
@@ -102,7 +102,7 @@ RSpec.describe AccordionSections::PreAssessmentOutcomeComponent, type: :componen
             responses: [
               {
                 value: "test response",
-                metadata: { flags: ["test flag"] }
+                metadata: {flags: ["test flag"]}
               }
             ]
           }

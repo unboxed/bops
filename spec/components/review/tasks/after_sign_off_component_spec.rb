@@ -18,9 +18,9 @@ RSpec.describe Review::Tasks::AfterSignOffComponent, type: :component do
 
   it "renders nothing when not submitted" do
     rec = create(:recommendation,
-                 :with_planning_application,
-                 submitted: false,
-                 challenged: false)
+      :with_planning_application,
+      submitted: false,
+      challenged: false)
 
     render_inline(described_class.new(planning_application: rec.planning_application))
 
@@ -31,12 +31,12 @@ RSpec.describe Review::Tasks::AfterSignOffComponent, type: :component do
   %i[true nil].each do |challenged|
     it "renders assessment name when submitted and challenged" do
       rec = create(:recommendation,
-                   :with_planning_application,
-                   status: :review_complete,
-                   reviewer_comment: "reviewer comment",
-                   submitted: true,
-                   challenged:,
-                   assessor:)
+        :with_planning_application,
+        status: :review_complete,
+        reviewer_comment: "reviewer comment",
+        submitted: true,
+        challenged:,
+        assessor:)
 
       render_inline(described_class.new(planning_application: rec.planning_application))
 

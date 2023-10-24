@@ -86,6 +86,6 @@ class PermittedDevelopmentRight < ApplicationRecord
     return if last_permitted_development_right.to_be_reviewed?
 
     raise NotCreatableError,
-          "Cannot create a permitted development right response when there is already an open response"
+      "Cannot create a permitted development right response when there is already an open response"
   end
 end

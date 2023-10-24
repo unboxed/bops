@@ -32,7 +32,7 @@ RSpec.describe AccordionSections::ConstraintsComponent, type: :component do
 
   context "when feedback is present" do
     let(:feedback) do
-      { planning_constraints: "feedback" }
+      {planning_constraints: "feedback"}
     end
 
     before { render_inline(component) }

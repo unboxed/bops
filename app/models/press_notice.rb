@@ -10,7 +10,7 @@ class PressNotice < ApplicationRecord
     validates :reasons, if: :required?
   end
 
-  validates :required, inclusion: { in: [true, false] }
+  validates :required, inclusion: {in: [true, false]}
 
   after_update :update_consultation_end_date!
   after_save :audit_press_notice!
@@ -54,10 +54,10 @@ class PressNotice < ApplicationRecord
     return unless saved_change_to_required? || saved_change_to_reasons?
 
     comment = if reasons.present?
-                "Press notice has been marked as required with the following reasons: #{joined_reasons}"
-              else
-                "Press notice has been marked as not required"
-              end
+      "Press notice has been marked as required with the following reasons: #{joined_reasons}"
+    else
+      "Press notice has been marked as not required"
+    end
 
     audit!(
       activity_type: "press_notice",

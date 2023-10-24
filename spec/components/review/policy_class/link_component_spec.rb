@@ -12,7 +12,7 @@ RSpec.describe Review::PolicyClass::LinkComponent, type: :component do
     render_inline(described_class.new(policy_class:))
 
     expect(page).to have_link("Review assessment of Part 1, Class D",
-                              href: edit_planning_application_review_policy_class_path(policy_class.planning_application, policy_class))
+      href: edit_planning_application_review_policy_class_path(policy_class.planning_application, policy_class))
   end
 
   it "displays edit link when status not checked yet" do
@@ -21,7 +21,7 @@ RSpec.describe Review::PolicyClass::LinkComponent, type: :component do
     render_inline(described_class.new(policy_class: review_policy_class.policy_class))
 
     expect(page).to have_link("Review assessment of Part 1, Class D",
-                              href: edit_planning_application_review_policy_class_path(policy_class.planning_application, policy_class))
+      href: edit_planning_application_review_policy_class_path(policy_class.planning_application, policy_class))
   end
 
   it "displays show link when status complete" do
@@ -30,6 +30,6 @@ RSpec.describe Review::PolicyClass::LinkComponent, type: :component do
     render_inline(described_class.new(policy_class: review_policy_class.policy_class))
 
     expect(page).to have_link("Review assessment of Part 1, Class D",
-                              href: planning_application_review_policy_class_path(policy_class.planning_application, policy_class))
+      href: planning_application_review_policy_class_path(policy_class.planning_application, policy_class))
   end
 end

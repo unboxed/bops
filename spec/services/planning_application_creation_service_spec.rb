@@ -13,7 +13,7 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
         .to_return(
           status: 200,
           body: Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf").read,
-          headers: { "Content-Type" => "application/pdf" }
+          headers: {"Content-Type" => "application/pdf"}
         )
     end
 

@@ -2,11 +2,11 @@
 
 module BreadcrumbNavigationHelper
   def add_parent_breadcrumb_link(title, path)
-    navigation << { title:, path: }
+    navigation << {title:, path:}
   end
 
   def render_navigation
-    render partial: "breadcrumb_navigation", locals: { nav: navigation }
+    render partial: "breadcrumb_navigation", locals: {nav: navigation}
   end
 
   private

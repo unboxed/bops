@@ -16,11 +16,11 @@ GOOGLE_ANALYTICS_HOSTNAMES = %w[
 
 Rails.application.config.content_security_policy do |policy|
   policy.default_src :self, :https
-  policy.font_src    :self, :https, :data
-  policy.img_src     :self, :https, :data, GOOGLE_TAG_MANAGER_HOSTNAME, *GOOGLE_ANALYTICS_HOSTNAMES
-  policy.object_src  :none
-  policy.script_src  :self, :https, GOOGLE_TAG_MANAGER_HOSTNAME, *GOOGLE_ANALYTICS_HOSTNAMES
-  policy.style_src   :self, :https, :unsafe_inline, GOOGLE_TAG_MANAGER_HOSTNAME
+  policy.font_src :self, :https, :data
+  policy.img_src :self, :https, :data, GOOGLE_TAG_MANAGER_HOSTNAME, *GOOGLE_ANALYTICS_HOSTNAMES
+  policy.object_src :none
+  policy.script_src :self, :https, GOOGLE_TAG_MANAGER_HOSTNAME, *GOOGLE_ANALYTICS_HOSTNAMES
+  policy.style_src :self, :https, :unsafe_inline, GOOGLE_TAG_MANAGER_HOSTNAME
   policy.connect_src :self, :https, GOOGLE_TAG_MANAGER_HOSTNAME, *GOOGLE_ANALYTICS_HOSTNAMES
 end
 

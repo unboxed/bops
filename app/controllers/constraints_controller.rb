@@ -5,7 +5,8 @@ class ConstraintsController < AuthenticationController
   before_action :ensure_constraint_edits_unlocked, only: %i[show update]
   before_action :set_planning_application_constraints, only: %i[update]
 
-  def show; end
+  def show
+  end
 
   def update
     ActiveRecord::Base.transaction do
@@ -37,18 +38,18 @@ class ConstraintsController < AuthenticationController
       if @planning_application.constraints_checked?
         format.html do
           redirect_to planning_application_validation_tasks_path(@planning_application),
-                      notice: t(".success")
+            notice: t(".success")
         end
       else
         format.html do
           redirect_to planning_application_validation_tasks_path(@planning_application),
-                      alert: t(".failure")
+            alert: t(".failure")
         end
       end
     end
   rescue ActiveRecord::ActiveRecordError => e
     redirect_to planning_application_constraints_path(@planning_application),
-                alert: "Couldn't update constraints with error: #{e.message}. Please contact support."
+      alert: "Couldn't update constraints with error: #{e.message}. Please contact support."
   end
 
   private

@@ -44,7 +44,7 @@ module PlanningApplications
 
       if @permitted_development_right.save
         redirect_to planning_application_assessment_tasks_path(@planning_application),
-                    notice: I18n.t("permitted_development_rights.successfully_created")
+          notice: I18n.t("permitted_development_rights.successfully_created")
       else
         set_permitted_development_rights
         render :new
@@ -58,7 +58,7 @@ module PlanningApplications
         if @permitted_development_right.update(permitted_development_right_params)
           format.html do
             redirect_to planning_application_assessment_tasks_path(@planning_application),
-                        notice: I18n.t("permitted_development_rights.successfully_updated")
+              notice: I18n.t("permitted_development_rights.successfully_updated")
           end
         else
           set_permitted_development_rights

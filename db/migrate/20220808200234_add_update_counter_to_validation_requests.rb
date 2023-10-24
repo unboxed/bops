@@ -29,7 +29,7 @@ class AddUpdateCounterToValidationRequests < ActiveRecord::Migration[6.1]
 
   def down
     remove_column :validation_requests, :update_counter, :boolean if column_exists?(:validation_requests,
-                                                                                    :update_counter)
+      :update_counter)
   end
 
   private
@@ -62,8 +62,8 @@ class AddUpdateCounterToValidationRequests < ActiveRecord::Migration[6.1]
     new_documents_id = requests.pluck(:new_document_id)
 
     requests.where.not(old_document_id: new_documents_id)
-            .reject(&:new_document_archived?)
-            .reject(&:new_document_validated?)
+      .reject(&:new_document_archived?)
+      .reject(&:new_document_validated?)
   end
 
   def by_closed_at(requests)

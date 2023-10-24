@@ -34,20 +34,20 @@ RSpec.describe "Reviewing Tasks Index" do
 
     it "without awaiting determination there is no navigation" do
       visit planning_application_path(create(:planning_application,
-                                             :not_started,
-                                             local_authority: default_local_authority))
+        :not_started,
+        local_authority: default_local_authority))
 
       expect(page).to have_content("Review and sign-off")
     end
 
     it "displays chosen policy class in a list" do
-      policy_classes =  create_list(:policy_class, 3, planning_application:)
+      policy_classes = create_list(:policy_class, 3, planning_application:)
       visit(planning_application_review_tasks_path(planning_application))
 
       expect(page).to have_selector("h1", text: "Review and sign-off")
       policy_classes.each do |policy_class|
         expect(page).to have_link("Review assessment of Part 1, Class #{policy_class.section}",
-                                  href: edit_planning_application_review_policy_class_path(planning_application, policy_class))
+          href: edit_planning_application_review_policy_class_path(planning_application, policy_class))
 
         expect(page).to have_list_item_for(
           "Review assessment of Part 1, Class #{policy_class.section}",

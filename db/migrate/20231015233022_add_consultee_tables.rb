@@ -2,7 +2,9 @@
 
 class AddConsulteeTables < ActiveRecord::Migration[7.0]
   class Consultation < ActiveRecord::Base; end
+
   class Consultee < ActiveRecord::Base; end
+
   class ConsulteeResponse < ActiveRecord::Base; end
 
   def up
@@ -47,7 +49,7 @@ class AddConsulteeTables < ActiveRecord::Migration[7.0]
       t.text :response
       t.datetime :received_at
       t.text :redacted_response
-      t.references :redacted_by, index: true, foreign_key: { to_table: :users }
+      t.references :redacted_by, index: true, foreign_key: {to_table: :users}
       t.datetime :redacted_at
       t.timestamps
     end

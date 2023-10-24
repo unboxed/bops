@@ -25,7 +25,7 @@ module Api
               render json: {
                        message: "Unable to find red line boundary change validation request with id: #{params[:id]}"
                      },
-                     status: :not_found
+                status: :not_found
             end
           end
         end
@@ -43,20 +43,20 @@ module Api
 
           @red_line_boundary_change_validation_request.create_api_audit!
           @planning_application.send_update_notification_to_assessor
-          render json: { message: "Validation request updated" }, status: :ok
+          render json: {message: "Validation request updated"}, status: :ok
         else
           render json: {
                    message: "Unable to update request. Please ensure rejection_reason is present if approved is false."
                  },
-                 status: :bad_request
+            status: :bad_request
         end
       end
 
       private
 
       def red_line_boundary_change_params
-        { approved: params[:data][:approved],
-          rejection_reason: params[:data][:rejection_reason] }
+        {approved: params[:data][:approved],
+         rejection_reason: params[:data][:rejection_reason]}
       end
     end
   end

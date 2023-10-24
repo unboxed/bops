@@ -137,22 +137,22 @@ RSpec.describe "Assessment tasks" do
       [
         {
           question: "Question 1",
-          responses: [{ value: "Answer 1" }],
-          metadata: { section_name: "About the property", auto_answered: true }
+          responses: [{value: "Answer 1"}],
+          metadata: {section_name: "About the property", auto_answered: true}
         },
         {
           question: "Question 2",
-          responses: [{ value: "Answer 2" }],
-          metadata: { section_name: "About the property" }
+          responses: [{value: "Answer 2"}],
+          metadata: {section_name: "About the property"}
         },
         {
           question: "Question 3",
-          responses: [{ value: "Answer 3" }],
-          metadata: { section_name: "group_1", auto_answered: true }
+          responses: [{value: "Answer 3"}],
+          metadata: {section_name: "group_1", auto_answered: true}
         },
         {
           question: "Question 4",
-          responses: [{ value: "Answer 4" }]
+          responses: [{value: "Answer 4"}]
         }
       ].to_json
     end

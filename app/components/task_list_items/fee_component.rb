@@ -33,14 +33,14 @@ module TaskListItems
 
     def status
       @status ||= if planning_application.valid_fee?
-                    :valid
-                  elsif fee_item_validation_requests.open_or_pending.any?
-                    :invalid
-                  elsif fee_item_validation_requests.closed.any?
-                    :updated
-                  else
-                    :not_started
-                  end
+        :valid
+      elsif fee_item_validation_requests.open_or_pending.any?
+        :invalid
+      elsif fee_item_validation_requests.closed.any?
+        :updated
+      else
+        :not_started
+      end
     end
   end
 end

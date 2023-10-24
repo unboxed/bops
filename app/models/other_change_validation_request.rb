@@ -48,12 +48,12 @@ class OtherChangeValidationRequest < ApplicationRecord
   private
 
   def audit_api_comment
-    { response: }.to_json
+    {response:}.to_json
   end
 
   def audit_comment
-    { summary:,
-      suggestion: }.to_json
+    {summary:,
+     suggestion:}.to_json
   end
 
   def ensure_no_open_or_pending_fee_item_validation_request

@@ -10,8 +10,8 @@ RSpec.describe CloseRedLineBoundaryChangeValidationRequestJob do
 
     let!(:red_line_boundary_change_validation_request) do
       create(:red_line_boundary_change_validation_request, :open,
-             planning_application:,
-             created_at: 6.business_days.ago)
+        planning_application:,
+        created_at: 6.business_days.ago)
     end
 
     it "changes the planning application's boundary geojson" do
@@ -43,8 +43,8 @@ RSpec.describe CloseRedLineBoundaryChangeValidationRequestJob do
   context "when less than 5 business days have passed" do
     let!(:red_line_boundary_change_validation_request) do
       create(:red_line_boundary_change_validation_request, :open,
-             planning_application:,
-             created_at: 4.business_days.ago)
+        planning_application:,
+        created_at: 4.business_days.ago)
     end
 
     it "does not change the planning application's boundary geojson" do

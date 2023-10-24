@@ -14,7 +14,7 @@ module AssessmentDetails
     attr_reader :assessment_details, :assessment_detail
 
     def description
-      action = assessment_detail == assessment_details.last ? :created : :updated
+      action = (assessment_detail == assessment_details.last) ? :created : :updated
       key = ".user_#{action}_#{assessment_detail.category}"
       t(key, user: assessment_detail.user.name)
     end

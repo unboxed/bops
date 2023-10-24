@@ -63,10 +63,10 @@ RSpec.describe "Reviewing Policy Class" do
 
     it "can return legislation to officer and be updated when corrected" do
       create(:policy_class,
-             :complies,
-             section: "A",
-             status: :complete,
-             planning_application:)
+        :complies,
+        section: "A",
+        status: :complete,
+        planning_application:)
       visit(planning_application_review_tasks_path(planning_application))
 
       expect(page).to have_selector("h1", text: "Review and sign-off")
@@ -237,9 +237,9 @@ RSpec.describe "Reviewing Policy Class" do
       click_on "Review assessment of Part 1, Class B"
 
       expect(page).to have_link "View previous class",
-                                href: edit_planning_application_review_policy_class_path(planning_application, prv)
+        href: edit_planning_application_review_policy_class_path(planning_application, prv)
       expect(page).to have_link "View next class",
-                                href: edit_planning_application_review_policy_class_path(planning_application, nxt)
+        href: edit_planning_application_review_policy_class_path(planning_application, nxt)
     end
 
     it "can display errors" do

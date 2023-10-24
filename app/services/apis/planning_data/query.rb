@@ -24,7 +24,7 @@ module Apis
 
       def council_code(reference)
         body = fetch(reference, ["local-authority"])
-        body[:count] == 1 && body[:"end-date"].blank? ? body[:entities].first[:reference] : nil
+        (body[:count] == 1 && body[:"end-date"].blank?) ? body[:entities].first[:reference] : nil
       end
 
       private

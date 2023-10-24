@@ -51,7 +51,7 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
         params = {
           id: request.id,
           planning_application_id: request.planning_application.id,
-          "#{request_type}": { cancel_reason: "my mistake" }
+          "#{request_type}": {cancel_reason: "my mistake"}
         }
 
         patch(:cancel, params:)
@@ -65,13 +65,13 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
         params = {
           id: request.id,
           planning_application_id: request.planning_application.id,
-          "#{request_type}": { cancel_reason: "" }
+          "#{request_type}": {cancel_reason: ""}
         }
 
         patch(:cancel, params:)
 
         expect(response).to redirect_to send("cancel_confirmation_planning_application_#{request_type}_path",
-                                             planning_application, request)
+          planning_application, request)
       end
 
       it "when state is not pending/open it redirects back to the cancel_confirmation page" do
@@ -80,13 +80,13 @@ RSpec.shared_examples "ValidationRequests" do |_klass, request_type|
         params = {
           id: request.id,
           planning_application_id: request.planning_application.id,
-          "#{request_type}": { cancel_reason: request.cancel_reason }
+          "#{request_type}": {cancel_reason: request.cancel_reason}
         }
 
         patch(:cancel, params:)
 
         expect(response).to redirect_to send("cancel_confirmation_planning_application_#{request_type}_path",
-                                             planning_application, request)
+          planning_application, request)
       end
     end
   end

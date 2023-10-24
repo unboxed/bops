@@ -63,8 +63,8 @@ RSpec.describe "Replacement document validation requests API", show_exceptions: 
       it "is successful" do
         get(
           path,
-          params: { change_access_id: planning_application.change_access_id },
-          headers: { "CONTENT-TYPE": "application/json", Authorization: token }
+          params: {change_access_id: planning_application.change_access_id},
+          headers: {"CONTENT-TYPE": "application/json", Authorization: token}
         )
 
         expect(response).to be_successful
@@ -74,8 +74,8 @@ RSpec.describe "Replacement document validation requests API", show_exceptions: 
         travel_to(DateTime.new(2022, 1, 2)) do
           get(
             path,
-            params: { change_access_id: planning_application.change_access_id },
-            headers: { "CONTENT-TYPE": "application/json", Authorization: token }
+            params: {change_access_id: planning_application.change_access_id},
+            headers: {"CONTENT-TYPE": "application/json", Authorization: token}
           )
         end
 
@@ -158,8 +158,8 @@ RSpec.describe "Replacement document validation requests API", show_exceptions: 
       it "is successful" do
         get(
           path,
-          params: { change_access_id: planning_application.change_access_id },
-          headers: { "CONTENT-TYPE": "application/json", Authorization: token }
+          params: {change_access_id: planning_application.change_access_id},
+          headers: {"CONTENT-TYPE": "application/json", Authorization: token}
         )
 
         expect(response).to be_successful
@@ -169,8 +169,8 @@ RSpec.describe "Replacement document validation requests API", show_exceptions: 
         travel_to(DateTime.new(2022, 1, 2)) do
           get(
             path,
-            params: { change_access_id: planning_application.change_access_id },
-            headers: { "CONTENT-TYPE": "application/json", Authorization: token }
+            params: {change_access_id: planning_application.change_access_id},
+            headers: {"CONTENT-TYPE": "application/json", Authorization: token}
           )
         end
 
@@ -201,8 +201,8 @@ RSpec.describe "Replacement document validation requests API", show_exceptions: 
         it "is successful" do
           get(
             path,
-            params: { change_access_id: planning_application.change_access_id },
-            headers: { "CONTENT-TYPE": "application/json", Authorization: token }
+            params: {change_access_id: planning_application.change_access_id},
+            headers: {"CONTENT-TYPE": "application/json", Authorization: token}
           )
 
           expect(response).to be_successful
@@ -212,8 +212,8 @@ RSpec.describe "Replacement document validation requests API", show_exceptions: 
           travel_to(DateTime.new(2022, 1, 2)) do
             get(
               path,
-              params: { change_access_id: planning_application.change_access_id },
-              headers: { "CONTENT-TYPE": "application/json", Authorization: token }
+              params: {change_access_id: planning_application.change_access_id},
+              headers: {"CONTENT-TYPE": "application/json", Authorization: token}
             )
           end
 
@@ -241,8 +241,8 @@ RSpec.describe "Replacement document validation requests API", show_exceptions: 
 
           get(
             path,
-            params: { change_access_id: planning_application.change_access_id },
-            headers: { "CONTENT-TYPE": "application/json", Authorization: token }
+            params: {change_access_id: planning_application.change_access_id},
+            headers: {"CONTENT-TYPE": "application/json", Authorization: token}
           )
         end
       end

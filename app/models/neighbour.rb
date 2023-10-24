@@ -16,13 +16,13 @@ class Neighbour < ApplicationRecord
 
   scope :without_letters, lambda {
                             left_outer_joins(:neighbour_letters)
-                              .where(neighbour_letters: { neighbour_id: nil })
+                              .where(neighbour_letters: {neighbour_id: nil})
                               .where(selected: true)
                           }
   scope :with_letters, lambda {
                          includes([:neighbour_letters])
                            .joins(:neighbour_letters)
-                           .where.not(neighbour_letters: { neighbour_id: nil })
+                           .where.not(neighbour_letters: {neighbour_id: nil})
                        }
 
   def last_letter

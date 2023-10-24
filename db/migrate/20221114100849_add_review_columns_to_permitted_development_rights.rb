@@ -8,8 +8,8 @@ class AddReviewColumnsToPermittedDevelopmentRights < ActiveRecord::Migration[6.1
       t.boolean :reviewer_edited, default: false, null: false
       t.boolean :accepted, default: false, null: false
       t.datetime :reviewed_at
-      t.references :assessor, foreign_key: { to_table: :users }
-      t.references :reviewer, foreign_key: { to_table: :users }
+      t.references :assessor, foreign_key: {to_table: :users}
+      t.references :reviewer, foreign_key: {to_table: :users}
     end
 
     up_only do

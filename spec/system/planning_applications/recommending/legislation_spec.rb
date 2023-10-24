@@ -82,18 +82,18 @@ RSpec.describe "Planning Application Assessment Legislation" do
   context "when uncommented" do
     it "excludes 'more details' when complying or to_be_determined" do
       policy_class = create(:policy_class,
-                            part: 1,
-                            section: "T",
-                            planning_application:)
+        part: 1,
+        section: "T",
+        planning_application:)
       create(:policy,
-             :complies,
-             section: "1A",
-             policy_class:)
+        :complies,
+        section: "1A",
+        policy_class:)
 
       create(:policy,
-             :to_be_determined,
-             section: "1A",
-             policy_class:)
+        :to_be_determined,
+        section: "1A",
+        policy_class:)
 
       visit(new_planning_application_recommendation_path(planning_application))
 
@@ -103,13 +103,13 @@ RSpec.describe "Planning Application Assessment Legislation" do
 
     it "includes 'more details' when clause does not comply" do
       policy_class = create(:policy_class,
-                            part: 1,
-                            section: "T",
-                            planning_application:)
+        part: 1,
+        section: "T",
+        planning_application:)
       create(:policy,
-             :does_not_comply,
-             section: "1A",
-             policy_class:)
+        :does_not_comply,
+        section: "1A",
+        policy_class:)
 
       visit(new_planning_application_recommendation_path(planning_application))
 
@@ -121,13 +121,13 @@ RSpec.describe "Planning Application Assessment Legislation" do
   context "when commented" do
     it "shows legislation paragraphs that comply" do
       policy_class = create(:policy_class,
-                            part: 1,
-                            section: "T",
-                            planning_application:)
+        part: 1,
+        section: "T",
+        planning_application:)
       policy = create(:policy,
-                      :complies,
-                      section: "1M",
-                      policy_class:)
+        :complies,
+        section: "1M",
+        policy_class:)
 
       create(:comment, commentable: policy)
 
