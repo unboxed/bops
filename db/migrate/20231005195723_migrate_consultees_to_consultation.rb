@@ -26,7 +26,7 @@ class MigrateConsulteesToConsultation < ActiveRecord::Migration[7.0]
         end
 
         consultee.consultation = \
-          consultation || planning_application.create_consultation!
+          planning_application.consultation || planning_application.create_consultation!
 
         consultee.save!
       end
