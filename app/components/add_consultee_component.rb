@@ -77,8 +77,11 @@ class AddConsulteeComponent < ViewComponent::Base
       type: "button",
       class: klass,
       data: {
-        action: "click->consultees#addConsultee",
-        consultees_target: "addConsultee"
+        consultees_target: "addConsultee",
+        action: %w[
+          click->consultees#addConsulteeClick
+          keydown->consultees#addConsulteeKeyDown
+        ].join(" ")
       }
     }
 

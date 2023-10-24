@@ -33,7 +33,7 @@ export default class extends Controller {
         this.onConfirm(selected)
       },
       autoselect: true,
-      confirmOnBlur: true,
+      confirmOnBlur: false,
       templates: {
         inputValue: (value) => {
           return this.inputValue(value)
@@ -61,21 +61,6 @@ export default class extends Controller {
         this.submitTarget.blur()
       }
     })
-
-    // Add the consultee if the user hits return on the button
-    this.addConsulteeTarget.addEventListener("keypress", (event) => {
-      if (event.keyCode === 13) {
-        this.addConsultee()
-      }
-    })
-
-    this.autocompleteInput.addEventListener("keydown", (event) => {
-      this.handleKeyDown(event)
-    })
-
-    this.autocompleteList.addEventListener("keydown", (event) => {
-      this.handleKeyDown(event)
-    })
   }
 
   handleKeyDown(event) {
@@ -86,7 +71,7 @@ export default class extends Controller {
 
       setTimeout(() => {
         this.addConsulteeTarget.focus()
-      }, 250)
+      }, 50)
     }
   }
 
@@ -135,6 +120,17 @@ export default class extends Controller {
 
     for (const checkbox of this.internalConsulteeCheckboxes) {
       checkbox.checked = checked
+    }
+  }
+
+  addConsulteeClick(event) {
+    this.addConsultee()
+  }
+
+  addConsulteeKeyDown(event) {
+    if (event.keyCode === 13) {
+      event.stopPropagation()
+      this.addConsultee()
     }
   }
 
@@ -229,11 +225,15 @@ export default class extends Controller {
 
     setTimeout(() => {
       this.autocompleteInput.focus()
-    }, 250)
+    }, 50)
   }
 
   onConfirm(selected) {
     this.selected = selected
+
+    setTimeout(() => {
+      this.addConsulteeTarget.focus()
+    }, 50)
   }
 
   get planningApplicationId() {

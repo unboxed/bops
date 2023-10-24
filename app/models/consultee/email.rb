@@ -27,6 +27,7 @@ class Consultee < ApplicationRecord
 
     def update_status!
       return if notify_id.blank?
+      return if finalized?
 
       begin
         response = client.get_notification(notify_id)

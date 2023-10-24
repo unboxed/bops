@@ -33,14 +33,6 @@ class SendConsulteeEmailJob < NotifyEmailJob
         )
 
         UpdateConsulteeEmailStatusJob.set(wait: 30.seconds).perform_later(consultee_email)
-      rescue Notifications::Client::RequestError => e
-        consultee_email.update!(
-          status: "technical-failure",
-          status_updated_at: Time.current,
-          failure_reason: e.message
-        )
-
-        Appsignal.send_exception(e) { |t| t.set_namespace("email") }
       end
     end
   end

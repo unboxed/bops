@@ -5,8 +5,8 @@ FactoryBot.define do
     origin { "external" }
     category { "consultee" }
     name { Faker::Name.name }
-    role { Faker::Job.title }
-    organisation { Faker::Company.name }
+    role { nil }
+    organisation { nil }
     email_address { Faker::Internet.safe_email }
 
     trait :internal do
