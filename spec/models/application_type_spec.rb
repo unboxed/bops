@@ -15,8 +15,8 @@ RSpec.describe ApplicationType do
 
   describe "class methods" do
     describe "#menu" do
-      let!(:lawfulness_certificate) { create(:application_type, name: "lawfulness_certificate") }
-      let!(:prior_approval) { create(:application_type, name: "prior_approval") }
+      let!(:lawfulness_certificate) { create(:application_type) }
+      let!(:prior_approval) { create(:application_type, :prior_approval) }
 
       it "returns an array of application type names (humanized) and ids" do
         expect(described_class.menu).to eq(
@@ -28,7 +28,7 @@ RSpec.describe ApplicationType do
 
   describe "legislation details" do
     context "when planning application type has legislation details defined in en.yml translation" do
-      let!(:application_type) { create(:application_type, name: "prior_approval", part: 1, section: "A") }
+      let!(:application_type) { create(:application_type, :prior_approval, part: 1, section: "A") }
 
       describe "legislation_link" do
         it "returns the legislation link" do

@@ -249,7 +249,7 @@ RSpec.describe PlanningApplication do
         end
 
         it "works for other planning application types" do
-          prior_approval_type = create(:application_type, name: "prior_approval")
+          prior_approval_type = create(:application_type, :prior_approval)
           planning_application = build(:planning_application, work_status: "proposed", application_type: prior_approval_type)
 
           travel_to(DateTime.new(2022, 1, 1)) do

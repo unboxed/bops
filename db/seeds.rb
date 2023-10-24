@@ -71,9 +71,32 @@ local_authorities.each do |authority|
 end
 
 application_types = [
-  {name: "lawfulness_certificate"},
-  {name: "prior_approval", part: 1, section: "A"},
-  {name: "planning_permission"}
+  {name: "lawfulness_certificate",
+   steps: %w[validation assessment review],
+   assessment_details: %w[
+     summary_of_work
+     site_description
+     consultation_summary
+     additional_evidence
+   ]},
+  {name: "prior_approval", part: 1, section: "A",
+   steps: %w[validation consultation assessment review],
+   assessment_details: %w[
+     summary_of_work
+     site_description
+     additional_evidence
+     publicity_summary
+     amenity
+   ]},
+  {name: "planning_permission",
+   steps: %w[validation consultation assessment review],
+   assessment_details: %w[
+     summary_of_work
+     site_description
+     additional_evidence
+     consultation_summary
+     publicity_summary
+   ]}
 ]
 
 application_types.each do |attrs|

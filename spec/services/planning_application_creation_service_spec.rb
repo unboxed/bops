@@ -5,8 +5,8 @@ require "rails_helper"
 RSpec.describe PlanningApplicationCreationService, type: :service do
   describe "#call" do
     let(:api_user) { create(:api_user) }
-    let!(:application_type) { create(:application_type, name: "prior_approval") }
-    let!(:application_type1) { create(:application_type, name: "lawfulness_certificate") }
+    let!(:application_type_pa) { create(:application_type, :prior_approval) }
+    let!(:application_type_ldc) { create(:application_type) }
 
     before do
       stub_request(:get, "https://bops-upload-test.s3.eu-west-2.amazonaws.com/proposed-first-floor-plan.pdf")
@@ -201,7 +201,7 @@ RSpec.describe PlanningApplicationCreationService, type: :service do
     context "when application type is Householder Application for Planning Permission" do
       let(:local_authority) { create(:local_authority) }
       let(:params) { ActionController::Parameters.new(JSON.parse(file_fixture("planx_params_householder_application_for_planning_permission.json").read)) }
-      let!(:application_type) { create(:application_type, name: "planning_permission") }
+      let!(:application_type) { create(:application_type, :planning_permission) }
 
       let(:create_planning_application) do
         described_class.new(
