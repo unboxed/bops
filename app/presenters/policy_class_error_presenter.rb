@@ -4,6 +4,6 @@ class PolicyClassErrorPresenter < ErrorPresenter
   private
 
   def attributes_map
-    { "policies.comments.text": :existing_comment }
+    {"policies.comments.text": :existing_comment}
   end
 end

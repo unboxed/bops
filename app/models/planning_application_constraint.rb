@@ -14,10 +14,10 @@ class PlanningApplicationConstraint < ApplicationRecord
   delegate :type, :category, :type_code, to: :constraint
   delegate :audits, to: :planning_application
 
-  scope :active, -> { where({ removed_at: nil }) }
-  scope :identified_by_planx, -> { where({ identified_by: "PlanX" }) }
-  scope :identified_by_others, -> { where({ removed_at: nil, identified: true }).where.not({ identified_by: "plax" }) }
-  scope :removed, -> { where.not({ removed_at: nil }) }
+  scope :active, -> { where({removed_at: nil}) }
+  scope :identified_by_planx, -> { where({identified_by: "PlanX"}) }
+  scope :identified_by_others, -> { where({removed_at: nil, identified: true}).where.not({identified_by: "plax"}) }
+  scope :removed, -> { where.not({removed_at: nil}) }
 
   def start_date
     data.first["start-date"] if data

@@ -12,7 +12,7 @@ RSpec.describe "View neighbour responses", js: true do
 
   let!(:planning_application) do
     create(:planning_application, :from_planx_prior_approval,
-           application_type:, local_authority: default_local_authority, api_user:)
+      application_type:, local_authority: default_local_authority, api_user:)
   end
 
   let!(:consultation) { planning_application.consultation }

@@ -70,7 +70,7 @@ module Users
       respond_to do |format|
         format.html do
           redirect_to two_factor_path,
-                      alert: "Notify was unable to send sms with error: #{exception.message}."
+            alert: "Notify was unable to send sms with error: #{exception.message}."
         end
       end
     end

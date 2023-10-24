@@ -52,7 +52,7 @@ module PlanningApplicationStatus
 
       event :assess do
         transitions from: %i[in_assessment assessment_in_progress to_be_reviewed], to: :in_assessment,
-                    guard: :decision_present?
+          guard: :decision_present?
       end
 
       event :invalidate do
@@ -80,35 +80,35 @@ module PlanningApplicationStatus
 
       event :request_correction do
         transitions from: :awaiting_determination, to: :to_be_reviewed,
-                    after: proc { |comment| audit!(activity_type: "challenged", audit_comment: comment) }
+          after: proc { |comment| audit!(activity_type: "challenged", audit_comment: comment) }
 
         after { send_update_notification_to_assessor }
       end
 
       event :return do
         transitions from: IN_PROGRESS_STATUSES, to: :returned,
-                    after: proc { |comment| update!(closed_or_cancellation_comment: comment) }
+          after: proc { |comment| update!(closed_or_cancellation_comment: comment) }
 
         after { audit!(activity_type: "returned", audit_comment: closed_or_cancellation_comment) }
       end
 
       event :withdraw do
         transitions from: IN_PROGRESS_STATUSES, to: :withdrawn,
-                    after: proc { |comment| update!(closed_or_cancellation_comment: comment) }
+          after: proc { |comment| update!(closed_or_cancellation_comment: comment) }
 
         after { audit!(activity_type: "withdrawn", audit_comment: closed_or_cancellation_comment) }
       end
 
       event :close do
         transitions from: IN_PROGRESS_STATUSES, to: :closed,
-                    after: proc { |comment| update!(closed_or_cancellation_comment: comment) }
+          after: proc { |comment| update!(closed_or_cancellation_comment: comment) }
 
         after { audit!(activity_type: "closed", audit_comment: closed_or_cancellation_comment) }
       end
 
       event :submit do
         transitions from: :in_assessment, to: :awaiting_determination,
-                    guards: %i[decision_present? no_open_post_validation_requests?] do
+          guards: %i[decision_present? no_open_post_validation_requests?] do
           after { recommendation.update!(submitted: true) }
         end
       end

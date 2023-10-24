@@ -91,20 +91,20 @@ RSpec.describe PlanningApplicationSearch do
 
       it "returns correct planning applications" do
         expect(search.call).to eq([
-                                    prior_approval_not_started,
-                                    ldc_not_started,
-                                    prior_approval_in_assessment,
-                                    householder_application_for_planning_permission_in_assessment,
-                                    ldc_in_assessment_2,
-                                    ldc_in_assessment_1
-                                  ])
+          prior_approval_not_started,
+          ldc_not_started,
+          prior_approval_in_assessment,
+          householder_application_for_planning_permission_in_assessment,
+          ldc_in_assessment_2,
+          ldc_in_assessment_1
+        ])
       end
     end
 
     context "when is search with exclude_others" do
       let(:params) do
         ActionController::Parameters.new(
-          { view: "mine" }
+          {view: "mine"}
         )
       end
 

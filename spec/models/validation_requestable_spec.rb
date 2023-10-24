@@ -13,7 +13,7 @@ RSpec.describe ValidationRequestable do
     end
 
     %w[additional_document other_change red_line_boundary_change
-       replacement_document].each do |request_type|
+      replacement_document].each do |request_type|
       it_behaves_like "ValidationRequestStateMachineTransitions", request_type, "pending", %i[open cancelled]
       it_behaves_like "ValidationRequestStateMachineTransitions", request_type, "open", %i[cancelled closed]
       it_behaves_like "ValidationRequestStateMachineTransitions", request_type, "cancelled", %i[]
@@ -43,7 +43,7 @@ RSpec.describe ValidationRequestable do
 
           expect { request.cancel! }
             .to change(request, :state).from("pending").to("cancelled")
-                                       .and change(request, :cancelled_at).from(nil).to(Time.current)
+            .and change(request, :cancelled_at).from(nil).to(Time.current)
         end
       end
     end
@@ -68,7 +68,7 @@ RSpec.describe ValidationRequestable do
       it "returns non cancelled replacement document requests" do
         expect(ReplacementDocumentValidationRequest.not_cancelled).to match_array(
           [replacement_document_validation_request1, replacement_document_validation_request2,
-           replacement_document_validation_request3]
+            replacement_document_validation_request3]
         )
       end
     end
@@ -155,7 +155,7 @@ RSpec.describe ValidationRequestable do
 
           expect { request.cancel_request! }
             .to change(request, :cancelled_at).from(nil).to(Time.current)
-                                              .and change(request, :state).from("pending").to("cancelled")
+            .and change(request, :state).from("pending").to("cancelled")
 
           expect(Audit.last).to have_attributes(
             planning_application_id: request.planning_application.id,

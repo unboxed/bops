@@ -7,7 +7,7 @@ class SiteVisit < ApplicationRecord
   belongs_to :neighbour, optional: true
 
   validates :status, :comment, presence: true
-  validates :decision, inclusion: { in: [true, false] }
+  validates :decision, inclusion: {in: [true, false]}
   validates :visited_at, presence: true, if: :decision?
 
   enum status: {

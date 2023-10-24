@@ -35,7 +35,7 @@ RSpec.describe "Requesting other changes to a planning application" do
 
     fill_in "Tell the applicant another reason why the application is invalid", with: "The wrong fee has been paid"
     fill_in "Explain to the applicant how the application can be made valid",
-            with: "You need to pay £100, which is the correct fee"
+      with: "You need to pay £100, which is the correct fee"
 
     within(".govuk-button-group") do
       click_button "Send request"
@@ -102,9 +102,9 @@ RSpec.describe "Requesting other changes to a planning application" do
 
   it "lists the current change requests and their statuses" do
     create(:other_change_validation_request, planning_application:, state: "open",
-                                             created_at: 12.days.ago, notified_at: 12.days.ago, summary: "Missing information", suggestion: "Please provide more details about ownership")
+      created_at: 12.days.ago, notified_at: 12.days.ago, summary: "Missing information", suggestion: "Please provide more details about ownership")
     create(:other_change_validation_request, planning_application:, state: "closed",
-                                             created_at: 12.days.ago, notified_at: 12.days.ago, summary: "Fees outstanding", suggestion: "Please pay the balance", response: "paid")
+      created_at: 12.days.ago, notified_at: 12.days.ago, summary: "Fees outstanding", suggestion: "Please pay the balance", response: "paid")
 
     click_link "Check and validate"
     click_link "Send validation decision"
@@ -139,7 +139,7 @@ RSpec.describe "Requesting other changes to a planning application" do
     it "updates the notified_at date of an open request when application is invalidated" do
       new_planning_application = create(:planning_application, :not_started, local_authority: default_local_authority)
       request = create(:other_change_validation_request, planning_application: new_planning_application, state: "pending",
-                                                         created_at: 12.days.ago)
+        created_at: 12.days.ago)
 
       visit planning_application_path(new_planning_application)
       click_link "Check and validate"
@@ -183,7 +183,7 @@ RSpec.describe "Requesting other changes to a planning application" do
 
       fill_in "Tell the applicant another reason why the application is invalid", with: "View info on https://www.bops.co.uk/info"
       fill_in "Explain to the applicant how the application can be made valid",
-              with: "You need to pay the right amount, view <a href='https://www.bops.co.uk/payment'>Payment info</a>"
+        with: "You need to pay the right amount, view <a href='https://www.bops.co.uk/payment'>Payment info</a>"
 
       within(".govuk-button-group") do
         click_button "Send request"

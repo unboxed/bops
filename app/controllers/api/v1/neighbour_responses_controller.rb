@@ -19,15 +19,15 @@ module Api
       end
 
       def send_success_response
-        render json: { id: @planning_application.reference.to_s,
-                       message: "Response submitted" }, status: :ok
+        render json: {id: @planning_application.reference.to_s,
+                      message: "Response submitted"}, status: :ok
       end
 
       def send_failed_response(error)
         Appsignal.send_error(error)
 
-        render json: { message: error.message.to_s || "Unable to create response" },
-               status: :bad_request
+        render json: {message: error.message.to_s || "Unable to create response"},
+          status: :bad_request
       end
 
       private
@@ -42,7 +42,7 @@ module Api
                  message:
                   "Unable to find planning application with id: #{params[:planning_application_id]}"
                },
-               status: :not_found
+          status: :not_found
       end
     end
   end

@@ -21,7 +21,7 @@ class Policy < ApplicationRecord
   validates :description, :status, presence: true
 
   enum(
-    status: { complies: 0, does_not_comply: 1, to_be_determined: 2 },
+    status: {complies: 0, does_not_comply: 1, to_be_determined: 2},
     _default: :to_be_determined
   )
 

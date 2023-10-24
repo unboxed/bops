@@ -6,14 +6,14 @@ RSpec.describe "Reviewing sign-off" do
   let(:default_local_authority) { create(:local_authority, :default) }
   let!(:reviewer) do
     create(:user,
-           :reviewer,
-           local_authority: default_local_authority)
+      :reviewer,
+      local_authority: default_local_authority)
   end
   let!(:assessor) do
     create(:user,
-           :assessor,
-           name: "The name of assessor",
-           local_authority: default_local_authority)
+      :assessor,
+      name: "The name of assessor",
+      local_authority: default_local_authority)
   end
   let(:user) { create(:user) }
 
@@ -39,14 +39,14 @@ RSpec.describe "Reviewing sign-off" do
 
   it "can be accepted" do
     create(:recommendation, :reviewed,
-           planning_application:,
-           assessor_comment: "First assessor comment",
-           reviewer_comment: "First reviewer comment")
+      planning_application:,
+      assessor_comment: "First assessor comment",
+      reviewer_comment: "First reviewer comment")
 
     create(:recommendation,
-           planning_application:,
-           assessor_comment: "New assessor comment",
-           submitted: true)
+      planning_application:,
+      assessor_comment: "New assessor comment",
+      submitted: true)
 
     visit(planning_application_path(planning_application))
 
@@ -70,7 +70,7 @@ RSpec.describe "Reviewing sign-off" do
     expect(page).to have_selector("h1", text: "Review and sign-off")
     expect(page).to have_content("Recommendation was successfully reviewed.")
     expect(page).to have_link("Sign-off recommendation",
-                              href: edit_planning_application_recommendations_path(planning_application))
+      href: edit_planning_application_recommendations_path(planning_application))
 
     expect(list_item("Sign-off recommendation")).to have_content("Completed")
 
@@ -96,10 +96,10 @@ RSpec.describe "Reviewing sign-off" do
 
   it "can be rejected" do
     create(:recommendation,
-           assessor:,
-           planning_application:,
-           assessor_comment: "New assessor comment",
-           submitted: true)
+      assessor:,
+      planning_application:,
+      assessor_comment: "New assessor comment",
+      submitted: true)
 
     visit(planning_application_path(planning_application))
     click_link "Review and sign-off"
@@ -121,7 +121,7 @@ RSpec.describe "Reviewing sign-off" do
     expect(list_item("Sign-off recommendation")).to have_content("Completed")
     expect(page).to have_text("Sign-off recommendation")
     expect(page).not_to have_link("Sign-off recommendation",
-                                  href: edit_planning_application_recommendations_path(planning_application))
+      href: edit_planning_application_recommendations_path(planning_application))
 
     expect(page).to have_text "Application is now in assessment and assigned to The name of assessor"
 
@@ -155,9 +155,9 @@ RSpec.describe "Reviewing sign-off" do
 
   it "cannot be rejected without a review comment" do
     create(:recommendation,
-           planning_application:,
-           assessor_comment: "New assessor comment",
-           submitted: true)
+      planning_application:,
+      assessor_comment: "New assessor comment",
+      submitted: true)
 
     visit(planning_application_path(planning_application))
     click_link "Review and sign-off"
@@ -175,9 +175,9 @@ RSpec.describe "Reviewing sign-off" do
 
   it "can be accepted without a review comment" do
     create(:recommendation,
-           planning_application:,
-           assessor_comment: "New assessor comment",
-           submitted: true)
+      planning_application:,
+      assessor_comment: "New assessor comment",
+      submitted: true)
 
     visit(planning_application_path(planning_application))
     click_link "Review and sign-off"
@@ -200,7 +200,7 @@ RSpec.describe "Reviewing sign-off" do
 
   it "can edit an existing review of an assessment" do
     recommendation = create(:recommendation, :reviewed, planning_application:,
-                                                        reviewer_comment: "Reviewer private comment")
+      reviewer_comment: "Reviewer private comment")
 
     visit(planning_application_path(planning_application))
     click_link "Review and sign-off"
@@ -234,9 +234,9 @@ RSpec.describe "Reviewing sign-off" do
   context "when editing the public comment that appears on the decision notice" do
     it "as a reviewer I am able to edit", skip: "flaky" do
       create(:recommendation,
-             planning_application:,
-             assessor_comment: "New assessor comment",
-             submitted: true)
+        planning_application:,
+        assessor_comment: "New assessor comment",
+        submitted: true)
 
       visit(planning_application_path(planning_application))
       click_link "Review and sign-off"

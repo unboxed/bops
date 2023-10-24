@@ -71,9 +71,9 @@ local_authorities.each do |authority|
 end
 
 application_types = [
-  { name: "lawfulness_certificate" },
-  { name: "prior_approval", part: 1, section: "A" },
-  { name: "planning_permission" }
+  {name: "lawfulness_certificate"},
+  {name: "prior_approval", part: 1, section: "A"},
+  {name: "planning_permission"}
 ]
 
 application_types.each do |attrs|

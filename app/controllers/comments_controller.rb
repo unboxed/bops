@@ -6,13 +6,13 @@ class CommentsController < AuthenticationController
   def create
     new_comment = @comment_type.comments.new(comment_params)
     new_comment = @comment_type.comments.new if new_comment.save
-    render(json: { partial: create_comment_partial(new_comment) })
+    render(json: {partial: create_comment_partial(new_comment)})
   end
 
   def update
     comment = @comment_type.comments.find(params[:id])
     comment.update(deleted_at: DateTime.current)
-    render(json: { partial: update_comment_partial })
+    render(json: {partial: update_comment_partial})
   end
 
   private
@@ -85,9 +85,9 @@ class CommentsController < AuthenticationController
 
   def set_comment_type
     @comment_type = if params[:evidence_group_id].present?
-                      EvidenceGroup.find(params[:evidence_group_id])
-                    else
-                      policy_class.policies.find(params[:policy_id])
-                    end
+      EvidenceGroup.find(params[:evidence_group_id])
+    else
+      policy_class.policies.find(params[:policy_id])
+    end
   end
 end

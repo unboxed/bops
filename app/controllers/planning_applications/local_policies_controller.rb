@@ -9,20 +9,22 @@ module PlanningApplications
     before_action :set_local_policy_areas, only: %i[new edit]
     before_action :set_reviewer_comment, only: %i[edit new show]
 
-    def show; end
+    def show
+    end
 
     def new
       @local_policy = @planning_application.build_local_policy
     end
 
-    def edit; end
+    def edit
+    end
 
     def create
       @local_policy = @planning_application.build_local_policy(assign_params.except(:areas))
 
       if @local_policy.save
         redirect_to planning_application_assessment_tasks_path(@planning_application),
-                    notice: I18n.t("local_policies.successfully_created")
+          notice: I18n.t("local_policies.successfully_created")
       else
         set_local_policy_areas
         render :new
@@ -32,7 +34,7 @@ module PlanningApplications
     def update
       if @local_policy.update(assign_params.except(:areas))
         redirect_to planning_application_assessment_tasks_path(@planning_application),
-                    notice: I18n.t("local_policies.successfully_updated")
+          notice: I18n.t("local_policies.successfully_updated")
       else
         set_local_policy_areas
         render :edit
@@ -51,11 +53,11 @@ module PlanningApplications
 
     def local_policy_params
       params.require(:local_policy)
-            .permit(
-              areas: [],
-              local_policy_areas_attributes: %i[area policies guidance assessment id]
-            )
-            .to_h.merge(status:)
+        .permit(
+          areas: [],
+          local_policy_areas_attributes: %i[area policies guidance assessment id]
+        )
+        .to_h.merge(status:)
     end
 
     def assign_params

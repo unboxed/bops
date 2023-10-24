@@ -9,14 +9,14 @@ RSpec.describe ProposalDetail do
       responses: [
         {
           value: "Test response",
-          metadata: { flags: ["Test flag"] }
+          metadata: {flags: ["Test flag"]}
         }
       ],
       metadata: {
         auto_answered: auto_asnwered,
         section_name: "Test portal",
         policy_refs: [
-          { text: "Test ref text", url: "https://www.exampleref.com" }
+          {text: "Test ref text", url: "https://www.exampleref.com"}
         ],
         notes: "Test notes"
       }
@@ -77,7 +77,7 @@ RSpec.describe ProposalDetail do
   describe "#policy refs" do
     it "returns array of policy refs" do
       expect(proposal_detail.policy_refs).to contain_exactly(
-        { "text" => "Test ref text", "url" => "https://www.exampleref.com" }
+        {"text" => "Test ref text", "url" => "https://www.exampleref.com"}
       )
     end
   end

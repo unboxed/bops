@@ -16,7 +16,7 @@ module BopsHelper
 
     body = Rails.root.join("spec/fixtures/files/planx_params.json").read
 
-    { status:, body: }
+    {status:, body:}
   end
 end
 

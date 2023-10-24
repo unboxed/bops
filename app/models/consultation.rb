@@ -138,24 +138,24 @@ class Consultation < ApplicationRecord
 
   def neighbour_letter_header
     I18n.t("neighbour_letter_header.#{planning_application.application_type.name}",
-           closing_date: end_date_from_now.to_date.to_fs)
+      closing_date: end_date_from_now.to_date.to_fs)
   end
 
   def neighbour_letter_body
     I18n.t("neighbour_letter_template.#{planning_application.application_type.name}",
-           expiry_date: planning_application.expiry_date.to_date.to_fs,
-           address: planning_application.full_address,
-           council: local_authority.short_name,
-           applicant_name: "#{planning_application.applicant_first_name} #{planning_application.applicant_last_name}",
-           description: planning_application.description,
-           reference: planning_application.reference,
-           closing_date: end_date_from_now.to_date.to_fs,
-           rear_wall: planning_application&.proposal_measurement&.depth,
-           max_height: planning_application&.proposal_measurement&.max_height,
-           eaves_height: planning_application&.proposal_measurement&.eaves_height,
-           current_user: Current.user.name,
-           council_address: I18n.t("council_addresses.#{local_authority.subdomain}"),
-           application_link:)
+      expiry_date: planning_application.expiry_date.to_date.to_fs,
+      address: planning_application.full_address,
+      council: local_authority.short_name,
+      applicant_name: "#{planning_application.applicant_first_name} #{planning_application.applicant_last_name}",
+      description: planning_application.description,
+      reference: planning_application.reference,
+      closing_date: end_date_from_now.to_date.to_fs,
+      rear_wall: planning_application&.proposal_measurement&.depth,
+      max_height: planning_application&.proposal_measurement&.max_height,
+      eaves_height: planning_application&.proposal_measurement&.eaves_height,
+      current_user: Current.user.name,
+      council_address: I18n.t("council_addresses.#{local_authority.subdomain}"),
+      application_link:)
   end
 
   def neighbour_letter_content
@@ -211,7 +211,7 @@ class Consultation < ApplicationRecord
       feature_collection_geojson["features"].concat(boundary_geojson["features"])
     else
       raise ArgumentError,
-            "Invalid GeoJSON type. Expected 'Feature' or 'FeatureCollection', got #{boundary_geojson['type']}."
+        "Invalid GeoJSON type. Expected 'Feature' or 'FeatureCollection', got #{boundary_geojson["type"]}."
     end
 
     feature_collection_geojson
@@ -241,7 +241,7 @@ class Consultation < ApplicationRecord
       user: Current.user,
       activity_type: "neighbour_letter_copy_mail_sent",
       audit_comment:
-        "Neighbour letter copy sent by email to #{planning_application.applicant_and_agent_email.join(', ')}"
+        "Neighbour letter copy sent by email to #{planning_application.applicant_and_agent_email.join(", ")}"
     )
   end
 
@@ -262,7 +262,7 @@ class Consultation < ApplicationRecord
       {
         "type" => "Feature",
         "geometry" => RGeo::GeoJSON.encode(geometry),
-        "properties" => { color: polygon_colour }
+        "properties" => {color: polygon_colour}
       }
     end
 

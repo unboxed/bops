@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  enum role: { assessor: 0, reviewer: 1, administrator: 2 }
+  enum role: {assessor: 0, reviewer: 1, administrator: 2}
 
-  enum otp_delivery_method: { sms: 0, email: 1 }
+  enum otp_delivery_method: {sms: 0, email: 1}
 
   devise :recoverable, :two_factor_authenticatable, :recoverable, :timeoutable,
-         :validatable,
-         otp_secret_encryption_key: ENV.fetch("OTP_SECRET_ENCRYPTION_KEY", nil),
-         request_keys: [:subdomains]
+    :validatable,
+    otp_secret_encryption_key: ENV.fetch("OTP_SECRET_ENCRYPTION_KEY", nil),
+    request_keys: [:subdomains]
 
   has_many :planning_applications, dependent: :nullify
   has_many :audits, dependent: :nullify
@@ -18,7 +18,7 @@ class User < ApplicationRecord
   before_create :generate_otp_secret
 
   validates :mobile_number, phone_number: true
-  validates :password, password_strength: { use_dictionary: true }, unless: ->(user) { user.password.blank? }
+  validates :password, password_strength: {use_dictionary: true}, unless: ->(user) { user.password.blank? }
   validate :password_complexity
 
   scope :non_administrator, -> { where.not(role: "administrator") }
@@ -93,7 +93,7 @@ class User < ApplicationRecord
     # The last 16 bytes of the ciphertext are the authentication tag - we use
     # Galois Counter Mode which is an authenticated encryption mode
     cipher_text = raw_cipher_text[0..-17]
-    auth_tag =  raw_cipher_text[-16..]
+    auth_tag = raw_cipher_text[-16..]
 
     # this alrorithm lifted from
     # https://github.com/attr-encrypted/encryptor/blob/master/lib/encryptor.rb#L54

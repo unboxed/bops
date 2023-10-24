@@ -55,7 +55,7 @@ module PlanningApplications
     def documents_attributes
       files = params.dig(:site_visit, :documents_attributes, "0", :files).compact_blank
       files.map.with_index do |file, i|
-        [i.to_s, { file:, planning_application_id: @planning_application.id, tags: ["Site Visit"] }]
+        [i.to_s, {file:, planning_application_id: @planning_application.id, tags: ["Site Visit"]}]
       end.to_h
     end
 

@@ -20,7 +20,7 @@ class PlanningApplicationMailer < ApplicationMailer
     view_mail(
       NOTIFY_TEMPLATE_ID,
       subject: subject(:validation_notice_mail,
-                       application_type_name: @planning_application.application_type.human_name),
+        application_type_name: @planning_application.application_type.human_name),
       to: email,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
@@ -32,7 +32,7 @@ class PlanningApplicationMailer < ApplicationMailer
     view_mail(
       NOTIFY_TEMPLATE_ID,
       subject: subject(:invalidation_notice_mail,
-                       application_type_name: @planning_application.application_type.human_name),
+        application_type_name: @planning_application.application_type.human_name),
       to: @planning_application.applicant_and_agent_email.first,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
@@ -55,7 +55,7 @@ class PlanningApplicationMailer < ApplicationMailer
     view_mail(
       NOTIFY_TEMPLATE_ID,
       subject: subject(:validation_request_mail,
-                       application_type_name: @planning_application.application_type.human_name),
+        application_type_name: @planning_application.application_type.human_name),
       to: @planning_application.applicant_and_agent_email.first,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
@@ -68,7 +68,7 @@ class PlanningApplicationMailer < ApplicationMailer
     view_mail(
       NOTIFY_TEMPLATE_ID,
       subject: subject(:post_validation_request_mail,
-                       application_type_name: @planning_application.application_type.human_name),
+        application_type_name: @planning_application.application_type.human_name),
       to: @planning_application.applicant_and_agent_email.first,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
@@ -80,7 +80,7 @@ class PlanningApplicationMailer < ApplicationMailer
     view_mail(
       NOTIFY_TEMPLATE_ID,
       subject: subject(:cancelled_validation_request_mail,
-                       application_type_name: @planning_application.application_type.human_name),
+        application_type_name: @planning_application.application_type.human_name),
       to: @planning_application.applicant_and_agent_email.first,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
@@ -93,7 +93,7 @@ class PlanningApplicationMailer < ApplicationMailer
     view_mail(
       NOTIFY_TEMPLATE_ID,
       subject: subject(:description_change_mail,
-                       application_type_name: @planning_application.application_type.human_name),
+        application_type_name: @planning_application.application_type.human_name),
       to: @planning_application.applicant_and_agent_email.first,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
@@ -106,7 +106,7 @@ class PlanningApplicationMailer < ApplicationMailer
     view_mail(
       NOTIFY_TEMPLATE_ID,
       subject: subject(:description_closure_notification_mail,
-                       application_type_name: @planning_application.application_type.human_name),
+        application_type_name: @planning_application.application_type.human_name),
       to: @planning_application.applicant_and_agent_email.first,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )
@@ -118,7 +118,7 @@ class PlanningApplicationMailer < ApplicationMailer
     view_mail(
       NOTIFY_TEMPLATE_ID,
       subject: subject(:validation_request_closure_mail,
-                       application_type_name: @planning_application.application_type.human_name),
+        application_type_name: @planning_application.application_type.human_name),
       to: @planning_application.applicant_and_agent_email.first,
       reply_to_id: @planning_application.local_authority.reply_to_notify_id
     )

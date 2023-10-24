@@ -6,8 +6,8 @@ RSpec.describe ProposalDetails::GroupComponent, type: :component do
   let(:proposal_detail_attributes) do
     {
       question: "Test question 1",
-      responses: [{ value: "Test response 1" }],
-      metadata: { section_name: "group_x" }
+      responses: [{value: "Test response 1"}],
+      metadata: {section_name: "group_x"}
     }.deep_stringify_keys
   end
 

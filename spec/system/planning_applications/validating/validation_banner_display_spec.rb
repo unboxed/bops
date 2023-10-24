@@ -24,8 +24,8 @@ RSpec.describe "Validation banners" do
 
     it "shows the correct count for 2 overdue request validations" do
       create(:replacement_document_validation_request,
-             planning_application:,
-             state: "open")
+        planning_application:,
+        state: "open")
 
       travel 2.months
       visit planning_application_path(planning_application)

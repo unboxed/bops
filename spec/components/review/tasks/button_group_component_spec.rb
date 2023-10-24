@@ -12,39 +12,39 @@ RSpec.describe Review::Tasks::ButtonGroupComponent, type: :component do
     render_inline(described_class.new(planning_application: pa))
 
     expect(page).not_to have_link("Review and publish decision",
-                                  href: publish_planning_application_path(pa))
+      href: publish_planning_application_path(pa))
     expect(page).to have_link("Back",
-                              href: planning_application_path(pa))
+      href: planning_application_path(pa))
   end
 
   it "renders only back button when not publishing" do
     rec = create(:recommendation,
-                 :with_planning_application,
-                 status: :review_complete,
-                 reviewer_comment: "reviewer comment",
-                 submitted: true,
-                 challenged: nil)
+      :with_planning_application,
+      status: :review_complete,
+      reviewer_comment: "reviewer comment",
+      submitted: true,
+      challenged: nil)
     render_inline(described_class.new(planning_application: rec.planning_application))
 
     expect(page).not_to have_link("Review and publish decision",
-                                  href: publish_planning_application_path(rec.planning_application))
+      href: publish_planning_application_path(rec.planning_application))
     expect(page).to have_link("Back",
-                              href: planning_application_path(rec.planning_application))
+      href: planning_application_path(rec.planning_application))
   end
 
   it "renders back and publish button when publishing" do
     rec = create(:recommendation,
-                 :with_planning_application,
-                 status: :review_complete,
-                 reviewer_comment: "reviewer comment",
-                 submitted: true,
-                 challenged: false)
+      :with_planning_application,
+      status: :review_complete,
+      reviewer_comment: "reviewer comment",
+      submitted: true,
+      challenged: false)
 
     render_inline(described_class.new(planning_application: rec.planning_application))
 
     expect(page).to have_link("Review and publish decision",
-                              href: publish_planning_application_path(rec.planning_application))
+      href: publish_planning_application_path(rec.planning_application))
     expect(page).to have_link("Back",
-                              href: planning_application_path(rec.planning_application))
+      href: planning_application_path(rec.planning_application))
   end
 end

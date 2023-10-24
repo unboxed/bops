@@ -14,7 +14,7 @@ module PlanningApplications
     attr_reader :planning_applications, :type, :search
 
     def title
-      type == :all ? all_applications_title : t(".#{type}")
+      (type == :all) ? all_applications_title : t(".#{type}")
     end
 
     def attributes

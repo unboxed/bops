@@ -22,7 +22,7 @@ module OsPlacesHelper
 
     body = "{'results': [{'address': '123 place'}]}"
 
-    { status:, body: }
+    {status:, body:}
   end
 
   def mock_csrf_token(token = "mock")

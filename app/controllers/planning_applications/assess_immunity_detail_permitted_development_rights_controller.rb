@@ -54,7 +54,7 @@ module PlanningApplications
 
       if @form.save
         redirect_to planning_application_assessment_tasks_path(@planning_application),
-                    notice: I18n.t("assess_immunity_detail_permitted_development_rights.successfully_created")
+          notice: I18n.t("assess_immunity_detail_permitted_development_rights.successfully_created")
       else
         set_permitted_development_rights
         set_review_immunity_details
@@ -72,7 +72,7 @@ module PlanningApplications
 
       if @form.update
         redirect_to planning_application_assessment_tasks_path(@planning_application),
-                    notice: I18n.t("assess_immunity_detail_permitted_development_rights.successfully_updated")
+          notice: I18n.t("assess_immunity_detail_permitted_development_rights.successfully_updated")
       else
         set_permitted_development_rights
         set_review_immunity_details
@@ -85,7 +85,7 @@ module PlanningApplications
     def assess_immunity_detail_permitted_development_right_form_params
       params.require(:assess_immunity_detail_permitted_development_right_form).permit(
         review_immunity_detail: %i[decision decision_reason yes_decision_reason no_decision_reason decision_type
-                                   summary],
+          summary],
         permitted_development_right: %i[removed removed_reason]
       ).merge(review_immunity_detail_status:, permitted_development_right_status:)
     end

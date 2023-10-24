@@ -10,8 +10,8 @@ module Apis
       HOST = "https://api.editor.planx.uk"
       TIMEOUT = 5
 
-      def self.query(**args)
-        request(**args) => {response:, **query_details}
+      def self.query(**)
+        request(**) => {response:, **query_details}
 
         if response&.success?
           JSON.parse(response.body, symbolize_names: true).merge(query_details)
@@ -32,7 +32,7 @@ module Apis
           wkt = geojson_to_wkt(geojson)
         end
 
-        return { response: nil } if wkt.blank?
+        return {response: nil} if wkt.blank?
 
         faraday = Faraday.new(url: HOST) { |f| f.response :raise_error }
         request_url = "/gis/opensystemslab?geom=#{URI.encode_uri_component wkt}&analytics=false"
@@ -40,7 +40,7 @@ module Apis
           request.options[:timeout] = TIMEOUT
         end
 
-        { response:, wkt:, geojson:, planxRequest: "#{HOST}#{request_url}" }
+        {response:, wkt:, geojson:, planxRequest: "#{HOST}#{request_url}"}
       end
 
       def self.geojson_to_wkt(geojson)
@@ -52,7 +52,7 @@ module Apis
           # we need to handle this, but we're not likely to get more than one
           # element for our usecase.
           entries = geom.entries.filter_map(&:geometry).map(&:as_text)
-          "GEOMETRYCOLLECTION (#{entries.join(', ')})"
+          "GEOMETRYCOLLECTION (#{entries.join(", ")})"
         elsif geom.respond_to? :geometry
           geom.geometry.as_text
         elsif geom.respond_to? :as_text

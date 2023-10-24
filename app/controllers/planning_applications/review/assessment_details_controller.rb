@@ -9,9 +9,11 @@ module PlanningApplications
       before_action :set_consultation
       before_action :set_assessment_detail_review
 
-      def show; end
+      def show
+      end
 
-      def edit; end
+      def edit
+      end
 
       def update
         @form.attributes = review_assessment_details_params

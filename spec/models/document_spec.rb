@@ -300,7 +300,7 @@ RSpec.describe Document do
 
     context "when there is no 'file' attribute" do
       let(:attributes) do
-        { numbers: "DOC345" }
+        {numbers: "DOC345"}
       end
 
       it "updates existing document" do
@@ -311,7 +311,7 @@ RSpec.describe Document do
 
       context "when the attributes are invalid" do
         let(:attributes) do
-          { referenced_in_decision_notice: true, numbers: "" }
+          {referenced_in_decision_notice: true, numbers: ""}
         end
 
         it "returns false" do
@@ -330,7 +330,7 @@ RSpec.describe Document do
 
     context "when there is a 'file' attribute" do
       let(:attributes) do
-        { file: file2 }
+        {file: file2}
       end
 
       it "archives existing document" do

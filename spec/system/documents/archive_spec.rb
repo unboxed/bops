@@ -9,8 +9,8 @@ RSpec.describe "Documents index page" do
 
   let!(:planning_application) do
     create(:planning_application,
-           local_authority: default_local_authority,
-           address_1: "Elm Grove")
+      local_authority: default_local_authority,
+      address_1: "Elm Grove")
   end
 
   let(:document_tags) do
@@ -19,32 +19,32 @@ RSpec.describe "Documents index page" do
 
   let!(:document) do
     create(:document, :with_file,
-           planning_application:,
-           tags: document_tags)
+      planning_application:,
+      tags: document_tags)
   end
 
   let!(:not_started_planning_application) do
     create(:planning_application, :not_started,
-           local_authority: default_local_authority,
-           address_1: "Elm Grove")
+      local_authority: default_local_authority,
+      address_1: "Elm Grove")
   end
 
   let!(:not_started_document) do
     create(:document, :with_file,
-           planning_application: not_started_planning_application,
-           tags: document_tags)
+      planning_application: not_started_planning_application,
+      tags: document_tags)
   end
 
   let!(:awaiting_determination_planning_application) do
     create(:planning_application, :awaiting_determination,
-           local_authority: default_local_authority,
-           address_1: "Elm Grove")
+      local_authority: default_local_authority,
+      address_1: "Elm Grove")
   end
 
   let!(:awaiting_document) do
     create(:document, :with_file,
-           planning_application: awaiting_determination_planning_application,
-           tags: document_tags)
+      planning_application: awaiting_determination_planning_application,
+      tags: document_tags)
   end
 
   context "as a user who is not logged in" do
@@ -221,7 +221,7 @@ RSpec.describe "Documents index page" do
   context "with an associated replacement document validation request" do
     let!(:replacement_document_validation_request) do
       create(:replacement_document_validation_request, planning_application: not_started_planning_application,
-                                                       old_document: not_started_document)
+        old_document: not_started_document)
     end
 
     before do

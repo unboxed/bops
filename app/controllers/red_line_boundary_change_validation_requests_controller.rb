@@ -19,7 +19,7 @@ class RedLineBoundaryChangeValidationRequestsController < ValidationRequestsCont
   def create
     @red_line_boundary_change_validation_request =
       RedLineBoundaryChangeValidationRequest.new(
-        red_line_boundary_change_validation_request_params.merge!({ planning_application_id: @planning_application.id })
+        red_line_boundary_change_validation_request_params.merge!({planning_application_id: @planning_application.id})
       )
     @red_line_boundary_change_validation_request.user = current_user
 

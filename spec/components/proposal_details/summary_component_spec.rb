@@ -6,12 +6,12 @@ RSpec.describe ProposalDetails::SummaryComponent, type: :component do
   let(:proposal_detail_attributes) do
     {
       question: "Test question 1",
-      responses: [{ value: "Test response 1" }, { value: "Test response 2" }],
+      responses: [{value: "Test response 1"}, {value: "Test response 2"}],
       metadata: {
         section_name: "group_x",
         notes: "Test note",
         auto_answered: true,
-        policy_refs: [{ url: "www.example.com" }, { text: "Test ref" }]
+        policy_refs: [{url: "www.example.com"}, {text: "Test ref"}]
       }
     }.deep_stringify_keys
   end

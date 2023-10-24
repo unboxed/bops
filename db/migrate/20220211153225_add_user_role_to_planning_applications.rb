@@ -2,7 +2,7 @@
 
 class AddUserRoleToPlanningApplications < ActiveRecord::Migration[6.1]
   class PlanningApplication < ApplicationRecord
-    enum user_role: { applicant: 0, agent: 1, proxy: 2 }
+    enum user_role: {applicant: 0, agent: 1, proxy: 2}
   end
 
   def up

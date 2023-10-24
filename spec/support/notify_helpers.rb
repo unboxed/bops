@@ -12,7 +12,7 @@ module NotifyHelper
   def sms_notification_api_response(status, body = "{}")
     status = Rack::Utils.status_code(status)
 
-    { status:, body: }
+    {status:, body:}
   end
 
   def stub_post_sms_notification(phone_number:, otp:, status:)
@@ -33,8 +33,8 @@ module NotifyHelper
   end
 
   def stub_send_letter(status:)
-    body = { status_code: status }
-    body[:errors] = [{ error: "Exception", message: "Internal server error" }] if status >= 400
+    body = {status_code: status}
+    body[:errors] = [{error: "Exception", message: "Internal server error"}] if status >= 400
 
     stub_request(:post, LETTER_URL)
       .with do |request|

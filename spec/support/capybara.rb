@@ -47,7 +47,7 @@ RSpec.configure do |config|
     Capybara.automatic_label_click = true
     Capybara.enable_aria_label = true
     Capybara.ignore_hidden_elements = false
-    Capybara.server = :puma, { Silent: true }
+    Capybara.server = :puma, {Silent: true}
   end
 
   config.before type: :system do

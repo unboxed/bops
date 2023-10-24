@@ -6,8 +6,8 @@ RSpec.describe "Document uploads" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) do
     create(:planning_application,
-           local_authority: default_local_authority,
-           decision: "granted")
+      local_authority: default_local_authority,
+      decision: "granted")
   end
 
   let!(:document) { create(:document, planning_application:) }

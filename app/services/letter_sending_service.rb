@@ -29,7 +29,7 @@ class LetterSendingService
       letter_content.prepend "# Application updated\nThis application has been updated. Reason: #{resend_reason}\n\n"
     end
 
-    personalisation = { message: letter_content, heading: @consultation.neighbour_letter_header }
+    personalisation = {message: letter_content, heading: @consultation.neighbour_letter_header}
     personalisation.merge! address
 
     begin

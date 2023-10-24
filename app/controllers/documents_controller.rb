@@ -13,9 +13,9 @@ class DocumentsController < AuthenticationController
   def index
     @documents = @planning_application.documents.with_file_attachment
     @additional_document_validation_requests = @planning_application
-                                               .additional_document_validation_requests
-                                               .post_validation
-                                               .open_or_pending
+      .additional_document_validation_requests
+      .post_validation
+      .open_or_pending
 
     respond_to do |format|
       format.html
@@ -100,9 +100,9 @@ class DocumentsController < AuthenticationController
 
   def document_params
     document_params = params.fetch(:document, {}).permit(:archive_reason, :name, :archived_at,
-                                                         :numbers, :publishable, :referenced_in_decision_notice,
-                                                         :validated, :invalidated_document_reason, :file,
-                                                         :received_at, :created_by, tags: [])
+      :numbers, :publishable, :referenced_in_decision_notice,
+      :validated, :invalidated_document_reason, :file,
+      :received_at, :created_by, tags: [])
     document_params[:tags]&.reject!(&:blank?)
     document_params
   end

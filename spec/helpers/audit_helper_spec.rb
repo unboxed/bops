@@ -17,7 +17,7 @@ RSpec.describe AuditHelper do
 
     it "returns the correct wording for an assigned audit" do
       expect(activity(assigned_audit.activity_type,
-                      assigned_audit.activity_information)).to eq("Application assigned to Maria")
+        assigned_audit.activity_information)).to eq("Application assigned to Maria")
     end
 
     it "returns the correct wording for an challenged audit" do
@@ -26,7 +26,7 @@ RSpec.describe AuditHelper do
 
     it "returns the correct wording for a created audit" do
       expect(activity(created_audit.activity_type,
-                      created_audit.activity_information)).to eq("Application created by Polly")
+        created_audit.activity_information)).to eq("Application created by Polly")
     end
 
     it "returns the correct wording for an archive audit" do

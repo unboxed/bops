@@ -13,8 +13,8 @@ RSpec.describe "Creating a planning application via the API", show_exceptions: t
   end
 
   let(:headers) do
-    { "CONTENT-TYPE": "application/json",
-      Authorization: "Bearer #{api_user.token}" }
+    {"CONTENT-TYPE": "application/json",
+     Authorization: "Bearer #{api_user.token}"}
   end
 
   it "successfully creates a new neighbour response" do

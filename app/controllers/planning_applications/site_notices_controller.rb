@@ -36,11 +36,11 @@ module PlanningApplications
         send_mail if params[:commit] == "Email site notice and mark as complete"
 
         respond_to do |format|
-          action = params[:commit] == "Email site notice and mark as complete" ? "emailed" : "created"
+          action = (params[:commit] == "Email site notice and mark as complete") ? "emailed" : "created"
           format.html do
             if @site_notice.displayed_at.present?
               redirect_to new_planning_application_site_notice_path(@planning_application),
-                          notice: t(".success", action:)
+                notice: t(".success", action:)
             else
               redirect_to planning_application_consultation_path(@planning_application), notice: t(".success", action:)
             end
@@ -57,7 +57,7 @@ module PlanningApplications
       if @site_notice.update(site_notice_params.except(:file))
         if site_notice_params[:file]
           @planning_application.documents.create!(file: site_notice_params[:file], site_notice: @site_notice,
-                                                  tags: ["Site Notice"])
+            tags: ["Site Notice"])
         end
 
         calculate_consultation_end_date
@@ -102,7 +102,7 @@ module PlanningApplications
       return if @planning_application.make_public? || site_notice_params[:required] == "No"
 
       flash.now[:alert] = sanitize "The planning application must be
-      #{view_context.link_to 'made public on the BoPS Public Portal', make_public_planning_application_path(@planning_application)}
+      #{view_context.link_to "made public on the BoPS Public Portal", make_public_planning_application_path(@planning_application)}
       before you can create a site notice."
 
       @site_notice = SiteNotice.new
@@ -113,7 +113,7 @@ module PlanningApplications
       return if @planning_application.user.present?
 
       flash.now[:alert] = sanitize "The planning application must be
-      #{view_context.link_to 'assigned to an officer', planning_application_assign_users_path(@planning_application)}
+      #{view_context.link_to "assigned to an officer", planning_application_assign_users_path(@planning_application)}
       before you can create a site notice."
 
       @site_notice = SiteNotice.new
@@ -122,12 +122,12 @@ module PlanningApplications
 
     def create_audit_log
       comment = if site_notice_params[:internal_team_email].present?
-                  "Site notice was emailed to internal team to print"
-                elsif params[:commit] == "Email site notice and mark as complete"
-                  "Site notice was emailed to the applicant"
-                else
-                  "Site notice PDF was created"
-                end
+        "Site notice was emailed to internal team to print"
+      elsif params[:commit] == "Email site notice and mark as complete"
+        "Site notice was emailed to the applicant"
+      else
+        "Site notice PDF was created"
+      end
 
       Audit.create!(
         planning_application_id:,

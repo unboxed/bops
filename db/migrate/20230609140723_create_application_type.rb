@@ -25,7 +25,7 @@ class CreateApplicationType < ActiveRecord::Migration[7.0]
     )
 
     PlanningApplication.find_each do |application|
-      type = (application.application_type == "lawfulness_certificate" ? lawful : prior)
+      type = ((application.application_type == "lawfulness_certificate") ? lawful : prior)
       application.update(application_type_id: type.id)
     end
 

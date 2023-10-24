@@ -28,7 +28,7 @@ RSpec.describe RecommendationsController do
     end
 
     let(:recommendation_params) do
-      { challenged: false, reviewer_comment: "Comment" }
+      {challenged: false, reviewer_comment: "Comment"}
     end
 
     let(:params) do

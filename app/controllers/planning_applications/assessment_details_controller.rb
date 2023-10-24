@@ -54,7 +54,7 @@ module PlanningApplications
         if @assessment_detail.update(assessment_details_params)
           format.html do
             redirect_to planning_application_assessment_tasks_path(@planning_application),
-                        notice: I18n.t("assessment_details.#{@assessment_detail.category}_successfully_updated")
+              notice: I18n.t("assessment_details.#{@assessment_detail.category}_successfully_updated")
           end
         else
           format.html { render :edit }

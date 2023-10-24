@@ -345,7 +345,7 @@ RSpec.describe "Press notice" do
           expect(PressNotice.last).to have_attributes(
             planning_application_id: planning_application.id,
             required: true,
-            reasons: { "environment" => "An environmental statement accompanies this application", "major_development" => "The application is for a Major Development", "public_interest" => "Wider Public interest" },
+            reasons: {"environment" => "An environmental statement accompanies this application", "major_development" => "The application is for a Major Development", "public_interest" => "Wider Public interest"},
             requested_at: Time.zone.local(2023, 3, 15, 12)
           )
 

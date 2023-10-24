@@ -36,8 +36,8 @@ RSpec.describe "Description change validation requests API", show_exceptions: tr
       it "succeeds" do
         get(
           path,
-          params: { change_access_id: planning_application.change_access_id },
-          headers: { "CONTENT-TYPE": "application/json", Authorization: token }
+          params: {change_access_id: planning_application.change_access_id},
+          headers: {"CONTENT-TYPE": "application/json", Authorization: token}
         )
 
         expect(response).to be_successful
@@ -47,8 +47,8 @@ RSpec.describe "Description change validation requests API", show_exceptions: tr
         travel_to(DateTime.new(2022, 6, 20)) do
           get(
             path,
-            params: { change_access_id: planning_application.change_access_id },
-            headers: { "CONTENT-TYPE": "application/json", Authorization: token }
+            params: {change_access_id: planning_application.change_access_id},
+            headers: {"CONTENT-TYPE": "application/json", Authorization: token}
           )
 
           expect(json["data"]).to contain_exactly(
@@ -94,8 +94,8 @@ RSpec.describe "Description change validation requests API", show_exceptions: tr
       it "is successful" do
         get(
           path,
-          params: { change_access_id: planning_application.change_access_id },
-          headers: { "CONTENT-TYPE": "application/json", Authorization: token }
+          params: {change_access_id: planning_application.change_access_id},
+          headers: {"CONTENT-TYPE": "application/json", Authorization: token}
         )
 
         expect(response).to be_successful
@@ -105,8 +105,8 @@ RSpec.describe "Description change validation requests API", show_exceptions: tr
         travel_to(DateTime.new(2022, 6, 20)) do
           get(
             path,
-            params: { change_access_id: planning_application.change_access_id },
-            headers: { "CONTENT-TYPE": "application/json", Authorization: token }
+            params: {change_access_id: planning_application.change_access_id},
+            headers: {"CONTENT-TYPE": "application/json", Authorization: token}
           )
 
           expect(json).to eq(

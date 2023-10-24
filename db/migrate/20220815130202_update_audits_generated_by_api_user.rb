@@ -29,5 +29,6 @@ class UpdateAuditsGeneratedByApiUser < ActiveRecord::Migration[6.1]
     )
   end
 
-  def down; end
+  def down
+  end
 end

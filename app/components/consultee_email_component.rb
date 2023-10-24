@@ -43,7 +43,7 @@ class ConsulteeEmailComponent < ViewComponent::Base
   end
 
   def text_area_tag(name, **extra)
-    form.text_area(name, **{ class: "govuk-textarea" }.merge(extra))
+    form.text_area(name, **{class: "govuk-textarea"}.merge(extra))
   end
 
   def hint_tag(&)

@@ -21,7 +21,7 @@ module PlanningApplications
       end
     rescue ActiveRecord::ActiveRecordError => e
       redirect_to planning_application_assign_users_path(@planning_application),
-                  alert: "Couldn't assign user with error: #{e.message}. Please contact support."
+        alert: "Couldn't assign user with error: #{e.message}. Please contact support."
     end
 
     def set_users

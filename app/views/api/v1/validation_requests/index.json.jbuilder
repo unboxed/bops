@@ -4,44 +4,44 @@ json.data do
   json.description_change_validation_requests @planning_application
     .description_change_validation_requests do |description_change_validation_request|
     json.extract! description_change_validation_request,
-                  :id,
-                  :state,
-                  :response_due,
-                  :proposed_description,
-                  :previous_description,
-                  :rejection_reason,
-                  :approved,
-                  :days_until_response_due,
-                  :cancel_reason,
-                  :cancelled_at
+      :id,
+      :state,
+      :response_due,
+      :proposed_description,
+      :previous_description,
+      :rejection_reason,
+      :approved,
+      :days_until_response_due,
+      :cancel_reason,
+      :cancelled_at
     json.type "description_change_validation_request"
   end
 
   json.red_line_boundary_change_validation_requests @planning_application
     .red_line_boundary_change_validation_requests do |red_line_boundary_change_validation_request|
     json.extract! red_line_boundary_change_validation_request,
-                  :id,
-                  :state,
-                  :response_due,
-                  :new_geojson,
-                  :reason,
-                  :rejection_reason,
-                  :approved,
-                  :days_until_response_due,
-                  :cancel_reason,
-                  :cancelled_at
+      :id,
+      :state,
+      :response_due,
+      :new_geojson,
+      :reason,
+      :rejection_reason,
+      :approved,
+      :days_until_response_due,
+      :cancel_reason,
+      :cancelled_at
     json.type "red_line_boundary_change_validation_request"
   end
 
   json.replacement_document_validation_requests @planning_application
     .replacement_document_validation_requests do |replacement_document_validation_request|
     json.extract! replacement_document_validation_request,
-                  :id,
-                  :state,
-                  :response_due,
-                  :days_until_response_due,
-                  :cancel_reason,
-                  :cancelled_at
+      :id,
+      :state,
+      :response_due,
+      :days_until_response_due,
+      :cancel_reason,
+      :cancelled_at
     json.old_document do
       json.name replacement_document_validation_request.old_document.file.filename
       json.invalid_document_reason replacement_document_validation_request.invalidated_document_reason
@@ -60,14 +60,14 @@ json.data do
   json.additional_document_validation_requests @planning_application
     .additional_document_validation_requests do |additional_document_validation_request|
     json.extract! additional_document_validation_request,
-                  :id,
-                  :state,
-                  :response_due,
-                  :days_until_response_due,
-                  :document_request_type,
-                  :document_request_reason,
-                  :cancel_reason,
-                  :cancelled_at
+      :id,
+      :state,
+      :response_due,
+      :days_until_response_due,
+      :document_request_type,
+      :document_request_reason,
+      :cancel_reason,
+      :cancelled_at
 
     json.documents additional_document_validation_request.documents do |document|
       json.name document.file.filename
@@ -81,15 +81,15 @@ json.data do
   json.other_change_validation_requests @planning_application
     .other_change_validation_requests do |other_change_validation_request|
     json.extract! other_change_validation_request,
-                  :id,
-                  :state,
-                  :response_due,
-                  :response,
-                  :summary,
-                  :suggestion,
-                  :days_until_response_due,
-                  :cancel_reason,
-                  :cancelled_at
+      :id,
+      :state,
+      :response_due,
+      :response,
+      :summary,
+      :suggestion,
+      :days_until_response_due,
+      :cancel_reason,
+      :cancelled_at
     json.type "other_change_validation_request"
   end
 end

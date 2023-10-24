@@ -23,8 +23,8 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
     document.paths[path][http_method].responses[response_code.to_s].content["application/json"].examples[example_name].value.to_h.to_json
   end
 
-  def example_response_hash_for(*attrs)
-    JSON.parse(example_response_json_for(*attrs))
+  def example_response_hash_for(*)
+    JSON.parse(example_response_json_for(*))
   end
 
   it "is a valid oas3 document" do
@@ -36,12 +36,12 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
       .to_return(
         status: 200,
         body: Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf").read,
-        headers: { "Content-Type" => "application/pdf" }
+        headers: {"Content-Type" => "application/pdf"}
       )
     expect do
       post "/api/v1/planning_applications",
-           params: example_request_json_for("/api/v1/planning_applications", "post", "ldc_proposed"),
-           headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
+        params: example_request_json_for("/api/v1/planning_applications", "post", "ldc_proposed"),
+        headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
     end.to change(PlanningApplication, :count).by(1)
     expect(response.code).to eq("200")
     expect(PlanningApplication.last.application_type.name).to eq("lawfulness_certificate")
@@ -77,21 +77,21 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
   it "successfully returns the listing of applications as specified" do
     travel_to(DateTime.new(2020, 5, 14))
     planning_application_hash = example_response_hash_for("/api/v1/planning_applications", "get", 200,
-                                                          "ldc_proposed")["data"].first
+      "ldc_proposed")["data"].first
 
     planning_application = PlanningApplication.create! planning_application_hash.except("reference", "reference_in_full",
-                                                                                        "received_date", "documents", "site", "constraints",
-                                                                                        "application_type").merge(
-                                                                                          local_authority:
-                                                                                          default_local_authority,
-                                                                                          old_constraints: planning_application_hash["constraints"],
-                                                                                          application_type_id: ApplicationType.first.id
-                                                                                        )
+      "received_date", "documents", "site", "constraints",
+      "application_type").merge(
+        local_authority:
+        default_local_authority,
+        old_constraints: planning_application_hash["constraints"],
+        application_type_id: ApplicationType.first.id
+      )
 
     planning_application.update!(planning_application_hash["site"])
     planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url", "blob_url")) do |document|
       document.file.attach(io: Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf").open,
-                           filename: "roofplan")
+        filename: "roofplan")
       document.publishable = true
     end
 
@@ -112,22 +112,22 @@ RSpec.describe "The Open API Specification document", show_exceptions: true do
     travel_to(DateTime.new(2020, 5, 14))
     planning_application_hash = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "ldc_proposed")
     planning_application = PlanningApplication.create! planning_application_hash.except("reference", "reference_in_full", "status",
-                                                                                        "received_date", "documents", "site", "constraints",
-                                                                                        "application_type").merge(
-                                                                                          local_authority: default_local_authority,
-                                                                                          old_constraints: planning_application_hash["constraints"],
-                                                                                          application_type_id: ApplicationType.first.id,
-                                                                                          status: "in_assessment",
-                                                                                          validated_at: Time.zone.now
-                                                                                        )
+      "received_date", "documents", "site", "constraints",
+      "application_type").merge(
+        local_authority: default_local_authority,
+        old_constraints: planning_application_hash["constraints"],
+        application_type_id: ApplicationType.first.id,
+        status: "in_assessment",
+        validated_at: Time.zone.now
+      )
     planning_application.update!(planning_application_hash["site"])
     planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url", "blob_url")) do |document|
       document.file.attach(io: Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf").open,
-                           filename: "roofplan")
+        filename: "roofplan")
       document.publishable = true
     end
 
-    get "/api/v1/planning_applications/#{planning_application_hash['id']}"
+    get "/api/v1/planning_applications/#{planning_application_hash["id"]}"
 
     expected_response = example_response_hash_for("/api/v1/planning_applications/{id}", "get", 200, "ldc_proposed")
     expected_response["status"] = "in_assessment"

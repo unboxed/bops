@@ -14,8 +14,8 @@ RSpec.describe "Planning Application Assessment" do
 
   let!(:planning_application) do
     create(:planning_application, :awaiting_determination,
-           local_authority: default_local_authority,
-           decision: "granted")
+      local_authority: default_local_authority,
+      decision: "granted")
   end
 
   context "when the planning application is awaiting determination" do
@@ -166,10 +166,10 @@ RSpec.describe "Planning Application Assessment" do
         let(:application_type) { create(:application_type, name: "prior_approval") }
         let!(:planning_application) do
           create(:planning_application, :awaiting_determination,
-                 :from_planx_prior_approval,
-                 application_type:,
-                 local_authority: default_local_authority,
-                 decision: "granted")
+            :from_planx_prior_approval,
+            application_type:,
+            local_authority: default_local_authority,
+            decision: "granted")
         end
 
         it "lists different legislation in the decision notice" do

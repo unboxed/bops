@@ -76,8 +76,8 @@ RSpec.describe "Constraints" do
 
       click_button "Other constraints"
 
-      find_checkbox_by_id("constraint_id_#{Constraint.find_by(type: 'monument').id}").click
-      find_checkbox_by_id("constraint_id_#{Constraint.find_by(type: 'nature_asnw').id}").click
+      find_checkbox_by_id("constraint_id_#{Constraint.find_by(type: "monument").id}").click
+      find_checkbox_by_id("constraint_id_#{Constraint.find_by(type: "nature_asnw").id}").click
 
       click_button "Save and mark as checked"
 

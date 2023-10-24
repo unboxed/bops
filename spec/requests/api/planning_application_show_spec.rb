@@ -38,13 +38,13 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
     it "returns a 404 if no planning application" do
       get "/api/v1/planning_applications/xxx"
       expect(response.code).to eq("404")
-      expect(planning_application_json).to eq({ "message" => "Unable to find record" })
+      expect(planning_application_json).to eq({"message" => "Unable to find record"})
     end
 
     it "returns 404 if planning application is from another authority" do
       get "/api/v1/planning_applications/#{planning_application_lambeth.id}"
       expect(response.code).to eq("404")
-      expect(planning_application_json).to eq({ "message" => "Unable to find record" })
+      expect(planning_application_json).to eq({"message" => "Unable to find record"})
     end
 
     context "with a new planning application" do
@@ -137,8 +137,8 @@ RSpec.describe "API request to list planning applications", show_exceptions: tru
           expect(planning_application_json["constraints"]).to eq(planning_application.old_constraints)
           expect(planning_application_json["documents"].size).to eq(1)
           expect(planning_application_json["documents"].first["url"]).to eq(api_v1_planning_application_document_url(
-                                                                              planning_application, document_with_number
-                                                                            ))
+            planning_application, document_with_number
+          ))
           expect(planning_application_json["documents"].first["created_at"]).to eq(json_time_format(document_with_number.created_at))
           expect(planning_application_json["documents"].first["archived_at"]).to eq(json_time_format(document_with_number.archived_at))
           expect(planning_application_json["documents"].first["archive_reason"]).to eq(document_with_number.archive_reason)

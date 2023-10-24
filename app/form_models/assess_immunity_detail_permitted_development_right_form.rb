@@ -12,7 +12,7 @@ class AssessImmunityDetailPermittedDevelopmentRightForm
     validates :removed_reason, if: :removed
   end
 
-  validates :removed, inclusion: { in: [true, false], if: :decision_is_no? }
+  validates :removed, inclusion: {in: [true, false], if: :decision_is_no?}
 
   delegate(
     :decision,
@@ -78,7 +78,7 @@ class AssessImmunityDetailPermittedDevelopmentRightForm
   private
 
   attr_reader :review_immunity_detail_params, :permitted_development_right_params,
-              :review_immunity_detail, :permitted_development_right
+    :review_immunity_detail, :permitted_development_right
 
   def decision_is_yes?
     review_immunity_detail_params["decision"] == "Yes"
@@ -94,12 +94,12 @@ class AssessImmunityDetailPermittedDevelopmentRightForm
     review_immunity_detail_params = params[:review_immunity_detail]
 
     review_immunity_detail_params["decision_reason"] = if review_immunity_detail_params["decision_type"] == "other"
-                                                         review_immunity_detail_params["yes_decision_reason"]
-                                                       elsif review_immunity_detail_params["decision"] == "Yes"
-                                                         review_immunity_detail_params["decision_type"]
-                                                       else
-                                                         review_immunity_detail_params["no_decision_reason"]
-                                                       end
+      review_immunity_detail_params["yes_decision_reason"]
+    elsif review_immunity_detail_params["decision"] == "Yes"
+      review_immunity_detail_params["decision_type"]
+    else
+      review_immunity_detail_params["no_decision_reason"]
+    end
 
     review_immunity_detail_params.except("yes_decision_reason", "no_decision_reason")
   end

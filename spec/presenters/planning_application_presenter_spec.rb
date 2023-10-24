@@ -152,28 +152,28 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
       [
         {
           question: "Question 1",
-          responses: [{ value: "Answer 1" }],
-          metadata: { section_name: "Fee Related Group" }
+          responses: [{value: "Answer 1"}],
+          metadata: {section_name: "Fee Related Group"}
         },
         {
           question: "Question 2",
-          responses: [{ value: "Answer 2" }],
-          metadata: { section_name: "group-about-fee" }
+          responses: [{value: "Answer 2"}],
+          metadata: {section_name: "group-about-fee"}
         },
         {
           question: "Question 3",
-          responses: [{ value: "Answer 3" }],
-          metadata: { section_name: "a_fee_group" }
+          responses: [{value: "Answer 3"}],
+          metadata: {section_name: "a_fee_group"}
         },
         {
           question: "Question 4",
-          responses: [{ value: "Answer 4" }],
-          metadata: { section_name: "Other Group" }
+          responses: [{value: "Answer 4"}],
+          metadata: {section_name: "Other Group"}
         },
         {
           question: "Question 5",
-          responses: [{ value: "Answer 5" }],
-          metadata: { section_name: "Birdfeed Related" }
+          responses: [{value: "Answer 5"}],
+          metadata: {section_name: "Birdfeed Related"}
         }
       ].to_json
     end

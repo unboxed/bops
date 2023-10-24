@@ -6,7 +6,7 @@ RSpec.describe "Edit document numbers page" do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:planning_application) do
     create(:planning_application,
-           local_authority: default_local_authority)
+      local_authority: default_local_authority)
   end
   let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
@@ -20,17 +20,17 @@ RSpec.describe "Edit document numbers page" do
 
       let!(:proposed_document_1) do
         create(:document, :with_file, :with_tags,
-               planning_application:)
+          planning_application:)
       end
 
       let!(:proposed_document_2) do
         create(:document, :with_file,
-               planning_application:)
+          planning_application:)
       end
 
       let!(:archived_document) do
         create(:document, :with_file, :archived,
-               planning_application:)
+          planning_application:)
       end
 
       before do

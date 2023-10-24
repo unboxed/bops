@@ -16,7 +16,7 @@ class SitemapsController < AuthenticationController
       format.html do
         if @planning_application.valid_red_line_boundary?
           redirect_to planning_application_validation_tasks_path(@planning_application),
-                      notice: t(".success")
+            notice: t(".success")
         elsif @planning_application.valid_red_line_boundary.nil?
           flash.now[:alert] = t(".failure")
           render :show
@@ -32,24 +32,24 @@ class SitemapsController < AuthenticationController
 
     respond_to do |format|
       if @planning_application.update(boundary_geojson: boundary_geojson_params[:boundary_geojson],
-                                      boundary_created_by: current_user)
+        boundary_created_by: current_user)
 
         @planning_application.audit_boundary_geojson!(audit_action)
 
         format.html do
           redirect_to planning_application_validation_tasks_path(@planning_application),
-                      notice: t(".success")
+            notice: t(".success")
         end
       else
         flash.now[:alert] = t(".failure")
-        flash.now[:alert] << (": #{@planning_application.errors.join('; ')}") if @planning_application.errors.present?
+        flash.now[:alert] << (": #{@planning_application.errors.join("; ")}") if @planning_application.errors.present?
         render :show
       end
     end
   rescue ConstraintQueryUpdateService::SaveError => e
     Appsignal.send_error(e)
     redirect_to planning_application_sitemap_path(@planning_application),
-                alert: t(".error")
+      alert: t(".error")
   end
 
   private

@@ -82,7 +82,7 @@ RSpec.describe AdditionalDocumentValidationRequest do
 
           expect { additional_document_validation_request.upload_files!(files) }
             .to raise_error(AdditionalDocumentValidationRequest::UploadFilesError,
-                            "Event 'close' cannot transition from 'closed'.")
+              "Event 'close' cannot transition from 'closed'.")
             .and not_change(Audit, :count)
 
           additional_document_validation_request.reload

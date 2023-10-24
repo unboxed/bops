@@ -14,7 +14,7 @@ module ActiveStorage
     def set_disk_blob
       @blob ||= begin # rubocop:disable Naming/MemoizedInstanceVariableName
         ActiveStorage::Blob.find_by(key: decrypted_hash[:key])
-      rescue StandardError
+      rescue
         head :not_found
       end
     end

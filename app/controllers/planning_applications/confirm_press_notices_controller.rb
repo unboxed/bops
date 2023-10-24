@@ -37,7 +37,7 @@ module PlanningApplications
     def documents_attributes
       files = params.dig(:press_notice, :documents_attributes, "0", :files).compact_blank
       files.map.with_index do |file, i|
-        [i.to_s, { file:, planning_application_id: @planning_application.id, tags: ["Press Notice"] }]
+        [i.to_s, {file:, planning_application_id: @planning_application.id, tags: ["Press Notice"]}]
       end.to_h
     end
 

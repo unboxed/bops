@@ -4,7 +4,8 @@ class DescriptionChangeValidationRequestsController < ValidationRequestsControll
   before_action :ensure_planning_application_is_not_closed_or_cancelled, only: %i[new create]
   before_action :set_description_change_request, only: %i[show cancel]
 
-  def show; end
+  def show
+  end
 
   def new
     @description_change_request = @planning_application.description_change_validation_requests.new

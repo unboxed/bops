@@ -31,13 +31,15 @@ class PlanningApplicationsController < AuthenticationController
     @planning_applications = search.call
   end
 
-  def show; end
+  def show
+  end
 
   def new
     @planning_application = PlanningApplication.new
   end
 
-  def edit; end
+  def edit
+  end
 
   def create
     @planning_application = PlanningApplication.new(planning_application_params)
@@ -82,7 +84,7 @@ class PlanningApplicationsController < AuthenticationController
       @planning_application.errors.add(:planning_application, "Please enter a valid date")
     elsif @planning_application.open_validation_requests?
       @planning_application.errors.add(:planning_application,
-                                       "Planning application cannot be validated if open validation requests exist.")
+        "Planning application cannot be validated if open validation requests exist.")
     elsif @planning_application.invalid_documents.present?
       @planning_application.errors.add(
         :planning_application,
@@ -152,7 +154,7 @@ class PlanningApplicationsController < AuthenticationController
 
         format.html do
           redirect_to submit_recommendation_planning_application_path(@planning_application),
-                      notice: t(".success")
+            notice: t(".success")
         end
       else
         format.html { redirect_failed_withdraw_recommendation }
@@ -174,9 +176,11 @@ class PlanningApplicationsController < AuthenticationController
     end
   end
 
-  def publish; end
+  def publish
+  end
 
-  def make_public; end
+  def make_public
+  end
 
   def determine
     respond_to do |format|
@@ -205,9 +209,9 @@ class PlanningApplicationsController < AuthenticationController
   def validation_documents
     @documents = @planning_application.documents.active
     @additional_document_validation_requests = @planning_application
-                                               .additional_document_validation_requests
-                                               .pre_validation
-                                               .open_or_pending
+      .additional_document_validation_requests
+      .pre_validation
+      .open_or_pending
 
     respond_to do |format|
       format.html
@@ -219,7 +223,7 @@ class PlanningApplicationsController < AuthenticationController
       if @planning_application.update(validate_documents_params)
         format.html do
           redirect_to planning_application_validation_tasks_path(@planning_application),
-                      notice: validate_documents_notice(@planning_application)
+            notice: validate_documents_notice(@planning_application)
         end
       else
         format.html { render :validation_documents }
@@ -249,30 +253,30 @@ class PlanningApplicationsController < AuthenticationController
   def planning_application_params
     # rubocop:disable Naming/VariableNumber
     permitted_keys = %i[address_1
-                        address_2
-                        application_type
-                        application_type_id
-                        applicant_first_name
-                        applicant_last_name
-                        applicant_phone
-                        applicant_email
-                        agent_first_name
-                        agent_last_name
-                        agent_phone
-                        agent_email
-                        county
-                        constraints_proposed
-                        description
-                        proposal_details
-                        payment_reference
-                        payment_amount
-                        postcode
-                        public_comment
-                        received_at
-                        town
-                        uprn
-                        work_status
-                        make_public]
+      address_2
+      application_type
+      application_type_id
+      applicant_first_name
+      applicant_last_name
+      applicant_phone
+      applicant_email
+      agent_first_name
+      agent_last_name
+      agent_phone
+      agent_email
+      county
+      constraints_proposed
+      description
+      proposal_details
+      payment_reference
+      payment_amount
+      postcode
+      public_comment
+      received_at
+      town
+      uprn
+      work_status
+      make_public]
     # rubocop:enable Naming/VariableNumber
     params.require(:planning_application).permit permitted_keys
   end
@@ -287,8 +291,8 @@ class PlanningApplicationsController < AuthenticationController
 
   def validation_date_fields
     [params[:planning_application]["validated_at(3i)"],
-     params[:planning_application]["validated_at(2i)"],
-     params[:planning_application]["validated_at(1i)"]]
+      params[:planning_application]["validated_at(2i)"],
+      params[:planning_application]["validated_at(1i)"]]
   end
 
   def date_from_params
@@ -299,27 +303,27 @@ class PlanningApplicationsController < AuthenticationController
 
   def redirect_failed_withdraw_recommendation
     redirect_to view_recommendation_planning_application_path(@planning_application),
-                alert: t("planning_applications.withdraw_recommendation.failure")
+      alert: t("planning_applications.withdraw_recommendation.failure")
   end
 
   def redirect_failed_submit_recommendation
     redirect_to submit_recommendation_planning_application_path(@planning_application),
-                alert: t("planning_applications.submit_recommendation.failure")
+      alert: t("planning_applications.submit_recommendation.failure")
   end
 
   def redirect_failed_clone_planning_application(error)
     redirect_to @planning_application,
-                alert: t("planning_applications.clone.failure", message: error.message)
+      alert: t("planning_applications.clone.failure", message: error.message)
   end
 
   def redirect_update_url
     case params[:edit_action]&.to_sym
     when :edit_payment_amount
       redirect_to planning_application_fee_items_path(@planning_application, validate_fee: "yes"),
-                  notice: t(".edit_payment_amount")
+        notice: t(".edit_payment_amount")
     when :edit_public_comment
       redirect_to edit_planning_application_recommendations_path(@planning_application),
-                  notice: t(".edit_public_comment")
+        notice: t(".edit_public_comment")
     else
       redirect_to(after_update_url, notice: t(".success"))
     end
@@ -353,8 +357,8 @@ class PlanningApplicationsController < AuthenticationController
     return unless @planning_application.try(:assessment_in_progress?)
 
     flash.now[:alert] = sanitize "Please save and mark as complete the
-        #{view_context.link_to 'draft recommendation',
-                               new_planning_application_recommendation_path(@planning_application)}
+        #{view_context.link_to "draft recommendation",
+          new_planning_application_recommendation_path(@planning_application)}
         before updating application fields."
 
     render :edit and return
@@ -364,9 +368,9 @@ class PlanningApplicationsController < AuthenticationController
     return unless @planning_application.site_notice_needs_displayed_at?
 
     flash.now[:alert] = sanitize "You must
-        #{view_context.link_to 'confirm the site notice displayed at date',
-                               edit_planning_application_site_notice_path(@planning_application,
-                                                                          @planning_application.site_notice)}
+        #{view_context.link_to "confirm the site notice displayed at date",
+          edit_planning_application_site_notice_path(@planning_application,
+            @planning_application.site_notice)}
         before determining the application."
 
     render :publish and return
@@ -376,9 +380,9 @@ class PlanningApplicationsController < AuthenticationController
     return unless @planning_application.press_notice_needs_published_at?
 
     flash.now[:alert] = sanitize "You must
-        #{view_context.link_to 'confirm the press notice published at date',
-                               edit_planning_application_confirm_press_notice_path(@planning_application,
-                                                                                   @planning_application.press_notice)}
+        #{view_context.link_to "confirm the press notice published at date",
+          edit_planning_application_confirm_press_notice_path(@planning_application,
+            @planning_application.press_notice)}
         before determining the application."
 
     render :publish and return

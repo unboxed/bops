@@ -340,9 +340,9 @@ RSpec.describe "checking consistency" do
     )
 
     request = planning_application
-              .description_change_validation_requests
-              .open
-              .last
+      .description_change_validation_requests
+      .open
+      .last
 
     request.close!
     request.update!(approved: true)

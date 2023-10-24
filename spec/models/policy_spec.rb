@@ -53,8 +53,8 @@ RSpec.describe Policy do
   describe ".with_a_comment" do
     it "returns policies with a comment" do
       policy = create(:policy,
-                      :complies,
-                      section: "1A")
+        :complies,
+        section: "1A")
 
       create(:comment, commentable: policy)
 
@@ -63,8 +63,8 @@ RSpec.describe Policy do
 
     it "excludes policies without a comment" do
       create(:policy,
-             :complies,
-             section: "1A")
+        :complies,
+        section: "1A")
 
       expect(described_class.with_a_comment).to eq []
     end
@@ -73,8 +73,8 @@ RSpec.describe Policy do
   describe ".existing_or_new_comment" do
     it "returns policies that do not comply" do
       policy = create(:policy,
-                      :does_not_comply,
-                      section: "1A")
+        :does_not_comply,
+        section: "1A")
 
       expect(described_class.commented_or_does_not_comply).to eq [policy]
     end
@@ -82,8 +82,8 @@ RSpec.describe Policy do
     %i[complies to_be_determined].each do |status|
       it "excludes policies that" do
         create(:policy,
-               status,
-               section: "1A")
+          status,
+          section: "1A")
 
         expect(described_class.commented_or_does_not_comply).to eq []
       end
@@ -92,8 +92,8 @@ RSpec.describe Policy do
     %i[complies does_not_comply to_be_determined].each do |status|
       it "includes any commented legal clause" do
         policy = create(:policy,
-                        status,
-                        section: "1A")
+          status,
+          section: "1A")
 
         create(:comment, commentable: policy)
 
@@ -103,11 +103,11 @@ RSpec.describe Policy do
 
     it "orders by section" do
       last_section = create(:policy,
-                            :does_not_comply,
-                            section: "2B")
+        :does_not_comply,
+        section: "2B")
       first_section = create(:policy,
-                             :complies,
-                             section: "1A")
+        :complies,
+        section: "1A")
 
       create(:comment, commentable: first_section)
 

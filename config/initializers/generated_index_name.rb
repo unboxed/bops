@@ -8,7 +8,7 @@ module ActiveRecord
       def index_name(table_name, options) # :nodoc:
         if options.is_a?(Hash)
           if options[:column]
-            "ix_#{table_name}_on_#{Array(options[:column]) * '__'}".slice(0, 63)
+            "ix_#{table_name}_on_#{Array(options[:column]) * "__"}".slice(0, 63)
           elsif options[:name]
             options[:name]
           else

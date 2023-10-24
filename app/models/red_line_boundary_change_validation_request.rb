@@ -29,8 +29,8 @@ class RedLineBoundaryChangeValidationRequest < ApplicationRecord
     return unless approved == false && rejection_reason.blank?
 
     errors.add(:base,
-               "Please include a comment for the case officer to " \
-               "indicate why the red line boundary change has been rejected.")
+      "Please include a comment for the case officer to " \
+      "indicate why the red line boundary change has been rejected.")
   end
 
   def geojson
@@ -58,9 +58,9 @@ class RedLineBoundaryChangeValidationRequest < ApplicationRecord
 
   def audit_api_comment
     if approved?
-      { response: "approved" }.to_json
+      {response: "approved"}.to_json
     else
-      { response: "rejected", reason: rejection_reason }.to_json
+      {response: "rejected", reason: rejection_reason}.to_json
     end
   end
 

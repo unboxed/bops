@@ -14,10 +14,10 @@ module StatusTags
 
       def status
         if review_immunity_detail.reviewed_at.present? &&
-           review_immunity_detail.immunity_detail.review_status == "review_complete"
+            review_immunity_detail.immunity_detail.review_status == "review_complete"
           :complete
         elsif review_immunity_detail.reviewed_at.present? &&
-              review_immunity_detail.immunity_detail.review_status == "review_in_progress"
+            review_immunity_detail.immunity_detail.review_status == "review_in_progress"
           :in_progress
         else
           :not_started

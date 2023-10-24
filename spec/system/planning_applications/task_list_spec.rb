@@ -63,7 +63,7 @@ RSpec.describe "Planning Application show page" do
 
     it "makes valid task list for when it is awaiting determination" do
       planning_application = create(:planning_application, :awaiting_determination,
-                                    local_authority: default_local_authority)
+        local_authority: default_local_authority)
       create(:recommendation, planning_application:)
       visit planning_application_path(planning_application)
       within "#validation-section" do
@@ -96,7 +96,7 @@ RSpec.describe "Planning Application show page" do
 
     it "makes valid task list for when it is awaiting determination and recommendation has been reviewed" do
       planning_application = create(:planning_application, :awaiting_determination,
-                                    local_authority: default_local_authority)
+        local_authority: default_local_authority)
       create(:recommendation, :reviewed, planning_application:)
       visit planning_application_path(planning_application)
 
@@ -112,7 +112,7 @@ RSpec.describe "Planning Application show page" do
 
     it "makes valid task list for when it is to be reviewed and no re-proposal has been made" do
       planning_application = create(:planning_application, :to_be_reviewed,
-                                    local_authority: default_local_authority)
+        local_authority: default_local_authority)
 
       create(
         :recommendation,
@@ -140,7 +140,7 @@ RSpec.describe "Planning Application show page" do
 
     it "makes valid task list for when it is to be reviewed and a re-proposal has been made" do
       planning_application = create(:planning_application, :to_be_reviewed,
-                                    local_authority: default_local_authority)
+        local_authority: default_local_authority)
       create(:recommendation, :reviewed, planning_application:)
       create(:recommendation, planning_application:, submitted: true)
       visit planning_application_path(planning_application)
@@ -177,7 +177,7 @@ RSpec.describe "Planning Application show page" do
 
     it "makes valid task list for when it is awaiting determination" do
       planning_application = create(:planning_application, :awaiting_determination,
-                                    local_authority: default_local_authority)
+        local_authority: default_local_authority)
       create(:recommendation, planning_application:)
       visit planning_application_path(planning_application)
       within "#validation-section" do
@@ -208,7 +208,7 @@ RSpec.describe "Planning Application show page" do
 
     it "makes valid task list for when it is awaiting determination and recommendation has been reviewed" do
       planning_application = create(:planning_application, :awaiting_determination,
-                                    local_authority: default_local_authority)
+        local_authority: default_local_authority)
       create(:recommendation, :reviewed, planning_application:)
       visit planning_application_path(planning_application)
 

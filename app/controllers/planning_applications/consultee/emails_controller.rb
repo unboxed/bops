@@ -17,7 +17,7 @@ module PlanningApplications
         respond_to do |format|
           if @consultation.send_consultee_emails(permitted_params)
             format.html do
-              redirect_to consultation_url, flash: { sent_consultee_emails: true }
+              redirect_to consultation_url, flash: {sent_consultee_emails: true}
             end
           else
             format.html { render :index }
@@ -36,7 +36,7 @@ module PlanningApplications
       end
 
       def consultation_params
-        [:consultee_email_subject, :consultee_email_body, { consultees_attributes: consultee_params }]
+        [:consultee_email_subject, :consultee_email_body, {consultees_attributes: consultee_params}]
       end
 
       def consultee_params

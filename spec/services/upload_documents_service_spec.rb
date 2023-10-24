@@ -31,7 +31,7 @@ RSpec.describe UploadDocumentsService, type: :service do
       {
         status: 200,
         body: File.open(file_path),
-        headers: { "Content-Type": "image/png" }
+        headers: {"Content-Type": "image/png"}
       }
     end
 

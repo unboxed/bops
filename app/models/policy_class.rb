@@ -11,7 +11,7 @@ class PolicyClass < ApplicationRecord
 
   validate :all_policies_are_determined, if: :complete?
 
-  enum status: { in_assessment: 0, complete: 1, to_be_reviewed: 2 }, _default: :in_assessment
+  enum status: {in_assessment: 0, complete: 1, to_be_reviewed: 2}, _default: :in_assessment
 
   def update_required?
     to_be_reviewed? && review_policy_class&.status_complete?

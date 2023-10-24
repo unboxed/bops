@@ -23,7 +23,7 @@ RSpec.describe "Other change validation requests API", show_exceptions: true do
     context "when the request is successful" do
       it "retrieves all other change validation requests for a given planning application" do
         get "#{path}?change_access_id=#{planning_application.change_access_id}",
-            headers: { "CONTENT-TYPE": "application/json", Authorization: token }
+          headers: {"CONTENT-TYPE": "application/json", Authorization: token}
 
         expect(response).to be_successful
         expect(sort_by_id(json["data"])).to eq(
@@ -87,7 +87,7 @@ RSpec.describe "Other change validation requests API", show_exceptions: true do
     context "when the request is successful" do
       it "retrieves an other change validation request for a given planning application" do
         get "#{path}?change_access_id=#{planning_application.change_access_id}",
-            headers: { "CONTENT-TYPE": "application/json", Authorization: token }
+          headers: {"CONTENT-TYPE": "application/json", Authorization: token}
 
         expect(response).to be_successful
         expect(json).to eq(

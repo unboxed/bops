@@ -12,12 +12,12 @@ RSpec.describe "API request to list change requests", show_exceptions: true do
   let(:params) do
     {
       change_access_id: planning_application.change_access_id,
-      data: { response: "I will send an extra payment" }
+      data: {response: "I will send an extra payment"}
     }
   end
 
   let(:headers) do
-    { Authorization: "Bearer #{api_user.token}" }
+    {Authorization: "Bearer #{api_user.token}"}
   end
 
   let!(:default_local_authority) { create(:local_authority, :default) }
@@ -34,7 +34,7 @@ RSpec.describe "API request to list change requests", show_exceptions: true do
 
   let!(:other_change_validation_request) do
     create(:other_change_validation_request,
-           planning_application:)
+      planning_application:)
   end
 
   valid_response = '{
@@ -65,7 +65,7 @@ RSpec.describe "API request to list change requests", show_exceptions: true do
 
     expect(planning_application.audits.reload.last).to have_attributes(
       activity_type: "other_change_validation_request_received",
-      audit_comment: { response: "I will send an extra payment" }.to_json,
+      audit_comment: {response: "I will send an extra payment"}.to_json,
       activity_information: "1",
       api_user:
     )
@@ -85,24 +85,24 @@ RSpec.describe "API request to list change requests", show_exceptions: true do
 
   it "returns a 400 if the update is missing a response" do
     patch "/api/v1/planning_applications/#{planning_application.id}/other_change_validation_requests/#{other_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
-          params: missing_response,
-          headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
+      params: missing_response,
+      headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
 
     expect(response).to have_http_status(:bad_request)
   end
 
   it "returns a 401 if API key is wrong" do
     patch "/api/v1/planning_applications/#{planning_application.id}/other_change_validation_requests/#{other_change_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
-          params: valid_response,
-          headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer BEAR_THE_BEARER" }
+      params: valid_response,
+      headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer BEAR_THE_BEARER"}
 
     expect(response).to have_http_status(:unauthorized)
   end
 
   it "returns a 401 if change_access_id is wrong" do
     patch "/api/v1/planning_applications/#{planning_application.id}/other_change_validation_requests/#{other_change_validation_request.id}?change_access_id=CHANGEISGOOD",
-          params: valid_response,
-          headers: { "CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}" }
+      params: valid_response,
+      headers: {"CONTENT-TYPE": "application/json", Authorization: "Bearer #{api_user.token}"}
 
     expect(response).to have_http_status(:unauthorized)
   end

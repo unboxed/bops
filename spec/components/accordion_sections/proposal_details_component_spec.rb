@@ -25,7 +25,7 @@ RSpec.describe AccordionSections::ProposalDetailsComponent, type: :component do
 
   context "when 'find_property' feedback is present" do
     let(:planning_application) do
-      create(:planning_application, feedback: { find_property: "feedback" })
+      create(:planning_application, feedback: {find_property: "feedback"})
     end
 
     it "renders warning message" do

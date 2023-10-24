@@ -6,8 +6,8 @@ RSpec.describe ProposalDetails::LinkComponent, type: :component do
   let(:proposal_detail_attributes) do
     {
       question: "Test question 1",
-      responses: [{ value: "Test response 1" }],
-      metadata: { section_name: }
+      responses: [{value: "Test response 1"}],
+      metadata: {section_name:}
     }.deep_stringify_keys
   end
 

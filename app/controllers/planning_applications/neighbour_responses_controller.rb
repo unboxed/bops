@@ -7,17 +7,19 @@ module PlanningApplications
     before_action :set_neighbour_responses, only: :index
     before_action :set_neighbour_response, only: %i[edit update]
 
-    def index; end
+    def index
+    end
 
     def new
       @neighbour_response = @consultation.neighbour_responses.new
     end
 
-    def edit; end
+    def edit
+    end
 
     def create
       @neighbour_response = @consultation.neighbour_responses
-                                         .build(neighbour_response_params.except(:address, :new_address, :files))
+        .build(neighbour_response_params.except(:address, :new_address, :files))
 
       @neighbour_response.neighbour = find_neighbour
 
@@ -47,7 +49,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             redirect_to planning_application_consultation_neighbour_responses_path(@planning_application,
-                                                                                   @consultation)
+              @consultation)
           end
           create_audit_log(@neighbour_response, "edited")
         end

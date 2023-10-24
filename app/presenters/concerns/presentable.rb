@@ -19,9 +19,9 @@ module Presentable
 
   private
 
-  def method_missing(method_name, *args, **kwargs, &)
+  def method_missing(method_name, *, **kwargs, &)
     if presented.respond_to?(method_name)
-      kwargs.any? ? presented.send(method_name, **kwargs, &) : presented.send(method_name, *args, &)
+      kwargs.any? ? presented.send(method_name, **kwargs, &) : presented.send(method_name, *, &)
     else
       super
     end

@@ -12,7 +12,7 @@ class ReplacementDocumentValidationRequest < ApplicationRecord
 
   validates :reason, presence: true
 
-  scope :with_active_document, -> { joins(:old_document).where(documents: { archived_at: nil }) }
+  scope :with_active_document, -> { joins(:old_document).where(documents: {archived_at: nil}) }
 
   delegate :invalidated_document_reason, to: :old_document
   delegate :validated?, :archived?, to: :new_document, prefix: :new_document
@@ -49,8 +49,8 @@ class ReplacementDocumentValidationRequest < ApplicationRecord
   end
 
   def audit_comment
-    { old_document: old_document.name,
-      reason: invalidated_document_reason }.to_json
+    {old_document: old_document.name,
+     reason: invalidated_document_reason}.to_json
   end
 
   def reset_replacement_document_validation_request_update_counter!

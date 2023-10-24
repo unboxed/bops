@@ -4,8 +4,8 @@ class CreateReviewPolicyArea < ActiveRecord::Migration[7.0]
   def change
     create_table :review_policy_areas do |t|
       t.references :policy_area
-      t.references :assessor, foreign_key: { to_table: :users }
-      t.references :reviewer, foreign_key: { to_table: :users }
+      t.references :assessor, foreign_key: {to_table: :users}
+      t.references :reviewer, foreign_key: {to_table: :users}
       t.boolean :accepted, default: false, null: false
       t.string :status, default: "in_progress", null: false
       t.string :review_status, default: "review_not_started", null: false
@@ -18,8 +18,8 @@ class CreateReviewPolicyArea < ActiveRecord::Migration[7.0]
     change_table :policy_areas, bulk: true do |t|
       t.string :review_status, default: "review_not_started", null: false
       t.string :status, default: "not_started", null: false
-      t.references :assessor, foreign_key: { to_table: :users }
-      t.references :reviewer, foreign_key: { to_table: :users }
+      t.references :assessor, foreign_key: {to_table: :users}
+      t.references :reviewer, foreign_key: {to_table: :users}
       t.datetime :reviewed_at
     end
   end

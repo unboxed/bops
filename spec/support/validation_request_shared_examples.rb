@@ -102,7 +102,7 @@ RSpec.shared_examples "ValidationRequest" do |klass, request_type|
           expect do
             request.destroy!
           end.to raise_error(ValidationRequestable::NotDestroyableError,
-                             "Only requests that are pending can be destroyed")
+            "Only requests that are pending can be destroyed")
         end
       end
     end

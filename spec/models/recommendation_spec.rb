@@ -161,7 +161,7 @@ RSpec.describe Recommendation do
         it "reviews the recommendation and the planning application state updates to to_be_reviewed" do
           expect { recommendation.review! }
             .to change(recommendation, :reviewed_at).from(nil).to(Time.current)
-                                                    .and change(recommendation, :reviewer_id).from(nil).to(reviewer.id)
+            .and change(recommendation, :reviewer_id).from(nil).to(reviewer.id)
 
           expect(planning_application.status).to eq("to_be_reviewed")
 
@@ -180,7 +180,7 @@ RSpec.describe Recommendation do
         it "reviews the recommendation and the planning application state updates to to_be_reviewed" do
           expect { recommendation.review! }
             .to change(recommendation, :reviewed_at).from(nil).to(Time.current)
-                                                    .and change(recommendation, :reviewer_id).from(nil).to(reviewer.id)
+            .and change(recommendation, :reviewer_id).from(nil).to(reviewer.id)
 
           expect(planning_application.status).to eq("awaiting_determination")
 

@@ -12,7 +12,7 @@ module Apis
         faraday(local_authority).post("planning_applications") do |request|
           request.options[:timeout] = TIMEOUT
           request.body = JSON.parse(planning_application.audit_log).merge("send_email" => "false",
-                                                                          "from_production" => "true").to_json
+            "from_production" => "true").to_json
         end
       end
 
@@ -23,7 +23,7 @@ module Apis
           f.response :raise_error
           f.headers = {
             "Content-Type" => "application/json",
-            "Authorization" => "Bearer #{ENV.fetch('STAGING_API_BEARER')}"
+            "Authorization" => "Bearer #{ENV.fetch("STAGING_API_BEARER")}"
           }
         end
       end

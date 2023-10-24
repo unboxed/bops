@@ -46,7 +46,7 @@ RSpec.describe PolicyClasses::CommentFieldComponent, type: :component do
     let(:comment) { nil }
 
     before do
-      policy.update(status: nil, comments_attributes: [{ text: "test" }])
+      policy.update(status: nil, comments_attributes: [{text: "test"}])
       render_inline(component)
     end
 
@@ -66,7 +66,7 @@ RSpec.describe PolicyClasses::CommentFieldComponent, type: :component do
     end
 
     before do
-      policy.update(comments_attributes: [{ text: "" }])
+      policy.update(comments_attributes: [{text: ""}])
       render_inline(component)
     end
 

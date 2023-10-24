@@ -6,13 +6,15 @@ class ConsistencyChecklistsController < AuthenticationController
   before_action :set_planning_application
   before_action :set_consistency_checklist, except: %i[new create]
 
-  def show; end
+  def show
+  end
 
   def new
     @consistency_checklist = @planning_application.build_consistency_checklist
   end
 
-  def edit; end
+  def edit
+  end
 
   def create
     @consistency_checklist = @planning_application.build_consistency_checklist(
@@ -65,7 +67,7 @@ class ConsistencyChecklistsController < AuthenticationController
       :proposal_details_match_documents_comment,
       :site_map_correct,
       :proposal_measurements_match_documents,
-      { proposal_measurement: %i[eaves_height max_height depth] }
+      {proposal_measurement: %i[eaves_height max_height depth]}
     ]
   end
 

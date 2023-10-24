@@ -11,14 +11,14 @@ RSpec.describe "Send letters to neighbours", js: true do
 
   let(:planning_application) do
     create(:planning_application,
-           :from_planx_prior_approval,
-           :with_boundary_geojson,
-           application_type:,
-           local_authority: default_local_authority,
-           api_user:,
-           agent_email: "agent@example.com",
-           applicant_email: "applicant@example.com",
-           make_public: true)
+      :from_planx_prior_approval,
+      :with_boundary_geojson,
+      application_type:,
+      local_authority: default_local_authority,
+      api_user:,
+      agent_email: "agent@example.com",
+      applicant_email: "applicant@example.com",
+      make_public: true)
   end
 
   let(:consultation) do
@@ -202,10 +202,10 @@ RSpec.describe "Send letters to neighbours", js: true do
     context "when planning application has not been made public on the BoPS Public Portal" do
       let(:planning_application) do
         create(:planning_application,
-               :from_planx_prior_approval,
-               application_type:,
-               local_authority: default_local_authority,
-               make_public: false)
+          :from_planx_prior_approval,
+          application_type:,
+          local_authority: default_local_authority,
+          make_public: false)
       end
 
       it "prevents me sending letters and displays an alert" do
@@ -646,7 +646,7 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       check "Resend letters to previously-contacted neighbours"
       fill_in("Specify a reason for resending",
-              with: "Previous letter mistakenly listed applicant's address as Buckingham Palace.")
+        with: "Previous letter mistakenly listed applicant's address as Buckingham Palace.")
 
       orig_deadline = consultation.end_date
 
@@ -684,10 +684,10 @@ RSpec.describe "Send letters to neighbours", js: true do
 
       check "Resend letters to previously-contacted neighbours"
       fill_in("Specify a reason for resending",
-              with: "Previous letter mistakenly listed applicant's address as Buckingham Palace.")
+        with: "Previous letter mistakenly listed applicant's address as Buckingham Palace.")
 
       expect_any_instance_of(Notifications::Client).to receive(:send_letter).with(template_id: anything,
-                                                                                  personalisation: hash_including(message: match_regex(/# Application updated\nThis application has been updated. Reason: Previous letter mistakenly listed applicant's address as Buckingham Palace.\n\n# Submit your comments by #{(1.business_day.from_now + 21.days).to_date}\r\n\r\nDear Resident/))).and_call_original
+        personalisation: hash_including(message: match_regex(/# Application updated\nThis application has been updated. Reason: Previous letter mistakenly listed applicant's address as Buckingham Palace.\n\n# Submit your comments by #{(1.business_day.from_now + 21.days).to_date}\r\n\r\nDear Resident/))).and_call_original
       click_button "Print and send letters"
     end
   end

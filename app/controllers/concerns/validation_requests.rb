@@ -18,12 +18,12 @@ module ValidationRequests
         if request_type_instance.destroyed?
           format.html do
             redirect_to planning_application_validation_tasks_path(@planning_application),
-                        notice: t("concerns.validation_requests.destroy.success")
+              notice: t("concerns.validation_requests.destroy.success")
           end
         else
           format.html do
             redirect_to planning_application_validation_tasks_path(@planning_application),
-                        alert: t("concerns.validation_requests.destroy.failure")
+              alert: t("concerns.validation_requests.destroy.failure")
           end
         end
       end
@@ -49,7 +49,7 @@ module ValidationRequests
 
           format.html do
             redirect_to cancel_redirect_url,
-                        notice: t("concerns.validation_requests.cancel.success")
+              notice: t("concerns.validation_requests.cancel.success")
           end
         else
           format.html { redirect_failed_cancel_request }
@@ -61,8 +61,8 @@ module ValidationRequests
 
     def redirect_failed_cancel_request
       redirect_to send("cancel_confirmation_planning_application_#{request_type}_path",
-                       @planning_application, request_type_instance),
-                  alert: t("concerns.validation_requests.cancel.failure")
+        @planning_application, request_type_instance),
+        alert: t("concerns.validation_requests.cancel.failure")
     end
 
     def cancel_validation_request_params
@@ -94,7 +94,7 @@ module ValidationRequests
     def send_cancelled_validation_request_mail
       unless request_type_instance.cancelled?
         raise ValidationRequestable::CancelledEmailError,
-              "Validation request: #{request_klass_name}, ID: #{request_type_instance.id} must have a cancelled state."
+          "Validation request: #{request_klass_name}, ID: #{request_type_instance.id} must have a cancelled state."
       end
 
       PlanningApplicationMailer

@@ -28,7 +28,7 @@ module Apis
       private
 
       def key
-        { key: Rails.configuration.os_vector_tiles_api_key }
+        {key: Rails.configuration.os_vector_tiles_api_key}
       end
 
       def faraday

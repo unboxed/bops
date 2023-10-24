@@ -8,7 +8,8 @@ module PlanningApplications
       before_action :ensure_user_is_reviewer
       before_action :set_policy_class, only: %i[edit update show]
 
-      def show; end
+      def show
+      end
 
       def edit
         @policy_class.build_review_policy_class if @policy_class.review_policy_class.nil?
@@ -17,7 +18,7 @@ module PlanningApplications
       def update
         if @policy_class.update(policy_class_params)
           redirect_to(planning_application_review_tasks_path(@planning_application),
-                      notice: t(".successfully_updated_policy_class"))
+            notice: t(".successfully_updated_policy_class"))
         else
           render :edit
         end
@@ -35,10 +36,10 @@ module PlanningApplications
         params
           .require(:policy_class)
           .permit(policies_attributes: %i[id status],
-                  review_policy_class_attributes: %i[id mark comment])
+            review_policy_class_attributes: %i[id mark comment])
           .to_h
           .deep_merge(status: policy_class_status,
-                      review_policy_class_attributes: { status: review_status })
+            review_policy_class_attributes: {status: review_status})
       end
 
       def review_status

@@ -9,7 +9,7 @@ RSpec.describe "Site visit" do
 
   let!(:planning_application) do
     create(:planning_application, :from_planx_prior_approval,
-           application_type:, local_authority:)
+      application_type:, local_authority:)
   end
 
   let!(:consultation) { planning_application.consultation }
@@ -79,7 +79,7 @@ RSpec.describe "Site visit" do
     it "I can view the objected neighbour responses" do
       expect(page).to have_content("Objected neighbour responses")
       expect(page).to have_content("Objection")
-      expect(page).to have_content("Received on #{Time.zone.now.strftime('%d/%m/%Y')}")
+      expect(page).to have_content("Received on #{Time.zone.now.strftime("%d/%m/%Y")}")
       expect(page).to have_content("neighbour@example.com")
       expect(page).to have_content(neighbour.address.to_s)
       expect(page).to have_content("I like it *****")
@@ -145,7 +145,7 @@ RSpec.describe "Site visit" do
     it "I can view the objected neighbour responses" do
       expect(page).to have_content("Objected neighbour responses")
       expect(page).to have_content("Objection")
-      expect(page).to have_content("Received on #{Time.zone.now.strftime('%d/%m/%Y')}")
+      expect(page).to have_content("Received on #{Time.zone.now.strftime("%d/%m/%Y")}")
       expect(page).to have_content("neighbour@example.com")
       expect(page).to have_content(neighbour.address.to_s)
       expect(page).to have_content("I like it *****")

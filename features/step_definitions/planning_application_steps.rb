@@ -59,8 +59,8 @@ end
 
 Given("a new application of type prior approval") do
   @planning_application = FactoryBot.create(:planning_application,
-                                            :prior_approval,
-                                            local_authority: @officer.local_authority)
+    :prior_approval,
+    local_authority: @officer.local_authority)
 end
 
 Given("the planning application is invalidated") do

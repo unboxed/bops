@@ -34,7 +34,7 @@ class UploadDocumentsService
 
   def attach_files(planning_application, file, file_params)
     planning_application.documents.create!(tags: Array(file_params[:tags]),
-                                           applicant_description: file_params[:applicant_description]) do |document|
+      applicant_description: file_params[:applicant_description]) do |document|
       document.file.attach(io: file, filename: new_filename(file_params[:filename]).to_s)
     end
   end
@@ -46,7 +46,7 @@ class UploadDocumentsService
   def planx_file_api_key
     if @planning_application.from_production?
       ENV.fetch("PLANX_FILE_PRODUCTION_API_KEY",
-                nil)
+        nil)
     else
       ENV.fetch("PLANX_FILE_API_KEY", nil)
     end

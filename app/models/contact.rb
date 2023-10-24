@@ -32,16 +32,16 @@ class Contact < ApplicationRecord
     delegate :quote_column_name, to: :connection
 
     def search_query
-      "#{quoted_table_name}.#{quote_column_name('search')} @@ to_tsquery('simple', ?)"
+      "#{quoted_table_name}.#{quote_column_name("search")} @@ to_tsquery('simple', ?)"
     end
 
     def search_param(query)
       query.to_s
-           .scan(/[-\w]{3,}/)
-           .map { |word| word.gsub(/^-/, "!") }
-           .map { |word| word.gsub(/-$/, "") }
-           .map { |word| word.gsub(/.+/, "\\0:*") }
-           .join(" & ")
+        .scan(/[-\w]{3,}/)
+        .map { |word| word.gsub(/^-/, "!") }
+        .map { |word| word.gsub(/-$/, "") }
+        .map { |word| word.gsub(/.+/, "\\0:*") }
+        .join(" & ")
     end
   end
 end

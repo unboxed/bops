@@ -3,10 +3,10 @@
 class ReviewPolicyClass < ApplicationRecord
   belongs_to :policy_class, optional: true
 
-  enum mark: { not_marked: 0, accept: 1, return_to_officer_with_comment: 2 }
+  enum mark: {not_marked: 0, accept: 1, return_to_officer_with_comment: 2}
 
   enum(
-    status: { not_started: 0, complete: 1, updated: 2 },
+    status: {not_started: 0, complete: 1, updated: 2},
     _default: :not_started,
     _prefix: true
   )

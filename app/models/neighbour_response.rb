@@ -10,7 +10,7 @@ class NeighbourResponse < ApplicationRecord
 
   validates :name, :response, :summary_tag, :received_at, presence: true
 
-  enum(summary_tag: { supportive: "supportive", neutral: "neutral", objection: "objection" })
+  enum(summary_tag: {supportive: "supportive", neutral: "neutral", objection: "objection"})
 
   scope :redacted, -> { where.not(redacted_response: "") }
 

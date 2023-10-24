@@ -8,13 +8,13 @@ RSpec.describe PlanningApplicationStatus do
   describe "states" do
     let(:proposed_document1) do
       create(:document, :with_tags,
-             planning_application:,
-             numbers: "number")
+        planning_application:,
+        numbers: "number")
     end
 
     let(:description_change_validation_request) do
       create(:description_change_validation_request, planning_application:, state: "open",
-                                                     created_at: 12.days.ago)
+        created_at: 12.days.ago)
     end
 
     context "when not started" do
@@ -27,17 +27,17 @@ RSpec.describe PlanningApplicationStatus do
 
     context "when in assessment" do
       it_behaves_like "PlanningApplicationStateMachineEvents", "in_assessment",
-                      %i[start save_assessment return close withdraw]
+        %i[start save_assessment return close withdraw]
     end
 
     context "when assessment in progress" do
       it_behaves_like "PlanningApplicationStateMachineEvents", "assessment_in_progress",
-                      %i[save_assessment]
+        %i[save_assessment]
     end
 
     context "when awaiting determination" do
       it_behaves_like "PlanningApplicationStateMachineEvents", "awaiting_determination",
-                      %i[determine request_correction return close withdraw withdraw_recommendation]
+        %i[determine request_correction return close withdraw withdraw_recommendation]
     end
 
     context "when determined" do
@@ -85,8 +85,8 @@ RSpec.describe PlanningApplicationStatus do
 
       let(:proposed_drawing1) do
         create(:document, :with_tags,
-               planning_application:,
-               numbers: "number")
+          planning_application:,
+          numbers: "number")
       end
 
       it "sets work_status to proposed" do

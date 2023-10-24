@@ -29,7 +29,7 @@ module PlanningApplications
           if update_local_policies
             format.html do
               redirect_to planning_application_review_tasks_path(@planning_application),
-                          notice: I18n.t("local_policies.successfully_updated")
+                notice: I18n.t("local_policies.successfully_updated")
             end
           else
             set_local_policy
@@ -45,20 +45,20 @@ module PlanningApplications
         ActiveRecord::Base.transaction do
           @review_local_policy.update(review_local_policy_params) &&
             @local_policy.update(local_policy_areas_params[:local_policy].merge(status: local_policy_status,
-                                                                                review_status:))
+              review_status:))
         end
       end
 
       def review_local_policy_params
         params.require(:review_local_policy)
-              .permit(:reviewer_comment, :accepted)
-              .to_h
-              .deep_merge(
-                reviewed_at: Time.current,
-                reviewer: current_user,
-                review_status:,
-                status: local_policy_status
-              )
+          .permit(:reviewer_comment, :accepted)
+          .to_h
+          .deep_merge(
+            reviewed_at: Time.current,
+            reviewer: current_user,
+            review_status:,
+            status: local_policy_status
+          )
       end
 
       def review_status
@@ -67,7 +67,7 @@ module PlanningApplications
 
       def local_policy_areas_params
         params.require(:review_local_policy)
-              .permit(local_policy:
+          .permit(local_policy:
                 [local_policy_areas_attributes: %i[area policies guidance assessment id]])
       end
 

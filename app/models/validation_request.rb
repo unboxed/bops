@@ -13,7 +13,7 @@ class ValidationRequest < ApplicationRecord
   belongs_to :planning_application
 
   validates :requestable_id, presence: true # rubocop:disable Rails/RedundantPresenceValidationOnBelongsTo
-  validates :requestable_type, presence: true, inclusion: { in: VALIDATION_REQUEST_TYPES }
+  validates :requestable_type, presence: true, inclusion: {in: VALIDATION_REQUEST_TYPES}
 
   scope :closed, -> { where.not(closed_at: nil) }
 

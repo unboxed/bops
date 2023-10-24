@@ -357,7 +357,7 @@ RSpec.describe "Requesting document changes to a planning application" do
 
       let!(:replacement_document_validation_request) do
         create(:replacement_document_validation_request, :with_response,
-               planning_application:, old_document: document1, new_document: document_response)
+          planning_application:, old_document: document1, new_document: document_response)
       end
 
       before do
@@ -626,7 +626,7 @@ RSpec.describe "Requesting document changes to a planning application" do
     end
     let!(:replacement_document_validation_request) do
       create(:replacement_document_validation_request, planning_application:,
-                                                       state: "pending", created_at: 12.days.ago)
+        state: "pending", created_at: 12.days.ago)
     end
 
     it "updates the notified_at date of an open request when application is invalidated" do

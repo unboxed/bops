@@ -48,15 +48,15 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
   let(:document_with_tags) do
     create(:document, :with_tags,
-           planning_application:,
-           numbers: "proposed_number_1, proposed_number_2",
-           referenced_in_decision_notice: true)
+      planning_application:,
+      numbers: "proposed_number_1, proposed_number_2",
+      referenced_in_decision_notice: true)
   end
 
   let(:archived_document_with_tags) do
     create(:document, :archived, :with_tags,
-           planning_application:,
-           numbers: "archived_number")
+      planning_application:,
+      numbers: "archived_number")
   end
 
   before do
@@ -142,7 +142,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       it "includes the name of the applicant in the body if no agent is present" do
         planning_application.update!(agent_first_name: "")
         mail = described_class.decision_notice_mail(planning_application.reload, host,
-                                                    [planning_application.agent_email, planning_application.applicant_email])
+          [planning_application.agent_email, planning_application.applicant_email])
 
         expect(mail.body.encoded).to include(planning_application.applicant_first_name)
         expect(mail.body.encoded).to include(planning_application.applicant_last_name)
@@ -321,7 +321,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
   describe "#post_validation_request_mail" do
     let!(:validation_request) do
       create(:red_line_boundary_change_validation_request, planning_application: invalid_planning_application,
-                                                           user: assessor)
+        user: assessor)
     end
     let(:post_validation_request_mail) do
       described_class.post_validation_request_mail(planning_application, validation_request)
@@ -1098,7 +1098,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     describe "#post_validation_request_mail" do
       let!(:validation_request) do
         create(:red_line_boundary_change_validation_request, planning_application: invalid_planning_application,
-                                                             user: assessor)
+          user: assessor)
       end
       let(:post_validation_request_mail) do
         described_class.post_validation_request_mail(planning_application, validation_request)
