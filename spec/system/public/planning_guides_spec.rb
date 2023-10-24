@@ -159,6 +159,13 @@ RSpec.describe "Planning guides" do
       expect(page).to have_image_displayed("use_plans/proposed")
       expect(page).to have_link("Back", href: public_planning_guides_path)
     end
+
+    it "returns 404 for guides that don't exist" do
+      expect do
+        visit "/planning_guides/does/not/exist"
+        expect(page).to have_selector("h1", text: "Does not exist")
+      end.to raise_error(ActionController::RoutingError, "Couldn't find planning guide does/not/exist")
+    end
   end
 
   context "when logged in" do

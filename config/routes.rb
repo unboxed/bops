@@ -207,10 +207,9 @@ Rails.application.routes.draw do
   end
 
   namespace :public, path: "/" do
-    resources :planning_guides, only: :index
-    resource :planning_guides, only: :show do
-      get "/:page", action: "show"
-      get "/:type/:page", action: "show"
+    scope "/planning_guides" do
+      get "/", to: "planning_guides#index", as: :planning_guides
+      get "/*path", to: "planning_guides#show", as: nil
     end
   end
 
