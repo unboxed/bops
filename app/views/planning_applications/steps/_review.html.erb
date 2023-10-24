@@ -18,7 +18,7 @@
         <% end %>
       </span>
       <%= render(
-        StatusTags::ReviewRecommendationComponent.new(
+        StatusTags::Review::RecommendationComponent.new(
           planning_application: @planning_application,
           user: current_user
         )

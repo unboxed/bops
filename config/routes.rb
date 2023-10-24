@@ -39,7 +39,6 @@ Rails.application.routes.draw do
     resource :assessment_report_download, only: :show
     resources :consultees, only: %i[create destroy edit update]
     resource(:consistency_checklist, only: %i[new create edit update show])
-    resource :review_assessment_details, only: %i[show edit update]
 
     resources :policy_classes, except: %i[index] do
       get :part, on: :new
@@ -135,10 +134,6 @@ Rails.application.routes.draw do
       resources :assess_immunity_detail_permitted_development_rights, only: %i[new create]
       resource :assess_immunity_detail_permitted_development_right, only: %i[show edit update]
 
-      resources :review_tasks, only: :index
-
-      resources :review_policy_classes, only: %i[edit update show]
-
       resources :assessment_details, only: %i[new edit create show update]
 
       resources :immunity_details, only: %i[new create edit update show] do
@@ -159,20 +154,8 @@ Rails.application.routes.draw do
 
       resources :site_notices
 
-      resources :review_immunity_details, only: %i[edit update show]
-
-      resources :review_local_policies, only: %i[edit update show]
-
       resources :permitted_development_rights, only: %i[new create edit update show]
       resource :cil_liability, only: %i[edit update], controller: :cil_liability
-
-      resources :review_immunity_enforcements, only: %i[show edit update]
-
-      resources :review_permitted_development_rights, only: %i[show edit update]
-
-      resources :review_documents, only: %i[index] do
-        patch :update, on: :collection
-      end
 
       resources :conditions, only: %i[new create] do
         get :edit, on: :collection
@@ -190,6 +173,26 @@ Rails.application.routes.draw do
       resources :confirm_press_notices, only: %i[edit update]
 
       resources :local_policies, only: %i[show new edit create update]
+
+      namespace :review do
+        resource :assessment_details, only: %i[show edit update]
+
+        resources :documents, only: %i[index] do
+          patch :update, on: :collection
+        end
+
+        resources :immunity_details, only: %i[edit update show]
+
+        resources :immunity_enforcements, only: %i[show edit update]
+
+        resources :local_policies, only: %i[edit update show]
+
+        resources :permitted_development_rights, only: %i[show edit update]
+
+        resources :policy_classes, only: %i[edit update show]
+
+        resources :tasks, only: :index
+      end
     end
   end
 
