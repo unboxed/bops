@@ -1198,6 +1198,10 @@ en:
       success: Replacement document reason successfully updated.
   response_tag_component:
     privacy: Privacy
+  review:
+    conditions:
+      update:
+        success: Review conditions successfully updated
   review_assessment_details:
     saved: Review saved
   review_immunity_enforcements:
@@ -1338,6 +1342,8 @@ en:
     reviewing:
       assessment_details_component:
         review_assessment_summaries: Review assessment summaries
+      condition_component:
+        link_text: Review conditions
       documents_component:
         review_documents_for: Review documents for recommendation
       immunity_details_component:

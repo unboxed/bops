@@ -24,7 +24,7 @@ module TaskListItems
     end
 
     def status
-      condition_set.conditions.any? ? "complete" : "not_started"
+      condition_set.status
     end
   end
 end

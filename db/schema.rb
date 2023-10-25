@@ -127,6 +127,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_03_142815) do
     t.bigint "planning_application_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "status", default: "not_started", null: false
     t.index ["planning_application_id"], name: "ix_condition_sets_on_planning_application_id"
   end
 

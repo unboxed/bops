@@ -28,6 +28,10 @@ class Review < ApplicationRecord
 
   validates :comment, presence: true, if: :rejected?
 
+  def complete_or_to_be_reviewed?
+    complete? || to_be_reviewed?
+  end
+
   private
 
   def set_status_to_be_reviewed

@@ -66,6 +66,13 @@
           )
         )%>
       <% end %>
+      <% if @planning_application.condition_set.present? %>
+        <%= render(
+          TaskListItems::Reviewing::ConditionComponent.new(
+            condition_set: @planning_application.condition_set,
+          )
+        )%>
+      <% end %>
 
       <%= render partial: "policy_classes", locals: { planning_application: @planning_application, policy_class: @policy_class } %>
 

@@ -1,0 +1,40 @@
+<% content_for :page_title do %>
+  Review conditions - <%= t('page_title') %>
+<% end %>
+
+<%= render(
+  partial: "shared/review_task_breadcrumbs",
+  locals: { planning_application: @planning_application  }
+) %>
+
+<% content_for :title, "Review conditions" %>
+
+<%= render(
+  partial: "shared/proposal_header",
+  locals: { heading: "Review conditions" }
+) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h2 class="govuk-heading-m">Conditions</h2>
+    <ol class="govuk-list govuk-list--number">
+      <% @condition_set.conditions.sorted.each do |condition| %>
+        <li>
+          <p class="govuk-body govuk-!-margin-bottom-2">
+            <% if condition.title? %>
+              <span class="govuk-!-font-weight-bold"><%= condition.title %></span><br>
+              <%= condition.text %><br>
+            <% else %>
+              <span class="govuk-!-font-weight-bold"><%= condition.text %></span>
+            <% end %>
+          </p>
+          <p class="govuk-body">
+            <%= condition.reason %>
+          </p>
+        </li>
+      <% end %>
+    </ol>
+
+    <%= render "form", editable: false %>
+  </div>
+</div>
