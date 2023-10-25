@@ -60,6 +60,8 @@ services:
         target: /home/rails/bops/node_modules
       - type: tmpfs
         target: /tmp/pids
+        tmpfs:
+          mode: 0777
 
   applicants:
     image: bops/applicants
@@ -94,6 +96,8 @@ services:
         target: /home/rails/bops-applicants/node_modules
       - type: tmpfs
         target: /tmp/pids
+        tmpfs:
+          mode: 0777
 
 networks:
   default:
