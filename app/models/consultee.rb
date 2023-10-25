@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Consultee < ApplicationRecord
+  attribute :selected, :boolean, default: false
+
   belongs_to :consultation
   has_many :emails, dependent: :destroy
   has_many :responses, dependent: :destroy

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_25_103432) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_25_153041) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -217,7 +217,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_25_103432) do
     t.string "organisation"
     t.string "email_address"
     t.string "status", default: "not_consulted"
-    t.boolean "selected", default: true
     t.datetime "email_sent_at"
     t.datetime "email_delivered_at"
     t.index ["consultation_id"], name: "ix_consultees_on_consultation_id"
