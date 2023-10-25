@@ -7,7 +7,7 @@ build:
 	docker compose build
 
 up:
-	docker compose up
+	docker compose up || true
 
 down:
 	docker compose down
