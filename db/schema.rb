@@ -752,6 +752,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_03_142815) do
     t.index ["policy_class_id"], name: "ix_review_policy_classes_on_policy_class_id"
   end
 
+  create_table "reviews", force: :cascade do |t|
+    t.string "action"
+    t.bigint "assessor_id"
+    t.string "reviewable_type", null: false
+    t.bigint "reviewable_id", null: false
+    t.datetime "reviewed_at"
+    t.bigint "reviewer_id"
+    t.text "comment"
+    t.string "status", default: "not_started", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assessor_id"], name: "ix_reviews_on_assessor_id"
+    t.index ["reviewable_type", "reviewable_id"], name: "index_reviews_on_reviewable"
+    t.index ["reviewer_id"], name: "ix_reviews_on_reviewer_id"
+  end
+
   create_table "site_notices", force: :cascade do |t|
     t.bigint "planning_application_id"
     t.boolean "required"
@@ -875,6 +891,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_03_142815) do
   add_foreign_key "review_local_policies", "users", column: "assessor_id"
   add_foreign_key "review_local_policies", "users", column: "reviewer_id"
   add_foreign_key "review_policy_classes", "policy_classes"
+  add_foreign_key "reviews", "users", column: "assessor_id"
+  add_foreign_key "reviews", "users", column: "reviewer_id"
   add_foreign_key "site_visits", "consultations"
   add_foreign_key "site_visits", "neighbours"
   add_foreign_key "site_visits", "users", column: "created_by_id"

@@ -212,6 +212,10 @@ en:
               blank: Red line drawing must be complete
             reason:
               blank: Provide a reason for changes
+        review:
+          attributes:
+            reviewer_comment:
+              blank: Reviewer comment must be added
         review_policy_class:
           attributes:
             base:
