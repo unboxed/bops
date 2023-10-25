@@ -266,7 +266,7 @@ RSpec.describe NotifyEmailJob do
       let(:consultation) { planning_application.consultation }
       let(:consultee) { create(:consultee, consultation:, email_address: "planning@london.gov.uk") }
       let(:consultee_email) { create(:consultee_email, consultee:) }
-      let(:arguments) { [consultee_email] }
+      let(:arguments) { [consultation, consultee_email] }
 
       it_behaves_like "a notify email job"
     end

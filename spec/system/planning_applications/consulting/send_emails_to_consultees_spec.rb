@@ -134,6 +134,7 @@ RSpec.describe "Consultation", js: true do
         .with(body: hash_including(
           {
             email_address: "chris.wood@planx.gov.uk",
+            email_reply_to_id: "4485df6f-a728-41ed-bc46-cdb2fc6789aa",
             personalisation: hash_including(
               "subject" => "Consultation for planning application #{planning_application.reference}"
             )
@@ -154,6 +155,7 @@ RSpec.describe "Consultation", js: true do
         .with(body: hash_including(
           {
             email_address: "planning@london.gov.uk",
+            email_reply_to_id: "4485df6f-a728-41ed-bc46-cdb2fc6789aa",
             personalisation: hash_including(
               "subject" => "Consultation for planning application #{planning_application.reference}"
             )
@@ -284,6 +286,7 @@ RSpec.describe "Consultation", js: true do
         .with(body: hash_including(
           {
             email_address: "planning@london.gov.uk",
+            email_reply_to_id: "4485df6f-a728-41ed-bc46-cdb2fc6789aa",
             personalisation: hash_including(
               "subject" => "Resend: Consultation for planning application #{planning_application.reference}"
             )

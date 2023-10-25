@@ -128,6 +128,10 @@ class Consultation < ApplicationRecord
     end
   end
 
+  def consultee_email_reply_to_id
+    super.presence || local_authority.email_reply_to_id
+  end
+
   def consultee_email_subject
     super.presence || I18n.t("subject", scope: "consultee_emails")
   end

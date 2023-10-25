@@ -294,7 +294,11 @@ RSpec.describe "Requesting a new document for a planning application" do
 
       it "I can delete the additional document validation request" do
         visit planning_application_validation_tasks_path(planning_application)
+        expect(page).to have_selector("h1", text: "Check the application")
+
         click_link "Check required documents are on application"
+        expect(page).to have_selector("h1", text: "Check the documents provided")
+
         accept_confirm(text: "Are you sure?") do
           click_link("Delete request")
         end
