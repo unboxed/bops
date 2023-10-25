@@ -35,7 +35,7 @@ class SendConsulteeEmailsJob < NotifyEmailJob
         email_delivered_at: nil
       )
 
-      SendConsulteeEmailJob.perform_later(consultee_email)
+      SendConsulteeEmailJob.perform_later(consultation, consultee_email)
     end
   end
 end

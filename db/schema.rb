@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_23_085212) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_25_103432) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -131,7 +131,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_23_085212) do
     t.bigint "planning_application_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["planning_application_id"], name: "index_conditions_on_planning_application_id"
+    t.index ["planning_application_id"], name: "ix_conditions_on_planning_application_id"
   end
 
   create_table "consistency_checklists", force: :cascade do |t|
@@ -172,6 +172,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_23_085212) do
     t.geography "polygon_search", limit: {:srid=>4326, :type=>"geometry_collection", :geographic=>true}
     t.string "consultee_email_subject"
     t.text "consultee_email_body"
+    t.uuid "consultee_email_reply_to_id"
     t.index ["planning_application_id"], name: "ix_consultations_on_planning_application_id", unique: true
   end
 
@@ -344,6 +345,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_23_085212) do
     t.string "short_name", null: false
     t.string "council_name", null: false
     t.string "applicants_url", null: false
+    t.uuid "email_reply_to_id"
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 

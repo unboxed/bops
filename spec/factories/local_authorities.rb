@@ -12,6 +12,7 @@ FactoryBot.define do
     enquiries_paragraph { Faker::Lorem.unique.sentence }
     email_address { Faker::Internet.email }
     feedback_email { "feedback_email@buckinghamshire.gov.uk" }
+    email_reply_to_id { "4896bb50-4f4c-4b4d-ad67-2caddddde125" }
 
     trait :default do
       council_code { "PlanX" }
@@ -24,6 +25,7 @@ FactoryBot.define do
       enquiries_paragraph { Faker::Lorem.unique.sentence }
       email_address { "planning@planx.uk" }
       feedback_email { "feedback_email@planx.uk" }
+      email_reply_to_id { "4485df6f-a728-41ed-bc46-cdb2fc6789aa" }
     end
 
     trait :lambeth do
@@ -37,6 +39,7 @@ FactoryBot.define do
       enquiries_paragraph { "Planning, London Borough of Lambeth, PO Box 734, Winchester SO23 5DG" }
       email_address { "planning@lambeth.gov.uk" }
       feedback_email { "feedback_email@lambeth.gov.uk" }
+      email_reply_to_id { "5fe1d483-9bbe-4b56-8e71-8ce193fef723" }
     end
 
     trait :southwark do
@@ -50,6 +53,7 @@ FactoryBot.define do
       enquiries_paragraph { "Planning, London Borough of Southwark, PO Box 734, Winchester SO23 5DG" }
       email_address { "planning@southwark.gov.uk" }
       feedback_email { "feedback_email@southwark.gov.uk" }
+      email_reply_to_id { "f755c178-b01a-4323-a756-d669e9350c33" }
     end
   end
 end
