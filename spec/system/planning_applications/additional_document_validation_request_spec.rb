@@ -303,6 +303,7 @@ RSpec.describe "Requesting a new document for a planning application" do
           click_link("Delete request")
         end
 
+        expect(page).to have_current_path(planning_application_validation_tasks_path(planning_application))
         expect(page).to have_content("Validation request was successfully deleted.")
 
         within("#additional-documents-validation-task") do

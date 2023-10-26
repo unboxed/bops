@@ -109,6 +109,24 @@ jobs:
         run: |
           bundle exec rake spec
 
+      - name: Save screenshots
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: selenium-screenshots
+          path: ${{ github.workspace }}/tmp/capybara/*.png
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Save rails logs
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: rails-logs
+          path: ${{ github.workspace }}/log/test.log
+          retention-days: 7
+          if-no-files-found: ignore
+
       - name: Run cucumber specs
         if: ${{ inputs.test-runner == 'cucumber' }}
         env:
