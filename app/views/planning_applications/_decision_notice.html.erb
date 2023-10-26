@@ -39,11 +39,7 @@
     <% end %>
     <p class="govuk-body">
       <strong>
-        <% if @planning_application.application_type.name == "planning_permission" %>
-          Permission is <%= @planning_application.granted? ? "granted" : "refused" %> due to the following reason(s):
-        <% else %>
-          The proposal <%= @planning_application.granted? ? "complies" : "does not comply" %> due to the following reason(s):
-        <% end %>
+        <%= t("recommendation.decisions.#{@planning_application.application_type.name}.#{@planning_application.decision}") %>:
       </strong>
     </p>
     <p class="govuk-body">
