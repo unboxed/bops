@@ -16,6 +16,7 @@ inherit_gem:
 AllCops:
   TargetRubyVersion: 3.2.2
   NewCops: enable
+  SuggestExtensions: false
   Exclude:
     - 'bin/*'
     - 'bops-applicants/**/*'
@@ -23,6 +24,10 @@ AllCops:
     - 'config/environments/**'
     - 'config/puma.rb'
     - 'vendor/**/*'
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always_true
 
 # TODO
 Rails/EnvironmentVariableAccess:
