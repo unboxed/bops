@@ -1167,15 +1167,15 @@ en:
       success: Replacement document reason successfully updated.
   response_tag_component:
     privacy: Privacy
-  review:
-    policy_class:
-      navigation_component:
-        view_next_class: View next class
-        view_previous_class: View previous class
   review_assessment_details:
     saved: Review saved
   review_immunity_enforcements:
     successfully_updated: Review immunity details was successfully updated for enforcement
+  reviewing:
+    policy_class:
+      navigation_component:
+        view_next_class: View next class
+        view_previous_class: View previous class
   shared:
     administrator_layout:
       add_user: Add user
@@ -1304,7 +1304,7 @@ en:
       view_other_validation: 'View other validation request #%{number}'
     permitted_development_right_component:
       permitted_development_rights: Permitted development rights
-    review:
+    reviewing:
       assessment_details_component:
         review_assessment_summaries: Review assessment summaries
       documents_component:

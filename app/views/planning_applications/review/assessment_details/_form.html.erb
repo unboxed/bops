@@ -14,7 +14,7 @@
       legend: { text: t(".#{assessment_detail}") }
     ) do %>
       <%= render(
-        StatusTags::Review::AssessmentDetailComponent.new(
+        StatusTags::Reviewing::AssessmentDetailComponent.new(
           planning_application: planning_application,
           assessment_detail: form.object.send(assessment_detail)
         )
