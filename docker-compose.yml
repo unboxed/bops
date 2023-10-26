@@ -27,7 +27,7 @@ services:
     image: bops/ruby
     build: docker/ruby
     working_dir: /home/rails/bops
-    command: ["bin/dev"]
+    command: ["foreman", "start", "-f", "Procfile.dev"]
     stdin_open: true
     tty: true
     environment:
@@ -60,12 +60,14 @@ services:
         target: /home/rails/bops/node_modules
       - type: tmpfs
         target: /tmp/pids
+        tmpfs:
+          mode: 0777
 
   applicants:
     image: bops/applicants
     build: bops-applicants/docker/ruby
     working_dir: /home/rails/bops-applicants
-    command: ["bin/dev"]
+    command: ["foreman", "start", "-f", "Procfile.dev"]
     stdin_open: true
     tty: true
     environment:
@@ -94,6 +96,8 @@ services:
         target: /home/rails/bops-applicants/node_modules
       - type: tmpfs
         target: /tmp/pids
+        tmpfs:
+          mode: 0777
 
 networks:
   default:
