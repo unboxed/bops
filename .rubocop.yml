@@ -25,6 +25,10 @@ AllCops:
     - 'config/puma.rb'
     - 'vendor/**/*'
 
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always_true
+
 # TODO
 Rails/EnvironmentVariableAccess:
   Exclude:
