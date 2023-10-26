@@ -36,8 +36,8 @@ RUN bash -c "curl --retry 5 --retry-delay 5 --retry-max-time 60 -sL https://gith
 ARG BUNDLER_VERSION=2.5.3
 RUN bash -c "gem update --system && gem install bundler -v $BUNDLER_VERSION"
 
-# Install Chromium and Chromium-Driver
-RUN bash -c "apt-get install -y --no-install-recommends chromium chromium-driver"
+# Install Chromium for Puppeteer and Firefox for Capybara
+RUN bash -c "apt-get install -y --no-install-recommends chromium firefox-esr"
 
 # Copy entrypoint script that ensures gems and packages are installed
 COPY ./docker-entrypoint.sh /bin/docker-entrypoint.sh
