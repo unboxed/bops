@@ -59,17 +59,19 @@
         <%= @planning_application.assessment_details.find { |ad| ad.category == "amenity" }.entry %>
       </p>
     <% end %>
-    <h3 class="govuk-heading-s">
-      Conditions:
-    </h3>
-    <ul class="govuk-list">
-      <% @planning_application.conditions.each do |condition| %>
-        <li>
-          <%= condition.text %><br>
-          <%= condition.reason %>
-        </li>
-      <% end %>
-    </p>
+    <% if @planning_application.conditions.present? %>
+      <h3 class="govuk-heading-s">
+        Conditions:
+      </h3>
+      <ul class="govuk-list">
+        <% @planning_application.conditions.each do |condition| %>
+          <li>
+            <%= condition.text %><br>
+            <%= condition.reason %>
+          </li>
+        <% end %>
+      </p>
+    <% end %>
     <h3 class="govuk-heading-s">
       This decision is based on the following approved plans:
     </h3>
