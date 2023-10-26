@@ -27,7 +27,7 @@ services:
     image: bops/ruby
     build: docker/ruby
     working_dir: /home/rails/bops
-    command: ["bin/dev"]
+    command: ["foreman", "start", "-f", "Procfile.dev"]
     stdin_open: true
     tty: true
     environment:
@@ -67,7 +67,7 @@ services:
     image: bops/applicants
     build: bops-applicants/docker/ruby
     working_dir: /home/rails/bops-applicants
-    command: ["bin/dev"]
+    command: ["foreman", "start", "-f", "Procfile.dev"]
     stdin_open: true
     tty: true
     environment:
