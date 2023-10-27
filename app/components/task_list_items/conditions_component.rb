@@ -2,20 +2,21 @@
 
 module TaskListItems
   class ConditionsComponent < TaskListItems::BaseComponent
-    def initialize(planning_application:)
-      @planning_application = planning_application
+    def initialize(condition_set:)
+      @condition_set = condition_set
     end
 
     private
 
-    attr_reader :planning_application
+    attr_reader :condition_set
+    delegate :planning_application_id, to: :condition_set
 
     def link_text
       "Add conditions"
     end
 
     def link_path
-      planning_application_conditions_path(@planning_application)
+      planning_application_conditions_path(planning_application_id)
     end
 
     def status_tag_component
@@ -23,7 +24,7 @@ module TaskListItems
     end
 
     def status
-      planning_application.conditions.any? ? "complete" : "not_started"
+      condition_set.conditions.any? ? "complete" : "not_started"
     end
   end
 end

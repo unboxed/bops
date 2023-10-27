@@ -8,8 +8,8 @@ export default class extends Controller {
 
     const condition = this.templateTarget.content.cloneNode(true)
     const index = this.numberOfConditions
-    const idPrefix = `planning_application_conditions_attributes_${index}`
-    const namePrefix = `planning_application[conditions_attributes][${index}]`
+    const idPrefix = `condition_set_conditions_attributes_${index}`
+    const namePrefix = `condition_set[conditions_attributes][${index}]`
 
     const wrapper = condition.querySelector(".condition")
     wrapper.dataset.index = index
@@ -43,7 +43,7 @@ export default class extends Controller {
 
     const condition = event.srcElement.parentElement
     const index = condition.dataset.index
-    const destroyInputId = `#planning_application_conditions_attributes_${index}__destroy`
+    const destroyInputId = `#condition_set_conditions_attributes_${index}__destroy`
     const destroyInput = condition.querySelector(destroyInputId)
 
     if (destroyInput) {

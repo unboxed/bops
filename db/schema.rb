@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_27_095712) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_27_102432) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -135,7 +135,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_27_095712) do
     t.text "text"
     t.text "reason"
     t.boolean "standard"
-    t.bigint "planning_application_id", null: false
+    t.bigint "planning_application_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "condition_set_id"

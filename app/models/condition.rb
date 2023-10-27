@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Condition < ApplicationRecord
-  belongs_to :planning_application
+  belongs_to :condition_set
 
   validates :text, :reason, presence: true
 

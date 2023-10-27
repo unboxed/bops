@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PlanningApplication < ApplicationRecord
+class ConditionSet < ApplicationRecord
   module ConditionsExtension
     def sorted
       sort_by(&:sort_key)

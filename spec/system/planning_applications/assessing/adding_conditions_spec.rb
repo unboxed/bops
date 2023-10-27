@@ -8,7 +8,7 @@ RSpec.describe "Add conditions" do
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   let!(:planning_application) do
-    create(:planning_application, :planning_permission, :in_assessment, local_authority: default_local_authority, api_user:, decision: "granted")
+    create(:planning_application, :planning_permission, :in_assessment, :with_condition_set, local_authority: default_local_authority, api_user:, decision: "granted")
   end
 
   before do
@@ -71,8 +71,8 @@ RSpec.describe "Add conditions" do
     end
 
     it "you can edit conditions" do
-      create(:condition, planning_application:, standard: true)
-      create(:condition, planning_application:, standard: false, text: "Condition 1", reason: "Reason 1")
+      create(:condition, condition_set: planning_application.condition_set, standard: true)
+      create(:condition, condition_set: planning_application.condition_set, standard: false, text: "Condition 1", reason: "Reason 1")
 
       visit planning_application_path(planning_application)
       click_link "Check and assess"
@@ -156,7 +156,7 @@ RSpec.describe "Add conditions" do
 
     it "shows conditions on the decision notice" do
       create(:recommendation, :assessment_in_progress, planning_application:)
-      create(:condition, planning_application:, standard: true)
+      create(:condition, condition_set: planning_application.condition_set, standard: true)
 
       visit planning_application_path(planning_application)
       click_link "Check and assess"
