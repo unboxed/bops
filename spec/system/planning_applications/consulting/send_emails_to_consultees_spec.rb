@@ -129,6 +129,12 @@ RSpec.describe "Consultation", js: true do
       expect(page).to have_selector("h1", text: "Consultation")
       expect(page).to have_selector("[role=alert] h3", text: "Emails have been sent to the selected consultees.")
 
+      expect(Audit.where(
+        planning_application_id: planning_application.id,
+        user_id: assessor.id,
+        activity_type: "consultee_emails_sent"
+      )).to exist
+
       within "#consultee-tasks" do
         expect(page).to have_selector("li:first-child a", text: "Send emails to consultees")
         expect(page).to have_selector("li:first-child .govuk-tag", text: "In progress")
