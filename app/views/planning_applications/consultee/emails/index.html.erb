@@ -31,6 +31,7 @@
 
       <%= render ConsulteesComponent.new(consultees: @consultees, form: form) %>
       <%= render ConsulteeEmailComponent.new(form: form) %>
+      <%= render ReconsultConsulteesComponent.new(form: form) if @consultees.consulted? %>
 
       <div class="govuk-button-group">
         <%= form.submit "Send emails to consultees", id: "send-emails-button", class: "govuk-button", data: { consultees_target: "submit" } %>
