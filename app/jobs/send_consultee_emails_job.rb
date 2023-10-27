@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SendConsulteeEmailsJob < NotifyEmailJob
+class SendConsulteeEmailsJob < ApplicationJob
   queue_as :high_priority
 
   def perform(consultation, consultees, subject, body)
