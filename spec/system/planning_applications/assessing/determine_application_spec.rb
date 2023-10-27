@@ -225,6 +225,38 @@ RSpec.describe "Planning Application Assessment" do
           end
         end
       end
+
+      context "when the decision is for a householder application" do
+        let(:application_type) { create(:application_type, :planning_permission) }
+        let!(:planning_application) do
+          create(:planning_application, :awaiting_determination,
+            :from_planx_prior_approval,
+            application_type:,
+            local_authority: default_local_authority,
+            decision: "granted")
+        end
+
+        before do
+          click_link("Publish determination")
+
+          within("#determination-date") do
+            # Enter date today
+            fill_in "Day", with: "2"
+            fill_in "Month", with: "1"
+            fill_in "Year", with: "2024"
+          end
+
+          click_button("Publish determination")
+        end
+
+        it "lists different legislation in the decision notice" do
+          click_link("View decision notice")
+          expect(page).to have_content("Town and Country Planning Act 1990 (as amended)")
+          expect(page).to have_content("Town and Country Planning (Development Management Procedure) (England) Order 2015")
+          expect(page).not_to have_content("sections 191 and 192")
+          expect(page).not_to have_content("Article 39")
+        end
+      end
     end
 
     context "when I'm signed in as an assessor" do

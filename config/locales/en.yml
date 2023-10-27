@@ -1070,6 +1070,17 @@ en:
     summary_component:
       auto_answered: Auto-answered by PlanX
   recommendation:
+    decisions:
+      lawfulness_certificate:
+        granted: The proposal complies due to the following reason(s)
+        refused: The proposal does not comply due to the following reason(s)
+      planning_permission:
+        granted: Permission is granted due to the following reason(s)
+        refused: Permission is refused due to the following reason(s)
+      prior_approval:
+        granted: The proposal complies due to the following reason(s)
+        granted_not_required: The proposal complies due to the following reason(s)
+        refused: The proposal does not comply due to the following reason(s)
     lawfulness_certificate:
       granted_html: Certificate of Lawful Use or Development <br> <strong>Granted</strong>
       legislation_html: 'Town and Country Planning Act 1990 (as amended): sections 191 and 192<br>Town and Country Planning (Development Management Procedure) (England) Order 2015 (as amended): Article 39'
@@ -1077,11 +1088,9 @@ en:
     planning_permission:
       granted: Planning permission approved
       granted_html: "<strong>Planning permission approved</strong>"
-      granted_not_required: Prior approval not required
-      granted_not_required_html: "<strong>Prior approval not required</strong>"
-      legislation_html: Town and Country Planning Act 1990 (as amended)
-      refused: Prior approval required and refused
-      refused_html: "<strong>Prior approval required and refused</strong>"
+      legislation_html: Town and Country Planning Act 1990 (as amended)<br><br>Town and Country Planning (Development Management Procedure) (England) Order 2015
+      refused: Planning permission refused
+      refused_html: "<strong>Planning permission refused</strong>"
     prior_approval:
       granted: Prior approval required and approved
       granted_html: "<strong>Prior approval required and approved</strong>"
