@@ -75,6 +75,12 @@ RSpec.describe "Consultation", js: true do
     click_link "Send emails to consultees"
     expect(page).to have_selector("h1", text: "Send emails to consultees")
 
+    accept_confirm(text: "Send emails to consultees?") do
+      click_button "Send emails to consultees"
+    end
+
+    expect(page).to have_selector("[role=alert] li", text: "Please select at least one consultee")
+
     fill_in "Search for consultees", with: "GLA"
     expect(page).to have_selector("#add-consultee__listbox li:first-child", text: "Consultations (Planning Department, GLA)")
 
