@@ -54,6 +54,7 @@ class PlanningApplication < ApplicationRecord
     has_many :site_notices
     has_many :conditions, extend: ConditionsExtension
     has_one :immunity_detail, required: false
+    has_one :condition_set, required: false
     has_one :consultation, required: false
     has_one :proposal_measurement, required: false
     has_one :planx_planning_data, required: false
