@@ -74,6 +74,15 @@ RSpec.describe "Consultation", js: true do
 
     click_link "Send emails to consultees"
     expect(page).to have_selector("h1", text: "Send emails to consultees")
+    expect(page).to have_selector("h2", text: "1) Select the consultees to consult")
+    expect(page).to have_selector("h2", text: "2) Send email to selected consultees")
+    expect(page).not_to have_selector("h2", text: "3) Is this a reconsultation?")
+
+    accept_confirm(text: "Send emails to consultees?") do
+      click_button "Send emails to consultees"
+    end
+
+    expect(page).to have_selector("[role=alert] li", text: "Please select at least one consultee")
 
     fill_in "Search for consultees", with: "GLA"
     expect(page).to have_selector("#add-consultee__listbox li:first-child", text: "Consultations (Planning Department, GLA)")
@@ -122,6 +131,12 @@ RSpec.describe "Consultation", js: true do
 
       expect(page).to have_selector("h1", text: "Consultation")
       expect(page).to have_selector("[role=alert] h3", text: "Emails have been sent to the selected consultees.")
+
+      expect(Audit.where(
+        planning_application_id: planning_application.id,
+        user_id: assessor.id,
+        activity_type: "consultee_emails_sent"
+      )).to exist
 
       within "#consultee-tasks" do
         expect(page).to have_selector("li:first-child a", text: "Send emails to consultees")

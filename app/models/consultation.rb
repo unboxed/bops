@@ -5,6 +5,10 @@ class Consultation < ApplicationRecord
 
   include GeojsonFormattable
 
+  attribute :reconsult, :boolean, default: false
+  attribute :reconsultation_message, :string
+  attribute :reconsultation_date, :date, default: -> { Date.current + 21.days }
+
   belongs_to :planning_application
   delegate :local_authority, to: :planning_application
 
@@ -26,9 +30,17 @@ class Consultation < ApplicationRecord
 
   validate do
     next unless validation_context == :send_consultee_emails
-    next if consultees.none?
 
     errors.add(:consultees, :blank) if consultees.none_selected?
+
+    if reconsult?
+      errors.add(:reconsultation_message, :blank) if reconsultation_message.blank?
+      errors.add(:reconsultation_date, :blank) if reconsultation_date.blank?
+
+      if reconsultation_date.present?
+        errors.add(:reconsultation_date, :in_the_past) unless reconsultation_date.future?
+      end
+    end
   end
 
   accepts_nested_attributes_for :consultees, :neighbours
@@ -44,23 +56,19 @@ class Consultation < ApplicationRecord
   format_geojson_epsg :polygon_geojson
 
   def send_consultee_emails(attributes)
-    self.attributes = attributes
+    begin
+      self.attributes = attributes
+    rescue ActiveRecord::MultiparameterAssignmentErrors
+      errors.add(:reconsultation_date, :invalid) and return false
+    end
+
     return false unless save(context: :send_consultee_emails)
 
-    SendConsulteeEmailsJob.perform_now(
-      self,
-      consultees.selected,
-      consultee_email_subject,
-      consultee_email_body
-    )
-
-    start_deadline
-
-    Audit.create!(
-      planning_application_id: planning_application_id,
-      user: Current.user,
-      activity_type: "consultee_emails_sent"
-    )
+    if reconsult?
+      perform_resend_consultee_emails_job
+    else
+      perform_send_consultee_emails_job
+    end
   end
 
   def start_deadline
@@ -238,6 +246,42 @@ class Consultation < ApplicationRecord
   end
 
   private
+
+  def perform_send_consultee_emails_job
+    SendConsulteeEmailsJob.perform_now(
+      self,
+      consultees.selected,
+      consultee_email_subject,
+      consultee_email_body
+    )
+
+    start_deadline
+
+    Audit.create!(
+      planning_application_id: planning_application_id,
+      user: Current.user,
+      activity_type: "consultee_emails_sent"
+    )
+  end
+
+  def perform_resend_consultee_emails_job
+    ResendConsulteeEmailsJob.perform_now(
+      self,
+      consultees.selected,
+      reconsultation_message,
+      reconsultation_date,
+      consultee_email_subject,
+      consultee_email_body
+    )
+
+    update!(end_date: reconsultation_date.end_of_day)
+
+    Audit.create!(
+      planning_application_id: planning_application_id,
+      user: Current.user,
+      activity_type: "consultee_emails_resent"
+    )
+  end
 
   def audit_letter_copy_sent!
     Audit.create!(

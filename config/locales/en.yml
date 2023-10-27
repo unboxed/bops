@@ -150,6 +150,12 @@ en:
           attributes:
             consultees:
               blank: Please select at least one consultee
+            reconsultation_date:
+              blank: Please enter the date by which consultees need to respond by
+              in_the_past: Please enter a date in the future
+              invalid: Please enter a valid date
+            reconsultation_message:
+              blank: Please enter the reasons for the reconsultation
         document:
           attributes:
             file:
@@ -370,6 +376,7 @@ en:
       constraint_added: Constraint added
       constraint_removed: Constraint removed
       constraints_checked: Constraints Checked
+      consultee_emails_resent: Consultee emails resent
       consultee_emails_sent: Consultee emails sent
       created: Application created by %{args}
       description_change_request_cancelled: 'Cancelled: description change request (description#%{args})'
@@ -1164,6 +1171,15 @@ en:
       update_assessment: Update assessment
     update:
       success: Recommendation was successfully reviewed.
+  reconsult_consultees_component:
+    date_label: Consultee reponse required by
+    formatting_hint_html: The message is formatted using <a href="https://www.notifications.service.gov.uk/using-notify/formatting">GOV.UK Notify formatting rules</a>. Placeholders like <nobr><code>%{closing_date}</code></nobr> will be substituted when the email is sent.
+    hint: Choosing 'Yes' will allow you to add the reasons why this application is being reconsulted.
+    legend: 3) Is this a reconsultation?
+    message_hint: This text will go at the top of the new email
+    message_label: Reasons for reconsultation
+    'no': No, I’m sending to new consultees
+    'yes': Yes, I’m resending to existing consultees
   red_line_boundary_change_validation_requests:
     create:
       validation_request_for: Validation request for red line boundary successfully created.

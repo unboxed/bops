@@ -22,6 +22,10 @@ class Consultation < ApplicationRecord
       reject(&:not_consulted?)
     end
 
+    def consulted?
+      consulted.present?
+    end
+
     def failed?
       consulted.any?(&:failed?)
     end

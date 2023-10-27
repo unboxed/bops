@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-class SendConsulteeEmailsJob < ApplicationJob
+class ResendConsulteeEmailsJob < NotifyEmailJob
   queue_as :high_priority
 
-  def perform(consultation, consultees, subject, body)
+  def perform(consultation, consultees, message, date, subject, body)
     planning_application = consultation.planning_application
     local_authority = planning_application.local_authority
 
@@ -15,8 +15,10 @@ class SendConsulteeEmailsJob < ApplicationJob
       description: planning_application.description,
       address: planning_application.address,
       link: consultation.application_link,
-      closing_date: consultation.end_date_from_now.to_date.to_fs
+      closing_date: date.to_fs
     }
+
+    divider = "\n\n---\n\n"
 
     consultees.each do |consultee|
       next if consultee.email_address.blank?
@@ -25,7 +27,7 @@ class SendConsulteeEmailsJob < ApplicationJob
 
       consultee_email = consultee.emails.create!(
         subject: format(subject, variables),
-        body: format(body, variables)
+        body: format(message + divider + body, variables)
       )
 
       consultee.update!(

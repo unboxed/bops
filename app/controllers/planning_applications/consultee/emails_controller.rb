@@ -36,7 +36,14 @@ module PlanningApplications
       end
 
       def consultation_params
-        [:consultee_email_subject, :consultee_email_body, {consultees_attributes: consultee_params}]
+        [
+          :consultee_email_subject,
+          :consultee_email_body,
+          :reconsult,
+          :reconsultation_message,
+          :reconsultation_date,
+          {consultees_attributes: consultee_params}
+        ]
       end
 
       def consultee_params
