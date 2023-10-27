@@ -26,7 +26,6 @@ class Consultation < ApplicationRecord
 
   validate do
     next unless validation_context == :send_consultee_emails
-    next if consultees.none?
 
     errors.add(:consultees, :blank) if consultees.none_selected?
   end
