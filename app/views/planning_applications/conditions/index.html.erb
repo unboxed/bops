@@ -22,11 +22,11 @@
             sections: %w[constraints considerations]
           )
         ) %>
-    <p class="govuk-body govuk-!-margin-top-5">
-      Select and add the relevant conditions
-    </p>
-    <%= render "shared/warning_text", message: "This information WILL be made publicly available." %>
 
-    <%= render "form", url: planning_application_conditions_path(@planning_application), method: "post" %>
+    <% if @conditions.present? %>
+      <%= render "conditions" %>
+    <% else %>
+      <%= render "new" %>
+    <% end %>
   </div>
 </div>

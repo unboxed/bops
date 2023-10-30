@@ -1,7 +1,7 @@
 import { application } from "./application"
 
-import AddConditionController from "./add_condition_controller.js"
-application.register("add-condition", AddConditionController)
+import ConditionsController from "./conditions_controller.js"
+application.register("conditions", ConditionsController)
 
 import AddressFillController from "./address_fill_controller.js"
 application.register("address-fill", AddressFillController)

@@ -1,9 +1,29 @@
 # frozen_string_literal: true
 
 class Condition < ApplicationRecord
-  validates :text, :reason, presence: true
-
   belongs_to :planning_application
 
-  attr_accessor :new_condition, :conditions
+  validates :text, :reason, presence: true
+
+  def checked?
+    persisted? || errors.present?
+  end
+
+  def sort_key
+    [title_key, timestamp_key, Float::INFINITY].compact.first
+  end
+
+  private
+
+  def titles
+    @titles ||= I18n.t(:conditions_list).values.pluck(:title)
+  end
+
+  def title_key
+    titles.index(title)
+  end
+
+  def timestamp_key
+    created_at&.to_i
+  end
 end

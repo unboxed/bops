@@ -167,9 +167,8 @@ Rails.application.routes.draw do
       resources :permitted_development_rights, only: %i[new create edit update show]
       resource :cil_liability, only: %i[edit update], controller: :cil_liability
 
-      resources :conditions, only: %i[new create] do
+      resources :conditions, only: %i[index] do
         get :edit, on: :collection
-        get :show, on: :collection
         patch :update, on: :collection
       end
 
