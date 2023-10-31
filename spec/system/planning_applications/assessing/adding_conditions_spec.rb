@@ -24,25 +24,25 @@ RSpec.describe "Add conditions" do
       expect(page).to have_content("Add conditions")
 
       check "Time limit"
-      within(:xpath, "//div[@id='planning-application-conditions-attributes-0-conditions-true-conditional']") do
+      within(:css, "#standard-conditions .condition:nth-of-type(1)") do
         fill_in "Condition", with: "New condition"
       end
       check "Materials to match"
 
       click_link "+ Add condition"
-      within(:xpath, "//div[@id='add-condition-form-1']") do
+      within(:css, "#other-conditions .condition:nth-of-type(1)") do
         fill_in "Condition", with: "Custom condition 1"
         fill_in "Reason", with: "Custom reason 1"
       end
 
       click_link "+ Add condition"
-      within(:xpath, "//div[@id='add-condition-form-2']") do
+      within(:css, "#other-conditions .condition:nth-of-type(2)") do
         fill_in "Condition", with: "Custom condition 2"
         fill_in "Reason", with: "Custom reason 2"
       end
 
       click_link "+ Add condition"
-      within(:xpath, "//div[@id='add-condition-form-3']") do
+      within(:css, "#other-conditions .condition:nth-of-type(3)") do
         fill_in "Condition", with: "Custom condition 3"
         fill_in "Reason", with: "Custom reason 3"
         click_link "Remove condition"
@@ -50,7 +50,7 @@ RSpec.describe "Add conditions" do
 
       click_button "Save and mark as complete"
 
-      expect(page).to have_content "Conditions successfully created"
+      expect(page).to have_content "Conditions successfully updated"
 
       within("#add-conditions") do
         expect(page).to have_content "Completed"
@@ -72,7 +72,7 @@ RSpec.describe "Add conditions" do
 
     it "you can edit conditions" do
       create(:condition, planning_application:, standard: true)
-      create(:condition, planning_application:, standard: false, title: "Condition 1", text: "This is the condition", reason: "Reason 1")
+      create(:condition, planning_application:, standard: false, text: "Condition 1", reason: "Reason 1")
 
       visit planning_application_path(planning_application)
       click_link "Check and assess"
@@ -90,7 +90,7 @@ RSpec.describe "Add conditions" do
       check "In accordance with approved plans"
 
       click_link "+ Add condition"
-      within(:xpath, "//div[@id='add-condition-form-2']") do
+      within(:css, "#other-conditions .condition:nth-of-type(2)") do
         fill_in "Condition", with: "Custom condition 1"
         fill_in "Reason", with: "Custom reason 1"
       end
@@ -114,7 +114,7 @@ RSpec.describe "Add conditions" do
 
       uncheck "Time limit"
 
-      within(:xpath, "(//div[@class='condition-form govuk-!-margin-bottom-5'])[1]") do
+      within(:css, "#other-conditions .condition:nth-of-type(1)") do
         click_link "Remove condition"
       end
 
@@ -139,17 +139,18 @@ RSpec.describe "Add conditions" do
       click_link "Add conditions"
 
       check "Time limit"
-      within(:xpath, "//div[@id='planning-application-conditions-attributes-0-conditions-true-conditional']") do
+      within(:css, "#standard-conditions .condition:nth-of-type(1)") do
         fill_in "Condition", with: ""
       end
 
       click_link "+ Add condition"
-      within(:xpath, "//div[@id='add-condition-form-1']") do
+      within(:css, "#other-conditions .condition:nth-of-type(1)") do
         fill_in "Condition", with: "Custom condition 1"
       end
 
       click_button "Save and mark as complete"
 
+      expect(page).to have_content "Conditions text can't be blank"
       expect(page).to have_content "Conditions reason can't be blank"
     end
 

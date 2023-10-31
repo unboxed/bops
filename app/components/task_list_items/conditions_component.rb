@@ -15,11 +15,7 @@ module TaskListItems
     end
 
     def link_path
-      if planning_application.conditions.any?
-        planning_application_conditions_path(@planning_application)
-      else
-        new_planning_application_condition_path(@planning_application)
-      end
+      planning_application_conditions_path(@planning_application)
     end
 
     def status_tag_component

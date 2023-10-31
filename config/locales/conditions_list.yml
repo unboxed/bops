@@ -1,15 +1,17 @@
-en: 
+en:
   conditions_list:
     time:
       title: Time limit
-      condition: The development herby permitted shall be commenced within three years of the date of this permission.
+      text: The development herby permitted shall be commenced within three years of the date of this permission.
       reason: To comply with the provisions of Section 91 of the Town and Country Planning Act 1990 (as amended).
+      standard: true
     plans:
       title: In accordance with approved plans
-      condition: The development herby permitted must be undertaken in accordance with the approved plans and documents.
+      text: The development herby permitted must be undertaken in accordance with the approved plans and documents.
       reason: For the avoidance of doubt and in the interests of proper planning.
-    materials: 
+      standard: true
+    materials:
       title: Materials to match
-      condition: All new external work and finishes and work of making good shall match the original work in respect of the materials, colour, texture, profile and finished appearance, except where indicated otherwise on the drawings hereby approved or unless otherwise required by condition.
+      text: All new external work and finishes and work of making good shall match the original work in respect of the materials, colour, texture, profile and finished appearance, except where indicated otherwise on the drawings hereby approved or unless otherwise required by condition.
       reason: To preserve the character and appearance of the local area.
-
+      standard: true

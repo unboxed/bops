@@ -1,0 +1,23 @@
+<h2 class="govuk-heading-m">Conditions</h2>
+<ol class="govuk-list govuk-list--number">
+  <% @conditions.sorted.each do |condition| %>
+    <li>
+      <p class="govuk-body govuk-!-margin-bottom-2">
+        <% if condition.title? %>
+          <span class="govuk-!-font-weight-bold"><%= condition.title %></span><br>
+          <%= condition.text %><br>
+        <% else %>
+          <span class="govuk-!-font-weight-bold"><%= condition.text %></span>
+        <% end %>
+      </p>
+      <p class="govuk-body">
+        <%= condition.reason %>
+      </p>
+    </li>
+  <% end %>
+</ol>
+
+<div class="govuk-button-group">
+  <%= back_link %>
+  <%= link_to "Edit conditions", edit_planning_application_conditions_path(@planning_application), class: "govuk-link govuk-body" %>
+</div>
