@@ -293,6 +293,12 @@ FactoryBot.define do
       end
     end
 
+    trait :with_condition_set do
+      after(:create) do |planning_application|
+        planning_application.condition_set || planning_application.create_condition_set!
+      end
+    end
+
     trait :with_recommendation do
       after(:create) do |planning_application|
         create(:recommendation, planning_application:)

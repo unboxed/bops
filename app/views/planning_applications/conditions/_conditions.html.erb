@@ -1,6 +1,6 @@
 <h2 class="govuk-heading-m">Conditions</h2>
 <ol class="govuk-list govuk-list--number">
-  <% @conditions.sorted.each do |condition| %>
+  <% @condition_set.conditions.sorted.each do |condition| %>
     <li>
       <p class="govuk-body govuk-!-margin-bottom-2">
         <% if condition.title? %>

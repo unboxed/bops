@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_26_094648) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_27_102432) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -123,14 +123,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_26_094648) do
     t.index ["user_id"], name: "ix_comments_on_user_id"
   end
 
+  create_table "condition_sets", force: :cascade do |t|
+    t.bigint "planning_application_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_condition_sets_on_planning_application_id"
+  end
+
   create_table "conditions", force: :cascade do |t|
     t.string "title"
     t.text "text"
     t.text "reason"
     t.boolean "standard"
-    t.bigint "planning_application_id", null: false
+    t.bigint "planning_application_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "condition_set_id"
+    t.index ["condition_set_id"], name: "ix_conditions_on_condition_set_id"
     t.index ["planning_application_id"], name: "ix_conditions_on_planning_application_id"
   end
 
@@ -814,6 +823,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_26_094648) do
   add_foreign_key "audits", "api_users"
   add_foreign_key "audits", "planning_applications"
   add_foreign_key "audits", "users"
+  add_foreign_key "condition_sets", "planning_applications"
+  add_foreign_key "conditions", "condition_sets"
   add_foreign_key "constraints", "local_authorities"
   add_foreign_key "consultee_emails", "consultees"
   add_foreign_key "consultee_responses", "consultees"

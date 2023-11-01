@@ -23,7 +23,7 @@
           )
         ) %>
 
-    <% if @conditions.present? %>
+    <% if @condition_set.conditions.any? %>
       <%= render "conditions" %>
     <% else %>
       <%= render "new" %>
