@@ -13,8 +13,8 @@
 ) %>
 
 <ul>
-    <% @planning_application.consultation.consultees.each do |consultee| %>
-        <li><%= consultee.name %></li>
+    <% @planning_application.consultation.consultee_responses.each do |response| %>
+        <li><%= response.consultee.name %>: <%= link_to "Redact and publish", edit_planning_application_consultee_redact_response_path(@planning_application, response), class: "govuk-link" %> </li>
     <% end %>
 </ul>
 

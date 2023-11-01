@@ -150,6 +150,7 @@ Rails.application.routes.draw do
       namespace :consultee do
         resources :emails, only: %i[index create]
         resources :responses, only: %i[index]
+        resources :redact_responses, only: %i[edit update]
       end
 
       resource :consultation, only: %i[show update] do
