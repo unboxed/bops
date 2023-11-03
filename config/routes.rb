@@ -186,7 +186,7 @@ Rails.application.routes.draw do
       namespace :review do
         resource :assessment_details, only: %i[show edit update]
 
-        resource :conditions, only: %i[show edit update]
+        resource :conditions, only: %i[show update]
 
         resources :documents, only: %i[index] do
           patch :update, on: :collection

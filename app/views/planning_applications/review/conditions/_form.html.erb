@@ -7,22 +7,22 @@
 
     <%= form.govuk_radio_buttons_fieldset :action, legend: { text: "Actions" } do %>
       <%= form.govuk_radio_button(
-        :action, :accepted, disabled: !editable, checked: @condition_set_review.accepted?, label: { text: "Accept" }
+        :action, :accepted, disabled: disabled, checked: @condition_set_review.accepted?, label: { text: "Accept" }
       ) %>
 
       <%= form.govuk_radio_button(
-        :action, :edited_and_accepted, disabled: !editable, checked: @condition_set_review.edited_and_accepted?, label: { text: "Edit to accept", id: "edit-to-accept" }
+        :action, :edited_and_accepted, disabled: disabled, checked: @condition_set_review.edited_and_accepted?, label: { text: "Edit to accept", id: "edit-to-accept" }
       ) do %>
       <%= form.govuk_check_boxes_fieldset :conditions, legend: { text: "Conditions" } do %>
         <%= form.fields_for :conditions, @condition_set.conditions do |fields| %>
           <div class="condition">
             <%= fields.hidden_field :_destroy, value: true %>
-            <%= fields.govuk_check_box :_destroy, false, multiple: false, label: { text: fields.object.review_title || "Other condition" }, checked: fields.object.checked? do %>
+            <%= fields.govuk_check_box :_destroy, false, disabled: disabled, multiple: false, label: { text: fields.object.review_title || "Other condition" }, checked: fields.object.checked? do %>
               <%= fields.hidden_field :id %>
               <%= fields.hidden_field :standard, value: true %>
               <%= fields.hidden_field :title %>
-              <%= fields.govuk_text_area :text, label: { text: "Condition", size: "s" } %>
-              <%= fields.govuk_text_area :reason, label: { text: "Reason", size: "s" } %>
+              <%= fields.govuk_text_area :text, disabled: disabled, label: { text: "Condition", size: "s" } %>
+              <%= fields.govuk_text_area :reason, disabled: disabled, label: { text: "Reason", size: "s" } %>
             <% end %>
           </div>
         <% end %>
@@ -30,16 +30,16 @@
       <% end %>
 
       <%= form.govuk_radio_button(
-        :action, :rejected, disabled: !editable, checked: @condition_set_review.rejected?, label: { text: "Return to officer with comment" }
+        :action, :rejected, disabled: disabled, checked: @condition_set_review.rejected?, label: { text: "Return to officer with comment" }
       ) do %>
         <%= form.govuk_text_area(
-          :comment, value: @condition_set_review.comment, readonly: !editable, rows: 6, label: { text: "Comment" }
+          :comment, value: @condition_set_review.comment, readonly: disabled, rows: 6, label: { text: "Comment" }
         ) %>
       <% end %>
     <% end %>
 
   <div class="govuk-button-group">
-    <% if editable %>
+    <% unless disabled %>
       <%= form.submit "Save and mark as complete", class: "govuk-button", data: { module: "govuk-button" } %>
       <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: { module: "govuk-button" } %>
     <% end %>

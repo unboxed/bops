@@ -17,11 +17,7 @@ module TaskListItems
       end
 
       def link_path
-        if condition_set.review.complete_or_to_be_reviewed?
-          planning_application_review_conditions_path(planning_application)
-        else
-          edit_planning_application_review_conditions_path(planning_application)
-        end
+        planning_application_review_conditions_path(planning_application)
       end
 
       def status_tag_component

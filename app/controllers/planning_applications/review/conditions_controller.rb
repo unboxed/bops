@@ -18,12 +18,6 @@ module PlanningApplications
         end
       end
 
-      def edit
-        respond_to do |format|
-          format.html
-        end
-      end
-
       def update
         respond_to do |format|
           format.html do
