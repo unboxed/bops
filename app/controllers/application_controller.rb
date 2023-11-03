@@ -46,15 +46,17 @@ class ApplicationController < ActionController::Base
   end
 
   def set_consultation
-    if @planning_application.consultation.nil?
-      error = <<~ERROR
-        "Couldn't find Consulation with 'planning_application_id'=#{@planning_application_id}"
-      ERROR
+    if @planning_application.application_type.steps.include? "consultation"
+      if @planning_application.consultation.nil?
+        error = <<~ERROR
+          "Couldn't find consultation with 'planning_application_id'=#{@planning_application_id}"
+        ERROR
 
-      raise ActiveRecord::RecordNotFound, error
+        raise ActiveRecord::RecordNotFound, error
+      end
+
+      @consultation = @planning_application.consultation
     end
-
-    @consultation = @planning_application.consultation
   end
 
   def configure_permitted_parameters
