@@ -1,17 +1,13 @@
 <h3><%= t(".list_of_who") %><h3>
 <table class="govuk-table">
   <tbody class="govuk-table__body">
-    <% if !consultees.nil? %>
-      <% consultees.each do |consultee| %>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header"><%= consultee.name %></th>
-          <td class="govuk-table__cell">
-            <%= consultee.external? ? t(".external") : t(".internal")  %>
-          </td>
-        </tr>
-      <% end %>
-    <% else %>
-      <p class="govuk-body">None</p>
+    <% consultees.each do |consultee| %>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header"><%= consultee.name %></th>
+        <td class="govuk-table__cell">
+          <%= consultee.external? ? t(".external") : t(".internal")  %>
+        </td>
+      </tr>
     <% end %>
   </tbody>
 </table>

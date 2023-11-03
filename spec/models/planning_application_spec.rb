@@ -1994,6 +1994,15 @@ RSpec.describe PlanningApplication do
       )
     end
 
+    let!(:past_applications) do
+      create(
+        :assessment_detail,
+        :past_applications,
+        planning_application:,
+        created_at: 1.day.ago
+      )
+    end
+
     before do
       create(
         :assessment_detail,
@@ -2027,13 +2036,13 @@ RSpec.describe PlanningApplication do
         :assessment_detail,
         :past_applications,
         planning_application:,
-        created_at: 1.day.ago
+        created_at: 2.days.ago
       )
     end
 
     it "returns most recent assessment detail in each reviewable category" do
       expect(planning_application.assessment_details_for_review).to contain_exactly(
-        summary_of_work, additional_evidence, site_description, consultation_summary
+        summary_of_work, additional_evidence, site_description, consultation_summary, past_applications
       )
     end
   end

@@ -104,6 +104,15 @@ RSpec.describe "Reviewing assessment summaries" do
           user: assessor,
           entry: "publicity summary"
         )
+
+        create(
+          :assessment_detail,
+          :past_applications,
+          assessment_status: :complete,
+          planning_application:,
+          user: assessor,
+          entry: "past applications"
+        )
       end
 
       let!(:neighbour1) { create(:neighbour, address: "1 Cookie Avenue", consultation:) }
@@ -153,6 +162,10 @@ RSpec.describe "Reviewing assessment summaries" do
 
         expect(page).to have_content(
           "Publicity summary reviewer verdict can't be blank"
+        )
+
+        expect(page).to have_content(
+          "Past applications reviewer verdict can't be blank"
         )
 
         click_button("Save and come back later")
@@ -217,6 +230,10 @@ RSpec.describe "Reviewing assessment summaries" do
 
           expect(page).to have_content("View neighbour responses: There is 1 neutral, 1 objection, 2 supportive.")
 
+          choose("Accept")
+        end
+
+        within(find("fieldset", text: "Summary of relevant historical applications")) do
           choose("Accept")
         end
 
@@ -296,6 +313,10 @@ RSpec.describe "Reviewing assessment summaries" do
           "Site description reviewer verdict can't be blank"
         )
 
+        expect(page).to have_content(
+          "Past applications reviewer verdict can't be blank"
+        )
+
         click_button("Save and come back later")
 
         expect(page).to have_list_item_for(
@@ -333,6 +354,10 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         within(find("fieldset", text: "Amenity assessment")) do
+          choose("Accept")
+        end
+
+        within(find("fieldset", text: "Summary of relevant historical applications")) do
           choose("Accept")
         end
 
@@ -401,6 +426,15 @@ RSpec.describe "Reviewing assessment summaries" do
           user: assessor,
           entry: "additional evidence"
         )
+
+        create(
+          :assessment_detail,
+          :past_applications,
+          assessment_status: :complete,
+          planning_application:,
+          user: assessor,
+          entry: "past applications"
+        )
       end
 
       it "allows reviewer to submit correctly filled out form" do
@@ -438,6 +472,10 @@ RSpec.describe "Reviewing assessment summaries" do
 
         expect(page).to have_content(
           "Consultation summary reviewer verdict can't be blank"
+        )
+
+        expect(page).to have_content(
+          "Past applications reviewer verdict can't be blank"
         )
 
         expect(page).not_to have_content(
@@ -516,6 +554,10 @@ RSpec.describe "Reviewing assessment summaries" do
         click_link("Review assessment summaries")
 
         within(find("fieldset", text: "Summary of additional evidence")) do
+          choose("Accept")
+        end
+
+        within(find("fieldset", text: "Summary of relevant historical applications")) do
           choose("Accept")
         end
 
@@ -716,6 +758,10 @@ RSpec.describe "Reviewing assessment summaries" do
           "Consultation summary reviewer verdict can't be blank"
         )
 
+        expect(page).to have_content(
+          "Past applications reviewer verdict can't be blank"
+        )
+
         click_button("Save and come back later")
 
         expect(page).to have_list_item_for(
@@ -770,6 +816,10 @@ RSpec.describe "Reviewing assessment summaries" do
         click_link("Review assessment summaries")
 
         within(find("fieldset", text: "Summary of additional evidence")) do
+          choose("Accept")
+        end
+
+        within(find("fieldset", text: "Summary of relevant historical applications")) do
           choose("Accept")
         end
 
@@ -843,6 +893,15 @@ RSpec.describe "Reviewing assessment summaries" do
           user: assessor,
           entry: "publicity summary"
         )
+
+        create(
+          :assessment_detail,
+          :past_applications,
+          assessment_status: :complete,
+          planning_application:,
+          user: assessor,
+          entry: "past applications"
+        )
       end
 
       let!(:neighbour1) { create(:neighbour, address: "1 Cookie Avenue", consultation:) }
@@ -892,6 +951,10 @@ RSpec.describe "Reviewing assessment summaries" do
 
         expect(page).to have_content(
           "Consultation summary reviewer verdict can't be blank"
+        )
+
+        expect(page).to have_content(
+          "Past applications reviewer verdict can't be blank"
         )
 
         click_button("Save and come back later")
@@ -949,6 +1012,10 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         within(find("fieldset", text: "Consultation")) do
+          choose("Accept")
+        end
+
+        within(find("fieldset", text: "Summary of relevant historical applications")) do
           choose("Accept")
         end
 
@@ -1036,6 +1103,10 @@ RSpec.describe "Reviewing assessment summaries" do
           "Consultation summary reviewer verdict can't be blank"
         )
 
+        expect(page).to have_content(
+          "Past applications reviewer verdict can't be blank"
+        )
+
         click_button("Save and come back later")
 
         expect(page).to have_list_item_for(
@@ -1073,6 +1144,10 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         within(find("fieldset", text: "Consultation")) do
+          choose("Accept")
+        end
+
+        within(find("fieldset", text: "Summary of relevant historical applications")) do
           choose("Accept")
         end
 

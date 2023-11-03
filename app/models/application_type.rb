@@ -33,6 +33,10 @@ class ApplicationType < ApplicationRecord
     steps.include?("consultation")
   end
 
+  def assessor_remarks
+    assessment_details.excluding("past_applications")
+  end
+
   class << self
     def menu(scope = all)
       scope.order(name: :asc).select(:name, :id).map do |application_type|
