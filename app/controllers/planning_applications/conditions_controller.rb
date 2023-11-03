@@ -53,17 +53,7 @@ module PlanningApplications
 
     def update_condition_set
       ActiveRecord::Base.transaction do
-        @condition_set.update(condition_params.except(:conditions)) && update_condition_set_review!
-      end
-    end
-
-    def update_condition_set_review!
-      (!@condition_set.review.not_started?) ? condition_set_review_status_updated! : true
-    end
-
-    def condition_set_review_status_updated!
-      if @condition_set.complete? && @condition_set.review.to_be_reviewed? && mark_as_complete?
-        @condition_set.review.updated!
+        @condition_set.update(condition_params.except(:conditions))
       end
     end
   end
