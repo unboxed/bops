@@ -12,6 +12,7 @@ class ReviewAssessmentDetailsForm
     additional_evidence
     publicity_summary
     amenity
+    past_applications
   ].freeze
 
   define_model_callbacks :save
